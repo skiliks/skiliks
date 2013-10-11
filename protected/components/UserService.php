@@ -12,6 +12,28 @@ class UserService {
     const CAN_START_SIMULATION_IN_DEV_MODE = 'start_dev_mode';
     const CAN_START_FULL_SIMULATION = 'run_full_simulation';
 
+    public static $developersEmails = [
+        "'r.kilimov@gmail.com'",
+        "'andrey@kostenko.name'",
+        "'personal@kostenko.name'",
+        "'a.levina@gmail.com'",
+        "'gorina.mv@gmail.com'",
+        "'v.logunov@yahoo.com'",
+        "'nikoolin@ukr.net'",
+        "'leah.levina@gmail.com'",
+        "'lea.skiliks@gmail.com'",
+        "'andrey3@kostenko.name'",
+        "'skiltests@yandex.ru'",
+        "'didmytime@bk.ru'",
+        "'gva08@yandex.ru'",
+        "'tony_acm@ukr.net'",
+        "'tony_perfectus@mail.ru'",
+        "'N_ninok1985@mail.ru'",
+        "'tony.pryanichnikov@gmail.com'",
+        "'svetaswork@gmail.com'",
+        "'tatyana_pryan@mail.ru'",
+    ];
+
     /**
      * Получить список режимов запуска симуляции доступных пользователю: {promo, developer}
      * @param int $uid 
@@ -41,7 +63,7 @@ class UserService {
             $response['message'] =  "Email - ${email} has been already added before!";
         } else {
             $subscription = new EmailsSub();
-            $subscription->email = $email;
+            $subscription->email = strtolower($email);
             $subscription->save();
 
             $response['result'] =  1;
@@ -88,16 +110,22 @@ class UserService {
         $log = new LogAccountInvite();
         $log->action = $action;
         $log->user_id = $account->user_id;
-        $log->direction = ($account->invites_limit > $amountBeforeTransaction) ? 'увеличено' : 'уменьшено';
+        $log->direction = ($account->getTotalAvailableInvitesLimit() > $amountBeforeTransaction) ? 'увеличено' : 'уменьшено';
         $log->limit_after_transaction = $account->invites_limit;
+        $log->invites_limit_referrals = $account->referrals_invite_limit;
         $log->amount = $amountBeforeTransaction;
         $log->date = date('Y-m-d H:i:s');
-        try {
-            $log->comment = $comment.'. Инициатор, пользователь '.Yii::app()->user->data()->id.', '.
-                Yii::app()->user->data()->profile->firstname.' '.Yii::app()->user->data()->profile->lastname.'.';
-        } catch (Exception $e) {
+        if(false == (Yii::app() instanceof CConsoleApplication) && Yii::app()->user->data()->id !== null) {
+            try {
+                $log->comment = $comment.'. Инициатор, пользователь '.Yii::app()->user->data()->id.', '.
+                    Yii::app()->user->data()->profile->firstname.' '.Yii::app()->user->data()->profile->lastname.'.';
+            } catch (Exception $e) {
+                $log->comment = $comment;
+            }
+        } else {
             $log->comment = $comment;
         }
+
         $log->save(false);
     }
 
@@ -107,7 +135,7 @@ class UserService {
     public static function assignAllNotAssignedUserInvites(YumUser $user)
     {
         $invites = Invite::model()->findAllByAttributes([
-            'email' => $user->profile->email
+            'email' => strtolower($user->profile->email)
         ]);
 
         foreach ($invites as $invite) {

@@ -1,0 +1,155 @@
+.popover {
+    color: black;
+    font-weight: normal;
+    line-height: 1;
+    cursor: auto;
+    position: absolute;
+    display: none;
+    opacity: 0;
+    background-color: #fdfbc6;
+    -webkit-border-radius: 7px;
+    -moz-border-radius: 7px;
+    border-radius: 7px;
+    -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    -moz-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    transition: opacity 0.25s linear;
+}
+
+.popover.active {
+    opacity: 1;
+    z-index: 1002;
+}
+
+.popup-content {
+    font-size: 12px;
+    max-width: 240px;
+    text-align: justify;
+    line-height: 120%;
+}
+
+.clearfix .labels .row .popover {
+    margin-top: 35px !important;
+}
+
+.popover > .popover-triangle {
+    position: absolute;
+    top: -16px;
+    float: left;
+    font-size: 0px;
+    line-height: 0%;
+    width: 0px;
+    border-top: 8px solid rgba(0,0,0,0);
+    border-left: 8px solid rgba(0,0,0,0);
+    border-right: 8px solid rgba(0,0,0,0);
+    border-bottom: 8px solid #fdfbc6;
+    left: 107px;
+}
+
+.popover > .popover-header {
+    display: none;
+    margin: 0;
+    padding: 3px;
+    height: 40px;
+    color: white;
+    background-color: #fdfbc6;
+    text-align: center;
+}
+
+.popover > .popover-content {
+    padding: 15px;
+    min-width: 200px;
+    text-align: center;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.show-popover {
+    float:right;
+    margin-top: -37px;
+}
+
+.popover-margin1 {
+    margin-top: -35px;
+}
+
+.popover-margin2 {
+    margin-top: -27px;
+}
+
+.popover-margin3 {
+    margin-top: -35px;
+}
+
+.popover-margin4 {
+    margin-top: -30px;
+}
+
+.popover-margin5 {
+    margin-top: -35px;
+}
+
+.popover-margin6 {
+    margin-top: -28px;
+}
+
+.popover-margin7 {
+
+}
+
+.popover-margin8 {
+
+}
+
+.popover-margin9 {
+
+}
+
+.popover-margin10 {
+
+}
+
+.popover-margin11 {
+
+}
+
+@media screen and (max-width: 1146px){
+
+    .show-popover {
+        float:right;
+        margin-top: -37px;
+    }
+
+    .popover-margin1 {
+        margin-top: -30px;
+    }
+
+    .popover-margin2 {
+        margin-top: -24px;
+    }
+
+    .popover-margin3 {
+        margin-top: -30px;
+    }
+
+    .popover-margin4 {
+        margin-top: -31px;
+    }
+
+    .popover-margin5 {
+        margin-top: -37px;
+    }
+
+    .popover-margin6 {
+        margin-top: -24px;
+    }
+
+    .clearfix .labels .row .popover {
+        margin-top: 30px !important;
+    }
+
+    .popup-content {
+        font-size: 11px;
+    }
+
+}

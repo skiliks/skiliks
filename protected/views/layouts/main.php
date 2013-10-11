@@ -24,12 +24,13 @@ $cs->registerScriptFile($assetsUrl . '/js/charts.js');
 $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.tablesorter.js', CClientScript::POS_BEGIN);
 $cs->registerCssFile($assetsUrl . '/js/jquery/jquery-ui.css');
 $cs->registerCssFile($assetsUrl . "/css/style.css");
+$cs->registerCssFile($assetsUrl . "/css/popover.css");
 ?>
-
 <!DOCTYPE html>
 <html lang="<?php echo Yii::t('site', 'en') ?>">
 	<head>
         <meta property="og:image" content="<?php echo $assetsUrl?>/img/skiliks-fb.png"/>
+        <meta property="og:image" content="<?php echo $assetsUrl?>/img/skiliks-fb-min.png"/>
         <meta charset="utf-8" />
         <meta name="description" content="<?= Yii::t('site', 'www.skiliks.com - online simulation aimed at testing management skills') ?>">
         <meta property="og:description" content="<?= Yii::t('site', 'www.skiliks.com - online simulation aimed at testing management skills') ?>">
@@ -174,13 +175,17 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                     <?php endif ?>
                 <nav id="footer-menu">
                     <?php $this->renderPartial('//global_partials/_account_links', [
-                        'isDisplayAccountLinks' => false
+                        'isDisplayAccountLinks' => false,
+                        'disableDemo' => true
                     ]) ?>
                 </nav>
             </div>
 
+<<<<<<< HEAD
         <?php $this->renderPartial('//global_partials/_feedback', []) ?>
 
+=======
+>>>>>>> 2aeda315cdca1b107b94a6f4b46d9805cc365607
         <script type="text/javascript">
             Cufon.replace('.invite-people-form input[type="submit"], .brightblock, .lightblock, .benefits, .tarifname, ' +
                 '.clients h3, .main-article article h3, #simulation-details label, .features h2, .thetitle, .tarifswrap .text16, .sing-in-pop-up .ui-dialog-title, ' +
@@ -217,7 +222,11 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                 '.profileform label, .profileform  div, .form p, .form label, .items td .invites-smallmenu-item a, .estmfooter a, .sbSelector, .flash-pop-up p, .flash-pop-up a, ' +
                 '.action-registration .registrationform .row input[type=submit], .thintitle, .order-status label, .order-method label, ' +
                 '.method-description small, .terms-confirm, .period, .order-item h3, .feedback-dialog-title, .terms-page h2,' +
+<<<<<<< HEAD
                 '.terms-page p, .browsers a, .browsers span, .copyright, .help-contact-us, .help-contact-us a, .list-ordered p, .grid1 p, .registration .form li',
+=======
+                '.terms-page p, .browsers a, .browsers span, .copyright, .help-contact-us, .help-contact-us a, .list-ordered p, .grid1 p, .registration .form li, .regular-list',
+>>>>>>> 2aeda315cdca1b107b94a6f4b46d9805cc365607
                 {fontFamily:"ProximaNova-Regular", hover:true});
 
             Cufon.replace('.profile-menu a', {fontFamily:"ProximaNova-Regular"});
@@ -229,6 +238,7 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
             Cufon.replace('.freeacess', {hover:true});
             Cufon.replace('.browsers span a, .proxima-bold', {fontFamily:"ProximaNova-Bold", hover: true});
             Cufon.replace('.ProximaNova-Bold-22px', {fontFamily:"ProximaNova-Bold", fontSize:"19px", color: "#555545", hover: true});
+<<<<<<< HEAD
         </script>
 
         <script type="text/javascript">
@@ -253,6 +263,42 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
             });
         </script>
 
+=======
+            Cufon.replace('.ProximaNova-20', {fontFamily:"ProximaNova-Regular", color: "#555545", hover: true});
+            Cufon.replace('.items', {fontFamily:"ProximaNova-Bold"});
+            Cufon.replace('.pager', {fontFamily:"ProximaNova-Bold"});
+            Cufon.replace('.ProximaNova-Bold', {fontFamily:"ProximaNova-Bold"});
+            Cufon.replace('.ProximaNova', {fontFamily:"ProximaNova-Regular"});
+            Cufon.replace('.ProximaNova-font-11px', {fontFamily:"ProximaNova-Regular", color: "#555545", hover: true});
+        </script>
+
+        <?php if (Yii::app()->params['public']['isDisplaySupportChat']) : ?>
+            <script type="text/javascript">
+
+                window._shcp = [];
+                window._shcp.push({
+                    link_wrap_off: true, widget_id :<?= Yii::app()->params['public']['SiteHeartWidgetCode'] ?>,
+                    widget : "Chat",
+                    side : "right",
+                    position : "top",
+                    template : "blue",
+                    title : "<?= Yii::app()->params['public']['SiteHeartWidgetTitle'] ?>",
+                    title_offline : "Оставьте сообщение"
+                });
+                $(document).ready(function() {
+                    var hcc = document.createElement("script");
+                    hcc.type = "text/javascript";
+                    hcc.async = true;
+                    hcc.src = ("https:" === document.location.protocol ? "https" : "http")+"://widget.siteheart.com/apps/js/sh.js";
+                    var s = document.head;
+                    s.parentNode.insertBefore(hcc, null);
+                });
+            </script>
+        <?php endif; ?>
+
+        <?php $this->renderPartial('//global_partials/_feedback', []) ?>
+        <?php $this->renderPartial('//global_partials/_before_start_lite_simulation_popup', []) ?>
+>>>>>>> 2aeda315cdca1b107b94a6f4b46d9805cc365607
         <?php $this->renderPartial('//global_partials/_google_analytics') ?>
     </body>
 </html>

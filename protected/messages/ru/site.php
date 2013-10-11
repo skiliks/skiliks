@@ -28,9 +28,9 @@ return array(
     'Based on mathematical methods not just feelings' => 'Использует математические методы анализа<br />поведения, а не субъективные ощущения ',
     'Can be used by an unlimited number of applicants in any part of the world' => 'Позволяет тестировать любое количество людей в любой точке мира ',
     'Coming soon' => 'Скоро запуск',
-    'Start using it now for free' => 'Получить 10 симуляций бесплатно',
+    'Start using it now for free' => 'Получить 3 симуляции бесплатно',
     'Back to homepage' => 'Вернуться на главную',
-    'Easiest' => 'Простой',
+    'Easy' => 'Простой',
     'Email - {email} has been already added before!' => 'Адрес - {email} уже был добавлен!',
     'Email {email} has been successfully added!' => 'Адрес {email}  успешно добавлен! ',
     'Enter your email address' => 'Введите ваш email',
@@ -47,7 +47,7 @@ return array(
     'Please enter a valid email address' => 'Пожалуйста, введите валидный емейл',
     'Results can be obtained and used immediately' => 'Моментально предоставляет готовые для использования результаты оценки',
     'Saves your time' => 'Экономит время',
-    'Simulation aimed at testing manager’s skills' => 'Деловая симуляция, позволяющая оценить базовые менеджерские навыки',
+    'Simulation aimed at testing basic manager’s skills' => 'Деловая симуляция, позволяющая оценить базовые менеджерские навыки',
     'Easy &amp; reliable way to discover your people management skills!' => 'Простой и надежный способ проверить навыки менеджеров!',
     'Uses real work environment, tasks and decision<br />making situations' => 'Максимально приближен к реальному деловому окружению, задачам и ситуациям',
 
@@ -241,6 +241,7 @@ return array(
     'Hide test results' => 'Не показывать результаты теста оцениваемому',
     'Link to vacancy description' => 'Ссылка на описание позиции',
     'Pricing & Plans' => 'Цены и тарифы',
+    'Demo' => 'Начать демо',
     'Contacts' => 'Контакты',
     'Professional status' => 'Профессиональный статус',
     'Birthday' => 'Дата рождения',
@@ -424,4 +425,6 @@ return array(
     'Email is already in use.' => 'Данный email занят.',
 
     'www.skiliks.com - online simulation aimed at testing management skills' => 'www.skiliks.com - онлайн симуляция для оценки навыков менеджеров',
+    'This user\'s name already exists.' => 'Такое имя пользователя уже занято.',
+    'Additional simulations' => 'Дополнительные симуляции',
 );

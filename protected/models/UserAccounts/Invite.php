@@ -85,7 +85,9 @@ class Invite extends CActiveRecord
 
     public function getReceiverFirstName()
     {
-        return null !== $this->receiverUser ? $this->receiverUser->profile->firstname : $this->firstname;
+
+        return (null !== $this->receiverUser && $this->receiverUser->isActive() && $this->receiverUser->getAccountType() !== null)
+               ? $this->receiverUser->profile->firstname : $this->firstname;
     }
 
     /**
@@ -323,7 +325,7 @@ class Invite extends CActiveRecord
     public function uniqueEmail($attribute, $params)
     {
         if ($this->getIsNewRecord() && null !== self::model()->findByAttributes([
-            'email'    => $this->email,
+            'email'    => strtolower($this->email),
             'owner_id' => $this->owner_id,
             'status'   => [self::STATUS_PENDING, self::STATUS_ACCEPTED]
         ])) {
@@ -343,7 +345,7 @@ class Invite extends CActiveRecord
             ]);
 
             // проверяем что последний лог пришел посже чем час назад
-            if ($lastLog->real_time > date('Y-m-d H:i:s', strtotime('-1 hour'))) {
+            if ($lastLog !== null && $lastLog->real_time > date('Y-m-d H:i:s', strtotime('-1 hour'))) {
                 // если последний лог пришел посже чем час назад - то инвайт не делаем просроченным
                 return false;
             }
@@ -357,7 +359,7 @@ class Invite extends CActiveRecord
             return false;
         }
 
-        $initValue = $account->invites_limit;
+        $initValue = $account->getTotalAvailableInvitesLimit();
 
         $account->invites_limit++;
         $account->update();
@@ -480,7 +482,7 @@ class Invite extends CActiveRecord
         if ($this->ownerUser &&
             $this->ownerUser->account_corporate &&
             $this->email &&
-            $this->ownerUser->account_corporate->corporate_email == $this->email
+            strtolower($this->ownerUser->profile->email) == strtolower($this->email)
         ) {
             $this->addError('email', Yii::t('site', 'Действие не возможно'));
         }
@@ -544,7 +546,7 @@ class Invite extends CActiveRecord
         $criteria->compare('receiver_id', $receiverId ?: $this->receiver_id);
         $criteria->compare('firstname', $this->firstname);
         $criteria->compare('lastname', $this->lastname);
-        $criteria->compare('email', $this->email);
+        $criteria->compare('email', strtolower($this->email));
         $criteria->compare('message', $this->message);
         $criteria->compare('signature', $this->signature);
         $criteria->compare('code', $this->code);
@@ -607,7 +609,7 @@ class Invite extends CActiveRecord
         $criteria->compare('owner_id', $ownerId ?: $this->owner_id);
         $criteria->compare('firstname', $this->firstname);
         $criteria->compare('lastname', $this->lastname);
-        $criteria->compare('email', $this->email);
+        $criteria->compare('email', strtolower($this->email));
         $criteria->compare('message', $this->message);
         $criteria->compare('signature', $this->signature);
         $criteria->compare('code', $this->code);
@@ -669,7 +671,7 @@ class Invite extends CActiveRecord
 
 		$criteria->compare('firstname', $this->firstname);
 		$criteria->compare('lastname', $this->lastname);
-		$criteria->compare('email', $this->email);
+		$criteria->compare('email', strtolower($this->email));
 		$criteria->compare('message', $this->message);
 		$criteria->compare('signature', $this->signature);
 		$criteria->compare('code', $this->code);
@@ -731,7 +733,7 @@ class Invite extends CActiveRecord
         $criteria->compare('receiver_id', $this->receiver_id);
         $criteria->compare('firstname', $this->firstname);
         $criteria->compare('lastname', $this->lastname);
-        $criteria->compare('email', $invitedUserEmail ?: $this->email);
+        $criteria->compare('email', strtolower($invitedUserEmail) ?: strtolower($this->email));
         $criteria->compare('message', $this->message);
         $criteria->compare('signature', $this->signature);
         $criteria->compare('code', $this->code);
@@ -793,12 +795,12 @@ class Invite extends CActiveRecord
         $criteria->compare('receiver_id', $this->receiver_id);
         $criteria->compare('firstname', $this->firstname);
         $criteria->compare('lastname', $this->lastname);
-        $criteria->compare('email', $invitedUserEmail ?: $this->email);
+        $criteria->compare('email', strtolower($invitedUserEmail) ?: strtolower($this->email));
         $criteria->compare('status', Invite::STATUS_ACCEPTED);
 
         if ($isIncludeCompleted) {
             $criteriaForFinishedSimulations = new CDbCriteria;
-            $criteriaForFinishedSimulations->compare('email', $invitedUserEmail ?: $this->email);
+            $criteriaForFinishedSimulations->compare('email', strtolower($invitedUserEmail) ?: strtolower($this->email));
             $criteriaForFinishedSimulations->compare('status', Invite::STATUS_COMPLETED);
             $criteriaForFinishedSimulations->compare('scenario_id', $fullScenario->id);
 
@@ -855,8 +857,29 @@ class Invite extends CActiveRecord
 
     }
 
+    /**
+     * @return array|mixed|null
+     */
     public function getOverall() {
-        $assessment = AssessmentOverall::model()->findByAttributes(['sim_id'=>$this->simulation_id, 'assessment_category_code'=>'overall']);
+        $assessment = AssessmentOverall::model()->findByAttributes([
+            'sim_id'=>$this->simulation_id,
+            'assessment_category_code' => AssessmentCategory::OVERALL
+        ]);
+        if(null === $assessment){
+            return null;
+        }else{
+            return $assessment->value;
+        }
+    }
+
+    /**
+     * @return array|mixed|null
+     */
+    public function getPercentile() {
+        $assessment = AssessmentOverall::model()->findByAttributes([
+            'sim_id' => $this->simulation_id,
+            'assessment_category_code' => AssessmentCategory::PERCENTILE
+        ]);
         if(null === $assessment){
             return null;
         }else{

@@ -7,8 +7,8 @@ class OverallRateTable extends LogTable {
     public function getHeaders()
     {
         return [
-            'Category code',
-            'Percent'
+            'Тип оценки',
+            'Оценка'
         ];
     }
 
@@ -18,7 +18,7 @@ class OverallRateTable extends LogTable {
 
     public function getTitle()
     {
-        return 'Overall rate';
+        return 'Итоговый рейтинг';
     }
 
     /**

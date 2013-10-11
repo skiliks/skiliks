@@ -815,7 +815,10 @@ class ImportGameDataService
             // tmp
             $copiesArr = array();
             if (strpos($copies, ', ') !== false) {
-                $copiesArr = explode(',', $copies);
+                $copiesArr = explode(', ', $copies);
+            }
+            elseif($copies != "-") {
+                $copiesArr = [$copies];
             }
             elseif($copies != "-") {
                 $copiesArr = [$copies];
@@ -2778,11 +2781,11 @@ class ImportGameDataService
 
                 $weight->$fKey = $entity->primaryKey;
                 $weight->rule_id = $ruleId;
-                $weight->value = round($this->getCellValue($sheet, 'Значение веса', $i), 4);
+                $weight->value = round($this->getCellValue($sheet, 'Значение веса', $i), 10);
                 $weight->scenario_id = $this->scenario->primaryKey;
                 $weight->import_id = $this->import_id;
 
-                $weight->save();
+                $weight->save(false);
                 $weights++;
             }
         }

@@ -4,27 +4,6 @@ class AdminPagesController extends SiteBaseController {
 
     public $itemsOnPage = 100;
 
-    public $developersEmails = [
-        "'r.kilimov@gmail.com'",
-        "'andrey@kostenko.name'",
-        "'personal@kostenko.name'",
-        "'a.levina@gmail.com'",
-        "'gorina.mv@gmail.com'",
-        "'v.logunov@yahoo.com'",
-        "'nikoolin@ukr.net'",
-        "'leah.levina@gmail.com'",
-        "'lea.skiliks@gmail.com'",
-        "'andrey3@kostenko.name'",
-        "'skiltests@yandex.ru'",
-        "'didmytime@bk.ru'",
-        "'gva08@yandex.ru'",
-        "'tony_acm@ukr.net'",
-        "'tony_perfectus@mail.ru'",
-        "'N_ninok1985@mail.ru'",
-        "'tony.pryanichnikov@gmail.com'",
-        "'svetaswork@gmail.com'",
-    ];
-
     public function beforeAction($action) {
 
         $public = ['Login'];
@@ -32,15 +11,19 @@ class AdminPagesController extends SiteBaseController {
         if(in_array($action->id, $public)){
             return true;
         }elseif(!$user->isAuth()){
-            $this->redirect('/registration');
+            $this->redirect('/admin_area/login');
         }elseif(!$user->isAdmin()){
             $this->redirect('/dashboard');
         }
         return true;
     }
 
-    public function actionDashboard() {
+    public function actionIndex() {
+        $this->layout = '/admin_area/layouts/admin_main';
+        $this->render('/admin_area/pages/dashboard', ['user'=>$this->user]);
+    }
 
+    public function actionDashboard() {
         $this->layout = '/admin_area/layouts/admin_main';
         $this->render('/admin_area/pages/dashboard', ['user'=>$this->user]);
 
@@ -283,7 +266,7 @@ class AdminPagesController extends SiteBaseController {
                     " AND email NOT LIKE '%@skiliks.com' ".
                     " AND email NOT LIKE '%@rmqkr.net' ".
                     " AND sent_time > '2013-06-01 00:00:00' ".
-                    " AND email NOT IN (".implode(',', $this->developersEmails).") ";
+                    " AND email NOT IN (".implode(',', UserService::$developersEmails).") ";
             }
             // exclude developersEmails }
 
@@ -457,7 +440,7 @@ class AdminPagesController extends SiteBaseController {
                     " AND profile.email NOT LIKE '%@skiliks.com' ".
                     " AND profile.email NOT LIKE '%@rmqkr.net' ".
                     " AND t.start > '2013-06-01 00:00:00' ".
-                    " AND profile.email NOT IN (".implode(',', $this->developersEmails).") ";
+                    " AND profile.email NOT IN (".implode(',', UserService::$developersEmails).") ";
             }
             // exclude developersEmails }
 
@@ -632,25 +615,111 @@ class AdminPagesController extends SiteBaseController {
     public function actionOrders()
     {
         // pager {
+
         $page = Yii::app()->request->getParam('page');
 
         if (null === $page) {
             $page = 1;
         }
 
+        $request_uri = $_SERVER['REQUEST_URI'];
+
+        $disableFilters = Yii::app()->request->getParam("disable_filters", null);
+        // adding session
+        $session = new CHttpSession();
+
+        // taking up address to
+
+        if( null !== $disableFilters) {
+            $address = '/admin_area/orders';
+            $session["order_address"] = null;
+        }
+
+        if($request_uri == "/admin_area/orders" && $session["order_address"] != null && $session["order_address"] != $request_uri) {
+            $this->redirect($session["order_address"]);
+        }
+
+
+        $session["order_address"] = $request_uri;
+
+
         $criteria = new CDbCriteria;
-        $totalItems = Invoice::model()->count($criteria);
+
+        $criteria->join = "JOIN profile ON profile.user_id = t.user_id";
+
+        // applying filters
+        $filterEmail = strtolower(Yii::app()->request->getParam('email', null));
+
+        if($filterEmail !== null) {
+            $filterEmail = trim($filterEmail);
+            $criteria->addSearchCondition("profile.email", $filterEmail);
+        }
+
+        // appying payment method filters
+        $filterCash = Yii::app()->request->getParam('cash', null);
+        $filterRobokassa = Yii::app()->request->getParam('robokassa', null);
+
+        if($filterCash !== null && $filterRobokassa === null) {
+            $criteria->compare("payment_system", 'cash');
+        }
+        elseif($filterCash === null && $filterRobokassa !== null) {
+            $criteria->compare("t.payment_system", 'robokassa');
+        }
+        // if both are not null we taking everything
+
+
+        // applying done / not done filters
+        $done = Yii::app()->request->getParam('done', null);
+        $notDone = Yii::app()->request->getParam('notDone', null);
+
+        if($done !== null && $notDone === null) {
+            $criteria->addCondition("t.paid_at IS NOT NULL");
+        }
+        elseif($done === null && $notDone !== null) {
+            $criteria->addCondition("t.paid_at IS NULL");
+        }
+        // if both are not null we taking everything
+
+        // setting the form to get it in the view
+
+        // checking if submit button wasn't pushed
+        $formSended = Yii::app()->request->getParam('form-send', null);
+
+        if($formSended !== null) {
+            $appliedFilters = ["email"     =>$filterEmail,
+                               "robokassa" =>$filterRobokassa,
+                               "cash"      =>$filterCash,
+                               "done"      =>$done,
+                               "notDone"   =>$notDone
+                              ];
+        }
+        else {
+            // generationg the all filters to be checked
+            $appliedFilters = ["email"     => null,
+                               "robokassa" => "set",
+                               "cash"      => "set",
+                               "done"      => "set",
+                               "notDone"   => "set"
+            ];
+        }
+
+
+        // counting objects to make the pagination
+        $totalItems = count(Invoice::model()->findAll($criteria));
+
         $pager = new CustomPagination($totalItems);
         $pager->pageSize = $this->itemsOnPage;
         $pager->applyLimit($criteria);
         $pager->route = 'admin_area/AdminPages/Orders';
         // pager }
 
-        $models = Invoice::model()->findAll([
-            "order" => "updated_at desc",
-            "limit"  => $this->itemsOnPage,
-            "offset" => ($page-1)*$this->itemsOnPage
-        ]);
+
+        // building criteria
+        $criteria->order = "created_at desc" ;
+        $criteria->limit = $this->itemsOnPage;
+        $criteria->offset = ($page-1)*$this->itemsOnPage;
+
+        $models = Invoice::model()->findAll($criteria);
 
         $this->layout = '//admin_area/layouts/admin_main';
 
@@ -659,9 +728,86 @@ class AdminPagesController extends SiteBaseController {
             'page'        => $page,
             'pager'       => $pager,
             'totalItems'  => $totalItems,
-            'itemsOnPage' => $this->itemsOnPage
+            'itemsOnPage' => $this->itemsOnPage,
+            'filters'     => $appliedFilters
         ]);
+    }
 
+    public function actionReferralsList() {
+        $dataProvider = UserReferral::model()->searchReferrals();
+        $this->layout = '/admin_area/layouts/admin_main';
+        $this->render('/admin_area/pages/referrals_list', ['dataProvider' => $dataProvider]);
+    }
+
+    public function actionCompleteInvoice() {
+        $invoiceId = Yii::app()->request->getParam('invoice_id');
+
+        $criteria = new CDbCriteria();
+        $criteria->compare('id', $invoiceId);
+
+        $invoice = Invoice::model()->find($criteria);
+
+        if($invoice !== null && $invoice->paid_at == null) {
+            $user = Yii::app()->user->data();
+            $invoice_log = new LogPayments();
+            $invoice_log->log($invoice, "Попытка отметить счёт как \"Оплаченый\" в админке. Админ ".$user->profile->email.".");
+            $invoice->completeInvoice($user->profile->email);
+            echo json_encode(["return" => true, "paidAt" => $invoice->paid_at]);
+        }
+    }
+
+    public function actionDisableInvoice() {
+        $invoiceId = Yii::app()->request->getParam('invoice_id');
+
+        $criteria = new CDbCriteria();
+        $criteria->compare('id', $invoiceId);
+
+        $invoice = Invoice::model()->find($criteria);
+
+        if($invoice !== null && $invoice->paid_at != null) {
+            $user = Yii::app()->user->data();
+            $invoice_log = new LogPayments();
+            $invoice_log->log($invoice, "Попытка отметить счёт как \"Не оплаченый\" в админке. Админ ".$user->profile->email.".");
+            $invoice->disableInvoice($user->profile->email);
+            echo json_encode(["return" => true]);
+        }
+
+    }
+
+    public function actionCommentInvoice() {
+        $invoiceId = Yii::app()->request->getParam('invoice_id');
+        $criteria = new CDbCriteria();
+        $criteria->compare('id', $invoiceId);
+
+        $invoice = Invoice::model()->find($criteria);
+
+        if($invoice !== null) {
+
+            $invoice->comment = (Yii::app()->request->getParam('invoice_comment'));
+            $invoice->save();
+            $user = Yii::app()->user->data();
+            $invoice_log = new LogPayments();
+            $invoice_log->log($invoice, $user->profile->email . " изменил комментарий: \r\n".$invoice->comment);
+            echo json_encode(["return" => true]);
+        }
+    }
+
+    public function actionGetInvoiceLog() {
+        $invoiceId = Yii::app()->request->getParam('invoice_id');
+        $criteria = new CDbCriteria();
+        $criteria->compare('invoice_id', $invoiceId);
+
+        $logs = LogPayments::model()->findAll($criteria);
+        $returnData = "";
+        if(!empty($logs)) {
+            $returnData = "<table class=\"table\"><tr><td>Время</td><td>Текст лога</td></tr>";
+            foreach($logs as $log) {
+                $returnData .= '<tr><td><span style="color: #003bb3;">'.$log->created_at.'</span></td>';
+                $returnData .= '<td>'.$log->text.'</td></tr>';
+            }
+            $returnData .= "</table>";
+        }
+        echo json_encode(["log" => $returnData]);
     }
 
     public function actionOrderChecked() {
@@ -747,7 +893,7 @@ class AdminPagesController extends SiteBaseController {
     public function actionInviteCalculateTheEstimate() {
 
         $simId = Yii::app()->request->getParam('sim_id', null);
-        $email = str_replace(' ', '+', Yii::app()->request->getParam('email', null));
+        $email = strtolower(str_replace(' ', '+', Yii::app()->request->getParam('email', null)));
         SimulationService::CalculateTheEstimate($simId, $email);
 
         $this->redirect("/admin_area/invites");
@@ -938,8 +1084,12 @@ class AdminPagesController extends SiteBaseController {
         $id = Yii::app()->request->getParam('id', null);
 
         $account = UserAccountCorporate::model()->findByAttributes(['user_id' => $id]);
-        $logs = LogAccountInvite::model()->findAllByAttributes([
-            'user_id' => Yii::app()->request->getParam('id', null),
+        $logs = LogAccountInvite::model()->findAll([
+            'condition' => 'user_id = :id ',
+            'params' => [
+                'id' => Yii::app()->request->getParam('id', null)
+            ],
+            'order' => 'date DESC',
         ]);
 
         $this->pageTitle = 'Админка: Движение проглашений в корпоративном аккаунте # '.$id;
@@ -1163,6 +1313,20 @@ class AdminPagesController extends SiteBaseController {
     {
         $user = YumUser::model()->findByPk($userId);
 
+        if($user->isCorporate()) {
+            $isSwitchShowReferralInfoPopup = Yii::app()->request->getParam("switchReferralInfoPopup", null);
+            if($isSwitchShowReferralInfoPopup !== null) {
+                $user->account_corporate->is_display_referrals_popup = !$user->account_corporate->is_display_referrals_popup;
+                $user->account_corporate->save();
+            }
+
+            $isSwitchTariffExpiredPopup = Yii::app()->request->getParam("switchTariffExpiredPopup", null);
+            if($isSwitchTariffExpiredPopup !== null) {
+                $user->account_corporate->is_display_tariff_expire_pop_up = !$user->account_corporate->is_display_tariff_expire_pop_up;
+                $user->account_corporate->save();
+            }
+        }
+
         $this->layout = '//admin_area/layouts/admin_main';
         $this->render('/admin_area/pages/user_details', [
             'user' => $user,
@@ -1190,7 +1354,7 @@ class AdminPagesController extends SiteBaseController {
             $this->redirect('/admin_area/user/'.$userId.'/details');
         }
 
-        $initValue = $user->getAccount()->invites_limit;
+        $initValue = $user->getAccount()->getTotalAvailableInvitesLimit();
         $tariff = Tariff::model()->findByAttributes(['slug' => $label]);
 
         if (null == $tariff) {
@@ -1362,5 +1526,265 @@ class AdminPagesController extends SiteBaseController {
         Yii::app()->user->setFlash('success', "Вам добавлено 10 приглашений!");
 
         $this->redirect('/admin_area/dashboard');
+    }
+
+
+
+
+    // формирование отчетов
+
+    public function actionMakeReport($ids = false)
+    {
+        if($ids) {
+            $saves = 0;
+            $overwrite = true;
+            $ids = explode(",", $ids);
+            if(!empty($ids)) {
+                $simulations = array();
+                foreach($ids as $row) {
+                    $simulation = Simulation::model()->findByPk($row);
+                    if($simulation !== null) {
+                        $simulations[] = $simulation;
+                        echo "{$simulation->id}, ";
+                    }
+                }
+
+                if(!empty($simulations)) {
+                    SimulationService::saveLogsAsExcelCombined($simulations);
+                }
+
+                echo " {$saves} files stored!\r\n";
+            }
+        }
+    }
+
+    public function actionUserReferrals($userId = false) {
+        if($userId) {
+            $user = YumUser::model()->findByPk($userId);
+            $totalReferrals = UserReferral::model()->countUserReferrals($user->id);
+            $this->layout = '/admin_area/layouts/admin_main';
+            $dataProvider = UserReferral::model()->searchUserReferrals($user->id);
+            $this->render('/admin_area/pages/user_referrals_list', ['totalRefers'=>$totalReferrals, 'user'=>$user,
+                    'dataProvider' => $dataProvider]);
+        }
+    }
+
+    public function actionEmailQueue()
+    {
+        $formFilters = Yii::app()->session['admin_email_queue_filter_form'];
+
+        // pager {
+        $page = Yii::app()->request->getParam('page');
+
+        if (null === $page) {
+            if (isset($formFilters['page'])) {
+                $page = $formFilters['page'];
+            } else {
+                $page = 1;
+                $formFilters['page'] = 1;
+            }
+        }
+
+        $criteria = new CDbCriteria;
+
+        // applying filters
+        // sender_email {
+        if (isset($formFilters['sender_email'])) {
+            $filterSenderEmail = $formFilters['sender_email'];
+        } else {
+            $filterSenderEmail = Yii::app()->request->getParam('sender_email', null);
+            $formFilters['sender_email'] = $filterSenderEmail;
+        }
+
+        if($filterSenderEmail !== null) {
+            $filterSenderEmail = trim($filterSenderEmail);
+            $criteria->addSearchCondition("t.sender_email", $filterSenderEmail);
+        }
+        // sender_email }
+
+        // recipients {
+        if (isset($formFilters['recipients'])) {
+            $filterRecipients = $formFilters['recipients'];
+        } else {
+            $filterRecipients = Yii::app()->request->getParam('recipients', null);
+            $formFilters['recipients'] = $filterRecipients;
+        }
+
+        if($filterRecipients !== null) {
+            $filterRecipients = trim($filterRecipients);
+            $criteria->addSearchCondition("t.recipients", $filterRecipients);
+        }
+        // recipients }
+
+        // send / not_send {
+        if (isset($formFilters['send'])) {
+            $filterStatusSend = $formFilters['send'];
+        } else {
+            $filterStatusSend = Yii::app()->request->getParam('send', null);
+            $formFilters['send'] = $filterStatusSend;
+        }
+
+        if (isset($formFilters['not_send'])) {
+            $filterStatusNotSend = $formFilters['not_send'];
+        } else {
+            $filterStatusNotSend = Yii::app()->request->getParam('not_send', null);
+            $formFilters['not_send'] = $filterStatusNotSend;
+        }
+
+        if($filterStatusSend !== null && $filterStatusNotSend == null) {
+            // only send
+            $criteria->addCondition(' t.sended_at IS NOT NULL ');
+        } else if ($filterStatusSend == null && $filterStatusNotSend !== null) {
+            // only not send
+            $criteria->addCondition(' t.sended_at IS NULL ');
+        }
+        // send / not_send }
+
+        Yii::app()->session['admin_email_queue_filter_form'] = $formFilters;
+
+        if($filterSenderEmail !== null) {
+            $appliedFilters = [
+                "sender_email" => $filterSenderEmail,
+                "recipients"   => $filterRecipients,
+                "send"         => $filterStatusSend,
+                "not_send"     => $filterStatusNotSend,
+            ];
+        }
+        else {
+            // generation the all filters to be checked
+            $appliedFilters = [
+                "sender_email" => null,
+                "recipients"   => null,
+                "send"         => null,
+                "not_send"     => null,
+            ];
+        }
+
+        // counting objects to make the pagination
+        $totalItems = count(EmailQueue::model()->findAll($criteria));
+
+        $pager = new CustomPagination($totalItems);
+        $pager->pageSize = $this->itemsOnPage;
+        $pager->applyLimit($criteria);
+        $pager->route = 'admin_area/email_queue';
+        // pager }
+
+        // building criteria
+        $criteria->order = "created_at desc" ;
+        $criteria->limit = $this->itemsOnPage;
+        $criteria->offset = ($page-1)*$this->itemsOnPage;
+
+        $emails = EmailQueue::model()->findAll($criteria);
+
+        $this->layout = '//admin_area/layouts/admin_main';
+
+        $this->render('/admin_area/pages/email_queue', [
+            'emails'      => $emails,
+            'page'        => $page,
+            'pager'       => $pager,
+            'totalItems'  => $totalItems,
+            'itemsOnPage' => $this->itemsOnPage,
+            'filters'     => $appliedFilters
+        ]);
+    }
+
+    public function actionEmailText($id = null) {
+        if(null !== $id) {
+            $email = EmailQueue::model()->findByPk($id);
+
+            $this->layout = '/admin_area/layouts/admin_main';
+            $this->render('/admin_area/pages/email_text', [
+                "email" => $email,
+            ]);
+        }
+    }
+
+    public function actionSimulationsRating()
+    {
+        $condition = Simulation::model()->getSimulationRealUsersCondition(
+            '',
+            AssessmentCategory::PERCENTILE
+        );
+
+        $assessments = AssessmentOverall::model()->with('sim', 'sim.user', 'sim.user.profile') ->findAll([
+            'condition' => $condition,
+            'order'     => ' t.value DESC '
+        ]);
+
+        $simulations = [];
+        foreach ($assessments as $assessment) {
+            $simulations[] = $assessment->sim;
+        }
+
+        $this->layout = '/admin_area/layouts/admin_main';
+        $this->render('/admin_area/pages/simulations_rating', [
+            "simulations" => $simulations,
+        ]);
+    }
+
+    public function actionSimulationsRatingCsv()
+    {
+        $condition = Simulation::model()->getSimulationRealUsersCondition(
+            '',
+            AssessmentCategory::PERCENTILE
+        );
+
+        $assessments = AssessmentOverall::model()->with('sim', 'sim.user', 'sim.user.profile') ->findAll([
+            'condition' => $condition,
+            'order'     => ' t.value DESC '
+        ]);
+
+        $xlsFile =  new \PHPExcel();
+        $xlsFile->removeSheetByIndex(0);
+
+        $worksheet = new \PHPExcel_Worksheet($xlsFile, 'Процентили');
+        $xlsFile->addSheet($worksheet);
+
+        $worksheet->setCellValueByColumnAndRow(1, 1, "ID инвайта");
+        $worksheet->setCellValueByColumnAndRow(2, 1, "Sim. ID");
+        $worksheet->setCellValueByColumnAndRow(3, 1, "Email соискателя, игрока");
+        $worksheet->setCellValueByColumnAndRow(4, 1, "Время начала симуляции");
+        $worksheet->setCellValueByColumnAndRow(5, 1, "Время конца симуляции");
+        $worksheet->setCellValueByColumnAndRow(6, 1, "Сценарий: статус");
+        $worksheet->setCellValueByColumnAndRow(7, 1, "Оценка звёзды");
+        $worksheet->setCellValueByColumnAndRow(8, 1, "Процентиль");
+
+        $i = 3;
+        foreach ($assessments as $assessment) {
+            $worksheet->setCellValueByColumnAndRow(1, $i, $assessment->sim->invite->id );
+            $worksheet->setCellValueByColumnAndRow(2, $i, $assessment->sim->id );
+            $worksheet->setCellValueByColumnAndRow(3, $i, $assessment->sim->user->profile->email );
+            $worksheet->setCellValueByColumnAndRow(4, $i, $assessment->sim->start );
+            $worksheet->setCellValueByColumnAndRow(5, $i, $assessment->sim->end );
+            $worksheet->setCellValueByColumnAndRow(6, $i, $assessment->sim->status );
+            $worksheet->setCellValueByColumnAndRow(7, $i, $assessment->sim->invite->getOverall() );
+            $worksheet->setCellValueByColumnAndRow(8, $i, $assessment->sim->invite->getPercentile() );
+            $i++;
+        }
+
+        $doc = new \PHPExcel_Writer_Excel2007($xlsFile);
+        header('Content-type: application/vnd.ms-excel');
+        header("Content-Disposition: attachment; filename=\"percentile.xlsx\"");
+        $doc->save('php://output');
+    }
+
+    public function actionSendNotice() {
+        $user_id = Yii::app()->request->getParam('user_id');
+        $user = YumUser::model()->findByPk($user_id);
+        /* @var YumUser $user */
+        $before_email = $user->profile->email;
+        MailHelper::sendNoticeEmail($user);
+        $user->refresh();
+        echo "Before - ".$before_email.' and After - '.$user->profile->email;
+    }
+
+    public function actionUpdateInviteEmail() {
+        $user_id = Yii::app()->request->getParam('user_id');
+        $invites = Invite::model()->findAll("owner_id = receiver_id and owner_id = {$user_id}");
+        /* @var Invite $invite */
+        foreach($invites as $invite) {
+            MailHelper::updateInviteEmail($invite);
+        }
+        echo "Done";
     }
 }

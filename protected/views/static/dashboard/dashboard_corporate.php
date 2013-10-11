@@ -5,9 +5,10 @@
     <a href="#" data-href="/simulation/promo/lite/<?= $notUsedLiteSimulationInvite->id ?>"
        class="start-lite-simulation-btn light-btn">Пройти демо (<?= Yii::app()->params['demoDuration'] ?> мин)</a>
 
+
     <h2 class="thetitle bigtitle"><?php echo Yii::t('site', 'Work dashboard') ?></h2>
     <aside>
-
+        <!-- invite-people-box -->
         <div id="invite-people-box" class="nice-border backgroud-rich-blue sideblock">
             <?php $this->renderPartial('_invite_people_box', [
                 'invite'    => $invite,
@@ -32,18 +33,36 @@
     </aside>
     <div class="narrow-contnt">
 
+        <div class="change-simulation-result-render ProximaNova-Bold">
+            <?php if($user->profile->assessment_results_render_type == "standard") : ?>
+                Относительный рейтинг
+            <?php else : ?>
+                Абсолютный рейтинг
+            <?php endif ?>
+        </div>
+
         <!-- corporate-invitations-list-box -->
         <!-- hack for taking position -->
-        <div id="corporate-invitations-list-box-position"></div>
+        <div id="corporate-invitations-list-box-position" style="width:1px; height: 1px; content: -;"></div>
 
         <div id="corporate-invitations-list-box" class="transparent-boder wideblock">
             <?php $this->renderPartial('_corporate_invitations_list_box', [
                 'inviteToEdit'    => $inviteToEdit,
                 'vacancies'       => $vacancies,
+                'user'            => $user
             ]) ?>
         </div>
 
         <?php $this->renderPartial('partials/accept-invite-warning-popup', []) ?>
+
+        <?php if($show_user_referral_popup) : ?>
+            <?php $this->renderPartial('partials/_referrals-popup', []) ?>
+        <?php endif; ?>
+
+        <?php if($is_display_tariff_expire_pop_up) : ?>
+            <?php $this->renderPartial('partials/_tariff_expire_pop_up', ["hasOtherPopup" => $show_user_referral_popup, 'user' => $user]) ?>
+        <?php endif; ?>
+
         <?php $this->renderPartial('partials/exists-self-to-self-simulation-warning-popup', []) ?>
         <?php $this->renderPartial('partials/pre-start-popup', []) ?>
 
@@ -81,8 +100,7 @@
                     <p><?php echo $form->textField($invite, 'fullname'); ?></p>
 
                     <?php if (Yii::app()->params['emails']['isDisplayStandardInvitationMailTopText']): ?>
-                        <p class="font-green-dark">Компания <?= $invite->ownerUser->account_corporate->company_name ?> предлагает вам пройти тест "Базовый менеджмент" на позицию
-                            <a target="_blank" href="<?= $invite->vacancy->link ?: '#' ?>"><?= $invite->getVacancyLabel() ?></a>.</p>
+                        <p class="font-green-dark">Компания <?= $invite->ownerUser->account_corporate->company_name ?> предлагает вам пройти тест "Базовый менеджмент".</p>
                         <?php if (empty($invite->receiverUser)): ?>
                             <p class="font-green-dark">
                                 <a target="_blank" href="<?= $this->createAbsoluteUrl('static/pages/product') ?>">"Базовый менеджмент"</a>
@@ -123,7 +141,6 @@
 
                 <?php $this->endWidget(); ?>
             </div>
-
             <script>
                 // @link: http://jqueryui.com/dialog/
                 $(document).ready(function() {
@@ -142,7 +159,7 @@
                     });
 
                     $( ".message_window").parent().addClass('nice-border cabmessage');
-                    $( ".message_window").dialog('open');
+                    $( ".message_window").dialog('open', $("#corporate-invitations-list-box").show());
                 });
             </script>
         <?php endif; ?>
@@ -151,4 +168,3 @@
 
 </section>
 
-<?php $this->renderPartial('//global_partials/_before_start_lite_simulation_popup', []) ?>

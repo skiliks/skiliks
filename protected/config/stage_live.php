@@ -29,13 +29,17 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
         ),
     ),
     'params'=>array(
+        'server_name'                   => 'http://skiliks.com/',
         'frontendUrl'=>'http://live.skiliks.com/',
+        'runMigrationOn' => 'live',
         'disableOldLogging'=>true,
         'public' => [
-            'storageURL'        => 'http://storage.dev.skiliks.com/v1',
-            'isLocalPc'         => true,
-            'isUseZohoProxy'    => false,
-            'useSentryForJsLog' => true,
+            'storageURL'           => 'http://storage.dev.skiliks.com/v1',
+            'isLocalPc'            => true,
+            'isUseZohoProxy'       => false,
+            'useSentryForJsLog'    => true,
+            'isSkipBrowserCheck'   => true,
+            'isDisplaySupportChat' => false,
         ],
         'zoho' => array(
             'apiKey'              => 'e52059ce3aeff6dd2c71afb9499bdcf7',
@@ -43,10 +47,14 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
             'xlsTemplatesDirPath' => 'documents/templates',
             'templatesDirPath'    => 'documents/zoho',
             'sendFileUrl'         => 'https://sheet.zoho.com/remotedoc.im?apikey=%s&output=editor',
-            //'sendFileUrl'         => 'http://zoho.skiliks.com/remotedoc.im?apikey=%s&output=editor',
             'extExcel'            => 'xls'
         ),
-
+        'robokassa' => [
+            'url'            => 'https://auth.robokassa.ru/Merchant/Index.aspx',
+            'MrchLogin'      => 'leah',
+            'sMerchantPass1' => 'as24ED4rFdrG456Dsd0d9f7gjec3',
+            'sMerchantPass2' => 'd89DCs6d9ft66ygfr8iexmv67werd'
+        ]
     )
 ));
 

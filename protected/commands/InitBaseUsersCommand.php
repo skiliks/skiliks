@@ -58,7 +58,7 @@ class InitBaseUsersCommand
             }
 
             $profile->firstname = $user['username'];
-            $profile->email     = $user['email'];
+            $profile->email     = strtolower($user['email']);
 
             // register user (init user object, validate, save) {
             if (null === $yumUser) {
@@ -68,6 +68,13 @@ class InitBaseUsersCommand
                 $yumUser->is_admin = $user['is_admin'];
                 if ($yumUser->register($user['username'], $user['password'], $profile)) {
                     echo " => registered";
+                    $accountCorporate = new UserAccountCorporate();
+                    $industry = Industry::model()->findByAttributes(['label'=>'Другая']);
+                    $accountCorporate->user_id = $yumUser->id;
+                    $accountCorporate->industry_id = $industry->id;
+                    $tariff = Tariff::model()->findByAttributes(['slug' => Tariff::SLUG_LITE]);
+                    $accountCorporate->setTariff($tariff, true);
+                    $accountCorporate->save(['user_id, industry_id']);
                 } else {
                     print_r($yumUser->getErrors());
                     print_r($user);
@@ -79,7 +86,7 @@ class InitBaseUsersCommand
             // register user (init user object, validate, save) }
 
             // activate user {
-            $actStatus = $yumUser->activate($user['email'], $yumUser->activationKey);
+            $actStatus = $yumUser->activate(strtolower($user['email']), $yumUser->activationKey);
 
             if ($actStatus instanceof YumUser || -1 == $actStatus) {
                 echo " => activated";

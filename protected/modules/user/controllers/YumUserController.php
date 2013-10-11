@@ -219,7 +219,7 @@ class YumUserController extends YumController {
 			$model->activationKey = YumEncrypt::encrypt(microtime() . $model->password, $model->salt);
 
 			if($model->username == '' && isset($profile))
-				$model->username = $profile->email;
+				$model->username = strtolower($profile->email);
 
 			$model->validate();
 

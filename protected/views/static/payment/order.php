@@ -33,8 +33,20 @@
             <div class="row">
                 <label>Выбрано количество месяцев</label>
                 <div class="value">
-                    <select>
+                    <select id="month-selected" id="month-selected">
                         <option value="1">1</option>
+<!--                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                        -->
                     </select>
                 </div>
             </div>
@@ -47,16 +59,14 @@
         $form = $this->beginWidget('CActiveForm', array(
             'id' => 'payment-form',
             'htmlOptions' => ['class' => 'payment-form'],
-            'action' => '/payment/do',
+            'action' => '/payment/doCashPayment',
             'enableAjaxValidation' => true,
             'clientOptions' => [
                 'validateOnSubmit' => true,
                 'validateOnChange' => false,
                 'afterValidate'    => 'js:paymentSubmit',
             ]
-        ));
-
-        echo $form->hiddenField($tariff, 'id');
+        ), $paymentMethodCash);
 
         ?>
 
@@ -78,28 +88,31 @@
                     </div>
                 </div>
 
+                <input type="hidden" name="cash-month-selected" id="cash-month-selected" value="1" />
+                <input type="hidden" name="tariff-label" id="tariff-label" value="<?=$tariff->label ?>" />
+
                 <div class="row">
-                    <?= $form->labelEx($invoice, 'ИНН') ?>
-                    <?= $form->textField($invoice, 'inn', ['maxlength' => 10]) ?>
-                    <?= $form->error($invoice, 'inn') ?>
+                    <?= $form->labelEx($paymentMethodCash, 'ИНН') ?>
+                    <?= $form->textField($paymentMethodCash, 'inn', ['maxlength' => 10]) ?>
+                    <?= $form->error($paymentMethodCash, 'inn') ?>
                 </div>
 
                 <div class="row">
-                    <?= $form->labelEx($invoice, 'КПП') ?>
-                    <?= $form->textField($invoice, 'cpp', ['maxlength' => 9]) ?>
-                    <?= $form->error($invoice, 'cpp') ?>
+                    <?= $form->labelEx($paymentMethodCash, 'КПП') ?>
+                    <?= $form->textField($paymentMethodCash, 'cpp', ['maxlength' => 9]) ?>
+                    <?= $form->error($paymentMethodCash, 'cpp') ?>
                 </div>
 
                 <div class="row">
-                    <?= $form->labelEx($invoice, 'Расчётный счёт') ?>
-                    <?= $form->textField($invoice, 'account', ['maxlength' => 20]) ?>
-                    <?= $form->error($invoice, 'account') ?>
+                    <?= $form->labelEx($paymentMethodCash, 'Расчётный счёт') ?>
+                    <?= $form->textField($paymentMethodCash, 'account', ['maxlength' => 20]) ?>
+                    <?= $form->error($paymentMethodCash, 'account') ?>
                 </div>
 
                 <div class="row">
-                    <?= $form->labelEx($invoice, 'БИК') ?>
-                    <?= $form->textField($invoice, 'bic', ['maxlength' => 9]) ?>
-                    <?= $form->error($invoice, 'bic') ?>
+                    <?= $form->labelEx($paymentMethodCash, 'БИК') ?>
+                    <?= $form->textField($paymentMethodCash, 'bic', ['maxlength' => 9]) ?>
+                    <?= $form->error($paymentMethodCash, 'bic') ?>
                 </div>
             </div>
 
@@ -109,17 +122,22 @@
                         $account,
                         'preference_payment_method',
                         [
-                            'disabled' => 'disabled',
                             'value' => UserAccountCorporate::PAYMENT_METHOD_CARD,
                             'id' => 'payment_card',
                             'uncheckValue' => null
                         ]
                     ) ?>
-                    <?= $form->label($account, 'preference_payment_method', ['label' => 'Оплата картой', 'for' => 'payment_card']) ?>
-                    <div class="method-description">
+                    <?= $form->label($account, 'preference_payment_method', ['label' => 'Оплата картой и электронными деньгами', 'for' => 'payment_card']) ?>
+                    <div class="method-description" style="color:#6d6d5b;">
                         <small>
-                            <span class="cardsbg"></span><span class="nocommision">Без дополнительных комиссий</span><br/>
-                            Выбирая данную опцию, вы будете перенаправлены на страницу провайдера платежа
+                            <span class="cardsbg"></span><div class="without-commission">Без комиссий</div><br/>
+                        </small>
+                        <span style="font-size:14px; line-height: 25px;">Электронные деньги</span><br/>
+                        <small>
+                            <img src="<?=$this->getAssetsUrl()?>/img/epay-services.png" alt="Варианты оплаты" />
+                            <div class="without-commission payment-method-without-commision">Без комиссий</div><br/>
+                            Выставление счёта в интернет-банк и другие способы оплаты, предусмотренные платёжной системой<br/><br/>
+                            <p>Выбирая данную опцию, вы будете перенаправлены на страницу платёжной системы</p>
                         </small>
                     </div>
                 </div>
@@ -129,13 +147,23 @@
                 <div class="submit">
                     <?= CHtml::submitButton('Оплатить'); ?>
                 </div>
-                <div class="terms-confirm">
-                    <?= $form->checkBox($invoice, 'agreeWithTerms', ['value' => 'yes', 'uncheckValue' => null]); ?>
-                    <?= $form->labelEx($invoice, 'agreeWithTerms', ['label' => 'Я ознакомился и принимаю <a href="#" class="terms">Условия</a>']); ?>
-                    <?= $form->error($invoice, 'agreeWithTerms'); ?>
-                </div>
             </div>
 
         <?php $this->endWidget(); ?>
     </div>
+    <?php $this->renderPartial($paymentMethodRobokassa->payment_method_view, ["robokassa" => $paymentMethodRobokassa, "tariff" => $tariff]); ?>
+
+    <script>
+        $("input[type='submit']").click(function(e) {
+            e.preventDefault();
+            if($("#payment_card:checked").length === 1) {
+                proceedRobokassaPayment();
+                return false;
+            }
+            else {
+                $("#cash-month-selected").val($("#month-selected").val());
+                $("#payment-form").submit();
+            }
+        });
+    </script>
 </div>

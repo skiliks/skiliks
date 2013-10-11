@@ -415,13 +415,13 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
         );
 
         $this->assertEquals(
-            27.00, // %
+            26.00, // %
             $values['time_spend_for_non_priority_activities'],
             'time_spend_for_non_priority_activities'
         );
 
         $this->assertEquals(
-            19.00, // %
+            18.00, // %
             $values['time_spend_for_inactivity'],
             'time_spend_for_inactivity'
         );
@@ -439,7 +439,7 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
         );
 
         $this->assertEquals(
-            10, // min
+            20, // min
             $values['1st_priority_phone_calls'],
             '1st_priority_phone_calls '
         );
@@ -500,7 +500,7 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
         );
 
         $this->assertEquals(
-            58.22, // percentage
+            59.56, // percentage
             $values['efficiency'],
             'efficiency'
         );
@@ -889,12 +889,9 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
     /**
      * For debug
      */
-    public function testDebug()
-    {
-        // init simulation
-        $simulation = Simulation::model()->findByPk(431);
-
-        $p = new CheckConsolidatedBudget($simulation->id);
-        $p->calcPoints();
-    }
+=======
+//    public function testDebug()
+//    {
+//        SimulationService::CalculateTheEstimate('5230', 'mstrojkina-eksmo@mail.ru');
+//    }
 }

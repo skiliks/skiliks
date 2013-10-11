@@ -1,17 +1,36 @@
-<h2 class="thetitle text-center">Вы можете пройти демо-версию</h2>
-
-<div class="form registrationform">
-    <div class="transparent-boder">
-        <div class="radiusthree yellowbg">
-            <div class="registermessage registerpads">
-                <a class="regicon icon-check" id="registration_check" href="#"><span style="display: none"><?php echo Yii::t('site', 'Выбрать');?></span></a>
-                <h3>Демо-версия</h3>
-                <div class="testtime"><strong><?= Yii::app()->params['demoDuration'] ?></strong><br/> Минут</div>
-                <ul>
-                    <li>Погружение в игровую среду для понимания, как работает симуляция</li>
-                    <li>Знакомство с интерфейсами</li>
-                    <li>Пример итогового отчёта по оценке навыков</li>
-                </ul>
+<?php
+$isPersonal = $account_type === 'personal';
+?>
+<script type="text/javascript">$(function () {
+    $('input').focus(function () {
+        $('.form').removeClass('active');
+        $(this).parents('.form').addClass('active');
+    })
+})</script>
+<section class="registration">
+	<h2 class="shorter-title"><?php echo empty($simPassed) ? 'Зарегистрируйтесь, выбрав подходящий профиль' : 'Зарегистрируйтесь, выбрав подходящий профиль, и получите пример отчёта' ?></h2>
+	<div class="form form-account-personal" style="background-color: <?= (!$isPersonal)?'#fdfbc6':'rgb(254,227,116)'?>">
+        <a class="regicon <?= ($isPersonal)?'icon-check':'icon-chooce'?> registration_check" href="#">
+            <span style="display: <?= ($isPersonal)?'none':'block'?>" class="choose-account-button-span">
+                <?php echo Yii::t('site', 'Выбрать');?>
+            </span>
+        </a>
+	    <h1>Индивидуальный<br>профиль</h1>
+        <p class="p-chose-account-type ProximaNova-Bold">(Вы - сотрудник или соискатель)</p>
+        <ul>
+			<li class="ProximaNova-Bold"><?php echo Yii::t('site', 'Возможность получать приглашения от работодателя') ?></li>
+			<li class="ProximaNova-Bold"><?php echo Yii::t('site', 'Полная версия по приглашению') ?></li>
+			<li class="ProximaNova-Bold"><?php echo Yii::t('site', 'Демо-версия бесплатно') ?></li>
+		</ul>
+        <?php $form = $this->beginWidget('CActiveForm', array(
+            'id'                   => 'yum-user-registration-form',
+            'enableAjaxValidation' => false,
+        )); ?>
+        <div class="row">
+            <?php echo $form->error($accountPersonal, 'professional_status_id', ["class" => "errorMessage general_error registration-industry-error"]); ?>
+            <div class="field registration-personal-additional-field">
+                <?php echo $form->labelEx($accountPersonal     ,'professional_status_id', ["class" => "ProximaNova-Bold"]); ?>
+                <?php echo $form->dropDownList($accountPersonal,'professional_status_id', $statuses); ?>
             </div>
             <script>
                 var cookie = $.cookie('registration_user-want-to-start-demo');
@@ -32,86 +51,83 @@
                 });
             </script>
         </div>
+        <div class="row"></div>
+	</div>
+	<!-- --------------------------------------------------------------------------------------------------------- -->
+	<div class="form form-account-corporate" style="background-color: <?= (!$isPersonal)?'rgb(254,227,116)':'#fdfbc6'?>">
+        <a class="regicon <?= ($isPersonal)?'icon-chooce':'icon-check'?> registration_check" href="#">
+            <span style="display: <?= ($isPersonal)?'block':'none'?>;" class="choose-account-button-span">
+                <?php echo Yii::t('site', 'Выбрать');?>
+            </span>
+        </a>
+	    <h1>Корпоративный<br>профиль</h1>
+        <p class="p-chose-account-type ProximaNova-Bold">(Вы - работодатель)</p>
+	    <ul class="registration-corporate-benefits">
+			<li class="ProximaNova-Bold"><?php echo Yii::t('site', '3 симуляции бесплатно (Полная версия)') ?></li>
+            <li class="ProximaNova-Bold"><?php echo Yii::t('site', 'Пакет симуляций для оценки кандидатов и сотрудников') ?></li>
+            <li class="ProximaNova-Bold"><?php echo Yii::t('site', 'Удобный инструмент для прогресса оценки') ?></li>
+		</ul>
+	    <div class="row">
+                <?php echo $form->error($accountCorporate, 'industry_id', ["class" => "errorMessage general_error registration-industry-error"]); ?>
+            <div class="field">
+                <?php echo $form->labelEx($accountCorporate     , 'industry_id', ["class" => "ProximaNova-Bold"]); ?>
+    	        <?php echo $form->dropDownList($accountCorporate, 'industry_id', $industries); ?>
+            </div>
+	    </div>
+	</div>
+	<!-- --------------------------------------------------------------------------------------------------------- -->
+	<div style="clear:both;"></div>
+</section>
+
+<?php if($emailIsExistAndNotActivated) : ?>
+    <div id="registration-general-error" class="globalErrorMessage emailIsExistAndNotActivated ProximaNova">
+        <?=$emailIsExistAndNotActivated?>
     </div>
+<?php endif; ?>
 
-    <h6 class="minititle" id="registration_hint">
-        <span class="icon-uncheck-text"><?= Yii::t('site', 'Нажмите Далее для выбора типа аккаунта') ?></span>
-        <span class="icon-check-text" style="display: none;"><?= Yii::t('site', 'Нажмите Начать для запуска Демо') ?></span>
-    </h6>
-
-<?php $form = $this->beginWidget('CActiveForm', array(
-	'id'                   => 'yum-user-registration-form',
-	'enableAjaxValidation' => false,
-)); ?>
-
-        <div class="transparent-boder">
-            <div class="row">
-                <?php echo $form->textField($profile, 'email', ['placeholder' => $profile->getAttributeLabel('email')]); ?>
-                <?php echo $form->error($profile    , 'email'); ?>
+<div class="form registrationform">
+    <div class="transparent-boder">
+        <div class="row one-part">
+            <div class="row two-parts">
+                <?php echo $form->textField($profile, 'firstname', ['placeholder' => $profile->getAttributeLabel('firstname')]); ?>
+                <?php echo $form->error($profile, 'firstname'); ?>
             </div>
 
-
-            <div class="row">
-                <?php echo $form->passwordField($user, 'password', ['placeholder' => $user->getAttributeLabel('password')]); ?>
-                <?php echo $form->error($user        , 'password'); ?>
+            <div class="row two-parts to-right">
+                <?php echo $form->textField($profile, 'lastname', ['placeholder' => $profile->getAttributeLabel('lastname')]); ?>
+                <?php echo $form->error($profile, 'lastname'); ?>
             </div>
-
-
-            <div class="row">
-                <?php echo $form->passwordField($user, 'password_again', ['placeholder' => $user->getAttributeLabel('password_again')]); ?>
-                <?php echo $form->error($user        , 'password_again'); ?>
-            </div>
-            <div class="row" style="display: none">
-                <?php echo $form->hiddenField($user, 'is_check', ['class' => 'registration_is_check']); ?>
-            </div>
-            <div class="row">
-                <?php echo CHtml::submitButton(Yii::t('site', 'Начать'), ['id'=>'registration_switch', 'data-next'=>Yii::t('site', 'Далее'), 'data-start'=>Yii::t('site', 'Начать')]); ?>
-            </div>
-            <div style="clear:both;"></div>
-            <?php  echo $form->error($profile, 'general_error', ['class'=>'errorMessage general_error']); ?>
-            <?php //echo $form->error($profile, 'general_error', ['style'=>'position:static; display:inline-block; margin-top:5px; float:left;']); ?>
-
         </div>
+        <div class="row one-part to-left">
+            <div class="row four-parts email-input">
+                <?php echo $form->textField($profile, 'email', ['placeholder' => $profile->getAttributeLabel('email')]); ?>
+                <?php echo $form->error($profile, 'email'); ?>
+            </div>
+
+            <div class="row four-parts to-right password-input">
+                <?php echo $form->passwordField($user, 'password', ['placeholder' => $user->getAttributeLabel('password')]); ?>
+                <?php echo $form->error($user, 'password'); ?>
+            </div>
+
+            <div class="row four-parts to-right password-again-input">
+                <?php echo $form->passwordField($user, 'password_again', ['placeholder' => $user->getAttributeLabel('password_again')]); ?>
+                <?php echo $form->error($user, 'password_again'); ?>
+            </div>
+            <div class="row" id="account-type" style="display: none">
+                <input type="hidden" value="<?=$account_type?>" name="account-type">
+            </div>
+            <div class="row four-parts to-right submit-input">
+                <button type="submit" class="ProximaNova-Bold blue-submit-button registration-button"><?= Yii::t("site","Sign up") ?></button>
+            </div>
+        </div>
+        <div style="clear:both;"></div>
+        <?php  echo $form->error($user, 'general_error', ['class'=>'errorMessage general_error']); ?>
+        <?php //echo $form->error($profile, 'general_error', ['style'=>'position:static; display:inline-block; margin-top:5px; float:left;']); ?>
+
+    </div>
 
     <div class="reg terms-confirm"><?= $form->error($user, 'agree_with_terms'); ?><?= $form->checkBox($user, 'agree_with_terms', ['value' => 'yes', 'uncheckValue' => null]); ?>
         <?= $form->labelEx($user, 'agree_with_terms', ['label' => 'Я принимаю <a href="#" class="terms">Условия и Лицензионное соглашение</a>']); ?>
     </div>
-<?php $this->endWidget(); ?>
-
-</div><!-- form -->
-
-<div style="float: none; clear: both; height: 100px; width: 100%;"></div>
-
-<script type="text/javascript">
-    $('#pass-switcher').click(function(event){
-        // show * or password letters switcher {
-        event.preventDefault();
-
-        var passInput = $('#YumUser_password');
-        var passAgainInput = $('#YumUser_password_again');
-
-        if ('password' == passInput.attr('type')) {
-            passInput.clone().attr('type','text').insertAfter(passInput).prev().remove();
-        } else {
-            passInput.clone().attr('type','password').insertAfter(passInput).prev().remove();
-        }
-
-        if ('password' == passAgainInput.attr('type')) {
-            passAgainInput.clone().attr('type','text').insertAfter(passAgainInput).prev().remove();
-        } else {
-            passAgainInput.clone().attr('type','password').insertAfter(passAgainInput).prev().remove();
-        }
-        // show * or password letters switcher }
-    });
-
-    $(document).ready(function(){
-        var submit = $("#yum-user-registration-form input[type='submit']");
-        var errors = $(".errorMessage");
-        for (var i=0; i < errors.length;i++) {
-            var inp = $(errors[i]).prev("input.error");
-            $(inp).css({"border":"2px solid #bd2929"});
-            $(errors[i]).addClass($(inp).attr("id"));
-            $(submit).width($(submit).width()-2);
-        }
-    });
-</script>
+    <?php $this->endWidget(); ?>
+</div>

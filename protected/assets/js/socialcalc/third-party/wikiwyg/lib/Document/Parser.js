@@ -55,7 +55,9 @@ proto.handle_match = function(type, match) {
 
 proto.find_match = function(matched_func, type) {
     var re = this.grammar[type].match;
-    if (!re) throw new Error('no regexp for type: ' + type);
+    if (!re) {
+        throw new Error('no regexp for type: ' + type);
+    }
     var capture = this.input.match(re);
     if (capture) {
         // console.log("Found match " + type + " - " + matched_func);

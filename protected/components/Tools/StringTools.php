@@ -51,5 +51,47 @@ class StringTools
             return substr($string, 0, $max_length).'...';
         }
     }
-}
 
+    /**
+     * LAST LETTER METHOD
+     */
+
+    private static function oneDigitLastLetter($number) {   // Function, if number has only one digit
+        if($number==1)  {
+            return 0; // last digit is 1 (fe "1 месяц")
+        }
+        elseif($number==2 || $number==3 || $number==4) {
+            return 1; // last digit is 2,3,4 (fe "2 месяца")
+        }
+        else {
+            return 2; // last digit is not 1,2,3,4 (fe "5 месяцев")
+        }
+    }
+
+    private static function digitLastLetter($number) {  // Function, if number has more than one digit
+        if($number>9 && $number<21) {
+            return 2;
+        }
+        else {
+            return (self::oneDigitLastLetter(substr($number, -1)));
+        }
+    }
+
+    /**
+     * Words array should be in format "Месяц, месяца, месяцев"
+     */
+
+    public static function lastLetter($number, $words_array) {
+        if($number<10) {
+            return $words_array[self::oneDigitLastLetter($number)];		 // for didgit number
+        }
+        else {
+            return $words_array[self::digitLastLetter($number)];   // for multiple digits number
+        }
+    }
+
+    /**
+     * END OF LAST LETTER METHOD
+     */
+
+}

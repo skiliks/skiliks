@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <base href="<? Yii::app()->request->pathInfo ?>">
+    <base href="<?= Yii::app()->request->pathInfo ?>">
     <meta charset="utf-8">
     <title>Template &middot; Bootstrap</title>
     <link href="/public/admin_area/css/main.css" rel="stylesheet">

@@ -15,6 +15,7 @@
  * @property integer $status
  * @property integer $agree_with_terms
  * @property integer $is_admin
+ * @property string $ip_address
  *
  * Relations
  * @property YumProfile $profile
@@ -51,7 +52,6 @@ class YumUser extends YumActiveRecord
     public $salt;
     public $activationKey;
     public $password_changed = false;
-    public $is_check = 1;
     // ------------------------------------------------------------------------------------------------------------
 
     /**
@@ -145,6 +145,22 @@ class YumUser extends YumActiveRecord
     public function isCorporate() {
         return UserAccountCorporate::model()->findByAttributes(['user_id'=>$this->id]) === null?false:true;
     }
+
+    /**
+     * @return integer
+     */
+    public function getInvitesLeft() {
+        if($this->isCorporate()) {
+            if(strtotime($this->account_corporate->tariff_expired_at) > time()) {
+                return $this->account_corporate->getTotalAvailableInvitesLimit();
+            }
+            else {
+                return $this->account_corporate->referrals_invite_limit;
+            }
+        }
+        return 0;
+    }
+
 
     public function getAccountName() {
         if($this->isPersonal()){
@@ -310,9 +326,9 @@ class YumUser extends YumActiveRecord
         if (Yum::hasModule('profile') && $this->profile) {
             $criteria->with = array('profile');
             if (isset($this->email))
-                $criteria->addSearchCondition('profile.email', $this->email, true);
+                $criteria->addSearchCondition('profile.email', strtolower($this->email), true);
             else if ($this->profile && $this->profile->email)
-                $criteria->compare('profile.email', $this->profile->email, true);
+                $criteria->compare('profile.email', strtolower($this->profile->email), true);
         }
 
         // Show newest users first by default
@@ -339,8 +355,11 @@ class YumUser extends YumActiveRecord
             if (!$this->salt)
                 $this->salt = YumEncrypt::generateSalt();
             $this->createtime = time();
-        }
 
+            if (false === Yii::app() instanceof CConsoleApplication) {
+                $this->ip_address = $_SERVER['REMOTE_ADDR'];
+            }
+        }
         return true;
     }
 
@@ -443,7 +462,7 @@ class YumUser extends YumActiveRecord
 
         $rules[] = array('username',
             'unique',
-            'message' => Yii::t('site', "This user's name already exists."));
+            'message' => Yii::t('site', 'This user\'s name already exists.'));
         $rules[] = array(
             'username',
             'match',
@@ -780,27 +799,13 @@ class YumUser extends YumActiveRecord
             if (is_array($activationUrl) && isset($this->profile)) {
                 $activationUrl = $activationUrl[0];
                 $params['key'] = $this->activationKey;
-                $params['email'] = $this->profile->email;
+                $params['email'] = strtolower($this->profile->email);
 
                 @ $url = Yii::app()->createAbsoluteUrl($activationUrl, $params);
 
                 return $url;
             }
         }
-        return Yii::t('site', 'Activation Url cannot be retrieved');
-    }
-
-    /**
-     * @return string
-     */
-    public function getCorporationEmailVerificationUrl()
-    {
-        if ($this->isCorporate() && null !== $this->getAccount()->corporate_email) {
-            @ $url = Yii::app()->createAbsoluteUrl('registration/confirm-corporate-email');
-
-            return $url.'?activation-code='. $this->getAccount()->corporate_email_activation_code;
-        }
-
         return Yii::t('site', 'Activation Url cannot be retrieved');
     }
 

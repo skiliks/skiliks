@@ -1,7 +1,7 @@
 /*global _, Backbone, define, $, SKApp, console, SKDialogView*/
 define([
     "jquery/jquery.cookies",
-    "jquery/ajaxq",
+    "jquery/jquery.ajaxQueue",
     'game/models/SKRequestsQueue'], function (cookies, ajaxq, SKRequestsQueue) {
     "use strict";
     /**
@@ -26,13 +26,21 @@ define([
 
             requests_queue:null,
 
+            last_200_request:[],
+
+            //requests_tmp:[],
+
             request_interval_id:null,
 
             is_connected:true,
 
             try_connect:false,
 
-            dialog_window:null,
+            error_dialog:null,
+
+            success_dialog:null,
+
+            requests_timeout:10000,
 
             getAjaxParams: function (path, params, callback) {
                 try {
@@ -53,7 +61,7 @@ define([
                         async = arguments[3];
                     }
                     if (async === false) {
-                        throw new Error('Use of sync ajax request for '+ url +' does not work anymore');
+                        throw new Error ('Use of sync ajax request for '+ url +' does not work anymore');
                     }
                     if (debug_match !== null) {
                         url += '?XDEBUG_SESSION_START=' + debug_match[1];
@@ -64,8 +72,8 @@ define([
                     if(params.uniqueId === undefined) {
                         params.uniqueId = _.uniqueId('request');
                     }else{
-                        var models = SKApp.server.requests_queue.where({uniqueId:params.uniqueId, is_repeat_request:true});
-                        if(!_.isEmpty(models)) {
+                        var repeat_requests = SKApp.server.requests_queue.where({uniqueId:params.uniqueId, is_repeat_request:true});
+                        if(!_.isEmpty(repeat_requests)) {
                             params.request = 'repeat';
                         } else {
                             throw new Error(" uniqueId define but is not repeat request ");
@@ -75,6 +83,23 @@ define([
                         params.simId = SKApp.simulation.id;
                     }
                     params.time = SKApp.simulation.getGameTime({with_seconds:true});
+                    if( url !== me.api_root + me.connectPath ) {
+                        var models = SKApp.server.requests_queue.where({uniqueId:params.uniqueId});
+                        if($.isEmptyObject(models)){
+                            SKApp.server.requests_queue.add(new SKRequestsQueue({
+                                uniqueId:params.uniqueId,
+                                url:url, data:params,
+                                callback:callback,
+                                is_repeat_request:false,
+                                ajax:null,
+                                status:'padding'
+                            }));
+                        } else if(_.first(models).get('is_repeat_request')) {
+
+                        } else {
+                            throw new Error("Duplicate uniqueId - "+params.uniqueId);
+                        }
+                    }
                     return {
                         data:      params,
                         url:       url,
@@ -83,25 +108,7 @@ define([
                         xhrFields: {
                             withCredentials: true
                         },
-                        timeout: parseInt(SKApp.get('frontendAjaxTimeout')),
-                        beforeSend: function(jqXHR, settings) {
-                            if( undefined !== params.uniqueId ) {
-
-                                if( url !== me.api_root + me.connectPath ) {
-                                    var models = SKApp.server.requests_queue.where({uniqueId:params.uniqueId});
-                                    if($.isEmptyObject(models)){
-                                        SKApp.server.requests_queue.add(new SKRequestsQueue({uniqueId:params.uniqueId, url:url, data:params, callback:callback, is_repeat_request:false}));
-                                    } else if(_.first(models).get('is_repeat_request')) {
-
-                                    } else {
-                                        throw new Error("Duplicate uniqueId - "+params.uniqueId);
-                                    }
-                                }
-
-                            } else {
-                                throw new Error("uniqueId is not found");
-                            }
-                        },
+                        timeout: parseInt(me.requests_timeout),
                         success:  function (data, textStatus, jqXHR) {
                             if( data.uniqueId !== undefined ) {
 
@@ -117,7 +124,10 @@ define([
                                 }
                                 if(undefined !== callback){
                                     if(data.simulation_status !== 'interrupted'){
-                                        callback(data, textStatus, jqXHR);
+                                        //if(me.last_200_request.push(data.uniqueId)) //me.last_200_request.push(data.uniqueId);
+                                        if(me.isRunCallBack(data.uniqueId)) {
+                                            callback(data, textStatus, jqXHR);
+                                        }
                                     }else{
                                         $(window).off('beforeunload');
                                         location.assign('/simulation/exit');
@@ -134,19 +144,28 @@ define([
                             }
                         },
                         complete: function (xhr, text_status) {
-                            if ('timeout' === text_status || xhr.status === 0) {
-
+                            if (('timeout' === text_status || xhr.status === 0)  && me.is_connected) {
                                 SKApp.isInternetConnectionBreakHappent = true;
-
+                                me.is_connected = false;
                                 if( url !== me.api_root + me.connectPath && me.try_connect === false) {
-
-                                        me.dialog_window = new SKDialogView({
-                                            'message': "Пропало Интернет соединение. <br> Симуляция поставлена на паузу.<br>"+
-                                            "Пожалуйста, проверьте Интернет соединение.<br>"+
-                                            "Как только соединение восстановится, <br> мы предложим вам продолжить симуляцию",
-                                            'modal': true,
-                                            'buttons': []
+                                    var request = _.first(SKApp.server.requests_queue.where({uniqueId:params.uniqueId}));
+                                    request.set('status', 'failed');
+                                    var requests = SKApp.server.requests_queue.where({status:'padding'});
+                                        requests.forEach(function(request){
+                                            if(request.get('ajax') !== null){
+                                                request.get('ajax').abort();
+                                            }
                                         });
+
+                                        if(me.error_dialog === null) {
+                                            me.error_dialog = new SKDialogView({
+                                                'message': "Пропало Интернет соединение. <br> Симуляция поставлена на паузу.<br>"+
+                                                    "Пожалуйста, проверьте Интернет соединение.<br>"+
+                                                    "Как только соединение восстановится, <br> мы предложим вам продолжить симуляцию",
+                                                'modal': true,
+                                                'buttons': []
+                                            });
+                                        }
                                         $('.time').addClass('paused');
                                         SKApp.simulation.startPause();
                                     me.tryConnect();
@@ -154,10 +173,11 @@ define([
 
                             } else if( xhr.status === 200 ) {
                                 if( url === me.api_root + me.connectPath ) {
+                                    me.is_connected = true;
                                     me.stopTryConnect();
-                                    me.dialog_window.remove();
-                                    delete me.dialog_window;
-                                    me.dialog_window = new SKDialogView({
+                                    me.error_dialog.remove();
+                                    delete me.error_dialog;
+                                    me.success_dialog = new SKDialogView({
                                         'message': 'Соединение с интернет востановлено!',
                                         'modal': true,
                                         'buttons': [
@@ -168,10 +188,16 @@ define([
                                                             $('.time').removeClass('paused');
                                                             SKApp.server.requests_queue.each(function(request) {
                                                                 request.set('is_repeat_request', true);
-                                                                SKApp.server.api(request.get('url'), request.get('data'), request.get('callback'));
+                                                                request.set('status', 'padding');
+                                                                if(request.get('url') === '/index.php/events/getState' || request.get('url') !== '/index.php/simulation/stop'){
+                                                                    SKApp.server.apiQueue(request.get('url'), request.get('data'), request.get('callback'));
+                                                                }else{
+                                                                    SKApp.server.api(request.get('url'), request.get('data'), request.get('callback'));
+                                                                }
+
                                                             });
-                                                            me.dialog_window.remove();
-                                                            delete me.dialog_window;
+                                                            me.success_dialog.remove();
+                                                            delete me.success_dialog;
                                                         });
                                                 }
                                             }
@@ -210,7 +236,16 @@ define([
                     // this done for SKServer not to make any requests after Simulation stop
                     if(!SKApp.simulation.is_stopped || path == "simulation/stop") {
                         var ajaxParams = this.getAjaxParams(path, params, callback);
-                        return $.ajax(ajaxParams);
+                        //console.log(SKApp.server.requests_queue.where({uniqueId:ajaxParams.data.uniqueId}));
+                        var request = _.first(SKApp.server.requests_queue.where({uniqueId:ajaxParams.data.uniqueId}));
+                        var ajax = $.ajax(ajaxParams);
+                        //console.log(ajax);
+                        if(path !== this.connectPath){
+                            request.set('ajax', ajax);
+                            //this.requests_tmp.push(ajax);
+                            //console.log(request.get('ajax'));
+                        }
+                        return ajax;
                     }
                 } catch(exception) {
                     if (window.Raven) {
@@ -222,12 +257,22 @@ define([
              * Отправляет запрос на сервер или ставит его в очередь в случае, если такой запрос уже выполняется
              * @method apiQueue
              */
-            apiQueue: function (queue, path, params, callback) {
+            apiQueue: function (path, params, callback) {
                 try {
                     // this done for SKServer not to make any requests after Simulation stop
-                    if(!SKApp.simulation.is_stopped || path == "simulation/stop") {
+                    if(!SKApp.simulation.is_stopped || path === "simulation/stop") {
                         var ajaxParams = this.getAjaxParams(path, params, callback);
-                        return $.ajaxq(queue, ajaxParams);
+                        //console.log(ajaxParams);
+                        var request = _.first(SKApp.server.requests_queue.where({uniqueId:ajaxParams.data.uniqueId}));
+                        //console
+                        var ajax = $.ajaxQueue(ajaxParams);
+                        if(path !== this.connectPath){
+                            request.set('ajax', ajax);
+                            //this.requests_tmp.push(ajax);
+                            //request.get('ajax').abort();
+                        }
+
+                        return ajax;
                     }
                 } catch(exception) {
                     if (window.Raven) {
@@ -238,11 +283,12 @@ define([
 
             tryConnect: function() {
                 try {
+                    console.trace();
                     this.try_connect = true;
                     var me = this;
-                    this.request_interval_id = setInterval(function(){
-                        me.api(me.connectPath, {}, function(){});
-                    }, 5000);
+                        this.request_interval_id = setInterval(function(){
+                            me.api(me.connectPath, {}, function(){});
+                        }, 5000);
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -259,6 +305,19 @@ define([
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
                     }
+                }
+            },
+            isRunCallBack:function(uniqueId) {
+
+                if(-1 === this.last_200_request.indexOf(uniqueId)) {
+                    if(this.last_200_request.length > 200) {
+                        this.last_200_request.shift();
+                    }else{
+                        this.last_200_request.push(uniqueId);
+                    }
+                    return true;
+                }else{
+                    return false;
                 }
             }
         });

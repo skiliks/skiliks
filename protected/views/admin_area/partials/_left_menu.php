@@ -23,8 +23,14 @@
 
             ),
             array(
-                'label' => 'Заказы',
-                'url'   => ['admin_area/AdminPages/Orders'],
+                'label' => 'Рейтинг симуляций',
+                'url'   => ['admin_area/AdminPages/SimulationsRating'],
+                'visible' => true,
+
+            ),
+            array(
+                'label' => '--------------------------',
+                'url'   => ['#'],
                 'visible' => true,
 
             ),
@@ -41,8 +47,8 @@
 
             ),
             array(
-                'label' => 'Статистика',
-                'url'   => ['admin_area/AdminPages/Statistics'],
+                'label' => 'Заказы',
+                'url'   => ['admin_area/AdminPages/Orders'],
                 'visible' => true,
 
             ),
@@ -59,8 +65,8 @@
 
             ),
             array(
-                'label' => 'Импорты',
-                'url'   => ['admin_area/import'],
+                'label' => '--------------------------',
+                'url'   => ['#'],
                 'visible' => true,
 
             ),
@@ -69,7 +75,31 @@
                 'url'   => ['admin_area/live_simulations'],
                 'visible' => true,
 
-            )
+            ),
+            array(
+                'label' => 'Импорты',
+                'url'   => ['admin_area/import'],
+                'visible' => true,
+
+            ),
+            array(
+                'label' => 'Статистика',
+                'url'   => ['admin_area/AdminPages/Statistics'],
+                'visible' => true,
+
+            ),
+            array(
+                'label' => 'Очередь писем',
+                'url'   => ['admin_area/email_queue'],
+                'visible' => true,
+
+            ),
+            array(
+                'label' => 'Рефералы',
+                'url'   => ['admin_area/referrals'],
+                'visible' => true,
+
+            ),
         ),
         'htmlOptions'=>array('class'=>'nav nav-list')
     )) ?>

@@ -5,36 +5,50 @@
  */
 class DeleteSimulationsForUserCommand extends CConsoleCommand {
 
-    public function actionIndex($email, $justCheck = false)
+    public function actionIndex($email, $justCheck = '0', $simId = null)
     {
         echo "Начинаем удалять: \n";
 
-        if ($justCheck) {
-            echo "Только проверка! \n";
+        if ('0' != $justCheck) {
+            echo "Только проверка. \n";
         }
 
-        $profile = YumProfile::model()->findByAttributes(['email' => $email]);
+        $profile = YumProfile::model()->findByAttributes(['email' => strtolower($email)]);
 
         if (null === $profile) {
-            echo 'Пользователь не найден!';
+            echo 'Пользователь не найден.';
             return;
         }
 
-        $simulations = Simulation::model()->findAllByAttributes(['user_id' => $profile->user_id]);
+        $simulations = [];
+
+        if (null == $simId) {
+            $simulations = Simulation::model()->findAllByAttributes(['user_id' => $profile->user_id]);
+        } else {
+            $simulation = Simulation::model()->findByAttributes(['id' => $simId]);
+            if (null !== $simulation) {
+                $simulations = [$simulation];
+            }
+        }
+
+        if (0 == count($simulations)) {
+            echo "Симуляции не найдены. \n";
+        }
 
          // @var Simulation $sim
         foreach ($simulations as $simulation) {
 
-            echo 'удаляю ' . $simulation->id . "\n";
-
-            if (false === $justCheck) {
+            if ('0' != $justCheck) {
+                echo $simulation->id . ", ";
+            } else {
+                echo 'удаляю ' . $simulation->id . "\n";
                 SimulationService::removeSimulationData(
-                    YumProfile::model()->findByAttributes(['email' => $email])->user,
+                    YumProfile::model()->findByAttributes(['email' => strtolower($email)])->user,
                     $simulation
                 );
             }
         }
 
-        echo "Операции завершены! \n";
+        echo "\nОперации завершены. \n";
     }
 }

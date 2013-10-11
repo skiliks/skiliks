@@ -205,8 +205,8 @@ class EventService
             // Example of how to do:
             assert($task);
 
-            DayPlanService::addTask($simulation, $task->id, DayPlan::DAY_TODO);
-            
+            DayPlanService::addTask($simulation, $task->id, DayPlan::DAY_TODO, null, true);
+
             return array('result' => 1, 'eventType' => $type, 'id' => $task->id);
         } else if ($type == 'T') {
             return array('result' => 1, 'eventType' => 1);

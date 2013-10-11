@@ -6,19 +6,19 @@
  * The followings are the available columns in table 'user_account_corporate':
  * @property string $user_id
  * @property integer $industry_id
- * @property string $corporate_email
  * @property string $ownership_type
  * @property string $company_name
  * @property integer $invites_limit
- * @property boolean $is_corporate_email_verified
- * @property datetime $corporate_email_verified_at
- * @property boolean $corporate_email_activation_code
+ * @property integer $referrals_invite_limit
+ * @property datetime $tariff_expired_at
  * @property string $inn
  * @property string $cpp
  * @property string $bank_account_number
  * @property string $bic
  * @property string $preference_payment_method
  * @property string $default_invitation_mail_text
+ * @property integer $is_display_referrals_popup
+ * @property integer $is_display_tariff_expire_pop_up
  *
  * The followings are the available model relations:
  * @property YumUser $user
@@ -44,12 +44,15 @@ class UserAccountCorporate extends CActiveRecord
         $this->tariff_activated_at = (new DateTime())->format("Y-m-d H:i:s");
         $this->tariff_expired_at = (new DateTime())->modify('+30 days')->format("Y-m-d H:i:s");
 
-        $initValue = $this->invites_limit;
+        $initValue = $this->getTotalAvailableInvitesLimit();
 
         $this->invites_limit = $tariff->simulations_amount;
 
         if ($isSave) {
-            $this->save();
+
+            if(false === $this->save(false)){
+                throw new Exception("Not save Tariff");
+            }
 
             UserService::logCorporateInviteMovementAdd(
                 'Account setTariff and save',
@@ -65,20 +68,6 @@ class UserAccountCorporate extends CActiveRecord
         }
 
 
-    }
-
-    /**
-     * @return string
-     */
-    public function generateActivationKey()
-    {
-        $this->corporate_email_activation_code = YumEncrypt::encrypt(microtime().$this->corporate_email, $this->user->salt);
-
-        if (!$this->isNewRecord) {
-            $this->save(false, array('activationKey'));
-        }
-
-        return $this->corporate_email_activation_code;
     }
 
     /**
@@ -125,14 +114,10 @@ class UserAccountCorporate extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('user_id'         , 'required'),
-			//array('ownership_type'  , 'required', 'message' => Yii::t('site', 'Ownership is required')),
-			array('corporate_email' , 'required', 'message' => Yii::t('site', 'Email is required')),
-			array('corporate_email' , 'unique', 'message' => Yii::t('site', 'Email is already taken')),
-            array('corporate_email' , 'CEmailValidator', 'message' => Yii::t('site', 'Wrong email')),
-            array('corporate_email' , 'isCorporateEmail'),
-			array('industry_id'     , 'numerical', 'integerOnly'=>true),
-			array('user_id'         , 'length'   , 'max'=>10),
+			array('user_id'     , 'required', 'on' => ['insert', 'update', 'corporate']),
+			array('industry_id' , 'numerical', 'integerOnly'=>true, 'on' => ['registration', 'insert', 'update', 'corporate']),
+            array('industry_id' , 'required', 'on' => ['registration', 'corporate'], 'message' => Yii::t('site', 'Выберите отрасль')),
+			array('user_id'     , 'length'   , 'max'=>10, 'on' => ['registration', 'corporate']),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('user_id, industry_id', 'safe', 'on'=>'search'),
@@ -160,8 +145,7 @@ class UserAccountCorporate extends CActiveRecord
 	{
 		return array(
 			'user_id'             => Yii::t('site', 'User'),
-			'corporate_email'     => Yii::t('site', 'Corporate email'),
-			'industry_id'         => Yii::t('site', 'Industry'),
+			'industry_id'         => 'Отрасль',
 			'company_size_id'     => Yii::t('site', 'Размер компании'),
 			'company_description' => Yii::t('site', 'Описание компании'),
 		);
@@ -201,6 +185,14 @@ class UserAccountCorporate extends CActiveRecord
         }
     }
 
+    public function isNotPersonalEmail($attribute)
+    {
+        $userPersonal = YumProfile::model()->findByAttributes(["email" => $this->$attribute]);
+        if($userPersonal !== null && $userPersonal->user_id !== $this->user_id) {
+            $this->addError($attribute, Yii::t('site', 'Email is already taken'));
+        }
+    }
+
     /**
      * invite STATUS_PENDING - return invite
      * invite STATUS_ACCEPTED - invite spent
@@ -215,7 +207,7 @@ class UserAccountCorporate extends CActiveRecord
     {
         if (Invite::STATUS_PENDING == $invite->status) {
 
-            $initValue = $this->invites_limit;
+            $initValue = $this->getTotalAvailableInvitesLimit();
 
             $this->invites_limit++;
             $this->save(false, ['invites_limit']);
@@ -226,5 +218,49 @@ class UserAccountCorporate extends CActiveRecord
                 $initValue
             );
         }
+    }
+
+    public function decreaseLimit()
+    {
+
+        $initValue = $this->getTotalAvailableInvitesLimit();
+
+        if($this->invites_limit > 0) {
+            $this->invites_limit--;
+            $this->save(false, ['invites_limit']);
+        }
+        elseif($this->referrals_invite_limit > 0) {
+            $this->referrals_invite_limit--;
+            $this->save(false, ['referrals_invite_limit']);
+        }
+        else {
+            Yii::log("User doesn't have invites but tried to decrease it");
+            return false;
+        }
+
+        UserService::logCorporateInviteMovementAdd(
+            'increaseLimit',
+            $this->user->getAccount(),
+            $initValue
+        );
+    }
+
+    public function getTotalAvailableInvitesLimit() {
+        return $this->invites_limit + $this->referrals_invite_limit;
+    }
+
+    public function addReferralInvite($referrer_email = null) {
+
+        $initValue = $this->getTotalAvailableInvitesLimit();
+        $this->referrals_invite_limit++;
+        $this->save(false, ['referrals_invite_limit']);
+
+        UserService::logCorporateInviteMovementAdd(
+            'Регистрация реферала ' . $referrer_email,
+            $this,
+            $initValue
+        );
+
+        $this->save();
     }
 }

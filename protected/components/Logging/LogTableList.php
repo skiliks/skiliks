@@ -52,6 +52,7 @@ namespace application\components\Logging {
                 new AssessmentCalculationTable($simulation->assessment_calculation),
                 new AssessmentResultTable($simulation->assessment_aggregated),
                 new MailInboxAggregateTable($mail_inbox_aggregate),
+                new MailOutboxAggregateTable($simulation->mail_box_outbox),
                 new DocumentLogTable($simulation->log_documents),
                 new DialogLogTable($simulation->log_dialogs),
                 new MeetingLogTable($simulation->log_meetings),
@@ -69,7 +70,6 @@ namespace application\components\Logging {
                 new LogAssessment214gTable($simulation->logAssessment214g),
                 new LearningGoalGroupTable($simulation->learning_goal_group),
                 new UniversalLogTable($simulation->universal_log),
-                new MailOutboxAggregateTable($simulation->mail_box_outbox)
             ];
         }
 
@@ -79,7 +79,7 @@ namespace application\components\Logging {
          *
          * @return LogTable[]
          */
-        private function getTablesCombined()
+        private function getTablesForReport1()
         {
             $simulation = $this->simulation;
             $mail_inbox_aggregate = \LogHelper::getMailBoxAggregated($simulation);
@@ -93,6 +93,18 @@ namespace application\components\Logging {
                 new LearningAreaTable($simulation->learning_area),
                 new TimeManagementTable($simulation->time_management_aggregated),
                 new LearningGoalGroupTable($simulation->learning_goal_group),
+            ];
+        }
+
+        private function getTablesForReport2()
+        {
+            $simulation = $this->simulation;
+            $mail_inbox_aggregate = \LogHelper::getMailBoxAggregated($simulation);
+            return [
+                new \OverallRateTableReport2($simulation->assessment_overall),
+                new \ManagementSkillsReport2($simulation->learning_goal_group, $simulation->learning_area),
+                new \PerformanceAggregatedTableReport2($simulation->performance_aggregated),
+                new \TimeManagementTableReport2($simulation->time_management_aggregated),
             ];
         }
 
@@ -137,7 +149,7 @@ namespace application\components\Logging {
             return new \PHPExcel_Writer_Excel2007($xls);
         }
 
-        public function asExcelCombined($name, $simulation_id)
+        public function saveLogsAsExcelReport1($name, $simulation_id)
         {
             if(!$this->xls_file) {
                 $this->xls_file =  new \PHPExcel();
@@ -145,7 +157,7 @@ namespace application\components\Logging {
             }
 
             $sheet_counter = 0;
-            foreach ($this->getTablesCombined() as $table) {
+            foreach ($this->getTablesForReport1() as $table) {
                 if($sheet_counter >= $this->xls_file->getSheetCount()) {
                     $worksheet = new \PHPExcel_Worksheet($this->xls_file, $table->getTitle());
                     $this->xls_file->addSheet($worksheet);
@@ -177,11 +189,184 @@ namespace application\components\Logging {
             }
         }
 
+
+        public function saveLogsAsExcelReport2()
+        {
+            $companyName = $this->simulation->invite->ownerUser->getAccount()->ownership_type.
+                ' '.$this->simulation->invite->ownerUser->getAccount()->company_name;
+            $name = $this->simulation->invite->lastname . " " . $this->simulation->invite->firstname;
+            $simulation_id = $this->simulation->id;
+
+            if(!$this->xls_file) {
+                $this->xls_file =  new \PHPExcel();
+                $this->xls_file->removeSheetByIndex(0);
+            }
+
+            $sheet_counter = 0;
+            foreach ($this->getTablesForReport2() as $table) {
+                if($sheet_counter >= $this->xls_file->getSheetCount()) {
+                    $worksheet = new \PHPExcel_Worksheet($this->xls_file, $table->getTitle());
+                    $this->xls_file->addSheet($worksheet);
+                }
+                else {
+                    $worksheet = $this->xls_file->getSheet($sheet_counter);
+                }
+                $sheet_counter++;
+
+                // headers {
+
+                $worksheet->setCellValueByColumnAndRow(0, 1, "Наименование Компании");
+                $worksheet->setCellValueByColumnAndRow(1, 1, "ФИО");
+                $worksheet->setCellValueByColumnAndRow(2, 1, "ID симуляции");
+
+                $worksheet->getStyleByColumnAndRow(0, 1)
+                    ->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $worksheet->getStyleByColumnAndRow(1, 1)
+                    ->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $worksheet->getStyleByColumnAndRow(2, 1)
+                    ->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+
+                $worksheet->getStyleByColumnAndRow(0, 1)
+                    ->getBorders()->getOutline()->setBorderStyle(\PHPExcel_Style_Border::BORDER_THIN);
+                $worksheet->getStyleByColumnAndRow(1, 1)
+                    ->getBorders()->getOutline()->setBorderStyle(\PHPExcel_Style_Border::BORDER_THIN);
+                $worksheet->getStyleByColumnAndRow(2, 1)
+                    ->getBorders()->getOutline()->setBorderStyle(\PHPExcel_Style_Border::BORDER_THIN);
+
+                $worksheet->getStyleByColumnAndRow(0, 1)
+                    ->getBorders()->getTop()->setBorderStyle(\PHPExcel_Style_Border::BORDER_THICK);
+                $worksheet->getStyleByColumnAndRow(1, 1)
+                    ->getBorders()->getTop()->setBorderStyle(\PHPExcel_Style_Border::BORDER_THICK);
+                $worksheet->getStyleByColumnAndRow(2, 1)
+                    ->getBorders()->getTop()->setBorderStyle(\PHPExcel_Style_Border::BORDER_THICK);
+
+                $titles = [];
+
+                foreach ($table->getHeaders() as $i => $title) {
+                    $titles[$i + 3] = $title;
+                    // this is done because we already have 2 headers for first two fields
+                    $worksheet->setCellValueByColumnAndRow($i + 3, 1, $title);
+
+                    $worksheet->getStyleByColumnAndRow($i + 3, 1)
+                        ->getBorders()->getOutline()->setBorderStyle(\PHPExcel_Style_Border::BORDER_THIN);
+
+                    $worksheet->getStyleByColumnAndRow($i + 3, 1)
+                        ->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+
+                    $worksheet->getStyleByColumnAndRow($i + 3, 1)
+                        ->getBorders()->getTop()->setBorderStyle(\PHPExcel_Style_Border::BORDER_THICK);
+                }
+
+                // левая боковая толстая линия
+                $worksheet->getStyleByColumnAndRow(0, 1)
+                    ->getBorders()->getLeft()->setBorderStyle(\PHPExcel_Style_Border::BORDER_THICK);
+
+                // правая боковая толстая линия
+                $worksheet->getStyleByColumnAndRow($i + 3, 1)
+                    ->getBorders()->getRight()->setBorderStyle(\PHPExcel_Style_Border::BORDER_THICK);
+
+                // headers }
+
+                $user = null;
+                $isNeedThinLine = false;
+
+                foreach ($table->getData() as $i => $row) {
+
+                    if ($user != $name) {
+                        $user = $name;
+                        $isNeedThinLine = true;
+                    } else {
+                        $isNeedThinLine = false;
+                    }
+
+                    // standard columns values (name, fio, sim_id) {
+                    $highest = $worksheet->getHighestRow()+1;
+                    $worksheet->setCellValueByColumnAndRow(0, $highest, $companyName, true);
+                    $worksheet->setCellValueByColumnAndRow(1, $highest, $name, true);
+                    $worksheet->setCellValueByColumnAndRow(2, $highest, $simulation_id, true);
+
+                    $worksheet->getStyleByColumnAndRow(0, $highest)
+                        ->getBorders()->getOutline()->setBorderStyle(\PHPExcel_Style_Border::BORDER_THIN);
+                    $worksheet->getStyleByColumnAndRow(1, $highest)
+                        ->getBorders()->getOutline()->setBorderStyle(\PHPExcel_Style_Border::BORDER_THIN);
+                    $worksheet->getStyleByColumnAndRow(2, $highest)
+                        ->getBorders()->getOutline()->setBorderStyle(\PHPExcel_Style_Border::BORDER_THIN);
+
+                    $worksheet->getStyleByColumnAndRow(2, $highest)
+                        ->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+
+                    if ($isNeedThinLine) {
+                        $worksheet->getStyleByColumnAndRow(0, $highest)
+                            ->getBorders()->getTop()->setBorderStyle(\PHPExcel_Style_Border::BORDER_THICK);
+                        $worksheet->getStyleByColumnAndRow(1, $highest)
+                            ->getBorders()->getTop()->setBorderStyle(\PHPExcel_Style_Border::BORDER_THICK);
+                        $worksheet->getStyleByColumnAndRow(2, $highest)
+                            ->getBorders()->getTop()->setBorderStyle(\PHPExcel_Style_Border::BORDER_THICK);
+                    }
+
+                    $worksheet->getStyleByColumnAndRow(0, $highest)
+                        ->getBorders()->getLeft()->setBorderStyle(\PHPExcel_Style_Border::BORDER_THICK);
+
+                    // standard columns values (name, fio, sim_id) }
+
+                    // рисуем строку
+                    foreach ($row as $j => $value) {
+                        $worksheet->setCellValueByColumnAndRow($j + 3, $highest, $value, true);
+                        $worksheet->getStyleByColumnAndRow($j + 3, $worksheet->getHighestRow())
+                            ->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+
+                        $worksheet->getStyleByColumnAndRow($j + 3, $worksheet->getHighestRow())
+                            ->getNumberFormat()->setFormatCode($table->getCellValueFormat($j, $i));
+
+                        $worksheet->getStyleByColumnAndRow($j + 3, $highest)
+                        ->getBorders()->getAllBorders()->setColor(new \PHPExcel_Style_Color(\PHPExcel_Style_Color::COLOR_BLACK));
+
+                        $worksheet->getStyleByColumnAndRow($j + 3, $highest)
+                        ->getBorders()->getOutline()->setBorderStyle(\PHPExcel_Style_Border::BORDER_THIN);
+
+                        if ($isNeedThinLine) {
+                            $worksheet->getStyleByColumnAndRow($j + 3, $highest)
+                                ->getBorders()->getTop()->setBorderStyle(\PHPExcel_Style_Border::BORDER_THICK);
+                        }
+
+                        // Значения в колонке 'Шкала оценки' на листе "Управленческие навыки" должны
+                        // быть выровненны по центру, а у нас нет для выравнивания признака в $table->row
+                        if ('Шкала оценки' == $titles[$j + 3]) {
+                            $worksheet->getStyleByColumnAndRow($j + 3, $worksheet->getHighestRow())
+                                ->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                        }
+                    }
+
+                    $worksheet->getStyleByColumnAndRow($j + 3, $worksheet->getHighestRow())
+                        ->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+
+                    $worksheet->getStyleByColumnAndRow($j + 3, $worksheet->getHighestRow())->getFill()
+                        ->applyFromArray(array('type' => \PHPExcel_Style_Fill::FILL_SOLID,
+                            'startcolor' => array('rgb' => 'FFFF99')
+                        ));
+
+                    // правая боковая толстая линия
+                    $worksheet->getStyleByColumnAndRow($j + 3, $worksheet->getHighestRow())
+                        ->getBorders()->getRight()->setBorderStyle(\PHPExcel_Style_Border::BORDER_THICK);
+                }
+
+                $worksheet->getStyle('A1:Z1')->applyFromArray(['font' => ['bold' => true]]);
+                foreach ($table->getHeaderWidth() as $i => $value) {
+                    $worksheet->getColumnDimensionByColumn($i)
+                        ->setWidth($value);
+
+                    // нижняя толстая линия ограничивающая группу оценок одного человека
+                    $worksheet->getStyleByColumnAndRow($i, $highest)
+                        ->getBorders()->getBottom()->setBorderStyle(\PHPExcel_Style_Border::BORDER_THICK);
+                }
+            }
+        }
+
         public function returnXlsFile() {
             return new \PHPExcel_Writer_Excel2007($this->xls_file);
         }
 
-        public function setSimulationId($simulation) {
+        public function setSimulation($simulation) {
             $this->simulation = $simulation;
         }
 

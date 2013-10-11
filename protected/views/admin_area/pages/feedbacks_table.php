@@ -3,6 +3,7 @@
     'Сообщение',
     'Email отправителя',
     'Дата создания',
+    'IP Address'
 ] ?>
 <div class="row fix-top">
     <h2>Отзывы</h2>
@@ -33,6 +34,7 @@
                 <td><?= $feedback->message ?></td>
                 <td><?= $feedback->email ?></td>
                 <td><?= $feedback->addition ?></td>
+                <td><?= ($feedback->ip_address !== null) ? $feedback->ip_address : '-' ?></td>
             </tr>
         <?php endforeach ?>
         </tbody>

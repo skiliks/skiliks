@@ -100,17 +100,109 @@ $(document).ready(function(){
         $(".clear_filter_button").parent("form").submit();
     });
 
-$("#add_invites_button").click(function(e) {
-    e.preventDefault();
-    if(!isNaN(parseInt($("#add_invites_button").prev('input').val()))) {
-        $("#add_invites_button").parent('form').attr('action', $("#add_invites_button").parent('form').attr('action')+
-            $("#add_invites_button").prev('input').val());
-        $("#add_invites_button").parent('form').submit();
-    }
-    else {
-        alert("Необходимо ввести количество инвайтов");
+    $("#add_invites_button").click(function(e) {
+        e.preventDefault();
+        if(!isNaN(parseInt($("#add_invites_button").prev('input').val()))) {
+            $("#add_invites_button").parent('form').attr('action', $("#add_invites_button").parent('form').attr('action')+
+                $("#add_invites_button").prev('input').val());
+            $("#add_invites_button").parent('form').submit();
+        }
+        else {
+            alert("Необходимо ввести количество инвайтов");
+            return false;
+        }
+    });
+
+    $(".complete-invoice").click(function() {
+        var clickedButton = $(this);
+        if(confirm("Вы действительно подтверждаете оплату инвойса №"+clickedButton.attr("data-invoice-id")+"("+ "Заказ тарифа "+clickedButton.attr("data-tariff")+", на "+clickedButton.attr("data-months")+" месяц(ев) создан для "+clickedButton.attr("data-user-email")+")"+"?")) {
+            clickedButton.addClass("disabled");
+            $.getJSON( "/admin_area/completeInvoice", {invoice_id : clickedButton.attr("data-invoice-id")})
+                .done(function(data) {
+                    clickedButton.closest("tr").find(".invoice-date-paid").html(data.paidAt);
+                    clickedButton.hide();
+                    clickedButton.removeClass("disabled");
+                    clickedButton.parent("td").find(".disable-invoice").toggle();
+                })
+                .fail(function() {
+                    alert("В процессе обработки возникла ошибка.");
+                });
+        }
+    });
+
+    $(".disable-invoice").click(function() {
+        var clickedButton = $(this);
+        if(confirm("Вы действительно хотите отменить оплату инвойса №"+clickedButton.attr("data-invoice-id")+"("+ "Заказ тарифа "+clickedButton.attr("data-tariff")+", на "+clickedButton.attr("data-months")+" месяц(ев) создан для "+clickedButton.attr("data-user-email")+")"+"?")) {
+            clickedButton.addClass("disabled");
+            $.getJSON( "/admin_area/disableInvoice", {invoice_id : clickedButton.attr("data-invoice-id")})
+                .done(function(data) {
+                    clickedButton.closest("tr").find(".invoice-date-paid").html("Не оплачен");
+                    clickedButton.hide();
+                    clickedButton.removeClass("disabled");
+                    clickedButton.parent("td").find(".complete-invoice").toggle();
+                })
+                .fail(function() {
+                    alert("В процессе обработки возникла ошибка.");
+                });
+        }
+    });
+
+    $(".change-comment-button").click(function() {
+        var clickedButton = $(this);
+        changedTextarea = clickedButton.closest("tr").find(".invoice-comment");
+        clickedButton.addClass("disabled");
+        changedTextarea.addClass("disabled");
+        $.post( "/admin_area/invoiceComment", {invoice_id : clickedButton.attr("data-invoice-id"), invoice_comment : changedTextarea.val()})
+            .done(function() {
+                clickedButton.removeClass("disabled");
+                clickedButton.html("Сохранено");
+                setTimeout(function() {
+                    clickedButton.html("Сохранить");
+                    }, 1500)
+            })
+            .fail(function() {
+                alert("В процессе обработки возникла ошибка.");
+            });
+    });
+
+    $(".view-payment-log").click(function() {
+        var clickedButton = $(this);
+        clickedButton.addClass("disabled");
+        $.getJSON( "/admin_area/getInvoiceLog", {invoice_id : clickedButton.attr("data-invoice-id")})
+            .done(function(data) {
+                clickedButton.removeClass("disabled");
+                if(data.log != "") {
+                    $("#myModalLabel").html("Логи для инвойса №"+clickedButton.attr("data-invoice-id"));
+                    $("#myModalBody").html(data.log);
+                    $('#myModal').modal('show');
+                }
+                else {
+                    alert("Для данного инвойса нет логов.");
+                }
+            })
+            .fail(function() {
+                alert("В процессе обработки возникла ошибка.");
+            });
+    });
+
+    $(".btn-check-all").click(function() {
+        $(this).parents("tr").find("input[type='checkbox']").prop('checked', true);
         return false;
-    }
-})
+    });
+
+    $(".btn-uncheck-all").click(function() {
+        $(this).parents("tr").find("input[type='checkbox']").prop('checked', false);
+        return false;
+    });
+
+    $(".disable-filters").click(function() {
+        window.location.href = "/admin_area/orders?disable_filters=true";
+        return false;
+    })
+
+    $(".disable-all-filters").click(function() {
+        window.location.href = "/admin_area/" + $(this).attr("data-href");
+        return false;
+    })
 
 });

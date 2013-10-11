@@ -201,7 +201,7 @@ define([
             timeStringToMinutes: function(str) {
                 try {
                     if (str === undefined) {
-                        throw new Error('Time string is not defined');
+                        throw new Error ('Time string is not defined');
                     }
                     var parts = str.split(':');
                     return parseInt(parts[0], 10) * 60 + parseInt(parts[1], 10);
@@ -216,9 +216,10 @@ define([
                 try {
                     var me = this,
                         doc;
-
+                    console.log("savePlan");
                     if (me.dayPlanDocId) {
-                        doc = me.documents.where({id: me.dayPlanDocId})[0];
+                        console.log("me.dayPlanDocId", me.dayPlanDocId)
+                        doc = _.first(me.documents.where({id: me.dayPlanDocId}));
                         delete SKDocument._excel_cache[me.dayPlanDocId];
                         me.documents.remove(doc);
                     }
@@ -288,6 +289,23 @@ define([
                 try {
                     var me = this;
                     this.events.on('event:plan', function (event) {
+
+                        _.each(me.todo_tasks.models, function(data) {
+                            data.isNewTask = false;
+                        });
+
+                        var newTasks = me.todo_tasks.where({id : event.id});
+                        _.each(newTasks, function(data) {
+                            me.todo_tasks.remove(data);
+                        });
+
+                        _.each(SKApp.simulation.dayplan_tasks.models, function(model) {
+                            if(model.id == event.id) {
+                                model.isNewTask = true;
+                                SKApp.simulation.window_set.makeCloseAndOpen('plan', 'plan');
+                            }
+                        });
+
                         me.todo_tasks.fetch({update: true});
                     });
                     this.events.on('event:mail', function () {
@@ -392,7 +410,7 @@ define([
                     var me = this;
                     var logs = this.windowLog.getAndClear();
 
-                    SKApp.server.apiQueue('events', 'events/getState', {
+                    SKApp.server.apiQueue('events/getState', {
                         logs:             logs,
                         timeString:       this.getGameMinutes(),
                         eventsQueueDepth: $("#events-queue-depth").val()
@@ -438,11 +456,12 @@ define([
                         screen_resolution:window.screen.availWidth+'x'+window.screen.availHeight,
                         window_resolution:window.screen.width+'x'+window.screen.height
                     }, function (data) {
+                        SKApp.server.requests_timeout = SKApp.get("frontendAjaxTimeout");
                         var nowDate = new Date(),
                             win;
 
                         if (me.start_time !== undefined) {
-                            throw new Error('Simulation already started');
+                            throw new Error ('Simulation already started');
                         }
 
                         if ('undefined' !== typeof data.simId) {
@@ -493,14 +512,14 @@ define([
             'stop':function () {
                 try {
                     var me = this;
-                    SKApp.set('frontendAjaxTimeout', 180*1000); // 180sec
+                    SKApp.server.requests_timeout = SKApp.get("simStopTimeout");
                     me._stopTimer();
                     me.is_stopped = true;
                     this.window_set.deactivateActiveWindow();
 
                     var logs = this.windowLog.getAndClear();
 
-                    SKApp.server.apiQueue('events', 'simulation/stop', {'logs':logs}, function () {
+                    SKApp.server.apiQueue('simulation/stop', {'logs':logs}, function () {
                         /**
                          * Симуляция уже остановлена
                          * @event stop

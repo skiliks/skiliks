@@ -402,9 +402,9 @@ class SimulationService
             $row->sim_id = $simulation->id;
             $row->category_id = $cid;
             $row->value = $value;
-            $row->percent = round($value / $categoryRates[$cid] * 100);
+            $row->percent = round($value / $categoryRates[$cid] * 100, 6);
 
-            $row->save();
+            $row->save(false);
         }
     }
 
@@ -542,7 +542,11 @@ class SimulationService
 
         // Создаем новую симуляцию
         $simulation = new Simulation();
-        $simulation->user_id = $invite->receiverUser->id;
+
+        // for Demo
+        if (null !== $invite->receiverUser) {
+            $simulation->user_id = $invite->receiverUser->id;
+        }
         $simulation->start = GameTime::setNowDateTime();
         $simulation->mode = Simulation::MODE_DEVELOPER_LABEL === $simulationMode ? Simulation::MODE_DEVELOPER_ID : Simulation::MODE_PROMO_ID;
         $simulation->scenario_id = Scenario::model()->findByAttributes(['slug' => $scenarioType])->primaryKey;
@@ -581,11 +585,11 @@ class SimulationService
 
             // Списание инвайта с коропративного аккаунта, если он начинает сам свою симуляцию
             // не в dev режиме
-            if ($invite->ownerUser->isCorporate()
+            if (null !== $invite->ownerUser && $invite->ownerUser->isCorporate()
                 && Scenario::TYPE_TUTORIAL == $scenarioType
                 && $simulationMode != Simulation::MODE_DEVELOPER_LABEL
                 && $invite->ownerUser->id == $invite->receiverUser->id) {
-                $invite->ownerUser->getAccount()->invites_limit--;
+                $invite->ownerUser->getAccount()->decreaseLimit();
                 $invite->ownerUser->getAccount()->save(false);
             }
 
@@ -731,6 +735,8 @@ class SimulationService
 
             $simulation->saveLogsAsExcel();
 
+            $simulation->calculatePercentile();
+
             self::logAboutSim($simulation, 'sim stop: assessment calculated');
         }
 
@@ -742,9 +748,12 @@ class SimulationService
         }
 
         if ($simulation->isFull()) {
-            $simulation->invite->can_be_reloaded = false;
-            $simulation->invite->save(false);
-            InviteService::logAboutInviteStatus($simulation->invite, 'invite : updated : can be reloaded set to false');
+            $tmpInvite = $simulation->invite;
+            $tmpInvite->can_be_reloaded = false;
+            $tmpInvite->save(false);
+            InviteService::logAboutInviteStatus($tmpInvite, 'invite : updated : can be reloaded set to false');
+            unset($tmpInvite);
+            $simulation->invite->refresh();
         }
 
         // remove all files except D1 - Сводный бюджет 2013 {
@@ -946,6 +955,7 @@ class SimulationService
         SimulationLearningGoalGroup::model()->deleteAllByAttributes(['sim_id' => $simId]);
         AssessmentOverall::model()->deleteAllByAttributes(['sim_id' => $simId]);
         LogAssessment214g::model()->deleteAllByAttributes(['sim_id' => $simId]);
+
         SimulationService::simulationStop($simulation, [], true);
     }
 
@@ -1006,7 +1016,9 @@ class SimulationService
         }
 
         // add user_id {
-        if (null !== Yii::app()->user && null !== Yii::app()->user->data() && Yii::app()->user->data()->id) {
+        if (false == Yii::app() instanceof CConsoleApplication
+            && null !== Yii::app()->user
+            && null !== Yii::app()->user->data() && Yii::app()->user->data()->id) {
             $log->user_id = Yii::app()->user->data()->id;
         } else {
             $comment .= "Undefined user_id!\n";
@@ -1088,20 +1100,36 @@ class SimulationService
 
         UniversalLog::model()->deleteAllByAttributes(['sim_id' => $simId]);
 
-        $simulation->invite->delete();
+        if (null !== $simulation->invite) {
+            $simulation->invite->delete();
+        }
+
         $simulation->delete();
     }
 
-    public static function saveLogsAsExcelCombined($simulations = array()) {
+    public static function saveLogsAsExcelReport1($simulations = array()) {
         if(!empty($simulations)) {
             $logTableList = new LogTableList();
             foreach($simulations as $simulation) {
-                $logTableList->setSimulationId($simulation);
-                $user_fullname = $simulation->user->profile->firstname . " " . $simulation->user->profile->lastname;
-                $logTableList->asExcelCombined($user_fullname, $simulation->id);
+                $logTableList->setSimulation($simulation);
+                $user_fullname = (empty($simulation->user))?'Аноним':$simulation->user->profile->firstname . " " . $simulation->user->profile->lastname;
+                $logTableList->saveLogsAsExcelReport1($user_fullname, $simulation->id);
             }
             $excelWriter = $logTableList->returnXlsFile();
-            $excelWriter->save(__DIR__.'/../logs/combined-log.xlsx');
+            $excelWriter->save(__DIR__.'/../logs/combined-log_report-1.xlsx');
+            return true;
+        }
+    }
+
+    public static function saveLogsAsExcelReport2($simulations = array()) {
+        if(!empty($simulations)) {
+            $logTableList = new LogTableList();
+            foreach($simulations as $simulation) {
+                $logTableList->setSimulation($simulation);
+                $logTableList->saveLogsAsExcelReport2();
+            }
+            $excelWriter = $logTableList->returnXlsFile();
+            $excelWriter->save(__DIR__.'/../logs/combined-log_report-2.xlsx');
             return true;
         }
     }

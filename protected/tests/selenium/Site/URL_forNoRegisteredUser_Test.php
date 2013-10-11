@@ -11,14 +11,14 @@ class URL_forNoRegisteredUser_Test extends SeleniumTestHelper
     public function test_for_no_registered_user()
     {
         $buttons_text = array('Главная','О нас','О продукте','Главная', 'О нас', 'О продукте', 'Вход');
-        $text_inside= array('Самый','Познакомьтесь – наша команда','Мы создали онлайн бизнес симуляцию', 'Самый','Познакомьтесь – наша команда','Мы создали онлайн бизнес симуляцию','Запомнить меня');
-        $buttons_xpath = array ("xpath=//*[@id='yw0']/li[1]/a", "xpath=//*[@id='yw0']/li[2]/a", "xpath=//*[@id='yw0']/li[3]/a", "xpath=//*[@id='yw2']/li[1]/a", "xpath=//*[@id='yw2']/li[2]/a", "xpath=//*[@id='yw2']/li[3]/a", "xpath=//*[@id='yw1']/li[2]/a");
+        $text_inside= array('Простой','Познакомьтесь','Мы создали', 'Простой','Познакомьтесь','Мы создали','Запомнить меня');
+        $buttons_xpath = array ("xpath=//*[@id='yw0']/li[1]/a", "xpath=//*[@id='yw0']/li[2]/a", "xpath=//*[@id='yw0']/li[3]/a", "xpath=//*[@id='yw2']/li[1]/a", "xpath=//*[@id='yw2']/li[2]/a", "xpath=//*[@id='yw2']/li[3]/a", "xpath=//*[@id='yw1']/li[3]/a");
         $all_buttons = array($buttons_xpath, $buttons_text, $text_inside);
 
         $buttons_text_en = array('Home','About Us','Product','Home', 'About Us', 'Product');
-        $text_inside_en= array('easiest','Meet','About the Product', 'easiest','Meet','About the Product');
-        $buttons_xpath_en = array ("xpath=//*[@id='yw0']/li[1]/a", "xpath=//*[@id='yw0']/li[2]/a", "xpath=//*[@id='yw0']/li[3]/a", "xpath=//*[@id='yw2']/li[1]/a", "xpath=//*[@id='yw2']/li[2]/a", "xpath=//*[@id='yw2']/li[3]/a", "xpath=//*[@id='yw1']/li[2]/a");
-        $all_buttons_en = array($buttons_xpath_en, $buttons_text_en, $text_inside_en);
+        $text_inside_en= array('Easy','Meet','About the Product', 'Easy','Meet','About the Product');
+        $buttons_xpath_en = array ("xpath=//*[@id='yw0']/li[1]/a", "xpath=//*[@id='yw0']/li[2]/a", "xpath=//*[@id='yw0']/li[3]/a", "xpath=//*[@id='yw2']/li[1]/a", "xpath=//*[@id='yw2']/li[2]/a", "xpath=//*[@id='yw2']/li[3]/a", "xpath=//*[@id='yw1']/li[3]/a");
+    $all_buttons_en = array($buttons_xpath_en, $buttons_text_en, $text_inside_en);
 
         $this->deleteAllVisibleCookies();
         $this->windowMaximize();

@@ -7971,7 +7971,7 @@ $.widget( "ui.tabs", {
 
 				self.load( self.anchors.index( this ) );
 			} else {
-				throw new Error("jQuery UI Tabs: Mismatching fragment identifier.");
+                throw new Error("jQuery UI Tabs: Mismatching fragment identifier.");
 			}
 
 			// Prevent IE from keeping other link focussed when using the back button
@@ -8760,7 +8760,7 @@ $.extend(Datepicker.prototype, {
 			return $.data(target, PROP_NAME);
 		}
 		catch (err) {
-			throw new Error('Missing instance data for this datepicker');
+            throw new Error('Missing instance data for this datepicker');
 		}
 	},
 
@@ -9338,7 +9338,7 @@ $.extend(Datepicker.prototype, {
 			var digits = new RegExp('^\\d{1,' + size + '}');
 			var num = value.substring(iValue).match(digits);
 			if (!num)
-				throw new Error('Missing number at position ' + iValue);
+                throw new Error('Missing number at position ' + iValue);
 			iValue += num[0].length;
 			return parseInt(num[0], 10);
 		};
@@ -9361,12 +9361,12 @@ $.extend(Datepicker.prototype, {
 			if (index != -1)
 				return index + 1;
 			else
-				throw new Error('Unknown name at position ' + iValue);
+                throw new Error('Unknown name at position ' + iValue);
 		};
 		// Confirm that a literal character matches the string value
 		var checkLiteral = function() {
 			if (value.charAt(iValue) != format.charAt(iFormat))
-				throw new Error('Unexpected literal at position ' + iValue);
+                throw new Error('Unexpected literal at position ' + iValue);
 			iValue++;
 		};
 		var iValue = 0;
@@ -9419,7 +9419,7 @@ $.extend(Datepicker.prototype, {
 				}
 		}
 		if (iValue < value.length){
-			throw new Error("Extra/unparsed characters found in date: " + value.substring(iValue));
+            throw new Error("Extra/unparsed characters found in date: " + value.substring(iValue));
 		}
 		if (year == -1)
 			year = new Date().getFullYear();
@@ -9439,7 +9439,7 @@ $.extend(Datepicker.prototype, {
 		}
 		var date = this._daylightSavingAdjust(new Date(year, month - 1, day));
 		if (date.getFullYear() != year || date.getMonth() + 1 != month || date.getDate() != day)
-			throw new Error('Invalid date'); // E.g. 31/02/00
+            throw new Error('Invalid date'); // E.g. 31/02/00
 		return date;
 	},
 

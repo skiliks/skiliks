@@ -1616,6 +1616,7 @@ ul.main-screen-stat li img{
     z-index: 200;
 }
 .main-screen-icons ul li{
+    cursor: pointer;
     background-repeat:no-repeat;
     background-position:5px 5px;
     -webkit-border-radius:14px;
@@ -1655,7 +1656,7 @@ ul.main-screen-stat li img{
 	filter: "progid:DXImageTransform.Microsoft.gradient(enabled=false)";
 	-webkit-gradient:none;
 }
-.main-screen-icons ul li a{
+.main-screen-icons ul li span.icon{
     display:block;
     -webkit-border-radius:12px;
     -moz-border-radius:12px;
@@ -1667,7 +1668,7 @@ ul.main-screen-stat li img{
     height:78px;
     position:relative;
 }
-.main-screen-icons ul li a span{
+.main-screen-icons ul li span.icon span.counter{
     background:url("../img/main-screen/bg-new.png") no-repeat 0 0;
     width:30px;
     height:31px;

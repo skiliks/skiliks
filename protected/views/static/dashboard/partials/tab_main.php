@@ -1,13 +1,15 @@
 <div class="textcener"><h2 class="total">Итоговый рейтинг менеджера</h2></div>
 <div class="allsummry">
+    <div class="overall percentil_overall_container">
+            <span class="percentil_base">
+                <span class="percentil_overall tab_main_popup" style="width:0;"></span>
+            </span>
+            <div class="percentil_text">P0</div>
+    </div>
+    <div class="clear: both"></div>
     <div class="estmtresults">
         <div class="overall">
             <span class="allratebg"><span class="allrating" style="width:30%"></span></span> <span class="blockvalue"><span class="value"></span>%</span>
-            <div class="allseprtwrap">
-                <div class="ratepercnt uprnavprcnt"><?= round($data['management']*100) ?>%</div>
-                <div class="ratepercnt resultprcnt"><?= round($data['performance']*100) ?>%</div>
-                <div class="ratepercnt timeprcnt"><?= round($data['time']*100) ?>%</div>
-            </div>
         </div>
     </div><!-- /estmtresults -->
     <div class="estmtileswrap">
@@ -63,8 +65,8 @@
 
             $('.overall .value').html(r(AR.overall || 0));
             $('.allrating').css('width', (AR.overall || 0) + '%');
+            $('.tab_main_popup.percentil_overall').css('width', (AR.percentile.total || 0) + '%');
+            $('.percentil_text').html("P"+r(AR.percentile.total));
         }, 500);
     });
-
-
 </script>

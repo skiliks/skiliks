@@ -42,7 +42,7 @@ define(["text!game/jst/window.jst"],
         initialize: function () {
             try {
                 if (this.options.model_instance === undefined) {
-                    throw new Error('You need to pass model_instance');
+                    throw new Error ('You need to pass model_instance');
                 }
                 var sim_window = this.make('div', {"class": 'sim-window' + (this.addClass ? ' ' + this.addClass : ''), "id":(this.addId ? this.addId : '')});
                 this.$container = $(this.container);
@@ -101,7 +101,7 @@ define(["text!game/jst/window.jst"],
             // Do nothing
         },
         renderContent: function (el) {
-            throw new Error('You need to override it');
+            throw new Error ('You need to override it');
         },
         remove: function () {
             var me = this;
@@ -346,6 +346,8 @@ define(["text!game/jst/window.jst"],
 
         doVolumeChange:function(event) {
             try {
+                event.preventDefault();
+                event.stopPropagation();
                 if($(event.currentTarget).hasClass('volume-on')){
                     $(event.currentTarget).text("Выкл.");
                     if($(event.currentTarget).hasClass('control-mail')) {
@@ -379,7 +381,6 @@ define(["text!game/jst/window.jst"],
                 }else{
                     throw new Error("Must has class 'volume-off' or 'volume-on'");
                 }
-                return false;
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);

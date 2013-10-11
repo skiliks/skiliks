@@ -77,7 +77,7 @@ class EmailsSub extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('email',$this->email);
+		$criteria->compare('email',strtolower($this->email));
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -91,7 +91,7 @@ class EmailsSub extends CActiveRecord
     public function findByEmail($email)
     {
         return $this->findByAttributes([
-            'email' => $email
+            'email' => strtolower($email)
         ]);
     }
 }

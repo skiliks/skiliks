@@ -10,11 +10,18 @@
         </div>
         */?>
         <a href="#" data-href="/simulation/promo/lite/<?= $notUsedLiteSimulationInvite->id ?>"
-           class="start-lite-simulation-btn start-lite-simulation-btn-no-margin light-btn">
+           class="start-lite-simulation-btn start-lite-simulation-btn-no-margin start-lite-in-personal light-btn">
             Пройти демо (<?= Yii::app()->params['demoDuration'] ?> мин)
         </a>
 
-        <h1 class="thetitle">Полученные приглашения</h1>
+        <h1 class="thetitle received-invites-personal">Полученные приглашения</h1>
+        <div class="change-simulation-result-render ProximaNova-Bold" style="margin-top:-15px;">
+            <?php if($user->profile->assessment_results_render_type == "standard") : ?>
+                Относительный рейтинг
+            <?php else : ?>
+                Абсолютный рейтинг
+            <?php endif ?>
+        </div>
         <?php
             // _private_invitations_list_box
         $this->renderPartial('_private_invitations_list_box', [])

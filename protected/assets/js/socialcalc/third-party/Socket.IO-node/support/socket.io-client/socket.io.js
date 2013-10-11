@@ -1939,7 +1939,7 @@ var swfobject=function(){var D="undefined",r="object",S="Shockwave Flash",W="Sho
    */
   WebSocket.prototype.send = function(data) {
     if (this.readyState == WebSocket.CONNECTING) {
-      throw new Error("INVALID_STATE_ERR: Web Socket connection has not been established");
+        throw new Error("INVALID_STATE_ERR: Web Socket connection has not been established");
     }
     // We use encodeURIComponent() here, because FABridge doesn't work if
     // the argument includes some characters. We don't use escape() here
@@ -2040,7 +2040,7 @@ var swfobject=function(){var D="undefined",r="object",S="Shockwave Flash",W="Sho
       var data = decodeURIComponent(flashEvent.message);
       jsEvent = this.__createMessageEvent("message", data);
     } else {
-      throw new Error("unknown event type: " + flashEvent.type);
+        throw new Error("unknown event type: " + flashEvent.type);
     }
     
     this.dispatchEvent(jsEvent);
