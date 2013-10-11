@@ -453,8 +453,8 @@ define([
                         mode:this.get('mode'),
                         type:this.get('type'),
                         invite_id: SKApp.get('invite_id'),
-                        screen_resolution:window.screen.availWidth+'x'+window.screen.availHeight,
-                        window_resolution:window.screen.width+'x'+window.screen.height
+                        screen_resolution: window.screen.width+'x'+window.screen.height,
+                        window_resolution: window.screen.availWidth+'x'+window.screen.availHeight
                     }, function (data) {
                         SKApp.server.requests_timeout = SKApp.get("frontendAjaxTimeout");
                         var nowDate = new Date(),
