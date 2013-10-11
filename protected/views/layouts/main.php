@@ -181,11 +181,6 @@ $cs->registerCssFile($assetsUrl . "/css/popover.css");
                 </nav>
             </div>
 
-<<<<<<< HEAD
-        <?php $this->renderPartial('//global_partials/_feedback', []) ?>
-
-=======
->>>>>>> 2aeda315cdca1b107b94a6f4b46d9805cc365607
         <script type="text/javascript">
             Cufon.replace('.invite-people-form input[type="submit"], .brightblock, .lightblock, .benefits, .tarifname, ' +
                 '.clients h3, .main-article article h3, #simulation-details label, .features h2, .thetitle, .tarifswrap .text16, .sing-in-pop-up .ui-dialog-title, ' +
@@ -222,11 +217,7 @@ $cs->registerCssFile($assetsUrl . "/css/popover.css");
                 '.profileform label, .profileform  div, .form p, .form label, .items td .invites-smallmenu-item a, .estmfooter a, .sbSelector, .flash-pop-up p, .flash-pop-up a, ' +
                 '.action-registration .registrationform .row input[type=submit], .thintitle, .order-status label, .order-method label, ' +
                 '.method-description small, .terms-confirm, .period, .order-item h3, .feedback-dialog-title, .terms-page h2,' +
-<<<<<<< HEAD
-                '.terms-page p, .browsers a, .browsers span, .copyright, .help-contact-us, .help-contact-us a, .list-ordered p, .grid1 p, .registration .form li',
-=======
                 '.terms-page p, .browsers a, .browsers span, .copyright, .help-contact-us, .help-contact-us a, .list-ordered p, .grid1 p, .registration .form li, .regular-list',
->>>>>>> 2aeda315cdca1b107b94a6f4b46d9805cc365607
                 {fontFamily:"ProximaNova-Regular", hover:true});
 
             Cufon.replace('.profile-menu a', {fontFamily:"ProximaNova-Regular"});
@@ -238,32 +229,6 @@ $cs->registerCssFile($assetsUrl . "/css/popover.css");
             Cufon.replace('.freeacess', {hover:true});
             Cufon.replace('.browsers span a, .proxima-bold', {fontFamily:"ProximaNova-Bold", hover: true});
             Cufon.replace('.ProximaNova-Bold-22px', {fontFamily:"ProximaNova-Bold", fontSize:"19px", color: "#555545", hover: true});
-<<<<<<< HEAD
-        </script>
-
-        <script type="text/javascript">
-            <?php Yii::app()->params['public']['isDisplaySupportChat']; ?>
-            window._shcp = [];
-            window._shcp.push({
-                link_wrap_off: true, widget_id :<?= Yii::app()->params['public']['SiteHeartWidgetCode'] ?>,
-                widget : "Chat",
-                side : "right",
-                position : "top",
-                template : "blue",
-                title : "<?= Yii::app()->params['public']['SiteHeartWidgetTitle'] ?>",
-                title_offline : "Оставьте сообщение"
-            });
-            $(document).ready(function() {
-                var hcc = document.createElement("script");
-                hcc.type = "text/javascript";
-                hcc.async = true;
-                hcc.src = ("https:" === document.location.protocol ? "https" : "http")+"://widget.siteheart.com/apps/js/sh.js";
-                var s = document.head;
-                s.parentNode.insertBefore(hcc, null);
-            });
-        </script>
-
-=======
             Cufon.replace('.ProximaNova-20', {fontFamily:"ProximaNova-Regular", color: "#555545", hover: true});
             Cufon.replace('.items', {fontFamily:"ProximaNova-Bold"});
             Cufon.replace('.pager', {fontFamily:"ProximaNova-Bold"});
@@ -298,7 +263,6 @@ $cs->registerCssFile($assetsUrl . "/css/popover.css");
 
         <?php $this->renderPartial('//global_partials/_feedback', []) ?>
         <?php $this->renderPartial('//global_partials/_before_start_lite_simulation_popup', []) ?>
->>>>>>> 2aeda315cdca1b107b94a6f4b46d9805cc365607
         <?php $this->renderPartial('//global_partials/_google_analytics') ?>
     </body>
 </html>
