@@ -3294,7 +3294,7 @@ ul.profile-menu li {
 #corporate-invitations-list-box #yw0_c1 a {
     margin-left:-20px;
     position: absolute;
-    top:14px;
+    top:12px;
     width:91px;
 }
 #corporate-invitations-list-box .ratingwrap,
@@ -4483,6 +4483,9 @@ body.action-controller-corporateReferrals-static-profile .popup-before-start-sim
         box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
         padding: 0 14px 30px 20px;
         width: 640px;
+    }
+    #corporate-invitations-list-box #yw0_c1 a {
+        top:10px;
     }
     section.registration-by-link .form .row label {
         font-size: 11px;
