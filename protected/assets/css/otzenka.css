@@ -257,6 +257,9 @@
 .estmtileswrap {
     margin-top: 8px;
 }
+.product-estmtileswrap {
+    margin-top: 55px;
+}
 .rateslist {
     width:918px;
 }
@@ -1279,6 +1282,7 @@ div.percentil_text_product {
     float:left;
     display: inline;
     margin-top: 5px;
+    margin-right: 7px;
 }
 
 .link-go-percentile {
@@ -1508,6 +1512,7 @@ div.percentil_text_product {
         background-position: top left;
         background-size: 100px 27px;
         height:16px;
+        margin-right: 0;
     }
 
 }
