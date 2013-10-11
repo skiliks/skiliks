@@ -410,6 +410,7 @@ return array(
         'isUseResultPopUpCache'         => true,
         'isDisplaySimulationResults'    => false,
         'simulationIdStorage'           => 'request', // 'request', 'session'
+        'initialSimulationsAmount'      => 3,
         'emails' => [
             'isDisplayStandardInvitationMailTopText' => true, // 'Вопросы относительно вакансии вы можете задать по адресу %s, куратор вакансии - %s.'
             'inviteEmailTemplate'      => '//global_partials/mails/invite_default',
