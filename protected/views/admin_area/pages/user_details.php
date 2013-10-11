@@ -42,19 +42,11 @@ $assetsUrl = $this->getAssetsUrl();
 <table class="table">
     <tr>
         <td style="width: 25%">Имя и Фамилия</td>
-<<<<<<< HEAD
-        <td style="width: 25%"><?= $user->profile->firstname ?> <?= $user->profile->lastname ?></td>
-        <td style="width: 25%">Личный email</td>
-        <td style="width: 25%">
-            <i class="icon icon-user"></i>
-            <?= $user->profile->email ?>
-=======
         <td style="width: 25%"><span style='text-label-200px'><?= $user->profile->firstname ?></span> <span style='text-label-200px'><?= $user->profile->lastname ?></span></td>
         <td style="width: 25%">Личный email</td>
         <td style="width: 25%">
             <i class="icon icon-user"></i>
             <span style='text-label-200px'><?= $user->profile->email ?></span>
->>>>>>> 2aeda315cdca1b107b94a6f4b46d9805cc365607
         </td>
     </tr>
     <tr>
@@ -96,11 +88,7 @@ $assetsUrl = $this->getAssetsUrl();
             <td>Корпоративный email</td>
             <td>
                 <i class="icon icon-briefcase"></i>
-<<<<<<< HEAD
-                <?= $user->getAccount()->corporate_email ?>
-=======
                 <?= $user->profile->email ?>
->>>>>>> 2aeda315cdca1b107b94a6f4b46d9805cc365607
             </td>
         <?php endif; ?>
     </tr>
@@ -134,11 +122,7 @@ $assetsUrl = $this->getAssetsUrl();
             </td>
             <td>Количество доступных приглашений</td>
             <td>
-<<<<<<< HEAD
-                <?= $user->getAccount()->invites_limit ?>
-=======
                 <?= $user->getAccount()->getTotalAvailableInvitesLimit() ?>
->>>>>>> 2aeda315cdca1b107b94a6f4b46d9805cc365607
             </td>
         <?php endif; ?>
     </tr>
@@ -158,17 +142,11 @@ $assetsUrl = $this->getAssetsUrl();
                 <form action="/admin_area/user/<?= $user->id ?>/set-invites-limit/"
                       method="post" style="display: inline-block;">
                     <input name="new_value" type="integer" size="3" style="width:30px;" value="0" />
-<<<<<<< HEAD
-                    <input class="btn btn-success" id="add_invites_button" type="submit" value="Сменить">
-=======
                     <input class="btn btn-success" id="add_invites_button" type="submit" value="Добавить/списать">
->>>>>>> 2aeda315cdca1b107b94a6f4b46d9805cc365607
                 </form>
             </td>
         <?php endif; ?>
     </tr>
-<<<<<<< HEAD
-=======
     <tr>
         <td>Показывать попап что тарифный план истёк </td>
         <td>
@@ -220,5 +198,4 @@ $assetsUrl = $this->getAssetsUrl();
         <td></td>
     </tr>
 
->>>>>>> 2aeda315cdca1b107b94a6f4b46d9805cc365607
 </table>
