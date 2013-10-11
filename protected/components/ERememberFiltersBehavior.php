@@ -160,8 +160,6 @@ class ERememberFiltersBehavior extends CActiveRecordBehavior {
         $attributes = $this->owner->getSafeAttributeNames();
         foreach ($attributes as $attribute) {
             if (isset($this->owner->$attribute)) {
-                //echo var_export($attributes,true);
-                //exit;
                 Yii::app()->user->setState($this->getStatePrefix() . $attribute, $this->owner->$attribute);
             }
         }
