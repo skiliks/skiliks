@@ -2,26 +2,26 @@
 $isPersonal = $account_type === 'personal';
 ?>
 <script type="text/javascript">$(function () {
-    $('input').focus(function () {
-        $('.form').removeClass('active');
-        $(this).parents('.form').addClass('active');
-    })
-})</script>
+        $('input').focus(function () {
+            $('.form').removeClass('active');
+            $(this).parents('.form').addClass('active');
+        })
+    })</script>
 <section class="registration">
-	<h2 class="shorter-title"><?php echo empty($simPassed) ? 'Зарегистрируйтесь, выбрав подходящий профиль' : 'Зарегистрируйтесь, выбрав подходящий профиль, и получите пример отчёта' ?></h2>
-	<div class="form form-account-personal" style="background-color: <?= (!$isPersonal)?'#fdfbc6':'rgb(254,227,116)'?>">
+    <h2 class="shorter-title"><?php echo empty($simPassed) ? 'Зарегистрируйтесь, выбрав подходящий профиль' : 'Зарегистрируйтесь, выбрав подходящий профиль, и получите пример отчёта' ?></h2>
+    <div class="form form-account-personal" style="background-color: <?= (!$isPersonal)?'#fdfbc6':'rgb(254,227,116)'?>">
         <a class="regicon <?= ($isPersonal)?'icon-check':'icon-chooce'?> registration_check" href="#">
             <span style="display: <?= ($isPersonal)?'none':'block'?>" class="choose-account-button-span">
                 <?php echo Yii::t('site', 'Выбрать');?>
             </span>
         </a>
-	    <h1>Индивидуальный<br>профиль</h1>
+        <h1>Индивидуальный<br>профиль</h1>
         <p class="p-chose-account-type ProximaNova-Bold">(Вы - сотрудник или соискатель)</p>
         <ul>
-			<li class="ProximaNova-Bold"><?php echo Yii::t('site', 'Возможность получать приглашения от работодателя') ?></li>
-			<li class="ProximaNova-Bold"><?php echo Yii::t('site', 'Полная версия по приглашению') ?></li>
-			<li class="ProximaNova-Bold"><?php echo Yii::t('site', 'Демо-версия бесплатно') ?></li>
-		</ul>
+            <li class="ProximaNova-Bold"><?php echo Yii::t('site', 'Возможность получать приглашения от работодателя') ?></li>
+            <li class="ProximaNova-Bold"><?php echo Yii::t('site', 'Полная версия по приглашению') ?></li>
+            <li class="ProximaNova-Bold"><?php echo Yii::t('site', 'Демо-версия бесплатно') ?></li>
+        </ul>
         <?php $form = $this->beginWidget('CActiveForm', array(
             'id'                   => 'yum-user-registration-form',
             'enableAjaxValidation' => false,
@@ -32,51 +32,33 @@ $isPersonal = $account_type === 'personal';
                 <?php echo $form->labelEx($accountPersonal     ,'professional_status_id', ["class" => "ProximaNova-Bold"]); ?>
                 <?php echo $form->dropDownList($accountPersonal,'professional_status_id', $statuses); ?>
             </div>
-            <script>
-                var cookie = $.cookie('registration_user-want-to-start-demo');
-                if (undefined == cookie) {
-                    $.cookie('registration_user-want-to-start-demo', 0);
-                }
-
-                // un check "Демо-версия"
-                $(document).ready(function() {
-                    var button = $(".icon-check");
-                    button.removeClass('icon-check');
-                    button.addClass('icon-chooce');
-                    $('#YumUser_is_check').val('0');
-                    $("#registration_check").find("span").css('display', 'block');
-                    if (1 === $('#registration_switch').length) {
-                        $('#registration_switch').val($('#registration_switch').attr('data-next'));
-                    }
-                });
-            </script>
         </div>
         <div class="row"></div>
-	</div>
-	<!-- --------------------------------------------------------------------------------------------------------- -->
-	<div class="form form-account-corporate" style="background-color: <?= (!$isPersonal)?'rgb(254,227,116)':'#fdfbc6'?>">
+    </div>
+    <!-- --------------------------------------------------------------------------------------------------------- -->
+    <div class="form form-account-corporate" style="background-color: <?= (!$isPersonal)?'rgb(254,227,116)':'#fdfbc6'?>">
         <a class="regicon <?= ($isPersonal)?'icon-chooce':'icon-check'?> registration_check" href="#">
             <span style="display: <?= ($isPersonal)?'block':'none'?>;" class="choose-account-button-span">
                 <?php echo Yii::t('site', 'Выбрать');?>
             </span>
         </a>
-	    <h1>Корпоративный<br>профиль</h1>
+        <h1>Корпоративный<br>профиль</h1>
         <p class="p-chose-account-type ProximaNova-Bold">(Вы - работодатель)</p>
-	    <ul class="registration-corporate-benefits">
-			<li class="ProximaNova-Bold"><?php echo Yii::t('site', '3 симуляции бесплатно (Полная версия)') ?></li>
+        <ul class="registration-corporate-benefits">
+            <li class="ProximaNova-Bold"><?php echo Yii::t('site', '3 симуляции бесплатно (Полная версия)') ?></li>
             <li class="ProximaNova-Bold"><?php echo Yii::t('site', 'Пакет симуляций для оценки кандидатов и сотрудников') ?></li>
             <li class="ProximaNova-Bold"><?php echo Yii::t('site', 'Удобный инструмент для прогресса оценки') ?></li>
-		</ul>
-	    <div class="row">
-                <?php echo $form->error($accountCorporate, 'industry_id', ["class" => "errorMessage general_error registration-industry-error"]); ?>
+        </ul>
+        <div class="row">
+            <?php echo $form->error($accountCorporate, 'industry_id', ["class" => "errorMessage general_error registration-industry-error"]); ?>
             <div class="field">
                 <?php echo $form->labelEx($accountCorporate     , 'industry_id', ["class" => "ProximaNova-Bold"]); ?>
-    	        <?php echo $form->dropDownList($accountCorporate, 'industry_id', $industries); ?>
+                <?php echo $form->dropDownList($accountCorporate, 'industry_id', $industries); ?>
             </div>
-	    </div>
-	</div>
-	<!-- --------------------------------------------------------------------------------------------------------- -->
-	<div style="clear:both;"></div>
+        </div>
+    </div>
+    <!-- --------------------------------------------------------------------------------------------------------- -->
+    <div style="clear:both;"></div>
 </section>
 
 <?php if($emailIsExistAndNotActivated) : ?>
