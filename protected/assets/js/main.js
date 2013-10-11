@@ -723,7 +723,18 @@ var fixLogotypes = function() {
         });
 
 
-
+        $(".percentile-hover-toggle-span").hover(
+            function() {
+                setTimeout(function(){
+                    if($(".percentile-hover-toggle-span" + ":hover").length > 0) {
+                        $(".popover").addClass("active");
+                    }
+                }, 2000);
+            },
+            function() {
+                $(".popover").removeClass("active");
+            }
+        );
 
     });
 })(jQuery);
