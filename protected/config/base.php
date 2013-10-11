@@ -421,6 +421,7 @@ return array(
             'referrerInviteEmail'      => '//global_partials/mails/referrerEmail',
             'noticeEmail'              => '//global_partials/mails/noticeEmail',
             'newFeedback'              => '//global_partials/mails/newFeedback',
+            'ifSuspiciousActivity'     => '//global_partials/mails/ifSuspiciousActivity',
 
 //            'bookerEmail' => 'accounter@skiliks.com',
             'bookerEmail' => 'invoice@skiliks.com',
