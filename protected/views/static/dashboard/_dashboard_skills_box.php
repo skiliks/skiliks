@@ -1,5 +1,8 @@
 <h2>Мои навыки</h2>
-
+<?
+$scoreName = ($user->profile->assessment_results_render_type == "standard") ? "percentile-toggle-off" : "percentile-toggle-on";
+?>
+<span class="change-simulation-result-render percentile-hover-toggle-span dashboard-personal-change-percentile <?=$scoreName?>"></span>
 <?php
     if (null !== $simulation
         && true === $simulation->isAllowedToSeeResults(Yii::app()->user->data())) {

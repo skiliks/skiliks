@@ -3778,7 +3778,8 @@ body.action-controller-corporateReferrals-static-profile .popup-before-start-sim
 /* ****************************** ADAPTIVE FOR SMALL RESOLUTION ******************************* */
 
 .received-invites-personal {
-    margin-top: -5px;
+    position: absolute;
+    top: 25px;
 }
 
 @media screen and (max-width: 1146px){
@@ -3790,6 +3791,9 @@ body.action-controller-corporateReferrals-static-profile .popup-before-start-sim
     }
     .blue-btn {
         padding: 0px 6px 0px 18px;
+    }
+    #private-invitations-list-box {
+        margin-top: 28px;
     }
     .skillstitle {
         font-size: 11px;
@@ -5568,8 +5572,7 @@ ul.default li:hover {
 }
 
 
-.change-simulation-result-render {
-    float:right;
+.change-simulation-result-render.personal-button {
     background: url('../img/arrow-switch-rating-view.png') no-repeat right;
     height: 18px;
     margin-top: -22px;
@@ -5580,21 +5583,17 @@ ul.default li:hover {
     font-size: 11px;
     color: #fff;
     cursor: pointer;
+    left: 773px;
+    margin-top: 29px;
+    position: absolute;
 }
 
 @media screen and (max-width: 1146px) {
-    .change-simulation-result-render {
-        float:right;
+
+    .change-simulation-result-render.personal-button {
         background: url('../img/arrow-switch-rating-view-small.png') no-repeat right;
-        height: 18px;
-        margin-top: -20px;
-        padding-top: 2px;
-        width: 156px;
-        text-align:right;
-        padding-right: 20px;
-        font-size: 11px;
-        color: #fff;
-        cursor: pointer;
+        left: 590px;
+        top: 8px;
     }
     .registration-personal-additional-field {
         margin-top: -23px;
@@ -5639,4 +5638,90 @@ ul.default li:hover {
 }
 .aglobalErrorMessage.emailIsExistAndNotActivated.ProximaNova a {
     text-decoration: none;
+}
+
+.percentile-hover-toggle-span {
+    cursor: pointer;
+    display: inline-block;
+    height: 14px;
+    margin-left: 10px;
+    position: absolute;
+    top: 14px;
+    width: 35px;
+}
+
+.percentile-toggle-off {
+    background: url("../img/percentile-toggle-off.png") no-repeat;
+}
+
+.percentile-toggle-on {
+    background: url("../img/percentile-toggle-on.png") no-repeat;
+}
+
+.popover-div-on-hover {
+    left: 762px;
+    position: absolute;
+    top: 111px;
+    width: 256px;
+    z-index: 1;
+    display: none;
+}
+
+.popover-div-on-hover.active {
+    display: block;
+}
+
+.popover.popover-div-on-hover .popover-triangle {
+    left: 120px;
+}
+
+.popover-div-on-hover.dashboard-personal-change-percentile {
+    left: 133px;
+    top: 125px;
+}
+
+.percentile-hover-toggle-span.dashboard-personal-change-percentile {
+    left: 234px;
+    top: 102px;
+}
+
+@media screen and (max-width: 1146px) {
+
+    .percentile-hover-toggle-span {
+        cursor: pointer;
+        background-size: 28px 11px;
+        display: inline-block;
+        height: 11px;
+        margin-left: 8px;
+        position: absolute;
+        top: 11px;
+        width: 28px;
+    }
+
+    .popover-div-on-hover {
+        left: 580px;
+        top: 94px;
+        width: 239px;
+    }
+
+    .popover.popover-div-on-hover .popover-triangle {
+        left: 120px;
+    }
+
+    .popover-div-on-hover.dashboard-personal-change-percentile {
+        left: 75px;
+        top: 101px;
+    }
+
+    .percentile-hover-toggle-span.dashboard-personal-change-percentile {
+        left: 180px;
+        top: 81px;
+    }
+
+    .percentile-hover-toggle-span.dashboard-personal-change-percentile.percentile-toggle-off {
+        left: 170px;
+        top: 81px;
+    }
+
+
 }
