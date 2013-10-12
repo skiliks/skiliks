@@ -17,9 +17,9 @@ return [
 
     'active_icons'=>[
         'active_plan' => '',
-        'active_phone' => 'css=.phone.icon-active',
-        'active_mail' => 'css=.mail.icon-active',
-        'active_visit' => 'css=.door.icon-active',
+        'active_phone' => 'css=li.phone.icon-active',
+        'active_mail' => 'css=li.mail.icon-active',
+        'active_visit' => 'css=li.door.icon-active',
         'active_documents' => '',
     ],
 
