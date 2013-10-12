@@ -23,7 +23,7 @@ class DelayForEvent_SK1274_Test extends SeleniumTestHelper
         sleep(10);
         $this->optimal_click("xpath=(//*[contains(text(),'Да, об этом я и не подумал. Ладно, все')])");
         sleep(10);
-        $this->assertTrue($this->isElementPresent("css=li.icon-active.phone a"));
+        $this->assertTrue($this->isElementPresent(Yii::app()->params['test_mappings']['active_icons']['active_phone']));
         $this->no_reply_call();
         $this->simulation_stop();
     }

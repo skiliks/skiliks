@@ -37,7 +37,7 @@ class F13_SK1415_Test extends SeleniumTestHelper
         $this->run_event('ET1.3.1');
         sleep(5);
 
-        $this->optimal_click("css=li.icon-active.phone a");
+        $this->optimal_click(Yii::app()->params['test_mappings']['active_icons']['active_phone']);
         $this->waitForVisible(Yii::app()->params['test_mappings']['phone']['reply']);
         $this->click(Yii::app()->params['test_mappings']['phone']['reply']);
         $this->optimal_click("xpath=(//*[contains(text(),'Да, я тебе все переслал.')])");
@@ -74,7 +74,7 @@ class F13_SK1415_Test extends SeleniumTestHelper
         $this->assertTrue($this->verify_flag('F13','0'));
 
         $this->run_event('ET1.3.2');
-        $this->optimal_click("css=li.icon-active.phone a");
+        $this->optimal_click(Yii::app()->params['test_mappings']['active_icons']['active_phone']);
         $this->waitForVisible(Yii::app()->params['test_mappings']['phone']['reply']);
         $this->click(Yii::app()->params['test_mappings']['phone']['reply']);
 
