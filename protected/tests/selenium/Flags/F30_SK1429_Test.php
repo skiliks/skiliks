@@ -24,7 +24,7 @@ class F30_SK1429_Test extends SeleniumTestHelper
     $this->click(Yii::app()->params['test_mappings']['mail']['send']);
     $this->assertTrue($this->verify_flag('F30','1'));
     sleep(2);
-    $this->optimal_click("css=li.icon-active.mail a");
+    $this->optimal_click(Yii::app()->params['test_mappings']['active_icons']['active_mail']);
     $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
     sleep(2);
     $this->optimal_click("xpath=//*[@id='mlTitle']/tbody/tr[1]/td[2]");

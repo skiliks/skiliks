@@ -15,6 +15,14 @@ return [
         'close1' => 'css=.btn-close > button:nth-child(1)'
     ],
 
+    'active_icons'=>[
+        'active_plan' => '',
+        'active_phone' => 'css=.phone.icon-active',
+        'active_mail' => 'css=.mail.icon-active',
+        'active_visit' => 'css=.door.icon-active',
+        'active_documents' => '',
+    ],
+
     'time' => [
         'hour' => "css=.hour",
         'minute' => "css=.minute"
@@ -35,13 +43,13 @@ return [
     ],
 
     'mail_main' => [
-        'new_email' => "css=a.NEW_EMAIL",
-        'reply_email' => "css=a.REPLY_EMAIL",
-        'reply_all_email' => "css=a.REPLY_ALL_EMAIL",
-        'forward_email' => "css=a.FORWARD_EMAIL",
-        'add_to_plan' => "css=a.ADD_TO_PLAN",
-        'delete' => "css=a.MOVE_TO_TRASH",
-        'save' => "css=a.SAVE_TO_DRAFTS",
+        'new_email' => "css=.NEW_EMAIL",
+        'reply_email' => "css=.REPLY_EMAIL",
+        'reply_all_email' => "css=.REPLY_ALL_EMAIL",
+        'forward_email' => "css=.FORWARD_EMAIL",
+        'add_to_plan' => "css=.ADD_TO_PLAN",
+        'delete' => "css=.MOVE_TO_TRASH",
+        'save' => "css=.SAVE_TO_DRAFTS",
         'inbox' => "xpath=//*[@id='FOLDER_INBOX']/label",
         'draft' => "xpath=//*[@id='FOLDER_DRAFTS']/label",
         'outbox' => "xpath=//*[@id='FOLDER_SENDED']/label",

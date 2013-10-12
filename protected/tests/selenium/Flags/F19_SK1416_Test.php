@@ -92,7 +92,7 @@ class F19_SK1416_Test extends SeleniumTestHelper
         $this->assertTrue($this->verify_flag('F19','1'));
         $this->run_event('ET3.1',"xpath=(//*[contains(text(),'октября')])",'-');
         sleep(5);
-        $this->assertFalse($this->isElementPresent("css=li.icon-active.phone a"));
+        $this->assertFalse($this->isElementPresent(Yii::app()->params['test_mappings']['active_icons']['active_phone']));
         $this->simulation_stop();
     }
 }
