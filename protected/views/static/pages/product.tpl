@@ -31,7 +31,7 @@
                 <span class="allratebg"><span class="allrating" style="width:100%"></span></span> <span class="blockvalue"><span class="value">%</span></span>
             </div>
         </div><!-- /estmtresults -->
-        <div class="estmtileswrap">
+        <div class="estmtileswrap product-estmtileswrap">
             <div class="widthblock"><h2>{Yii::t('site', 'Managerial skills')}</h2></div><!--<span class="signmore"></span></a></h2></div> -->
             <div class="widthblock"><h2>{Yii::t('site', 'Productivity')}</h2></div>
             <div class="widthblock"><h2>{Yii::t('site', 'Time management effectiveness')}</h2></div>

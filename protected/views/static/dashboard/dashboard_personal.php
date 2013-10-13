@@ -13,15 +13,16 @@
            class="start-lite-simulation-btn start-lite-simulation-btn-no-margin start-lite-in-personal light-btn">
             Пройти демо (<?= Yii::app()->params['demoDuration'] ?> мин)
         </a>
-
+        <div class="popover popover-div-on-hover dashboard-personal-change-percentile"><div class="popover-triangle"></div><div class="popover-content"><div class="popup-content ProximaNova">Переключение между относительным и абсолютным рейтингом.</div></div></div>
         <h1 class="thetitle received-invites-personal">Полученные приглашения</h1>
-        <div class="change-simulation-result-render ProximaNova-Bold" style="margin-top:-15px;">
+        <div class="change-simulation-result-render personal-button ProximaNova-Bold">
             <?php if($user->profile->assessment_results_render_type == "standard") : ?>
                 Относительный рейтинг
             <?php else : ?>
                 Абсолютный рейтинг
             <?php endif ?>
         </div>
+        <div style="clear:both; min-height: 2px;"></div>
         <?php
             // _private_invitations_list_box
         $this->renderPartial('_private_invitations_list_box', [])
@@ -34,7 +35,7 @@
         <!-- dashboard-skills-box -->
         <div id="dashboard-skills-box" class="nice-border backgroud-rich-blue sideblock">
 
-            <?php $this->renderPartial('_dashboard_skills_box', ['simulation'=>$simulation]) ?>
+            <?php $this->renderPartial('_dashboard_skills_box', ['simulation'=>$simulation, 'user' => $user]) ?>
 
             <?php if ($display_results_for
                 && null !== $simulation
