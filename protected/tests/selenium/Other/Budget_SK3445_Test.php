@@ -17,7 +17,7 @@ class Budget_SK3445_Test extends SeleniumTestHelper
         $this->run_event('T3.1',"xpath=(//*[contains(text(),'Егор, приветствую')])",'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Отлично, но у тебя не больше пяти минут')])");
 
-        $this->run_event('ET9', Yii::app()->params['test_mappings']['active_icons']['active_phone'], 'click');
+        $this->run_event('ET9', Yii::app()->params['test_mappings']['icons']['phone'], 'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
         $this->optimal_click("xpath=(//*[contains(text(),'Василий, вопрос в чем?')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Василий, давайте ближе к делу!')])");
