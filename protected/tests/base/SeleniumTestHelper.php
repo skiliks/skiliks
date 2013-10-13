@@ -159,7 +159,7 @@ class SeleniumTestHelper extends CWebTestCase
      */
     public function reply_call ()
     {
-        $this->optimal_click(Yii::app()->params['test_mappings']['active_icons']['active_phone']);
+        $this->optimal_click(Yii::app()->params['test_mappings']['icons']['phone']);
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
     }
 
@@ -168,7 +168,7 @@ class SeleniumTestHelper extends CWebTestCase
      */
     public function no_reply_call ()
     {
-        $this->optimal_click(Yii::app()->params['test_mappings']['active_icons']['active_phone']);
+        $this->optimal_click(Yii::app()->params['test_mappings']['icons']['phone']);
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['no_reply']);
     }
 
@@ -177,7 +177,7 @@ class SeleniumTestHelper extends CWebTestCase
      */
     public function write_mail_active()
     {
-        $this->optimal_click(Yii::app()->params['test_mappings']['active_icons']['active_mail']);
+        $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['to_whom']);
     }
 
@@ -269,8 +269,7 @@ class SeleniumTestHelper extends CWebTestCase
         $same_number = false;
         $was_changed = false;
         $this->waitForVisible(Yii::app()->params['test_mappings']['icons']['mail']);
-        $this->waitForVisible(Yii::app()->params['test_mappings']['active_icons']['active_mail']);
-        if ($this->isVisible(Yii::app()->params['test_mappings']['active_icons']['active_mail']))
+        if ($this->isVisible(Yii::app()->params['test_mappings']['icons']['mail']))
         {
             for ($second = 0; ; $second++) {
                 if ($second >= 600)
@@ -346,10 +345,10 @@ class SeleniumTestHelper extends CWebTestCase
     // параметром нужно написать начальный event, например RST1
     public function clearEventQueueBeforeEleven($event)
     {
-        $this->run_event($event, Yii::app()->params['test_mappings']['active_icons']['active_phone'], 'click');
+        $this->run_event($event, Yii::app()->params['test_mappings']['icons']['phone'], 'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['no_reply']);
         $event .= '.1';
-        $this->run_event($event, Yii::app()->params['test_mappings']['active_icons']['active_phone'], 'click');
+        $this->run_event($event, Yii::app()->params['test_mappings']['icons']['phone'], 'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['no_reply']);
     }
 

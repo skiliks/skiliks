@@ -8,19 +8,11 @@ return [
         'todo' => 'id=icons_todo',
         'phone' => 'id=icons_phone',
         'mail' => "id=icons_email",
-        'visit' => 'id=icons_visit',
+        'door' => 'id=icons_visit',
         'documents' => 'id=icons_documents',
         'settings' => 'css=.btn-window .btn-set',
         'close' => 'css=.btn-cl.win-close',
         'close1' => 'css=.btn-close > button:nth-child(1)'
-    ],
-
-    'active_icons'=>[
-        'active_plan' => '',
-        'active_phone' => 'css=li.phone.icon-active',
-        'active_mail' => 'css=li.mail.icon-active',
-        'active_visit' => 'css=li.door.icon-active',
-        'active_documents' => '',
     ],
 
     'time' => [
@@ -59,8 +51,8 @@ return [
     'phone' => [
         'contacts_list' => "//*[@id='phoneMainScreen']/ul/li[1]",
         'missed_calls' => "//*[@id='phoneMainScreen']/ul/li[2]",
-        'reply' => "//*[@id='phone_reply']",
-        'no_reply' => "//*[@id='phone_no_reply']"
+        'reply' => "id=phone_reply",
+        'no_reply' => "id=phone_no_reply"
     ],
 
     'phone_contacts' => [
