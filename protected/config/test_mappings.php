@@ -68,8 +68,8 @@ return [
     ],
 
     'visit' => [
-        'allow' => "//*[@class='visitor-allow']",
-        'deny' => "//*[@class='visitor-deny']"
+        'allow' => "css=a.visitor-allow > span",
+        'deny' => "css=a.visitor-deny > span"
     ],
 
     'dev' => [
