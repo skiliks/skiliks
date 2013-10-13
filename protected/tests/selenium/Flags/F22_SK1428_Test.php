@@ -29,7 +29,7 @@ class F22_SK1428_Test extends SeleniumTestHelper
         $this->optimal_click('link=F38_3');
         $this->run_event('T7.4',"xpath=(//*[contains(text(),'Я по поводу задания от логистов')])",'click');
         $this->waitForVisible("xpath=(//*[contains(text(),'Данные у вас в почте. Только что отправил')])");
-        $this->optimal_click("css=li.icon-active.mail a");
+        $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
         sleep(2);
         $this->optimal_click("xpath=//*[@id='mlTitle']/tbody/tr[1]/td[2]");
         sleep(2);
@@ -48,7 +48,7 @@ class F22_SK1428_Test extends SeleniumTestHelper
         $this->assertTrue($this->verify_flag('F22','0'));
         $this->run_event('T7.4',"xpath=(//*[contains(text(),'Я по поводу задания от логистов')])",'click');
         $this->waitForVisible("xpath=(//*[contains(text(),'Данные у вас в почте. Только что отправил')])");
-        $this->optimal_click("css=li.icon-active.mail a");
+        $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
         sleep(2);
         $this->optimal_click("xpath=//*[@id='mlTitle']/tbody/tr[1]/td[2]");
         sleep(2);

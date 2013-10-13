@@ -410,6 +410,7 @@ return array(
         'isUseResultPopUpCache'         => true,
         'isDisplaySimulationResults'    => true,
         'simulationIdStorage'           => 'request', // 'request', 'session'
+        'initialSimulationsAmount'      => 3,
         'emails' => [
             'isDisplayStandardInvitationMailTopText' => true, // 'Вопросы относительно вакансии вы можете задать по адресу %s, куратор вакансии - %s.'
             'inviteEmailTemplate'      => '//global_partials/mails/invite_default',
@@ -420,6 +421,7 @@ return array(
             'referrerInviteEmail'      => '//global_partials/mails/referrerEmail',
             'noticeEmail'              => '//global_partials/mails/noticeEmail',
             'newFeedback'              => '//global_partials/mails/newFeedback',
+            'ifSuspiciousActivity'     => '//global_partials/mails/ifSuspiciousActivity',
 
 //            'bookerEmail' => 'accounter@skiliks.com',
             'bookerEmail' => 'invoice@skiliks.com',

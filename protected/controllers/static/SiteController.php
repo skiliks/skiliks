@@ -45,6 +45,7 @@ class SiteController extends SiteBaseController
             }
 
             $invite->refresh(); // Important! Prevent caching
+            MailHelper::sendEmailIfSuspiciousActivity($invite);
         }
 
         if (isset($invite) &&

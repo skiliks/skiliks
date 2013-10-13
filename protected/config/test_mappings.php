@@ -8,7 +8,7 @@ return [
         'todo' => 'id=icons_todo',
         'phone' => 'id=icons_phone',
         'mail' => "id=icons_email",
-        'visit' => 'id=icons_visit',
+        'door' => 'id=icons_visit',
         'documents' => 'id=icons_documents',
         'settings' => 'css=.btn-window .btn-set',
         'close' => 'css=.btn-cl.win-close',
@@ -35,13 +35,13 @@ return [
     ],
 
     'mail_main' => [
-        'new_email' => "css=a.NEW_EMAIL",
-        'reply_email' => "css=a.REPLY_EMAIL",
-        'reply_all_email' => "css=a.REPLY_ALL_EMAIL",
-        'forward_email' => "css=a.FORWARD_EMAIL",
-        'add_to_plan' => "css=a.ADD_TO_PLAN",
-        'delete' => "css=a.MOVE_TO_TRASH",
-        'save' => "css=a.SAVE_TO_DRAFTS",
+        'new_email' => "css=.NEW_EMAIL",
+        'reply_email' => "css=.REPLY_EMAIL",
+        'reply_all_email' => "css=.REPLY_ALL_EMAIL",
+        'forward_email' => "css=.FORWARD_EMAIL",
+        'add_to_plan' => "css=.ADD_TO_PLAN",
+        'delete' => "css=.MOVE_TO_TRASH",
+        'save' => "css=.SAVE_TO_DRAFTS",
         'inbox' => "xpath=//*[@id='FOLDER_INBOX']/label",
         'draft' => "xpath=//*[@id='FOLDER_DRAFTS']/label",
         'outbox' => "xpath=//*[@id='FOLDER_SENDED']/label",
@@ -51,43 +51,25 @@ return [
     'phone' => [
         'contacts_list' => "//*[@id='phoneMainScreen']/ul/li[1]",
         'missed_calls' => "//*[@id='phoneMainScreen']/ul/li[2]",
-        'reply' => "//a[@id='phone_reply']",
-        'no_reply' => "//a[@id='phone_no_reply']"
+        'reply' => "id=phone_reply",
+        'no_reply' => "id=phone_no_reply"
     ],
 
     'phone_contacts' => [
-        'denejnaya' => "xpath=(//a[contains(text(),'Позвонить')])[1]",
-        'trutnev' => "xpath=(//a[contains(text(),'Позвонить')])[2]",
-        'krutko' => "xpath=(//a[contains(text(),'Позвонить')])[3]",
-        'loshadkin' => "xpath=(//a[contains(text(),'Позвонить')])[4]",
-        'boss' => "xpath=(//a[contains(text(),'Позвонить')])[5]",
-        'dolgova' => "xpath=(//a[contains(text(),'Позвонить')])[6]",
-        'razumnui' => "xpath=(//a[contains(text(),'Позвонить')])[7]",
-        'skorobey' => "xpath=(//a[contains(text(),'Позвонить')])[8]",
-        'jeleznyi' => "xpath=(//a[contains(text(),'Позвонить')])[9]",
-        'bobr' => "xpath=(//a[contains(text(),'Позвонить')])[10]",
-        'trudyakin' => "xpath=(//a[contains(text(),'Позвонить')])[11]",
-        'ludovkina' => "xpath=(//a[contains(text(),'Позвонить')])[12]",
-        'hozin' => "xpath=(//a[contains(text(),'Позвонить')])[13]",
-        'tochnuh' => "xpath=(//a[contains(text(),'Позвонить')])[14]",
-        'semenova' => "xpath=(//a[contains(text(),'Позвонить')])[15]",
-        'jukova' => "xpath=(//a[contains(text(),'Позвонить')])[16]",
-        'advokatov' => "xpath=(//a[contains(text(),'Позвонить')])[17]",
-        'golts' => "xpath=(//a[contains(text(),'Позвонить')])[18]",
-        'kamenskiy' => "xpath=(//a[contains(text(),'Позвонить')])[19]",
-        'vasilyev' => "xpath=(//a[contains(text(),'Позвонить')])[20]",
-        'myagkov' => "xpath=(//a[contains(text(),'Позвонить')])[21]",
-        'petrashevich' => "xpath=(//a[contains(text(),'Позвонить')])[22]",
-        'serkov' => "xpath=(//a[contains(text(),'Позвонить')])[23]",
-        'dobrohotov' => "xpath=(//a[contains(text(),'Позвонить')])[24]",
-        'blesk' => "xpath=(//a[contains(text(),'Позвонить')])[25]",
-        'lubimaya' => "xpath=(//a[contains(text(),'Позвонить')])[26]",
-        'pogodkin' => "xpath=(//a[contains(text(),'Позвонить')])[27]"
+        'denejnaya' => "xpath=.//*[@id='contactLi_2']/table/tbody/tr/td[3]/a",
+        'trutnev' => "xpath=.//*[@id='contactLi_3']/table/tbody/tr/td[3]/a",
+        'krutko' => "xpath=.//*[@id='contactLi_4']/table/tbody/tr/td[3]/a",
+        'boss' => "xpath=.//*[@id='contactLi_6']/table/tbody/tr/td[3]/a",
+        'dolgova' => "xpath=.//*[@id='contactLi_7']/table/tbody/tr/td[3]/a",
+        'skorobey' => "xpath=.//*[@id='contactLi_9']/table/tbody/tr/td[3]/a",
+        'bobr' => "xpath=.//*[@id='contactLi_11']/table/tbody/tr/td[3]/a",
+        'trudyakin' => "xpath=.//*[@id='contactLi_12']/table/tbody/tr/td[3]/a",
+        'dobrohotov' => "xpath=.//*[@id='contactLi_25']/table/tbody/tr/td[3]/a"
     ],
 
     'visit' => [
-        'allow' => "//a[@class='visitor-allow']",
-        'deny' => "//a[@class='visitor-deny']"
+        'allow' => "css=a.visitor-allow > span",
+        'deny' => "css=a.visitor-deny > span"
     ],
 
     'dev' => [
