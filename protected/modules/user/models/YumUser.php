@@ -837,9 +837,15 @@ class YumUser extends YumActiveRecord
         if ($profile = YumProfile::model()->find("email = :email", array(
             ':email' => $email))
         ) {
+
             if ($user = $profile->user) {
-                if ($user->status != self::STATUS_INACTIVE)
-                    return -1;
+                var_dump($user->status);
+
+//                if ($user->status != self::STATUS_INACTIVE)
+//                    return -1;
+
+                //die('3');
+                //var_dump($user->activationKey, $key); die;
                 if ($user->activationKey == $key) {
                     $user->activationKey = $user->generateActivationKey(true);
                     $user->status = self::STATUS_ACTIVE;
