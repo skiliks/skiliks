@@ -2,7 +2,7 @@
 
 class AdminPagesController extends SiteBaseController {
 
-    public $itemsOnPage = 100;
+    public $itemsOnPage = 20;
 
     public function beforeAction($action) {
 
@@ -100,11 +100,13 @@ class AdminPagesController extends SiteBaseController {
     public function actionInvites()
     {
         // pager {
-        $page = Yii::app()->request->getParam('page');
+        $page = Yii::app()->request->getParam('invites-filter-page');
 
         if (null === $page) {
             $page = 1;
         }
+
+        $this->itemsOnPage = 100;
 
         $allFilters = $this->getCriteriaInvites();
 
@@ -112,9 +114,6 @@ class AdminPagesController extends SiteBaseController {
         $criteria = $allFilters['criteria'];
         $criteria->condition = $allFilters['condition'];
         $criteria->order     = "updated_at desc";
-        $criteria->limit     = $this->itemsOnPage;
-        $criteria->offset    = ($page-1)*$this->itemsOnPage;
-
 
         $totalItems = Invite::model()->count($criteria);
 
@@ -128,11 +127,11 @@ class AdminPagesController extends SiteBaseController {
 
         $models = Invite::model()->findAll($criteria);
 
-        if (count($models) < $this->itemsOnPage) {
-            $page = 1; // если результатов фильтрации мало
-
-            $models = Invite::model()->findAll($criteria);
-        }
+//        if (count($models) < $this->itemsOnPage) {
+//            $page = 1; // если результатов фильтрации мало
+//
+//            $models = Invite::model()->findAll($criteria);
+//        }
 
         // getting scenarios type
         $scenarioCriteria = new CDbCriteria();
