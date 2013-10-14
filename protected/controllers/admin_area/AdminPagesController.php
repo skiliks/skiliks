@@ -108,7 +108,13 @@ class AdminPagesController extends SiteBaseController {
 
         $allFilters = $this->getCriteriaInvites();
 
+        // creating criteria for search
         $criteria = $allFilters['criteria'];
+        $criteria->condition = $allFilters['condition'];
+        $criteria->order     = "updated_at desc";
+        $criteria->limit     = $this->itemsOnPage;
+        $criteria->offset    = ($page-1)*$this->itemsOnPage;
+
 
         $totalItems = Invite::model()->count($criteria);
 
@@ -119,22 +125,13 @@ class AdminPagesController extends SiteBaseController {
         // pager }
 
         //$models = Invite::model()->findAll([
-        $models = Invite::model()->findAll([
-            'condition' => $allFilters['condition'],
-            'order'  => "updated_at desc",
-            'limit'  => $this->itemsOnPage,
-            'offset' => ($page-1)*$this->itemsOnPage
-        ]);
+
+        $models = Invite::model()->findAll($criteria);
 
         if (count($models) < $this->itemsOnPage) {
             $page = 1; // если результатов фильтрации мало
 
-            $models = Invite::model()->findAll([
-                'condition' => $allFilters['condition'],
-                'order'  => "updated_at desc",
-                'limit'  => $this->itemsOnPage,
-                'offset' => ($page-1)*$this->itemsOnPage
-            ]);
+            $models = Invite::model()->findAll($criteria);
         }
 
         $this->layout = '//admin_area/layouts/admin_main';
@@ -146,6 +143,7 @@ class AdminPagesController extends SiteBaseController {
             'itemsOnPage' => $this->itemsOnPage,
             'formFilters' => $allFilters['filters'],
             'receiverEmailForFiltration' => isset($allFilters['filters']['filter_email']) ? $allFilters['filters']['filter_email'] : "",
+            'ownerEmailForFiltration' => isset($allFilters['filters']['owner_email']) ? $allFilters['filters']['owner_email'] : "",
             'invite_id' => isset($allFilters['filters']['invite_id']) ? $allFilters['filters']['invite_id'] : "",
         ]);
     }
@@ -176,6 +174,7 @@ class AdminPagesController extends SiteBaseController {
             $condition = '';
 
             $receiverEmailForFiltration = trim(Yii::app()->request->getParam('receiver-email-for-filtration', null));
+            $ownerEmailForFiltration = trim(Yii::app()->request->getParam('owner_email_for_filtration', null));
             $invite_id = trim(Yii::app()->request->getParam('invite_id', null));
             $exceptDevelopersFiltration = (bool)trim(Yii::app()->request->getParam('except-developers', true));
 
@@ -186,6 +185,15 @@ class AdminPagesController extends SiteBaseController {
                 }
                 else {
                     $filter_form['filter_email'] = "";
+                }
+            }
+
+            if ($isReloadRequest) {
+                if (null !== $ownerEmailForFiltration) {
+                    $filter_form['owner_email'] = $ownerEmailForFiltration;
+                }
+                else {
+                    $filter_form['owner_email'] = "";
                 }
             }
 
@@ -207,7 +215,7 @@ class AdminPagesController extends SiteBaseController {
 
                 // setting all filters
                 if(isset($filter_form['filter_email']) && $filter_form['filter_email'] != "" ) {
-                    $condition .= " email LIKE '%".$filter_form['filter_email']."%' ";
+                    $condition .= " t.email LIKE '%".$filter_form['filter_email']."%' ";
                     $previousConditionPresent = true;
                 }
                 if(isset($filter_form['invite_id']) && $filter_form['invite_id'] && $filter_form['invite_id'] != "" ) {
@@ -215,6 +223,19 @@ class AdminPagesController extends SiteBaseController {
                         $condition .= " AND ";
                     }
                     $condition .= " t.id = ".$filter_form['invite_id']." ";
+                    $previousConditionPresent = true;
+                }
+
+                if(isset(   $filter_form['owner_email'])
+                         && $filter_form['owner_email']
+                         && $filter_form['owner_email'] != ""
+                ) {
+                    if($condition !== "") {
+                        $condition .= " AND ";
+                    }
+                    $criteria->select = 't.*, owner.email as owner_email';
+                    $criteria->join = ' LEFT JOIN profile AS owner ON owner.user_id = t.owner_id ';
+                    $condition .= " owner.email LIKE '%".$filter_form['owner_email']."%' ";
                     $previousConditionPresent = true;
                 }
                 $criteria->addCondition($condition);
