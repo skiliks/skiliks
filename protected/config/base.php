@@ -321,6 +321,7 @@ return array(
                 'admin_area/invoiceComment'    => 'admin_area/AdminPages/CommentInvoice',
                 'admin_area/getInvoiceLog'     => 'admin_area/AdminPages/GetInvoiceLog',
                 'admin_area/referrals'         => 'admin_area/AdminPages/ReferralsList',
+                'admin_area/RegistrationList'  => 'admin_area/AdminPages/RegistrationList',
 
                 'admin_area/simulations/rating/csv'                       => 'admin_area/AdminPages/SimulationsRatingCsv',
                 'admin_area/simulations/rating'                           => 'admin_area/AdminPages/SimulationsRating',
