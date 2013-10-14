@@ -1143,9 +1143,11 @@ html[lang=ru] .product section table th{
 	width:980px;
 	/*height:1435px;*/
 }
+
 .inner-team .content{
     height:1330px;
 }
+
 .team{
 	width:980px;
 	margin:10px auto 0;
@@ -1234,6 +1236,12 @@ html[lang=ru] .product section table th{
 	.team-page{
 	    background:url("../img/bg-team-container-min.png") no-repeat center 608px;
 	}
+
+    body.inner-team .content {
+        height:1284px;
+        padding-bottom: 0;
+    }
+
 	.team-page .content{
 		width:783px;
 		height:1025px;
@@ -4446,10 +4454,10 @@ body.action-controller-corporateReferrals-static-profile .popup-before-start-sim
         width:170px;
     }
     .action-controller-corporate-static-dashboard .cabmessage {
-        left:50% !important;
-        margin-left:-240px !important;
-        top:170px !important;
-        width:480px !important;
+        left: 50% !important;
+        margin-left: -143px !important;
+        top: 190px !important;
+        width: 505px !important;
     }
     .action-controller-corporate-static-dashboard .cabmessage .ui-widget-content {
         min-height: 310px !important;
