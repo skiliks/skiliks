@@ -1613,6 +1613,79 @@ class AdminPagesController extends SiteBaseController {
     }
 
 
+    public function actionRegistrationList() {
+        // getting registration by day
+        $userCounter = new countRegisteredUsers();
+        $userCounter->getAllUserForDays();
+        $userCounter->getNonActiveUsersForDays();
+
+        $dayDate = new DateTime();
+
+        $registrationsByDay = [];
+        for($i = 0; $i<30; $i++) {
+            $day = date_format($dayDate, 'Y-m-d');
+            $registrationsByDay[$day]['period'] = $day;
+            $registrationsByDay[$day]['totalRegistrations'] = isset($userCounter->totalRegistrations[$day]) ? $userCounter->totalRegistrations[$day] : 0;
+            $registrationsByDay[$day]['totalPersonals'] = isset($userCounter->totalPersonals[$day]) ? $userCounter->totalPersonals[$day] : 0;
+            $registrationsByDay[$day]['totalCorporate'] = isset($userCounter->totalCorporate[$day]) ? $userCounter->totalCorporate[$day] : 0;
+            $registrationsByDay[$day]['totalNonActivePersonals'] = isset($userCounter->totalNonActivePersonals[$day]) ? $userCounter->totalNonActivePersonals[$day] : 0;
+            $registrationsByDay[$day]['totalNonActiveCorporate'] = isset($userCounter->totalNonActiveCorporate[$day]) ? $userCounter->totalNonActiveCorporate[$day] : 0;
+
+            $dateInterval = new DateInterval('P1D');
+            $dateInterval->invert = 1;
+            $dayDate->add($dateInterval);
+        }
+
+        // getting registration by month
+        $userCounter = new countRegisteredUsers();
+        $userCounter->getAllUserForDays();
+        $userCounter->getNonActiveUsersForDays();
+
+        $dayDate = new DateTime();
+
+        $registrationsByMonth = [];
+        for($i = 0; $i<12; $i++) {
+            $day = date_format($dayDate, 'F');
+            $registrationsMonth[$day]['period'] = $day;
+            $registrationsMonth[$day]['totalRegistrations'] = isset($userCounter->totalRegistrations[$day]) ? $userCounter->totalRegistrations[$day] : 0;
+            $registrationsMonth[$day]['totalPersonals'] = isset($userCounter->totalPersonals[$day]) ? $userCounter->totalPersonals[$day] : 0;
+            $registrationsMonth[$day]['totalCorporate'] = isset($userCounter->totalCorporate[$day]) ? $userCounter->totalCorporate[$day] : 0;
+            $registrationsMonth[$day]['totalNonActivePersonals'] = isset($userCounter->totalNonActivePersonals[$day]) ? $userCounter->totalNonActivePersonals[$day] : 0;
+            $registrationsMonth[$day]['totalNonActiveCorporate'] = isset($userCounter->totalNonActiveCorporate[$day]) ? $userCounter->totalNonActiveCorporate[$day] : 0;
+
+            $dateInterval = new DateInterval('P1M');
+            $dateInterval->invert = 1;
+            $dayDate->add($dateInterval);
+        }
+
+        // getting registration by year
+        $userCounter = new countRegisteredUsers();
+        $userCounter->getAllUserForYears();
+        $userCounter->getNonActiveUserForYears();
+
+        $dayDate = new DateTime();
+
+        $registrationsByYear = [];
+        $day = date_format($dayDate, 'Y');
+        $registrationsByYear[$day]['period'] = $day;
+        $registrationsByYear[$day]['totalRegistrations'] = isset($userCounter->totalRegistrations[$day]) ? $userCounter->totalRegistrations[$day] : 0;
+        $registrationsByYear[$day]['totalPersonals'] = isset($userCounter->totalPersonals[$day]) ? $userCounter->totalPersonals[$day] : 0;
+        $registrationsByYear[$day]['totalCorporate'] = isset($userCounter->totalCorporate[$day]) ? $userCounter->totalCorporate[$day] : 0;
+        $registrationsByYear[$day]['totalNonActivePersonals'] = isset($userCounter->totalNonActivePersonals[$day]) ? $userCounter->totalNonActivePersonals[$day] : 0;
+        $registrationsByYear[$day]['totalNonActiveCorporate'] = isset($userCounter->totalNonActiveCorporate[$day]) ? $userCounter->totalNonActiveCorporate[$day] : 0;
+
+        $this->layout = '//admin_area/layouts/admin_main';
+        $this->render('/admin_area/pages/registrationCounterList',
+            [
+                'registrationsByDay'     => $registrationsByDay,
+                'registrationsByMonth'   => $registrationsMonth,
+                'registrationsByYear'    => $registrationsByYear,
+            ]
+        );
+    }
+
+
+
 
 
     // формирование отчетов
