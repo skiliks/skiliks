@@ -4446,10 +4446,10 @@ body.action-controller-corporateReferrals-static-profile .popup-before-start-sim
         width:170px;
     }
     .action-controller-corporate-static-dashboard .cabmessage {
-        left:50% !important;
-        margin-left:-240px !important;
-        top:170px !important;
-        width:480px !important;
+        left: 50% !important;
+        margin-left: -143px !important;
+        top: 190px !important;
+        width: 505px !important;
     }
     .action-controller-corporate-static-dashboard .cabmessage .ui-widget-content {
         min-height: 310px !important;
