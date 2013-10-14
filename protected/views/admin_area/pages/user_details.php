@@ -28,13 +28,17 @@ $assetsUrl = $this->getAssetsUrl();
     <i class="icon icon-pencil icon-white"></i>&nbsp;
     Изменить пароль</a>
 <?php if ($user->isCorporate()): ?>
+    &nbsp; &nbsp;
     <a class="btn btn-info"
        href="<?= $this->createAbsoluteUrl('admin_area/AdminPages/UserReferrals', ['userId' => $user->id]) ?>">
         <i class="icon icon-share icon-white"></i>&nbsp;
         Рефераллы</a>
-
+    &nbsp; &nbsp;
     <a class="btn btn-info" href="/admin_area/corporate-account/<?= $user->id ?>/invite-limit-logs">Логи списания/зачисления симуляций</a>
 <?php endif; ?>
+
+&nbsp; &nbsp;
+<a class="btn btn-success" href="/admin_area/login/ghost/<?= $user->id ?>">Войти на сайт от имени пользователя</a>
 
 <br/>
 <br/>
