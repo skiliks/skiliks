@@ -78,7 +78,7 @@ class SiteController extends SiteBaseController
                 $tutorial = true;
                 $invite->tutorial_displayed_at = date('Y-m-d H:i:s');
                 $invite->save(false);
-                InviteService::logAboutInviteStatus($invite, 'invite : updated : tutorial started');
+                InviteService::logAboutInviteStatus($invite, 'Пользователь прошел туториал');
         }
 
         /** @var Scenario $scenario */
@@ -170,7 +170,7 @@ class SiteController extends SiteBaseController
         /* @var */
         $invite = Invite::model()->findByPk($invite_id);
         if(InviteService::isSimulationOverrideDetected($invite)){
-            InviteService::logAboutInviteStatus($invite, 'try to start simulation when full sim already started');
+            InviteService::logAboutInviteStatus($invite, 'Проверка на запущеную симуляцию');
             $result['user_try_start_simulation_twice'] = true;
         }else{
             $result['user_try_start_simulation_twice'] = false;
@@ -207,8 +207,12 @@ class SiteController extends SiteBaseController
             if (null !== $invite->simulation) {
                 $invite->simulation->status = Simulation::STATUS_INTERRUPTED;
                 $invite->simulation->save(false);
-
+                $initValue = $user->getAccount()->getTotalAvailableInvitesLimit();
                 $user->getAccount()->invites_limit++;
+
+                UserService::logCorporateInviteMovementAdd(sprintf("Симуляция номер %s прервана ( приглашение номер %s). В аккаунт возвращена одна симуляция.",
+                    $invite->simulation->id,$invite->id), $user->getAccount(), $initValue);
+
             }
             $invite->status = Invite::STATUS_DELETED;
             $invite->save(false);
@@ -222,7 +226,7 @@ class SiteController extends SiteBaseController
         $invite_id = Yii::app()->request->getParam('invite_id');
         if(null!==$invite_id){
             $invite = Invite::model()->findByPk($invite_id);
-            InviteService::logAboutInviteStatus($invite, 'user start second simulation');
+            InviteService::logAboutInviteStatus($invite, 'Пользователь запустил вторую симуляцию');
         }
     }
 
@@ -230,7 +234,7 @@ class SiteController extends SiteBaseController
         $invite_id = Yii::app()->request->getParam('invite_id');
         if(null!==$invite_id){
             $invite = Invite::model()->findByPk($invite_id);
-            InviteService::logAboutInviteStatus($invite, 'user reject start second simulation');
+            InviteService::logAboutInviteStatus($invite, 'Пользователь запустил вторую симуляцию');
         }
     }
 
