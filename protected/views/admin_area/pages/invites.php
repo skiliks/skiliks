@@ -18,28 +18,15 @@ $titles = [
     <?php $this->widget('CLinkPager',array(
         'header'         => '',
         'pages'          => $pager,
-        'maxButtonCount' => 5, // максимальное вол-ко кнопок
+        'maxButtonCount' => 15, // максимальное вол-ко кнопок
     )); ?>
 
     Страница <?= $page ?> из <?= ceil($totalItems/$itemsOnPage) ?> (<?= $itemsOnPage ?> записей отображено, найдено <?= $totalItems ?>)
 
-    <?php // hack to use pager with post requests { ?>
-        <script type="text/javascript">
-            $('.yiiPager .page').removeClass('selected');
-            $('.yiiPager .page:eq(<?= $page - 1 ?>)').addClass('selected');
-            $('.yiiPager a').click(function(e) {
-                e.preventDefault();
-                var page = $(this).text();
-                $('#invites-filter-page').attr('value', page);
-                $('#invites-filter').submit();
-            });
-        </script>
-    <?php // hack to use pager with post requests } ?>
-
     <br/>
     <br/>
 
-    <form id="invites-filter" action="/admin_area/invites" method="post" style="display: inline-block;">
+    <form id="invites-filter" action="/admin_area/invites" method="get" style="display: inline-block;">
         <input id="invites-filter-page" type="hidden" name="page" value="<?= $page ?>" />
         <table class="table table-bordered">
             <tr>
