@@ -48,6 +48,14 @@ $titles = [
                 <td> <i class="icon-filter"></i> &nbsp; Invite id: </td>
                 <td> <input name="invite_id" value="<?= $invite_id ?>" style="width: 60px;"/> </td>
             </tr>
+
+            <tr>
+                <td> <i class="icon-filter"></i> &nbsp; email отправителя: </td>
+                <td> <input name="owner_email_for_filtration" value="<?= $ownerEmailForFiltration ?>"/> </td>
+                <td></td>
+                <td></td>
+            </tr>
+
             <tr>
                 <td> Исключить приглашения самому себе: </td>
                 <td> <input type="checkbox" name="exclude_invites_from_ne_to_me"
