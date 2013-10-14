@@ -14,16 +14,16 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
     {
         //$this->markTestIncomplete();
         $this->start_simulation();
-        $this->run_event('ET1.1', "css=li.icon-active.phone a", 'click');
+        $this->run_event('ET1.1', Yii::app()->params['test_mappings']['icons']['phone'], 'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
         $this->optimal_click("xpath=(//*[contains(text(),'Раиса Романовна,  я как раз собираюсь')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Я пока не знаю, сколько времени мне потребуется')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Понял, открываю файл')])");
         sleep(2);
-        $this->run_event('ET2.1', "css=li.icon-active.phone a", 'click');
+        $this->run_event('ET2.1', Yii::app()->params['test_mappings']['icons']['phone'], 'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['no_reply']);
         sleep(2);
-        $this->run_event('ET2.3', "css=li.icon-active.phone a", 'click');
+        $this->run_event('ET2.3', Yii::app()->params['test_mappings']['icons']['phone'], 'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
         $this->optimal_click("xpath=(//*[contains(text(),'Валерий Семенович,  так в прошлый раз нам пришлось презентацию за день делать!')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Непременно, сейчас запланирую время на проверку')])");

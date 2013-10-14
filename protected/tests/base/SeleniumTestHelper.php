@@ -159,7 +159,7 @@ class SeleniumTestHelper extends CWebTestCase
      */
     public function reply_call ()
     {
-        $this->optimal_click("css=li.icon-active.phone a");
+        $this->optimal_click(Yii::app()->params['test_mappings']['icons']['phone']);
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
     }
 
@@ -168,7 +168,7 @@ class SeleniumTestHelper extends CWebTestCase
      */
     public function no_reply_call ()
     {
-        $this->optimal_click("css=li.icon-active.phone a");
+        $this->optimal_click(Yii::app()->params['test_mappings']['icons']['phone']);
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['no_reply']);
     }
 
@@ -177,7 +177,7 @@ class SeleniumTestHelper extends CWebTestCase
      */
     public function write_mail_active()
     {
-        $this->optimal_click("css=li.icon-active.mail a");
+        $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['to_whom']);
     }
 
@@ -269,8 +269,7 @@ class SeleniumTestHelper extends CWebTestCase
         $same_number = false;
         $was_changed = false;
         $this->waitForVisible(Yii::app()->params['test_mappings']['icons']['mail']);
-        $this->waitForVisible("css=li.icon-active.mail a");
-        if ($this->isVisible("css=li.icon-active.mail a"))
+        if ($this->isVisible(Yii::app()->params['test_mappings']['icons']['mail']))
         {
             for ($second = 0; ; $second++) {
                 if ($second >= 600)
@@ -346,10 +345,10 @@ class SeleniumTestHelper extends CWebTestCase
     // параметром нужно написать начальный event, например RST1
     public function clearEventQueueBeforeEleven($event)
     {
-        $this->run_event($event, "css=li.icon-active.phone a", 'click');
+        $this->run_event($event, Yii::app()->params['test_mappings']['icons']['phone'], 'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['no_reply']);
         $event .= '.1';
-        $this->run_event($event, "css=li.icon-active.phone a", 'click');
+        $this->run_event($event, Yii::app()->params['test_mappings']['icons']['phone'], 'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['no_reply']);
     }
 
@@ -609,28 +608,5 @@ class SeleniumTestHelper extends CWebTestCase
             sleep(1);
         }
     }
-
-    // попытка сделать свой скиппер - пока не удалять
-    public function markTestSkipp ()
-    {
-        $this->assertTrue(TRUE, 'This should already work.');
-        $this->close();
-    }
-
-
-    /*public function __construct()
-    {
-        $x = $this;
-        register_shutdown_function(function() use ($x) {
-            $x->open('/logout');
-            try {
-                $x->stopSession();
-            } catch (Exception $e) {
-                echo print_r($e);
-            }
-        });
-
-        parent::__construct();
-    }*/
 }
 
