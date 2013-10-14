@@ -2,7 +2,7 @@
 
 class AdminPagesController extends SiteBaseController {
 
-    public $itemsOnPage = 20;
+    public $itemsOnPage = 100;
 
     public $user;
 
