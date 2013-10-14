@@ -350,6 +350,7 @@ return array(
                 'admin_area/AdminPages/SubscribersList'           => 'admin_area/AdminPages/SubscribersList',
                 'admin_area/user/<userId:\w+>/details'            => 'admin_area/AdminPages/UserDetails',
                 'admin_area/user-referrals/<userId:\d+>'          => 'admin_area/AdminPages/UserReferrals',
+                'admin_area/login/ghost/<userId:\d+>'             => 'admin_area/AdminPages/GhostLogin',
 
                 'admin_area/user/<userId:\w+>/set-tariff/<label:\w+>'        => 'admin_area/AdminPages/UserSetTariff',
                 'admin_area/user/<userId:\w+>/set-invites-limit/<value:[\w\-]+>' => 'admin_area/AdminPages/UserAddRemoveInvitations',
@@ -412,6 +413,13 @@ return array(
         'isDisplaySimulationResults'    => false,
         'simulationIdStorage'           => 'request', // 'request', 'session'
         'initialSimulationsAmount'      => 3,
+
+        // Блокирует/разрещает использование админами входа на сайт от именю любого пользователя
+        'isBlockGhostLogin'             => false,
+
+        // накладывает ограничение на круг лиц, которым разрешено использование GhostLogin
+        'isUseStrictRulesForGhostLogin' => true,
+
         'emails' => [
             'isDisplayStandardInvitationMailTopText' => true, // 'Вопросы относительно вакансии вы можете задать по адресу %s, куратор вакансии - %s.'
             'inviteEmailTemplate'      => '//global_partials/mails/invite_default',
