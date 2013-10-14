@@ -206,8 +206,12 @@ class SiteController extends SiteBaseController
             if (null !== $invite->simulation) {
                 $invite->simulation->status = Simulation::STATUS_INTERRUPTED;
                 $invite->simulation->save(false);
-
+                $initValue = $user->getAccount()->getTotalAvailableInvitesLimit();
                 $user->getAccount()->invites_limit++;
+
+                UserService::logCorporateInviteMovementAdd(sprintf("Симуляция номер %s прервана ( приглашение номер %s). В аккаунт возвращена одна симуляция.",
+                    $invite->simulation->id,$invite->id), $user->getAccount(), $initValue);
+
             }
             $invite->status = Invite::STATUS_DELETED;
             $invite->save(false);

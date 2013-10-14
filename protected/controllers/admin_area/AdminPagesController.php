@@ -742,6 +742,8 @@ class AdminPagesController extends SiteBaseController {
     public function actionCompleteInvoice() {
         $invoiceId = Yii::app()->request->getParam('invoice_id');
 
+        $admin = Yii::app()->user->data();
+
         $criteria = new CDbCriteria();
         $criteria->compare('id', $invoiceId);
 
@@ -751,7 +753,16 @@ class AdminPagesController extends SiteBaseController {
             $user = Yii::app()->user->data();
             $invoice_log = new LogPayments();
             $invoice_log->log($invoice, "Попытка отметить счёт как \"Оплаченый\" в админке. Админ ".$user->profile->email.".");
+
+            $initValue = $invoice->user->getAccount()->getTotalAvailableInvitesLimit();
+
             $invoice->completeInvoice($user->profile->email);
+
+            UserService::logCorporateInviteMovementAdd(sprintf(
+                    "Принята оплата по счёт-фактуре номер %s, на тарифный план %s. Количество доступных симуляций установлено в %s из них за рефераллов %s. Админ %s.",
+                    $invoice->id, $invoice->tariff->label, $invoice->tariff->simulations_amount, $invoice->user->getAccount()->referrals_invite_limit, $admin->profile->email
+                ),  $invoice->user->getAccount(), $initValue);
+
             echo json_encode(["return" => true, "paidAt" => $invoice->paid_at]);
         }
     }
@@ -766,9 +777,18 @@ class AdminPagesController extends SiteBaseController {
 
         if($invoice !== null && $invoice->paid_at != null) {
             $user = Yii::app()->user->data();
+
             $invoice_log = new LogPayments();
+            $initValue = $invoice->user->getAccount()->getTotalAvailableInvitesLimit();
+
             $invoice_log->log($invoice, "Попытка отметить счёт как \"Не оплаченый\" в админке. Админ ".$user->profile->email.".");
             $invoice->disableInvoice($user->profile->email);
+
+            UserService::logCorporateInviteMovementAdd(sprintf(
+                "Банковский перевод признан несостоявшимся. Админ %s (емейл текущего авторизованного в админке пользователя).",
+                $user->profile->email
+            ),  $invoice->user->getAccount(), $initValue);
+
             echo json_encode(["return" => true]);
         }
 
@@ -1358,11 +1378,6 @@ class AdminPagesController extends SiteBaseController {
         $tariff = Tariff::model()->findByAttributes(['slug' => $label]);
 
         if (null == $tariff) {
-            UserService::logCorporateInviteMovementAdd(
-                'Cheats: actionChooseTariff, NULL tariff',
-                $user->getAccount(),
-                $initValue
-            );
             Yii::app()->user->setFlash('error', sprintf(
                 'Не найден тариф "%s".',
                 $label
@@ -1378,10 +1393,17 @@ class AdminPagesController extends SiteBaseController {
         $user->getAccount()->save();
         // set Tariff }
 
+        $admin = Yii::app()->user->data();
+
+        $user->getAccount()->referrals_invite_limit;
+
         UserService::logCorporateInviteMovementAdd(
-            'Cheats: actionChooseTariff, tariff not null',
+            sprintf('Тарифный план для %s сменён на %s из админ области. Количество доступных симуляций установлено в %s из них за рефераллов %s. Админ %s.',
+                $user->profile->email, $tariff->label, $user->getAccount()->invites_limit,
+                $user->getAccount()->referrals_invite_limit, $admin->profile->email
+            ),
             $user->getAccount(),
-            $initValue
+            $user->getAccount()->getTotalAvailableInvitesLimit()
         );
 
         Yii::app()->user->setFlash('success', sprintf(
@@ -1396,6 +1418,7 @@ class AdminPagesController extends SiteBaseController {
 
     public function actionUserAddRemoveInvitations($userId, $value)
     {
+        $admin = Yii::app()->user->data();
         $user = YumUser::model()->findByPk($userId);
         if (null === $user ) {
             Yii::app()->user->setFlash('error', sprintf(
@@ -1406,7 +1429,8 @@ class AdminPagesController extends SiteBaseController {
         }
 
         // set invites_limit {
-        $initValue = $user->getAccount()->invites_limit;
+        $initValue = $user->getAccount()->getTotalAvailableInvitesLimit();
+        $account = $user->getAccount();
 
         $user->getAccount()->invites_limit += $value;
         if ($user->getAccount()->invites_limit < 0) {
@@ -1416,7 +1440,8 @@ class AdminPagesController extends SiteBaseController {
         // set invites_limit }
 
         UserService::logCorporateInviteMovementAdd(
-            'Cheats: action set invites_limit, to'.$user->getAccount()->invites_limit,
+           sprintf('Количество доступных симуляций установлено в %s в админ области, из них за рефераллов %s. '.
+           ' Админ %s (емейл текущего авторизованного в админке пользователя).', $account->invites_limit, $account->referrals_invite_limit, $admin->profile->email),
             $user->getAccount(),
             $initValue
         );
