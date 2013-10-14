@@ -30,7 +30,12 @@ class SetInviteCountCommand extends CConsoleCommand
         $account->invites_limit -= $remove;
         $result = $account->save(false);
 
-        UserService::logCorporateInviteMovementAdd('SetInviteCountCommand', $account, $initValue);
+        UserService::logCorporateInviteMovementAdd(
+            sprintf('Количество доступных симуляций установлено в Х консольной командой, из них за рефераллов Х.',
+                $account->invites_limit, $account->referrals_invite_limit),
+            $account,
+            $initValue
+        );
 
         echo $result ? 'Success' : 'Fail';
         return $result === true ? 0 : 1;

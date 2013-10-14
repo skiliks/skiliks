@@ -54,17 +54,18 @@ class UserAccountCorporate extends CActiveRecord
                 throw new Exception("Not save Tariff");
             }
 
-            UserService::logCorporateInviteMovementAdd(
-                'Account setTariff and save',
-                $this->user->getAccount(),
-                $initValue
-            );
+//            UserService::logCorporateInviteMovementAdd(
+//                'Account setTariff and save',
+//                $this->user->getAccount(),
+//                $initValue
+//            );
+
         } else {
-            UserService::logCorporateInviteMovementAdd(
-                'Account setTariff but not save (?)',
-                $this->user->getAccount(),
-                $initValue
-            );
+//            UserService::logCorporateInviteMovementAdd(
+//                'Account setTariff but not save (?)',
+//                $this->user->getAccount(),
+//                $initValue
+//            );
         }
 
 
@@ -212,11 +213,12 @@ class UserAccountCorporate extends CActiveRecord
             $this->invites_limit++;
             $this->save(false, ['invites_limit']);
 
-            UserService::logCorporateInviteMovementAdd(
-                'increaseLimit',
-                $this->user->getAccount(),
-                $initValue
-            );
+            // TODO уточнить у славы!
+//            UserService::logCorporateInviteMovementAdd(
+//                'Увеличен лимит ',
+//                $this->user->getAccount(),
+//                $initValue
+//            );
         }
     }
 
