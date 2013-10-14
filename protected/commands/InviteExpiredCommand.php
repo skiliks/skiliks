@@ -31,7 +31,7 @@ class InviteExpiredCommand extends CConsoleCommand
             $initValue = $invite->ownerUser->getAccount()->getTotalAvailableInvitesLimit();
 
             if ($invite->inviteExpired()) {
-                echo sprintf("%s mark as expired \n", $invite->id);
+                echo sprintf("%s mark invite as expired \n", $invite->id);
 
                 UserService::logCorporateInviteMovementAdd(sprintf("Приглашения номер %s для %s устарело. В аккаунт возвращена одна симуляция.",
                     $invite->id, $invite->email),  $invite->ownerUser->getAccount(), $initValue);

@@ -885,7 +885,6 @@ class Invite extends CActiveRecord
     }
 
     public static function getStatusNameByCode($code) {
-
         if(empty($code)){
             return "не задано";
         }
