@@ -4,7 +4,7 @@
     <tr>
         <th>День</th>
         <?php foreach($registrationsByDay as $day) : ?>
-            <td><?=$day["period"] ?></td>
+            <th><?=$day["period"] ?></th>
         <? endforeach; ?>
     </tr>
 
@@ -50,7 +50,7 @@
     <tr>
         <th>Месяц</th>
         <?php foreach($registrationsByMonth as $day) : ?>
-            <td><?=$day["period"] ?></td>
+            <th><?=$day["period"] ?></th>
         <? endforeach; ?>
     </tr>
 
@@ -94,9 +94,9 @@
 
 <table class="table table-striped">
     <tr>
-        <th>День</th>
+        <th>Год</th>
         <?php foreach($registrationsByYear as $day) : ?>
-            <td><?=$day["period"] ?></td>
+            <th><?=$day["period"] ?></th>
         <? endforeach; ?>
     </tr>
 
