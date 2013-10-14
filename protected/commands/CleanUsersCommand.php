@@ -9,6 +9,7 @@
 /**
  *
  * Что она делает?
+ * Она удаляет неактивированных пользователей
  */
 class CleanUsersCommand extends CConsoleCommand
 {
