@@ -134,17 +134,24 @@ class AdminPagesController extends SiteBaseController {
             $models = Invite::model()->findAll($criteria);
         }
 
+        // getting scenarios type
+        $scenarioCriteria = new CDbCriteria();
+        $scenarioCriteria->distinct = true;
+        $scenarios = Scenario::model()->findAll($scenarioCriteria);
+
         $this->layout = '//admin_area/layouts/admin_main';
         $this->render('/admin_area/pages/invites', [
-            'models'      => $models,
-            'page'        => $page,
-            'pager'       => $pager,
-            'totalItems'  => $totalItems,
-            'itemsOnPage' => $this->itemsOnPage,
-            'formFilters' => $allFilters['filters'],
+            'models'                     => $models,
+            'page'                       => $page,
+            'pager'                      => $pager,
+            'totalItems'                 => $totalItems,
+            'itemsOnPage'                => $this->itemsOnPage,
+            'formFilters'                => $allFilters['filters'],
             'receiverEmailForFiltration' => isset($allFilters['filters']['filter_email']) ? $allFilters['filters']['filter_email'] : "",
-            'ownerEmailForFiltration' => isset($allFilters['filters']['owner_email']) ? $allFilters['filters']['owner_email'] : "",
-            'invite_id' => isset($allFilters['filters']['invite_id']) ? $allFilters['filters']['invite_id'] : "",
+            'ownerEmailForFiltration'    => isset($allFilters['filters']['owner_email']) ? $allFilters['filters']['owner_email'] : "",
+            'invite_id'                  => isset($allFilters['filters']['invite_id']) ? $allFilters['filters']['invite_id'] : "",
+            'scenario_id'                => isset($allFilters['filters']['filter_scenario_id']) ? $allFilters['filters']['filter_scenario_id'] : "",
+            'scenarios'                  => $scenarios
         ]);
     }
 
@@ -177,6 +184,7 @@ class AdminPagesController extends SiteBaseController {
             $ownerEmailForFiltration = trim(Yii::app()->request->getParam('owner_email_for_filtration', null));
             $invite_id = trim(Yii::app()->request->getParam('invite_id', null));
             $exceptDevelopersFiltration = (bool)trim(Yii::app()->request->getParam('except-developers', true));
+            $simulationScenario = Yii::app()->request->getParam('filter_scenario_id', true);
 
             // remaking email form
             if ($isReloadRequest) {
@@ -194,6 +202,24 @@ class AdminPagesController extends SiteBaseController {
                 }
                 else {
                     $filter_form['owner_email'] = "";
+                }
+            }
+
+            if ($isReloadRequest) {
+                if (null !== $exceptDevelopersFiltration) {
+                    $filter_form['exceptDevelopersFiltration'] = $exceptDevelopersFiltration;
+                }
+                else {
+                    $filter_form['exceptDevelopersFiltration'] = "";
+                }
+            }
+
+            if ($isReloadRequest) {
+                if (null !== $simulationScenario) {
+                    $filter_form['filter_scenario_id'] = $simulationScenario;
+                }
+                else {
+                    $filter_form['filter_scenario_id'] = "";
                 }
             }
 
@@ -252,6 +278,15 @@ class AdminPagesController extends SiteBaseController {
                         $filter_form['exclude_invites_from_ne_to_me'] = false;
                     }
                 }
+            }
+
+            if (isset($filter_form["filter_scenario_id"]) && $filter_form["filter_scenario_id"] != "") {
+                if (false === $previousConditionPresent) {
+                    $previousConditionPresent = true;
+                } else {
+                    $condition .= " AND ";
+                }
+                $condition .= ' scenario_id = '.$filter_form["filter_scenario_id"] ;
             }
 
             if ($filter_form['exclude_invites_from_ne_to_me']) {
