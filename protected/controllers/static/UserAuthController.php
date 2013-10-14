@@ -90,10 +90,10 @@ class UserAuthController extends YumController
                                 
                                 UserService::logCorporateInviteMovementAdd(
                                     sprintf('Количество симуляций для нового аккаунта номер %s, емейл %s, задано равным %s по тарифному плану %s.',
-                                        $accountCorporate->user_id, $profile->email, $tariff->getTotalAvailableInvitesLimit(), $tariff->label
+                                        $accountCorporate->user_id, $profile->email, $accountCorporate->getTotalAvailableInvitesLimit(), $tariff->label
                                     ),
-                                    $this->user->getAccount(),
-                                    $tariff->getTotalAvailableInvitesLimit()
+                                    $accountCorporate,
+                                    $accountCorporate->getTotalAvailableInvitesLimit()
                                 );
                                 
                                 $accountCorporate->save();
@@ -432,10 +432,10 @@ class UserAuthController extends YumController
 
                         UserService::logCorporateInviteMovementAdd(
                             sprintf('Количество симуляций для нового аккаунта номер %s, емейл %s, задано равным %s по тарифному плану %s.',
-                                $accountCorporate->user_id, $profile->email, $tariff->getTotalAvailableInvitesLimit(), $tariff->label
+                                $accountCorporate->user_id, $profile->email, $accountCorporate->getTotalAvailableInvitesLimit(), $tariff->label
                             ),
-                            $this->user->getAccount(),
-                            $tariff->getTotalAvailableInvitesLimit()
+                            $accountCorporate,
+                            $accountCorporate->getTotalAvailableInvitesLimit()
                         );
                         
                         if(false === $accountCorporate->save(true, ['user_id','default_invitation_mail_text','industry_id'])){
