@@ -140,7 +140,7 @@ class MailHelper
 
     public static function sendEmailIfSuspiciousActivity(Invite $invite) {
 
-        if($invite->owner_id === $invite->receiver_id && false == $invite->receiverUser->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE && $invite->scenario->slug === Scenario::TYPE_FULL)) {
+        if($invite->owner_id === $invite->receiver_id && null !== $invite->receiverUser && false == $invite->receiverUser->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE && $invite->scenario->slug === Scenario::TYPE_FULL)) {
             $scenario = Scenario::model()->findByAttributes(['slug'=>Scenario::TYPE_FULL]);
             $count = (int)Invite::model()->count("receiver_id = :user_id and owner_id = :user_id and scenario_id = :scenario_id and (status = :in_progress or status = :completed)", [
                 'user_id'=>$invite->owner_id,
