@@ -96,7 +96,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
                 $invite->is_display_simulation_results = Yii::app()->params['isDisplaySimulationResults'];
                 $invite->save();
 
-                InviteService::logAboutInviteStatus($invite, 'invite : created (new) : standard');
+                InviteService::logAboutInviteStatus($invite, 'Отправлен с рабочего кабинета корпоративного юзера');
                 $this->sendInviteEmail($invite);
 
                 $initValue = $this->user->getAccount()->getTotalAvailableInvitesLimit();
@@ -141,7 +141,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
                 if ($inviteToEdit->validate(['firstname', 'lastname', 'vacancy_id'])) {
                     $inviteToEdit->update(['firstname', 'lastname', 'vacancy_id']);
                     $inviteToEdit->refresh();
-                    InviteService::logAboutInviteStatus($inviteToEdit, 'invite : update (new) : standard');
+                    InviteService::logAboutInviteStatus($inviteToEdit, 'Обновлене данных инвайта в рабочем кабинете');
                 }
             }
         }
@@ -224,7 +224,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
 
             $notUsedFullSimulations[] = $newInviteForFullSimulation;
 
-            InviteService::logAboutInviteStatus($newInviteForFullSimulation, 'invite : created : system-demo (full 1)');
+            InviteService::logAboutInviteStatus($newInviteForFullSimulation, 'Создан новый инвайт для копоративного пользователя');
 
         }
         // check and add trial full version }
@@ -419,7 +419,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
                 if ($inviteToEdit->validate(['firstname', 'lastname', 'vacancy_id'])) {
                     $inviteToEdit->update(['firstname', 'lastname', 'vacancy_id']);
                     $inviteToEdit->refresh();
-                    InviteService::logAboutInviteStatus($inviteToEdit, 'invite : update : standard');
+                    InviteService::logAboutInviteStatus($inviteToEdit, 'Обновлене данных инвайта в рабочем кабинете');
                 }
             }
         }
@@ -733,10 +733,11 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         // for invites to unregistered (when invitation had been send) users, receiver_id is NULL
         // fix (NULL) receiver_id to make sure that simulation can start
         $invite->receiver_id = Yii::app()->user->data()->id;
+        $invite_status = $invite->status;
         $invite->status = Invite::STATUS_ACCEPTED;
         $invite->updated_at = (new DateTime('now', new DateTimeZone('Europe/Moscow')))->format("Y-m-d H:i:s");
         $invite->update(false, ['status', 'receiver_id']);
-        InviteService::logAboutInviteStatus($invite, 'invite : updated : accepted');
+        InviteService::logAboutInviteStatus($invite, 'Пользователь сменил статус с '.Invite::getStatusNameByCode($invite_status)." на ".Invite::getStatusNameByCode($invite->status));
 
         /* @flash
         Yii::app()->user->setFlash('success', sprintf(
@@ -775,7 +776,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         $invite->updated_at = (new DateTime('now', new DateTimeZone('Europe/Moscow')))->format("Y-m-d H:i:s");
         $invite->update(false, ['status']);
 
-        InviteService::logAboutInviteStatus($invite, 'invite : updated : remove');
+        InviteService::logAboutInviteStatus($invite, 'Клиент удалил инвайт');
 
         /* @flash
         Yii::app()->user->setFlash('success', sprintf(
@@ -826,10 +827,11 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         $declineExplanation->created_at = date('Y-m-d H:i:s');
         $declineExplanation->save();
 
+        $invite_status = $declineExplanation->invite->status;
         $declineExplanation->invite->status = Invite::STATUS_DECLINED;
         $declineExplanation->invite->updated_at = (new DateTime('now', new DateTimeZone('Europe/Moscow')))->format("Y-m-d H:i:s");
         $declineExplanation->invite->update(false, ['status']);
-        InviteService::logAboutInviteStatus($declineExplanation->invite, 'invite : updated : declined');
+        InviteService::logAboutInviteStatus($declineExplanation->invite, 'Пользователь сменил статус с '.Invite::getStatusNameByCode($invite_status)." на ".Invite::getStatusNameByCode($declineExplanation->invite->status));
 
         $user = Yii::app()->user->data();
 

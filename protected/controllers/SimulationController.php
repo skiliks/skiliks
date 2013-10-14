@@ -186,9 +186,10 @@ class SimulationController extends SimulationBaseController
 
         // IF - to prevent cheating
         if (null !== $invite /*&& $invite->isAccepted()*/ && false === $invite->scenario->isLite()) {
+            $invite_status = Invite::STATUS_IN_PROGRESS;
             $invite->status = Invite::STATUS_IN_PROGRESS;
             $invite->save(false);
-            InviteService::logAboutInviteStatus($invite, 'invite : updated : markInviteStarted');
+            InviteService::logAboutInviteStatus($invite, "Инвайт меняет статус с ".Invite::getStatusNameByCode($invite_status)." на ".Invite::getStatusNameByCode($invite->status));
         }
         $this->sendJSON(['result' => self::STATUS_SUCCESS]);
     }

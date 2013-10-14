@@ -54,7 +54,7 @@ try {
                         url: '/index.php/logService/addInviteLog',
                         data: {
                             inviteId: window.inviteId,
-                            action: 'Warning about low processor speed. Level is ' + processorTestResult.average,
+                            action: 'Предупреждение о низкой скорости процессора. Уровень ' + processorTestResult.average,
                             uniqueId: -1,
                             time: '00:00:00'
                         },
