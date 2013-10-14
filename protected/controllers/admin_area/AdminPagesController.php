@@ -1640,8 +1640,8 @@ class AdminPagesController extends SiteBaseController {
 
         // getting registration by month
         $userCounter = new countRegisteredUsers();
-        $userCounter->getAllUserForDays();
-        $userCounter->getNonActiveUsersForDays();
+        $userCounter->getAllUserForMonths();
+        $userCounter->getNonActiveUsersForMonths();
 
         $dayDate = new DateTime();
 
