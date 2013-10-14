@@ -36,6 +36,7 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
             'isLocalPc'         => true,
             'isUseZohoProxy'    => false,
             'useSentryForJsLog' => true,
+            'runMigrationOn'    => 'production', //production - skiliks.com, live - live.skiliks.com, loc - loc.skiliks.com
         ],
         'zoho' => array(
             'apiKey'              => 'e52059ce3aeff6dd2c71afb9499bdcf7',
