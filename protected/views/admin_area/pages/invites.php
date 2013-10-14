@@ -18,28 +18,15 @@ $titles = [
     <?php $this->widget('CLinkPager',array(
         'header'         => '',
         'pages'          => $pager,
-        'maxButtonCount' => 5, // максимальное вол-ко кнопок
+        'maxButtonCount' => 15, // максимальное вол-ко кнопок
     )); ?>
 
     Страница <?= $page ?> из <?= ceil($totalItems/$itemsOnPage) ?> (<?= $itemsOnPage ?> записей отображено, найдено <?= $totalItems ?>)
 
-    <?php // hack to use pager with post requests { ?>
-        <script type="text/javascript">
-            $('.yiiPager .page').removeClass('selected');
-            $('.yiiPager .page:eq(<?= $page - 1 ?>)').addClass('selected');
-            $('.yiiPager a').click(function(e) {
-                e.preventDefault();
-                var page = $(this).text();
-                $('#invites-filter-page').attr('value', page);
-                $('#invites-filter').submit();
-            });
-        </script>
-    <?php // hack to use pager with post requests } ?>
-
     <br/>
     <br/>
 
-    <form id="invites-filter" action="/admin_area/invites" method="post" style="display: inline-block;">
+    <form id="invites-filter" action="/admin_area/invites" method="get" style="display: inline-block;">
         <input id="invites-filter-page" type="hidden" name="page" value="<?= $page ?>" />
         <table class="table table-bordered">
             <tr>
@@ -48,6 +35,24 @@ $titles = [
                 <td> <i class="icon-filter"></i> &nbsp; Invite id: </td>
                 <td> <input name="invite_id" value="<?= $invite_id ?>" style="width: 60px;"/> </td>
             </tr>
+
+            <tr>
+                <td> <i class="icon-filter"></i> &nbsp; email отправителя: </td>
+                <td> <input name="owner_email_for_filtration" value="<?= $ownerEmailForFiltration ?>"/> </td>
+                <td> <i class="icon-filter"></i> &nbsp; Сценарий:  </td>
+                <td>
+                    <select name="filter_scenario_id">
+                        <option value=""></option>
+                        <?php if(isset($scenarios)) : ?>
+                            <?php foreach($scenarios as $scenario) : ?>
+                                <option <?php if($scenario_id == $scenario->id) echo 'selected="selected"' ?>
+                                    value="<?=$scenario->id ?>"><?=$scenario->slug ?></option>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </select>
+                </td>
+            </tr>
+
             <tr>
                 <td> Исключить приглашения самому себе: </td>
                 <td> <input type="checkbox" name="exclude_invites_from_ne_to_me"

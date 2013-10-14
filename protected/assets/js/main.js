@@ -667,6 +667,31 @@ var fixLogotypes = function() {
                 },
                 open : function() {
                     $(".reject-reason-p").html(reason);
+                    $('a.feedback-close-other').on('click', function (e) {
+                        e.preventDefault();
+                        $(".dialogReferralRejected").dialog("close");
+                        var selected = $(this).attr('data-selected');
+                        $('#feedback-dialog').dialog({
+                            width: 706,
+                            dialogClass: 'popup-primary popup-site feedbackwrap',
+                            modal: true,
+                            resizable: false,
+                            draggable: false,
+                            open: function( event, ui ) {
+                                if(selected !== undefined) {
+                                    $('#feedback-form').find('.sbOptions').find('li').each(function(index, element){
+                                        var a = $(element).find('a');
+                                        if(a.attr('rel') === selected){
+                                            a.click();
+                                        }
+                                    });
+                                }
+                                Cufon.refresh();
+                            }
+                        });
+
+                        e.stopPropagation();
+                    });
                 }
             });
             Cufon.refresh();
@@ -694,32 +719,6 @@ var fixLogotypes = function() {
             });
             $(".ui-dialog-titlebar").removeClass('ui-widget-header');
             return false;
-        });
-
-        $('a.feedback-close-other').on('click', function (e) {
-            e.preventDefault();
-            $(".dialogReferralRejected").dialog("close");
-            var selected = $(this).attr('data-selected');
-            $('#feedback-dialog').dialog({
-                width: 706,
-                dialogClass: 'popup-primary popup-site feedbackwrap',
-                modal: true,
-                resizable: false,
-                draggable: false,
-                open: function( event, ui ) {
-                    if(selected !== undefined) {
-                        $('#feedback-form').find('.sbOptions').find('li').each(function(index, element){
-                            var a = $(element).find('a');
-                            if(a.attr('rel') === selected){
-                                a.click();
-                            }
-                        });
-                    }
-                    Cufon.refresh();
-                }
-            });
-
-            e.stopPropagation();
         });
 
 
