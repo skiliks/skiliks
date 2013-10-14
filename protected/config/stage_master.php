@@ -31,6 +31,12 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
     'params'=>array(
         'frontendUrl'=>'http://master.skiliks.com/',
         'public' => [],
+        'robokassa' => [
+            'url'            => 'https://auth.robokassa.ru/Merchant/Index.aspx',
+            'MrchLogin'      => 'leah',
+            'sMerchantPass1' => 'as24ED4rFdrG456Dsd0d9f7gjec3',
+            'sMerchantPass2' => 'd89DCs6d9ft66ygfr8iexmv67werd'
+        ],
     )
 ));
 
