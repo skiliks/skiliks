@@ -4,10 +4,13 @@ class AdminPagesController extends SiteBaseController {
 
     public $itemsOnPage = 100;
 
+    public $user;
+
     public function beforeAction($action) {
 
         $public = ['Login'];
         $user = Yii::app()->user->data();
+        $this->user = $user;
         if(in_array($action->id, $public)){
             return true;
         }elseif(!$user->isAuth()){
@@ -954,11 +957,12 @@ class AdminPagesController extends SiteBaseController {
         }
 
         if ( isset(Invite::$statusText[$status])) {
+            $invite_status = $invite->status;
             $invite->status = $status;
             if(false === $invite->save(false)){
                 throw new Exception("Not saved");
             }
-            InviteService::logAboutInviteStatus($invite, 'invite : updated : admin');
+            InviteService::logAboutInviteStatus($invite, 'Админ '.$this->user->profile->email.' изменил статус с'.Invite::getStatusNameByCode($invite_status)." на ".Invite::getStatusNameByCode($invite->status));
         } else {
             throw new Exception("Status not found");
         }
