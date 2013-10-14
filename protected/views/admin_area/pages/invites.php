@@ -52,8 +52,18 @@ $titles = [
             <tr>
                 <td> <i class="icon-filter"></i> &nbsp; email отправителя: </td>
                 <td> <input name="owner_email_for_filtration" value="<?= $ownerEmailForFiltration ?>"/> </td>
-                <td></td>
-                <td></td>
+                <td> <i class="icon-filter"></i> &nbsp; Сценарий:  </td>
+                <td>
+                    <select name="filter_scenario_id">
+                        <option value=""></option>
+                        <?php if(isset($scenarios)) : ?>
+                            <?php foreach($scenarios as $scenario) : ?>
+                                <option <?php if($scenario_id == $scenario->id) echo 'selected="selected"' ?>
+                                    value="<?=$scenario->id ?>"><?=$scenario->slug ?></option>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </select>
+                </td>
             </tr>
 
             <tr>
