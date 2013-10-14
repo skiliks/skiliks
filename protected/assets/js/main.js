@@ -197,7 +197,7 @@ var fixLogotypes = function() {
                         });
                     }
                 });
-             // если пользователь выбрал играть "Демо-версию" }
+                // если пользователь выбрал играть "Демо-версию" }
             } else {
                 // если пользователь выбрал НЕ играть "Демо-версию"
                 return true;
@@ -334,7 +334,7 @@ var fixLogotypes = function() {
 
         window.referralRegistration = function referralRegistration(form, data, hasError) {
             if (!hasError) {
-                    window.location.href = "/dashboard";
+                window.location.href = "/dashboard";
             }
             return false;
         };
@@ -630,7 +630,7 @@ var fixLogotypes = function() {
                 $(this).children("div").slideDown("fast");
                 $(this).css('color', '#146672');
                 $(this).addClass("active");
-                }
+            }
             else {
                 $(this).children("div").slideUp("fast");
                 $(this).css('color', '#555742');
