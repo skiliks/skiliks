@@ -21,6 +21,7 @@ class m131001_180409_update_corp extends CDbMigration
         }
         $tmp_emails = [];
         /* @var $user YumUser */
+        echo 'Users at all: '.count($users);
         foreach($users as $user) {
             MailHelper::sendNoticeEmail($user);
         }
