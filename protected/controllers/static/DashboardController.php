@@ -387,11 +387,8 @@ class DashboardController extends SiteBaseController implements AccountPageContr
                     $this->user->getAccount()->save();
                     $this->user->refresh();
 
-                    UserService::logCorporateInviteMovementAdd(
-                        'send invitation 2',
-                        $this->user->getAccount(),
-                        $initValue
-                    );
+                    UserService::logCorporateInviteMovementAdd(sprintf("Симуляция списана за отправку приглашения номер %s для %s",
+                        $invite->id, $invite->email), $this->user->getAccount(), $initValue);
 
                     $this->redirect('/dashboard');
                 } elseif ($this->user->getAccount()->getTotalAvailableInvitesLimit() < 1 ) {
@@ -819,11 +816,9 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         $declineExplanation->invite->ownerUser->getAccount()->invites_limit++;
         $declineExplanation->invite->ownerUser->getAccount()->save(false);
 
-        UserService::logCorporateInviteMovementAdd(
-            'actionDeclineInvite',
-            $declineExplanation->invite->ownerUser->getAccount(),
-            $initValue
-        );
+        UserService::logCorporateInviteMovementAdd(sprintf("Пользователь %s отклонил приглашение номер %s. В аккаунт возвращена одна симуляция.",
+            $declineExplanation->invite->email, $declineExplanation->invite->id),  $declineExplanation->invite->ownerUser->getAccount(), $initValue);
+
 
         $declineExplanation->invite_recipient_id = $declineExplanation->invite->receiver_id;
         $declineExplanation->invite_owner_id = $declineExplanation->invite->owner_id;

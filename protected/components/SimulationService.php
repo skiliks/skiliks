@@ -589,7 +589,10 @@ class SimulationService
                 && Scenario::TYPE_TUTORIAL == $scenarioType
                 && $simulationMode != Simulation::MODE_DEVELOPER_LABEL
                 && $invite->ownerUser->id == $invite->receiverUser->id) {
+                $init_value = $invite->ownerUser->getAccount()->getTotalAvailableInvitesLimit();
                 $invite->ownerUser->getAccount()->decreaseLimit();
+                UserService::logCorporateInviteMovementAdd(sprintf("Симуляция списана за начало симуляции по собственной инициативе, номер приглашения %s",
+                    $invite->id), $invite->ownerUser->getAccount(), $init_value);
                 $invite->ownerUser->getAccount()->save(false);
             }
 
