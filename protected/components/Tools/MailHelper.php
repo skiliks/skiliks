@@ -157,7 +157,7 @@ class MailHelper
 
                 $mail = array(
                     'from' => Yum::module('registration')->registrationEmail,
-                    'to' => 'dev@skiliks.com',
+                    'to' => 'support@skiliks.com',
                     'subject' => 'Внимание! Подозрительная активность от аккаунта '.$invite->ownerUser->profile->email,
                     'body' => $body,
                     'embeddedImages' => [
