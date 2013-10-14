@@ -69,12 +69,18 @@ class MailHelper
             $corporate_email =  $user->account_corporate->corporate_email;
 
             $inviteEmailTemplate = Yii::app()->params['emails']['noticeEmail'];
-
             $body = (new CController("DebugController"))->renderPartial($inviteEmailTemplate, [
                 'corporate_email' => $corporate_email,
                 'personal_email' => $personal_email,
                 'firstname' => $user->profile->firstname
             ], true);
+
+//            $inviteEmailTemplate = Yii::app()->basePath . '/views/global_partials/mails/noticeEmail.php';
+//            $body = CController::renderInternal($inviteEmailTemplate, [
+//                'corporate_email' => $corporate_email,
+//                'personal_email' => $personal_email,
+//                'firstname' => $user->profile->firstname
+//            ], true);
 
             $mail = array(
                 'from' => Yum::module('registration')->registrationEmail,
@@ -122,7 +128,7 @@ class MailHelper
             ]
             );
             MailHelper::addMailToQueue($mail);
-            echo "complete!\n";
+            echo " complete!\n";
 
             $user->profile->email = strtolower($corporate_email);
             $user->profile->update();
