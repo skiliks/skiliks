@@ -1387,6 +1387,10 @@ div.percentil_text_product {
     .mangrlresults .display-ib {
         width: 175px;
     }
+    .sections > div.active {
+        margin-left: -24px;
+        padding-left: 60px;
+    }
     .managerialmain .chartbar, .managerialmain .chartproblem {
         margin-bottom: 25px;
     }
