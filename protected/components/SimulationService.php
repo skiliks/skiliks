@@ -508,6 +508,7 @@ class SimulationService
                 $invite->firstname = $user->profile->firstname;
                 $invite->lastname = $user->profile->lastname;
                 $invite->scenario_id = $scenario->id;
+                $invite_status = $invite->status;
                 $invite->status = Invite::STATUS_ACCEPTED;
                 $invite->sent_time = time(); // @fix DB!
                 $invite->updated_at = (new DateTime('now', new DateTimeZone('Europe/Moscow')))->format("Y-m-d H:i:s");
@@ -517,7 +518,7 @@ class SimulationService
 
                 $invite->email = strtolower($user->profile->email);
                 $invite->save(false);
-                InviteService::logAboutInviteStatus($invite, 'invite : update sim_id (1) : sim start');
+                InviteService::logAboutInviteStatus($invite, "При старте симуляции статус инвайта изменен с ".Invite::getStatusNameByCode($invite_status)." на ".Invite::getStatusNameByCode($invite->status));
             } else {
                     throw new Exception('У вас нет прав для старта этой симуляции');
             }
@@ -604,7 +605,7 @@ class SimulationService
                     $invite->simulation->status = Simulation::STATUS_INTERRUPTED;
                     $invite->simulation->save();
 
-                    InviteService::logAboutInviteStatus($invite, 'Set sum id to null from '.$invite->simulation->id);
+                    InviteService::logAboutInviteStatus($invite, "Игрок прервал симуляцию - ".$invite->simulation_id." по этому инвайту");
                     $invite->simulation = null;
                     $invite->simulation_id = null;
                     $invite->save();
@@ -614,12 +615,13 @@ class SimulationService
             $scenario = Scenario::model()->findByPk($invite->scenario_id);
             /* @var $scenario Scenario */
             if($scenario->isLite()) {
+                $invite_status = $invite->status;
                 $invite->status = Invite::STATUS_IN_PROGRESS;
                 $invite->save(false, ['simulation_id', 'status']);
-                InviteService::logAboutInviteStatus($invite, 'invite : update sim_id (2) : sim start');
+                InviteService::logAboutInviteStatus($invite, "При старте симуляции статус инвайта изменен с ".Invite::getStatusNameByCode($invite_status)." на ".Invite::getStatusNameByCode($invite->status));
             } else {
                 $invite->save(false, ['simulation_id']);
-                InviteService::logAboutInviteStatus($invite, 'invite : update sim_id (3) : sim start');
+                //InviteService::logAboutInviteStatus($invite, 'invite : update sim_id (3) : sim start');
             }
 
         }
@@ -648,15 +650,16 @@ class SimulationService
 
         // If simulation was started by invite, mark it as completed
         if (null !== $simulation->invite && $simulation->isTutorial() === false) {
+            $invite_status = $simulation->invite->status;
             $simulation->invite->status = Invite::STATUS_COMPLETED;
             $simulation->invite->save(false);
-            InviteService::logAboutInviteStatus($simulation->invite, 'invite : updated : sim stop');
+            InviteService::logAboutInviteStatus($simulation->invite, "При завершении симуляции статус инвайта изменился с ".Invite::getStatusNameByCode($invite_status)." на ".Invite::getStatusNameByCode($simulation->invite->status));
         }
 
         if (null !== $simulation->invite && $simulation->isTutorial()) {
             $simulation->invite->tutorial_finished_at = date('Y-m-d H:i:s');
             $simulation->invite->save(false);
-            InviteService::logAboutInviteStatus($simulation->invite, 'invite : updated : tutorial finished');
+            InviteService::logAboutInviteStatus($simulation->invite, 'При завершении симуляции статус инвайта '.Invite::getStatusNameByCode($simulation->invite->status));
         }
 
         // Remove pause if it was set
@@ -751,10 +754,11 @@ class SimulationService
         }
 
         if ($simulation->isFull()) {
+            // просто $simulation->invite->can_be_reloaded = false; не сохраняет!!!
             $tmpInvite = $simulation->invite;
             $tmpInvite->can_be_reloaded = false;
             $tmpInvite->save(false);
-            InviteService::logAboutInviteStatus($tmpInvite, 'invite : updated : can be reloaded set to false');
+            InviteService::logAboutInviteStatus($tmpInvite, 'Запрещаеться возможность начать симуляцию по этому инвайту повторно can_be_reloaded = false');
             unset($tmpInvite);
             $simulation->invite->refresh();
         }
