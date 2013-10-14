@@ -2,7 +2,7 @@
 
 class AdminPagesController extends SiteBaseController {
 
-    public $itemsOnPage = 20;
+    public $itemsOnPage = 100;
 
     public $user;
 
@@ -1168,7 +1168,7 @@ class AdminPagesController extends SiteBaseController {
             'params' => [
                 'id' => Yii::app()->request->getParam('id', null)
             ],
-            'order' => 'date DESC',
+            'order' => 'id DESC',
         ]);
 
         $this->pageTitle = 'Админка: Движение проглашений в корпоративном аккаунте # '.$id;
@@ -1640,8 +1640,8 @@ class AdminPagesController extends SiteBaseController {
 
         // getting registration by month
         $userCounter = new countRegisteredUsers();
-        $userCounter->getAllUserForDays();
-        $userCounter->getNonActiveUsersForDays();
+        $userCounter->getAllUserForMonths();
+        $userCounter->getNonActiveUsersForMonths();
 
         $dayDate = new DateTime();
 
@@ -1945,5 +1945,43 @@ class AdminPagesController extends SiteBaseController {
             MailHelper::updateInviteEmail($invite);
         }
         echo "Done";
+    }
+
+    /**
+     * Позволяет админам (некоторым админам) заходить на сайт от имени любого аккаунта
+     *
+     * Зависит от параметров: isBlockGhostLogin, isUseStrictRulesForGhostLogin
+     *
+     * @param integer $userId
+     */
+    public function actionGhostLogin($userId)
+    {
+        // функционал заблокирован совсем?
+        if (Yii::app()->params['isBlockGhostLogin']) {
+            $this->redirect('/admin_area/users');
+        }
+
+        // включено ограничек по кругу лиц, допущенных к функционалу
+        if (Yii::app()->params['isUseStrictRulesForGhostLogin'] &&
+            false == in_array(Yii::app()->user->data()->profile->email, ['slavka@skiliks.com', 'tony@skiliks.com', 'tatiana@skiliks.com'])) {
+            $this->redirect('/admin_area/users');
+        }
+
+        // проверка существования пользователя
+        $user = YumUser::model()->findByPk($userId);
+
+        if (null === $user) {
+            Yii::app()->user->setFlash('error', "Пользователя с ID {$userId} не существует.");
+            $this->redirect('/admin_area/users');
+        }
+
+        // непосредственно "пере-аутентификация"
+        $identity = new YumUserIdentity($user->username, false);
+
+        $identity->authenticate(true);
+
+        Yii::app()->user->login($identity);
+
+        $this->redirect('/dashboard');
     }
 }
