@@ -1168,7 +1168,7 @@ class AdminPagesController extends SiteBaseController {
             'params' => [
                 'id' => Yii::app()->request->getParam('id', null)
             ],
-            'order' => 'date DESC',
+            'order' => 'id DESC',
         ]);
 
         $this->pageTitle = 'Админка: Движение проглашений в корпоративном аккаунте # '.$id;
