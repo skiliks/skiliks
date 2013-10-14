@@ -116,4 +116,4 @@ $this->widget('zii.widgets.grid.CGridView', [
 
     <?php // java-script: ?>
 <?php // edit invite pop-up form } ?>
-<div class="popover popover-div-on-hover" style="display: block;"><div class="popover-triangle"></div><div class="popover-content"><div class="popup-content ProximaNova">Переключение между относительным и абсолютным рейтингом.</div></div></div>
+<div class="popover popover-div-on-hover"><div class="popover-triangle"></div><div class="popover-content"><div class="popup-content ProximaNova">Переключение между относительным и абсолютным рейтингом.</div></div></div>
