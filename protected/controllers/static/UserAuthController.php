@@ -92,7 +92,7 @@ class UserAuthController extends YumController
                                     sprintf('Количество симуляций для нового аккаунта номер %s, емейл %s, задано равным %s по тарифному плану %s.',
                                         $accountCorporate->user_id, $profile->email, $accountCorporate->getTotalAvailableInvitesLimit(), $tariff->label
                                     ),
-                                    $this->user->getAccount(),
+                                    $accountCorporate,
                                     $accountCorporate->getTotalAvailableInvitesLimit()
                                 );
                                 
@@ -434,7 +434,7 @@ class UserAuthController extends YumController
                             sprintf('Количество симуляций для нового аккаунта номер %s, емейл %s, задано равным %s по тарифному плану %s.',
                                 $accountCorporate->user_id, $profile->email, $accountCorporate->getTotalAvailableInvitesLimit(), $tariff->label
                             ),
-                            $this->user->getAccount(),
+                            $accountCorporate,
                             $accountCorporate->getTotalAvailableInvitesLimit()
                         );
                         
