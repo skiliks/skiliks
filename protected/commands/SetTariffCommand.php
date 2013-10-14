@@ -11,7 +11,7 @@ class SetTariffCommand extends CConsoleCommand
      * @return int
      * @throws LogicException
      */
-    public function actionIndex($email, $tariff = null, $period = 0)
+    public function actionIndex($email, $tariff = null)
     {
         $profile = YumProfile::model()->findByAttributes(['email' => strtolower($email)]);
 
@@ -26,18 +26,20 @@ class SetTariffCommand extends CConsoleCommand
 
         if ($tariff) {
             $tariff = Tariff::model()->findByAttributes(['slug' => $tariff]);
-            $account->tariff_activated_at = date('Y-m-d H:i:s');
-            $account->tariff_id = $tariff->id;
         }
 
-        if ($period) {
-            $date = new DateTime($account->tariff_expired_at);
-            $date->add(new DateInterval('P' . (int)$period . 'D'));
+        $initValue = $account->getTotalAvailableInvitesLimit();
 
-            $account->tariff_expired_at = $date->format('Y-m-d H:i:s');
-        }
 
+        $account->setTariff($tariff);
         $result = $account->save(false);
+
+        UserService::logCorporateInviteMovementAdd(
+            sprintf('Тарифный план сменён на %s консольной командой. Количество доступных симуляций установлено в Х из них за рефераллов Х.',
+                $tariff->label, $account->getTotalAvailableInvitesLimit(), $account->referrals_invite_limit),
+            $account,
+            $initValue
+        );
 
         echo $result ? 'Success' : 'Fail';
         return $result === true ? 0 : 1;

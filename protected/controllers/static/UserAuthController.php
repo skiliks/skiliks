@@ -86,8 +86,16 @@ class UserAuthController extends YumController
                                 // update account
                                 $accountCorporate->user_id = $user->id;
                                 $accountCorporate->setTariff($tariff);
-
                                 $accountCorporate->invites_limit = Yii::app()->params['initialSimulationsAmount'];
+                                
+                                UserService::logCorporateInviteMovementAdd(
+                                    sprintf('Количество симуляций для нового аккаунта номер %s, емейл %s, задано равным %s по тарифному плану %s.',
+                                        $accountCorporate->user_id, $profile->email, $accountCorporate->getTotalAvailableInvitesLimit(), $tariff->label
+                                    ),
+                                    $accountCorporate,
+                                    $accountCorporate->getTotalAvailableInvitesLimit()
+                                );
+                                
                                 $accountCorporate->save();
 
                                 $userReferralRecord->referral_id = $user->id;
@@ -422,6 +430,14 @@ class UserAuthController extends YumController
                         $accountCorporate->invites_limit = Yii::app()->params['initialSimulationsAmount'];
                         $accountCorporate->save();
 
+                        UserService::logCorporateInviteMovementAdd(
+                            sprintf('Количество симуляций для нового аккаунта номер %s, емейл %s, задано равным %s по тарифному плану %s.',
+                                $accountCorporate->user_id, $profile->email, $accountCorporate->getTotalAvailableInvitesLimit(), $tariff->label
+                            ),
+                            $accountCorporate,
+                            $accountCorporate->getTotalAvailableInvitesLimit()
+                        );
+                        
                         if(false === $accountCorporate->save(true, ['user_id','default_invitation_mail_text','industry_id'])){
                             throw new Exception("Corporate account not saved!");
                         }

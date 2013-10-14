@@ -27,8 +27,16 @@ class InviteExpiredCommand extends CConsoleCommand
             ));
 
         foreach($invites as $invite){
+
+            $initValue = $invite->ownerUser->getAccount()->getTotalAvailableInvitesLimit();
+
             if ($invite->inviteExpired()) {
                 echo sprintf("%s mark as expired \n", $invite->id);
+
+                UserService::logCorporateInviteMovementAdd(sprintf("Приглашения номер %s для %s устарело. В аккаунт возвращена одна симуляция.",
+                    $invite->id, $invite->email),  $invite->ownerUser->getAccount(), $initValue);
+
+
             }
         }
 
@@ -49,7 +57,7 @@ class InviteExpiredCommand extends CConsoleCommand
                     $account->invites_limit = 0;
                     $account->update();
 
-                    UserService::logCorporateInviteMovementAdd('InviteExpiredCommand', $account, $initValue);
+                    UserService::logCorporateInviteMovementAdd('Тарифный план '.$account->tariff->label.' истёк. Количество доступных симуляция обнулено.', $account, $initValue);
                 }
 
                 // send email for any account {
