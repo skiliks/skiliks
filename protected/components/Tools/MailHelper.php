@@ -62,7 +62,6 @@ class MailHelper
     public static function sendNoticeEmail(YumUser $user) {
 
         if($user->isCorporate() && $user->account_corporate->corporate_email !== null && $user->profile->email !== $user->account_corporate->corporate_email) {
-            echo 'mail sent to '.$user->profile->email;
             $personal_email =  $user->profile->email;
             $tmp_emails[$user->id] = $personal_email;
 
@@ -121,7 +120,6 @@ class MailHelper
             ]
             );
             MailHelper::addMailToQueue($mail);
-            echo " complete!\n";
 
             $user->profile->email = strtolower($corporate_email);
             $user->profile->update();
