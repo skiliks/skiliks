@@ -1621,6 +1621,8 @@ class AdminPagesController extends SiteBaseController {
 
         $dayDate = new DateTime();
 
+        // TODO registration
+
         $registrationsByDay = [];
         for($i = 0; $i<30; $i++) {
             $day = date_format($dayDate, 'Y-m-d');

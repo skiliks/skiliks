@@ -66,7 +66,7 @@ class countRegisteredUsers {
     public function getAllUserForYears() {
         $this->_prepare_dbCommand('DATE_FORMAT(FROM_UNIXTIME(createtime), \'%Y\') as date,');
         $this->dbCommand->group('DATE_FORMAT(FROM_UNIXTIME(createtime), \'%Y\')');
-        $this->dbCommand->limit(12);
+        $this->dbCommand->limit(1);
         $rows = $this->getData();
         $this->saveAllUsers($rows);
     }
