@@ -1624,6 +1624,7 @@ class AdminPagesController extends SiteBaseController {
         // TODO registration
 
         $registrationsByDay = [];
+        var_dump($userCounter->totalRegistrations);
         for($i = 0; $i<30; $i++) {
             $day = date_format($dayDate, 'Y-m-d');
             $registrationsByDay[$day]['period'] = $day;
