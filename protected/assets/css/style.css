@@ -757,6 +757,9 @@ html[lang=ru] .features form div input[type=submit]{
 }
 
 @media screen and (max-width: 1146px){
+    .features p.success{
+        font:2em "ProximaNova-Regular";
+    }
 	.features{
         margin-left: 92px;
 		width:670px;
