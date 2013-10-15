@@ -1117,8 +1117,8 @@ html[lang=ru] .product section table th{
     }
 	.product section table td{
 		background-image:url("../img/bg-product-section-table-cell-min.png");
-        background-position: 0px bottom !important;
-		padding-bottom:34px;
+        background-position: 0 bottom !important;
+		padding-bottom:24px;
         height: auto;
 	}
 	.product section table td h6{
