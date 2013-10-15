@@ -403,19 +403,21 @@ var fixLogotypes = function() {
             $(".sign-in-box").dialog('open');
         });
 
+        var pre_simulation_popup = $(".dashboard .full-simulation-info-popup");
+
+        pre_simulation_popup.dialog({
+            closeOnEscape: true,
+            autoOpen : false,
+            dialogClass: 'popup-before-start-sim',
+            minHeight: 220,
+            modal: true,
+            resizable: false,
+            width:881
+        });
+
         function infoPopup_aboutFullSimulation(href){
-            $(".dashboard .full-simulation-info-popup").dialog({
-                closeOnEscape: true,
-                dialogClass: 'popup-before-start-sim',
-                minHeight: 220,
-                modal: true,
-                resizable: false,
-                width:881,
-                open: function( event, ui ) {
-                    $('.start-full-simulation-next').attr('data-href', href);
-                    Cufon.refresh();
-                }
-            });
+            pre_simulation_popup.dialog('open');
+            $('.start-full-simulation-next').attr('data-href', href);
         }
 
         function getInviteId(url){
