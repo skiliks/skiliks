@@ -339,14 +339,7 @@ class Invite extends CActiveRecord
         $initValue = $account->getTotalAvailableInvitesLimit();
 
         $account->invites_limit++;
-        $account->update();
-
-        UserService::logCorporateInviteMovementAdd(
-            'Invite->inviteExpired()',
-            $this->ownerUser->getAccount(),
-            $initValue
-        );
-
+        $account->save();
 
         return true;
     }
