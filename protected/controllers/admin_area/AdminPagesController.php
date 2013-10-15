@@ -1867,7 +1867,7 @@ class AdminPagesController extends SiteBaseController {
 
         $assessments = AssessmentOverall::model()->with('sim', 'sim.user', 'sim.user.profile') ->findAll([
             'condition' => $condition,
-            'order'     => ' t.value DESC- '
+            'order'     => ' t.value DESC '
         ]);
 
         $simulations = [];
