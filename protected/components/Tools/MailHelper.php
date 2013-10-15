@@ -67,9 +67,8 @@ class MailHelper
 
             $corporate_email =  $user->account_corporate->corporate_email;
 
-            $inviteEmailTemplate = Yii::app()->params['emails']['noticeEmail'];
-
-            $body = (new CController("DebugController"))->renderPartial($inviteEmailTemplate, [
+            $inviteEmailTemplate = Yii::app()->basePath . '/views/global_partials/mails/noticeEmail.php';
+            $body = CController::renderInternal($inviteEmailTemplate, [
                 'corporate_email' => $corporate_email,
                 'personal_email' => $personal_email,
                 'firstname' => $user->profile->firstname
@@ -121,7 +120,8 @@ class MailHelper
             ]
             );
             MailHelper::addMailToQueue($mail);
-            $user->profile->email =strtolower($corporate_email);
+
+            $user->profile->email = strtolower($corporate_email);
             $user->profile->update();
         }
 
@@ -151,7 +151,7 @@ class MailHelper
             if($count >= 2) {
                 $inviteEmailTemplate = Yii::app()->params['emails']['ifSuspiciousActivity'];
 
-                $body = (new CController("DebugController"))->renderPartial($inviteEmailTemplate, [
+                $body = CController::renderInternal($inviteEmailTemplate, [
                     'invite' => $invite
                 ], true);
 
