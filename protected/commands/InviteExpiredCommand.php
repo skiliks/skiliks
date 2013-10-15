@@ -32,11 +32,10 @@ class InviteExpiredCommand extends CConsoleCommand
 
             if ($invite->inviteExpired()) {
                 echo sprintf("%s mark invite as expired \n", $invite->id);
+                $invite->ownerUser->getAccount()->refresh();
 
                 UserService::logCorporateInviteMovementAdd(sprintf("Приглашения номер %s для %s устарело. В аккаунт возвращена одна симуляция.",
                     $invite->id, $invite->email),  $invite->ownerUser->getAccount(), $initValue);
-
-
             }
         }
 

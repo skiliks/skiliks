@@ -123,6 +123,7 @@ class countRegisteredUsers {
         $this->dbCommand->from('user');
         $this->dbCommand->leftJoin("user_account_corporate corporate", "corporate.user_id = user.id");
         $this->dbCommand->leftJoin("user_account_personal personal",   "personal.user_id  = user.id");
+        $this->dbCommand->order("user.id DESC");
     }
 
     private function getData() {

@@ -771,7 +771,7 @@ span.required {
     text-align: center;
 }
 .feedback .form-submit-button:hover {
-    background-image: url("../img/icon-btn-notify-hover.png");
+    background-image: url("../img/btn-circle.png");
     background-color:#BD2929;
 }
 .form-section .form-line-error {

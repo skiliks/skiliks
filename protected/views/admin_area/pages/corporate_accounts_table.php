@@ -1,12 +1,16 @@
 <?php $titles = [
     'ID юзера',
-    'Имя и фамилия<br/>Статуспользователя',
-    'Личный, Корпоративный email-ы',
+    'Имя',
+    'Фамилия',
+    'Статус пользователя',
+    'Email',
+    'Тип компании',
     'Название компании',
     'Статус',
     'Количество приглашений',
     'Тарифный план',
-    'Дата регистрации /<br/>Дата последнего посещения',
+    'Дата регистрации',
+    'Дата последнего посещения',
     'Действия',
 ] ?>
 <div class="row fix-top">
@@ -48,20 +52,23 @@
                 <td>
                     <i class="icon icon-user" style="opacity: 0.25"></i>
                     <a href="/admin_area/user/<?= $account->user->id ?>/details">
-                        <?= $account    ->user->id ?>
+                        <?= $account->user->id ?>
                     </a>
                 </td>
                 <td>
                     <span class="text-label-200px"><?= $account->user->profile->firstname ?></span>
-                    <br/>
+                </td>
+                <td>
                     <span class="text-label-200px"><?= $account->user->profile->lastname ?></span>
-                    <br/>
+                </td>
+                <td>
                     <span class="label <?= ($account->user->status == YumUser::STATUS_ACTIVE) ? 'label-warning' : '' ?>"><?= $account->user->getStatusLabel() ?><span>
                 </td>
                 <td>
                     <span class="text-label-200px"><?= $account->user->profile->email ?></span>
                 </td>
-                <td><?= $account->ownership_type ?> "<?= $account->company_name ?>"</td>
+                <td><?=$account->ownership_type ?></td>
+                <td>"<?= $account->company_name ?>"</td>
                 <td style="text-align: center;"><?= $account->invites_limit ?></td>
                 <td style="width: 150px;">
                     <?php if ($account->tariff_expired_at < date('Y-m-d H:i:s')) : ?>
@@ -105,7 +112,8 @@
                 </td>
                 <td style="width: 140px;">
                     <?= date('Y-m-d H:i:s', $account->user->createtime) ?>
-                    <br/>
+                </td>
+                <td>
                     <?= date('Y-m-d H:i:s', $account->user->lastvisit) ?>
                 </td>
                 <td style="width: 170px;">

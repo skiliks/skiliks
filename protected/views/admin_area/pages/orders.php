@@ -1,11 +1,18 @@
 <?php $titles = [
     'ID <br/>заказа',
-    'Email, <br/>ФИО, <br/>Компания',
+    'Email',
+    'Имя',
+    'Фамилия',
+    'Компания',
     'Название <br/>тарифа',
-    'Время заказа,<br/> Время оплаты',
+    'Время заказа',
+    'Время оплаты',
     'Стоимость',
     'Платежная<br/>система',
-    'Дополнительные<br/>данные',
+    'ИНН',
+    'КПП',
+    'Счет',
+    'БИК',
     'Комментарий',
     '&nbsp;',
     '&nbsp;',
@@ -109,48 +116,41 @@
                 <a href="/admin_area/user/<?=$model->user->profile->id ?>/details" target="_blank"><i class="icon-user"></i></a>
                 <?= (empty($model->user->profile->email)) ? 'Не найден' : $model->user->profile->email ?>
                 <br/>
-                <?= (empty($model->user->profile->firstname)) ? '-' : $model->user->profile->firstname?>
-                <?= (empty($model->user->profile->lastname)) ? '-' : $model->user->profile->lastname?>
+
+
                 <br/>
+
+            </td>
+            <td>
+                <?= (empty($model->user->profile->firstname)) ? '-' : $model->user->profile->firstname?>
+            </td>
+            <td>
+                <?= (empty($model->user->profile->lastname)) ? '-' : $model->user->profile->lastname?>
+            </td>
+            <td>
                 <?= (empty($model->user->account_corporate->company_name))
                     ? '--' : $model->user->account_corporate->company_name?>
             </td>
             <td><span class="label"><?=(empty($model->tariff->label))?'Не найден':$model->tariff->label?></span></td>
             <td>
-                <?=(empty($model->created_at)?'---- -- -- --':$model->created_at)?><br/>
+                <?=(empty($model->created_at)?'---- -- -- --':$model->created_at)?>
+            </td>
+            <td>
                 <span class="invoice-date-paid"><?=(empty($model->paid_at) ? 'Не оплачен' :$model->created_at)?></span>
             </td>
             <td><?= Yii::app()->numberFormatter->formatCurrency($model->amount, "RUR") ?></td>
             <td><?= $model->payment_system?></td>
-            <td>
-                <?php if(json_decode($model->additional_data) instanceof stdClass) : ?>
-                    <?php foreach(json_decode($model->additional_data) as $key => $value) : ?>
-                        <?php switch($key) {
 
-                            case "inn" :
-                                echo "ИНН: ";
-                                break;
-
-                            case "cpp" :
-                                echo "КПП: ";
-                                break;
-
-                            case "account" :
-                                echo "Расчетный счет: ";
-                                break;
-
-                            case "bic" :
-                                echo "БИК: ";
-                                break;
-                        }
-
-                        echo $value, "<br/>";
-                    ?>
-                    <?php endforeach; ?>
+            <?php if(json_decode($model->additional_data) instanceof stdClass) : ?>
+                <?php foreach(json_decode($model->additional_data) as $key => $value) : ?>
+                    <?= '<td>'.$value.'</td>'?>
+                <?php endforeach; ?>
                 <?php else : ?>
-                    <?=nl2br($model->additional_data); ?>
-                <?php endif; ?>
-            </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            <?php endif; ?>
 
             <td>
                 <textarea class="invoice-comment""><?=$model->comment ?></textarea>
