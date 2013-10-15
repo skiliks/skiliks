@@ -71,6 +71,7 @@
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/game/lib/pdf.js"></script>
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/elfinder-2.0-rc1/js/elfinder.min.js"></script>
 
+    <? $this->renderPartial("/static/applicationcache/preload_images", ['assetsUrl' => $assetsUrl]); ?>
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/tag-handler/jquery.taghandler.min.js"></script>
 
     <?php // track JS in sentry { ?>
@@ -97,6 +98,30 @@
         <img src="<?= $assetsUrl; ?>/img/design/ajax-loader.gif" alt="Loader..." />
     </div>
     <script>
+
+        jQuery.preloadImages = function () {
+            if (typeof arguments[arguments.length - 1] == 'function') {
+                var callback = arguments[arguments.length - 1];
+            } else {
+                var callback = false;
+            }
+            if (typeof arguments[0] == 'object') {
+                var images = arguments[0];
+                var n = images.length;
+            } else {
+                var images = arguments;
+                var n = images.length - 1;
+            }
+            var not_loaded = n;
+            for (var i = 0; i < n; i++) {
+                jQuery(new Image()).attr('src', images[i]).load(function() {
+                    if (--not_loaded < 1 && typeof callback == 'function') {
+                        callback();
+                    }
+                });
+            }
+        }
+
         $(document).ready(function() {
             win = $(window);
             cupdiv = $("#loading-cup");
@@ -104,7 +129,11 @@
             leftMargin = (win.width() - cupdiv.outerWidth()) / 2 + 'px';
             $("#loading-cup").css("margin-top",topMargin);
             $("#loading-cup").css("margin-left",leftMargin);
-        })
+
+            $.preloadImages(preload_images, function () {
+            });
+
+        });
     </script>
     <div id="excel-cache" style="display: none; visibility: hidden;"></div>
     <iframe style="display: none" src="/page_for_cache"></iframe>
