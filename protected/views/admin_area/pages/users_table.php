@@ -1,8 +1,12 @@
 <?php $titles = [
-    'ID юзера, <br/>профиля',
-    'Имя Фамилия',
-    'Личный email, <br/>Корпоративный email',
-    'Дата регистрации, </br>Дата последнего посещения',
+    'ID юзера',
+    'ID профиля',
+    'Имя',
+    'Фамилия',
+    'Личный email',
+    'Корпоративный email',
+    'Дата регистрации',
+    'Дата последнего посещения',
     'Аккаунт',
     'activation key',
     'Действия',
@@ -66,7 +70,8 @@
                         <a href="/admin_area/user/<?= $profile->user->id ?>/details">
                         <?= $profile->user->id ?>
                         </a>
-                    <br/>
+                </td>
+                <td>
                     <i class="icon icon-home" style="opacity: 0.10"></i>
                     <span style="color: #ccc"><?= sprintf('%s', $profile->id) ?></span>
                 </td>
@@ -74,11 +79,12 @@
                     <div style="max-width: 200px; overflow: auto;">
                         <?= $profile->firstname ?>
                     </div>
+                </td>
+                <td>
                     <div style="max-width: 200px; overflow: auto;">
                         <?= $profile->lastname ?>
                     </div>
                 </td>
-
                 <td>
                     <div style="max-width: 250px; overflow: auto;">
                         <?php
@@ -89,10 +95,13 @@
                         <i class="icon icon-user" style="opacity: <?= $opacity ?>"></i>
                         </i><?= $profile->email ?>
                     </div>
+                </td>
+
+                <td>
                     <div style="max-width: 250px; overflow: auto;">
                         <?php
-                            $opacity = 0;
-                            if ($profile->user->isCorporate()) { $opacity = 0.5; }
+                        $opacity = 0;
+                        if ($profile->user->isCorporate()) { $opacity = 0.5; }
                         ?>
                         <i class="icon icon-briefcase" style="opacity: <?= $opacity ?>"></i>
                         <?= ($profile->user->isCorporate()) ? $profile->email : '--' ?>
@@ -101,7 +110,8 @@
 
                 <td>
                     <?= date('Y-m-d H:i:s', $profile->user->createtime) ?>
-                    <br/>
+                </td>
+                <td>
                     <?= date('Y-m-d H:i:s', $profile->user->lastvisit) ?>
                 </td>
                 <td>
