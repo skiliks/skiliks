@@ -16,14 +16,17 @@ class InviteExpiredCommand extends CConsoleCommand
         //Invites
         $time = time() - Yii::app()->params['cron']['InviteExpired'];
 
+        $fullScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_FULL]);
+
         echo "time: ".$time."\n";
         /** @var $invites Invite[] */
         $invites = Invite::model()->findAll(
-            sprintf("status IN ('%s', '%s', '%s') AND sent_time <= '%s' AND (owner_id != receiver_id OR receiver_id is NULL) ",
+            sprintf("status IN (%s, %s, %s) AND sent_time <= %s AND (owner_id != receiver_id OR receiver_id is NULL) AND scenario_id != %s",
                 Invite::STATUS_PENDING,
                 Invite::STATUS_ACCEPTED,
                 Invite::STATUS_IN_PROGRESS,
-                $time
+                $time,
+                $fullScenario->id
             ));
 
         foreach($invites as $invite){
