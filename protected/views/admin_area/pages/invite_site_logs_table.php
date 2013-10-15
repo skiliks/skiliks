@@ -11,7 +11,7 @@
 <div class="row fix-top">
 
     <!-- Invite: -->
-
+<? if($simulation !== null) : ?>
     <h2>Лог операций над приглашением <?= $simulation->invite->id ?></h2>
 
     <table class="table table-bordered">
@@ -73,3 +73,8 @@
         'logSimulation'    => $logSimulation,
         'simulation'       => $simulation
     ]) ?>
+<?php else : ?>
+    <h2>
+        По данному приглашению не найдена симмуляция.
+    </h2>
+<?php endif; ?>

@@ -320,11 +320,11 @@ class AdminPagesController extends SiteBaseController {
                 } else {
                     $previousConditionPresent = true;
                 }
-                $condition .= " email NOT LIKE '%gty1991%' ".
-                    " AND email NOT LIKE '%@skiliks.com' ".
-                    " AND email NOT LIKE '%@rmqkr.net' ".
+                $condition .= " t.email NOT LIKE '%gty1991%' ".
+                    " AND t.email NOT LIKE '%@skiliks.com' ".
+                    " AND t.email NOT LIKE '%@rmqkr.net' ".
                     " AND sent_time > '2013-06-01 00:00:00' ".
-                    " AND email NOT IN (".implode(',', UserService::$developersEmails).") ";
+                    " AND t.email NOT IN (".implode(',', UserService::$developersEmails).") ";
             }
             // exclude developersEmails }
 

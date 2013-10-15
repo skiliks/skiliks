@@ -374,14 +374,7 @@ class Invite extends CActiveRecord
         $initValue = $account->getTotalAvailableInvitesLimit();
 
         $account->invites_limit++;
-        $account->update();
-
-        UserService::logCorporateInviteMovementAdd(
-            'Invite->inviteExpired()',
-            $this->ownerUser->getAccount(),
-            $initValue
-        );
-
+        $account->save();
 
         return true;
     }
@@ -495,7 +488,7 @@ class Invite extends CActiveRecord
             $this->email &&
             strtolower($this->ownerUser->profile->email) == strtolower($this->email)
         ) {
-            $this->addError('email', Yii::t('site', 'Действие не возможно'));
+            $this->addError('email', Yii::t('site', 'Действие невозможно'));
         }
     }
 
