@@ -10,7 +10,7 @@
         $form = $this->beginWidget('CActiveForm', array(
             'id' => 'referrer-registration-form',
             'htmlOptions' => ['class' => 'payment-form'],
-            'action' => '/register-referral/'.$refId,
+            'action' => '/register-referral/'.$refHash,
             'enableAjaxValidation' => false,
             'clientOptions' => [
                 'validateOnSubmit' => true,

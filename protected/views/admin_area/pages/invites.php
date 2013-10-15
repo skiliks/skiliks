@@ -2,11 +2,17 @@
 $invites = $models;
 
 $titles = [
-    'ID инвайта, <br/>Sim. ID',
-    'Email работодателя, <br/>Email соискателя',
-    'Сценарий, <br/>Статус инвайта',
-    'Время окончания tutorial, <br/>Время начала симуляции, <br/>Время окончания симуляции',
+    'ID инвайта',
+    'Sim. ID',
+    'Email работодателя',
+    'Email соискателя',
+    'Сценарий',
+    'Статус инвайта',
+    'Время окончания tutorial',
+    'Время начала симуляции',
+    'Время окончания симуляции',
     'Оценка',
+    'Процентиль',
     'Можно заново <br/>стартовать приглашение?',
     'Действие'
 ] ?>
@@ -18,28 +24,15 @@ $titles = [
     <?php $this->widget('CLinkPager',array(
         'header'         => '',
         'pages'          => $pager,
-        'maxButtonCount' => 5, // максимальное вол-ко кнопок
+        'maxButtonCount' => 15, // максимальное вол-ко кнопок
     )); ?>
 
     Страница <?= $page ?> из <?= ceil($totalItems/$itemsOnPage) ?> (<?= $itemsOnPage ?> записей отображено, найдено <?= $totalItems ?>)
 
-    <?php // hack to use pager with post requests { ?>
-        <script type="text/javascript">
-            $('.yiiPager .page').removeClass('selected');
-            $('.yiiPager .page:eq(<?= $page - 1 ?>)').addClass('selected');
-            $('.yiiPager a').click(function(e) {
-                e.preventDefault();
-                var page = $(this).text();
-                $('#invites-filter-page').attr('value', page);
-                $('#invites-filter').submit();
-            });
-        </script>
-    <?php // hack to use pager with post requests } ?>
-
     <br/>
     <br/>
 
-    <form id="invites-filter" action="/admin_area/invites" method="post" style="display: inline-block;">
+    <form id="invites-filter" action="/admin_area/invites" method="get" style="display: inline-block;">
         <input id="invites-filter-page" type="hidden" name="page" value="<?= $page ?>" />
         <table class="table table-bordered">
             <tr>
@@ -48,6 +41,24 @@ $titles = [
                 <td> <i class="icon-filter"></i> &nbsp; Invite id: </td>
                 <td> <input name="invite_id" value="<?= $invite_id ?>" style="width: 60px;"/> </td>
             </tr>
+
+            <tr>
+                <td> <i class="icon-filter"></i> &nbsp; email отправителя: </td>
+                <td> <input name="owner_email_for_filtration" value="<?= $ownerEmailForFiltration ?>"/> </td>
+                <td> <i class="icon-filter"></i> &nbsp; Сценарий:  </td>
+                <td>
+                    <select name="filter_scenario_id">
+                        <option value=""></option>
+                        <?php if(isset($scenarios)) : ?>
+                            <?php foreach($scenarios as $scenario) : ?>
+                                <option <?php if($scenario_id == $scenario->id) echo 'selected="selected"' ?>
+                                    value="<?=$scenario->id ?>"><?=$scenario->slug ?></option>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </select>
+                </td>
+            </tr>
+
             <tr>
                 <td> Исключить приглашения самому себе: </td>
                 <td> <input type="checkbox" name="exclude_invites_from_ne_to_me"
@@ -131,7 +142,7 @@ $titles = [
         <thead>
         <tr>
             <?php foreach($titles as $title) :?>
-            <th><?=$title?></th>
+                <th><?=$title?></th>
             <?php endforeach ?>
         </tr>
         </thead>
@@ -163,15 +174,16 @@ $titles = [
                     <a href="/admin_area/invite/<?= $invite->id?>/site-logs">
                         <?= $invite->id?>
                     </a>
-                <br/>
-                    <i class="icon icon-check" style="opacity: 0.1" title="Simulation ID"></i>
-                    <?php if (null === $invite->simulation): ?>
-                        --
-                    <?php else: ?>
-                        <a href="/admin_area/simulation/<?= $invite->simulation->id?>/site-logs">
-                            <?= $invite->simulation->id ?>
-                        </a>
-                    <?php endif; ?>
+            </td>
+            <td>
+                <i class="icon icon-check" style="opacity: 0.1" title="Simulation ID"></i>
+                <?php if (null === $invite->simulation): ?>
+                    --
+                <?php else: ?>
+                    <a href="/admin_area/simulation/<?= $invite->simulation->id?>/site-logs">
+                        <?= $invite->simulation->id ?>
+                    </a>
+                <?php endif; ?>
             </td>
             <!-- IDs } -->
 
@@ -186,8 +198,8 @@ $titles = [
                         <?= $invite->ownerUser->profile->email ?>
                     </a>
                 <?php endif; ?>
-
-                <br/>
+            </td>
+            <td>
                 <i class="icon icon-user" style="opacity: 0.1"></i>
 
                 <?php if (null === $invite->receiverUser): ?>
@@ -197,7 +209,6 @@ $titles = [
                         <?= $invite->receiverUser->profile->email ?>
                     </a>
                 <?php endif; ?>
-
             </td>
             <!-- users } -->
 
@@ -205,7 +216,10 @@ $titles = [
             <td style="width: 120px;">
                 <span class="label <?= $invite->scenario->getSlugCss() ?>">
                     <?=(empty($invite->scenario->slug)?'Нет данных':$invite->scenario->slug)?>
-                </span>:
+                </span>
+            </td>
+
+            <td>
                 <span class="label <?= $invite->getStatusCssClass() ?>">
                     <?= $invite->getStatusText() ?>
                 </span>
@@ -213,15 +227,16 @@ $titles = [
 
             <td style="width: 220px;">
                 <?=(empty($invite->tutorial_finished_at)?'---- -- -- --':$invite->tutorial_finished_at)?>
-                <br/>
-                <?=(empty($invite->simulation->start)?'---- -- -- --':$invite->simulation->start)?>
-                <br/>
-                <?=(empty($invite->simulation->end)?'---- -- -- --':$invite->simulation->end)?>
             </td>
+
+            <td><?=(empty($invite->simulation->start)?'---- -- -- --':$invite->simulation->start)?></td>
+            <td><?=(empty($invite->simulation->end)?'---- -- -- --':$invite->simulation->end)?></td>
 
             <td>
                 <?= (null === $invite->getOverall()) ? '--' : $invite->getOverall(); ?>
-                /
+            </td>
+
+            <td>
                 <?= (null !== $invite->getPercentile()) ? $invite->getPercentile() : '--'; ?>
             </td>
 
