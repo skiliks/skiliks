@@ -159,7 +159,7 @@ class PagesController extends SiteBaseController
                 $model->save();
                 $inviteEmailTemplate = Yii::app()->params['emails']['newFeedback'];
 
-                $body = (new CController("DebugController"))->renderPartial($inviteEmailTemplate, [
+                $body = CController::renderInternal($inviteEmailTemplate, [
                     'email' => strtolower($model->email),
                     'theme' => $model->theme,
                     'message'=>$model->message

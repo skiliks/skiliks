@@ -11,20 +11,21 @@
 <div class="row fix-top">
 
     <!-- Invite: -->
-
+<? if($simulation !== null) : ?>
     <h2>Лог операций над приглашением <?= $simulation->invite->id ?></h2>
 
     <table class="table table-bordered">
-        <tr><td>От</td><td> <?= $simulation->invite->ownerUser->profile->email ?></td></tr>
-        <tr><td>для</td><td> <?= $simulation->invite->email ?></td></tr>
+        <tr><td>От</td><td> <?= (null !== $simulation->invite && null !== $simulation->invite->ownerUser)?$simulation->invite->ownerUser->profile->email:'-' ?></td></tr>
+        <tr><td>для</td><td> <?= (null !== $simulation->invite)?$simulation->invite->email:'-' ?></td></tr>
         <tr><td>Оценка</td><td> <?= (null !== $simulation->invite->getOverall()) ? $simulation->invite->getOverall() : '-'; ?></td></tr>
         <tr><td>Процентиль</td><td> <?= (null !== $simulation->invite->getPercentile()) ? $simulation->invite->getPercentile() : '-'; ?></td></tr>
     </table>
 
+    <?php if(null !== $simulation->invite) : ?>
     <?php $this->renderPartial('//admin_area/partials/_invite_actions', [
         'invite' => $simulation->invite,
     ]) ?>
-
+    <?php endif ?>
     <br/>
     <br/>
 
@@ -73,3 +74,8 @@
         'logSimulation'    => $logSimulation,
         'simulation'       => $simulation
     ]) ?>
+<?php else : ?>
+    <h2>
+        По данному приглашению не найдена симмуляция.
+    </h2>
+<?php endif; ?>

@@ -100,7 +100,12 @@ $.fn.popover = function(options) {
   this.each(function(){
     var button = $(this);
     button.addClass("popover-button");
-    button.bind('click', function() { showPopover(button) });
+    if(!button.hasClass("popover-on-hover")) {
+        button.bind('click', function() { showPopover(button) });
+    } else {
+        button.bind('mouseover', function() { showPopover(button) });
+        button.bind('mouseleave', function() { showPopover(button) });
+    }
     button.bind('showPopover', function() { showPopover(button) });
     button.bind('hidePopover', function() {
       button.removeClass('popover-on');

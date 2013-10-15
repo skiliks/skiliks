@@ -321,6 +321,7 @@ return array(
                 'admin_area/invoiceComment'    => 'admin_area/AdminPages/CommentInvoice',
                 'admin_area/getInvoiceLog'     => 'admin_area/AdminPages/GetInvoiceLog',
                 'admin_area/referrals'         => 'admin_area/AdminPages/ReferralsList',
+                'admin_area/RegistrationList'  => 'admin_area/AdminPages/RegistrationList',
 
                 'admin_area/simulations/rating/csv'                       => 'admin_area/AdminPages/SimulationsRatingCsv',
                 'admin_area/simulations/rating'                           => 'admin_area/AdminPages/SimulationsRating',
@@ -349,6 +350,7 @@ return array(
                 'admin_area/AdminPages/SubscribersList'           => 'admin_area/AdminPages/SubscribersList',
                 'admin_area/user/<userId:\w+>/details'            => 'admin_area/AdminPages/UserDetails',
                 'admin_area/user-referrals/<userId:\d+>'          => 'admin_area/AdminPages/UserReferrals',
+                'admin_area/login/ghost/<userId:\d+>'             => 'admin_area/AdminPages/GhostLogin',
 
                 'admin_area/user/<userId:\w+>/set-tariff/<label:\w+>'        => 'admin_area/AdminPages/UserSetTariff',
                 'admin_area/user/<userId:\w+>/set-invites-limit/<value:[\w\-]+>' => 'admin_area/AdminPages/UserAddRemoveInvitations',
@@ -410,6 +412,14 @@ return array(
         'isUseResultPopUpCache'         => true,
         'isDisplaySimulationResults'    => false,
         'simulationIdStorage'           => 'request', // 'request', 'session'
+        'initialSimulationsAmount'      => 3,
+
+        // Блокирует/разрещает использование админами входа на сайт от именю любого пользователя
+        'isBlockGhostLogin'             => false,
+
+        // накладывает ограничение на круг лиц, которым разрешено использование GhostLogin
+        'isUseStrictRulesForGhostLogin' => true,
+
         'emails' => [
             'isDisplayStandardInvitationMailTopText' => true, // 'Вопросы относительно вакансии вы можете задать по адресу %s, куратор вакансии - %s.'
             'inviteEmailTemplate'      => '//global_partials/mails/invite_default',
@@ -420,6 +430,7 @@ return array(
             'referrerInviteEmail'      => '//global_partials/mails/referrerEmail',
             'noticeEmail'              => '//global_partials/mails/noticeEmail',
             'newFeedback'              => '//global_partials/mails/newFeedback',
+            'ifSuspiciousActivity'     => '//global_partials/mails/ifSuspiciousActivity',
 
 //            'bookerEmail' => 'accounter@skiliks.com',
             'bookerEmail' => 'invoice@skiliks.com',
@@ -467,7 +478,7 @@ return array(
         ),
         'cron' => [
 //            'CleanUsers'=> 604800,8
-            'InviteExpired'=> 432000,
+            'InviteExpired'=> 60*60*24*5,
         ],
         'initial_data' => [
             'users' => [

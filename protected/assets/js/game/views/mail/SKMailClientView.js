@@ -1479,11 +1479,9 @@ define([
                         this.mailClient.availableSubjects.push(draftEmail.subject);
                         mailClientView.updateSubjectsList(true);
                     }
-
                     // add attachments list {
                     this.mailClient.uploadAttachmentsList(function () {
                         var attachmentsListHtml = [];
-
                         attachmentsListHtml.push({
                             text: "без вложения.",
                             value: 0,
@@ -1498,7 +1496,7 @@ define([
                                 imageSrc: attachment.getIconImagePath()
                             });
                         });
-
+                        mailClientView.$("#MailClient_NewLetterAttachment div.list").ddslick('destroy');
                         mailClientView.$("#MailClient_NewLetterAttachment div.list").ddslick({
                             data: attachmentsListHtml,
                             width: '100%',
@@ -2281,7 +2279,6 @@ define([
                     // add attachments list {
                     this.mailClient.uploadAttachmentsList(function () {
                         var attachmentsListHtml = [];
-
                         attachmentsListHtml.push({
                             text: "без вложения.",
                             value: 0,
@@ -2296,7 +2293,7 @@ define([
                                 imageSrc: attachment.getIconImagePath()
                             });
                         });
-
+                        mailClientView.$("#MailClient_NewLetterAttachment div.list").ddslick('destroy');
                         mailClientView.$("#MailClient_NewLetterAttachment div.list").ddslick({
                             data: attachmentsListHtml,
                             width: '100%',
@@ -2728,7 +2725,6 @@ define([
                         if (response.attachmentId) {
                             this.mailClient.uploadAttachmentsList(function () {
                                 var attachmentsListHtml = [];
-                                $("#MailClient_NewLetterAttachment div.list").ddslick('destroy');
 
                                 var attach = new SKAttachment();
                                 attach.fileMySqlId = response.attachmentId;
@@ -2748,6 +2744,7 @@ define([
                                  });
                                  });
                                 me.mailClient.availableAttachments.push(attach);
+                                me.$("#MailClient_NewLetterAttachment div.list").ddslick('destroy');
                                 me.$("#MailClient_NewLetterAttachment div.list").ddslick({
                                     data: attachmentsListHtml,
                                     width: '100%',

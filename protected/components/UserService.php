@@ -97,7 +97,7 @@ class UserService {
      * @param $isAdd
      * @param null $comment
      */
-    public static function logCorporateInviteMovementAdd($action, $account, $amountBeforeTransaction, $comment = null )
+    public static function logCorporateInviteMovementAdd($message, $account, $amountBeforeTransaction, $comment = null )
     {
         if (null == $account) {
             return false;
@@ -108,7 +108,7 @@ class UserService {
         }
 
         $log = new LogAccountInvite();
-        $log->action = $action;
+        $log->message = $message;
         $log->user_id = $account->user_id;
         $log->direction = ($account->getTotalAvailableInvitesLimit() > $amountBeforeTransaction) ? 'увеличено' : 'уменьшено';
         $log->limit_after_transaction = $account->invites_limit;
@@ -147,6 +147,7 @@ class UserService {
             $invite->save(false);
         }
     }
+
 }
 
 
