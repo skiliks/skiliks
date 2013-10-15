@@ -453,7 +453,7 @@ class Invite extends CActiveRecord
             $this->email &&
             strtolower($this->ownerUser->profile->email) == strtolower($this->email)
         ) {
-            $this->addError('email', Yii::t('site', 'Действие не возможно'));
+            $this->addError('email', Yii::t('site', 'Действие невозможно'));
         }
     }
 
