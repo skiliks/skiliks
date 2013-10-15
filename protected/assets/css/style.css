@@ -2834,7 +2834,7 @@ h2 {
 }
 #dashboard-skills-box .prcentval {
     font-size: 0.8em;
-    line-height: 120%;
+    line-height: 90%;
     vertical-align: text-top;
 }
 #private-invitations-list-box sup {
@@ -5390,6 +5390,10 @@ ul.default li:hover {
 
 @media screen and (max-width: 1146px){
 
+    #dashboard-skills-box .prcentval {
+        line-height: 120%;
+    }
+
     .invite-referral-textarea {
         width:271px;
         float: left;
@@ -5693,7 +5697,7 @@ ul.default li:hover {
 
 .percentile-hover-toggle-span.dashboard-personal-change-percentile {
     left: 234px;
-    top: 102px;
+    top: 84px;
 }
 
 @media screen and (max-width: 1146px) {
@@ -5726,12 +5730,12 @@ ul.default li:hover {
 
     .percentile-hover-toggle-span.dashboard-personal-change-percentile {
         left: 180px;
-        top: 81px;
+        top: 62px;
     }
 
     .percentile-hover-toggle-span.dashboard-personal-change-percentile.percentile-toggle-off {
         left: 170px;
-        top: 81px;
+        top: 62px;
     }
 
 
