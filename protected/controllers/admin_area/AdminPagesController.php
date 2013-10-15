@@ -1869,8 +1869,7 @@ class AdminPagesController extends SiteBaseController {
             'condition' => $condition,
             'order'     => ' t.value DESC '
         ]);
-        var_dump(count($assessments));
-        exit;
+
         $simulations = [];
         foreach ($assessments as $assessment) {
             $simulations[] = $assessment->sim;
