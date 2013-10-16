@@ -259,9 +259,20 @@ class YumAuthController extends YumController {
                 }
                 $attributeName = get_class($model).'_form';
                 $jsonObj->$attributeName = $profile->getEmailAlreadyExistMessage();
+
+                $isUserBanned = YumProfile::model()->isAccountBannedStatic($profile->email);
+
+                /**
+                 * if User is banned we need to replace email error with banned error
+                 */
+
+                if($isUserBanned) {
+                    $jsonObj->$attributeName = $isUserBanned;
+                }
+
                 $json = json_encode($jsonObj);
             }
-            // validate is profile exist, bur email not confirmed }
+            // validate is profile exist, bur email not confirmed or banned }
 
             if (0 < count(json_decode($json, true))) {
                 echo $json;

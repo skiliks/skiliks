@@ -207,6 +207,7 @@ class YumProfile extends YumActiveRecord
 				array(implode(',',$safe), 'safe'));
 
         $rules[] = array('general_error', 'emailIsNotActiveValidation', 'on' => array('insert', 'registration', 'registration_corporate'));
+        $rules[] = array('general_error', 'isAccountBanned');
         $rules[] = array('email', 'emailIsUsedForCorporateAccount', 'on' => array('insert', 'registration', 'registration_corporate'));
         $rules[] = array('allow_comments, show_friends', 'numerical');
         $rules[] = array('email', 'unique', 'on' => array('insert', 'registration', 'registration_corporate'), 'message' => Yii::t('site', 'Данный email занят'));
@@ -227,12 +228,30 @@ class YumProfile extends YumActiveRecord
         ]);
 
         if ($existProfile !== NULL && !$existProfile->user->isActive()) {
-            $error = Yii::t('site',  'Email already exists, but not activated.')
-                . CHtml::link(Yii::t('site','Send activation again'),'/activation/resend/' . $existProfile->id);
-            $this->addError($attribute, $error);
+                $error = Yii::t('site',  'Email already exists, but not activated.')
+                    . CHtml::link(Yii::t('site','Send activation again'),'/activation/resend/' . $existProfile->id);
+                $this->addError($attribute, $error);
         }
         return true;
     }
+
+    public function isAccountBanned($attribute) {
+
+        $existProfile = YumProfile::model()->findByAttributes([
+            'email' => strtolower($this->email)
+        ]);
+
+        if($existProfile !== NULL && $existProfile->user->isBanned()) {
+            $error = $this->getAccountBannedErrorMessage();
+            $this->addError($attribute, $error);
+        }
+    }
+
+    public function getAccountBannedErrorMessage() {
+        return $error = Yii::t('site',  'Ваш аккаунт забанен.');
+    }
+
+
 
     public function emailIsNotActiveValidationStatic($email) {
         $existProfile = YumProfile::model()->findByAttributes([
@@ -243,6 +262,19 @@ class YumProfile extends YumActiveRecord
             return Yii::t('site',  'Email already exists, but not activated.')
                 . CHtml::link(Yii::t('site','Send activation again'),'/activation/resend/' . $existProfile->id);
         }
+        return false;
+    }
+
+    public function isAccountBannedStatic($email) {
+
+        $existProfile = YumProfile::model()->findByAttributes([
+            'email' => strtolower($email)
+        ]);
+
+        if($existProfile !== NULL && $existProfile->user->isBanned()) {
+            return $this->getAccountBannedErrorMessage();
+        }
+
         return false;
     }
 
