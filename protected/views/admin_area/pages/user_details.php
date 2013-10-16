@@ -93,9 +93,9 @@ $assetsUrl = $this->getAssetsUrl();
             <?php if ($user->isCorporate()) : ?>
 
                 <?php if($user->status == YumUser::STATUS_BANNED) : ?>
-                    <span class="label label-important">Аккаунт забанен</span>
+                    <span class="label label-important">Ваш заблокирован</span>
                 <?php else : ?>
-                    <span class="label label-success">Аккаунт не забанен</span>
+                    <span class="label label-success">Аккаунт не заблокирован</span>
                 <?php endif; ?>
 
             <? endif; ?>

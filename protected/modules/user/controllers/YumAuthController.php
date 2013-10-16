@@ -376,7 +376,21 @@ class YumAuthController extends YumController {
                 if ($t & UserModule::LOGIN_BY_EMAIL) {
                     $profile = YumProfile::model()->findByAttributes(['email' => strtolower($this->loginForm->username)]);
                     if (null !== $profile && false == $profile->user->isActive()) {
-                        $this->loginForm->addError('form', $profile->getEmailAlreadyExistMessage());
+
+                        $isUserBanned = $profile->isAccountBannedStatic($profile->email);
+
+                        /**
+                         * if User is banned we need to replace email error with banned error
+                         */
+
+                        if($isUserBanned) {
+                            $this->loginForm->addError('form', $profile->isAccountBannedStatic($profile->email));
+                        }
+
+
+                            $this->loginForm->addError('form', $profile->getEmailAlreadyExistMessage());
+
+
                     } else {
                         $this->loginForm->addError('username', Yii::t('site', 'Wrong email or password'));
                     }

@@ -687,12 +687,15 @@ class UserAuthController extends YumController
     {
         $profile = YumProfile::model()->findByPk($profileId);
 
-        if ($profile && !$profile->user->isActive()) {
+        if ($profile && !$profile->user->isActive() && !$profile->user->isBanned()) {
             $this->sendRegistrationEmail($profile->user);
             Yii::app()->session->add("email", strtolower($profile->email));
             Yii::app()->session->add("user_id", $profile->user_id);
             $this->redirect(['afterRegistration']);
         } else {
+            if($profile->user->isBanned()) {
+                Yii::app()->user->setFlash('error', 'Невозможно восстановить пароль - ваш аккаунт заблокирован');
+            }
             $this->redirect('/');
         }
     }
@@ -788,8 +791,16 @@ class UserAuthController extends YumController
                 echo CActiveForm::validate($recoveryForm);
                 Yii::app()->end();
             }
+
             if ($recoveryForm->validate() && $recoveryForm->user instanceof YumUser && $recoveryForm->user->status > 0) {
+
                 $user = $recoveryForm->user;
+
+                if($recoveryForm->user->status->isBanned) {
+                    Yii::app()->user->setFlash('error', 'Ваш аккаунт заблокирован');
+                    $this->redirect('/');
+                }
+
                 $user->generateActivationKey();
                 $result = $this->sendPasswordRecoveryEmail($user);
 
