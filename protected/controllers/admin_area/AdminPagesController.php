@@ -1999,4 +1999,18 @@ class AdminPagesController extends SiteBaseController {
             }
         }
     }
+    public function actionNotCorporateEmails(){
+        $email = new FreeEmailProvider();
+        if (Yii::app()->request->isPostRequest) {
+            $email->attributes = Yii::app()->request->getParam('FreeEmailProvider');
+            if($email->validate(['domain'])){
+                $email->save(false, ['domain']);
+                $email->validate([]);
+            }
+        }
+        $dataProvider = FreeEmailProvider::model()->searchEmails();
+
+        $this->layout = '/admin_area/layouts/admin_main';
+        $this->render('/admin_area/pages/not_corporate_emails', ['dataProvider' => $dataProvider, 'email'=>$email]);
+    }
 }

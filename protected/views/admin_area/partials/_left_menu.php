@@ -106,6 +106,12 @@
                 'visible' => true,
 
             ),
+            array(
+                'label' => 'Список бесплатных почтовиков',
+                'url'   => ['admin_area/not-corporate-emails'],
+                'visible' => true,
+
+            ),
         ),
         'htmlOptions'=>array('class'=>'nav nav-list')
     )) ?>

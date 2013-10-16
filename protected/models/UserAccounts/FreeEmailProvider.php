@@ -65,7 +65,7 @@ class FreeEmailProvider extends CActiveRecord
 	{
 		return array(
 			'id'     => 'ID',
-			'domain' => 'Domain',
+			'domain' => 'Домен',
 		);
 	}
 
@@ -87,4 +87,37 @@ class FreeEmailProvider extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+
+    public function searchEmails() {
+
+        $criteria = new CDbCriteria();
+        $email = Yii::app()->request->getParam('FreeEmailProvider');
+        if(!empty($email['domain'])) {
+           $criteria->addCondition('domain LIKE \'%'.$email['domain'].'%\'');
+           $criteria->compare('domain', $email['domain'],true);
+        }
+
+
+        return new CActiveDataProvider($this, [
+            'criteria' => $criteria,
+            'sort' => [
+                'defaultOrder'=>'id DESC',
+                'sortVar' => 'sort',
+                'attributes' => [
+                    'domain' => [
+                        'asc'  => 'domain',
+                        'desc' => 'domain DESC'
+                    ],
+                    'id' => [
+                        'asc'  => 'id',
+                        'desc' => 'id DESC'
+                    ]
+                ],
+            ],
+            'pagination' => [
+                'pageSize' => 10,
+                'pageVar' => 'page'
+            ]
+        ]);
+    }
 }
