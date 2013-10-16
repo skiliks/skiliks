@@ -101,6 +101,17 @@ $this->widget('zii.widgets.grid.CGridView', [
             $(this).hide();
             $(this).parent().parent().removeClass('selected-sk');
         });
+
+        $(document).ready(function() {
+            $(document).click(function(e) {
+                if(!$(e.target).is('.invites-smallmenu-switcher')) {
+                    visibleMenu = $(".invites-smallmenu-item:visible");
+                    visibleMenu.parents("tr").removeClass('selected-sk');
+                    visibleMenu.hide();
+                }
+            });
+        });
+
     });
 </script>
 
