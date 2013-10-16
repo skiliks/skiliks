@@ -406,7 +406,7 @@ class StaticSiteTools
         'data'   => []
         ];
 
-        if (null == $yiiUser || false == $user->isAuth()) {
+        if (null == $yiiUser || false == $yiiUser->isAuth()) {
             $user['nick']  = 'Guest';
             $user['id']    = null;
             $user['email'] = null;
