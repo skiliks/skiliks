@@ -59,7 +59,7 @@
             <tr class="orders-row">
                 <td><?= $log->date ?></td>
                 <td><?= $log->amount ?> <?= $log->direction ?> до <?= ($log->limit_after_transaction+$log->invites_limit_referrals) ?></td>
-                <td><?= $log->action ?></td>
+                <td><?= $log->message ?></td>
                 <td>
                     <?= $log->limit_after_transaction ?> / <?= $log->invites_limit_referrals ?>
                 </td>

@@ -41,7 +41,7 @@ class Invite extends CActiveRecord
     const STATUS_COMPLETED = 2;
     const STATUS_DECLINED = 3;
     const STATUS_EXPIRED = 4;
-    const STATUS_IN_PROGRESS = 5;//const STATUS_STARTED = 5;//const STATUS_IN_PROGRESS = 5;
+    const STATUS_IN_PROGRESS = 5;
     const STATUS_DELETED = 6;
 
     public static $statusText = [
@@ -52,6 +52,16 @@ class Invite extends CActiveRecord
         self::STATUS_DECLINED => 'Declined',
         self::STATUS_EXPIRED => 'Expired',
         self::STATUS_DELETED => 'Deleted'
+    ];
+
+    public static $statusTextRus = [
+        self::STATUS_PENDING => 'в ожидании',
+        self::STATUS_ACCEPTED => 'принятый',
+        self::STATUS_COMPLETED => 'завершенный', // after sim start
+        self::STATUS_IN_PROGRESS => 'в процессе', // after sim start
+        self::STATUS_DECLINED => 'отклонено',
+        self::STATUS_EXPIRED => 'истекший',
+        self::STATUS_DELETED => 'удален'
     ];
 
     public static $statusId = [
@@ -280,7 +290,7 @@ class Invite extends CActiveRecord
         $newInvite->email = strtolower(Yii::app()->user->data()->profile->email);
         $newInvite->save(false);
 
-        InviteService::logAboutInviteStatus($newInvite, 'invite : add fake invite');
+        InviteService::logAboutInviteStatus($newInvite, 'Добваление инвайта для прохождения сам себе');
 
         return $newInvite;
     }
@@ -315,9 +325,11 @@ class Invite extends CActiveRecord
                 return false;
             }
         }
+        $invite_status = $this->status;
         $this->status = Invite::STATUS_EXPIRED;
         $this->update();
 
+        InviteService::logAboutInviteStatus($this, 'Сменился статус с '.Invite::getStatusNameByCode($invite_status)." на ".Invite::getStatusNameByCode($this->status));
         $account = UserAccountCorporate::model()->findByAttributes(['user_id' => $this->owner_id]);
 
         if (null === $account) {
@@ -327,15 +339,7 @@ class Invite extends CActiveRecord
         $initValue = $account->getTotalAvailableInvitesLimit();
 
         $account->invites_limit++;
-        $account->update();
-
-        UserService::logCorporateInviteMovementAdd(
-            'Invite->inviteExpired()',
-            $this->ownerUser->getAccount(),
-            $initValue
-        );
-
-        InviteService::logAboutInviteStatus($this, 'invite : expired');
+        $account->save();
 
         return true;
     }
@@ -449,7 +453,7 @@ class Invite extends CActiveRecord
             $this->email &&
             strtolower($this->ownerUser->profile->email) == strtolower($this->email)
         ) {
-            $this->addError('email', Yii::t('site', 'Действие не возможно'));
+            $this->addError('email', Yii::t('site', 'Действие невозможно'));
         }
     }
 
@@ -853,21 +857,30 @@ class Invite extends CActiveRecord
     }
 
     public function resetInvite() {
+        $invite_status = $this->status;
         $this->status = Invite::STATUS_ACCEPTED;
         $this->simulation->end = gmdate("Y-m-d H:i:s", time());
         $this->simulation->update();
         $this->simulation_id = null;
         $result = $this->save(false);
 
-        InviteService::logAboutInviteStatus($this, 'invite : reset');
+        InviteService::logAboutInviteStatus($this, 'Сменился статус с '.Invite::getStatusNameByCode($invite_status)." на ".Invite::getStatusNameByCode($this->status));
         return $result;
     }
 
     public function deleteInvite() {
+        $invite_status = $this->status;
         $this->status = Invite::STATUS_DELETED;
         $result = $this->save(false);
 
-        InviteService::logAboutInviteStatus($this, 'invite : delete');
+        InviteService::logAboutInviteStatus($this, 'Сменился статус с '.Invite::getStatusNameByCode($invite_status)." на ".Invite::getStatusNameByCode($this->status));
         return $result;
+    }
+
+    public static function getStatusNameByCode($code) {
+        if(empty($code)){
+            return "не задано";
+        }
+        return self::$statusTextRus[$code];
     }
 }

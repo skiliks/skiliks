@@ -100,6 +100,12 @@
                 'visible' => true,
 
             ),
+            array(
+                'label' => 'Регистрации',
+                'url'   => ['admin_area/RegistrationList'],
+                'visible' => true,
+
+            ),
         ),
         'htmlOptions'=>array('class'=>'nav nav-list')
     )) ?>

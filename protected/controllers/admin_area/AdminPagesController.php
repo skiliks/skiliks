@@ -4,10 +4,13 @@ class AdminPagesController extends SiteBaseController {
 
     public $itemsOnPage = 100;
 
+    public $user;
+
     public function beforeAction($action) {
 
         $public = ['Login'];
         $user = Yii::app()->user->data();
+        $this->user = $user;
         if(in_array($action->id, $public)){
             return true;
         }elseif(!$user->isAuth()){
@@ -100,15 +103,20 @@ class AdminPagesController extends SiteBaseController {
     public function actionInvites()
     {
         // pager {
-        $page = Yii::app()->request->getParam('page');
+        $page = Yii::app()->request->getParam('invites-filter-page');
 
         if (null === $page) {
             $page = 1;
         }
 
+        $this->itemsOnPage = 100;
+
         $allFilters = $this->getCriteriaInvites();
 
+        // creating criteria for search
         $criteria = $allFilters['criteria'];
+        $criteria->condition = $allFilters['condition'];
+        $criteria->order     = "updated_at desc";
 
         $totalItems = Invite::model()->count($criteria);
 
@@ -119,34 +127,33 @@ class AdminPagesController extends SiteBaseController {
         // pager }
 
         //$models = Invite::model()->findAll([
-        $models = Invite::model()->findAll([
-            'condition' => $allFilters['condition'],
-            'order'  => "updated_at desc",
-            'limit'  => $this->itemsOnPage,
-            'offset' => ($page-1)*$this->itemsOnPage
-        ]);
 
-        if (count($models) < $this->itemsOnPage) {
-            $page = 1; // если результатов фильтрации мало
+        $models = Invite::model()->findAll($criteria);
 
-            $models = Invite::model()->findAll([
-                'condition' => $allFilters['condition'],
-                'order'  => "updated_at desc",
-                'limit'  => $this->itemsOnPage,
-                'offset' => ($page-1)*$this->itemsOnPage
-            ]);
-        }
+//        if (count($models) < $this->itemsOnPage) {
+//            $page = 1; // если результатов фильтрации мало
+//
+//            $models = Invite::model()->findAll($criteria);
+//        }
+
+        // getting scenarios type
+        $scenarioCriteria = new CDbCriteria();
+        $scenarioCriteria->distinct = true;
+        $scenarios = Scenario::model()->findAll($scenarioCriteria);
 
         $this->layout = '//admin_area/layouts/admin_main';
         $this->render('/admin_area/pages/invites', [
-            'models'      => $models,
-            'page'        => $page,
-            'pager'       => $pager,
-            'totalItems'  => $totalItems,
-            'itemsOnPage' => $this->itemsOnPage,
-            'formFilters' => $allFilters['filters'],
+            'models'                     => $models,
+            'page'                       => $page,
+            'pager'                      => $pager,
+            'totalItems'                 => $totalItems,
+            'itemsOnPage'                => $this->itemsOnPage,
+            'formFilters'                => $allFilters['filters'],
             'receiverEmailForFiltration' => isset($allFilters['filters']['filter_email']) ? $allFilters['filters']['filter_email'] : "",
-            'invite_id' => isset($allFilters['filters']['invite_id']) ? $allFilters['filters']['invite_id'] : "",
+            'ownerEmailForFiltration'    => isset($allFilters['filters']['owner_email']) ? $allFilters['filters']['owner_email'] : "",
+            'invite_id'                  => isset($allFilters['filters']['invite_id']) ? $allFilters['filters']['invite_id'] : "",
+            'scenario_id'                => isset($allFilters['filters']['filter_scenario_id']) ? $allFilters['filters']['filter_scenario_id'] : "",
+            'scenarios'                  => $scenarios
         ]);
     }
 
@@ -176,8 +183,10 @@ class AdminPagesController extends SiteBaseController {
             $condition = '';
 
             $receiverEmailForFiltration = trim(Yii::app()->request->getParam('receiver-email-for-filtration', null));
+            $ownerEmailForFiltration = trim(Yii::app()->request->getParam('owner_email_for_filtration', null));
             $invite_id = trim(Yii::app()->request->getParam('invite_id', null));
             $exceptDevelopersFiltration = (bool)trim(Yii::app()->request->getParam('except-developers', true));
+            $simulationScenario = Yii::app()->request->getParam('filter_scenario_id', true);
 
             // remaking email form
             if ($isReloadRequest) {
@@ -186,6 +195,33 @@ class AdminPagesController extends SiteBaseController {
                 }
                 else {
                     $filter_form['filter_email'] = "";
+                }
+            }
+
+            if ($isReloadRequest) {
+                if (null !== $ownerEmailForFiltration) {
+                    $filter_form['owner_email'] = $ownerEmailForFiltration;
+                }
+                else {
+                    $filter_form['owner_email'] = "";
+                }
+            }
+
+            if ($isReloadRequest) {
+                if (null !== $exceptDevelopersFiltration) {
+                    $filter_form['exceptDevelopersFiltration'] = $exceptDevelopersFiltration;
+                }
+                else {
+                    $filter_form['exceptDevelopersFiltration'] = "";
+                }
+            }
+
+            if ($isReloadRequest) {
+                if (null !== $simulationScenario) {
+                    $filter_form['filter_scenario_id'] = $simulationScenario;
+                }
+                else {
+                    $filter_form['filter_scenario_id'] = "";
                 }
             }
 
@@ -207,7 +243,7 @@ class AdminPagesController extends SiteBaseController {
 
                 // setting all filters
                 if(isset($filter_form['filter_email']) && $filter_form['filter_email'] != "" ) {
-                    $condition .= " email LIKE '%".$filter_form['filter_email']."%' ";
+                    $condition .= " t.email LIKE '%".$filter_form['filter_email']."%' ";
                     $previousConditionPresent = true;
                 }
                 if(isset($filter_form['invite_id']) && $filter_form['invite_id'] && $filter_form['invite_id'] != "" ) {
@@ -215,6 +251,19 @@ class AdminPagesController extends SiteBaseController {
                         $condition .= " AND ";
                     }
                     $condition .= " t.id = ".$filter_form['invite_id']." ";
+                    $previousConditionPresent = true;
+                }
+
+                if(isset(   $filter_form['owner_email'])
+                         && $filter_form['owner_email']
+                         && $filter_form['owner_email'] != ""
+                ) {
+                    if($condition !== "") {
+                        $condition .= " AND ";
+                    }
+                    $criteria->select = 't.*, owner.email as owner_email';
+                    $criteria->join = ' LEFT JOIN profile AS owner ON owner.user_id = t.owner_id ';
+                    $condition .= " owner.email LIKE '%".$filter_form['owner_email']."%' ";
                     $previousConditionPresent = true;
                 }
                 $criteria->addCondition($condition);
@@ -231,6 +280,15 @@ class AdminPagesController extends SiteBaseController {
                         $filter_form['exclude_invites_from_ne_to_me'] = false;
                     }
                 }
+            }
+
+            if (isset($filter_form["filter_scenario_id"]) && $filter_form["filter_scenario_id"] != "") {
+                if (false === $previousConditionPresent) {
+                    $previousConditionPresent = true;
+                } else {
+                    $condition .= " AND ";
+                }
+                $condition .= ' scenario_id = '.$filter_form["filter_scenario_id"] ;
             }
 
             if ($filter_form['exclude_invites_from_ne_to_me']) {
@@ -262,11 +320,11 @@ class AdminPagesController extends SiteBaseController {
                 } else {
                     $previousConditionPresent = true;
                 }
-                $condition .= " email NOT LIKE '%gty1991%' ".
-                    " AND email NOT LIKE '%@skiliks.com' ".
-                    " AND email NOT LIKE '%@rmqkr.net' ".
+                $condition .= " t.email NOT LIKE '%gty1991%' ".
+                    " AND t.email NOT LIKE '%@skiliks.com' ".
+                    " AND t.email NOT LIKE '%@rmqkr.net' ".
                     " AND sent_time > '2013-06-01 00:00:00' ".
-                    " AND email NOT IN (".implode(',', UserService::$developersEmails).") ";
+                    " AND t.email NOT IN (".implode(',', UserService::$developersEmails).") ";
             }
             // exclude developersEmails }
 
@@ -742,6 +800,8 @@ class AdminPagesController extends SiteBaseController {
     public function actionCompleteInvoice() {
         $invoiceId = Yii::app()->request->getParam('invoice_id');
 
+        $admin = Yii::app()->user->data();
+
         $criteria = new CDbCriteria();
         $criteria->compare('id', $invoiceId);
 
@@ -751,7 +811,16 @@ class AdminPagesController extends SiteBaseController {
             $user = Yii::app()->user->data();
             $invoice_log = new LogPayments();
             $invoice_log->log($invoice, "Попытка отметить счёт как \"Оплаченый\" в админке. Админ ".$user->profile->email.".");
+
+            $initValue = $invoice->user->getAccount()->getTotalAvailableInvitesLimit();
+
             $invoice->completeInvoice($user->profile->email);
+
+            UserService::logCorporateInviteMovementAdd(sprintf(
+                    "Принята оплата по счёт-фактуре номер %s, на тарифный план %s. Количество доступных симуляций установлено в %s из них за рефераллов %s. Админ %s.",
+                    $invoice->id, $invoice->tariff->label, $invoice->tariff->simulations_amount, $invoice->user->getAccount()->referrals_invite_limit, $admin->profile->email
+                ),  $invoice->user->getAccount(), $initValue);
+
             echo json_encode(["return" => true, "paidAt" => $invoice->paid_at]);
         }
     }
@@ -766,9 +835,18 @@ class AdminPagesController extends SiteBaseController {
 
         if($invoice !== null && $invoice->paid_at != null) {
             $user = Yii::app()->user->data();
+
             $invoice_log = new LogPayments();
+            $initValue = $invoice->user->getAccount()->getTotalAvailableInvitesLimit();
+
             $invoice_log->log($invoice, "Попытка отметить счёт как \"Не оплаченый\" в админке. Админ ".$user->profile->email.".");
             $invoice->disableInvoice($user->profile->email);
+
+            UserService::logCorporateInviteMovementAdd(sprintf(
+                "Банковский перевод признан несостоявшимся. Админ %s (емейл текущего авторизованного в админке пользователя).",
+                $user->profile->email
+            ),  $invoice->user->getAccount(), $initValue);
+
             echo json_encode(["return" => true]);
         }
 
@@ -878,11 +956,12 @@ class AdminPagesController extends SiteBaseController {
         }
 
         if ( isset(Invite::$statusText[$status])) {
+            $invite_status = $invite->status;
             $invite->status = $status;
             if(false === $invite->save(false)){
                 throw new Exception("Not saved");
             }
-            InviteService::logAboutInviteStatus($invite, 'invite : updated : admin');
+            InviteService::logAboutInviteStatus($invite, 'Админ '.$this->user->profile->email.' изменил статус с'.Invite::getStatusNameByCode($invite_status)." на ".Invite::getStatusNameByCode($invite->status));
         } else {
             throw new Exception("Status not found");
         }
@@ -1089,7 +1168,7 @@ class AdminPagesController extends SiteBaseController {
             'params' => [
                 'id' => Yii::app()->request->getParam('id', null)
             ],
-            'order' => 'date DESC',
+            'order' => 'id DESC',
         ]);
 
         $this->pageTitle = 'Админка: Движение проглашений в корпоративном аккаунте # '.$id;
@@ -1358,11 +1437,6 @@ class AdminPagesController extends SiteBaseController {
         $tariff = Tariff::model()->findByAttributes(['slug' => $label]);
 
         if (null == $tariff) {
-            UserService::logCorporateInviteMovementAdd(
-                'Cheats: actionChooseTariff, NULL tariff',
-                $user->getAccount(),
-                $initValue
-            );
             Yii::app()->user->setFlash('error', sprintf(
                 'Не найден тариф "%s".',
                 $label
@@ -1378,10 +1452,17 @@ class AdminPagesController extends SiteBaseController {
         $user->getAccount()->save();
         // set Tariff }
 
+        $admin = Yii::app()->user->data();
+
+        $user->getAccount()->referrals_invite_limit;
+
         UserService::logCorporateInviteMovementAdd(
-            'Cheats: actionChooseTariff, tariff not null',
+            sprintf('Тарифный план для %s сменён на %s из админ области. Количество доступных симуляций установлено в %s из них за рефераллов %s. Админ %s.',
+                $user->profile->email, $tariff->label, $user->getAccount()->invites_limit,
+                $user->getAccount()->referrals_invite_limit, $admin->profile->email
+            ),
             $user->getAccount(),
-            $initValue
+            $user->getAccount()->getTotalAvailableInvitesLimit()
         );
 
         Yii::app()->user->setFlash('success', sprintf(
@@ -1396,6 +1477,7 @@ class AdminPagesController extends SiteBaseController {
 
     public function actionUserAddRemoveInvitations($userId, $value)
     {
+        $admin = Yii::app()->user->data();
         $user = YumUser::model()->findByPk($userId);
         if (null === $user ) {
             Yii::app()->user->setFlash('error', sprintf(
@@ -1406,7 +1488,8 @@ class AdminPagesController extends SiteBaseController {
         }
 
         // set invites_limit {
-        $initValue = $user->getAccount()->invites_limit;
+        $initValue = $user->getAccount()->getTotalAvailableInvitesLimit();
+        $account = $user->getAccount();
 
         $user->getAccount()->invites_limit += $value;
         if ($user->getAccount()->invites_limit < 0) {
@@ -1416,7 +1499,8 @@ class AdminPagesController extends SiteBaseController {
         // set invites_limit }
 
         UserService::logCorporateInviteMovementAdd(
-            'Cheats: action set invites_limit, to'.$user->getAccount()->invites_limit,
+           sprintf('Количество доступных симуляций установлено в %s в админ области, из них за рефераллов %s. '.
+           ' Админ %s (емейл текущего авторизованного в админке пользователя).', $account->invites_limit, $account->referrals_invite_limit, $admin->profile->email),
             $user->getAccount(),
             $initValue
         );
@@ -1527,6 +1611,81 @@ class AdminPagesController extends SiteBaseController {
 
         $this->redirect('/admin_area/dashboard');
     }
+
+
+    public function actionRegistrationList() {
+        // getting registration by day
+        $userCounter = new countRegisteredUsers();
+        $userCounter->getAllUserForDays();
+        $userCounter->getNonActiveUsersForDays();
+
+        $dayDate = new DateTime();
+
+        // TODO registration
+
+        $registrationsByDay = [];
+        for($i = 0; $i<30; $i++) {
+            $day = date_format($dayDate, 'Y-m-d');
+            $registrationsByDay[$day]['period'] = $day;
+            $registrationsByDay[$day]['totalRegistrations'] = isset($userCounter->totalRegistrations[$day]) ? $userCounter->totalRegistrations[$day] : 0;
+            $registrationsByDay[$day]['totalPersonals'] = isset($userCounter->totalPersonals[$day]) ? $userCounter->totalPersonals[$day] : 0;
+            $registrationsByDay[$day]['totalCorporate'] = isset($userCounter->totalCorporate[$day]) ? $userCounter->totalCorporate[$day] : 0;
+            $registrationsByDay[$day]['totalNonActivePersonals'] = isset($userCounter->totalNonActivePersonals[$day]) ? $userCounter->totalNonActivePersonals[$day] : 0;
+            $registrationsByDay[$day]['totalNonActiveCorporate'] = isset($userCounter->totalNonActiveCorporate[$day]) ? $userCounter->totalNonActiveCorporate[$day] : 0;
+
+            $dateInterval = new DateInterval('P1D');
+            $dateInterval->invert = 1;
+            $dayDate->add($dateInterval);
+        }
+
+        // getting registration by month
+        $userCounter = new countRegisteredUsers();
+        $userCounter->getAllUserForMonths();
+        $userCounter->getNonActiveUsersForMonths();
+
+        $dayDate = new DateTime();
+
+        $registrationsByMonth = [];
+        for($i = 0; $i<12; $i++) {
+            $day = date_format($dayDate, 'F');
+            $registrationsMonth[$day]['period'] = $day;
+            $registrationsMonth[$day]['totalRegistrations'] = isset($userCounter->totalRegistrations[$day]) ? $userCounter->totalRegistrations[$day] : 0;
+            $registrationsMonth[$day]['totalPersonals'] = isset($userCounter->totalPersonals[$day]) ? $userCounter->totalPersonals[$day] : 0;
+            $registrationsMonth[$day]['totalCorporate'] = isset($userCounter->totalCorporate[$day]) ? $userCounter->totalCorporate[$day] : 0;
+            $registrationsMonth[$day]['totalNonActivePersonals'] = isset($userCounter->totalNonActivePersonals[$day]) ? $userCounter->totalNonActivePersonals[$day] : 0;
+            $registrationsMonth[$day]['totalNonActiveCorporate'] = isset($userCounter->totalNonActiveCorporate[$day]) ? $userCounter->totalNonActiveCorporate[$day] : 0;
+
+            $dateInterval = new DateInterval('P1M');
+            $dateInterval->invert = 1;
+            $dayDate->add($dateInterval);
+        }
+
+        // getting registration by year
+        $userCounter = new countRegisteredUsers();
+        $userCounter->getAllUserForYears();
+        $userCounter->getNonActiveUserForYears();
+
+        $dayDate = new DateTime();
+
+        $registrationsByYear = [];
+        $day = date_format($dayDate, 'Y');
+        $registrationsByYear[$day]['period'] = $day;
+        $registrationsByYear[$day]['totalRegistrations'] = isset($userCounter->totalRegistrations[$day]) ? $userCounter->totalRegistrations[$day] : 0;
+        $registrationsByYear[$day]['totalPersonals'] = isset($userCounter->totalPersonals[$day]) ? $userCounter->totalPersonals[$day] : 0;
+        $registrationsByYear[$day]['totalCorporate'] = isset($userCounter->totalCorporate[$day]) ? $userCounter->totalCorporate[$day] : 0;
+        $registrationsByYear[$day]['totalNonActivePersonals'] = isset($userCounter->totalNonActivePersonals[$day]) ? $userCounter->totalNonActivePersonals[$day] : 0;
+        $registrationsByYear[$day]['totalNonActiveCorporate'] = isset($userCounter->totalNonActiveCorporate[$day]) ? $userCounter->totalNonActiveCorporate[$day] : 0;
+
+        $this->layout = '//admin_area/layouts/admin_main';
+        $this->render('/admin_area/pages/registrationCounterList',
+            [
+                'registrationsByDay'     => $registrationsByDay,
+                'registrationsByMonth'   => $registrationsMonth,
+                'registrationsByYear'    => $registrationsByYear,
+            ]
+        );
+    }
+
 
 
 
@@ -1786,5 +1945,43 @@ class AdminPagesController extends SiteBaseController {
             MailHelper::updateInviteEmail($invite);
         }
         echo "Done";
+    }
+
+    /**
+     * Позволяет админам (некоторым админам) заходить на сайт от имени любого аккаунта
+     *
+     * Зависит от параметров: isBlockGhostLogin, isUseStrictRulesForGhostLogin
+     *
+     * @param integer $userId
+     */
+    public function actionGhostLogin($userId)
+    {
+        // функционал заблокирован совсем?
+        if (Yii::app()->params['isBlockGhostLogin']) {
+            $this->redirect('/admin_area/users');
+        }
+
+        // включено ограничек по кругу лиц, допущенных к функционалу
+        if (Yii::app()->params['isUseStrictRulesForGhostLogin'] &&
+            false == in_array(Yii::app()->user->data()->profile->email, ['slavka@skiliks.com', 'tony@skiliks.com', 'tatiana@skiliks.com'])) {
+            $this->redirect('/admin_area/users');
+        }
+
+        // проверка существования пользователя
+        $user = YumUser::model()->findByPk($userId);
+
+        if (null === $user) {
+            Yii::app()->user->setFlash('error', "Пользователя с ID {$userId} не существует.");
+            $this->redirect('/admin_area/users');
+        }
+
+        // непосредственно "пере-аутентификация"
+        $identity = new YumUserIdentity($user->username, false);
+
+        $identity->authenticate(true);
+
+        Yii::app()->user->login($identity);
+
+        $this->redirect('/dashboard');
     }
 }

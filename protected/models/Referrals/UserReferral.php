@@ -383,7 +383,11 @@ class UserReferral extends CActiveRecord
             $this->status = self::STATUS_APPROVED;
             $this->referrer->getAccount()->addReferralInvite(strtolower($this->referrer->profile->email));
             $this->registered_at = date("Y-m-d H:i:s");
+
+            UserService::logCorporateInviteMovementAdd(sprintf("Приглашенный пользователь %s зарегистрирован и признан валидным рефералом. Количество симуляций за рефералов увеличено на единицу.",
+                $this->referral_email),  $this->referrer->getAccount(), 0);
             return true;
+
         }
         else {
             $this->reject_reason = $validationError;

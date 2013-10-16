@@ -25,7 +25,7 @@ class InviteService {
             $log->sim_id = $invite->simulation_id;
             $log->invite_id = $invite->id;
         } else {
-            $comment .= 'Invite not specified!';
+            $comment .= 'Инвайт не задан';
         }
 
         $log->comment = $comment;

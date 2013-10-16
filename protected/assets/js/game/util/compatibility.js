@@ -54,7 +54,7 @@ try {
                         url: '/index.php/logService/addInviteLog',
                         data: {
                             inviteId: window.inviteId,
-                            action: 'Warning about low processor speed. Level is ' + processorTestResult.average,
+                            action: 'Предупреждение о низкой скорости процессора. Уровень ' + processorTestResult.average,
                             uniqueId: -1,
                             time: '00:00:00'
                         },
@@ -69,7 +69,9 @@ try {
                     else {
                         // Spike to make alert ok works fine
                         // TODO: refactor all dialog views to one style
-                        if (alert('Мы сожалеем, но конфигурация Вашего компьютера ниже минимально допустимой. Попробуйте запустить игру на другом компьютере.')) {
+                        if (alert('Мы сожалеем, но конфигурация Вашего компьютера ниже минимально допустимой. ' +
+                            'Минимальные системный требования для комфортной игры двухядерный процессор (2х1,1ГГц)'+
+                            ' и 2 Гб оперативной памяти. Попробуйте запустить игру на другом компьютере.')) {
                             location.href = '/dashboard';
                             return false;
                         }
@@ -109,7 +111,7 @@ try {
                         // logging }
 
                         // TODO: Make translation
-                        if (confirm('Ваша скорость интернета ниже допустимой. Мы не гарантируем комфортной работы') === false) {
+                        if (confirm('Ваша скорость интернета ниже допустимой. Мы не гарантируем комфортной работы. Для комфортной работы вам понадобится соединение с интернет на скорости от 1Мб/сек.') === false) {
                             history.back();
                         }
                     };

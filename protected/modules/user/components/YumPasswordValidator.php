@@ -148,9 +148,7 @@ class YumPasswordValidator extends CValidator
     {
       if (preg_match('/\s/', $value))
       {
-        $message = $this->message !== null ? $this->message : Yii::t('UserModule.YumPasswordValidator',
-            '{attribute} must not contain whitespace.',
-            array('{num}' => $this->minSym));
+        $message = $this->message !== null ? $this->message : 'Недопустимые символы';
 
         $this->addError($object, $attribute, $message);
       }
@@ -168,4 +166,3 @@ class YumPasswordValidator extends CValidator
   }
 
 }
-?>
