@@ -1995,7 +1995,7 @@ class AdminPagesController extends SiteBaseController {
         if($banUser->isCorporate()) {
             $isBanned = $banUser->banUser();
             if($isBanned) {
-                Yii::app()->user->setFlash('success', 'Аккаунт '. $banUser->profile->email .' успешно забанен.');
+                Yii::app()->user->setFlash('success', 'Аккаунт '. $banUser->profile->email .' успешно заблокирован.');
             }
         }
     }
