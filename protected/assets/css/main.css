@@ -91,7 +91,11 @@ a {
 }
 .canvas {
     margin: 0 auto;
-    background-image: url('../img/maps/bg-main-light.jpg');
+    background: url('../img/maps/bg-main-light.jpg') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 /*cursor: crosshair;*/
 }
 .message {
