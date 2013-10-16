@@ -27,8 +27,10 @@ class DebugController extends SiteBaseController
 
     public function actionStyleCss()
     {
-        $this->layout = false;
-        $this->render('style_css');
+        $k[17] = 0;
+        if(empty($k[20])) {
+            echo "lol";
+        }
     }
 
     public function actionStyleForPopupCss()

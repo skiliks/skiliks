@@ -120,6 +120,11 @@ class YumUser extends YumActiveRecord
         return $this->status == YumUser::STATUS_ACTIVE;
     }
 
+    public function isBanned()
+    {
+        return $this->status == YumUser::STATUS_BANNED;
+    }
+
     /**
      * @return bool
      */

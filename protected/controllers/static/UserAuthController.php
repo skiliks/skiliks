@@ -401,9 +401,20 @@ class UserAuthController extends YumController
             $isUserAccountPersonalValid  = $accountPersonal->validate(['professional_status_id']);
             $accountCorporate->attributes = $UserAccountCorporateData;
             $isUserAccountCorporateValid  = $accountCorporate->validate(['industry_id']);
+
             $emailIsExistAndNotActivated = YumProfile::model()->emailIsNotActiveValidationStatic($profile->email);
             if($emailIsExistAndNotActivated) {
                 $profile->clearErrors();
+            }
+
+            $isUserBanned = YumProfile::model()->isAccountBannedStatic($profile->email);
+
+            /**
+             * if User is banned we need to replace email error with banned error
+             */
+
+            if($isUserBanned) {
+                $emailIsExistAndNotActivated = $isUserBanned;
             }
 
             if($isUserAccountPersonalValid && $isUserAccountCorporateValid && $isProfileValid && $isUserValid) {
