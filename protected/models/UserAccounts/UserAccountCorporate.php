@@ -247,8 +247,24 @@ class UserAccountCorporate extends CActiveRecord
         );
     }
 
+
+    public function addReferralInvite($referrer_email = null) {
+
+        $initValue = $this->getTotalAvailableInvitesLimit();
+        $this->referrals_invite_limit++;
+        $this->save(false, ['referrals_invite_limit']);
+
+        UserService::logCorporateInviteMovementAdd(
+            'Регистрация реферала ' . $referrer_email,
+            $this,
+            $initValue
+        );
+
+        $this->save();
+    }
+
     /**
-     * Returns all user invites
+     * Returns all user invites limit
      * @return int
      */
 
@@ -313,18 +329,4 @@ class UserAccountCorporate extends CActiveRecord
         $this->tariff_expired_at = $date->format('Y-m-d H:i:s');
     }
 
-    public function addReferralInvite($referrer_email = null) {
-
-        $initValue = $this->getTotalAvailableInvitesLimit();
-        $this->referrals_invite_limit++;
-        $this->save(false, ['referrals_invite_limit']);
-
-        UserService::logCorporateInviteMovementAdd(
-            'Регистрация реферала ' . $referrer_email,
-            $this,
-            $initValue
-        );
-
-        $this->save();
-    }
 }
