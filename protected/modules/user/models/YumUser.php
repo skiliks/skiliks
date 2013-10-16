@@ -1036,7 +1036,7 @@ class YumUser extends YumActiveRecord
             case YumUserIdentity::ERROR_STATUS_INACTIVE:
         throw new CHttpException(200, 'Аккаунт неактивен.');
             case YumUserIdentity::ERROR_STATUS_BANNED:
-        throw new CHttpException(200, 'Аккаунт заблокирован.');
+        throw new CHttpException(200, 'Аккаунт заблокирован');
             case YumUserIdentity::ERROR_STATUS_REMOVED:
         throw new CHttpException(200, 'Аккаунт удалён.');
             case YumUserIdentity::ERROR_PASSWORD_INVALID:
