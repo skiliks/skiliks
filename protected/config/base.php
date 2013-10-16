@@ -420,6 +420,11 @@ return array(
         // накладывает ограничение на круг лиц, которым разрешено использование GhostLogin
         'isUseStrictRulesForGhostLogin' => true,
 
+        // ключь для передачи дополнительных данных в SiteHeart
+        // ключь привязан к отделу
+        // http://siteheart.com/ru/doc/sso
+        'SiteHeartSecretKey'                 => 'qaDECE9Mk7',
+
         'emails' => [
             'isDisplayStandardInvitationMailTopText' => true, // 'Вопросы относительно вакансии вы можете задать по адресу %s, куратор вакансии - %s.'
             'inviteEmailTemplate'      => '//global_partials/mails/invite_default',
