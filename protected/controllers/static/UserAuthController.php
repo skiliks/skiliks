@@ -476,6 +476,17 @@ class UserAuthController extends YumController
             $statuses[$status->id] = Yii::t('site', $status->label);
         }
 
+        /**
+         * Getting user simulation id to display the simulation result if user had completed the demo
+         */
+        $simulationToDisplayResults = null;
+        if (isset(Yii::app()->request->cookies['display_result_for_simulation_id'])) {
+            $simulationToDisplayResults = Simulation::model()->findByPk(
+                Yii::app()->request->cookies['display_result_for_simulation_id']->value
+            );
+            unset(Yii::app()->request->cookies['display_result_for_simulation_id']);
+        }
+
         $this->render(
             'registration',
             [
@@ -486,7 +497,8 @@ class UserAuthController extends YumController
                 'profile'                     => $profile,
                 'user'                        => $user,
                 'emailIsExistAndNotActivated' => $emailIsExistAndNotActivated,
-                'account_type'                => $account_type
+                'account_type'                => $account_type,
+                'display_results_for'         => $simulationToDisplayResults,
             ]
         );
     }

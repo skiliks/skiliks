@@ -17,11 +17,7 @@
         </div>
 
         <?php if ($display_results_for): ?>
-            <script type="text/javascript">
-                $(function() {
-                    showSimulationDetails('/dashboard/simulationdetails/<?= $display_results_for->id ?>');
-                });
-            </script>
+            <?php $this->renderPartial('//global_partials/_popup_result_simulation_container', [ 'display_results_for' => $display_results_for]) ?>
         <?php endif; ?>
 
         <!-- simulations-counter-box -->
@@ -57,8 +53,6 @@
 
         <?php $this->renderPartial('partials/exists-self-to-self-simulation-warning-popup', []) ?>
         <?php $this->renderPartial('partials/pre-start-popup', []) ?>
-
-        <div id="simulation-details-pop-up"></div>
 
         <div id="start-trial-full-scenario-pop-up" style="display: none;">
             <div>
