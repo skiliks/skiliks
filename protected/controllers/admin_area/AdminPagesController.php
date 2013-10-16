@@ -471,6 +471,9 @@ class AdminPagesController extends SiteBaseController {
                 if (false === $previousConditionPresent) {
                     $previousConditionPresent = true;
                 }
+                else {
+                    $condition .= " AND ";
+                }
                 $condition .= " end IS NOT NULL ";
             }
             // exclude_invites_from_me_to_me }
@@ -1983,5 +1986,31 @@ class AdminPagesController extends SiteBaseController {
         Yii::app()->user->login($identity);
 
         $this->redirect('/dashboard');
+    }
+
+    public function actionBanUser($userId) {
+
+        $banUser = YumUser::model()->findByPk($userId);
+
+        if($banUser->isCorporate()) {
+            $isBanned = $banUser->banUser();
+            if($isBanned) {
+                Yii::app()->user->setFlash('success', 'Аккаунт '. $banUser->profile->email .' успешно заблокирован.');
+            }
+        }
+    }
+    public function actionNotCorporateEmails(){
+        $email = new FreeEmailProvider();
+        if (Yii::app()->request->isPostRequest) {
+            $email->attributes = Yii::app()->request->getParam('FreeEmailProvider');
+            if($email->validate(['domain'])){
+                $email->save(false, ['domain']);
+                $email->validate([]);
+            }
+        }
+        $dataProvider = FreeEmailProvider::model()->searchEmails();
+
+        $this->layout = '/admin_area/layouts/admin_main';
+        $this->render('/admin_area/pages/not_corporate_emails', ['dataProvider' => $dataProvider, 'email'=>$email]);
     }
 }
