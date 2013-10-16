@@ -120,6 +120,11 @@ class YumUser extends YumActiveRecord
         return $this->status == YumUser::STATUS_ACTIVE;
     }
 
+    public function isBanned()
+    {
+        return $this->status == YumUser::STATUS_BANNED;
+    }
+
     /**
      * @return bool
      */
@@ -1031,7 +1036,7 @@ class YumUser extends YumActiveRecord
             case YumUserIdentity::ERROR_STATUS_INACTIVE:
         throw new CHttpException(200, 'Аккаунт неактивен.');
             case YumUserIdentity::ERROR_STATUS_BANNED:
-        throw new CHttpException(200, 'Аккаунт заблокирован.');
+        throw new CHttpException(200, 'Аккаунт заблокирован');
             case YumUserIdentity::ERROR_STATUS_REMOVED:
         throw new CHttpException(200, 'Аккаунт удалён.');
             case YumUserIdentity::ERROR_PASSWORD_INVALID:
@@ -1041,6 +1046,62 @@ class YumUser extends YumActiveRecord
         Yii::app()->user->login($identity, $duration);
         //Yii::app()->session['uid'] = $this->id;
     }
+
+
+    /**
+     * Banning the user
+     */
+    public function banUser() {
+        $this->getAccount()->banUser();
+        $this->status = self::STATUS_BANNED;
+        $isSaved = $this->save(false);
+
+        if($isSaved) {
+            $this->sendBannedEmail();
+            return true;
+        }
+        else {
+            throw new Exception('User can\'t be banned because of unknown reason');
+        }
+    }
+
+    private function sendBannedEmail() {
+        $body = Yii::app()->controller->renderPartial('//global_partials/mails/ban', ['email' => $this->profile->email], true);
+
+        $mail = [
+            'from' => Yum::module('registration')->recoveryEmail,
+            'to' => $this->profile->email,
+            'subject' => 'Ваш аккаунт на skiliks.com заблокирован', //Yii::t('site', 'You requested a new password'),
+            'body' => $body,
+            'embeddedImages' => [
+                [
+                    'path'     => Yii::app()->basePath.'/assets/img/mailtopclean.png',
+                    'cid'      => 'mail-top-clean',
+                    'name'     => 'mailtopclean',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],[
+                    'path'     => Yii::app()->basePath.'/assets/img/mailchair.png',
+                    'cid'      => 'mail-chair',
+                    'name'     => 'mailchair',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],[
+                    'path'     => Yii::app()->basePath.'/assets/img/mail-bottom.png',
+                    'cid'      => 'mail-bottom',
+                    'name'     => 'mailbottom',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],
+            ],
+        ];
+
+        $sent = MailHelper::addMailToQueue($mail);
+
+        return $sent;
+    }
+
+
 
     public function getStatusLabel()
     {
