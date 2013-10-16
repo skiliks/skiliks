@@ -471,6 +471,9 @@ class AdminPagesController extends SiteBaseController {
                 if (false === $previousConditionPresent) {
                     $previousConditionPresent = true;
                 }
+                else {
+                    $condition .= " AND ";
+                }
                 $condition .= " end IS NOT NULL ";
             }
             // exclude_invites_from_me_to_me }
