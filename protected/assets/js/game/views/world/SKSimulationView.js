@@ -310,7 +310,8 @@ define([
                     position : "right",
                     template : "orange",
                     title : SKApp.get('SiteHeartWidgetTitle'),
-                    title_offline : "Оставьте сообщение"
+                    title_offline : "Оставьте сообщение",
+                    auth: window.siteHeartAuth
                 });
                 (function() {
                     var hcc = document.createElement("script");

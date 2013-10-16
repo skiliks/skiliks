@@ -239,7 +239,6 @@ $cs->registerCssFile($assetsUrl . "/css/popover.css");
 
         <?php if (Yii::app()->params['public']['isDisplaySupportChat']) : ?>
             <script type="text/javascript">
-
                 window._shcp = [];
                 window._shcp.push({
                     link_wrap_off: true, widget_id :<?= Yii::app()->params['public']['SiteHeartWidgetCode'] ?>,
@@ -248,7 +247,8 @@ $cs->registerCssFile($assetsUrl . "/css/popover.css");
                     position : "top",
                     template : "blue",
                     title : "<?= Yii::app()->params['public']['SiteHeartWidgetTitle'] ?>",
-                    title_offline : "Оставьте сообщение"
+                    title_offline : "Оставьте сообщение",
+                    auth : "<?= StaticSiteTools::getSiteHeartAuth(Yii::app()->user->data()); ?>"
                 });
                 $(document).ready(function() {
                     var hcc = document.createElement("script");
