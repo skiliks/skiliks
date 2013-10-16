@@ -35,6 +35,9 @@ $assetsUrl = $this->getAssetsUrl();
         Рефераллы</a>
     &nbsp; &nbsp;
     <a class="btn btn-info" href="/admin_area/corporate-account/<?= $user->id ?>/invite-limit-logs">Логи списания/зачисления симуляций</a>
+
+    <button class="btn btn-success ban-corporate-user" data-id="<?= $user->id ?>" data-email="<?= $user->profile->email ?>">Забанить аккаунт</button>
+
 <?php endif; ?>
 
 &nbsp; &nbsp;
@@ -87,6 +90,16 @@ $assetsUrl = $this->getAssetsUrl();
             <span class="label <?= $class ?>">
                 <?= $user->getAccountName() ?>
             </span>
+            <?php if ($user->isCorporate()) : ?>
+
+                <?php if($user->status == YumUser::STATUS_BANNED) : ?>
+                    <span class="label label-important">Аккаунт забанен</span>
+                <?php else : ?>
+                    <span class="label label-success">Аккаунт не забанен</span>
+                <?php endif; ?>
+
+            <? endif; ?>
+
         </td>
         <?php if ($user->isCorporate()) : ?>
             <td>Корпоративный email</td>
