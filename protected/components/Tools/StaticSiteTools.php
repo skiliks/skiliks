@@ -389,4 +389,43 @@ class StaticSiteTools
                 }";
         return $result;
     }
+
+    /**
+     * Задаёт переметр чата который позволяет получить более подробную информацию о пользователе в чате
+     *
+     * @param YumUser $yiiUser
+     *
+     * @return string
+     *
+     * @link: http://siteheart.com/ru/doc/sso
+     */
+    public static function getSiteHeartAuth($yiiUser)
+    {
+        $user = [
+        'avatar' => '',
+        'data'   => []
+        ];
+
+        if (null == $yiiUser) {
+        $user['nick']  = 'Guest';
+        $user['id']    = null;
+        $user['email'] = null;
+        } else {
+            $user['nick']  = sprintf(
+                '%s %s (%s)',
+                ucfirst($yiiUser->profile->firstname),
+                ucfirst($yiiUser->profile->lastname),
+                $yiiUser->profile->email
+            );
+            $user['id']    = $yiiUser->id;
+            $user['email'] = $yiiUser->profile->email;
+        }
+
+        $time = time();
+        $secret = Yii::app()->params['SiteHeartSecretKey'];
+        $user_base64 = base64_encode( json_encode($user) );
+        $sign = md5($secret . $user_base64 . $time);
+
+        return $user_base64 . "_" . $time . "_" . $sign;
+    }
 }
