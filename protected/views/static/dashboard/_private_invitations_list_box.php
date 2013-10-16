@@ -10,7 +10,7 @@
                     break;
 
                 case Invite::STATUS_COMPLETED :
-                    if(false === $invite->simulation->isAllowedToSeeResults(Yii::app()->user->data())) {
+                    if($invite->simulation !== null && false === $invite->simulation->isAllowedToSeeResults(Yii::app()->user->data())) {
                         return '<div style="line-height: 30px;">Результаты скрыты<div>';
                     }
                     else {

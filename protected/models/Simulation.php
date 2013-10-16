@@ -850,6 +850,15 @@ class Simulation extends CActiveRecord
 
         return $condition;
     }
+
+    /**
+     * Setting status to simulation as interrupted and saves it
+     */
+
+    public function interruptSimulation() {
+        $this->status = self::STATUS_INTERRUPTED;
+        $this->simulation->save();
+    }
 }
 
 

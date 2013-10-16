@@ -932,6 +932,7 @@ a.registration_check {
     padding-bottom: 3px;
     padding-left: 37px;
     padding-right: 6px;
+    min-width: 208px;
 }
 
 @media screen and (max-width: 1146px){
@@ -955,6 +956,7 @@ a.registration_check {
         padding-bottom: 1px;
         padding-left: 22px;
         padding-right: 2px;
+        min-width: 170px;
     }
 
 }
