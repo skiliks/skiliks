@@ -1984,4 +1984,16 @@ class AdminPagesController extends SiteBaseController {
 
         $this->redirect('/dashboard');
     }
+
+    public function actionBanUser($userId) {
+
+        $banUser = YumUser::model()->findByPk($userId);
+
+        if($banUser->isCorporate()) {
+            $isBanned = $banUser->banUser();
+            if($isBanned) {
+                Yii::app()->user->setFlash('success', 'Аккаунт '. $banUser->profile->email .' успешно забанен.');
+            }
+        }
+    }
 }
