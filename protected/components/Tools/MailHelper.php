@@ -151,7 +151,7 @@ class MailHelper
             if($count >= 2) {
                 $inviteEmailTemplate = Yii::app()->params['emails']['ifSuspiciousActivity'];
 
-                $body = CController::renderInternal($inviteEmailTemplate, [
+                $body = (new CController("DebugController"))->renderPartial($inviteEmailTemplate, [
                     'invite' => $invite
                 ], true);
 
