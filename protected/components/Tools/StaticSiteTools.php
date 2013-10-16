@@ -407,7 +407,7 @@ class StaticSiteTools
         ];
 
         if (null == $yiiUser || false == $yiiUser->isAuth()) {
-            $user['nick']  = 'Гость';
+            $user['nick']  = 'т';
             $user['id']    = null;
             $user['email'] = null;
         } else {
