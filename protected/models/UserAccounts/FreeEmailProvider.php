@@ -92,9 +92,11 @@ class FreeEmailProvider extends CActiveRecord
 
         $criteria = new CDbCriteria();
         $email = Yii::app()->request->getParam('FreeEmailProvider');
-        if(!empty($userToGet['domain'])) {
+        if(!empty($email['domain'])) {
            $criteria->addCondition('domain LIKE \'%'.$email['domain'].'%\'');
+           $criteria->compare('domain', $email['domain'],true);
         }
+
 
         return new CActiveDataProvider($this, [
             'criteria' => $criteria,
