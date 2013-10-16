@@ -67,6 +67,10 @@ $isPersonal = $account_type === 'personal';
     </div>
 <?php endif; ?>
 
+<?php if($display_results_for) : ?>
+    <?php $this->renderPartial('//global_partials/_popup_result_simulation_container', [ 'display_results_for' => $display_results_for]) ?>
+<?php endif; ?>
+
 <div class="form registrationform">
     <div class="transparent-boder">
         <div class="row one-part">
