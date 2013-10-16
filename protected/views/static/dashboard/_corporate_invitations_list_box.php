@@ -1,5 +1,5 @@
 <?php
-$scoreName = ($user->profile->assessment_results_render_type == "standard") ? "Абсолютный рейтинг" : "Относительный рейтинг";
+$scoreName = ($user->profile->assessment_results_render_type == "standard") ? "percentile-toggle-off" : "percentile-toggle-on";
 
 $scoreRender = function(Invite $invite) {
     return $this->renderPartial('//global_partials/_simulation_stars', [
@@ -35,7 +35,8 @@ $this->widget('zii.widgets.grid.CGridView', [
             'value' => function (Invite $data) { return $data->getUpdatedTime()->format("j/m/y");},
             'type' => 'raw'
         ],
-        ['header' =>  $scoreName, 'value' => $scoreRender, 'type' => 'raw'],
+
+        ['header' => 'Рейтинг <span class="change-simulation-result-render percentile-hover-toggle-span '.$scoreName.'"></span>', 'value' => $scoreRender, 'type' => 'raw'],
         ['header' => '', 'value' => '"<a class=\"inviteaction\" href=\"/dashboard/invite/remove/$data->id\">Удалить</a>"', 'type' => 'html'],
         ['header' => '', 'value' => '"<a class=\"inviteaction\" href=\"/dashboard/invite/resend/$data->id\">Отправить ещё раз</a>"' , 'type' => 'html'],
     ]
@@ -114,7 +115,9 @@ $this->widget('zii.widgets.grid.CGridView', [
 
     });
 </script>
+<?
 
+?>
 <?php // edit invite pop-up form { ?>
     <?php //PHP: ?>
         <?php $this->renderPartial('_edit-invite-pop-up-form', [
@@ -124,3 +127,4 @@ $this->widget('zii.widgets.grid.CGridView', [
 
     <?php // java-script: ?>
 <?php // edit invite pop-up form } ?>
+<div class="popover popover-div-on-hover"><div class="popover-triangle"></div><div class="popover-content"><div class="popup-content ProximaNova">Переключение между относительным и абсолютным рейтингом.</div></div></div>

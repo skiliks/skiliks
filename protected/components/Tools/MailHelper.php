@@ -67,9 +67,8 @@ class MailHelper
 
             $corporate_email =  $user->account_corporate->corporate_email;
 
-            $inviteEmailTemplate = Yii::app()->params['emails']['noticeEmail'];
-
-            $body = (new CController("DebugController"))->renderPartial($inviteEmailTemplate, [
+            $inviteEmailTemplate = Yii::app()->basePath . '/views/global_partials/mails/noticeEmail.php';
+            $body = CController::renderInternal($inviteEmailTemplate, [
                 'corporate_email' => $corporate_email,
                 'personal_email' => $personal_email,
                 'firstname' => $user->profile->firstname
@@ -121,7 +120,8 @@ class MailHelper
             ]
             );
             MailHelper::addMailToQueue($mail);
-            $user->profile->email =strtolower($corporate_email);
+
+            $user->profile->email = strtolower($corporate_email);
             $user->profile->update();
         }
 
@@ -136,5 +136,74 @@ class MailHelper
 
     public static function createUrlWithHostname($path) {
         return Yii::app()->params['server_name'].ltrim($path, '/');
+    }
+
+    public static function sendEmailIfSuspiciousActivity(Invite $invite) {
+
+        if($invite->owner_id === $invite->receiver_id && null !== $invite->receiverUser && false == $invite->receiverUser->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE && $invite->scenario->slug === Scenario::TYPE_FULL)) {
+            $scenario = Scenario::model()->findByAttributes(['slug'=>Scenario::TYPE_FULL]);
+            $count = (int)Invite::model()->count("receiver_id = :user_id and owner_id = :user_id and scenario_id = :scenario_id and (status = :in_progress or status = :completed)", [
+                'user_id'=>$invite->owner_id,
+                'in_progress' => Invite::STATUS_IN_PROGRESS,
+                'completed' => Invite::STATUS_COMPLETED,
+                'scenario_id'=>$scenario->id
+            ]);
+            if($count >= 2) {
+                $inviteEmailTemplate = Yii::app()->params['emails']['ifSuspiciousActivity'];
+
+                $body = (new CController("DebugController"))->renderPartial($inviteEmailTemplate, [
+                    'invite' => $invite
+                ], true);
+
+                $mail = array(
+                    'from' => Yum::module('registration')->registrationEmail,
+                    'to' => 'support@skiliks.com',
+                    'subject' => 'Внимание! Подозрительная активность от аккаунта '.$invite->ownerUser->profile->email,
+                    'body' => $body,
+                    'embeddedImages' => [
+                        [
+                            'path'     => Yii::app()->basePath.'/assets/img/mail-top.png',
+                            'cid'      => 'mail-top',
+                            'name'     => 'mailtop',
+                            'encoding' => 'base64',
+                            'type'     => 'image/png',
+                        ],[
+                            'path'     => Yii::app()->basePath.'/assets/img/mail-top-2.png',
+                            'cid'      => 'mail-top-2',
+                            'name'     => 'mailtop2',
+                            'encoding' => 'base64',
+                            'type'     => 'image/png',
+                        ],[
+                            'path'     => Yii::app()->basePath.'/assets/img/mail-right-1.png',
+                            'cid'      => 'mail-right-1',
+                            'name'     => 'mailright1',
+                            'encoding' => 'base64',
+                            'type'     => 'image/png',
+                        ],[
+                            'path'     => Yii::app()->basePath.'/assets/img/mail-right-2.png',
+                            'cid'      => 'mail-right-2',
+                            'name'     => 'mailright2',
+                            'encoding' => 'base64',
+                            'type'     => 'image/png',
+                        ],[
+                            'path'     => Yii::app()->basePath.'/assets/img/mail-right-3.png',
+                            'cid'      => 'mail-right-3',
+                            'name'     => 'mailright3',
+                            'encoding' => 'base64',
+                            'type'     => 'image/png',
+                        ],[
+                            'path'     => Yii::app()->basePath.'/assets/img/mail-bottom.png',
+                            'cid'      => 'mail-bottom',
+                            'name'     => 'mailbottom',
+                            'encoding' => 'base64',
+                            'type'     => 'image/png',
+                        ],
+                    ]
+                );
+                MailHelper::addMailToQueue($mail);
+
+            }
+      }
+
     }
 } 

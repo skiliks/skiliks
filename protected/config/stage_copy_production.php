@@ -4,11 +4,11 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
     'preload'=> array('log', 'RSentryException'),
     'components'=>array(
         'db'=>array(
-            'connectionString' => 'mysql:host=localhost;dbname=skiliks_live',
+            'connectionString' => 'mysql:host=localhost;dbname=skiliks_copy_production',
             'emulatePrepare' => true,
-            'username' => 'skiliks_live',
-            'password' => 'dep-vep-eb-up-a',
-            'charset' => 'utf8',
+            'username' => 'copy_production',
+            'password' => 'AscbdTgs12-w',
+            'charset'  => 'utf8',
 
             'enableParamLogging'=>true,
             'enableProfiling'=>true
@@ -29,17 +29,14 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
         ),
     ),
     'params'=>array(
-        'server_name'                   => 'http://skiliks.com/',
-        'frontendUrl'=>'http://live.skiliks.com/',
-        'runMigrationOn' => 'live',
-        'disableOldLogging'=>true,
+        'frontendUrl'       => 'http://live.skiliks.com/',
+        'disableOldLogging' => true,
+        'runMigrationOn'    => 'production', //production - skiliks.com, live - live.skiliks.com, loc - loc.skiliks.com
         'public' => [
-            'storageURL'           => 'http://storage.dev.skiliks.com/v1',
-            'isLocalPc'            => true,
-            'isUseZohoProxy'       => false,
-            'useSentryForJsLog'    => true,
-            'isSkipBrowserCheck'   => true,
-            'isDisplaySupportChat' => false,
+            'storageURL'        => 'http://skiliks.com/v1',
+            'isLocalPc'         => true,
+            'isUseZohoProxy'    => false,
+            'useSentryForJsLog' => true,
         ],
         'zoho' => array(
             'apiKey'              => 'e52059ce3aeff6dd2c71afb9499bdcf7',
@@ -47,8 +44,10 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
             'xlsTemplatesDirPath' => 'documents/templates',
             'templatesDirPath'    => 'documents/zoho',
             'sendFileUrl'         => 'https://sheet.zoho.com/remotedoc.im?apikey=%s&output=editor',
+            //'sendFileUrl'         => 'http://zoho.skiliks.com/remotedoc.im?apikey=%s&output=editor',
             'extExcel'            => 'xls'
         ),
+
     )
 ));
 

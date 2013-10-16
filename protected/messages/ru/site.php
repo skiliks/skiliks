@@ -28,7 +28,7 @@ return array(
     'Based on mathematical methods not just feelings' => 'Использует математические методы анализа<br />поведения, а не субъективные ощущения ',
     'Can be used by an unlimited number of applicants in any part of the world' => 'Позволяет тестировать любое количество людей в любой точке мира ',
     'Coming soon' => 'Скоро запуск',
-    'Start using it now for free' => 'Получить 10 симуляций бесплатно',
+    'Start using it now for free' => 'Получить 3 симуляции бесплатно',
     'Back to homepage' => 'Вернуться на главную',
     'Easy' => 'Простой',
     'Email - {email} has been already added before!' => 'Адрес - {email} уже был добавлен!',
@@ -422,7 +422,7 @@ return array(
     'Nov' => "ноя",
     'Des' => "дек",
 
-    'Email is already in use.' => 'Данный email занят.',
+    'Email is already in use.' => 'Данный email занят',
 
     'www.skiliks.com - online simulation aimed at testing management skills' => 'www.skiliks.com - онлайн симуляция для оценки навыков менеджеров',
     'This user\'s name already exists.' => 'Такое имя пользователя уже занято.',

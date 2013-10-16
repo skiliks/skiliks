@@ -1,9 +1,13 @@
 <?php $titles = [
     'ID инвайта, <br/>Sim. ID',
-    'Email соискателя, игрока',
-    'Время начала симуляции <br/> Время конца симуляции',
-    'Сценарий: статус',
-    'Оценка<br/>звёзды/процентиль',
+    'Email соискателя',
+    'Время начала симуляции',
+    'Время конца симуляции',
+    'Сценарий',
+    'Статус',
+    'Дата',
+    'Оценка',
+    'Процентиль'
 ];
 ?>
 <div class="row fix-top">
@@ -64,7 +68,9 @@
                         <a href="/admin_area/invite/<?= $simulation->invite->id?>/site-logs">
                             <?= $simulation->invite->id ?>
                         </a>
-                    <?php endif; ?>                    <br/>
+                    <?php endif; ?>
+                </td>
+                <td>
                     <i class="icon icon-check" style="opacity: 0.1" title="Simulation ID"></i>
                     <a href="/admin_area/simulation/<?= $simulation->id?>/site-logs">
                         <?= $simulation->id?>
@@ -72,7 +78,9 @@
                 </td>
                 <!-- IDs } -->
 
-                <td class="ownerUser-email"><?= (empty($simulation->user->profile->email)) ? 'Не найден':$simulation->user->profile->email ?></td>
+                <td class="ownerUser-email">
+                    <?= (empty($simulation->user->profile->email)) ? 'Не найден':$simulation->user->profile->email ?>
+                </td>
                 <td class="simulation_time-start">
 
                     <?php
@@ -81,28 +89,31 @@
                     ?>
 
                     <?= (empty($simulation->start) ? '--' : $simulation->start) ?>
-                    <br/>
+                </td>
+                <td>
                     <?= (empty($simulation->end) ? '--' : $simulation->end) ?>
-
                 </td>
                 <td>
                     <span class="label <?= $simulation->game_type->getSlugCss() ?>">
                         <?= $simulation->game_type->slug?>
                     </span>
-                    :
+                </td>
+
+                <td>
                     <span class="label <?= $simulation->getStatusCss() ?>">
                         <?= $simulation->status ?>
                     </span>
-
+                <td>
                     <?php if ($today == $simulationEndDay) : ?>
-                        : <span class="label label-warning">TODAY!</span>
-                    <?php endif ?>
+                        <span class="label label-warning">TODAY!</span>
+                    <?php endif ?></td>
                 </td>
 
                 <td>
                     <?= (null!== $simulation->invite && null !== $simulation->invite->getOverall())
                         ? $simulation->invite->getOverall() : '--'; ?>
-                    /
+                </td>
+                <td>
                     <?= (null!== $simulation->invite && null !== $simulation->invite->getPercentile())
                         ? $simulation->invite->getPercentile() : '--'; ?>
                 </td>

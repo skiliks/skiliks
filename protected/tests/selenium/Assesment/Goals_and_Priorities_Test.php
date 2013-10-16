@@ -18,12 +18,12 @@ class Goals_and_Priorities_Test extends SeleniumTestHelper
         $this->run_event('E3',"xpath=(//*[contains(text(),'Через двадцать минут? Тогда времени')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),' Спасибо тебе, значит, через две')])");
         sleep(2);
-        $this->run_event('RST7',"css=li.icon-active.phone a",'click');
+        $this->run_event('RST7',Yii::app()->params['test_mappings']['icons']['phone'],'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
         $this->optimal_click("xpath=(//*[contains(text(),'Люба, у тебя что-то срочное?')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Прости, пожалуйста, но сейчас никак не могу!')])");
         sleep(2);
-        $this->run_event('RST10',"css=li.icon-active.phone a",'click');
+        $this->run_event('RST10',Yii::app()->params['test_mappings']['icons']['phone'],'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
         $this->optimal_click("xpath=(//*[contains(text(),'Привет, Петр. У тебя что-то срочное?')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Хорошо, понял тебя, спасибо! Значит, с работы выходить')])");
@@ -39,7 +39,7 @@ class Goals_and_Priorities_Test extends SeleniumTestHelper
         $this->run_event('E12',"xpath=(//*[contains(text(),'Я вас очень прошу, найдите сегодня любое время')])",'click');
         sleep(5);
 
-        $this->run_event('ET8',"css=li.icon-active.door a",'click');
+        $this->run_event('ET8',Yii::app()->params['test_mappings']['icons']['door'],'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['visit']['allow']);
         $this->optimal_click("xpath=(//*[contains(text(),'Привет, Семен! С бюджетом покончено')])");
         $this->optimal_click("xpath=(//*[contains(text(),'А мы в двадцать минут впишемся?')])");
@@ -60,7 +60,7 @@ class Goals_and_Priorities_Test extends SeleniumTestHelper
         $this->run_event('E3',"xpath=(//*[contains(text(),'Через двадцать минут? Тогда времени на разговор ')])",'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Вот спасибо! Выручил! Давай до вечера, часов в')])");
         sleep(2);
-        $this->run_event('ET8',"css=li.icon-active.door a",'click');
+        $this->run_event('ET8',Yii::app()->params['test_mappings']['icons']['door'],'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['visit']['deny']);
         sleep(2);
         $this->clearEventQueueBeforeEleven('RST1');

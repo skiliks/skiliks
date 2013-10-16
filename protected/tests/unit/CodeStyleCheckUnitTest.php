@@ -6,7 +6,17 @@ class CodeStyleCheckUnitTest  extends CDbTestCase
      */
     public function testVarDumpsAndScriptStoppres()
     {
-        $folders = ['/components/', '/models/', '/controllers/', 'modules', '/views/'];
+        $folders = [
+            '/components/',
+            '/models/',
+            '/controllers/',
+            '/modules',
+            '/views/',
+            '/assets/',
+            '/assets/js/game/',
+            '/assets/js/game/models/',
+            '/assets/js/game/models/window/',
+        ];
         $targets = ['var_dump', 'die(', 'exit(', '====', '>>>', '<<<', '<? '];
 
         foreach ($folders as $folder) {
@@ -14,8 +24,11 @@ class CodeStyleCheckUnitTest  extends CDbTestCase
             $filesList = [];
             getFilesList($dir, $filesList);
 
+            echo "$dir ".count($filesList)." \n";
+
             foreach ($filesList as $filename) {
                 $fileText = file_get_contents($filename);
+
 
                 foreach ($targets as $target) {
                     $this->assertEquals(

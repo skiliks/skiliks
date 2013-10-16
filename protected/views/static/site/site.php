@@ -13,6 +13,8 @@
         };
         window.inviteId = <?= $inviteId ?>;
         window.httpUserAgent = '<?= $httpUserAgent ?>';
+
+        window.siteHeartAuth = "<?= StaticSiteTools::getSiteHeartAuth(Yii::app()->user->data()); ?>";
     </script>
 
     <title>Skiliks</title>
