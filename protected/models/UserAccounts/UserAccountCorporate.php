@@ -298,7 +298,6 @@ class UserAccountCorporate extends CActiveRecord
 
             $invite->deleteInvite();
         }
-
     }
 
     /**
@@ -311,12 +310,22 @@ class UserAccountCorporate extends CActiveRecord
     }
 
     /**
-     * Setting user invite limit to zero
+     * Setting user invite limit to zero, and logging the corporate invite moves
      */
 
     private function disableUserInviteLimit() {
+
+        $initValue = $this->getTotalAvailableInvitesLimit();
+
+        // Getting user email, that provides deleting the invites
+        $providerEmail = Yii::app()->user->data()->profile->email;
+
         $this->invites_limit = 0;
         $this->referrals_invite_limit = 0;
+
+        UserService::logCorporateInviteMovementAdd(sprintf("Аккаунт заблокирован пользователем-админом %s", $providerEmail),
+            $this, $initValue);
+
     }
 
     /**
