@@ -209,7 +209,7 @@ $(document).ready(function(){
         if(confirm("Вы точно хотите забанить аккаунт " + $(this).attr("data-email"))) {
         $.post("/admin_area/ban_user/" + $(this).attr("data-id")).
             done(function() {
-                    window.location.href = "";
+                    window.location.reload();
                 });
         }
     });
