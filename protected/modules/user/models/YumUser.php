@@ -1071,7 +1071,7 @@ class YumUser extends YumActiveRecord
         $mail = [
             'from' => Yum::module('registration')->recoveryEmail,
             'to' => $this->profile->email,
-            'subject' => 'Восстановление пароля к skiliks.com', //Yii::t('site', 'You requested a new password'),
+            'subject' => 'Ваш аккаунт на skiliks.com заблокирован', //Yii::t('site', 'You requested a new password'),
             'body' => $body,
             'embeddedImages' => [
                 [
