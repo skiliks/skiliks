@@ -52,7 +52,7 @@
                                             и примите приглашение на тестирование для прохождения симуляции.
                                         <?php elseif ($invite->receiverUser && $invite->receiverUser->isPersonal()): ?>
                                             Пожалуйста,
-                                            <a target="_blank" style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;" href="<?= $this->createAbsoluteUrl('/dashboard') ?>">
+                                            <a target="_blank" style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;" href="<?= $this->createAbsoluteUrl('/user/auth') ?>">
                                                 зайдите
                                             </a> в свой кабинет и примите приглашение на тестирование для прохождения симуляции.
                                         <?php elseif ($invite->receiverUser && $invite->receiverUser->isCorporate()): ?>

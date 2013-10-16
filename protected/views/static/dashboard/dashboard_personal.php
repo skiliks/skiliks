@@ -40,18 +40,12 @@
             <?php if ($display_results_for
                 && null !== $simulation
                 && $simulation->isAllowedToSeeResults(Yii::app()->user->data())): ?>
-                <script type="text/javascript">
-                    $(function() {
-                        showSimulationDetails('/dashboard/simulationdetails/<?= $display_results_for->id ?>');
-                    });
-                </script>
+                <?php $this->renderPartial('//global_partials/_popup_result_simulation_container', [ 'display_results_for' => $display_results_for]) ?>
             <?php endif; ?>
         </div>
 
         <?php $this->renderPartial('partials/accept-invite-warning-popup', []) ?>
         <?php $this->renderPartial('partials/pre-start-popup', []) ?>
-
-        <div id="simulation-details-pop-up"></div>
 
         <div class="sidefeedback"><a href="#" class="light-btn feedback">Обратная связь</a></div>
 

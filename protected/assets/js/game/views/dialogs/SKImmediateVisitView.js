@@ -92,6 +92,7 @@ define([
                     } else {
                         renderFn(remote_replica);
                     }
+                    me.delegateEvents();
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -112,7 +113,9 @@ define([
 
                         el.find('.visit-background-container').css('width', screen.availWidth);
 
-                        /*me.$('video').on('ended', function () {
+                        var duration = (SKApp.simulation.isDebug() || null === remote_replica)?0:parseInt(remote_replica.duration, 0)*1000;
+
+                        setTimeout(function(){
                             me.$('video').css('zIndex', 0);
                             if (my_replicas.length === 0) {
                                 event.complete();
@@ -122,20 +125,8 @@ define([
                                 el.find('.char-reply').removeClass('hidden');
                                 el.find('.visitor-reply').removeClass('hidden');
                             }
-                        });*/
-                            var duration = (SKApp.simulation.isDebug() || null === remote_replica)?0:parseInt(remote_replica.duration, 0)*1000;
-                            //var duration = parseInt(remote_replica.duration, 0)*1000;
-                            setTimeout(function(){
-                                me.$('video').css('zIndex', 0);
-                                if (my_replicas.length === 0) {
-                                    event.complete();
-                                    me.options.model_instance.close();
-                                    me.remove();
-                                } else if (!SKApp.simulation.isDebug()) {
-                                    el.find('.char-reply').removeClass('hidden');
-                                    el.find('.visitor-reply').removeClass('hidden');
-                                }
-                            }, duration);
+                            me.delegateEvents();
+                        }, duration);
 
                         // this stupid code is a workaround of Google Chrome bug where video does not start
                         me.$('video').on('canplay', function() {
