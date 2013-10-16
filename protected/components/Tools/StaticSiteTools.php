@@ -406,10 +406,10 @@ class StaticSiteTools
         'data'   => []
         ];
 
-        if (null == $yiiUser) {
-        $user['nick']  = 'Guest';
-        $user['id']    = null;
-        $user['email'] = null;
+        if (null == $yiiUser || false == $user->isAuth()) {
+            $user['nick']  = 'Guest';
+            $user['id']    = null;
+            $user['email'] = null;
         } else {
             $user['nick']  = sprintf(
                 '%s %s (%s)',
