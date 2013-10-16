@@ -248,7 +248,7 @@ class YumProfile extends YumActiveRecord
     }
 
     public function getAccountBannedErrorMessage() {
-        return $error = Yii::t('site',  'Ваш аккаунт забанен.');
+        return $error = Yii::t('site',  'Ваш аккаунт заблокирован.');
     }
 
 
