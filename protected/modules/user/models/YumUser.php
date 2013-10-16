@@ -1042,6 +1042,62 @@ class YumUser extends YumActiveRecord
         //Yii::app()->session['uid'] = $this->id;
     }
 
+
+    /**
+     * Banning the user
+     */
+    public function banUser() {
+        $this->getAccount()->banUser();
+        $this->status = self::STATUS_BANNED;
+        $isSaved = $this->save(false);
+
+        if($isSaved) {
+            $this->sendBannedEmail();
+            return true;
+        }
+        else {
+            throw new Exception('User can\'t be banned because of unknown reason');
+        }
+    }
+
+    private function sendBannedEmail() {
+        $body = Yii::app()->controller->renderPartial('//global_partials/mails/ban', ['email' => $this->profile->email], true);
+
+        $mail = [
+            'from' => Yum::module('registration')->recoveryEmail,
+            'to' => $this->profile->email,
+            'subject' => 'Восстановление пароля к skiliks.com', //Yii::t('site', 'You requested a new password'),
+            'body' => $body,
+            'embeddedImages' => [
+                [
+                    'path'     => Yii::app()->basePath.'/assets/img/mailtopclean.png',
+                    'cid'      => 'mail-top-clean',
+                    'name'     => 'mailtopclean',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],[
+                    'path'     => Yii::app()->basePath.'/assets/img/mailchair.png',
+                    'cid'      => 'mail-chair',
+                    'name'     => 'mailchair',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],[
+                    'path'     => Yii::app()->basePath.'/assets/img/mail-bottom.png',
+                    'cid'      => 'mail-bottom',
+                    'name'     => 'mailbottom',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],
+            ],
+        ];
+
+        $sent = MailHelper::addMailToQueue($mail);
+
+        return $sent;
+    }
+
+
+
     public function getStatusLabel()
     {
         switch ($this->status) {
