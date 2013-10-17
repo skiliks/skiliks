@@ -26,7 +26,7 @@
 
             <a class="new_social_buttons twitter_share_button_footer" title="Twitter" onclick="
                                         window.open(
-                                        'https://twitter.com/share?url=' + encodeURIComponent('<?=Yii::app()->request->hostInfo?>' +'/watchVideo'),
+                                        'https://twitter.com/share?url=' + encodeURIComponent('<?=Yii::app()->request->hostInfo?>'),
                                         'twitter-share-dialog',
                                         'width=626,height=436');
                                         return false;" href="#" target="_blank">
