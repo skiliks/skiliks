@@ -2637,7 +2637,11 @@ define([
                         if (draftEmail) {
                             this.renderWriteEmailScreen(this.mailClient.iconsForEditDraftDraftScreenArray);
                         } else {
-                            this.renderWriteEmailScreen(this.mailClient.iconsForWriteEmailScreenArray);
+                            if (response.attachmentId) {
+                                this.renderWriteEmailScreen(this.mailClient.iconsForWriteEmailScreenArray, false);
+                            } else {
+                                this.renderWriteEmailScreen(this.mailClient.iconsForWriteEmailScreenArray);
+                            }
                         }
 
                         var subject = new SKMailSubject();
