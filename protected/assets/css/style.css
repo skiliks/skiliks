@@ -1911,17 +1911,23 @@ html[lang="en"] .footer .social_networks {
     height:31px;
     margin-left:10px;
 }
+.new_social_buttons_footer a {
+    background:url(../img/icons/social_networks.png) -100% -100% no-repeat;
+    width:32px;
+    height:31px;
+    margin-left:10px;
+}
 .social_networks a.addthis_button_vk, .smallicons a.addthis_button_vk {
     background-position: 0px 0px;
 }
-.social_networks a.addthis_button_facebook, .social_networks .facebook_share_button_big {
+.social_networks a.addthis_button_facebook, .social_networks .facebook_share_button_footer {
     background-position: -42px 0px;
 }
 .social_networks a.addthis_button_twitter {
     background-position: -83px 0px;
     width:33px;
 }
-.social_networks a.addthis_button_google_plusone_share, a.google_share_button_big {
+.social_networks a.addthis_button_google_plusone_share, a.google_share_button_footer {
     background-position: -125px 0px;
 }
 .social_networks a.addthis_button_linkedin {
@@ -1931,7 +1937,7 @@ html[lang="en"] .footer .social_networks {
     background-position: 0px 100%;
     opacity: 1 !important;
 }
-.social_networks a.addthis_button_facebook:hover, .social_networks a.facebook_share_button_big:hover {
+.social_networks a.addthis_button_facebook:hover, .social_networks a.facebook_share_button_footer:hover {
     background-position: -42px 100%;
     opacity: 1 !important;
 }
@@ -1940,7 +1946,7 @@ html[lang="en"] .footer .social_networks {
     width:33px;
     opacity: 1 !important;
 }
-.social_networks a.addthis_button_google_plusone_share:hover, a.google_share_button_big:hover {
+.social_networks a.addthis_button_google_plusone_share:hover, a.google_share_button_footer:hover {
     background-position: -125px 100%;
     opacity: 1 !important;
 }
