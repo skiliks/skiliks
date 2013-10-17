@@ -743,7 +743,11 @@ class SimulationService
 
             $simulation->calculatePercentile();
 
-            self::logAboutSim($simulation, 'sim stop: assessment calculated');
+            self::logAboutSim($simulation, sprintf(
+                'sim stop: assessment calculated. Overall: %s, Percentile  %s.',
+                (float)$simulation->getCategoryAssessmentWithoutRound(),
+                (float)$simulation->getCategoryAssessmentWithoutRound(AssessmentCategory::PERCENTILE)
+            ));
         }
 
         // @ - for PHPUnit
