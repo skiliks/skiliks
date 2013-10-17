@@ -1917,7 +1917,7 @@ html[lang="en"] .footer .social_networks {
     height:31px;
     margin-left:10px;
 }
-.social_networks a.addthis_button_vk, .social_networks a.vk_share_button_footer, .smallicons .vk_share_button,  .social_networks a.addthis_button_vk {
+.social_networks a.addthis_button_vk, .social_networks .vk_share_button_footer, .smallicons .vk_share_button,  .social_networks .addthis_button_vk {
     background-position: 0px 0px;
 }
 .social_networks a.addthis_button_facebook, .social_networks .facebook_share_button_footer {
@@ -1927,17 +1927,17 @@ html[lang="en"] .footer .social_networks {
     background-position: -83px 0px;
     width:33px;
 }
-.social_networks a.addthis_button_google_plusone_share, a.google_share_button_footer {
+.social_networks a.addthis_button_google_plusone_share, .google_share_button_footer {
     background-position: -125px 0px;
 }
 .social_networks a.addthis_button_linkedin {
     background-position: -166px 0px;
 }
-.social_networks a.addthis_button_vk:hover, a.vk_share_button_footer:hover, a.vk_share_button:hover {
+.social_networks a.addthis_button_vk:hover, .vk_share_button_footer:hover, .vk_share_button:hover {
     background-position: 0px 100%;
     opacity: 1 !important;
 }
-.social_networks a.addthis_button_facebook:hover, .social_networks a.facebook_share_button_footer:hover {
+.social_networks a.addthis_button_facebook:hover, .social_networks .facebook_share_button_footer:hover {
     background-position: -42px 100%;
     opacity: 1 !important;
 }
@@ -1946,7 +1946,7 @@ html[lang="en"] .footer .social_networks {
     width:33px;
     opacity: 1 !important;
 }
-.social_networks a.addthis_button_google_plusone_share:hover, a.google_share_button_footer:hover {
+.social_networks a.addthis_button_google_plusone_share:hover, .google_share_button_footer:hover {
     background-position: -125px 100%;
     opacity: 1 !important;
 }
@@ -1990,10 +1990,10 @@ html[lang="en"] .footer .social_networks {
 .smallicons a.addthis_button_twitter:hover {
     background-position: -71px -33px;
 }
-.smallicons a.addthis_button_google_plusone_share, .smallicons a.google_share_button {
+.smallicons a.addthis_button_google_plusone_share, .smallicons .google_share_button {
     background-position: -107px 0px;
 }
-.smallicons a.addthis_button_google_plusone_share:hover, .smallicons a.google_share_button:hover {
+.smallicons a.addthis_button_google_plusone_share:hover, .smallicons .google_share_button:hover {
     background-position: -107px -33px;
 }
 .smallicons a.addthis_button_linkedin {
@@ -4378,10 +4378,10 @@ body.action-controller-corporateReferrals-static-profile .popup-before-start-sim
         height: 27px !important;
         margin-left: 8px;
     }
-    .social_networks a.addthis_button_facebook {
+    .social_networks a.addthis_button_facebook, .social_networks .facebook_share_button_footer {
         background-position: -36px 0px;
     }
-    .social_networks a.addthis_button_facebook:hover {
+    .social_networks a.addthis_button_facebook:hover,  .social_networks .facebook_share_button_footer:hover {
         background-position: -36px -33px;
     }
     .social_networks a.addthis_button_twitter {
@@ -4391,10 +4391,10 @@ body.action-controller-corporateReferrals-static-profile .popup-before-start-sim
     .social_networks a.addthis_button_twitter:hover {
         background-position: -71px -33px;
     }
-    .social_networks a.addthis_button_google_plusone_share {
+    .social_networks a.addthis_button_google_plusone_share, .social_networks .google_share_button_footer {
         background-position: -107px 0px;
     }
-    .social_networks a.addthis_button_google_plusone_share:hover {
+    .social_networks a.addthis_button_google_plusone_share:hover,  .social_networks .google_share_button_footer:hover {
         background-position: -107px -33px;
     }
     .social_networks a.addthis_button_linkedin {
