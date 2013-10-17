@@ -29,7 +29,12 @@ $cs->registerCssFile($assetsUrl . "/css/popover.css");
 <!DOCTYPE html>
 <html lang="<?php echo Yii::t('site', 'en') ?>">
 	<head>
-        <meta property="og:image" content="http://b.vimeocdn.com/ts/449/036/449036980_640.jpg"/>
+        <?php if(Yii::app()->controller->action->id == "watchVideo") : ?>
+            <meta property="og:image" content="http://b.vimeocdn.com/ts/449/036/449036980_640.jpg"/>
+        <?php else : ?>
+            <meta property="og:image" content="http://b.vimeocdn.com/ts/449/036/449036980_640.jpg"/>
+        <?php endif ?>
+
         <meta property="og:title" content="Skiliks - game the Skiliks on Vimeo"/>
         <meta property="og:url" content="http://dev3.skiliks.com"/>
         <meta charset="utf-8" />
@@ -44,7 +49,6 @@ $cs->registerCssFile($assetsUrl . "/css/popover.css");
     </head>
     
     <body class="<?php echo StaticSiteTools::getBodyClass(Yii::app()->request) ?>">
-
 		<div class="<?php echo StaticSiteTools::getContainerClass(Yii::app()->request) ?>" id="top">
 			
 			<!--header SC -->
