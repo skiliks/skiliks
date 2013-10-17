@@ -1917,7 +1917,7 @@ html[lang="en"] .footer .social_networks {
     height:31px;
     margin-left:10px;
 }
-.social_networks a.addthis_button_vk, .smallicons a.addthis_button_vk {
+.social_networks a.addthis_button_vk, .social_networks a.vk_share_button_footer, .smallicons .vk_share_button,  .social_networks a.addthis_button_vk {
     background-position: 0px 0px;
 }
 .social_networks a.addthis_button_facebook, .social_networks .facebook_share_button_footer {
@@ -1933,7 +1933,7 @@ html[lang="en"] .footer .social_networks {
 .social_networks a.addthis_button_linkedin {
     background-position: -166px 0px;
 }
-.social_networks a.addthis_button_vk:hover {
+.social_networks a.addthis_button_vk:hover, a.vk_share_button_footer:hover, a.vk_share_button:hover {
     background-position: 0px 100%;
     opacity: 1 !important;
 }
@@ -1971,6 +1971,7 @@ html[lang="en"] .footer .social_networks {
     text-align: right;
     width: 155px;
 }
+
 .smallicons>span {
     display: inline-block;
     text-align: right;
