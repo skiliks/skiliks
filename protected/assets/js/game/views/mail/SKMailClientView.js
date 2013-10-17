@@ -1496,10 +1496,12 @@ define([
                                 imageSrc: attachment.getIconImagePath()
                             });
                         });
+
                         mailClientView.$("#MailClient_NewLetterAttachment div.list").ddslick('destroy');
                         mailClientView.$("#MailClient_NewLetterAttachment div.list").ddslick({
                             data: attachmentsListHtml,
                             width: '100%',
+                            height: '245px',
                             selectText: "Нет вложения.",
                             imagePosition: "left"
                         });
@@ -1511,6 +1513,7 @@ define([
                                 }),
                                 draftEmail.attachment.fileMySqlId
                             );
+
                             mailClientView.$("#MailClient_NewLetterAttachment div.list").ddslick(
                                 "select", {index: attachmentIndex + 1 }
                             );
@@ -2006,7 +2009,6 @@ define([
                     }, 400);
                 } catch(exception) {
                     delete me.blockPhraseMoving;
-                    console.log(exception.message + ',' + exception.stack);
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
                     }
@@ -2258,9 +2260,13 @@ define([
              * @method
              * @param iconsList
              */
-            renderWriteEmailScreen: function (iconsList) {
+            renderWriteEmailScreen: function (iconsList, isFillAttachmentsList) {
                 try {
                     var mailClientView = this;
+
+                    if (false != isFillAttachmentsList) {
+                        isFillAttachmentsList = true;
+                    }
 
                     // get template
                     var htmlSceleton = _.template(mail_client_new_email_template, {});
@@ -2277,34 +2283,38 @@ define([
                     this.renderIcons(iconsList);
 
                     // add attachments list {
-                    this.mailClient.uploadAttachmentsList(function () {
-                        var attachmentsListHtml = [];
-                        attachmentsListHtml.push({
-                            text: "без вложения.",
-                            value: 0,
-                            selected: 1,
-                            imageSrc: ""
-                        });
-
-                        mailClientView.mailClient.availableAttachments.forEach(function (attachment) {
+                    if (isFillAttachmentsList) {
+                        this.mailClient.uploadAttachmentsList(function () {
+                            var attachmentsListHtml = [];
                             attachmentsListHtml.push({
-                                text: attachment.label,
-                                value: attachment.fileId,
-                                imageSrc: attachment.getIconImagePath()
+                                text: "без вложения.",
+                                value: 0,
+                                selected: 1,
+                                imageSrc: ""
                             });
-                        });
-                        mailClientView.$("#MailClient_NewLetterAttachment div.list").ddslick('destroy');
-                        mailClientView.$("#MailClient_NewLetterAttachment div.list").ddslick({
-                            data: attachmentsListHtml,
-                            width: '100%',
-                            selectText: "Нет вложения.",
-                            imagePosition: "left"
-                        });
-                        // add attachments list }
 
-                        //mailClientView.delegateEvents();
-                        mailClientView.trigger('attachment:load_completed');
-                    });
+                            mailClientView.mailClient.availableAttachments.forEach(function (attachment) {
+                                attachmentsListHtml.push({
+                                    text: attachment.label,
+                                    value: attachment.fileId,
+                                    imageSrc: attachment.getIconImagePath()
+                                });
+                            });
+
+                            mailClientView.$("#MailClient_NewLetterAttachment div.list").ddslick('destroy');
+                            mailClientView.$("#MailClient_NewLetterAttachment div.list").ddslick({
+                                data: attachmentsListHtml,
+                                width: '100%',
+                                height: '245px',
+                                selectText: "Нет вложения.",
+                                imagePosition: "left"
+                            });
+                            // add attachments list }
+
+                            //mailClientView.delegateEvents();
+                            mailClientView.trigger('attachment:load_completed');
+                        });
+                    }
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -2557,6 +2567,7 @@ define([
                                     return attachment.fileMySqlId;
                                 }), response.attachmentId
                             );
+
                             me.$("#MailClient_NewLetterAttachment div.list").ddslick("select", {index: attachmentIndex + 1 });
                         });
 
@@ -2632,7 +2643,7 @@ define([
                         if (draftEmail) {
                             this.renderWriteEmailScreen(this.mailClient.iconsForEditDraftDraftScreenArray);
                         } else {
-                            this.renderWriteEmailScreen(this.mailClient.iconsForWriteEmailScreenArray);
+                            this.renderWriteEmailScreen(this.mailClient.iconsForWriteEmailScreenArray, false);
                         }
 
                         var subject = new SKMailSubject();
@@ -2736,29 +2747,27 @@ define([
                                     selected: 1,
                                     imageSrc: attach.getIconImagePath()
                                 });
+
                                 me.mailClient.availableAttachments.forEach(function (attachment) {
-                                 attachmentsListHtml.push({
-                                 text: attachment.label,
-                                 value: attachment.fileMySqlId,
-                                 imageSrc: attachment.getIconImagePath()
-                                 });
-                                 });
-                                me.mailClient.availableAttachments.push(attach);
+                                     attachmentsListHtml.push({
+                                         text: attachment.label,
+                                         value: attachment.fileMySqlId,
+                                         imageSrc: attachment.getIconImagePath()
+                                     });
+                                });
+
                                 me.$("#MailClient_NewLetterAttachment div.list").ddslick('destroy');
                                 me.$("#MailClient_NewLetterAttachment div.list").ddslick({
                                     data: attachmentsListHtml,
                                     width: '100%',
+                                    height: '255px',
                                     imagePosition: "left"
                                 });
                                 // add attachments list }
 
-                                //me.delegateEvents();
                                 me.trigger('attachment:load_completed');
                             });
                         }
-
-                        //this.$('#MailClient_CopiesList').focus();
-                        //this.$('#MailClient_CopiesList').blur();
 
                         // add IDs to lists of recipients and copies - to simplify testing
                         this.updateIdsForCharacterlist($('ul.ui-autocomplete:eq(1)').find('a'));
