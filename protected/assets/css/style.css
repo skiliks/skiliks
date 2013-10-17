@@ -1921,7 +1921,7 @@ html[lang="en"] .footer .social_networks {
     background-position: -83px 0px;
     width:33px;
 }
-.social_networks a.addthis_button_google_plusone_share {
+.social_networks a.addthis_button_google_plusone_share, a.google_share_button_big {
     background-position: -125px 0px;
 }
 .social_networks a.addthis_button_linkedin {
@@ -1940,7 +1940,7 @@ html[lang="en"] .footer .social_networks {
     width:33px;
     opacity: 1 !important;
 }
-.social_networks a.addthis_button_google_plusone_share:hover {
+.social_networks a.addthis_button_google_plusone_share:hover, a.google_share_button_big:hover {
     background-position: -125px 100%;
     opacity: 1 !important;
 }
@@ -1953,13 +1953,19 @@ html[lang="en"] .footer .social_networks {
     background:none !important;
 }
 
-.smallicons a, .facebook_share_button {
+.smallicons a, .new_social_buttons {
     background:url("../img/social-small.png") -100% -100% no-repeat;
     width:28px !important;
     height:27px !important;
     margin-left:8px;
 }
-.smallicons>span, .facebook_share_button {
+
+.new_social_buttons {
+    display: inline-block;
+    text-align: right;
+    width: 155px;
+}
+.smallicons>span {
     display: inline-block;
     text-align: right;
     width: 155px;
@@ -1977,10 +1983,10 @@ html[lang="en"] .footer .social_networks {
 .smallicons a.addthis_button_twitter:hover {
     background-position: -71px -33px;
 }
-.smallicons a.addthis_button_google_plusone_share {
+.smallicons a.addthis_button_google_plusone_share, .smallicons a.google_share_button {
     background-position: -107px 0px;
 }
-.smallicons a.addthis_button_google_plusone_share:hover {
+.smallicons a.addthis_button_google_plusone_share:hover, .smallicons a.google_share_button:hover {
     background-position: -107px -33px;
 }
 .smallicons a.addthis_button_linkedin {

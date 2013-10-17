@@ -60,7 +60,7 @@
                                  addthis:title="Skiliks - game the skills"
                                  addthis:description="{Yii::t('site', 'www.skiliks.com - online simulation aimed at testing management skills')}">
                                 <a class="addthis_button_vk"></a>
-                                <a class="facebook_share_button" title="Facebook" onclick="
+                                <a class="new_social_buttons facebook_share_button" title="Facebook" onclick="
     window.open(
       'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent('{Yii::app()->request->hostInfo}' +'/watchVideo'),
       'facebook-share-dialog',
