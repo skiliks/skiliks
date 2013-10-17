@@ -1923,14 +1923,15 @@ html[lang="en"] .footer .social_networks {
 .social_networks a.addthis_button_facebook, .social_networks .facebook_share_button_footer {
     background-position: -42px 0px;
 }
-.social_networks a.addthis_button_twitter {
-    background-position: -83px 0px;
-    width:33px;
+.social_networks a.addthis_button_twitter, .social_networks .twitter_share_button_footer {
+    background-position: -82px 0;
+    min-height: 31px;
+    min-width: 34px;
 }
-.social_networks a.addthis_button_google_plusone_share, .google_share_button_footer {
+.social_networks a.addthis_button_google_plusone_share, .social_networks .google_share_button_footer {
     background-position: -125px 0px;
 }
-.social_networks a.addthis_button_linkedin {
+.social_networks a.addthis_button_linkedin, .social_networks .linkedin_share_button_footer {
     background-position: -166px 0px;
 }
 .social_networks a.addthis_button_vk:hover, .vk_share_button_footer:hover, .vk_share_button:hover {
@@ -1941,16 +1942,16 @@ html[lang="en"] .footer .social_networks {
     background-position: -42px 100%;
     opacity: 1 !important;
 }
-.social_networks a.addthis_button_twitter:hover {
+.social_networks a.addthis_button_twitter:hover, .social_networks .twitter_share_button_footer:hover {
     background-position: -83px 100%;
     width:33px;
     opacity: 1 !important;
 }
-.social_networks a.addthis_button_google_plusone_share:hover, .google_share_button_footer:hover {
+.social_networks a.addthis_button_google_plusone_share:hover, .social_networks .google_share_button_footer:hover {
     background-position: -125px 100%;
     opacity: 1 !important;
 }
-.social_networks a.addthis_button_linkedin:hover {
+.social_networks a.addthis_button_linkedin:hover, .social_networks .linkedin_share_button_footer:hover {
     background-position: -166px 100%;
     opacity: 1 !important;
 }
@@ -1980,14 +1981,14 @@ html[lang="en"] .footer .social_networks {
 .smallicons a.addthis_button_facebook, .smallicons .facebook_share_button {
     background-position: -36px 0px;
 }
-.smallicons a.addthis_button_facebook:hover, .facebook_share_button:hover {
+.smallicons a.addthis_button_facebook:hover, .smallicons .facebook_share_button:hover {
     background-position: -36px -33px;
 }
-.smallicons a.addthis_button_twitter {
+.smallicons a.addthis_button_twitter, .smallicons .twitter_share_button {
     background-position: -71px 0px;
     width:29px !important;
 }
-.smallicons a.addthis_button_twitter:hover {
+.smallicons a.addthis_button_twitter:hover, .smallicons .twitter_share_button:hover {
     background-position: -71px -33px;
 }
 .smallicons a.addthis_button_google_plusone_share, .smallicons .google_share_button {
@@ -1996,10 +1997,10 @@ html[lang="en"] .footer .social_networks {
 .smallicons a.addthis_button_google_plusone_share:hover, .smallicons .google_share_button:hover {
     background-position: -107px -33px;
 }
-.smallicons a.addthis_button_linkedin {
+.smallicons a.addthis_button_linkedin, .smallicons .linkedin_share_button  {
     background-position: -142px 0px;
 }
-.smallicons a.addthis_button_linkedin:hover {
+.smallicons a.addthis_button_linkedin:hover,  .smallicons .linkedin_share_button:hover  {
     background-position: -142px -33px;
 }
 .videosocwrap .social_networks {
@@ -4384,11 +4385,11 @@ body.action-controller-corporateReferrals-static-profile .popup-before-start-sim
     .social_networks a.addthis_button_facebook:hover,  .social_networks .facebook_share_button_footer:hover {
         background-position: -36px -33px;
     }
-    .social_networks a.addthis_button_twitter {
+    .social_networks a.addthis_button_twitter, .social_networks .twitter_share_button_footer {
         background-position: -71px 0px;
         width:29px !important;
     }
-    .social_networks a.addthis_button_twitter:hover {
+    .social_networks a.addthis_button_twitter:hover, .social_networks .twitter_share_button_footer:hover {
         background-position: -71px -33px;
     }
     .social_networks a.addthis_button_google_plusone_share, .social_networks .google_share_button_footer {
@@ -4397,10 +4398,10 @@ body.action-controller-corporateReferrals-static-profile .popup-before-start-sim
     .social_networks a.addthis_button_google_plusone_share:hover,  .social_networks .google_share_button_footer:hover {
         background-position: -107px -33px;
     }
-    .social_networks a.addthis_button_linkedin {
+    .social_networks a.addthis_button_linkedin, .social_networks .linkedin_share_button_footer {
         background-position: -142px 0px;
     }
-    .social_networks a.addthis_button_linkedin:hover {
+    .social_networks a.addthis_button_linkedin:hover, .social_networks .linkedin_share_button_footer:hover  {
         background-position: -142px -33px;
     }
     .social_networks>span {
