@@ -26,7 +26,9 @@
 }
 .action-controller-personal-static-dashboard #simulation-details-pop-up,
 .action-controller-corporate-static-dashboard #simulation-details-pop-up,
-.action-corporate #simulation-details-pop-up {
+.action-controller-corporate-static-dashboard #simulation-details-pop-up,
+.action-corporate #simulation-details-pop-up,
+.action-registration #simulation-details-pop-up {
     /*padding: 10px;*/
     padding: 0px;
 }
@@ -1387,7 +1389,7 @@ div.percentil_text_product {
     .mangrlresults .display-ib {
         width: 175px;
     }
-    .sections > div.active {
+    .sections > div#main {
         margin-left: -24px;
         padding-left: 60px;
     }

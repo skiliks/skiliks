@@ -39,7 +39,7 @@ $this->widget('zii.widgets.CMenu', array(
         [
             'label'   => Yii::t('site','Help'),
             'url'     => '/help/general',
-            'visible' => !$isGuest && 'ru' == Yii::app()->getLanguage(),
+            'visible' => 'ru' == Yii::app()->getLanguage(),
         ],
         [
             'label'       => Yii::t('site', 'Регистрация'),

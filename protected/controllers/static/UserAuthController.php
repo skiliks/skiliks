@@ -401,9 +401,20 @@ class UserAuthController extends YumController
             $isUserAccountPersonalValid  = $accountPersonal->validate(['professional_status_id']);
             $accountCorporate->attributes = $UserAccountCorporateData;
             $isUserAccountCorporateValid  = $accountCorporate->validate(['industry_id']);
+
             $emailIsExistAndNotActivated = YumProfile::model()->emailIsNotActiveValidationStatic($profile->email);
             if($emailIsExistAndNotActivated) {
                 $profile->clearErrors();
+            }
+
+            $isUserBanned = YumProfile::model()->isAccountBannedStatic($profile->email);
+
+            /**
+             * if User is banned we need to replace email error with banned error
+             */
+
+            if($isUserBanned) {
+                $emailIsExistAndNotActivated = $isUserBanned;
             }
 
             if($isUserAccountPersonalValid && $isUserAccountCorporateValid && $isProfileValid && $isUserValid) {
@@ -465,6 +476,17 @@ class UserAuthController extends YumController
             $statuses[$status->id] = Yii::t('site', $status->label);
         }
 
+        /**
+         * Getting user simulation id to display the simulation result if user had completed the demo
+         */
+        $simulationToDisplayResults = null;
+        if (isset(Yii::app()->request->cookies['display_result_for_simulation_id'])) {
+            $simulationToDisplayResults = Simulation::model()->findByPk(
+                Yii::app()->request->cookies['display_result_for_simulation_id']->value
+            );
+            unset(Yii::app()->request->cookies['display_result_for_simulation_id']);
+        }
+
         $this->render(
             'registration',
             [
@@ -475,7 +497,8 @@ class UserAuthController extends YumController
                 'profile'                     => $profile,
                 'user'                        => $user,
                 'emailIsExistAndNotActivated' => $emailIsExistAndNotActivated,
-                'account_type'                => $account_type
+                'account_type'                => $account_type,
+                'display_results_for'         => $simulationToDisplayResults,
             ]
         );
     }
@@ -664,12 +687,15 @@ class UserAuthController extends YumController
     {
         $profile = YumProfile::model()->findByPk($profileId);
 
-        if ($profile && !$profile->user->isActive()) {
+        if ($profile && !$profile->user->isActive() && !$profile->user->isBanned()) {
             $this->sendRegistrationEmail($profile->user);
             Yii::app()->session->add("email", strtolower($profile->email));
             Yii::app()->session->add("user_id", $profile->user_id);
             $this->redirect(['afterRegistration']);
         } else {
+            if($profile->user->isBanned()) {
+                Yii::app()->user->setFlash('error', 'Невозможно восстановить пароль - ваш аккаунт заблокирован');
+            }
             $this->redirect('/');
         }
     }
@@ -765,8 +791,16 @@ class UserAuthController extends YumController
                 echo CActiveForm::validate($recoveryForm);
                 Yii::app()->end();
             }
+
             if ($recoveryForm->validate() && $recoveryForm->user instanceof YumUser && $recoveryForm->user->status > 0) {
+
                 $user = $recoveryForm->user;
+
+                if($recoveryForm->user->status->isBanned) {
+                    Yii::app()->user->setFlash('error', 'Ваш аккаунт заблокирован');
+                    $this->redirect('/');
+                }
+
                 $user->generateActivationKey();
                 $result = $this->sendPasswordRecoveryEmail($user);
 

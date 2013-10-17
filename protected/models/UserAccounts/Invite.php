@@ -868,6 +868,10 @@ class Invite extends CActiveRecord
         return $result;
     }
 
+    /**
+     * Sets invites status to deleted and saves it
+     */
+
     public function deleteInvite() {
         $invite_status = $this->status;
         $this->status = Invite::STATUS_DELETED;
@@ -883,4 +887,5 @@ class Invite extends CActiveRecord
         }
         return self::$statusTextRus[$code];
     }
+
 }
