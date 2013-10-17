@@ -321,6 +321,7 @@ return array(
                 'admin_area/invoiceComment'    => 'admin_area/AdminPages/CommentInvoice',
                 'admin_area/getInvoiceLog'     => 'admin_area/AdminPages/GetInvoiceLog',
                 'admin_area/referrals'         => 'admin_area/AdminPages/ReferralsList',
+                'admin_area/not-corporate-emails' => 'admin_area/AdminPages/NotCorporateEmails',
                 'admin_area/RegistrationList'  => 'admin_area/AdminPages/RegistrationList',
 
                 'admin_area/simulations/rating/csv'                       => 'admin_area/AdminPages/SimulationsRatingCsv',
@@ -332,9 +333,10 @@ return array(
                 'admin_area/statistics/statistic-order-count'             => 'admin_area/AdminPages/StatisticOrderCount',
                 'admin_area/statistics/statistic-feedback-count'          => 'admin_area/AdminPages/StatisticFeedbackCount',
                 'admin_area/statistics/statistic-crash-simulation'        => 'admin_area/AdminPages/StatisticCrashSimulation',
-                'admin_area/statistics/statistic-mail'        => 'admin_area/AdminPages/StatisticMail',
+                'admin_area/statistics/statistic-mail'                    => 'admin_area/AdminPages/StatisticMail',
                 'admin_area/statistics/free-disk-space'                   => 'admin_area/AdminPages/StatisticFreeDiskSpace',
                 'admin_area/invite/<inviteId:\w+>/switch-can-be-reloaded' => 'admin_area/AdminPages/InviteSwitchCanBeReloaded',
+                'admin_area/ban_user/<userId:\d+>'                        => 'admin_area/AdminPages/BanUser',
 
                 'admin_area/corporate-accounts'                   => 'admin_area/AdminPages/CorporateAccountList',
                 'admin_area/order/action/status'                  => 'admin_area/AdminPages/OrderActionStatus',

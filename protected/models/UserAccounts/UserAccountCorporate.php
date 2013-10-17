@@ -247,9 +247,6 @@ class UserAccountCorporate extends CActiveRecord
         );
     }
 
-    public function getTotalAvailableInvitesLimit() {
-        return $this->invites_limit + $this->referrals_invite_limit;
-    }
 
     public function addReferralInvite($referrer_email = null) {
 
@@ -265,4 +262,80 @@ class UserAccountCorporate extends CActiveRecord
 
         $this->save();
     }
+
+    /**
+     * Returns all user invites limit
+     * @return int
+     */
+
+    public function getTotalAvailableInvitesLimit() {
+        return $this->invites_limit + $this->referrals_invite_limit;
+    }
+
+    /**
+     * banning corporate user and saves it
+     */
+
+    public function banUser() {
+        $this->disableUserInviteLimit();
+        $this->expireUserTariff();
+        $this->disableUserInvites();
+        $this->save();
+    }
+
+    /**
+     * Disable user invites and if there are Simulation in progress it's interrupt it
+     */
+
+    private function disableUserInvites() {
+        $invites = $this->getAllUserInvites();
+
+        foreach($invites as $invite) {
+
+            if($invite->status === Invite::STATUS_IN_PROGRESS) {
+                $invite->simulation->interruptSimulation();
+            }
+
+            $invite->deleteInvite();
+        }
+    }
+
+    /**
+     * Returns all current user invites
+     * @return array|CActiveRecord|mixed|null
+     */
+
+    private function getAllUserInvites() {
+        return Invite::model()->findAllByAttributes(['owner_id'=>$this->user_id]);
+    }
+
+    /**
+     * Setting user invite limit to zero, and logging the corporate invite moves
+     */
+
+    private function disableUserInviteLimit() {
+
+        $initValue = $this->getTotalAvailableInvitesLimit();
+
+        // Getting user email, that provides deleting the invites
+        $providerEmail = Yii::app()->user->data()->profile->email;
+
+        $this->invites_limit = 0;
+        $this->referrals_invite_limit = 0;
+
+        UserService::logCorporateInviteMovementAdd(sprintf("Аккаунт заблокирован пользователем-админом %s", $providerEmail),
+            $this, $initValue);
+
+    }
+
+    /**
+     * Setting user tariff expired yesterday
+     */
+
+    private function expireUserTariff() {
+        $date = new DateTime();
+        $date->add(DateInterval::createFromDateString('yesterday'));
+        $this->tariff_expired_at = $date->format('Y-m-d H:i:s');
+    }
+
 }
