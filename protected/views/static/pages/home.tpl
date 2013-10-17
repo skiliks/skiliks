@@ -62,10 +62,10 @@
                                 <a class="addthis_button_vk"></a>
                                 <a class="facebook_share_button" title="Facebook" onclick="
     window.open(
-      'https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fdev3.skiliks.com%2FwatchVideo',
+      'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent('{Yii::app()->request->hostInfo}' +'/watchVideo'),
       'facebook-share-dialog',
       'width=626,height=436');
-    return false;" href="http://loc.skiliks.com/watchVideo" target="_blank"></a>
+    return false;" href="#" target="_blank"></a>
                                 <a class="addthis_button_twitter"></a>
                                 <a class="addthis_button_google_plusone_share"  g:plusone:count="false"></a>
                                 <a class="addthis_button_linkedin"></a>
