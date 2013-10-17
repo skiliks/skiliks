@@ -41,6 +41,8 @@ class FreeEmailProvider extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('domain', 'length', 'max'=>100),
+            array('domain', 'validateDomainName'),
+            array('domain', 'validateDomainExists'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, domain', 'safe', 'on'=>'search'),
@@ -87,6 +89,18 @@ class FreeEmailProvider extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+
+    public function validateDomainName($attribute,$params) {
+        if(!preg_match('/^([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,6}$/', $this->$attribute)){
+            $this->addError($attribute, 'Невалидный домен');
+        }
+    }
+
+    public function validateDomainExists($attribute,$params) {
+        if($this->findByAttributes(['domain'=>$this->$attribute]) !== null){
+            $this->addError($attribute, 'Такой домен уже добавлен');
+        }
+    }
 
     public function searchEmails() {
 
