@@ -408,7 +408,10 @@ return array(
         'keep_last_category_time_214g'  => 90,
         'simulationStartUrl'            => '/index.php/simulation/start',
         'userNameInHeaderMaxLength'     => 30,
-        'countOfInvitesToShowReferralPopup'     => 3,
+
+        // четвёртое приглашение значит что, 3 приглашения отправлены или пройдены в режиме сам-себе
+        'countOfInvitesToShowReferralPopup'     => 4,
+
         'vacancyLinkInProfileMaxLength' => 50,
         'frontendUrl'                   => 'http://skiliks:8080/',
         'isUseResultPopUpCache'         => true,
