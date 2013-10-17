@@ -2270,7 +2270,7 @@ define([
                     var mailClientView = this;
 
                     if (false != isFillAttachmentsList) {
-                        isFillAttachmentsList = true;
+                        isFillAttachmentsList = true; 
                     }
 
                     // get template
