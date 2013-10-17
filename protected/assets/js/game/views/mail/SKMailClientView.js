@@ -2267,6 +2267,10 @@ define([
                 try {
                     var mailClientView = this;
 
+                    if (false != isFillAttachmentsList) {
+                        isFillAttachmentsList = true; 
+                    }
+
                     // get template
                     var htmlSceleton = _.template(mail_client_new_email_template, {});
 
