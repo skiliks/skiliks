@@ -672,6 +672,7 @@ define([
                     this.addClickAndDoubleClickBehaviour(this.mailClient.aliasFolderInbox);
                     if(activeEmail !== undefined){
                         this.setActiveEmail(activeEmail);
+
                     }
                 } catch(exception) {
                     if (window.Raven) {
@@ -802,82 +803,7 @@ define([
 
                     // Todo — move to events dictionary (GuGu)
                     $('.email-list-line').click(function (event) {
-                        // update lod data {
-
-                        // if user click on same email line twice - open read email screen
-                        // Do not change == to ===
-                        if (mailClientView.mailClient.activeEmail !== undefined && $(event.currentTarget).data().emailId == mailClientView.mailClient.activeEmail.mySqlId) {
-                            var emailId = $(event.currentTarget).data().emailId;
-                            var email = mailClientView.mailClient.getEmailByMySqlId(emailId);
-                            if (email.isDraft()) {
-                                SKApp.server.api(
-                                    'mail/edit',
-                                    {
-                                        id: emailId
-                                    },
-                                    function (response) {
-                                        mailClientView.mailClient.activeEmail = email;
-                                        if (email.isNew()) {
-                                            mailClientView.renderWriteCustomNewEmailScreen(
-                                                null,
-                                                mailClientView.mailClient.iconsForEditDraftDraftScreenArray,
-                                                email
-                                            );
-                                            mailClientView.fillMessageWindow(
-                                                response,
-                                                mailClientView.mailClient.iconsForEditDraftDraftScreenArray,
-                                                true
-                                            );
-                                            mailClientView.mailClient.setActiveScreen(mailClientView.mailClient.screenWriteNewCustomEmail);
-                                            mailClientView.mailClient.setWindowsLog('mailNew', email.mySqlId);
-                                        }
-
-                                        if (email.isForward()) {
-                                            mailClientView.doUpdateScreenFromForwardEmailData(response, email);
-                                            mailClientView.fillMessageWindow(response, mailClientView.mailClient.iconsForEditDraftDraftScreenArray, true);
-                                            mailClientView.mailClient.setActiveScreen(mailClientView.mailClient.screenWriteForward);
-                                            mailClientView.mailClient.setWindowsLog('mailNew', email.mySqlId);
-                                        }
-
-                                        if (email.isReply()) {
-                                            mailClientView.fillMessageWindow(response, mailClientView.mailClient.iconsForEditDraftDraftScreenArray);
-                                            mailClientView.mailClient.setActiveScreen(mailClientView.mailClient.screenWriteReply);
-                                            mailClientView.mailClient.setWindowsLog('mailNew', email.mySqlId);
-                                        }
-
-                                        if (email.isReplyAll()) {
-                                            mailClientView.fillMessageWindow(response, mailClientView.mailClient.iconsForEditDraftDraftScreenArray);
-                                            mailClientView.mailClient.setActiveScreen(mailClientView.mailClient.screenWriteReplyAll);
-                                            mailClientView.mailClient.setWindowsLog('mailNew', email.mySqlId);
-                                        }
-                                    }
-                                );
-                            } else {
-                                // log {
-                                mailClientView.mailClient.setWindowsLog(
-                                    'mailPreview',
-                                    $(event.currentTarget).data().emailId
-                                );
-                                // log }
-
-                                mailClientView.renderReadEmail(
-                                    mailClientView.mailClient.getEmailByMySqlId($(event.currentTarget).data().emailId)
-                                );
-                                mailClientView.mailClient.setActiveScreen(mailClientView.mailClient.screenReadEmail);
-                            }
-                        } else {
-                            // if user clicks on different email lines - activate clicked line email
-                            // log {
-                            mailClientView.mailClient.setWindowsLog(
-                                'mailMain',
-                                $(event.currentTarget).data().emailId
-                            );
-                            // log }
-                            mailClientView.doGetEmailDetails(
-                                $(event.currentTarget).data().emailId,
-                                folderAlias
-                            );
-                        }
+                        mailClientView.onEmailClick(event.currentTarget);
                     });
 
                     // make table sortable
@@ -932,6 +858,85 @@ define([
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
                     }
+                }
+            },
+
+            onEmailClick : function(currentTarget) {
+                // update lod data {
+                var mailClientView = this;
+                // if user click on same email line twice - open read email screen
+                // Do not change == to ===
+                if (mailClientView.mailClient.activeEmail !== undefined && $(currentTarget).data().emailId == mailClientView.mailClient.activeEmail.mySqlId) {
+                    var emailId = $(currentTarget).data().emailId;
+                    var email = mailClientView.mailClient.getEmailByMySqlId(emailId);
+                    if (email.isDraft()) {
+                        SKApp.server.api(
+                            'mail/edit',
+                            {
+                                id: emailId
+                            },
+                            function (response) {
+                                mailClientView.mailClient.activeEmail = email;
+                                if (email.isNew()) {
+                                    mailClientView.renderWriteCustomNewEmailScreen(
+                                        null,
+                                        mailClientView.mailClient.iconsForEditDraftDraftScreenArray,
+                                        email
+                                    );
+                                    mailClientView.fillMessageWindow(
+                                        response,
+                                        mailClientView.mailClient.iconsForEditDraftDraftScreenArray,
+                                        true
+                                    );
+                                    mailClientView.mailClient.setActiveScreen(mailClientView.mailClient.screenWriteNewCustomEmail);
+                                    mailClientView.mailClient.setWindowsLog('mailNew', email.mySqlId);
+                                }
+
+                                if (email.isForward()) {
+                                    mailClientView.doUpdateScreenFromForwardEmailData(response, email);
+                                    mailClientView.fillMessageWindow(response, mailClientView.mailClient.iconsForEditDraftDraftScreenArray, true);
+                                    mailClientView.mailClient.setActiveScreen(mailClientView.mailClient.screenWriteForward);
+                                    mailClientView.mailClient.setWindowsLog('mailNew', email.mySqlId);
+                                }
+
+                                if (email.isReply()) {
+                                    mailClientView.fillMessageWindow(response, mailClientView.mailClient.iconsForEditDraftDraftScreenArray);
+                                    mailClientView.mailClient.setActiveScreen(mailClientView.mailClient.screenWriteReply);
+                                    mailClientView.mailClient.setWindowsLog('mailNew', email.mySqlId);
+                                }
+
+                                if (email.isReplyAll()) {
+                                    mailClientView.fillMessageWindow(response, mailClientView.mailClient.iconsForEditDraftDraftScreenArray);
+                                    mailClientView.mailClient.setActiveScreen(mailClientView.mailClient.screenWriteReplyAll);
+                                    mailClientView.mailClient.setWindowsLog('mailNew', email.mySqlId);
+                                }
+                            }
+                        );
+                    } else {
+                        // log {
+                        mailClientView.mailClient.setWindowsLog(
+                            'mailPreview',
+                            $(currentTarget).data().emailId
+                        );
+                        // log }
+
+                        mailClientView.renderReadEmail(
+                            mailClientView.mailClient.getEmailByMySqlId($(currentTarget).data().emailId)
+                        );
+                        mailClientView.mailClient.setActiveScreen(mailClientView.mailClient.screenReadEmail);
+                    }
+                } else {
+                    // if user clicks on different email lines - activate clicked line email
+                    // log {
+                    mailClientView.mailClient.setWindowsLog(
+                        'mailMain',
+                        $(currentTarget).data().emailId
+                    );
+                    // log }
+                    mailClientView.doGetEmailDetails(
+                        $(currentTarget).data().emailId,
+                        this.mailClient.getActiveFolder().alias
+                    );
                 }
             },
 
@@ -3088,7 +3093,11 @@ define([
             },
             setActiveEmail:function (email) {
                 //this.mailClient.setActiveEmail(email);
-                this.$('#MailClient_IncomeFolder_List tr[data-email-id="'+email.mySqlId+'"]').click();
+                var email_data = this.$('#MailClient_IncomeFolder_List tr[data-email-id="'+email.mySqlId+'"]');
+                this.doGetEmailDetails(
+                    $(email_data).data().emailId,
+                    this.mailClient.getActiveFolder().alias
+                );
             },
             onWindowClose:function() {
                 this.mailClient.activeEmail = undefined;
