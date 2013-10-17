@@ -60,7 +60,12 @@
                                  addthis:title="Skiliks - game the skills"
                                  addthis:description="{Yii::t('site', 'www.skiliks.com - online simulation aimed at testing management skills')}">
                                 <a class="addthis_button_vk"></a>
-                                <a class="addthis_button_facebook" title="Facebook" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fdev3.skiliks.com/watchVideo" target="_blank"></a>
+                                <a class="facebook_share_button" title="Facebook" onclick="
+    window.open(
+      'https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fdev3.skiliks.com%2FwatchVideo',
+      'facebook-share-dialog',
+      'width=626,height=436');
+    return false;" href="http://loc.skiliks.com/watchVideo" target="_blank"></a>
                                 <a class="addthis_button_twitter"></a>
                                 <a class="addthis_button_google_plusone_share"  g:plusone:count="false"></a>
                                 <a class="addthis_button_linkedin"></a>
