@@ -77,7 +77,13 @@
                                 </a>
 
 
-                                <a class="addthis_button_twitter"></a>
+                                <a class="new_social_buttons twitter_share_button" title="Twitter" onclick="
+                                        window.open(
+                                        'https://twitter.com/share?url=' + encodeURIComponent('{Yii::app()->request->hostInfo}' +'/watchVideo'),
+                                        'twitter-share-dialog',
+                                        'width=626,height=436');
+                                        return false;" href="#" target="_blank">
+                                </a>
 
                                 <a class="new_social_buttons google_share_button" title="Google" onclick="
                                     window.open(
@@ -87,7 +93,13 @@
                                     return false;" href="#" target="_blank">
                                 </a>
 
-                                <a class="addthis_button_linkedin"></a>
+                                <a class="new_social_buttons linkedin_share_button" title="Linkedin" onclick="
+                                        window.open(
+                                        'https://www.linkedin.com/cws/share?url=' + encodeURIComponent('{Yii::app()->request->hostInfo}' +'/watchVideo'),
+                                        'linkedin-share-dialog',
+                                        'width=626,height=436');
+                                        return false;" href="#" target="_blank">
+                                </a>
                             </div>
                         </div>
                     </div>
