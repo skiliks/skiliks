@@ -72,13 +72,13 @@
             ),
             array(
                 'label' => 'Текущие симуляции',
-                'url'   => ['admin_area/live_simulations'],
+                'url'   => ['admin_area/AdminPages/LiveSimulations'],
                 'visible' => true,
 
             ),
             array(
                 'label' => 'Импорты',
-                'url'   => ['admin_area/import'],
+                'url'   => ['admin_area/AdminPages/ImportsList'],
                 'visible' => true,
 
             ),
@@ -90,25 +90,25 @@
             ),
             array(
                 'label' => 'Очередь писем',
-                'url'   => ['admin_area/email_queue'],
+                'url'   => ['admin_area/AdminPages/EmailQueue'],
                 'visible' => true,
 
             ),
             array(
                 'label' => 'Рефералы',
-                'url'   => ['admin_area/referrals'],
+                'url'   => ['admin_area/AdminPages/ReferralsList'],
                 'visible' => true,
 
             ),
             array(
                 'label' => 'Регистрации',
-                'url'   => ['admin_area/RegistrationList'],
+                'url'   => ['admin_area/AdminPages/RegistrationList'],
                 'visible' => true,
 
             ),
             array(
                 'label' => 'Список бесплатных почтовиков',
-                'url'   => ['admin_area/not-corporate-emails'],
+                'url'   => ['admin_area/AdminPages/NotCorporateEmails'],
                 'visible' => true,
 
             ),
