@@ -175,6 +175,22 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             $this->redirect('userAuth/afterRegistration');
         }
 
+        // creating session for page
+
+        $page = Yii::app()->request->getParam("page", null);
+
+        $session = new CHttpSession();
+
+        $request_uri = $_SERVER['REQUEST_URI'];
+
+        if($request_uri == "/dashboard" && $session["dashboard_page"] != null && $session["dashboard_page"] != $request_uri) {
+            $this->redirect($session["dashboard_page"]);
+        }
+
+        if($page != null) {
+            $session["dashboard_page"] = $request_uri;
+        }
+
         // check and add trial full version {
         $fullScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_FULL]);
         $tutorialScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_TUTORIAL]);
