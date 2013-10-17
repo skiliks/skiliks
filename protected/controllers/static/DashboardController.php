@@ -369,7 +369,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
                         $this->user->profile->email
                     ));
 
-                    $userInvitesCount = Invite::model()->countByAttributes(["owner_id" => $this->user->id], " t.owner_id != t.receiver_id OR t.receiver_id IS NULL");
+                    $userInvitesCount = Invite::model()->countByAttributes(["owner_id" => $this->user->id]);
 
                     // Starting show
                     $countOfInvitesToShowPopup = Yii::app()->params['countOfInvitesToShowReferralPopup'];
