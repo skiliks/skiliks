@@ -1953,21 +1953,21 @@ html[lang="en"] .footer .social_networks {
     background:none !important;
 }
 
-.smallicons a {
+.smallicons a, .facebook_share_button {
     background:url("../img/social-small.png") -100% -100% no-repeat;
     width:28px !important;
     height:27px !important;
     margin-left:8px;
 }
-.smallicons>span {
+.smallicons>span, .facebook_share_button {
     display: inline-block;
     text-align: right;
     width: 155px;
 }
-.smallicons a.addthis_button_facebook {
+.smallicons a.addthis_button_facebook, .smallicons .facebook_share_button {
     background-position: -36px 0px;
 }
-.smallicons a.addthis_button_facebook:hover {
+.smallicons a.addthis_button_facebook:hover, .facebook_share_button:hover {
     background-position: -36px -33px;
 }
 .smallicons a.addthis_button_twitter {

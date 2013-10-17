@@ -35,7 +35,7 @@ $cs->registerCssFile($assetsUrl . "/css/popover.css");
             <meta property="og:image" content="http://b.vimeocdn.com/ts/449/036/449036980_640.jpg"/>
         <?php endif ?>
 
-        <meta property="og:title" content="Skiliks - game the Skiliks on Vimeo"/>
+        <meta property="og:title" content="Skiliks – game the skills"/>
         <meta property="og:url" content="http://dev3.skiliks.com/watchVideo"/>
         <meta charset="utf-8" />
         <meta name="description" content="<?= Yii::t('site', 'www.skiliks.com - online simulation aimed at testing management skills') ?>">
