@@ -1,6 +1,10 @@
 /*global SKImmediateVisitView:true, Backbone, _, SKApp, SKConfig, SKDialogWindow, $ */
 
 var SKImmediateVisitView;
+var min_w = 300; // minimum video width allowed
+var vid_w_orig;  // original video dimensions
+var vid_h_orig;
+
 
 define([
         "game/views/SKWindowView",
@@ -138,9 +142,19 @@ define([
                         }
 
                         var video = el.find('.visit-background');
-                        video.css('margin-top', '-50px');
+                        video.css('margin-top', '-45px');
                         video.css('margin-left', '-20px');
                         el.find('.visitor-replica').css('margin-top', '-50px');
+
+                        jQuery(function() { // runs after DOM has loaded
+
+                            vid_w_orig = 1280;
+                            vid_h_orig = 800;
+
+                            jQuery(window).resize(function () { resizeToCover(); });
+                            jQuery(window).trigger('resize');
+                        });
+
                     } catch(exception) {
                         if (window.Raven) {
                             window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -180,3 +194,31 @@ define([
         });
     return SKImmediateVisitView;
 });
+
+function resizeToCover() {
+
+    console.log("resizing");
+
+    // set the video viewport to the window size
+    jQuery('.visit-background-container').width(jQuery(window).width());
+    jQuery('.visit-background-container').height(jQuery(window).height());
+
+    // use largest scale factor of horizontal/vertical
+    var scale_h = jQuery(window).width() / vid_w_orig;
+    var scale_v = jQuery(window).height() / vid_h_orig;
+    var scale = scale_h > scale_v ? scale_h : scale_v;
+
+    // now scale the video
+    jQuery('video').width(scale * vid_w_orig) + 10;
+    jQuery('video').height(scale * vid_h_orig) + 10;
+    // and center it by scrolling the video viewport
+    jQuery('.visit-background-container').scrollLeft((jQuery('video').width() - jQuery(window).width()) / 2);
+    jQuery('.visit-background-container').scrollTop((jQuery('video').height() - jQuery(window).height()) / 2);
+
+    if(jQuery(window).width() / jQuery(window).height() < 1.6) {
+        jQuery('video').css("margin-left", -(jQuery('video').width() - jQuery(window).width()) / 2);
+    } else {
+        console.log("It's not doing");
+        jQuery('video').css('margin-left', '-20px');
+    }
+};
