@@ -419,6 +419,7 @@ return array(
         'isDisplaySimulationResults'    => false,
         'simulationIdStorage'           => 'request', // 'request', 'session'
         'initialSimulationsAmount'      => 3,
+        'inviteExpired'                 => 5,
 
         // Блокирует/разрещает использование админами входа на сайт от именю любого пользователя
         'isBlockGhostLogin'             => false,
