@@ -174,7 +174,7 @@ class StaticSiteTools
         shuffle($arr); // чтоб значения не повторялись
 
         $overall = $arr[0];
-        $percentile = $arr[1]/100;
+        $percentile = $arr[1];
         $management = $arr[2];
         $performance = $arr[3];
         $time = $arr[4];
