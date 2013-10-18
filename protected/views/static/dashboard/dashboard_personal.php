@@ -77,4 +77,5 @@
     </aside>
 </section>
 
+<?php $this->renderPartial('//global_partials/_before_start_lite_simulation_popup', []) ?>
 

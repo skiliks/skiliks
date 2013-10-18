@@ -23,7 +23,7 @@
 		</li>
 	</ul>
 	
-	<section class="team-values">
+	<section class="team-values" style="padding: 100px">
 		<h3>{Yii::t('site', 'Our Values')}</h3>
 		
 		<ul>

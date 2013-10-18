@@ -629,7 +629,7 @@ var fixLogotypes = function() {
         $(".log-out-link").click(function(){
             var lastGetState = new Date();
             if(localStorage.getItem('lastGetState') === null){
-               return true;
+                return true;
             } else if(lastGetState.getTime() <= (parseInt(localStorage.getItem('lastGetState')) +30000)) {
                 if (window.confirm("У вас есть незавершённая симуляция. Выйдя вы потеряете все данные")) {
                     //window.alert("Ок");
