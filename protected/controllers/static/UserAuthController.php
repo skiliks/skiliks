@@ -660,13 +660,17 @@ class UserAuthController extends YumController
 
         // If everything is set properly, let the model handle the Validation
         // and do the Activation
-        $status = YumUser::activate($email, $key);
+        $user = YumUser::activate($email, $key);
 
-        if($status instanceof YumUser) {
+        if($user instanceof YumUser) {
             if(Yum::module('registration')->loginAfterSuccessfulActivation) {
-                $login = new YumUserIdentity($status->username, false);
+                $login = new YumUserIdentity($user->username, false);
                 $login->authenticate(true);
                 Yii::app()->user->login($login);
+            }
+
+            if ($user->isPersonal()) {
+                UserService::assignAllNotAssignedUserInvites(Yii::app()->user->data());
             }
 
             $this->redirect('/dashboard');
@@ -674,10 +678,10 @@ class UserAuthController extends YumController
             if(Yii::app()->user->isGuest){
                 $this->layout = false;
                 Yii::app()->user->setFlash(
-                    (-1 == $status) ? 'error' : 'success',
+                    (-1 == $user) ? 'error' : 'success',
                     $this->render(
                         Yum::module('registration')->activationFailureView,
-                        array('error' => $status),
+                        array('error' => $user),
                         true
                     )
                 );

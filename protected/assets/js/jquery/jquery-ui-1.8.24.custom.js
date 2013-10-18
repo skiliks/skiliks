@@ -9307,7 +9307,7 @@ $.extend(Datepicker.prototype, {
 	   @return  Date - the extracted date value or null if value is blank */
 	parseDate: function (format, value, settings) {
 		if (format == null || value == null)
-            throw new Error('Invalid arguments');
+			throw new Error('Invalid arguments');
 		value = (typeof value == 'object' ? value.toString() : value + '');
 		if (value == '')
 			return null;

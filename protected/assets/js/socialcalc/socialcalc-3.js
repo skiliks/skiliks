@@ -4083,7 +4083,7 @@ SocialCalc.RenderContext = function(sheetobj) {
       this.colpanes[0] = {first: 1, last: attribs.lastcol};
 
       }
-   else throw scc.s_rcMissingSheet;
+   else throw new Error(scc.s_rcMissingSheet);
 
    }
 
