@@ -4,6 +4,8 @@ $invites = $models;
 $titles = [
     'ID инвайта',
     'Sim. ID',
+    'Дата создания',
+    'Дата окончание',
     'Email работодателя',
     'Email соискателя',
     'Сценарий',
@@ -201,6 +203,9 @@ $titles = [
                 <?php endif; ?>
             </td>
             <!-- IDs } -->
+
+            <td> <?= (null !== $invite->sent_time) ? date("Y-m-d H:i:s", $invite->sent_time) : '-'; ?></td>
+            <td> <?= (null !== $invite->expired_at) ? $invite->expired_at : '-'; ?></td>
 
             <!-- users { -->
             <td style="width: 150px;">
