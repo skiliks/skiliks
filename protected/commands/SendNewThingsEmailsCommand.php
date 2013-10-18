@@ -18,7 +18,7 @@ class SendNewThingsEmailsCommand extends CConsoleCommand
 
             $mail = [
                 'from'        => 'support@skiliks.com',
-                'to'          => 'q.zeni4@gmail.com', //$account->user->profile->email,
+                'to'          => $account->user->profile->email,
                 'subject'     => 'ВАЖНО! Изменения и возможности в новой версии skiliks.com',
                 'body'        => $body,
                 'embeddedImages' => [
