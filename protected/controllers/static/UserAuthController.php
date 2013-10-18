@@ -271,7 +271,13 @@ class UserAuthController extends YumController
      */
     public function actionAfterRegistration()
     {
-        $this->render('afterRegistration', ['isGuest' => Yii::app()->user->isGuest]);
+        $user_id = Yii::app()->session->get("user_id");
+        $profile = YumProfile::model()->findByAttributes(['user_id' => $user_id]);
+
+        $this->render('afterRegistration', [
+            'isGuest' => Yii::app()->user->isGuest,
+            'profile' => $profile,
+        ]);
     }
 
     /**

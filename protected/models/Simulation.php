@@ -729,6 +729,7 @@ class Simulation extends CActiveRecord
             0 < strpos($this->user->profile->email, 'gty1991') ||
             0 < strpos($this->user->profile->email, '@drdrb.com') ||
             0 < strpos($this->user->profile->email, '@rmqkr.net') ||
+            0 < strpos($this->user->profile->email, '@mqkr.net') ||
             0 < strpos($this->user->profile->email, '@skiliks.com') ||
             0 < strpos($this->user->profile->email, 'sarnavskyi89')
         ) {
@@ -837,6 +838,7 @@ class Simulation extends CActiveRecord
             " AND profile.email NOT LIKE '%@skiliks.com' ".
             " AND profile.email NOT LIKE '%@drdrb.com' ".
             " AND profile.email NOT LIKE '%@rmqkr.net' ".
+            " AND profile.email NOT LIKE '%@mqkr.net' ".
             " AND profile.email NOT LIKE 'sarnavskyi89%' ".
             " AND sim.start > '2013-08-01 00:00:00' ".
             " AND profile.email NOT IN (".implode(',', UserService::$developersEmails).")
