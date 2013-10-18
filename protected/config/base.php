@@ -438,6 +438,7 @@ return array(
             'noticeEmail'              => '//global_partials/mails/noticeEmail',
             'newFeedback'              => '//global_partials/mails/newFeedback',
             'ifSuspiciousActivity'     => '//global_partials/mails/ifSuspiciousActivity',
+            'newThingsInProject'       => 'newThingsInProject',
 
 //            'bookerEmail' => 'accounter@skiliks.com',
             'bookerEmail' => 'invoice@skiliks.com',
