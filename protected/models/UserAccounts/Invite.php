@@ -25,6 +25,9 @@
  * @property string $tutorial_finished_at
  * @property integer $can_be_reloaded
  * @property boolean $is_display_simulation_results
+ * @property string $stacktrace
+ * @property bolean $is_crashed
+ * @property string $expired_at
  *
  * The followings are the available model relations:
  * @property YumUser $ownerUser
@@ -76,6 +79,19 @@ class Invite extends CActiveRecord
     const EXPIRED_TIME = 604800; // 7days
 
     /* ------------------------------------------------------------------------------------------------------------ */
+
+
+
+
+
+
+    public function beforeSave() {
+        if ($this->getIsNewRecord()) {
+            $date = new DateTime();
+            $date->add(new DateInterval("P".Yii::app()->params['inviteExpired']));
+            $this->expired_at = $date->format("Y-m-d H:i:s");
+        }
+    }
 
     /**
      * @return string
