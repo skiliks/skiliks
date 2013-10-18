@@ -780,6 +780,8 @@ class SimulationService
 
         }
 
+        EventTrigger::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
+
         $simulation->end = GameTime::setNowDateTime();
         $simulation->status = Simulation::STATUS_COMPLETE;
         $simulation->save(false);
