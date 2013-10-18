@@ -689,12 +689,11 @@ class SimulationService
                     throw $e;
                 }
             }
-
-//            if(Yii::app()->params['disableOldLogging']){
-                LogHelper::updateUniversalLog($simulation);
-                $analyzer = new ActivityActionAnalyzer($simulation);
-                $analyzer->run();
-//            }
+            if(Yii::app()->params['disableOldLogging']){
+//                LogHelper::updateUniversalLog($simulation);
+//                $analyzer = new ActivityActionAnalyzer($simulation);
+//                $analyzer->run();
+            }
             // Make aggregated activity log
             LogHelper::combineLogActivityAgregated($simulation);
 
@@ -780,8 +779,6 @@ class SimulationService
             // remove all files except D1 }
 
         }
-
-        EventTrigger::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
 
         $simulation->end = GameTime::setNowDateTime();
         $simulation->status = Simulation::STATUS_COMPLETE;
