@@ -690,9 +690,9 @@ class SimulationService
                 }
             }
             if(Yii::app()->params['disableOldLogging']){
-                LogHelper::updateUniversalLog($simulation);
-                $analyzer = new ActivityActionAnalyzer($simulation);
-                $analyzer->run();
+//                LogHelper::updateUniversalLog($simulation);
+//                $analyzer = new ActivityActionAnalyzer($simulation);
+//                $analyzer->run();
             }
             // Make aggregated activity log
             LogHelper::combineLogActivityAgregated($simulation);
@@ -949,7 +949,7 @@ class SimulationService
             throw new Exception("This simulation does not belong to this user.");
         }
 
-        LogActivityAction::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        // LogActivityAction::model()->deleteAllByAttributes(['sim_id' => $simId]);
         LogActivityActionAgregated::model()->deleteAllByAttributes(['sim_id' => $simId]);
         LogActivityActionAgregated214d::model()->deleteAllByAttributes(['sim_id' => $simId]);
         TimeManagementAggregated::model()->deleteAllByAttributes(['sim_id' => $simId]);
