@@ -1625,11 +1625,11 @@ class AdminPagesController extends SiteBaseController {
         $user->getAccount()->invites_limit += 10;
         $user->getAccount()->save();
 
-        UserService::logCorporateInviteMovementAdd(
-            'Cheats: actionIncreaseInvites',
-            $user->getAccount(),
-            $initValue
-        );
+//        UserService::logCorporateInviteMovementAdd(
+//            'Cheats: actionIncreaseInvites',
+//            $user->getAccount(),
+//            $initValue
+//        );
 
         Yii::app()->user->setFlash('success', "Вам добавлено 10 приглашений!");
 

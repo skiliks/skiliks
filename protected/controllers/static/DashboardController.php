@@ -106,11 +106,11 @@ class DashboardController extends SiteBaseController implements AccountPageContr
                 $this->user->getAccount()->save();
                 $this->user->refresh();
 
-                UserService::logCorporateInviteMovementAdd(
-                    'send invitation 1',
-                    $this->user->getAccount(),
-                    $initValue
-                );
+//                UserService::logCorporateInviteMovementAdd(
+//                    'send invitation 1',
+//                    $this->user->getAccount(),
+//                    $initValue
+//                );
 
 
                 $this->redirect('/dashboard');

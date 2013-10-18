@@ -240,11 +240,11 @@ class UserAccountCorporate extends CActiveRecord
             return false;
         }
 
-        UserService::logCorporateInviteMovementAdd(
-            'increaseLimit',
-            $this->user->getAccount(),
-            $initValue
-        );
+//        UserService::logCorporateInviteMovementAdd(
+//            'increaseLimit',
+//            $this->user->getAccount(),
+//            $initValue
+//        );
     }
 
 
