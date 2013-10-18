@@ -88,8 +88,9 @@ class Invite extends CActiveRecord
     public function beforeSave() {
         if ($this->getIsNewRecord()) {
             $date = new DateTime();
-            $date->add(new DateInterval("P".Yii::app()->params['inviteExpired']));
+            $date->add(new DateInterval("P".Yii::app()->params['inviteExpired']."D"));
             $this->expired_at = $date->format("Y-m-d H:i:s");
+            return true;
         }
     }
 
