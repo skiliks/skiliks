@@ -61,20 +61,6 @@ $titles = [
             </tr>
 
             <tr>
-                <td></td>
-                <td></td>
-                <td>Результат теста:</td>
-                <td>
-                    <select name="is_invite_crashed">
-                        <option value="" ?></option>
-                        <option <?php if($is_invite_crashed != "" && $is_invite_crashed == "0") echo 'selected="selected"' ?> value="0">Success</option>
-                        <option <?php if($is_invite_crashed != "" && $is_invite_crashed == "1") echo 'selected="selected"' ?> value="1">Fail</option>
-                    </select>
-                </td>
-            </tr>
-
-
-            <tr>
                 <td> Исключить приглашения самому себе: </td>
                 <td> <input type="checkbox" name="exclude_invites_from_ne_to_me"
                     <?= (isset($formFilters['exclude_invites_from_ne_to_me']) && $formFilters['exclude_invites_from_ne_to_me'])
