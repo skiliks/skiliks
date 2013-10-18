@@ -1,9 +1,9 @@
 <?php $titles = [
-    'ID <br/>заказа',
     'Email',
     'Имя',
     'Фамилия',
     'Компания',
+    'ID <br/>заказа',
     'Название <br/>тарифа',
     'Время заказа',
     'Время оплаты',
@@ -101,35 +101,39 @@
         <?php $i= 0 ?>
         <?php endif ?>
         <tr class="orders-row">
-            <td><?=$model->id?></td>
             <td>
-
+                <!-- email -->
                 <a href="/admin_area/user/<?=$model->user->profile->id ?>/details" target="_blank"><i class="icon-user"></i></a>
                 <?= (empty($model->user->profile->email)) ? 'Не найден' : $model->user->profile->email ?>
-                <br/>
-
-
-                <br/>
-
             </td>
+
             <td>
-                <?= (empty($model->user->profile->firstname)) ? '-' : $model->user->profile->firstname?>
-            </td>
-            <td>
+                <!-- last name -->
                 <?= (empty($model->user->profile->lastname)) ? '-' : $model->user->profile->lastname?>
             </td>
-            <td>
-                <?= (empty($model->user->account_corporate->company_name))
-                    ? '--' : $model->user->account_corporate->company_name?>
-            </td>
+
+            <!-- first name -->
+            <td><?= (empty($model->user->profile->firstname)) ? '-' : $model->user->profile->firstname?></td>
+
+            <!-- company_name -->
+            <td><?= (empty($model->user->account_corporate->company_name)) ? '--' : $model->user->account_corporate->company_name?></td>
+
+            <!-- order id    -->
+            <td><?=$model->id?></td>
+
+            <!-- tariff  -->
             <td><span class="label"><?=(empty($model->tariff->label))?'Не найден':$model->tariff->label?></span></td>
+
             <td>
                 <?=(empty($model->created_at)?'---- -- -- --':$model->created_at)?>
             </td>
+
             <td>
                 <span class="invoice-date-paid"><?=(empty($model->paid_at) ? 'Не оплачен' :$model->created_at)?></span>
             </td>
+
             <td><?= Yii::app()->numberFormatter->formatCurrency($model->amount, "RUR") ?></td>
+
             <td><?= $model->payment_system?></td>
 
             <?php if(json_decode($model->additional_data) instanceof stdClass) : ?>

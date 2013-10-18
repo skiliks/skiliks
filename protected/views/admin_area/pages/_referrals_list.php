@@ -21,7 +21,7 @@ $this->widget('zii.widgets.grid.CGridView', [
                                         if($referrer !== null) {
                                             return '<a href="/admin_area/user/'.$referrer->profile->user_id
                                             .'/details" target="_black" >' .
-                                            $referrer->profile->firstname . " " . $referrer->profile->lastname .
+                                            $referrer->profile->email .
                                             '</a>';
                                         }
                                     },
@@ -35,7 +35,7 @@ $this->widget('zii.widgets.grid.CGridView', [
                     $referral = YumUser::model()->findByPk($data->referral_id);
                     return '<a href="/admin_area/user/'.$referral->getAccount()->user_id
                     .'/details" target="_black" >' .
-                    $referral->profile->firstname . " " . $referral->profile->lastname .
+                    $referral->profile->email .
                     '</a>';
                 }
                 else {
