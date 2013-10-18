@@ -68,7 +68,6 @@ class SendNewThingsEmailsCommand extends CConsoleCommand
             } catch (phpmailerException $e) {
                 echo $e;
             }
-            break;
         }
     }
 
