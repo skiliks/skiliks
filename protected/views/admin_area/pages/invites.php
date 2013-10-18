@@ -13,6 +13,7 @@ $titles = [
     'Время окончания симуляции',
     'Оценка',
     'Процентиль',
+    'Результат теста',
     'Можно заново <br/>стартовать приглашение?',
     'Действие'
 ] ?>
@@ -58,6 +59,20 @@ $titles = [
                     </select>
                 </td>
             </tr>
+
+            <tr>
+                <td></td>
+                <td></td>
+                <td>Результат теста:</td>
+                <td>
+                    <select name="is_invite_crashed">
+                        <option value="" ?></option>
+                        <option <?php if($is_invite_crashed != "" && $is_invite_crashed == "0") echo 'selected="selected"' ?> value="0">Success</option>
+                        <option <?php if($is_invite_crashed != "" && $is_invite_crashed == "1") echo 'selected="selected"' ?> value="1">Fail</option>
+                    </select>
+                </td>
+            </tr>
+
 
             <tr>
                 <td> Исключить приглашения самому себе: </td>
@@ -241,6 +256,12 @@ $titles = [
             </td>
 
             <td>
+                <?php if($invite->is_crashed !== null) : ?>
+                    <?= ($invite->is_crashed == 1) ? "Fail" : "Success"; ?>
+                <? endif; ?>
+            </td>
+
+            <td>
                 <span style="width: 20px; margin-right: 10px; display: inline-block;">
                     <?= (true == $invite->can_be_reloaded) ? 'yes' : ' no' ?>
                 </span>
@@ -255,6 +276,9 @@ $titles = [
                     'invite' => $invite,
                 ]) ?>
             </td>
+
+
+
         </tr>
         <?php endforeach ?>
         </tbody>
