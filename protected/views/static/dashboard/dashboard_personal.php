@@ -27,6 +27,11 @@
             // _private_invitations_list_box
         $this->renderPartial('_private_invitations_list_box', [])
         ?>
+
+        <div class="show-simulation-rules">
+            <span>Правила прохождения симуляции</span>
+        </div>
+
     </div>
 
     <aside>

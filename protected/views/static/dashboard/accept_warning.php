@@ -16,7 +16,7 @@
         <div class="grid1"><div class="popup-icons icon-demo"></div><h4>Демо</h4><p class="line-xheight font-large">Пройдите демо-версию симуляции. Это позволит вам легче ориентироваться в новом интерфейсе.</p></div>
     </div>
 
-    <div class="text-center">
+    <div class="text-center accept-requirements-div">
         <a class='bigbtnsubmt accept-requirements' href='#'><?= Yii::t('site', 'Начать позже') ?></a>
         <a class='bigbtnsubmt start-full-simulation start-simulation-from-popup' href='#'><?= Yii::t('site', 'Начать сейчас') ?></a>
     </div>

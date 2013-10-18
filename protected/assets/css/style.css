@@ -2072,6 +2072,20 @@ html[lang="en"] .footer .social_networks {
     margin-top: -18px;
 }
 
+.show-simulation-rules {
+    position: relative;
+    color:#fff;
+    font-size:12px;
+    right:0;
+    top: 5px;
+    text-align: right;
+    z-index:15;
+}
+
+.show-simulation-rules span {
+    cursor: pointer;
+}
+
 .help-contact-us a {
     text-decoration: none;
     font: 14px "ProximaNova-Regular";
@@ -2081,6 +2095,10 @@ html[lang="en"] .footer .social_networks {
 @media screen and (max-width: 1146px){
     .help-contact-us {
         margin-top: -12px;
+    }
+
+    .show-simulation-rules {
+        font-size: 11px;
     }
 
 	.footer{
