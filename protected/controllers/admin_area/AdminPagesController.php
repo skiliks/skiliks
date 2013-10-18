@@ -312,7 +312,7 @@ class AdminPagesController extends SiteBaseController {
             }
 
 
-            if ($filter_form['is_invite_crashed'] != "") {
+            if (isset($filter_form['is_invite_crashed']) && $filter_form['is_invite_crashed'] != "") {
                 if (false === $previousConditionPresent) {
                     $previousConditionPresent = true;
                 } else {
