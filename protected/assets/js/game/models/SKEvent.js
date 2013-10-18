@@ -228,10 +228,16 @@ define([], function () {
                 if (prev_status !== this.status && this.status === 'in progress') {
                     this.collection.trigger('event:' + this.getTypeSlug() + ':in_progress', this);
                     this.trigger('in progress');
+                    console.log('this.status', this.status);
+                    console.log('this.get("data")', this.get("data"));
                 }
                 if (this.status === 'completed') {
                     this.trigger('complete');
+                    console.log('this.status', this.status);
+                    console.log('this.get("data")', this.get("data"));
                 }
+                console.log('this.status',this.status);
+                console.log('this.get("data")', this.get("data"));
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);

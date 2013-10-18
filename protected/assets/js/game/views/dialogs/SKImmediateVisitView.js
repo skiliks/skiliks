@@ -34,6 +34,7 @@ define([
                 try {
                     var me = this;
                     this.listenTo(this.options.model_instance, 'refresh', function () {
+                        console.log("Window refresh");
                         me.render();
                     });
                     SKWindowView.prototype.initialize.call(this);
@@ -61,6 +62,7 @@ define([
              */
             'renderWindow':function (el) {
                 try {
+                    console.log("SKImmediateVisitView.renderWindow");
                     var me = this,
                         event = this.options.model_instance.get('sim_event'),
                         my_replicas = event.getMyReplicas(),
@@ -77,9 +79,11 @@ define([
                     });
                     var is_first_replica = !el.html();
                     $('<div class="hidden placeholder" />').html(text).appendTo(el);
+                    console.log($('div.hidden.placeholder'));
                     if (!is_first_replica) {
                         if (video_src) {
                             el.find('video.visit-background').on('loadeddata', function(){
+                                console.log('video.visit-background');
                                 renderFn(remote_replica);
                             });
                         } else if (image_src) {
@@ -101,13 +105,18 @@ define([
 
                 function renderFn(remote_replica) {
                     try {
+
                         var oldContent = el.children('.visit-background-container'),
                             newContent = el.find('.placeholder .visit-background-container');
-
+                        console.log('VisitView el',el.get(0));
                         if (oldContent.length) {
+                            //Вот здесь проблемма с отображением для E3.4
+                            console.log('VisitView oldContent');
                             oldContent.replaceWith(newContent);
                             el.find('.placeholder').remove();
+
                         } else {
+                            console.log('VisitView newContent');
                             el.find('.placeholder').replaceWith(newContent);
                         }
 
@@ -166,6 +175,7 @@ define([
                         me.options.model_instance.get('sim_event').selectReplica(dialog_id, function () {
                             me.options.model_instance.setLastDialog(dialog_id);
                             if (is_final) {
+                                console.log("Is final replica window must be close");
                                 me.options.model_instance.setOnTop();
                                 me.options.model_instance.close();
                             }
