@@ -3316,22 +3316,22 @@ class ImportGameDataService
         $scenario->slug = $this->scenario_slug;
 
         // TODO: Hardcode. Time should be defined in scenario file
-//        if ($scenario->slug == Scenario::TYPE_LITE) {
-//            $scenario->start_time = '9:45:00';
-//            $scenario->end_time = '11:05:00';
-//            $scenario->finish_time = '11:05:00';
-//            $scenario->duration_in_game_min = 80;
-//        } elseif ($scenario->slug == Scenario::TYPE_FULL) {
-//            $scenario->start_time = '9:45:00';
-//            $scenario->end_time = '18:00:00';
-//            $scenario->finish_time = '20:00:00';
-//            $scenario->duration_in_game_min = 495;
-//        } elseif ($scenario->slug == Scenario::TYPE_TUTORIAL) {
-//            $scenario->start_time = '9:45:00';
-//            $scenario->end_time = '12:45:00';
-//            $scenario->finish_time = '12:45:00';
-//            $scenario->duration_in_game_min = 180;
-//        }
+        if ($scenario->slug == Scenario::TYPE_LITE) {
+            $scenario->start_time = '9:45:00';
+            $scenario->end_time = '10:10:00';
+            $scenario->finish_time = '10:10:00';
+            $scenario->duration_in_game_min = 80;
+        } elseif ($scenario->slug == Scenario::TYPE_FULL) {
+            $scenario->start_time = '9:45:00';
+            $scenario->end_time = '18:00:00';
+            $scenario->finish_time = '20:00:00';
+            $scenario->duration_in_game_min = 495;
+        } elseif ($scenario->slug == Scenario::TYPE_TUTORIAL) {
+            $scenario->start_time = '9:45:00';
+            $scenario->end_time = '12:45:00';
+            $scenario->finish_time = '12:45:00';
+            $scenario->duration_in_game_min = 180;
+        }
 
         $filename = substr($this->filename, strpos($this->filename, 'scenario_'), 200);
         $scenario->filename = $filename;
