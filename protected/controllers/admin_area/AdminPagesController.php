@@ -153,6 +153,7 @@ class AdminPagesController extends SiteBaseController {
             'ownerEmailForFiltration'    => isset($allFilters['filters']['owner_email']) ? $allFilters['filters']['owner_email'] : "",
             'invite_id'                  => isset($allFilters['filters']['invite_id']) ? $allFilters['filters']['invite_id'] : "",
             'scenario_id'                => isset($allFilters['filters']['filter_scenario_id']) ? $allFilters['filters']['filter_scenario_id'] : "",
+            'is_invite_crashed'          => isset($allFilters['filters']['is_invite_crashed']) ? $allFilters['filters']['is_invite_crashed'] : "",
             'scenarios'                  => $scenarios
         ]);
     }
@@ -187,6 +188,7 @@ class AdminPagesController extends SiteBaseController {
             $invite_id = trim(Yii::app()->request->getParam('invite_id', null));
             $exceptDevelopersFiltration = (bool)trim(Yii::app()->request->getParam('except-developers', true));
             $simulationScenario = Yii::app()->request->getParam('filter_scenario_id', true);
+            $isInviteCrashed = Yii::app()->request->getParam('is_invite_crashed', true);
 
             // remaking email form
             if ($isReloadRequest) {
@@ -231,6 +233,15 @@ class AdminPagesController extends SiteBaseController {
                 }
                 else {
                     $filter_form['invite_id'] = "";
+                }
+            }
+
+            if ($isReloadRequest) {
+                if (null !== $isInviteCrashed) {
+                    $filter_form['is_invite_crashed'] = $isInviteCrashed;
+                }
+                else {
+                    $filter_form['is_invite_crashed'] = "";
                 }
             }
 
@@ -298,6 +309,16 @@ class AdminPagesController extends SiteBaseController {
                     $condition .= " AND ";
                 }
                 $condition .= " receiver_id != owner_id ";
+            }
+
+
+            if ($filter_form['is_invite_crashed'] != "") {
+                if (false === $previousConditionPresent) {
+                    $previousConditionPresent = true;
+                } else {
+                    $condition .= " AND ";
+                }
+                $condition .= " is_crashed = " . $filter_form['is_invite_crashed'];
             }
             // exclude_invites_from_me_to_me }
 
