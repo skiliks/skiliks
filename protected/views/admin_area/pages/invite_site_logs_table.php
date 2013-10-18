@@ -74,6 +74,26 @@
         'logSimulation'    => $logSimulation,
         'simulation'       => $simulation
     ]) ?>
+
+    <hr/>
+
+    <p>
+        <strong>Результат теста</strong>:
+        <?php if($simulation->invite->is_crashed !== null) : ?>
+            <?= ($simulation->invite->is_crashed == 1) ? "Fail" : "Success"; ?>
+        <? endif; ?>
+    </p>
+
+    <p>
+        <strong>Stacktrace</strong>:
+        <?php if($simulation->invite->stacktrace !== null) : ?>
+            <p>
+                <?= $simulation->invite->stacktrace; ?>
+            </p>
+        <? endif; ?>
+
+    </p>
+
 <?php else : ?>
     <h2>
         По данному приглашению не найдена симмуляция.
