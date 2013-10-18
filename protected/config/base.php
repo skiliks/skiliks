@@ -402,21 +402,45 @@ return array(
     // using Yii::app()->params['paramName']
     'params' => array(
         'server_name'                   => 'http://skiliks.com/',
+
+        // просто подпись на сайте, вынесена в конфиг - чтоб было проще править
         'demoDuration'                  => 5, // min
-        'disableOldLogging'             => false,
+
+        // переключает режил логирования leg action detailed
+        'disableOldLogging'             => true,
+
+        // отключает проверку
         'disableAssets'                 => false,
+
+        // время keep_last_category в минутах
+        //
         'keep_last_category_time_214g'  => 90,
+
+        // ???
         'simulationStartUrl'            => '/index.php/simulation/start',
+
+        // ???
         'userNameInHeaderMaxLength'     => 30,
 
         // четвёртое приглашение значит что, 3 приглашения отправлены или пройдены в режиме сам-себе
         'countOfInvitesToShowReferralPopup'     => 4,
 
+        // точно используется?
         'vacancyLinkInProfileMaxLength' => 50,
+
+        // используется для селениум темтов
         'frontendUrl'                   => 'http://skiliks:8080/',
+
+        //
         'isUseResultPopUpCache'         => true,
+
+        // ???
         'isDisplaySimulationResults'    => true,
+
+        //
         'simulationIdStorage'           => 'request', // 'request', 'session'
+
+        // количество симуляций, которое даётся корпоративному пользователю после регистрации
         'initialSimulationsAmount'      => 3,
 
         // Блокирует/разрещает использование админами входа на сайт от именю любого пользователя
@@ -430,6 +454,7 @@ return array(
         // http://siteheart.com/ru/doc/sso
         'SiteHeartSecretKey'                 => 'qaDECE9Mk7',
 
+        // ???
         'emails' => [
             'isDisplayStandardInvitationMailTopText' => true, // 'Вопросы относительно вакансии вы можете задать по адресу %s, куратор вакансии - %s.'
             'inviteEmailTemplate'      => '//global_partials/mails/invite_default',
@@ -442,9 +467,11 @@ return array(
             'newFeedback'              => '//global_partials/mails/newFeedback',
             'ifSuspiciousActivity'     => '//global_partials/mails/ifSuspiciousActivity',
 
-//            'bookerEmail' => 'accounter@skiliks.com',
+            //
             'bookerEmail' => 'invoice@skiliks.com',
         ],
+
+        // страницы для которых надо показывать переключатель языка
         'allowedLanguages' => [
             'en' => [
                 'static/pages/comingSoonSuccess',
@@ -455,6 +482,7 @@ return array(
                 'static/pages/feedback',
             ]
         ],
+
         // This part will be sent to JS
         'public' => [
             'runMigrationOn'                     => 'nobody', //production - skiliks.com, live - live.skiliks.com, loc - loc.skiliks.com
@@ -476,6 +504,8 @@ return array(
             'SiteHeartWidgetCode'                => '633075', // chat Skiliks(test mode): 626464, chat TechHelp (production mode): 633075
             'SiteHeartWidgetTitle'               => 'Онлайн помощь', // chat Skiliks(test mode): 626464, chat TechHelp (production mode): 633075
         ],
+
+
         'zoho' => array(
             'apiKey'              => 'e52059ce3aeff6dd2c71afb9499bdcf7', //old
             'saveUrl'             => 'http://stage.skiliks.com/zoho/saveExcel',
@@ -487,9 +517,10 @@ return array(
 
         ),
         'cron' => [
-//            'CleanUsers'=> 604800,8
+            // через сколько секунд устаревает приглашение
             'InviteExpired'=> 60*60*24*5,
         ],
+
         'initial_data' => [
             'users' => [
                 /* is_admin = 1 -- user will be admin */
@@ -507,30 +538,33 @@ return array(
                 ['username' => 'vladimir1' , 'email' => 'vladimir1@skiliks.com'  ,'password' => '123123'         ,'is_admin' => 1],
             ]
         ],
+
         'test_mappings' => require(dirname(__FILE__) . '/test_mappings.php'),
+
         'analizer' => array(
-             'excel' => array(
-                 'consolidatedBudget' => array(
-                     'worksheetNames' => array(
+            // данные для анализа екселя
+            'excel' => array(
+                'consolidatedBudget' => array(
+                    'worksheetNames' => array(
                         'consolidated' => 'сводный',
                         'sales'        => 'продажи',
                         'production'   => 'производство',
                         'logistic'     => 'логистика',
                         'other'        => 'прочее',
-                     ),
-                     'etalons' => array(
-                         1 => 876264,
-                         2 => 3303417,
-                         3 => 0,
-                         4 => 0,
-                         5 => 0,
-                         6 => 0,
-                         7 => 0.597951,
-                         8 => 1.547943,
-                         9 => 0.676173,
-                     )
-                 )
-             ),
+                    ),
+                    'etalons' => array(
+                        1 => 876264,
+                        2 => 3303417,
+                        3 => 0,
+                        4 => 0,
+                        5 => 0,
+                        6 => 0,
+                        7 => 0.597951,
+                        8 => 1.547943,
+                        9 => 0.676173,
+                    )
+                )
+            ),
             'emails' => [
                 '3326' => [
                     'limitToGetPoints'  => 0.5,
@@ -540,12 +574,12 @@ return array(
             ]
         ),
         'robokassa' => [
-                'url'            => 'http://test.robokassa.ru/Index.aspx',
-                'MrchLogin'      => 'skiliks_dev',
-                'Desc'           => 'Оплата согласно...',
-                'sMerchantPass1' => 'dcZz6P318a',
-                'sMerchantPass2' => 'S358oP0ikj'
-              ]
+            'url'            => 'http://test.robokassa.ru/Index.aspx',
+            'MrchLogin'      => 'skiliks_dev',
+            'Desc'           => 'Оплата согласно...',
+            'sMerchantPass1' => 'dcZz6P318a',
+            'sMerchantPass2' => 'S358oP0ikj'
+        ]
 //            Test
 //            [
 //                'MrchLogin'      => 'skiliks_dev',
