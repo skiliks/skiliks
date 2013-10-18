@@ -776,6 +776,8 @@ class SimulationService
 
         }
 
+        EventTrigger::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
+
         $simulation->end = GameTime::setNowDateTime();
         $simulation->status = Simulation::STATUS_COMPLETE;
         $simulation->save(false);
@@ -962,8 +964,6 @@ class SimulationService
         SimulationLearningGoalGroup::model()->deleteAllByAttributes(['sim_id' => $simId]);
         AssessmentOverall::model()->deleteAllByAttributes(['sim_id' => $simId]);
         LogAssessment214g::model()->deleteAllByAttributes(['sim_id' => $simId]);
-        EventTrigger::model()->deleteAllByAttributes(['sim_id' => $simId]);
-
 
         SimulationService::simulationStop($simulation, [], true);
     }
