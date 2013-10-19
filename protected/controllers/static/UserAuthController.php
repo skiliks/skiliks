@@ -802,7 +802,7 @@ class UserAuthController extends YumController
 
                 $user = $recoveryForm->user;
 
-                if($recoveryForm->user->status->isBanned) {
+                if($recoveryForm->user->isBanned()) {
                     Yii::app()->user->setFlash('error', 'Ваш аккаунт заблокирован');
                     $this->redirect('/');
                 }
