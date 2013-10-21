@@ -1,6 +1,8 @@
 <?php $titles = [
+    '',
     'ID инвайта',
     'Sim. ID',
+    'Email работодателя',
     'Email соискателя',
     'Время начала симуляции',
     'Время конца симуляции',
@@ -44,9 +46,10 @@
 
         <?php /* @var $model Invite*/ ?>
         <?php /* @var Simulation[] $simulations*/ ?>
-        <?php $step = 8; $i = 0; ?>
+        <?php $step = 8; $i = 0; $n = 0; ?>
         <?php foreach($simulations as $simulation) : ?>
             <?php $i++ ?>
+            <?php $n++ ?>
             <?php if($i === $step) : ?>
                 <tr>
                     <?php foreach($titles as $title) :?>
@@ -60,6 +63,7 @@
             ?>
             <tr class="invites-row">
 
+                <td><?= $n ?></td>
                 <!-- IDs { -->
                 <td style="width: 80px;">
                     <i class="icon icon-tag" style="opacity: 0.1" title="Invite ID"></i>
@@ -79,6 +83,9 @@
                 </td>
                 <!-- IDs } -->
 
+                <td class="ownerUser-email">
+                    <?= (empty($simulation->invite->ownerUser->profile->email)) ? 'Не найден':$simulation->invite->ownerUser->profile->email ?>
+                </td>
                 <td class="ownerUser-email">
                     <?= (empty($simulation->user->profile->email)) ? 'Не найден':$simulation->user->profile->email ?>
                 </td>

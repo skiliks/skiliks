@@ -141,6 +141,43 @@ var fixLogotypes = function() {
             return false;
         });
 
+        $('.show-simulation-rules span').click(function(e) {
+
+            // удлиннить окно чтоб футер был ниже нижнего края попапа
+            $('.content').css('margin-bottom', '600px');
+
+            $('#invite-accept-form').dialog({
+                dialogClass: 'accept-invite-warning-popup full-simulation-info-popup margin-top-popup',
+                modal:       true,
+                autoOpen:    true,
+                resizable:   false,
+                draggable:   false,
+                width:       881,
+                maxHeight:   600,
+                position: {
+                    my: "left top",
+                    at: "left bottom",
+                    of: $("header h1")
+                },
+                open: function() {
+                    $(".accept-requirements-div").hide();
+                },
+                close: function () {
+                    $(".accept-requirements-div").show();
+                }
+            });
+
+            // hack {
+            $('.accept-invite-warning-popup full-simulation-info-popup').css('top', '50px');
+            $(window).scrollTop('.narrow-contnt');
+
+            // hack }
+
+            return false;
+        });
+
+
+
         $(".registration_check").click(function () {
 
             if($(this).parent().hasClass('form-account-personal')) {
@@ -592,7 +629,7 @@ var fixLogotypes = function() {
         $(".log-out-link").click(function(){
             var lastGetState = new Date();
             if(localStorage.getItem('lastGetState') === null){
-               return true;
+                return true;
             } else if(lastGetState.getTime() <= (parseInt(localStorage.getItem('lastGetState')) +30000)) {
                 if (window.confirm("У вас есть незавершённая симуляция. Выйдя вы потеряете все данные")) {
                     //window.alert("Ок");

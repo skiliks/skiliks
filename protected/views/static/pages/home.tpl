@@ -59,11 +59,47 @@
                                  addthis:url="http://player.vimeo.com/video/{Yii::t('site', '61258856')}?title=0&amp;byline=0&amp;portrait=0&amp;color=24bdd3"
                                  addthis:title="Skiliks - game the skills"
                                  addthis:description="{Yii::t('site', 'www.skiliks.com - online simulation aimed at testing management skills')}">
-                                <a class="addthis_button_vk"></a>
-                                <a class="addthis_button_facebook"></a>
-                                <a class="addthis_button_twitter"></a>
-                                <a class="addthis_button_google_plusone_share"  g:plusone:count="false"></a>
-                                <a class="addthis_button_linkedin"></a>
+
+                                <a class="new_social_buttons vk_share_button" title="VK" onclick="
+                                        window.open(
+                                        'http://vk.com/share.php?url=' + encodeURIComponent('{Yii::app()->request->hostInfo}' +'/watchVideo'),
+                                        'vk-share-dialog',
+                                        'width=626,height=436');
+                                        return false;" href="#" target="_blank">
+                                </a>
+
+                                <a class="new_social_buttons facebook_share_button" title="Facebook" onclick="
+                                    window.open(
+                                      'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent('{Yii::app()->request->hostInfo}' +'/watchVideo'),
+                                      'facebook-share-dialog',
+                                      'width=626,height=436');
+                                    return false;" href="#" target="_blank">
+                                </a>
+
+
+                                <a class="new_social_buttons twitter_share_button" title="Twitter" onclick="
+                                        window.open(
+                                        'https://twitter.com/share?url=' + encodeURIComponent('{Yii::app()->request->hostInfo}' +'/watchVideo'),
+                                        'twitter-share-dialog',
+                                        'width=626,height=436');
+                                        return false;" href="#" target="_blank">
+                                </a>
+
+                                <a class="new_social_buttons google_share_button" title="Google" onclick="
+                                    window.open(
+                                    'https://plus.google.com/share?url=' + encodeURIComponent('{Yii::app()->request->hostInfo}' +'/watchVideo'),
+                                    'google-share-dialog',
+                                    'width=626,height=436');
+                                    return false;" href="#" target="_blank">
+                                </a>
+
+                                <a class="new_social_buttons linkedin_share_button" title="Linkedin" onclick="
+                                        window.open(
+                                        'https://www.linkedin.com/cws/share?url=' + encodeURIComponent('{Yii::app()->request->hostInfo}' +'/watchVideo'),
+                                        'linkedin-share-dialog',
+                                        'width=626,height=436');
+                                        return false;" href="#" target="_blank">
+                                </a>
                             </div>
                         </div>
                     </div>
