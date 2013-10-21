@@ -92,6 +92,10 @@ a {
 .canvas {
     margin: 0 auto;
     background-image: url('../img/maps/bg-main-light.jpg');
+    -webkit-background-size: cover !important;
+    -moz-background-size: cover !important;
+    -o-background-size: cover !important;
+    background-size: cover !important;
 /*cursor: crosshair;*/
 }
 .message {
