@@ -1,7 +1,6 @@
 .htaccess
 .idea/
 /assets/
-/documents/zoho/
 /documents/user/
 /protected/config/main.php
 /protected/runtime/

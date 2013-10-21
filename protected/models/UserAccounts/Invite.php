@@ -90,8 +90,8 @@ class Invite extends CActiveRecord
             $date = new DateTime();
             $date->add(new DateInterval("P".Yii::app()->params['inviteExpired']."D"));
             $this->expired_at = $date->format("Y-m-d H:i:s");
-            return true;
         }
+        return true;
     }
 
     /**

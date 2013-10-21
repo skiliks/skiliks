@@ -34,9 +34,7 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
         'public' => [
             'isLocalPc'          => true,
             'useSentryForJsLog'  => true,
-            'isUseZohoProxy'     => false,
             'isSkipBrowserCheck' => false,
-
             'isIncludeGoogleAnalyticsJavaScript' => true,
         ],
         'robokassa' => [
@@ -44,12 +42,7 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
             'MrchLogin'      => 'leah',
             'sMerchantPass1' => 'as24ED4rFdrG456Dsd0d9f7gjec3',
             'sMerchantPass2' => 'd89DCs6d9ft66ygfr8iexmv67werd'
-        ],
-        'zoho' => array(
-            'saveUrl'     => 'http://skiliks.com/zoho/saveExcel',
-            'apiKey'      => '32498387c50f6db99096ec9e70e4ea2a',
-            'sendFileUrl' => 'https://sheet.zoho.com/remotedoc.im?apikey=%s&output=editor',
-        ),
+        ]
     )
 ));
 
