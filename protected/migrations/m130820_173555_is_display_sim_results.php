@@ -5,7 +5,7 @@ class m130820_173555_is_display_sim_results extends CDbMigration
 	public function up()
 	{
         $model = new Invite();
-        if( false == $model->hasAttribute('VARNAME') ) {
+        if( false == $model->hasAttribute('is_display_simulation_results') ) {
             $this->addColumn('invites', 'is_display_simulation_results', 'TINYINT(1) DEFAULT 1');
         }
 	}
