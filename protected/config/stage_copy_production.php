@@ -34,18 +34,8 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
         'public' => [
             'storageURL'        => 'http://skiliks.com/v1',
             'isLocalPc'         => true,
-            'isUseZohoProxy'    => false,
             'useSentryForJsLog' => true,
-        ],
-        'zoho' => array(
-            'apiKey'              => 'e52059ce3aeff6dd2c71afb9499bdcf7',
-            'saveUrl'             => 'http://live.skiliks.com/zoho/saveExcel',
-            'xlsTemplatesDirPath' => 'documents/templates',
-            'templatesDirPath'    => 'documents/zoho',
-            'sendFileUrl'         => 'https://sheet.zoho.com/remotedoc.im?apikey=%s&output=editor',
-            //'sendFileUrl'         => 'http://zoho.skiliks.com/remotedoc.im?apikey=%s&output=editor',
-            'extExcel'            => 'xls'
-        ),
+        ]
 
     )
 ));

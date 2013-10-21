@@ -27,7 +27,6 @@ return array(
         'application.models.Referrals.*',
 
         'application.components.*',
-        'application.components.Zoho.*',
         'application.components.Tools.*',
         'application.components.Excel.*',
         'application.components.Email.*',
@@ -289,7 +288,6 @@ return array(
                 'statistics/phpUnitTests' => 'statistics/statistics/phpUnitTests',
                 'statistics/SeleniumTests' => 'statistics/statistics/SeleniumTests',
                 'statistics/SeleniumTestsAuth' => 'statistics/statistics/SeleniumTestsAuth',
-                'statistics/Zoho500' => 'statistics/statistics/Zoho500',
                 'statistics/CiTests' => 'statistics/statistics/CiTests',
                 'statistics/OrderCount' => 'statistics/statistics/OrderCount',
                 'statistics/FeedbackCount' => 'statistics/statistics/FeedbackCount',
@@ -500,25 +498,12 @@ return array(
             'simStartTimeout'                    => 180000,
             'simStopTimeout'                     => 10*60*1000,
             'useSentryForJsLog'                  => false,
-            'isUseZohoProxy'                     => true,
             'isSkipBrowserCheck'                 => false,
             'isIncludeGoogleAnalyticsJavaScript' => false,
             'isDisplaySupportChat'               => true,
             'SiteHeartWidgetCode'                => '633075', // chat Skiliks(test mode): 626464, chat TechHelp (production mode): 633075
             'SiteHeartWidgetTitle'               => 'Онлайн помощь', // chat Skiliks(test mode): 626464, chat TechHelp (production mode): 633075
         ],
-
-
-        'zoho' => array(
-            'apiKey'              => 'e52059ce3aeff6dd2c71afb9499bdcf7', //old
-            'saveUrl'             => 'http://stage.skiliks.com/zoho/saveExcel',
-            'xlsTemplatesDirPath' => 'documents/templates',
-            'templatesDirPath'    => 'documents/zoho',
-            'sendFileUrl'         => 'https://sheet.zoho.com/remotedoc.im?apikey=%s&output=editor',
-            //'sendFileUrl'         => 'http://zoho.skiliks.com/remotedoc.im?apikey=%s&output=editor',
-            'extExcel'            => 'xls'
-
-        ),
         'cron' => [
             // через сколько секунд устаревает приглашение
             'InviteExpired'=> 60*60*24*5,
