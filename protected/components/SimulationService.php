@@ -569,7 +569,6 @@ class SimulationService
         // Copy email templates
         MailBoxService::initMailBoxEmails($simulation->id);
 
-        // ZohoDocuments::copyExcelFiles($simulation->id);
         // проставим дефолтовые значени флагов для симуляции пользователя
         $flags = Flag::model()->findAll();
         foreach ($flags as $flag) {

@@ -71,17 +71,4 @@ class DocumentsUnitTest extends PHPUnit_Framework_TestCase {
 
         $this->assertNotNull('Что-то', $file->getSheetList()[3]['content']);
     }
-
-    /**
-     *
-     */
-    public function testMissedDocuments()
-    {
-        $docPath = realpath(__DIR__ . '/../../../' . Yii::app()->params['zoho']['xlsTemplatesDirPath']);
-        $allDocuments = DocumentTemplate::model()->findAll();
-
-        foreach ($allDocuments as $document) {
-            $this->assertFileExists($docPath . '/' . $document->srcFile);
-        }
-    }
 }

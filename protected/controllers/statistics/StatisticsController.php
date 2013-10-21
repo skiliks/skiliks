@@ -1,6 +1,6 @@
 <?php
 /*
- * Контроллер статистики для офиса, Zoho, PHPUnit, Selenium
+ * Контроллер статистики для офиса, PHPUnit, Selenium
  */
 class StatisticsController extends SiteBaseController
 {
@@ -46,15 +46,6 @@ class StatisticsController extends SiteBaseController
         curl_setopt($ch, CURLOPT_URL, 'http://ci.dev.skiliks.com' . $_GET['params']);
         curl_setopt($ch, CURLOPT_HTTPHEADER, ['Authorization: Basic aW5kaWNhdG9yOmluZGljYXRvcg==']);
         curl_exec($ch);
-    }
-
-    public function actionZoho500()
-    {
-        $this->checkUserDeveloper();
-
-        //$this->layout = 'statistics';
-        $this->layout = false;
-        $this->render('zoho_500');
     }
 
     public function actionOrderCount()
