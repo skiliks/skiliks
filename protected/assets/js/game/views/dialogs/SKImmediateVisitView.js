@@ -140,9 +140,13 @@ define([
                         setTimeout(function(){
                             me.$('video').css('zIndex', 0);
                             if (my_replicas.length === 0) {
-                                event.complete();
-                                me.options.model_instance.close();
-                                me.remove();
+                                event.selectReplica(remote_replica.id, function () {
+                                    me.options.model_instance.setLastDialog(remote_replica.id);
+                                    if (remote_replica.is_final_replica === "1") {
+                                        me.options.model_instance.setOnTop();
+                                        me.options.model_instance.close();
+                                    }
+                                });
                             } else if (!SKApp.simulation.isDebug()) {
                                 el.find('.char-reply').removeClass('hidden');
                                 el.find('.visitor-reply').removeClass('hidden');
