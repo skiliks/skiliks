@@ -1161,7 +1161,7 @@ class AdminPagesController extends SiteBaseController {
         $pager = new CustomPagination($totalItems);
         $pager->pageSize = $this->itemsOnPage;
         $pager->applyLimit($criteria);
-        $pager->route = 'admin_area/AdminPages/CorporateAccountList ';
+        $pager->route = 'admin_area/AdminPages/CorporateAccountList';
         // pager }
 
         $this->pageTitle = 'Админка: Список корпоративных аккаунтов';
