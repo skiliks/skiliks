@@ -1049,7 +1049,8 @@ class SimulationService
      */
     public static function removeSimulationData($user, $simulation, $simId = null)
     {
-        if (false === $user->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)) {
+        if (false === $user->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE) &&
+            false == Yii::app() instanceof CConsoleApplication) {
             return false;
         }
 

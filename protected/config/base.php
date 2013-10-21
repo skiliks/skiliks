@@ -406,7 +406,7 @@ return array(
         'demoDuration'                  => 5, // min
 
         // переключает режил логирования leg action detailed
-        'disableOldLogging'             => true,
+        'disableOldLogging'             => false,
 
         // отключает проверку
         'disableAssets'                 => false,
