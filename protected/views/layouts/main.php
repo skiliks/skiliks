@@ -32,7 +32,7 @@ $cs->registerCssFile($assetsUrl . "/css/popover.css");
         <?php if(Yii::app()->controller->action->id == "watchVideo") : ?>
             <meta property="og:image" content="http://b.vimeocdn.com/ts/449/036/449036980_640.jpg"/>
         <?php else : ?>
-            <meta property="og:image" content="<?=$assetsUrl?>/img/skiliks-fb.png"/>
+            <meta property="og:image" content="<?=$assetsUrl?>/img/square-logo.jpg"/>
         <?php endif ?>
 
         <meta property="og:title" content="Skiliks – game the skills"/>
