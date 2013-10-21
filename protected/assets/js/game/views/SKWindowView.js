@@ -58,6 +58,7 @@ define(["text!game/jst/window.jst"],
 
         renderWindow: function () {
             try {
+                console.log("SKWindowView.renderWindow");
                 var me = this;
                 this.$el.html(_.template(window_template, {
                     window_uid:                  this.options.model_instance.window_uid,
@@ -106,6 +107,7 @@ define(["text!game/jst/window.jst"],
         remove: function () {
             var me = this;
             try {
+                console.log("SKWindowsView close");
                 this.trigger('close');
                 this.stopListening();
                 $(window).off('resize', this.onResize);
@@ -135,6 +137,7 @@ define(["text!game/jst/window.jst"],
          */
         render: function () {
             try {
+                console.log("SKWindowsView.render");
                 var me = this;
                 this.listenTo(this.options.model_instance, 'close', function () {
                     me.remove();

@@ -25,6 +25,9 @@
  * @property string $tutorial_finished_at
  * @property integer $can_be_reloaded
  * @property boolean $is_display_simulation_results
+ * @property string $stacktrace
+ * @property bolean $is_crashed
+ * @property string $expired_at
  *
  * The followings are the available model relations:
  * @property YumUser $ownerUser
@@ -76,6 +79,20 @@ class Invite extends CActiveRecord
     const EXPIRED_TIME = 604800; // 7days
 
     /* ------------------------------------------------------------------------------------------------------------ */
+
+
+
+
+
+
+    public function beforeSave() {
+        if ($this->getIsNewRecord()) {
+            $date = new DateTime();
+            $date->add(new DateInterval("P".Yii::app()->params['inviteExpired']."D"));
+            $this->expired_at = $date->format("Y-m-d H:i:s");
+            return true;
+        }
+    }
 
     /**
      * @return string
@@ -206,6 +223,15 @@ class Invite extends CActiveRecord
     }
 
     /**
+     * @todo: remove in sprint S27
+     * @return bool
+     */
+    public function isComplete()
+    {
+        return $this->status == self::STATUS_COMPLETED;
+    }
+
+    /**
      * @return bool
      */
     public function isStarted()
@@ -293,6 +319,32 @@ class Invite extends CActiveRecord
         InviteService::logAboutInviteStatus($newInvite, 'Добваление инвайта для прохождения сам себе');
 
         return $newInvite;
+    }
+
+    public function isAllowedToSeeResults(YumUser $user)
+    {
+        // просто проверка
+        if (null === $user) {
+            return false;
+        }
+
+        // просто проверка
+        if (false === $this->isComplete()) {
+            return false;
+        }
+
+        // создатель всегда может
+        if ($this->owner_id == $user->id) {
+            return true;
+        }
+
+        // истанная проверка - is_display_simulation_results, это главный переметр
+        // при решении отображать результаты симуляции или нет
+        if (1 === (int)$this->is_display_simulation_results) {
+            return true;
+        }
+
+        return false;
     }
 
     /* ------------------------------------------------------------------------------------------------------------ */

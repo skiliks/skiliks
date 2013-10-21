@@ -161,7 +161,7 @@
       var data = decodeURIComponent(flashEvent.message);
       jsEvent = this.__createMessageEvent("message", data);
     } else {
-        throw new Error("unknown event type: " + flashEvent.type);
+      throw new Error("unknown event type: " + flashEvent.type);
     }
     
     this.dispatchEvent(jsEvent);

@@ -15,6 +15,12 @@
 </a>
 
 <br/>
+<br/>
+<a href="/admin_area/user/<?= $siteUser->id ?>/details">
+    <- Вернутья назад, к данным аккаунта пользователя
+</a>
+
+<br/>
 <hr/>
 <br/>
 <form class="form-horizontal" method="post">

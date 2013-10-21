@@ -19,7 +19,7 @@
         <?php if ($display_results_for): ?>
             <?php $this->renderPartial('//global_partials/_popup_result_simulation_container', [ 'display_results_for' => $display_results_for]) ?>
         <?php endif; ?>
-
+ 
         <!-- simulations-counter-box -->
         <div id="simulations-counter-box" class="nice-border backgroud-light-blue">
             <?php $this->renderPartial('_simulations_counter_box', []) ?>
@@ -115,6 +115,7 @@
                 <?php // echo $form->labelEx($invite, 'signature'); ?>
                 <?php // echo $form->textField($invite, 'signature'); ?>
                 <?php // echo $form->error($invite, 'signature'); ?>
+
                 <div class="inline-block">
                     <?php echo $form->checkBox($invite, 'is_display_simulation_results', ['class'=>'inline-radio-button']); ?>
                     <?php echo $form->labelEx($invite, 'is_display_simulation_results', ['class'=>'inline-radio-button-label']); ?>
@@ -152,5 +153,4 @@
     </div>
 
 </section>
-
 
