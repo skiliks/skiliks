@@ -113,11 +113,19 @@ define([
 
                         el.find('.visit-background-container').css('width', screen.availWidth);
 
-                        var duration = (SKApp.simulation.isDebug() || null === remote_replica)?0:parseInt(remote_replica.duration, 0)*1000;
+                        var duration;
+                        if(SKApp.simulation.isDebug() || null === remote_replica){
+                            console.log('set duration if', 0);
+                            duration = 0;
+                        }else{
+                            console.log('set duration else', remote_replica.duration);
+                            duration = parseInt(remote_replica.duration, 0)*1000;
+                        }
                         // Для дев режима, последняя реплика в диалоге, если нет вариантов ответа - сразу исчезает.
                         // Из-за этого тесты которые проверяют отображение реплик валятся
                         // 5 сек задержки должно хватать, но если не хватит можно увеличить
                         if (SKApp.simulation.isDebug() && 0 == my_replicas.length) {
+                            console.log('set 10000');
                             duration = 10000;
                         }
                         setTimeout(function(){
