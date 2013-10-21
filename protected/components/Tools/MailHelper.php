@@ -6,7 +6,7 @@ class MailHelper
      * @param array $email
      * @return bool
      */
-    public static function addMailToQueue(array $email)
+    public static function addMailToQueue($email)
     {
         $queue = new EmailQueue();
         $queue->sender_email = $email['from'];

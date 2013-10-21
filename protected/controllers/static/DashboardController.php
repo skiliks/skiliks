@@ -106,11 +106,11 @@ class DashboardController extends SiteBaseController implements AccountPageContr
                 $this->user->getAccount()->save();
                 $this->user->refresh();
 
-                UserService::logCorporateInviteMovementAdd(
-                    'send invitation 1',
-                    $this->user->getAccount(),
-                    $initValue
-                );
+//                UserService::logCorporateInviteMovementAdd(
+//                    'send invitation 1',
+//                    $this->user->getAccount(),
+//                    $initValue
+//                );
 
 
                 $this->redirect('/dashboard');
@@ -173,6 +173,22 @@ class DashboardController extends SiteBaseController implements AccountPageContr
 
         if (false === $this->user->isCorporate() ||  false === $this->user->isActive()){
             $this->redirect('userAuth/afterRegistration');
+        }
+
+        // creating session for page
+
+        $page = Yii::app()->request->getParam("page", null);
+
+        $session = new CHttpSession();
+
+        $request_uri = $_SERVER['REQUEST_URI'];
+
+        if($request_uri == "/dashboard" && $session["dashboard_page"] != null && $session["dashboard_page"] != $request_uri) {
+            $this->redirect($session["dashboard_page"]);
+        }
+
+        if($page != null) {
+            $session["dashboard_page"] = $request_uri;
         }
 
         // check and add trial full version {
@@ -580,8 +596,6 @@ class DashboardController extends SiteBaseController implements AccountPageContr
                 ],
             ],
         ];
-
-        //$invite->is_display_simulation_results = Yii::app()->params['isDisplaySimulationResults'];
 
         $invite->markAsSendToday();
         $invite->save();
