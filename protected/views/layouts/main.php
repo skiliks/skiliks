@@ -30,7 +30,7 @@ $cs->registerCssFile($assetsUrl . "/css/popover.css");
 <html lang="<?php echo Yii::t('site', 'en') ?>">
 	<head>
         <?php if(Yii::app()->controller->action->id == "watchVideo") : ?>
-            <meta property="og:image" content="http://b.vimeocdn.com/ts/449/036/449036980_640.jpg"/>
+            <meta property="og:image" content="http://<?=$_SERVER['HTTP_HOST']; ?>/<?=$assetsUrl?>/img/videoscreen.jpg"/>
         <?php else : ?>
             <meta property="og:image" content="http://<?=$_SERVER['HTTP_HOST']; ?>/<?=$assetsUrl?>/img/square-logo.jpg"/>
         <?php endif ?>
