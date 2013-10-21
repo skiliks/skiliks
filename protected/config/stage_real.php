@@ -34,16 +34,9 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
         'public' => [
             'isLocalPc'          => true,
             'useSentryForJsLog'  => true,
-            'isUseZohoProxy'     => false,
             'isSkipBrowserCheck' => false,
-
             'isIncludeGoogleAnalyticsJavaScript' => true,
-        ],
-        'zoho' => array(
-            'saveUrl'     => 'http://skiliks.com/zoho/saveExcel',
-            'apiKey'      => '32498387c50f6db99096ec9e70e4ea2a',
-            'sendFileUrl' => 'https://sheet.zoho.com/remotedoc.im?apikey=%s&output=editor',
-        ),
+        ]
     )
 ));
 

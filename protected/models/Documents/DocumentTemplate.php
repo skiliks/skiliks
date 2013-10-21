@@ -124,35 +124,6 @@ class DocumentTemplate extends CActiveRecord implements IGameAction
         return $this->code;
     }
 
-    public function getMimeType() {
-        // tweak for not ready files, in ready project we willn`t need it any more
-        if (in_array($this->srcFile, ['TP', 'MG'])) {
-            return 'plain/text';
-        }
-
-        if (isset(self::$mimeMap[$this->format])) {
-            return self::$mimeMap[$this->format];
-        }
-        
-        $finfo = finfo_open(FILEINFO_MIME_TYPE);
-        $mime = finfo_file($finfo, $this->getFilePath());
-        finfo_close($finfo);
-        return $mime;
-    }
-
-    public function getFilePath()
-    {
-        $zohoConfigs = Yii::app()->params['zoho'];
-
-        $path = sprintf("%s/../../../%s/%s",
-            __DIR__,
-            $zohoConfigs['xlsTemplatesDirPath'],
-            $this->srcFile
-        );
-
-        return $path;
-    }
-    
     /**
      * Выбрать по заданному набору шаблонов документов
      * @param array $ids

@@ -37,7 +37,6 @@ return CMap::mergeArray(
             'isUseResultPopUpCache' => false,
             'public' => [
                 'isLocalPc'            => true,
-                'isUseZohoProxy'       => false,
                 'useSentryForJsLog'    => true,
                 'isSkipBrowserCheck'   => true,
                 'isDisplaySupportChat' => false,

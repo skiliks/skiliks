@@ -97,16 +97,6 @@ define([
 
                     this.loadDocsDialog = null;
 
-                    try {
-                        document.domain = 'skiliks.com'; // to easy work with zoho iframes from our JS
-                    } catch(e) {
-                        // this to protect against busted-sj test crash
-                    }
-
-                    this.set('isZohoDocumentSuccessfullySaved', null);
-                    this.set('isZohoSavedDocTestRequestSent', false);
-
-                    this.set('ZohoDocumentSaveCheckAttempt', 1);
                     this.set('scenarioName', null);
 
                     this.on('tick', function () {
@@ -167,8 +157,6 @@ define([
                         if (event.data) {
                             if ('DocumentLoaded' === event.data.type) {
                                 me.onDocumentLoaded(event);
-                            } else if ('Zoho_500' === event.data.type) {
-                                me.onZoho500(event);
                             }
                         }
                     });
