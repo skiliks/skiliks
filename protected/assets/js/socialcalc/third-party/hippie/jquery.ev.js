@@ -65,7 +65,7 @@
         } else if (typeof handlers == "function") {
           this.run = handlers;
         } else {
-            throw new Error("handlers must be an object or function");
+          throw new Error("handlers must be an object or function");
         }
       }
       this.running = true;

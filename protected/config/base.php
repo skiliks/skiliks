@@ -189,6 +189,7 @@ return array(
                 'register-referral/<refHash:\w+>'                => 'static/userAuth/registerReferral',
                 'registration/account-type/added'                => 'static/userAuth/accountTypeSavesSuccessfully',
                 'simulationIsStarted'                            => 'static/site/IsStarted',
+                'watchVideo'                                     => 'static/site/watchVideo',
                 'userStartSecondSimulation'                      => 'static/site/UserStartSecondSimulation',
                 'userRejectStartSecondSimulation'                => 'static/site/UserRejectStartSecondSimulation',
                 'logout/registration'                            =>'static/userAuth/LogoutAndRegistration',
@@ -442,6 +443,7 @@ return array(
 
         // количество симуляций, которое даётся корпоративному пользователю после регистрации
         'initialSimulationsAmount'      => 3,
+        'inviteExpired'                 => 5,
 
         // Блокирует/разрещает использование админами входа на сайт от именю любого пользователя
         'isBlockGhostLogin'             => false,

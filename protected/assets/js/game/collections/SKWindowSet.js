@@ -52,6 +52,7 @@ define([
                     this.toggle('visitor', 'visitorEntrance', {sim_event: event});
                 }, this);
                 options.events.on('event:immediate-visit', function (event) {
+                    console.log("SKWindowsSet.open");
                     this.open('visitor', 'visitorTalk', {sim_event: event});
                     event.setStatus('in progress');
                 }, this);
@@ -159,13 +160,13 @@ define([
         'showWindow': function (win) {
             try {
                 if (win.single === true && this.get(win)) {
-                    throw new Error ('Window already displayed');
+                    throw new Error('Window already displayed');
                 }
                 if (this.length) {
                     this.at(this.length - 1).deactivate();
                 }
                 if (this.get(win.id)) {
-                    throw new Error ('Trying to add window with same ID');
+                    throw new Error('Trying to add window with same ID');
                 }
                 this.add(win);
                 win.activate();
@@ -279,8 +280,9 @@ define([
         open: function (name, subname, params) {
             try {
                 var windows = this.where({name: name, subname: subname});
-
+                console.log("SKWindowSet open method");
                 if (windows.length !== 0) {
+                    console.log("SKWindowSet open method if");
                     if (this.at(this.length - 1).id !== subname) { // If this is top window
                         windows[0].setOnTop();
                     }
@@ -292,6 +294,7 @@ define([
                     windows[0].trigger('refresh');
                     return windows[0];
                 } else {
+                    console.log("SKWindowSet open method else");
                     var WindowType = this.window_classes[name + '/' + subname] || SKWindow;
                     var win = new WindowType(_.extend({name: name, subname: subname}, params));
                     win.open();
