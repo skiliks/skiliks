@@ -690,9 +690,9 @@ class SimulationService
                 }
             }
             if(Yii::app()->params['disableOldLogging']){
-                LogHelper::updateUniversalLog($simulation);
-                $analyzer = new ActivityActionAnalyzer($simulation);
-                $analyzer->run();
+//                LogHelper::updateUniversalLog($simulation);
+//                $analyzer = new ActivityActionAnalyzer($simulation);
+//                $analyzer->run();
             }
             // Make aggregated activity log
             LogHelper::combineLogActivityAgregated($simulation);
@@ -1050,7 +1050,8 @@ class SimulationService
      */
     public static function removeSimulationData($user, $simulation, $simId = null)
     {
-        if (false === $user->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)) {
+        if (false === $user->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE) &&
+            false == Yii::app() instanceof CConsoleApplication) {
             return false;
         }
 

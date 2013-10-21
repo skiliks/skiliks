@@ -372,13 +372,18 @@ define([
                             el.addClass('icon-active-short');
                         }
 
-                        me.animationTimer = setTimeout(function() {
+                        if (undefined == me.animationTimer) {
+                            me.animationTimer = new Array();
+                        }
+
+                        me.animationTimer[selector] = setTimeout(function() {
                             me.stopAnimation(selector);
 
                             if (end_cb !== undefined) {
                                 end_cb();
                             }
                         }, shortDuration ? 4000 : 20000);
+
                     }
                 } catch(exception) {
                     if (window.Raven) {
@@ -387,7 +392,7 @@ define([
                 }
             },
 
-            stopAnimation: function(selector) {
+            stopAnimation: function(selector, isCleanAnimationTimer) {
                 try {
                     this.icon_lock[selector] = false;
                     if (undefined !== this.animationTimer && undefined !== this.animationTimer[selector]) {

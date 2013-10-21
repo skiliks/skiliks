@@ -1161,7 +1161,7 @@ class AdminPagesController extends SiteBaseController {
         $pager = new CustomPagination($totalItems);
         $pager->pageSize = $this->itemsOnPage;
         $pager->applyLimit($criteria);
-        $pager->route = 'admin_area/AdminPages/CorporateAccountList ';
+        $pager->route = 'admin_area/AdminPages/CorporateAccountList';
         // pager }
 
         $this->pageTitle = 'Админка: Список корпоративных аккаунтов';
@@ -1625,11 +1625,11 @@ class AdminPagesController extends SiteBaseController {
         $user->getAccount()->invites_limit += 10;
         $user->getAccount()->save();
 
-        UserService::logCorporateInviteMovementAdd(
-            'Cheats: actionIncreaseInvites',
-            $user->getAccount(),
-            $initValue
-        );
+//        UserService::logCorporateInviteMovementAdd(
+//            'Cheats: actionIncreaseInvites',
+//            $user->getAccount(),
+//            $initValue
+//        );
 
         Yii::app()->user->setFlash('success', "Вам добавлено 10 приглашений!");
 

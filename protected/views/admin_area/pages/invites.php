@@ -4,6 +4,8 @@ $invites = $models;
 $titles = [
     'ID инвайта',
     'Sim. ID',
+    'Дата создания',
+    'Дата окончание',
     'Email работодателя',
     'Email соискателя',
     'Сценарий',
@@ -59,6 +61,20 @@ $titles = [
                     </select>
                 </td>
             </tr>
+
+            <tr>
+                <td></td>
+                <td></td>
+                <td>Результат теста:</td>
+                <td>
+                    <select name="is_invite_crashed">
+                        <option value="" ?></option>
+                        <option <?php if($is_invite_crashed != "" && $is_invite_crashed == "0") echo 'selected="selected"' ?> value="0">Success</option>
+                        <option <?php if($is_invite_crashed != "" && $is_invite_crashed == "1") echo 'selected="selected"' ?> value="1">Fail</option>
+                    </select>
+                </td>
+            </tr>
+
 
             <tr>
                 <td> Исключить приглашения самому себе: </td>
@@ -187,6 +203,9 @@ $titles = [
                 <?php endif; ?>
             </td>
             <!-- IDs } -->
+
+            <td> <?= (null !== $invite->sent_time) ? date("Y-m-d H:i:s", $invite->sent_time) : '-'; ?></td>
+            <td> <?= (null !== $invite->expired_at) ? $invite->expired_at : '-'; ?></td>
 
             <!-- users { -->
             <td style="width: 150px;">

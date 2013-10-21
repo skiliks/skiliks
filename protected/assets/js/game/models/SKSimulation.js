@@ -375,19 +375,25 @@ define([
                 try {
                     var me = this;
                     events.forEach(function (event) {
+                        console.log(event);
                         if (event.eventType === 1 && (event.data === undefined || event.data.length === 0)) {
                             // Crutch, sometimes server returns empty events
                             me.events.trigger('dialog:end');
+                            console.log('dialog:end');
                             return;
                         }
                         event.type = event.eventType;
                         delete event.result;
                         var event_model = new SKEvent(event);
                         if (me.events.canAddEvent(event_model, url)) {
+                            console.log('canAddEvent');
                             me.events.push(event_model);
                             me.events.trigger('event:' + event_model.getTypeSlug(), event_model);
                         } else if (event.data[0].code !== 'None' && event.eventTime) {
+                            console.log('Wait event');
                             me.events.wait(event.data[0].code, event.eventTime);
+                        }else{
+                            console.log('Help me! What this??');
                         }
                     });
                 } catch(exception) {
