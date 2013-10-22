@@ -126,7 +126,7 @@ define([
                         el.find('.visit-background-container').css('width', screen.availWidth);
 
                         var duration;
-                        if(null === remote_replica || my_replicas.length === 0){
+                        if(null === remote_replica){
                             console.log('set duration if', 0);
                             duration = 10000;
                         }else{
