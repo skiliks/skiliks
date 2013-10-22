@@ -9389,7 +9389,6 @@ CREATE TABLE `tbl_migration` (
 -- ----------------------------
 -- Records of tbl_migration
 -- ----------------------------
-INSERT INTO `tbl_migration` VALUES ('m130000_000000_update_yum_users', '1382012031');
 INSERT INTO `tbl_migration` VALUES ('m130801_120340_remove_aggregated_reduction', '1382012031');
 INSERT INTO `tbl_migration` VALUES ('m130802_122516_day_plan_refactor', '1382012031');
 INSERT INTO `tbl_migration` VALUES ('m130805_160507_drop_day_plan_tables', '1382012032');
