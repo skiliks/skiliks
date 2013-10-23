@@ -232,7 +232,7 @@ function resizeToCover() {
     jQuery('.visit-background-container').scrollTop((jQuery('video').height() - jQuery(window).height()) / 2);
 
     if(jQuery(window).width() / jQuery(window).height() < 1.6) {
-        jQuery('video').css("margin-left", (jQuery('video').width() - jQuery(window).width()) / 2);
+        jQuery('video').css("margin-left", -(jQuery('video').width() - jQuery(window).width()) / 2);
     } else {
         console.log("It's not doing");
         jQuery('video').css('margin-left', '-20px');
