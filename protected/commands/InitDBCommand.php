@@ -35,7 +35,7 @@ class InitDBCommand extends CConsoleCommand
 
         echo "\n Run base SQL.";
         $filePath = realpath(__DIR__ . '/../../db.sql');
-        $this->mysql("source ". $filePath, $database);
+        $this->mysql("source ". $filePath, $database.' --default-character-set=UTF8');
 
         $this->runInstallUserManagement();
 

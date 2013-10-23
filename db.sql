@@ -4,13 +4,13 @@ Navicat MySQL Data Transfer
 Source Server         : Local
 Source Server Version : 50533
 Source Host           : localhost:3306
-Source Database       : skiliks_dev3
+Source Database       : skiliks_develop
 
 Target Server Type    : MYSQL
 Target Server Version : 50533
 File Encoding         : 65001
 
-Date: 2013-10-17 15:14:58
+Date: 2013-10-22 16:12:12
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -3156,6 +3156,7 @@ CREATE TABLE `assessment_category` (
 -- ----------------------------
 INSERT INTO `assessment_category` VALUES ('management');
 INSERT INTO `assessment_category` VALUES ('overall');
+INSERT INTO `assessment_category` VALUES ('percentile');
 INSERT INTO `assessment_category` VALUES ('performance');
 INSERT INTO `assessment_category` VALUES ('time');
 
@@ -3670,6 +3671,7 @@ CREATE TABLE `feedback` (
   `message` text,
   `email` varchar(100) DEFAULT NULL,
   `addition` datetime DEFAULT NULL,
+  `ip_address` varchar(15) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -3847,7 +3849,7 @@ CREATE TABLE `free_email_provider` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `domain` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3575 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4056 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of free_email_provider
@@ -7426,6 +7428,487 @@ INSERT INTO `free_email_provider` VALUES ('3571', 'inbox.ru');
 INSERT INTO `free_email_provider` VALUES ('3572', 'bk.ru');
 INSERT INTO `free_email_provider` VALUES ('3573', 'list.ru');
 INSERT INTO `free_email_provider` VALUES ('3574', 'yandex.com');
+INSERT INTO `free_email_provider` VALUES ('3575', 'drdrb.com');
+INSERT INTO `free_email_provider` VALUES ('3576', '10minutemail.com');
+INSERT INTO `free_email_provider` VALUES ('3577', 'suioe.com');
+INSERT INTO `free_email_provider` VALUES ('3578', '10minutemail.net');
+INSERT INTO `free_email_provider` VALUES ('3579', 'guerrillamail.com');
+INSERT INTO `free_email_provider` VALUES ('3580', 'my10minutemail.com');
+INSERT INTO `free_email_provider` VALUES ('3581', 'guerrillamailblock.com');
+INSERT INTO `free_email_provider` VALUES ('3582', 'sharklasers.com');
+INSERT INTO `free_email_provider` VALUES ('3583', 'guerrillamail.net');
+INSERT INTO `free_email_provider` VALUES ('3584', 'guerrillamail.org');
+INSERT INTO `free_email_provider` VALUES ('3585', 'guerrillamail.biz');
+INSERT INTO `free_email_provider` VALUES ('3586', 'spam4.me');
+INSERT INTO `free_email_provider` VALUES ('3587', 'grr.la');
+INSERT INTO `free_email_provider` VALUES ('3588', '10minutemail.davidxia.com');
+INSERT INTO `free_email_provider` VALUES ('3589', 'davidxia.com');
+INSERT INTO `free_email_provider` VALUES ('3590', 'mailinator.com');
+INSERT INTO `free_email_provider` VALUES ('3591', 'meltmail.com');
+INSERT INTO `free_email_provider` VALUES ('3592', 'tempemail.net');
+INSERT INTO `free_email_provider` VALUES ('3593', 'dunflimblag.mailexpire.com');
+INSERT INTO `free_email_provider` VALUES ('3594', 'filzmail.com');
+INSERT INTO `free_email_provider` VALUES ('3595', '20minutemail.com');
+INSERT INTO `free_email_provider` VALUES ('3596', 'mt2014.com');
+INSERT INTO `free_email_provider` VALUES ('3597', 'thankyou2010.com');
+INSERT INTO `free_email_provider` VALUES ('3598', 'trash2009.com');
+INSERT INTO `free_email_provider` VALUES ('3599', 'mt2009.com');
+INSERT INTO `free_email_provider` VALUES ('3600', 'trashymail.com');
+INSERT INTO `free_email_provider` VALUES ('3601', 'mytrashmail.com');
+INSERT INTO `free_email_provider` VALUES ('3602', 'mailmetrash.com');
+INSERT INTO `free_email_provider` VALUES ('3603', 'spambox.us');
+INSERT INTO `free_email_provider` VALUES ('3604', 'maileater.com');
+INSERT INTO `free_email_provider` VALUES ('3605', 'tempomail.fr');
+INSERT INTO `free_email_provider` VALUES ('3606', 'pookmail.com');
+INSERT INTO `free_email_provider` VALUES ('3607', 'spamfree24.org');
+INSERT INTO `free_email_provider` VALUES ('3608', 'spammotel.com');
+INSERT INTO `free_email_provider` VALUES ('3609', 'emaildiscussions.com');
+INSERT INTO `free_email_provider` VALUES ('3610', 'spamspot.com');
+INSERT INTO `free_email_provider` VALUES ('3611', 'spam.la');
+INSERT INTO `free_email_provider` VALUES ('3612', 'email.bugmenot.com');
+INSERT INTO `free_email_provider` VALUES ('3613', 'bugmenot.com');
+INSERT INTO `free_email_provider` VALUES ('3614', 'incognitomail.org');
+INSERT INTO `free_email_provider` VALUES ('3615', 'makeuseof.com');
+INSERT INTO `free_email_provider` VALUES ('3616', 'tothepc.com');
+INSERT INTO `free_email_provider` VALUES ('3617', 'checknew.pw');
+INSERT INTO `free_email_provider` VALUES ('3618', 'sheepskinproxy.com');
+INSERT INTO `free_email_provider` VALUES ('3619', 'temp-mail.ru');
+INSERT INTO `free_email_provider` VALUES ('3620', 'thismail.ru');
+INSERT INTO `free_email_provider` VALUES ('3621', 'kakvse.net');
+INSERT INTO `free_email_provider` VALUES ('3622', 'onservis.ru');
+INSERT INTO `free_email_provider` VALUES ('3623', 'it-snacks.info');
+INSERT INTO `free_email_provider` VALUES ('3624', 'tempinbox.com');
+INSERT INTO `free_email_provider` VALUES ('3625', 'mailforspam.com');
+INSERT INTO `free_email_provider` VALUES ('3626', 'spambog.com');
+INSERT INTO `free_email_provider` VALUES ('3627', 'live.com');
+INSERT INTO `free_email_provider` VALUES ('3628', 'yopmail.com');
+INSERT INTO `free_email_provider` VALUES ('3629', 'fakeinbox.com');
+INSERT INTO `free_email_provider` VALUES ('3630', 'daintly.com');
+INSERT INTO `free_email_provider` VALUES ('3631', 'gnail.pw');
+INSERT INTO `free_email_provider` VALUES ('3632', 'fh.ru');
+INSERT INTO `free_email_provider` VALUES ('3633', 'mail.nur.kz');
+INSERT INTO `free_email_provider` VALUES ('3634', 'nur.kz');
+INSERT INTO `free_email_provider` VALUES ('3635', 'mail.namba.net');
+INSERT INTO `free_email_provider` VALUES ('3636', 'namba.net');
+INSERT INTO `free_email_provider` VALUES ('3637', 'tut.by');
+INSERT INTO `free_email_provider` VALUES ('3638', 'mail.tut.by');
+INSERT INTO `free_email_provider` VALUES ('3639', 'by.com');
+INSERT INTO `free_email_provider` VALUES ('3640', 'mail.by.com');
+INSERT INTO `free_email_provider` VALUES ('3641', 'mail.vpn.by');
+INSERT INTO `free_email_provider` VALUES ('3642', 'vpn.by');
+INSERT INTO `free_email_provider` VALUES ('3643', 'mail.km.ru');
+INSERT INTO `free_email_provider` VALUES ('3644', 'mail.google.com');
+INSERT INTO `free_email_provider` VALUES ('3645', 'atrus.ru');
+INSERT INTO `free_email_provider` VALUES ('3646', 'gmail.ru');
+INSERT INTO `free_email_provider` VALUES ('3647', 'ru.mail.yahoo.com');
+INSERT INTO `free_email_provider` VALUES ('3648', 'mail.66.ru');
+INSERT INTO `free_email_provider` VALUES ('3649', 'mail.aport.ru');
+INSERT INTO `free_email_provider` VALUES ('3650', '66.ru');
+INSERT INTO `free_email_provider` VALUES ('3651', 'aport.ru');
+INSERT INTO `free_email_provider` VALUES ('3652', 'nextcorp.ru');
+INSERT INTO `free_email_provider` VALUES ('3653', 'i.ua');
+INSERT INTO `free_email_provider` VALUES ('3654', '3g.ua');
+INSERT INTO `free_email_provider` VALUES ('3655', 'email.ua');
+INSERT INTO `free_email_provider` VALUES ('3656', 'mail.nic.ru');
+INSERT INTO `free_email_provider` VALUES ('3657', 'mail.ua');
+INSERT INTO `free_email_provider` VALUES ('3658', 'mail.wwjd.ru');
+INSERT INTO `free_email_provider` VALUES ('3659', 'nic.ru');
+INSERT INTO `free_email_provider` VALUES ('3660', 'wwjd.ru');
+INSERT INTO `free_email_provider` VALUES ('3661', 'pochta-dm.ru');
+INSERT INTO `free_email_provider` VALUES ('3662', 'mail.russia.ru');
+INSERT INTO `free_email_provider` VALUES ('3663', 'russia.ru');
+INSERT INTO `free_email_provider` VALUES ('3664', 'webmail.meta.ua');
+INSERT INTO `free_email_provider` VALUES ('3665', 'meta.ua');
+INSERT INTO `free_email_provider` VALUES ('3666', 'nextmail.ru');
+INSERT INTO `free_email_provider` VALUES ('3667', 'mail-ru.ru');
+INSERT INTO `free_email_provider` VALUES ('3668', 'mail.sibnet.ru');
+INSERT INTO `free_email_provider` VALUES ('3669', 'sibnet.ru');
+INSERT INTO `free_email_provider` VALUES ('3670', 'e-mail.ua');
+INSERT INTO `free_email_provider` VALUES ('3671', 'ru-pochta.ru');
+INSERT INTO `free_email_provider` VALUES ('3672', 'az.ru');
+INSERT INTO `free_email_provider` VALUES ('3673', 'netcity.ru');
+INSERT INTO `free_email_provider` VALUES ('3674', 'rbcmail.ru');
+INSERT INTO `free_email_provider` VALUES ('3675', 'tomcat.ru');
+INSERT INTO `free_email_provider` VALUES ('3676', 'netaddress.com');
+INSERT INTO `free_email_provider` VALUES ('3677', 'null.ru');
+INSERT INTO `free_email_provider` VALUES ('3678', 'i-connect.ru');
+INSERT INTO `free_email_provider` VALUES ('3679', 'iforward.com');
+INSERT INTO `free_email_provider` VALUES ('3680', 'gyral.com');
+INSERT INTO `free_email_provider` VALUES ('3681', 'switchboard.com');
+INSERT INTO `free_email_provider` VALUES ('3682', 'passagen.se');
+INSERT INTO `free_email_provider` VALUES ('3683', 'post1.com');
+INSERT INTO `free_email_provider` VALUES ('3684', 'altern.org');
+INSERT INTO `free_email_provider` VALUES ('3685', 'supernews.com');
+INSERT INTO `free_email_provider` VALUES ('3686', 'emumail.net');
+INSERT INTO `free_email_provider` VALUES ('3687', 'road-mail.com');
+INSERT INTO `free_email_provider` VALUES ('3688', 'get-mail.com');
+INSERT INTO `free_email_provider` VALUES ('3689', 'valise.com');
+INSERT INTO `free_email_provider` VALUES ('3690', '123emailme.com');
+INSERT INTO `free_email_provider` VALUES ('3691', 'dccmail.com');
+INSERT INTO `free_email_provider` VALUES ('3692', 'mboxes.com');
+INSERT INTO `free_email_provider` VALUES ('3693', 'relaymail.net');
+INSERT INTO `free_email_provider` VALUES ('3694', 'send.com');
+INSERT INTO `free_email_provider` VALUES ('3695', 'softhome.com');
+INSERT INTO `free_email_provider` VALUES ('3696', 'backpackers.net');
+INSERT INTO `free_email_provider` VALUES ('3697', 'vanityemail.com');
+INSERT INTO `free_email_provider` VALUES ('3698', 'mymail.com');
+INSERT INTO `free_email_provider` VALUES ('3699', 'netbox.com');
+INSERT INTO `free_email_provider` VALUES ('3700', 'nicknames.com');
+INSERT INTO `free_email_provider` VALUES ('3701', 'pol.com');
+INSERT INTO `free_email_provider` VALUES ('3702', 'pobox.com');
+INSERT INTO `free_email_provider` VALUES ('3703', 'ya.ru');
+INSERT INTO `free_email_provider` VALUES ('3704', 'yandex.ua');
+INSERT INTO `free_email_provider` VALUES ('3705', 'narod.ru');
+INSERT INTO `free_email_provider` VALUES ('3706', 'bankmail.ru');
+INSERT INTO `free_email_provider` VALUES ('3707', 'dinamomail.ru');
+INSERT INTO `free_email_provider` VALUES ('3708', 'hrono.ru');
+INSERT INTO `free_email_provider` VALUES ('3709', 'icqfoto.ru');
+INSERT INTO `free_email_provider` VALUES ('3710', 'kievmail.ru');
+INSERT INTO `free_email_provider` VALUES ('3711', 'lmail.ru');
+INSERT INTO `free_email_provider` VALUES ('3712', 'mirabilis.ru');
+INSERT INTO `free_email_provider` VALUES ('3713', 'radiomail.ru');
+INSERT INTO `free_email_provider` VALUES ('3714', 'refer.ru');
+INSERT INTO `free_email_provider` VALUES ('3715', 'spartakmail.ru');
+INSERT INTO `free_email_provider` VALUES ('3716', 'tvmail.ru');
+INSERT INTO `free_email_provider` VALUES ('3717', 'wmail.ru');
+INSERT INTO `free_email_provider` VALUES ('3718', 'womenmail.ru');
+INSERT INTO `free_email_provider` VALUES ('3719', 'elitemail.ru');
+INSERT INTO `free_email_provider` VALUES ('3720', 'hotbox.ru');
+INSERT INTO `free_email_provider` VALUES ('3721', 'krovatka.su');
+INSERT INTO `free_email_provider` VALUES ('3722', 'pochtamt.ru');
+INSERT INTO `free_email_provider` VALUES ('3723', 'pop3.ru');
+INSERT INTO `free_email_provider` VALUES ('3724', 'smtp.ru');
+INSERT INTO `free_email_provider` VALUES ('3725', 'km.ru');
+INSERT INTO `free_email_provider` VALUES ('3726', 'gerlmail.ru');
+INSERT INTO `free_email_provider` VALUES ('3727', 'bossmail.ru');
+INSERT INTO `free_email_provider` VALUES ('3728', 'megabox.ru');
+INSERT INTO `free_email_provider` VALUES ('3729', 'boymail.ru');
+INSERT INTO `free_email_provider` VALUES ('3730', 'safebox.ru');
+INSERT INTO `free_email_provider` VALUES ('3731', 'nm.ru');
+INSERT INTO `free_email_provider` VALUES ('3732', 'nightmail.ru');
+INSERT INTO `free_email_provider` VALUES ('3733', 'nxt.ru');
+INSERT INTO `free_email_provider` VALUES ('3734', 'epage.ru');
+INSERT INTO `free_email_provider` VALUES ('3735', 'email.su');
+INSERT INTO `free_email_provider` VALUES ('3736', 'student.su');
+INSERT INTO `free_email_provider` VALUES ('3737', 'hu2.ru');
+INSERT INTO `free_email_provider` VALUES ('3738', 'xaker.ru');
+INSERT INTO `free_email_provider` VALUES ('3739', 'mail2k.ru');
+INSERT INTO `free_email_provider` VALUES ('3740', 'dezigner.ru');
+INSERT INTO `free_email_provider` VALUES ('3741', 'programist.ru');
+INSERT INTO `free_email_provider` VALUES ('3742', 'onlymail.ru');
+INSERT INTO `free_email_provider` VALUES ('3743', 'logmail.ru');
+INSERT INTO `free_email_provider` VALUES ('3744', 'russian.ru');
+INSERT INTO `free_email_provider` VALUES ('3745', 'id.ru');
+INSERT INTO `free_email_provider` VALUES ('3746', 'ok.ru');
+INSERT INTO `free_email_provider` VALUES ('3747', 'ru.ru');
+INSERT INTO `free_email_provider` VALUES ('3748', 'quake.ru');
+INSERT INTO `free_email_provider` VALUES ('3749', 'li.ru');
+INSERT INTO `free_email_provider` VALUES ('3750', 'mosk.ru');
+INSERT INTO `free_email_provider` VALUES ('3751', 'netmail.kg');
+INSERT INTO `free_email_provider` VALUES ('3752', 'eprst.ru');
+INSERT INTO `free_email_provider` VALUES ('3753', 'atlantmail.com');
+INSERT INTO `free_email_provider` VALUES ('3754', 'e1.ru');
+INSERT INTO `free_email_provider` VALUES ('3755', 'ekat.ru');
+INSERT INTO `free_email_provider` VALUES ('3756', 'amik.ru');
+INSERT INTO `free_email_provider` VALUES ('3757', 'forexmail.ru');
+INSERT INTO `free_email_provider` VALUES ('3758', 'moneypost.ru');
+INSERT INTO `free_email_provider` VALUES ('3759', 'elec.ru');
+INSERT INTO `free_email_provider` VALUES ('3760', 'elec.com.ua');
+INSERT INTO `free_email_provider` VALUES ('3761', 'elec.kz');
+INSERT INTO `free_email_provider` VALUES ('3762', 'elecmarket.com');
+INSERT INTO `free_email_provider` VALUES ('3763', 'elec.by');
+INSERT INTO `free_email_provider` VALUES ('3764', 'uralweb.ru');
+INSERT INTO `free_email_provider` VALUES ('3765', 'arts.su');
+INSERT INTO `free_email_provider` VALUES ('3766', 'banks.su');
+INSERT INTO `free_email_provider` VALUES ('3767', 'build.su');
+INSERT INTO `free_email_provider` VALUES ('3768', 'god.su');
+INSERT INTO `free_email_provider` VALUES ('3769', 'layouts.ru');
+INSERT INTO `free_email_provider` VALUES ('3770', 'magazine.su');
+INSERT INTO `free_email_provider` VALUES ('3771', 'newspaper.su');
+INSERT INTO `free_email_provider` VALUES ('3772', 'officials.ru');
+INSERT INTO `free_email_provider` VALUES ('3773', 'picture.su');
+INSERT INTO `free_email_provider` VALUES ('3774', 'post.su');
+INSERT INTO `free_email_provider` VALUES ('3775', 'shemes.biz');
+INSERT INTO `free_email_provider` VALUES ('3776', 'show.su');
+INSERT INTO `free_email_provider` VALUES ('3777', 'station.su');
+INSERT INTO `free_email_provider` VALUES ('3778', 'tracery.org');
+INSERT INTO `free_email_provider` VALUES ('3779', 'weather.su');
+INSERT INTO `free_email_provider` VALUES ('3780', 'works.su');
+INSERT INTO `free_email_provider` VALUES ('3781', 'writ.ru');
+INSERT INTO `free_email_provider` VALUES ('3782', 'write.su');
+INSERT INTO `free_email_provider` VALUES ('3783', 'wrote.ru');
+INSERT INTO `free_email_provider` VALUES ('3784', 'wye.ru');
+INSERT INTO `free_email_provider` VALUES ('3785', 'ok.kz');
+INSERT INTO `free_email_provider` VALUES ('3786', 'aol.ua');
+INSERT INTO `free_email_provider` VALUES ('3787', 'startua.com');
+INSERT INTO `free_email_provider` VALUES ('3788', 'online.com.ua');
+INSERT INTO `free_email_provider` VALUES ('3789', 'date.by');
+INSERT INTO `free_email_provider` VALUES ('3790', 'inet.ua');
+INSERT INTO `free_email_provider` VALUES ('3791', 'fm.com.ua');
+INSERT INTO `free_email_provider` VALUES ('3792', 'of.md');
+INSERT INTO `free_email_provider` VALUES ('3793', 'ws.md');
+INSERT INTO `free_email_provider` VALUES ('3794', 'wm.md');
+INSERT INTO `free_email_provider` VALUES ('3795', 'see.md');
+INSERT INTO `free_email_provider` VALUES ('3796', '001.md');
+INSERT INTO `free_email_provider` VALUES ('3797', 'inbox.lv');
+INSERT INTO `free_email_provider` VALUES ('3798', 'msn.com');
+INSERT INTO `free_email_provider` VALUES ('3799', 'aol.com');
+INSERT INTO `free_email_provider` VALUES ('3800', 'alumni.com');
+INSERT INTO `free_email_provider` VALUES ('3801', 'graduate.org');
+INSERT INTO `free_email_provider` VALUES ('3802', 'dallasmail.com');
+INSERT INTO `free_email_provider` VALUES ('3803', 'delhimail.com');
+INSERT INTO `free_email_provider` VALUES ('3804', 'moscowmail.com');
+INSERT INTO `free_email_provider` VALUES ('3805', 'paris.com');
+INSERT INTO `free_email_provider` VALUES ('3806', 'tokyo.com');
+INSERT INTO `free_email_provider` VALUES ('3807', 'torontomail.com');
+INSERT INTO `free_email_provider` VALUES ('3808', 'brazilmail.com');
+INSERT INTO `free_email_provider` VALUES ('3809', 'chinamail.com');
+INSERT INTO `free_email_provider` VALUES ('3810', 'germanymail.com');
+INSERT INTO `free_email_provider` VALUES ('3811', 'indiamail.com');
+INSERT INTO `free_email_provider` VALUES ('3812', 'irelandmail.com');
+INSERT INTO `free_email_provider` VALUES ('3813', 'israelmail.com');
+INSERT INTO `free_email_provider` VALUES ('3814', 'italymail.com');
+INSERT INTO `free_email_provider` VALUES ('3815', 'koreamail.com');
+INSERT INTO `free_email_provider` VALUES ('3816', 'mexicomail.com');
+INSERT INTO `free_email_provider` VALUES ('3817', 'polandmail.com');
+INSERT INTO `free_email_provider` VALUES ('3818', 'russiamail.com');
+INSERT INTO `free_email_provider` VALUES ('3819', 'scotlandmail.com');
+INSERT INTO `free_email_provider` VALUES ('3820', 'spainmail.com');
+INSERT INTO `free_email_provider` VALUES ('3821', 'swedenmail.com');
+INSERT INTO `free_email_provider` VALUES ('3822', 'angelic.com');
+INSERT INTO `free_email_provider` VALUES ('3823', 'atheist.com');
+INSERT INTO `free_email_provider` VALUES ('3824', 'minister.com');
+INSERT INTO `free_email_provider` VALUES ('3825', 'muslim.com');
+INSERT INTO `free_email_provider` VALUES ('3826', 'oath.com');
+INSERT INTO `free_email_provider` VALUES ('3827', 'orthodox.com');
+INSERT INTO `free_email_provider` VALUES ('3828', 'protestant.com');
+INSERT INTO `free_email_provider` VALUES ('3829', 'reborn.com');
+INSERT INTO `free_email_provider` VALUES ('3830', 'religious.com');
+INSERT INTO `free_email_provider` VALUES ('3831', 'birdlover.com');
+INSERT INTO `free_email_provider` VALUES ('3832', 'collector.org');
+INSERT INTO `free_email_provider` VALUES ('3833', 'disciples.com');
+INSERT INTO `free_email_provider` VALUES ('3834', 'elvisfan.com');
+INSERT INTO `free_email_provider` VALUES ('3835', 'fan.net');
+INSERT INTO `free_email_provider` VALUES ('3836', 'madonnafan.com');
+INSERT INTO `free_email_provider` VALUES ('3837', 'petlover.com');
+INSERT INTO `free_email_provider` VALUES ('3838', 'reggaefan.com');
+INSERT INTO `free_email_provider` VALUES ('3839', 'rocketship.com');
+INSERT INTO `free_email_provider` VALUES ('3840', 'thegame.com');
+INSERT INTO `free_email_provider` VALUES ('3841', 'cyber-wizard.com');
+INSERT INTO `free_email_provider` VALUES ('3842', 'webname.com');
+INSERT INTO `free_email_provider` VALUES ('3843', 'who.net');
+INSERT INTO `free_email_provider` VALUES ('3844', 'accountant.com');
+INSERT INTO `free_email_provider` VALUES ('3845', 'allergist.com');
+INSERT INTO `free_email_provider` VALUES ('3846', 'bartender.net');
+INSERT INTO `free_email_provider` VALUES ('3847', 'brew-master.com');
+INSERT INTO `free_email_provider` VALUES ('3848', 'chef.net');
+INSERT INTO `free_email_provider` VALUES ('3849', 'contractor.net');
+INSERT INTO `free_email_provider` VALUES ('3850', 'count.com');
+INSERT INTO `free_email_provider` VALUES ('3851', 'fireman.net');
+INSERT INTO `free_email_provider` VALUES ('3852', 'footballer.com');
+INSERT INTO `free_email_provider` VALUES ('3853', 'graphic-designer.com');
+INSERT INTO `free_email_provider` VALUES ('3854', 'instructor.net');
+INSERT INTO `free_email_provider` VALUES ('3855', 'mad.scientist.com');
+INSERT INTO `free_email_provider` VALUES ('3856', 'monarchy.com');
+INSERT INTO `free_email_provider` VALUES ('3857', 'orthodontist.net');
+INSERT INTO `free_email_provider` VALUES ('3858', 'photographer.net');
+INSERT INTO `free_email_provider` VALUES ('3859', 'physicist.net');
+INSERT INTO `free_email_provider` VALUES ('3860', 'politician.com');
+INSERT INTO `free_email_provider` VALUES ('3861', 'radiologist.net');
+INSERT INTO `free_email_provider` VALUES ('3862', 'realtyagent.com');
+INSERT INTO `free_email_provider` VALUES ('3863', 'salesperson.net');
+INSERT INTO `free_email_provider` VALUES ('3864', 'secretary.net');
+INSERT INTO `free_email_provider` VALUES ('3865', 'socialworker.net');
+INSERT INTO `free_email_provider` VALUES ('3866', 'songwriter.net');
+INSERT INTO `free_email_provider` VALUES ('3867', 'teachers.org');
+INSERT INTO `free_email_provider` VALUES ('3868', 'therapist.net');
+INSERT INTO `free_email_provider` VALUES ('3869', 'tvstar.com');
+INSERT INTO `free_email_provider` VALUES ('3870', 'worker.com');
+INSERT INTO `free_email_provider` VALUES ('3871', 'americamail.com');
+INSERT INTO `free_email_provider` VALUES ('3872', 'arcticmail.com');
+INSERT INTO `free_email_provider` VALUES ('3873', 'asia-mail.com');
+INSERT INTO `free_email_provider` VALUES ('3874', 'californiamail.com');
+INSERT INTO `free_email_provider` VALUES ('3875', 'dutchmail.com');
+INSERT INTO `free_email_provider` VALUES ('3876', 'englandmail.com');
+INSERT INTO `free_email_provider` VALUES ('3877', 'europemail.com');
+INSERT INTO `free_email_provider` VALUES ('3878', 'pacific-ocean.com');
+INSERT INTO `free_email_provider` VALUES ('3879', 'pacificwest.com');
+INSERT INTO `free_email_provider` VALUES ('3880', 'safrica.com');
+INSERT INTO `free_email_provider` VALUES ('3881', 'swissmail.com');
+INSERT INTO `free_email_provider` VALUES ('3882', 'amorous.com');
+INSERT INTO `free_email_provider` VALUES ('3883', 'caress.com');
+INSERT INTO `free_email_provider` VALUES ('3884', 'couple.com');
+INSERT INTO `free_email_provider` VALUES ('3885', 'feelings.com');
+INSERT INTO `free_email_provider` VALUES ('3886', 'mail.org');
+INSERT INTO `free_email_provider` VALUES ('3887', 'disposable.com');
+INSERT INTO `free_email_provider` VALUES ('3888', 'doubt.com');
+INSERT INTO `free_email_provider` VALUES ('3889', 'homosexual.net');
+INSERT INTO `free_email_provider` VALUES ('3890', 'hour.com');
+INSERT INTO `free_email_provider` VALUES ('3891', 'instruction.com');
+INSERT INTO `free_email_provider` VALUES ('3892', 'mobsters.com');
+INSERT INTO `free_email_provider` VALUES ('3893', 'nastything.com');
+INSERT INTO `free_email_provider` VALUES ('3894', 'nightly.com');
+INSERT INTO `free_email_provider` VALUES ('3895', 'nonpartisan.com');
+INSERT INTO `free_email_provider` VALUES ('3896', 'null.net');
+INSERT INTO `free_email_provider` VALUES ('3897', 'revenue.com');
+INSERT INTO `free_email_provider` VALUES ('3898', 'royal.net');
+INSERT INTO `free_email_provider` VALUES ('3899', 'sister.com');
+INSERT INTO `free_email_provider` VALUES ('3900', 'snakebite.com');
+INSERT INTO `free_email_provider` VALUES ('3901', 'surgical.net');
+INSERT INTO `free_email_provider` VALUES ('3902', 'theplate.com');
+INSERT INTO `free_email_provider` VALUES ('3903', 'toke.com');
+INSERT INTO `free_email_provider` VALUES ('3904', 'toothfairy.com');
+INSERT INTO `free_email_provider` VALUES ('3905', 'wallet.com');
+INSERT INTO `free_email_provider` VALUES ('3906', 'humanoid.net');
+INSERT INTO `free_email_provider` VALUES ('3907', 'weirdness.com');
+INSERT INTO `free_email_provider` VALUES ('3908', 'activist.com');
+INSERT INTO `free_email_provider` VALUES ('3909', 'aroma.com');
+INSERT INTO `free_email_provider` VALUES ('3910', 'been-there.com');
+INSERT INTO `free_email_provider` VALUES ('3911', 'comfortable.com');
+INSERT INTO `free_email_provider` VALUES ('3912', 'hilarious.com');
+INSERT INTO `free_email_provider` VALUES ('3913', 'howling.com');
+INSERT INTO `free_email_provider` VALUES ('3914', 'sizzling.com');
+INSERT INTO `free_email_provider` VALUES ('3915', 'tempting.com');
+INSERT INTO `free_email_provider` VALUES ('3916', 'tough.com');
+INSERT INTO `free_email_provider` VALUES ('3917', 'alabama.usa.com');
+INSERT INTO `free_email_provider` VALUES ('3918', 'alaska.usa.com');
+INSERT INTO `free_email_provider` VALUES ('3919', 'arizona.usa.com');
+INSERT INTO `free_email_provider` VALUES ('3920', 'arkansas.usa.com');
+INSERT INTO `free_email_provider` VALUES ('3921', 'california.usa.com');
+INSERT INTO `free_email_provider` VALUES ('3922', 'colorado.usa.com');
+INSERT INTO `free_email_provider` VALUES ('3923', 'connecticut.usa.com');
+INSERT INTO `free_email_provider` VALUES ('3924', 'delaware.usa.com');
+INSERT INTO `free_email_provider` VALUES ('3925', 'florida.usa.com');
+INSERT INTO `free_email_provider` VALUES ('3926', 'georgia.usa.com');
+INSERT INTO `free_email_provider` VALUES ('3927', 'hawaii.usa.com');
+INSERT INTO `free_email_provider` VALUES ('3928', 'idaho.usa.com');
+INSERT INTO `free_email_provider` VALUES ('3929', 'illinois.usa.com');
+INSERT INTO `free_email_provider` VALUES ('3930', 'indiana.usa.com');
+INSERT INTO `free_email_provider` VALUES ('3931', 'iowa.usa.com');
+INSERT INTO `free_email_provider` VALUES ('3932', 'kansas.usa.com');
+INSERT INTO `free_email_provider` VALUES ('3933', 'kentucky.usa.com');
+INSERT INTO `free_email_provider` VALUES ('3934', 'louisiana.usa.com');
+INSERT INTO `free_email_provider` VALUES ('3935', 'maine.usa.com');
+INSERT INTO `free_email_provider` VALUES ('3936', 'maryland.usa.com');
+INSERT INTO `free_email_provider` VALUES ('3937', 'massachusetts.usa.com');
+INSERT INTO `free_email_provider` VALUES ('3938', 'michigan.usa.com');
+INSERT INTO `free_email_provider` VALUES ('3939', 'minnesota.usa.com');
+INSERT INTO `free_email_provider` VALUES ('3940', 'mississippi.usa.com');
+INSERT INTO `free_email_provider` VALUES ('3941', 'missouri.usa.com');
+INSERT INTO `free_email_provider` VALUES ('3942', 'montana.usa.com');
+INSERT INTO `free_email_provider` VALUES ('3943', 'nebraska.usa.com');
+INSERT INTO `free_email_provider` VALUES ('3944', 'nevada.usa.com');
+INSERT INTO `free_email_provider` VALUES ('3945', 'newhampshire.usa.com');
+INSERT INTO `free_email_provider` VALUES ('3946', 'newjersey.usa.com');
+INSERT INTO `free_email_provider` VALUES ('3947', 'newmexico.usa.com');
+INSERT INTO `free_email_provider` VALUES ('3948', 'newyork.usa.com');
+INSERT INTO `free_email_provider` VALUES ('3949', 'northcarolina.usa.com');
+INSERT INTO `free_email_provider` VALUES ('3950', 'northdakota.usa.com');
+INSERT INTO `free_email_provider` VALUES ('3951', 'ohio.usa.com');
+INSERT INTO `free_email_provider` VALUES ('3952', 'oklahoma.usa.com');
+INSERT INTO `free_email_provider` VALUES ('3953', 'oregon.usa.com');
+INSERT INTO `free_email_provider` VALUES ('3954', 'pennsylvania.usa.com');
+INSERT INTO `free_email_provider` VALUES ('3955', 'rhodeisland.usa.com');
+INSERT INTO `free_email_provider` VALUES ('3956', 'southcarolina.usa.com');
+INSERT INTO `free_email_provider` VALUES ('3957', 'southdakota.usa.com');
+INSERT INTO `free_email_provider` VALUES ('3958', 'tennessee.usa.com');
+INSERT INTO `free_email_provider` VALUES ('3959', 'texas.usa.com');
+INSERT INTO `free_email_provider` VALUES ('3960', 'utah.usa.com');
+INSERT INTO `free_email_provider` VALUES ('3961', 'vermont.usa.com');
+INSERT INTO `free_email_provider` VALUES ('3962', 'virginia.usa.com');
+INSERT INTO `free_email_provider` VALUES ('3963', 'washington.usa.com');
+INSERT INTO `free_email_provider` VALUES ('3964', 'westvirginia.usa.com');
+INSERT INTO `free_email_provider` VALUES ('3965', 'wisconsin.usa.com');
+INSERT INTO `free_email_provider` VALUES ('3966', 'wyoming.usa.com');
+INSERT INTO `free_email_provider` VALUES ('3967', 'spam.lv');
+INSERT INTO `free_email_provider` VALUES ('3968', 'a.ua');
+INSERT INTO `free_email_provider` VALUES ('3969', 'mail.a.org.ua');
+INSERT INTO `free_email_provider` VALUES ('3970', 'mail.BigMailBox.com');
+INSERT INTO `free_email_provider` VALUES ('3971', 'e-mail.am');
+INSERT INTO `free_email_provider` VALUES ('3972', 'mail.Gala.NET');
+INSERT INTO `free_email_provider` VALUES ('3973', 'WebMail.AOL.com');
+INSERT INTO `free_email_provider` VALUES ('3974', 'EveryoneMail.net');
+INSERT INTO `free_email_provider` VALUES ('3975', 'mymail-in.net');
+INSERT INTO `free_email_provider` VALUES ('3976', 'mail.E1.ru');
+INSERT INTO `free_email_provider` VALUES ('3977', 'mail.itua.info');
+INSERT INTO `free_email_provider` VALUES ('3978', 'webmail.1Ru.net');
+INSERT INTO `free_email_provider` VALUES ('3979', 'qip-pochta.ru');
+INSERT INTO `free_email_provider` VALUES ('3980', 'vkontakte.ru');
+INSERT INTO `free_email_provider` VALUES ('3981', 'facebook.com');
+INSERT INTO `free_email_provider` VALUES ('3982', 'vk.com');
+INSERT INTO `free_email_provider` VALUES ('3983', 'plus.google.com');
+INSERT INTO `free_email_provider` VALUES ('3984', 'shodennik.ua');
+INSERT INTO `free_email_provider` VALUES ('3985', 'linkedin.com');
+INSERT INTO `free_email_provider` VALUES ('3986', 'myspace.com');
+INSERT INTO `free_email_provider` VALUES ('3987', 'my.mail.ru');
+INSERT INTO `free_email_provider` VALUES ('3988', 'newsland.com');
+INSERT INTO `free_email_provider` VALUES ('3989', 'instagram.com');
+INSERT INTO `free_email_provider` VALUES ('3990', 'lastfm.ru');
+INSERT INTO `free_email_provider` VALUES ('3991', 'mirtesen.ru');
+INSERT INTO `free_email_provider` VALUES ('3992', 'privet.ru');
+INSERT INTO `free_email_provider` VALUES ('3993', 'foursquare.com');
+INSERT INTO `free_email_provider` VALUES ('3994', 'moikrug.ru');
+INSERT INTO `free_email_provider` VALUES ('3995', 'deviantart.com');
+INSERT INTO `free_email_provider` VALUES ('3996', 'drive2.ru');
+INSERT INTO `free_email_provider` VALUES ('3997', 'connect.ua');
+INSERT INTO `free_email_provider` VALUES ('3998', 'professionali.ru');
+INSERT INTO `free_email_provider` VALUES ('3999', 'tourout.ru');
+INSERT INTO `free_email_provider` VALUES ('4000', 'politiko.ua');
+INSERT INTO `free_email_provider` VALUES ('4001', 'maxpark.com');
+INSERT INTO `free_email_provider` VALUES ('4002', 'livelib.ru');
+INSERT INTO `free_email_provider` VALUES ('4003', 'turmir.com');
+INSERT INTO `free_email_provider` VALUES ('4004', 'svitmam.ua');
+INSERT INTO `free_email_provider` VALUES ('4005', 'taba.ru');
+INSERT INTO `free_email_provider` VALUES ('4006', 'povarenok.ru');
+INSERT INTO `free_email_provider` VALUES ('4007', 'yandex.by');
+INSERT INTO `free_email_provider` VALUES ('4008', 'ck.ua');
+INSERT INTO `free_email_provider` VALUES ('4009', 'cherkassy.ua');
+INSERT INTO `free_email_provider` VALUES ('4010', 'crimea.ua');
+INSERT INTO `free_email_provider` VALUES ('4011', 'cn.ua');
+INSERT INTO `free_email_provider` VALUES ('4012', 'chernigov.ua');
+INSERT INTO `free_email_provider` VALUES ('4013', 'cv.ua');
+INSERT INTO `free_email_provider` VALUES ('4014', 'chernovtsy.ua');
+INSERT INTO `free_email_provider` VALUES ('4015', 'dn.ua');
+INSERT INTO `free_email_provider` VALUES ('4016', 'donetsk.ua');
+INSERT INTO `free_email_provider` VALUES ('4017', 'dp.ua');
+INSERT INTO `free_email_provider` VALUES ('4018', 'dnepropetrovsk.ua');
+INSERT INTO `free_email_provider` VALUES ('4019', 'if.ua');
+INSERT INTO `free_email_provider` VALUES ('4020', 'ivano-frankivsk.ua');
+INSERT INTO `free_email_provider` VALUES ('4021', 'kiev.ua');
+INSERT INTO `free_email_provider` VALUES ('4022', 'kh.ua');
+INSERT INTO `free_email_provider` VALUES ('4023', 'kharkov.ua');
+INSERT INTO `free_email_provider` VALUES ('4024', 'km.ua');
+INSERT INTO `free_email_provider` VALUES ('4025', 'khmelnitskiy.ua');
+INSERT INTO `free_email_provider` VALUES ('4026', 'kr.ua');
+INSERT INTO `free_email_provider` VALUES ('4027', 'kirovograd.ua');
+INSERT INTO `free_email_provider` VALUES ('4028', 'ks.ua');
+INSERT INTO `free_email_provider` VALUES ('4029', 'kherson.ua');
+INSERT INTO `free_email_provider` VALUES ('4030', 'lg.ua');
+INSERT INTO `free_email_provider` VALUES ('4031', 'lugansk.ua');
+INSERT INTO `free_email_provider` VALUES ('4032', 'lutsk.ua');
+INSERT INTO `free_email_provider` VALUES ('4033', 'lviv.ua');
+INSERT INTO `free_email_provider` VALUES ('4034', 'mk.ua');
+INSERT INTO `free_email_provider` VALUES ('4035', 'nikolaev.ua');
+INSERT INTO `free_email_provider` VALUES ('4036', 'od.ua');
+INSERT INTO `free_email_provider` VALUES ('4037', 'odessa.ua');
+INSERT INTO `free_email_provider` VALUES ('4038', 'pl.ua');
+INSERT INTO `free_email_provider` VALUES ('4039', 'poltava.ua');
+INSERT INTO `free_email_provider` VALUES ('4040', 'rv.ua');
+INSERT INTO `free_email_provider` VALUES ('4041', 'rovno.ua');
+INSERT INTO `free_email_provider` VALUES ('4042', 'sebastopol.ua');
+INSERT INTO `free_email_provider` VALUES ('4043', 'sumy.ua');
+INSERT INTO `free_email_provider` VALUES ('4044', 'te.ua');
+INSERT INTO `free_email_provider` VALUES ('4045', 'ternopil.ua');
+INSERT INTO `free_email_provider` VALUES ('4046', 'uz.ua');
+INSERT INTO `free_email_provider` VALUES ('4047', 'uzhgorod.ua');
+INSERT INTO `free_email_provider` VALUES ('4048', 'vn.ua');
+INSERT INTO `free_email_provider` VALUES ('4049', 'vinnica.ua');
+INSERT INTO `free_email_provider` VALUES ('4050', 'yalta.ua');
+INSERT INTO `free_email_provider` VALUES ('4051', 'zp.ua');
+INSERT INTO `free_email_provider` VALUES ('4052', 'zaporizhzhe.ua');
+INSERT INTO `free_email_provider` VALUES ('4053', 'zt.ua');
+INSERT INTO `free_email_provider` VALUES ('4054', 'zhitomir.ua');
+INSERT INTO `free_email_provider` VALUES ('4055', 'easypeasy.com');
 
 -- ----------------------------
 -- Table structure for friendship
@@ -7659,7 +8142,7 @@ CREATE TABLE `log_account_invite` (
   `limit_after_transaction` int(11) DEFAULT NULL,
   `comment` text,
   `date` datetime DEFAULT NULL,
-  `action` varchar(100) DEFAULT NULL,
+  `message` varchar(100) DEFAULT NULL,
   `invites_limit_referrals` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -8872,6 +9355,7 @@ CREATE TABLE `profile` (
   `street` varchar(255) DEFAULT NULL,
   `city` varchar(255) DEFAULT NULL,
   `about` text,
+  `assessment_results_render_type` varchar(30) DEFAULT 'percentil',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -9389,7 +9873,6 @@ CREATE TABLE `tbl_migration` (
 -- ----------------------------
 -- Records of tbl_migration
 -- ----------------------------
-INSERT INTO `tbl_migration` VALUES ('m130000_000000_update_yum_users', '1382012031');
 INSERT INTO `tbl_migration` VALUES ('m130801_120340_remove_aggregated_reduction', '1382012031');
 INSERT INTO `tbl_migration` VALUES ('m130802_122516_day_plan_refactor', '1382012031');
 INSERT INTO `tbl_migration` VALUES ('m130805_160507_drop_day_plan_tables', '1382012032');
@@ -9397,6 +9880,7 @@ INSERT INTO `tbl_migration` VALUES ('m130814_100814_scenario', '1382012033');
 INSERT INTO `tbl_migration` VALUES ('m130815_123110_universal_log', '1382012033');
 INSERT INTO `tbl_migration` VALUES ('m130815_130449_meeting', '1382012034');
 INSERT INTO `tbl_migration` VALUES ('m130815_153151_clear', '1382012035');
+INSERT INTO `tbl_migration` VALUES ('m130820_173555_is_display_sim_results', '1382447503');
 INSERT INTO `tbl_migration` VALUES ('m130823_130957_duration', '1382012035');
 INSERT INTO `tbl_migration` VALUES ('m130829_120205_config', '1382012035');
 INSERT INTO `tbl_migration` VALUES ('m130829_143002_index', '1382012035');
@@ -9429,6 +9913,29 @@ INSERT INTO `tbl_migration` VALUES ('m130926_134059_sim', '1382012053');
 INSERT INTO `tbl_migration` VALUES ('m130927_075445_add_column_is_diplay_popup_in_corporate', '1382012054');
 INSERT INTO `tbl_migration` VALUES ('m130927_103836_add_column_refferals_invite_in_invite_log', '1382012054');
 INSERT INTO `tbl_migration` VALUES ('m130930_055500_renaming_refferal_table', '1382012055');
+INSERT INTO `tbl_migration` VALUES ('m130930_193030_update_non_corpurate_emails', '1382447504');
+INSERT INTO `tbl_migration` VALUES ('m131001_132329_add_procentile', '1382447504');
+INSERT INTO `tbl_migration` VALUES ('m131001_180409_update_corp', '1382447504');
+INSERT INTO `tbl_migration` VALUES ('m131002_065528_add_assessment_results_render_type', '1382447505');
+INSERT INTO `tbl_migration` VALUES ('m131002_074121_added_percentile_category_to_db', '1382447505');
+INSERT INTO `tbl_migration` VALUES ('m131002_081021_clear', '1382447505');
+INSERT INTO `tbl_migration` VALUES ('m131002_082033_adding_reject_reason_to_refferal', '1382447506');
+INSERT INTO `tbl_migration` VALUES ('m131002_141722_new', '1382447506');
+INSERT INTO `tbl_migration` VALUES ('m131002_151354_del', '1382447506');
+INSERT INTO `tbl_migration` VALUES ('m131002_225247_fix_percentile', '1382447506');
+INSERT INTO `tbl_migration` VALUES ('m131003_131854_remove_percentile', '1382447506');
+INSERT INTO `tbl_migration` VALUES ('m131004_125159_is_display_tariff_expire_pop_up', '1382447506');
+INSERT INTO `tbl_migration` VALUES ('m131007_080021_update', '1382447506');
+INSERT INTO `tbl_migration` VALUES ('m131007_131257_corp_email', '1382447506');
+INSERT INTO `tbl_migration` VALUES ('m131008_101407_drop', '1382447506');
+INSERT INTO `tbl_migration` VALUES ('m131008_171523_add_easypeasy_com', '1382447506');
+INSERT INTO `tbl_migration` VALUES ('m131008_204424_mail_lower', '1382447506');
+INSERT INTO `tbl_migration` VALUES ('m131009_121149_update_field_type_in_referrals', '1382447507');
+INSERT INTO `tbl_migration` VALUES ('m131010_095350_adding_ip_adress_to_user_table', '1382447507');
+INSERT INTO `tbl_migration` VALUES ('m131010_101243_adding_ip_adress_to_feedback_table', '1382447507');
+INSERT INTO `tbl_migration` VALUES ('m131010_130449_user_referral_md5_field', '1382447507');
+INSERT INTO `tbl_migration` VALUES ('m131010_132340_user_referral_md5_field_change_name', '1382447508');
+INSERT INTO `tbl_migration` VALUES ('m131011_100752_remaking_action_field_to_message', '1382447508');
 
 -- ----------------------------
 -- Table structure for time_management_aggregated
@@ -12001,6 +12508,7 @@ CREATE TABLE `user` (
   `notifyType` enum('None','Digest','Instant','Threshold') DEFAULT 'Instant',
   `agree_with_terms` varchar(3) DEFAULT NULL,
   `is_admin` int(1) NOT NULL DEFAULT '0',
+  `ip_address` varchar(15) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`),
   KEY `status` (`status`),
@@ -12053,10 +12561,6 @@ DROP TABLE IF EXISTS `user_account_corporate`;
 CREATE TABLE `user_account_corporate` (
   `user_id` int(10) unsigned NOT NULL,
   `industry_id` int(11) DEFAULT NULL,
-  `corporate_email` varchar(120) DEFAULT NULL,
-  `is_corporate_email_verified` tinyint(1) DEFAULT '0',
-  `corporate_email_verified_at` datetime DEFAULT NULL,
-  `corporate_email_activation_code` varchar(128) DEFAULT NULL,
   `invites_limit` int(4) unsigned NOT NULL DEFAULT '0',
   `position_id` int(11) DEFAULT NULL,
   `company_size_id` int(11) DEFAULT NULL,
@@ -12074,6 +12578,7 @@ CREATE TABLE `user_account_corporate` (
   `default_invitation_mail_text` text,
   `referrals_invite_limit` int(11) DEFAULT NULL,
   `is_display_referrals_popup` tinyint(1) DEFAULT '0',
+  `is_display_tariff_expire_pop_up` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`user_id`),
   KEY `user_account_corporate_FK_industry` (`industry_id`),
   KEY `fk_user_account_corporate_position_id` (`position_id`),
@@ -12123,6 +12628,9 @@ CREATE TABLE `user_referral` (
   `referrer_id` int(10) unsigned DEFAULT NULL,
   `invited_at` datetime DEFAULT NULL,
   `registered_at` datetime DEFAULT NULL,
+  `reject_reason` text,
+  `status` varchar(50) DEFAULT NULL,
+  `uniqueid` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `referral_id_index` (`referral_id`),
   KEY `referrer_id_index` (`referrer_id`),
@@ -12251,7 +12759,8 @@ CREATE TABLE `YiiCache` (
 -- ----------------------------
 -- Records of YiiCache
 -- ----------------------------
-INSERT INTO `YiiCache` VALUES ('a198e6d4aed7f655d42cb501b968f19f', '1382015631', 0x613A323A7B693A303B613A31303A7B733A31313A227065726D697373696F6E73223B613A333A7B693A303B733A31363A22434861734D616E7952656C6174696F6E223B693A313B733A31333A2259756D5065726D697373696F6E223B693A323B733A31323A227072696E636970616C5F6964223B7D733A31303A226D616E616765645F6279223B613A333A7B693A303B733A31363A22434861734D616E7952656C6174696F6E223B693A313B733A31333A2259756D5065726D697373696F6E223B693A323B733A31343A227375626F7264696E6174655F6964223B7D733A353A22726F6C6573223B613A333A7B693A303B733A31373A22434D616E794D616E7952656C6174696F6E223B693A313B733A373A2259756D526F6C65223B693A323B733A32373A22757365725F726F6C6528757365725F69642C20726F6C655F696429223B7D733A383A226D65737361676573223B613A343A7B693A303B733A31363A22434861734D616E7952656C6174696F6E223B693A313B733A31303A2259756D4D657373616765223B693A323B733A31303A22746F5F757365725F6964223B733A353A226F72646572223B733A31343A2274696D657374616D702044455343223B7D733A31353A22756E726561645F6D65737361676573223B613A353A7B693A303B733A31363A22434861734D616E7952656C6174696F6E223B693A313B733A31303A2259756D4D657373616765223B693A323B733A31303A22746F5F757365725F6964223B733A393A22636F6E646974696F6E223B733A31363A226D6573736167655F72656164203D2030223B733A353A226F72646572223B733A31343A2274696D657374616D702044455343223B7D733A31333A2273656E745F6D65737361676573223B613A333A7B693A303B733A31363A22434861734D616E7952656C6174696F6E223B693A313B733A31303A2259756D4D657373616765223B693A323B733A31323A2266726F6D5F757365725F6964223B7D733A363A22766973697473223B613A333A7B693A303B733A31363A22434861734D616E7952656C6174696F6E223B693A313B733A31353A2259756D50726F66696C655669736974223B693A323B733A31303A22766973697465645F6964223B7D733A373A2276697369746564223B613A333A7B693A303B733A31363A22434861734D616E7952656C6174696F6E223B693A313B733A31353A2259756D50726F66696C655669736974223B693A323B733A31303A2276697369746F725F6964223B7D733A373A2270726F66696C65223B613A333A7B693A303B733A31353A22434861734F6E6552656C6174696F6E223B693A313B733A31303A2259756D50726F66696C65223B693A323B733A373A22757365725F6964223B7D733A373A2270726976616379223B613A333A7B693A303B733A31353A22434861734F6E6552656C6174696F6E223B693A313B733A31373A2259756D5072697661637953657474696E67223B693A323B733A373A22757365725F6964223B7D7D693A313B4E3B7D);
+INSERT INTO `YiiCache` VALUES ('8c4b1bc51d44a7e11127ed2c18edd805', '1382451106', 0x613A323A7B693A303B613A303A7B7D693A313B4E3B7D);
+INSERT INTO `YiiCache` VALUES ('a198e6d4aed7f655d42cb501b968f19f', '1382451106', 0x613A323A7B693A303B613A31303A7B733A31313A227065726D697373696F6E73223B613A333A7B693A303B733A31363A22434861734D616E7952656C6174696F6E223B693A313B733A31333A2259756D5065726D697373696F6E223B693A323B733A31323A227072696E636970616C5F6964223B7D733A31303A226D616E616765645F6279223B613A333A7B693A303B733A31363A22434861734D616E7952656C6174696F6E223B693A313B733A31333A2259756D5065726D697373696F6E223B693A323B733A31343A227375626F7264696E6174655F6964223B7D733A353A22726F6C6573223B613A333A7B693A303B733A31373A22434D616E794D616E7952656C6174696F6E223B693A313B733A373A2259756D526F6C65223B693A323B733A32373A22757365725F726F6C6528757365725F69642C20726F6C655F696429223B7D733A383A226D65737361676573223B613A343A7B693A303B733A31363A22434861734D616E7952656C6174696F6E223B693A313B733A31303A2259756D4D657373616765223B693A323B733A31303A22746F5F757365725F6964223B733A353A226F72646572223B733A31343A2274696D657374616D702044455343223B7D733A31353A22756E726561645F6D65737361676573223B613A353A7B693A303B733A31363A22434861734D616E7952656C6174696F6E223B693A313B733A31303A2259756D4D657373616765223B693A323B733A31303A22746F5F757365725F6964223B733A393A22636F6E646974696F6E223B733A31363A226D6573736167655F72656164203D2030223B733A353A226F72646572223B733A31343A2274696D657374616D702044455343223B7D733A31333A2273656E745F6D65737361676573223B613A333A7B693A303B733A31363A22434861734D616E7952656C6174696F6E223B693A313B733A31303A2259756D4D657373616765223B693A323B733A31323A2266726F6D5F757365725F6964223B7D733A363A22766973697473223B613A333A7B693A303B733A31363A22434861734D616E7952656C6174696F6E223B693A313B733A31353A2259756D50726F66696C655669736974223B693A323B733A31303A22766973697465645F6964223B7D733A373A2276697369746564223B613A333A7B693A303B733A31363A22434861734D616E7952656C6174696F6E223B693A313B733A31353A2259756D50726F66696C655669736974223B693A323B733A31303A2276697369746F725F6964223B7D733A373A2270726F66696C65223B613A333A7B693A303B733A31353A22434861734F6E6552656C6174696F6E223B693A313B733A31303A2259756D50726F66696C65223B693A323B733A373A22757365725F6964223B7D733A373A2270726976616379223B613A333A7B693A303B733A31353A22434861734F6E6552656C6174696F6E223B693A313B733A31373A2259756D5072697661637953657474696E67223B693A323B733A373A22757365725F6964223B7D7D693A313B4E3B7D);
 
 -- ----------------------------
 -- Table structure for YiiSession
