@@ -82,7 +82,7 @@ define([
                         var last_model = todo_tasks.at(todo_tasks.length - 1);
                         last_model.isNewTask = true;
                     });
-                    this.listenTo(todo_tasks, 'onNewTask', this.doSoundNewTodo);
+                    this.listenTo(todo_tasks, 'onNewTask', this.doSoundNewTodoAndAnimate);
 
                     var phone_history = SKApp.simulation.phone_history;
 
@@ -631,9 +631,10 @@ define([
                 }
             },
 
-            doSoundNewTodo: function() {
+            doSoundNewTodoAndAnimate: function() {
                 try {
                     window.AppView.frame.icon_view._playSound('plan/S1.2.1.ogg');
+                    this.startAnimation('.plan');
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
