@@ -181,14 +181,15 @@ class DashboardController extends SiteBaseController implements AccountPageContr
 
         $session = new CHttpSession();
 
-        $request_uri = $_SERVER['REQUEST_URI'];
+        $request_uri = Yii::app()->request->url;
+        $cookie = (Yii::app()->request->cookies['dashboard_page'] !== null) ? Yii::app()->request->cookies['dashboard_page']->value : null;
 
-        if($request_uri == "/dashboard" && $session["dashboard_page"] != null && $session["dashboard_page"] != $request_uri) {
-            $this->redirect($session["dashboard_page"]);
+        if($request_uri == "/dashboard" && $cookie != null && $cookie != $request_uri) {
+            $this->redirect($cookie);
         }
 
         if($page != null) {
-            $session["dashboard_page"] = $request_uri;
+            Yii::app()->request->cookies['dashboard_page'] = new CHttpCookie('dashboard_page', $request_uri);
         }
 
         // check and add trial full version {
