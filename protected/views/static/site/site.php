@@ -65,7 +65,6 @@
         $(document).ready(function() {
             win = $(window);
             cupdiv = $("#loading-cup");
-            preload(preload_images);
             topMargin = (win.height() - cupdiv.outerHeight()) / 2 + 'px';
             leftMargin = (win.width() - cupdiv.outerWidth()) / 2 + 'px';
             $("#loading-cup").css("margin-top",topMargin);
