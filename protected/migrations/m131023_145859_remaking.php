@@ -4,6 +4,7 @@ class m131023_145859_remaking extends CDbMigration
 {
 	public function up()
 	{
+        $this->execute("UPDATE invites SET sent_time = NULL");
         $this->alterColumn("invites", "sent_time", "DATETIME");
 	}
 
