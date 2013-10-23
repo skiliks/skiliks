@@ -53,6 +53,46 @@
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/jquery/jquery-ui-1.8.21.custom.min.js"></script>
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/jquery/jquery-ui-1.10.3.custom.min.js"></script>
 
+    <script>
+
+        jQuery.preloadImages = function () {
+            if (typeof arguments[arguments.length - 1] == 'function') {
+                var callback = arguments[arguments.length - 1];
+            } else {
+                var callback = false;
+            }
+            if (typeof arguments[0] == 'object') {
+                var images = arguments[0];
+                var n = images.length;
+            } else {
+                var images = arguments;
+                var n = images.length - 1;
+            }
+            var not_loaded = n;
+            for (var i = 0; i < n; i++) {
+                console.log(images[i]);
+                jQuery(new Image()).attr('src', images[i]).load(function() {
+                    if (--not_loaded < 1 && typeof callback == 'function') {
+                        callback();
+                    }
+                });
+            }
+        }
+
+        $(document).ready(function() {
+            win = $(window);
+            cupdiv = $("#loading-cup");
+            topMargin = (win.height() - cupdiv.outerHeight()) / 2 + 'px';
+            leftMargin = (win.width() - cupdiv.outerWidth()) / 2 + 'px';
+            $("#loading-cup").css("margin-top",topMargin);
+            $("#loading-cup").css("margin-left",leftMargin);
+
+            $.preloadImages(preload_images, function () {
+            });
+
+        });
+    </script>
+
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/socialcalc/socialcalcconstants_ru.js"></script>
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/socialcalc/socialcalc-3.js"></script>
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/socialcalc/socialcalctableeditor.js"></script>
@@ -93,50 +133,13 @@
         <script type="text/javascript" src="<?= $assetsUrl; ?>/js/require.js" data-main="game/application.js"></script>
     <?php //endif ?>
 </head>
+
 <body class="body loading" style="background-color: #2e2e2e;">
     <div id="loading-cup">
         <img src="<?= $assetsUrl; ?>/img/loading-cup.jpg" alt="Loading..." /><br/>
         <h2 class="white-color" style="color: #ffffff;">Загружается <?=$scenarioLabel?></h2><br/>
         <img src="<?= $assetsUrl; ?>/img/design/ajax-loader.gif" alt="Loader..." />
     </div>
-    <script>
-
-        jQuery.preloadImages = function () {
-            if (typeof arguments[arguments.length - 1] == 'function') {
-                var callback = arguments[arguments.length - 1];
-            } else {
-                var callback = false;
-            }
-            if (typeof arguments[0] == 'object') {
-                var images = arguments[0];
-                var n = images.length;
-            } else {
-                var images = arguments;
-                var n = images.length - 1;
-            }
-            var not_loaded = n;
-            for (var i = 0; i < n; i++) {
-                jQuery(new Image()).attr('src', images[i]).load(function() {
-                    if (--not_loaded < 1 && typeof callback == 'function') {
-                        callback();
-                    }
-                });
-            }
-        }
-
-        $(document).ready(function() {
-            win = $(window);
-            cupdiv = $("#loading-cup");
-            topMargin = (win.height() - cupdiv.outerHeight()) / 2 + 'px';
-            leftMargin = (win.width() - cupdiv.outerWidth()) / 2 + 'px';
-            $("#loading-cup").css("margin-top",topMargin);
-            $("#loading-cup").css("margin-left",leftMargin);
-
-            $.preloadImages(preload_images, function () {
-            });
-
-        });
-    </script>
     <div id="excel-cache" style="display: none; visibility: hidden;"></div>
     <iframe style="display: none" src="/page_for_cache"></iframe>
 </body>
