@@ -70,7 +70,6 @@
             }
             var not_loaded = n;
             for (var i = 0; i < n; i++) {
-                console.log(images[i]);
                 jQuery(new Image()).attr('src', images[i]).load(function() {
                     if (--not_loaded < 1 && typeof callback == 'function') {
                         callback();

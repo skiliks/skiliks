@@ -1127,6 +1127,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                                             $("#MailClient_RecipientsList")[0].removeTag(el_tag);
                                             if(typeof updateSubject === 'function'){
                                                 updateSubject();
+                                                $("#mailEmulatorNewLetterTextVariants").html('');
                                             }
                                         }
                                     }
@@ -1212,7 +1213,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
              * @method
              * @param array
              */
-            setRegularAvailablePhrases:function (array) {
+            setRegularmailEmulatorNewLetterText:function (array) {
                 try {
                     this.messageForNewEmail = '';
                     this.availablePhrases = []; // clean-up old phrases
