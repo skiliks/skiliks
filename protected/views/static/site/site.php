@@ -55,40 +55,21 @@
 
     <script>
 
-        jQuery.preloadImages = function () {
-            if (typeof arguments[arguments.length - 1] == 'function') {
-                var callback = arguments[arguments.length - 1];
-            } else {
-                var callback = false;
-            }
-            if (typeof arguments[0] == 'object') {
-                var images = arguments[0];
-                var n = images.length;
-            } else {
-                var images = arguments;
-                var n = images.length - 1;
-            }
-            var not_loaded = n;
-            for (var i = 0; i < n; i++) {
-                jQuery(new Image()).attr('src', images[i]).load(function() {
-                    if (--not_loaded < 1 && typeof callback == 'function') {
-                        callback();
-                    }
-                });
-            }
+        function preload(arrayOfImages) {
+            $(arrayOfImages).each(function(){
+                $('<img/>')[0].src = this;
+                console.log(this);
+            });
         }
 
         $(document).ready(function() {
             win = $(window);
             cupdiv = $("#loading-cup");
+            preload(preload_images);
             topMargin = (win.height() - cupdiv.outerHeight()) / 2 + 'px';
             leftMargin = (win.width() - cupdiv.outerWidth()) / 2 + 'px';
             $("#loading-cup").css("margin-top",topMargin);
             $("#loading-cup").css("margin-left",leftMargin);
-
-            $.preloadImages(preload_images, function () {
-            });
-
         });
     </script>
 
