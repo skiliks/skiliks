@@ -281,9 +281,7 @@ class Invite extends CActiveRecord
      */
     public function getSentTime()
     {
-        $datetime = new DateTime('now', new DateTimeZone('Europe/Moscow'));
-        $datetime->setTimestamp((int)$this->sent_time);
-        return $datetime;
+        return $this->sent_time;
     }
 
     /**
@@ -307,7 +305,7 @@ class Invite extends CActiveRecord
         $newInvite->lastname    = $user->profile->lastname;
         $newInvite->scenario_id = $scenario->id;
         $newInvite->status      = Invite::STATUS_ACCEPTED;
-        $newInvite->sent_time   = time(); // @fix DB!
+        $newInvite->sent_time   = date("Y-m-d H:i:s"); // @fix DB!
         $newInvite->updated_at = (new DateTime('now', new DateTimeZone('Europe/Moscow')))->format("Y-m-d H:i:s");
         $newInvite->save(true, [
             'owner_id', 'receiver_id', 'firstname', 'lastname', 'scenario_id', 'status'

@@ -19,7 +19,7 @@
         <tr><td>для</td><td> <?= (null !== $simulation->invite)?$simulation->invite->email:'-' ?></td></tr>
         <tr><td>Оценка</td><td> <?= (null !== $simulation->invite->getOverall()) ? $simulation->invite->getOverall() : '-'; ?></td></tr>
         <tr><td>Процентиль</td><td> <?= (null !== $simulation->invite->getPercentile()) ? $simulation->invite->getPercentile() : '-'; ?></td></tr>
-        <tr><td>Дата создания</td><td> <?= (null !== $simulation->invite->sent_time) ? date("Y-m-d H:i:s", $simulation->invite->sent_time) : '-'; ?></td></tr>
+        <tr><td>Дата создания</td><td> <?= (null !== $simulation->invite->sent_time) ? $simulation->invite->sent_time : '-'; ?></td></tr>
         <tr><td>Дата окончание</td><td> <?= (null !== $simulation->invite->expired_at) ? $simulation->invite->expired_at : '-'; ?></td></tr>
     </table>
 

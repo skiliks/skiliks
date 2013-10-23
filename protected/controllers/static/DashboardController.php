@@ -225,7 +225,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             $newInviteForFullSimulation->lastname = Yii::app()->user->data()->profile->lastname;
             $newInviteForFullSimulation->scenario_id = $fullScenario->id;
             $newInviteForFullSimulation->status = Invite::STATUS_ACCEPTED;
-            $newInviteForFullSimulation->sent_time = time(); // @fix DB!
+            $newInviteForFullSimulation->sent_time = date("Y-m-d H:i:s");
             $newInviteForFullSimulation->updated_at = (new DateTime('now', new DateTimeZone('Europe/Moscow')))->format("Y-m-d H:i:s");
             $newInviteForFullSimulation->tutorial_scenario_id = $tutorialScenario->id;
             $newInviteForFullSimulation->is_display_simulation_results = 1;
