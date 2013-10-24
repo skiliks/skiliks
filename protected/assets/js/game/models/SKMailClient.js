@@ -1213,7 +1213,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
              * @method
              * @param array
              */
-            setRegularmailEmulatorNewLetterText:function (array) {
+            setRegularAvailablePhrases:function (array) {
                 try {
                     this.messageForNewEmail = '';
                     this.availablePhrases = []; // clean-up old phrases
