@@ -15,6 +15,14 @@ return [
         'close1' => 'css=.btn-close > button:nth-child(1)'
     ],
 
+    'icons_active' => [
+        'plan' => 'css=.icons-panel li.plan.icon-active',
+        'phone' => 'css=.icons-panel li.phone.icon-active',
+        'mail' => 'css=.icons-panel li.mail.icon-active',
+        'door' => 'css=.icons-panel li.door.icon-active',
+        'documents' => 'css=.icons-panel li.door.icon-active'
+    ],
+
     'time' => [
         'hour' => "css=.hour",
         'minute' => "css=.minute"

@@ -181,7 +181,7 @@ class Invite extends CActiveRecord
     public function markAsSendToday()
     {
         $datetime = new DateTime('now', new DateTimeZone('Europe/Moscow'));
-        $this->sent_time = $datetime->getTimestamp();
+        $this->sent_time  = $datetime->format("Y-m-d H:i:s");
         $this->updated_at = $datetime->format("Y-m-d H:i:s");
         if (null === $this->status) {
             $this->status = self::STATUS_PENDING;
@@ -193,7 +193,7 @@ class Invite extends CActiveRecord
      */
     public function getExpiredDate()
     {
-        $time = $this->sent_time + self::EXPIRED_TIME;
+        $time = time($this->sent_time) + self::EXPIRED_TIME;
         return Yii::t('site', date('F', $time)).date(' d, Y', $time);
     }
 
@@ -305,7 +305,7 @@ class Invite extends CActiveRecord
         $newInvite->lastname    = $user->profile->lastname;
         $newInvite->scenario_id = $scenario->id;
         $newInvite->status      = Invite::STATUS_ACCEPTED;
-        $newInvite->sent_time   = date("Y-m-d H:i:s"); // @fix DB!
+        $newInvite->sent_time   = date("Y-m-d H:i:s");
         $newInvite->updated_at = (new DateTime('now', new DateTimeZone('Europe/Moscow')))->format("Y-m-d H:i:s");
         $newInvite->save(true, [
             'owner_id', 'receiver_id', 'firstname', 'lastname', 'scenario_id', 'status'

@@ -127,11 +127,15 @@ define([
 
                         var duration;
                         if(null === remote_replica){
-                            console.log('set duration if', 0);
-                            duration = 10000;
+                            throw new Error('remote_replica must be not null!');
                         }else{
-                            console.log('set duration else', remote_replica.duration);
                             duration = parseInt(remote_replica.duration, 0)*1000;
+                        }
+                        // Для дев режима, последняя реплика в диалоге, если нет вариантов ответа - сразу исчезает.
+                        // Из-за этого тесты которые проверяют отображение реплик валятся
+                        // 5 сек задержки должно хватать, но если не хватит можно увеличить
+                        if (SKApp.simulation.isDebug() && 0 == my_replicas.length) {
+                            duration = 5000;
                         }
                         setTimeout(function(){
                             me.$('video').css('zIndex', 0);
