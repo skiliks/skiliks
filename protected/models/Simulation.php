@@ -209,14 +209,22 @@ class Simulation extends CActiveRecord
 
     /**
      * Returns current simulation time
+     * @param $precision string second or minute
+     * @return string Return H:i:s or H:i
      */
-    public function getGameTime()
+    public function getGameTime($precision='second')
     {
         $time = Yii::app()->request->getParam('time');
-        if(null === $time) {
+        if( null === $time ) {
             // for unit tests with time {
             if (isset(Yii::app()->session['gameTime'])) {
-                return Yii::app()->session['gameTime'];
+                if($precision === 'second') {
+                    return date('H:i:s', strtotime(Yii::app()->session['gameTime']));
+                } else if($precision === 'minute') {
+                    return date('H:i', strtotime(Yii::app()->session['gameTime']));
+                } else {
+                    throw new Exception("Unknown precision type ".$precision);
+                }
             }
             // for unit tests with time }
 
@@ -226,9 +234,21 @@ class Simulation extends CActiveRecord
             $startTime = explode(':', $this->game_type->start_time);
             $unixtime = $variance + $startTime[0] * 3600 + $startTime[1] * 60 + $startTime[2];
 
-            return gmdate('H:i:s', $unixtime);
+            if($precision === 'second'){
+                return date('H:i:s', $unixtime);
+            } else if($precision === 'minute') {
+                return date('H:i', $unixtime);
+            } else{
+                throw new Exception("Unknown precision type ".$precision);
+            }
         }else{
-            return $time;
+            if($precision === 'second'){
+                return date('H:i:s', strtotime($time));
+            } else if($precision === 'minute') {
+                return date('H:i', strtotime($time));
+            } else{
+                throw new Exception("Unknown precision type ".$precision);
+            }
         }
 
     }
