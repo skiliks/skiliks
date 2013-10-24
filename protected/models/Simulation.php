@@ -219,9 +219,9 @@ class Simulation extends CActiveRecord
             // for unit tests with time {
             if (isset(Yii::app()->session['gameTime'])) {
                 if($precision === 'second') {
-                    return gmdate('H:i:s', strtotime(Yii::app()->session['gameTime']));
+                    return date('H:i:s', strtotime(Yii::app()->session['gameTime']));
                 } else if($precision === 'minute') {
-                    return gmdate('H:i', strtotime(Yii::app()->session['gameTime']));
+                    return date('H:i', strtotime(Yii::app()->session['gameTime']));
                 } else {
                     throw new Exception("Unknown precision type ".$precision);
                 }
@@ -235,17 +235,17 @@ class Simulation extends CActiveRecord
             $unixtime = $variance + $startTime[0] * 3600 + $startTime[1] * 60 + $startTime[2];
 
             if($precision === 'second'){
-                return gmdate('H:i:s', $unixtime);
+                return date('H:i:s', $unixtime);
             } else if($precision === 'minute') {
-                return gmdate('H:i', $unixtime);
+                return date('H:i', $unixtime);
             } else{
                 throw new Exception("Unknown precision type ".$precision);
             }
         }else{
             if($precision === 'second'){
-                return gmdate('H:i:s', strtotime($time));
+                return date('H:i:s', strtotime($time));
             } else if($precision === 'minute') {
-                return gmdate('H:i', strtotime($time));
+                return date('H:i', strtotime($time));
             } else{
                 throw new Exception("Unknown precision type ".$precision);
             }
