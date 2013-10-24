@@ -38,7 +38,7 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Нет, отложи все дела и сделай срочно. Думаю, двух часов тебе хватит. Перед отправкой перешли мне для проверки. ')])");
         sleep(5);
 
-        $this->run_event('ET1.1', Yii::app()->params['test_mappings']['icons']['phone'], 'click');
+        $this->run_event('ET1.1', Yii::app()->params['test_mappings']['icons_active']['phone'], 'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
         $this->optimal_click("xpath=(//*[contains(text(),'Раиса Романовна, помню про бюджет. Сейчас же приступаю к доработке')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Хорошо, за три часа управлюсь')])");
@@ -47,10 +47,10 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
         $this->clearEventQueueBeforeEleven('RST2');
         $this->clearEventQueueBeforeEleven('RST3');
         $event="RVT1";
-        $this->run_event($event, Yii::app()->params['test_mappings']['icons']['door'], 'click');
+        $this->run_event($event, Yii::app()->params['test_mappings']['icons_active']['door'], 'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['visit']['deny']);
         $event .= '.1';
-        $this->run_event($event, Yii::app()->params['test_mappings']['icons']['door'], 'click');
+        $this->run_event($event, Yii::app()->params['test_mappings']['icons_active']['door'], 'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['visit']['deny']);
 
         $this->run_event('M8');
@@ -69,10 +69,9 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
         sleep(5);
 
         $this->run_event("MS45");
-        sleep(30);
+        sleep(10);
 
-        $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
-
+        $this->optimal_click(Yii::app()->params['test_mappings']['icons_active']['mail']);
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['settings']);
         $this->optimal_click("css=.volume-control.control-mail.volume-on");
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['settings']);
@@ -122,7 +121,7 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
         $this->run_event('T7.4',"xpath=(//*[contains(text(),'Я по поводу задания от логистов. Ты его сделал?')])",'click');
         sleep(5);
 
-        $this->run_event('ET2.1', Yii::app()->params['test_mappings']['icons']['phone'], 'click');
+        $this->run_event('ET2.1', Yii::app()->params['test_mappings']['icons_active']['phone'], 'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
         $this->optimal_click("xpath=(//*[contains(text(),'в прошлый раз нам пришлось презентацию за день делать!')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Да, прямо сейчас проконтролирую, как идет подготовка.')])");
@@ -133,18 +132,18 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Это хорошо, что ')])");
         sleep(5);
 
-        $this->run_event('ET3.1', Yii::app()->params['test_mappings']['icons']['phone'], 'click');
+        $this->run_event('ET3.1', Yii::app()->params['test_mappings']['icons_active']['phone'], 'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
         $this->optimal_click("xpath=(//*[contains(text(),'Хорошо, Иван')])");
         sleep(5);
 
-        $this->run_event('ET3.3', Yii::app()->params['test_mappings']['icons']['phone'], 'click');
+        $this->run_event('ET3.3', Yii::app()->params['test_mappings']['icons_active']['phone'], 'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
         $this->optimal_click("xpath=(//*[contains(text(),'Здравствуйте. Любопытно')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Извините, давайте созвонимся после отпуска, я сейчас очень занят')])");
         sleep(5);
 
-        $this->run_event('ET8',Yii::app()->params['test_mappings']['icons']['door'],'click');
+        $this->run_event('ET8',Yii::app()->params['test_mappings']['icons_active']['door'],'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['visit']['deny']);
         sleep(5);
 
@@ -195,7 +194,7 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
         $this->clearEventQueueBeforeEleven('RST7');
         $this->clearEventQueueBeforeEleven('RST8');
 
-        $this->run_event('ET9', Yii::app()->params['test_mappings']['icons']['door'], 'click');
+        $this->run_event('ET9', Yii::app()->params['test_mappings']['icons_active']['door'], 'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
         $this->optimal_click("xpath=(//*[contains(text(),'Василий, вопрос в чем?')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Василий, давайте ближе к делу!')])");
@@ -211,7 +210,7 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Слушаюсь, Раиса Романовна, сейчас сделаю.')])");
         sleep(5);*/
 
-        $this->run_event('ET13',Yii::app()->params['test_mappings']['icons']['door'],'click');
+        $this->run_event('ET13',Yii::app()->params['test_mappings']['icons_active']['door'],'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['visit']['allow']);
         $this->optimal_click("xpath=(//*[contains(text(),'Марина, могу я чем-то помочь')])");
         $this->optimal_click("xpath=(//*[contains(text(),'А что именно должно поменяться и почему')])");
@@ -226,7 +225,7 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
         $this->clearEventQueueBeforeEleven('RST9');
         $this->clearEventQueueBeforeEleven('RST10');
 
-        $this->run_event('ET15',Yii::app()->params['test_mappings']['icons']['door'],'click');
+        $this->run_event('ET15',Yii::app()->params['test_mappings']['icons_active']['door'],'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['visit']['allow']);
         $this->optimal_click("xpath=(//*[contains(text(),'Раиса Романовна, прошу прощения')])");
         sleep(15);
