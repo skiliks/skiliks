@@ -38,7 +38,7 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
             'useSentryForJsLog'    => true,
             'isSkipBrowserCheck'   => true,
             'isDisplaySupportChat' => false,
-        ],
+        ]
     )
 ));
 

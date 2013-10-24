@@ -1127,6 +1127,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                                             $("#MailClient_RecipientsList")[0].removeTag(el_tag);
                                             if(typeof updateSubject === 'function'){
                                                 updateSubject();
+                                                $("#mailEmulatorNewLetterTextVariants").html('');
                                             }
                                         }
                                     }

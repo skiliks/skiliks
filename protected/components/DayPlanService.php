@@ -137,10 +137,11 @@ class DayPlanService
             $end = GameTime::addMinutesTime($time, $task->duration);
 
             // Check fitting in time periods
-            if ($day == DayPlan::DAY_1 && GameTime::getUnixDateTime($time) < GameTime::getUnixDateTime($simulation->getGameTime()) ||
+            if ($day == DayPlan::DAY_1 && GameTime::getUnixDateTime($time) < GameTime::getUnixDateTime($simulation->getGameTime('minute')) ||
                 GameTime::getUnixDateTime($time) < GameTime::getUnixDateTime('9:00') ||
                 GameTime::getUnixDateTime($end) > GameTime::getUnixDateTime('22:00')
             ) {
+                Yii::log('_canAddTask return false', CLogger::LEVEL_WARNING);
                 return false;
             }
 
