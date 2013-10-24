@@ -27,6 +27,9 @@ class ZeroReplicasOfInterlocutor_SK4509_Test extends SeleniumTestHelper
         $this->waitForVisible("xpath=(//*[contains(text(),'Ну ты даешь!!! Мало того, что это я к тебе выбрался')])");
         sleep(10);
 
+        $this->optimal_click('link=F14');
+        $this->optimal_click('link=F36');
+
         // E12 to E12.1 (phone-phone)
         $this->run_event('E12',"xpath=(//*[contains(text(),'Я вас очень прошу, найдите сегодня любое время')])",'click');
         $this->waitForVisible("xpath=(//*[contains(text(),'Я вам перезвоню.')])");
@@ -34,9 +37,6 @@ class ZeroReplicasOfInterlocutor_SK4509_Test extends SeleniumTestHelper
         $this->waitForVisible("xpath=(//*[contains(text(),'Нет, Босс завтра на выезде')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Может мой аналитик подойти вместо меня?')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Хорошо, буду в 18.00')])");
-
-        $this->optimal_click('link=F14');
-        $this->optimal_click('link=F36');
 
         // E12.4 to E12.7 (phone-visit)
         $this->run_event('E12.4', "xpath=(//*[contains(text(),'Давайте в 18.00, как договорились, я уже')])",'click');
