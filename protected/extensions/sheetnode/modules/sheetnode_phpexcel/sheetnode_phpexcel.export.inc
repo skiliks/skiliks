@@ -523,7 +523,7 @@ function _sheetnode_phpexcel_export_cell_value_and_format($c, $coord, $sc, $work
     if ($c['datatype'] == 'f') {
       // link: http://translate.google.com/translate?hl=uk&sl=en&u=http://typo3.org/extension-manuals/phpexcel_library/1.7.4/view/5/4/&prev=/search%3Fq%3DPHPexcel%2BSUM%2Bwith%2Bsemicolon%26client%3Dubuntu%26hs%3DDds%26channel%3Dfs%26biw%3D1535%26bih%3D746
       // Matrix row separator is ';' (semicolon)
-      $c['formula'] = str_replace(['СУММ', ';'], ['SUM', ','], $c['formula']);
+      $c['formula'] = str_replace(['СУММ', ';'], ['SUM', ','], strtoupper($c['formula']));
       if (strpos($c['formula'], '!') !== FALSE) {
         _sheetnode_phpexcel_export_reference($c, $cell, $worksheet);
       }
