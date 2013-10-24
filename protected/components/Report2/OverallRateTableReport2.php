@@ -4,10 +4,12 @@ use application\components\Logging\LogTable;
 
 class OverallRateTableReport2 extends LogTable {
 
-    public $language = ["management"  => "Управленческие навыки",
+    public $language = [
+        "management"  => "Управленческие навыки",
         "performance" => "Результативность",
         "time"        => "Эффективность использования времени",
         "overall"     => "Итоговый рейтинг",
+        "percentile"  => "Процентиль",
     ];
 
     public function getHeaders()
