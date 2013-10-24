@@ -131,6 +131,12 @@ define([
                         }else{
                             duration = parseInt(remote_replica.duration, 0)*1000;
                         }
+                        // Для дев режима, последняя реплика в диалоге, если нет вариантов ответа - сразу исчезает.
+                        // Из-за этого тесты которые проверяют отображение реплик валятся
+                        // 5 сек задержки должно хватать, но если не хватит можно увеличить
+                        if (SKApp.simulation.isDebug() && 0 == my_replicas.length) {
+                            duration = 5000;
+                        }
                         setTimeout(function(){
                             me.$('video').css('zIndex', 0);
                             if (my_replicas.length === 0) {
