@@ -277,7 +277,7 @@ class UserService {
         self::prepareForRegistration( $profile, $user, $firstname, $lastname, $email, $password, $password_again,
             $agree_with_terms);
 
-        $accountPersonal->industry_id = $professional_status_id;
+        $accountPersonal->professional_status_id = $professional_status_id;
         $accountValid = $accountPersonal->validate(['professional_status_id']);
 
         if(self::validateUserForRegistration($user, $profile, $returnData['emailIsExistAndNotActivated'])
