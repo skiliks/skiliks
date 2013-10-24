@@ -11,9 +11,6 @@ class ZeroReplicasOfInterlocutor_SK4509_Test extends SeleniumTestHelper
     public function test_ZeroReplicas_SK4509 ()
     {
         $this->start_simulation();
-
-        //TODO: поставить нужные флаги, поставить проверки, что мигаю нужные иконки, что открываются именно те документы, которые нужны
-
         // E3.2 to E3.4 (visit-visit)
         $this->run_event('E3.2',"xpath=(//*[contains(text(),'Сделал')])",'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Давай')])");
@@ -57,7 +54,7 @@ class ZeroReplicasOfInterlocutor_SK4509_Test extends SeleniumTestHelper
         $this->run_event('T2',"xpath=(//*[contains(text(),'Иван, привет! Это Федоров')])",'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Послушай, Иван, а мы можем встретиться, когда')])");
         $this->waitForVisible("xpath=(//*[contains(text(),'Ну прямо гора с плеч! Я сегодня в жутком цейтноте. ')])");
-        //check for new task in plan
+        $this->waitForVisible(Yii::app()->params['test_mappings']['icons_active']['plan']);
 
         // T7.4 to M43 (phone-mail)
         $this->optimal_click("link=F38_1");
@@ -65,7 +62,7 @@ class ZeroReplicasOfInterlocutor_SK4509_Test extends SeleniumTestHelper
         $this->optimal_click("link=F38_3");
         $this->run_event('T7.4',"xpath=(//*[contains(text(),'Я по поводу задания от логистов. Ты его сделал?')])",'click');
         $this->waitForVisible("xpath=(//*[contains(text(),'Данные у вас в почте')])");
-        //check for new mail
+        $this->waitForVisible(Yii::app()->params['test_mappings']['icons_active']['mail']);
 
         // RS2 to D2 (phone-document)
         $this->run_event('RS2',"xpath=(//*[contains(text(),'Доброе утро, Егор. Не совсем – я бюджетом занят.')])", 'click');
@@ -73,7 +70,7 @@ class ZeroReplicasOfInterlocutor_SK4509_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Нет, Егор! До отпуска времени')])");
         $this->optimal_click("xpath=(//*[contains(text(),'ты совершенно напрасно волнуешься')])");
         $this->waitForVisible("xpath=(//*[contains(text(),'Такое ощущение, что мы с тобой разными планами')])");
-        //check for document active
+        $this->waitForVisible(Yii::app()->params['test_mappings']['icons_active']['documents']);
 
         // E13 to P10 (visit-plan)
         $this->run_event('E13',"xpath=(//*[contains(text(),'я на совещание опаздываю')])", 'click');
@@ -85,7 +82,7 @@ class ZeroReplicasOfInterlocutor_SK4509_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Хорошо, что мы об этом поговорили,')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Давай так договоримся. Ты дашь мне второй шанс.')])");
         $this->waitForVisible("xpath=(//*[contains(text(),'Давайте попробуем… И спасибо вам,')])");
-        // check for new task in plan
+        $this->waitForVisible(Yii::app()->params['test_mappings']['icons_active']['plan']);
 
         $this->simulation_stop();
     }
