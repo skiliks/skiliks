@@ -220,7 +220,7 @@ class Simulation extends CActiveRecord
             if (isset(Yii::app()->session['gameTime'])) {
                 if($precision === 'second') {
                     return gmdate('H:i:s', strtotime(Yii::app()->session['gameTime']));
-                } else if('minute') {
+                } else if($precision === 'minute') {
                     return gmdate('H:i', strtotime(Yii::app()->session['gameTime']));
                 } else {
                     throw new Exception("Unknown precision type ".$precision);
@@ -236,7 +236,7 @@ class Simulation extends CActiveRecord
 
             if($precision === 'second'){
                 return gmdate('H:i:s', $unixtime);
-            } else if('minute') {
+            } else if($precision === 'minute') {
                 return gmdate('H:i', $unixtime);
             } else{
                 throw new Exception("Unknown precision type ".$precision);
