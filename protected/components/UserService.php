@@ -148,6 +148,260 @@ class UserService {
         }
     }
 
+    /**
+     * Returns new objects for registration form, also returns All Industries and statuses
+     */
+
+    public static function getRegistrationForm() {
+        // generating
+        $returnData = [];
+        $returnData['user']             = new YumUser('registration');
+        $returnData['profile']          = new YumProfile();
+        $returnData['accountCorporate'] = new UserAccountCorporate();
+        $returnData['accountPersonal']  = new UserAccountPersonal();
+        $returnData['industries']       = self::getIndustriesForm();
+        $returnData['statuses']         = self::getStatusesForm();
+        $returnData['account_type']     = 'corporate';
+        return $returnData;
+    }
+
+    public static function getStatusesForm() {
+        $statuses = [''=>'Выберите статус'];
+        foreach (ProfessionalStatus::model()->findAll() as $status) {
+            $statuses[$status->id] = Yii::t('site', $status->label);
+        }
+        return $statuses;
+    }
+
+    public static function getIndustriesForm() {
+        $industries = [''=>'Выберите отрасль'];
+        foreach (Industry::model()->findAll() as $industry) {
+            $industries[$industry->id] = Yii::t('site', $industry->label);
+        }
+        return $industries;
+    }
+
+    public static function completeRegistrationFromForm($UserAccountCorporateData, $UserAccountPersonalData,
+                                                        $YumProfileData, $YumUserData, $account_type) {
+        // preparing if userEmailExists
+        $emailIsExistAndNotActivated = false;
+
+        switch($account_type) {
+            case 'corporate' :
+                $returnData = UserService::registerCorporateUser($YumProfileData['firstname'], $YumProfileData['lastname'],
+                    $YumProfileData['email'], $YumUserData['password'], $YumUserData['password_again'],
+                    $YumUserData['agree_with_terms'], $UserAccountCorporateData['industry_id']);
+                $returnData['accountPersonal'] = new UserAccountPersonal();
+                break;
+
+            case 'personal' :
+                $returnData = UserService::registerPersonalUser($YumProfileData['firstname'], $YumProfileData['lastname'],
+                    $YumProfileData['email'], $YumUserData['password'], $YumUserData['password_again'],
+                    $YumUserData['agree_with_terms'], $UserAccountPersonalData['professional_status_id']);
+                $returnData['accountCorporate'] = new UserAccountCorporate();
+                break;
+        }
+
+        $returnData['account_type'] = $account_type;
+        return $returnData;
+    }
+
+    public static function registerCorporateUser($firstname = null, $lastname = null, $email = null,
+                                                 $password = null, $password_again = null, $agree_with_terms = null,
+                                                 $industry_id = null) {
+
+        $returnData['user']             = $user             = new YumUser('registration');
+        $returnData['profile']          = $profile          = new YumProfile('registration_corporate');
+        $returnData['accountCorporate'] = $accountCorporate = new UserAccountCorporate();
+        $returnData['emailIsExistAndNotActivated'] = false;
+
+        $profile->scenario = 'registration_corporate';
+        $accountCorporate->scenario = 'corporate';
+
+        self::prepareForRegistration( $profile, $user, $firstname, $lastname, $email, $password, $password_again,
+                                      $agree_with_terms);
+
+        $accountCorporate->industry_id = $industry_id;
+        $accountValid = $accountCorporate->validate(['industry_id']);
+
+        if(self::validateUserForRegistration($user, $profile, $returnData['emailIsExistAndNotActivated'])
+            && $accountValid) {
+
+            $is_success_registration = $user->register($user->username, $user->password, $profile);
+
+            if ($is_success_registration) {
+                $profile->user_id = $user->id;
+
+                if(false === $profile->save()) {
+                    throw new Exception("Profile not saved!");
+                }
+
+                $accountCorporate->user_id = $user->id;
+                $accountCorporate->default_invitation_mail_text = 'Вопросы относительно тестирования вы можете задать по адресу '.$profile->email.', куратор тестирования - '.$profile->firstname.' '. $profile->lastname .'.';
+                $tariff = Tariff::model()->findByAttributes(['slug' => Tariff::SLUG_LITE]);
+                $accountCorporate->setTariff($tariff, true);
+
+                $accountCorporate->invites_limit = Yii::app()->params['initialSimulationsAmount'];
+                $accountCorporate->save();
+
+                UserService::logCorporateInviteMovementAdd(
+                    sprintf('Количество симуляций для нового аккаунта номер %s, емейл %s, задано равным %s по тарифному плану %s.',
+                        $accountCorporate->user_id, $profile->email, $accountCorporate->getTotalAvailableInvitesLimit(), $tariff->label
+                    ),
+                    $accountCorporate,
+                    $accountCorporate->getTotalAvailableInvitesLimit()
+                );
+
+                if(false === $accountCorporate->save(true, ['user_id','default_invitation_mail_text','industry_id'])){
+                    throw new Exception("Corporate account not saved!");
+                }
+
+                self::completeRegistration($user, $profile);
+            }
+        }
+        return $returnData;
+    }
+
+    public static function registerPersonalUser($firstname = null, $lastname = null, $email = null,
+                                                $password = null, $password_again = null, $agree_with_terms = null,
+                                                $professional_status_id = null) {
+
+        $returnData['user']             = $user             = new YumUser('registration');
+        $returnData['profile']          = $profile          = new YumProfile('registration_corporate');
+        $returnData['accountPersonal']  = $accountPersonal  = new UserAccountPersonal();
+        $returnData['emailIsExistAndNotActivated'] = false;
+
+        $profile->scenario = 'registration';
+        $accountPersonal->scenario = 'personal';
+
+        self::prepareForRegistration( $profile, $user, $firstname, $lastname, $email, $password, $password_again,
+            $agree_with_terms);
+
+        $accountPersonal->industry_id = $professional_status_id;
+        $accountValid = $accountPersonal->validate(['professional_status_id']);
+
+        if(self::validateUserForRegistration($user, $profile, $returnData['emailIsExistAndNotActivated'])
+            && $accountValid ) {
+
+            $is_success_registration = $user->register($user->username, $user->password, $profile);
+
+            if ($is_success_registration) {
+                $profile->user_id = $user->id;
+
+                if(false === $profile->save()) {
+                    throw new Exception("Profile not saved!");
+                }
+
+                $accountPersonal->user_id = $user->id;
+                if (false === $accountPersonal->save(true, ['user_id', 'professional_status_id'])) {
+                    throw new Exception("Personal account not saved!");
+                }
+
+                self::completeRegistration($user, $profile);
+
+            }
+        }
+
+        return $returnData;
+    }
+
+    private static function completeRegistration($user, $profile) {
+        self::sendRegistrationEmail($user);
+        Yii::app()->session->add("email", $profile->email);
+        Yii::app()->session->add("user_id", $profile->user_id);
+        Yii::app()->getController()->redirect(['afterRegistration']);
+    }
+
+    private static function prepareForRegistration(&$profile, &$user, $firstname = null, $lastname = null, $email = null,
+                                                   $password = null, $password_again = null, $agree_with_terms = null) {
+
+        self::prepareProfile($profile, $firstname, $lastname, $email);
+        self::prepareUser($user, $password, $password_again, $agree_with_terms, $profile->email);
+
+    }
+
+    private static function prepareProfile(&$profile, $firstname, $lastname, $email) {
+        $profile->firstname = $firstname;
+        $profile->lastname  = $lastname;
+        $profile->email     = $email;
+        $profile->timestamp = gmdate("Y-m-d H:i:s");
+    }
+
+    private static function prepareUser(&$user, $password, $password_again, $agree_with_terms, $email) {
+        $user->password         = $password;
+        $user->password_again   = $password_again;
+        $user->agree_with_terms = $agree_with_terms;
+        $user->setUserNameFromEmail($email);
+        $user->createtime = time();
+        $user->lastvisit = time();
+        $user->lastpasswordchange = time();
+    }
+
+    private static function validateUserForRegistration(&$user, &$profile, &$emailIsExistAndNotActivated) {
+
+        $userValid    = $user->validate(['password', 'password_again', 'agree_with_terms']);
+        $profileValid = $profile->validate(['firstname', 'lastname', 'email']);
+
+        $emailIsExistAndNotActivated = YumProfile::model()->emailIsNotActiveValidationStatic($profile->email);
+        if($emailIsExistAndNotActivated) {
+            $profile->clearErrors();
+        }
+
+        $isUserBanned = YumProfile::model()->isAccountBannedStatic($profile->email);
+
+        /**
+         * if User is banned we need to replace email error with banned error
+         */
+
+        if($isUserBanned) {
+            $emailIsExistAndNotActivated = $isUserBanned;
+        }
+
+        return ($userValid && $profileValid) ? true : false;
+
+    }
+
+    private static function sendRegistrationEmail($user)
+    {
+        if (!isset($user->profile->email)) {
+            throw new CException(Yum::t('Email is not set when trying to send Registration Email'));
+        }
+        $activation_url = $user->getActivationUrl();
+
+        $body = Yii::app()->getController()->renderPartial('//global_partials/mails/registration', ['link' => $activation_url], true);
+
+        $mail = array(
+            'from' => Yum::module('registration')->registrationEmail,
+            'to' => $user->profile->email,
+            'subject' => 'Активация на сайте skiliks.com',
+            'body' => $body,
+            'embeddedImages' => [
+                [
+                    'path'     => Yii::app()->basePath.'/assets/img/mailtopangela.png',
+                    'cid'      => 'mail-top-angela',
+                    'name'     => 'mailtopangela',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],[
+                    'path'     => Yii::app()->basePath.'/assets/img/mailanglabtm.png',
+                    'cid'      => 'mail-bottom-angela',
+                    'name'     => 'mailbottomangela',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],[
+                    'path'     => Yii::app()->basePath.'/assets/img/mail-bottom.png',
+                    'cid'      => 'mail-bottom',
+                    'name'     => 'mailbottom',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],
+            ],
+        );
+        $sent = MailHelper::addMailToQueue($mail);
+
+        return $sent;
+    }
+
 }
 
 
