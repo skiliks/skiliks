@@ -127,10 +127,8 @@ define([
 
                         var duration;
                         if(null === remote_replica){
-                            console.log('set duration if', 0);
-                            duration = 10000;
+                            throw new Error('remote_replica must be not null!');
                         }else{
-                            console.log('set duration else', remote_replica.duration);
                             duration = parseInt(remote_replica.duration, 0)*1000;
                         }
                         setTimeout(function(){
