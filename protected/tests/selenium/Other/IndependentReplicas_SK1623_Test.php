@@ -18,7 +18,7 @@ class IndependentReplicas_SK1623_Test extends SeleniumTestHelper
         sleep(5);
         $this->assertTrue($this->verify_flag('F14','0'));
 
-        $this->run_event('ET12.1',Yii::app()->params['test_mappings']['active_icons']['phone'],'click');
+        $this->run_event('ET12.1',Yii::app()->params['test_mappings']['icons_active']['phone'],'click');
         $this->assertTrue($this->isVisible(Yii::app()->params['test_mappings']['phone']['no_reply']));
 
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
@@ -42,7 +42,7 @@ class IndependentReplicas_SK1623_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['flags']['F14']);
         $this->optimal_click(Yii::app()->params['test_mappings']['flags']['F36']);
 
-        $this->run_event('ET12.1',Yii::app()->params['test_mappings']['active_icons']['phone'],'click');
+        $this->run_event('ET12.1',Yii::app()->params['test_mappings']['icons_active']['phone'],'click');
 
         $this->assertTrue($this->isVisible(Yii::app()->params['test_mappings']['phone']['no_reply']));
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);

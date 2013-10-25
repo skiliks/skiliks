@@ -34,7 +34,7 @@ class F4_SK1413_N_Test extends SeleniumTestHelper
 
         $this->run_event('ET1.3.1');
         sleep(10);
-        $this->assertFalse($this->isElementPresent(Yii::app()->params['test_mappings']['active_icons']['phone']));
+        $this->assertFalse($this->isElementPresent(Yii::app()->params['test_mappings']['icons_active']['phone']));
         $this->simulation_stop();
     }
 
@@ -65,7 +65,7 @@ class F4_SK1413_N_Test extends SeleniumTestHelper
 
         $this->run_event('ET1.3.2');
         sleep(5);
-        $this->assertFalse($this->isElementPresent(Yii::app()->params['test_mappings']['active_icons']['phone']));
+        $this->assertFalse($this->isElementPresent(Yii::app()->params['test_mappings']['icons_active']['phone']));
         $this->simulation_stop();
     }
 }
