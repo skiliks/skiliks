@@ -1,9 +1,6 @@
 /*global SKImmediateVisitView:true, Backbone, _, SKApp, SKConfig, SKDialogWindow, $ */
 
 var SKImmediateVisitView;
-var min_w = 300; // minimum video width allowed
-var vid_w_orig;  // original video dimensions
-var vid_h_orig;
 
 define([
         "game/views/SKWindowView",
@@ -29,6 +26,9 @@ define([
                 'click .replica-select':'doSelectReplica'
             }, SKWindowView.prototype.events),
 
+            video_width_original : 1280,
+            video_height_original : 800,
+
             /**
              * Constructor
              * @method initialize
@@ -37,9 +37,9 @@ define([
                 try {
                     var me = this;
                     this.listenTo(this.options.model_instance, 'refresh', function () {
-                        console.log("Window refresh");
                         me.render();
                     });
+                    // original video height and width
                     SKWindowView.prototype.initialize.call(this);
                 } catch(exception) {
                     if (window.Raven) {
@@ -65,7 +65,6 @@ define([
              */
             'renderWindow':function (el) {
                 try {
-                    console.log("SKImmediateVisitView.renderWindow");
                     var me = this,
                         event = this.options.model_instance.get('sim_event'),
                         my_replicas = event.getMyReplicas(),
@@ -82,11 +81,9 @@ define([
                     });
                     var is_first_replica = !el.html();
                     $('<div class="hidden placeholder" />').html(text).appendTo(el);
-                    console.log($('div.hidden.placeholder'));
                     if (!is_first_replica) {
                         if (video_src) {
                             el.find('video.visit-background').on('loadeddata', function(){
-                                console.log('video.visit-background');
                                 renderFn(remote_replica);
                             });
                         } else if (image_src) {
@@ -111,15 +108,11 @@ define([
 
                         var oldContent = el.children('.visit-background-container'),
                             newContent = el.find('.placeholder .visit-background-container');
-                        console.log('VisitView el',el.get(0));
                         if (oldContent.length) {
-                            //Вот здесь проблемма с отображением для E3.4
-                            console.log('VisitView oldContent');
                             oldContent.replaceWith(newContent);
                             el.find('.placeholder').remove();
 
                         } else {
-                            console.log('VisitView newContent');
                             el.find('.placeholder').replaceWith(newContent);
                         }
 
@@ -167,15 +160,7 @@ define([
                         video.css('margin-top', '-45px');
                         video.css('margin-left', '-20px');
                         el.find('.visitor-replica').css('margin-top', '-50px');
-
-                        jQuery(function() { // runs after DOM has loaded
-
-                            vid_w_orig = 1280;
-                            vid_h_orig = 800;
-
-                            jQuery(window).resize(function () { resizeToCover(); });
-                            jQuery(window).trigger('resize');
-                        });
+                        me.doResizeVideo();
                     } catch(exception) {
                         if (window.Raven) {
                             window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -201,7 +186,6 @@ define([
                         me.options.model_instance.get('sim_event').selectReplica(dialog_id, function () {
                             me.options.model_instance.setLastDialog(dialog_id);
                             if (is_final) {
-                                console.log("Is final replica window must be close");
                                 me.options.model_instance.setOnTop();
                                 me.options.model_instance.close();
                             }
@@ -212,33 +196,36 @@ define([
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
                     }
                 }
+            },
+
+            'doResizeVideo' : function () {
+                var me = this;
+                me.$('.visit-background-container').width($(window).width());
+                me.$('.visit-background-container').height($(window).height());
+
+                // use largest scale factor of horizontal/vertical
+                var scale_height = $(window).width() / me.video_width_original;
+                var scale_width = $(window).height() / me.video_height_original;
+                var scale = scale_height > scale_width ? scale_height : scale_width;
+
+                me.$('video').width(scale * me.video_width_original + 10);
+                me.$('video').height(scale * me.video_height_original + 10);
+                // and center it by scrolling the video viewport
+                me.$('.visit-background-container').scrollLeft((me.$('video').width() - $(window).width()) / 2);
+                me.$('.visit-background-container').scrollTop((me.$('video').height() - $(window).height()) / 2);
+
+                if($(window).width() / $(window).height() < 1.6) {
+                    me.$('video').css("margin-left", -(me.$('video').width() - $(window).width()) / 2);
+                } else {
+                    me.$('video').css('margin-left', '-20px');
+                }
+            },
+
+            onResize : function() {
+                var me = this;
+                window.SKWindowView.prototype.onResize.apply(this);
+                me.doResizeVideo();
             }
         });
     return SKImmediateVisitView;
 });
-
-function resizeToCover() {
-
-    // set the video viewport to the window size
-    jQuery('.visit-background-container').width(jQuery(window).width());
-    jQuery('.visit-background-container').height(jQuery(window).height());
-
-    // use largest scale factor of horizontal/vertical
-    var scale_h = jQuery(window).width() / vid_w_orig;
-    var scale_v = jQuery(window).height() / vid_h_orig;
-    var scale = scale_h > scale_v ? scale_h : scale_v;
-
-    // now scale the video
-    jQuery('video').width(scale * vid_w_orig) + 10;
-    jQuery('video').height(scale * vid_h_orig) + 10;
-    // and center it by scrolling the video viewport
-    jQuery('.visit-background-container').scrollLeft((jQuery('video').width() - jQuery(window).width()) / 2);
-    jQuery('.visit-background-container').scrollTop((jQuery('video').height() - jQuery(window).height()) / 2);
-
-    if(jQuery(window).width() / jQuery(window).height() < 1.6) {
-        jQuery('video').css("margin-left", -(jQuery('video').width() - jQuery(window).width()) / 2);
-    } else {
-        console.log("It's not doing");
-        jQuery('video').css('margin-left', '-20px');
-    }
-};
