@@ -33,7 +33,7 @@ class ZeroReplicasOfInterlocutor_SK4509_Test extends SeleniumTestHelper
         // E12 to E12.1 (phone-phone)
         $this->run_event('E12',"xpath=(//*[contains(text(),'Я вас очень прошу, найдите сегодня любое время')])",'click');
         $this->waitForVisible("xpath=(//*[contains(text(),'Я вам перезвоню.')])");
-        $this->transfer_time(5);
+        $this->transfer_time(4);
         $this->waitForVisible("xpath=(//*[contains(text(),'Нет, Босс завтра на выезде')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Может мой аналитик подойти вместо меня?')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Хорошо, буду в 18.00')])");
