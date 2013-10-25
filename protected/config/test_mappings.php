@@ -59,8 +59,8 @@ return [
     'phone' => [
         'contacts_list' => "//*[@id='phoneMainScreen']/ul/li[1]",
         'missed_calls' => "//*[@id='phoneMainScreen']/ul/li[2]",
-        'reply' => "id=phone_reply",
-        'no_reply' => "id=phone_no_reply"
+        'reply' => "//*[@id='phone_reply']",
+        'no_reply' => "//*[@id='phone_no_reply']"
     ],
 
     'phone_contacts' => [
