@@ -258,7 +258,7 @@ class DayPlanService
         /** @var PHPExcel_Reader_IReader $reader */
         $reader = PHPExcel_IOFactory::createReader('Excel5');
         $excel = $reader->load($filepath);
-        $sheet = $excel->getSheetByName('Plan');
+        $sheet = $excel->getSheetByName('Plan')->setTitle('План');
 
         foreach ($timeMap as $taskId => $time) {
             $row = (strtotime($time['date']) - strtotime('today') - 32400) / 900 + 3;
