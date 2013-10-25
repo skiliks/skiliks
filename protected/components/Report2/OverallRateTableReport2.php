@@ -8,6 +8,7 @@ class OverallRateTableReport2 extends LogTable {
         "performance" => "Результативность",
         "time"        => "Эффективность использования времени",
         "overall"     => "Итоговый рейтинг",
+        "percentile"  => "Процентиль",
     ];
 
     public function getHeaders()
