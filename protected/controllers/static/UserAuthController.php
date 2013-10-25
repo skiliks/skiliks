@@ -435,54 +435,6 @@ class UserAuthController extends YumController
      *
      * @throws CException
      */
-    public function sendRegistrationEmail($user)
-    {
-        if (!isset($user->profile->email)) {
-            throw new CException(Yum::t('Email is not set when trying to send Registration Email'));
-        }
-        $activation_url = $user->getActivationUrl();
-
-        $body = $this->renderPartial('//global_partials/mails/registration', ['link' => $activation_url], true);
-
-        $mail = array(
-            'from' => Yum::module('registration')->registrationEmail,
-            'to' => $user->profile->email,
-            'subject' => 'Активация на сайте skiliks.com',
-            'body' => $body,
-            'embeddedImages' => [
-                [
-                    'path'     => Yii::app()->basePath.'/assets/img/mailtopangela.png',
-                    'cid'      => 'mail-top-angela',
-                    'name'     => 'mailtopangela',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],[
-                    'path'     => Yii::app()->basePath.'/assets/img/mailanglabtm.png',
-                    'cid'      => 'mail-bottom-angela',
-                    'name'     => 'mailbottomangela',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],[
-                    'path'     => Yii::app()->basePath.'/assets/img/mail-bottom.png',
-                    'cid'      => 'mail-bottom',
-                    'name'     => 'mailbottom',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],
-            ],
-        );
-        $sent = MailHelper::addMailToQueue($mail);
-
-        return $sent;
-    }
-
-    /**
-     * @param YumUser $user
-     *
-     * @return bool
-     *
-     * @throws CException
-     */
     public function sendPasswordRecoveryEmail($user)
     {
         if (!isset($user->profile->email)) {
@@ -617,7 +569,8 @@ class UserAuthController extends YumController
         $profile = YumProfile::model()->findByPk($profileId);
 
         if ($profile && !$profile->user->isActive() && !$profile->user->isBanned()) {
-            $this->sendRegistrationEmail($profile->user);
+
+            UserService::sendRegistrationEmail($profile->user);
             Yii::app()->session->add("email", strtolower($profile->email));
             Yii::app()->session->add("user_id", $profile->user_id);
             $this->redirect(['afterRegistration']);
