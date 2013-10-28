@@ -11,7 +11,7 @@ class SeleniumTestHelper extends CWebTestCase
     protected $captureScreenshotOnFailure = TRUE;
     protected $screenshotPath = '/var/www/screenshots/';
     protected $screenshotUrl = 'http://screenshots.dev.skiliks.com';
-    public $actionLog ="";
+    
     public static $browsers = array(
         array(
             'name'    => 'Firefox',
@@ -593,11 +593,6 @@ class SeleniumTestHelper extends CWebTestCase
             }
             sleep(1);
         }
-    }
-
-    public function testLogger($action)
-    {
-        //$actionLog .= $action;
     }
 }
 
