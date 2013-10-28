@@ -11,7 +11,7 @@ class SeleniumTestHelper extends CWebTestCase
     protected $captureScreenshotOnFailure = TRUE;
     protected $screenshotPath = '/var/www/screenshots/';
     protected $screenshotUrl = 'http://screenshots.dev.skiliks.com';
-    
+
     public static $browsers = array(
         array(
             'name'    => 'Firefox',
@@ -58,7 +58,6 @@ class SeleniumTestHelper extends CWebTestCase
         }
 
         $this->getEval('var window = this.browserbot.getUserWindow(); window.$(window).off("beforeunload")');
-        $this->testLogger(" Start simulation \n");
     }
 
     public function simulation_stop()
