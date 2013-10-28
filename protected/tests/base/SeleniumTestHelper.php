@@ -11,7 +11,7 @@ class SeleniumTestHelper extends CWebTestCase
     protected $captureScreenshotOnFailure = TRUE;
     protected $screenshotPath = '/var/www/screenshots/';
     protected $screenshotUrl = 'http://screenshots.dev.skiliks.com';
-
+    public $actionLog ="";
     public static $browsers = array(
         array(
             'name'    => 'Firefox',
@@ -49,21 +49,6 @@ class SeleniumTestHelper extends CWebTestCase
         $this->createCookie("cook_dev_ladskasdasddaxczxpoicuwcnzmcnzdewedjbkscuds=dsiucskcmnxkcjzhxciaowi2039ru948fysuhfiefds8v7sd8djkedbjsaicu9", "path=/, expires=365");
         $this->open('/cheat/quick-start/full');
 
-        /*$this->optimal_click("css=.sign-in-link");
-        $this->waitForVisible("css=.login>input");
-        $this->type("css=.login>input", "asd@skiliks.com");
-        $this->type("css=.password>input", "123123");
-        $this->optimal_click("css=.submit>input");
-        for ($second = 0; ; $second++) {
-            if ($second >= 600) $this->fail("timeout");
-            try {
-                if ($this->isVisible("xpath=(//*[contains(text(),'')])")) break;
-            } catch (Exception $e) {}
-            usleep(100000);
-        }
-        $this->createCookie("intro_is_watched=yes", "path=/, expires=365");
-        $this->open('/simulation/developer/full'); // для full simulation*/
-
         for ($second = 0; ; $second++) {
             if ($second >= 600) $this->fail("Timeout. Not found id=addTriggerSelect");
             try {
@@ -71,8 +56,9 @@ class SeleniumTestHelper extends CWebTestCase
             } catch (Exception $e) {}
             usleep(100000);
         }
-        //$this->optimal_click("css=.mail-popup-button");
+
         $this->getEval('var window = this.browserbot.getUserWindow(); window.$(window).off("beforeunload")');
+        $this->testLogger(" Start simulation \n");
     }
 
     public function simulation_stop()
@@ -159,7 +145,7 @@ class SeleniumTestHelper extends CWebTestCase
      */
     public function reply_call ()
     {
-        $this->optimal_click(Yii::app()->params['test_mappings']['icons']['phone']);
+        $this->optimal_click(Yii::app()->params['test_mappings']['icons_active']['phone']);
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
     }
 
@@ -168,7 +154,7 @@ class SeleniumTestHelper extends CWebTestCase
      */
     public function no_reply_call ()
     {
-        $this->optimal_click(Yii::app()->params['test_mappings']['icons']['phone']);
+        $this->optimal_click(Yii::app()->params['test_mappings']['icons_active']['phone']);
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['no_reply']);
     }
 
@@ -177,7 +163,7 @@ class SeleniumTestHelper extends CWebTestCase
      */
     public function write_mail_active()
     {
-        $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
+        $this->optimal_click(Yii::app()->params['test_mappings']['icons_active']['mail']);
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['to_whom']);
     }
 
@@ -268,8 +254,8 @@ class SeleniumTestHelper extends CWebTestCase
     {
         $same_number = false;
         $was_changed = false;
-        $this->waitForVisible(Yii::app()->params['test_mappings']['icons']['mail']);
-        if ($this->isVisible(Yii::app()->params['test_mappings']['icons']['mail']))
+        $this->waitForVisible(Yii::app()->params['test_mappings']['active_icons']['mail']);
+        if ($this->isVisible(Yii::app()->params['test_mappings']['active_icons']['mail']))
         {
             for ($second = 0; ; $second++) {
                 if ($second >= 600)
@@ -345,10 +331,10 @@ class SeleniumTestHelper extends CWebTestCase
     // параметром нужно написать начальный event, например RST1
     public function clearEventQueueBeforeEleven($event)
     {
-        $this->run_event($event, Yii::app()->params['test_mappings']['icons']['phone'], 'click');
+        $this->run_event($event, Yii::app()->params['test_mappings']['active_icons']['phone'], 'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['no_reply']);
         $event .= '.1';
-        $this->run_event($event, Yii::app()->params['test_mappings']['icons']['phone'], 'click');
+        $this->run_event($event, Yii::app()->params['test_mappings']['active_icons']['phone'], 'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['no_reply']);
     }
 
@@ -607,6 +593,11 @@ class SeleniumTestHelper extends CWebTestCase
             }
             sleep(1);
         }
+    }
+
+    public function testLogger($action)
+    {
+        //$actionLog .= $action;
     }
 }
 
