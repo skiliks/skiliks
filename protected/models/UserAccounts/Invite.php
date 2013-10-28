@@ -80,20 +80,6 @@ class Invite extends CActiveRecord
 
     /* ------------------------------------------------------------------------------------------------------------ */
 
-
-
-
-
-
-    public function beforeSave() {
-        if ($this->getIsNewRecord()) {
-            $date = new DateTime();
-            $date->add(new DateInterval("P".Yii::app()->params['inviteExpired']."D"));
-            $this->expired_at = $date->format("Y-m-d H:i:s");
-        }
-        return true;
-    }
-
     /**
      * @return string
      */
@@ -306,6 +292,7 @@ class Invite extends CActiveRecord
         $newInvite->scenario_id = $scenario->id;
         $newInvite->status      = Invite::STATUS_ACCEPTED;
         $newInvite->sent_time   = date("Y-m-d H:i:s");
+        $newInvite->expired_at  = date("Y-m-d H:i:s", time() + 86400*Yii::app()->params['inviteExpired']);
         $newInvite->updated_at = (new DateTime('now', new DateTimeZone('Europe/Moscow')))->format("Y-m-d H:i:s");
         $newInvite->save(true, [
             'owner_id', 'receiver_id', 'firstname', 'lastname', 'scenario_id', 'status'

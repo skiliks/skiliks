@@ -715,7 +715,7 @@ class MailBoxUnitTest extends CDbTestCase
 
         $this->assertEquals('Индексация ЗП', $mail['subject']);
         $this->assertEquals('спасибо сделаю хорошо', $mail['message']);
-        $this->assertEquals('04.10.2013 10:20', $mail['sentAt']);
+        $this->assertEquals($simulation->game_type->scenario_config->game_date_data.' 10:20', $mail['sentAt']);
         $this->assertEquals("Босс В.С. <boss@skiliks.com>", $mail['receiver']);
         $this->assertEquals('2', $mail['folder']);
         $this->assertEquals('Железный С. <zhelezniy.so@skiliks.com>', $mail['copies']);
