@@ -1863,7 +1863,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         $invite->scenario->slug = Scenario::TYPE_LITE;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
 
-        SimulationService::setSimulationClockTime($simulation, 10, 50);
+        SimulationService::setSimulationClockTime($simulation, 10, 05);
 
         EventsManager::getState($simulation, []);
         EventsManager::getState($simulation, []);
