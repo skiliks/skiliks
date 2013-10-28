@@ -34,9 +34,10 @@ class InviteService {
         $log->save(false);
     }
 
-    public static function  isSimulationOverrideDetected(Invite $invite){
-        return (null !== $invite->simulation_id
-            && $invite->owner_id != $invite->receiver_id
-            && false === $invite->scenario->isAllowOverride());
+    public static function  isSimulationOverrideDetected(Invite $invite) {
+        //Проверка для корпоративного и персонального на то что по даному инвайту
+        //уже начата другая симуляция
+        return (null !== $invite->simulation_id &&
+            false === $invite->scenario->isAllowOverride());
     }
 }
