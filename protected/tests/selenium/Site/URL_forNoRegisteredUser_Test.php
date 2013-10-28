@@ -12,7 +12,7 @@ class URL_forNoRegisteredUser_Test extends SeleniumTestHelper
     {
         $buttons_text = array('Главная','О нас','О продукте','Главная', 'О нас', 'О продукте', 'Вход');
         $text_inside= array('Простой','Познакомьтесь','Мы создали', 'Простой','Познакомьтесь','Мы создали','Запомнить меня');
-        $buttons_xpath = array ("xpath=//*[@id='yw0']/li[1]/a", "xpath=//*[@id='yw0']/li[2]/a", "xpath=//*[@id='yw0']/li[3]/a", "xpath=//*[@id='yw2']/li[1]/a", "xpath=//*[@id='yw2']/li[2]/a", "xpath=//*[@id='yw2']/li[3]/a", "xpath=//*[@id='yw1']/li[3]/a");
+        $buttons_xpath = array ("xpath=//*[@id='yw0']/li[1]/a", "xpath=//*[@id='yw0']/li[2]/a", "xpath=//*[@id='yw0']/li[3]/a", "xpath=//*[@id='yw2']/li[1]/a", "xpath=//*[@id='yw2']/li[2]/a", "xpath=//*[@id='yw2']/li[3]/a", "xpath=//*[@id='yw1']/li[4]/a");
         $all_buttons = array($buttons_xpath, $buttons_text, $text_inside);
 
         $buttons_text_en = array('Home','About Us','Product','Home', 'About Us', 'Product');
