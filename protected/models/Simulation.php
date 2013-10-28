@@ -237,9 +237,9 @@ class Simulation extends CActiveRecord
             $unixtime = $variance + $startTime[0] * 3600 + $startTime[1] * 60 + $startTime[2];
 
             if($precision === 'second'){
-                return date('H:i:s', $unixtime);
+                return gmdate('H:i:s', $unixtime); //for unit tests or console
             } else if($precision === 'minute') {
-                return date('H:i', $unixtime);
+                return gmdate('H:i', $unixtime);
             } else{
                 throw new Exception("Unknown precision type ".$precision);
             }
