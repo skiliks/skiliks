@@ -40,6 +40,7 @@ class m130000_000000_update_yum_users extends CDbMigration {
                 "username = '".$username."'"
             );
         }
+        $this->addColumn('profile', "assessment_results_render_type", "varchar(30) DEFAULT 'percentil'");
     }
 
     public function down()
@@ -47,6 +48,8 @@ class m130000_000000_update_yum_users extends CDbMigration {
         $this->dropColumn("user", "agree_with_terms");
 
         $this->dropColumn('user', 'is_admin');
+
+        $this->dropColumn('profile', "assessment_results_render_type");
 
         $users = Yii::app()->params['initial_data']['users'];
         foreach($users as $user) {
