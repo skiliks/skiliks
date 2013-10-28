@@ -129,7 +129,7 @@
             </td>
 
             <td>
-                <span class="invoice-date-paid"><?=(empty($model->paid_at) ? 'Не оплачен' :$model->created_at)?></span>
+                <span class="invoice-date-paid"><?=(empty($model->paid_at) ? 'Не оплачен' :$model->paid_at)?></span>
             </td>
 
             <td><?= Yii::app()->numberFormatter->formatCurrency($model->amount, "RUR") ?></td>
