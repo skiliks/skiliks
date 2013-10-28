@@ -17,7 +17,7 @@ class Meetings_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Сколько именно времени  вам нужно и для чего')])");
         $this->optimal_click("xpath=(//*[contains(text(),'А давайте я позвоню вам в первый же день после отпуска')])");
         sleep(2);
-        $this->run_event('ET3.2',Yii::app()->params['test_mappings']['icons']['door'],'click');
+        $this->run_event('ET3.2',Yii::app()->params['test_mappings']['icons_active']['door'],'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['visit']['allow']);
         $this->optimal_click("xpath=(//*[contains(text(),'Да возимся еще, надеюсь, к обеду будет')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Давай по порядку')])");
@@ -39,7 +39,7 @@ class Meetings_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Мы вместе с сотрудниками. Они готовили – я проверял.')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Правильно я понял, в презентации оставляем все как есть')])");
         sleep(2);
-        $this->run_event('ET13',Yii::app()->params['test_mappings']['icons']['door'],'click');
+        $this->run_event('ET13',Yii::app()->params['test_mappings']['icons_active']['door'],'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['visit']['allow']);
         $this->optimal_click("xpath=(//*[contains(text(),'Марина, могу я чем-то помочь')])");
         $this->optimal_click("xpath=(//*[contains(text(),'А что именно должно поменяться и почему')])");
@@ -51,7 +51,7 @@ class Meetings_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Давай так договоримся')])");
         sleep(10);
 
-        $this->run_event('ET15',Yii::app()->params['test_mappings']['icons']['door'],'click');
+        $this->run_event('ET15',Yii::app()->params['test_mappings']['icons_active']['door'],'click');
         sleep(10);
         $this->optimal_click("xpath=(//*[contains(text(),'Раиса Романовна, прошу прощения')])");
         sleep(15);
@@ -63,11 +63,11 @@ class Meetings_Test extends SeleniumTestHelper
         $this->run_event('RS8.1',"xpath=(//*[contains(text(),'Добрый день! Федоров. У меня есть к вам важный вопрос по теме бюджета')])", 'click');
         sleep(7);
 
-        $this->run_event('RVT1',Yii::app()->params['test_mappings']['icons']['door'],'click');
+        $this->run_event('RVT1',Yii::app()->params['test_mappings']['icons_active']['door'],'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['visit']['deny']);
-        $this->run_event('RVT1.1',Yii::app()->params['test_mappings']['icons']['door'],'click');
+        $this->run_event('RVT1.1',Yii::app()->params['test_mappings']['icons_active']['door'],'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['visit']['deny']);
-        $this->run_event('RVT1.2',Yii::app()->params['test_mappings']['icons']['door'],'click');
+        $this->run_event('RVT1.2',Yii::app()->params['test_mappings']['icons_active']['door'],'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['visit']['deny']);
 
         sleep(2);
