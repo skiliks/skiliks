@@ -205,7 +205,7 @@ class PhoneService {
 
             $list[] = array(
                 'name'         => (!empty($characters[$characterId]['fio'])) ? $characters[$characterId]['fio'] : $characters[$characterId]['title'],
-                'date'         => Simulation::formatDateForMissedCalls($item->call_time),
+                'date'         => $simulation->formatDateForMissedCalls($item->call_time),
                 'type'         => $item->call_type,
                 'is_displayed' => (bool)$item->is_displayed,
                 'dialog_code'  => $item->dialog_code
