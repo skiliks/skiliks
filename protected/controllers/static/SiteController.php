@@ -112,7 +112,9 @@ class SiteController extends SiteBaseController
                 'badBrowserUrl' => '/old-browser',
                 'oldBrowserUrl' => '/old-browser',
                 'dummyFilePath' => $assetsUrl . '/img/kotik.jpg',
-                'invite_id'     => $invite_id
+                'invite_id'     => $invite_id,
+                'game_date_text'=>$scenario->scenario_config->game_date_text,
+                'game_date_data'=>$scenario->scenario_config->game_date_data
             ]
         );
 
