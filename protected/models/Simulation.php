@@ -58,8 +58,6 @@ use application\components\Logging\LogTableList as LogTableList;
 
 class Simulation extends CActiveRecord
 {
-    const SIMULATION_DAY_DATE = '04.10.2013';
-    
     const MODE_PROMO_ID       = 1;
     const MODE_DEVELOPER_ID   = 2;
 
@@ -74,8 +72,12 @@ class Simulation extends CActiveRecord
 
     /** ------------------------------------------------------------------------------------------------------------ **/
 
-    public static function formatDateForMissedCalls($time, $date = self::SIMULATION_DAY_DATE)
+    public function formatDateForMissedCalls($time, $date = null)
     {
+        if(null === $date){
+
+            $date = $this->game_type->scenario_config->game_date_data;
+        }
         return $date . ' | ' . $time;
     }
 
