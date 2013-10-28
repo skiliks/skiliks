@@ -34,12 +34,12 @@ return [
         'add_recipient' => "//input[@type='text']",
         'del_recipient' => "css=li.tagItem",
         'add_copy_rec' => "xpath=//*[@id='MailClient_CopiesList']/li/input",
-        'button_to_continue' => "//div[@class='mail-popup']//td[1]/div['Продолжить']",
+        'button_to_continue' => "xpath=//div[@class='mail-popup']//td[1]/div['Продолжить']",
         'send' => "xpath=(//*[@id='mailEmulatorReceivedButton']/a[contains(text(),'отправить')])",
         'plan' => "link=запланировать",
-        'popup_save' => "//table[@class='mail-popup-btn']/tbody/tr/td[3]/div[@class='mail-popup-button']/div",
-        'popup_unsave' => "//table[@class='mail-popup-btn']/tbody/tr/td[1]/div[@class='mail-popup-button']/div",
-        'popup_cancel' => "//table[@class='mail-popup-btn']/tbody/tr/td[2]/div[@class='mail-popup-button']/div",
+        'popup_save' => "xpath=//table[@class='mail-popup-btn']/tbody/tr/td[3]/div[@class='mail-popup-button']/div",
+        'popup_unsave' => "xpath=//table[@class='mail-popup-btn']/tbody/tr/td[1]/div[@class='mail-popup-button']/div",
+        'popup_cancel' => "xpath=//table[@class='mail-popup-btn']/tbody/tr/td[2]/div[@class='mail-popup-button']/div",
     ],
 
     'mail_main' => [
@@ -57,10 +57,10 @@ return [
     ],
 
     'phone' => [
-        'contacts_list' => "//*[@id='phoneMainScreen']/ul/li[1]",
-        'missed_calls' => "//*[@id='phoneMainScreen']/ul/li[2]",
-        'reply' => "//*[@id='phone_reply']",
-        'no_reply' => "//*[@id='phone_no_reply']"
+        'contacts_list' => "xpath=//*[@id='phoneMainScreen']/ul/li[1]",
+        'missed_calls' => "xpath=//*[@id='phoneMainScreen']/ul/li[2]",
+        'reply' => "xpath=//*[@id='phone_reply']",
+        'no_reply' => "xpath=//*[@id='phone_no_reply']"
     ],
 
     'phone_contacts' => [
@@ -82,8 +82,8 @@ return [
 
     'dev' => [
         'event_input' => "id=addTriggerSelect",
-        'event_create' => "//div[@class='controls']//input[@value='Создать']",
-        'show_logs' => "//input[@class='btn btn-simulation-stop-logs']",
+        'event_create' => "xpath=//div[@class='controls']//input[@value='Создать']",
+        'show_logs' => "xpath=//input[@class='btn btn-simulation-stop-logs']",
         'sim_points' => "link=Дополнительные таблицы для Selenium тестов (показать/скрыть)",
     ],
 
@@ -157,9 +157,9 @@ return [
     ],
 
     'set_time' => [
-        'set_hours' => "//*[@id='setTimeHours']",
-        'set_minutes' => "//div[@class='control-group']//input[@name='minutes']",
-        'submit_time' => "//div[@class='control-group']//input[@value='Задать']",
+        'set_hours' => "xpath=//*[@id='setTimeHours']",
+        'set_minutes' => "xpath=//div[@class='control-group']//input[@name='minutes']",
+        'submit_time' => "xpath=//div[@class='control-group']//input[@value='Задать']",
         '0h' =>  "//button[@data-hour='0']",
         '10h' => "//button[@data-hour='10']",
         '11h' => "//button[@data-hour='11']",
