@@ -253,8 +253,8 @@ class SeleniumTestHelper extends CWebTestCase
     {
         $same_number = false;
         $was_changed = false;
-        $this->waitForVisible(Yii::app()->params['test_mappings']['active_icons']['mail']);
-        if ($this->isVisible(Yii::app()->params['test_mappings']['active_icons']['mail']))
+        $this->waitForVisible(Yii::app()->params['test_mappings']['icons_active']['mail']);
+        if ($this->isVisible(Yii::app()->params['test_mappings']['icons_active']['mail']))
         {
             for ($second = 0; ; $second++) {
                 if ($second >= 600)
@@ -330,10 +330,10 @@ class SeleniumTestHelper extends CWebTestCase
     // параметром нужно написать начальный event, например RST1
     public function clearEventQueueBeforeEleven($event)
     {
-        $this->run_event($event, Yii::app()->params['test_mappings']['active_icons']['phone'], 'click');
+        $this->run_event($event, Yii::app()->params['test_mappings']['icons_active']['phone'], 'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['no_reply']);
         $event .= '.1';
-        $this->run_event($event, Yii::app()->params['test_mappings']['active_icons']['phone'], 'click');
+        $this->run_event($event, Yii::app()->params['test_mappings']['icons_active']['phone'], 'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['no_reply']);
     }
 
