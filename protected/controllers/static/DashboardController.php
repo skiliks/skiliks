@@ -29,6 +29,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         }
 
         $invite = new Invite();
+        $invite->expired_at  = date("Y-m-d H:i:s", time() + 86400*Yii::app()->params['inviteExpired']);
         $validPrevalidate = false;
 
         if (null !== Yii::app()->request->getParam('prevalidate')) {
@@ -226,6 +227,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             $newInviteForFullSimulation->scenario_id = $fullScenario->id;
             $newInviteForFullSimulation->status = Invite::STATUS_ACCEPTED;
             $newInviteForFullSimulation->sent_time = date("Y-m-d H:i:s");
+            $newInviteForFullSimulation->expired_at = date("Y-m-d H:i:s", time() + 86400*Yii::app()->params['inviteExpired']);
             $newInviteForFullSimulation->updated_at = (new DateTime('now', new DateTimeZone('Europe/Moscow')))->format("Y-m-d H:i:s");
             $newInviteForFullSimulation->tutorial_scenario_id = $tutorialScenario->id;
             $newInviteForFullSimulation->is_display_simulation_results = 1;
@@ -285,6 +287,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         if (null !== Yii::app()->request->getParam('prevalidate')) {
             $invite->attributes = Yii::app()->request->getParam('Invite');
             $invite->owner_id = $this->user->id;
+            $invite->expired_at = date("Y-m-d H:i:s", time() + 86400*Yii::app()->params['inviteExpired']);
 
             // show result to user by default have to be false
             $invite->is_display_simulation_results = false;

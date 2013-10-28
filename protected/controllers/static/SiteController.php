@@ -112,7 +112,9 @@ class SiteController extends SiteBaseController
                 'badBrowserUrl' => '/old-browser',
                 'oldBrowserUrl' => '/old-browser',
                 'dummyFilePath' => $assetsUrl . '/img/kotik.jpg',
-                'invite_id'     => $invite_id
+                'invite_id'     => $invite_id,
+                'game_date_text'=>$scenario->scenario_config->game_date_text,
+                'game_date_data'=>$scenario->scenario_config->game_date_data
             ]
         );
 
@@ -260,6 +262,7 @@ class SiteController extends SiteBaseController
         $invite->scenario = $scenario;
         $invite->scenario_id = $scenario->id;
         $invite->is_display_simulation_results = 1;
+        $invite->expired_at = date("Y-m-d H:i:s", time() + 86400*Yii::app()->params['inviteExpired']);
         $invite->save(false);
 
         $this->redirect('/simulation/promo/lite/'.$invite->id);
