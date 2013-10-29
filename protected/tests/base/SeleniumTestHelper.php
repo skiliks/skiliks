@@ -599,14 +599,14 @@ class SeleniumTestHelper extends CWebTestCase
         return $this->getText('id=invite-id');
     }
 
-    public function logTestResult ($text='test_text')
+    public function logTestResult ($text="test_text")
     {
         $invite_id = $this->getInviteId();
         /* @var Invite $invite */
         $invite = Invite::model()->findByPk($invite_id);
         $invite->stacktrace = $text;
-        $invite->is_crashed = 'false';
-        $invite->update(['stacktrace,is_crashed']);
+        $invite->is_crashed = false;
+        $invite->save(false);
     }
 }
 
