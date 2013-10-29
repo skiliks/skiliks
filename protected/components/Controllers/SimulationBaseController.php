@@ -106,8 +106,8 @@ class SimulationBaseController extends CController {
     protected function sendJSON($data, $status = 200)
     {
         $simId = Yii::app()->request->getParam('simId');
+        $uniqueId = Yii::app()->request->getParam('uniqueId', null);
         if($simId !== null){
-            $uniqueId = Yii::app()->request->getParam('uniqueId', null);
             $simulation = $this->getSimulationEntity();
             if( null !== $uniqueId ) {
                 if(is_array($data)) {
@@ -133,6 +133,7 @@ class SimulationBaseController extends CController {
                 throw new LogicException("uniqueId not found");
             }
         }else{
+            $data['uniqueId'] = $uniqueId;
             $json = CJSON::encode($data);
             $this->_sendResponse($status, $json);
         }
