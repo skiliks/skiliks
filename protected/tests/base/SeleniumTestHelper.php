@@ -594,10 +594,19 @@ class SeleniumTestHelper extends CWebTestCase
         }
     }
 
-    public function logTestResult ($invite, $text)
+    public function getInviteId()
     {
-        //считать нужный инвайт внизу дев. режима
-        //найти нужный инвайт и записать в нужную ячейку лог
+        return $this->getText('id=invite-id');
+    }
+
+    public function logTestResult ($text='test_text')
+    {
+        $invite_id = $this->getInviteId();
+        /* @var Invite $invite */
+        $invite = Invite::model()->findByPk($invite_id);
+        $invite->stacktrace = $text;
+        $invite->is_crashed = 'false';
+        $invite->update(['stacktrace,is_crashed']);
     }
 }
 
