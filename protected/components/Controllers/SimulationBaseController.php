@@ -24,6 +24,7 @@ class SimulationBaseController extends CController {
     protected function saveLogServerRequest() {
 
         $uid = Yii::app()->request->getParam('uniqueId');
+        $simId = Yii::app()->request->getParam('simId');
         $request = Yii::app()->request->getParam('request');
         if(null === $uid) {
             throw new Exception("uid is not found");
@@ -38,7 +39,7 @@ class SimulationBaseController extends CController {
         }
         $url = Yii::app()->request->url;
         $sim_url = Yii::app()->params['simulationStartUrl'];
-        if($url !== $sim_url) {
+        if($url !== $sim_url && $simId !== null) {
             $simulation = $this->getSimulationEntity();
             if($request === 'repeat'){
 
