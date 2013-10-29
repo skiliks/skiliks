@@ -9,6 +9,7 @@ class SimulationController extends SimulationBaseController
      */
     public function actionStart()
     {
+        sleep(8);
         // Режим симуляции: promo, dev
         $mode = Yii::app()->request->getParam('mode');
         $type = Yii::app()->request->getParam('type');
@@ -206,7 +207,15 @@ class SimulationController extends SimulationBaseController
 
     public function actionConnect()
     {
-        SimulationService::logAboutSim($this->getSimulationEntity(), 'internet connection break');
+        if(null !== Yii::app()->request->getParam('simId')){
+            SimulationService::logAboutSim($this->getSimulationEntity(), 'internet connection break');
+        }else{
+            $invite_id = Yii::app()->request->getParam('invite_id');
+            if(null !== $invite_id) {
+                $invite = Invite::model()->findByPk($invite_id);
+                InviteService::logAboutInviteStatus($invite, 'internet connection break');
+            }
+        }
         $this->sendJSON(['result' => self::STATUS_SUCCESS]);
     }
 
