@@ -286,8 +286,8 @@ define([
                     console.trace();
                     this.try_connect = true;
                     var me = this;
-                        this.request_interval_id = setInterval(function(){
-                            me.api(me.connectPath, {}, function(){});
+                        this.request_interval_id = setInterval(function() {
+                            me.api(me.connectPath, {invite_id:SKApp.get('invite_id')}, function(){});
                         }, 5000);
                 } catch(exception) {
                     if (window.Raven) {
