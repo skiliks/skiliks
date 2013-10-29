@@ -207,7 +207,11 @@ class SimulationController extends SimulationBaseController
 
     public function actionConnect()
     {
-        SimulationService::logAboutSim($this->getSimulationEntity(), 'internet connection break');
+        if(null !== Yii::app()->request->getParam('simId')){
+            SimulationService::logAboutSim($this->getSimulationEntity(), 'internet connection break');
+        } else {
+            SimulationService::logAboutSim(null, 'internet connection break');
+        }
         $this->sendJSON(['result' => self::STATUS_SUCCESS]);
     }
 
