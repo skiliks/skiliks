@@ -105,31 +105,38 @@ class SimulationBaseController extends CController {
      */
     protected function sendJSON($data, $status = 200)
     {
-        $uniqueId = Yii::app()->request->getParam('uniqueId', null);
-        $simulation = $this->getSimulationEntity();
-        if( null !== $uniqueId ) {
-            if(is_array($data)) {
-                $simulation->refresh();
-                $data['uniqueId'] = $uniqueId;
-                $data['simulation_status'] = $simulation->status;
-                $data['sim_id'] = $simulation->id;
-                /* @var $log LogServerRequest */
-                $log = LogServerRequest::model()->findByAttributes(['sim_id'=>$simulation->id, 'request_uid' => $uniqueId]);
-                if(null === $log){
-                    throw new LogicException("log is not found by 'sim_id'=>{$simulation->id} and 'request_uid' => {$uniqueId}");
+        $simId = Yii::app()->request->getParam('simId');
+        if($simId !== null){
+            $uniqueId = Yii::app()->request->getParam('uniqueId', null);
+            $simulation = $this->getSimulationEntity();
+            if( null !== $uniqueId ) {
+                if(is_array($data)) {
+                    $simulation->refresh();
+                    $data['uniqueId'] = $uniqueId;
+                    $data['simulation_status'] = $simulation->status;
+                    $data['sim_id'] = $simulation->id;
+                    /* @var $log LogServerRequest */
+                    $log = LogServerRequest::model()->findByAttributes(['sim_id'=>$simulation->id, 'request_uid' => $uniqueId]);
+                    if(null === $log){
+                        throw new LogicException("log is not found by 'sim_id'=>{$simulation->id} and 'request_uid' => {$uniqueId}");
+                    }
+                    $json = CJSON::encode($data);
+                    $log->response_body = $json;
+                    $log->is_processed = LogServerRequest::IS_PROCESSED_TRUE;
+                    $log->update(['response_body', 'is_processed']);
+                    //sleep(30);
+                    $this->_sendResponse($status, $json);
+                } else {
+                    throw new LogicException('$data should be an array');
                 }
-                $json = CJSON::encode($data);
-                $log->response_body = $json;
-                $log->is_processed = LogServerRequest::IS_PROCESSED_TRUE;
-                $log->update(['response_body', 'is_processed']);
-                //sleep(30);
-                $this->_sendResponse($status, $json);
             } else {
-                throw new LogicException('$data should be an array');
+                throw new LogicException("uniqueId not found");
             }
-        } else {
-            throw new LogicException("uniqueId not found");
+        }else{
+            $json = CJSON::encode($data);
+            $this->_sendResponse($status, $json);
         }
+
     }
 
     /**
