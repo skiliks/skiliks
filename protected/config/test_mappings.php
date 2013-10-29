@@ -20,7 +20,7 @@ return [
         'phone' => 'css=.icons-panel li.phone.icon-active > span',
         'mail' => 'css=.icons-panel li.mail.icon-active > span',
         'door' => 'css=.icons-panel li.door.icon-active > span',
-        'documents' => 'css=.icons-panel li.door.icon-active > span'
+        'documents' => 'css=.icons-panel li.documents.icon-active > span'
     ],
 
     'time' => [

@@ -11,6 +11,9 @@ class ZeroReplicasOfInterlocutor_SK4509_Test extends SeleniumTestHelper
     public function test_ZeroReplicas_SK4509 ()
     {
         $this->start_simulation();
+
+        $this->clearEventQueueBeforeEleven('RST1');
+
         // E3.2 to E3.4 (visit-visit)
         $this->run_event('E3.2',"xpath=(//*[contains(text(),'Сделал')])",'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Давай')])");
@@ -29,6 +32,8 @@ class ZeroReplicasOfInterlocutor_SK4509_Test extends SeleniumTestHelper
 
         $this->optimal_click('link=F14');
         $this->optimal_click('link=F36');
+
+        $this->transfer_time(5);
 
         // E12 to E12.1 (phone-phone)
         $this->run_event('E12',"xpath=(//*[contains(text(),'Я вас очень прошу, найдите сегодня любое время')])",'click');
