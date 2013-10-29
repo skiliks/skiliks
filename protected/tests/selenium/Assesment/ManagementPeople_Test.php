@@ -11,7 +11,7 @@ class ManagementPeople_Test extends SeleniumTestHelper
     public function testManagementPeople_Positive()
     {
         //$this->markTestIncomplete();
-        $this->start_simulation();
+        $this->start_simulation("testManagementPeople_Positive");
 
         $this->clearEventQueueBeforeEleven('RST1');
 

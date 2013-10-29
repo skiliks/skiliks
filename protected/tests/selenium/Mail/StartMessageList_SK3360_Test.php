@@ -11,7 +11,7 @@ class StartMessageList_SK3360_Test extends SeleniumTestHelper
     public function test_StartMessageList_SK3360()
     {
         //$this->markTestIncomplete();
-        $this->start_simulation();
+        $this->start_simulation("StartMessageList_SK3360_Test");
 
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
         sleep(5);

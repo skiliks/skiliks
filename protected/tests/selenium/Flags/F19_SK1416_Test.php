@@ -20,7 +20,7 @@ class F19_SK1416_Test extends SeleniumTestHelper
     public function testSK1416_Case1()
     {
         //$this->markTestIncomplete();
-        $this->start_simulation();
+        $this->start_simulation("F19_SK1416_Test_Case_1");
         sleep(10);
         $this->assertTrue($this->verify_flag('F19','0'));
         $this->run_event('E3',"xpath=(//*[contains(text(),'Приветствую, это Иван Доброхотов.')])",'-');
@@ -43,7 +43,7 @@ class F19_SK1416_Test extends SeleniumTestHelper
     public function testSK1416_Case2()
     {
         //$this->markTestIncomplete();
-        $this->start_simulation();
+        $this->start_simulation("F19_SK1416_Test_Case_2");
         sleep(10);
         $this->assertTrue($this->verify_flag('F19','0'));
         $this->run_event('E3',"xpath=(//*[contains(text(),'Приветствую, это Иван Доброхотов.')])",'-');
@@ -65,7 +65,7 @@ class F19_SK1416_Test extends SeleniumTestHelper
      */
     public function testSK1416_Case3()
     {
-        $this->start_simulation();
+        $this->start_simulation("F19_SK1416_Test_Case_3");
         sleep(10);
         $this->assertTrue($this->verify_flag('F19','0'));
         $this->run_event('T2',"xpath=(//*[contains(text(),'Доброхотов! Слушаю!')])",'-');
@@ -86,7 +86,7 @@ class F19_SK1416_Test extends SeleniumTestHelper
     public function testSK1416_N_Case1()
     {
         //$this->markTestIncomplete();
-        $this->start_simulation();
+        $this->start_simulation("F19_SK1416_N_Test_Case_1");
         sleep(5);
         $this->optimal_click("link=F19");
         $this->assertTrue($this->verify_flag('F19','1'));

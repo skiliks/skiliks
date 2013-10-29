@@ -10,7 +10,7 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
 {
     public function test_EmailEffectiveWork_SK2557()
     {
-        $this->start_simulation();
+        $this->start_simulation("EmailEffectiveWork_SK2557_Test");
         $this->clearEventQueueBeforeEleven('RST1');
 
         /*$this->run_event('ET10', Yii::app()->params['test_mappings']['icons']['phone'], 'click');

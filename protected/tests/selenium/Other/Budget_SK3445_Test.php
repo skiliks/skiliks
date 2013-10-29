@@ -10,7 +10,7 @@ class Budget_SK3445_Test extends SeleniumTestHelper
 {
     public function test_Budget_SK3445 ()
     {
-        $this->start_simulation();
+        $this->start_simulation("Budget_SK3445_Test");
 
         $this->clearEventQueueBeforeEleven('RST1');
 

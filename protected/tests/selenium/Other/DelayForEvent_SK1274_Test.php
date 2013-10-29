@@ -11,7 +11,7 @@ class DelayForEvent_SK1274_Test extends SeleniumTestHelper
     public function test_DelayForEvent_SK1274()
     {
         //$this->markTestIncomplete();
-        $this->start_simulation();
+        $this->start_simulation("DelayForEvent_SK1274_Test");
         sleep(10); // ждем, когда создается очередь из событий
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "10");
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "58");
