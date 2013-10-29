@@ -180,7 +180,6 @@ class SeleniumTestHelper extends CWebTestCase
         sleep (1);
         $this->waitForVisible($loc);
         $this->click($loc);
-        $this->logTestResult("optimal click on ". $loc. "\n");
         sleep (1);
     }
 
