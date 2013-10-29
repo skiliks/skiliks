@@ -462,6 +462,10 @@ define([
                             me.id = data.simId;
                         }
 
+                        if ('undefined' !== typeof data.inviteId) {
+                            me.inviteId = data.inviteId;
+                        }
+
                         me.start_time = new Date();
                         localStorage.setItem('lastGetState', nowDate.getTime());
 

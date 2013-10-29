@@ -8,19 +8,13 @@
             <form class="simulation-buttons">
                 <input class="btn btn-simulation-stop" type="button" value="SIM стоп" />
             </form>
-            <button class="btn btn-toggle-dialods-sound" type="button" value=""
-                    title="Убрать звук в диалогах/вернуть звук в диалогах">
-                <i class="icon-volume-off"></i>
-            </button>
-            <button class="btn btn-load-documents" type="button">
-                Load docs
-            </button>
             <input class="btn btn-simulation-stop-logs" type="button" value="SIM стоп &amp; open logs" style="margin-top: 12px;" />
 
             <br/><br/>
 
             <div>
-                <strong>Sim id:</strong> <span id="sim-id"></span><br/>
+                <strong>Sim id:</strong> <span id="sim-id"><@= simId @></span><br/>
+                <strong>Invite id:</strong> <span id="invite-id"><@= inviteId @></span><br/>
                 <strong>Speed factor:</strong> x<span id="speed-factor"><span></span>
             </div>
         </fieldset>
@@ -62,7 +56,7 @@
             </fieldset>
         </form>
     </div>
-    <div class="span4">
+    <div class="span3" >
         <form class="form-inline form-set-time">
             <fieldset>
                 <br/>
@@ -80,7 +74,6 @@
                     </div>
                 </div>
                 <div class="btn-group">
-                    <button class="btn set-time" data-hour="0" data-minute="0">0:00</button>
                     <button class="btn set-time" data-hour="10" data-minute="0">10:00</button>
                     <button class="btn set-time" data-hour="11" data-minute="0">11:00</button>
                     <button class="btn set-time" data-hour="12" data-minute="0">12:00</button>
@@ -89,7 +82,6 @@
                     <button class="btn set-time" data-hour="15" data-minute="0">15:00</button>
                     <button class="btn set-time" data-hour="16" data-minute="0">16:00</button>
                     <button class="btn set-time" data-hour="17" data-minute="0">17:00</button>
-                    <button class="btn set-time" data-hour="17" data-minute="59">17:59</button>
                     <button class="btn set-time" data-hour="18" data-minute="00">18:00</button>
                     <button class="btn set-time" data-hour="19" data-minute="00">19:00</button>
                     <button class="btn set-time" data-hour="20" data-minute="00">20:00</button>
