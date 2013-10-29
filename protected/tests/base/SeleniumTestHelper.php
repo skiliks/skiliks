@@ -107,7 +107,7 @@ class SeleniumTestHelper extends CWebTestCase
                     switch ($after) {
                         case 'click':
                             {
-                                sleep(2);
+                                sleep(1);
                                 $this->click($next_event);
                                 break;
                             }
@@ -592,6 +592,12 @@ class SeleniumTestHelper extends CWebTestCase
             }
             sleep(1);
         }
+    }
+
+    public function logTestResult ($invite, $text)
+    {
+        //считать нужный инвайт внизу дев. режима
+        //найти нужный инвайт и записать в нужную ячейку лог
     }
 }
 
