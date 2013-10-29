@@ -77,6 +77,7 @@ class SimulationController extends SimulationBaseController
                 'result'        => 1,
                 'speedFactor'   => $simulation->getSpeedFactor(),
                 'simId'         => $simulation->id,
+                'inviteId'      => $simulation->invite->id,
                 'scenarioName'  => $scenarioName,
                 'scenarioLabel' => $scenarioConfigLabelText
             )
