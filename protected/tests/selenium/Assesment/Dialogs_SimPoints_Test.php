@@ -13,7 +13,7 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
     public function test_Dialogs_for_SK1390()
     {
         //$this->markTestIncomplete();
-        $this->start_simulation();
+        $this->start_simulation("test_Dialogs_for_SK1390");
         $this->run_event('ET1.1', Yii::app()->params['test_mappings']['icons_active']['phone'], 'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
         $this->optimal_click("xpath=(//*[contains(text(),'Раиса Романовна,  я как раз собираюсь')])");
@@ -36,7 +36,7 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
     public function test_Dialogs_for_SK1395()
     {
         //$this->markTestIncomplete();
-        $this->start_simulation();
+        $this->start_simulation("test_Dialogs_for_SK1395");
         sleep(2);
         $this->run_event('E1',"xpath=(//*[contains(text(),' я как раз собираюсь подключить нашего лучшего аналитика')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Хорошо, за три часа управлюсь')])");
@@ -63,7 +63,7 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
     public function test_Dialogs_for_SK910()
     {
         //$this->markTestIncomplete();
-        $this->start_simulation();
+        $this->start_simulation("test_Dialogs_for_SK910");
         $this->optimal_click('link=F14');
         $this->optimal_click('link=F36');
         $this->run_event('E2.4',"xpath=(//*[contains(text(),'Марина, срочно пересылай мне презентацию для Генерального')])",'click');
@@ -95,7 +95,7 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
     public function test_Dialogs_for_SK1790()
     {
         //$this->markTestIncomplete();
-        $this->start_simulation();
+        $this->start_simulation("test_Dialogs_for_SK1790");
         $this->optimal_click('link=F39');
         $this->run_event('E1',"xpath=(//*[contains(text(),'Раиса Романовна, помню про бюджет')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Ну, с помощью Крутько я должен управиться в эти сроки')])");
@@ -162,7 +162,7 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
     public function test_Dialogs_for_SK1791()
     {
         //$this->markTestIncomplete();
-        $this->start_simulation();
+        $this->start_simulation("test_Dialogs_for_SK1791");
         $this->optimal_click('link=F32');
         $this->optimal_click('link=F39');
         sleep(5);
@@ -225,7 +225,7 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
     public function test_Dialogs_for_SK1792()
     {
         //$this->markTestIncomplete();
-        $this->start_simulation();
+        $this->start_simulation("test_Dialogs_for_SK1792");
         $this->run_event('E1.3.2',"xpath=(//*[contains(text(),'Я тебя для чего тут держу?')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Хорошо, я сам все сделаю, письмо от логистов у меня тоже есть')])");
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "10");

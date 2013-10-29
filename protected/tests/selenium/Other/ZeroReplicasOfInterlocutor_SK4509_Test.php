@@ -10,7 +10,7 @@ class ZeroReplicasOfInterlocutor_SK4509_Test extends SeleniumTestHelper
 {
     public function test_ZeroReplicas_SK4509 ()
     {
-        $this->start_simulation();
+        $this->start_simulation("test_ZeroReplicas_SK4509");
 
         $this->clearEventQueueBeforeEleven('RST1');
 

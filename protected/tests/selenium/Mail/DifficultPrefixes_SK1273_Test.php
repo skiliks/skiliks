@@ -16,7 +16,7 @@ class DifficultPrefixes_SK1273_Test extends SeleniumTestHelper
      */
     public function test_DifficultPrefixes_SK1273_Case1() {
         //$this->markTestIncomplete();
-        $this->start_simulation();
+        $this->start_simulation("test_DifficultPrefixes_SK1273_Case1");
         sleep(5);
         $this->write_email();
         $this->addRecipient("xpath=(//*[contains(text(),'Трудякин')])");
@@ -103,7 +103,7 @@ class DifficultPrefixes_SK1273_Test extends SeleniumTestHelper
      */
     public function test_DifficultPrefixes_SK1273_Case2() {
         //$this->markTestIncomplete();
-        $this->start_simulation();
+        $this->start_simulation("test_DifficultPrefixes_SK1273_Case2");
         sleep(30);
         $this->run_event('M65',Yii::app()->params['test_mappings']['icons_active']['mail'], 'click');
 

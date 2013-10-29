@@ -10,7 +10,7 @@ class Meetings_Test extends SeleniumTestHelper
 {
     public function test_meetings_management()
     {
-        $this->start_simulation();
+        $this->start_simulation("Meetings_Test");
         $this->optimal_click("link=F41");
         $this->run_event('E3.1',"xpath=(//*[contains(text(),'Здравствуйте, Анжела')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Благодарю, польщен')])");

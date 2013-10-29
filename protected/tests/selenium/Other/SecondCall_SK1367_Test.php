@@ -17,7 +17,7 @@ class SecondCall_SK1367_Test extends SeleniumTestHelper
     public function test_SecondCall_SK1367()
     {
         //$this->markTestIncomplete();
-        $this->start_simulation();
+        $this->start_simulation("test_SecondCall_SK1367");
 
         $this->optimal_click('link=F32');
         $this->run_event('ET1.1',Yii::app()->params['test_mappings']['icons']['phone'],'click');

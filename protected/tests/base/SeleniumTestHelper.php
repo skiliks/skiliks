@@ -39,7 +39,7 @@ class SeleniumTestHelper extends CWebTestCase
      * start_simulation - это метод, который включает стандартные действия при начале симуляции
      * (начиная с открытия окна браузера до самого входа в dev-режим).
      */
-    public function start_simulation()
+    public function start_simulation($testName)
     {
         $this->setUp();
         $this->deleteAllVisibleCookies();
@@ -58,7 +58,7 @@ class SeleniumTestHelper extends CWebTestCase
         }
 
         $this->getEval('var window = this.browserbot.getUserWindow(); window.$(window).off("beforeunload")');
-        $this->logTestResult("start simulation\n");
+        $this->logTestResult("start ". $testName. "\n");
     }
 
     public function simulation_stop()

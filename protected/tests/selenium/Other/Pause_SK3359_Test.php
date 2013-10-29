@@ -12,7 +12,7 @@ class Pause_SK3359_Test extends SeleniumTestHelper
     public function test_Pause_Case1_SK3359()
     {
         //$this->markTestIncomplete();
-        $this->start_simulation();
+        $this->start_simulation("test_Pause_Case1_SK3359");
         sleep(3);
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], '18');
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], '00');

@@ -14,7 +14,7 @@ class IndependentReplicas_SK1623_Test extends SeleniumTestHelper
     public function test_IndependentReplicas_SK1623_Case1() {
 
         //$this->markTestIncomplete();
-        $this->start_simulation();
+        $this->start_simulation("test_IndependentReplicas_SK1623_Case1");
         sleep(5);
         $this->assertTrue($this->verify_flag('F14','0'));
 
@@ -34,7 +34,7 @@ class IndependentReplicas_SK1623_Test extends SeleniumTestHelper
     public function test_IndependentReplicas_SK1623_Case2() {
 
         //$this->markTestIncomplete();
-        $this->start_simulation();
+        $this->start_simulation("test_IndependentReplicas_SK1623_Case2");
         sleep(5);
         $this->assertTrue($this->verify_flag('F14','0'));
         $this->assertTrue($this->verify_flag('F36','0'));
@@ -59,7 +59,7 @@ class IndependentReplicas_SK1623_Test extends SeleniumTestHelper
     public function test_IndependentReplicas_SK1623_Case3() {
 
         //$this->markTestIncomplete();
-        $this->start_simulation();
+        $this->start_simulation("test_IndependentReplicas_SK1623_Case3");
         sleep(5);
         $this->assertTrue($this->verify_flag('F14','0'));
         $this->assertTrue($this->verify_flag('F36','0'));
@@ -80,7 +80,7 @@ class IndependentReplicas_SK1623_Test extends SeleniumTestHelper
     public function test_IndependentReplicas_SK1623_Case4() {
 
         //$this->markTestIncomplete();
-        $this->start_simulation();
+        $this->start_simulation("test_IndependentReplicas_SK1623_Case4");
         sleep(5);
         $this->assertTrue($this->verify_flag('F14','0'));
 
