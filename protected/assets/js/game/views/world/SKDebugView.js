@@ -34,7 +34,10 @@ define(["text!game/jst/simulation/debug.jst"], function (debug_template) {
          */
         'render': function () {
             try {
-                this.$el.html(_.template(debug_template, {}));
+                this.$el.html(_.template(debug_template, {
+                    simId:    SKApp.simulation.id,
+                    inviteId: SKApp.simulation.inviteId
+                }));
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);
