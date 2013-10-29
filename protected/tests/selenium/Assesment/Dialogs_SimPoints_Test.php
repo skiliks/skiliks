@@ -109,13 +109,13 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Однако тебе все-таки придется выполнить это задание')])");
         //отправка MS22
         sleep(10);
+        $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "10");
+        $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "10");
+        $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
         $this->assertTrue($this->verify_flag('F3','1'));
         $this->run_event('E2.2',"xpath=(//*[contains(text(),'Босс звонил. Требует эту презентацию.')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),' Ах да. Помню. Шли, что есть вместе с твоими мыслями и прошлогодней презентацией')])");
         sleep(2);
-        $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "10");
-        $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "10");
-        $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
         $this->run_event('E8.3',"xpath=(//*[contains(text(),'Конечно читал. Хорошее письмо, обстоятельное')])", 'click');
         sleep(2);
         $this->optimal_click("xpath=(//*[contains(text(),'Понял тебя,  скажу своему аналитику, чтобы срочно служебку писал')])");
@@ -144,6 +144,10 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Это так. Но речь идет всего о пятнадцати минутах.')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Хорошо, заскочи, только быстро!')])");
         sleep(2);
+        $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "10");
+        $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "40");
+        $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
+
         $this->run_event('RS2',"xpath=(//*[contains(text(),'Доброе утро, Егор. Не совсем – я бюджетом занят.')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Какой план? Я бюджетом занят!')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Я могу тебе предложить достойную альтернативу – повидайся с моим лучшим аналитиком Мариной Крутько')])");

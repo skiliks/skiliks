@@ -26,7 +26,7 @@ class F16_SK1414_Test extends SeleniumTestHelper
         $this->start_simulation();
         sleep(10);
         $this->assertTrue($this->verify_flag('F16','0'));
-
+        $this->logTestResult('test_F16_text');
         $this->run_event('E2.4',"xpath=(//*[contains(text(),'Марина Крутько, добрый день.')])",'-');
         $this->optimal_click("xpath=(//*[contains(text(),'Марина, привет! Что там с презентацией')])");
         $this->waitForVisible("xpath=(//*[contains(text(),'Я над ней работаю.')])");
