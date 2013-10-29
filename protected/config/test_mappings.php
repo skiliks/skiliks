@@ -16,11 +16,11 @@ return [
     ],
 
     'icons_active' => [
-        'plan' => 'css=.icons-panel li.plan.icon-active',
-        'phone' => 'css=.icons-panel li.phone.icon-active',
-        'mail' => 'css=.icons-panel li.mail.icon-active',
-        'door' => 'css=.icons-panel li.door.icon-active',
-        'documents' => 'css=.icons-panel li.door.icon-active'
+        'plan' => 'css=.icons-panel li.plan.icon-active > span',
+        'phone' => 'css=.icons-panel li.phone.icon-active > span',
+        'mail' => 'css=.icons-panel li.mail.icon-active > span',
+        'door' => 'css=.icons-panel li.door.icon-active > span',
+        'documents' => 'css=.icons-panel li.door.icon-active > span'
     ],
 
     'time' => [
