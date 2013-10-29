@@ -64,7 +64,6 @@ class SeleniumTestHelper extends CWebTestCase
     public function simulation_stop()
     {
         $this->optimal_click("css=.btn.btn-simulation-stop");
-        $this->logTestResult("stop simulation\n");
     }
 
     public function simulation_showLogs()
@@ -86,7 +85,6 @@ class SeleniumTestHelper extends CWebTestCase
             usleep(100000);
         }
         $this->waitForVisible("id=simulation-points");
-        $this->logTestResult("stop simulation and show logs\n");
     }
 
     /**
@@ -196,7 +194,6 @@ class SeleniumTestHelper extends CWebTestCase
     {
         $time[0] = (int)($this->getText(Yii::app()->params['test_mappings']['time']['hour']));
         $time[1] = (int)($this->getText(Yii::app()->params['test_mappings']['time']['minute']));
-        $this->logTestResult("now the time is ". $time[0]. ":". $time[1]. "\n");
         return $time;
     }
 
