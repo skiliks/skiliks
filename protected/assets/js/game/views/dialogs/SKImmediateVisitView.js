@@ -118,6 +118,7 @@ define([
 
                         el.find('.visit-background-container').css('width', screen.availWidth);
 
+
                         var duration;
                         if(null === remote_replica){
                             throw new Error('remote_replica must be not null!');
@@ -130,6 +131,7 @@ define([
                         if (SKApp.simulation.isDebug() && 0 == my_replicas.length) {
                             duration = 5000;
                         }
+
                         setTimeout(function(){
                             me.$('video').css('zIndex', 0);
                             if (my_replicas.length === 0) {
