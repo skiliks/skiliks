@@ -225,10 +225,15 @@ define(["text!game/jst/window.jst"],
             }
         },
 
-        doWindowClose: function () {
+        doWindowClose: function (event) {
             try {
-                this.onWindowClose();
-                this.options.model_instance.close();
+                if($(event.currentTarget).attr('data-disabled') !== 'true'){
+                    $(event.currentTarget).attr('data-disabled', 'true');
+                    this.onWindowClose();
+                    this.options.model_instance.close();
+                } else {
+                    console.log("Double close");
+                }
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);

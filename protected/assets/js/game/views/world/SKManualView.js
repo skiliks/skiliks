@@ -133,6 +133,7 @@ define(
                 }
             },
             onWindowClose: function() {
+                console.log('on window close')
                 SKApp.simulation.manual_is_first_closed = true;
             }
         });
