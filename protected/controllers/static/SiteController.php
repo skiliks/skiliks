@@ -262,7 +262,7 @@ class SiteController extends SiteBaseController
         $invite->scenario = $scenario;
         $invite->scenario_id = $scenario->id;
         $invite->is_display_simulation_results = 1;
-        $invite->expired_at = date("Y-m-d H:i:s", time() + 86400*Yii::app()->params['inviteExpired']);
+        $invite->setExpiredAt();
         $invite->save(false);
 
         $this->redirect('/simulation/promo/lite/'.$invite->id);
