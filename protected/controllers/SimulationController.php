@@ -9,7 +9,6 @@ class SimulationController extends SimulationBaseController
      */
     public function actionStart()
     {
-        sleep(8);
         // Режим симуляции: promo, dev
         $mode = Yii::app()->request->getParam('mode');
         $type = Yii::app()->request->getParam('type');
