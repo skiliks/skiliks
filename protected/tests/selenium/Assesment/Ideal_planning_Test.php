@@ -13,18 +13,16 @@ class Ideal_planning_Test extends SeleniumTestHelper
         $this->start_simulation("Ideal_planning_Test");
 
         $this->clearEventQueueBeforeEleven('RST1');
-        sleep(2);
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['todo']);
-        sleep(2);
+        $this->assertVisible("//div[@data-task-id='17']");
         //сегодня
-        //$this->dragAndDrop("//div[@id='plannerBookToday']//div[@class='mCSB_dragger ui-draggable']","0, +300");
+        $this->dragAndDrop("//div[@class='plan-todo-wrap mCustomScrollbar _mCS_4']//div[@class='mCSB_dragger']","0, +300");
         $this->dragAndDropToObject("//div[@data-task-id='17']","//div[@id='plannerBookToday']//td[@data-hour='10' and @data-minute='00']");
         $this->dragAndDropToObject("//div[@data-task-id='15']","//div[@id='plannerBookToday']//td[@data-hour='13' and @data-minute='00']");
         $this->dragAndDropToObject("//div[@data-task-id='18']","//div[@id='plannerBookToday']//td[@data-hour='15' and @data-minute='30']");
-        $this->dragAndDropToObject("//div[@data-task-id='22']","//div[@id='plannerBookToday']//td[@data-hour='16' and @data-minute='30']");
-        $this->dragAndDropToObject("//div[@data-task-id='13']","//div[@id='plannerBookToday']//td[@data-hour='17' and @data-minute='00']");
-        //нужно крутнуть скролл, иначе селениум не увидит туду лист дальше 18.00
-        $this->dragAndDropToObject("//div[@data-task-id='23']","//div[@id='plannerBookToday']//td[@data-hour='18' and @data-minute='00']");
+        $this->dragAndDropToObject("//div[@data-task-id='22']","//div[@id='plannerBookToday']//td[@data-hour='16' and @data-minute='45']");
+        $this->dragAndDropToObject("//div[@data-task-id='13']","//div[@id='plannerBookToday']//td[@data-hour='17' and @data-minute='15']");
+        $this->dragAndDropToObject(" //div[@data-task-id='23']","//div[@id='plannerBookToday']//td[@data-hour='18' and @data-minute='00']");
         //Завтра
         $this->dragAndDropToObject("//div[@data-task-id='10']","//div[@id='plannerBookTomorrowTimeTable']//td[@data-hour='9' and @data-minute='00']");
         $this->dragAndDropToObject("//div[@data-task-id='5']","//div[@id='plannerBookTomorrowTimeTable']//td[@data-hour='10' and @data-minute='30']");
