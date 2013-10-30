@@ -104,6 +104,20 @@ class Invite extends CActiveRecord
     }
 
     /**
+     * Устанавливает дату до которой приглашение пожет быть принято согластно конфигу
+     */
+    public function setExpiredAt($days = null)
+    {
+        if (null !==$days) {
+            $days = Yii::app()->params['inviteExpired'];
+        }
+
+        $date = new DateTime();
+        $date->add(new DateInterval("P".$days));
+        $this->expired_at = $date->format("Y-m-d H:i:s");
+    }
+
+    /**
      * @return string
      */
     public function getVacancyLabel()
@@ -292,7 +306,7 @@ class Invite extends CActiveRecord
         $newInvite->scenario_id = $scenario->id;
         $newInvite->status      = Invite::STATUS_ACCEPTED;
         $newInvite->sent_time   = date("Y-m-d H:i:s");
-        $newInvite->expired_at  = date("Y-m-d H:i:s", time() + 86400*Yii::app()->params['inviteExpired']);
+        $newInvite->setExpiredAt();
         $newInvite->updated_at = (new DateTime('now', new DateTimeZone('Europe/Moscow')))->format("Y-m-d H:i:s");
         $newInvite->save(true, [
             'owner_id', 'receiver_id', 'firstname', 'lastname', 'scenario_id', 'status'
