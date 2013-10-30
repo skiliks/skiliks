@@ -112,9 +112,7 @@ class Invite extends CActiveRecord
             $days = Yii::app()->params['inviteExpired'];
         }
 
-        $date = new DateTime();
-        $date->add(new DateInterval("P".$days));
-        $this->expired_at = $date->format("Y-m-d H:i:s");
+        $this->expired_at = date("Y-m-d H:i:s", time() + 60*60*24* $days);
     }
 
     /**
