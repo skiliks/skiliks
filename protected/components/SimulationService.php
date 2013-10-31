@@ -642,9 +642,6 @@ class SimulationService
     public static function simulationStop(Simulation $simulation, $logs_src = array(), $manual=false)
     {
 
-        self::logAboutSim($simulation, 'Начало simulation/stop');
-        $transaction = $simulation->dbConnection->beginTransaction();
-        try {
             // Check if simulation was already stopped
             if (null !== $simulation->end && false === $manual) {
                 return;
@@ -788,21 +785,9 @@ class SimulationService
 
             EventTrigger::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
 
-            $simulation->refresh();
-            if( null === $simulation->end ) {
-                $simulation->end = GameTime::setNowDateTime();
-                $simulation->status = Simulation::STATUS_COMPLETE;
-                $simulation->save(false);
-                $transaction->commit();
-            } else {
-                self::logAboutSim($simulation, 'Ошибка, повторный запрос на simulation/stop');
-                $transaction->rollback();
-            }
-        } catch (Exception $e) {
-            self::logAboutSim($simulation, 'Ошибка на simulation/stop '.$e->getMessage());
-            $transaction->rollback();
-            throw $e;
-        }
+            $simulation->end = GameTime::setNowDateTime();
+            $simulation->status = Simulation::STATUS_COMPLETE;
+            $simulation->save(false);
     }
 
     /**
