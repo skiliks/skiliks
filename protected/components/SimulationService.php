@@ -639,156 +639,170 @@ class SimulationService
      * @param Simulation $simulation
      * @param array $logs_src
      */
-    public static function simulationStop($simulation, $logs_src = array(), $manual=false)
+    public static function simulationStop(Simulation $simulation, $logs_src = array(), $manual=false)
     {
-        self::logAboutSim($simulation, 'sim stop: begin');
 
-        // Check if simulation was already stopped
-        if (null !== $simulation->end && false === $manual) {
-            return;
-        }
-
-        if (Simulation::STATUS_INTERRUPTED == $simulation->status) {
-            return;
-        }
-
-        // If simulation was started by invite, mark it as completed
-        if (null !== $simulation->invite && $simulation->isTutorial() === false) {
-            $invite_status = $simulation->invite->status;
-            $simulation->invite->status = Invite::STATUS_COMPLETED;
-            $simulation->invite->save(false);
-            InviteService::logAboutInviteStatus($simulation->invite, "При завершении симуляции статус инвайта изменился с ".Invite::getStatusNameByCode($invite_status)." на ".Invite::getStatusNameByCode($simulation->invite->status));
-        }
-
-        if (null !== $simulation->invite && $simulation->isTutorial()) {
-            $simulation->invite->tutorial_finished_at = date('Y-m-d H:i:s');
-            $simulation->invite->save(false);
-            InviteService::logAboutInviteStatus($simulation->invite, 'При завершении симуляции статус инвайта '.Invite::getStatusNameByCode($simulation->invite->status));
-        }
-
-        // Remove pause if it was set
-        self::resume($simulation);
-
-        if($simulation->isCalculateTheAssessment()) {
-
-            if ($simulation->isDevelopMode() ||
-                true === Yii::app()->params['public']['isUseStrictAssertsWhenSimStop']
-            ) {
-                $simulation->checkLogs();
+        self::logAboutSim($simulation, 'Начало simulation/stop');
+        $transaction = $simulation->dbConnection->beginTransaction();
+        try {
+            // Check if simulation was already stopped
+            if (null !== $simulation->end && false === $manual) {
+                return;
             }
 
-            // @todo: find reason after release
-            // we close last Activation log
-            if (0 < count($logs_src) && 'activated' == $logs_src[count($logs_src)-1][2]) {
-                $extra_log    = $logs_src[count($logs_src)-1];
-                $extra_log[2] = 'deactivated';
-                $logs_src[] = $extra_log;
+            if (Simulation::STATUS_INTERRUPTED == $simulation->status) {
+                return;
             }
 
-            // данные для логирования
-            try {
-                EventsManager::processLogs($simulation, $logs_src);
-            } catch (Exception $e) {
-                if ($simulation->isDevelopMode()) {
-                    throw $e;
+            // If simulation was started by invite, mark it as completed
+            if (null !== $simulation->invite && $simulation->isTutorial() === false) {
+                $invite_status = $simulation->invite->status;
+                $simulation->invite->status = Invite::STATUS_COMPLETED;
+                $simulation->invite->save(false);
+                InviteService::logAboutInviteStatus($simulation->invite, "При завершении симуляции статус инвайта изменился с ".Invite::getStatusNameByCode($invite_status)." на ".Invite::getStatusNameByCode($simulation->invite->status));
+            }
+
+            if (null !== $simulation->invite && $simulation->isTutorial()) {
+                $simulation->invite->tutorial_finished_at = date('Y-m-d H:i:s');
+                $simulation->invite->save(false);
+                InviteService::logAboutInviteStatus($simulation->invite, 'При завершении симуляции статус инвайта '.Invite::getStatusNameByCode($simulation->invite->status));
+            }
+
+            // Remove pause if it was set
+            self::resume($simulation);
+
+            if($simulation->isCalculateTheAssessment()) {
+
+                if ($simulation->isDevelopMode() ||
+                    true === Yii::app()->params['public']['isUseStrictAssertsWhenSimStop']
+                ) {
+                    $simulation->checkLogs();
                 }
-            }
-            if(Yii::app()->params['disableOldLogging']){
-//                LogHelper::updateUniversalLog($simulation);
-//                $analyzer = new ActivityActionAnalyzer($simulation);
-//                $analyzer->run();
-            }
-            // Make aggregated activity log
-            LogHelper::combineLogActivityAgregated($simulation);
 
-            // make attestation 'work with emails'
-            SimulationService::saveEmailsAnalyze($simulation);
+                // @todo: find reason after release
+                // we close last Activation log
+                if (0 < count($logs_src) && 'activated' == $logs_src[count($logs_src)-1][2]) {
+                    $extra_log    = $logs_src[count($logs_src)-1];
+                    $extra_log[2] = 'deactivated';
+                    $logs_src[] = $extra_log;
+                }
 
-            DayPlanService::copyPlanToLog($simulation, 18 * 60, DayPlanLog::ON_18_00); // 18-00 copy
+                // данные для логирования
+                try {
+                    EventsManager::processLogs($simulation, $logs_src);
+                } catch (Exception $e) {
+                    if ($simulation->isDevelopMode()) {
+                        throw $e;
+                    }
+                }
+                if(Yii::app()->params['disableOldLogging']){
+    //                LogHelper::updateUniversalLog($simulation);
+    //                $analyzer = new ActivityActionAnalyzer($simulation);
+    //                $analyzer->run();
+                }
+                // Make aggregated activity log
+                LogHelper::combineLogActivityAgregated($simulation);
 
-            $custom = new CalculateCustomAssessmentsService($simulation);
-            $custom->run();
+                // make attestation 'work with emails'
+                SimulationService::saveEmailsAnalyze($simulation);
 
-            $planAnalyzer = new PlanAnalyzer($simulation);
-            $planAnalyzer->run();
+                DayPlanService::copyPlanToLog($simulation, 18 * 60, DayPlanLog::ON_18_00); // 18-00 copy
 
-            // Calculate and save Time Management assessments
-            $TimeManagementAnalyzer = new TimeManagementAnalyzer($simulation);
-            $TimeManagementAnalyzer->calculateAndSaveAssessments();
+                $custom = new CalculateCustomAssessmentsService($simulation);
+                $custom->run();
 
-            // Save score for "1. Оценка ALL_DIAL"+"8. Оценка Mail Matrix"
-            // see Assessment scheme_v5.pdf
-            $CheckConsolidatedBudget = new CheckConsolidatedBudget($simulation->id);
-            $CheckConsolidatedBudget->calcPoints();
+                $planAnalyzer = new PlanAnalyzer($simulation);
+                $planAnalyzer->run();
 
-            SimulationService::setFinishedPerformanceRules($simulation);
+                // Calculate and save Time Management assessments
+                $TimeManagementAnalyzer = new TimeManagementAnalyzer($simulation);
+                $TimeManagementAnalyzer->calculateAndSaveAssessments();
 
-            // результативность
-            SimulationService::calculatePerformanceRate($simulation);
+                // Save score for "1. Оценка ALL_DIAL"+"8. Оценка Mail Matrix"
+                // see Assessment scheme_v5.pdf
+                $CheckConsolidatedBudget = new CheckConsolidatedBudget($simulation->id);
+                $CheckConsolidatedBudget->calcPoints();
 
-            SimulationService::setGainedStressRules($simulation);
-            SimulationService::stressResistance($simulation);
-            SimulationService::saveAggregatedPoints($simulation->id);
+                SimulationService::setFinishedPerformanceRules($simulation);
 
-            // @todo: this is trick
-            // write all mail outbox/inbox scores to AssessmentAggregate directly
-            SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
+                // результативность
+                SimulationService::calculatePerformanceRate($simulation);
 
-            $learningGoalAnalyzer = new LearningGoalAnalyzer($simulation);
-            $learningGoalAnalyzer->run();
+                SimulationService::setGainedStressRules($simulation);
+                SimulationService::stressResistance($simulation);
+                SimulationService::saveAggregatedPoints($simulation->id);
 
-            $learning_area = new LearningAreaAnalyzer($simulation);
-            $learning_area->run();
+                // @todo: this is trick
+                // write all mail outbox/inbox scores to AssessmentAggregate directly
+                SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
 
-            $evaluation = new Evaluation($simulation);
-            $evaluation->run();
+                $learningGoalAnalyzer = new LearningGoalAnalyzer($simulation);
+                $learningGoalAnalyzer->run();
 
-            $simulation->saveLogsAsExcel();
+                $learning_area = new LearningAreaAnalyzer($simulation);
+                $learning_area->run();
 
-            $simulation->calculatePercentile();
+                $evaluation = new Evaluation($simulation);
+                $evaluation->run();
 
-            self::logAboutSim($simulation, sprintf(
-                'sim stop: assessment calculated. Overall: %s, Percentile  %s.',
-                (float)$simulation->getCategoryAssessmentWithoutRound(),
-                (float)$simulation->getCategoryAssessmentWithoutRound(AssessmentCategory::PERCENTILE)
-            ));
-        }
+                $simulation->saveLogsAsExcel();
 
-        // @ - for PHPUnit
-        if (Scenario::TYPE_TUTORIAL !== $simulation->game_type->slug ||
-            true == $simulation->isAllowedToSeeResults(Yii::app()->user->data())) {
-            @ Yii::app()->request->cookies['display_result_for_simulation_id'] =
-                new CHttpCookie('display_result_for_simulation_id', $simulation->id);
-        }
+                $simulation->calculatePercentile();
 
-        if ($simulation->isFull()) {
-            // просто $simulation->invite->can_be_reloaded = false; не сохраняет!!!
-            $tmpInvite = $simulation->invite;
-            $tmpInvite->can_be_reloaded = false;
-            $tmpInvite->save(false);
-            InviteService::logAboutInviteStatus($tmpInvite, 'Запрещаеться возможность начать симуляцию по этому инвайту повторно can_be_reloaded = false');
-            unset($tmpInvite);
-            $simulation->invite->refresh();
-        }
-
-        // remove all files except D1 - Сводный бюджет 2013 {
-        $docs = MyDocument::model()->findAllByAttributes([
-            'sim_id' => $simulation->id
-        ]);
-        foreach ($docs as $document) {
-            if ('D1' !== $document->template->code && file_exists($document->getFilePath())) {
-                unlink($document->getFilePath());
+                self::logAboutSim($simulation, sprintf(
+                    'sim stop: assessment calculated. Overall: %s, Percentile  %s.',
+                    (float)$simulation->getCategoryAssessmentWithoutRound(),
+                    (float)$simulation->getCategoryAssessmentWithoutRound(AssessmentCategory::PERCENTILE)
+                ));
             }
 
-            // remove all files except D1 }
+            // @ - for PHPUnit
+            if (Scenario::TYPE_TUTORIAL !== $simulation->game_type->slug ||
+                true == $simulation->isAllowedToSeeResults(Yii::app()->user->data())) {
+                @ Yii::app()->request->cookies['display_result_for_simulation_id'] =
+                    new CHttpCookie('display_result_for_simulation_id', $simulation->id);
+            }
 
+            if ($simulation->isFull()) {
+                // просто $simulation->invite->can_be_reloaded = false; не сохраняет!!!
+                $tmpInvite = $simulation->invite;
+                $tmpInvite->can_be_reloaded = false;
+                $tmpInvite->save(false);
+                InviteService::logAboutInviteStatus($tmpInvite, 'Запрещаеться возможность начать симуляцию по этому инвайту повторно can_be_reloaded = false');
+                unset($tmpInvite);
+                $simulation->invite->refresh();
+            }
+
+            // remove all files except D1 - Сводный бюджет 2013 {
+            $docs = MyDocument::model()->findAllByAttributes([
+                'sim_id' => $simulation->id
+            ]);
+            foreach ($docs as $document) {
+                if ('D1' !== $document->template->code && file_exists($document->getFilePath())) {
+                    unlink($document->getFilePath());
+                }
+
+                // remove all files except D1 }
+
+            }
+
+            EventTrigger::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
+
+            $simulation->refresh();
+            if( null === $simulation->end ) {
+                $simulation->end = GameTime::setNowDateTime();
+                $simulation->status = Simulation::STATUS_COMPLETE;
+                $simulation->save(false);
+                $transaction->commit();
+            } else {
+                self::logAboutSim($simulation, 'Ошибка, повторный запрос на simulation/stop');
+                $transaction->rollback();
+            }
+        } catch (Exception $e) {
+            self::logAboutSim($simulation, 'Ошибка на simulation/stop '.$e->getMessage());
+            $transaction->rollback();
+            throw $e;
         }
-
-        EventTrigger::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
-
-        $simulation->end = GameTime::setNowDateTime();
-        $simulation->status = Simulation::STATUS_COMPLETE;
-        $simulation->save(false);
     }
 
     /**
@@ -887,51 +901,6 @@ class SimulationService
         $assessment->save();
 
     }
-
-    /**
-     * @param Simulation $simulation
-     * @param Scenario $gameTime
-     *
-     * @throws InviteException
-     */
-    /*public static function simulationIsStarted($simulation, $gameTime)
-    {
-
-        if($simulation->isTutorial()){ return; }
-        if(strtotime('10:00:00') <= strtotime($gameTime) && strtotime($gameTime) <= strtotime('10:30:00') ){
-
-            $invite = Invite::model()->findByAttributes(['simulation_id' => $simulation->id]);
-
-            if (null === $invite) {
-                if (false === Yii::app()->user->data()->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE &&
-                    true === $simulation->game_type->isAllowOverride())) {
-                    throw new InviteException('Симуляция запущена без инвайта');
-                }
-            } else if ((int)$invite->status === Invite::STATUS_ACCEPTED) {
-                $invite->status = Invite::STATUS_IN_PROGRESS;
-                $invite->save(false);
-                if ($invite->isTrialFull(Yii::app()->user->data())
-                    && Yii::app()->user->data()->isCorporate() && (int)$simulation->mode !== Simulation::MODE_DEVELOPER_ID) {
-
-                    $initValue = Yii::app()->user->data()->getAccount()->invites_limit;
-
-                    Yii::app()->user->data()->getAccount()->invites_limit--;
-                    Yii::app()->user->data()->getAccount()->save(false);
-
-                    UserService::logCorporateInviteMovementAdd(
-                        'simulationIsStarted',
-                        Yii::app()->user->data()->getAccount(),
-                        $initValue
-                    );
-                }
-            } else if((int)$invite->status === Invite::STATUS_IN_PROGRESS) {
-                return;
-            } else {
-                throw new InviteException("Статус инвайта должен быть STATUS_ACCEPTED или STATUS_IN_PROGRESS. А он ".$invite->status);
-            }
-        }
-
-    }*/
 
     /**
      * @param $simId
