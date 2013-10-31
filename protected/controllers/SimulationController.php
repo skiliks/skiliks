@@ -90,7 +90,7 @@ class SimulationController extends SimulationBaseController
     public function actionStop()
     {
         $simulation = $this->getSimulationEntity();
-        self::logAboutSim($simulation, 'Начало simulation/stop');
+        SimulationService::logAboutSim($simulation, 'Начало simulation/stop');
         $transaction = $simulation->dbConnection->beginTransaction();
         try {
             SimulationService::simulationStop(
@@ -99,7 +99,7 @@ class SimulationController extends SimulationBaseController
             );
             $transaction->commit();
         } catch (Exception $e) {
-            self::logAboutSim($simulation, 'Ошибка на simulation/stop '.$e->getMessage());
+            SimulationService::logAboutSim($simulation, 'Ошибка на simulation/stop '.$e->getMessage());
             $transaction->rollback();
             throw $e;
         }
