@@ -32,6 +32,7 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
         'server_name'                   => 'http://skiliks.com/',
         'frontendUrl'=>'http://live.skiliks.com/',
         'runMigrationOn' => 'live',
+        'disableOldLogging' => true,
         'public' => [
             'storageURL'           => 'http://storage.dev.skiliks.com/v1',
             'isLocalPc'            => true,
