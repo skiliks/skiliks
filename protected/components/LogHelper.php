@@ -344,7 +344,7 @@ class LogHelper
                     $window->end_time = gmdate("H:i:s", $log[3]);
                     $window->save();
                     Yii::log(sprintf(
-                        'Previous window is still activated. Simulation id %d. Window log id %d',
+                        'Warning. Previous window is still activated. Simulation id %d. Window log id %d',
                         $simId, $window->id
                     ), CLogger::LEVEL_WARNING);
                 }
