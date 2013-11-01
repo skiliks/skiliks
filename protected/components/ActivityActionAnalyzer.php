@@ -96,6 +96,9 @@ class ActivityActionAnalyzer {
 
     }
 
+    /**
+     * Create all activity action logs
+     */
     public function run() {
         /* @var $universal_log UniversalLog */
         foreach($this->universal_log as $key => $universal_log){
