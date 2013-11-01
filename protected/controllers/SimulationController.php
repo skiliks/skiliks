@@ -89,10 +89,20 @@ class SimulationController extends SimulationBaseController
      */
     public function actionStop()
     {
-        SimulationService::simulationStop(
-            $this->getSimulationEntity(),
-            Yii::app()->request->getParam('logs', array())
-        );
+        $simulation = $this->getSimulationEntity();
+        SimulationService::logAboutSim($simulation, 'Начало simulation/stop');
+        $transaction = $simulation->dbConnection->beginTransaction();
+        try {
+            SimulationService::simulationStop(
+                $this->getSimulationEntity(),
+                Yii::app()->request->getParam('logs', array())
+            );
+            $transaction->commit();
+        } catch (Exception $e) {
+            SimulationService::logAboutSim($simulation, 'Ошибка на simulation/stop '.$e->getMessage());
+            $transaction->rollback();
+            throw $e;
+        }
         $this->sendJSON([
             'result' => self::STATUS_SUCCESS
         ]);

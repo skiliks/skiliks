@@ -31,6 +31,7 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
     'params'=>array(
         'frontendUrl'=>'http://master.skiliks.com/',
         'public' => [],
+        'disableOldLogging' => true,
         'robokassa' => [
             'url'            => 'https://auth.robokassa.ru/Merchant/Index.aspx',
             'MrchLogin'      => 'leah',
