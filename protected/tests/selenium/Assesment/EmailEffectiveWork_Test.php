@@ -11,41 +11,54 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
     public function test_EmailEffectiveWork_SK2557()
     {
         $this->start_simulation("EmailEffectiveWork_SK2557_Test");
-        $this->clearEventQueueBeforeEleven('RST1');
 
-        /*$this->run_event('ET10', Yii::app()->params['test_mappings']['icons']['phone'], 'click');
-        $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
-        $this->optimal_click("xpath=(//*[contains(text(),'Хорошо, сейчас найду и перешлю')])");
-        sleep(5);*/
+        $this->clearEventQueueBeforeEleven('RST1');
 
         $this->run_event('T3.1',"xpath=(//*[contains(text(),'Егор, приветствую')])",'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Отлично, но у тебя не больше пяти минут')])");
-        sleep(5);
+        sleep(3);
 
         $this->run_event('T7.1',"xpath=(//*[contains(text(),'Я по поводу задания от логистов')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Ну кто же так делает? Что же ты молчишь?')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Мы же говорили, что в письмах людям выше тебя статусом')])");
         $this->optimal_click("xpath=(//*[contains(text(),'сейчас поговорю с ним и уточню задание')])");
-        sleep(5);
+        sleep(3);
 
         $this->run_event('T7.2',"xpath=(//*[contains(text(),'Егор, ты хотел сегодня получить выгрузку данных! Она тебе все еще нужна?')])",'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Но что именно ты ждешь? Я об этом ничего не знаю, исполнитель – Трутнев – тоже. Он тебе два дня назад письмо отправил с уточнениями, ответа не получил!')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Именно об этом я и говорю. Трутнев два дня назад написал тебе письмо с уточнениями, но ты не ответил. ')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Когда тебе нужны данные?')])");
-        sleep(5);
+        sleep(3);
 
         $this->run_event('T7.3',"xpath=(//*[contains(text(),'Я по поводу задания от логистов. Поговорил с Трудякиным. Им нужно заполнить данными определенную форму за прошедшие девять месяцев. Она у тебя в почте.  Если будут вопросы – звони не откладывая.')])",'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Нет, отложи все дела и сделай срочно. Думаю, двух часов тебе хватит. Перед отправкой перешли мне для проверки. ')])");
-        sleep(5);
+        sleep(3);
 
         $this->run_event('ET1.1', Yii::app()->params['test_mappings']['icons_active']['phone'], 'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
         $this->optimal_click("xpath=(//*[contains(text(),'Раиса Романовна, помню про бюджет. Сейчас же приступаю к доработке')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Хорошо, за три часа управлюсь')])");
-        sleep(5);
+        sleep(3);
 
         $this->clearEventQueueBeforeEleven('RST2');
         $this->clearEventQueueBeforeEleven('RST3');
+
+        $this->run_event('M8');
+        sleep(2);
+        $this->run_event('M6');
+        sleep(2);
+        $this->run_event('M47');
+        sleep(2);
+        $this->run_event('M73');
+        sleep(2);
+        $this->run_event('M7');
+        sleep(2);
+
+        $this->run_event('ET10', Yii::app()->params['test_mappings']['icons_active']['phone'], 'click');
+        $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
+        $this->optimal_click("xpath=(//*[contains(text(),'Хорошо, сейчас найду и перешлю')])");
+        sleep(3);
+
         $event="RVT1";
         $this->run_event($event, Yii::app()->params['test_mappings']['icons_active']['door'], 'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['visit']['deny']);
@@ -53,44 +66,33 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
         $this->run_event($event, Yii::app()->params['test_mappings']['icons_active']['door'], 'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['visit']['deny']);
 
-        $this->run_event('M8');
-        sleep(3);
-        $this->run_event('M6');
-        sleep(3);
-        $this->run_event('M47');
-        sleep(3);
-        $this->run_event('M73');
-        sleep(3);
-        $this->run_event('M7');
-        sleep(3);
-
         $this->run_event('RS2',"xpath=(//*[contains(text(),'Доброе утро, Егор. Не совсем – я бюджетом занят.')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Егор, я начну работу по проекту только после отпуска')])");
-        sleep(5);
+        sleep(3);
 
         $this->run_event("MS45");
-        sleep(10);
-
-        $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
-        $this->optimal_click(Yii::app()->params['test_mappings']['icons']['settings']);
-        $this->optimal_click("css=.volume-control.control-mail.volume-on");
-        $this->optimal_click(Yii::app()->params['test_mappings']['icons']['settings']);
+        sleep(3);
 
         // MS69
+        $this->write_mail_unidentified();
         $this->optimal_click("css=.NEW_EMAIL");
         $this->addRecipient(Yii::app()->params['test_mappings']['mail_contacts']['trudyakin']);
         $this->addTheme("xpath=(//*[contains(text(), 'Квартальный план')])");
         $this->addAttach("Квартальный план_4 кв_2013");
         $this->optimal_click("css=.SEND_EMAIL");
 
-        sleep(5);
+        $this->optimal_click(Yii::app()->params['test_mappings']['icons']['settings']);
+        $this->optimal_click("css=.volume-control.control-mail.volume-on");
+        $this->optimal_click(Yii::app()->params['test_mappings']['icons']['settings']);
+
+        sleep(3);
         $this->optimal_click("xpath=(//*[contains(text(),'бюджет логистики')])");
 
-        // MS42
-        $this->write_forward_email("форма по задаче от логистики, срочно!", Yii::app()->params['test_mappings']['mail_contacts']['trutnev'] );
-
         // MS28
-        //$this->write_new_email(Yii::app()->params['test_mappings']['mail_contacts']['bobr'],"Бюджет производства прошлого года","Бюджет производства_2013_утв");
+        $this->write_new_email(Yii::app()->params['test_mappings']['mail_contacts']['bobr'],"Бюджет производства прошлого года","Бюджет производства_2013_утв");
+
+        // MS42
+        $this->write_forward_email("форма по задаче от логистики, срочно!", "//ul[contains(@class,'ui-autocomplete')]/li[35]/a" );
 
         // MS35
         $this->write_new_email(Yii::app()->params['test_mappings']['mail_contacts']['denejnaya'],"Сводный бюджет","Сводный бюджет_2014_план");
@@ -105,7 +107,7 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'консультанты и новый проект')])");
 
         // читаем и пересылаем M47
-        $this->write_forward_email("данные по рынку, срочно", Yii::app()->params['test_mappings']['mail_contacts']['trutnev']);
+        $this->write_forward_email("данные по рынку, срочно", "//ul[contains(@class,'ui-autocomplete')]/li[35]/a");
 
         // читаем письмо M7
         $this->write_reply_email("пришлите срочно пожелания!");
@@ -119,33 +121,33 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
 
         $this->optimal_click("link=F38_3");
         $this->run_event('T7.4',"xpath=(//*[contains(text(),'Я по поводу задания от логистов. Ты его сделал?')])",'click');
-        sleep(5);
+        sleep(3);
 
         $this->run_event('ET2.1', Yii::app()->params['test_mappings']['icons_active']['phone'], 'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
         $this->optimal_click("xpath=(//*[contains(text(),'в прошлый раз нам пришлось презентацию за день делать!')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Да, прямо сейчас проконтролирую, как идет подготовка.')])");
-        sleep(5);
+        sleep(3);
 
         $this->optimal_click("xpath=(//*[contains(text(),'Марина, срочно пересылай мне презентацию')])");
         $this->waitForVisible("xpath=(//*[contains(text(),'Я над ней работаю.')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Это хорошо, что ')])");
-        sleep(5);
+        sleep(3);
 
         $this->run_event('ET3.1', Yii::app()->params['test_mappings']['icons_active']['phone'], 'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
         $this->optimal_click("xpath=(//*[contains(text(),'Хорошо, Иван')])");
-        sleep(5);
+        sleep(3);
 
         $this->run_event('ET3.3', Yii::app()->params['test_mappings']['icons_active']['phone'], 'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
         $this->optimal_click("xpath=(//*[contains(text(),'Здравствуйте. Любопытно')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Извините, давайте созвонимся после отпуска, я сейчас очень занят')])");
-        sleep(5);
+        sleep(3);
 
         $this->run_event('ET8',Yii::app()->params['test_mappings']['icons_active']['door'],'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['visit']['deny']);
-        sleep(5);
+        sleep(3);
 
         $this->run_event('M4');
         sleep(3);
@@ -168,24 +170,20 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
         $this->run_event('M74');
         sleep(3);
         $this->run_event('M66');
-        sleep(15);
+        sleep(3);
 
-        $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
+        $this->write_mail_unidentified();
         $this->addTaskToPlan("предложения","23");
         $this->addTaskToPlan("график отпусков срочно!","26");
         $this->addTaskToPlan("твои аналитики","19");
         $this->addTaskToPlan("по вашей заявке","113");
-
         $this->optimal_click("xpath=(//*[contains(text(),'выгрузка для логистов')])");
 
         $this->write_reply_email("привет");
         $this->write_reply_email("короткая просьба");
         $this->write_reply_email("Презентация для ГД_рабочая версия");
-
-        //$this->addTaskToPlan("Презентация для ГД_рабочая версия","41");
         $this->write_reply_email("отчет срочно!");
-        sleep(1);
-        $this->write_forward_email("отчет срочно!",Yii::app()->params['test_mappings']['mail_contacts']['trutnev']);
+        $this->write_forward_email("отчет срочно!","//ul[contains(@class,'ui-autocomplete')]/li[35]/a");
         $this->write_replyAll_email("срочно! Требования клиентов","xpath=(//*[contains(text(), 'Железный')])");
         $this->write_reply_email("запрос Крутько");
 
@@ -194,7 +192,7 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
         $this->clearEventQueueBeforeEleven('RST7');
         $this->clearEventQueueBeforeEleven('RST8');
 
-        $this->run_event('ET9', Yii::app()->params['test_mappings']['icons_active']['door'], 'click');
+        $this->run_event('ET9', Yii::app()->params['test_mappings']['icons_active']['phone'], 'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
         $this->optimal_click("xpath=(//*[contains(text(),'Василий, вопрос в чем?')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Василий, давайте ближе к делу!')])");
@@ -203,12 +201,6 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Та-а-ак, и что же в вашем бюджете изменилось?')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Принимаю, что же с вами делать. Сейчас посмотрю и внесу изменения. ')])");
         sleep(5);
-
-        /*$this->run_event('ET11', Yii::app()->params['test_mappings']['icons']['phone'], 'click');
-        $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
-        $this->optimal_click("xpath=(//*[contains(text(),'Раиса Романовна, приношу извинения')])");
-        $this->optimal_click("xpath=(//*[contains(text(),'Слушаюсь, Раиса Романовна, сейчас сделаю.')])");
-        sleep(5);*/
 
         $this->run_event('ET13',Yii::app()->params['test_mappings']['icons_active']['door'],'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['visit']['allow']);
@@ -220,7 +212,7 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'А ты можешь рассказать подробнее, какие задачи для тебя интересны')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Что же ты раньше об этом не говорила')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Давай так договоримся')])");
-        sleep(10);
+        sleep(5);
 
         $this->clearEventQueueBeforeEleven('RST9');
         $this->clearEventQueueBeforeEleven('RST10');
@@ -263,9 +255,9 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
         $this->run_event("MS51");
         sleep(3);
         $this->run_event("MS39");
-        sleep(20);
+        sleep(5);
 
-        $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
+        $this->write_mail_unidentified();
         $this->optimal_click("css=.NEW_EMAIL");
         $this->addRecipient(Yii::app()->params['test_mappings']['mail_contacts']['denejnaya']);
         $this->addTheme("xpath=(//*[contains(text(), 'Сводный бюджет: итоговые корректировки')])");
@@ -279,12 +271,11 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
 
         $this->write_replyAll_email("срочно! Отчетность", "");
         $this->write_reply_email("Презентация для ГД_итог");
-
         $this->write_reply_email("адрес клиента");
-        sleep(2);
-        $this->write_forward_email("вакцинация!", Yii::app()->params['test_mappings']['mail_contacts']['analitics']);
+        $this->write_forward_email("вакцинация!", "//ul[contains(@class,'ui-autocomplete')]/li[14]/a");
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['close']);
         sleep(5);
+
         $this->simulation_showLogs();
         //assertions
 

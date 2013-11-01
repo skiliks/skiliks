@@ -139,7 +139,7 @@ class SeleniumTestHelper extends CWebTestCase
         $this->waitForElementPresent($theme);
         $this->mouseOver($theme);
         $this->click($theme);
-        $this->logTestResult("call phone to ". $whom. "by theme: ". $theme. "\n");
+        //$this->logTestResult("call phone to ". $whom. "by theme: ". $theme. "\n");
     }
 
     /**
@@ -149,7 +149,7 @@ class SeleniumTestHelper extends CWebTestCase
     {
         $this->optimal_click(Yii::app()->params['test_mappings']['icons_active']['phone']);
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
-        $this->logTestResult("reply call when active\n");
+        //$this->logTestResult("reply call when active\n");
     }
 
     /**
@@ -159,7 +159,7 @@ class SeleniumTestHelper extends CWebTestCase
     {
         $this->optimal_click(Yii::app()->params['test_mappings']['icons_active']['phone']);
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['no_reply']);
-        $this->logTestResult("no reply call when active\n");
+        //$this->logTestResult("no reply call when active\n");
     }
 
     /**
@@ -169,7 +169,33 @@ class SeleniumTestHelper extends CWebTestCase
     {
         $this->optimal_click(Yii::app()->params['test_mappings']['icons_active']['mail']);
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['to_whom']);
-        $this->logTestResult("start write email when active\n");
+        //$this->logTestResult("start write email when active\n");
+    }
+
+    /**
+     * write_mail_unidentified - это метод для создания письма, когда непонятно по ситуации в каком виде находится почтовик.
+     */
+    public function write_mail_unidentified()
+    {
+        if ($this->isElementPresent(Yii::app()->params['test_mappings']['icons_active']['mail'])==true)
+        {
+            $this->optimal_click(Yii::app()->params['test_mappings']['icons_active']['mail']);
+            if ($this->isElementPresent(Yii::app()->params['test_mappings']['mail']['to_whom'])==true)
+            {
+                $this->optimal_click(Yii::app()->params['test_mappings']['icons']['close']);
+                $this->optimal_click(Yii::app()->params['test_mappings']['mail']['popup_unsave']);
+            }
+        }
+        else
+        {
+            $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
+            if ($this->isElementPresent(Yii::app()->params['test_mappings']['mail']['to_whom'])==true)
+            {
+                $this->optimal_click(Yii::app()->params['test_mappings']['icons']['close']);
+                $this->optimal_click(Yii::app()->params['test_mappings']['mail']['popup_unsave']);
+            }
+        }
+        $this->logTestResult("write email when mail icon status is unidentified\n");
     }
 
     /**
@@ -214,7 +240,7 @@ class SeleniumTestHelper extends CWebTestCase
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], $time_array[0]);
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], $time_array[1]);
         $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
-        $this->logTestResult("transfer time at ". $differ. " minutes\n");
+        //$this->logTestResult("transfer time at ". $differ. " minutes\n");
         return $time_array;
     }
 
@@ -247,7 +273,7 @@ class SeleniumTestHelper extends CWebTestCase
             }
             usleep(100000);
         }
-        $this->logTestResult("verify flag ". $num_flag. " \n");
+        //$this->logTestResult("verify flag ". $num_flag. " \n");
         return $was_changed;
     }
 
@@ -305,7 +331,7 @@ class SeleniumTestHelper extends CWebTestCase
     {
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
         $this->optimal_click("xpath=(//*[contains(text(),'новое письмо')])");
-        $this->logTestResult("write email\n");
+        //$this->logTestResult("write email\n");
     }
 
     // метод добавления получателя к письму
@@ -316,7 +342,7 @@ class SeleniumTestHelper extends CWebTestCase
         $this->waitForVisible($address);
         $this->mouseOver($address);
         $this->optimal_click($address);
-        $this->logTestResult("add recipient ". $address. " to mail\n");
+        //$this->logTestResult("add recipient ". $address. " to mail\n");
     }
 
     // метод добавления темы к письму
@@ -325,7 +351,7 @@ class SeleniumTestHelper extends CWebTestCase
         $this->waitForVisible("xpath=//*[@id='MailClient_NewLetterSubject']/div/a");
         $this->click("xpath=//*[@id='MailClient_NewLetterSubject']/div/a");
         $this->click($theme);
-        $this->logTestResult("add theme ". $theme. " to mail\n");
+        //$this->logTestResult("add theme ". $theme. " to mail\n");
     }
 
     // метод добавления атача к письму
@@ -335,7 +361,7 @@ class SeleniumTestHelper extends CWebTestCase
         $this->waitForVisible("xpath=(//*[contains(text(), '$filename')])");
         $this->mouseOver("xpath=(//*[contains(text(), '$filename')])");
         $this->click("xpath=(//*[contains(text(), '$filename')])");
-        $this->logTestResult("add attachment ". $filename. " to mail\n");
+        //$this->logTestResult("add attachment ". $filename. " to mail\n");
     }
 
     // метод для очистки не нужных событий из очереди событий
@@ -614,12 +640,18 @@ class SeleniumTestHelper extends CWebTestCase
 
     public function logTestResult ($text='test_text')
     {
-        $invite_id = $this->getInviteId();
-        /* @var Invite $invite */
-        $invite = Invite::model()->findByPk($invite_id);
-        $invite->stacktrace .= $text;
-        $invite->is_crashed = false;
-        $invite->save(false,'stacktrace,is_crashed');
+        try {
+            $invite_id = $this->getInviteId();
+            /* @var Invite $invite */
+            $invite = Invite::model()->findByPk($invite_id);
+            $invite->stacktrace .= $text;
+            if( false === $invite->save(false, ['stacktrace'])) {
+                var_dump($invite->getErrors());
+            }
+            //$invite->refresh();
+        } catch(Exception $e) {
+            echo $e->getMessage();
+        }
     }
 }
 
