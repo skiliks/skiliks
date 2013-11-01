@@ -126,17 +126,18 @@ define([], function () {
          */
         open: function() {
             try {
+                var me = this;
                 console.log("SKWindow.open");
-                if (this.is_opened) {
+                if (me.is_opened) {
                     throw new Error ("Window is already opened");
                 }
-                this.is_opened = true;
-                this.simulation.window_set.showWindow(this);
+                me.is_opened = true;
+                me.simulation.window_set.showWindow(me);
                 /**
                  * Вызывается в момент открытия окна. View должен отрисовать окно в этот момент
                  * @event open
                  */
-                this.trigger('open', this.get('name'), this.get('subname'));
+                me.trigger('open', me.get('name'), me.get('subname'));
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);
