@@ -42,4 +42,27 @@ class UserServiceUnitTest extends CDbTestCase
             $this->markTestSkipped();
         }
     }
+
+    public function testInvite() {
+        /* @var $profile YumProfile */
+        $profile = YumProfile::model()->findByAttributes(['email'=>'test-corporate-phpunit-account@skiliks.com']);
+        if(null !== $profile){
+            YumUser::model()->deleteAllByAttributes(['id'=>$profile->user_id]);
+            YumProfile::model()->deleteAllByAttributes(['user_id'=>$profile->user_id]);
+            UserAccountCorporate::model()->deleteAllByAttributes(['user_id'=>$profile->user_id]);
+        }
+        $user  = new YumUser('registration');
+        $user->setAttributes(['password'=>'123123', 'password_again'=>'123123', 'agree_with_terms'=>'yes']);
+        $profile  = new YumProfile('registration_corporate');
+        $profile->setAttributes(['firstname'=>'Алексей', 'lastname'=>'Сафронов', 'email'=>'test-corporate-phpunit-account@skiliks.com']);
+        $account_corporate = new UserAccountCorporate('corporate');
+        $account_corporate->setAttributes(['industry_id'=>27]);
+        UserService::createCorporateAccount($user, $profile, $account_corporate);
+        $assert_profile = YumProfile::model()->findByAttributes(['email'=>'test-corporate-phpunit-account@skiliks.com']);
+        $this->assertNotNull($assert_profile);
+        $this->assertNotNull($assert_profile->user);
+        $assert_account_corporate = YumProfile::model()->findByAttributes(['user_id'=>$assert_profile->user_id]);
+        $this->assertNotNull($assert_account_corporate);
+    }
+
 }

@@ -41,6 +41,7 @@ class m130000_000000_update_yum_users extends CDbMigration {
             );
         }
         $this->addColumn('profile', "assessment_results_render_type", "varchar(30) DEFAULT 'percentil'");
+        $this->addColumn('user', "ip_address",  "varchar(15) DEFAULT NULL");
     }
 
     public function down()
