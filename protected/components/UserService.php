@@ -223,9 +223,11 @@ class UserService {
         if(self::createUserAndProfile($user, $profile)
             && $account_corporate->validate(['industry_id'])
             && $user->register($user->username, $user->password, $profile)) {
+
             if(!$user->save()) { throw new Exception("User not save"); }
             $profile->user_id = $user->id;
             if(!$profile->save()) { throw new Exception("Profile not save"); }
+
             $account_corporate->user_id = $user->id;
             $account_corporate->default_invitation_mail_text = 'Вопросы относительно тестирования вы можете задать по адресу '.$profile->email.', куратор тестирования - '.$profile->firstname.' '. $profile->lastname .'.';
             $tariff = Tariff::model()->findByAttributes(['slug' => Tariff::SLUG_LITE]);
@@ -249,11 +251,19 @@ class UserService {
     }
 
     public static function createPersonalAccount(YumUser &$user, YumProfile &$profile, UserAccountPersonal &$account_personal) {
-        if(self::createUserAndProfile($user, $profile) && $account_personal->validate(['professional_status_id'])){
-            $user->save();
-            $profile->save();
+        if(self::createUserAndProfile($user, $profile)
+            && $account_personal->validate(['professional_status_id'])
+            && $user->register($user->username, $user->password, $profile)) {
+
+            if(!$user->save()) { throw new Exception("User not save"); }
+            $profile->user_id = $user->id;
+            if(!$profile->save()) { throw new Exception("Profile not save"); }
+
             $account_personal->user_id = $user->id;
-            $account_personal->save();
+
+            if(!$account_personal->save(true, ['user_id', 'professional_status_id'])){
+               throw new Exception("UserAccount not save");
+            }
             return true;
         }
         return false;
