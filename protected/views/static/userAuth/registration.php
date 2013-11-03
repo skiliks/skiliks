@@ -61,11 +61,7 @@ $isPersonal = $account_type === 'personal';
     <div style="clear:both;"></div>
 </section>
 
-<?php if($emailIsExistAndNotActivated) : ?>
-    <div id="registration-general-error" class="globalErrorMessage emailIsExistAndNotActivated ProximaNova">
-        <?=$emailIsExistAndNotActivated?>
-    </div>
-<?php endif; ?>
+    <?php echo $form->error($profile, 'firstname', ['id'=>'registration-general-error', 'class'=>'globalErrorMessage emailIsExistAndNotActivated ProximaNova']); ?>
 
 <?php if($display_results_for) : ?>
     <?php $this->renderPartial('//global_partials/_popup_result_simulation_container', [ 'display_results_for' => $display_results_for]) ?>

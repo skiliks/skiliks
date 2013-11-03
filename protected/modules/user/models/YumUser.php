@@ -362,7 +362,7 @@ class YumUser extends YumActiveRecord
             $this->createtime = time();
 
             if (false === Yii::app() instanceof CConsoleApplication) {
-                $this->ip_address = $_SERVER['REMOTE_ADDR'];
+                $this->ip_address = isset($_SERVER['REMOTE_ADDR'])?$_SERVER['REMOTE_ADDR']:'127.0.0.1';//для тестов движения инвайтов
             }
         }
         return true;
