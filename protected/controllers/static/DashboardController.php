@@ -180,7 +180,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
 
             $profile = YumProfile::model()->findByAttributes(['email' => strtolower($invite->email)]);
             $invite->setAttributes($this->getParam('Invite'));
-            $is_send = UserService::sendInvite($this->user, $profile, $invite, $this->getParam('Invite'));
+            $is_send = UserService::sendInvite($this->user, $profile, $invite, $this->getParam('Invite')['is_display_simulation_results']);
             if(true === $is_send){
                 $this->redirect('/dashboard');
             }elseif(false === $is_send) {
