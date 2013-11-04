@@ -828,7 +828,8 @@ class SimulationServiceUnitTest extends CDbTestCase
      */
     public function testSimulation_SimStopWithOpenLog()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $profile = YumProfile::model()->findByAttributes(['email' => 'asd@skiliks.com']);
+        $user = $profile->user;
         $scenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_FULL]);
         $vacancy = Vacancy::model()->find();
         $positionLevel = PositionLevel::model()->find();
