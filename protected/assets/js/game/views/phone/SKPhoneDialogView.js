@@ -119,6 +119,7 @@ define([
                     isDisplaySettingsButton:this.isDisplaySettingsButton,
                     windowName:this.windowName
                 });
+                console.log($(callInHtml).html());
 
                 window_el.html(callInHtml);
 
