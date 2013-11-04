@@ -272,7 +272,7 @@ class SimulationServiceUnitTest extends CDbTestCase
      * 4. Проверяет особенность для суммирования работа с письмами
      *     (а то правило для mail main сильно фрагментирует работу с почтой)
      */
-    public function testActionsAgregationMechanism()
+    public function testActionsAggregationMechanism()
     {
         //$this->markTestSkipped();
 
@@ -282,11 +282,10 @@ class SimulationServiceUnitTest extends CDbTestCase
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
         $invite->scenario->slug = Scenario::TYPE_FULL;
-        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
-
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
 
         $time = 32000;
-        $speedFactor = $simulation->getSpeedFactor();
+        $speedFactor = 6; // ниже время расчитано исходя из этого коефициента
 
         $email1 = MailBox::model()->findByAttributes([
             'sim_id'   => $simulation->id,
@@ -350,6 +349,12 @@ class SimulationServiceUnitTest extends CDbTestCase
             // add short by time user-action }
         }
 
+        // init activity actions log
+        LogHelper::updateUniversalLog($simulation);
+        $analyzer = new ActivityActionAnalyzer($simulation);
+        $analyzer->run();
+
+        // init activity actions Aggregated log
         LogHelper::combineLogActivityAgregated($simulation);
 
         $aggregatedLogs = LogActivityActionAgregated::model()->findAllByAttributes([
@@ -429,7 +434,7 @@ class SimulationServiceUnitTest extends CDbTestCase
 
         $j = 0;
         foreach ($aggregatedLogs as $aggregatedLog) {
-            // echo "\n", $aggregatedLog->leg_action, ' :: ', $aggregatedLog->duration;
+            echo "\n", $aggregatedLog->leg_action, ' :: ', $aggregatedLog->duration;
             $this->assertEquals($res[$j]['action'],   $aggregatedLog->leg_action, 'type, iteration '.$j);
             $this->assertEquals($res[$j]['duration'], $aggregatedLog->duration,  'duration, iteration '.$j);
             $j++;
