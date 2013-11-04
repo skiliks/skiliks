@@ -103,11 +103,18 @@ define([
                     this.isUserCanFinalizeCall = false;
                 }
 
+                var sound = event.getAudioSrc();
+                var mime = 'audio/wav';
+                if ($.browser['msie'] == true) {
+                    sound = sound.replace('.wav','.mp3');
+                    mime = 'audio/mp3';
+                }
+
                 var callInHtml = _.template(dialog_template, {
                     'remote_replica':            remote_replica,
                     'my_replicas':               my_replicas,
-                    'audio_src':                 event.getAudioSrc(),
-                    'type':                      'audio/wav',
+                    'audio_src':                 sound,
+                    'type':                      mime,
                     isUserCanFinalizeCall: this.isUserCanFinalizeCall,
                     isDisplaySettingsButton:this.isDisplaySettingsButton,
                     windowName:this.windowName
