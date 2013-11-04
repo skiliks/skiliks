@@ -189,7 +189,6 @@ class DebugController extends SiteBaseController
     public function actionYyy()
     {
         $data = (new Feedback())->email = 'sadasda';
-        var_dump($data);
     }
 }
 
