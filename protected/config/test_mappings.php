@@ -205,4 +205,16 @@ return [
         'FCS1' => "css=.FCS1-value",
         'FNA' => "css=.FNA-value"
     ],
+
+    'site' => [
+        'logIn' => "css=.sign-in-link",
+        'logOut' => "css=.log-out-link",
+        'notRegDemo'=>"css=.start-lite-simulation-btn.main-menu-demo",
+        'recovery' => "css=.link-recovery",
+        'recovery_email' => "css=#YumPasswordRecoveryForm_email",
+        'recovery_button' => "css=.row.buttons>input",
+        'change_pass' => "css=#YumUserChangePassword_password",
+        'verify_pass' => "css=#YumUserChangePassword_verifyPassword",
+        'save_new_pass' => "xpath=//*[@id='change-password-form']/div[3]/input"
+    ],
 ];

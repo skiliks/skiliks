@@ -296,26 +296,26 @@ class Invite extends CActiveRecord
      * @return Invite
      */
     public static function addFakeInvite(YumUser $user, Scenario $scenario) {
-        $newInvite              = new Invite();
-        $newInvite->owner_id    = $user->id;
-        $newInvite->receiver_id = $user->id;
-        $newInvite->firstname   = $user->profile->firstname;
-        $newInvite->lastname    = $user->profile->lastname;
-        $newInvite->scenario_id = $scenario->id;
-        $newInvite->status      = Invite::STATUS_ACCEPTED;
-        $newInvite->sent_time   = date("Y-m-d H:i:s");
-        $newInvite->setExpiredAt();
-        $newInvite->updated_at = (new DateTime('now', new DateTimeZone('Europe/Moscow')))->format("Y-m-d H:i:s");
-        $newInvite->save(true, [
-            'owner_id', 'receiver_id', 'firstname', 'lastname', 'scenario_id', 'status'
-        ]);
+        $invite              = new Invite();
+        $invite->owner_id    = $user->id;
+        $invite->receiver_id = $user->id;
+        $invite->firstname   = $user->profile->firstname;
+        $invite->lastname    = $user->profile->lastname;
+        $invite->scenario_id = $scenario->id;
+        $invite->status      = Invite::STATUS_ACCEPTED;
+        $invite->sent_time   = date("Y-m-d H:i:s");
+        $invite->setExpiredAt();
+        if($scenario->isFull()) {
+            $invite->tutorial_scenario_id = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_TUTORIAL])->id;
+            $invite->is_display_simulation_results = 1;
+        }
+        $invite->updated_at = (new DateTime('now', new DateTimeZone('Europe/Moscow')))->format("Y-m-d H:i:s");
+        $invite->email = strtolower($user->profile->email);
+        $invite->save(false);
 
-        $newInvite->email = strtolower(Yii::app()->user->data()->profile->email);
-        $newInvite->save(false);
+        InviteService::logAboutInviteStatus($invite, 'Добваление инвайта для прохождения симуляции '.$scenario->slug.' сам себе ');
 
-        InviteService::logAboutInviteStatus($newInvite, 'Добваление инвайта для прохождения сам себе');
-
-        return $newInvite;
+        return $invite;
     }
 
     public function isAllowedToSeeResults(YumUser $user)
