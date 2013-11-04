@@ -74,7 +74,7 @@ define([
                         media, text;
 
                     if ($.browser['msie'] == true) {
-                        video_src = video_src.replace('.webm', 'mp4')
+                        video_src = video_src.replace('.webm', '.mp4')
                     }
 
                     text =  _.template(visitTpl, {
