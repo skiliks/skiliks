@@ -73,12 +73,10 @@ class UserServiceUnitTest extends CDbTestCase
         /* @var $assert_account_corporate UserAccountCorporate */
         $this->assertEquals($assert_account_corporate->invites_limit, 3);
 
-
-
         $user_personal  = new YumUser('registration');
         $user_personal->setAttributes(['password'=>'123123', 'password_again'=>'123123', 'agree_with_terms'=>'yes']);
         $profile_personal  = new YumProfile('registration');
-        $profile_personal->setAttributes(['firstname'=>'Алексей', 'lastname'=>'Сафронов', 'email'=>'test-private-phpunit-account@skiliks.com']);
+        $profile_personal->setAttributes(['firstname'=>'Альфред', 'lastname'=>'Хичкок', 'email'=>'test-private-phpunit-account@skiliks.com']);
         $account_personal = new UserAccountPersonal('personal');
         $account_personal->setAttributes(['professional_status_id'=>ProfessionalStatus::model()->findByAttributes(['label'=>'Студент'])->id]);
         $assert_result_personal = UserService::createPersonalAccount($user_personal, $profile_personal, $account_personal);
@@ -88,6 +86,40 @@ class UserServiceUnitTest extends CDbTestCase
         $this->assertNotNull($assert_profile_personal->user);
         $assert_account_personal = UserAccountPersonal::model()->findByAttributes(['user_id'=>$assert_profile_personal->user_id]);
         $this->assertNotNull($assert_account_personal);
+
+        $vacancy = new Vacancy();
+        $vacancy->professional_occupation_id = ProfessionalOccupation::model()->findByAttributes(['label'=>'Другая'])->id;
+        $vacancy->professional_specialization_id = ProfessionalSpecialization::model()->findByAttributes(['label'=>'Прочее'])->id;
+        $vacancy->label = 'Круатор';
+        $vacancy->position_level_slug = 'manager';
+        $vacancy->user_id = $user_corporate->id;
+        $vacancy->save(false);
+        $invite = new Invite();
+        $invite->setAttributes([
+            'firstname'=>'Альфред',
+            'lastname'=>'Хичкок',
+            'email'=>'test-private-phpunit-account@skiliks.com',
+            'vacancy_id'=>$vacancy->id,
+            'fullname' => 'Альфред Хичкок',
+            'message' => '',
+            'is_display_simulation_results'=>'0'
+        ]);
+        $is_send = UserService::sendInvite($user_corporate, null, $invite, '0');
+        $this->assertTrue($is_send);
+        $assert_account_corporate->refresh();
+        $invite->refresh();
+        $this->assertEquals($assert_account_corporate->invites_limit, 2);
+        $this->assertEquals($invite->status, Invite::STATUS_PENDING);
+
+        $fullScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_FULL]);
+
+        $notUsedFullInvites = UserService::getInviteHimSelf($user_corporate, $fullScenario);
+
+        $check = UserService::getSimulationContentsAndConfigs($user_corporate, '', 'promo', 'full', $notUsedFullInvites[0]->id);
+        $this->assertTrue($check->return);
+        $simulation = SimulationService::simulationStart($notUsedFullInvites[0], 'promo', 'full');
+        $assert_account_corporate->refresh();
+        $this->assertEquals($assert_account_corporate->invites_limit, 1);
     }
 
 }
