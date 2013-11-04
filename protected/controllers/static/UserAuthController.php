@@ -373,8 +373,16 @@ class UserAuthController extends YumController
             $this->redirect('/dashboard');
         }
 
-        // Preparing for render the view
-        $emailIsExistAndNotActivated = false;
+        // getting parameters from
+        $account_type = $this->getParam('account-type', 'corporate');
+        $user  = new YumUser('registration');
+        $user->setAttributes($this->getParam('YumUser'));
+        $profile  = new YumProfile(($account_type === 'corporate')?'registration_corporate':'registration');
+        $profile->setAttributes($this->getParam('YumProfile'));
+        $account_corporate = new UserAccountCorporate($account_type);
+        $account_corporate->setAttributes($this->getParam('UserAccountCorporate'));
+        $account_personal = new UserAccountPersonal($account_type);
+        $account_personal->setAttributes($this->getParam('UserAccountPersonal'));
         $industries = UserService::getIndustriesForm();
         $statuses   = UserService::getStatusesForm();
 
@@ -390,39 +398,33 @@ class UserAuthController extends YumController
         // preparing the registration
 
         // If user didn't send any data
-        if (!Yii::app()->request->isPostRequest) {
-            $formData = UserService::getRegistrationForm();
-        }
-
-        // Else registering the user
-        else {
-            // getting parameters from
-            $account_type             = Yii::app()->request->getParam('account-type', 'corporate');
-            $UserAccountCorporateData = Yii::app()->request->getParam('UserAccountCorporate');
-            $UserAccountPersonalData  = Yii::app()->request->getParam('UserAccountPersonal');
-            $YumProfileData           = Yii::app()->request->getParam('YumProfile');
-            $YumUserData              = Yii::app()->request->getParam('YumUser');
-
-            if(!isset($YumUserData['agree_with_terms'])) {
-                $YumUserData['agree_with_terms'] = null;
+        if (Yii::app()->request->isPostRequest) {
+            if($account_type === 'corporate') {
+                if(UserService::createCorporateAccount($user, $profile, $account_corporate)){
+                    UserService::sendRegistrationEmail($user);
+                    $this->redirect(['afterRegistration']);
+                }
+            }elseif($account_type === 'personal'){
+                if(UserService::createPersonalAccount($user, $profile, $account_personal)){
+                    UserService::sendRegistrationEmail($user);
+                    $this->redirect(['afterRegistration']);
+                }
+            }else{
+                throw new Exception("Не выбран тип аккаунта");
             }
-            // calling the registration method
-            $formData = UserService::completeRegistrationFromForm($UserAccountCorporateData, $UserAccountPersonalData,
-                                                                  $YumProfileData, $YumUserData, $account_type);
         }
 
         // rendering the view
         $this->render(
             'registration',
             [
-                'accountPersonal'             => $formData['accountPersonal'],
-                'accountCorporate'            => $formData['accountCorporate'],
-                'profile'                     => $formData['profile'],
-                'user'                        => $formData['user'],
-                'account_type'                => $formData['account_type'],
+                'accountPersonal'             => $account_personal,
+                'accountCorporate'            => $account_corporate,
+                'profile'                     => $profile,
+                'user'                        => $user,
+                'account_type'                => $account_type,
                 'industries'                  => $industries,
                 'statuses'                    => $statuses,
-                'emailIsExistAndNotActivated' => $emailIsExistAndNotActivated,
                 'display_results_for'         => $simulationToDisplayResults
             ]
         );

@@ -156,7 +156,7 @@ return CMap::mergeArray(
             // ???
             'emails' => [
                 'isDisplayStandardInvitationMailTopText' => true, // 'Вопросы относительно вакансии вы можете задать по адресу %s, куратор вакансии - %s.'
-                'inviteEmailTemplate'      => '//global_partials/mails/invite_default',
+                'inviteEmailTemplate'      => 'invite_default',
                 'tariffExpiredTemplate'    => 'tariff_expired',
                 'tariffExpiredTemplateIfInvitesZero' => 'tariff_expired_if_invites_zero',
                 'newInvoiceToBooker'       => '//global_partials/mails/new_invoice',
