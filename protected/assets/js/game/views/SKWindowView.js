@@ -227,13 +227,14 @@ define(["text!game/jst/window.jst"],
 
         doWindowClose: function (event) {
             try {
-                if($(event.currentTarget).attr('data-disabled') !== 'true'){
-                    $(event.currentTarget).attr('data-disabled', 'true');
+// иногда игрок не может закрыть Window - получается заблокированная игра
+//                if($(event.currentTarget).attr('data-disabled') !== 'true'){
+//                    $(event.currentTarget).attr('data-disabled', 'true');
                     this.onWindowClose();
                     this.options.model_instance.close();
-                } else {
-                    console.log("Double close");
-                }
+//                } else {
+//                    console.log("Double close");
+//                }
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);
