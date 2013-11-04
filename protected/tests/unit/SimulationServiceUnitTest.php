@@ -277,15 +277,16 @@ class SimulationServiceUnitTest extends CDbTestCase
         //$this->markTestSkipped();
 
         // init simulation
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $profile = YumProfile::model()->findByAttributes(['email' => 'asd@skiliks.com']);
+        $user = $profile->user;
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
         $invite->scenario->slug = Scenario::TYPE_FULL;
-        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 
         $time = 32000;
-        $speedFactor = 6; // ниже время расчитано исходя из этого коефициента
+        $speedFactor = $simulation->getSpeedFactor();
 
         $email1 = MailBox::model()->findByAttributes([
             'sim_id'   => $simulation->id,
