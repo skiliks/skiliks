@@ -51,6 +51,7 @@ define([
             renderPage:function (pdf, page_num) {
                 try {
                     var me = this;
+                    console.log('renderPage: ',pdf, page_num);
                     pdf.getPage(page_num).then(function (page) {
 
                         var viewport = page.getViewport(1);
@@ -61,6 +62,7 @@ define([
                         pageDivHolder.className = 'pdfpage';
                         pageDivHolder.style.width = pageDisplayWidth + 'px';
                         pageDivHolder.style.height = pageDisplayHeight + 'px';
+
                         me.$('.pdf-container').append(pageDivHolder);
 
                         // Prepare canvas using PDF page dimensions
@@ -82,7 +84,7 @@ define([
                             }
                             me.renderPage(pdf, page_num + 1);
                         });
-
+                        console.log('Page render done ', $('.pdf-container').html());
                     });
                 } catch(exception) {
                     if (window.Raven) {
