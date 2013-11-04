@@ -433,6 +433,167 @@ class UserService {
     }
 
 
+    public static function getInviteHimSelf(YumUser $user, Scenario $scenario) {
+        // check and add trial full version {
+
+        $notUsedSimulations = Invite::model()->findAllByAttributes([
+            'receiver_id' => $user->id,
+            'scenario_id' => $scenario->id,
+            'email'       => strtolower($user->profile->email),
+            'status'      => Invite::STATUS_ACCEPTED
+        ]);
+
+        // I remove more than 1 allowed to start lite sim {
+        if (1 < count($notUsedSimulations)) {
+            $i = 0;
+            foreach ($notUsedSimulations as $key => $notUsedSimulation) {
+
+                if (0 < $i) {
+                    $notUsedSimulation->delete();
+                    unset($notUsedSimulations[$key]);
+                }
+                $i++;
+            }
+        }
+        // I remove more than 1 allowed to start lite sim }
+
+        if (0 === count($notUsedSimulations)) {
+
+            $notUsedSimulations[] = Invite::addFakeInvite($user, $scenario);
+
+        }
+        return $notUsedSimulations;
+    }
+
+
+    /**
+     * @param YumUser $user
+     * @param $assetsUrl
+     * @param $start
+     * @param $mode
+     * @param $type
+     * @param $invite_id
+     * @return SimulationChecks
+     */
+    public static function getSimulationContentsAndConfigs(YumUser $user, $assetsUrl, $mode, $type, $invite_id, $start = null) {
+
+        $result = new SimulationChecks();
+
+        if (!$user->isAuth() && $type != Scenario::TYPE_LITE) {
+            return $result->setRedirect('/user/auth');
+        }
+
+        if (Simulation::MODE_DEVELOPER_LABEL == $mode
+            && false === $user->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)) {
+            return $result->setRedirect('/dashboard');
+        }
+
+        if ($mode !== Simulation::MODE_PROMO_LABEL && $mode !== Simulation::MODE_DEVELOPER_LABEL) {
+            return $result->setRedirect('/dashboard');
+        }
+
+        if (null === $invite_id && false === $user->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)) {
+            return $result->setRedirect('/dashboard');
+        }
+
+        if (null !== $invite_id) {
+            /** @var Invite $invite */
+            $invite = Invite::model()->findByAttributes(['id' => $invite_id]);
+            if (null === $invite) {
+                Yii::app()->user->setFlash('error', 'Выберите приглашение по которому вы хотите начать симуляцию');
+                return $result->setRedirect('/dashboard');
+            }
+
+            $invite->refresh(); // Important! Prevent caching
+            MailHelper::sendEmailIfSuspiciousActivity($invite);
+        }
+
+        if (isset($invite) &&
+            $invite->scenario->slug == Scenario::TYPE_FULL &&
+            false == $invite->canUserSimulationStart()
+        ) {
+            Yii::app()->user->setFlash('error', 'У вас нет прав для старта этой симуляции');
+            return $result->setRedirect('/dashboard');
+        }
+
+        if (isset($invite) && $invite->receiver_id !== $user->id) {
+            return $result->setRedirect('/dashboard');
+        }
+
+        if (isset($invite) && false == $invite->can_be_reloaded) {
+            Yii::app()->user->setFlash('error',
+                'Прохождение симуляции было прервано. <br/> Свяжитесь с работодателем ' .
+                'чтобы он выслал вам новое приглашение или со службой тех.поддержки ' .
+                'чтобы восстановить доступ к прохождению симуляции.'
+            );
+            return $result->setRedirect('/dashboard');
+        }
+
+        if ( isset($invite)
+            && $start !== 'full'
+            && null !== $invite->tutorial
+            && $mode !== 'developer'
+            && null === $invite->tutorial_finished_at) {
+            $type = $invite->tutorial->slug;
+            $tutorial = true;
+            $invite->tutorial_displayed_at = date('Y-m-d H:i:s');
+            $invite->save(false);
+            InviteService::logAboutInviteStatus($invite, 'Пользователь прошел туториал');
+        }
+
+        /** @var Scenario $scenario */
+        $scenario = Scenario::model()->findByAttributes([
+            'slug' => $type
+        ]);
+
+        $scenarioConfigLabelText = $scenario->scenario_config->scenario_label_text;
+
+        if (null === $scenario) {
+            return $result->setRedirect('/dashboard');
+        }
+
+        if (isset($invite) && Scenario::TYPE_TUTORIAL == $type
+            && $user->isCorporate() && (int)$user->account_corporate->getTotalAvailableInvitesLimit() == 0
+        ) {
+            Yii::app()->user->setFlash('error', 'У вас закончились приглашения');
+            return $result->setRedirect('/profile/corporate/tariff');
+        }
+
+        $config = array_merge(
+            Yii::app()->params['public'],
+            [
+                'assetsUrl' => $assetsUrl,
+                'mode' => $mode,
+                'type' => $type,
+                'start' => $scenario->scenario_config->game_start_timestamp,
+                'end' => $scenario->scenario_config->game_end_workday_timestamp,
+                'finish' => $scenario->scenario_config->game_end_timestamp,
+                'badBrowserUrl' => '/old-browser',
+                'oldBrowserUrl' => '/old-browser',
+                'dummyFilePath' => $assetsUrl . '/img/kotik.jpg',
+                'invite_id'     => $invite_id,
+                'game_date_text'=>$scenario->scenario_config->game_date_text,
+                'game_date_data'=>$scenario->scenario_config->game_date_data
+            ]
+        );
+
+        if (!empty($tutorial)) {
+            $config['result-url'] = Yii::app()->createUrl('static/site/simulation', [
+                'mode' => $mode,
+                'type' => isset($invite) ? Scenario::model()->findByPk($invite->scenario_id)->slug : Scenario::TYPE_FULL,
+                'invite_id' => $invite_id,
+            ]);
+        }
+
+        return $result->setData([
+            'config'        => CJSON::encode($config),
+            'assetsUrl'     => $assetsUrl,
+            'inviteId'      => (null === $invite_id) ? 'null' : $invite_id,
+            'scenarioLabel' => $scenarioConfigLabelText
+        ]);
+    }
+
+
 }
 
 
