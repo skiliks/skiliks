@@ -110,6 +110,16 @@ class UserServiceUnitTest extends CDbTestCase
         $invite->refresh();
         $this->assertEquals($assert_account_corporate->invites_limit, 2);
         $this->assertEquals($invite->status, Invite::STATUS_PENDING);
+
+        $fullScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_FULL]);
+
+        $notUsedFullInvites = UserService::getInviteHimSelf($user_corporate, $fullScenario);
+
+        $check = UserService::getSimulationContentsAndConfigs($user_corporate, '', 'promo', 'full', $notUsedFullInvites[0]->id);
+        $this->assertTrue($check->return);
+        $simulation = SimulationService::simulationStart($notUsedFullInvites[0], 'promo', 'tutorial');
+        $assert_account_corporate->refresh();
+        $this->assertEquals($assert_account_corporate->invites_limit, 1);
     }
 
 }
