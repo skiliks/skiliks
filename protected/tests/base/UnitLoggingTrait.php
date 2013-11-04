@@ -11,6 +11,14 @@ trait UnitLoggingTrait {
     private $time = 32400;
     private $windowUid = 1;
 
+    public $user;
+
+    private function initTestUserAsd()
+    {
+        $profile = YumProfile::model()->findByAttributes(['email' => 'asd@skiliks.com']);
+        $this->user = $profile->user;
+    }
+
     private function appendDialog(&$logs, $code, $resultExcelId, $time = 60, $windowType = 24)
     {
         $replica = Replica::model()->getFirstReplica($code);

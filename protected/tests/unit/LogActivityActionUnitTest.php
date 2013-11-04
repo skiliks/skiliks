@@ -13,11 +13,11 @@ class LogActivityActionUnitTest extends CDbTestCase
 
     public function testActivityActionDetail()
     {
-        $profile = YumProfile::model()->findByAttributes(['email' => 'asd@skiliks.com']);
-        $user = $profile->user;
+        $this->initTestUserAsd();
+
         $invite = new Invite();
         $invite->scenario = new Scenario();
-        $invite->receiverUser = $user;
+        $invite->receiverUser = $this->user;
         $invite->scenario->slug = Scenario::TYPE_FULL;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 
@@ -129,11 +129,10 @@ class LogActivityActionUnitTest extends CDbTestCase
      */
     public function testTrutnevDelegation()
     {
-        $profile = YumProfile::model()->findByAttributes(['email' => 'asd@skiliks.com']);
-        $user = $profile->user;
+        $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
-        $invite->receiverUser = $user;
+        $invite->receiverUser = $this->user;
         $invite->scenario->slug = Scenario::TYPE_FULL;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
         $logs = [];
@@ -333,11 +332,10 @@ class LogActivityActionUnitTest extends CDbTestCase
 
         $transaction = Yii::app()->db->beginTransaction();
         try {
-            $profile = YumProfile::model()->findByAttributes(['email' => 'asd@skiliks.com']);
-            $user = $profile->user;
+            $this->initTestUserAsd();
             $invite = new Invite();
             $invite->scenario = new Scenario();
-            $invite->receiverUser = $user;
+            $invite->receiverUser = $this->user;
             $invite->scenario->slug = Scenario::TYPE_FULL;
             $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 
@@ -392,11 +390,10 @@ class LogActivityActionUnitTest extends CDbTestCase
     {
         //$transaction = Yii::app()->db->beginTransaction();
         try {
-            $profile = YumProfile::model()->findByAttributes(['email' => 'asd@skiliks.com']);
-            $user = $profile->user;
+            $this->initTestUserAsd();
             $invite = new Invite();
             $invite->scenario = new Scenario();
-            $invite->receiverUser = $user;
+            $invite->receiverUser = $this->user;
             $invite->scenario->slug = Scenario::TYPE_FULL;
             $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 

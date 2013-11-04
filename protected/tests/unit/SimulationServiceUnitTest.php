@@ -162,13 +162,11 @@ class SimulationServiceUnitTest extends CDbTestCase
      */
     public function testCalculateAggregatedPointsFor4124()
     {
-        //$this->markTestSkipped();
-
         // init simulation
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
-        $invite->receiverUser = $user;
+        $invite->receiverUser = $this->user;
         $invite->scenario->slug = Scenario::TYPE_FULL;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 
