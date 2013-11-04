@@ -117,7 +117,7 @@ class UserServiceUnitTest extends CDbTestCase
 
         $check = UserService::getSimulationContentsAndConfigs($user_corporate, '', 'promo', 'full', $notUsedFullInvites[0]->id);
         $this->assertTrue($check->return);
-        $simulation = SimulationService::simulationStart($notUsedFullInvites[0], 'promo', 'full');
+        $simulation = SimulationService::simulationStart($notUsedFullInvites[0], 'promo', 'tutorial');
         $assert_account_corporate->refresh();
         $this->assertEquals($assert_account_corporate->invites_limit, 1);
     }
