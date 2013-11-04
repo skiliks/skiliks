@@ -159,16 +159,17 @@ define([
          */
         'showWindow': function (win) {
             try {
-                if (win.single === true && this.get(win)) {
+                var me = this;
+                if (win.single === true && me.get(win)) {
                     throw new Error('Window already displayed');
                 }
-                if (this.length) {
-                    this.at(this.length - 1).deactivate();
+                if (me.length) {
+                    me.at(this.length - 1).deactivate();
                 }
-                if (this.get(win.id)) {
+                if (me.get(win.id)) {
                     throw new Error('Trying to add window with same ID');
                 }
-                this.add(win);
+                me.add(win);
                 win.activate();
             } catch(exception) {
                 if (window.Raven) {
