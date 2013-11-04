@@ -242,7 +242,7 @@ class LogUnitTest extends CDbTestCase
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
         $invite->scenario->slug = Scenario::TYPE_FULL;
-        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
 
 
         $docTemplate = DocumentTemplate::model()->findByAttributes([
