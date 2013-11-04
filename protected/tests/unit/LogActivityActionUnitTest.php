@@ -13,7 +13,8 @@ class LogActivityActionUnitTest extends CDbTestCase
 
     public function testActivityActionDetail()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $profile = YumProfile::model()->findByAttributes(['email' => 'asd@skiliks.com']);
+        $user = $profile->user;
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -128,7 +129,8 @@ class LogActivityActionUnitTest extends CDbTestCase
      */
     public function testTrutnevDelegation()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $profile = YumProfile::model()->findByAttributes(['email' => 'asd@skiliks.com']);
+        $user = $profile->user;
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -158,7 +160,8 @@ class LogActivityActionUnitTest extends CDbTestCase
      */
     public function testActivityAction2()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $profile = YumProfile::model()->findByAttributes(['email' => 'asd@skiliks.com']);
+        $user = $profile->user;
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -330,7 +333,8 @@ class LogActivityActionUnitTest extends CDbTestCase
 
         $transaction = Yii::app()->db->beginTransaction();
         try {
-            $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+            $profile = YumProfile::model()->findByAttributes(['email' => 'asd@skiliks.com']);
+            $user = $profile->user;
             $invite = new Invite();
             $invite->scenario = new Scenario();
             $invite->receiverUser = $user;
@@ -388,7 +392,8 @@ class LogActivityActionUnitTest extends CDbTestCase
     {
         //$transaction = Yii::app()->db->beginTransaction();
         try {
-            $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+            $profile = YumProfile::model()->findByAttributes(['email' => 'asd@skiliks.com']);
+            $user = $profile->user;
             $invite = new Invite();
             $invite->scenario = new Scenario();
             $invite->receiverUser = $user;
