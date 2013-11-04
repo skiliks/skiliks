@@ -279,7 +279,7 @@ class UserService {
                && $profile->validate(['firstname', 'lastname', 'email']);
     }
 
-    public static function sendInvite(YumUser $user, $profile, Invite $invite, $is_display_results) {
+    public static function sendInvite(YumUser $user, $profile, Invite &$invite, $is_display_results) {
 
         $validPrevalidate = null;
         if($profile !== null && $profile->user->isCorporate()) {
