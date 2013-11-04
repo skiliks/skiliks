@@ -279,6 +279,160 @@ class UserService {
                && $profile->validate(['firstname', 'lastname', 'email']);
     }
 
+    public static function sendInvite(YumUser $user, $profile, Invite $invite, $is_display_results) {
+
+        $validPrevalidate = null;
+        if($profile !== null && $profile->user->isCorporate()) {
+            $validPrevalidate = false;
+            Yii::app()->user->setFlash('error', sprintf(
+                'Данный пользователь с e-mail: '.$invite->email.' является корпоративным. Вы можете отправлять
+                     приглашения только персональным и незарегистрированным пользователям'
+            ));
+        } else {
+
+            $invite->code = uniqid(md5(mt_rand()));
+            $invite->owner_id = $user->id;
+            $invite->can_be_reloaded = true;
+
+            // What happens if user is registered, but not activated??
+            $profile = YumProfile::model()->findByAttributes([
+                'email' => strtolower($invite->email)
+            ]);
+            if ($profile) {
+                $invite->receiver_id = $profile->user->id;
+            }
+
+            $invite->scenario_id = Scenario::model()
+                ->findByAttributes(['slug' => Scenario::TYPE_FULL])
+                ->getPrimaryKey();
+
+            $invite->tutorial_scenario_id = Scenario::model()
+                ->findByAttributes(['slug' => Scenario::TYPE_TUTORIAL])
+                ->getPrimaryKey();
+
+            // send invitation
+            if ($invite->validate() && 0 < $user->getAccount()->getTotalAvailableInvitesLimit()) {
+                $invite->markAsSendToday();
+                $user->account_corporate->default_invitation_mail_text = $invite->message;
+                $user->account_corporate->save();
+                $invite->message = preg_replace('/(\r\n)/', '<br>', $invite->message);
+                $invite->message = preg_replace('/(\n\r)/', '<br>', $invite->message);
+                $invite->message = preg_replace('/\\n|\\r/', '<br>', $invite->message);
+                $invite->is_display_simulation_results = (int) !$is_display_results;
+                $invite->save();
+                InviteService::logAboutInviteStatus($invite, sprintf(
+                    'Приглашение для %s создано в корпоративном кабинете пользователя %s.',
+                    $invite->email,
+                    $user->profile->email
+                ));
+
+                self::sendEmailInvite($invite);
+                $initValue = $user->getAccount()->getTotalAvailableInvitesLimit();
+
+                // decline corporate user invites_limit
+                $user->getAccount()->decreaseLimit();
+                $user->getAccount()->save();
+                $user->refresh();
+
+                UserService::logCorporateInviteMovementAdd(sprintf("Симуляция списана за отправку приглашения номер %s для %s",
+                    $invite->id, $invite->email), $user->getAccount(), $initValue);
+
+                return true;
+                //$this->redirect('/dashboard');
+            } elseif ($user->getAccount()->getTotalAvailableInvitesLimit() < 1 ) {
+                Yii::app()->user->setFlash('error', Yii::t('site', 'Беспплатный тарифный план использован. Пожалуйста, <a class="feedback">свяжитесь с нами</a>>, чтобы приобрести пакет симуляций'));
+            } else {
+                Yii::app()->user->setFlash('error', Yii::t('site', 'Неизвестная ошибка.<br/>Приглашение не отправлено.'));
+            }
+        }
+        return $validPrevalidate;
+
+    }
+
+    public static function sendEmailInvite(Invite $invite) {
+
+        if (empty($invite->email)) {
+            throw new CException(Yum::t('Email is not set when trying to send invite email. Wrong invite object.'));
+        }
+
+        $inviteEmailTemplate = Yii::app()->params['emails']['inviteEmailTemplate'];
+
+        $body = self::renderEmailPartial($inviteEmailTemplate, [
+            'invite' => $invite
+        ]);
+
+        $mail = [
+            'from'        => Yum::module('registration')->registrationEmail,
+            'to'          => $invite->email,
+            'subject'     => 'Приглашение пройти симуляцию на Skiliks.com',
+            'body'        => $body,
+            'embeddedImages' => [
+                [
+                    'path'     => Yii::app()->basePath.'/assets/img/mail-top.png',
+                    'cid'      => 'mail-top',
+                    'name'     => 'mailtop',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],[
+                    'path'     => Yii::app()->basePath.'/assets/img/mail-top-2.png',
+                    'cid'      => 'mail-top-2',
+                    'name'     => 'mailtop2',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],[
+                    'path'     => Yii::app()->basePath.'/assets/img/mail-right-1.png',
+                    'cid'      => 'mail-right-1',
+                    'name'     => 'mailright1',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],[
+                    'path'     => Yii::app()->basePath.'/assets/img/mail-right-2.png',
+                    'cid'      => 'mail-right-2',
+                    'name'     => 'mailright2',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],[
+                    'path'     => Yii::app()->basePath.'/assets/img/mail-right-3.png',
+                    'cid'      => 'mail-right-3',
+                    'name'     => 'mailright3',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],[
+                    'path'     => Yii::app()->basePath.'/assets/img/mail-bottom.png',
+                    'cid'      => 'mail-bottom',
+                    'name'     => 'mailbottom',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],
+            ],
+        ];
+
+        $invite->markAsSendToday();
+        $invite->save();
+
+        $sent = MailHelper::addMailToQueue($mail);
+        return $sent;
+    }
+
+    public static function renderEmailPartial($_partial_ ,$_data_=null)
+    {
+          $_viewFile_ = __DIR__.'/../views/global_partials/mails/'.$_partial_.'.php';
+          if(!file_exists($_viewFile_)) {
+              throw new Exception("Email partial {$_partial_} not found in path {$_viewFile_}");
+          }
+          if( is_array($_data_) ) {
+                extract($_data_,EXTR_PREFIX_SAME,'data');
+                ob_start();
+                ob_implicit_flush(false);
+                require($_viewFile_);
+                return ob_get_clean();
+          } else {
+              throw new Exception("Bad data, must be array");
+          }
+
+    }
+
+
 }
 
 

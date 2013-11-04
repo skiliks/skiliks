@@ -12,162 +12,6 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         $this->accountPagesBase();
     }
 
-    public function actionCorporateNew()
-    {
-        $this->layout = 'site_standard';
-        $this->checkUser();
-
-        if (false === $this->user->isCorporate() || false === $this->user->isActive())
-        {
-            $this->redirect('userAuth/afterRegistration');
-        }
-
-        $vacancies = [];
-        $vacancyList = Vacancy::model()->byUser($this->user->id)->findAll();
-        foreach ($vacancyList as $vacancy) {
-            $vacancies[$vacancy->id] = Yii::t('site', $vacancy->label);
-        }
-
-        $invite = new Invite();
-        $invite->setExpiredAt();
-        $validPrevalidate = false;
-
-        if (null !== Yii::app()->request->getParam('prevalidate')) {
-            $invite->attributes = Yii::app()->request->getParam('Invite');
-            $invite->owner_id = $this->user->id;
-            $validPrevalidate = $invite->validate(['firstname', 'lastname', 'email', 'invitations']);
-            $profile = YumProfile::model()->findByAttributes(['email' => strtolower($invite->email)]);
-
-            if ($profile) {
-                $invite->receiver_id = $profile->user->id;
-            }
-
-            if (null == $invite->vacancy && empty($vacancies)) {
-                $invite->clearErrors('vacancy_id');
-                $invite->addError('vacancy_id', Yii::t('site', 'Add vacancy in your profile'));
-                $validPrevalidate = false;
-            }
-
-            if (0 == $this->user->account_corporate->invites_limit) {
-                Yii::app()->user->setFlash('error', sprintf(
-                    'У вас закончились приглашения'
-                ));
-                $validPrevalidate = false;
-            }
-
-            $invite->message = sprintf(
-                'Вопросы относительно позиции вы можете задать по адресу %s, куратор позиции - %s.',
-                $this->user->profile->email,
-                $this->user->getFormattedName()
-            );
-
-            $invite->signature = sprintf(Yii::t('site', 'Best regards, %s'), $invite->ownerUser->getFormattedName());
-
-        }
-
-        // handle send invitation {
-        if (null !== Yii::app()->request->getParam('send')) {
-            $invite->attributes = Yii::app()->request->getParam('Invite');
-
-            $invite->code = uniqid(md5(mt_rand()));
-            $invite->owner_id = $this->user->id;
-
-            // What happens if user is registered, but not activated??
-            $profile = YumProfile::model()->findByAttributes([
-                'email' => strtolower($invite->email)
-            ]);
-            if ($profile) {
-                $invite->receiver_id = $profile->user->id;
-            }
-
-            $invite->scenario_id = Scenario::model()
-                ->findByAttributes(['slug' => Scenario::TYPE_FULL])
-                ->getPrimaryKey();
-
-            $invite->tutorial_scenario_id = Scenario::model()
-                ->findByAttributes(['slug' => Scenario::TYPE_TUTORIAL])
-                ->getPrimaryKey();
-
-            // send invitation
-            if ($invite->validate() && 0 < $this->user->getAccount()->getTotalAvailableInvitesLimit()) {
-                $invite->markAsSendToday();
-                $invite->message = preg_replace('/(\r\n)/', '<br>', $invite->message);
-                $invite->message = preg_replace('/(\n\r)/', '<br>', $invite->message);
-                $invite->message = preg_replace('/\\n|\\r/', '<br>', $invite->message);
-                $invite->is_display_simulation_results = Yii::app()->params['isDisplaySimulationResults'];
-                $invite->save();
-
-                InviteService::logAboutInviteStatus($invite, 'Отправлен с рабочего кабинета корпоративного юзера');
-                $this->sendInviteEmail($invite);
-
-                $initValue = $this->user->getAccount()->getTotalAvailableInvitesLimit();
-
-                // decline corporate user invites_limit
-                $this->user->getAccount()->decreaseLimit();
-                $this->user->getAccount()->save();
-                $this->user->refresh();
-
-//                UserService::logCorporateInviteMovementAdd(
-//                    'send invitation 1',
-//                    $this->user->getAccount(),
-//                    $initValue
-//                );
-
-
-                $this->redirect('/dashboard');
-            } elseif ($this->user->getAccount()->getTotalAvailableInvitesLimit() < 1 ) {
-                Yii::app()->user->setFlash('error', Yii::t('site', 'Беспплатный тарифный план использован. Пожалуйста, <a class="feedback">свяжитесь с нами</a>>, чтобы приобрести пакет симуляций'));
-            } else {
-                Yii::app()->user->setFlash('error', Yii::t('site', 'Неизвестная ошибка.<br/>Приглашение не отправлено.'));
-            }
-        }
-        // handle send invitation }
-
-        // handle edit invite invitation {
-        $inviteToEdit = new Invite();
-        if (null !== Yii::app()->request->getParam('edit-invite')) {
-            $inviteData = Yii::app()->request->getParam('Invite');
-
-            $inviteToEdit = Invite::model()->findByPk($inviteData['id']);
-
-            if (null === $invite) {
-                Yii::app()->user->setFlash('error', sprintf(
-                    "Неправильные данные!"
-                ));
-            } else {
-                $inviteToEdit->firstname = $inviteData['firstname'];
-                $inviteToEdit->lastname = $inviteData['lastname'];
-                $inviteToEdit->vacancy_id = $inviteData['vacancy_id'];
-                // send invitation
-                if ($inviteToEdit->validate(['firstname', 'lastname', 'vacancy_id'])) {
-                    $inviteToEdit->update(['firstname', 'lastname', 'vacancy_id']);
-                    $inviteToEdit->refresh();
-                    InviteService::logAboutInviteStatus($inviteToEdit, 'Обновлене данных инвайта в рабочем кабинете');
-                }
-            }
-        }
-        // handle edit invite invitation }
-
-        $simulation = Simulation::model()->getLastSimulation($this->user, Scenario::TYPE_LITE);
-
-        $simulationToDisplayResults = null;
-        if (isset(Yii::app()->request->cookies['display_result_for_simulation_id'])) {
-            $simulationToDisplayResults = Simulation::model()->findByPk(
-                Yii::app()->request->cookies['display_result_for_simulation_id']->value
-            );
-            unset(Yii::app()->request->cookies['display_result_for_simulation_id']);
-        }
-
-        $this->render('//new/dashboard_corporate', [
-            'invite'              => $invite,
-            'inviteToEdit'        => $inviteToEdit,
-            'vacancies'           => $vacancies,
-            'validPrevalidate'    => $validPrevalidate,
-            'simulation'          => $simulation,
-            'display_results_for' => $simulationToDisplayResults,
-        ]);
-    }
-
     public function actionCorporate()
     {
         $this->checkUser();
@@ -179,8 +23,6 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         // creating session for page
 
         $page = Yii::app()->request->getParam("page", null);
-
-        $session = new CHttpSession();
 
         $request_uri = Yii::app()->request->url;
         $cookie = (Yii::app()->request->cookies['dashboard_page'] !== null) ? Yii::app()->request->cookies['dashboard_page']->value : null;
@@ -337,74 +179,12 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         if (null !== Yii::app()->request->getParam('send')) {
 
             $profile = YumProfile::model()->findByAttributes(['email' => strtolower($invite->email)]);
-
-            if($profile !== null && $profile->user->isCorporate()) {
+            $invite->setAttributes($this->getParam('Invite'));
+            $is_send = UserService::sendInvite($this->user, $profile, $invite, $this->getParam('Invite'));
+            if(true === $is_send){
+                $this->redirect('/dashboard');
+            }elseif(false === $is_send) {
                 $validPrevalidate = false;
-                Yii::app()->user->setFlash('error', sprintf(
-                    'Данный пользователь с e-mail: '.$invite->email.' является корпоративным. Вы можете отправлять
-                     приглашения только персональным и незарегистрированным пользователям'
-                ));
-            }
-
-            else {
-
-                // beacause of unkown reason is_display_simulation_results lost after $invite->attributes
-                $is_display_results = Yii::app()->request->getParam('Invite')['is_display_simulation_results'];
-                $invite->attributes = Yii::app()->request->getParam('Invite');
-                $invite->code = uniqid(md5(mt_rand()));
-                $invite->owner_id = $this->user->id;
-                $invite->can_be_reloaded = true;
-
-                // What happens if user is registered, but not activated??
-                $profile = YumProfile::model()->findByAttributes([
-                    'email' => strtolower($invite->email)
-                ]);
-                if ($profile) {
-                    $invite->receiver_id = $profile->user->id;
-                }
-
-                $invite->scenario_id = Scenario::model()
-                    ->findByAttributes(['slug' => Scenario::TYPE_FULL])
-                    ->getPrimaryKey();
-
-                $invite->tutorial_scenario_id = Scenario::model()
-                    ->findByAttributes(['slug' => Scenario::TYPE_TUTORIAL])
-                    ->getPrimaryKey();
-
-                // send invitation
-                if ($invite->validate() && 0 < $this->user->getAccount()->getTotalAvailableInvitesLimit()) {
-                    $invite->markAsSendToday();
-                    $this->user->account_corporate->default_invitation_mail_text = $invite->message;
-                    $this->user->account_corporate->save();
-                    $invite->message = preg_replace('/(\r\n)/', '<br>', $invite->message);
-                    $invite->message = preg_replace('/(\n\r)/', '<br>', $invite->message);
-                    $invite->message = preg_replace('/\\n|\\r/', '<br>', $invite->message);
-                    $invite->is_display_simulation_results = (int) !$is_display_results;
-                    $invite->save();
-                    InviteService::logAboutInviteStatus($invite, sprintf(
-                        'Приглашение для %s создано в корпоративном кабинете пользователя %s.',
-                        $invite->email,
-                        $this->user->profile->email
-                    ));
-
-                    $this->sendInviteEmail($invite);
-
-                    $initValue = $this->user->getAccount()->getTotalAvailableInvitesLimit();
-
-                    // decline corporate user invites_limit
-                    $this->user->getAccount()->decreaseLimit();
-                    $this->user->getAccount()->save();
-                    $this->user->refresh();
-
-                    UserService::logCorporateInviteMovementAdd(sprintf("Симуляция списана за отправку приглашения номер %s для %s",
-                        $invite->id, $invite->email), $this->user->getAccount(), $initValue);
-
-                    $this->redirect('/dashboard');
-                } elseif ($this->user->getAccount()->getTotalAvailableInvitesLimit() < 1 ) {
-                    Yii::app()->user->setFlash('error', Yii::t('site', 'Беспплатный тарифный план использован. Пожалуйста, <a class="feedback">свяжитесь с нами</a>>, чтобы приобрести пакет симуляций'));
-                } else {
-                    Yii::app()->user->setFlash('error', Yii::t('site', 'Неизвестная ошибка.<br/>Приглашение не отправлено.'));
-                }
             }
         }
         // handle send invitation }
@@ -538,77 +318,6 @@ class DashboardController extends SiteBaseController implements AccountPageContr
     }
 
     /**
-     * @param Invite $invite
-     * @return bool
-     * @throws CException
-     */
-    private function sendInviteEmail($invite)
-    {
-        $this->checkUser();
-        if (empty($invite->email)) {
-            throw new CException(Yum::t('Email is not set when trying to send invite email. Wrong invite object.'));
-        }
-
-        $inviteEmailTemplate = Yii::app()->params['emails']['inviteEmailTemplate'];
-
-        $body = $this->renderPartial($inviteEmailTemplate, [
-            'invite' => $invite
-        ], true);
-
-        $mail = [
-            'from'        => Yum::module('registration')->registrationEmail,
-            'to'          => $invite->email,
-            'subject'     => 'Приглашение пройти симуляцию на Skiliks.com',
-            'body'        => $body,
-            'embeddedImages' => [
-                [
-                    'path'     => Yii::app()->basePath.'/assets/img/mail-top.png',
-                    'cid'      => 'mail-top',
-                    'name'     => 'mailtop',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],[
-                    'path'     => Yii::app()->basePath.'/assets/img/mail-top-2.png',
-                    'cid'      => 'mail-top-2',
-                    'name'     => 'mailtop2',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],[
-                    'path'     => Yii::app()->basePath.'/assets/img/mail-right-1.png',
-                    'cid'      => 'mail-right-1',
-                    'name'     => 'mailright1',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],[
-                    'path'     => Yii::app()->basePath.'/assets/img/mail-right-2.png',
-                    'cid'      => 'mail-right-2',
-                    'name'     => 'mailright2',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],[
-                    'path'     => Yii::app()->basePath.'/assets/img/mail-right-3.png',
-                    'cid'      => 'mail-right-3',
-                    'name'     => 'mailright3',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],[
-                    'path'     => Yii::app()->basePath.'/assets/img/mail-bottom.png',
-                    'cid'      => 'mail-bottom',
-                    'name'     => 'mailbottom',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],
-            ],
-        ];
-
-        $invite->markAsSendToday();
-        $invite->save();
-
-        $sent = MailHelper::addMailToQueue($mail);
-        return $sent;
-    }
-
-    /**
      * @param integer $inviteId
      */
     public function actionRemoveInvite($inviteId)
@@ -717,7 +426,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             $this->redirect('/');
         }
 
-        $this->sendInviteEmail($invite);
+        UserService::sendEmailInvite($invite);
 
         $this->redirect(Yii::app()->request->urlReferrer);
     }

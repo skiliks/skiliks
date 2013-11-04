@@ -68,8 +68,12 @@ class UserServiceUnitTest extends CDbTestCase
         $assert_profile_corporate = YumProfile::model()->findByAttributes(['email'=>'test-corporate-phpunit-account@skiliks.com']);
         $this->assertNotNull($assert_profile_corporate);
         $this->assertNotNull($assert_profile_corporate->user);
-        $assert_account_corporate = YumProfile::model()->findByAttributes(['user_id'=>$assert_profile_corporate->user_id]);
+        $assert_account_corporate = UserAccountCorporate::model()->findByAttributes(['user_id'=>$assert_profile_corporate->user_id]);
         $this->assertNotNull($assert_account_corporate);
+        /* @var $assert_account_corporate UserAccountCorporate */
+        $this->assertEquals($assert_account_corporate->invites_limit, 3);
+
+
 
         $user_personal  = new YumUser('registration');
         $user_personal->setAttributes(['password'=>'123123', 'password_again'=>'123123', 'agree_with_terms'=>'yes']);
@@ -82,7 +86,7 @@ class UserServiceUnitTest extends CDbTestCase
         $assert_profile_personal = YumProfile::model()->findByAttributes(['email'=>'test-private-phpunit-account@skiliks.com']);
         $this->assertNotNull($assert_profile_personal);
         $this->assertNotNull($assert_profile_personal->user);
-        $assert_account_personal = YumProfile::model()->findByAttributes(['user_id'=>$assert_profile_personal->user_id]);
+        $assert_account_personal = UserAccountPersonal::model()->findByAttributes(['user_id'=>$assert_profile_personal->user_id]);
         $this->assertNotNull($assert_account_personal);
     }
 
