@@ -274,7 +274,7 @@ class UserService {
         $user->createtime = time();
         $user->lastvisit = time();
         $user->lastpasswordchange = time();
-        $profile->timestamp = gmdate("Y-m-d H:i:s");
+        $profile->timestamp = time();
         return $user->validate(['password', 'password_again', 'agree_with_terms'])
                && $profile->validate(['firstname', 'lastname', 'email']);
     }
