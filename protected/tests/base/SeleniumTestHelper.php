@@ -75,6 +75,11 @@ class SeleniumTestHelper extends CWebTestCase
         $this->simulation_delete(Yii::app()->params['deleteSeleniumResults']);
     }
 
+    public function simulation_stop_demo()
+    {
+        $this->optimal_click("css=.btn.btn-simulation-stop");
+    }
+
     /**
      * simulation_showLogs - это метод, который завершает симуляцию и открывате логи и результаты симуляции
      */

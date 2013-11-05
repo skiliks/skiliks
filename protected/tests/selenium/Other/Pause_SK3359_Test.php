@@ -29,7 +29,7 @@ class Pause_SK3359_Test extends SeleniumTestHelper
         $time2=$this->how_much_time();
         $this->assertTrue($time==$time2);
 
-        $this->simulation_stop();
+        $this->simulation_stop_demo();
     }
 
     //for lite version
@@ -76,6 +76,6 @@ class Pause_SK3359_Test extends SeleniumTestHelper
         $time5=$this->how_much_time();
         $this->assertTrue($time3==$time5);
 
-        $this->simulation_stop();
+        $this->simulation_stop_demo();
     }
 }
