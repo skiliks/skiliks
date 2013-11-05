@@ -237,7 +237,8 @@ class LogUnitTest extends CDbTestCase
      */
     public function testLogDocument()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $this->initTestUserAsd();
+        $user = $this->user;
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -267,6 +268,8 @@ class LogUnitTest extends CDbTestCase
             [40, 42, 'activated', 32640, 'window_uid' => 4, ['fileId' => $document->primaryKey]], # Send mail
             [40, 42, 'deactivated', 32700, 'window_uid' => 4, ['fileId' => $document->primaryKey]],
         ]);
+
+        $simulation->refresh();
 
         $this->assertEquals($simulation->log_activity_actions[2]->activityAction->getAction()->getCode(), 'D1');
     }
