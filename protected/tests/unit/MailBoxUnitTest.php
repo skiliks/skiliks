@@ -8,6 +8,9 @@
  */
 class MailBoxUnitTest extends CDbTestCase
 {
+    use UnitTestBaseTrait;
+    use UnitLoggingTrait;
+
     /**
      * 1. Проверяет темы для письма которое инициализитуются при старте симуляции,
      *    с темой "Форма отчетности для производства"
@@ -816,5 +819,70 @@ class MailBoxUnitTest extends CDbTestCase
         }
     }
 
+    public function testSendEmailInDevMode()
+    {
+        $this->standardSimulationStart();
+
+        // logging "activate MainScreen"
+        $eventsManager = new EventsManager();
+        $logs = [];
+        $logs[] = [1, 1, 'activated', 32400, 'window_uid' => 1];
+        $eventsManager->processLogs($this->simulation, $logs);
+
+        var_dump($this->simulation->id);
+
+        EventsManager::startEvent($this->simulation, 'MS103', 0, 32410);
+
+        $universalLogs = UniversalLog::model()->findAllByAttributes(['sim_id' => $this->simulation->id]);
+
+        $this->assertEquals(3, count($universalLogs));
+
+        foreach ($universalLogs as $universalLogRecord) {
+            echo sprintf (
+                ' %s %s '."\n",
+                $universalLogRecord->id,
+                $universalLogRecord->window_id
+            );
+        }
+
+        SimulationService::simulationStop($this->simulation);
+//        LogHelper::updateUniversalLog($this->simulation);
+//        $analyzer = new ActivityActionAnalyzer($this->simulation);
+//        $analyzer->run();
+
+        $activityActionsLogs = LogActivityAction::model()->findAllByAttributes(['sim_id' => $this->simulation->id]);
+        foreach ($activityActionsLogs as $activityActionsLogRecord) {
+            echo sprintf (
+                'aa: %s %s '."\n",
+                $activityActionsLogRecord->id,
+                $activityActionsLogRecord->activityAction->activity->parent
+            );
+        }
+
+        $UniversalLogs = UniversalLog::model()->findAllByAttributes(['sim_id' => $this->simulation->id]);
+        foreach ($UniversalLogs as $UniversalLogRecord) {
+            echo sprintf (
+                'u: %s %s '."\n",
+                $UniversalLogRecord->id,
+                $UniversalLogRecord->mail_id
+            );
+
+            if (null !== $UniversalLogRecord->mail_id) {
+                echo $UniversalLogRecord->mail->template->code;
+            }
+        }
+
+        $assessmentPoints = AssessmentPoint::model()->findAllByAttributes(['sim_id' => $this->simulation->id]);
+        foreach ($assessmentPoints as $assessmentPoint) {
+            echo sprintf (
+                'ap: %s %s '."\n",
+                $assessmentPoint->id,
+                $assessmentPoint->mail_id
+            );
+
+        }
+
+        var_dump($this->simulation->id);
+    }
 }
 

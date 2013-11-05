@@ -9,6 +9,7 @@
 class LogUnitTest extends CDbTestCase
 {
     use UnitLoggingTrait;
+    use UnitTestBaseTrait;
     /**
      * Проверяет работу ответа всем на письмо M1
      */
