@@ -224,9 +224,9 @@ class UserService {
             && $account_corporate->validate(['industry_id'])
             && $user->register($user->username, $user->password, $profile)) {
 
-            if(!$user->save()) { throw new Exception("User not save"); }
+            $user->save(false);
             $profile->user_id = $user->id;
-            if(!$profile->save()) { throw new Exception("Profile not save"); }
+            $profile->save(false);
 
             $account_corporate->user_id = $user->id;
             $account_corporate->default_invitation_mail_text = 'Вопросы относительно тестирования вы можете задать по адресу '.$profile->email.', куратор тестирования - '.$profile->firstname.' '. $profile->lastname .'.';
@@ -234,9 +234,7 @@ class UserService {
             $account_corporate->setTariff($tariff, true);
 
             $account_corporate->invites_limit = Yii::app()->params['initialSimulationsAmount'];
-            if(!$account_corporate->save()){
-                throw new Exception("UserAccount not save");
-            }
+            $account_corporate->save(false);
 
             UserService::logCorporateInviteMovementAdd(
                 sprintf('Количество симуляций для нового аккаунта номер %s, емейл %s, задано равным %s по тарифному плану %s.',
@@ -258,15 +256,14 @@ class UserService {
             if(!$user->register($user->username, $user->password, $profile)){
                 return false;
             }
-            if(!$user->save()) { throw new Exception("User not save"); }
+            $user->save(false);
             $profile->user_id = $user->id;
-            if(!$profile->save()) { throw new Exception("Profile not save"); }
+            $profile->save(false);
 
             $account_personal->user_id = $user->id;
 
-            if(!$account_personal->save(true, ['user_id', 'professional_status_id'])){
-               throw new Exception("UserAccount not save");
-            }
+            $account_personal->save(false);
+
             return true;
         }
         return false;
@@ -313,7 +310,7 @@ class UserService {
             $invite->tutorial_scenario_id = Scenario::model()
                 ->findByAttributes(['slug' => Scenario::TYPE_TUTORIAL])
                 ->getPrimaryKey();
-
+            $user->getAccount()->refresh();
             // send invitation
             if ($invite->validate() && 0 < $user->getAccount()->getTotalAvailableInvitesLimit()) {
                 $invite->markAsSendToday();
@@ -324,7 +321,7 @@ class UserService {
                 $invite->message = preg_replace('/\\n|\\r/', '<br>', $invite->message);
                 $invite->is_display_simulation_results = (int) !$is_display_results;
                 $invite->setExpiredAt();
-                $invite->save();
+                $invite->save(false);
                 InviteService::logAboutInviteStatus($invite, sprintf(
                     'Приглашение для %s создано в корпоративном кабинете пользователя %s.',
                     $invite->email,
@@ -434,6 +431,24 @@ class UserService {
           } else {
               throw new Exception("Bad data, must be array");
           }
+
+    }
+
+    public static function renderPartial($_partial_ ,$_data_=null)
+    {
+        $_viewFile_ = __DIR__.'/../views/'.$_partial_.'.php';
+        if(!file_exists($_viewFile_)) {
+            throw new Exception("Email partial {$_partial_} not found in path {$_viewFile_}");
+        }
+        if( is_array($_data_) ) {
+            extract($_data_,EXTR_PREFIX_SAME,'data');
+            ob_start();
+            ob_implicit_flush(false);
+            require($_viewFile_);
+            return ob_get_clean();
+        } else {
+            throw new Exception("Bad data, must be array");
+        }
 
     }
 
@@ -607,10 +622,11 @@ class UserService {
         echo "time: ".$time."\n";
         /** @var $invites Invite[] */
         $invites = Invite::model()->findAll(
-            sprintf("status IN (%s, %s, %s) AND NOW() <= expired_at AND (owner_id != receiver_id OR receiver_id is NULL) AND scenario_id = %s",
+            sprintf("status IN (%s, %s, %s) AND '%s' >= expired_at AND (owner_id != receiver_id OR receiver_id is NULL) AND scenario_id = %s",
                 Invite::STATUS_PENDING,
                 Invite::STATUS_ACCEPTED,
                 Invite::STATUS_IN_PROGRESS,
+                date("Y-m-d H:i:s"),
                 $fullScenario->id
             ));
 
