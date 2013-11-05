@@ -1512,29 +1512,11 @@ class AdminPagesController extends SiteBaseController {
         }
 
         // set invites_limit {
-        $initValue = $user->getAccount()->getTotalAvailableInvitesLimit();
-        $account = $user->getAccount();
 
-        $user->getAccount()->invites_limit += $value;
-        if ($user->getAccount()->invites_limit < 0) {
-            $user->getAccount()->invites_limit = 0;
-        }
-        $user->getAccount()->save();
+        $user->getAccount()->changeInviteLimits($value, $admin);
+
         // set invites_limit }
 
-        UserService::logCorporateInviteMovementAdd(
-           sprintf('Количество доступных симуляций установлено в %s в админ области, из них за рефераллов %s. '.
-           ' Админ %s (емейл текущего авторизованного в админке пользователя).', $account->invites_limit, $account->referrals_invite_limit, $admin->profile->email),
-            $user->getAccount(),
-            $initValue
-        );
-
-        Yii::app()->user->setFlash('success', sprintf(
-            'Количество доступных симуляций для "%s %s" установнено %s.',
-            $user->profile->firstname,
-            $user->profile->lastname,
-            $user->getAccount()->invites_limit
-        ));
 
         $this->redirect('/admin_area/user/'.$userId.'/details');
     }

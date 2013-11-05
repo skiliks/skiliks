@@ -166,6 +166,32 @@ class UserServiceUnitTest extends CDbTestCase
         $this->assertEquals($invite->status, Invite::STATUS_DECLINED);
         $assert_account_corporate->refresh();
         $this->assertEquals($assert_account_corporate->invites_limit, 7);
+
+        $assert_account_corporate->changeInviteLimits(5);
+
+        $assert_account_corporate->refresh();
+        $this->assertEquals($assert_account_corporate->invites_limit, 12);
+
+        $assert_account_corporate->changeInviteLimits(-4);
+
+        $assert_account_corporate->refresh();
+        $this->assertEquals($assert_account_corporate->invites_limit, 8);
+
+        $assert_account_corporate->referrals_invite_limit = 4;
+        $assert_account_corporate->save(false);
+
+        $assert_account_corporate->changeInviteLimits(-10);
+
+        $assert_account_corporate->refresh();
+        $this->assertEquals($assert_account_corporate->invites_limit, 0);
+        $this->assertEquals($assert_account_corporate->referrals_invite_limit, 2);
+
+        $assert_account_corporate->changeInviteLimits(-4);
+
+        $assert_account_corporate->refresh();
+        $this->assertEquals($assert_account_corporate->invites_limit, 0);
+        $this->assertEquals($assert_account_corporate->referrals_invite_limit, 0);
+
     }
 
 }
