@@ -120,6 +120,21 @@ class UserServiceUnitTest extends CDbTestCase
         $simulation = SimulationService::simulationStart($notUsedFullInvites[0], 'promo', 'tutorial');
         $assert_account_corporate->refresh();
         $this->assertEquals($assert_account_corporate->invites_limit, 1);
+
+        $assert_account_corporate->addSimulations(5);
+
+        $this->assertEquals($assert_account_corporate->invites_limit, 6);
+
+        UserService::inviteExpired();
+        $invite->refresh();
+        $this->assertEquals($invite->status, Invite::STATUS_PENDING);
+
+        $invite->expired_at = date("Y-m-d H:i:s");
+        $invite->save(false);
+
+        UserService::inviteExpired();
+        $invite->refresh();
+        $this->assertEquals($invite->status, Invite::STATUS_EXPIRED);
     }
 
 }

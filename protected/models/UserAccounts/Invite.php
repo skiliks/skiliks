@@ -376,7 +376,7 @@ class Invite extends CActiveRecord
         }
         $invite_status = $this->status;
         $this->status = Invite::STATUS_EXPIRED;
-        $this->update();
+        $this->save();
 
         InviteService::logAboutInviteStatus($this, 'Сменился статус с '.Invite::getStatusNameByCode($invite_status)." на ".Invite::getStatusNameByCode($this->status));
         $account = UserAccountCorporate::model()->findByAttributes(['user_id' => $this->owner_id]);
@@ -384,8 +384,6 @@ class Invite extends CActiveRecord
         if (null === $account) {
             return false;
         }
-
-        $initValue = $account->getTotalAvailableInvitesLimit();
 
         $account->invites_limit++;
         $account->save();
