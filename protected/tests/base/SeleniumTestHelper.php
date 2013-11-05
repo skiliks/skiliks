@@ -50,7 +50,7 @@ class SeleniumTestHelper extends CWebTestCase
         $this->open('/cheat/quick-start/full');
 
         for ($second = 0; ; $second++) {
-            if ($second >= 600) $this->fail("Timeout. Not found id=addTriggerSelect");
+            if ($second >= 600) $this->fail("!!! FAIL: simulation does not start, because there are no desktop at the screen!!!");
             try {
                 if ($this->isVisible("id=addTriggerSelect")) break;
             } catch (Exception $e) {}
@@ -70,7 +70,7 @@ class SeleniumTestHelper extends CWebTestCase
     {
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
         for ($second = 0; ; $second++) {
-            if ($second >= 900) $this->fail("Timeout. Not found button Go to the results");
+            if ($second >= 900) $this->fail("!!! FAIL: not found button 'Go' to the results!!!");
             try {
                 if ($this->isVisible("css=.mail-popup-button")) break;
             } catch (Exception $e) {}
@@ -78,7 +78,7 @@ class SeleniumTestHelper extends CWebTestCase
         }
         $this->optimal_click("css=.mail-popup-button");
         for ($second = 0; ; $second++) {
-            if ($second >= 900) $this->fail("Timeout. Not found id=universal-log");
+            if ($second >= 900) $this->fail("!!! FAIL: not found button 'universal log' at the page!!!");
             try {
                 if ($this->isVisible("id=universal-log")) break;
             } catch (Exception $e) {}
@@ -100,7 +100,7 @@ class SeleniumTestHelper extends CWebTestCase
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['event_create']);
 
         for ($second = 0; ; $second++) {
-            if ($second >= 600) $this->fail($next_event);
+            if ($second >= 600) $this->fail("!!! FAIL: not found ". $next_event. "in the simulation!!!");
             try{
                 if ($this->isVisible($next_event))
                 {
@@ -256,7 +256,6 @@ class SeleniumTestHelper extends CWebTestCase
         $was_changed=false;
         $current_value='0';
         for ($second = 0; ; $second++) {
-
             if ($second >= 600)
             {
                 $was_changed = false;
@@ -646,7 +645,7 @@ class SeleniumTestHelper extends CWebTestCase
             $invite = Invite::model()->findByPk($invite_id);
             $invite->stacktrace .= $text;
             if( false === $invite->save(false, ['stacktrace'])) {
-                var_dump($invite->getErrors());
+                //var_dump($invite->getErrors());
             }
             //$invite->refresh();
         } catch(Exception $e) {
