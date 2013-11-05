@@ -89,6 +89,6 @@ class ZeroReplicasOfInterlocutor_SK4509_Test extends SeleniumTestHelper
         $this->waitForVisible("xpath=(//*[contains(text(),'Давайте попробуем… И спасибо вам,')])");
         $this->waitForVisible(Yii::app()->params['test_mappings']['icons_active']['plan']);
 
-        $this->simulation_stop();
+        $this->simulation_showLogs();
     }
 }

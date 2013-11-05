@@ -16,6 +16,6 @@ class RequiredCall_SK1470_Test extends SeleniumTestHelper
         $this->assertElementNotPresent(Yii::app()->params['test_mappings']['phone']['no_reply']);
         sleep(10);
         $this->optimal_click("xpath=(//*[contains(text(),'Конечно, Валерий Семенович! Буду у Вас в 16.00 с готовой презентаций')])");
-        $this->simulation_stop();
+        $this->simulation_showLogs();
     }
 }

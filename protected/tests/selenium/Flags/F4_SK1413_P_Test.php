@@ -36,7 +36,7 @@ class F4_SK1413_P_Test extends SeleniumTestHelper
         $this->reply_call();
         sleep(2);
         $this->waitForVisible("xpath=(//*[contains(text(),'Господи, да ведь там в вашем бюджете')])");
-        $this->simulation_stop();
+        $this->simulation_showLogs();
     }
 
     /**
@@ -69,7 +69,7 @@ class F4_SK1413_P_Test extends SeleniumTestHelper
         $this->reply_call();
         sleep(2);
         $this->waitForVisible("xpath=(//*[contains(text(),'Господи, да ведь там в вашем бюджете')])");
-        $this->simulation_stop();
+        $this->simulation_showLogs();
     }
 
     /**
@@ -100,7 +100,7 @@ class F4_SK1413_P_Test extends SeleniumTestHelper
         $this->reply_call();
         sleep(2);
         $this->waitForVisible("xpath=(//*[contains(text(),'Господи, и что же мне теперь делать')])");
-        $this->simulation_stop();
+        $this->simulation_showLogs();
     }
 
     /**
@@ -133,6 +133,6 @@ class F4_SK1413_P_Test extends SeleniumTestHelper
         $this->reply_call();
         sleep(2);
         $this->waitForVisible("xpath=(//*[contains(text(),'Господи, и что же мне теперь делать')])");
-        $this->simulation_stop();
+        $this->simulation_showLogs();
     }
 }

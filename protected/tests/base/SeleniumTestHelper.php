@@ -67,13 +67,13 @@ class SeleniumTestHelper extends CWebTestCase
     /**
      * simulation_stop - это метод, который завершает обычную симуляцию.
      */
-    public function simulation_stop()
+    /*public function simulation_stop()
     {
         $this->optimal_click("css=.btn.btn-simulation-stop");
         $inv_id = $this->invite_id;
         $this->logTestResult("simStop. Test is successful\n", false, $inv_id);
         $this->simulation_delete(Yii::app()->params['deleteSeleniumResults']);
-    }
+    }*/
 
     public function simulation_stop_demo()
     {

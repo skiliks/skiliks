@@ -26,6 +26,6 @@ class StartMessageList_SK3360_Test extends SeleniumTestHelper
         $this->assertTextPresent("Отчет для Правления");
         $this->assertTextPresent("Задача по запросу логистов");
 
-        $this->simulation_stop();
+        $this->simulation_showLogs();
     }
 }

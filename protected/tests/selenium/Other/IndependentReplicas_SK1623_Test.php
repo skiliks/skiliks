@@ -25,7 +25,7 @@ class IndependentReplicas_SK1623_Test extends SeleniumTestHelper
         sleep(5);
         $this->waitForVisible("xpath=(//*[contains(text(),'Валерий Семенович просит прямо сейчас')])");
         $this->assertElementPresent("xpath=(//*[contains(text(),'Нет у меня никакой презентации')])");
-        $this->simulation_stop();
+        $this->simulation_showLogs();
     }
 
     /**
@@ -49,7 +49,7 @@ class IndependentReplicas_SK1623_Test extends SeleniumTestHelper
 
         $this->waitForVisible("xpath=(//*[contains(text(),'Валерий Семенович просит прямо сейчас')])");
         $this->assertElementPresent("xpath=(//*[contains(text(),'Нет у меня никакой презентации')])");
-        $this->simulation_stop();
+        $this->simulation_showLogs();
     }
 
 
@@ -70,7 +70,7 @@ class IndependentReplicas_SK1623_Test extends SeleniumTestHelper
         $this->run_event('ET12.2');
         $this->waitForVisible("xpath=(//*[contains(text(),'Валерий Семенович просит прямо сейчас')])");
         $this->assertTrue($this->isVisible("xpath=(//*[contains(text(),'Нет у меня никакой презентации')])"));
-        $this->simulation_stop();
+        $this->simulation_showLogs();
     }
 
 
@@ -88,7 +88,7 @@ class IndependentReplicas_SK1623_Test extends SeleniumTestHelper
         sleep(5);
         $this->waitForVisible("xpath=(//*[contains(text(),'Валерий Семенович просит прямо сейчас')])");
         $this->assertTrue($this->isVisible("xpath=(//*[contains(text(),'Нет у меня никакой презентации')])"));
-        $this->simulation_stop();
+        $this->simulation_showLogs();
     }
 
 }
