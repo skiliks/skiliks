@@ -35,6 +35,6 @@ class SecondMail_SK3066_Test extends SeleniumTestHelper
         $this->click("xpath=//*[@id='MailClient_NewLetterSubject']/div/a");
         $this->assertTrue($this->isVisible("xpath=(//*[contains(text(),'Новая тема')])"));
 
-        $this->simulation_showLogs();
+        $this->simulation_stop();
     }
 }

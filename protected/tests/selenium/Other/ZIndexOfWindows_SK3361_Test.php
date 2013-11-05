@@ -31,6 +31,6 @@ class ZIndexOfWindows_SK3361_Test extends SeleniumTestHelper
 
         $this->assertTrue($b_index<$c_index);
 
-        $this->simulation_showLogs();
+        $this->simulation_stop();
     }
 }

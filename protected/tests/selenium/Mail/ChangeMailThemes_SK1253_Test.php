@@ -56,7 +56,7 @@ class ChangeMailThemes_SK1253_Test extends SeleniumTestHelper
         $this->addTheme("xpath=(//*[contains(text(),'Отчет по 3 кварталу')])");
 
         $this->assertFalse($this->isTextPresent('Срочно жду бюджет логистики'));
-        $this->simulation_showLogs();
+        $this->simulation_stop();
     }
 
     private function checkThemes()

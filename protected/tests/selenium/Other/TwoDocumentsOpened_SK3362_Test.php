@@ -29,6 +29,6 @@ class TwoDocumentsOpened_SK3362_Test extends SeleniumTestHelper
         sleep(5);
         $this->assertTrue($this->isVisible("css=#cell_B7"));
 
-        $this->simulation_showLogs();
+        $this->simulation_stop();
     }
 }

@@ -91,7 +91,7 @@ class DifficultPrefixes_SK1273_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_main']['outbox']);
         $this->waitForVisible("xpath=(//*[contains(text(),'Отчет для Правления')])");
         $this->assertTrue($this->isTextPresent("Fwd: Re: Re: Re: Срочно жду бюджет логистики"));
-        $this->simulation_showLogs();
+        $this->simulation_stop();
     }
 
 
@@ -130,6 +130,6 @@ class DifficultPrefixes_SK1273_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_main']['outbox']);
         $this->waitForVisible("xpath=(//*[contains(text(),'Отчет для Правления')])");
         $this->assertTrue($this->isTextPresent("Fwd: вакцинация!"));
-        $this->simulation_showLogs();
+        $this->simulation_stop();
     }
 }

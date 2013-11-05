@@ -41,7 +41,7 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
         $this->waitForVisible("xpath=(//*[contains(text(),'По ценовой политике')])");
         $this->assertTrue($this->isTextPresent("Презентация для ГД_итог"));
-        $this->simulation_showLogs();
+        $this->simulation_stop();
     }
     /**
      * testSK1427_Case2() тестирует задачу SKILIKS-1427 для статуса DIALOG
@@ -72,7 +72,7 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
          $this->optimal_click("xpath=(//*[contains(text(),'Раз ты уверена, что задача простая и времени')])");
 
          $this->assertTrue($this->verify_flag('F14','1'));
-         $this->simulation_showLogs();
+         $this->simulation_stop();
      }
 
     /**
@@ -107,7 +107,7 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Ладно, раз ты уверена, что справишься')])");
 
         $this->assertTrue($this->verify_flag('F14','1'));
-        $this->simulation_showLogs();
+        $this->simulation_stop();
     }
 
     /**
@@ -143,7 +143,7 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Ладно, раз ты уверена, что справишься')])");
 
         $this->assertTrue($this->verify_flag('F14','1'));
-        $this->simulation_showLogs();
+        $this->simulation_stop();
     }
 
     /**
@@ -179,6 +179,6 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'У меня нет уверенности, что ты сделаешь')])");
 
         $this->assertTrue($this->verify_flag('F14','0'));
-        $this->simulation_showLogs();
+        $this->simulation_stop();
     }
 }

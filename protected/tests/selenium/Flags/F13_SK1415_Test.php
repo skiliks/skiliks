@@ -44,7 +44,7 @@ class F13_SK1415_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Ну, хорошо, забудь. Занимайся своими делами.')])");
 
         $this->assertTrue($this->verify_flag('F13','1'));
-        $this->simulation_showLogs();
+        $this->simulation_stop();
     }
 
 
@@ -82,7 +82,7 @@ class F13_SK1415_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Да уж … Хорошо, я сам все сделаю')])");
 
         $this->assertTrue($this->verify_flag('F13','1'));
-        $this->simulation_showLogs();
+        $this->simulation_stop();
     }
 
     /**
@@ -117,6 +117,6 @@ class F13_SK1415_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Понятно. Сделаю все сам. Логисты, кажется,')])");
 
         $this->assertTrue($this->verify_flag('F13','1'));
-        $this->simulation_showLogs();
+        $this->simulation_stop();
     }
 }

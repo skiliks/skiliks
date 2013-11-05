@@ -27,7 +27,7 @@ class F20_SK1417_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Ох, Иван, раз такое дело, может,')])");
         $this->optimal_click("xpath=(//*[contains(text(),' Вот спасибо! Выручил! Давай до вечера,')])");
         $this->assertTrue($this->verify_flag('F20','1'));
-        $this->simulation_showLogs();
+        $this->simulation_stop();
     }
 
     /**
@@ -50,7 +50,7 @@ class F20_SK1417_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Правда? И у вас бюджет?')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Да, об этом я и не подумал. Ладно, ')])");
         $this->assertTrue($this->verify_flag('F20','1'));
-        $this->simulation_showLogs();
+        $this->simulation_stop();
     }
 
     /**
@@ -72,6 +72,6 @@ class F20_SK1417_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Иван, привет! Это Федоров.')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Давай встретимся вечером,')])");
         $this->assertTrue($this->verify_flag('F20','1'));
-        $this->simulation_showLogs();
+        $this->simulation_stop();
     }
 }

@@ -27,7 +27,7 @@ class F19_SK1416_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Ох, Иван, раз такое дело, может,')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Спасибо тебе, значит, через две недели')])");
         $this->assertTrue($this->verify_flag('F19','1'));
-        $this->simulation_showLogs();
+        $this->simulation_stop();
 
     }
 
@@ -51,7 +51,7 @@ class F19_SK1416_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Правда? И у вас бюджет?')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Вот и стимул все вовремя')])");
         $this->assertTrue($this->verify_flag('F19','1'));
-        $this->simulation_showLogs();
+        $this->simulation_stop();
     }
 
     /**
@@ -73,7 +73,7 @@ class F19_SK1416_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Послушай, Иван, а мы можем встретиться, ')])");
         $this->waitForVisible("xpath=(//*[contains(text(),'Ну прямо гора с плеч! Я сегодня в')])");
         $this->assertTrue($this->verify_flag('F19','1'));
-        $this->simulation_showLogs();
+        $this->simulation_stop();
     }
 
     /**
@@ -93,6 +93,6 @@ class F19_SK1416_Test extends SeleniumTestHelper
         $this->run_event('ET3.1',"xpath=(//*[contains(text(),'октября')])",'-');
         sleep(5);
         $this->assertFalse($this->isElementPresent(Yii::app()->params['test_mappings']['icons_active']['phone']));
-        $this->simulation_showLogs();
+        $this->simulation_stop();
     }
 }
