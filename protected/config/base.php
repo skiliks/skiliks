@@ -126,8 +126,11 @@ return CMap::mergeArray(
             // точно используется?
             'vacancyLinkInProfileMaxLength' => 50,
 
-            // используется для селениум темтов
+            // используется для селениум-теcтов
             'frontendUrl'                   => 'http://skiliks:8080/',
+
+            // удалять результаты симуляции если селениум-тест успешно прошел false = не удалять
+            'deleteSeleniumResults' => true,
 
             //
             'isUseResultPopUpCache'         => true,
