@@ -11,6 +11,8 @@ class SeleniumTestHelper extends CWebTestCase
     protected $captureScreenshotOnFailure = TRUE;
     protected $screenshotPath = '/var/www/screenshots/';
     protected $screenshotUrl = 'http://screenshots.dev.skiliks.com';
+    public $invite_id;
+    public $wasCrashed;
 
     public static $browsers = array(
         array(
@@ -50,7 +52,7 @@ class SeleniumTestHelper extends CWebTestCase
         $this->open('/cheat/quick-start/full');
 
         for ($second = 0; ; $second++) {
-            if ($second >= 600) $this->fail("!!! FAIL: simulation does not start, because there are no desktop at the screen!!!");
+            if ($second >= 600) $this->fail("!!! FAIL: simulation does not start, because there isn't desktop at the screen!!!");
             try {
                 if ($this->isVisible("id=addTriggerSelect")) break;
             } catch (Exception $e) {}
@@ -58,16 +60,27 @@ class SeleniumTestHelper extends CWebTestCase
         }
 
         $this->getEval('var window = this.browserbot.getUserWindow(); window.$(window).off("beforeunload")');
-        $this->logTestResult("start ". $testName. "\n");
+        $this->invite_id = $this->getInviteId();
+        $this->logTestResult("start ". $testName. "\n", true, $this->invite_id);
     }
 
+    /**
+     * simulation_stop - это метод, который завершает обычную симуляцию.
+     */
     public function simulation_stop()
     {
         $this->optimal_click("css=.btn.btn-simulation-stop");
+        $inv_id = $this->invite_id;
+        $this->logTestResult("simStop. Test is successful\n", false, $inv_id);
+        $this->simulation_delete(Yii::app()->params['deleteSeleniumResults']);
     }
 
+    /**
+     * simulation_showLogs - это метод, который завершает симуляцию и открывате логи и результаты симуляции
+     */
     public function simulation_showLogs()
     {
+        $inv_id = $this->invite_id;
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
         for ($second = 0; ; $second++) {
             if ($second >= 900) $this->fail("!!! FAIL: not found button 'Go' to the results!!!");
@@ -85,6 +98,30 @@ class SeleniumTestHelper extends CWebTestCase
             usleep(100000);
         }
         $this->waitForVisible("id=simulation-points");
+        $this->logTestResult("simStop and showLogs. Test is successful\n", false, $inv_id);
+        $this->simulation_delete(Yii::app()->params['deleteSeleniumResults']);
+    }
+
+    /**
+     * simulation_delete - это метод, который удаляет результаты симуляции, если в конфиге проставлено true
+     */
+    private function simulation_delete($deleteSuccesfullSimulation)
+    {
+        $inv_id = $this->invite_id;
+        if ($deleteSuccesfullSimulation === true)
+        {
+            if ($this->wasCrashed===false)
+            {
+                /* @var Invite $invite */
+                /* @var Simulation $simulation */
+                $invite = Invite::model()->findByPk($inv_id);
+                $email = $invite->email;
+                $sim_for_delete = $invite->simulation_id;
+                $simulation = Simulation::model()->findByPk($sim_for_delete);
+                SimulationService::removeSimulationData(YumProfile::model()->findByAttributes(['email' => strtolower($email)])->user,
+                    $simulation, $sim_for_delete);
+            }
+        }
     }
 
     /**
@@ -120,7 +157,7 @@ class SeleniumTestHelper extends CWebTestCase
             } catch (Exception $e) {}
             usleep(100000);
         }
-        $this->logTestResult("run event ". $event ." \n");
+        $this->logTestResult("run event ". $event ." \n", true, $this->invite_id);
     }
 
     /**
@@ -195,7 +232,7 @@ class SeleniumTestHelper extends CWebTestCase
                 $this->optimal_click(Yii::app()->params['test_mappings']['mail']['popup_unsave']);
             }
         }
-        $this->logTestResult("write email when mail icon status is unidentified\n");
+        $this->logTestResult("write email when mail icon status is unidentified\n", true, $this->invite_id);
     }
 
     /**
@@ -321,7 +358,7 @@ class SeleniumTestHelper extends CWebTestCase
                 $same_number=true;
             }
         }
-        $this->logTestResult("test incoming counter\n");
+        $this->logTestResult("test incoming counter\n", true, $this->invite_id);
         return $same_number;
     }
 
@@ -372,7 +409,7 @@ class SeleniumTestHelper extends CWebTestCase
         $event .= '.1';
         $this->run_event($event, Yii::app()->params['test_mappings']['icons_active']['phone'], 'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['no_reply']);
-        $this->logTestResult("delete from event queue ". $event. "\n");
+        $this->logTestResult("delete from event queue ". $event. "\n", true, $this->invite_id);
     }
 
     //*****************************************************
@@ -637,17 +674,17 @@ class SeleniumTestHelper extends CWebTestCase
         return $this->getText('id=invite-id');
     }
 
-    public function logTestResult ($text='test_text')
+    public function logTestResult ($text='test_text', $isFailed=true, $invite_id)
     {
         try {
-            $invite_id = $this->getInviteId();
             /* @var Invite $invite */
+            $this->wasCrashed=$isFailed;
             $invite = Invite::model()->findByPk($invite_id);
             $invite->stacktrace .= $text;
-            if( false === $invite->save(false, ['stacktrace'])) {
+            $invite->is_crashed = $isFailed;
+            if( false === $invite->save(false, ['stacktrace', 'is_crashed'])) {
                 //var_dump($invite->getErrors());
             }
-            //$invite->refresh();
         } catch(Exception $e) {
             echo $e->getMessage();
         }
