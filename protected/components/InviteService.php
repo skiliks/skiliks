@@ -40,4 +40,50 @@ class InviteService {
         return (null !== $invite->simulation_id &&
             false === $invite->scenario->isAllowOverride());
     }
+
+    public static function declineInvite(YumUser $user, DeclineExplanation $declineExplanation) {
+
+        if (null === $declineExplanation->invite) {
+            Yii::app()->user->setFlash('success', 'Выбранного к отмене приглашения не существует.');
+            return '/dashboard';
+        }
+
+        if ($user->id !== $declineExplanation->invite->receiver_id &&
+            $user->id !== $declineExplanation->invite->owner_id &&
+            strtolower($user->profile->email) !== strtolower($declineExplanation->invite->email) &&
+            null !== $declineExplanation->invite->receiver_id) {
+
+            Yii::app()->user->setFlash('success', 'Вы не можете удалить чужое приглашение.');
+            return '/dashboard';
+        }
+
+        $initValue = $declineExplanation->invite->ownerUser->getAccount()->getTotalAvailableInvitesLimit();
+
+        $declineExplanation->invite->ownerUser->getAccount()->invites_limit++;
+        $declineExplanation->invite->ownerUser->getAccount()->save(false);
+
+        UserService::logCorporateInviteMovementAdd(sprintf("Пользователь %s отклонил приглашение номер %s. В аккаунт возвращена одна симуляция.",
+            $declineExplanation->invite->email, $declineExplanation->invite->id),  $declineExplanation->invite->ownerUser->getAccount(), $initValue);
+
+
+        $declineExplanation->invite_recipient_id = $declineExplanation->invite->receiver_id;
+        $declineExplanation->invite_owner_id = $declineExplanation->invite->owner_id;
+        $declineExplanation->vacancy_label = $declineExplanation->invite->getVacancyLabel();
+        $declineExplanation->created_at = date('Y-m-d H:i:s');
+        $declineExplanation->save();
+
+        $invite_status = $declineExplanation->invite->status;
+        $declineExplanation->invite->status = Invite::STATUS_DECLINED;
+        $declineExplanation->invite->updated_at = (new DateTime('now', new DateTimeZone('Europe/Moscow')))->format("Y-m-d H:i:s");
+        $declineExplanation->invite->update(false, ['status']);
+        InviteService::logAboutInviteStatus($declineExplanation->invite, 'Пользователь сменил статус с '.Invite::getStatusNameByCode($invite_status)." на ".Invite::getStatusNameByCode($declineExplanation->invite->status));
+
+        if (!$user->isAuth()) {
+            Yii::app()->user->setFlash('success', UserService::renderPartial('static/dashboard/_thank_you_form', []));
+            return '/';
+        } elseif ($user->isPersonal()) {
+            return '/dashboard';
+        }
+        return null;
+    }
 }
