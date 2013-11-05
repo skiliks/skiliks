@@ -65,6 +65,8 @@ class UserServiceUnitTest extends CDbTestCase
         $account_corporate->setAttributes(['industry_id'=>Industry::model()->findByAttributes(['label'=>'Другая'])->id]);
         $assert_result_corporate = UserService::createCorporateAccount($user_corporate, $profile_corporate, $account_corporate);
         $this->assertTrue($assert_result_corporate);
+        $status_activation = YumUser::activate($profile_corporate->email, $user_corporate->activationKey);
+        $this->assertInstanceOf('YumUser', $status_activation);
         $assert_profile_corporate = YumProfile::model()->findByAttributes(['email'=>'test-corporate-phpunit-account@skiliks.com']);
         $this->assertNotNull($assert_profile_corporate);
         $this->assertNotNull($assert_profile_corporate->user);
@@ -81,6 +83,8 @@ class UserServiceUnitTest extends CDbTestCase
         $account_personal->setAttributes(['professional_status_id'=>ProfessionalStatus::model()->findByAttributes(['label'=>'Студент'])->id]);
         $assert_result_personal = UserService::createPersonalAccount($user_personal, $profile_personal, $account_personal);
         $this->assertTrue($assert_result_personal);
+        $status_activation = YumUser::activate($profile_personal->email, $user_personal->activationKey);
+        $this->assertInstanceOf('YumUser', $status_activation);
         $assert_profile_personal = YumProfile::model()->findByAttributes(['email'=>'test-private-phpunit-account@skiliks.com']);
         $this->assertNotNull($assert_profile_personal);
         $this->assertNotNull($assert_profile_personal->user);
@@ -120,6 +124,74 @@ class UserServiceUnitTest extends CDbTestCase
         $simulation = SimulationService::simulationStart($notUsedFullInvites[0], 'promo', 'tutorial');
         $assert_account_corporate->refresh();
         $this->assertEquals($assert_account_corporate->invites_limit, 1);
+
+        $assert_account_corporate->addSimulations(5);
+        $assert_account_corporate->refresh();
+        $this->assertEquals($assert_account_corporate->invites_limit, 6);
+
+        UserService::inviteExpired();
+        $invite->refresh();
+        $this->assertEquals($invite->status, Invite::STATUS_PENDING);
+        $assert_account_corporate->refresh();
+        $this->assertEquals($assert_account_corporate->invites_limit, 6);
+
+        $invite->expired_at = date("Y-m-d H:i:s");
+        $invite->save(false);
+
+        UserService::inviteExpired();
+        $invite->refresh();
+        $this->assertEquals($invite->status, Invite::STATUS_EXPIRED);
+        $assert_account_corporate->refresh();
+        $this->assertEquals($assert_account_corporate->invites_limit, 7);
+        $invite2 = new Invite();
+        $invite2->setAttributes([
+            'firstname'=>'Альфред',
+            'lastname'=>'Хичкок',
+            'email'=>'test-private-phpunit-account@skiliks.com',
+            'vacancy_id'=>$vacancy->id,
+            'fullname' => 'Альфред Хичкок',
+            'message' => '',
+            'is_display_simulation_results'=>'0'
+        ]);
+
+        $is_send = UserService::sendInvite($user_corporate, null, $invite2, '0');
+        $this->assertTrue($is_send);
+        $assert_account_corporate->refresh();
+        $this->assertEquals($assert_account_corporate->invites_limit, 6);
+        $declineExplanation = new DeclineExplanation();
+        $declineExplanation->attributes = ['invite_id'=>$invite->id, 'reason_id'=>2, 'description'=>''];
+        $decline_status = InviteService::declineInvite($user_personal, $declineExplanation);
+        $this->assertNotNull($decline_status);
+        $invite->refresh();
+        $this->assertEquals($invite->status, Invite::STATUS_DECLINED);
+        $assert_account_corporate->refresh();
+        $this->assertEquals($assert_account_corporate->invites_limit, 7);
+
+        $assert_account_corporate->changeInviteLimits(5);
+
+        $assert_account_corporate->refresh();
+        $this->assertEquals($assert_account_corporate->invites_limit, 12);
+
+        $assert_account_corporate->changeInviteLimits(-4);
+
+        $assert_account_corporate->refresh();
+        $this->assertEquals($assert_account_corporate->invites_limit, 8);
+
+        $assert_account_corporate->referrals_invite_limit = 4;
+        $assert_account_corporate->save(false);
+
+        $assert_account_corporate->changeInviteLimits(-10);
+
+        $assert_account_corporate->refresh();
+        $this->assertEquals($assert_account_corporate->invites_limit, 0);
+        $this->assertEquals($assert_account_corporate->referrals_invite_limit, 2);
+
+        $assert_account_corporate->changeInviteLimits(-4);
+
+        $assert_account_corporate->refresh();
+        $this->assertEquals($assert_account_corporate->invites_limit, 0);
+        $this->assertEquals($assert_account_corporate->referrals_invite_limit, 0);
+
     }
 
 }
