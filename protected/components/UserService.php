@@ -251,10 +251,13 @@ class UserService {
     }
 
     public static function createPersonalAccount(YumUser &$user, YumProfile &$profile, UserAccountPersonal &$account_personal) {
-        if(self::createUserAndProfile($user, $profile)
-            && $account_personal->validate(['professional_status_id'])
-            && $user->register($user->username, $user->password, $profile)) {
-
+        $isValidUserAndProfile = self::createUserAndProfile($user, $profile);
+        $isValidCorporate = $account_personal->validate(['professional_status_id']);
+        if( $isValidUserAndProfile
+            && $isValidCorporate ) {
+            if(!$user->register($user->username, $user->password, $profile)){
+                return false;
+            }
             if(!$user->save()) { throw new Exception("User not save"); }
             $profile->user_id = $user->id;
             if(!$profile->save()) { throw new Exception("Profile not save"); }
@@ -275,8 +278,9 @@ class UserService {
         $user->lastvisit = time();
         $user->lastpasswordchange = time();
         $profile->timestamp = time();
-        return $user->validate(['password', 'password_again', 'agree_with_terms'])
-               && $profile->validate(['firstname', 'lastname', 'email']);
+        $isValidUser = $user->validate(['password', 'password_again', 'agree_with_terms']);
+        $isValidProfile =  $profile->validate(['firstname', 'lastname', 'email']);
+        return $isValidUser && $isValidProfile;
     }
 
     public static function sendInvite(YumUser $user, $profile, Invite &$invite, $is_display_results) {
