@@ -338,4 +338,9 @@ class UserAccountCorporate extends CActiveRecord
         $this->tariff_expired_at = $date->format('Y-m-d H:i:s');
     }
 
+    public function addSimulations($count) {
+        $this->invites_limit = $this->invites_limit + $count;
+        $this->save(false);
+    }
+
 }
