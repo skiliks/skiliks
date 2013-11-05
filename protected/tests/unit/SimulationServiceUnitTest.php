@@ -275,11 +275,10 @@ class SimulationServiceUnitTest extends CDbTestCase
         //$this->markTestSkipped();
 
         // init simulation
-        $profile = YumProfile::model()->findByAttributes(['email' => 'asd@skiliks.com']);
-        $user = $profile->user;
+        $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
-        $invite->receiverUser = $user;
+        $invite->receiverUser = $this->user;
         $invite->scenario->slug = Scenario::TYPE_FULL;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 

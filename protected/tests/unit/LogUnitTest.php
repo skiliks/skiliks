@@ -237,12 +237,13 @@ class LogUnitTest extends CDbTestCase
      */
     public function testLogDocument()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $this->initTestUserAsd();
+        $user = $this->user;
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
         $invite->scenario->slug = Scenario::TYPE_FULL;
-        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 
 
         $docTemplate = DocumentTemplate::model()->findByAttributes([
