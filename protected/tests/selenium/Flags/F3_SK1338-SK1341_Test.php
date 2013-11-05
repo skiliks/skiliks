@@ -37,7 +37,7 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
         $this->call_phone(Yii::app()->params['test_mappings']['phone_contacts']['krutko'], "xpath=(//*[contains(text(),'Сводный бюджет: контроль')])");
         sleep(5);
         $this->assertTrue($this->isElementPresent("xpath=(//a[contains(text(),'дела')])"));
-        $this->simulation_showLogs();
+        $this->simulation_stop();
     }
 
     /**
@@ -69,7 +69,7 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
         $this->call_phone(Yii::app()->params['test_mappings']['phone_contacts']['krutko'], "xpath=(//*[contains(text(),'Сводный бюджет: контроль')])");
         sleep(5);
         $this->assertTrue($this->isElementPresent("xpath=(//a[contains(text(),'дела')])"));
-        $this->simulation_showLogs();
+        $this->simulation_stop();
     }
 
     /**
@@ -101,7 +101,7 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
         $this->call_phone(Yii::app()->params['test_mappings']['phone_contacts']['krutko'], "xpath=(//*[contains(text(),'Сводный бюджет: контроль')])");
         sleep(5);
         $this->assertTrue($this->isElementPresent("xpath=(//a[contains(text(),'дела')])"));
-        $this->simulation_showLogs();
+        $this->simulation_stop();
     }
 
     /**
@@ -142,7 +142,7 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
 
         sleep(5);
         $this->assertFalse($this->isElementPresent("xpath=(//a[contains(text(),'Сводный бюджет: контроль')])"));
-        $this->simulation_showLogs();
+        $this->simulation_stop();
     }
 
     /**
@@ -167,7 +167,7 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Марина, пожалуйста, вышли прямо сейчас все, что есть по презентации для Босса')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Вот это да! Ладно, отложи пока сводный бюджет и займись презентаций')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Что это с тобой случилось?! Столько агрессии')])");
-        $this->simulation_showLogs();
+        $this->simulation_stop();
     }
 }
 

@@ -25,6 +25,6 @@ class DelayForEvent_SK1274_Test extends SeleniumTestHelper
         sleep(10);
         $this->assertTrue($this->isElementPresent(Yii::app()->params['test_mappings']['icons']['phone']));
         $this->no_reply_call();
-        $this->simulation_showLogs();
+        $this->simulation_stop();
     }
 }

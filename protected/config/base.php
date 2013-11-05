@@ -130,7 +130,7 @@ return CMap::mergeArray(
             'frontendUrl'                   => 'http://skiliks:8080/',
 
             // удалять результаты симуляции если селениум-тест успешно прошел false = не удалять
-            'deleteSeleniumResults' => true,
+            'deleteSeleniumResults' => false,
 
             //
             'isUseResultPopUpCache'         => true,
