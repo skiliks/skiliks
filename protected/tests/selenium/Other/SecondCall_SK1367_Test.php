@@ -70,6 +70,6 @@ class SecondCall_SK1367_Test extends SeleniumTestHelper
         sleep(2);
         $this->assertTrue($this->isElementPresent("xpath=(//*[contains(text(),'Отчет по 3 кварталу')])"));
 
-        $this->simulation_stop();
+        $this->simulation_showLogs();
     }
 }

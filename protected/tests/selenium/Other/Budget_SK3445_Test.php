@@ -84,6 +84,6 @@ class Budget_SK3445_Test extends SeleniumTestHelper
         $this->doubleClick("xpath=//*[@id='Бюджет логистики_2014_план.xls']/div[2]");
 
         */
-        $this->simulation_stop();
+        $this->simulation_showLogs();
     }
 }

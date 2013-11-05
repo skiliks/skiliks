@@ -61,7 +61,7 @@ class DisplayMailText_SK1370_Test extends SeleniumTestHelper
         $this->assertText("//div[@id='MailClient_IncomeFolder_EmailPreview']/div/table/tbody/tr[2]/td","Крутько М.");
         $this->assertText("//div[@id='MailClient_IncomeFolder_EmailPreview']/div/table/tbody/tr[4]/td","Сводный бюджет: файл");
 
-        $this->simulation_stop();
+        $this->simulation_showLogs();
     }
 
     private function checkFields($from, $to_whom, $theme, $attach)

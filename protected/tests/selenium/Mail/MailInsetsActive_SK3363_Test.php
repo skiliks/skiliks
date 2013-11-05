@@ -30,6 +30,6 @@ class MailInsetsActive_SK3363_Test extends SeleniumTestHelper
         sleep(2);
         $this->assertTrue($this->getText("xpath=//li[contains(@class, 'active')]/label")=="Корзина");
 
-        $this->simulation_stop();
+        $this->simulation_showLogs();
     }
 }
