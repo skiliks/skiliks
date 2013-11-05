@@ -108,7 +108,7 @@ class Invite extends CActiveRecord
      */
     public function setExpiredAt($days = null)
     {
-        if (null !==$days) {
+        if (null === $days) {
             $days = Yii::app()->params['inviteExpired'];
         }
 
@@ -376,7 +376,7 @@ class Invite extends CActiveRecord
         }
         $invite_status = $this->status;
         $this->status = Invite::STATUS_EXPIRED;
-        $this->save();
+        $this->save(false);
 
         InviteService::logAboutInviteStatus($this, 'Сменился статус с '.Invite::getStatusNameByCode($invite_status)." на ".Invite::getStatusNameByCode($this->status));
         $account = UserAccountCorporate::model()->findByAttributes(['user_id' => $this->owner_id]);
