@@ -338,4 +338,47 @@ class UserAccountCorporate extends CActiveRecord
         $this->tariff_expired_at = $date->format('Y-m-d H:i:s');
     }
 
+    public function addSimulations($count) {
+        $this->invites_limit = $this->invites_limit + $count;
+        $this->save(false);
+    }
+
+    public function changeInviteLimits($value, $admin=null) {
+
+        $initValue = $this->getTotalAvailableInvitesLimit();
+        if($value > 0) {
+            $this->invites_limit += $value;
+        } elseif($value < 0) {
+            if($this->invites_limit >= -$value) {
+                $this->invites_limit += $value;
+            }else{
+                $diff = $value + $this->invites_limit;
+                $this->invites_limit = 0;
+                if($this->referrals_invite_limit < -$diff){
+                    $this->referrals_invite_limit = 0;
+                }else{
+                    $this->referrals_invite_limit += $diff;
+                }
+            }
+
+        }
+        $this->save(false);
+        if(null !== $admin){
+            UserService::logCorporateInviteMovementAdd(
+                sprintf('Количество доступных симуляций установлено в %s в админ области, из них за рефераллов %s. '.
+                    ' Админ %s (емейл текущего авторизованного в админке пользователя).', $this->invites_limit, $this->referrals_invite_limit, $admin->profile->email),
+                $this,
+                $initValue
+            );
+        }
+
+        Yii::app()->user->setFlash('success', sprintf(
+            'Количество доступных симуляций для "%s %s" установнено %s.',
+            $this->user->profile->firstname,
+            $this->user->profile->lastname,
+            $this->invites_limit
+        ));
+
+    }
+
 }

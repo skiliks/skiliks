@@ -224,9 +224,9 @@ class UserService {
             && $account_corporate->validate(['industry_id'])
             && $user->register($user->username, $user->password, $profile)) {
 
-            if(!$user->save()) { throw new Exception("User not save"); }
+            $user->save(false);
             $profile->user_id = $user->id;
-            if(!$profile->save()) { throw new Exception("Profile not save"); }
+            $profile->save(false);
 
             $account_corporate->user_id = $user->id;
             $account_corporate->default_invitation_mail_text = 'Вопросы относительно тестирования вы можете задать по адресу '.$profile->email.', куратор тестирования - '.$profile->firstname.' '. $profile->lastname .'.';
@@ -234,9 +234,7 @@ class UserService {
             $account_corporate->setTariff($tariff, true);
 
             $account_corporate->invites_limit = Yii::app()->params['initialSimulationsAmount'];
-            if(!$account_corporate->save()){
-                throw new Exception("UserAccount not save");
-            }
+            $account_corporate->save(false);
 
             UserService::logCorporateInviteMovementAdd(
                 sprintf('Количество симуляций для нового аккаунта номер %s, емейл %s, задано равным %s по тарифному плану %s.',
@@ -251,19 +249,21 @@ class UserService {
     }
 
     public static function createPersonalAccount(YumUser &$user, YumProfile &$profile, UserAccountPersonal &$account_personal) {
-        if(self::createUserAndProfile($user, $profile)
-            && $account_personal->validate(['professional_status_id'])
-            && $user->register($user->username, $user->password, $profile)) {
-
-            if(!$user->save()) { throw new Exception("User not save"); }
+        $isValidUserAndProfile = self::createUserAndProfile($user, $profile);
+        $isValidCorporate = $account_personal->validate(['professional_status_id']);
+        if( $isValidUserAndProfile
+            && $isValidCorporate ) {
+            if(!$user->register($user->username, $user->password, $profile)){
+                return false;
+            }
+            $user->save(false);
             $profile->user_id = $user->id;
-            if(!$profile->save()) { throw new Exception("Profile not save"); }
+            $profile->save(false);
 
             $account_personal->user_id = $user->id;
 
-            if(!$account_personal->save(true, ['user_id', 'professional_status_id'])){
-               throw new Exception("UserAccount not save");
-            }
+            $account_personal->save(false);
+
             return true;
         }
         return false;
@@ -274,9 +274,10 @@ class UserService {
         $user->createtime = time();
         $user->lastvisit = time();
         $user->lastpasswordchange = time();
-        $profile->timestamp = gmdate("Y-m-d H:i:s");
-        return $user->validate(['password', 'password_again', 'agree_with_terms'])
-               && $profile->validate(['firstname', 'lastname', 'email']);
+        $profile->timestamp = time();
+        $isValidUser = $user->validate(['password', 'password_again', 'agree_with_terms']);
+        $isValidProfile =  $profile->validate(['firstname', 'lastname', 'email']);
+        return $isValidUser && $isValidProfile;
     }
 
     public static function sendInvite(YumUser $user, $profile, Invite &$invite, $is_display_results) {
@@ -309,7 +310,7 @@ class UserService {
             $invite->tutorial_scenario_id = Scenario::model()
                 ->findByAttributes(['slug' => Scenario::TYPE_TUTORIAL])
                 ->getPrimaryKey();
-
+            $user->getAccount()->refresh();
             // send invitation
             if ($invite->validate() && 0 < $user->getAccount()->getTotalAvailableInvitesLimit()) {
                 $invite->markAsSendToday();
@@ -319,7 +320,8 @@ class UserService {
                 $invite->message = preg_replace('/(\n\r)/', '<br>', $invite->message);
                 $invite->message = preg_replace('/\\n|\\r/', '<br>', $invite->message);
                 $invite->is_display_simulation_results = (int) !$is_display_results;
-                $invite->save();
+                $invite->setExpiredAt();
+                $invite->save(false);
                 InviteService::logAboutInviteStatus($invite, sprintf(
                     'Приглашение для %s создано в корпоративном кабинете пользователя %s.',
                     $invite->email,
@@ -429,6 +431,24 @@ class UserService {
           } else {
               throw new Exception("Bad data, must be array");
           }
+
+    }
+
+    public static function renderPartial($_partial_ ,$_data_=null)
+    {
+        $_viewFile_ = __DIR__.'/../views/'.$_partial_.'.php';
+        if(!file_exists($_viewFile_)) {
+            throw new Exception("Email partial {$_partial_} not found in path {$_viewFile_}");
+        }
+        if( is_array($_data_) ) {
+            extract($_data_,EXTR_PREFIX_SAME,'data');
+            ob_start();
+            ob_implicit_flush(false);
+            require($_viewFile_);
+            return ob_get_clean();
+        } else {
+            throw new Exception("Bad data, must be array");
+        }
 
     }
 
@@ -593,6 +613,119 @@ class UserService {
         ]);
     }
 
+    public static function inviteExpired(){
+        //Invites
+        $time = time() - Yii::app()->params['cron']['InviteExpired'];
+
+        $fullScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_FULL]);
+
+        echo "time: ".$time."\n";
+        /** @var $invites Invite[] */
+        $invites = Invite::model()->findAll(
+            sprintf("status IN (%s, %s, %s) AND '%s' >= expired_at AND (owner_id != receiver_id OR receiver_id is NULL) AND scenario_id = %s",
+                Invite::STATUS_PENDING,
+                Invite::STATUS_ACCEPTED,
+                Invite::STATUS_IN_PROGRESS,
+                date("Y-m-d H:i:s"),
+                $fullScenario->id
+            ));
+
+        foreach($invites as $invite){
+
+            $initValue = $invite->ownerUser->getAccount()->getTotalAvailableInvitesLimit();
+
+            if ($invite->inviteExpired()) {
+                echo sprintf("%s mark invite as expired \n", $invite->id);
+                $invite->ownerUser->getAccount()->refresh();
+
+                UserService::logCorporateInviteMovementAdd(sprintf("Приглашения номер %s для %s устарело. В аккаунт возвращена одна симуляция.",
+                    $invite->id, $invite->email),  $invite->ownerUser->getAccount(), $initValue);
+            }
+        }
+
+        /* @var $users UserAccountCorporate[] */
+        $accounts = UserAccountCorporate::model()->findAll(
+            sprintf("'%s' < tariff_expired_at AND tariff_expired_at <= '%s'",
+                date("Y-m-d 00:00:00"),
+                date("Y-m-d 23:59:59")
+            ));
+
+        if(null !== $accounts){
+            /* @var $user UserAccountCorporate */
+            foreach($accounts as $account) {
+                $account->is_display_tariff_expire_pop_up = 1;
+                if((int)$account->invites_limit !== 0) {
+                    $initValue = $account->getTotalAvailableInvitesLimit();
+
+                    $account->invites_limit = 0;
+                    $account->update();
+
+                    UserService::logCorporateInviteMovementAdd('Тарифный план '.$account->tariff->label.' истёк. Количество доступных симуляция обнулено.', $account, $initValue);
+                }
+
+                // send email for any account {
+                $emailTemplate = Yii::app()->params['emails']['tariffExpiredTemplateIfInvitesZero'];
+
+                $body = self::renderEmailPartial($emailTemplate, [
+                    'user' => $account->user
+                ]);
+
+                $mail = [
+                    'from'        => 'support@skiliks.com',
+                    'to'          => $account->user->profile->email,
+                    'subject'     => 'Истёк тарифный план',
+                    'body'        => $body,
+                    'embeddedImages' => [
+                        [
+                            'path'     => Yii::app()->basePath.'/assets/img/mail-top.png',
+                            'cid'      => 'mail-top',
+                            'name'     => 'mailtop',
+                            'encoding' => 'base64',
+                            'type'     => 'image/png',
+                        ],[
+                            'path'     => Yii::app()->basePath.'/assets/img/mail-top-2.png',
+                            'cid'      => 'mail-top-2',
+                            'name'     => 'mailtop2',
+                            'encoding' => 'base64',
+                            'type'     => 'image/png',
+                        ],[
+                            'path'     => Yii::app()->basePath.'/assets/img/mail-right-1.png',
+                            'cid'      => 'mail-right-1',
+                            'name'     => 'mailright1',
+                            'encoding' => 'base64',
+                            'type'     => 'image/png',
+                        ],[
+                            'path'     => Yii::app()->basePath.'/assets/img/mail-right-2.png',
+                            'cid'      => 'mail-right-2',
+                            'name'     => 'mailright2',
+                            'encoding' => 'base64',
+                            'type'     => 'image/png',
+                        ],[
+                            'path'     => Yii::app()->basePath.'/assets/img/mail-right-3.png',
+                            'cid'      => 'mail-right-3',
+                            'name'     => 'mailright3',
+                            'encoding' => 'base64',
+                            'type'     => 'image/png',
+                        ],[
+                            'path'     => Yii::app()->basePath.'/assets/img/mail-bottom.png',
+                            'cid'      => 'mail-bottom',
+                            'name'     => 'mailbottom',
+                            'encoding' => 'base64',
+                            'type'     => 'image/png',
+                        ],
+                    ],
+                ];
+
+                try {
+                    MailHelper::addMailToQueue($mail);
+                    echo $account->user->profile->email."\n";
+                } catch (phpmailerException $e) {
+                    echo $e;
+                }
+                // send email for any account }
+            }
+        }
+    }
 
 }
 

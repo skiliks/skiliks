@@ -126,8 +126,11 @@ return CMap::mergeArray(
             // точно используется?
             'vacancyLinkInProfileMaxLength' => 50,
 
-            // используется для селениум темтов
+            // используется для селениум-теcтов
             'frontendUrl'                   => 'http://skiliks:8080/',
+
+            // удалять результаты симуляции если селениум-тест успешно прошел false = не удалять
+            'deleteSeleniumResults' => false,
 
             //
             'isUseResultPopUpCache'         => true,
@@ -221,6 +224,8 @@ return CMap::mergeArray(
                     ['username' => 'masha'     , 'email' => 'masha@skiliks.com'             ,'password' => '123123'         ,'is_admin' => 1],
                     ['username' => 'tatiana'   , 'email' => 'tatiana@skiliks.com'           ,'password' => '123123'         ,'is_admin' => 1],
                     ['username' => 'andrew'    , 'email' => 'andrey.sarnavskiy@skiliks.com' ,'password' => '123123'         ,'is_admin' => 1],
+                    ['username' => 'seleniumEngine'  , 'email' => 'seleniumEngine@skiliks.com'          ,'password' => '123123'         ,'is_admin' => 1],
+                    ['username' => 'seleniumAssessment'  , 'email' => 'seleniumAssesment@skiliks.com'          ,'password' => '123123'         ,'is_admin' => 1],
                 ]
             ],
 
