@@ -217,15 +217,14 @@ return CMap::mergeArray(
                     ['username' => 'slavka'    , 'email' => 'slavka@skiliks.com'            ,'password' => '123123'         ,'is_admin' => 1],
                     ['username' => 'slavka1'   , 'email' => 'slavka1@skiliks.com'           ,'password' => '123123'         ,'is_admin' => 0],
                     ['username' => 'asd'       , 'email' => 'asd@skiliks.com'               ,'password' => '123123'         ,'is_admin' => 1],
-                    ['username' => 'selenium'  , 'email' => 'selenium@skiliks.com'          ,'password' => '123123'         ,'is_admin' => 1],
+                    ['username' => 'seleniumEngine'  , 'email' => 'selenium.engine@skiliks.com'          ,'password' => '123123'         ,'is_admin' => 1],
                     ['username' => 'listepo'   , 'email' => 'ivan@skiliks.com'              ,'password' => '123123'         ,'is_admin' => 1],
                     ['username' => 'tony'      , 'email' => 'tony@skiliks.com'              ,'password' => '123123'         ,'is_admin' => 1],
                     ['username' => 'leah'      , 'email' => 'leah.levin@skiliks.com'        ,'password' => '123123'         ,'is_admin' => 1],
                     ['username' => 'masha'     , 'email' => 'masha@skiliks.com'             ,'password' => '123123'         ,'is_admin' => 1],
-                    ['username' => 'tatiana'   , 'email' => 'tatiana@skiliks.com'           ,'password' => '123123'         ,'is_admin' => 1],
+                    ['username' => 'tatiana'   , 'email' => 'tetyana.grybok@skiliks.com'           ,'password' => '123123'         ,'is_admin' => 1],
                     ['username' => 'andrew'    , 'email' => 'andrey.sarnavskiy@skiliks.com' ,'password' => '123123'         ,'is_admin' => 1],
-                    ['username' => 'seleniumEngine'  , 'email' => 'seleniumEngine@skiliks.com'          ,'password' => '123123'         ,'is_admin' => 1],
-                    ['username' => 'seleniumAssessment'  , 'email' => 'seleniumAssesment@skiliks.com'          ,'password' => '123123'         ,'is_admin' => 1],
+                    ['username' => 'seleniumAssessment'  , 'email' => 'selenium.assessment@skiliks.com'          ,'password' => '123123'         ,'is_admin' => 1]
                 ]
             ],
 

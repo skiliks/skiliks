@@ -10,7 +10,7 @@ class Calls_Management_Test extends SeleniumTestHelper
 {
     public function test_Dialogs_for_SK2420_3()
     {
-        $this->start_simulation("Calls_Management_Test");
+        $this->start_simulation("Calls_Management_Test", 1);
 
         $this->clearEventQueueBeforeEleven('RST1');
 
