@@ -169,7 +169,7 @@ class LogMail extends CActiveRecord
                 ]);
 
                 if (empty($exists)) {
-                    // вынесенно вверх
+//                    вынесенно вверх
 //                    $mailPoints = $this->simulation->game_type->getMailPoints(['mail_id' => $template->id]);
 //                    /** @var MailPoint[] $mailPoints */
 //                    foreach ($mailPoints as $mailPoint) {
