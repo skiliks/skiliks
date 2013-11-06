@@ -11,7 +11,7 @@ class Goals_and_Priorities_Test extends SeleniumTestHelper
     public function testGoalsAndPriorities_Positive()
     {
         //$this->markTestIncomplete();
-        $this->start_simulation("testGoalsAndPriorities_Positive");
+        $this->start_simulation("testGoalsAndPriorities_Positive", 1);
 
         $this->clearEventQueueBeforeEleven('RST1');
 
@@ -55,7 +55,7 @@ class Goals_and_Priorities_Test extends SeleniumTestHelper
     public function testGoalsAndPriorities_Negative()
     {
         //$this->markTestIncomplete();
-        $this->start_simulation("testGoalsAndPriorities_Negative");
+        $this->start_simulation("testGoalsAndPriorities_Negative", 1);
 
         $this->run_event('E3',"xpath=(//*[contains(text(),'Через двадцать минут? Тогда времени на разговор ')])",'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Вот спасибо! Выручил! Давай до вечера, часов в')])");

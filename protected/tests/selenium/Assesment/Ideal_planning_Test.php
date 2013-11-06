@@ -10,7 +10,7 @@ class Ideal_planning_Test extends SeleniumTestHelper
 {
     public function test_214b_214a()
     {
-        $this->start_simulation("Ideal_planning_Test");
+        $this->start_simulation("Ideal_planning_Test", 1);
 
         $this->clearEventQueueBeforeEleven('RST1');
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['todo']);
