@@ -15,6 +15,7 @@ class InviteExpiredCommand extends CConsoleCommand
     {
         echo "time: ".date("Y-m-d H:i:s")."\n";
         
-        UserService::inviteExpired();
+        InviteService::inviteExpired();
+        UserService::tariffExpired();
     }
 }
