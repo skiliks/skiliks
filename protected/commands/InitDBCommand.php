@@ -37,7 +37,7 @@ class InitDBCommand extends CConsoleCommand
         $filePath = realpath(__DIR__ . '/../../db.sql');
         $this->mysql("source ". $filePath, $database.' --default-character-set=UTF8');
 
-        $this->runInstallUserManagement();
+        //$this->runInstallUserManagement();
 
         echo "\n Apply migrations to `$database`.";
         // Migrations
