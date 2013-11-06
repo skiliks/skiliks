@@ -8,7 +8,7 @@
 class CheatsController extends SiteBaseController
 {
     /**
-     * Логинит пользователя под ником asd@skiliks.com (тестовый пользователь)
+     * Логинит пользователя под ником seleium@skiliks.com (тестовый пользователь)
      * И перенаправляет к началу полной дев симуляции
      *
      * Для защиты от читтинга проверяем cookie со странным длинным именем и странным длинным названием
@@ -16,19 +16,49 @@ class CheatsController extends SiteBaseController
      */
     public function actionStartSimulationForFastSeleniumTest()
     {
+
         $cookies = Yii::app()->request->cookies;
-
-        if (false === isset($cookies['cook_dev_ladskasdasddaxczxpoicuwcnzmcnzdewedjbkscuds'])) {
-            Yii::app()->end();
+        //var_dump($cookies); die;
+        $user = null;
+        if (isset($cookies['cook_dev_ladskasdasddaxczxpoicuwcnzmcnzdewedjbkscuds'])
+            && $cookies['cook_dev_ladskasdasddaxczxpoicuwcnzmcnzdewedjbkscuds']->value == 'dsiucskcmnxkcjzhxciaowi2039ru948fysuhfiefds8v7sd8djkedbjsaicu9')  {
+            //$end = false
+            $user = YumUser::model()->findByAttributes([
+                'username' => 'selenium'
+            ]);
         }
 
-        if ($cookies['cook_dev_ladskasdasddaxczxpoicuwcnzmcnzdewedjbkscuds']->value !== 'dsiucskcmnxkcjzhxciaowi2039ru948fysuhfiefds8v7sd8djkedbjsaicu9') {
-            Yii::app()->end();
+        if (isset($cookies['cook_dev_ejbfksbfeksfesfbefbjbbooisnsddsjkfsfnesgjsf'])
+            && $cookies['cook_dev_ejbfksbfeksfesfbefbjbbooisnsddsjkfsfnesgjsf']->value == 'adeshflewfvgiu3428dfgfgdgfg32fgdfgghfgh34e324rfqvf4g534hg54gh5')  {
+            //$end = false;
+            $user = YumUser::model()->findByAttributes([
+                'username' => 'selenium1'
+            ]);
         }
 
-        $user = YumUser::model()->findByAttributes([
-            'username' => 'selenium'
-        ]);
+//        )
+//            && false === isset($cookies['cook_dev_ejbfksbfeksfesfbefbjbbooisnsddsjkfsfnesgjsf']
+//        if () {
+//            $end = true;
+//        }
+//
+//        if ($end === true)
+//        {
+//            Yii::app()->end();
+//        }
+//
+//        if (true === isset($cookies['cook_dev_ladskasdasddaxczxpoicuwcnzmcnzdewedjbkscuds']))
+//        {
+//            $user = YumUser::model()->findByAttributes([
+//                'username' => 'selenium'
+//            ]);
+//        }
+//        if (true === isset($cookies['cook_dev_ejbfksbfeksfesfbefbjbbooisnsddsjkfsfnesgjsf']))
+//        {
+//            $user = YumUser::model()->findByAttributes([
+//                'username' => 'selenium1'
+//            ]);
+//        }
 
         if (null === $user) {
             throw new Exception('User not found.');
