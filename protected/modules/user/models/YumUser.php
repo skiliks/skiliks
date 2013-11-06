@@ -844,7 +844,7 @@ class YumUser extends YumActiveRecord
         ) {
 
             if ($user = $profile->user) {
-                var_dump($user->status);
+                //var_dump($user->status);
 
 //                if ($user->status != self::STATUS_INACTIVE)
 //                    return -1;
