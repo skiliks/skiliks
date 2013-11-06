@@ -154,7 +154,7 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Хорошо, сегодня вечером, после шести! ')])");
         sleep(10);
         $this->simulation_showLogs();
-        $this->checkSimPoints('4','-36.5');
+        $this->checkSimPoints('3','-36.5');
         sleep(2);
     }
 
