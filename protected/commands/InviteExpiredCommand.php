@@ -13,6 +13,9 @@ class InviteExpiredCommand extends CConsoleCommand
 {
     public function actionIndex() // 7 days
     {
-        UserService::inviteExpired();
+        echo "time: ".date("Y-m-d H:i:s")."\n";
+        
+        InviteService::inviteExpired();
+        UserService::tariffExpired();
     }
 }

@@ -10,6 +10,7 @@
 class LogActivityActionUnitTest extends CDbTestCase
 {
     use UnitLoggingTrait;
+    use UnitTestBaseTrait;
 
     public function testActivityActionDetail()
     {

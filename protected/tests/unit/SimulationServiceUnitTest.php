@@ -7,6 +7,7 @@
 class SimulationServiceUnitTest extends CDbTestCase
 {
     use UnitLoggingTrait;
+    use UnitTestBaseTrait;
     /**
      * Проверяет что в результат запуска чимуляции:
      * 1. Проверяет что инициализируются флаги

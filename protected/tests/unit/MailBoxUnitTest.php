@@ -8,6 +8,9 @@
  */
 class MailBoxUnitTest extends CDbTestCase
 {
+    use UnitTestBaseTrait;
+    use UnitLoggingTrait;
+
     /**
      * 1. Проверяет темы для письма которое инициализитуются при старте симуляции,
      *    с темой "Форма отчетности для производства"
@@ -816,5 +819,51 @@ class MailBoxUnitTest extends CDbTestCase
         }
     }
 
+    /**
+     * Гавная цель теста проверить что при отправке письма "из DEV панели" игрок получит AssessmentPoints.
+     * Под отправкой издев панели понимается использование метода EventsManager::startEvent().
+     */
+    public function testSendEmailInDevMode()
+    {
+        $this->standardSimulationStart();
+
+        // logging "activate MainScreen"
+        // чтоб правильно залогировалось EventsManager::startEvent
+        // надо чтобы перед отправкой письма было залогировано открытое окно
+
+        $eventsManager = new EventsManager();
+        $logs = [];
+        $logs[] = [1, 1, 'activated', 32400, 'window_uid' => 1];
+        $eventsManager->processLogs($this->simulation, $logs);
+
+        EventsManager::startEvent($this->simulation, 'MS103', 0, 32410);
+
+        $universalLogs = UniversalLog::model()->findAllByAttributes(['sim_id' => $this->simulation->id]);
+
+        // 3 лога, открытие/закрытия MailMain, отрытие 1 MailNew
+        $this->assertEquals(3, count($universalLogs));
+
+        SimulationService::simulationStop($this->simulation);
+
+        $activityActionsLogs = LogActivityAction::model()->findAllByAttributes(['sim_id' => $this->simulation->id]);
+        $this->assertEquals(3, count($activityActionsLogs));
+
+        // проверка что симстоп не удалил какие-то $UniversalLogs
+        $UniversalLogs = UniversalLog::model()->findAllByAttributes(['sim_id' => $this->simulation->id]);
+        $this->assertEquals(3, count($UniversalLogs));
+
+        $assessmentPoints = AssessmentPoint::model()->findAllByAttributes(['sim_id' => $this->simulation->id]);
+        $this->assertEquals(3, count($assessmentPoints));
+
+        $mail_id = null;
+
+        foreach ($assessmentPoints as $assessmentPoint) {
+            if (null === $mail_id) {
+                $mail_id = $assessmentPoint->mail_id;
+            } else {
+                $this->assertEquals($mail_id, $assessmentPoint->mail_id);
+            }
+        }
+    }
 }
 
