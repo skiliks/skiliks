@@ -11,7 +11,7 @@ class Productivity_points_Test extends SeleniumTestHelper
     public function testProductivity()
     {
         //$this->markTestIncomplete();
-        $this->start_simulation("Productivity_points_Test");
+        $this->start_simulation("Productivity_points_Test", 1);
 
         $this->clearEventQueueBeforeEleven('RST1');
 

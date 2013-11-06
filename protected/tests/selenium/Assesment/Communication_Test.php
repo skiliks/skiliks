@@ -12,7 +12,7 @@ class Communication_Test extends SeleniumTestHelper
     public function test_communication()
     {
         //$this->markTestIncomplete();
-        $this->start_simulation("Communication_Test");
+        $this->start_simulation("Communication_Test", 1);
         $this->optimal_click('link=F41');
 
         $this->run_event('T2',"xpath=(//*[contains(text(),'Иван, привет! Это Федоров')])",'click');

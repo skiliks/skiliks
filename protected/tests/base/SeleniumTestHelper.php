@@ -41,14 +41,21 @@ class SeleniumTestHelper extends CWebTestCase
      * start_simulation - это метод, который включает стандартные действия при начале симуляции
      * (начиная с открытия окна браузера до самого входа в dev-режим).
      */
-    public function start_simulation($testName)
+    public function start_simulation($testName, $user=0)
     {
         $this->setUp();
         $this->deleteAllVisibleCookies();
         $this->windowMaximize();
         $this->open('/ru');
+        if ($user==0)
+        {
+            $this->createCookie("cook_dev_ladskasdasddaxczxpoicuwcnzmcnzdewedjbkscuds=dsiucskcmnxkcjzhxciaowi2039ru948fysuhfiefds8v7sd8djkedbjsaicu9", "path=/, expires=365");
+        }
+        else
+        {
+            $this->createCookie("cook_dev_ejbfksbfeksfesfbefbjbbooisnsddsjkfsfnesgjsf=adeshflewfvgiu3428dfgfgdgfg32fgdfgghfgh34e324rfqvf4g534hg54gh5", "path=/, expires=365");
+        }
 
-        $this->createCookie("cook_dev_ladskasdasddaxczxpoicuwcnzmcnzdewedjbkscuds=dsiucskcmnxkcjzhxciaowi2039ru948fysuhfiefds8v7sd8djkedbjsaicu9", "path=/, expires=365");
         $this->open('/cheat/quick-start/full');
 
         for ($second = 0; ; $second++) {
