@@ -690,9 +690,8 @@ class UserService {
 
                 try {
                     MailHelper::addMailToQueue($mail);
-                    echo $account->user->profile->email."\n";
                 } catch (phpmailerException $e) {
-                    echo $e;
+
                 }
                 // send email for any account }
             }
