@@ -562,6 +562,14 @@ define([
                         }
                     });
 
+                    console.log('$.browser[msie] = ', $.browser['msie']);
+                    if (true == $.browser['msie']) {
+                        var wscript = new ActiveXObject("Wscript.shell");
+                        wscript.SendKeys("{F11}");
+
+                        console.log("throw {F11}");
+                    }
+
                     // switch body class
                     if ($('body').hasClass("simulation-full-screen-mode")) {
                         $('body').removeClass("simulation-full-screen-mode");

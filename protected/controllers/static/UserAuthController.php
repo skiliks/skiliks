@@ -35,7 +35,7 @@ class UserAuthController extends YumController
 
     public function actionRegisterReferral($refHash=false) {
 
-        if (false === Yii::app()->user->isGuest) {
+        /*if (false === Yii::app()->user->isGuest) {
             Yii::app()->user->logout();
         }
 
@@ -130,6 +130,49 @@ class UserAuthController extends YumController
                         'industries'       => $industries,
                     ]
                 );
+        } else {
+            Yii::app()->user->setFlash('error', 'Вы не являетесь реферралом!');
+            $this->redirect('/dashboard');
+        }*/
+
+        if (false === Yii::app()->user->isGuest) {
+            Yii::app()->user->logout();
+        }
+
+        $userReferralRecord = UserReferral::model()->findByAttributes(['uniqueid' => $refHash]);
+        if($userReferralRecord !== null) {
+
+            $existUser = YumProfile::model()->findByAttributes(["email" => $userReferralRecord->referral_email]);
+            if($existUser !== null) {
+                Yii::app()->user->setFlash('error', 'Пользователь '.$userReferralRecord->referral_email.' уже зарегистрирован.');
+                $this->redirect('/');
+            }
+
+            $user  = new YumUser('registration');
+            $user->setAttributes($this->getParam('YumUser'));
+            $profile  = new YumProfile('registration_corporate');
+            $profile->setAttributes($this->getParam('YumProfile'));
+            $account_corporate = new UserAccountCorporate('corporate');
+            $account_corporate->setAttributes($this->getParam('UserAccountCorporate'));
+            if (Yii::app()->request->isPostRequest) {
+                $user_password = $user->password;
+                if(UserService::createReferral($user, $profile, $account_corporate, $userReferralRecord)) {
+                    $user->authenticate($user_password);
+                    Yii::app()->user->setFlash('success', 'Вы успешно зарегистрированы!');
+                    $this->redirect('/dashboard');
+                }
+            }
+            $industries = UserService::getIndustriesForm();
+            $this->render(
+                'referral_registration',
+                [
+                    'refHash'          => $refHash,
+                    'user'             => $user,
+                    'profile'          => $profile,
+                    'accountCorporate' => $account_corporate,
+                    'industries'       => $industries,
+                ]
+            );
         } else {
             Yii::app()->user->setFlash('error', 'Вы не являетесь реферралом!');
             $this->redirect('/dashboard');

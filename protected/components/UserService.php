@@ -690,14 +690,36 @@ class UserService {
 
                 try {
                     MailHelper::addMailToQueue($mail);
-                    echo $account->user->profile->email."\n";
                 } catch (phpmailerException $e) {
-                    echo $e;
+
                 }
                 // send email for any account }
             }
         }
 
+    }
+
+    public static function createReferral(YumUser &$user, YumProfile &$profile, UserAccountCorporate &$account_corporate, UserReferral &$userReferralRecord) {
+        $profile->email = strtolower($userReferralRecord->referral_email);
+        if(self::createCorporateAccount($user, $profile, $account_corporate)) {
+            $userReferralRecord->referral_id = $user->id;
+            $userReferralRecord->approveReferral();
+            $userReferralRecord->rejectAllWithSameEmail();
+            $userReferralRecord->save(false);
+            YumUser::activate($profile->email, $user->activationKey);
+            //$user->authenticate($user_password);
+            return true;
+        }
+        return false;
+    }
+
+    public static function addReferralUser( YumUser $user, UserReferral &$refer ) {
+        $refer->referrer_id    = $user->id;
+        $refer->invited_at     = date("Y-m-d H:i:s");
+        $refer->status         = "pending";
+        $refer->save(false);
+        $refer->uniqueid    = md5($refer->id . time());
+        return $refer->save(false);
     }
 
 }
