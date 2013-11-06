@@ -86,4 +86,34 @@ class InviteService {
         }
         return null;
     }
+
+    public static function inviteExpired() {
+
+        $fullScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_FULL]);
+
+        /** @var $invites Invite[] */
+        $invites = Invite::model()->findAll(
+            sprintf("status IN (%s, %s, %s) AND '%s' >= expired_at AND (owner_id != receiver_id OR receiver_id is NULL) AND scenario_id = %s",
+                Invite::STATUS_PENDING,
+                Invite::STATUS_ACCEPTED,
+                Invite::STATUS_IN_PROGRESS,
+                date("Y-m-d H:i:s"),
+                $fullScenario->id
+            ));
+
+        foreach($invites as $invite){
+
+            $initValue = $invite->ownerUser->getAccount()->getTotalAvailableInvitesLimit();
+
+            if ($invite->inviteExpired()) {
+                echo sprintf("%s mark invite as expired \n", $invite->id);
+                $invite->ownerUser->getAccount()->refresh();
+
+                UserService::logCorporateInviteMovementAdd(sprintf("Приглашения номер %s для %s устарело. В аккаунт возвращена одна симуляция.",
+                    $invite->id, $invite->email),  $invite->ownerUser->getAccount(), $initValue);
+            }
+        }
+
+
+    }
 }
