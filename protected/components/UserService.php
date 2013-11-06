@@ -619,7 +619,6 @@ class UserService {
 
         $fullScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_FULL]);
 
-        echo "time: ".$time."\n";
         /** @var $invites Invite[] */
         $invites = Invite::model()->findAll(
             sprintf("status IN (%s, %s, %s) AND '%s' >= expired_at AND (owner_id != receiver_id OR receiver_id is NULL) AND scenario_id = %s",
