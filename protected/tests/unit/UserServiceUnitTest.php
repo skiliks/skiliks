@@ -44,6 +44,14 @@ class UserServiceUnitTest extends CDbTestCase
     }
 
     public function testInvite() {
+        $exist_ref = UserReferral::model()->findByAttributes(['referral_email'=>'referall-unit-text@kiliks.com']);
+        if( null !== $exist_ref ) {
+            $exist_ref->delete();
+        }
+        $exist_ref2 = UserReferral::model()->findByAttributes(['referral_email'=>'referall-unit-text2@kiliks.com']);
+        if( null !== $exist_ref2 ) {
+            $exist_ref2->delete();
+        }
         /* @var $profile YumProfile */
         $exist_profile_corporate = YumProfile::model()->findByAttributes(['email'=>'test-corporate-phpunit-account@skiliks.com']);
         if(null !== $exist_profile_corporate){
@@ -56,6 +64,20 @@ class UserServiceUnitTest extends CDbTestCase
             YumUser::model()->deleteAllByAttributes(['id'=>$exist_profile_personal->user_id]);
             YumProfile::model()->deleteAllByAttributes(['user_id'=>$exist_profile_personal->user_id]);
             UserAccountCorporate::model()->deleteAllByAttributes(['user_id'=>$exist_profile_personal->user_id]);
+        }
+        $exist_profile_referral = YumProfile::model()->findByAttributes(['email'=>'referall-unit-text@kiliks.com']);
+
+        if(null !== $exist_profile_referral){
+            YumUser::model()->deleteAllByAttributes(['id'=>$exist_profile_referral->user_id]);
+            YumProfile::model()->deleteAllByAttributes(['user_id'=>$exist_profile_referral->user_id]);
+            UserAccountCorporate::model()->deleteAllByAttributes(['user_id'=>$exist_profile_referral->user_id]);
+        }
+        $exist_profile_referral2 = YumProfile::model()->findByAttributes(['email'=>'referall-unit-text2@kiliks.com']);
+
+        if(null !== $exist_profile_referral2){
+            YumUser::model()->deleteAllByAttributes(['id'=>$exist_profile_referral2->user_id]);
+            YumProfile::model()->deleteAllByAttributes(['user_id'=>$exist_profile_referral2->user_id]);
+            UserAccountCorporate::model()->deleteAllByAttributes(['user_id'=>$exist_profile_referral2->user_id]);
         }
         $user_corporate  = new YumUser('registration');
         $user_corporate->setAttributes(['password'=>'123123', 'password_again'=>'123123', 'agree_with_terms'=>'yes']);
@@ -122,8 +144,20 @@ class UserServiceUnitTest extends CDbTestCase
         $check = UserService::getSimulationContentsAndConfigs($user_corporate, '', 'promo', 'full', $notUsedFullInvites[0]->id);
         $this->assertTrue($check->return);
         $simulation = SimulationService::simulationStart($notUsedFullInvites[0], 'promo', 'tutorial');
+        $simulation->refresh();
+        $this->assertEquals($simulation->status, Simulation::STATUS_IN_PROGRESS);
         $assert_account_corporate->refresh();
         $this->assertEquals($assert_account_corporate->invites_limit, 1);
+
+        $simulation2 = SimulationService::simulationStart($notUsedFullInvites[0], 'promo', 'tutorial');
+        $assert_account_corporate->refresh();
+        $this->assertEquals($assert_account_corporate->invites_limit, 1);
+
+        $simulation->refresh();
+        $simulation2->refresh();
+
+        $this->assertEquals($simulation->status, Simulation::STATUS_INTERRUPTED);
+        $this->assertEquals($simulation2->status, Simulation::STATUS_IN_PROGRESS);
 
         $assert_account_corporate->addSimulations(5);
         $assert_account_corporate->refresh();
@@ -191,6 +225,53 @@ class UserServiceUnitTest extends CDbTestCase
         $assert_account_corporate->refresh();
         $this->assertEquals($assert_account_corporate->invites_limit, 0);
         $this->assertEquals($assert_account_corporate->referrals_invite_limit, 0);
+
+        $refer = new UserReferral();
+        $refer->referral_email = strtolower('referall-unit-text@kiliks.com');
+        $result = UserService::addReferralUser($user_corporate, $refer);
+        $this->assertTrue($result);
+
+        $user_referral  = new YumUser('registration');
+        $user_referral->setAttributes(['password'=>'123123', 'password_again'=>'123123', 'agree_with_terms'=>'yes']);
+        $profile_referral  = new YumProfile('registration_corporate');
+        $profile_referral->setAttributes(['firstname'=>'Августин', 'lastname'=>'Пупанов']);
+        $account_referral = new UserAccountCorporate('corporate');
+        $account_referral->setAttributes(['industry_id'=>Industry::model()->findByAttributes(['label'=>'Другая'])->id]);
+
+
+        //Yii::app()->user->data()->logout();
+        $result = UserService::createReferral($user_referral, $profile_referral, $account_referral, $refer);
+        $this->assertTrue($result);
+
+        $assert_account_corporate->refresh();
+
+        $this->assertEquals($assert_account_corporate->referrals_invite_limit, 1);
+
+        $refer2 = new UserReferral();
+        $refer2->referral_email = strtolower('referall-unit-text2@kiliks.com');
+        $result = UserService::addReferralUser($user_corporate, $refer2);
+        $this->assertTrue($result);
+
+        $user_referral2  = new YumUser('registration');
+        $user_referral2->setAttributes(['password'=>'123123', 'password_again'=>'123123', 'agree_with_terms'=>'yes']);
+        $profile_referral2  = new YumProfile('registration_corporate');
+        $profile_referral2->setAttributes(['firstname'=>'Августин', 'lastname'=>'Пупанов']);
+        $account_referral2 = new UserAccountCorporate('corporate');
+        $account_referral2->setAttributes(['industry_id'=>Industry::model()->findByAttributes(['label'=>'Другая'])->id]);
+
+
+        //Yii::app()->user->data()->logout();
+        $result = UserService::createReferral($user_referral2, $profile_referral2, $account_referral2, $refer2);
+        $this->assertTrue($result);
+
+        $assert_account_corporate->refresh();
+
+        $this->assertEquals($assert_account_corporate->referrals_invite_limit, 1);
+
+        $assert_account_corporate->changeInviteLimits(5);
+
+        $assert_account_corporate->refresh();
+        $this->assertEquals($assert_account_corporate->invites_limit, 5);
 
     }
 
