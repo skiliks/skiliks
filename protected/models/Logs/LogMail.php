@@ -122,13 +122,37 @@ class LogMail extends CActiveRecord
 
     protected function afterSave()
     {
+        /** @var $template MailTemplate|null */
+        if ($this->full_coincidence !== null && $this->full_coincidence !== '-') {
+            $template = $this->simulation->game_type->getMailTemplate(['code' => $this->full_coincidence]);
+        } else {
+            $template = (null !== $this->mail) ? $this->mail->template : null;
+        };
+
+        if ($template !== null){
+            // If mail is correct MS
+            $existsAssessmentPoint = AssessmentPoint::model()->findByAttributes([
+                'sim_id' => $this->sim_id,
+                'mail_id' => $template->id
+            ]);
+
+            if (empty($existsAssessmentPoint)) {
+                $mailPoints = $this->simulation->game_type->getMailPoints(['mail_id' => $template->id]);
+                /** @var MailPoint[] $mailPoints */
+                foreach ($mailPoints as $mailPoint) {
+                    $assessmentPoint = new AssessmentPoint();
+                    $assessmentPoint->sim_id = $this->sim_id;
+                    $assessmentPoint->point_id = $mailPoint->point_id;
+                    $assessmentPoint->mail_id = $template->id;
+                    $assessmentPoint->value = $mailPoint->add_value;
+
+                    $assessmentPoint->save();
+                }
+            }
+        }
+
         if(false === Yii::app()->params['disableOldLogging']) {
-            /** @var $template MailTemplate|null */
-            if ($this->full_coincidence !== null && $this->full_coincidence !== '-') {
-                $template = $this->simulation->game_type->getMailTemplate(['code' => $this->full_coincidence]);
-            } else {
-                $template = (null !== $this->mail) ? $this->mail->template : null;
-            };
+
             /** @var $activity_action ActivityAction */
             $activity_action = null;
             if ($template !== null){
@@ -145,17 +169,18 @@ class LogMail extends CActiveRecord
                 ]);
 
                 if (empty($exists)) {
-                    $mailPoints = $this->simulation->game_type->getMailPoints(['mail_id' => $template->id]);
-                    /** @var MailPoint[] $mailPoints */
-                    foreach ($mailPoints as $mailPoint) {
-                        $assessmentPoint = new AssessmentPoint();
-                        $assessmentPoint->sim_id = $this->sim_id;
-                        $assessmentPoint->point_id = $mailPoint->point_id;
-                        $assessmentPoint->mail_id = $template->id;
-                        $assessmentPoint->value = $mailPoint->add_value;
-
-                        $assessmentPoint->save();
-                    }
+//                    вынесенно вверх
+//                    $mailPoints = $this->simulation->game_type->getMailPoints(['mail_id' => $template->id]);
+//                    /** @var MailPoint[] $mailPoints */
+//                    foreach ($mailPoints as $mailPoint) {
+//                        $assessmentPoint = new AssessmentPoint();
+//                        $assessmentPoint->sim_id = $this->sim_id;
+//                        $assessmentPoint->point_id = $mailPoint->point_id;
+//                        $assessmentPoint->mail_id = $template->id;
+//                        $assessmentPoint->value = $mailPoint->add_value;
+//
+//                        $assessmentPoint->save();
+//                    }
                 }
             } else {
                 // If mail is incorrect MS or not sent
