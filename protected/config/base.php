@@ -185,7 +185,7 @@ return CMap::mergeArray(
                 'canIntroPassed'                     => true,
                 'skiliksSpeedFactor'                 => 5,
                 'skiliksDeveloperModeSpeedFactor'    => 8,
-                'storageURL'                         => 'http://storage.skiliks.com/v1',
+                'storageURL'                         => 'http://storage.dev.skiliks.com/',
                 'afterCallZoomerDuration'            => 2000, // milliseconds
                 'isDisplayServer500errors'           => false,
                 'isUseStrictAssertsWhenSimStop'      => false,

@@ -1851,8 +1851,20 @@ class ImportGameDataService
                 $this->getCellValue($sheet, 'Отправка письма фант образом', $i) ? :
                     $this->getCellValue($sheet, 'Открытие полученного письма фант образом', $i);
 
-            $sound = $this->getCellValue($sheet, 'Имя звук/видео файла', $i);
-            $replica->sound = ($sound == 'нет' || $sound == '-') ? $file = NULL : $sound;
+            $media_file = $this->getCellValue($sheet, 'Имя звук/видео файла', $i);
+            if( $media_file == 'нет' || $media_file == '-' ){
+                $replica->media_file_name = null;
+                $replica->media_type = null;
+            } else {
+                $types = ['.webm', '.jpeg', '.wav'];
+                foreach($types as $type){
+                    $media_type = strstr($media_file, $type);
+                    if(false !== $media_type) {
+                        $replica->media_file_name = str_replace($media_type, '', $media_file);
+                        $replica->media_type = ltrim($media_type, '.');
+                    }
+                }
+            }
 
             $isFinal = $this->getCellValue($sheet, 'Конечная реплика (да/нет)', $i);
             $replica->is_final_replica = ('да' === $isFinal) ? true : false;

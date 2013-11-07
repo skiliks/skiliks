@@ -533,7 +533,7 @@ define([
 
             doSoundPhoneCallInStart: function() {
                 try {
-                    window.AppView.frame.icon_view._playSound('phone/S1.4.1.ogg', true, true, 'audio-phone-call');
+                    window.AppView.frame.icon_view._playSound('phone/S1.4.1', true, true, 'audio-phone-call');
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -553,7 +553,7 @@ define([
 
             doSoundPhoneCallLongZoomerStart: function() {
                 try {
-                    window.AppView.frame.icon_view._playSound('phone/S1.4.2.ogg', true, true, 'audio-phone-long-zoom');
+                    window.AppView.frame.icon_view._playSound('phone/S1.4.2', true, true, 'audio-phone-long-zoom');
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -573,7 +573,7 @@ define([
 
             doSoundPhoneCallShortZoomerStart: function() {
                 try {
-                    window.AppView.frame.icon_view._playSound('phone/S1.4.3.ogg', true, true, 'audio-phone-short-zoom');
+                    window.AppView.frame.icon_view._playSound('phone/S1.4.3', true, true, 'audio-phone-short-zoom');
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -583,7 +583,7 @@ define([
 
             doSoundKnockStart: function() {
                 try {
-                    window.AppView.frame.icon_view._playSound('visit/S1.5.1.ogg', true, true, 'audio-door-knock');
+                    window.AppView.frame.icon_view._playSound('visit/S1.5.1', true, true, 'audio-door-knock');
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -603,7 +603,7 @@ define([
 
             doSoundIncomeMail: function() {
                 try {
-                    window.AppView.frame.icon_view._playSound('mail/S1.1.1.ogg');
+                    window.AppView.frame.icon_view._playSound('mail/S1.1.1');
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -613,7 +613,7 @@ define([
 
             doSoundMailSent: function() {
                 try {
-                    this._playSound('mail/S1.1.2.ogg');
+                    this._playSound('mail/S1.1.2');
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -623,7 +623,7 @@ define([
 
             doSoundSaveAttachment: function() {
                 try {
-                    window.AppView.frame.icon_view._playSound('mail/S1.1.3.ogg');
+                    window.AppView.frame.icon_view._playSound('mail/S1.1.3');
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -633,7 +633,7 @@ define([
 
             doSoundNewTodoAndAnimate: function() {
                 try {
-                    window.AppView.frame.icon_view._playSound('plan/S1.2.1.ogg');
+                    window.AppView.frame.icon_view._playSound('plan/S1.2.1');
                     this.startAnimation('.plan');
                 } catch(exception) {
                     if (window.Raven) {
@@ -644,6 +644,10 @@ define([
 
             _playSound: function(filename, repeat, replay, id) {
                 try {
+                    var media_type = 'wav';
+                    if($.browser['msie'] == true) {
+                        media_type = 'mp3';
+                    }
                     var me = this,
                         el;
 
@@ -658,7 +662,7 @@ define([
                     me.$el.append(_.template(audio, {
                         id        : id,
                         repeat    : !!repeat,
-                        audio_src : SKApp.get('storageURL') + '/sounds/' + filename
+                        audio_src : SKApp.get('storageURL') + '/' + media_type+ '/standard/' + filename + '.' + media_type
                     }));
 
                     el = me.$el.find('#' + id)[0];
