@@ -16,7 +16,7 @@ class PasswordRecovery_SK3370_Test extends SeleniumTestHelper
         $this->deleteAllVisibleCookies();
         $this->windowMaximize();
         $this->open('/ru');
-        $email = "selenium@skiliks.com";
+        $email = "selenium.engine@skiliks.com";
         //кликаем на Вход
         $this->optimal_click(Yii::app()->params['test_mappings']['site']['logIn']);
         $this->assertTextPresent('Запомнить меня');
