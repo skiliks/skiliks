@@ -622,6 +622,8 @@ class UserService {
                 date("Y-m-d 23:59:59")
             ));
 
+        $expiredAccounts = [];
+
         if( null !== $accounts ) {
             /* @var $user UserAccountCorporate */
             foreach( $accounts as $account ) {
@@ -631,6 +633,8 @@ class UserService {
 
                     $account->invites_limit = 0;
                     $account->update();
+
+                    $expiredAccounts[] = $account;
 
                     UserService::logCorporateInviteMovementAdd('Тарифный план '.$account->tariff->label.' истёк. Количество доступных симуляция обнулено.', $account, $initValue);
                 }
@@ -688,15 +692,12 @@ class UserService {
                     ],
                 ];
 
-                try {
-                    MailHelper::addMailToQueue($mail);
-                } catch (phpmailerException $e) {
-
-                }
+                MailHelper::addMailToQueue($mail);
                 // send email for any account }
             }
         }
 
+        return $expiredAccounts;
     }
 
     public static function createReferral(YumUser &$user, YumProfile &$profile, UserAccountCorporate &$account_corporate, UserReferral &$userReferralRecord) {
