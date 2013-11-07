@@ -913,7 +913,11 @@ define([
                     media_src = null;
                 }else{
                     if($.browser['msie'] == true) {
-                        media_type = 'mp3';
+                        if(type === 'wav'){
+                            media_type = 'mp3';
+                        }else if(type === 'webm'){
+                            media_type = 'mp4';
+                        }
                     }
                 }
                 return media_src ? SKApp.get('storageURL') + '/' + media_type+ '/standard/' + media_src + '.' + media_type : undefined;
