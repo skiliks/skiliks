@@ -67,15 +67,11 @@ class PasswordRecovery_SK3370_Test extends SeleniumTestHelper
         $criteria->limit= 1;
         $criteria->params= array(':recipients'=>$email);
         try{
-            $letter=EmailQueue::model()->find($criteria);
-            $count = EmailQueue::model()->count();
-            if ($letter->id==$count)
-            {
-                if ($letter->subject == "Восстановление пароля к skiliks.com")
-                    return true;
-                else
-                    return false;
-            }
+            $letter = EmailQueue::model()->find($criteria);
+            if (($letter->recipients==$email)&&($letter->subject == "Восстановление пароля к skiliks.com"))
+                return true;
+            else
+                return false;
         }
         catch (Exception $e)
         {
