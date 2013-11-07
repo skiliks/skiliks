@@ -256,11 +256,13 @@ define([
                 }
 
                 // add title attribute to HTMl with full code
-                drop_td.attr('title', drop_td.find('.title').text());
+                // drop_td.attr('title', drop_td.find('.title').text());
+                drop_td.attr('title', model.get('title'));
 
                 var max_height = Math.ceil(duration / 15) * 10;
                 setTimeout(function () {
-                    me.overflowText(drop_td.find('.title'), max_height, drop_td.find('.title'));
+                    // me.overflowText(drop_td.find('.title'), max_height, drop_td.find('.title'));
+                    me.overflowText(model.get('title'), max_height, model.get('title'));
                 }, 0);
                 var todo_el = drop_td.find('.day-plan-todo-task');
 
@@ -681,8 +683,16 @@ define([
                     task.set('date', $(this).parent().attr('data-hour') + ':' + $(this).parent().attr('data-minute'));
                     if (SKApp.simulation.dayplan_tasks.isTimeSlotFree(task.get('date'), task.get('day'), duration)) {
                         task.destroy();
+                        console.log('innerHTML ', $(e.currentTarget).find('.title').innerHTML);
+                        console.log('text() ', $(e.currentTarget).find('.title').text());
+                        console.log('duration ', duration);
+                        console.log('date ', task.get('date'));
+                        console.log('title ', task.get('title'));
+                        console.log('task.id ', task.id);
+                        console.log('day ', task.get('day'));
+                        console.log('task ', task);
                         SKApp.simulation.dayplan_tasks.create({
-                            title:$(e.currentTarget).find('.title').text(),
+                            title: task.get('title'), //$(e.currentTarget).find('.title').text(),
                             date:task.get('date'),
                             task_id:task.id,
                             duration:duration,
