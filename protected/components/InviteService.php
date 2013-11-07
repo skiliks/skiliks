@@ -101,6 +101,8 @@ class InviteService {
                 $fullScenario->id
             ));
 
+        $expiredInvites = [];
+
         foreach($invites as $invite){
 
             $initValue = $invite->ownerUser->getAccount()->getTotalAvailableInvitesLimit();
@@ -108,11 +110,13 @@ class InviteService {
             if ($invite->inviteExpired()) {
                 $invite->ownerUser->getAccount()->refresh();
 
+                $expiredInvites[] = $invite;
+
                 UserService::logCorporateInviteMovementAdd(sprintf("Приглашения номер %s для %s устарело. В аккаунт возвращена одна симуляция.",
                     $invite->id, $invite->email),  $invite->ownerUser->getAccount(), $initValue);
             }
         }
 
-
+        return $expiredInvites;
     }
 }
