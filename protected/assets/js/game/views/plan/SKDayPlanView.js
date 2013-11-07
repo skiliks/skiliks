@@ -681,6 +681,13 @@ define([
                     task.set('date', $(this).parent().attr('data-hour') + ':' + $(this).parent().attr('data-minute'));
                     if (SKApp.simulation.dayplan_tasks.isTimeSlotFree(task.get('date'), task.get('day'), duration)) {
                         task.destroy();
+                        console.log('innerHTML ', $(e.currentTarget).find('.title').innerHTML);
+                        console.log('text() ', $(e.currentTarget).find('.title').text());
+                        console.log('duration ', duration);
+                        console.log('date ', task.get('date'));
+                        console.log('task.id ', task.id);
+                        console.log('day ', task.get('day'));
+                        console.log('task ', task);
                         SKApp.simulation.dayplan_tasks.create({
                             title:$(e.currentTarget).find('.title').text(),
                             date:task.get('date'),
