@@ -27,6 +27,7 @@ class PasswordRecovery_SK3370_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['site']['recovery_button']);
         $this->waitForVisible("xpath=(//*[contains(text(),'На ваш email выслана инструкция по смене пароля.')])");
         //проверить, что письмо есть в очереди событий
+        sleep(10);
         if ($this->findRecoveryMailInQueue($email)==true)
         {
             //перереход по ссылке

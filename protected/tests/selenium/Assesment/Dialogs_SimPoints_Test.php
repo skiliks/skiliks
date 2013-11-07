@@ -186,7 +186,7 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Однако тебе все-таки придется выполнить это задание')])");
         //тут идет отправка письма MS22 фант. образом
         sleep(10);
-        if (true===$this->isVisible("xpath=//*[@id='messageSystemMessageDiv']/div"))
+        if (true===$this->isElementPresent("xpath=//*[@id='messageSystemMessageDiv']/div"))
         {
             $this->optimal_click("xpath=(//*[contains(text(),'Не сохранять')])");
             $this->optimal_click(Yii::app()->params['test_mappings']['icons']['close']);
@@ -194,7 +194,7 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
         $this->run_event('E1.3.2',"xpath=(//*[contains(text(),'У меня тут методика где-то была по сводному бюджету')])", 'click');
         //а тут идет отправка MS23
         sleep(10);
-        if (true===$this->isVisible("xpath=//*[@id='messageSystemMessageDiv']/div"))
+        if (true===$this->isElementPresent("xpath=//*[@id='messageSystemMessageDiv']/div"))
         {
             $this->optimal_click("xpath=(//*[contains(text(),'Не сохранять')])");
             $this->optimal_click(Yii::app()->params['test_mappings']['icons']['close']);
@@ -219,7 +219,7 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Уйдешь, когда работу закончишь')])");
         //отправка MS27
         sleep(10);
-        if (true===$this->isVisible("xpath=//*[@id='messageSystemMessageDiv']/div"))
+        if (true===$this->isElementPresent("xpath=//*[@id='messageSystemMessageDiv']/div"))
         {
             $this->optimal_click("xpath=(//*[contains(text(),'Не сохранять')])");
             $this->optimal_click(Yii::app()->params['test_mappings']['icons']['close']);
