@@ -11,13 +11,6 @@ return CMap::mergeArray(
     require(dirname(__FILE__) . '/_autoloader.php'),
     array(
         'modules'=>array(
-            'gii'=>array(
-                'class'    =>'system.gii.GiiModule',
-                'password' =>'skiliks531',
-                //'ipFilters'=>array('62.205.135.161'),
-                // 'newFileMode'=>0666,
-                // 'newDirMode'=>0777,
-            ),
             'user' => array(
                 'debug'                 => false,
                 'activationPasswordSet' => false,
@@ -28,13 +21,13 @@ return CMap::mergeArray(
                     'transport'  => 'smtp',
                     'html'       => true,
                     'properties' => array(
-                        'CharSet'    => 'UTF-8', // SMTP server
-                        'SMTPDebug'  => false,          // enables SMTP debug information (for testing)
-                        'SMTPAuth'   => true,            // enable SMTP authentication
-                        'SMTPSecure' => 'tls',         // sets the prefix to the servier
-                        'Host'       => 'smtp.yandex.ru',                   // set the SMTP port for the GMAIL server
-                        'Username'   => 'support@skiliks.com',  // GMAIL username
-                        'Password'   => 'skiliks531',        // GMAIL password
+                        'CharSet'    => 'UTF-8',               // SMTP server
+                        'SMTPDebug'  => false,                 // enables SMTP debug information (for testing)
+                        'SMTPAuth'   => true,                  // enable SMTP authentication
+                        'SMTPSecure' => 'tls',                 // sets the prefix to the servier
+                        'Host'       => 'smtp.yandex.ru',      // set the SMTP port for the yandex server
+                        'Username'   => 'support@skiliks.com', // yandex username
+                        'Password'   => 'deNejna1a',          // yandex password
                     ),
                     'msgOptions'=>array(
                         'fromName' =>'Skiliks',
