@@ -42,7 +42,7 @@ class Pause_SK3359_Test extends SeleniumTestHelper
 
         $this->optimal_click("css=.sign-in-link");
         $this->waitForVisible("css=.login>input");
-        $this->type("css=.login>input", "selenium@skiliks.com");
+        $this->type("css=.login>input", "selenium.engine@skiliks.com");
         $this->type("css=.password>input", "123123");
         $this->optimal_click("css=.submit>input");
         for ($second = 0; ; $second++) {
