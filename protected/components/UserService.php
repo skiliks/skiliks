@@ -597,6 +597,8 @@ class UserService {
             ]
         );
 
+        $config['storageURL'] = $config['storageURL'].$scenario->slug;
+
         if (!empty($tutorial)) {
             $config['result-url'] = Yii::app()->createUrl('static/site/simulation', [
                 'mode' => $mode,
