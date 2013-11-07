@@ -34,7 +34,7 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
         'runMigrationOn' => 'live',
         'disableOldLogging' => true,
         'public' => [
-            'storageURL'           => 'http://storage.dev.skiliks.com',
+            'storageURL'           => 'http://storage.dev.skiliks.com/',
             'isLocalPc'            => true,
             'useSentryForJsLog'    => true,
             'isSkipBrowserCheck'   => true,
