@@ -118,15 +118,7 @@ define([], function () {
          */
         getVideoSrc: function () {
             try {
-                var replicas = this.get('data');
-                var video_src;
-                replicas.forEach(function (replica) {
-                    video_src = video_src || replica.sound;
-                });
-                if (null !== video_src && !video_src.match(/\.webm$/)) {
-                    video_src = undefined;
-                }
-                return video_src ? SKApp.get('storageURL') + '/videos/' + video_src : undefined;
+                return SKApp.simulation.getPathForMedia(this.get('data'), 'webm');
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -142,15 +134,7 @@ define([], function () {
          */
         getImgSrc: function () {
             try {
-                var replicas = this.get('data');
-                var img_src = null;
-                replicas.forEach(function (replica) {
-                    img_src = img_src || replica.sound;
-                });
-                if (null !== img_src && !img_src.match(/\.jpeg$/)) {
-                    img_src = undefined;
-                }
-                return img_src ? SKApp.get('storageURL') + '/dialog_images/' + img_src : undefined;
+                return SKApp.simulation.getPathForMedia(this.get('data'), 'jpeg');
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -164,15 +148,17 @@ define([], function () {
          */
         getAudioSrc: function () {
             try {
-                var replicas = this.get('data');
-                var audio_src = null;
-                replicas.forEach(function (replica) {
-                    audio_src = audio_src || replica.sound;
-                });
-                if (audio_src !== null && !audio_src.match(/\.wav/) && !audio_src.match(/\.ogg/)) {
-                    audio_src = null;
+                return SKApp.simulation.getPathForMedia(this.get('data'), 'wav');
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
                 }
-                return audio_src ? SKApp.get('storageURL') + '/sounds/' + audio_src : undefined;
+            }
+        },
+
+        getAudioMime: function () {
+            try {
+                return SKApp.simulation.getPathForMedia(this.get('data'), 'wav');
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);

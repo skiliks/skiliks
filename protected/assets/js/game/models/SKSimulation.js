@@ -900,6 +900,23 @@ define([
 
                     return false;
                 });
+            },
+
+            getPathForMedia : function(replicas, type) {
+                var media_src = null;
+                var media_type = null;
+                replicas.forEach(function (replica) {
+                    media_src = media_src || replica.media_file_name;
+                    media_type = media_type || replica.media_type;
+                });
+                if (media_src !== null && media_type !== type) {
+                    media_src = null;
+                }else{
+                    if($.browser['msie'] == true) {
+                        media_type = 'mp3';
+                    }
+                }
+                return media_src ? SKApp.get('storageURL') + '/' + media_type+ '/standard/' + media_src + '.' + media_type : undefined;
             }
         });
     return SKSimulation;

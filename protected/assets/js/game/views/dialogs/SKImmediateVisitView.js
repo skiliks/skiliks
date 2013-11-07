@@ -73,10 +73,6 @@ define([
                         remote_replica = event.getRemoteReplica(),
                         media, text;
 
-                    if ($.browser['msie'] == true) {
-                        video_src = video_src.replace('.webm', '.mp4')
-                    }
-
                     text =  _.template(visitTpl, {
                         'remote_replica': remote_replica,
                         'my_replicas': my_replicas,
