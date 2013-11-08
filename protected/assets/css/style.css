@@ -1366,13 +1366,13 @@ html[lang=ru] .product section table th{
 	color:#555545;
 	margin:46px 0 0px 57px;
 }
-#registration-general-error {
+.registration-general-error {
     text-align: center;
     width:100%;
     color: #6D6D5B;
     margin-top: 35px;
 }
-#registration-general-error a {
+.registration-general-error a {
     color: #fff;
 }
 .registration .form>ul{
