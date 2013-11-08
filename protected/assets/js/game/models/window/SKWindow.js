@@ -127,7 +127,6 @@ define([], function () {
         open: function() {
             try {
                 var me = this;
-                console.log("SKWindow.open");
                 if (me.is_opened) {
                     throw new Error ("Window is already opened");
                 }

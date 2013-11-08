@@ -551,7 +551,6 @@ SocialCalc.SpreadsheetViewerStatuslineCallback = function(editor, status, arg, p
       spreadsheet.statuslineDiv.innerHTML = slstr;
       }
 
-   //console.log('SC status (5): ', status);
    switch (status) {
       case "cmdendnorender":
       case "calcfinished":
