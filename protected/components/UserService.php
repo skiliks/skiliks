@@ -284,6 +284,17 @@ class UserService {
         return $isValidUser && $isValidProfile;
     }
 
+    /**
+     * Наполняет приглашение правильными данными.
+     * Валидирует отправителя и получателя. (количество доступных симуляций, типы профилей, т.п.)
+     *
+     * @param YumUser $user - кто шлёт приглашение
+     * @param $profile - кому шлют приглашение
+     * @param Invite $invite - пустой объект приглашения
+     * @param $is_display_results - это опция в приглашении
+     *
+     * @return bool|null
+     */
     public static function sendInvite(YumUser $user, $profile, Invite &$invite, $is_display_results) {
 
         $validPrevalidate = null;
@@ -369,6 +380,15 @@ class UserService {
 
     }
 
+    /**
+     * Ставит в очередь писем письмо-приглашение пройти симуляцию.
+     *
+     * @param Invite $invite
+     *
+     * @return bool
+     *
+     * @throws CException
+     */
     public static function sendEmailInvite(Invite $invite) {
 
         if (empty($invite->email)) {
@@ -434,24 +454,17 @@ class UserService {
         return $sent;
     }
 
-    public static function renderEmailPartial($_partial_ ,$_data_=null)
-    {
-          $_viewFile_ = __DIR__.'/../views/global_partials/mails/'.$_partial_.'.php';
-          if(!file_exists($_viewFile_)) {
-              throw new Exception("Email partial {$_partial_} not found in path {$_viewFile_}");
-          }
-          if( is_array($_data_) ) {
-                extract($_data_,EXTR_PREFIX_SAME,'data');
-                ob_start();
-                ob_implicit_flush(false);
-                require($_viewFile_);
-                return ob_get_clean();
-          } else {
-              throw new Exception("Bad data, must be array");
-          }
-
-    }
-
+    /**
+     * Скопирован с Yii.
+     * В Yii нет метода рендера вьюхи в компоненте.
+     *
+     * @param $_partial_
+     * @param null $_data_
+     *
+     * @return string
+     *
+     * @throws Exception
+     */
     public static function renderPartial($_partial_ ,$_data_=null)
     {
         $_viewFile_ = __DIR__.'/../views/'.$_partial_.'.php';
@@ -470,37 +483,70 @@ class UserService {
 
     }
 
+    /**
+     * Скопирован с Yii.
+     * Делает то же что и renderPartial, но путь $_viewFile_ уточнён "/global_partials/mails/".
+     *
+     * @param $_partial_
+     * @param null $_data_
+     *
+     * @return string
+     *
+     * @throws Exception
+     */
+    public static function renderEmailPartial($_partial_ ,$_data_ = null)
+    {
+        $_viewFile_ = __DIR__.'/../views/global_partials/mails/'.$_partial_.'.php';
+        if(!file_exists($_viewFile_)) {
+            throw new Exception("Email partial {$_partial_} not found in path {$_viewFile_}");
+        }
+        if( is_array($_data_) ) {
+            extract($_data_,EXTR_PREFIX_SAME,'data');
+            ob_start();
+            ob_implicit_flush(false);
+            require($_viewFile_);
+            return ob_get_clean();
+        } else {
+            throw new Exception("Bad data, must be array");
+        }
 
-    public static function getInviteHimSelf(YumUser $user, Scenario $scenario) {
+    }
+
+    /**
+     * @param YumUser $user
+     * @param Scenario $scenario
+     *
+     * @return array
+     */
+    public static function getSelfToSelfInvite(YumUser $user, Scenario $scenario) {
         // check and add trial full version {
 
-        $notUsedSimulations = Invite::model()->findAllByAttributes([
+        $notUsedInvites = Invite::model()->findAllByAttributes([
             'receiver_id' => $user->id,
             'scenario_id' => $scenario->id,
             'email'       => strtolower($user->profile->email),
             'status'      => Invite::STATUS_ACCEPTED
         ]);
 
-        // I remove more than 1 allowed to start lite sim {
-        if (1 < count($notUsedSimulations)) {
+        // I remove more than 1 allowed to start lite sim invite {
+        if (1 < count($notUsedInvites)) {
             $i = 0;
-            foreach ($notUsedSimulations as $key => $notUsedSimulation) {
+            foreach ($notUsedInvites as $key => $notUsedInvite) {
 
                 if (0 < $i) {
-                    $notUsedSimulation->delete();
-                    unset($notUsedSimulations[$key]);
+                    $notUsedInvite->delete();
+                    unset($notUsedInvite[$key]);
                 }
                 $i++;
             }
         }
         // I remove more than 1 allowed to start lite sim }
 
-        if (0 === count($notUsedSimulations)) {
-
-            $notUsedSimulations[] = Invite::addFakeInvite($user, $scenario);
-
+        if (0 === count($notUsedInvites)) {
+            $notUsedInvites[] = Invite::addFakeInvite($user, $scenario);
         }
-        return $notUsedSimulations;
+
+        return $notUsedInvites;
     }
 
 
