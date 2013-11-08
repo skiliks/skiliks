@@ -41,7 +41,7 @@ class SeleniumTestHelper extends CWebTestCase
      * start_simulation - это метод, который включает стандартные действия при начале симуляции
      * (начиная с открытия окна браузера до самого входа в dev-режим).
      */
-    public function start_simulation($testName, $user=0)
+    protected function start_simulation($testName, $user=0)
     {
         $this->setUp();
         $this->deleteAllVisibleCookies();
@@ -74,7 +74,7 @@ class SeleniumTestHelper extends CWebTestCase
     /**
      * simulation_stop - это метод, который завершает обычную симуляцию.
      */
-    public function simulation_stop()
+    protected function simulation_stop()
     {
         $this->optimal_click("css=.btn.btn-simulation-stop");
         $inv_id = $this->invite_id;
@@ -82,7 +82,7 @@ class SeleniumTestHelper extends CWebTestCase
         $this->simulation_delete(Yii::app()->params['deleteSeleniumResults']);
     }
 
-    public function simulation_stop_demo()
+    protected function simulation_stop_demo()
     {
         $this->optimal_click("css=.btn.btn-simulation-stop");
     }
@@ -90,7 +90,7 @@ class SeleniumTestHelper extends CWebTestCase
     /**
      * simulation_showLogs - это метод, который завершает симуляцию и открывате логи и результаты симуляции
      */
-    public function simulation_showLogs()
+    protected function simulation_showLogs()
     {
         $inv_id = $this->invite_id;
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
@@ -117,7 +117,7 @@ class SeleniumTestHelper extends CWebTestCase
     /**
      * simulation_delete - это метод, который удаляет результаты симуляции, если в конфиге проставлено true
      */
-    private function simulation_delete($deleteSuccesfullSimulation)
+    protected function simulation_delete($deleteSuccesfullSimulation)
     {
         $inv_id = $this->invite_id;
         if ($deleteSuccesfullSimulation === true)
@@ -143,7 +143,7 @@ class SeleniumTestHelper extends CWebTestCase
      * запустили event = ET1.1 -> next_event = css=li.icon-active.phone a (звонок телефона) -> after = click (мы кликаем по иконке телефона)
      * если еще что-то надо, то можно дописать в switch
      */
-    public function run_event($event, $next_event="xpath=(//*[contains(text(),'октября')])", $after='-')
+    protected function run_event($event, $next_event="xpath=(//*[contains(text(),'октября')])", $after='-')
     {
         $this->type(Yii::app()->params['test_mappings']['dev']['event_input'], "$event");
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['event_create']);
@@ -176,7 +176,7 @@ class SeleniumTestHelper extends CWebTestCase
      * call_phone - это метод для звонка по телефону, когда телефон не активен (иконка не движется).
      * Где whom - это адресат письма, а theme - тема звонка.
      */
-    public function call_phone ($whom, $theme)
+    protected function call_phone ($whom, $theme)
     {
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['phone']);
         $this->waitForElementPresent(Yii::app()->params['test_mappings']['phone']['contacts_list']);
@@ -194,7 +194,7 @@ class SeleniumTestHelper extends CWebTestCase
     /**
      * reply_call - это метод для ответа на входящий звонок, когда телефон активен (иконка движется).
      */
-    public function reply_call ()
+    protected function reply_call ()
     {
         $this->optimal_click(Yii::app()->params['test_mappings']['icons_active']['phone']);
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
@@ -204,7 +204,7 @@ class SeleniumTestHelper extends CWebTestCase
     /**
      * no_reply_call - это метод для игнора входящего звонка, когда телефон активен (иконка движется).
      */
-    public function no_reply_call ()
+    protected function no_reply_call ()
     {
         $this->optimal_click(Yii::app()->params['test_mappings']['icons_active']['phone']);
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['no_reply']);
@@ -214,7 +214,7 @@ class SeleniumTestHelper extends CWebTestCase
     /**
      * write_mail_active - это метод для создания письма, когда мейл-клиент активен (иконка мигает).
      */
-    public function write_mail_active()
+    protected function write_mail_active()
     {
         $this->optimal_click(Yii::app()->params['test_mappings']['icons_active']['mail']);
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['to_whom']);
@@ -224,7 +224,7 @@ class SeleniumTestHelper extends CWebTestCase
     /**
      * write_mail_unidentified - это метод для создания письма, когда непонятно по ситуации в каком виде находится почтовик.
      */
-    public function write_mail_unidentified()
+    protected function write_mail_unidentified()
     {
         if ($this->isElementPresent(Yii::app()->params['test_mappings']['icons_active']['mail'])==true)
         {
@@ -250,7 +250,7 @@ class SeleniumTestHelper extends CWebTestCase
     /**
      * optimal_click - это метод для корректного нажатия на элемент (ожидание элемента и только потом нажатие).
      */
-    public function optimal_click ($loc)
+    protected function optimal_click ($loc)
     {
         sleep (1);
         $this->waitForVisible($loc);
@@ -264,7 +264,7 @@ class SeleniumTestHelper extends CWebTestCase
      * поточное количество минут.
      * Пример использования - метод transfer_time (см. ниже)
      */
-    public function how_much_time ()
+    protected function how_much_time ()
     {
         $time[0] = (int)($this->getText(Yii::app()->params['test_mappings']['time']['hour']));
         $time[1] = (int)($this->getText(Yii::app()->params['test_mappings']['time']['minute']));
@@ -276,7 +276,7 @@ class SeleniumTestHelper extends CWebTestCase
      * Метод стоит использовать для коректного изменения времени для выполнения событий,
      * которые должны происходить с задержкой, где differ -это колличество минут задежки.
      */
-    public function transfer_time ($differ)
+    protected function transfer_time ($differ)
     {
         $time_array=$this->how_much_time(); //запускаем определение текущего времени
         $time_array[1]=$time_array[1]+$differ;  // к минутам приплюсовываем необходимую разницу времени
@@ -299,7 +299,7 @@ class SeleniumTestHelper extends CWebTestCase
      * Возвращаем true, если поменялось значение флага и
      * возвращаем false, если не изменилось.
      */
-    public function verify_flag ($num_flag, $ver_value)
+    protected function verify_flag ($num_flag, $ver_value)
     {
         //sleep(5);
         $was_changed=false;
@@ -331,7 +331,7 @@ class SeleniumTestHelper extends CWebTestCase
      * Возвращаем true, если количество ожидаемых писем и реальных входящих совпадают
      * возвращаем false, если нет
      */
-    public function incoming_counter ($count)
+    protected function incoming_counter ($count)
     {
         $same_number = false;
         $was_changed = false;
@@ -375,7 +375,7 @@ class SeleniumTestHelper extends CWebTestCase
     }
 
     // метод для начала написания письма из чистой симуляции
-    public function write_email ()
+    protected function write_email ()
     {
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
         $this->optimal_click("xpath=(//*[contains(text(),'новое письмо')])");
@@ -383,7 +383,7 @@ class SeleniumTestHelper extends CWebTestCase
     }
 
     // метод добавления получателя к письму
-    public function addRecipient ($address)
+    protected function addRecipient ($address)
     {
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['add_recipient']);
         sleep(2);
@@ -394,7 +394,7 @@ class SeleniumTestHelper extends CWebTestCase
     }
 
     // метод добавления темы к письму
-    public function addTheme($theme)
+    protected function addTheme($theme)
     {
         $this->waitForVisible("xpath=//*[@id='MailClient_NewLetterSubject']/div/a");
         $this->click("xpath=//*[@id='MailClient_NewLetterSubject']/div/a");
@@ -403,7 +403,7 @@ class SeleniumTestHelper extends CWebTestCase
     }
 
     // метод добавления атача к письму
-    public function addAttach($filename)
+    protected function addAttach($filename)
     {
         $this->click("xpath=//*[@id='MailClient_NewLetterAttachment']/div/div/a");
         $this->waitForVisible("xpath=(//*[contains(text(), '$filename')])");
@@ -414,7 +414,7 @@ class SeleniumTestHelper extends CWebTestCase
 
     // метод для очистки не нужных событий из очереди событий
     // параметром нужно написать начальный event, например RST1
-    public function clearEventQueueBeforeEleven($event)
+    protected function clearEventQueueBeforeEleven($event)
     {
         $this->run_event($event, Yii::app()->params['test_mappings']['icons_active']['phone'], 'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['no_reply']);
@@ -431,7 +431,7 @@ class SeleniumTestHelper extends CWebTestCase
     //*****************************************************
 
     // для проверки целосности логов в таблице Universal
-    public function Universal ($array_of_values, $size_of_array)
+    protected function Universal ($array_of_values, $size_of_array)
     {
         $this->optimal_click(Yii::app()->params['test_mappings']['log']['universal']);
         $new_size = $this->size_of_logs("xpath=//div[2]/table[1]/tbody/tr[", "]/td[4]");
@@ -455,7 +455,7 @@ class SeleniumTestHelper extends CWebTestCase
     }
 
     // для проверки целосности логов в таблице Mail_log
-    public function Mail_log ($array_of_values, $size_of_array)
+    protected function Mail_log ($array_of_values, $size_of_array)
     {
         $this->optimal_click(Yii::app()->params['test_mappings']['log']['mail_log']);
         $new_size = $this->size_of_logs("xpath=//div[2]/table[7]/tbody/tr[", "]/td[4]");
@@ -478,14 +478,14 @@ class SeleniumTestHelper extends CWebTestCase
     }
 
     // для проверки целосности логов в таблице Leg_actions_detail
-    public function Leg_actions_detail()
+    protected function Leg_actions_detail()
     {
         $this->optimal_click(Yii::app()->params['test_mappings']['log']['leg_actions_detail']);
         $this->assertTrue($this->time_values("xpath=//div[2]/table[10]/tbody/tr[", "]/td[2]", "xpath=//div[2]/table[10]/tbody/tr[", "]/td[1]" ));
     }
 
     // для проверки целосности логов в таблице Leg_actions_aggregated
-    public function Leg_actions_aggregated()
+    protected function Leg_actions_aggregated()
     {
         $this->optimal_click(Yii::app()->params['test_mappings']['log']['leg_actions_aggregated']);
         $this->assertTrue($this->time_values("xpath=//div[2]/table[11]/tbody/tr[", "]/td[9]", "xpath=//div[2]/table[11]/tbody/tr[", "]/td[8]" ));
@@ -638,14 +638,14 @@ class SeleniumTestHelper extends CWebTestCase
     // БЛОК ДЛЯ ПРОВЕРКИ ОЦЕНОК ЗА СИМУЛЯЦИЮ
     //********************************************
 
-    public function checkSimPoints ($positive,$negative)
+    protected function checkSimPoints ($positive,$negative)
     {
         $this->assertText(Yii::app()->params['test_mappings']['log']['admm_positive'],"$positive");
         $this->assertText(Yii::app()->params['test_mappings']['log']['admm_negative'],"$negative");
     }
 
     // для проверки оценок по Целям обучения (личностные характеристики - пока выпилили - переделываем)
-    public function checkLearningArea($personal10,$personal11,$personal12,$personal13,$personal14,$personal15,$personal16)
+    protected function checkLearningArea($personal10,$personal11,$personal12,$personal13,$personal14,$personal15,$personal16)
     {
         $this->waitForVisible(Yii::app()->params['test_mappings']['log']['personal10'],"$personal10");
         $this->assertText(Yii::app()->params['test_mappings']['log']['personal10'],"$personal10");
@@ -666,7 +666,7 @@ class SeleniumTestHelper extends CWebTestCase
     //********************************************
     // БЛОК ДЛЯ ПРОВЕРКИ РАБОТЫ САЙТА
     //********************************************
-    public function check_all_urls ($all_buttons, $text)   // для перехода по всем юрл по циклу
+    protected function check_all_urls ($all_buttons, $text)   // для перехода по всем юрл по циклу
     {
         for ($i = 0; $i<sizeof($all_buttons[0])-1 ; $i++) {
             $this->optimal_click($all_buttons[0][$i]); // кликаем на кнопку по xpath
@@ -681,12 +681,12 @@ class SeleniumTestHelper extends CWebTestCase
         }
     }
 
-    public function getInviteId()
+    protected function getInviteId()
     {
         return $this->getText('id=invite-id');
     }
 
-    public function logTestResult ($text='test_text', $isFailed=true, $invite_id)
+    protected function logTestResult ($text='test_text', $isFailed=true, $invite_id)
     {
         try {
             /* @var Invite $invite */
@@ -700,6 +700,42 @@ class SeleniumTestHelper extends CWebTestCase
         } catch(Exception $e) {
             echo $e->getMessage();
         }
+    }
+
+    protected function getActivationKeyByEmail ($emailU)
+    {
+        /* @var YumProfile $profile */
+        $profile = YumProfile::model()->find('email=:email', array(':email'=>$emailU));
+        $idUser = $profile->user_id;
+        /* @var @var YumUser $yumUser */
+        $yumUser = YumUser::model()->findByPk($idUser);
+        $key = $yumUser->activationKey;
+        $email = strtolower($yumUser->profile->email);
+        return "/registration/registration/activation/key/". $key. "/email/". $email;
+    }
+
+    protected function setUserDetails ($account_type)
+    {
+        //$account_type = 0 - personal
+        //$account_type = 1 - corporate
+        $name = "testName";
+        $name .=  (string)rand(100, 300)+(string)rand(20,50)-(string)rand(10,30);
+        $surname = "testSurname";
+        $surname .= (string)rand(100, 300)+(string)rand(20,50)-(string)rand(10,30);
+        $new_email = "test+";
+        $new_email .= (string)rand(1, 10000)+(string)rand(1,500)+(string)rand(1,200);
+        if ($account_type==0)
+        {
+            $new_email .= "@pers";
+        }
+        else
+        {
+            $new_email .= "@corp";
+        }
+        $new_email .= (string)rand(1, 500)+(string)rand(1,50)+(string)rand(1,10);
+        $new_email .= ".skil.com";
+        $UserDetails = array($name,$surname,$new_email,'123123');
+        return $UserDetails;
     }
 }
 
