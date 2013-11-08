@@ -23,7 +23,7 @@ define([
         show: function() {
             try{
                 var me = this;
-                this.$el.html(_.template(template_intro));
+                this.$el.html(_.template(template_intro, {intro_path:SKApp.simulation.getMediaFile('skiliks_intro_1280', 'webm')}));
                 this.$el.find('#skiliks_intro').bind('ended', function () {
                     this.pause();
                     this.src = '';

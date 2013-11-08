@@ -1,2 +1,5 @@
 <div class="pdf-container">
+      <@ pages.forEach(function (page) { @>
+            <img src="<@= documents_path + page @>">
+      <@ }) @>
 </div>

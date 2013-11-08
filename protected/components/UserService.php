@@ -220,10 +220,14 @@ class UserService {
 
     public static function createCorporateAccount(YumUser &$user, YumProfile &$profile, UserAccountCorporate &$account_corporate) {
 
-        if(self::createUserAndProfile($user, $profile)
-            && $account_corporate->validate(['industry_id'])
-            && $user->register($user->username, $user->password, $profile)) {
+        $isValidUserAndProfile = self::createUserAndProfile($user, $profile);
+        $isValidCorporate = $account_corporate->validate(['industry_id']);
 
+        if( $isValidUserAndProfile
+            && $isValidCorporate) {
+            if(!$user->register($user->username, $user->password, $profile)){
+                return false;
+            }
             $user->save(false);
             $profile->user_id = $user->id;
             $profile->save(false);
@@ -250,9 +254,9 @@ class UserService {
 
     public static function createPersonalAccount(YumUser &$user, YumProfile &$profile, UserAccountPersonal &$account_personal) {
         $isValidUserAndProfile = self::createUserAndProfile($user, $profile);
-        $isValidCorporate = $account_personal->validate(['professional_status_id']);
+        $isValidPersonal = $account_personal->validate(['professional_status_id']);
         if( $isValidUserAndProfile
-            && $isValidCorporate ) {
+            && $isValidPersonal ) {
             if(!$user->register($user->username, $user->password, $profile)){
                 return false;
             }
@@ -322,6 +326,20 @@ class UserService {
                 $invite->is_display_simulation_results = (int) !$is_display_results;
                 $invite->setExpiredAt();
                 $invite->save(false);
+
+                // check is display pop up about referral`s model {
+                $userInvitesCount = Invite::model()->countByAttributes([
+                    'owner_id'    => $user->id,
+                    'scenario_id' => $invite->scenario_id,
+                ]);
+
+                $countOfInvitesToShowPopup = Yii::app()->params['countOfInvitesToShowReferralPopup'];
+                if($userInvitesCount == $countOfInvitesToShowPopup) {
+                    $user->getAccount()->is_display_referrals_popup = 1;
+                    $user->getAccount()->save();
+                }
+                // check is display pop up about referral`s model }
+
                 InviteService::logAboutInviteStatus($invite, sprintf(
                     'Приглашение для %s создано в корпоративном кабинете пользователя %s.',
                     $invite->email,

@@ -151,22 +151,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             unset(Yii::app()->request->cookies['display_result_for_simulation_id']);
         }
 
-        // check is display pop up about referral`s model {
-        $userInvitesCount = Invite::model()->countByAttributes([
-            'owner_id'    => $this->user->id,
-            'scenario_id' => $fullScenario->id,
-        ]);
-
-        // Starting show
-        $countOfInvitesToShowPopup = Yii::app()->params['countOfInvitesToShowReferralPopup'];
-        if($userInvitesCount == $countOfInvitesToShowPopup) {
-            $this->user->getAccount()->is_display_referrals_popup = 1;
-            $this->user->getAccount()->save();
-        }
-        // check is display pop up about referral`s model }
-
         // Getting popup properties
-
         $is_display_tariff_expire_pop_up = $this->user->getAccount()->is_display_tariff_expire_pop_up;
         $is_display_user_referral_popup  = $this->user->getAccount()->is_display_referrals_popup;
 
@@ -586,53 +571,37 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         }
     }
 
-    function actionDontShowPopup() {
+    function actionDontShowInviteReferralsPopup() {
 
         $user = Yii::app()->user->data();
 
-        if (!$user->isAuth()) {
-            Yii::app()->end();
-        } elseif ($user->isPersonal()) {
+        if ($user->isPersonal()) {
             Yii::app()->end();
         }
 
-        $dontShowPopup = Yii::app()->request->getParam("dontShowPopup", null);
-        if($dontShowPopup !== null && $dontShowPopup == 1) {
-            $user->getAccount()->is_display_referrals_popup = 0;
-            $user->getAccount()->save();
-        }
+        $user->getAccount()->is_display_referrals_popup = 0;
+        $user->getAccount()->save();
     }
 
-    function actionDontShowTariffEndPopup() {
+    function actionDontShowTariffExpirePopup() {
 
         $user = Yii::app()->user->data();
 
-        if (!$user->isAuth()) {
-            Yii::app()->end();
-        } elseif ($user->isPersonal()) {
+        if ($user->isPersonal()) {
             Yii::app()->end();
         }
 
-        $is_display_tariff_expire_pop_up = Yii::app()->request->getParam("is_display_tariff_expire_pop_up", null);
-        if($is_display_tariff_expire_pop_up !== null && $is_display_tariff_expire_pop_up == 1) {
-            $user->getAccount()->is_display_tariff_expire_pop_up = 0;
-            $user->getAccount()->save();
-        }
+        $user->getAccount()->is_display_tariff_expire_pop_up = 0;
+        $user->getAccount()->save();
     }
 
-    public function actionRemakeRenderType() {
-        $user = Yii::app()->user->data()->profile;
+    public function actionSwitchAssessmentResultsRenderType() {
+        $profile = Yii::app()->user->data()->profile;
 
-        if (null !== Yii::app()->request->getParam('remakeRender')) {
-            if($user->assessment_results_render_type == "percentil") {
-                $user->assessment_results_render_type = "standard";
-            } else {
-                $user->assessment_results_render_type = "percentil";
-            }
-            $user->save();
-            Yii::app()->end();
-        }
+        $profile->switchAssessmentResultsRenderType();
+        $profile->save(false);
 
+        Yii::app()->end();
     }
 
 }

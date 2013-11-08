@@ -597,6 +597,11 @@ var fixLogotypes = function() {
                     my: "left top",
                     at: "left top",
                     of: $('#corporate-invitations-list-box .items')
+                },
+                open: function () {
+                    // This is fix render for IE10
+                    // z-index правильный, но затемнение отрысовывается над попапом!
+                    $(window).trigger('resize');
                 }
             });
             $(".form-vacancy").dialog('open');
@@ -679,7 +684,7 @@ var fixLogotypes = function() {
         })
 
         $(".change-simulation-result-render").click(function() {
-            $.post("/dashboard/remakeRenderType", {remakeRender : "true"}).done(function() {
+            $.post("/dashboard/switchAssessmentResultsRenderType").done(function() {
                 location.reload();
             })
         });

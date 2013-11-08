@@ -61,7 +61,8 @@ $isPersonal = $account_type === 'personal';
     <div style="clear:both;"></div>
 </section>
 
-    <?php echo $form->error($profile, 'firstname', ['id'=>'registration-general-error', 'class'=>'globalErrorMessage emailIsExistAndNotActivated ProximaNova']); ?>
+    <?php echo $form->error($profile, 'not_activated', ['class'=>'registration-general-error globalErrorMessage emailIsExistAndNotActivated ProximaNova']); ?>
+    <?php echo $form->error($profile, 'is_baned', ['class'=>'registration-general-error globalErrorMessage emailIsExistAndNotActivated ProximaNova']); ?>
 
 <?php if($display_results_for) : ?>
     <?php $this->renderPartial('//global_partials/_popup_result_simulation_container', [ 'display_results_for' => $display_results_for]) ?>
