@@ -112,9 +112,9 @@ return [
                 'dashboard/sendReferralEmail' => 'static/dashboard/sendReferralEmail',
                 'dashboard/personal'  => 'static/dashboard/personal',
                 'dashboard/simulationdetails/<id:\w+>' => 'static/dashboard/simulationDetails',
-                'dashboard/dontShowPopup' => 'static/dashboard/dontShowPopup',
-                'dashboard/dontShowTariffEndPopup' => 'static/dashboard/dontShowTariffEndPopup',
-                'dashboard/remakeRenderType' => 'static/dashboard/remakeRenderType',
+                'dashboard/dontShowInviteReferralsPopup' => 'static/dashboard/dontShowInviteReferralsPopup',
+                'dashboard/dontShowTariffExpirePopup' => 'static/dashboard/dontShowTariffExpirePopup',
+                'dashboard/switchAssessmentResultsRenderType' => 'static/dashboard/SwitchAssessmentResultsRenderType',
                 'invite/referrals' => 'static/dashboard/inviteReferrals',
 
                 'profile/personal/personal-data/'  => 'static/profile/personalPersonalData',

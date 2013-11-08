@@ -679,7 +679,7 @@ var fixLogotypes = function() {
         })
 
         $(".change-simulation-result-render").click(function() {
-            $.post("/dashboard/remakeRenderType", {remakeRender : "true"}).done(function() {
+            $.post("/dashboard/switchAssessmentResultsRenderType").done(function() {
                 location.reload();
             })
         });

@@ -15,10 +15,21 @@ class YumProfile extends YumActiveRecord
 	const PRIVACY_PRIVATE = 'private';
 	const PRIVACY_PUBLIC = 'public';
 
+    const PERCENTILE = 'percentil';
+    const STANDARD = 'standard';
+
 	/**
 	 * @var array of YumProfileFields
 	 */
 	static $fields = null;
+
+    public function switchAssessmentResultsRenderType() {
+        if($this->assessment_results_render_type == self::PERCENTILE) {
+            $this->assessment_results_render_type = self::STANDARD;
+        } else {
+            $this->assessment_results_render_type = self::PERCENTILE;
+        }
+    }
 
     // --------------------------------------------------------------------------------------------------------
 
