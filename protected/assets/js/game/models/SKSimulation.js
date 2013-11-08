@@ -204,9 +204,7 @@ define([
                 try {
                     var me = this,
                         doc;
-                    console.log("savePlan");
                     if (me.dayPlanDocId) {
-                        console.log("me.dayPlanDocId", me.dayPlanDocId)
                         doc = _.first(me.documents.where({id: me.dayPlanDocId}));
                         delete SKDocument._excel_cache[me.dayPlanDocId];
                         me.documents.remove(doc);
@@ -363,25 +361,21 @@ define([
                 try {
                     var me = this;
                     events.forEach(function (event) {
-                        console.log(event);
                         if (event.eventType === 1 && (event.data === undefined || event.data.length === 0)) {
                             // Crutch, sometimes server returns empty events
                             me.events.trigger('dialog:end');
-                            console.log('dialog:end');
                             return;
                         }
                         event.type = event.eventType;
                         delete event.result;
                         var event_model = new SKEvent(event);
                         if (me.events.canAddEvent(event_model, url)) {
-                            console.log('canAddEvent');
                             me.events.push(event_model);
                             me.events.trigger('event:' + event_model.getTypeSlug(), event_model);
                         } else if (event.data[0].code !== 'None' && event.eventTime) {
-                            console.log('Wait event');
                             me.events.wait(event.data[0].code, event.eventTime);
-                        }else{
-                            console.log('Help me! What this??');
+                        } else {
+                            throw new Error('parseNewEvents. System can`t add event and can`t event.data[0].code !== None.');
                         }
                     });
                 } catch(exception) {
@@ -913,10 +907,23 @@ define([
                     media_src = null;
                 }else{
                     if($.browser['msie'] == true) {
-                        media_type = 'mp3';
+                        if(type === 'wav'){
+                            media_type = 'mp3';
+                        }else if(type === 'webm'){
+                            media_type = 'mp4';
+                        }
                     }
                 }
                 return media_src ? SKApp.get('storageURL') + '/' + media_type+ '/standard/' + media_src + '.' + media_type : undefined;
+            },
+            getMediaFile : function(media_src, media_type) {
+                if(media_type === 'webm' && $.browser['msie']){
+                    media_type = 'mp4';
+                }
+                if(media_type === 'wav' && $.browser['msie']){
+                    media_type = 'mp3';
+                }
+                return SKApp.get('storageURL') + '/' + media_type+ '/standard/' + media_src + '.' + media_type;
             }
         });
     return SKSimulation;

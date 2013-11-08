@@ -29,7 +29,7 @@
                 <? endif; ?>
             },
             close: function() {
-                $.post('/dashboard/dontShowTariffEndPopup', {is_display_tariff_expire_pop_up : "1"});
+                $.post('/dashboard/dontShowTariffExpirePopup');
             }
         });
     })

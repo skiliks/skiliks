@@ -631,7 +631,6 @@ SocialCalc.Formula.EvaluatePolish = function(parseinfo, revpolish, sheet, allowr
          }
 
       prii = parseinfo[rii];
-      // console.log('rii: ', rii);
       ttype = prii.type;
       ttext = prii.text;
 

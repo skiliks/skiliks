@@ -158,7 +158,31 @@ class DocumentTemplate extends CActiveRecord implements IGameAction
 
     public function getFilePath()
     {
-        return __DIR__."/../../../documents/templates/".$this->srcFile;
+        return $this->getPathFromName($this->srcFile);
+    }
+
+    public function getPages() {
+        if($this->format === 'docx' || $this->format === 'pptx') {
+            $pdf_dir = str_replace('.pdf', '', $this->srcFile);
+            if(is_dir($this->getPathFromName($pdf_dir))) {
+                $pages = [];
+                foreach(scandir($this->getPathFromName($pdf_dir)) as $filename){
+                    if($filename !== "." && $filename !== ".."){
+                        $pages[] = $pdf_dir.'/'.$filename;
+                    }
+                }
+                return $pages;
+            } else {
+                throw new Exception('Dir '.$this->getPathFromName($pdf_dir).' not found');
+            }
+        }else{
+            return [];
+        }
+    }
+
+    public function getPathFromName($name)
+    {
+        return __DIR__."/../../../documents/templates/".$name;
     }
 }
 
