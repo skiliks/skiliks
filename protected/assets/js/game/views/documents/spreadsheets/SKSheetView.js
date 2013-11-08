@@ -13,7 +13,6 @@ define([], function () {
                 //
                 sheet.set('isInitializeCalculated', false);
                 var longLoadingTimeout = setTimeout(function() {
-                    //console.log('isInitializeCalculated', sheet.get('isInitializeCalculated'));
                     if (false == sheet.get('isInitializeCalculated')) {
                         if (window.Raven) {
                             window.Raven.captureMessage(
@@ -58,14 +57,12 @@ define([], function () {
             }
         },
         recalcSheet:     function () {
-            //console.log('recalc');
             try {
                 var me = this;
                 var sheet = this.options.sheet;
 
                 sheet.set('isRecalcCalculated', false);
                 var longLoadingTimeout = setTimeout(function() {
-                    //console.log('isRecalcCalculated', sheet.get('isRecalcCalculated'));
                     if (false == sheet.get('isRecalcCalculated')) {
                         if (window.Raven) {
                             window.Raven.captureMessage(
@@ -75,8 +72,6 @@ define([], function () {
                     }
                 }, 10000);
 
-                //console.log('recalc timeout initiated');
-
                 loadQueue.queue('fx', function () {
                     if (me.spreadsheet) {
                         me.spreadsheet.ExecuteCommand('recalc', '');
@@ -85,9 +80,7 @@ define([], function () {
                     loadQueue.dequeue('fx');
                 });
 
-                //console.log('recalc timeout removed');
                 sheet.set('isRecalcCalculated', true);
-                //clearTimeout(longLoadingTimeout);
 
             } catch(exception) {
                 if (window.Raven) {
@@ -96,14 +89,12 @@ define([], function () {
             }
         },
         activateSheet:   function () {
-            //console.log('activate');
             try {
                 var me = this;
                 var sheet = this.options.sheet;
 
                 sheet.set('isActivateCalculated', false);
                 var longLoadingTimeout = setTimeout(function() {
-                    //console.log('isActivateCalculated', sheet.get('isActivateCalculated'));
                     if (false == sheet.get('isActivateCalculated')) {
                         if (window.Raven) {
                             window.Raven.captureMessage(

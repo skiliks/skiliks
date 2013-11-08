@@ -75,7 +75,6 @@ define(["game/models/SKEvent"], function () {
                      * Начало блокировки новых событий
                      * @event blocking:start
                      */
-                    console.log('handleBlocking');
                     if ('in progress' === event.getStatus()) {
                         this.trigger('blocking:start');
                     } else {

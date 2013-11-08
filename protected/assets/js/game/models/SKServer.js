@@ -236,14 +236,10 @@ define([
                     // this done for SKServer not to make any requests after Simulation stop
                     if(!SKApp.simulation.is_stopped || path == "simulation/stop") {
                         var ajaxParams = this.getAjaxParams(path, params, callback);
-                        //console.log(SKApp.server.requests_queue.where({uniqueId:ajaxParams.data.uniqueId}));
                         var request = _.first(SKApp.server.requests_queue.where({uniqueId:ajaxParams.data.uniqueId}));
                         var ajax = $.ajax(ajaxParams);
-                        //console.log(ajax);
                         if(path !== this.connectPath){
                             request.set('ajax', ajax);
-                            //this.requests_tmp.push(ajax);
-                            //console.log(request.get('ajax'));
                         }
                         return ajax;
                     }
@@ -262,14 +258,11 @@ define([
                     // this done for SKServer not to make any requests after Simulation stop
                     if(!SKApp.simulation.is_stopped || path === "simulation/stop") {
                         var ajaxParams = this.getAjaxParams(path, params, callback);
-                        //console.log(ajaxParams);
                         var request = _.first(SKApp.server.requests_queue.where({uniqueId:ajaxParams.data.uniqueId}));
                         //console
                         var ajax = $.ajaxQueue(ajaxParams);
                         if(path !== this.connectPath){
                             request.set('ajax', ajax);
-                            //this.requests_tmp.push(ajax);
-                            //request.get('ajax').abort();
                         }
 
                         return ajax;
