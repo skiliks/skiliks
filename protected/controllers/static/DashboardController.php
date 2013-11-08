@@ -621,18 +621,18 @@ class DashboardController extends SiteBaseController implements AccountPageContr
     }
 
     public function actionRemakeRenderType() {
-        $user = Yii::app()->user->data()->profile;
+        $profile = Yii::app()->user->data()->profile;
 
         if (null !== Yii::app()->request->getParam('remakeRender')) {
-            if($user->assessment_results_render_type == "percentil") {
-                $user->assessment_results_render_type = "standard";
+            if($profile->assessment_results_render_type == "percentil") {
+                $profile->assessment_results_render_type = "standard";
             } else {
-                $user->assessment_results_render_type = "percentil";
+                $profile->assessment_results_render_type = "percentil";
             }
-            $user->save();
-            Yii::app()->end();
+            $profile->save(false);
         }
 
+        Yii::app()->end();
     }
 
 }
