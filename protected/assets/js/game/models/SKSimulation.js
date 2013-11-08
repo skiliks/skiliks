@@ -915,6 +915,15 @@ define([
                     }
                 }
                 return media_src ? SKApp.get('storageURL') + '/' + media_type+ '/standard/' + media_src + '.' + media_type : undefined;
+            },
+            getMediaFile : function(media_src, media_type) {
+                if(media_type === 'webm' && $.browser['msie']){
+                    media_type = 'mp4';
+                }
+                if(media_type === 'wav' && $.browser['msie']){
+                    media_type = 'mp3';
+                }
+                return SKApp.get('storageURL') + '/' + media_type+ '/standard/' + media_src + '.' + media_type;
             }
         });
     return SKSimulation;
