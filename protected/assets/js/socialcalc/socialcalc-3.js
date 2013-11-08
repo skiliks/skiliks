@@ -4895,6 +4895,11 @@ SocialCalc.GetViewportInfo = function () {
          }
       }
 
+      // Fix for IE10 - it render too high SC window
+      if (true == $.browser['msie'] && 450 < result.height) {
+          result.height = result.height - 40;
+      }
+
    return result;
    }
 
