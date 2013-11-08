@@ -28,7 +28,7 @@
                 $("span#ui-dialog-title-referral-popup").remove();
             },
             close: function() {
-                $.post( "/dashboard/dontShowPopup", { dontShowPopup : 1}).done(function() {
+                $.post( "/dashboard/dontShowInviteReferralsPopup").done(function() {
                     $(".tariff-expired-popup").css("margin-top", "0");
                 });
             }
