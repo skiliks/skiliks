@@ -597,6 +597,11 @@ var fixLogotypes = function() {
                     my: "left top",
                     at: "left top",
                     of: $('#corporate-invitations-list-box .items')
+                },
+                open: function () {
+                    // This is fix render for IE10
+                    // z-index правильный, но затемнение отрысовывается над попапом!
+                    $(window).trigger('resize');
                 }
             });
             $(".form-vacancy").dialog('open');
