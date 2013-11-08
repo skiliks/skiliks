@@ -97,17 +97,13 @@ define([
              */
             renderContent:function (el) {
                 try {
-                    var me = this;
-                    PDFJS.disableWorker = true;
-                    PDFJS.getDocument('/documents/templates/' + this.options.model_instance.get('document').get('srcFile'))
-                        .then(function (pdf) {
-                            var page_num = 1;
-                            me.renderPage(pdf, page_num);
-                        });
                     el.html(
                         _.template(
                             document_pdf_template,
-                            { filename: this.options.model_instance.get('document').get('srcFile'), isDisplaySettingsButton:this.isDisplaySettingsButton }
+                            { pages: this.options.model_instance.get('document').get('pages'),
+                              isDisplaySettingsButton:this.isDisplaySettingsButton,
+                              documents_path:'http://'+window.location.hostname+'/documents/templates/'
+                            }
                         )
                     );
                 } catch(exception) {
