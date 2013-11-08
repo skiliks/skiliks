@@ -220,10 +220,14 @@ class UserService {
 
     public static function createCorporateAccount(YumUser &$user, YumProfile &$profile, UserAccountCorporate &$account_corporate) {
 
-        if(self::createUserAndProfile($user, $profile)
-            && $account_corporate->validate(['industry_id'])
-            && $user->register($user->username, $user->password, $profile)) {
+        $isValidUserAndProfile = self::createUserAndProfile($user, $profile);
+        $isValidCorporate = $account_corporate->validate(['industry_id']);
 
+        if( $isValidUserAndProfile
+            && $isValidCorporate) {
+            if(!$user->register($user->username, $user->password, $profile)){
+                return false;
+            }
             $user->save(false);
             $profile->user_id = $user->id;
             $profile->save(false);
@@ -250,9 +254,9 @@ class UserService {
 
     public static function createPersonalAccount(YumUser &$user, YumProfile &$profile, UserAccountPersonal &$account_personal) {
         $isValidUserAndProfile = self::createUserAndProfile($user, $profile);
-        $isValidCorporate = $account_personal->validate(['professional_status_id']);
+        $isValidPersonal = $account_personal->validate(['professional_status_id']);
         if( $isValidUserAndProfile
-            && $isValidCorporate ) {
+            && $isValidPersonal ) {
             if(!$user->register($user->username, $user->password, $profile)){
                 return false;
             }

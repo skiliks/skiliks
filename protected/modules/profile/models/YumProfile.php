@@ -217,8 +217,8 @@ class YumProfile extends YumActiveRecord
 		array_push($rules,
 				array(implode(',',$safe), 'safe'));
 
-        $rules[] = array('email', 'emailIsNotActiveValidation', 'on' => array('insert', 'registration', 'registration_corporate'));
         $rules[] = array('email', 'isAccountBanned');
+        $rules[] = array('email', 'emailIsNotActiveValidation', 'on' => array('insert', 'registration', 'registration_corporate'));
         $rules[] = array('email', 'emailIsUsedForCorporateAccount', 'on' => array('insert', 'registration', 'registration_corporate'));
         $rules[] = array('allow_comments, show_friends', 'numerical');
         $rules[] = array('email', 'unique', 'on' => array('insert', 'registration', 'registration_corporate'), 'message' => Yii::t('site', 'Данный email занят'));
@@ -237,13 +237,14 @@ class YumProfile extends YumActiveRecord
         $existProfile = YumProfile::model()->findByAttributes([
             'email' => strtolower($this->email)
         ]);
-
+        if(null !== $this->getError('is_baned')){
+            return;
+        }
         if ($existProfile !== NULL && !$existProfile->user->isActive()) {
                 $error = Yii::t('site',  'Email already exists, but not activated.')
                     . CHtml::link(Yii::t('site','Send activation again'),'/activation/resend/' . $existProfile->id);
-                $this->addError('general_error', $error);
+                $this->addError('not_activated', $error);
         }
-        return true;
     }
 
     public function isAccountBanned($attribute) {
@@ -254,7 +255,7 @@ class YumProfile extends YumActiveRecord
 
         if($existProfile !== NULL && $existProfile->user->isBanned()) {
             $error = $this->getAccountBannedErrorMessage();
-            $this->addError("general_error", $error);
+            $this->addError("is_baned", $error);
         }
     }
 
