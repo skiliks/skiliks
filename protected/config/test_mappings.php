@@ -215,6 +215,40 @@ return [
         'recovery_button' => "css=.row.buttons>input",
         'change_pass' => "css=#YumUserChangePassword_password",
         'verify_pass' => "css=#YumUserChangePassword_verifyPassword",
-        'save_new_pass' => "xpath=//*[@id='change-password-form']/div[3]/input"
+        'save_new_pass' => "xpath=//*[@id='change-password-form']/div[3]/input",
+        'logo_img' => "xpath=//*[@id='top']/header/h1/a/img"
     ],
+
+    'site_register' =>
+    [
+        'free_access1' => "xpath=//*[@id='top']/div[2]/section[1]/a",
+        'free_access2' => "xpath=//*[@id='top']/div[4]/footer/a",
+        'register_popup' => "css=.registration-popup",
+        'userName' => 'css=#YumProfile_firstname',
+        'userSurname' => 'css=#YumProfile_lastname',
+        'userEmail' => 'css=#YumProfile_email',
+        'password1' => 'css=#YumUser_password',
+        'password2' => 'css=#YumUser_password_again',
+        'register_button' => "xpath=(//*[contains(text(),'Зарегистрироваться')])",
+        'checkbox_terms' => 'css=#YumUser_agree_with_terms',
+        'link_terms' => 'css=.terms',
+        'close_terms' => 'css=.ui-icon.ui-icon-closethick'
+    ],
+
+    'personal' =>
+    [
+        'dashboard' => "xpath=//*[@id='yw2']/li[1]/a",
+        'my_profile' => "xpath=//*[@id='yw2']/li[2]/a",
+        'feedback' => "css=.light-btn.feedback",
+        'last_result' => "css=.link-go.view-simulation-details-pop-up",
+        'change_result_view' => "xpath=//*[@id='dashboard-skills-box']/span",
+        'demo_sim' => "//*[@id='top']/div[1]/section/div/a",
+        'sim_rules' => "css=.show-simulation-rules>span",
+        'prof_name' => "css=#YumProfile_firstname",
+        'prof_surname' => "css=#YumProfile_lastname"
+    ],
+
+    'corporate' =>
+    [],
+
 ];
