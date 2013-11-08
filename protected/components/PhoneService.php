@@ -246,7 +246,7 @@ class PhoneService {
                 // выдаем автоответчик
                 $data = array();
                 $data[] = self::combineReplicaToHero(array('ch_from' => "$characterCode"));
-                $data[0]['media_file_name'] = 'S1.4.4.1'; // автоответчик-женщина
+                $data[0]['media_file_name'] = 'phone/S1.4.4.1'; // автоответчик-женщина
                 $data[0]['media_type'] = 'wav'; // автоответчик-женщина
 
                 $character = $simulation->game_type->getCharacter(['code' => $characterCode]);
@@ -255,7 +255,7 @@ class PhoneService {
                     $data[0]['title'] = $character->title;
                     $data[0]['name']  = $character->fio;
                     if ($character->isFemale()) {
-                        $data[0]['media_file_name'] = 'S1.4.4.2'; // автоответчик-женщина
+                        $data[0]['media_file_name'] = 'phone/S1.4.4.2'; // автоответчик-женщина
                         $data[0]['media_type'] = 'wav'; // автоответчик-женщина
                     }
                 }
