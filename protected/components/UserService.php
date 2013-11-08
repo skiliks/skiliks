@@ -322,6 +322,20 @@ class UserService {
                 $invite->is_display_simulation_results = (int) !$is_display_results;
                 $invite->setExpiredAt();
                 $invite->save(false);
+
+                // check is display pop up about referral`s model {
+                $userInvitesCount = Invite::model()->countByAttributes([
+                    'owner_id'    => $user->id,
+                    'scenario_id' => $invite->scenario_id,
+                ]);
+
+                $countOfInvitesToShowPopup = Yii::app()->params['countOfInvitesToShowReferralPopup'];
+                if($userInvitesCount == $countOfInvitesToShowPopup) {
+                    $user->getAccount()->is_display_referrals_popup = 1;
+                    $user->getAccount()->save();
+                }
+                // check is display pop up about referral`s model }
+
                 InviteService::logAboutInviteStatus($invite, sprintf(
                     'Приглашение для %s создано в корпоративном кабинете пользователя %s.',
                     $invite->email,

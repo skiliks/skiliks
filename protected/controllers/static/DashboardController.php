@@ -151,22 +151,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             unset(Yii::app()->request->cookies['display_result_for_simulation_id']);
         }
 
-        // check is display pop up about referral`s model {
-        $userInvitesCount = Invite::model()->countByAttributes([
-            'owner_id'    => $this->user->id,
-            'scenario_id' => $fullScenario->id,
-        ]);
-
-        // Starting show
-        $countOfInvitesToShowPopup = Yii::app()->params['countOfInvitesToShowReferralPopup'];
-        if($userInvitesCount == $countOfInvitesToShowPopup) {
-            $this->user->getAccount()->is_display_referrals_popup = 1;
-            $this->user->getAccount()->save();
-        }
-        // check is display pop up about referral`s model }
-
         // Getting popup properties
-
         $is_display_tariff_expire_pop_up = $this->user->getAccount()->is_display_tariff_expire_pop_up;
         $is_display_user_referral_popup  = $this->user->getAccount()->is_display_referrals_popup;
 
