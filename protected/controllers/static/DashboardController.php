@@ -37,11 +37,11 @@ class DashboardController extends SiteBaseController implements AccountPageContr
 
         $fullScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_FULL]);
 
-        $notUsedFullSimulations = UserService::getInviteHimSelf($this->user, $fullScenario);
+        $notUsedFullSimulations = UserService::getSelfToSelfInvite($this->user, $fullScenario);
 
         $liteScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_LITE]);
 
-        $notUsedLiteSimulations = UserService::getInviteHimSelf($this->user, $liteScenario);
+        $notUsedLiteSimulations = UserService::getSelfToSelfInvite($this->user, $liteScenario);
             // check and add trial lite version }
 
         $vacancies = [];
@@ -180,7 +180,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         // check and add trial lite version {
         $liteScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_LITE]);
 
-        $notUsedLiteSimulations = UserService::getInviteHimSelf($this->user, $liteScenario);
+        $notUsedLiteSimulations = UserService::getSelfToSelfInvite($this->user, $liteScenario);
         // check and add trial lite version }
 
         $simulation = Simulation::model()->getLastSimulation(Yii::app()->user->data(), Scenario::TYPE_FULL);

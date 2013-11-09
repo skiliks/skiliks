@@ -139,7 +139,7 @@ class UserServiceUnitTest extends CDbTestCase
 
         $fullScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_FULL]);
 
-        $notUsedFullInvites = UserService::getInviteHimSelf($user_corporate, $fullScenario);
+        $notUsedFullInvites = UserService::getSelfToSelfInvite($user_corporate, $fullScenario);
 
         $check = UserService::getSimulationContentsAndConfigs($user_corporate, '', 'promo', 'full', $notUsedFullInvites[0]->id);
         $this->assertTrue($check->return);
