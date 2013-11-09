@@ -79,7 +79,7 @@ class RegisterUser_SK4705_Test extends SeleniumTestHelper
         $this->waitForTextPresent('Email введён неверно');
         sleep(1);
         //baned email
-        $this->type(Yii::app()->params['test_mappings']['site_register']['userEmail'], "emailForBan1@skiliks.com");
+        $this->type(Yii::app()->params['test_mappings']['site_register']['userEmail'], "emailForBan@skiliks.com");
         $this->optimal_click(Yii::app()->params['test_mappings']['site_register']['register_button']);
         $this->waitForTextPresent('Ваш аккаунт заблокирован');
         sleep(1);
