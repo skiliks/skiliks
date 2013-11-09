@@ -23,6 +23,22 @@ class PasswordRecovery_SK3370_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['site']['recovery']);
         $this->assertElementPresent(Yii::app()->params['test_mappings']['site']['recovery_email']);
 
+        $this->type(Yii::app()->params['test_mappings']['site']['recovery_email'],"");
+        $this->optimal_click(Yii::app()->params['test_mappings']['site']['recovery_button']);
+        $this->waitForVisible("xpath=(//*[contains(text(),'Введите email')])");
+
+        $this->type(Yii::app()->params['test_mappings']['site']['recovery_email'],"wrongEmail");
+        $this->optimal_click(Yii::app()->params['test_mappings']['site']['recovery_button']);
+        $this->waitForVisible("xpath=(//*[contains(text(),'Email введён неверно')])");
+
+        $this->type(Yii::app()->params['test_mappings']['site']['recovery_email'],"notRegisteredEmail@skiliks.com");
+        $this->optimal_click(Yii::app()->params['test_mappings']['site']['recovery_button']);
+        $this->waitForVisible("xpath=(//*[contains(text(),'Отсутствующий email')])");
+
+       /* $this->type(Yii::app()->params['test_mappings']['site']['recovery_email'],"emailForBan@skiliks.com");
+        $this->optimal_click(Yii::app()->params['test_mappings']['site']['recovery_button']);
+        $this->waitForVisible("xpath=(//*[contains(text(),'Ваш аккаунт заблокирован')])");*/
+
         $this->type(Yii::app()->params['test_mappings']['site']['recovery_email'],$email);
         $this->optimal_click(Yii::app()->params['test_mappings']['site']['recovery_button']);
         $this->waitForVisible("xpath=(//*[contains(text(),'На ваш email выслана инструкция по смене пароля.')])");
