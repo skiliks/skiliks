@@ -250,8 +250,8 @@ var fixLogotypes = function() {
 
         // попап перед стартом лайт симуляции в кабинетах
         $('.start-lite-simulation-btn').click(function(event) {
-            event.preventDefault();
-
+            event.preventDefault('.start-lite-simulation-btn');
+            console.log(".start-lite-simulation-btn");
             // get URL for lite simulation
             var href = $(this).attr('data-href');
 
