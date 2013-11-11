@@ -34,6 +34,10 @@ class InviteService {
         $log->save(false);
     }
 
+    /**
+     * @param Invite $invite
+     * @return bool
+     */
     public static function  isSimulationOverrideDetected(Invite $invite) {
         //Проверка для корпоративного и персонального на то что по даному инвайту
         //уже начата другая симуляция
@@ -41,6 +45,14 @@ class InviteService {
             false === $invite->scenario->isAllowOverride());
     }
 
+    /**
+     * Метод откланяет приглашение из DeclineExplanation
+     *
+     * @param YumUser $user
+     * @param DeclineExplanation $declineExplanation
+     *
+     * @return null|string
+     */
     public static function declineInvite(YumUser $user, DeclineExplanation $declineExplanation) {
 
         if (null === $declineExplanation->invite) {
@@ -87,8 +99,13 @@ class InviteService {
         return null;
     }
 
-    public static function inviteExpired() {
-
+    /**
+     * Метод выбирает все устаревшие приглашения, по которым небыло апросов к серверу за последний час,
+     * и меняет их статус на Expired
+     *
+     * @return array
+     */
+    public static function makeExpiredInvitesExpired() {
         $fullScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_FULL]);
 
         /** @var $invites Invite[] */
