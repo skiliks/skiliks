@@ -254,10 +254,14 @@ SocialCalc.InitializeSpreadsheetControl = function(spreadsheet, node, height, wi
         '<li><img class="button-sum" onmouseover="$(this).attr(\'src\', \'%img.sum-hover.png\')" onmouseout="$(this).attr(\'src\', \'%img.sum.png\')" id="%id.button_sum" src="%img.sum.png"></li>' +
         '<li><img class="button-percent" onmouseover="$(this).attr(\'src\', \'%img.percent-hover.png\')" onmouseout="$(this).attr(\'src\', \'%img.percent.png\')" id="%id.button_percent" src="%img.percent.png"></li>' +
         '</ul>' +
-        '<ul class="menu_bar"><li><input class="status" id="%id.statusline" type="text" disabled="disabled" value="" /></span></li>' +
+        '<ul class="menu_bar" style="display: none;"><li><input class="status" id="%id.statusline" type="text" disabled="disabled" value="" /></span></li>' +
         '<li><div class="grid-row"><div><div><img src="%img.function.png" style="cursor:default;"></div></div></div></li>' +
         '<li><input class="formula" id="%id.formula_field" type="text" size="100" value="" /></li></ul>' +
     '</div>';
+
+    // "menu_bar" - скрыта во время исхлдного рендера, чтоб интерфейс многостраничных документов не прыгал
+    // посже, в SKXLSDisplayView, этот элемент становится видимым для текущей страницы
+    // (при первоначальном рендере контента и потом, при переключении вкладок - для текущей вкладки)
 
    html = html.replace(/\%s\./g, "SocialCalc.");
    html = html.replace(/\%id\./g, spreadsheet.idPrefix);
@@ -269,7 +273,6 @@ SocialCalc.InitializeSpreadsheetControl = function(spreadsheet, node, height, wi
    node.appendChild(spreadsheet.spreadsheetDiv);
 
    // Initialize SocialCalc buttons
-
    spreadsheet.Buttons = {
        button_undo: {tooltip: "Undo", command: "undo"},
        button_redo: {tooltip: "Redo", command: "redo"},
