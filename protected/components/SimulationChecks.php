@@ -1,10 +1,14 @@
 <?php
 
+/*
+ * Класс для возврата значений
+ * с метода UserService::getSimulationContentsAndConfigs(...)
+ */
 class SimulationChecks {
 
-    public $return = false;
-    public $redirect = null;
-    public $data = [];
+    public $return = false; //Результат выполнения метода
+    public $redirect = null; // Страница на которую будет редирект
+    public $data = []; //Массив конфигов для старта симуляции
 
     public function setRedirect($redirect) {
         $this->redirect = $redirect;
