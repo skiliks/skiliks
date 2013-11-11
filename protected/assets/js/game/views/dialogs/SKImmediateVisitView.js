@@ -71,13 +71,15 @@ define([
                         video_src = event.getVideoSrc(),
                         image_src = event.getImgSrc(),
                         remote_replica = event.getRemoteReplica(),
-                        media, text;
+                        poster_src = event.getPosterSrc(video_src),
+                        text;
 
                     text =  _.template(visitTpl, {
                         'remote_replica': remote_replica,
                         'my_replicas': my_replicas,
                         'video_src': video_src,
-                        'img_src': image_src
+                        'img_src': image_src,
+                        'poster_src':poster_src
                     });
                     var is_first_replica = !el.html();
                     $('<div class="hidden placeholder" />').html(text).appendTo(el);
