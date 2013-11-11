@@ -551,12 +551,15 @@ class UserService {
 
 
     /**
+     * Возвращает данные и конфиги, необходимые для рендера SiteController->actionSimulation
+     *
      * @param YumUser $user
-     * @param $assetsUrl
-     * @param $start
-     * @param $mode
-     * @param $type
-     * @param $invite_id
+     * @param string $assetsUrl
+     * @param string $start
+     * @param string $mode
+     * @param string $type
+     * @param integer $invite_id
+     *
      * @return SimulationChecks
      */
     public static function getSimulationContentsAndConfigs(YumUser $user, $assetsUrl, $mode, $type, $invite_id, $start = null) {
