@@ -376,7 +376,6 @@ SocialCalc.GetSpreadsheetControlObject = function(id) {
 
     if (id === undefined) {
         console.warn('GetSpreadsheetControlObject MUST have id argument to work properly')
-        console.trace();
        var csco = SocialCalc.CurrentSpreadsheetControlObject;
        if (csco) return csco;
     } else {
