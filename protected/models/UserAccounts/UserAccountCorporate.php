@@ -312,7 +312,6 @@ class UserAccountCorporate extends CActiveRecord
     /**
      * Setting user invite limit to zero, and logging the corporate invite moves
      */
-
     private function disableUserInviteLimit() {
 
         $initValue = $this->getTotalAvailableInvitesLimit();
@@ -331,18 +330,24 @@ class UserAccountCorporate extends CActiveRecord
     /**
      * Setting user tariff expired yesterday
      */
-
     private function expireUserTariff() {
         $date = new DateTime();
         $date->add(DateInterval::createFromDateString('yesterday'));
         $this->tariff_expired_at = $date->format('Y-m-d H:i:s');
     }
 
+    /**
+     * @param $count
+     */
     public function addSimulations($count) {
         $this->invites_limit = $this->invites_limit + $count;
         $this->save(false);
     }
 
+    /**
+     * @param $value, integer, can be positive and negative
+     * @param null $admin
+     */
     public function changeInviteLimits($value, $admin=null) {
 
         $initValue = $this->getTotalAvailableInvitesLimit();
