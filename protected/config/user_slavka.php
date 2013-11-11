@@ -13,30 +13,50 @@ return CMap::mergeArray(
         ],
         'components' => array(
             'db' => array(
-                'connectionString' => 'mysql:host=127.0.0.1;dbname=production_2',
+                'connectionString' => 'mysql:host=127.0.0.1;dbname=skiliks_1', //
+                //'connectionString' => 'mysql:host=test.skiliks.com;dbname=skiliks_test',
+                // production_2 - live,
+                // production - master
                 'emulatePrepare' => true,
                 'username' => 'root',
                 'password' => '111',
+                //'username' => 'live_tester',
+                //'password' => 'MapRofi123',
                 'charset' => 'utf8',
+
                 'enableParamLogging' => true,
                 'enableProfiling' => true
             ),
-            'log' => array(
-                'class' => 'CLogRouter',
-                'routes' => array(
+            'RSentryException'=> array(
+                'dsn'=> 'https://bfd7395024f24728afdf79e9034bca04:2f8bec2e2c40493dbf7b07db88afc94f@app.getsentry.com/4572',
+                'class' => 'application.components..yii-sentry-log.RSentryComponent',
+            ),
+            'log'=>array(
+                'class'=>'CLogRouter',
+                'routes'=>array(
                     array(
-                        'class' => 'CFileLogRoute',
-                        'levels' => 'error, warning, info, trace, log, debug',
+                        'class'=>'application.components.yii-sentry-log.RSentryLog',
+                        'dsn'=> 'https://bfd7395024f24728afdf79e9034bca04:2f8bec2e2c40493dbf7b07db88afc94f@app.getsentry.com/4572',
+                        'levels'=>'error, warning',
                     ),
-                    array(
-                        'class' => 'CFileLogRoute',
-                        'levels' => 'error, warning, info, trace, log, debug',
-                        'categories'=>'system.db.*',
-                        'logFile' => 'sql.log'
-                    ),
-
                 ),
             ),
+            //        'log' => array(
+            //            'class' => 'CLogRouter',
+            //            'routes' => array(
+            //                array(
+            //                    'class' => 'CFileLogRoute',
+            //                    'levels' => 'error, warning, info, trace, log, debug',
+            //                ),
+            //                array(
+            //                    'class' => 'CFileLogRoute',
+            //                    'levels' => 'error, warning, info, trace, log, debug',
+            //                    'categories'=>'system.db.*',
+            //                    'logFile' => 'sql.log'
+            //                ),
+            //
+            //            ),
+            //        ),
             'request' => array(
                 'baseUrl' => '',
             ),
@@ -45,8 +65,11 @@ return CMap::mergeArray(
             'frontendUrl' => 'http://skiliks.loc/',
             'assetsDebug' => true,
             'isUseResultPopUpCache' => false,
+            'runMigrationOn'        => 'production',
+            'disableOldLogging'     => true,
             'public' => [
                 'isLocalPc'            => true,
+                'isUseZohoProxy'       => false,
                 'useSentryForJsLog'    => true,
                 'isSkipBrowserCheck'   => true,
                 'isDisplaySupportChat' => false,
