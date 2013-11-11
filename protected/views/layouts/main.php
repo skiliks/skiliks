@@ -25,6 +25,10 @@ $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.tablesorter.js', CClient
 $cs->registerCssFile($assetsUrl . '/js/jquery/jquery-ui.css');
 $cs->registerCssFile($assetsUrl . "/css/style.css");
 $cs->registerCssFile($assetsUrl . "/css/popover.css");
+if(preg_match('/(?i)msie [10]/',$_SERVER['HTTP_USER_AGENT'])) //http://stackoverflow.com/questions/16474948/detect-ie10-ie10-and-other-browsers-in-php
+{
+    $cs->registerCssFile($assetsUrl . "/css/ie10.css");
+}
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo Yii::t('site', 'en') ?>">
