@@ -429,7 +429,10 @@ define([
                                 // Reverting old element location
                                 var task_id = ui.draggable.attr('data-task-id');
                                 var prev_cell = ui.draggable.parents('td');
-                                var title = SKApp.simulation.todo_tasks.get(task_id).get('title');
+                                var task = SKApp.simulation.todo_tasks.get(task_id);
+                                if(task === undefined){
+                                    task = SKApp.simulation.dayplan_tasks.get(task_id);
+                                }
                                 if (prev_cell.length) {
                                     SKApp.simulation.dayplan_tasks.get(task_id).destroy();
                                 }
@@ -440,7 +443,7 @@ define([
                                 console.log(task_id);
                                 //Appending to new location
                                 SKApp.simulation.dayplan_tasks.create({
-                                    title:title,
+                                    title:task.get('title'),
                                     date:time,
                                     task_id:task_id,
                                     duration:duration,
