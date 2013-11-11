@@ -181,9 +181,6 @@ define([], function () {
                         spreadsheet.editor.LoadEditorSettings(sheet.get('content').substring(me.parts.edit.start, me.parts.edit.end));
                     }
 
-                    /*sheet.collection.each(function (i) {
-                        i.trigger('recalc');
-                    });*/
                     me.spreadsheet.ExecuteCommand('recalc', '');
                     me.spreadsheet.ExecuteCommand('redisplay', '');
 
