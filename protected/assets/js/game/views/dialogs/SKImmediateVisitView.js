@@ -121,8 +121,10 @@ define([
 
                         var duration;
                         if(null === remote_replica){
-                            throw new Error('remote_replica must be not null!');
-                        }else{
+                            // такое бывает когда Главный герой сам говорит первым
+                            // то есть duration реплики к Главному герою навна нулю
+                            duration = 0;
+                        } else {
                             duration = parseInt(remote_replica.duration, 0)*1000;
                         }
                         // Для дев режима, последняя реплика в диалоге, если нет вариантов ответа - сразу исчезает.
@@ -142,7 +144,8 @@ define([
                                         me.options.model_instance.close();
                                     }
                                 });
-                            } else if (!SKApp.simulation.isDebug()) {
+                            } else if (true != SKApp.simulation.isDebug()) {
+                                // this is PROMO mode
                                 el.find('.char-reply').removeClass('hidden');
                                 el.find('.visitor-reply').removeClass('hidden');
                             }
