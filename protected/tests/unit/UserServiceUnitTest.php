@@ -166,7 +166,7 @@ class UserServiceUnitTest extends CDbTestCase
         $assert_account_corporate->refresh();
         $this->assertEquals($assert_account_corporate->invites_limit, 6);
 
-        InviteService::makeExpiredInvitesExpired();
+        InviteService:makeExpiredInvitesExpired();
         $invite->refresh();
         $this->assertEquals($invite->status, Invite::STATUS_PENDING);
         $assert_account_corporate->refresh();
@@ -229,9 +229,9 @@ class UserServiceUnitTest extends CDbTestCase
         $this->assertEquals($assert_account_corporate->invites_limit, 0);
         $this->assertEquals($assert_account_corporate->referrals_invite_limit, 0);
 
-        $refer = new UserReferral();
-        $refer->referral_email = strtolower('referall-unit-text@kiliks.com');
-        $result = UserService::addReferralUser($user_corporate, $refer);
+        $referalr = new UserReferral();
+        $referalr->referral_email = strtolower('referall-unit-text@kiliks.com');
+        $result = UserService::addReferralUser($user_corporate, $referalr);
         $this->assertTrue($result);
 
         $user_referral  = new YumUser('registration');
@@ -250,9 +250,9 @@ class UserServiceUnitTest extends CDbTestCase
 
         $this->assertEquals($assert_account_corporate->referrals_invite_limit, 1);
 
-        $refer2 = new UserReferral();
-        $refer2->referral_email = strtolower('referall-unit-text2@kiliks.com');
-        $result = UserService::addReferralUser($user_corporate, $refer2);
+        $referalr2 = new UserReferral();
+        $referalr2->referral_email = strtolower('referall-unit-text2@kiliks.com');
+        $result = UserService::addReferralUser($user_corporate, $referalr2);
         $this->assertTrue($result);
 
         $user_referral2  = new YumUser('registration');
@@ -264,7 +264,7 @@ class UserServiceUnitTest extends CDbTestCase
 
 
         //Yii::app()->user->data()->logout();
-        $result = UserService::createReferral($user_referral2, $profile_referral2, $account_referral2, $refer2);
+        $result = UserService::createReferral($user_referral2, $profile_referral2, $account_referral2, $referalr2);
         $this->assertTrue($result);
 
         $assert_account_corporate->refresh();
