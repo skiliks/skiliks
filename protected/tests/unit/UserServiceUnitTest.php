@@ -43,6 +43,9 @@ class UserServiceUnitTest extends CDbTestCase
         }
     }
 
+    /**
+     *
+     */
     public function testInvite() {
         $exist_ref = UserReferral::model()->findByAttributes(['referral_email'=>'referall-unit-text@kiliks.com']);
         if( null !== $exist_ref ) {
@@ -163,7 +166,7 @@ class UserServiceUnitTest extends CDbTestCase
         $assert_account_corporate->refresh();
         $this->assertEquals($assert_account_corporate->invites_limit, 6);
 
-        InviteService::inviteExpired();
+        InviteService::makeExpiredInvitesExpired();
         $invite->refresh();
         $this->assertEquals($invite->status, Invite::STATUS_PENDING);
         $assert_account_corporate->refresh();
@@ -172,7 +175,7 @@ class UserServiceUnitTest extends CDbTestCase
         $invite->expired_at = date("Y-m-d H:i:s");
         $invite->save(false);
 
-        InviteService::inviteExpired();
+        InviteService::makeExpiredInvitesExpired();
         $invite->refresh();
         $this->assertEquals($invite->status, Invite::STATUS_EXPIRED);
         $assert_account_corporate->refresh();
