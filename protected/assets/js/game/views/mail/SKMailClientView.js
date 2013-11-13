@@ -2743,13 +2743,14 @@ define([
 
                         // set attachment
                         if (response.attachmentId) {
+                            debugger;
                             this.mailClient.uploadAttachmentsList(function () {
                                 var attachmentsListHtml = [];
 
                                 var attach = new SKAttachment();
                                 attach.fileMySqlId = response.attachmentId;
                                 attach.label = response.attachmentName;
-
+                                console.log('attach.label', attach.label);
                                 attachmentsListHtml.push({
                                     text: attach.label,
                                     value: attach.fileMySqlId,
@@ -2764,7 +2765,7 @@ define([
                                          imageSrc: attachment.getIconImagePath()
                                      });
                                 });
-
+                                me.mailClient.availableAttachments.push(attach);
                                 me.$("#MailClient_NewLetterAttachment div.list").ddslick('destroy');
                                 me.$("#MailClient_NewLetterAttachment div.list").ddslick({
                                     data: attachmentsListHtml,
