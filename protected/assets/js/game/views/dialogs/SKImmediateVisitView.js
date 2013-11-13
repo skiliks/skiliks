@@ -221,8 +221,9 @@ define([
                 me.$('.visit-background-container').scrollLeft((me.$('video').width() - $(window).width()) / 2);
                 me.$('.visit-background-container').scrollTop((me.$('video').height() - $(window).height()) / 2);
 
+                // 1280/800 = 1.6
                 if($(window).width() / $(window).height() < 1.6) {
-                    me.$('video').css("margin-left", -(me.$('video').width() - $(window).width()) / 2);
+                    me.$('video').css("margin-left", ($(window).width() - me.$('video').width()) / 2);
                 } else {
                     me.$('video').css('margin-left', '-20px');
                 }
