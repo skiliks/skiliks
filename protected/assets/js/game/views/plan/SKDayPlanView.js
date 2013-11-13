@@ -256,13 +256,13 @@ define([
                 }
 
                 // add title attribute to HTMl with full code
-                // drop_td.attr('title', drop_td.find('.title').text());
-                drop_td.attr('title', model.get('title'));
+                drop_td.attr('title', drop_td.find('.title').text());
+                //drop_td.attr('title', model.get('title'));
 
                 var max_height = Math.ceil(duration / 15) * 10;
                 setTimeout(function () {
-                    // me.overflowText(drop_td.find('.title'), max_height, drop_td.find('.title'));
-                    me.overflowText(model.get('title'), max_height, model.get('title'));
+                    me.overflowText(drop_td.find('.title'), max_height, drop_td.find('.title'));
+                    //me.overflowText(model.get('title'), max_height, model.get('title'));
                 }, 0);
                 var todo_el = drop_td.find('.day-plan-todo-task');
 
@@ -429,7 +429,10 @@ define([
                                 // Reverting old element location
                                 var task_id = ui.draggable.attr('data-task-id');
                                 var prev_cell = ui.draggable.parents('td');
-
+                                var task = SKApp.simulation.todo_tasks.get(task_id);
+                                if(task === undefined){
+                                    task = SKApp.simulation.dayplan_tasks.get(task_id);
+                                }
                                 if (prev_cell.length) {
                                     SKApp.simulation.dayplan_tasks.get(task_id).destroy();
                                 }
@@ -437,10 +440,10 @@ define([
                                 if (ui.draggable.parents('.plan-todo').length) {
                                     SKApp.simulation.todo_tasks.get(task_id).destroy();
                                 }
-
+                                console.log(task_id);
                                 //Appending to new location
                                 SKApp.simulation.dayplan_tasks.create({
-                                    title:ui.draggable.find('.title').text(),
+                                    title:task.get('title'),
                                     date:time,
                                     task_id:task_id,
                                     duration:duration,
@@ -683,8 +686,12 @@ define([
                     task.set('date', $(this).parent().attr('data-hour') + ':' + $(this).parent().attr('data-minute'));
                     if (SKApp.simulation.dayplan_tasks.isTimeSlotFree(task.get('date'), task.get('day'), duration)) {
                         task.destroy();
+                        console.log("$(e.currentTarget).find('.title').text()",$(e.currentTarget).find('.title').text());
+                        console.log("task.get('date')",task.get('date'));
+                        console.log("task.id",task.id);
+                        console.log("task.id",duration);
                         SKApp.simulation.dayplan_tasks.create({
-                            title: task.get('title'), //$(e.currentTarget).find('.title').text(),
+                            title: task.get('title'),
                             date:task.get('date'),
                             task_id:task.id,
                             duration:duration,

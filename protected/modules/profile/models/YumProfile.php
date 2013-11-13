@@ -13,10 +13,13 @@
 class YumProfile extends YumActiveRecord
 {
 	const PRIVACY_PRIVATE = 'private';
-	const PRIVACY_PUBLIC = 'public';
+	const PRIVACY_PUBLIC  = 'public';
 
+    /**
+     * Типы итоговой оценоки:
+     */
     const PERCENTILE = 'percentil';
-    const STANDARD = 'standard';
+    const STANDARD   = 'standard';
 
 	/**
 	 * @var array of YumProfileFields

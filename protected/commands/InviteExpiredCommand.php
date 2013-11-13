@@ -16,7 +16,7 @@ class InviteExpiredCommand extends CConsoleCommand
         echo "time: ".date("Y-m-d H:i:s")."\n";
 
         // Invites {
-        $expiredInvites = InviteService::inviteExpired();
+        $expiredInvites = InviteService::makeExpiredInvitesExpired();
 
         if (0 == count($expiredInvites)) {
             echo "Ни одно приглашение не устарело.\n";

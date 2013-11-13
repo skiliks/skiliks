@@ -142,6 +142,20 @@ define([], function () {
             }
         },
 
+        getPosterSrc: function (video_src) {
+            try {
+                if($.browser['msie'] == true) {
+                    return video_src.replaceAll('mp4', 'jpeg');
+                }else{
+                    return video_src.replaceAll('webm', 'jpeg');
+                }
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
+            }
+        },
+
         /**
          * @method
          * @returns {string}

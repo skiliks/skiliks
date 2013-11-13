@@ -634,8 +634,8 @@ a.registration_check {
     border-radius:3px;
     box-shadow: 5px 5px 8px rgba(0, 0, 0, 0.16) inset;
     color: #146672;
-    font: 14px/20px 'ProximaNova-Regular';
-    height: 12px;
+    font: 0.834em 'ProximaNova-Regular';
+    height: 14px;
     outline: none;
     padding: 7px 9px;
     width: 80%;

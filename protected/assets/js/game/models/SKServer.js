@@ -276,7 +276,6 @@ define([
 
             tryConnect: function() {
                 try {
-                    console.trace();
                     this.try_connect = true;
                     var me = this;
                         this.request_interval_id = setInterval(function() {
