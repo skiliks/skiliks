@@ -138,5 +138,12 @@ class RegisterUser_SK4705_Test extends SeleniumTestHelper
         $this->open($this->getActivationKeyByEmail($account_details[2]));
         $this->waitForTextPresent("Рабочий кабинет");
 
+        //проверить имя
+        $this->waitForVisible(Yii::app()->params['test_mappings']['corporate']['username']);
+        $this->assertTrue($this->getText(Yii::app()->params['test_mappings']['corporate']['username']),$account_details[0]);
+
+        // проверить кол-во симуляций сразу после регистрации
+        $this->assertTrue($this->getText(Yii::app()->params['test_mappings']['corporate']['invites_limit']),'3');
+
     }
 }
