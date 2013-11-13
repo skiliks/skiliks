@@ -18,7 +18,6 @@ class CheatsController extends SiteBaseController
     {
 
         $cookies = Yii::app()->request->cookies;
-        //var_dump($cookies); die;
         $user = null;
         if (isset($cookies['cook_dev_ladskasdasddaxczxpoicuwcnzmcnzdewedjbkscuds'])
             && $cookies['cook_dev_ladskasdasddaxczxpoicuwcnzmcnzdewedjbkscuds']->value == 'dsiucskcmnxkcjzhxciaowi2039ru948fysuhfiefds8v7sd8djkedbjsaicu9')  {

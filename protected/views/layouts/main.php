@@ -25,6 +25,17 @@ $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.tablesorter.js', CClient
 $cs->registerCssFile($assetsUrl . '/js/jquery/jquery-ui.css');
 $cs->registerCssFile($assetsUrl . "/css/style.css");
 $cs->registerCssFile($assetsUrl . "/css/popover.css");
+
+/**
+ * Подключаем ie10.css для специфичной IE10 вёрстки.
+ * Все прочие (общие) CSS должны быть подключены ниже.
+ * @link:http://stackoverflow.com/questions/16474948/detect-ie10-ie10-and-other-browsers-in-php
+ */
+if(preg_match('/(?i)msie [10]/',$_SERVER['HTTP_USER_AGENT']))
+{
+    $cs->registerCssFile($assetsUrl . "/css/ie10.css");
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo Yii::t('site', 'en') ?>">

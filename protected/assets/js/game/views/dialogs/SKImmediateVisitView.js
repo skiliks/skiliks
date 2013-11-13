@@ -71,13 +71,15 @@ define([
                         video_src = event.getVideoSrc(),
                         image_src = event.getImgSrc(),
                         remote_replica = event.getRemoteReplica(),
-                        media, text;
+                        poster_src = event.getPosterSrc(video_src),
+                        text;
 
                     text =  _.template(visitTpl, {
                         'remote_replica': remote_replica,
                         'my_replicas': my_replicas,
                         'video_src': video_src,
-                        'img_src': image_src
+                        'img_src': image_src,
+                        'poster_src':poster_src
                     });
                     var is_first_replica = !el.html();
                     $('<div class="hidden placeholder" />').html(text).appendTo(el);
@@ -121,8 +123,10 @@ define([
 
                         var duration;
                         if(null === remote_replica){
-                            throw new Error('remote_replica must be not null!');
-                        }else{
+                            // такое бывает когда Главный герой сам говорит первым
+                            // то есть duration реплики к Главному герою навна нулю
+                            duration = 0;
+                        } else {
                             duration = parseInt(remote_replica.duration, 0)*1000;
                         }
                         // Для дев режима, последняя реплика в диалоге, если нет вариантов ответа - сразу исчезает.
@@ -142,7 +146,8 @@ define([
                                         me.options.model_instance.close();
                                     }
                                 });
-                            } else if (!SKApp.simulation.isDebug()) {
+                            } else if (true != SKApp.simulation.isDebug()) {
+                                // this is PROMO mode
                                 el.find('.char-reply').removeClass('hidden');
                                 el.find('.visitor-reply').removeClass('hidden');
                             }
@@ -216,8 +221,9 @@ define([
                 me.$('.visit-background-container').scrollLeft((me.$('video').width() - $(window).width()) / 2);
                 me.$('.visit-background-container').scrollTop((me.$('video').height() - $(window).height()) / 2);
 
+                // 1280/800 = 1.6
                 if($(window).width() / $(window).height() < 1.6) {
-                    me.$('video').css("margin-left", -(me.$('video').width() - $(window).width()) / 2);
+                    me.$('video').css("margin-left", ($(window).width() - me.$('video').width()) / 2);
                 } else {
                     me.$('video').css('margin-left', '-20px');
                 }

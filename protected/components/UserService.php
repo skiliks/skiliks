@@ -551,12 +551,15 @@ class UserService {
 
 
     /**
+     * Возвращает данные и конфиги, необходимые для рендера SiteController->actionSimulation
+     *
      * @param YumUser $user
-     * @param $assetsUrl
-     * @param $start
-     * @param $mode
-     * @param $type
-     * @param $invite_id
+     * @param string $assetsUrl
+     * @param string $start
+     * @param string $mode
+     * @param string $type
+     * @param integer $invite_id
+     *
      * @return SimulationChecks
      */
     public static function getSimulationContentsAndConfigs(YumUser $user, $assetsUrl, $mode, $type, $invite_id, $start = null) {
@@ -780,13 +783,13 @@ class UserService {
         return false;
     }
 
-    public static function addReferralUser( YumUser $user, UserReferral &$refer ) {
-        $refer->referrer_id    = $user->id;
-        $refer->invited_at     = date("Y-m-d H:i:s");
-        $refer->status         = "pending";
-        $refer->save(false);
-        $refer->uniqueid    = md5($refer->id . time());
-        return $refer->save(false);
+    public static function addReferralUser( YumUser $user, UserReferral &$referral ) {
+        $referral->referrer_id    = $user->id;
+        $referral->invited_at     = date("Y-m-d H:i:s");
+        $referral->status         = "pending";
+        $referral->save(false);
+        $referral->uniqueid    = md5($referral->id . time());
+        return $referral->save(false);
     }
 
 }
