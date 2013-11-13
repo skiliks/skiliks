@@ -168,7 +168,6 @@ class LogActivityActionUnitTest extends CDbTestCase
         $invite->scenario->slug = Scenario::TYPE_FULL;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 
-
         $json = EventsManager::getState($simulation, [
             [1, 1, 'activated', 32400, 'window_uid' => 1]
         ]);
@@ -236,8 +235,8 @@ class LogActivityActionUnitTest extends CDbTestCase
                 'activity_id' => $activityAction->activityAction->activity->code,
             ];
         }
+
         $tmp = array(
-            0 =>
             array(
                 'sim_id' => $simulation->id,
                 'leg_type' => 'Window',
@@ -246,7 +245,6 @@ class LogActivityActionUnitTest extends CDbTestCase
                 'end_time' => '12:02:19',
                 'activity_id' => 'A_wait',
             ),
-            1 =>
             array(
                 'sim_id' => $simulation->id,
                 'leg_type' => 'System_dial_leg',
@@ -255,16 +253,6 @@ class LogActivityActionUnitTest extends CDbTestCase
                 'end_time' => '12:02:50',
                 'activity_id' => 'AE2a',
             ),
-            2 =>
-            array(
-                'sim_id' => $simulation->id,
-                'leg_type' => 'Window',
-                'leg_action' => 'main screen',
-                'start_time' => '12:02:50',
-                'end_time' => '12:02:50',
-                'activity_id' => 'A_wait',
-            ),
-            3 =>
             array(
                 'sim_id' => $simulation->id,
                 'leg_type' => 'System_dial_leg',
@@ -273,16 +261,6 @@ class LogActivityActionUnitTest extends CDbTestCase
                 'end_time' => '12:03:24',
                 'activity_id' => 'AE2a',
             ),
-            4 =>
-            array(
-                'sim_id' => $simulation->id,
-                'leg_type' => 'Window',
-                'leg_action' => 'main screen',
-                'start_time' => '12:03:24',
-                'end_time' => '12:03:24',
-                'activity_id' => 'A_wait',
-            ),
-            5 =>
             array(
                 'sim_id' => $simulation->id,
                 'leg_type' => 'System_dial_leg',
@@ -291,16 +269,6 @@ class LogActivityActionUnitTest extends CDbTestCase
                 'end_time' => '12:06:12',
                 'activity_id' => 'AE2a',
             ),
-            6 =>
-            array(
-                'sim_id' => $simulation->id,
-                'leg_type' => 'Window',
-                'leg_action' => 'main screen',
-                'start_time' => '12:06:12',
-                'end_time' => '12:06:12',
-                'activity_id' => 'A_wait',
-            ),
-            7 =>
             array(
                 'sim_id' => $simulation->id,
                 'leg_type' => 'System_dial_leg',
@@ -309,7 +277,6 @@ class LogActivityActionUnitTest extends CDbTestCase
                 'end_time' => '12:09:25',
                 'activity_id' => 'AE2b',
             ),
-            8 =>
             array(
                 'sim_id' => $simulation->id,
                 'leg_type' => 'Window',
