@@ -14,8 +14,6 @@ class LogHelper
 
     const LOGIN = false; //Писать лог в файл? true - да, false - нет
 
-    public $bom = "0xEF 0xBB 0xBF";
-
     protected static $codes_documents = array(40, 41, 42);
 
     protected static $codes_mail = array(10, 11, 12, 13, 14);
@@ -803,6 +801,8 @@ class LogHelper
                 }
             }
         }
+
+        $simulation->refresh();
     }
 
 }

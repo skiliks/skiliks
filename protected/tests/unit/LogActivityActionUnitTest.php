@@ -50,7 +50,6 @@ class LogActivityActionUnitTest extends CDbTestCase
         $this->assertEquals(0, $json['result']);
         unset($json);
         $st = array(
-            0 =>
             array(
                 'sim_id' => $simulation->id,
                 'leg_type' => 'Window',
@@ -61,7 +60,6 @@ class LogActivityActionUnitTest extends CDbTestCase
                 'activity_id' => 'A_wait',
                 'window_uid' => 1
             ),
-            1 =>
             array(
                 'sim_id' => $simulation->id,
                 'leg_type' => 'System_dial_leg',
@@ -72,18 +70,6 @@ class LogActivityActionUnitTest extends CDbTestCase
                 'activity_id' => 'AE1',
                 'window_uid' => 2
             ),
-            2 =>
-            array(
-                'sim_id' => $simulation->id,
-                'leg_type' => 'Window',
-                'leg_action' => 'main screen',
-                'window' => 1,
-                'start_time' => '11:14:53',
-                'end_time' => '11:14:53',
-                'activity_id' => 'A_wait',
-                'window_uid' => 3
-            ),
-            3 =>
             array(
                 'sim_id' => $simulation->id,
                 'leg_type' => 'System_dial_leg',
@@ -94,32 +80,32 @@ class LogActivityActionUnitTest extends CDbTestCase
                 'activity_id' => 'AE1',
                 'window_uid' => 4
             ),
-            4 =>
             array(
                 'sim_id' => $simulation->id,
                 'leg_type' => 'Window',
-                'window' => 1,
                 'leg_action' => 'main screen',
+                'window' => 1,
                 'start_time' => '12:13:12',
                 'end_time' => '12:13:22',
                 'activity_id' => 'A_wait',
                 'window_uid' => 5
 
-            ));
+            )
+        );
 
         SimulationService::simulationStop($simulation);
         $activityActions = $simulation->log_activity_actions;
         $data = [];
         foreach ($activityActions as $activityAction) {
             $data[] = [
-                'sim_id' => $activityAction->sim_id,
-                'leg_type' => $activityAction->activityAction->leg_type,
-                'leg_action' => $activityAction->activityAction->getAction()->getCode(),
-                'window' => $activityAction->window,
-                'start_time' => $activityAction->start_time,
-                'end_time' => $activityAction->end_time,
+                'sim_id'      => $activityAction->sim_id,
+                'leg_type'    => $activityAction->activityAction->leg_type,
+                'leg_action'  => $activityAction->activityAction->getAction()->getCode(),
+                'window'      => $activityAction->window,
+                'start_time'  => $activityAction->start_time,
+                'end_time'    => $activityAction->end_time,
                 'activity_id' => $activityAction->activityAction->activity->code,
-                'window_uid' => $activityAction->window_uid
+                'window_uid'  => $activityAction->window_uid
             ];
         }
         $this->assertEquals($st, $data);
