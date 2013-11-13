@@ -216,7 +216,10 @@ return [
         'change_pass' => "css=#YumUserChangePassword_password",
         'verify_pass' => "css=#YumUserChangePassword_verifyPassword",
         'save_new_pass' => "xpath=//*[@id='change-password-form']/div[3]/input",
-        'logo_img' => "xpath=//*[@id='top']/header/h1/a/img"
+        'logo_img' => "xpath=//*[@id='top']/header/h1/a/img",
+        'username' => "css=#YumUserLogin_username",
+        'userpass' => "css=#YumUserLogin_password",
+        'enter' => "css=.submit>input"
     ],
 
     'site_register' =>
@@ -249,6 +252,22 @@ return [
     ],
 
     'corporate' =>
-    [],
+    [
+        'username' => "css=.top-profile.top-profile-corp",
+        'startLite' => "css=.start-lite-simulation-btn.light-btn",
+        'startFull' => "css=.start-full-simulation.start-full-simulation-btn.light-btn",
+        'changeResultPresentation' => "css=.change-simulation-result-render.percentile-hover-toggle-span.percentile-toggle-on",
+        'inviteName' => "css=#Invite_firstname",
+        'inviteSurname' => "css=#Invite_lastname",
+        'inviteEmail' => "css=#Invite_email",
+        'addVacancy' => "css=#corporate-dashboard-add-vacancy",
+        'sendInvite' => "css=.row.buttons>input",
+        'invites_limit' => "xpath=//div/section/aside/div[2]/div/span"
+    ],
 
+    'popup_send_invite' =>
+    [
+        'fullName' => "css=#Invite_fullname",
+        'send' => "css=input[name='send']",
+    ]
 ];

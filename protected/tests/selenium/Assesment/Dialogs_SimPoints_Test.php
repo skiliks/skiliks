@@ -101,6 +101,18 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
         //$this->markTestIncomplete();
         $this->start_simulation("test_Dialogs_for_SK1790", 1);
         $this->optimal_click('link=F39');
+
+        $this->run_event('RST1',Yii::app()->params['test_mappings']['icons_active']['phone'], 'click');
+        $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
+        $this->optimal_click("xpath=(//*[contains(text(),'Кто вам нужен?')])");
+        $this->optimal_click("xpath=(//*[contains(text(),'Да, а вы кто?')])");
+        $this->optimal_click("xpath=(//*[contains(text(),'Слушайте, у меня времени нет, я смогу только в обед!')])");
+        $this->optimal_click("xpath=(//*[contains(text(),'Хорошо, сейчас от меня придет человек.')])");
+        $this->optimal_click("xpath=(//*[contains(text(),'Привет, Сергей! Ты очень занят?')])");
+        $this->optimal_click("xpath=(//*[contains(text(),'Конечно, мое задание')])");
+        $this->optimal_click("xpath=(//*[contains(text(),'Это так. Но речь идет всего о пятнадцати минутах')])");
+        $this->optimal_click("xpath=(//*[contains(text(),'Ну что ты, Сергей! За кофе по дороге на работу зайдешь')])");
+
         $this->run_event('E1',"xpath=(//*[contains(text(),'Раиса Романовна, помню про бюджет')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Ну, с помощью Крутько я должен управиться в эти сроки')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Марина, бросай все свои дела')])");
@@ -112,16 +124,6 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Я уже сказал, что дело срочное и что ты мне нужен')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Однако тебе все-таки придется выполнить это задание')])");
         //отправка MS22
-        $this->run_event('RST1',Yii::app()->params['test_mappings']['icons_active']['phone'], 'click');
-        $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
-        $this->optimal_click("xpath=(//*[contains(text(),'Кто вам нужен?')])");
-        $this->optimal_click("xpath=(//*[contains(text(),'Да, а вы кто?')])");
-        $this->optimal_click("xpath=(//*[contains(text(),'Слушайте, у меня времени нет, я смогу только в обед!')])");
-        $this->optimal_click("xpath=(//*[contains(text(),'Хорошо, сейчас от меня придет человек.')])");
-        $this->optimal_click("xpath=(//*[contains(text(),'Привет, Сергей! Ты очень занят?')])");
-        $this->optimal_click("xpath=(//*[contains(text(),'Конечно, мое задание')])");
-        $this->optimal_click("xpath=(//*[contains(text(),'Это так. Но речь идет всего о пятнадцати минутах')])");
-        $this->optimal_click("xpath=(//*[contains(text(),'Ну что ты, Сергей! За кофе по дороге на работу зайдешь')])");
 
         $this->assertTrue($this->verify_flag('F3','1'));
         $this->run_event('E2.2',"xpath=(//*[contains(text(),'Босс звонил. Требует эту презентацию.')])", 'click');
