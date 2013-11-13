@@ -3,7 +3,6 @@
  * @property []UniversalLog $universal_log
  */
 class ActivityActionAnalyzer {
-
     public $simulation;
     public $universal_log;
     public $activities;
@@ -13,31 +12,53 @@ class ActivityActionAnalyzer {
     public $activity_action;
     public $windows;
     public $documents;
-    public function __construct(Simulation $simulation) {
-        //LogActivityActionTest::model()->deleteAll();
+
+    /**
+     * Главная цель: задать $this->universal_log.
+     * $this->universal_log - используется дальше, для генерации log_activity_action
+     *
+     * @param Simulation $simulation
+     */
+    public function __construct(Simulation $simulation)
+    {
         $this->simulation = $simulation;
         $dialog_log = new UniversalLog();
         /* @var $universal_log UniversalLog */
         $universal_logs = UniversalLog::model()->findAllByAttributes(['sim_id'=>$simulation->id]);
-        //$universal_logs = UniversalLog::model()->findAll("sim_id = :sim_id and replica_id is not null", ['sim_id'=>$simulation->id]);
+
         foreach($universal_logs as $key => $universal_log){
-            //$this->universal_log = ;
+
+            /**
+             * Особым образом обрабатываются диалоги
+             *
+             * Предобработка логов диалогов.
+             * Для каждого диалога у нас несколько записей в universal_log.
+             * Но для создания лога LegActions (Activity actions) нам нужна только последняя реплика.
+             * Чтоб не портить universal_log - мы добавляем, но не сохраняем,
+             * dialog_log с правильными start_time и end_time.
+             */
             if(null !== $universal_log->replica_id) {
+
                 $dialog_log->replica_id = $universal_log->replica_id;
                 $dialog_log->start_time = (null === $dialog_log->start_time)?$universal_log->start_time:$dialog_log->start_time;
                 $dialog_log->end_time = $universal_log->end_time;
                 $dialog_log->window_id = $universal_log->window_id;
+                $dialog_log->window_uid = $universal_log->window_uid;
                 $dialog_log->last_dialog_id = $universal_log->last_dialog_id;
-                if(isset($universal_logs[$key+1])){
-                    if(null === $universal_logs[$key+1]->replica_id){
+
+                if (isset($universal_logs[$key+1])) {
+                    if (null === $universal_logs[$key+1]->replica_id) {
                         $this->appendUniversalLog($dialog_log);
                         $dialog_log = new UniversalLog();
                     }
-                }else{
+                } else {
                     $this->appendUniversalLog($dialog_log);
                     $dialog_log = new UniversalLog();
                 }
-            }else{
+             } else {
+                /**
+                 * Все прочие окна (не диалоги)
+                 */
                 $this->appendUniversalLog($universal_log);
             }
         }
