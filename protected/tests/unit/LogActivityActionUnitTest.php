@@ -293,6 +293,7 @@ class LogActivityActionUnitTest extends CDbTestCase
             $invite->scenario->slug = Scenario::TYPE_FULL;
             $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 
+            // Create fake Activity {
             $activity = new Activity();
             $activity->code = "WINPA";
             $activity->parent = 'WIN';
@@ -304,6 +305,7 @@ class LogActivityActionUnitTest extends CDbTestCase
             $activity->type = "Activity";
             $activity->scenario_id = $simulation->game_type->getPrimaryKey();
             $activity->save();
+
             $activityAction = new ActivityAction();
             $activityAction->activity_id = $activity->getPrimaryKey();
             $activityAction->window_id = 3;
@@ -311,8 +313,11 @@ class LogActivityActionUnitTest extends CDbTestCase
             $activityAction->import_id = '1234';
             $activityAction->scenario_id = $simulation->game_type->getPrimaryKey();
             $activityAction->save();
+            // Create fake Activity }
+
             $db = Activity::model()->findByAttributes(['code' => 'WINPA']);
             $this->assertNotNull($db);
+
             $db2 = ActivityAction::model()->findByAttributes(['activity_id' => $activity->getPrimaryKey(), 'scenario_id' => $simulation->game_type->getPrimaryKey()]);
             $this->assertNotNull($db2);
 
@@ -322,8 +327,16 @@ class LogActivityActionUnitTest extends CDbTestCase
             ];
 
             EventsManager::processLogs($simulation, $logs);
+
+            // Генерация activityAction {
+            LogHelper::updateUniversalLog($simulation);
+            $analyzer = new ActivityActionAnalyzer($simulation);
+            $analyzer->run();
+            // Генерация activityAction }
+
             $logAction = LogActivityAction::model()->findByAttributes(['sim_id' => $simulation->id, 'window' => 3, 'window_uid' => 130]);
             $this->assertEquals($activityAction->id, $logAction->activity_action_id);
+
             $resActivity = ActivityAction::model()->findByAttributes(['id' => $logAction->activity_action_id]);
             $this->assertEquals('WINPA', $resActivity->activity->code);
 
@@ -416,6 +429,12 @@ class LogActivityActionUnitTest extends CDbTestCase
             ];
 
             EventsManager::processLogs($simulation, $logs);
+
+            // Генерация activityAction {
+            LogHelper::updateUniversalLog($simulation);
+            $analyzer = new ActivityActionAnalyzer($simulation);
+            $analyzer->run();
+            // Генерация activityAction }
 
             LogMail::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
 
