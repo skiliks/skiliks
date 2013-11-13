@@ -258,7 +258,7 @@ class LogUnitTest extends CDbTestCase
         ]);
 
         EventsManager::processLogs($simulation, [
-        [1, 1, 'activated', 32400, 'window_uid' => 1],
+            [1, 1, 'activated', 32400, 'window_uid' => 1],
             [1, 1, 'deactivated', 32460, 'window_uid' => 1],
             [40, 41, 'activated', 32460, 'window_uid' => 2],
             [40, 41, 'deactivated', 32520, 'window_uid' => 2],
@@ -270,7 +270,9 @@ class LogUnitTest extends CDbTestCase
             [40, 42, 'deactivated', 32700, 'window_uid' => 4, ['fileId' => $document->primaryKey]],
         ]);
 
-        $simulation->refresh();
+        LogHelper::updateUniversalLog($simulation);
+        $analyzer = new ActivityActionAnalyzer($simulation);
+        $analyzer->run();
 
         $this->assertEquals($simulation->log_activity_actions[2]->activityAction->getAction()->getCode(), 'D1');
     }
