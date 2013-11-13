@@ -6,7 +6,7 @@
 /**
  * Тесты для тестирования работы регистрации персонального аккаунта по ссылке от корпоративного (для SK3366 и SK3364)
  */
-class Registration_by_link_SK3366 extends SeleniumTestHelper
+class Registration_by_link_SK3366_Test extends SeleniumTestHelper
 {
     /**
      * test_Registration_by_link_SK3366() тестирует задачу SKILIKS-3366
