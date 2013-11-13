@@ -30,6 +30,7 @@ define([
                     me.$el.empty().removeClass('loading').unbind("mousemove");
                     me.appLaunch();
                 });
+                this.resize();
                 if(window.gameConfig.canIntroPassed){
                     this.$el.mousemove( function(e) {
                         if(me.$el.outerHeight() / 3 >= e.pageY){
@@ -39,6 +40,7 @@ define([
                         }
                     });
                 }
+                $(window).on('resize', this.resize);
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -111,6 +113,23 @@ define([
 
         handleClick: function(){
             this.$el.find('#skiliks_intro').trigger('ended');
+        },
+        resize: function() {
+            var intro = $('#skiliks_intro');
+            console.log('$(window).width()', $(window).width());
+            console.log('$(window).height()', $(window).height());
+            intro.css("margin-left", 0);
+            intro.css("margin-top", 0);
+            intro.height($(window).height());
+            if($(window).width() / $(window).height() < 1280/800) { //1280x800video size
+                console.log("margin-left", ($(window).width() - intro.width()) / 2);
+                intro.css("margin-left", ($(window).width() - intro.width()) / 2);
+
+            }else if($(window).width() / $(window).height() > 1280/800){
+                console.log("margin-top", ($(window).height() - intro.height()) / 2);
+                intro.css("margin-top", ($(window).height() - intro.height()) / 2);
+            }
+            console.log('$(window).height()', $(window).height());
         }
     });
     return SKIntroView;
