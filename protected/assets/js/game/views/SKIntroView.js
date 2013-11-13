@@ -118,17 +118,48 @@ define([
             var intro = $('#skiliks_intro');
             console.log('$(window).width()', $(window).width());
             console.log('$(window).height()', $(window).height());
-            intro.css("margin-left", 0);
-            intro.css("margin-top", 0);
-            intro.height($(window).height());
-            if($(window).width() / $(window).height() < 1280/800) { //1280x800video size
+            var scale_height = $(window).height() / 800;
+            var scale_width = $(window).width() / 1422;
+            //intro.css("margin-left", 0);
+            //intro.css("margin-top", 0);
+            intro.css('height', '');
+            intro.css('width', '');
+            if(scale_height * 1422 >= $(window).width()) {
+                console.log('yes height');
+                intro.height($(window).height());
+
+                /*if($(window).width() < 1280) {
+                    intro.css('margin-left', ($(window).width()-1280)/2);
+                }
+                if($(window).height() < 800){
+                    intro.css('margin-top', ($(window).height() - 800)/2);
+                }*/
+                //intro.css('margin-left', $(window).width() - intro.width() );
+                //intro.css('margin-top', 0);
+                return;
+            }
+
+            if(scale_width*800 >= $(window).height()) {
+
+                /*if($(window).width() < 1280) {
+                    intro.css('padding-left', (1280 - $(window).width())/2);
+                }
+                if($(window).height() < 800){
+                    intro.css('padding-top', (800 - $(window).height())/2);
+                }*/
+                intro.width($(window).width());
+
+                console.log('yes width');
+                return;
+            }
+            /*if($(window).width() / $(window).height() < 1280/800) { //1280x800video size
                 console.log("margin-left", ($(window).width() - intro.width()) / 2);
                 intro.css("margin-left", ($(window).width() - intro.width()) / 2);
 
             }else if($(window).width() / $(window).height() > 1280/800){
                 console.log("margin-top", ($(window).height() - intro.height()) / 2);
                 intro.css("margin-top", ($(window).height() - intro.height()) / 2);
-            }
+            }*/
             console.log('$(window).height()', $(window).height());
         }
     });
