@@ -638,12 +638,13 @@ class SimulationService
     /**
      * @param Simulation $simulation
      * @param array $logs_src
+     * @param bool $manualRecalculation
      */
-    public static function simulationStop(Simulation $simulation, $logs_src = array(), $manual=false)
+    public static function simulationStop(Simulation $simulation, $logs_src = array(), $manualRecalculation = false)
     {
 
             // Check if simulation was already stopped
-            if (null !== $simulation->end && false === $manual) {
+            if (null !== $simulation->end && false === $manualRecalculation) {
                 return;
             }
 

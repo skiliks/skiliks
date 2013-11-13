@@ -131,7 +131,7 @@ class LogHelper
 
                 if (!isset($log[4]['fileId'])) continue;
 
-                if (self::ACTION_OPEN == (string)$log[2] OR self::ACTION_ACTIVATED == (string)$log[2]) {
+                if (self::ACTION_OPEN == (string)$log[2] || self::ACTION_ACTIVATED == (string)$log[2]) {
 
                     $log_obj = new LogDocument();
                     $log_obj->sim_id = $simId;
@@ -140,7 +140,7 @@ class LogHelper
                     $log_obj->end_time   = '00:00:00';
                     $log_obj->window_uid = $log['window_uid'];
                     $log_obj->save();
-                } elseif (self::ACTION_CLOSE == (string)$log[2] OR self::ACTION_DEACTIVATED == (string)$log[2]) {
+                } elseif (self::ACTION_CLOSE == (string)$log[2] || self::ACTION_DEACTIVATED == (string)$log[2]) {
 
                     $log_obj = LogDocument::model()->findByAttributes(array(
                         'file_id'  => $log[4]['fileId'],
@@ -152,7 +152,7 @@ class LogHelper
                     $log_obj->save();
                     continue;
                 } else {
-                    throw new Exception("Ошибка"); //TODO:Описание доделать
+                    throw new Exception("Ошибка создании лога окна. Неправильное имя действия открытие/закрытие откна."); //TODO:Описание доделать
                 }
             }
         }
