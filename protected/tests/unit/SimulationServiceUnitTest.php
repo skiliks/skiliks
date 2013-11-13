@@ -865,16 +865,22 @@ class SimulationServiceUnitTest extends CDbTestCase
         $invite->vacancy_id = $vacancy->id;
         $invite->save();
 
-        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL, Simulation::MODE_DEVELOPER_LABEL);
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL, Scenario::TYPE_FULL);
         $simulation->invite = $invite;
         $simulation->save();
 
         $logs = [];
         $logs[0][0]	= 1;
         $logs[0][1]	= 1;
-        $logs[0][2]	= 'activated';
+        $logs[0][2]	= LogHelper::ACTION_ACTIVATED;
         $logs[0][3]	= 65115;
         $logs[0]['window_uid'] = 24;
+
+        $logs[1][0]	= 1;
+        $logs[1][1]	= 1;
+        $logs[1][2]	= LogHelper::ACTION_DEACTIVATED;
+        $logs[1][3]	= 65215;
+        $logs[1]['window_uid'] = 24;
 
         SimulationService::simulationStop($simulation, $logs);
 
