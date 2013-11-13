@@ -10,12 +10,15 @@ class UserServiceUnitTest extends CDbTestCase
         $goodEmail = 'test@test.com';
         $badEmail = 'blablabla-test';
 
+        // Очиста данных
+        // 2 раза один и тот-же емейл добавить нельзя
+        EmailsSub::model()->deleteAllByAttributes(['email' => $goodEmail]);
+
         $result = UserService::addUserSubscription($goodEmail);
         $this->assertEquals($result['result'],1);
 
         $result = UserService::addUserSubscription($badEmail);
         $this->assertEquals($result['result'],0);
-        UserService::addUserSubscription($goodEmail);
 
         $forGood = EmailsSub::model()->findAllByAttributes([
             'email' => $goodEmail
