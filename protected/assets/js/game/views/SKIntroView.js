@@ -118,7 +118,7 @@ define([
             console.log("Test cache");
             var intro = $('#skiliks_intro');
             var height = 800; //высота видео
-            var width = 1422; //ширина видео
+            var width = 1280; //ширина видео
             var scale_height = $(window).height() / height; //коефициент маштабирования по высоте
             var scale_width = $(window).width() / width; //коефициент маштабирования по ширине
 
