@@ -101,6 +101,31 @@ class Registration_by_link_SK3373_Test extends SeleniumTestHelper
         sleep(3);
         $this->assertTrue($this->getText("css=.errorMessage.Invite_email")=="Приглашение уже отправлено");
 
+        //переход по ссылке от работодателя
+        $this->open($this->getInviteLink($emailForNewInvite));
+        $this->waitForTextPresent("Пожалуйста, зарегистрируйтесь, чтобы перейти к тестированию");
+
+        //проверка на валидацию ошибок при регистрации по ссылке
+        $this->optimal_click(Yii::app()->params['test_mappings']['register_by_link']['register_button']);
+        sleep(3);
+        $this->assertTrue($this->getText(Yii::app()->params['test_mappings']['register_by_link']['error_status'])=="Выберите профессиональный статус");
+        $this->assertTrue($this->getText(Yii::app()->params['test_mappings']['register_by_link']['error_password'])=="Введите пароль");
+        $this->assertTrue($this->getText(Yii::app()->params['test_mappings']['register_by_link']['error_password_again'])=="Подтвердите пароль");
+        $this->assertTrue($this->getText(Yii::app()->params['test_mappings']['register_by_link']['error_terms'])=="Вы должны согласиться с условиями");
+        $this->assertTrue($this->getValue(Yii::app()->params['test_mappings']['register_by_link']['invite_name'])=="InviteName");
+        $this->assertTrue($this->getValue(Yii::app()->params['test_mappings']['register_by_link']['invite_surname'])=="InviteSurname");
+
+        //очистить поля имя, фамилия
+        $this->type(Yii::app()->params['test_mappings']['register_by_link']['invite_name'],"");
+        $this->type(Yii::app()->params['test_mappings']['register_by_link']['invite_surname'],"");
+        $this->optimal_click(Yii::app()->params['test_mappings']['register_by_link']['register_button']);
+        sleep(3);
+        $this->assertTrue($this->getText(Yii::app()->params['test_mappings']['register_by_link']['error_name'])=="Введите имя");
+        $this->assertTrue($this->getText(Yii::app()->params['test_mappings']['register_by_link']['error_surname'])=="Введите фамилию");
+
+        //новое имя и фамилия, выбрать статус, ввести короткие пароли, открыть лиц. соглашение, закрыть, нажать на регистрацию
+        $this->type(Yii::app()->params['test_mappings']['register_by_link']['invite_name'],"NewInviteName");
+        $this->type(Yii::app()->params['test_mappings']['register_by_link']['invite_surname'],"NewInviteSurname");
 
     }
 }

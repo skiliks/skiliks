@@ -737,5 +737,18 @@ class SeleniumTestHelper extends CWebTestCase
         $UserDetails = array($name,$surname,$new_email,'123123');
         return $UserDetails;
     }
+
+    protected function getInviteLink ($emailU)
+    {
+        /* @var Invite $invite */
+        $criteria=new CDbCriteria;
+        $criteria->condition= 'email=:email';
+        $criteria->order= 't.id DESC';
+        $criteria->limit= 1;
+        $criteria->params= array(':email'=>$emailU);
+        $invite = Invite::model()->find($criteria);
+        $key = $invite->code;
+        return "/registration/by-link/". $key;
+    }
 }
 
