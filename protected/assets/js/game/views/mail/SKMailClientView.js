@@ -2568,6 +2568,7 @@ define([
                     // set attachment
                     if (response.attachmentId) {
                         this.once('attachment:load_completed', function () {
+                            console.log('attachment:load_completed');
                             var attachmentIndex = _.indexOf(me.mailClient.availableAttachments.map(function (attachment) {
                                     return attachment.fileMySqlId;
                                 }), response.attachmentId
