@@ -25,7 +25,5 @@ class Corporate_Dashboard_SK3366_Test extends SeleniumTestHelper
 
         $this->waitForVisible(Yii::app()->params['test_mappings']['corporate']['username']);
         $this->assertTrue($this->getText(Yii::app()->params['test_mappings']['corporate']['username'])=="seleniumEngine");
-
-
     }
 }

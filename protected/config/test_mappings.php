@@ -269,5 +269,36 @@ return [
     [
         'fullName' => "css=#Invite_fullname",
         'send' => "css=input[name='send']",
-    ]
+        //TODO: Дополнить маппинги для тексовых полей, чекбокса, скролов и т.д.
+    ],
+
+    'register_by_link' =>
+    [
+        'enter_for_registered' => "css=.text-right>a",
+        'invite_name' => "css=#YumProfile_firstname",
+        'invite_surname' => "css=#YumProfile_lastname",
+        'choose_status' => "link=Выберите статус",
+        'password' => "css=#YumUser_password",
+        'password_again' => "css=#YumUser_password_again",
+        'checkbox_terms' => "css=#YumUser_agree_with_terms",
+        'link_terms' => "css=.terms",
+        'close_terms_popup' => "css=.ui-icon.ui-icon-closethick",
+        'register_button' => "css=.ProximaNova-Bold.blue-submit-button",
+        'decline_register' => "css=.decline-link",
+        'error_name' => "css=.errorMessage.YumProfile_firstname",
+        'error_surname' => "css=.errorMessage.YumProfile_lastname",
+        'error_status' => "xpath=//*[@id='registration-by-link-form']/div[2]/div[2]",
+        'error_password' => "css=.errorMessage.YumUser_password",
+        'error_password_again' => "css=.errorMessage.YumUser_password_again",
+        'error_terms' => "xpath=//*[@id='registration-by-link-form']/div[5]/div",
+        'decline_reason_0' => "css=#DeclineExplanation_reason_id_0",
+        'decline_reason_1' => "css=#DeclineExplanation_reason_id_1",
+        'decline_reason_2' => "css=#DeclineExplanation_reason_id_2",
+        'decline_reason_3' => "css=#DeclineExplanation_reason_id_3",
+        'close_decline_popup' => "css=.close",
+        'back_to_registration' => "css=.chancel-decline",
+        'confirm_decline_invite' => "css=.confirm-decline",
+        'input_area_for_reason' => "css=#DeclineExplanation_description",
+        'error_msg_for_reason' => "xpath=//*[@id='form-decline-explanation']/div[1]/div/div"
+    ],
 ];
