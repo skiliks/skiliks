@@ -115,6 +115,7 @@ define([
             this.$el.find('#skiliks_intro').trigger('ended');
         },
         resize: function() {
+            console.log("Test cache");
             var intro = $('#skiliks_intro');
             var height = 800; //высота видео
             var width = 1422; //ширина видео
