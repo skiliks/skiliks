@@ -16,7 +16,7 @@ return CMap::mergeArray(
                 'connectionString' => 'mysql:host=127.0.0.1;dbname=skiliks_develop',
                 'emulatePrepare' => true,
                 'username' => 'root',
-                'password' => '',
+                'password' => '1111',
                 'charset' => 'utf8',
 
                 'enableParamLogging' => true,
