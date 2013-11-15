@@ -382,15 +382,9 @@ class EmailAnalyzer
      * 
      * @return mixed array
      */
-    public function check_3313($limit = 0.9)
+    public function check_3313()
     {
         $behave_3313 = $this->simulation->game_type->getHeroBehaviour(['code'=> 3313, 'type_scale'=>1]);
-
-        if (null === $behave_3313) {
-            return [
-                '3313' => []
-            ];
-        }
 
         $possibleRightActions = 0;
         $rightActions = 0;
@@ -407,15 +401,10 @@ class EmailAnalyzer
         }
         
         // grand score for user, if he read more or equal to $limit of not-spam emails only
-        $mark = 0;
-        if ($possibleRightActions === 0) {
-            $mark = 0;
-        } else if ($limit <= $rightActions/$possibleRightActions) {
-            $mark = 1;
-        }
+        $value = $behave_3313->scale * $rightActions/$possibleRightActions;
         
         return array(
-            'positive' => $behave_3313 ? $mark * $behave_3313->scale : 0,
+            'positive' => $value,
             'obj'      => $behave_3313,
         );
     }
@@ -428,12 +417,6 @@ class EmailAnalyzer
     public function check_3333()
     {
         $behave_3333 = $this->simulation->game_type->getHeroBehaviour(['code' => '3333', 'type_scale' => 1]);
-
-        if (null === $behave_3333) {
-            return [
-                '3333' => []
-            ];
-        }
 
         $wrongActions = 0;
         
@@ -464,12 +447,6 @@ class EmailAnalyzer
     public function check_3326()
     {
         $behave_3326 = $this->simulation->game_type->getHeroBehaviour(['code' => '3326', 'type_scale' => 1]);
-
-        if (null === $behave_3326) {
-            return [
-                '3326' => []
-            ];
-        }
 
         $configs = Yii::app()->params['analizer']['emails']['3326'];
 
@@ -587,41 +564,31 @@ class EmailAnalyzer
         }
 
         // проверяем что пользователь читал почту более 90 минут - это плохо
-        if (180*60 < $workWithMailTotalDuration) {
+        if ($workWithMailTotalDuration < 90*60) {
+
+            $value = $behave_3311->scale;
+
             return array(
-                $behave_3311->getTypeScaleSlug() => 0,
+                $behave_3311->getTypeScaleSlug() => $value,
                 'obj'                            => $behave_3311,
                 'case'                           => 2, // 'case' - option for test reasons only
             );
         } else {
 
-            $value = 0;
-
-            if ($workWithMailTotalDuration <= 120*60) {
-                $value = $behave_3311->scale;
-            }
-
-            if (120*60 < $workWithMailTotalDuration && $workWithMailTotalDuration <= 150*60) {
-                $value = $behave_3311->scale * (2/3);
-            }
-
-            if (150*60 < $workWithMailTotalDuration && $workWithMailTotalDuration <= 180*60) {
-                $value = $behave_3311->scale * (1/3);
-            }
-
-            return array(
-                $behave_3311->getTypeScaleSlug() => $value,
+            $value = $behave_3311->scale * (1-(($workWithMailTotalDuration/60 - 90)/100));
+            return [
+                $behave_3311->getTypeScaleSlug() => ( $value < 0 ) ? 0 : $value,
                 'obj'                            => $behave_3311,
-                'case'                           => 5, // 'case' - option for test reasons only
-            );
+                'case'                           => 3, // 'case' - option for test reasons only
+            ];
         }
 
         // сюда программа дойти не должна - но пусть хоть 0 вернёт, на всякий случай
-        return array(
+        return [
             $behave_3311->getTypeScaleSlug() => 0,
             'obj'                            => $behave_3311,
             'case'                           => 0, // 'case' - option for test reasons only
-        );
+        ];
     }
 
     /**
