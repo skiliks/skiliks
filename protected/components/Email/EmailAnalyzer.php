@@ -562,9 +562,10 @@ class EmailAnalyzer
                 $workWithMailTotalDuration += TimeTools::timeToSeconds($logItem->duration);
             }
         }
+        $workWithMailTotalDuration = $workWithMailTotalDuration/60; // minutes
 
         // проверяем что пользователь читал почту более 90 минут - это плохо
-        if ($workWithMailTotalDuration < 90*60) {
+        if ($workWithMailTotalDuration < 90) {
 
             $value = $behave_3311->scale;
 
@@ -574,10 +575,11 @@ class EmailAnalyzer
                 'case'                           => 2, // 'case' - option for test reasons only
             );
         } else {
+            $value = $behave_3311->scale * (1 - (($workWithMailTotalDuration - 90)/100));
+            $value = ( $value < 0 ) ? 0 : $value;
 
-            $value = $behave_3311->scale * (1-(($workWithMailTotalDuration/60 - 90)/100));
             return [
-                $behave_3311->getTypeScaleSlug() => ( $value < 0 ) ? 0 : $value,
+                $behave_3311->getTypeScaleSlug() => $value,
                 'obj'                            => $behave_3311,
                 'case'                           => 3, // 'case' - option for test reasons only
             ];
