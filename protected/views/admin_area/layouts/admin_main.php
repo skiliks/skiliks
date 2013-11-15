@@ -56,7 +56,6 @@
 
     <footer>
         <p>Yii version: <?= Yii::getVersion(); ?></p>
-        <p>Логирование: <?= (Yii::app()->params['disableOldLogging'])?'Новое':'Старое'; ?></p>
     </footer>
 </div>
 </body>
