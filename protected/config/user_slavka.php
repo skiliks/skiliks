@@ -66,7 +66,6 @@ return CMap::mergeArray(
             'assetsDebug' => true,
             'isUseResultPopUpCache' => false,
             'runMigrationOn'        => 'production',
-            'disableOldLogging'     => true,
             'public' => [
                 'isLocalPc'            => true,
                 'isUseZohoProxy'       => false,
