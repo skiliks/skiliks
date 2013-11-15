@@ -587,41 +587,31 @@ class EmailAnalyzer
         }
 
         // проверяем что пользователь читал почту более 90 минут - это плохо
-        if (180*60 < $workWithMailTotalDuration) {
+        if ($workWithMailTotalDuration < 90*60) {
+
+            $value = $behave_3311->scale;
+
             return array(
-                $behave_3311->getTypeScaleSlug() => 0,
+                $behave_3311->getTypeScaleSlug() => $value,
                 'obj'                            => $behave_3311,
                 'case'                           => 2, // 'case' - option for test reasons only
             );
         } else {
 
-            $value = 0;
-
-            if ($workWithMailTotalDuration <= 120*60) {
-                $value = $behave_3311->scale;
-            }
-
-            if (120*60 < $workWithMailTotalDuration && $workWithMailTotalDuration <= 150*60) {
-                $value = $behave_3311->scale * (2/3);
-            }
-
-            if (150*60 < $workWithMailTotalDuration && $workWithMailTotalDuration <= 180*60) {
-                $value = $behave_3311->scale * (1/3);
-            }
-
-            return array(
+            $value = $behave_3311->scale * (1-(($workWithMailTotalDuration/60 - 90)/100));
+            return [
                 $behave_3311->getTypeScaleSlug() => $value,
                 'obj'                            => $behave_3311,
-                'case'                           => 5, // 'case' - option for test reasons only
-            );
+                'case'                           => 3, // 'case' - option for test reasons only
+            ];
         }
 
         // сюда программа дойти не должна - но пусть хоть 0 вернёт, на всякий случай
-        return array(
+        return [
             $behave_3311->getTypeScaleSlug() => 0,
             'obj'                            => $behave_3311,
             'case'                           => 0, // 'case' - option for test reasons only
-        );
+        ];
     }
 
     /**
