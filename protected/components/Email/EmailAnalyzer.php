@@ -576,6 +576,10 @@ class EmailAnalyzer
             );
         } else {
             $value = $behave_3311->scale * (1 - (($workWithMailTotalDuration - 90)/100));
+
+            // Пользователь может проработать с почтой более 190 минут
+            // тогда "($workWithMailTotalDuration - 90) / 100" будет менше нуля
+            // это недопустимо, минимальное значение - 0.
             $value = ( $value < 0 ) ? 0 : $value;
 
             return [
