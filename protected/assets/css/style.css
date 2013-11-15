@@ -5385,9 +5385,12 @@ ul.default li:hover {
     margin-left: 25px;
     width:392px;
     background-color: #fdfbc6;
-    color:#fff;
     padding: 24px 24px 10px 24px;
     text-align: center;
+
+    color: #3C3C32;
+    line-height: 20px;
+    font-size: 20px;
 }
 
 .referral-span-first {
@@ -5401,6 +5404,7 @@ ul.default li:hover {
 .referral-right-div .ProximaNova-font-11px {
     text-align: left;
     font-size: 11px;
+    line-height: 11px;
     margin-top:5px;
 }
 
@@ -5505,9 +5509,12 @@ ul.default li:hover {
         margin-left: 16px;
         width:313px;
         background-color: #fdfbc6;
-        color:#fff;
         padding: 15px 15px 8px 15px;
         text-align: center;
+
+        color: #3C3C32;
+        line-height: 16px;
+        font-size: 16px;
     }
 
     .referral-span-first {
@@ -5521,11 +5528,12 @@ ul.default li:hover {
     .referral-right-div .ProximaNova-font-11px {
         text-align: left;
         font-size: 9px;
+        line-height: 9px;
         margin-top:4px;
     }
 
     .referral-right-div .ProximaNova-font-11px.with-margin-top {
-        margin-top:37px;
+        margin-top: 60px;
     }
 
     .referral-bottom-p {
