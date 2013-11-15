@@ -30,7 +30,6 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
     ),
     'params'=>array(
         'server_name' => 'http://skiliks.com/',
-        'disableOldLogging' => true,
         'frontendUrl'=>'http://test.skiliks.com/',
         'public' => [
             'isLocalPc'            => true,

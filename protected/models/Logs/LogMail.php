@@ -151,58 +151,6 @@ class LogMail extends CActiveRecord
             }
         }
 
-        if(false === Yii::app()->params['disableOldLogging']) {
-
-            /** @var $activity_action ActivityAction */
-            $activity_action = null;
-            if ($template !== null){
-                // If mail is correct MS
-                $activity_action = ActivityAction::model()->findByPriority(
-                    ['mail_id' => $template->primaryKey ],
-                    ['Inbox_leg', 'Outbox_leg'],
-                    $this->simulation
-                );
-
-                $exists = AssessmentPoint::model()->findByAttributes([
-                    'sim_id' => $this->sim_id,
-                    'mail_id' => $template->id
-                ]);
-
-                if (empty($exists)) {
-//                    вынесенно вверх
-//                    $mailPoints = $this->simulation->game_type->getMailPoints(['mail_id' => $template->id]);
-//                    /** @var MailPoint[] $mailPoints */
-//                    foreach ($mailPoints as $mailPoint) {
-//                        $assessmentPoint = new AssessmentPoint();
-//                        $assessmentPoint->sim_id = $this->sim_id;
-//                        $assessmentPoint->point_id = $mailPoint->point_id;
-//                        $assessmentPoint->mail_id = $template->id;
-//                        $assessmentPoint->value = $mailPoint->add_value;
-//
-//                        $assessmentPoint->save();
-//                    }
-                }
-            } else {
-                // If mail is incorrect MS or not sent
-                if ($this->mail !== null) {
-                    $activity = $this->simulation->game_type->getActivity([
-                        'code' => $this->mail->isSended() ? 'A_incorrect_sent' : 'A_not_sent'
-                    ]);
-
-                    if (null !== $activity) {
-                        $activity_action = ActivityAction::model()->findByPriority(
-                            ['activity_id' => $activity->getPrimaryKey() ],
-                            NULL,
-                            $this->simulation
-                        );
-                    }
-                }
-            }
-            if ($activity_action !== null && $this->end_time !== null) {
-                $activity_action->appendLog($this);
-            }
-        }
-
         parent::afterSave();
     }
 
