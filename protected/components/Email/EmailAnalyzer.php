@@ -577,7 +577,7 @@ class EmailAnalyzer
 
             $value = $behave_3311->scale * (1-(($workWithMailTotalDuration/60 - 90)/100));
             return [
-                $behave_3311->getTypeScaleSlug() => $value,
+                $behave_3311->getTypeScaleSlug() => ( $value < 0 ) ? 0 : $value,
                 'obj'                            => $behave_3311,
                 'case'                           => 3, // 'case' - option for test reasons only
             ];
