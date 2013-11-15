@@ -693,11 +693,11 @@ class SimulationService
                         throw $e;
                     }
                 }
-                if(Yii::app()->params['disableOldLogging']){
-                    LogHelper::updateUniversalLog($simulation);
-                    $analyzer = new ActivityActionAnalyzer($simulation);
-                    $analyzer->run();
-                }
+
+                LogHelper::updateUniversalLog($simulation);
+                $analyzer = new ActivityActionAnalyzer($simulation);
+                $analyzer->run();
+
                 // Make aggregated activity log
                 LogHelper::combineLogActivityAgregated($simulation);
 

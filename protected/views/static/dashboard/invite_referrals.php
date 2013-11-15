@@ -63,8 +63,8 @@
         <div class="referral-right-div">
             <img class="referral-present-img" src="<?=$assetsUrl?>/img/referral-present-big.png" />
             <p class="referral-span-first">
-                <span class="ProximaNova-20">1 симуляция в месяц</span> <span class="ProximaNova-Bold-22px">НАВСЕГДА</span><br/>
-                <span class="ProximaNova-20">за каждого нового корпоративного пользователя по вашей рекомендации</span>
+                1 симуляция в месяц <strong>НАВСЕГДА</strong><br/>
+                за каждого нового корпоративного пользователя по вашей рекомендации
             </p>
             <p class="ProximaNova-font-11px with-margin-top">
                 Симуляции останутся на вашем аккаунте навсегда, даже если у вас закончится текущий тариф.

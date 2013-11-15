@@ -1022,6 +1022,7 @@ class AdminPagesController extends SiteBaseController {
             'logInvite'     => $logInvite,
             'logSimulation' => $logSimulation,
             'simulation'    => $simulation,
+            'invite'        => $invite,
         ]);
     }
 

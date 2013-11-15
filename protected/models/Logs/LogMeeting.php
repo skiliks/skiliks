@@ -26,24 +26,6 @@ class LogMeeting extends CActiveRecord
 		return parent::model($className);
 	}
 
-    protected function afterSave()
-    {
-        if(false === Yii::app()->params['disableOldLogging']) {
-            /** @var $activityAction ActivityAction */
-            $activityAction = ActivityAction::model()->findByPriority(
-                ['meeting_id' => $this->meeting_id],
-                NULL,
-                $this->simulation
-            );
-
-            if (null !== $activityAction && null !== $this->window_uid) {
-                $activityAction->appendLog($this);
-            }
-        }
-
-        parent::afterSave();
-    }
-
 	/**
 	 * @return string the associated database table name
 	 */

@@ -280,11 +280,13 @@ define([], function () {
                 SKApp.server.api('dialog/get', {
                     'dialogId': replica_id
                 }, function (data) {
+                    console.log(data);
                     if (data.result === 1) {
                         if (me.getStatus() !== 'completed') {
                             me.complete();
                             cb();
                         }
+                        console.log('dialog/get');
                         SKApp.simulation.parseNewEvents(data.events, 'dialog/get');
                         SKApp.simulation.getNewEvents();
                     }

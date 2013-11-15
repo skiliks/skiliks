@@ -1457,7 +1457,7 @@ define([
             /**
              * @method
              */
-            renderWriteCustomNewEmailScreen: function (event, icons, draftEmail) {
+            renderWriteCustomNewEmailScreen: function (event, icons, draftEmail, callback) {
                 try {
                     this.mailClient.setActiveScreen(this.mailClient.screenWriteNewCustomEmail);
                     this.mailClient.newEmailUsedPhrases = [];
@@ -1522,6 +1522,10 @@ define([
                             mailClientView.$("#MailClient_NewLetterAttachment div.list").ddslick(
                                 "select", {index: attachmentIndex + 1 }
                             );
+                        }
+
+                        if(typeof callback === 'function') {
+                            callback();
                         }
                     });
 
@@ -1634,8 +1638,8 @@ define([
                     this.updateIdsForCharacterlist($('ul.ui-autocomplete:eq(1)').find('a'));
 
                     // this.delegateEvents();
-
                     this.mailClient.setWindowsLog('mailNew');
+
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -2568,11 +2572,14 @@ define([
                     // set attachment
                     if (response.attachmentId) {
                         this.once('attachment:load_completed', function () {
-                            var attachmentIndex = _.indexOf(me.mailClient.availableAttachments.map(function (attachment) {
-                                    return attachment.fileMySqlId;
-                                }), response.attachmentId
-                            );
-
+                            console.log('attachment:load_completed');
+                            var attachmentIndex = 0;
+                            $.each(me.mailClient.availableAttachments, function(index, attachment) {
+                                if(response.attachmentId === attachment.fileMySqlId){
+                                    attachmentIndex = index;
+                                    return false;
+                                }
+                            });
                             me.$("#MailClient_NewLetterAttachment div.list").ddslick("select", {index: attachmentIndex + 1 });
                         });
 
@@ -2977,29 +2984,28 @@ define([
                 try {
                     var me = this;
                     me.isFantasticSend = true;
-                    setTimeout(function () {
-                        me.renderWriteCustomNewEmailScreen();
+                        me.renderWriteCustomNewEmailScreen(undefined, undefined, undefined, function() {
+                            console.log('Callback');
+                            me.fillMessageWindow(email);
+                            var cursor = me.make('div', {'class': 'cursor'});
+                            me.$el.append(cursor);
+                            $(cursor)
+                                .css('top', '500px')
+                                .css('left', '500px')
+                                .animate({
+                                    'left': me.$('.SEND_EMAIL').offset().left + me.$('.SEND_EMAIL').width()/2,
+                                    'top': me.$('.SEND_EMAIL').offset().top + me.$('.SEND_EMAIL').height()/2
+                                }, 3400, function (){
 
-                        me.fillMessageWindow(email);
-                        var cursor = me.make('div', {'class': 'cursor'});
-                        me.$el.append(cursor);
-                        $(cursor)
-                            .css('top', '500px')
-                            .css('left', '500px')
-                            .animate({
-                                'left': this.$('.SEND_EMAIL').offset().left + this.$('.SEND_EMAIL').width()/2,
-                                'top': this.$('.SEND_EMAIL').offset().top + this.$('.SEND_EMAIL').height()/2
-                            }, 3400, function (){
+                                    me.doSendEmail();
 
-                                me.doSendEmail();
-
-                                setTimeout(function () {
-                                    me.options.model_instance.close();
-                                    me.isFantasticSend = false;
-                                    me.mailClient.trigger('mail:fantastic-send:complete');
-                                }, 1000);
-                            });
-                    },0);
+                                    setTimeout(function () {
+                                        me.options.model_instance.close();
+                                        me.isFantasticSend = false;
+                                        me.mailClient.trigger('mail:fantastic-send:complete');
+                                    }, 1000);
+                                });
+                        });
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);

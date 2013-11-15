@@ -21,7 +21,7 @@ $lang = Yii::app()->getLanguage();
                     <?php echo $tariff->getPrice() % 1000 ?>
                 </p>
             </div>
-            <div class="tarifwrap">
+            <div class="tarifwrap <?= $lang ?>">
 
                 <?php if($tariff->getSaveAmount() != 0.00) : ?>
                     <div class="brightblock">

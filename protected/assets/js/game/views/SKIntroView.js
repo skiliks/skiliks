@@ -115,52 +115,51 @@ define([
             this.$el.find('#skiliks_intro').trigger('ended');
         },
         resize: function() {
+            console.log("Test cache");
             var intro = $('#skiliks_intro');
-            console.log('$(window).width()', $(window).width());
-            console.log('$(window).height()', $(window).height());
-            var scale_height = $(window).height() / 800;
-            var scale_width = $(window).width() / 1422;
-            //intro.css("margin-left", 0);
-            //intro.css("margin-top", 0);
+            var height = 800; //высота видео
+            var width = 1280; //ширина видео
+            var scale_height = $(window).height() / height; //коефициент маштабирования по высоте
+            var scale_width = $(window).width() / width; //коефициент маштабирования по ширине
+
+            //очищаем маштабирование
+            intro.css("margin-left", '');
             intro.css('height', '');
             intro.css('width', '');
-            if(scale_height * 1422 >= $(window).width()) {
+
+            //проверяем как маштабируеться высота по коефициенту ширины
+            if(scale_height * width >= $(window).width()) {
                 console.log('yes height');
-                intro.height($(window).height());
 
-                /*if($(window).width() < 1280) {
-                    intro.css('margin-left', ($(window).width()-1280)/2);
+                //если высота больше высоты видео то меняем
+                if($(window).height() > height){
+                    intro.height($(window).height());
                 }
-                if($(window).height() < 800){
-                    intro.css('margin-top', ($(window).height() - 800)/2);
-                }*/
-                //intro.css('margin-left', $(window).width() - intro.width() );
-                //intro.css('margin-top', 0);
-                return;
+
+                //если ширина меньше ширины видео то маштабируем по ширине
+                if($(window).width() < width) {
+                    intro.css('margin-left', ($(window).width()-width)/2);
+                }
+                console.log('$(window).width()',$(window).width());
+                return true;
             }
 
-            if(scale_width*800 >= $(window).height()) {
+            //проверяем как маштабируеться ширина по коефициенту высоты
+            if(scale_width*height >= $(window).height()) {
 
-                /*if($(window).width() < 1280) {
-                    intro.css('padding-left', (1280 - $(window).width())/2);
+
+                //если ширина больше ширины видео то меняем
+                if($(window).width() > width) {
+                    intro.width($(window).width());
                 }
-                if($(window).height() < 800){
-                    intro.css('padding-top', (800 - $(window).height())/2);
-                }*/
-                intro.width($(window).width());
 
+                //если ширина меньше ширины видео то маштабируем по ширине
+                if($(window).width() < width) {
+                    intro.css('margin-left', ($(window).width()-width)/2);
+                }
                 console.log('yes width');
-                return;
+                return true;
             }
-            /*if($(window).width() / $(window).height() < 1280/800) { //1280x800video size
-                console.log("margin-left", ($(window).width() - intro.width()) / 2);
-                intro.css("margin-left", ($(window).width() - intro.width()) / 2);
-
-            }else if($(window).width() / $(window).height() > 1280/800){
-                console.log("margin-top", ($(window).height() - intro.height()) / 2);
-                intro.css("margin-top", ($(window).height() - intro.height()) / 2);
-            }*/
-            console.log('$(window).height()', $(window).height());
         }
     });
     return SKIntroView;
