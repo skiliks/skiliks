@@ -4,12 +4,12 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
     'preload'=> array('log', 'RSentryException'),
     'components'=>array(
         'db'=>array(
-            'connectionString' => 'mysql:host=localhost;dbname=skiliks_test',
+            'connectionString' => 'mysql:host=localhost;dbname=skiliks_develop_stable',
             'emulatePrepare' => true,
-            'username' => 'skiliks_test',
-            'password' => 'dep-vep-eb-up-a',
+            'username' => 'dev_stable',
+            'password' => 'AscbdTgs12-w',
             'charset' => 'utf8',
-            
+
             'enableParamLogging'=>true,
             'enableProfiling'=>true
         ),
@@ -29,11 +29,15 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
         ),
     ),
     'params'=>array(
-        'server_name' => 'http://skiliks.com/',
-        'frontendUrl'=>'http://test.skiliks.com/',
+        'server_name'                   => 'http://skiliks.com/',
+        'frontendUrl'=>'http://live.skiliks.com/',
+        'runMigrationOn' => 'live',
         'public' => [
+            'storageURL'           => 'http://storage.dev.skiliks.com/',
             'isLocalPc'            => true,
-            'isDisplaySupportChat' => false,
+            'useSentryForJsLog'    => true,
+            'isSkipBrowserCheck'   => true,
+            'isDisplaySupportChat' => true,
         ]
     )
 ));

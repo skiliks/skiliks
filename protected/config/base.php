@@ -97,9 +97,6 @@ return CMap::mergeArray(
             // просто подпись на сайте, вынесена в конфиг - чтоб было проще править
             'demoDuration'                  => 5, // min
 
-            // переключает режил логирования leg action detailed
-            'disableOldLogging'             => false,
-
             // отключает проверку
             'disableAssets'                 => false,
 

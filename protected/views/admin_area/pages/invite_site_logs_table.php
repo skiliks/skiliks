@@ -11,22 +11,39 @@
 <div class="row fix-top">
 
     <!-- Invite: -->
-<? if($simulation !== null) : ?>
-    <h2>Лог операций над приглашением <?= $simulation->invite->id ?></h2>
+    <h2>Лог операций над приглашением <?= $invite->id ?></h2>
 
     <table class="table table-bordered">
-        <tr><td>От</td><td> <?= (null !== $simulation->invite && null !== $simulation->invite->ownerUser)?$simulation->invite->ownerUser->profile->email:'-' ?></td></tr>
-        <tr><td>для</td><td> <?= (null !== $simulation->invite)?$simulation->invite->email:'-' ?></td></tr>
-        <tr><td>Оценка</td><td> <?= (null !== $simulation->invite->getOverall()) ? $simulation->invite->getOverall() : '-'; ?></td></tr>
-        <tr><td>Процентиль</td><td> <?= (null !== $simulation->invite->getPercentile()) ? $simulation->invite->getPercentile() : '-'; ?></td></tr>
-        <tr><td>Дата создания</td><td> <?= (null !== $simulation->invite->sent_time) ? $simulation->invite->sent_time : '-'; ?></td></tr>
-        <tr><td>Дата окончание</td><td> <?= (null !== $simulation->invite->expired_at) ? $simulation->invite->expired_at : '-'; ?></td></tr>
+        <tr>
+            <td>От</td>
+            <td> <?= (null !== $invite && null !== $invite->ownerUser) ? $invite->ownerUser->profile->email:'-' ?></td>
+        </tr>
+        <tr>
+            <td>для</td>
+            <td> <?= (null !== $invite) ? $invite->email:'-' ?></td>
+        </tr>
+        <tr>
+            <td>Оценка</td>
+            <td> <?= (null !== $invite->getOverall()) ? $invite->getOverall() : '-'; ?></td>
+        </tr>
+        <tr>
+            <td>Процентиль</td>
+            <td> <?= (null !== $invite->getPercentile()) ? $invite->getPercentile() : '-'; ?></td>
+        </tr>
+        <tr>
+            <td>Дата создания</td>
+            <td> <?= (null !== $invite->sent_time) ? $invite->sent_time : '-'; ?></td>
+        </tr>
+        <tr>
+            <td>Дата окончание</td>
+            <td> <?= (null !== $invite->expired_at) ? $invite->expired_at : '-'; ?></td>
+        </tr>
     </table>
 
-    <?php if(null !== $simulation->invite) : ?>
-    <?php $this->renderPartial('//admin_area/partials/_invite_actions', [
-        'invite' => $simulation->invite,
-    ]) ?>
+    <?php if(null !== $invite) : ?>
+        <?php $this->renderPartial('//admin_area/partials/_invite_actions', [
+            'invite' => $invite,
+        ]) ?>
     <?php endif ?>
     <br/>
     <br/>
@@ -68,8 +85,7 @@
         <div style="text-align: center; width: 100%;">Нет записей.</div>
     <?php endif; ?>
 
-<hr/>
-
+<?php if (null !== $simulation) : ?>
     <!-- Simulation: -->
 
     <?php $this->renderPartial('//admin_area/pages/simulation_site_logs_table', [
@@ -77,28 +93,27 @@
         'simulation'       => $simulation
     ]) ?>
 
+<?php endif; ?>
+
     <hr/>
 
     <p>
-        <strong>Результат теста</strong>:
-        <?php if($simulation->invite->is_crashed !== null) : ?>
-            <?= ($simulation->invite->is_crashed == 1) ? "Fail" : "Success"; ?>
+        <strong>Результат selenium-теста</strong>:
+        <?php if($invite->is_crashed !== null) : ?>
+            <?= ($invite->is_crashed == 1) ? "Fail" : "Success"; ?>
+        <?php else: ?>
+            симуляция была пройдена не тестом, а человеком.
         <? endif; ?>
     </p>
 
     <p>
-        <strong>Stacktrace</strong>:
-        <?php if($simulation->invite->stacktrace !== null) : ?>
+        <strong>Stack-trace for Selenium text</strong>:
+        <?php if($invite->stacktrace !== null) : ?>
             <p>
-                <?= $simulation->invite->stacktrace; ?>
+                <?= $invite->stacktrace; ?>
             </p>
+        <?php else: ?>
+            пустой stack-trace.
         <? endif; ?>
-    
     </p>
-
-<?php else : ?>
-    <h2>
-        По данному приглашению не найдена симмуляция.
-    </h2>
-<?php endif; ?>
 </div>

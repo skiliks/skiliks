@@ -868,14 +868,20 @@ body {
       text-align: center;
       width:344px;
 
+      background-color: #25211b;
       background: -webkit-linear-gradient(top, #443d32, #25211b);
       background: -moz-linear-gradient(top, #443d32, #25211b);
-      background: linear-gradient(top, #443d32, #25211b);
+      background-image: linear-gradient(top, #443d32, #25211b);
+      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#443d32', endColorstr='#25211b', GradientType=1); /* IE6-9 */
+      background-image: -ms-linear-gradient(top, #443d32 0%, #25211b 100%); /* IE 10 */
 
       &:hover {
+        background-color: #a56e25;
         background: -webkit-linear-gradient(top, #a56e25, #905810);
         background: -moz-linear-gradient(top, #a56e25, #905810);
-        background: linear-gradient(top, #a56e25, #905810);
+        background-image: linear-gradient(top, #a56e25, #905810);
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a56e25', endColorstr='#905810', GradientType=1); /* IE6-9 */
+        background-image: -ms-linear-gradient(top, #a56e25 0%, #905810 100%); /* IE 10 */
       }
     }
   }
