@@ -2834,7 +2834,9 @@ SocialCalc.FitToEditTable = function(editor) {
          }
       }
 
-   for (colnum=context.colpanes[colpane].first; colnum<=10000; colnum++) { //!!! max for safety, but makes that col max!!!
+   //!!! max for safety, but makes that col max!!!
+   // for (colnum=context.colpanes[colpane].first; colnum<=10000; colnum++) {
+   for (colnum=context.colpanes[colpane].first; colnum <= 200; colnum++) {
       colname=SocialCalc.rcColname(colnum);
       colwidth = sheetobj.colattribs.width[colname] || sheetobj.attribs.defaultcolwidth || SocialCalc.Constants.defaultColWidth;
       if (colwidth=="blank" || colwidth=="auto") colwidth="";
@@ -2849,13 +2851,13 @@ SocialCalc.FitToEditTable = function(editor) {
    totalrows=context.showRCHeaders ? 1 : 0;
    for (rowpane=0; rowpane<context.rowpanes.length-1; rowpane++) { // count all panes but last one
       totalrows += context.rowpanes[rowpane].last - context.rowpanes[rowpane].first + 1;
-      }
+   }
 
    needed = editor.tableheight - totalrows * context.pixelsPerRow; // estimate amount needed
 
    context.rowpanes[rowpane].last = context.rowpanes[rowpane].first + Math.floor(needed / context.pixelsPerRow) + 1;
 
-   }
+}
 
 //
 // CalculateEditorPositions(editor)
