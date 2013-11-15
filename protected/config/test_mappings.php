@@ -242,13 +242,16 @@ return [
     [
         'dashboard' => "xpath=//*[@id='yw2']/li[1]/a",
         'my_profile' => "xpath=//*[@id='yw2']/li[2]/a",
+        'username' => "css=.top-profile.top-profile-persn",
         'feedback' => "css=.light-btn.feedback",
         'last_result' => "css=.link-go.view-simulation-details-pop-up",
         'change_result_view' => "xpath=//*[@id='dashboard-skills-box']/span",
         'demo_sim' => "//*[@id='top']/div[1]/section/div/a",
         'sim_rules' => "css=.show-simulation-rules>span",
         'prof_name' => "css=#YumProfile_firstname",
-        'prof_surname' => "css=#YumProfile_lastname"
+        'prof_surname' => "css=#YumProfile_lastname",
+        'accept_invite' => "css=.blue-btn.accept-invite",
+        'decline_invite' => "css=.decline-link"
     ],
 
     'corporate' =>
@@ -282,7 +285,7 @@ return [
         'password_again' => "css=#YumUser_password_again",
         'checkbox_terms' => "css=#YumUser_agree_with_terms",
         'link_terms' => "css=.terms",
-        'close_terms_popup' => "css=.ui-icon.ui-icon-closethick",
+        'close_terms_popup' => "xpath=//body/div[6]/div[1]/a/span",
         'register_button' => "css=.ProximaNova-Bold.blue-submit-button",
         'decline_register' => "css=.decline-link",
         'error_name' => "css=.errorMessage.YumProfile_firstname",
@@ -295,7 +298,7 @@ return [
         'decline_reason_1' => "css=#DeclineExplanation_reason_id_1",
         'decline_reason_2' => "css=#DeclineExplanation_reason_id_2",
         'decline_reason_3' => "css=#DeclineExplanation_reason_id_3",
-        'close_decline_popup' => "css=.close",
+        'close_decline_popup' => "xpath=//*[@id='invite-decline-form']/div[2]/a",
         'back_to_registration' => "css=.chancel-decline",
         'confirm_decline_invite' => "css=.confirm-decline",
         'input_area_for_reason' => "css=#DeclineExplanation_description",
