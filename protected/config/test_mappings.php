@@ -285,7 +285,8 @@ return [
         'password_again' => "css=#YumUser_password_again",
         'checkbox_terms' => "css=#YumUser_agree_with_terms",
         'link_terms' => "css=.terms",
-        'close_terms_popup' => "xpath=//body/div[6]/div[1]/a/span",
+        // на test.skiliks.com 5й див, а на лайве и локально 6й, так как есть чат тех поддержки
+        'close_terms_popup' => "xpath=//body/div[5]/div[1]/a/span",
         'register_button' => "css=.ProximaNova-Bold.blue-submit-button",
         'decline_register' => "css=.decline-link",
         'error_name' => "css=.errorMessage.YumProfile_firstname",
