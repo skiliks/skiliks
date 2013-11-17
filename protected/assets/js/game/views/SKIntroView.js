@@ -115,51 +115,85 @@ define([
             this.$el.find('#skiliks_intro').trigger('ended');
         },
         resize: function() {
-            console.log("Test cache");
+//            console.log("Test cache");
+//            var intro = $('#skiliks_intro');
+//            var height = 800; //высота видео
+//            var width = 1280; //ширина видео
+//            var scale_height = $(window).height() / height; //коефициент маштабирования по высоте
+//            var scale_width = $(window).width() / width; //коефициент маштабирования по ширине
+//
+//            //очищаем маштабирование
+//            intro.css("margin-left", '');
+//            intro.css('height', '');
+//            intro.css('width', '');
+//
+//            //проверяем как маштабируеться высота по коефициенту ширины
+//            if(scale_height * width >= $(window).width()) {
+//                console.log('yes height');
+//
+//                //если высота больше высоты видео то меняем
+//                if($(window).height() > height){
+//                    intro.height($(window).height());
+//                }
+//
+//                //если ширина меньше ширины видео то маштабируем по ширине
+//                if($(window).width() < width) {
+//                    intro.css('margin-left', ($(window).width()-width)/2);
+//                }
+//                console.log('$(window).width()',$(window).width());
+//                return true;
+//            }
+//
+//            //проверяем как маштабируеться ширина по коефициенту высоты
+//            if(scale_width*height >= $(window).height()) {
+//
+//
+//                //если ширина больше ширины видео то меняем
+//                if($(window).width() > width) {
+//                    intro.width($(window).width());
+//                }
+//
+//                //если ширина меньше ширины видео то маштабируем по ширине
+//                if($(window).width() < width) {
+//                    intro.css('margin-left', ($(window).width()-width)/2);
+//                }
+//                console.log('yes width');
+//                return true;
+//            }
+
             var intro = $('#skiliks_intro');
-            var height = 800; //высота видео
-            var width = 1280; //ширина видео
-            var scale_height = $(window).height() / height; //коефициент маштабирования по высоте
-            var scale_width = $(window).width() / width; //коефициент маштабирования по ширине
+            var minimalHeight = 800; // минимальная высота видео
 
-            //очищаем маштабирование
-            intro.css("margin-left", '');
-            intro.css('height', '');
-            intro.css('width', '');
+            // 1442 - мистика! - надо переделать видео
+            var minimalWidth = 1422; // минимальная ширина видео
 
-            //проверяем как маштабируеться высота по коефициенту ширины
-            if(scale_height * width >= $(window).width()) {
-                console.log('yes height');
+            // определяем соотношение окна браузера и минимального размера видео
+            var widthScale = $(window).width() / minimalWidth;
+            var heightScale = $(window).height() / minimalWidth;
 
-                //если высота больше высоты видео то меняем
-                if($(window).height() > height){
-                    intro.height($(window).height());
-                }
+            // размер видео должен быть не меньше минимальой длинны и высоты
+            // так что округляем мелкие значения до единицы
+            if (heightScale < 1) { heightScale = 1;}
+            if (widthScale < 1) { widthScale = 1;}
 
-                //если ширина меньше ширины видео то маштабируем по ширине
-                if($(window).width() < width) {
-                    intro.css('margin-left', ($(window).width()-width)/2);
-                }
-                console.log('$(window).width()',$(window).width());
-                return true;
+            // выбираем сторону по которой надо масштабировать видео максимально
+            var scale = Math.max(
+                heightScale,
+                widthScale
+            );
+
+            // применяем мастабирование к видео-объекту
+            intro.width(scale*minimalWidth);
+            intro.height(scale*minimalHeight);
+
+            // если ширина видео-объекта больше ширины окна браузера
+            // надо оцентрировать видео-объект по ширине в окне браузера
+            var marginLeft = 0;
+            if ($(window).width() < intro.width()) {
+                marginLeft = ($(window).width() - intro.width()) / 2;
             }
 
-            //проверяем как маштабируеться ширина по коефициенту высоты
-            if(scale_width*height >= $(window).height()) {
-
-
-                //если ширина больше ширины видео то меняем
-                if($(window).width() > width) {
-                    intro.width($(window).width());
-                }
-
-                //если ширина меньше ширины видео то маштабируем по ширине
-                if($(window).width() < width) {
-                    intro.css('margin-left', ($(window).width()-width)/2);
-                }
-                console.log('yes width');
-                return true;
-            }
+            intro.css('margin-left', marginLeft);
         }
     });
     return SKIntroView;

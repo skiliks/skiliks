@@ -404,8 +404,7 @@ class PlanAnalyzer {
 
         $duration = 0;
         foreach ($this->tasksOn11 as $plan){
-            if ((int)$plan->task->is_cant_be_moved == Task::NO_BLOCK &&
-                (int)$plan->day === DayPlanLog::TODAY) {
+            if ((int)$plan->day === DayPlanLog::TODAY) {
                 $duration += (int)$plan->task->duration;
             }
         }

@@ -143,8 +143,8 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 
 
+
         $this->addToPlan($simulation, 'P01', DayPlan::DAY_1, '10:00'); //90 min
-        $this->addToPlan($simulation, 'P02', DayPlan::DAY_1, '11:30'); //30 min
         $this->addToPlan($simulation, 'P03', DayPlan::DAY_1, '12:00'); //30 min
         $this->addToPlan($simulation, 'P04', DayPlan::DAY_1, '12:30'); //30 min
         $this->addToPlan($simulation, 'P05', DayPlan::DAY_1, '13:00'); //30 min

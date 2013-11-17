@@ -89,7 +89,10 @@ define([
                         sheet.activate();
                     }
                 });
+
+                // зачем?
                 me.$('.header-inner').click();
+
                 clearInterval(SKApp.simulation.sc_interval_id);
                 SKApp.simulation.sc_interval_id = setInterval(function(){
                     if(document.body.style.cursor !== "progress"){
@@ -146,18 +149,28 @@ define([
                 });
 
                 if (activeSheetView.oldWidth == activeSheetView.$el.width() &&
-                    activeSheetView.oldHeidth == activeSheetView.$el.height()) {
+                    activeSheetView.oldHeigth == activeSheetView.$el.height() ) {
                     // нам не надо реперисовывать скролы, если размеры окан не поменялись
                     // перерисовка занимает время - в это время не работают горячие клавиши копирования
                     return;
                 }
 
-                activeSheetView.spreadsheet.InitializeSpreadsheetControl($(activeSheetView.el).attr('id'), activeSheetView.$el.height(), activeSheetView.$el.width(), 0);
+                // /protected/assets/js/socialcalc/socialcalcspreadsheetcontrol.js:178
+                activeSheetView.spreadsheet.InitializeSpreadsheetControl(
+                    $(activeSheetView.el).attr('id'),
+                    activeSheetView.$el.height(),
+                    activeSheetView.$el.width(),
+                    0
+                );
+
                 activeSheetView.spreadsheet.ExecuteCommand('recalc', '');
                 activeSheetView.spreadsheet.ExecuteCommand('redisplay', '');
 
                 activeSheetView.oldWidth = activeSheetView.$el.width();
-                activeSheetView.oldHeidth = activeSheetView.$el.height();
+                activeSheetView.oldHeigth = activeSheetView.$el.height();
+
+                // показать скрытую, для данного окна, строку ввода формул
+                this.$('.menu_bar').show();
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -189,14 +202,15 @@ define([
         },
 
         doActivateRedirect: function() {
-        try {
-            this.windowObject.doActivate();
+            try {
+                this.windowObject.doActivate();
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);
                 }
             }
         },
+
         doHoverMenuIcon:function() {
             $('.button_menu li').hover(function(){
                 $(this).find('a.grid-row').css('text-decoration', 'underline');
