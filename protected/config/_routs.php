@@ -40,6 +40,7 @@ return [
                 'static/admin/saveLog/<simulation:\w+>' => 'static/admin/saveLog',
 
                 'cheat/quick-start/full'                => 'static/cheats/startSimulationForFastSeleniumTest',
+                'cheat/clean-events-queue/<simId:\w+>'  => 'static/cheats/cleanEventsQueue',
 
                 'Admin/Log'              => 'static/Admin/Log',
                 'logout'                  => 'static/userAuth/logout',
