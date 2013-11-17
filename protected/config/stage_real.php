@@ -4,15 +4,17 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
     'preload'=> array('log', 'RSentryException'),
     'components'=>array(
         'RSentryException'=> array(
-            'dsn'=> 'https://bfd7395024f24728afdf79e9034bca04:2f8bec2e2c40493dbf7b07db88afc94f@app.getsentry.com/4572',
+            // Team 'Production - skiliks.com'
+            'dsn'=> 'https://45ab0baac6fa42cd9a605c26a72f6c2c:1a06feee2a7a4a6ba778a9b11f56d337@app.getsentry.com/15803',
             'class' => 'application.components..yii-sentry-log.RSentryComponent',
         ),
         'log'=>array(
             'class'=>'CLogRouter',
             'routes'=>array(
                 array(
+                    // Team 'Production - skiliks.com'
                     'class'=>'application.components.yii-sentry-log.RSentryLog',
-                    'dsn'=> 'https://bfd7395024f24728afdf79e9034bca04:2f8bec2e2c40493dbf7b07db88afc94f@app.getsentry.com/4572',
+                    'dsn'=> 'https://45ab0baac6fa42cd9a605c26a72f6c2c:1a06feee2a7a4a6ba778a9b11f56d337@app.getsentry.com/15803',
                     'levels'=>'error, warning',
                 ),
             ),
