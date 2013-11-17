@@ -12,7 +12,8 @@ define(["text!game/jst/simulation/debug.jst"], function (debug_template) {
             'submit .form-set-time': 'doFormSetTime',
             'submit .trigger-event': 'doEventTrigger',
             'click .btn-load-documents': 'doLoadDocs',
-            'click .btn-simulation-stop-logs': 'doSimStopAndShowLogs'
+            'click .btn-simulation-stop-logs': 'doSimStopAndShowLogs',
+            'click .clean-event-trigger-queue': 'doCleanEventTriggerQueue'
         },
 
         /**
@@ -178,6 +179,35 @@ define(["text!game/jst/simulation/debug.jst"], function (debug_template) {
                         + '</tr>'
                     );
                 });
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
+            }
+        },
+
+        doCleanEventTriggerQueue: function() {
+            try {
+                var me = this;
+
+                console.log('xxx ', 'cheat/clean-events-queue/' + SKApp.simulation.id)
+
+                $.ajax({
+                        type: 'POST',
+                        url: '/cheat/clean-events-queue/' + SKApp.simulation.id
+                    },
+                    function (data) {
+                        if (data.result) {
+                            me.$('form.trigger-event')
+                                .append('<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button>Очередь очищена</div>');
+                        } else {
+                            me.$('form.trigger-event')
+                                .append('<div class="alert alert-error"><button type="button" class="close" data-dismiss="alert">&times;</button>Очередь НЕ очищена</div>');
+                        }
+                        $('.debug-panel form.trigger-event .alert').css('position', 'static');
+                        me.$('form.trigger-event .alert').fadeOut(4000);
+                    }
+                );
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);
