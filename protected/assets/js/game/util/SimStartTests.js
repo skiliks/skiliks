@@ -15,8 +15,14 @@ try {
 
                 var minSupport = {
                     mozilla: 18,
-                    chrome: 27
+                    chrome: 27,
+                    msie: 10
                 };
+
+                /**
+                 * Также есть проверка в SiteController->actionSimulation().
+                 * Она нужна -- потому что в IE8, текущая JS проверка валится.
+                 */
 
                 if (window.httpUserAgent.indexOf('YaBrowser') != -1) {
                     location.href = cfg.oldBrowserUrl;

@@ -43,4 +43,20 @@ class CheatsController extends SiteBaseController
 
         $this->redirect('/simulation/developer/full');
     }
+
+
+    /**
+     * @param integer $simId
+     */
+    public function actionCleanEventsQueue($simId)
+    {
+        /**
+         * @var Simulation $simulation
+         */
+        $simulation = Simulation::model()->findByPk($simId);
+
+        $this->sendJSON([
+            'result' => (int) $simulation->cleanEventsQueue(Yii::app()->user->data())
+        ]);
+    }
 }

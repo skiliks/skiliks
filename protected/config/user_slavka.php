@@ -28,7 +28,8 @@ return CMap::mergeArray(
                 'enableProfiling' => true
             ),
             'RSentryException'=> array(
-                'dsn'=> 'https://bfd7395024f24728afdf79e9034bca04:2f8bec2e2c40493dbf7b07db88afc94f@app.getsentry.com/4572',
+                // Team 'Slavka - loc.skiliks.com'
+                'dsn'=> 'https://fe6ceee54bac45aab0d99e90073265bd:259b382314bb47338329d6abefbb4995@app.getsentry.com/15801',
                 'class' => 'application.components..yii-sentry-log.RSentryComponent',
             ),
             'log'=>array(
@@ -36,7 +37,7 @@ return CMap::mergeArray(
                 'routes'=>array(
                     array(
                         'class'=>'application.components.yii-sentry-log.RSentryLog',
-                        'dsn'=> 'https://bfd7395024f24728afdf79e9034bca04:2f8bec2e2c40493dbf7b07db88afc94f@app.getsentry.com/4572',
+                        'dsn'=> 'https://fe6ceee54bac45aab0d99e90073265bd:259b382314bb47338329d6abefbb4995@app.getsentry.com/15801',
                         'levels'=>'error, warning',
                     ),
                 ),

@@ -163,6 +163,59 @@ class Simulation extends CActiveRecord
         return '';
     }
 
+    /**
+     * @param YumUser $user, to check is it allowed for this $user to clean events queue
+     *@param boolean $exceptEmails
+     * @return boolean
+     */
+    public function cleanEventsQueue($user, $exceptEmails = true)
+    {
+        if ($user->id != $this->user->id) {
+            return false;
+        }
+
+        if (false === $user->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)) {
+            return false;
+        }
+
+        if ($exceptEmails) {
+            // UPDATE with JOIN works in Yii 1.1.14 only
+            // @link: http://stackoverflow.com/questions/10579587/yii-update-with-join
+            // so - use findAll + foreach
+
+            $events = EventTrigger::model()->findAll(
+                ' sim_id = :sim_id ',
+                [
+                    'sim_id' => $this->id,
+                ]
+            );
+
+            /**
+             * @var  EventTrigger $event
+             */
+            foreach ($events as $event) {
+
+                // clean time for non emails
+                if (false == $event->event_sample->isMail()) {
+                    $event->trigger_time = null;
+                    $event->save();
+                }
+            }
+        } else {
+            EventTrigger::model()->updateAll(
+                [
+                    'trigger_time' => NULL,
+                ],
+                ' sim_id = :sim_id ',
+                [
+                    'sim_id' => $this->id,
+                ]
+            );
+        }
+
+        return true;
+    }
+
     /** ------------------------------------------------------------------------------------------------------------ **/
 
     /**

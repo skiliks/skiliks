@@ -169,7 +169,7 @@ define([
 
             // определяем соотношение окна браузера и минимального размера видео
             var widthScale = $(window).width() / minimalWidth;
-            var heightScale = $(window).height() / minimalWidth;
+            var heightScale = $(window).height() / minimalHeight;
 
             // размер видео должен быть не меньше минимальой длинны и высоты
             // так что округляем мелкие значения до единицы
