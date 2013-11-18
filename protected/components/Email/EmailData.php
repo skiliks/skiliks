@@ -117,7 +117,7 @@ class EmailData
     }
 
     public function isYesterdayEmail() {
-        return strstr($this->email->code, 'MSY');
+        return strstr($this->email->code, 'MY');
     }
 
     /**
