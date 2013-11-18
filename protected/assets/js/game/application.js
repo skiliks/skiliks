@@ -5,18 +5,18 @@
  */
 require([
     'backbone',
-    'game/util/compatibility',
+    'game/util/SimStartTests',
     'game/views/SKIntroView',
     'game/views/world/SKApplicationView',
     'game/models/SKApplication'
-], function(backbone, compatibility,SKIntroView, SKApplicationView, SKApplication) {
+], function(backbone, SimStartTests, SKIntroView, SKApplicationView, SKApplication) {
     "use strict";
     try {
         _.templateSettings.interpolate = /<@=(.+?)@>/g;
         _.templateSettings.evaluate = /<@(.+?)@>/g;
         Backbone.emulateJSON = true;
 
-        if (compatibility.check(window.gameConfig)) {
+        if (SimStartTests.check(window.gameConfig)) {
             $(function () {
                 window.SKApp = new SKApplication(window.gameConfig);
                 window.AppView = new SKApplicationView();

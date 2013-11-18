@@ -15,7 +15,8 @@ try {
 
                 var minSupport = {
                     mozilla: 18,
-                    chrome: 27
+                    chrome: 27,
+                    msie: 10
                 };
 
                 if (window.httpUserAgent.indexOf('YaBrowser') != -1) {
