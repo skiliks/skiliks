@@ -115,10 +115,6 @@ class TimeManagementAnalyzer
 
         $value = round($this->firstPriorityTotal*2/3 + $overTimePercentage * 1/3,2);
 
-        if($value >= 95){
-            $value = 100;
-        }
-
         $assessment = new TimeManagementAggregated();
         $assessment->slug = TimeManagementAggregated::SLUG_EFFICIENCY;
         $assessment->sim_id = $this->simulation->id;
@@ -268,6 +264,9 @@ class TimeManagementAnalyzer
         $assessment_1st->save();
 
         $this->firstPriorityTotal = $assessment_1st->value;
+        if($this->firstPriorityTotal >= 95){
+            $this->firstPriorityTotal = 100;
+        }
 
         $assessment_non = new TimeManagementAggregated();
         $assessment_non->sim_id = $this->simulation->id;
