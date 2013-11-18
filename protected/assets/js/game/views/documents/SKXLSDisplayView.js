@@ -135,6 +135,7 @@ define([
         resizeActiveTab: function(isResize) {
             try {
                 var doc = this.options.model_instance.get('document');
+                var me = this;
 
                 var activeSheet = doc.get('sheets').where({
                     'name':  $('#' + doc.getCssId() + ' .sheet-tabs li.active').attr('data-sheet-name')
@@ -175,7 +176,11 @@ define([
                         && 'undefined' != typeof activeSheetView.oldHeigth
                         && $.browser['msie'])) {
 
+                    var id = activeSheetView.$el.attr('id');
+                    var doc = me.options.model_instance.get('document');
+
                     this.renderWindow();
+
                     return;
                 }
                 // } Internet explorer
