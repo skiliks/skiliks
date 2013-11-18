@@ -400,8 +400,12 @@ class EmailAnalyzer
             }
         }
 
-        // grand score for user, if he read more or equal to $limit of not-spam emails only
-        $value = $behave_3313->scale * $rightActions/$possibleRightActions;
+        if($possibleRightActions !== 0){
+            // grand score for user, if he read more or equal to $limit of not-spam emails only
+            $value = $behave_3313->scale * $rightActions/$possibleRightActions;
+        } else {
+            $value = 0;
+        }
 
         return array(
             'positive' => $value,
@@ -460,7 +464,7 @@ class EmailAnalyzer
         // gather statistic  {
         $userRightEmailsArray = []; // email with same MSxx must be counted once only
         $userWrongEmails = 0;
-
+        $debug_wrong = [];
         foreach ($this->userOutboxEmails as $emailData) {
             // @todo: remove trick
             // ignore MSY letters
@@ -468,10 +472,16 @@ class EmailAnalyzer
                 continue;
             }
 
-            if ('R' == $emailData->email->subject_obj->wr) {
-                $userRightEmailsArray[$emailData->email->code] = 'something';
-            }
-            if ('W' == $emailData->email->subject_obj->wr) {
+            if($emailData->email->isMS()){
+                if ('R' == $emailData->email->subject_obj->wr) {
+                    $userRightEmailsArray[$emailData->email->code] = 'something';
+                }
+                if ('W' == $emailData->email->subject_obj->wr) {
+                    $debug_wrong[] = $emailData->email->subject_obj->text;
+                    $userWrongEmails++;
+                }
+            }else{
+                $debug_wrong[] = $emailData->email->subject_obj->text;
                 $userWrongEmails++;
             }
         }
@@ -486,7 +496,11 @@ class EmailAnalyzer
                 'obj'      => $behave_3326,
             );
         } else {
-            $K = $userWrongEmails/$userRightEmails;
+            if($userRightEmails !== 0){
+                $K = $userWrongEmails/$userRightEmails;
+            }else{
+                $K = 1;
+            }
             if($K > 1) {
                 $K = 1;
             }
