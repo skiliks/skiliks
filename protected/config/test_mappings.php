@@ -81,6 +81,7 @@ return [
     ],
 
     'dev' => [
+        'clear_queue' => "css=.btn.clean-event-trigger-queue",
         'event_input' => "id=addTriggerSelect",
         'event_create' => "xpath=//div[@class='controls']//input[@value='Создать']",
         'show_logs' => "xpath=//input[@class='btn btn-simulation-stop-logs']",
