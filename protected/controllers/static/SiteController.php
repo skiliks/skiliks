@@ -16,6 +16,17 @@ class SiteController extends SiteBaseController
      */
     public function actionSimulation($mode, $type = Scenario::TYPE_LITE, $invite_id = null)
     {
+        /**
+         * IE8 валится, выполняя, JS-проверку браузера -- и перенаправления на /old-browser не происходит
+         * Поэтому, добавлена эта проверка на уровне PHP
+         * @link:http://stackoverflow.com/questions/16474948/detect-ie10-ie10-and-other-browsers-in-php
+         */
+        if(preg_match('/(?i)msie [5|6|7|8|9]/', $_SERVER['HTTP_USER_AGENT']))
+        {
+            $this->redirect('/old-browser');
+        }
+
+
         $start = Yii::app()->request->getParam('start');
         $user = Yii::app()->user->data();
         /* @var $user YumUser  */
