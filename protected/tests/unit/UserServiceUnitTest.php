@@ -329,4 +329,10 @@ class UserServiceUnitTest extends CDbTestCase
 
     }
 
+    /*public function testDebug(){
+
+        SimulationService::CalculateTheEstimate(565, 'tetyana.grybok@skiliks.com');
+
+    }*/
+
 }
