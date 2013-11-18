@@ -488,7 +488,7 @@ class Invite extends CActiveRecord
 			array('code', 'length', 'max'=>50),
             array('email', 'email', 'message' => Yii::t('site', 'Wrong email')),
             array('owner_id, email', 'uniqueEmail', 'message' => "Приглашение уже отправлено"),
-			array('message, fullname, signature, status, sent_time, updated_at', 'safe'),
+			array('message, signature, status, sent_time, updated_at', 'safe'),
 			array('simulation_id, scenario_id, tutorial_scenario_id, tutorial_displayed_at', 'safe'),
 			array('tutorial_finished_at, can_be_reloaded, is_display_simulation_results', 'safe'),
 			array('stacktrace, is_crashed, expired_at', 'safe'),
