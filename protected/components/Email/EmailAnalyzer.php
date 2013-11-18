@@ -399,10 +399,10 @@ class EmailAnalyzer
                 }
             }
         }
-        
+
         // grand score for user, if he read more or equal to $limit of not-spam emails only
         $value = $behave_3313->scale * $rightActions/$possibleRightActions;
-        
+
         return array(
             'positive' => $value,
             'obj'      => $behave_3313,
