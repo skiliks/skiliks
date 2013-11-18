@@ -1027,7 +1027,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
 
         foreach ($assessments as $assessment) {
             if ($assessment->point->code === '3326') {
-                $this->assertEquals(0, $assessment->value, '3326 value!');
+                $this->assertEquals(1, $assessment->value, '3326 value!');
                 $is_3326_scored = true;
             }
         }
@@ -1281,7 +1281,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
 
         foreach ($assessments as $assessment) {
             if ($assessment->point->code === '3326') {
-                $this->assertEquals(3, $assessment->value, '3326 value!');
+                $this->assertEquals(2.86, $assessment->value, '3326 value!');
                 $is_3326_scored = true;
             }
         }
@@ -1371,7 +1371,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
 
         foreach ($assessments as $assessment) {
             if ($assessment->point->code === '3326') {
-                $this->assertEquals(1.5, $assessment->value, '3326 value!');
+                $this->assertEquals(2.14, $assessment->value, '3326 value!');
                 $is_3326_scored = true;
             }
         }
@@ -1457,7 +1457,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
 
         foreach ($assessments as $assessment) {
             if ($assessment->point->code === '3326') {
-                $this->assertEquals(3, $assessment->value, '3326 value!');
+                $this->assertEquals(2.71, $assessment->value, '3326 value!');
                 $is_3326_scored = true;
             }
         }
@@ -1528,7 +1528,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
 
         foreach ($assessments as $assessment) {
             if ($assessment->point->code === '3326') {
-                $this->assertEquals(0, $assessment->value, '3326 value!');
+                $this->assertEquals(2.73, $assessment->value, '3326 value!');
                 $is_3326_scored = true;
             }
         }
