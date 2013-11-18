@@ -24,9 +24,6 @@ try {
                     return false;
                 }
 
-                alert($.browser['msie']);
-                alert($.browser.version);
-
                 for (var name in minSupport) {
                     if (minSupport.hasOwnProperty(name)) {
                         if ($.browser[name]) {
