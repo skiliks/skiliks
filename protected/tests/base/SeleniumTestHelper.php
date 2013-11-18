@@ -69,6 +69,7 @@ class SeleniumTestHelper extends CWebTestCase
         $this->getEval('var window = this.browserbot.getUserWindow(); window.$(window).off("beforeunload")');
         $this->invite_id = $this->getInviteId();
         $this->logTestResult("start ". $testName. "\n", true, $this->invite_id);
+        $this->optimal_click(Yii::app()->params['test_mappings']['dev']['clear_queue']);
     }
 
     /**
