@@ -132,7 +132,7 @@ define([
             }
         },
 
-        resizeActiveTab: function() {
+        resizeActiveTab: function(isResize) {
             try {
                 var doc = this.options.model_instance.get('document');
 
@@ -155,6 +155,10 @@ define([
                     return;
                 }
 
+                if ('undefined' == typeof isResize) {
+                    isResize = false;
+                }
+
                 /**
                  * IE (10) не может перерисовать SC нормально SKILIKS-4803, SKILIKS-4804.
                  * Попытки сменить схему расчёта в activeSheetView.spreadsheet.InitializeSpreadsheetControl конкретно для IE
@@ -165,9 +169,12 @@ define([
                  */
                 // Internet explorer {
                 // если вкладка открывается не первый раз: ('undefined' != typeof activeSheetView.oldWidth или Heigth)
-                if ( 'undefined' != typeof activeSheetView.oldWidth
-                    && 'undefined' != typeof activeSheetView.oldHeigth
-                    && $.browser['msie']) {
+                // также надо обязательно перерисовывать окно при ресайзе в IE
+                if ( isResize && $.browser['msie']
+                    || ('undefined' != typeof activeSheetView.oldWidth
+                        && 'undefined' != typeof activeSheetView.oldHeigth
+                        && $.browser['msie'])) {
+
                     this.renderWindow();
                     return;
                 }
@@ -200,7 +207,7 @@ define([
             try {
                 window.SKWindowView.prototype.onResize.call(this);
                 var me = this;
-                me.resizeActiveTab();
+                me.resizeActiveTab(true);
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);
