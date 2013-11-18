@@ -233,6 +233,9 @@ class YumProfile extends YumActiveRecord
         $rules[] = array('firstname', 'required', 'message' => Yii::t('site', 'First name is required'));
         $rules[] = array('lastname', 'required', 'message' => Yii::t('site', 'Last name is required'));
 
+        $rules[] = array('firstname', 'length', 'max' => 50);
+        $rules[] = array('lastname',  'length', 'max' => 50);
+
 		return $rules;
 	}
 
