@@ -99,6 +99,12 @@
         <script type="text/javascript" src="<?= $assetsUrl; ?>/js/sentry/tracekit.js"></script>
         <?php if (Yii::app()->params['public']['useSentryForJsLog']) : ?>
             <script type="text/javascript" src="<?= $assetsUrl; ?>/js/sentry/raven.js"></script>
+
+            <script type="text/javascript">
+                $(document).ready(function(){
+                    window.Raven.config('<?= Yii::app()->params['sentry']['dsn'] ?>').install();
+                });
+            </script>
         <?php endif; ?>
     <?php // track JS in sentry { ?>
 
