@@ -246,9 +246,7 @@ return CMap::mergeArray(
                 ),
                 'emails' => [
                     '3326' => [
-                        'limitToGetPoints'  => 0.5,
-                        'limitToGet1points' => 0.3,
-                        'limitToGet2points' => 0.1,
+                        'limitToGetPoints'  => 0.2
                     ]
                 ]
             ),
