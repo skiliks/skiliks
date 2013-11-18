@@ -391,7 +391,7 @@ class EmailAnalyzer
         
         // inbox + trashCan
         foreach ($this->userInboxEmails as $emailData) {
-            if (false === $emailData->getIsSpam() ) {
+            if (false === $emailData->getIsSpam() && false === $emailData->isYesterdayEmail()) {
                 $possibleRightActions++;
                 
                 if (true === $emailData->getIsReaded()) {
@@ -451,8 +451,6 @@ class EmailAnalyzer
         $configs = Yii::app()->params['analizer']['emails']['3326'];
 
         $limitToGetPoints  = $configs['limitToGetPoints'];
-        $limitToGet1points = $configs['limitToGet1points'];
-        $limitToGet2points = $configs['limitToGet2points'];
 
         $criteria = new CDbCriteria();
         $criteria->compare('wr', 'R');
@@ -462,7 +460,6 @@ class EmailAnalyzer
         // gather statistic  {
         $userRightEmailsArray = []; // email with same MSxx must be counted once only
         $userWrongEmails = 0;
-        $userTotalEmails = count($this->userOutboxEmails);
 
         foreach ($this->userOutboxEmails as $emailData) {
             // @todo: remove trick
@@ -477,8 +474,6 @@ class EmailAnalyzer
             if ('W' == $emailData->email->subject_obj->wr) {
                 $userWrongEmails++;
             }
-
-            $userTotalEmails++;
         }
 
         $userRightEmails = count($userRightEmailsArray);
@@ -490,29 +485,17 @@ class EmailAnalyzer
                 'positive' => 0,
                 'obj'      => $behave_3326,
             );
-        }
-
-        // 2 points
-        if ($userWrongEmails/$userRightEmails < $limitToGet2points) {
+        } else {
+            $K = $userWrongEmails/$userRightEmails;
+            if($K > 1) {
+                $K = 1;
+            }
+            $value = (1 - $K)*$behave_3326->scale;
             return array(
-                'positive' => $behave_3326->scale,
+                'positive' => $value,
                 'obj'      => $behave_3326,
             );
         }
-
-        // 1 point
-        if ($userWrongEmails/$userRightEmails < $limitToGet1points) {
-            return array(
-                'positive' => $behave_3326->scale*0.5,
-                'obj'      => $behave_3326,
-            );
-        }
-
-        // user write too much not right emails
-        return array(
-            'positive' => 0,
-            'obj'      => $behave_3326,
-        );
     }
 
     /**
