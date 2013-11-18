@@ -17,7 +17,7 @@
  * @property string $status
  * @property string $sent_time
  * @property string $updated_at
- * @property string $fullname
+ * @property string $fullname - "виртуальное свойство", такого поля нет в БД, для него есть только геттер, нет сеттера.
  * @property integer $simulation_id
  * @property integer $scenario_id
  * @property integer $tutorial_scenario_id
