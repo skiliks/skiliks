@@ -391,7 +391,7 @@ class EmailAnalyzer
         
         // inbox + trashCan
         foreach ($this->userInboxEmails as $emailData) {
-            if (false === $emailData->getIsSpam() ) {
+            if (false === $emailData->getIsSpam() && false === $emailData->isYesterdayEmail()) {
                 $possibleRightActions++;
                 
                 if (true === $emailData->getIsReaded()) {

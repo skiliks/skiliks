@@ -115,7 +115,11 @@ class EmailData
     {
         return (boolean)$this->email->reply;
     }
-    
+
+    public function isYesterdayEmail() {
+        strstr($this->email->code, 'MSY');
+    }
+
     /**
      * @return integer | null
      */    
