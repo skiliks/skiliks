@@ -44,7 +44,6 @@ return CMap::mergeArray(
         'params' => array(
             'frontendUrl' => 'http://loc.skiliks.com/',
             'assetsDebug' => true,
-            'isUseResultPopUpCache' => false,
             'runMigrationOn'        => 'production',
             'sentry' => [
                 'dsn' => $sentryDsn,

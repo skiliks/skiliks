@@ -477,8 +477,12 @@ class DashboardController extends SiteBaseController implements AccountPageContr
 
     public function actionSimulationDetails($id)
     {
+        /* @var $simulation Simulation */
+
         $simulation = Simulation::model()->findByPk($id);
+
         /* @var $user YumUser */
+
         $user = Yii::app()->user->data();
         if( false === $user->isAdmin() && null !== $simulation->invite){
             if ($user->id !== $simulation->invite->owner_id &&

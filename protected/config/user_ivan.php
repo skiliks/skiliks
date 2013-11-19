@@ -44,12 +44,10 @@ return CMap::mergeArray(
         'params' => array(
             'frontendUrl' => 'http://loc.skiliks.com/',
             'assetsDebug' => true,
-            'isUseResultPopUpCache' => false,
             'sentry' => [
                 'dsn' => $sentryDsn,
             ],
             'public' => [
-                'isLocalPc'          => true,
                 'useSentryForJsLog'  => true,
                 'isSkipBrowserCheck' => true,
             ]

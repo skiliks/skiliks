@@ -43,7 +43,6 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
         ],
         'public' => [
             'storageURL'           => 'http://storage.dev.skiliks.com/',
-            'isLocalPc'            => true,
             'useSentryForJsLog'    => true,
             'isDisplaySupportChat' => true,
         ]
