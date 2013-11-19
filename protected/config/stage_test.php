@@ -40,7 +40,6 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
             'dsn' => $sentryDsn,
         ],
         'public' => [
-            'isLocalPc'            => true,
             'isDisplaySupportChat' => false,
         ]
     )
