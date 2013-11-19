@@ -21,6 +21,7 @@ return [
         'application.components.SocialCalc.*',
         'application.components.Report2.*',
         'application.components.debug.*',
+        'application.components.tcpdf.*',
 
         /* Controllers */
         'application.controllers.static.*',
