@@ -371,7 +371,7 @@ class PlanAnalyzer {
         $this->check_214b0_214b4('214b1', 1);
         $this->check_214b0_214b4('214b2', 2);
         $this->check_214b0_214b4('214b3', 3);
-        $this->check_214b0_214b4('214b4', 4);
+        //$this->check_214b0_214b4('214b4', 4); //SKILIKS-4864
 
         $this->check_214b5_6_8('214b5', 0);
         $this->check_214b5_6_8('214b6', 1);
