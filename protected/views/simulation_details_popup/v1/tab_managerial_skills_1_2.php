@@ -7,7 +7,7 @@
         <span class="barstitle">Уровень проблем</span>
     </div>
 
-    <?php $this->renderPartial("partials/_popup_js"); ?>
+    <?php $this->renderPartial($simulation->results_popup_partials_path."/_popup_js"); ?>
 
     <div class="clearfix mangrlresults">
         <div class="labels labels1">

@@ -56,7 +56,7 @@
         </div>
 
         <div id="managerial-skills-1-2">
-            <?php $this->renderPartial($simulation->results_popup_partials_path.'/tab_managerial_skills_1_2', []) ?>
+            <?php $this->renderPartial($simulation->results_popup_partials_path.'/tab_managerial_skills_1_2', ['simulation'=>$simulation]) ?>
         </div>
 
         <div id="managerial-skills-3-4">
