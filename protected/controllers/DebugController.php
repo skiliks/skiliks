@@ -193,7 +193,9 @@ class DebugController extends SiteBaseController
 
     public function actionTCPDF()
     {
-        $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8');
+        $pdf = Yii::createComponent('application.components.tcpdf.tcpdf',
+            'P', 'mm', 'A4', true, 'UTF-8');
+        //$pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8');
         $images_dir = __DIR__.'/../system_data/tcpdf/images/';
         // $pdf->SetMargins(0,0,0, true);
 
