@@ -152,10 +152,10 @@ class LearningAreaAnalyzer {
         $maxRate = 0;
         $ids = [];
 
-        $group_1_4_value = 0;
-        $group_1_4_negative = 0;
-        $group_1_4_max_negative = 0;
-        $group_1_4 = null;
+        $group_1_3_value = 0;
+        $group_1_3_negative = 0;
+        $group_1_3_max_negative = 0;
+        $group_1_3 = null;
         //$except = HeroBehaviour::getExcludedFromAssessmentBehavioursCodes();
 
         $area = $scenario->getLearningArea(['code' => $learningAreaCode]);
@@ -174,17 +174,17 @@ class LearningAreaAnalyzer {
                     $ids[] = $goal->id;
                 }
 
-                if($learningGoalGroup->code === '1_4') {
-                    $group_1_4_value += $slg->value;
-                    $group_1_4 = $slg;
+                if($learningGoalGroup->code === '1_3') {
+                    $group_1_3_value += $slg->value;
+                    $group_1_3 = $slg;
 
-                    $group_1_4_negative += $slg->total_negative;
-                    $group_1_4_max_negative += $slg->max_negative;
+                    $group_1_3_negative += $slg->total_negative;
+                    $group_1_3_max_negative += $slg->max_negative;
                     continue;
                 }
-                if($learningGoalGroup->code === '1_5') {
-                    $group_1_4_negative += $slg->total_negative;
-                    $group_1_4_max_negative += $slg->max_negative;
+                if($learningGoalGroup->code === '1_4') {
+                    $group_1_3_negative += $slg->total_negative;
+                    $group_1_3_max_negative += $slg->max_negative;
 
                     continue;
                 }
@@ -199,15 +199,15 @@ class LearningAreaAnalyzer {
 
         $k = LearningGoalAnalyzer::getReducingCoefficient(
             LearningGoalAnalyzer::calculateAssessment(
-                $group_1_4_negative,
-                $group_1_4_max_negative
+                $group_1_3_negative,
+                $group_1_3_max_negative
             )
         );
-        $total += $group_1_4_value * $k;
+        $total += $group_1_3_value * $k;
 
-        if (isset($group_1_4)) {
-            $group_1_4->coefficient = $k;
-            $group_1_4->update();
+        if (isset($group_1_3)) {
+            $group_1_3->coefficient = $k;
+            $group_1_3->update();
         }
 
         /** @var HeroBehaviour[] $behaviours */

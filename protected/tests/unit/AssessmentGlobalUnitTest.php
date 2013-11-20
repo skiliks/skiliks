@@ -51,8 +51,8 @@ class AssessmentGlobalUnitTest extends CDbTestCase
         $this->addAssessmentAggregated($simulation, '3216'); // 3)
         $this->addAssessmentAggregated($simulation, '3218'); // 3)
 
-        $this->addAssessmentAggregated($simulation, '1122');
-        $this->addAssessmentAggregated($simulation, '1232'); // 1
+        //$this->addAssessmentAggregated($simulation, '1122');
+        //$this->addAssessmentAggregated($simulation, '1232'); // 1
 
         $this->addAssessmentAggregated($simulation, '351a1');
         $this->addAssessmentAggregated($simulation, '351b1');
@@ -79,7 +79,7 @@ class AssessmentGlobalUnitTest extends CDbTestCase
         $this->addAssessmentAggregated($simulation, '214b1');
         $this->addAssessmentAggregated($simulation, '214b2');
         $this->addAssessmentAggregated($simulation, '214b3');
-        $this->addAssessmentAggregated($simulation, '214b4');
+        //$this->addAssessmentAggregated($simulation, '214b4');
         $this->addAssessmentAggregated($simulation, '214b9');
 
         $this->addAssessmentAggregated($simulation, '8311', 100);
@@ -248,7 +248,7 @@ class AssessmentGlobalUnitTest extends CDbTestCase
         $this->addAssessmentAggregated($simulation, '214b1'); // 1)
         $this->addAssessmentAggregated($simulation, '214b2'); // 1)
         $this->addAssessmentAggregated($simulation, '214b3'); // 1)
-        $this->addAssessmentAggregated($simulation, '214b4'); // 1)
+        //$this->addAssessmentAggregated($simulation, '214b4'); // 1)
         $this->addAssessmentAggregated($simulation, '214b9'); // 1)
 
         $this->addAssessmentAggregated($simulation, '214b5');
@@ -340,9 +340,9 @@ class AssessmentGlobalUnitTest extends CDbTestCase
         $overall = AssessmentOverall::model()->findAllByAttributes(['sim_id' => $simulation->id]);
 
         $v = [
-            'Управление задачами с учётом приоритетов' => 90.611115,
-            'Управление людьми'         => 90.181999,
-            'Управление коммуникациями' => 83.857140,
+            'Управление задачами с учётом приоритетов' => 88.944443,
+            'Управление людьми'         => 90.003998,
+            'Управление коммуникациями' => 89.928574,
 
             'Оптимальный выбор каналов коммуникации' => 100,
             'Устойчивость к манипуляциям и давлению' => 100,
@@ -369,8 +369,8 @@ class AssessmentGlobalUnitTest extends CDbTestCase
         }
 
         $v = [
-            'management'  => 88.17,
-            'overall'     => 75.28,
+            'management'  => 89.51,
+            'overall'     => 75.95,
             'performance' => 67.70,
             'time'        => 50,
         ];
@@ -431,7 +431,7 @@ class AssessmentGlobalUnitTest extends CDbTestCase
         $this->addAssessmentAggregated($simulation, '4127'); // 8
         $this->addAssessmentAggregated($simulation, '3214');
         $this->addAssessmentAggregated($simulation, '351a2');
-        $this->addAssessmentAggregated($simulation, '1122');
+        //$this->addAssessmentAggregated($simulation, '1122');
         $this->addAssessmentAggregated($simulation, '1232'); // 1
         $this->addAssessmentAggregated($simulation, '3218'); // 1
         $this->addAssessmentAggregated($simulation, '351b2');
@@ -457,7 +457,7 @@ class AssessmentGlobalUnitTest extends CDbTestCase
         $this->addAssessmentAggregated($simulation, '214b1');
         $this->addAssessmentAggregated($simulation, '214b2');
         $this->addAssessmentAggregated($simulation, '214b3');
-        $this->addAssessmentAggregated($simulation, '214b4');
+        //$this->addAssessmentAggregated($simulation, '214b4');
         $this->addAssessmentAggregated($simulation, '214b9');
 
         $this->addAssessmentAggregated($simulation, '214b5', null, 5); // 2
@@ -531,8 +531,8 @@ class AssessmentGlobalUnitTest extends CDbTestCase
         $overall = AssessmentOverall::model()->findAllByAttributes(['sim_id' => $simulation->id]);
 
         $v = [
-            'Управление задачами с учётом приоритетов'  => 47.500000,
-            'Управление коммуникациями'                 => 83.857140 ,
+            'Управление задачами с учётом приоритетов'  => 40.833332,
+            'Управление коммуникациями'                 => 89.928574 ,
             'Управление людьми'                         => 30,
         ];
 
@@ -555,8 +555,8 @@ class AssessmentGlobalUnitTest extends CDbTestCase
         }
 
         $v = [
-            'management'  => 56.73,
-            'overall'     => 59.56,
+            'management'  => 55.86,
+            'overall'     => 59.13,
             'performance' => 67.70,
             'time'        => 50,
         ];
