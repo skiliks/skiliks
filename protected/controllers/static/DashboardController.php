@@ -500,12 +500,16 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         $this->layout = false;
 
         $details = $simulation->getAssessmentDetails();
-
+        $assessment_engine_version = Yii::app()->params['assessment_engine_version'];
         // update sim results popup info:
-        $simulation->results_popup_partials_path = '//static/dashboard/partials/';
-        $simulation->save(false);
+        if(null === $simulation->results_popup_partials_path) {
 
-        $baseView = str_replace('partials/', 'simulation_details', $simulation->results_popup_partials_path);
+            $simulation->results_popup_partials_path = '//simulation_details_popup/'.$assessment_engine_version;
+
+            $simulation->save(false);
+        }
+
+        $baseView = $simulation->results_popup_partials_path.'/simulation_details';
 
         $this->render($baseView, [
             'simulation'     => $simulation,
