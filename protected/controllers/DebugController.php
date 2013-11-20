@@ -250,5 +250,62 @@ class DebugController extends SiteBaseController
 
         $pdf->Output('test.pdf');
     }
+
+    public function actionLogAnalyzer()
+    {
+        $file = file_get_contents(__DIR__.'/access.log');
+
+        $rows = explode("\n", $file);
+
+        echo '<pre>';
+
+        $ips = [];
+
+        foreach ($rows as $line) {
+            if (-1 < strpos($line, ' 404')) {
+//                $line = str_replace(
+//                    ['www.skiliks.com 144.76.56.104 GET', '- - ', 'HTTP/1.1 404', 'skiliks.com 144.76.56.104 GET'],
+//                    '',
+//                    $line
+//                );
+                if (-1 < strpos($line, '19/Nov/2013:17:22:02')) {
+                    continue;
+                }
+                if (-1 < strpos($line, '19/Nov/2013:08:49:00')) {
+                    continue;
+                }
+                if (-1 < strpos($line, 'http://vk.com/dev/Share')) {
+                    continue;
+                }
+                if (-1 < strpos($line, '62.205.135.161')) {
+                    continue;
+                }
+                if (-1 < strpos($line, '195.132.196.206')) {
+                    continue;
+                }
+                if (-1 < strpos($line, '199.217.113.218')) {
+                    continue;
+                }
+                if (-1 < strpos($line, 'apple-touch-icon')) {
+                    continue;
+                }
+
+                $first = substr($line, 0,3);
+
+                if (150 == $first) {
+                    //$ip = substr($line, 0, strpos($line, ' '));
+
+                    //$ips[$ip] = $ip;
+
+                    //echo $ip . '<br/>';
+                    echo $line . '<br/>';
+                }
+            }
+        }
+
+        //echo implode(', ', $ips);
+
+        echo '</pre>';
+    }
 }
 
