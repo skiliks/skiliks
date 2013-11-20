@@ -98,7 +98,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
             'point_id' => $point->id,
         ]);
         
-        $this->assertEquals($result->value, 0.18);
+        $this->assertEquals($result->value, 0);
     }
 
     /**
