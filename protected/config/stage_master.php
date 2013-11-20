@@ -1,4 +1,7 @@
 <?php
+// Team 'Develop - master.skiliks.com'
+$sentryDsn = 'https://12e4e56859fd4e09b30bf7f29caf0889:3a6ab5d02d4849d0a652c4d93e91d513@app.getsentry.com/15805';
+
 define(YII_DEBUG, false);
 return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
     'preload'=> array('log', 'RSentryException'),
@@ -14,18 +17,16 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
             'enableProfiling'=>true
         ),
         'RSentryException'=> array(
-            // Team 'Develop - master.skiliks.com'
-            'dsn'=> 'https://12e4e56859fd4e09b30bf7f29caf0889:3a6ab5d02d4849d0a652c4d93e91d513@app.getsentry.com/15805',
+            'dsn'=> $sentryDsn,
             'class' => 'application.components..yii-sentry-log.RSentryComponent',
         ),
         'log'=>array(
             'class'=>'CLogRouter',
             'routes'=>array(
                 array(
-                    // Team 'Develop - master.skiliks.com'
-                    'class'=>'application.components.yii-sentry-log.RSentryLog',
-                    'dsn'=> 'https://12e4e56859fd4e09b30bf7f29caf0889:3a6ab5d02d4849d0a652c4d93e91d513@app.getsentry.com/15805',
-                    'levels'=>'error, warning',
+                    'class'  => 'application.components.yii-sentry-log.RSentryLog',
+                    'dsn'    => $sentryDsn,
+                    'levels' => 'error, warning',
                 ),
             ),
         ),
@@ -33,6 +34,9 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
     'params'=>array(
         'frontendUrl'=>'http://master.skiliks.com/',
         'public' => [],
+        'sentry' => [
+            'dsn' => $sentryDsn,
+        ],
         'robokassa' => [
             'url'            => 'https://auth.robokassa.ru/Merchant/Index.aspx',
             'MrchLogin'      => 'leah',

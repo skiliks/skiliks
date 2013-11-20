@@ -692,9 +692,9 @@ class Simulation extends CActiveRecord
     public function getAssessmentDetails()
     {
         // use cached results popup data
-//        if (null !== $this->results_popup_cache && Yii::app()->params['isUseResultPopUpCache']) {
-//            return unserialize($this->results_popup_cache);
-//        }
+        if (null !== $this->results_popup_cache) {
+            return json_encode(unserialize($this->results_popup_cache));
+        }
 
         if ($this->game_type->isLite()) {
             return StaticSiteTools::getRandomAssessmentDetails();

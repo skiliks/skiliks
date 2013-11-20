@@ -1,21 +1,23 @@
 <?php
+
+// Team 'Production - skiliks.com'
+$sentryDsn = 'https://45ab0baac6fa42cd9a605c26a72f6c2c:1a06feee2a7a4a6ba778a9b11f56d337@app.getsentry.com/15803';
+
 define(YII_DEBUG, false);
 return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
     'preload'=> array('log', 'RSentryException'),
     'components'=>array(
         'RSentryException'=> array(
-            // Team 'Production - skiliks.com'
-            'dsn'=> 'https://45ab0baac6fa42cd9a605c26a72f6c2c:1a06feee2a7a4a6ba778a9b11f56d337@app.getsentry.com/15803',
+            'dsn'   => $sentryDsn,
             'class' => 'application.components..yii-sentry-log.RSentryComponent',
         ),
         'log'=>array(
             'class'=>'CLogRouter',
             'routes'=>array(
                 array(
-                    // Team 'Production - skiliks.com'
-                    'class'=>'application.components.yii-sentry-log.RSentryLog',
-                    'dsn'=> 'https://45ab0baac6fa42cd9a605c26a72f6c2c:1a06feee2a7a4a6ba778a9b11f56d337@app.getsentry.com/15803',
-                    'levels'=>'error, warning',
+                    'class'  => 'application.components.yii-sentry-log.RSentryLog',
+                    'dsn'    => $sentryDsn,
+                    'levels' => 'error, warning',
                 ),
             ),
         ),
@@ -33,8 +35,10 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
     'params' => array(
         'frontendUrl' => 'http://front.skiliks.com/',
         'runMigrationOn' => 'production',
+        'sentry' => [
+            'dsn' => $sentryDsn,
+        ],
         'public' => [
-            'isLocalPc'          => true,
             'useSentryForJsLog'  => true,
             'isSkipBrowserCheck' => false,
             'isIncludeGoogleAnalyticsJavaScript' => true,

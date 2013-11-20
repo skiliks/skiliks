@@ -101,13 +101,12 @@ return CMap::mergeArray(
             'disableAssets'                 => false,
 
             // время keep_last_category в минутах
-            //
             'keep_last_category_time_214g'  => 90,
 
             // ???
             'simulationStartUrl'            => '/index.php/simulation/start',
 
-            // ???
+            // Максимальная длинна имени
             'userNameInHeaderMaxLength'     => 30,
 
             // четвёртое приглашение значит что, 3 приглашения отправлены или пройдены в режиме сам-себе
@@ -122,17 +121,13 @@ return CMap::mergeArray(
             // удалять результаты симуляции если селениум-тест успешно прошел false = не удалять
             'deleteSeleniumResults' => false,
 
-            //
-            'isUseResultPopUpCache'         => true,
-
-            // ???
-            'isDisplaySimulationResults'    => true,
-
-            //
+            // Нужно для unit тестов. Вообще simulationId всегда передаётся с запросом.
             'simulationIdStorage'           => 'request', // 'request', 'session'
 
             // количество симуляций, которое даётся корпоративному пользователю после регистрации
             'initialSimulationsAmount'      => 3,
+
+
             'inviteExpired'                 => 5,
 
             // Блокирует/разрещает использование админами входа на сайт от именю любого пользователя
@@ -149,18 +144,28 @@ return CMap::mergeArray(
             // ???
             'emails' => [
                 'isDisplayStandardInvitationMailTopText' => true, // 'Вопросы относительно вакансии вы можете задать по адресу %s, куратор вакансии - %s.'
+
                 'inviteEmailTemplate'      => 'invite_default',
+
                 'tariffExpiredTemplate'    => 'tariff_expired',
+
                 'tariffExpiredTemplateIfInvitesZero' => 'tariff_expired_if_invites_zero',
+
                 'newInvoiceToBooker'       => '//global_partials/mails/new_invoice',
+
                 'completeInvoiceUserEmail' => '//global_partials/mails/completeInvoiceUserEmail',
+
                 'referrerInviteEmail'      => '//global_partials/mails/referrerEmail',
+
                 'noticeEmail'              => '//global_partials/mails/noticeEmail',
+
                 'newFeedback'              => '//global_partials/mails/newFeedback',
+
                 'ifSuspiciousActivity'     => '//global_partials/mails/ifSuspiciousActivity',
+
                 'newThingsInProject'       => 'newThingsInProject',
 
-                //
+                // Емейл бухгалтера
                 'bookerEmail' => 'invoice@skiliks.com',
             ],
 
@@ -179,21 +184,44 @@ return CMap::mergeArray(
             // This part will be sent to JS
             'public' => [
                 'runMigrationOn'                     => 'nobody', //production - skiliks.com, live - live.skiliks.com, loc - loc.skiliks.com
+
+                // Позволено ли игроку пропустить интро видео
                 'canIntroPassed'                     => true,
+
+                // Множитель скорости времени в PROMO симуляции
                 'skiliksSpeedFactor'                 => 5,
+
+                // Множитель скорости времени в DEVELOP симуляции
                 'skiliksDeveloperModeSpeedFactor'    => 8,
+
+                // Адрес хранилища видео и звуков
                 'storageURL'                         => 'http://storage.dev.skiliks.com/',
+
+                //
                 'afterCallZoomerDuration'            => 2000, // milliseconds
+
+                // Показывать ли 500 ошибки с сирвера в виде сообщений в игре
                 'isDisplayServer500errors'           => false,
+
                 'isUseStrictAssertsWhenSimStop'      => false,
+
                 'frontendAjaxTimeout'                => 10000, // 60 sec
+
                 'simStartTimeout'                    => 180000,
+
                 'simStopTimeout'                     => 10*60*1000,
+
                 'useSentryForJsLog'                  => false,
+
                 'isSkipBrowserCheck'                 => false,
+
+                // позволяет отобразить это JS только на продакшене
                 'isIncludeGoogleAnalyticsJavaScript' => false,
+
                 'isDisplaySupportChat'               => true,
+
                 'SiteHeartWidgetCode'                => '633075', // chat Skiliks(test mode): 626464, chat TechHelp (production mode): 633075
+
                 'SiteHeartWidgetTitle'               => 'Онлайн помощь', // chat Skiliks(test mode): 626464, chat TechHelp (production mode): 633075
             ],
             'cron' => [
@@ -246,9 +274,7 @@ return CMap::mergeArray(
                 ),
                 'emails' => [
                     '3326' => [
-                        'limitToGetPoints'  => 0.5,
-                        'limitToGet1points' => 0.3,
-                        'limitToGet2points' => 0.1,
+                        'limitToGetPoints'  => 0.2
                     ]
                 ]
             ),

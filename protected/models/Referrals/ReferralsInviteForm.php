@@ -31,6 +31,7 @@ class ReferralsInviteForm extends CFormModel {
         return array(
             array('emails', 'required', 'message' => 'Введите email(-ы)'),
             array('emails', 'checkEmails'),
+            array('text', 'safe'),
         );
     }
 
