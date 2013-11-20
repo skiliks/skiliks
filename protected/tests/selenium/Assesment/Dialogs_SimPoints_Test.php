@@ -103,7 +103,6 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
         $this->optimal_click('link=F39');
 
         $this->run_event('RST1',Yii::app()->params['test_mappings']['icons_active']['phone'], 'click');
-        $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
         $this->optimal_click("xpath=(//*[contains(text(),'Кто вам нужен?')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Да, а вы кто?')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Слушайте, у меня времени нет, я смогу только в обед!')])");
@@ -112,6 +111,10 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Конечно, мое задание')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Это так. Но речь идет всего о пятнадцати минутах')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Ну что ты, Сергей! За кофе по дороге на работу зайдешь')])");
+
+        $this->run_event('RS1.2',"xpath=(//*[contains(text(),'тебе огромное за помощь!')])", 'click');
+        $this->optimal_click("xpath=(//*[contains(text(),'Кто вам нужен?')])");
+
 
         $this->run_event('E1',"xpath=(//*[contains(text(),'Раиса Романовна, помню про бюджет')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Ну, с помощью Крутько я должен управиться в эти сроки')])");
@@ -156,7 +159,7 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Хорошо, сегодня вечером, после шести! ')])");
         sleep(10);
         $this->simulation_showLogs();
-        $this->checkSimPoints('3','-36.5');
+        $this->checkSimPoints('1','-36.5');
         sleep(2);
     }
 
@@ -238,7 +241,7 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
         $this->run_event('MS54');
         sleep(5);
         $this->simulation_showLogs();
-        $this->checkSimPoints('1.5','-31');
+        $this->checkSimPoints('0','-31');
         sleep(2);
     }
 
@@ -271,7 +274,7 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'сейчас поговорю с ним и уточню задание')])");
         sleep(2);
         $this->simulation_showLogs();
-        $this->checkSimPoints('13.167','-10');
+        $this->checkSimPoints('11.667','-9');
         sleep(2);
     }
 }
