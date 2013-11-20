@@ -391,7 +391,7 @@ class EmailAnalyzer
         
         // inbox + trashCan
         foreach ($this->userInboxEmails as $emailData) {
-            if (false === $emailData->getIsSpam() ) {
+            if (false === $emailData->getIsSpam() && false === $emailData->isYesterdayEmail()) {
                 $possibleRightActions++;
                 
                 if (true === $emailData->getIsReaded()) {
@@ -399,10 +399,14 @@ class EmailAnalyzer
                 }
             }
         }
-        
-        // grand score for user, if he read more or equal to $limit of not-spam emails only
-        $value = $behave_3313->scale * $rightActions/$possibleRightActions;
-        
+
+        if($possibleRightActions !== 0){
+            // grand score for user, if he read more or equal to $limit of not-spam emails only
+            $value = $behave_3313->scale * $rightActions/$possibleRightActions;
+        } else {
+            $value = 0;
+        }
+
         return array(
             'positive' => $value,
             'obj'      => $behave_3313,
@@ -451,8 +455,6 @@ class EmailAnalyzer
         $configs = Yii::app()->params['analizer']['emails']['3326'];
 
         $limitToGetPoints  = $configs['limitToGetPoints'];
-        $limitToGet1points = $configs['limitToGet1points'];
-        $limitToGet2points = $configs['limitToGet2points'];
 
         $criteria = new CDbCriteria();
         $criteria->compare('wr', 'R');
@@ -462,8 +464,7 @@ class EmailAnalyzer
         // gather statistic  {
         $userRightEmailsArray = []; // email with same MSxx must be counted once only
         $userWrongEmails = 0;
-        $userTotalEmails = count($this->userOutboxEmails);
-
+        $debug_wrong = [];
         foreach ($this->userOutboxEmails as $emailData) {
             // @todo: remove trick
             // ignore MSY letters
@@ -471,14 +472,18 @@ class EmailAnalyzer
                 continue;
             }
 
-            if ('R' == $emailData->email->subject_obj->wr) {
-                $userRightEmailsArray[$emailData->email->code] = 'something';
-            }
-            if ('W' == $emailData->email->subject_obj->wr) {
+            if($emailData->email->isMS()){
+                if ('R' == $emailData->email->subject_obj->wr) {
+                    $userRightEmailsArray[$emailData->email->code] = 'something';
+                }
+                if ('W' == $emailData->email->subject_obj->wr) {
+                    $debug_wrong[] = $emailData->email->subject_obj->text;
+                    $userWrongEmails++;
+                }
+            }else{
+                $debug_wrong[] = $emailData->email->subject_obj->text;
                 $userWrongEmails++;
             }
-
-            $userTotalEmails++;
         }
 
         $userRightEmails = count($userRightEmailsArray);
@@ -490,29 +495,21 @@ class EmailAnalyzer
                 'positive' => 0,
                 'obj'      => $behave_3326,
             );
-        }
-
-        // 2 points
-        if ($userWrongEmails/$userRightEmails < $limitToGet2points) {
+        } else {
+            if($userRightEmails !== 0){
+                $K = $userWrongEmails/$userRightEmails;
+            }else{
+                $K = 1;
+            }
+            if($K > 1) {
+                $K = 1;
+            }
+            $value = (1 - $K)*$behave_3326->scale;
             return array(
-                'positive' => $behave_3326->scale,
+                'positive' => $value,
                 'obj'      => $behave_3326,
             );
         }
-
-        // 1 point
-        if ($userWrongEmails/$userRightEmails < $limitToGet1points) {
-            return array(
-                'positive' => $behave_3326->scale*0.5,
-                'obj'      => $behave_3326,
-            );
-        }
-
-        // user write too much not right emails
-        return array(
-            'positive' => 0,
-            'obj'      => $behave_3326,
-        );
     }
 
     /**

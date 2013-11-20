@@ -1,4 +1,8 @@
 <?php
+
+// Team 'Develop - test.skiliks.com'
+$sentryDsn = 'https://2ad3ec315fd04954a1e57102d0da8748:2e328e2ebfc34e289d74df3cdc0cf3b6@app.getsentry.com/15802';
+
 define(YII_DEBUG, false);
 return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
     'preload'=> array('log', 'RSentryException'),
@@ -15,17 +19,16 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
         ),
         'RSentryException'=> array(
             // Team 'Develop - test.skiliks.com'
-            'dsn'=> 'https://2ad3ec315fd04954a1e57102d0da8748:2e328e2ebfc34e289d74df3cdc0cf3b6@app.getsentry.com/15802',
+            'dsn'   => $sentryDsn,
             'class' => 'application.components..yii-sentry-log.RSentryComponent',
         ),
         'log'=>array(
             'class'=>'CLogRouter',
             'routes'=>array(
                 array(
-                    // Team 'Develop - test.skiliks.com'
-                    'class'=>'application.components.yii-sentry-log.RSentryLog',
-                    'dsn'=> 'https://2ad3ec315fd04954a1e57102d0da8748:2e328e2ebfc34e289d74df3cdc0cf3b6@app.getsentry.com/15802',
-                    'levels'=>'error, warning',
+                    'class'  => 'application.components.yii-sentry-log.RSentryLog',
+                    'dsn'    => $sentryDsn,
+                    'levels' => 'error, warning',
                 ),
             ),
         ),
@@ -33,8 +36,10 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
     'params'=>array(
         'server_name' => 'http://skiliks.com/',
         'frontendUrl'=>'http://test.skiliks.com/',
+        'sentry' => [
+            'dsn' => $sentryDsn,
+        ],
         'public' => [
-            'isLocalPc'            => true,
             'isDisplaySupportChat' => false,
         ]
     )

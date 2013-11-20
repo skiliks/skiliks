@@ -36,7 +36,6 @@ return CMap::mergeArray(
             'frontendUrl' => 'http://loc.skiliks.com/',
             'assetsDebug' => true,
             'public' => [
-                'isLocalPc'          => true,
                 'useSentryForJsLog'  => true,
                 'isSkipBrowserCheck' => true,
             ]

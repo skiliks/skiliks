@@ -20,6 +20,7 @@
  * @property integer $is_display_referrals_popup
  * @property integer $is_display_tariff_expire_pop_up
  *
+ *
  * The followings are the available model relations:
  * @property YumUser $user
  * @property Industry $industry
@@ -121,6 +122,9 @@ class UserAccountCorporate extends CActiveRecord
 			array('user_id'     , 'length'   , 'max'=>10, 'on' => ['registration', 'corporate']),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
+            array('ownership_type, company_name, invites_limit, referrals_invite_limit, tariff_expired_at', 'safe'),
+            array('inn, cpp, bank_account_number, bic, preference_payment_method', 'safe'),
+            array('default_invitation_mail_text, is_display_referrals_popup, is_display_tariff_expire_pop_up', 'safe'),
 			array('user_id, industry_id', 'safe', 'on'=>'search'),
 		);
 	}

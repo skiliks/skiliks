@@ -188,7 +188,69 @@ class DebugController extends SiteBaseController
 
     public function actionYyy()
     {
-        $data = (new Feedback())->email = 'sadasda';
+        
+    }
+
+    public function actionTCPDF()
+    {
+        $pdf = Yii::createComponent('application.components.tcpdf.tcpdf',
+            'P', 'mm', 'A4', true, 'UTF-8');
+        //$pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8');
+        $images_dir = __DIR__.'/../system_data/tcpdf/images/';
+        // $pdf->SetMargins(0,0,0, true);
+
+        $pdf->setPrintHeader(false);
+        $pdf->setPrintFooter(false);
+
+        //это нужно для того чтоб сделать картинку на всю страницу
+        $pdf->SetAutoPageBreak(false, 0);
+
+        // $pdf->setImageScale(3);
+        //большой JPG в фоне
+        $pdf->AddPage();
+        $pdf->Image($images_dir.'page1.jpg', 0, 0, 210, 297);
+
+        //текст на русском
+        $pdf->SetFont('arialcyr', '', 20, '', false);
+        $pdf->SetX(20);
+        $pdf->Write(0, "Иван Иванов", '', 0, '', false, 0, false, false, 0);
+
+        //прямоугольник
+        $pdf->Rect(90, 90, 40, 10, 'F', '', array(255, 170, 96));
+        //скуругленные углы
+        $pdf->RoundedRect($x='30', $y='60', $w='50', $h='20', $r = '2', '1111', 'F', '', array(255, 170, 96));
+
+        //картинка-срелка повёрнутая на какой-то не кратный 90 градус (33 к примеру)
+        //$pdf->AddPage();
+        $pdf->StartTransform();
+        // Rotate 20 degrees counter-clockwise centered by (70,110) which is the lower left corner of the rectangle
+
+        $pdf->Rotate(-33, 47.5, 109.5);
+        $pdf->Image($images_dir.'arrow.png', 30, 92, 35, 35);
+        //$pdf->Image('images/page1.jpg', 0, 0, 210, 297);
+        // Stop Transformation
+        $pdf->StopTransform();
+
+        $pdf->Circle(25,105,20);
+        //$pdf->Circle(25,105,10, 90, 180, null);
+        $pdf->PieSector(100, 140, 20, 20, 180, 'F', false, 0, 2);
+        //$pdf->Circle(25,105,10, 270, 360, 'C');
+        //$mask = $pdf->Image('images/blick.png', 60, 110, 35, 35, 'PNG');
+        //$pdf->Image('images/blick.png', 60, 110, 35, 35, 'PNG','','',false, 300, '', false, $mask);
+
+        //$mask = $pdf->Image('images/mask.png', 50, 140, 100, '', '', '', '', false, 300, '', true);
+        //$pdf->Image('images/stars.png', 50, 140, 100, '', '', 'http://www.tcpdf.org', '', false, 300, '', false, $mask);
+
+        $pdf->Image($images_dir.'blick.png', 70, 70, 100, '', '', 'http://www.tcpdf.org', '', false, 300);
+
+
+        //текст на русском
+        $pdf->SetFont('arialcyr', '', 7, '', false);
+        $pdf->SetX(40);
+        $pdf->SetY(132);
+        $pdf->Write(0, "Иван Иванов", '', 0, '', false, 0, false, false, 0);
+
+        $pdf->Output('test.pdf');
     }
 }
 

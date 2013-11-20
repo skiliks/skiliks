@@ -1,4 +1,7 @@
 <?php
+
+$sentryDsn = 'https://45c713ca0e994aeea5aa7bef1850eeca:37efcc80c8434f40a99900c54fc30ac8@app.getsentry.com/15851';
+
 return CMap::mergeArray(
     require(dirname(__FILE__) . '/base.php'),
     array(
@@ -6,9 +9,6 @@ return CMap::mergeArray(
             'gii'=>array(
                 'class'    =>'system.gii.GiiModule',
                 'password' =>'MapRofi531',
-                //'ipFilters'=>array('62.205.135.161'),
-                // 'newFileMode'=>0666,
-                // 'newDirMode'=>0777,
             ),
         ],
         'components' => array(
@@ -22,20 +22,19 @@ return CMap::mergeArray(
                 'enableParamLogging' => true,
                 'enableProfiling' => true
             ),
-            'log' => array(
-                'class' => 'CLogRouter',
-                'routes' => array(
-                    array(
-                        'class' => 'CFileLogRoute',
-                        'levels' => 'error, warning, info, trace, log, debug',
-                    ),
-                    array(
-                        'class' => 'CFileLogRoute',
-                        'levels' => 'error, warning, info, trace, log, debug',
-                        'categories'=>'system.db.*',
-                        'logFile' => 'sql.log'
-                    ),
+            'RSentryException'=> array(
 
+                'dsn'   => $sentryDsn,
+                'class' => 'application.components..yii-sentry-log.RSentryComponent',
+            ),
+            'log'=>array(
+                'class'=>'CLogRouter',
+                'routes'=>array(
+                    array(
+                        'class'  => 'application.components.yii-sentry-log.RSentryLog',
+                        'dsn'    => $sentryDsn,
+                        'levels' => 'error, warning',
+                    ),
                 ),
             ),
             'request' => array(
@@ -45,9 +44,10 @@ return CMap::mergeArray(
         'params' => array(
             'frontendUrl' => 'http://loc.skiliks.com/',
             'assetsDebug' => true,
-            'isUseResultPopUpCache' => false,
+            'sentry' => [
+                'dsn' => $sentryDsn,
+            ],
             'public' => [
-                'isLocalPc'          => true,
                 'useSentryForJsLog'  => true,
                 'isSkipBrowserCheck' => true,
             ]
