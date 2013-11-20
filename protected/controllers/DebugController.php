@@ -211,7 +211,7 @@ class DebugController extends SiteBaseController
         $pdf->Image($images_dir.'page1.jpg', 0, 0, 210, 297);
 
         //текст на русском
-        $pdf->SetFont('arialcyr', '', 20, '', false);
+        $pdf->SetFont('proxima-nova-bold', '', 20, '', false);
         $pdf->SetX(20);
         $pdf->Write(0, "Иван Иванов", '', 0, '', false, 0, false, false, 0);
 
@@ -264,46 +264,98 @@ class DebugController extends SiteBaseController
         $ips = [];
 
         foreach ($rows as $line) {
-            if (-1 < strpos($line, ' 404')) {
-//                $line = str_replace(
-//                    ['www.skiliks.com 144.76.56.104 GET', '- - ', 'HTTP/1.1 404', 'skiliks.com 144.76.56.104 GET'],
-//                    '',
-//                    $line
-//                );
-                if (-1 < strpos($line, '19/Nov/2013:17:22:02')) {
-                    continue;
-                }
-                if (-1 < strpos($line, '19/Nov/2013:08:49:00')) {
-                    continue;
-                }
-                if (-1 < strpos($line, 'http://vk.com/dev/Share')) {
-                    continue;
-                }
-                if (-1 < strpos($line, '62.205.135.161')) {
-                    continue;
-                }
-                if (-1 < strpos($line, '195.132.196.206')) {
-                    continue;
-                }
-                if (-1 < strpos($line, '199.217.113.218')) {
-                    continue;
-                }
-                if (-1 < strpos($line, 'apple-touch-icon')) {
-                    continue;
-                }
+//            if (-1 = strpos($line, ' 404')) {
+//                    continue;
+//             }
+                $line = str_replace(
+                    [
+                        'www.skiliks.com 144.76.56.104 GET',
+                        '- - ',
+                        'HTTP/1.1 404',
+                        'skiliks.com 144.76.56.104 GET',
+                        'skiliks.com 144.76.56.104'
+                    ],
+                    '',
+                    $line
+                );
+//                if (-1 < strpos($line, '19/Nov/2013:17:22:02')) {
+//                    continue;
+//                }
+//                if (-1 < strpos($line, '19/Nov/2013:08:49:00')) {
+//                    continue;
+//                }
+//                if (-1 < strpos($line, 'http://vk.com/dev/Share')) {
+//                    continue;
+//                }
+//                if (-1 < strpos($line, '62.205.135.161')) {
+//                    continue;
+//                }
+//                if (-1 < strpos($line, '195.132.196.206')) {
+//                    continue;
+//                }
+//                if (-1 < strpos($line, '199.217.113.218')) {
+//                    continue;
+//                }
+//                if (-1 < strpos($line, 'apple-touch-icon')) {
+//                    continue;
+//                }
 
-                $first = substr($line, 0,3);
+                // $first = substr($line, 0,3);
+                $first = substr($line, 0, 13);
+                //echo $first . '<br/>';
 
-                if (150 == $first) {
-                    //$ip = substr($line, 0, strpos($line, ' '));
+                if ('194.44.36.154' == $first) {
 
-                    //$ips[$ip] = $ip;
+                    if (-1 < strpos($line, '.ogg')) {
+                        continue;
+                    }
+
+
+                    $lineArr = explode(' ', $line);
+
+                    if ('localhost' == $lineArr[3]) {
+                        echo $line . '<br/>';
+                        continue;
+                    }
+
+                    $ip = $lineArr[0];
+
+                    $lineArr[1] = str_replace(['['],'',$lineArr[1]);
+                    $lineArr[2] = str_replace([']'],'',$lineArr[2]);
+
+                    // print_r($lineArr);
+
+                    $request = $lineArr[4]. ' '. $lineArr[5];
+                    $request = str_replace(['HTTP/1.1', 'HTTP/1.0', 'POST'],'', $request);
+
+                    $date = $lineArr[1];
+
+                    // standard
+                    $userAgent = $lineArr[9].' '.$lineArr[10].' '.$lineArr[11].' '.$lineArr[12].' '.$lineArr[13].
+                        ' '.$lineArr[14].' '.$lineArr[15].' '.$lineArr[16].' ';
+
+                    // POST REQUEST
+                    if ('POST' == $lineArr[4]) {
+                        $userAgent = $lineArr[10].' '.$lineArr[11].' '.$lineArr[12].' '.$lineArr[13].
+                            ' '.$lineArr[14].' '.$lineArr[15].' '.$lineArr[16].' '.$lineArr[17];
+                    }
+
+                    // WIN 8 user agent
+                    if ('WOW64)' == $lineArr[13]) {
+                        $userAgent = $lineArr[9].' '.$lineArr[10].' '.$lineArr[11].' '.$lineArr[12].' '.$lineArr[13].
+                            ' '.$lineArr[14].' '.$lineArr[15].' '.$lineArr[16].' '.$lineArr[17].
+                            ' '.$lineArr[18].' '.$lineArr[19];
+                    }
 
                     //echo $ip . '<br/>';
-                    echo $line . '<br/>';
+                    // echo implode(' ', $lineArr) . '<br/>';
+                    echo sprintf('%15s %15s %50s   %90s', $date, $ip, $request, $userAgent) . '<br/>';
+                    //die;
                 }
+
+                //$ips[$ip] = $ip;
             }
-        }
+
 
         //echo implode(', ', $ips);
 
