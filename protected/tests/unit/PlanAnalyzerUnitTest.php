@@ -442,7 +442,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $analyzer->check_214b0_214b4('214b1', 1);
         $analyzer->check_214b0_214b4('214b2', 2);
         $analyzer->check_214b0_214b4('214b3', 3);
-        $analyzer->check_214b0_214b4('214b4', 4);
+        //$analyzer->check_214b0_214b4('214b4', 4);
 
         $analyzer->check_214b5_6_8('214b5', 0);
         $analyzer->check_214b5_6_8('214b6', 1);
@@ -557,20 +557,20 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
 
         // --- 214b4 //
 
-        $behaviour = $simulation->game_type->getHeroBehaviour(['code'=>'214b4']);
+        /*$behaviour = $simulation->game_type->getHeroBehaviour(['code'=>'214b4']);
         $point = AssessmentCalculation::model()->findByAttributes([
             'sim_id'=>$simulation->id,
             'point_id'=>$behaviour->id
         ]);
         $this->assertEquals($behaviour->scale, $point->value, '214b4');
-        unset($point);
+        unset($point);*/
 
         $points = AssessmentPlaningPoint::model()->countByAttributes([
             'sim_id'            => $simulation->id,
             'hero_behaviour_id' => $behaviour->id,
             'value'             => 1,
         ]);
-        $this->assertEquals(3, $points, '214b4 : 1');
+        $this->assertEquals(4, $points, '214b4 : 1');
         unset($points);
 
         $points = AssessmentPlaningPoint::model()->countByAttributes([
@@ -578,7 +578,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
             'hero_behaviour_id' => $behaviour->id,
             'value'             => 0,
         ]);
-        $this->assertEquals(0, $points, '214b4 : 0');
+        $this->assertEquals(3, $points, '214b4 : 0');
         unset($points);
 
         // --- 214b5 //
@@ -730,7 +730,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $analyzer->check_214b0_214b4('214b1', 1);
         $analyzer->check_214b0_214b4('214b2', 2);
         $analyzer->check_214b0_214b4('214b3', 3);
-        $analyzer->check_214b0_214b4('214b4', 4);
+        //$analyzer->check_214b0_214b4('214b4', 4);
 
         $analyzer->check_214b5_6_8('214b5', 0);
         $analyzer->check_214b5_6_8('214b6', 1);
@@ -844,20 +844,20 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
 
         // --- 214b4 //
 
-        $behaviour = $simulation->game_type->getHeroBehaviour(['code'=>'214b4']);
+        /*$behaviour = $simulation->game_type->getHeroBehaviour(['code'=>'214b4']);
         $point = AssessmentCalculation::model()->findByAttributes([
             'sim_id'=>$simulation->id,
             'point_id'=>$behaviour->id
         ]);
         $this->assertEquals($behaviour->scale, $point->value, '214b4');
-        unset($point);
+        unset($point);*/
 
         $points = AssessmentPlaningPoint::model()->countByAttributes([
             'sim_id'            => $simulation->id,
             'hero_behaviour_id' => $behaviour->id,
             'value'             => 1,
         ]);
-        $this->assertEquals(1, $points, '214b4 : 1');
+        $this->assertEquals(3, $points, '214b4 : 1');
         unset($points);
 
         $points = AssessmentPlaningPoint::model()->countByAttributes([
@@ -865,7 +865,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
             'hero_behaviour_id' => $behaviour->id,
             'value'             => 0,
         ]);
-        $this->assertEquals(0, $points, '214b4 : 0');
+        $this->assertEquals(1, $points, '214b4 : 0');
         unset($points);
 
         // --- 214b5 //
@@ -1112,7 +1112,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $analyzer->check_214b0_214b4('214b1', 1);
         $analyzer->check_214b0_214b4('214b2', 2);
         $analyzer->check_214b0_214b4('214b3', 3);
-        $analyzer->check_214b0_214b4('214b4', 4);
+        //$analyzer->check_214b0_214b4('214b4', 4);
 
         $analyzer->check_214b5_6_8('214b5', 0);
         $analyzer->check_214b5_6_8('214b6', 1);
@@ -1165,12 +1165,12 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         // 214b3 }
 
         // 214b4 {
-        $behaviour = $simulation->game_type->getHeroBehaviour(['code' => '214b4']);
+        /*$behaviour = $simulation->game_type->getHeroBehaviour(['code' => '214b4']);
         $point = AssessmentCalculation::model()->findByAttributes([
             'sim_id'   => $simulation->id,
             'point_id' => $behaviour->id
         ]);
-        $this->assertEquals($point->value, 0);
+        $this->assertEquals($point->value, 0);*/
         // 214b4 }
 
         // 214b5 {
@@ -1206,7 +1206,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
             'sim_id'   => $simulation->id,
             'point_id' => $behaviour->id
         ]);
-        $this->assertEquals($behaviour->scale * 0.5, $point->value);
+        $this->assertEquals(1.38, $point->value);
         // 214b9 }
     }
 
