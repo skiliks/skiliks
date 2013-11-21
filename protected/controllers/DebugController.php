@@ -193,6 +193,9 @@ class DebugController extends SiteBaseController
 
     public function actionTCPDF()
     {
+        /**
+         * @var TCPDF $pdf
+         */
         $pdf = Yii::createComponent('application.components.tcpdf.tcpdf',
             'P', 'mm', 'A4', true, 'UTF-8');
         //$pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8');
@@ -248,6 +251,31 @@ class DebugController extends SiteBaseController
         $pdf->SetFont('arialcyr', '', 7, '', false);
         $pdf->SetX(40);
         $pdf->SetY(132);
+        $pdf->Write(0, "Иван Иванов", '', 0, '', false, 0, false, false, 0);
+
+        $pdf->SetFont('proxima-nova-regular', '', 14, '', false);
+        $pdf->SetX(40);
+        $pdf->SetY(152);
+        $pdf->Write(0, "Иван Иванов", '', 0, '', false, 0, false, false, 0);
+
+        $pdf->SetFont('proxima-nova-bold', '', 14, '', false);
+        $pdf->SetX(40);
+        $pdf->SetY(162);
+        $pdf->Write(0, "Иван Иванов", '', 0, '', false, 0, false, false, 0);
+
+        $pdf->SetFont('proximanovaltb', '', 14, '', false);
+        $pdf->SetX(40);
+        $pdf->SetY(172);
+        $pdf->Write(0, "123 Фыв Asd", '', 0, '', false, 0, false, false, 0);
+
+        $pdf->SetFont('proxima-nova-regular', 'U', 14, '', false);
+        $pdf->SetX(40);
+        $pdf->SetY(182);
+        $pdf->Write(0, "Иван Иванов", '', 0, '', false, 0, false, false, 0);
+
+        $pdf->SetFont('proxima-nova-regular', 'I', 14, '', false);
+        $pdf->SetX(40);
+        $pdf->SetY(192);
         $pdf->Write(0, "Иван Иванов", '', 0, '', false, 0, false, false, 0);
 
         $pdf->Output('test.pdf');
