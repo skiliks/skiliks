@@ -63,8 +63,12 @@ define([
                     });
 
                     this.listenTo(SKApp.simulation, 'audio-phone-end-start', function() {
+                        var duration = SKApp.get('afterCallZoomerDuration');
+                        if ($.browser['msie']) {
+                            duration = SKApp.get('afterCallZoomerDurationForIE');
+                        }
                         me.doSoundPhoneCallShortZoomerStart();
-                        setTimeout(me.doSoundPhoneCallShortZoomerStop, SKApp.get('afterCallZoomerDuration'));
+                        setTimeout(me.doSoundPhoneCallShortZoomerStop, duration);
                     });
 
                     this.listenTo(
