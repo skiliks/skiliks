@@ -24,6 +24,7 @@ use application\components\Logging\LogTableList as LogTableList;
  * @property string $ipv4
  * @property string $status
  * @property string $percentile
+ * @property string $assessment_version
  *
  * @property SimulationCompletedParent[] $completed_parent_activities
  * @property AssessmentAggregated[] $assessment_aggregated

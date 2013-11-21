@@ -695,4 +695,33 @@ class ProfileController extends SiteBaseController implements AccountPageControl
             'positionLevels'  => $positionLevels,
         ]);
     }
+
+    public function actionSaveAssessmentAnalyticFile2()
+    {
+        $this->checkUser();
+
+        if(!$this->user->isCorporate()) {
+            $this->redirect('/dashboard');
+        }else{
+            $path = SimulationService::saveLogsAsExcelReport2ForCorporateUser(
+                $this->user->account_corporate,
+                $this->getParam('version'));
+            if($path !== null){
+                if (file_exists($path)) {
+                    $xls = file_get_contents($path);
+                } else {
+                    throw new Exception("Файл не найден");
+                }
+
+                $filename = 'Аналитический файл '.$this->getParam('version');
+                header('Content-Type:   application/vnd.ms-excel; charset=utf-8');
+                header('Content-Disposition: attachment; filename="' . $filename . '"');
+                echo $xls;
+            }else{
+                Yii::app()->user->setFlash('error', 'У Вас нет прохождений для сравнения поэтому файл не был создан!');
+                $this->redirect('/dashboard');
+            }
+        }
+
+    }
 }
