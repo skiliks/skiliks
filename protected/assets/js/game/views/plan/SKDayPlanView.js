@@ -790,7 +790,7 @@ define([
          */
         doPlannerBookQuarterPlan:function(e) {
             try {
-                if(!$(e.currentTarget).hasClass('is-active-plan-tab')){
+                if(!$(e.currentTarget).hasClass('is-active-plan-tab')) {
                     var tab = $('.is-active-plan-tab');
                     tab.css('cursor', 'pointer');
                     tab.removeClass('is-active-plan-tab');
@@ -800,6 +800,8 @@ define([
                     $(e.currentTarget).children('img').attr('src', SKApp.get('assetsUrl')+'/img/planner/plan_quarter-active.png');
                     $('.plannerBookDayPlan').css('display', 'none');
                     $('.plannerBookQuarterPlan').css('display', 'block');
+
+                    this.fixQuarterPlanMarkUp();
                 }
             } catch(exception) {
                 if (window.Raven) {
@@ -884,8 +886,28 @@ define([
                 }
             }
         },
+
         hideHint:function(e) {
             $('.plan_hint_tooltip').remove();
+        },
+
+        fixQuarterPlanMarkUp: function() {
+            if ($.browser['msie']) {
+                $('.plan-unit').height(
+                    $('.plan-quater-table .cur').height() - 20
+                );
+            }
+        },
+
+        onResize: function() {
+            try {
+                window.SKWindowView.prototype.onResize.call(this);
+                this.fixQuarterPlanMarkUp();
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
+            }
         }
     });
 
