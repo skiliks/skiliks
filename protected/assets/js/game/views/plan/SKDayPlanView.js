@@ -58,6 +58,16 @@ define([
                 var me = this,
                 elements = this.$('.planner-task:not(.locked)');
 
+                // IE10-fix {
+                // В IE10 при инициализации .draggable(), тот елемент что назначен в "snap"
+                // уменьшает ширину вдвое. SKILIKS-4824
+                // Данный код явно задаёт ширину, и IE прекращает глючить.
+                // В остальных браузерах ничего не портит - поэтому код не обёрнут в if(MSIE){...}
+                $('.planner-book-timetable-event-fl').width(
+                    $('.planner-book-timetable-event-fl').width()
+                );
+                // IE10-fix }
+
                 elements.draggable("destroy");
                 var d31 = new Date();
                 elements.draggable({
