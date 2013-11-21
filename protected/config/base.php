@@ -200,6 +200,7 @@ return CMap::mergeArray(
                 // два звука "пи"
                 'afterCallZoomerDuration'            => 3000, // milliseconds
                 'afterCallZoomerDurationForIE'       => 2500, // milliseconds
+                'afterCallZoomerDurationForChrome'   => 2500, // milliseconds
 
                 // Показывать ли 500 ошибки с сирвера в виде сообщений в игре
                 'isDisplayServer500errors'           => false,

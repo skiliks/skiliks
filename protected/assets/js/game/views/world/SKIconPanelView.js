@@ -67,6 +67,9 @@ define([
                         if ($.browser['msie']) {
                             duration = SKApp.get('afterCallZoomerDurationForIE');
                         }
+                        if ($.browser['chrome']) {
+                            duration = SKApp.get('afterCallZoomerDurationForIE');
+                        }
                         me.doSoundPhoneCallShortZoomerStart();
                         setTimeout(me.doSoundPhoneCallShortZoomerStop, duration);
                     });
