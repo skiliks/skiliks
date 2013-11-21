@@ -198,7 +198,7 @@ return CMap::mergeArray(
                 'storageURL'                         => 'http://storage.dev.skiliks.com/',
 
                 //
-                'afterCallZoomerDuration'            => 2000, // milliseconds
+                'afterCallZoomerDuration'            => 3700, // milliseconds
 
                 // Показывать ли 500 ошибки с сирвера в виде сообщений в игре
                 'isDisplayServer500errors'           => false,
