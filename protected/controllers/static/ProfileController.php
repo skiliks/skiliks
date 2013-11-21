@@ -718,7 +718,7 @@ class ProfileController extends SiteBaseController implements AccountPageControl
                 header('Content-Disposition: attachment; filename="' . $filename . '"');
                 echo $xls;
             }else{
-                Yii::app()->user->setFlash('error', 'У Вас нет файлов для сравнения поэтому файл не был создан!');
+                Yii::app()->user->setFlash('error', 'У Вас нет прохождений для сравнения поэтому файл не был создан!');
                 $this->redirect('/dashboard');
             }
         }
