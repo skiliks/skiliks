@@ -1094,7 +1094,7 @@ class SimulationService
         }
     }
 
-    public static function saveLogsAsExcelReport2($simulations = array()) {
+    public static function saveLogsAsExcelReport2($simulations = array(), $account = null) {
         if(!empty($simulations)) {
             $logTableList = new LogTableList();
             foreach($simulations as $simulation) {
@@ -1102,8 +1102,34 @@ class SimulationService
                 $logTableList->saveLogsAsExcelReport2();
             }
             $excelWriter = $logTableList->returnXlsFile();
-            $excelWriter->save(__DIR__.'/../logs/combined-log_report-2.xlsx');
-            return true;
+            if($account === null){
+                $user_id = 'custom';
+            }else{
+                $user_id = $account->user_id;
+            }
+            $path = __DIR__.'/../system_data/analytic_files_2/'.$user_id.'_'.$simulation->assessment_version.'.xlsx';
+            $excelWriter->save($path);
+            return $path;
         }
+    }
+
+    public static function saveLogsAsExcelReport2ForCorporateUser(UserAccountCorporate $account, $assessment_version) {
+        $invites = Invite::model()->findAllByAttributes(['owner_id'=>$account->user_id]);
+        $simulations = [];
+        foreach($invites as $invite) {
+            /* @var Invite $invite */
+            if(null === $invite->simulation) {
+                continue;
+            }
+            $isCompleted = $invite->simulation->end !== null;
+            $isFull = $invite->simulation->isFull();
+            $isValidAssessmentVersion = $invite->simulation->assessment_version === $assessment_version;
+            if($isCompleted && $isFull && $isValidAssessmentVersion) {
+                $simulations[] = $invite->simulation;
+            }
+
+        }
+
+        return self::saveLogsAsExcelReport2($simulations, $account);
     }
 }
