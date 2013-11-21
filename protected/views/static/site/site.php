@@ -37,6 +37,15 @@
         $cs->registerLessFile($assetsUrl . '/less/plan.less',       $assetsUrl . '/compiled_css/plan.css');
         $cs->registerLessFile($assetsUrl . '/less/mail.less',       $assetsUrl . '/compiled_css/mail.css');
         $cs->registerLessFile($assetsUrl . '/less/documents.less',  $assetsUrl . '/compiled_css/documents.css');
+    /**
+     * Подключаем ie10.css для специфичной IE10 вёрстки.
+     * Все прочие (общие) CSS должны быть подключены ниже.
+     * @link:http://stackoverflow.com/questions/16474948/detect-ie10-ie10-and-other-browsers-in-php
+     */
+    if(preg_match('/(?i)msie [10]/',$_SERVER['HTTP_USER_AGENT']))
+    {
+        $cs->registerCssFile($assetsUrl . "/css/ie10.css");
+    }
     ?>
 
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/jquery/jquery-1.7.2.min.js"></script>
