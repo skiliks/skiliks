@@ -789,6 +789,13 @@ class SimulationService
             $simulation->end = GameTime::setNowDateTime();
             $simulation->status = Simulation::STATUS_COMPLETE;
             $simulation->save(false);
+            $simulation->refresh();
+            $simulation->getAssessmentDetails();
+            $assessment_engine_version = Yii::app()->params['assessment_engine_version'];
+            $simulation->results_popup_partials_path = '//simulation_details_popup/'.$assessment_engine_version;
+            $simulation->assessment_version = $assessment_engine_version;
+            $simulation->save(false);
+
     }
 
     /**
