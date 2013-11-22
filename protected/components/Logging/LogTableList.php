@@ -269,6 +269,7 @@ namespace application\components\Logging {
 
                 $user = null;
                 $isNeedThinLine = false;
+                $highest = 1; // default value
 
                 foreach ($table->getData() as $i => $row) {
 
