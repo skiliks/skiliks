@@ -15,6 +15,8 @@
  * @property string $description
  * @property string $benefits
  * @property string $slug
+ * @property string $weight
+ * @property string $is_display_on_tariffs_page
  *
  * The followings are the available model relations:
  * @property UserAccountCorporate[] $userAccountCorporates
@@ -250,4 +252,8 @@ class Tariff extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+
+    public function isDisplayOnTariffsPage() {
+        return $this->is_display_on_tariffs_page === '1';
+    }
 }
