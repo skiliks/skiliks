@@ -63,15 +63,7 @@ define([
                     });
 
                     this.listenTo(SKApp.simulation, 'audio-phone-end-start', function() {
-                        var duration = SKApp.get('afterCallZoomerDuration');
-                        if ($.browser['msie']) {
-                            duration = SKApp.get('afterCallZoomerDurationForIE');
-                        }
-                        if ($.browser['chrome']) {
-                            duration = SKApp.get('afterCallZoomerDurationForIE');
-                        }
                         me.doSoundPhoneCallShortZoomerStart();
-                        setTimeout(me.doSoundPhoneCallShortZoomerStop, duration);
                     });
 
                     this.listenTo(
@@ -580,7 +572,7 @@ define([
 
             doSoundPhoneCallShortZoomerStart: function() {
                 try {
-                    window.AppView.frame.icon_view._playSound('phone/S1.4.3', true, true, 'audio-phone-short-zoom');
+                    window.AppView.frame.icon_view._playSound('phone/S1.4.3', false, false, 'audio-phone-short-zoom');
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
