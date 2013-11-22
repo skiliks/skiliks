@@ -92,7 +92,8 @@ return CMap::mergeArray(
         // application-level parameters that can be accessed
         // using Yii::app()->params['paramName']
         'params' => array(
-            'server_name'                   => 'http://skiliks.com/',
+            // имя сервера, стоб понимать с какого сервера пришли письма про подозрительную активность
+            'server_name'                   => 'не указан',
 
             // просто подпись на сайте, вынесена в конфиг - чтоб было проще править
             'demoDuration'                  => 5, // min

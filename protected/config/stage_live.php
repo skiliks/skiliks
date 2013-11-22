@@ -35,7 +35,7 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
         ),
     ),
     'params'=>array(
-        'server_name'    => 'http://skiliks.com/',
+        'server_name'    => 'http://live.skiliks.com/',
         'frontendUrl'    => 'http://live.skiliks.com/',
         'runMigrationOn' => 'live',
         'sentry' => [
