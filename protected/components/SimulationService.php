@@ -1108,6 +1108,8 @@ class SimulationService
                 $user_id = $account->user_id;
             }
             $path = __DIR__.'/../system_data/analytic_files_2/'.$user_id.'_'.$simulation->assessment_version.'.xlsx';
+            var_dump($path);
+            exit;
             $excelWriter->save($path);
             return $path;
         }
