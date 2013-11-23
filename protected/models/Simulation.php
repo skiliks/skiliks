@@ -71,6 +71,8 @@ class Simulation extends CActiveRecord
 
     public $id;
 
+    //public $assessment_version;
+
     /** ------------------------------------------------------------------------------------------------------------ **/
 
     public function formatDateForMissedCalls($time, $date = null)
