@@ -23,12 +23,16 @@
  */
 class Tariff extends CActiveRecord
 {
+    const SLUG_FREE = 'free';
+    const SLUG_LITE_FREE = 'lite_free';
     const SLUG_LITE = 'lite';
     const SLUG_STARTER = 'starter';
     const SLUG_PROFESSIONAL = 'professional';
     const SLUG_BUSINESS = 'business';
 
     public static $tarifs = [
+        self::SLUG_FREE,
+        self::SLUG_LITE_FREE,
         self::SLUG_LITE,
         self::SLUG_STARTER,
         self::SLUG_PROFESSIONAL,
