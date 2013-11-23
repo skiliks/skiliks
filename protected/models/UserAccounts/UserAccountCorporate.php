@@ -39,7 +39,7 @@ class UserAccountCorporate extends CActiveRecord
      * @param Tariff $tariff
      * @param bool $isSave
      */
-    public function setTariff(TariffPlan $tariff, $isSave = false)
+    public function setTariff(Tariff $tariff, $isSave = false)
     {
         $this->tariff_id = $tariff->id;
         $this->tariff_activated_at = (new DateTime())->format("Y-m-d H:i:s");

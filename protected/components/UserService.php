@@ -692,20 +692,17 @@ class UserService {
         $expiredAccounts = [];
 
         if( null !== $accounts ) {
-            /* @var $user UserAccountCorporate */
+            /* @var $account UserAccountCorporate */
             foreach( $accounts as $account ) {
-                $account->is_display_tariff_expire_pop_up = 1;
-                if((int)$account->invites_limit !== 0) {
-                    $initValue = $account->getTotalAvailableInvitesLimit();
-
-                    $account->invites_limit = 0;
-                    $account->update();
-
-                    $expiredAccounts[] = $account;
-
-                    UserService::logCorporateInviteMovementAdd('Тарифный план '.$account->tariff->label.' истёк. Количество доступных симуляция обнулено.', $account, $initValue);
+                if($account->tariff->slug === Tariff::SLUG_FREE) {
+                    continue;
                 }
-
+                $initValue = $account->getTotalAvailableInvitesLimit();
+                UserService::logCorporateInviteMovementAdd('Тарифный план '.$account->tariff->label.' истёк. Количество доступных симуляция обнулено.', $account, $initValue);
+                $account->is_display_tariff_expire_pop_up = 1;
+                $tariff = Tariff::model()->findByAttributes(['slug'=>Tariff::SLUG_FREE]);
+                $account->setTariff($tariff, true);
+                $expiredAccounts[] = $account;
                 // send email for any account {
                 $emailTemplate = Yii::app()->params['emails']['tariffExpiredTemplateIfInvitesZero'];
 
