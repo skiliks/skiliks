@@ -71,8 +71,16 @@ class m131122_134058_tariff_update extends CDbMigration
             foreach($users as $user){
                 /* @var $user YumUser */
                 if($user->isCorporate()) {
-                    $tariff = Tariff::model()->findByAttributes(['slug'=>'lite_free']);
-                    $user->account_corporate->setTariff($tariff, true);
+                    if($user->isBanned()) {
+                        $tariff = Tariff::model()->findByAttributes(['slug'=>Tariff::SLUG_FREE]);
+                        $user->account_corporate->setTariff($tariff, true);
+                    } else {
+                        $invites_limit = $user->account_corporate->invites_limit;
+                        $tariff = Tariff::model()->findByAttributes(['slug'=>Tariff::SLUG_LITE_FREE]);
+                        $user->account_corporate->setTariff($tariff, true);
+                        $user->account_corporate->invites_limit = $invites_limit;
+                        $user->account_corporate->save(false);
+                    }
                 }
             }
             $transaction->commit();
