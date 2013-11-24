@@ -40,7 +40,8 @@ define([
          */
         {
             'attributes': {
-                'style': 'width: 100%; height: 100%'
+                'style': 'width: 100%; height: 100%; float: left;'
+                    + '-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;'
             },
 
             'events':          {

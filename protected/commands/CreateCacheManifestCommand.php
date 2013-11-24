@@ -3,13 +3,12 @@
 class CreateCacheManifestCommand extends CConsoleCommand {
 
     public $str_files = '';
-    public $javascript_preload = '';
+
     public function actionIndex()
     {
         $this->str_files = "CACHE MANIFEST\r\n";
         $this->str_files .= "<?php\r\n";//"<?php\r\n echo <<<MANIFEST\r\n";
-        $this->javascript_preload  = "<script>\r\n";
-        $this->javascript_preload .= "var preload_images=[<?=";
+
         $assets = __DIR__.'/../assets/';
         $cache = [
             'img/documents',
@@ -28,27 +27,25 @@ class CreateCacheManifestCommand extends CConsoleCommand {
             'img/workplace-small.png'
         ];
 
-        foreach($cache as $path) {
+        foreach ($cache as $path) {
             echo $assets.$path."\r\n";
             if(file_exists($assets.$path) && is_file($assets.$path)){
                 $this->str_files .= 'echo $assets."/'.$path."\\r\\n\"; \r\n";
-            }elseif(is_dir($assets.$path)) {
+            } elseif (is_dir($assets.$path)) {
                 $files = scandir($assets.$path);
-                foreach($files as $file) {
-                    if(file_exists($assets.$path.'/'.$file) && is_file($assets.$path.'/'.$file)){
+                foreach ($files as $file) {
+                    if (file_exists($assets.$path.'/'.$file) && is_file($assets.$path.'/'.$file)) {
                         $this->str_files .= 'echo $assets."/'.$path.'/'.$file."\\r\\n\"; \r\n";
-                        $this->javascript_preload .= '"\"'.'$assetsUrl'.'/'.$path.'/'.$file.'\",",';
                     }
                 }
             }
         }
+
         $this->str_files .= "?>\r\n";
         $this->str_files .= "NETWORK:\r\n";
         $this->str_files .= "*\r\n";
-        $this->javascript_preload .= "\"\"?>\r\n";
-        $this->javascript_preload .= "];\r\n</script>";
+
         file_put_contents(__DIR__.'/../views/static/applicationcache/manifest.php', $this->str_files);
-        file_put_contents(__DIR__.'/../views/static/applicationcache/preload_images.php', $this->javascript_preload);
 
     }
 

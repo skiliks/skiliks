@@ -253,6 +253,8 @@ if(preg_match('/(?i)msie [10]/',$_SERVER['HTTP_USER_AGENT']))
 //            Cufon.replace('.ProximaNova-font-11px', {fontFamily:"ProximaNova-Regular", color: "#555545", hover: true});
         </script>
 
+        <?= StaticSiteTools::getSiteHeartAuth(Yii::app()->user->data()); ?>
+
         <?php if (Yii::app()->params['public']['isDisplaySupportChat']) : ?>
             <script type="text/javascript">
                 window._shcp = [];
@@ -264,15 +266,21 @@ if(preg_match('/(?i)msie [10]/',$_SERVER['HTTP_USER_AGENT']))
                     template : "blue",
                     title : "<?= Yii::app()->params['public']['SiteHeartWidgetTitle'] ?>",
                     title_offline : "Оставьте сообщение",
-                    auth : "<?= StaticSiteTools::getSiteHeartAuth(Yii::app()->user->data()); ?>"
+                     auth : "<?= StaticSiteTools::getSiteHeartAuth(Yii::app()->user->data()); ?>"
                 });
                 $(document).ready(function() {
                     var hcc = document.createElement("script");
                     hcc.type = "text/javascript";
                     hcc.async = true;
-                    hcc.src = ("https:" === document.location.protocol ? "https" : "http")+"://widget.siteheart.com/apps/js/sh.js";
+                    hcc.src = ("https:" === document.location.protocol ? "https" : "http")+"://widget.siteheart.com/apps/js/sh.js?v=2";
                     var s = document.head;
                     s.parentNode.insertBefore(hcc, null);
+
+//                    setTimeout(function() {
+//                        $('.sh_button_back').click();
+//                        $('input.shc').eq(1).click();
+//                        $('.sh_button_back').click();
+//                    }, 2000);
                 });
             </script>
         <?php endif; ?>
