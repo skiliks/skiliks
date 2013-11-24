@@ -713,12 +713,12 @@ class ProfileController extends SiteBaseController implements AccountPageControl
                     throw new Exception("Файл не найден");
                 }
 
-                $filename = 'Аналитический файл '.$this->getParam('version');
+                $filename = 'Analysis_file_'.$this->getParam('version').'.xlsx';
                 header('Content-Type:   application/vnd.ms-excel; charset=utf-8');
                 header('Content-Disposition: attachment; filename="' . $filename . '"');
                 echo $xls;
             }else{
-                Yii::app()->user->setFlash('error', 'У Вас нет прохождений для сравнения поэтому файл не был создан!');
+                Yii::app()->user->setFlash('error', 'У вас нет пройденных симуляций для сравнения');
                 $this->redirect('/dashboard');
             }
         }

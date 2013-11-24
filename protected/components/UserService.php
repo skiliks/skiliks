@@ -234,10 +234,8 @@ class UserService {
 
             $account_corporate->user_id = $user->id;
             $account_corporate->default_invitation_mail_text = 'Вопросы относительно тестирования вы можете задать по адресу '.$profile->email.', куратор тестирования - '.$profile->firstname.' '. $profile->lastname .'.';
-            $tariff = Tariff::model()->findByAttributes(['slug' => Tariff::SLUG_LITE]);
+            $tariff = Tariff::model()->findByAttributes(['slug' => Tariff::SLUG_LITE_FREE]);
             $account_corporate->setTariff($tariff, true);
-
-            $account_corporate->invites_limit = Yii::app()->params['initialSimulationsAmount'];
             $account_corporate->save(false);
 
             UserService::logCorporateInviteMovementAdd(

@@ -7,6 +7,7 @@ $lang = Yii::app()->getLanguage();
 ?>
 <div class="tarifswrap">
 <?php foreach ($tariffs as $tariff): ?>
+    <?php if($tariff->isDisplayOnTariffsPage()): ?>
     <div class="nice-border onetariff tariff-<?=$tariff->slug?>">
         <div class="tariff-box radiusthree">
             <?php if($tariff->slug == "lite") : ?>
@@ -55,6 +56,7 @@ $lang = Yii::app()->getLanguage();
             </div>
         </div>
     </div>
+    <?php endif ?>
 <?php endforeach ?>
 
     <p class="text-left text16 ProximaNova-Bold additional-text">

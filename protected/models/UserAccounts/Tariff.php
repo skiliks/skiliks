@@ -15,18 +15,24 @@
  * @property string $description
  * @property string $benefits
  * @property string $slug
+ * @property string $weight
+ * @property string $is_display_on_tariffs_page
  *
  * The followings are the available model relations:
  * @property UserAccountCorporate[] $userAccountCorporates
  */
 class Tariff extends CActiveRecord
 {
+    const SLUG_FREE = 'free';
+    const SLUG_LITE_FREE = 'lite_free';
     const SLUG_LITE = 'lite';
     const SLUG_STARTER = 'starter';
     const SLUG_PROFESSIONAL = 'professional';
     const SLUG_BUSINESS = 'business';
 
     public static $tarifs = [
+        self::SLUG_FREE,
+        self::SLUG_LITE_FREE,
         self::SLUG_LITE,
         self::SLUG_STARTER,
         self::SLUG_PROFESSIONAL,
@@ -250,4 +256,8 @@ class Tariff extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+
+    public function isDisplayOnTariffsPage() {
+        return $this->is_display_on_tariffs_page === '1';
+    }
 }
