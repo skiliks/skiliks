@@ -312,24 +312,43 @@ class DebugController extends SiteBaseController
 //
 //        $file = $file_0."\n".$file_1."\n".$file_2;
 
-        $file = file_get_contents(__DIR__.'/access.log');
+        $file = '';
+
+        //for ($i = 41; $i < 53; $i++) {
+            $file .= file_get_contents(__DIR__.'/access.log');
+        //}
         $file = htmlspecialchars($file);
 
         return $file;
     }
 
     public static $hackerIps = [
-        '150.70.97.99','150.70.97.115','150.70.173.56','150.70.75.32','150.70.173.57','150.70.97.98','150.70.97.119','150.70.97.114',
-        '150.70.75.38','150.70.172.111','150.70.173.46','150.70.173.49','150.70.172.104','150.70.97.124','150.70.173.54','150.70.172.205',
-        '150.70.64.211','150.70.64.214','150.70.173.45','150.70.97.120','150.70.97.96','150.70.173.43','150.70.97.97','150.70.173.58',
-        '150.70.173.47','150.70.173.51','150.70.173.52','150.70.97.117','150.70.173.48','150.70.97.113','150.70.173.41','150.70.173.50',
-        '150.70.97.112','150.70.173.44','150.70.172.200','150.70.173.42','150.70.173.40','150.70.173.53','150.70.97.125','150.70.97.118',
-        '150.70.97.121','150.70.97.123','150.70.97.127','150.70.97.87','150.70.97.88','150.70.97.43','150.70.97.89','150.70.97.126',
-        '150.70.97.116','150.70.173.55','150.70.173.59','150.70.97.122', '218.37.236.7',
-        '58.61.152.123', '217.199.169.106', '202.130.161.195', '80.250.232.92', '75.126.189.226',
-        '94.229.74.238', '178.158.214.36', '82.221.102.181', /*'77.47.204.138' Таня? */
+        '150.70.97.99','150.70.97.115','150.70.173.56','150.70.75.32','150.70.173.57', '150.70.97.98',
+        '150.70.75.38','150.70.172.111','150.70.173.46','150.70.173.49','150.70.172.104', '150.70.97.124',
+        '150.70.64.211','150.70.64.214','150.70.173.45','150.70.97.120','150.70.97.96', '150.70.173.43',
+        '150.70.97.97','150.70.173.58', '150.70.173.41','150.70.173.50', '150.70.173.54', '150.70.172.205',
+        '150.70.173.47','150.70.173.51','150.70.173.52','150.70.97.117','150.70.173.48', '150.70.97.113',
+        '150.70.97.112','150.70.173.44','150.70.172.200','150.70.173.42','150.70.173.40', '150.70.173.53',
+        '150.70.97.125','150.70.97.118', '150.70.97.89','150.70.97.126', '150.70.97.119', '150.70.97.114',
+        '150.70.97.121','150.70.97.123','150.70.97.127','150.70.97.87','150.70.97.88', '150.70.97.43',
+        '150.70.97.116','150.70.173.55','150.70.173.59','150.70.97.122', '218.37.236.7', '157.55.34.32',
+        '58.61.152.123', '217.199.169.106', '202.130.161.195', '80.250.232.92', '75.126.189.226', '199.30.26.221',
+        '94.229.74.238', '178.158.214.36', '82.221.102.181', '66.249.73.34', '80.86.84.72', '188.143.234.6',
+        '171.101.226.159', '103.31.186.84', '85.114.135.126', '95.211.192.202', '37.9.53.51', '1.234.83.11',
+        '192.241.133.80', '97.79.239.37', '91.93.20.67', '87.240.182.162', '212.252.216.10', '188.138.115.94',
+        '125.27.11.39', '213.183.59.3', '77.73.105.179', '46.119.112.117', '178.210.65.38', '37.57.133.189',
+        '78.46.42.239','188.64.170.222','188.143.232.103','194.226.108.22','217.20.184.45', '82.193.120.229',
+
+        '','','',
+        '','','','','',
+        // '93.75.179.229', // он знает /admin_area
+        /*'77.47.204.138' Таня? */
+        /*'188.32.209.89' Антон? */
 
     ];
+
+    // sitemap.xml
+    // Mozila
 
     /**
      * Разбирает строку лога на объект с предсказуемыми значениями
@@ -529,6 +548,10 @@ class DebugController extends SiteBaseController
             $userAgent = $lineArr[13]. ' '.$lineArr[14].' '.$lineArr[15].' '.$lineArr[16];
             $log->comment = '>> ???  ' ;
 
+        } elseif ('aiHitBot/2.7;' == $lineArr[15]) {
+            $userAgent = $lineArr[13]. ' '.$lineArr[14].' '.$lineArr[15].' '.$lineArr[16];
+            $log->comment = '>> ???  ' ;
+
         }  elseif ('"research' == $lineArr[13]) {
             $userAgent = $lineArr[13]. ' '.$lineArr[14].' '.$lineArr[15].' '.$lineArr[16];
             $log->comment = '>> Content analyzer?  ' ;
@@ -576,6 +599,30 @@ class DebugController extends SiteBaseController
         } elseif ('"-"' == $lineArr[12] && '"-"' == $lineArr[16]) {
             $userAgent = $lineArr[13]. ' '.$lineArr[14]. ' '.$lineArr[15];
 
+        } elseif ('"Mozilla/6.0' == $lineArr[13] && '"-"' == $lineArr[16]) {
+            $userAgent = $lineArr[13]. ' '.$lineArr[14]. ' '.$lineArr[15];
+
+        } elseif (-1 < strstr($lineArr[13], 'Evernote') == $lineArr[13] && '"-"' == $lineArr[16]) {
+            $userAgent = $lineArr[13]. ' '.$lineArr[14]. ' '.$lineArr[15];
+
+        } elseif ('"Yandex.Disk' == $lineArr[13] && '"-"' == $lineArr[15]) {
+            $userAgent = $lineArr[13]. ' '.$lineArr[14];
+
+        } elseif (-1 < strstr($lineArr[13], 'Mozilla') && '"-"' == $lineArr[15]) {
+            $userAgent = $lineArr[13]. ' '.$lineArr[14];
+
+        } elseif (-1 < strstr($lineArr[13], 'Mozila') && ('"-"' == $lineArr[16] || '0.000--' == $lineArr[17] )) {
+            $userAgent = $lineArr[13]. ' '.$lineArr[14]. ' '.$lineArr[16];
+
+        } elseif (-1 < strstr($lineArr[13], 'FeedlyApp') && '"-"' == $lineArr[15]) {
+            $userAgent = $lineArr[13]. ' '.$lineArr[14];
+
+        } elseif (-1 < strstr($lineArr[13], 'Lynx') && '"-"' == $lineArr[17]) {
+            $userAgent = $lineArr[13]. ' '.$lineArr[14]. ' '.$lineArr[15]. ' '.$lineArr[16];
+
+        } elseif (-1 < strstr($lineArr[13], 'Mozilla') && '"-"' == $lineArr[15]) {
+            $userAgent = $lineArr[13]. ' '.$lineArr[14];
+
         } elseif ('"-"' == $lineArr[12] && '"-"' == $lineArr[17]) {
             $userAgent = $lineArr[13]. ' '.$lineArr[14]. ' '.$lineArr[15]. ' '.$lineArr[16]. ' '.$lineArr[17];
 
@@ -584,6 +631,19 @@ class DebugController extends SiteBaseController
 
         } elseif ('"-"' == $lineArr[12] && '"-"' == $lineArr[14]) {
             $userAgent = $lineArr[13];
+
+        } elseif ('"-"' == $lineArr[12] && '"-"' == $lineArr[34]) {
+            $userAgent = $lineArr[13]. ' '.$lineArr[14]. ' '.$lineArr[15]. ' '.$lineArr[16]. ' '.$lineArr[17]
+                . ' '.$lineArr[18]. ' '.$lineArr[19]. ' '.$lineArr[20]. ' '.$lineArr[21]
+                . ' '.$lineArr[22]. ' '.$lineArr[23]. ' '.$lineArr[24]. ' '.$lineArr[25]
+                . ' '.$lineArr[26]. ' '.$lineArr[27]. ' '.$lineArr[28]. ' '.$lineArr[29]
+                . ' '.$lineArr[30]. ' '.$lineArr[31]. ' '.$lineArr[32]. ' '.$lineArr[33];
+
+        } elseif ('"Mozilla/5.0' == $lineArr[13] && '"-"' == $lineArr[18]) {
+            $userAgent = $lineArr[13]. ' '.$lineArr[14]. ' '.$lineArr[15]. ' '.$lineArr[16]. ' '.$lineArr[17]. ' '.$lineArr[18];
+
+        } elseif ('href=\x22http://www.alexaboostup.com\x22&gt;Alexa' == $lineArr[14]) {
+            $userAgent = $lineArr[13]. ' '.$lineArr[14]. ' '.$lineArr[15];
 
         } else {
             if ('' == $lineArr[20] /*|| false == isset($lineArr[14]) || false == isset($lineArr[15])
@@ -1177,6 +1237,62 @@ class DebugController extends SiteBaseController
 
         foreach ($ips as $ip) {
             echo sprintf('%3s :: %s', $ip['counter'], $ip['log']);
+        }
+
+        echo '</pre>
+            <br/> That is all.';
+    }
+
+    /**
+     * Прототип функции которая возвращает все ,
+     * сгруппированные по IP и юзер агенту и коду ответа нашего сервера,
+     * логи с 404, 429, 500 ошибкой
+     *
+     * Отображает:
+     * дату запроса - IP - результат запроса - URL запроса - user agent (если есть)
+     *
+     */
+    public function actionGetHttpErrorLogs()
+    {
+        if ('jdndsuiqw12009c3mv-NCALA023-4NLDL2-nCDp--23LKLCK-23=2-r=-2lasSDFVdn923cVESskd3865SVedfvAFD' != $_GET['dsinvoejgdb']) {
+            Yii::log('Somebody try to use debug controller!', 'warning');
+            Yii::app()->end();
+        }
+
+        $file = $this->getLogs();
+
+        $rows = explode("\n", $file);
+
+        echo sprintf('<h1>404, 429 Error logs:</h1>');
+
+        echo '<pre>';
+
+        foreach ($rows as $line) {
+
+            $line = trim($line);
+            if (true == empty($line)) {
+                continue;
+            }
+
+            $lineObj = $this->parseLogLine($line);
+
+            if ((
+                    -1 < strstr($lineObj->response, '404')
+//                 || -1 < strstr($lineObj->response, '429')
+//                 || -1 < strstr($lineObj->response, '500')
+                ) && false == in_array($lineObj->ip, self::$allowedIps)
+                  && false == $lineObj->isTrusted
+                ) {
+
+                echo sprintf(
+                        '%15s %15s %15s %100s   %90s',
+                        $lineObj->date,
+                        $lineObj->ip,
+                        $lineObj->response,
+                        $lineObj->request,
+                        $lineObj->userAgent
+                    ) . '<br/>';
+            }
         }
 
         echo '</pre>

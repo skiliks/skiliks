@@ -96,6 +96,10 @@ a {
     -moz-background-size: cover !important;
     -o-background-size: cover !important;
     background-size: cover !important;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select:none;
+    user-select:none;
 /*cursor: crosshair;*/
 }
 .message {
@@ -1106,6 +1110,7 @@ section.phone>header .btn-window li button.btn-cl:hover, .btn-cl:hover{
 	margin-top:10px;
 	position:relative;
 	left:-4px;
+    text-align: left;
 }
 .phone-reply-ch{
 	background:url("../img/phone/bg-phone-answer.jpg") no-repeat 0 0;
@@ -1762,9 +1767,9 @@ tr.email-list-separator {
 }
 
 #loading-cup {
-    position: absolute;
     border: 0;
     text-align: center;
+    margin: 0 auto;
     height: 458px;
     width: 759px;
 }
@@ -1781,3 +1786,14 @@ body.loading {
     left: 626px !important;
 }
 
+.mailclient-autocomplite,
+.plannerBookDayPlan,
+.book .flyleaf,
+#phoneCallThemesDiv,
+.phone-popup-content,
+.visitor-reply,
+#dialogControllerAnswers,
+#mailEmulatorMainScreen,
+#mailEmulatorContentDiv {
+    text-align: left;
+}
