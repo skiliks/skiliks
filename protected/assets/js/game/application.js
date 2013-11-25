@@ -239,7 +239,7 @@ require([
             },
             complete: function (xhr, text_status) {
                 console.log(xhr, text_status);
-                if (('timeout' === text_status || xhr.status === 0)) {
+                if (('timeout' === text_status /*|| xhr.status === 0*/)) {
                     console.log('reload CSS');
                     window.preLoadCss(cssToLoad);
                 }
