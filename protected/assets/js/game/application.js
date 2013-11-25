@@ -66,7 +66,7 @@ require([
             type = 'css';
         }
 
-        if (-1 < preLoadImages[i].indexOf('.cur')) {
+        if (true === $.browser['msie'] && -1 < preLoadImages[i].indexOf('.cur')) {
             type = 'cursor';
         }
 
