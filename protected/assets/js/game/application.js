@@ -124,7 +124,7 @@ require([
                 }
             }
 
-            // window.SKInitApplication();
+            window.SKInitApplication();
         }
     }
 
