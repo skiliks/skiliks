@@ -1,6 +1,6 @@
 <?php
 
-class m131122_191502_tariff_plan extends CDbMigration
+class m131122_134000_tariff_plan extends CDbMigration
 {
 	public function up()
 	{

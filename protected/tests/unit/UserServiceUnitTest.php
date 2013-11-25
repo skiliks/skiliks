@@ -327,6 +327,15 @@ class UserServiceUnitTest extends CDbTestCase
         $assert_account_corporate->refresh();
         $this->assertEquals($assert_account_corporate->invites_limit, 5);
 
+        $this->assertEquals($assert_account_corporate->getActiveTariff()->slug, Tariff::SLUG_LITE_FREE);
+
+        $active_plan = $assert_account_corporate->getActiveTariffPlan();
+        $active_plan->finished_at = (new DateTime())->format("Y-m-d H:i:s");
+        $active_plan->save(false);
+        UserService::tariffExpired();
+        $active_plan = $assert_account_corporate->getActiveTariffPlan();
+        $this->assertEquals($active_plan->tariff->slug, Tariff::SLUG_FREE);
+
     }
 
     /*public function testDebug(){
