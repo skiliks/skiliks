@@ -19,11 +19,11 @@ class EventsManager {
     public static function startEvent(Simulation $simulation, $eventCode, $delay=0, $gameTime = null)
     {
         if ('MS' == substr($eventCode, 0, 2)) {
-            $window = LogWindow::model()->findByAttributes([
-                'sim_id' => $simulation->id,
-                'window' => 1,
-                'end_time' => '00:00:00'
-            ]);
+//            $window = LogWindow::model()->findByAttributes([
+//                'sim_id' => $simulation->id,
+//                'window' => 1,
+//                'end_time' => '00:00:00'
+//            ]);
             LibSendMs::sendMsByCode($simulation, $eventCode, $gameTime, 1, 1, $window->window_uid, 2);
             return ['result' => 2];
         }
