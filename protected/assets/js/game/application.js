@@ -51,6 +51,8 @@ require([
     window.filesToLoad = {};
     var isAllImagesDownloaded = false;
 
+    //console.log(preLoadImages);
+
     // наполнение filesToLoad адресами из preLoadImages {
     var n = 0;
     for (var i in preLoadImages) {
@@ -62,6 +64,10 @@ require([
 
         if (-1 < preLoadImages[i].indexOf('.css')) {
             type = 'css';
+        }
+
+        if (-1 < preLoadImages[i].indexOf('.cur')) {
+            type = 'cursor';
         }
 
         filesToLoad[n] = {
@@ -114,7 +120,7 @@ require([
             // добавляем CSS  в правильной последовательности:
             for (var key in filesToLoad) {
                 if (-1 < filesToLoad[key].url.indexOf('.css')) {
-                    $('head') .append('<link rel="stylesheet" href="' + filesToLoad[key].url +
+                    $('head').append('<link rel="stylesheet" href="' + filesToLoad[key].url +
                         '" type="text/css" />');
                 }
             }
@@ -143,7 +149,9 @@ require([
             imageToLoad.timeoutLength = 6000;
         }
 
-        imageToLoad.image = $('<img width="0" height="0" style="float: left;" id="' + imageToLoad.id + '" src="' + imageToLoad.url + '"/\>');
+        imageToLoad.image = $('<img width="0" height="0" style="opacity: 0;" id="' + imageToLoad.id + '" src="' + imageToLoad.url + '"/\>');
+
+        //console.log(imageToLoad.url);
 
         imageToLoad.image.load(function() {
 
@@ -240,6 +248,52 @@ require([
     };
 
     /**
+     * Метод рекурсивной предзагрузки одного CSS-файла
+     *
+     * @param cursorToLoad
+     */
+    window.preLoadCursor = function(cursorToLoad) {
+        var cursorToLoad = cursorToLoad;
+
+        // 512 kB sec:
+        cursorToLoad.timeoutLength = Math.ceil(cursorToLoad.size / 512) * 1000; // milliseconds
+
+        // 6000 - чтоб слишком часто не детектировало, что "интернет пропал"
+        // по сути, при хорошем коннекте, за это время загружаются все картинки, CSS и JS
+        if (cursorToLoad.timeoutLength < 6000) {
+            cursorToLoad.timeoutLength = 6000;
+        }
+
+        cursorToLoad.image = $('<img width="0" height="0" style="opacity: 0;" id="'
+            + cursorToLoad.id + '" src="' + cursorToLoad.url + '"/\>');
+
+        //console.log('load ' + cursorToLoad.url);
+        $.ajax({
+            url: cursorToLoad.url,
+            type: 'GET',
+            success: function() {
+                console.log('loaded! ' + cursorToLoad.url);
+                for(var key2 in filesToLoad) {
+                    if (cursorToLoad.id == filesToLoad[key2].id) {
+                        filesToLoad[key2].isLoaded = true;
+                        $('body').append(filesToLoad[key2].image);
+
+                        updateImageLoaderBar('Загрузка данных...');
+                        break;
+                    }
+                }
+            },
+            complete: function (xhr, text_status) {
+                if (('timeout' === text_status || xhr.status === 0)) {
+                    console.log('reload cursor');
+                    window.preLoadCursor(cursorToLoad);
+                }
+            },
+            timeout: cursorToLoad.timeoutLength
+        });
+    };
+
+    /**
      * Метод вызывает функцию предзагрузки для каждой картинки
      */
     var preLoadImage_s = function() {
@@ -251,6 +305,10 @@ require([
 
             if ('css' == filesToLoad[key].type) {
                  preLoadCss(filesToLoad[key]);
+            }
+
+            if ('cursor' == filesToLoad[key].type) {
+                preLoadCursor(filesToLoad[key]);
             }
 
             // пока не удаляю, но если jst не загрузился срезу - то require js падает неминуемо

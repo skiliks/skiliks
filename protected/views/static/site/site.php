@@ -44,7 +44,14 @@
 // $cs->registerCssFile($assetsUrl . '/css/ddSlick.css');
 // $cs->registerCssFile($assetsUrl . '/css/main.css');
 //
-// $cs->registerLessFile($assetsUrl . '/less/simulation.less', $assetsUrl . '/compiled_css/simulation.css');
+
+$cs->compileLess($assetsUrl . '/less/simulation.less', $assetsUrl . '/compiled_css/simulation.css');
+$cs->compileLess($assetsUrl . '/less/manual.less',     $assetsUrl . '/compiled_css/manual.css');
+$cs->compileLess($assetsUrl . '/less/plan.less',       $assetsUrl . '/compiled_css/plan.css');
+$cs->compileLess($assetsUrl . '/less/mail.less',       $assetsUrl . '/compiled_css/mail.css');
+$cs->compileLess($assetsUrl . '/less/documents.less',  $assetsUrl . '/compiled_css/documents.css');
+
+//$cs->registerLessFile($assetsUrl . '/less/simulation.less', $assetsUrl . '/compiled_css/simulation.css');
 // $cs->registerLessFile($assetsUrl . '/less/manual.less',     $assetsUrl . '/compiled_css/manual.css');
 // $cs->registerLessFile($assetsUrl . '/less/plan.less',       $assetsUrl . '/compiled_css/plan.css');
 // $cs->registerLessFile($assetsUrl . '/less/mail.less',       $assetsUrl . '/compiled_css/mail.css');
@@ -124,55 +131,55 @@ $cs->registerScriptFile($assetsUrl . '/js/backbone.js', CClientScript::POS_END);
 
 <?php if(preg_match('/(?i)msie [10]/',$_SERVER['HTTP_USER_AGENT'])): ?>
     <script type="text/javascript">
-        preLoadImages = "<?= $assetsUrl . '/css/ie10.css'; ?>";
+        preLoadImages.push("<?= $assetsUrl . '/css/ie10.css'; ?>");
     </script>
 <?php endif ?>
 
+    <style>
+        #loading-cup {
+            color: #ffffff !important;
+            height: 500px !important;
+            padding-top: 5% !important;
+            margin: 0 auto !important;
+            width: 759px !important;
+        }
+
+        #loading-cup-img {
+            clear: both;
+            display: block;
+            heigth: 338px;
+            margin: 0 auto !important;
+        }
+
+        #loading-cup h2 {
+            font-size: 24px !important;
+            font-family: sans-serif !important;
+        }
+
+        #images-loader-text {
+            height: 60px !important;
+            font-size: 14px !important;
+            text-align: center !important;
+            margin: 0 auto !important;
+            font-family: sans-serif !important;
+            width: 400px !important;
+        }
+
+        #images-loader {
+            margin: 0 auto !important;
+            width: 400px !important;
+            border: 1px solid #000 !important;
+            height: 30px !important;
+        }
+
+        #images-loader-bar {
+            background-color: grey !important;
+            height: 30px !important;
+            width: 0px;
+        }
+    </style>
+
 </head>
-
-<style>
-    #loading-cup {
-        color: #ffffff !important;
-        height: 500px !important;
-        padding-top: 5% !important;
-        margin: 0 auto !important;
-        width: 759px !important;
-    }
-
-    #loading-cup-img {
-        clear: both;
-        display: block;
-        heigth: 338px;
-        margin: 0 auto !important;
-    }
-
-    #loading-cup h2 {
-        font-size: 24px !important;
-        font-family: sans-serif !important;
-    }
-
-    #images-loader-text {
-        height: 60px !important;
-        font-size: 14px !important;
-        text-align: center !important;
-        margin: 0 auto !important;
-        font-family: sans-serif !important;
-        width: 400px !important;
-    }
-
-    #images-loader {
-        margin: 0 auto !important;
-        width: 400px !important;
-        border: 1px solid #000 !important;
-        height: 30px !important;
-    }
-
-    #images-loader-bar {
-        background-color: grey !important;
-        height: 30px !important;
-        width: 0px;
-    }
-</style>
 
 <body class="body" style="background-color: #2e2e2e; text-align: center;">
     <div id="loading-cup">
