@@ -5,21 +5,6 @@
     <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon" />
     <title>Skiliks</title>
 
-    <script type="text/javascript">
-        window.gameVersion = '?v=1';
-        window.gameConfig = <?= $config; ?>;
-
-        var require = {
-            baseUrl: "<?= $assetsUrl; ?>/js",
-            waitSeconds: 15
-        };
-        window.inviteId = <?= $inviteId ?>;
-        window.httpUserAgent = '<?= $httpUserAgent ?>';
-
-        window.siteHeartAuth = "<?= StaticSiteTools::getSiteHeartAuth(Yii::app()->user->data()); ?>";
-    </script>
-
-
 
 <?php
 
@@ -65,81 +50,103 @@ $cs->compileLess($assetsUrl . '/less/documents.less',  $assetsUrl . '/compiled_c
 //{
 //     $cs->registerCssFile($assetsUrl . '/css/ie10.css');
 //}
-
-// ### Java scripts :
-
-// jQuery нужен первым, чтобы "$" была обьявлена
-$this->renderPartial("//global_partials/jquery-1.7.2.min");
-
-$cs->registerScriptFile($assetsUrl . '/js/underscore.js', CClientScript::POS_END);
-
-$cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.hotkeys.js', CClientScript::POS_END);
-$cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.balloon.js', CClientScript::POS_END);
-$cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.topzindex.min.js', CClientScript::POS_END);
-$cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.cookies.js', CClientScript::POS_END);
-$cs->registerScriptFile($assetsUrl . '/js/jquery/jquery-skiliks.js', CClientScript::POS_END);
-$cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.mCustomScrollbar.js', CClientScript::POS_END);
-$cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.mousewheel.js', CClientScript::POS_END);
-$cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.tablesorter.js', CClientScript::POS_END);
-
-// 10 000 раз WTF!
-$cs->registerScriptFile($assetsUrl . '/js/jquery/jquery-ui-1.8.21.custom.min.js', CClientScript::POS_END);
-$cs->registerScriptFile($assetsUrl . '/js/jquery/jquery-ui-1.10.3.custom.min.js', CClientScript::POS_END);
-
-$cs->registerScriptFile($assetsUrl . '/js/socialcalc/socialcalcconstants_ru.js', CClientScript::POS_END);
-
-$cs->registerScriptFile($assetsUrl . '/js/socialcalc/socialcalc-3.js', CClientScript::POS_END);
-$cs->registerScriptFile($assetsUrl . '/js/socialcalc/socialcalctableeditor.js', CClientScript::POS_END);
-$cs->registerScriptFile($assetsUrl . '/js/socialcalc/formatnumber2.js', CClientScript::POS_END);
-$cs->registerScriptFile($assetsUrl . '/js/socialcalc/formula1.js', CClientScript::POS_END);
-$cs->registerScriptFile($assetsUrl . '/js/socialcalc/socialcalcpopup.js', CClientScript::POS_END);
-$cs->registerScriptFile($assetsUrl . '/js/socialcalc/socialcalcspreadsheetcontrol.js', CClientScript::POS_END);
-$cs->registerScriptFile($assetsUrl . '/js/game/util/socialcalc.js', CClientScript::POS_END);
-
-// system processor speed test
-$cs->registerScriptFile($assetsUrl . '/js/game/util/jsBogoMips.js', CClientScript::POS_END);
-
-$cs->registerScriptFile($assetsUrl . '/js/bootstrap/js/bootstrap.js', CClientScript::POS_END);
-$cs->registerScriptFile($assetsUrl . '/js/game/lib/hyphenate.js', CClientScript::POS_END);
-$cs->registerScriptFile($assetsUrl . '/js/prefixfree.min.js', CClientScript::POS_END);
-$cs->registerScriptFile($assetsUrl . '/js/jquery.ddslick.min.js', CClientScript::POS_END);
-
-// MyDocument folder emulator
-$cs->registerScriptFile($assetsUrl . '/js/elfinder-2.0-rc1/js/elfinder.min.js', CClientScript::POS_END);
-
-$cs->registerScriptFile($assetsUrl . '/js/tag-handler/jquery.taghandler.min.js', CClientScript::POS_END);
-
-// track JS in sentry {
-if (Yii::app()->params['public']['useSentryForJsLog']) {
-    $cs->registerScriptFile($assetsUrl . '/js/sentry/tracekit.js', CClientScript::POS_END);
-    $cs->registerScriptFile($assetsUrl .'/js/sentry/raven.js', CClientScript::POS_END);
-    ?>
-        <script type="text/javascript">
-            $(document).ready(function(){
-                window.Raven.config('<?= Yii::app()->params['sentry']['dsn'] ?>').install();
-            });
-        </script>
-    <?php
-// track JS in sentry }
-}
-
-// картинки интерфейсов, которые надо будет предзагрузить
-$this->renderPartial("/static/applicationcache/preload_images", ['assetsUrl' => $assetsUrl]);
-
-$cs->registerScriptFile($assetsUrl . '/js/backbone.js', CClientScript::POS_END);
 ?>
 
-<?php if(preg_match('/(?i)msie [10]/',$_SERVER['HTTP_USER_AGENT'])): ?>
-    <script type="text/javascript">
-        preLoadImages.push("<?= $assetsUrl . '/css/ie10.css'; ?>");
-    </script>
-<?php endif ?>
 
-<?php if(preg_match('/(?i)Firefox/',$_SERVER['HTTP_USER_AGENT'])): ?>
+<?php
+// ### Java scripts :
+    // jQuery нужен первым, чтобы "$" была обьявлена
+    $this->renderPartial("//global_partials/jquery-1.7.2.min");
+?>
+
+<script type="text/javascript">
+    window.gameVersion = '?v=1';
+    window.gameConfig = <?= $config; ?>;
+    window.assetsUrl = '<?= $assetsUrl; ?>';
+
+    var require = {
+        baseUrl: "<?= $assetsUrl; ?>/js",
+        waitSeconds: 15
+    };
+    window.inviteId = <?= $inviteId ?>;
+    window.httpUserAgent = '<?= $httpUserAgent ?>';
+
+    window.siteHeartAuth = "<?= StaticSiteTools::getSiteHeartAuth(Yii::app()->user->data()); ?>";
+</script>
+
+<?php
+/*
+  * Можно было бы использовать $cs->registerScriptFile, но тогда все JS будут над jquery-1.7.2.min
+  * или под window.raven - а надо чтоб были между
+  */
+?>
+
+<script type="text/javascript" src="<?= $assetsUrl . '/js/socialcalc/socialcalcconstants_ru.js' ?>";></script>
+<script type="text/javascript" src="<?= $assetsUrl . '/js/socialcalc/socialcalc-3.js' ?>";></script>
+<script type="text/javascript" src="<?= $assetsUrl . '/js/socialcalc/socialcalctableeditor.js' ?>";></script>
+<script type="text/javascript" src="<?= $assetsUrl . '/js/socialcalc/formatnumber2.js'  ?>";></script>
+<script type="text/javascript" src="<?= $assetsUrl . '/js/socialcalc/formula1.js' ?>";></script>
+<script type="text/javascript" src="<?= $assetsUrl . '/js/socialcalc/socialcalcpopup.js' ?>";></script>
+<script type="text/javascript" src="<?= $assetsUrl . '/js/socialcalc/socialcalcspreadsheetcontrol.js' ?>";></script>
+<script type="text/javascript" src="<?= $assetsUrl . '/js/game/util/socialcalc.js' ?>";></script>
+
+<script type="text/javascript" src="<?= $assetsUrl . '/js/jquery/jquery.hotkeys.js' ?>";></script>
+<script type="text/javascript" src="<?= $assetsUrl . '/js/jquery/jquery.balloon.js' ?>";></script>
+<script type="text/javascript" src="<?= $assetsUrl . '/js/jquery/jquery.topzindex.min.js' ?>";></script>
+<script type="text/javascript" src="<?= $assetsUrl . '/js/jquery/jquery.cookies.js' ?>";></script>
+
+<?php // пока тут только метод .center ?>
+<script type="text/javascript" src="<?= $assetsUrl . '/js/jquery/jquery-skiliks.js' ?>";></script>
+
+<script type="text/javascript" src="<?= $assetsUrl . '/js/jquery/jquery.mCustomScrollbar.js' ?>";></script>
+<script type="text/javascript" src="<?= $assetsUrl . '/js/jquery/jquery.mousewheel.js' ?>";></script>
+<script type="text/javascript" src="<?= $assetsUrl . '/js/jquery/jquery.tablesorter.js' ?>";></script>
+
+<?php // We need both!!! // 10 000 раз WTF! ?>
+<script type="text/javascript" src="<?= $assetsUrl . '/js/jquery/jquery-ui-1.8.21.custom.min.js' ?>";></script>
+<script type="text/javascript" src="<?= $assetsUrl . '/js/jquery/jquery-ui-1.10.3.custom.min.js'  ?>";></script>
+
+<?php // system processor speed test ?>
+<script type="text/javascript" src="<?= $assetsUrl . '/js/game/util/jsBogoMips.js' ?>";></script>
+
+<script type="text/javascript" src="<?= $assetsUrl . '/js/bootstrap/js/bootstrap.js' ?>";></script>
+<script type="text/javascript" src="<?= $assetsUrl . '/js/game/lib/hyphenate.js' ?>";></script>
+<script type="text/javascript" src="<?= $assetsUrl . '/js/underscore.js' ?>";></script>
+<script type="text/javascript" src="<?= $assetsUrl . '/js/prefixfree.min.js' ?>";></script>
+<script type="text/javascript" src="<?= $assetsUrl . '/js/jquery.ddslick.min.js' ?>";></script>
+
+<?php // MyDocument folder emulator ?>
+<script type="text/javascript" src="<?= $assetsUrl . '/js/elfinder-2.0-rc1/js/elfinder.min.js' ?>";></script>
+
+<script type="text/javascript" src="<?= $assetsUrl . '/js/tag-handler/jquery.taghandler.min.js' ?>";></script>
+<script type="text/javascript" src="<?= $assetsUrl . '/js/backbone.js' ?>";></script>
+
+<?php // track JS in sentry { ?>
+<?php if (Yii::app()->params['public']['useSentryForJsLog']) :  ?>
+    <script type="text/javascript" src="<?= $assetsUrl . '/js/sentry/tracekit.js' ?>";></script>
+    <script type="text/javascript" src="<?= $assetsUrl . '/js/sentry/raven.js' ?>";></script>
     <script type="text/javascript">
-        preLoadImages.push("<?= $assetsUrl . '/css/firefox_simulation.css'; ?>");
+        $(document).ready(function(){
+            window.Raven.config('<?= Yii::app()->params['sentry']['dsn'] ?>').install();
+        });
     </script>
-<?php endif ?>
+<?php endif; // track JS in sentry } ?>
+
+<?php // файлы которые надо будет предзагрузить ?>
+    <?php $this->renderPartial("/static/applicationcache/preload_images", ['assetsUrl' => $assetsUrl]); ?>
+
+    <?php if(preg_match('/(?i)msie [10]/',$_SERVER['HTTP_USER_AGENT'])): ?>
+        <script type="text/javascript">
+            preLoadImages.push("<?= $assetsUrl . '/css/ie10.css'; ?>");
+        </script>
+    <?php endif ?>
+
+    <?php if(preg_match('/(?i)Firefox/',$_SERVER['HTTP_USER_AGENT'])): ?>
+        <script type="text/javascript">
+            preLoadImages.push("<?= $assetsUrl . '/css/firefox_simulation.css'; ?>");
+        </script>
+    <?php endif ?>
+<?php // файлы которые надо будет предзагрузить } ?>
 
     <style>
         #loading-cup {
@@ -199,5 +206,6 @@ $cs->registerScriptFile($assetsUrl . '/js/backbone.js', CClientScript::POS_END);
     </div>
     <div id="excel-cache" style="display: none; visibility: hidden;"></div>
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/require.js" data-main="game/application.js"></script>
+
 </body>
 </html>
