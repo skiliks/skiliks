@@ -240,7 +240,7 @@ require([
             complete: function (xhr, text_status) {
                 if (('timeout' === text_status || xhr.status === 0)) {
                     console.log('reload CSS');
-                    window.preLoadJst(cssToLoad);
+                    window.preLoadCss(cssToLoad);
                 }
             },
             timeout: cssToLoad.timeoutLength
