@@ -916,6 +916,7 @@ define([
                 }
                 return media_src ? SKApp.get('storageURL') + '/' + media_type+ '/standard/' + media_src + '.' + media_type : undefined;
             },
+
             getMediaFile : function(media_src, media_type) {
                 if(media_type === 'webm' && $.browser['msie']){
                     media_type = 'mp4';
@@ -924,6 +925,15 @@ define([
                     media_type = 'mp3';
                 }
                 return SKApp.get('storageURL') + '/' + media_type+ '/standard/' + media_src + '.' + media_type;
+            },
+
+            /**
+             * Метод проверяет находится ли симуляции в состоянии "Ушел на встречу"
+             *
+             * @returns {boolean}
+             */
+            isActiveMeetingPresent: function() {
+                return $('.meeting-gone-content').length == 1;
             }
         });
     return SKSimulation;
