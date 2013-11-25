@@ -60,6 +60,10 @@ require([
     //            type = 'jst';
     //        }
 
+        if (-1 < preLoadImages[i].indexOf('.css')) {
+            type = 'css';
+        }
+
         filesToLoad[n] = {
             id: 'cache-image-' + n,
             url: 'http://loc.skiliks.com' + preLoadImages[i],
@@ -106,6 +110,15 @@ require([
             //console.log('start!', currentCounter, total, isAllImagesDownloaded);
             isAllImagesDownloaded = true;
             $('body').css('float', 'left');
+
+            // добавляем CSS  в правильной последовательности:
+            for (var key in filesToLoad) {
+                if (-1 < filesToLoad[key].url.indexOf('.css')) {
+                    $('head') .append('<link rel="stylesheet" href="' + filesToLoad[key].url +
+                        '" type="text/css" />');
+                }
+            }
+
             window.SKInitApplication();
         }
     }
@@ -124,13 +137,13 @@ require([
         // 512 kB sec:
         imageToLoad.timeoutLength = Math.ceil(imageToLoad.size / 512) * 1000; // milliseconds
 
-        // 5000 - чтоб слишком часто не детектировало, что "интернет пропал"
+        // 6000 - чтоб слишком часто не детектировало, что "интернет пропал"
         // по сути, при хорошем коннекте, за это время загружаются все картинки, CSS и JS
-        if (imageToLoad.timeoutLength < 5000) {
-            imageToLoad.timeoutLength = 5000;
+        if (imageToLoad.timeoutLength < 6000) {
+            imageToLoad.timeoutLength = 6000;
         }
 
-        imageToLoad.image = $('<img width="0" height="0" id="' + imageToLoad.id + '" src="' + imageToLoad.url + '"/\>');
+        imageToLoad.image = $('<img width="0" height="0" style="float: left;" id="' + imageToLoad.id + '" src="' + imageToLoad.url + '"/\>');
 
         imageToLoad.image.load(function() {
 
@@ -186,6 +199,47 @@ require([
     //    };
 
     /**
+     * Метод рекурсивной предзагрузки одного CSS-файла
+     *
+     * @param cssToLoad
+     */
+    window.preLoadCss = function(cssToLoad) {
+        var cssToLoad = cssToLoad;
+
+        // 512 kB sec:
+        cssToLoad.timeoutLength = Math.ceil(cssToLoad.size / 512) * 1000; // milliseconds
+
+        // 6000 - чтоб слишком часто не детектировало, что "интернет пропал"
+        // по сути, при хорошем коннекте, за это время загружаются все картинки, CSS и JS
+        if (cssToLoad.timeoutLength < 6000) {
+            cssToLoad.timeoutLength = 6000;
+        }
+
+        console.log('load ' + cssToLoad.url);
+        $.ajax({
+            url: cssToLoad.url,
+            type: 'GET',
+            success: function() {
+                console.log('loaded! ' + cssToLoad.url);
+                for(var key2 in filesToLoad) {
+                    if (cssToLoad.id == filesToLoad[key2].id) {
+                        filesToLoad[key2].isLoaded = true;
+                        updateImageLoaderBar('Загрузка данных...');
+                        break;
+                    }
+                }
+            },
+            complete: function (xhr, text_status) {
+                if (('timeout' === text_status || xhr.status === 0)) {
+                    console.log('reload CSS');
+                    window.preLoadJst(cssToLoad);
+                }
+            },
+            timeout: cssToLoad.timeoutLength
+        });
+    };
+
+    /**
      * Метод вызывает функцию предзагрузки для каждой картинки
      */
     var preLoadImage_s = function() {
@@ -193,6 +247,10 @@ require([
         for (var key in filesToLoad) {
             if ('image' == filesToLoad[key].type) {
                 preLoadImage(filesToLoad[key]);
+            }
+
+            if ('css' == filesToLoad[key].type) {
+                 preLoadCss(filesToLoad[key]);
             }
 
             // пока не удаляю, но если jst не загрузился срезу - то require js падает неминуемо
