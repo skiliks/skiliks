@@ -29,6 +29,24 @@ class CreateListOfPreloadedFilesCommand extends CConsoleCommand {
             'img/doc-icons.png',
             'img/doc-icons-mini.png',
 
+            // в CSS уже критически важен порядок следования файлов
+            // этотму мы прописываем все пути впроть до файла
+            'js/jquery/jquery-ui.css',
+            'js/bootstrap/css/bootstrap.css',
+            'js/jquery/jquery-ui-1.8.23.slider.css',
+            'js/jquery/jquery.mCustomScrollbar.css',
+            'js/elfinder-2.0-rc1/css/elfinder.min.css',
+            'js/elfinder-2.0-rc1/css/theme.css',
+            'css/tag-handler.css',
+            'css/ddSlick.css',
+            'css/main.css',
+
+            'compiled_css/simulation.css',
+            'compiled_css/manual.css',
+            'compiled_css/plan.css',
+            'compiled_css/mail.css',
+            'compiled_css/documents.css',
+
 //            'js/game/jst',
 //            'js/game/jst/dialogs',
 //            'js/game/jst/documents',
