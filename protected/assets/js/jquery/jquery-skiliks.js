@@ -1,3 +1,8 @@
+/**
+ * .center()
+ *
+ * Можно было положить в окна - но мы сделали "плагин"
+ */
 jQuery.fn.center = function () {
     "use strict";
     this.css("position","absolute");
