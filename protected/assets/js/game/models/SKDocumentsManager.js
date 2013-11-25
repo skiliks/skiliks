@@ -17,7 +17,7 @@ var SKDocumentsManager;
             var me = this;
             if (false === me.isPasteOperationAllowedInExcel()) {
                 me.warning = new SKDialogView({
-                    'message':'Обнаружены циклические ссылки между листами в формулах. </br> Вставка данных отменена.',
+                    'message':'Обнаружены циклические ссылки между листами в формулах. <br/> Вставка данных отменена.',
                     'buttons':[
                         {
                             'value':'Ок',

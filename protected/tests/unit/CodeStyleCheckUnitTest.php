@@ -17,7 +17,7 @@ class CodeStyleCheckUnitTest  extends CDbTestCase
             '/assets/js/game/models/',
             '/assets/js/game/models/window/',
         ];
-        $targets = ['var_dump', 'die(', 'exit(', '====', '>>>', '<<<', '<? '];
+        $targets = ['var_dump', 'die(', 'exit(', '====', '>>>', '<<<', '<? ', '</br>'];
 
         foreach ($folders as $folder) {
             $dir = Yii::app()->getBasePath().$folder;
