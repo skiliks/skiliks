@@ -135,7 +135,7 @@ $cs->registerScriptFile($assetsUrl . '/js/backbone.js', CClientScript::POS_END);
     </script>
 <?php endif ?>
 
-<?php if(preg_match('/(?i)Mozilla/',$_SERVER['HTTP_USER_AGENT'])): ?>
+<?php if(preg_match('/(?i)Firefox/',$_SERVER['HTTP_USER_AGENT'])): ?>
     <script type="text/javascript">
         preLoadImages.push("<?= $assetsUrl . '/css/firefox_simulation.css'; ?>");
     </script>
