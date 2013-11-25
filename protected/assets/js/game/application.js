@@ -223,12 +223,12 @@ require([
             cssToLoad.timeoutLength = 6000;
         }
 
-        console.log('load ' + cssToLoad.url);
+        //console.log('load ' + cssToLoad.url);
         $.ajax({
             url: cssToLoad.url,
             type: 'GET',
             success: function() {
-                console.log('loaded! ' + cssToLoad.url);
+                //console.log('loaded! ' + cssToLoad.url);
                 for(var key2 in filesToLoad) {
                     if (cssToLoad.id == filesToLoad[key2].id) {
                         filesToLoad[key2].isLoaded = true;
@@ -238,9 +238,9 @@ require([
                 }
             },
             complete: function (xhr, text_status) {
-                console.log(xhr, text_status);
+                //console.log(xhr, text_status);
                 if (('timeout' === text_status /*|| xhr.status === 0*/)) {
-                    console.log('reload CSS');
+                    //console.log('reload CSS');
                     window.preLoadCss(cssToLoad);
                 }
             },
