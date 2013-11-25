@@ -66,13 +66,13 @@ require([
             type = 'css';
         }
 
-        if (true === $.browser['msie'] && -1 < preLoadImages[i].indexOf('.cur')) {
+        if (-1 < preLoadImages[i].indexOf('.cur')) {
             type = 'cursor';
         }
 
         filesToLoad[n] = {
             id: 'cache-image-' + n,
-            url: 'http://loc.skiliks.com' + preLoadImages[i],
+            url: preLoadImages[i],
             size: 16, // kB,
             type: type,
             timeoutLength: undefined,
