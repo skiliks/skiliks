@@ -238,6 +238,7 @@ require([
                 }
             },
             complete: function (xhr, text_status) {
+                console.log(xhr, text_status);
                 if (('timeout' === text_status || xhr.status === 0)) {
                     console.log('reload CSS');
                     window.preLoadCss(cssToLoad);
@@ -272,7 +273,7 @@ require([
             url: cursorToLoad.url,
             type: 'GET',
             success: function() {
-                console.log('loaded! ' + cursorToLoad.url);
+                //console.log('loaded! ' + cursorToLoad.url);
                 for(var key2 in filesToLoad) {
                     if (cursorToLoad.id == filesToLoad[key2].id) {
                         filesToLoad[key2].isLoaded = true;
@@ -285,7 +286,7 @@ require([
             },
             complete: function (xhr, text_status) {
                 if (('timeout' === text_status || xhr.status === 0)) {
-                    console.log('reload cursor');
+                    //console.log('reload cursor');
                     window.preLoadCursor(cursorToLoad);
                 }
             },
