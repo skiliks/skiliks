@@ -81,50 +81,50 @@ $cs->compileLess($assetsUrl . '/less/documents.less',  $assetsUrl . '/compiled_c
   */
 ?>
 
-<script type="text/javascript" src="<?= $assetsUrl . '/js/socialcalc/socialcalcconstants_ru.js' ?>";></script>
-<script type="text/javascript" src="<?= $assetsUrl . '/js/socialcalc/socialcalc-3.js' ?>";></script>
-<script type="text/javascript" src="<?= $assetsUrl . '/js/socialcalc/socialcalctableeditor.js' ?>";></script>
-<script type="text/javascript" src="<?= $assetsUrl . '/js/socialcalc/formatnumber2.js'  ?>";></script>
-<script type="text/javascript" src="<?= $assetsUrl . '/js/socialcalc/formula1.js' ?>";></script>
-<script type="text/javascript" src="<?= $assetsUrl . '/js/socialcalc/socialcalcpopup.js' ?>";></script>
-<script type="text/javascript" src="<?= $assetsUrl . '/js/socialcalc/socialcalcspreadsheetcontrol.js' ?>";></script>
-<script type="text/javascript" src="<?= $assetsUrl . '/js/game/util/socialcalc.js' ?>";></script>
+<script type="text/javascript" src="<?= $assetsUrl . '/js/socialcalc/socialcalcconstants_ru.js' ?>"></script>
+<script type="text/javascript" src="<?= $assetsUrl . '/js/socialcalc/socialcalc-3.js' ?>"></script>
+<script type="text/javascript" src="<?= $assetsUrl . '/js/socialcalc/socialcalctableeditor.js' ?>"></script>
+<script type="text/javascript" src="<?= $assetsUrl . '/js/socialcalc/formatnumber2.js'  ?>"></script>
+<script type="text/javascript" src="<?= $assetsUrl . '/js/socialcalc/formula1.js' ?>"></script>
+<script type="text/javascript" src="<?= $assetsUrl . '/js/socialcalc/socialcalcpopup.js' ?>"></script>
+<script type="text/javascript" src="<?= $assetsUrl . '/js/socialcalc/socialcalcspreadsheetcontrol.js' ?>"></script>
+<script type="text/javascript" src="<?= $assetsUrl . '/js/game/util/socialcalc.js' ?>"></script>
 
-<script type="text/javascript" src="<?= $assetsUrl . '/js/jquery/jquery.hotkeys.js' ?>";></script>
-<script type="text/javascript" src="<?= $assetsUrl . '/js/jquery/jquery.balloon.js' ?>";></script>
-<script type="text/javascript" src="<?= $assetsUrl . '/js/jquery/jquery.topzindex.min.js' ?>";></script>
-<script type="text/javascript" src="<?= $assetsUrl . '/js/jquery/jquery.cookies.js' ?>";></script>
+<script type="text/javascript" src="<?= $assetsUrl . '/js/jquery/jquery.hotkeys.js' ?>"></script>
+<script type="text/javascript" src="<?= $assetsUrl . '/js/jquery/jquery.balloon.js' ?>"></script>
+<script type="text/javascript" src="<?= $assetsUrl . '/js/jquery/jquery.topzindex.min.js' ?>"></script>
+<script type="text/javascript" src="<?= $assetsUrl . '/js/jquery/jquery.cookies.js' ?>"></script>
 
 <?php // пока тут только метод .center ?>
-<script type="text/javascript" src="<?= $assetsUrl . '/js/jquery/jquery-skiliks.js' ?>";></script>
+<script type="text/javascript" src="<?= $assetsUrl . '/js/jquery/jquery-skiliks.js' ?>"></script>
 
-<script type="text/javascript" src="<?= $assetsUrl . '/js/jquery/jquery.mCustomScrollbar.js' ?>";></script>
-<script type="text/javascript" src="<?= $assetsUrl . '/js/jquery/jquery.mousewheel.js' ?>";></script>
-<script type="text/javascript" src="<?= $assetsUrl . '/js/jquery/jquery.tablesorter.js' ?>";></script>
+<script type="text/javascript" src="<?= $assetsUrl . '/js/jquery/jquery.mCustomScrollbar.js' ?>"></script>
+<script type="text/javascript" src="<?= $assetsUrl . '/js/jquery/jquery.mousewheel.js' ?>"></script>
+<script type="text/javascript" src="<?= $assetsUrl . '/js/jquery/jquery.tablesorter.js' ?>"></script>
 
 <?php // We need both!!! // 10 000 раз WTF! ?>
-<script type="text/javascript" src="<?= $assetsUrl . '/js/jquery/jquery-ui-1.8.21.custom.min.js' ?>";></script>
-<script type="text/javascript" src="<?= $assetsUrl . '/js/jquery/jquery-ui-1.10.3.custom.min.js'  ?>";></script>
+<script type="text/javascript" src="<?= $assetsUrl . '/js/jquery/jquery-ui-1.8.21.custom.min.js' ?>"></script>
+<script type="text/javascript" src="<?= $assetsUrl . '/js/jquery/jquery-ui-1.10.3.custom.min.js'  ?>"></script>
 
 <?php // system processor speed test ?>
-<script type="text/javascript" src="<?= $assetsUrl . '/js/game/util/jsBogoMips.js' ?>";></script>
+<script type="text/javascript" src="<?= $assetsUrl . '/js/game/util/jsBogoMips.js' ?>"></script>
 
-<script type="text/javascript" src="<?= $assetsUrl . '/js/bootstrap/js/bootstrap.js' ?>";></script>
-<script type="text/javascript" src="<?= $assetsUrl . '/js/game/lib/hyphenate.js' ?>";></script>
-<script type="text/javascript" src="<?= $assetsUrl . '/js/underscore.js' ?>";></script>
-<script type="text/javascript" src="<?= $assetsUrl . '/js/prefixfree.min.js' ?>";></script>
-<script type="text/javascript" src="<?= $assetsUrl . '/js/jquery.ddslick.min.js' ?>";></script>
+<script type="text/javascript" src="<?= $assetsUrl . '/js/bootstrap/js/bootstrap.js' ?>"></script>
+<script type="text/javascript" src="<?= $assetsUrl . '/js/game/lib/hyphenate.js' ?>"></script>
+<script type="text/javascript" src="<?= $assetsUrl . '/js/underscore.js' ?>"></script>
+<script type="text/javascript" src="<?= $assetsUrl . '/js/prefixfree.min.js' ?>"></script>
+<script type="text/javascript" src="<?= $assetsUrl . '/js/jquery.ddslick.min.js' ?>"></script>
 
 <?php // MyDocument folder emulator ?>
-<script type="text/javascript" src="<?= $assetsUrl . '/js/elfinder-2.0-rc1/js/elfinder.min.js' ?>";></script>
+<script type="text/javascript" src="<?= $assetsUrl . '/js/elfinder-2.0-rc1/js/elfinder.min.js' ?>"></script>
 
-<script type="text/javascript" src="<?= $assetsUrl . '/js/tag-handler/jquery.taghandler.min.js' ?>";></script>
-<script type="text/javascript" src="<?= $assetsUrl . '/js/backbone.js' ?>";></script>
+<script type="text/javascript" src="<?= $assetsUrl . '/js/tag-handler/jquery.taghandler.min.js' ?>"></script>
+<script type="text/javascript" src="<?= $assetsUrl . '/js/backbone.js' ?>"></script>
 
 <?php // track JS in sentry { ?>
 <?php if (Yii::app()->params['public']['useSentryForJsLog']) :  ?>
-    <script type="text/javascript" src="<?= $assetsUrl . '/js/sentry/tracekit.js' ?>";></script>
-    <script type="text/javascript" src="<?= $assetsUrl . '/js/sentry/raven.js' ?>";></script>
+    <script type="text/javascript" src="<?= $assetsUrl . '/js/sentry/tracekit.js' ?>"></script>
+    <script type="text/javascript" src="<?= $assetsUrl . '/js/sentry/raven.js' ?>"></script>
     <script type="text/javascript">
         $(document).ready(function(){
             window.Raven.config('<?= Yii::app()->params['sentry']['dsn'] ?>').install();
