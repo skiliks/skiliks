@@ -1076,7 +1076,7 @@ class SimulationService
         LogReplica::model()->deleteAllByAttributes(['sim_id' => $simId]);
         LogServerRequest::model()->deleteAllByAttributes(['sim_id' => $simId]);
         LogSimulation::model()->deleteAllByAttributes(['sim_id' => $simId]);
-        LogWindow::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        //LogWindow::model()->deleteAllByAttributes(['sim_id' => $simId]);
 
         UniversalLog::model()->deleteAllByAttributes(['sim_id' => $simId]);
 
