@@ -113,4 +113,5 @@ class TariffPlan extends CActiveRecord
             'criteria'=>$criteria,
         ));
     }
+
 }

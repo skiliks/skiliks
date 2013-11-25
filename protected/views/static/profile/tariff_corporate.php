@@ -29,10 +29,14 @@
                     <?php echo date('d.m.Y', strtotime($user->getAccount()->tariff_expired_at)) ?>
                 <?php endif ?>
             </div>
-            <?php if(false) : ?>
-            <div class="action">
-                <a class="light-btn make-order-button" href="/payment/order/<?= $user->getAccount()->tariff->slug ?>">Продлить</a>
-            </div>
+            <?php if($user->account_corporate->getActiveTariff()->isDisplayOnTariffsPage()) : ?>
+                <div class="action">
+                    <a class="light-btn make-order-button" href="/payment/order/<?= $user->getAccount()->tariff->slug ?>">Продлить</a>
+                </div>
+            <?php else : ?>
+                <div class="action">
+                    <a class="light-btn make-order-button" href="/static/tariffs/">Сменить</a>
+                </div>
             <?php endif ?>
         </div>
 
