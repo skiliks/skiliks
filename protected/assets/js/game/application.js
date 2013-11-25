@@ -115,7 +115,6 @@ require([
         if (currentCounter == total && false === isAllImagesDownloaded) {
             //console.log('start!', currentCounter, total, isAllImagesDownloaded);
             isAllImagesDownloaded = true;
-            $('body').css('float', 'left');
 
             // добавляем CSS  в правильной последовательности:
             for (var key in filesToLoad) {
@@ -125,7 +124,7 @@ require([
                 }
             }
 
-            window.SKInitApplication();
+            // window.SKInitApplication();
         }
     }
 
