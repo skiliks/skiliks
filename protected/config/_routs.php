@@ -232,6 +232,7 @@ return [
                 'admin_area/simulation/<simId:\w+>/requests'      => 'admin_area/AdminPages/SimulationRequests',
                 'admin_area/AdminPages/SubscribersList'           => 'admin_area/AdminPages/SubscribersList',
                 'admin_area/user/<userId:\w+>/details'            => 'admin_area/AdminPages/UserDetails',
+                'admin_area/user/by-email'                => 'admin_area/AdminPages/UserDetailsByEmail',
                 'admin_area/user-referrals/<userId:\d+>'          => 'admin_area/AdminPages/UserReferrals',
                 'admin_area/login/ghost/<userId:\d+>'             => 'admin_area/AdminPages/GhostLogin',
 
