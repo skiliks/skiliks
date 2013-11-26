@@ -59,10 +59,10 @@ define([], function () {
                     throw new Error ("Window " + window_id + " already exists");
                 }
                 if (! (this.get('name') in screens)) {
-                    throw new Error ('Unknown screen');
+                    throw new Error ('Unknown screen ' + this.get('name'));
                 }
                 if (! (this.get('subname') in screensSub)) {
-                    throw new Error ('Unknown subscreen');
+                    throw new Error ('Unknown subscreen ' + this.get('subname'));
                 }
                 if (!this.has('id')) {
                     this.set('id', this.get('subname'));
