@@ -333,14 +333,14 @@ class DebugController extends SiteBaseController
         '150.70.97.121','150.70.97.123','150.70.97.127','150.70.97.87','150.70.97.88', '150.70.97.43',
         '150.70.97.116','150.70.173.55','150.70.173.59','150.70.97.122', '218.37.236.7', '157.55.34.32',
         '58.61.152.123', '217.199.169.106', '202.130.161.195', '80.250.232.92', '75.126.189.226', '199.30.26.221',
-        '94.229.74.238', '178.158.214.36', '82.221.102.181', '66.249.73.34', '80.86.84.72', '188.143.234.6',
-        '171.101.226.159', '103.31.186.84', '85.114.135.126', '95.211.192.202', '37.9.53.51', '1.234.83.11',
+        '94.229.74.238', '178.158.214.36', '82.221.102.181', '66.249.73.34' /* 3 */, '80.86.84.72', '188.143.234.6',
+        '171.101.226.159' /* 3 */, '103.31.186.84', '85.114.135.126', '95.211.192.202', '37.9.53.51', '1.234.83.11',
         '192.241.133.80', '97.79.239.37', '91.93.20.67', '87.240.182.162', '212.252.216.10', '188.138.115.94',
         '125.27.11.39', '213.183.59.3', '77.73.105.179', '46.119.112.117', '178.210.65.38', '37.57.133.189',
         '78.46.42.239','188.64.170.222','188.143.232.103','194.226.108.22','217.20.184.45', '82.193.120.229',
-
-        '','','',
-        '','','','','',
+        '94.23.67.170','88.190.220.13' /* 15 */,'192.151.144.234','94.102.56.237','197.242.150.130','157.55.33.182',
+        '94.102.53.219' /* 4 */,'','','','','',
+        '','','','','','',
         // '93.75.179.229', // он знает /admin_area
         /*'77.47.204.138' Таня? */
         /*'188.32.209.89' Антон? */
@@ -608,6 +608,9 @@ class DebugController extends SiteBaseController
         } elseif ('"Yandex.Disk' == $lineArr[13] && '"-"' == $lineArr[15]) {
             $userAgent = $lineArr[13]. ' '.$lineArr[14];
 
+        }  elseif ('"(DreamPassport/3.0;' == $lineArr[13] && '"-"' == $lineArr[15]) {
+            $userAgent = $lineArr[13]. ' '.$lineArr[14];
+
         } elseif (-1 < strstr($lineArr[13], 'Mozilla') && '"-"' == $lineArr[15]) {
             $userAgent = $lineArr[13]. ' '.$lineArr[14];
 
@@ -731,6 +734,10 @@ class DebugController extends SiteBaseController
         if (-1 < strstr($log->line, 'storage.skiliks.com')
             && -1 < strstr($log->line, 'GET / HTTP/1.1 403')) {
             $log->isStrange = true;
+        }
+
+        if (-1 < strstr($log->line, 'addthis.com')) {
+            $log->isTrusted = true;
         }
 
         if (in_array($log->ip, self::$hackerIps)) {
@@ -1212,6 +1219,9 @@ class DebugController extends SiteBaseController
 
             if ((
                     -1 < strstr($lineObj->line, 'user/auth ')
+                    || -1 < strstr($lineObj->line, 'admin.php')
+                    || -1 < strstr($lineObj->line, 'setup')
+                    || -1 < strstr($lineObj->line, 'wp-login.php')
                     || -1 < strstr($lineObj->line, '/admin_area ')
                     || -1 < strstr($lineObj->line, '/admin_area/dashboard ')
                     || -1 < strstr($lineObj->line, '/admin_area/login ')
@@ -1263,7 +1273,9 @@ class DebugController extends SiteBaseController
 
         $rows = explode("\n", $file);
 
-        echo sprintf('<h1>404, 429 Error logs:</h1>');
+        echo sprintf('<h1>404, 405, 429 Error logs:</h1>');
+        echo '<p>405 Method Not Allowed</p>';
+        echo '<p>429 Too Many Requests</p>';
 
         echo '<pre>';
 
