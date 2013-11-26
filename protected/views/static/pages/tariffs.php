@@ -41,7 +41,7 @@ $lang = Yii::app()->getLanguage();
                 </div>
 
                 <?php if ($tariff->isUserCanChooseTariff($user)): ?>
-                     <div class="subscribe-ti-tariff">
+                     <div class="subscribe-ti-tariff go-to-link">
                          <a class="light-btn" href="/tariffs/<?php echo $tariff->slug ?>">
                              <?php echo $tariff->getFormattedLinkLabel($user) ?>
                          </a>
@@ -64,9 +64,11 @@ $lang = Yii::app()->getLanguage();
         <sup>*</sup> Первый месяц использования
         <?php endif; ?>
     </p>
+    <?php if(!Yii::app()->user->isGuest) : ?>
     <?php $this->renderPartial('//static/dashboard/partials/tariff-already-booked-popup', ['account'=>$user->account_corporate]) ?>
     <?php $this->renderPartial('//static/dashboard/partials/extend-tariff-popup', ['account'=>$user->account_corporate]) ?>
     <?php $this->renderPartial('//static/dashboard/partials/tariff-replace-now-popup', ['account'=>$user->account_corporate]) ?>
+    <?php endif ?>
     <div class="contwrap"><a class="light-btn feedback"><?= Yii::t('site', 'Send feedback') ?></a>
     <span class="social_networks">
         <?php $this->renderPartial('//global_partials/addthis', ['force' => true]) ?>

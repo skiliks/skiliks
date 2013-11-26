@@ -1506,7 +1506,7 @@ class DebugController extends SiteBaseController
     }
 
     public function actionTariff() {
-        TariffPlan::model()->deleteAll();
+        //TariffPlan::model()->deleteAll();
         $profile = YumProfile::model()->findByAttributes(['email'=>'bekunova@brokinvest.ru']);
         /* @var $profile YumProfile */
         $tariff = Tariff::model()->findByAttributes(['slug'=>Tariff::SLUG_STARTER]);
