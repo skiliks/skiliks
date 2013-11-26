@@ -19,6 +19,7 @@ class CreateListOfPreloadedFilesCommand extends CConsoleCommand {
             'img/phone',
             'img/planner',
             'img/tag-handler',
+            'img/manual',
             'img/visitor',
             'img/papka-small.png',
             'img/pause.png',
@@ -30,13 +31,7 @@ class CreateListOfPreloadedFilesCommand extends CConsoleCommand {
             'img/doc-icons-mini.png',
 
             // SocialCacl:
-            'img/excel/sc-undo.png',
-            'img/excel/sc-redo.png',
-            'img/excel/sc-copy.png',
-            'img/excel/sc-paste.png',
-            'img/excel/sc-sum.png',
-            'img/excel/sc-percent.png',
-            'img/excel/sc-function.png',
+            'img/excel',
 
             // в CSS уже критически важен порядок следования файлов
             // этотму мы прописываем все пути впроть до файла
