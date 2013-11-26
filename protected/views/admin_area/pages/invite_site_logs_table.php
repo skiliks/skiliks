@@ -38,6 +38,10 @@
             <td>Дата окончание</td>
             <td> <?= (null !== $invite->expired_at) ? $invite->expired_at : '-'; ?></td>
         </tr>
+        <tr>
+            <td>Tariff Plan id</td>
+            <td> <?= (null !== $invite->tariff_plan_id) ? $invite->tariff_plan_id : '-'; ?></td>
+        </tr>
     </table>
 
     <?php if(null !== $invite) : ?>
