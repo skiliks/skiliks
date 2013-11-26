@@ -5,12 +5,14 @@
  *
  * The followings are the available columns in table 'user_account_corporate':
  * @property string $user_id
+ * @property string $tariff_id
  * @property integer $industry_id
  * @property string $ownership_type
  * @property string $company_name
  * @property integer $invites_limit
  * @property integer $referrals_invite_limit
- * @property datetime $tariff_expired_at
+ * @property string $tariff_activated_at
+ * @property string $tariff_expired_at
  * @property string $inn
  * @property string $cpp
  * @property string $bank_account_number
@@ -39,15 +41,27 @@ class UserAccountCorporate extends CActiveRecord
      * @param Tariff $tariff
      * @param bool $isSave
      */
-    public function setTariff($tariff, $isSave = false)
+    public function setTariff(Tariff $tariff, $isSave = false)
     {
         $this->tariff_id = $tariff->id;
         $this->tariff_activated_at = (new DateTime())->format("Y-m-d H:i:s");
         $this->tariff_expired_at = (new DateTime())->modify('+30 days')->format("Y-m-d H:i:s");
-
-        $initValue = $this->getTotalAvailableInvitesLimit();
-
         $this->invites_limit = $tariff->simulations_amount;
+
+        $tariff_plan = TariffPlan::model()->findByAttributes(['user_id'=>$this->user_id, 'status'=>TariffPlan::STATUS_ACTIVE]);
+        if(null !== $tariff_plan) {
+            /* @var $tariff_plan TariffPlan */
+            $tariff_plan->status = TariffPlan::STATUS_EXPIRED;
+            $tariff_plan->save(false);
+        }
+
+        $tariff_plan = new TariffPlan();
+        $tariff_plan->user_id = $this->user_id;
+        $tariff_plan->tariff_id = $this->tariff_id;
+        $tariff_plan->started_at = $this->tariff_activated_at;
+        $tariff_plan->finished_at = $this->tariff_expired_at;
+        $tariff_plan->status = TariffPlan::STATUS_ACTIVE;
+        $tariff_plan->save(false);
 
         if ($isSave) {
 
@@ -55,18 +69,6 @@ class UserAccountCorporate extends CActiveRecord
                 throw new Exception("Not save Tariff");
             }
 
-//            UserService::logCorporateInviteMovementAdd(
-//                'Account setTariff and save',
-//                $this->user->getAccount(),
-//                $initValue
-//            );
-
-        } else {
-//            UserService::logCorporateInviteMovementAdd(
-//                'Account setTariff but not save (?)',
-//                $this->user->getAccount(),
-//                $initValue
-//            );
         }
 
 
@@ -389,5 +391,67 @@ class UserAccountCorporate extends CActiveRecord
         ));
 
     }
+
+    /**
+     * @return null|Tariff
+     */
+    public function getActiveTariff() {
+
+        $tariff_plan = $this->getActiveTariffPlan();
+
+        if(null !== $tariff_plan){
+            /* @var $tariff_plan TariffPlan */
+            return $tariff_plan->tariff;
+        }else{
+            return null;
+        }
+    }
+
+    /**
+     * @return TariffPlan
+     */
+    public function getActiveTariffPlan() {
+
+        return TariffPlan::model()->findByAttributes(['user_id'=>$this->user_id, 'status' => TariffPlan::STATUS_ACTIVE]);
+
+    }
+
+
+    /**
+     * @return null|Tariff
+     */
+    public function getPendingTariff() {
+
+        $tariff_plan = $this->getPendingTariffPlan();
+
+        if(null !== $tariff_plan){
+            /* @var $tariff_plan TariffPlan */
+            return $tariff_plan->tariff;
+        }else{
+            return null;
+        }
+    }
+
+    /**
+     * @return null|TariffPlan
+     */
+    public function getPendingTariffPlan() {
+
+        return TariffPlan::model()->findByAttributes(['user_id'=>$this->user_id, 'status' => TariffPlan::STATUS_PENDING]);
+
+    }
+
+    public function addPendingTariff(Tariff $tariff) {
+        $active_tariff = TariffPlan::model()->findByAttributes(['user_id'=>$this->user_id, 'status'=>TariffPlan::STATUS_ACTIVE]);
+        /* @var $active_tariff TariffPlan */
+        $tariff_plan = new TariffPlan();
+        $tariff_plan->user_id = $this->user_id;
+        $tariff_plan->tariff_id = $tariff->id;
+        $tariff_plan->started_at = $active_tariff->finished_at;
+        $tariff_plan->finished_at = (new DateTime($active_tariff->finished_at))->modify('+30 days')->format("Y-m-d H:i:s");
+        $tariff_plan->status = TariffPlan::STATUS_PENDING;
+        $tariff_plan->save(false);
+    }
+
 
 }

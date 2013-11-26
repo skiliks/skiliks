@@ -182,24 +182,27 @@ class Invoice extends CActiveRecord
     public function completeInvoice($isAdmin = null) {
         if(!$this->isComplete()) {
 
+            //$date->add(new DateInterval('P'.$this->month_selected.'M')); N month
             // Setting tariff invites
-            $this->user->account_corporate->invites_limit = $this->tariff->simulations_amount;
-            $this->user->account_corporate->tariff_activated_at = date('Y-m-d H:i:s');
-
+            $account = $this->user->account_corporate;
+            $tariff = Tariff::model()->findByAttributes(['id'=>$this->tariff_id]);
+            if(0 === (int)$account->invites_limit){
+                $account->setTariff($tariff, true);
+            } else {
+                if($account->getActiveTariff()->slug === $tariff->slug) {
+                    $account->addPendingTariff($tariff);
+                } else {
+                    $account->setTariff($tariff, true);
+                }
+            }
             // Setting referral invites
-            $this->user->account_corporate->referrals_invite_limit =
+            $account->referrals_invite_limit =
                 UserReferral::model()->countUserRegisteredReferrals($this->user->id);
 
             $this->paid_at = date('Y-m-d H:i:s');
 
-            $date = new DateTime();
-            $date->add(new DateInterval('P'.$this->month_selected.'M'));
-
-            $this->user->account_corporate->tariff_expired_at = $date->format('Y-m-d H:i:s');
-            $this->user->account_corporate->tariff_id = $this->tariff_id;
-
-            $this->user->account_corporate->save();
-            $this->save();
+            $account->save(false);
+            $this->save(false);
 
             $this->sendCompleteEmailToUser();
 

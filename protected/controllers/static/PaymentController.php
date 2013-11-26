@@ -15,12 +15,12 @@ class PaymentController extends SiteBaseController
         }
 
 
-        if($user->getInvitesLeft() > 0) {
+        /*if($user->getInvitesLeft() > 0) {
             Yii::app()->user->setFlash('error', sprintf(
                 'У вас ещё остались симуляции. Пожалуйста, используйте их, вы сможете сменить тарифный план после.'
             ));
             $this->redirect('/dashboard');
-        }
+        }*/
 
         $tariff = null === $tariffType ?
            $user->account_corporate->tariff :

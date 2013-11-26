@@ -160,6 +160,7 @@ return [
 
                 'dashboard/decline-invite/validation' => 'static/dashboard/validateDeclineExplanation',
                 'dashboard/send-invite'               => 'static/dashboard/sendInviteEmail',
+                'dashboard/change-tariff'             => 'static/dashboard/ChangeTariff',
                 'dashboard/accept-invite/<id:\w+>'  => 'static/dashboard/acceptInvite',
                 'dashboard/decline-invite/<id:\w+>' => 'static/dashboard/declineInvite',
 
