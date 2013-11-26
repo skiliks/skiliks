@@ -53,7 +53,7 @@ class Invoice extends CActiveRecord
         // will receive user inputs.
         return array(
             array('user_id, tariff_id', 'required'),
-            array('user_id', 'checkHavingInvites'),
+            //array('user_id', 'checkHavingInvites'),
             array('user_id, tariff_id', 'safe', 'on'=>'search'),
         );
     }
