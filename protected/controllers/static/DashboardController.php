@@ -607,9 +607,11 @@ class DashboardController extends SiteBaseController implements AccountPageContr
     public function actionChangeTariff() {
 
         $this->checkUser();
-        $pending = $this->user->account_corporate->getPendingTariff();
+        $pending = $this->user->account_corporate->getPendingTariffPlan();
         $result = ['type' => 'popup'];
         if(null !== $pending) {
+            $result['tariff_label'] = $pending->tariff->label;
+            $result['tariff_start'] = (new DateTime($pending->started_at))->modify('+30 days')->format("d.m.Y");
             $result['popup_class'] = 'tariff-already-booked-popup';
             return $this->sendJSON($result);
         }
@@ -620,6 +622,11 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         if($active->slug === Tariff::SLUG_FREE) {
             return $this->sendJSON(['type'=>'link']);
         }
+        $result['tariff_label'] = $tariff->label;
+        $result['tariff_limits'] = $tariff->simulations_amount;
+        $finish_at = $this->user->account_corporate->getActiveTariffPlan()->finished_at;
+        $result['tariff_start'] = (new DateTime($finish_at))->modify('+30 days')->format("d.m.Y");
+        $result['tariff_end'] = (new DateTime($result['tariff_start']))->modify('+30 days')->format("d.m.Y");
 
         if((int)$active->weight === (int)$tariff->weight) {
             $result['popup_class'] = 'extend-tariff-popup';
