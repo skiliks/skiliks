@@ -464,6 +464,7 @@ define([
                         localStorage.setItem('lastGetState', nowDate.getTime());
 
                         win = me.window = new SKWindow({name:'mainScreen', subname:'mainScreen'});
+                        console.log('win 1 : ', win);
                         win.open();
 
                         me.todo_tasks.fetch();
