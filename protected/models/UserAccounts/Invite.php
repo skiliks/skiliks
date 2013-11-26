@@ -399,9 +399,11 @@ class Invite extends CActiveRecord
         if (null === $account) {
             return false;
         }
-
-        $account->invites_limit++;
-        $account->save();
+        /* @var $account UserAccountCorporate */
+        if($account->getActiveTariffPlan()->id === $this->tariff_plan_id) {
+            $account->invites_limit++;
+            $account->save(false);
+        }
 
         return true;
     }
