@@ -68,6 +68,7 @@ define([
                             subname: 'manual',
                             required: true
                         });
+                        console.log('wnd 1 : ', wnd);
                     var warning;
 
                     appView.drawDesktop();
