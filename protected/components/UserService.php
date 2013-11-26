@@ -683,29 +683,41 @@ class UserService {
     public static function tariffExpired() {
 
         /* @var $users UserAccountCorporate[] */
-        $accounts = UserAccountCorporate::model()->findAll(
-            sprintf("'%s' < tariff_expired_at AND tariff_expired_at <= '%s'",
+        $tariff_plans = TariffPlan::model()->findAll(
+            sprintf("'%s' < finished_at AND finished_at <= '%s' AND status = '%s'",
                 date("Y-m-d 00:00:00"),
-                date("Y-m-d 23:59:59")
+                date("Y-m-d 23:59:59"),
+                TariffPlan::STATUS_ACTIVE
             ));
 
         $expiredAccounts = [];
 
-        if( null !== $accounts ) {
-            /* @var $user UserAccountCorporate */
-            foreach( $accounts as $account ) {
-                $account->is_display_tariff_expire_pop_up = 1;
-                if((int)$account->invites_limit !== 0) {
-                    $initValue = $account->getTotalAvailableInvitesLimit();
-
-                    $account->invites_limit = 0;
-                    $account->update();
-
-                    $expiredAccounts[] = $account;
-
-                    UserService::logCorporateInviteMovementAdd('Тарифный план '.$account->tariff->label.' истёк. Количество доступных симуляция обнулено.', $account, $initValue);
+        if( null !== $tariff_plans ) {
+            /* @var $tariff_plan TariffPlan */
+            foreach( $tariff_plans as $tariff_plan ) {
+                if($tariff_plan->tariff->slug === Tariff::SLUG_FREE) {
+                    continue;
                 }
-
+                $account = $tariff_plan->user->account_corporate;
+                $initValue = $account->getTotalAvailableInvitesLimit();
+                UserService::logCorporateInviteMovementAdd('Тарифный план '.$account->tariff->label.' истёк. Количество доступных симуляция обнулено.', $account, $initValue);
+                $pending = $account->getPendingTariffPlan();
+                if(null === $pending) {
+                    $tariff = Tariff::model()->findByAttributes(['slug'=>Tariff::SLUG_FREE]);
+                    $account->setTariff($tariff, true);
+                    $account->is_display_tariff_expire_pop_up = 1;
+                } else {
+                    $active = $account->getActiveTariffPlan();
+                    $active->status = TariffPlan::STATUS_EXPIRED;
+                    $active->save(false);
+                    $pending->status = TariffPlan::STATUS_ACTIVE;
+                    $active->save(false);
+                    $account->tariff_id = $pending->tariff_id;
+                    $account->tariff_expired_at = $pending->finished_at;
+                    $account->tariff_activated_at = $pending->started_at;
+                }
+                $account->save(false);
+                $expiredAccounts[] = $account;
                 // send email for any account {
                 $emailTemplate = Yii::app()->params['emails']['tariffExpiredTemplateIfInvitesZero'];
 

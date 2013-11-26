@@ -549,6 +549,49 @@ var fixLogotypes = function() {
             }
         }
 
+        $('.subscribe-ti-tariff').click(function(event) {
+            event.preventDefault();
+            var me = this;
+            var slug = $(me).find('a').attr('data-tariff-slug');
+            $.ajax({
+                url: "/dashboard/change-tariff",
+                data:{tariff_slug:slug},
+                success: function (data) {
+                    if(data.type === 'link') {
+                        location.assign("/payment/order/"+slug);
+                    }else if(data.type === 'popup') {
+                        $("."+data.popup_class).dialog({
+                            closeOnEscape: true,
+                            dialogClass: 'popup-before-start-sim',
+                            minHeight: 220,
+                            modal: true,
+                            resizable: false,
+                            draggable:false,
+                            width:881,
+                            open: function( event, ui ) {
+                                //$('.start-full-simulation-next').attr('data-href', href);
+                                Cufon.refresh();
+                            }
+                        });
+                    } else {
+                        throw new Error("Не верный тип действия");
+                    }
+                }
+            });
+            //extend-tariff-popup
+            //tariff-already-booked-popup
+            //tariff-replace-now-popup
+
+            return false;
+        });
+
+        $('.subscribe-ti-tariff-close').click(function(event) {
+            event.preventDefault();
+            var data_class = $(this).attr('data-class');
+            $("."+data_class).dialog('close');
+            return false;
+        });
+
         $('.start-full-simulation-passed').click(function(event){
             event.preventDefault();
             var href = $(this).attr('data-href');

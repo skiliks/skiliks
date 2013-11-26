@@ -1,4 +1,4 @@
-
+<?php /* @var $user YumUser */ ?>
 <h2 class="thetitle"><?php echo Yii::t('site', 'Profile') ?></h2>
 
 <div class="transparent-boder profilewrap">
@@ -6,52 +6,52 @@
 
     <div class="form profileform tarifform">
         <div class="row">
-            <?php if (null === Yii::app()->user->data()->getAccount()->tariff) : ?>
+            <?php if (null === $user->getAccount()->tariff) : ?>
                 <label>Тарифный план</label>
                 <div class="value">не выбран</div>
             <?php else : ?>
                 <label>Выбран тарифный план</label>
                 <div class="value">
-                    <?php echo strtolower(Yii::app()->user->data()->getAccount()->getTariffLabel()) ?>
+                    <?php echo strtolower($user->getAccount()->getTariffLabel()) ?>
                     <br/>
-                    <small class="tarifprice"><?php echo Yii::app()->user->data()->getAccount()->tariff->getFormattedPrice() ?> руб. </small>
+                    <small class="tarifprice"><?php echo $user->getAccount()->tariff->getFormattedPrice() ?> руб. </small>
                 </div>
             <?php endif ?>
-
-            <?php /*
-                <!--<div class="action">
-                    <a href="/static/tariffs/ru" class="blue-btn">Сменить</a>
-                </div> -->
-            */ ?>
 
         </div>
 
         <div class="row rowpad30">
             <label>Действителен до</label>
             <div class="value">
-                <?php if (null === Yii::app()->user->data()->getAccount()->tariff) : ?>
+                <?php if (null === $user->getAccount()->tariff) : ?>
                     не указано
                 <?php else : ?>
-                    <?php echo date('d.m.Y', strtotime(Yii::app()->user->data()->getAccount()->tariff_expired_at)) ?>
+                    <?php echo date('d.m.Y', strtotime($user->getAccount()->tariff_expired_at)) ?>
                 <?php endif ?>
             </div>
-            <div class="action">
-                <a class="light-btn make-order-button" href="/payment/order/<?= Yii::app()->user->data()->getAccount()->tariff->slug ?>">Продлить</a>
-            </div>
+            <?php if($user->account_corporate->getActiveTariff()->isDisplayOnTariffsPage()) : ?>
+                <div class="action">
+                    <a class="light-btn make-order-button" href="/payment/order/<?= $user->getAccount()->tariff->slug ?>">Продлить</a>
+                </div>
+            <?php else : ?>
+                <div class="action">
+                    <a class="light-btn make-order-button" href="/static/tariffs/">Сменить</a>
+                </div>
+            <?php endif ?>
         </div>
 
         <div class="row">
             <label>Доступно симуляций</label>
             <div class="value">
-                <span class="simulations-counter"><?php echo Yii::app()->user->data()->getAccount()->getTotalAvailableInvitesLimit() ?></span><br/>
+                <span class="simulations-counter"><?php echo $user->getAccount()->getTotalAvailableInvitesLimit() ?></span><br/>
                 <small class="expire-date">
 
-                    <?php if (null === Yii::app()->user->data()->getAccount()->tariff) : ?>
+                    <?php if (null === $user->getAccount()->tariff) : ?>
                         Без ограничения по времени
                     <?php else : ?>
-                        До <?php echo date('d', strtotime(Yii::app()->user->data()->getAccount()->tariff_expired_at)), " ",
-                            Yii::t('site', date('M', strtotime(Yii::app()->user->data()->getAccount()->tariff_expired_at))), " ",
-                            date('Y', strtotime(Yii::app()->user->data()->getAccount()->tariff_expired_at));
+                        До <?php echo date('d', strtotime($user->getAccount()->tariff_expired_at)), " ",
+                            Yii::t('site', date('M', strtotime($user->getAccount()->tariff_expired_at))), " ",
+                            date('Y', strtotime($user->getAccount()->tariff_expired_at));
                         ?>
                     <?php endif ?>
                 </small>

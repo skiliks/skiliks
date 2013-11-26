@@ -1055,6 +1055,8 @@ class YumUser extends YumActiveRecord
         $this->getAccount()->banUser();
         $this->status = self::STATUS_BANNED;
         $isSaved = $this->save(false);
+        $tariff = Tariff::model()->findByAttributes(['slug'=>Tariff::SLUG_FREE]);
+        $this->account_corporate->setTariff($tariff, true);
 
         if($isSaved) {
             $this->sendBannedEmail();
