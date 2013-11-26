@@ -35,14 +35,14 @@ return [
 
                 'static/<_lang:\w+>'         => 'static/pages/index',
 
-                'admin/'                  => 'static/admin/',
-                'admin/displayLog/<simulation:\w+>' => 'static/admin/displayLog',
-                'static/admin/saveLog/<simulation:\w+>' => 'static/admin/saveLog',
+//                'admin/'                  => 'static/admin/',
+//                'admin/displayLog/<simulation:\w+>' => 'static/admin/displayLog',
+//                'static/admin/saveLog/<simulation:\w+>' => 'static/admin/saveLog',
+//                'Admin/Log'              => 'static/Admin/Log',
 
                 'cheat/quick-start/full'                => 'static/cheats/startSimulationForFastSeleniumTest',
                 'cheat/clean-events-queue/<simId:\w+>'  => 'static/cheats/cleanEventsQueue',
 
-                'Admin/Log'              => 'static/Admin/Log',
                 'logout'                  => 'static/userAuth/logout',
 
                 'old-browser' => 'static/pages/oldBrowser',
