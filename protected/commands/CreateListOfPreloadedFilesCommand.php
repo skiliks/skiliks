@@ -29,6 +29,15 @@ class CreateListOfPreloadedFilesCommand extends CConsoleCommand {
             'img/doc-icons.png',
             'img/doc-icons-mini.png',
 
+            // SocialCacl:
+            'img/excel/sc-undo.png',
+            'img/excel/sc-redo.png',
+            'img/excel/sc-copy.png',
+            'img/excel/sc-paste.png',
+            'img/excel/sc-sum.png',
+            'img/excel/sc-percent.png',
+            'img/excel/sc-function.png',
+
             // в CSS уже критически важен порядок следования файлов
             // этотму мы прописываем все пути впроть до файла
             'js/jquery/jquery-ui.css',
