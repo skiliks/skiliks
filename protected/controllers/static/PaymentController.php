@@ -14,7 +14,13 @@ class PaymentController extends SiteBaseController
             $this->redirect('/');
         }
 
+        if(!in_array($this->request->urlReferrer, [$this->request->hostInfo.'/static/tariffs', $this->request->hostInfo.'/corporate/tariff']))
+        {
 
+            Yii::app()->user->setFlash('error', "Вы должны переходи на страницу оформления заказа только со страницы Цен и тарифов или Тарифов в Личном профиле.");
+
+            $this->redirect('/static/tariffs');
+        }
         /*if($user->getInvitesLeft() > 0) {
             Yii::app()->user->setFlash('error', sprintf(
                 'У вас ещё остались симуляции. Пожалуйста, используйте их, вы сможете сменить тарифный план после.'
