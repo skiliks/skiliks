@@ -550,8 +550,12 @@ var fixLogotypes = function() {
         }
 
         $('.subscribe-ti-tariff').click(function(event) {
-            event.preventDefault();
+            //event.preventDefault();
             var me = this;
+            if($(this).hasClass('go-to-link')) {
+                console.log('переход');
+                return true;
+            }
             var slug = $(me).find('a').attr('data-tariff-slug');
             $.ajax({
                 url: "/dashboard/change-tariff",
