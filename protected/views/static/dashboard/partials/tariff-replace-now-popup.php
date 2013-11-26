@@ -8,7 +8,7 @@
             </p>
         </ul>
         <div class="text-center">
-            <a href="#" data-href="#" class="bigbtnsubmt">Сменить сейчас</a>
+            <a href="#" data-href="#" class="bigbtnsubmt tariff-link">Сменить сейчас</a>
             <a href="#" data-href="#" data-class="tariff-replace-now-popup" class="bigbtnsubmt subscribe-ti-tariff-close">Отмена</a>
         </div>
     </div>

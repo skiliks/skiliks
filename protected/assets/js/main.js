@@ -573,7 +573,11 @@ var fixLogotypes = function() {
                             draggable:false,
                             width:881,
                             open: function( event, ui ) {
-                                //$('.start-full-simulation-next').attr('data-href', href);
+                                $("."+data.popup_class).find('.tariff_label').text(data.tariff_label);
+                                $("."+data.popup_class).find('.tariff_limits').text(data.tariff_limits);
+                                $("."+data.popup_class).find('.tariff_start').text(data.tariff_start);
+                                $("."+data.popup_class).find('.tariff_end').text(data.tariff_end);
+                                $("."+data.popup_class).find('.tariff-link').attr('href', "/payment/order/"+slug);
                                 Cufon.refresh();
                             }
                         });
