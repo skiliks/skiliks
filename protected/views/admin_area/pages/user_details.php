@@ -211,8 +211,13 @@ $assetsUrl = $this->getAssetsUrl();
     <tr>
         <td>IP Address</td>
         <td><?= ($user->ip_address !== null) ? $user->ip_address : "-"; ?></td>
+        <?php if ($user->isCorporate()) : ?>
+        <td>Tariff Plan id</td>
+        <td><?= $user->account_corporate->getActiveTariffPlan()->id ?></td>
+        <?php else: ?>
         <td></td>
         <td></td>
+        <?php endif ?>
     </tr>
 
 </table>
