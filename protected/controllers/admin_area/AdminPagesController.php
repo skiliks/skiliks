@@ -1439,6 +1439,7 @@ class AdminPagesController extends SiteBaseController {
 
     public function actionUserSetTariff($userId, $label)
     {
+        /* @var $user YumUser */
         $user = YumUser::model()->findByPk($userId);
         if (null === $user ) {
             Yii::app()->user->setFlash('error', sprintf(
@@ -1458,7 +1459,6 @@ class AdminPagesController extends SiteBaseController {
             $this->redirect('/admin_area/user/'.$userId.'/details');
         }
 
-        $initValue = $user->getAccount()->getTotalAvailableInvitesLimit();
         $tariff = Tariff::model()->findByAttributes(['slug' => $label]);
 
         if (null == $tariff) {
@@ -1470,11 +1470,7 @@ class AdminPagesController extends SiteBaseController {
         }
 
         // set Tariff {
-        $user->getAccount()->tariff_id = $tariff->id;
-        $user->getAccount()->tariff_activated_at = date('Y-m-d H:i:s');
-        $user->getAccount()->tariff_expired_at = date('Y-').(date('m')+1).date('-d H:i:s');
-        $user->getAccount()->invites_limit = $tariff->simulations_amount;
-        $user->getAccount()->save();
+        $user->getAccount()->setTariff($tariff, true);
         // set Tariff }
 
         $admin = Yii::app()->user->data();

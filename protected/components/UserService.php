@@ -333,6 +333,7 @@ class UserService {
                 $invite->message = preg_replace('/(\n\r)/', '<br>', $invite->message);
                 $invite->message = preg_replace('/\\n|\\r/', '<br>', $invite->message);
                 $invite->is_display_simulation_results = (int) !$is_display_results;
+                $invite->setTariffPlan();
                 $invite->setExpiredAt();
                 $invite->save(false);
 

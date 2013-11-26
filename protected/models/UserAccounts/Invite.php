@@ -24,6 +24,7 @@
  * @property string $tutorial_displayed_at
  * @property string $tutorial_finished_at
  * @property integer $can_be_reloaded
+ * @property integer $tariff_plan_id
  * @property boolean $is_display_simulation_results
  * @property string $stacktrace
  * @property bolean $is_crashed
@@ -319,6 +320,7 @@ class Invite extends CActiveRecord
         if($scenario->isFull()) {
             $invite->tutorial_scenario_id = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_TUTORIAL])->id;
             $invite->is_display_simulation_results = 1;
+            $invite->setTariffPlan();
         }
         $invite->updated_at = (new DateTime('now', new DateTimeZone('Europe/Moscow')))->format("Y-m-d H:i:s");
         $invite->email = strtolower($user->profile->email);
@@ -397,9 +399,11 @@ class Invite extends CActiveRecord
         if (null === $account) {
             return false;
         }
-
-        $account->invites_limit++;
-        $account->save();
+        /* @var $account UserAccountCorporate */
+        if($account->getActiveTariffPlan()->id === $this->tariff_plan_id) {
+            $account->invites_limit++;
+            $account->save(false);
+        }
 
         return true;
     }
@@ -950,6 +954,10 @@ class Invite extends CActiveRecord
             return "не задано";
         }
         return self::$statusTextRus[$code];
+    }
+
+    public function setTariffPlan() {
+        $this->tariff_plan_id = $this->ownerUser->account_corporate->getActiveTariffPlan()->id;
     }
 
 }
