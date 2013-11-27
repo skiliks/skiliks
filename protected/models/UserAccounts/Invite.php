@@ -112,7 +112,8 @@ class Invite extends CActiveRecord
         if (null === $days) {
             $days = Yii::app()->params['inviteExpired'];
         }
-        $account = $this->ownerUser->account_corporate;
+        $account = UserAccountCorporate::model()->findByAttributes(['user_id'=>$this->owner_id]);
+        /* @var $account UserAccountCorporate */
         if($account->expire_invite_rule === UserAccountCorporate::EXPIRE_INVITE_RULE_BY_TARIFF) {
 
             $this->expired_at = (new DateTime($account->getActiveTariffPlan()->finished_at))->modify('+'.$days.' days')->format("Y-m-d H:i:s");
@@ -323,8 +324,8 @@ class Invite extends CActiveRecord
         $invite->scenario_id = $scenario->id;
         $invite->status      = Invite::STATUS_ACCEPTED;
         $invite->sent_time   = date("Y-m-d H:i:s");
-        $invite->setExpiredAt();
         if($scenario->isFull()) {
+            $invite->setExpiredAt();
             $invite->tutorial_scenario_id = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_TUTORIAL])->id;
             $invite->is_display_simulation_results = 1;
             $invite->setTariffPlan();
