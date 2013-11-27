@@ -214,8 +214,9 @@ define([
                     }
                 } else {
                     var WindowType = this.window_classes[name + '/' + subname] || SKWindow;
-                    console.log('WindowType 1 : ', WindowType);
+                    console.log('WindowType 1 : ', name + '/' + subname, ' , ', WindowType);
                     var win = new WindowType(_.extend({name: name, subname: subname}, params));
+                    console.log('win 1 : ', win);
                     win.open();
                 }
             } catch(exception) {
