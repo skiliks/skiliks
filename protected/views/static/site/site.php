@@ -133,6 +133,8 @@ $cs->compileLess($assetsUrl . '/less/documents.less',  $assetsUrl . '/compiled_c
 <?php endif; // track JS in sentry } ?>
 
 <?php // файлы которые надо будет предзагрузить ?>
+    <?php $this->renderPartial("/static/applicationcache/preload_images", ['assetsUrl' => $assetsUrl]); ?>
+
     <?php if(preg_match('/(?i)msie [10]/',$_SERVER['HTTP_USER_AGENT'])): ?>
         <script type="text/javascript">
             preLoadImages.push("<?= $assetsUrl . '/css/ie10.css'; ?>");
