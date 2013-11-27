@@ -112,6 +112,13 @@
                 'visible' => true,
 
             ),
+
+            array(
+                'label' => 'Выполнить Expire',
+                'url'   => ['admin_area/AdminPages/ExpireInvitesAndTariffPlans'],
+                'visible' => true,
+
+            ),
         ),
         'htmlOptions'=>array('class'=>'nav nav-list')
     )) ?>
