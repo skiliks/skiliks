@@ -152,14 +152,15 @@ define([
                         });
                     });
 
-                    $(window).on('message', function(event) {
-                        event = event.originalEvent;
-                        if (event.data) {
-                            if ('DocumentLoaded' === event.data.type) {
-                                me.onDocumentLoaded(event);
-                            }
-                        }
-                    });
+//                  это, вроде, только для Zoho надо?
+//                    $(window).on('message', function(event) {
+//                        event = event.originalEvent;
+//                        if (event.data) {
+//                            if ('DocumentLoaded' === event.data.type) {
+//                                me.onDocumentLoaded(event);
+//                            }
+//                        }
+//                    });
 
                     this.bindEmergencyHotkey();
 
@@ -463,8 +464,9 @@ define([
                         me.start_time = new Date();
                         localStorage.setItem('lastGetState', nowDate.getTime());
 
-                        win = me.window = new SKWindow({name:'mainScreen', subname:'mainScreen'});
-                        console.log('win 1 : ', win);
+                        me.window = new SKWindow({name:'mainScreen', subname:'mainScreen'});
+                        win = me.window;
+                        console.log('win 1 : ', win, ' , ', me.window);
                         win.open();
 
                         me.todo_tasks.fetch();
