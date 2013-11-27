@@ -42,6 +42,16 @@
             <td>Tariff Plan id</td>
             <td> <?= (null !== $invite->tariff_plan_id) ? $invite->tariff_plan_id : '-'; ?></td>
         </tr>
+        <tr>
+            <td>Задать дату устаревания</td>
+            <td>
+                <form class="form-inline" action="/admin_area/set-invite-expired-at">
+                    <input class="input-medium" type="text" name="expired_at" placeholder="Y-m-d H:i:s"/>
+                    <input type="hidden" name="invite_id" value="<?= $invite->id ?>"/>
+                    <input class="btn" type="submit" name="" value="Задать"/>
+                </form>
+            </td>
+        </tr>
     </table>
 
     <?php if(null !== $invite) : ?>
