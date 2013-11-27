@@ -17,7 +17,7 @@ class PaymentController extends SiteBaseController
         if(!in_array($this->request->urlReferrer, [$this->request->hostInfo.'/static/tariffs', $this->request->hostInfo.'/corporate/tariff']))
         {
 
-            Yii::app()->user->setFlash('error', "Вы должны переходи на страницу оформления заказа только со страницы Цен и тарифов или Тарифов в Личном профиле.");
+            Yii::app()->user->setFlash('error', 'Вы должны переходить на страницу "Оформление заказа" только через страницы <a href="/static/tariffs">"Цены и Тарифы"</a> и <a href="/profile/corporate/tariff">"Тарифы"</a> в "Мой профиль"');
 
             $this->redirect('/static/tariffs');
         }
