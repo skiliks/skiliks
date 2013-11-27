@@ -8,7 +8,7 @@
             </p>
         </ul>
         <div class="text-center">
-            <a href="#" data-href="#" data-class="tariff-already-booked-popup" class="bigbtnsubmt subscribe-ti-tariff-close">Закрыть</a>
+            <a href="#" data-href="#" data-class="tariff-already-booked-popup" class="bigbtnsubmt subscribe-ti-tariff-close">Хорошо</a>
         </div>
     </div>
 </div>
