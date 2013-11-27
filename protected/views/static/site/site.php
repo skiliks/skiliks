@@ -146,8 +146,13 @@ $cs->compileLess($assetsUrl . '/less/documents.less',  $assetsUrl . '/compiled_c
             preLoadImages.push("<?= $assetsUrl . '/css/firefox_simulation.css'; ?>");
         </script>
     <?php endif ?>
-<?php // файлы которые надо будет предзагрузить } ?>
 
+    <?php if(preg_match('/(?i)Chrome/',$_SERVER['HTTP_USER_AGENT'])): ?>
+        <script type="text/javascript">
+            preLoadImages.push("<?= $assetsUrl . '/css/chrome_simulation.css'; ?>");
+        </script>
+    <?php endif ?>
+<?php // файлы которые надо будет предзагрузить } ?>
     <style>
         #loading-cup {
             color: #ffffff !important;
