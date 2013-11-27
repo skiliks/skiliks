@@ -205,7 +205,8 @@ return [
                 'admin_area/not-corporate-emails' => 'admin_area/AdminPages/NotCorporateEmails',
                 'admin_area/RegistrationList'      => 'admin_area/AdminPages/RegistrationList',
                 'admin_area/set-invite-expired-at' => 'admin_area/AdminPages/SetInviteExpiredAt',
-                'admin_area/expired-invites-and-tariff-plans'=>'admin_area/AdminPages/ExpireInvitesAndTariffPlans',
+                'admin_area/expired-invites-and-tariff-plans' => 'admin_area/AdminPages/ExpireInvitesAndTariffPlans',
+                'admin_area/change-invite-expire-rule' => 'admin_area/AdminPages/ChangeInviteExpireRule',
 
                 'admin_area/simulations/rating/csv'                       => 'admin_area/AdminPages/SimulationsRatingCsv',
                 'admin_area/simulations/rating'                           => 'admin_area/AdminPages/SimulationsRating',
