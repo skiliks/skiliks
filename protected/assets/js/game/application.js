@@ -154,7 +154,7 @@ require([
 
         imageToLoad.image.load(function() {
 
-            //console.log($(this).attr('id') + ' loaded !');
+            console.log($(this).attr('id') + $(this).attr('src') + ' loaded !');
             $('body').append($(this));
 
             for(var key2 in filesToLoad) {
