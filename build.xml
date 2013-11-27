@@ -28,7 +28,7 @@
         <chmod file="./protected/assets/compiled_css" mode="777" />
         <mkdir dir="./protected/system_data/analytic_files_2" mode="777" />
         <exec command=">> ./protected/views/static/applicationcache/manifest.php" escape="false" />
-        <chmod file="./protected/views/static/applicationcache/manifest.php" mode="775" />
+        <chmod file="./protected/views/static/applicationcache/manifest.php" mode="777" />
         <chmod file="./protected/views/static/applicationcache/page_for_cache.php" mode="777" />
         <chmod file="./protected/views/static/applicationcache/preload_images.php" mode="777" />
         <exec command="r.js -o protected/assets/js/build.js" />
