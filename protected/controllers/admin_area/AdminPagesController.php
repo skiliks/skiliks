@@ -12,12 +12,14 @@ class AdminPagesController extends SiteBaseController {
         $user = Yii::app()->user->data();
         $this->user = $user;
         if(in_array($action->id, $public)){
+            parent::beforeAction($action);
             return true;
         }elseif(!$user->isAuth()){
             $this->redirect('/admin_area/login');
         }elseif(!$user->isAdmin()){
             $this->redirect('/dashboard');
         }
+        parent::beforeAction($action);
         return true;
     }
 
@@ -2024,5 +2026,29 @@ class AdminPagesController extends SiteBaseController {
 
         $this->layout = '/admin_area/layouts/admin_main';
         $this->render('/admin_area/pages/not_corporate_emails', ['dataProvider' => $dataProvider, 'email'=>$email]);
+    }
+
+    public function actionSetInviteExpiredAt() {
+
+            $expired_at = $this->getParam('expired_at');
+            $invite_id = $this->getParam('invite_id');
+            if($expired_at !== null && $invite_id !== null){
+                /* @var $invite Invite */
+                $invite = Invite::model()->findByPk($invite_id);
+                $invite->expired_at = $expired_at;
+                $invite->save(false);
+            }
+        $this->redirect($this->request->urlReferrer);
+    }
+
+    public function actionExpireInvitesAndTariffPlans() {
+
+        $expiredInvites = InviteService::makeExpiredInvitesExpired();
+
+        $expiredAccounts = UserService::tariffExpired();
+        $this->layout = '/admin_area/layouts/admin_main';
+        $this->render('/admin_area/pages/expired-invites-and-tariff-plans', [
+            'expiredInvites'=>$expiredInvites,
+            'expiredAccounts'=>$expiredAccounts]);
     }
 }
