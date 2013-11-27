@@ -12,12 +12,17 @@
             <?php else : ?>
                 <label>Выбран тарифный план</label>
                 <div class="value">
-                    <?php echo strtolower($user->getAccount()->getTariffLabel()) ?>
+                    <?php echo $user->getAccount()->getTariffLabel() ?>
                     <br/>
                     <small class="tarifprice"><?php echo $user->getAccount()->tariff->getFormattedPrice() ?> руб. </small>
                 </div>
             <?php endif ?>
 
+            <?php if($user->account_corporate->getActiveTariff()->isDisplayOnTariffsPage()) : ?>
+                <div class="action">
+                    <a class="light-btn make-order-button" href="/static/tariffs/">Сменить</a>
+                </div>
+            <?php endif ?>
         </div>
 
         <div class="row rowpad30">
