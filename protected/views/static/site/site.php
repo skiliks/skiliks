@@ -211,10 +211,5 @@ $cs->compileLess($assetsUrl . '/less/documents.less',  $assetsUrl . '/compiled_c
     </div>
     <div id="excel-cache" style="display: none; visibility: hidden;"></div>
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/require.js" data-main="game/application.js"></script>
-
-    <?php /* cache manifest долен быть именно в ифрейме! */ ?>
-    <?php /* иначе второй раз запрос /simulation/promo/xxx не будет отправлен */ ?>
-    <?php /* на сервер после окончанию туториала вся страница  */ ?>
-    <iframe style="display: none" src="/page_for_cache"></iframe>
 </body>
 </html>
