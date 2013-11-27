@@ -35,9 +35,13 @@ return [
 
                 'static/<_lang:\w+>'         => 'static/pages/index',
 
+                // SimStop and show logs
+                'admin/displayLog/<simulation:\w+>' => 'static/simStopAndShowLogs/displayLog',
+
+                // Save logs to excel on page "SimStop and show logs"
+                'static/admin/saveLog/<simulation:\w+>' => 'static/simStopAndShowLogs/saveLog',
+
 //                'admin/'                  => 'static/admin/',
-//                'admin/displayLog/<simulation:\w+>' => 'static/admin/displayLog',
-//                'static/admin/saveLog/<simulation:\w+>' => 'static/admin/saveLog',
 //                'Admin/Log'              => 'static/Admin/Log',
 
                 'cheat/quick-start/full'                => 'static/cheats/startSimulationForFastSeleniumTest',
