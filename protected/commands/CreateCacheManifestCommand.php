@@ -11,6 +11,20 @@ class CreateCacheManifestCommand extends CConsoleCommand {
 
         $assets = __DIR__.'/../assets/';
         $cache = [
+            'img/papka-small.png',
+            'img/pause.png',
+            'img/phone-small.png',
+            'img/plan-small.png',
+            'img/pochta-small.png',
+            'img/workplace-small.png',
+            'img/doc-icons.png',
+            'img/doc-icons-mini.png',
+
+            // SocialCacl:
+            'img/excel',
+
+            'img/manual',
+
             'img/documents',
             'img/interface',
             'img/mail',
@@ -18,13 +32,8 @@ class CreateCacheManifestCommand extends CConsoleCommand {
             'img/phone',
             'img/planner',
             'img/tag-handler',
+
             'img/visitor',
-            'img/papka-small.png',
-            'img/pause.png',
-            'img/phone-small.png',
-            'img/plan-small.png',
-            'img/pochta-small.png',
-            'img/workplace-small.png'
         ];
 
         foreach ($cache as $path) {
