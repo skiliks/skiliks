@@ -124,13 +124,13 @@ class UserAccountCorporate extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('user_id'     , 'required', 'on' => ['insert', 'update', 'corporate']),
-			array('industry_id' , 'numerical', 'integerOnly'=>true, 'on' => ['registration', 'insert', 'update', 'corporate']),
+			array('industry_id' , 'numerical', 'integerOnly'=>true),
             array('industry_id' , 'required', 'on' => ['registration', 'corporate'], 'message' => Yii::t('site', 'Выберите отрасль')),
 			array('user_id'     , 'length'   , 'max'=>10, 'on' => ['registration', 'corporate']),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
             array('ownership_type, company_name, invites_limit, referrals_invite_limit, tariff_expired_at', 'safe'),
-            array('inn, cpp, bank_account_number, bic, preference_payment_method', 'industry_id', 'safe'),
+            array('inn, cpp, bank_account_number, bic, preference_payment_method', 'safe'),
             array('default_invitation_mail_text, is_display_referrals_popup, is_display_tariff_expire_pop_up', 'safe'),
 			array('user_id, industry_id', 'safe', 'on'=>'search'),
 		);
