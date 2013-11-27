@@ -35,6 +35,8 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
         ),
     ),
     'params'=>array(
+        'isBlockGhostLogin' => false,
+        'isUseStrictRulesForGhostLogin'=>false,
         'server_name'    => 'http://live.skiliks.com/',
         'frontendUrl'    => 'http://live.skiliks.com/',
         'runMigrationOn' => 'live',
