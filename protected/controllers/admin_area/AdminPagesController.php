@@ -2051,4 +2051,17 @@ class AdminPagesController extends SiteBaseController {
             'expiredInvites'=>$expiredInvites,
             'expiredAccounts'=>$expiredAccounts]);
     }
+
+    public function actionChangeInviteExpireRule() {
+
+        $rule = $this->getParam('rule');
+        $user_id = $this->getParam('user_id');
+        if($rule !== null && $user_id !== null){
+            /* @var $user YumUser */
+            $user = YumUser::model()->findByPk($user_id);
+            $user->account_corporate->expire_invite_rule = $rule;
+            $user->account_corporate->save(false);
+        }
+        $this->redirect($this->request->urlReferrer);
+    }
 }

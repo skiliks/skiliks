@@ -204,10 +204,42 @@ $assetsUrl = $this->getAssetsUrl();
                         </form>
 
                 </td>
-                <td></td>
-                <td></td>
+                <?php if ($user->isCorporate()) : ?>
+                    <td>Правило для срока годности приглашения</td>
+                    <td>
+                        <?= $user->getAccount()->expire_invite_rule ?>
+
+                        &nbsp;&nbsp;
+
+                        <div class="btn-group">
+                            <a class=" btn btn-success dropdown-toggle" data-toggle="dropdown" href="#">
+                                <i class="icon icon-refresh icon-white"></i>
+                                Сменить на:
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu pull-right">
+                                <?php if($user->getAccount()->expire_invite_rule === 'standard') : ?>
+                                    <li>
+                                        <a href="/admin_area/change-invite-expire-rule/?user_id=<?= $user->id ?>&rule=by_tariff">
+                                            By Tariff
+                                        </a>
+                                    </li>
+                                <?php else : ?>
+                                    <li>
+                                        <a href="/admin_area/change-invite-expire-rule/?user_id=<?= $user->id ?>&rule=standard">
+                                            Standard
+                                        </a>
+                                    </li>
+                                <?php endif ?>
+                            </ul>
+                        </div>
+                    </td>
+                <?php else : ?>
+                    <td></td>
+                    <td></td>
+                <?php endif ?>
             </tr>
-        <?php endif; ?>
+        <?php endif ?>
     <tr>
         <td>IP Address</td>
         <td><?= ($user->ip_address !== null) ? $user->ip_address : "-"; ?></td>

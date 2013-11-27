@@ -21,7 +21,7 @@
  * @property string $default_invitation_mail_text
  * @property integer $is_display_referrals_popup
  * @property integer $is_display_tariff_expire_pop_up
- *
+ * @property string $expire_invite_rule
  *
  * The followings are the available model relations:
  * @property YumUser $user
@@ -32,6 +32,11 @@ class UserAccountCorporate extends CActiveRecord
 {
     const PAYMENT_METHOD_INVOICE = "invoice";
     const PAYMENT_METHOD_CARD = "card";
+
+    const EXPIRE_INVITE_RULE_STANDARD = 'standard';
+
+    const EXPIRE_INVITE_RULE_BY_TARIFF = 'by_tariff';
+
     public function getTariffLabel()
     {
         return (null === $this->tariff) ? 'Не задан' : $this->tariff->getFormattedLabel();
