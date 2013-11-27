@@ -12,15 +12,6 @@ class CreateListOfPreloadedFilesCommand extends CConsoleCommand {
 
         $assets = __DIR__.'/../assets/';
         $cache = [
-            'img/documents',
-            'img/interface',
-            'img/mail',
-            'img/main-screen',
-            'img/phone',
-            'img/planner',
-            'img/tag-handler',
-            'img/manual',
-            'img/visitor',
             'img/papka-small.png',
             'img/pause.png',
             'img/phone-small.png',
@@ -32,6 +23,18 @@ class CreateListOfPreloadedFilesCommand extends CConsoleCommand {
 
             // SocialCacl:
             'img/excel',
+
+            'img/manual',
+
+            'img/documents',
+            'img/interface',
+            'img/mail',
+            'img/main-screen',
+            'img/phone',
+            'img/planner',
+            'img/tag-handler',
+
+            'img/visitor',
 
             // в CSS уже критически важен порядок следования файлов
             // этотму мы прописываем все пути впроть до файла
