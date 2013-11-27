@@ -185,11 +185,12 @@ class Invoice extends CActiveRecord
             //$date->add(new DateInterval('P'.$this->month_selected.'M')); N month
             // Setting tariff invites
             $account = $this->user->account_corporate;
+            /* @var $tariff Tariff */
             $tariff = Tariff::model()->findByAttributes(['id'=>$this->tariff_id]);
-            if(0 === (int)$account->invites_limit){
+            if(0 === (int)$account->invites_limit) {
                 $account->setTariff($tariff, true);
             } else {
-                if($account->getActiveTariff()->slug === $tariff->slug) {
+                if($account->getActiveTariff()->weight >= $tariff->weight) {
                     $account->addPendingTariff($tariff);
                 } else {
                     $account->setTariff($tariff, true);
