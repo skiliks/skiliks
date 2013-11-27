@@ -635,7 +635,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             $result['popup_class'] = 'tariff-replace-now-popup';
             $this->sendJSON($result);
         } else {
-            $result['popup_class'] = 'extend-tariff-popup';
+            $result['popup_class'] = 'downgrade-tariff-popup';
             $this->sendJSON($result);
         }
     }

@@ -712,10 +712,11 @@ class UserService {
                     $active->status = TariffPlan::STATUS_EXPIRED;
                     $active->save(false);
                     $pending->status = TariffPlan::STATUS_ACTIVE;
-                    $active->save(false);
+                    $pending->save(false);
                     $account->tariff_id = $pending->tariff_id;
                     $account->tariff_expired_at = $pending->finished_at;
                     $account->tariff_activated_at = $pending->started_at;
+
                 }
                 $account->save(false);
                 $expiredAccounts[] = $account;

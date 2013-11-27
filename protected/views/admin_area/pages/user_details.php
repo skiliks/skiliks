@@ -113,7 +113,7 @@ $assetsUrl = $this->getAssetsUrl();
         <?php if ($user->isCorporate()) : ?>
             <td>Текущий тарифный план</td>
             <td>
-                <?= $user->getAccount()->tariff->label ?>
+                <?= $user->getAccount()->getActiveTariff()->label ?>
 
                 &nbsp;&nbsp;
 
@@ -147,7 +147,7 @@ $assetsUrl = $this->getAssetsUrl();
         <?php if ($user->isCorporate()) : ?>
             <td>Тариф истекает</td>
             <td>
-                <?= $user->getAccount()->tariff_expired_at ?>
+                <?= $user->getAccount()->getActiveTariffPlan()->finished_at ?>
             </td>
             <td>
                 Добавить симуляции в аккаунт
