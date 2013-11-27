@@ -133,8 +133,6 @@ $cs->compileLess($assetsUrl . '/less/documents.less',  $assetsUrl . '/compiled_c
 <?php endif; // track JS in sentry } ?>
 
 <?php // файлы которые надо будет предзагрузить ?>
-    <?php $this->renderPartial("/static/applicationcache/preload_images", ['assetsUrl' => $assetsUrl]); ?>
-
     <?php if(preg_match('/(?i)msie [10]/',$_SERVER['HTTP_USER_AGENT'])): ?>
         <script type="text/javascript">
             preLoadImages.push("<?= $assetsUrl . '/css/ie10.css'; ?>");
@@ -152,7 +150,10 @@ $cs->compileLess($assetsUrl . '/less/documents.less',  $assetsUrl . '/compiled_c
             preLoadImages.push("<?= $assetsUrl . '/css/chrome_simulation.css'; ?>");
         </script>
     <?php endif ?>
+
 <?php // файлы которые надо будет предзагрузить } ?>
+
+
     <style>
         #loading-cup {
             color: #ffffff !important;
