@@ -14,7 +14,6 @@ require([
     "use strict";
 
     try {
-        //console.log('require');
         _.templateSettings.interpolate = /<@=(.+?)@>/g;
         _.templateSettings.evaluate = /<@(.+?)@>/g;
         Backbone.emulateJSON = true;
@@ -51,7 +50,6 @@ require([
     window.filesToLoad = {};
     var isAllImagesDownloaded = false;
 
-    //console.log(preLoadImages);
 
     // наполнение filesToLoad адресами из preLoadImages {
     var n = 0;
@@ -113,7 +111,6 @@ require([
         $('#images-loader-bar').width((currentCounter/total)*360  + 'px');
 
         if (currentCounter == total && false === isAllImagesDownloaded) {
-            //console.log('start!', currentCounter, total, isAllImagesDownloaded);
             isAllImagesDownloaded = true;
 
             // добавляем CSS  в правильной последовательности:
@@ -150,11 +147,8 @@ require([
 
         imageToLoad.image = $('<img width="0" height="0" style="opacity: 0;" id="' + imageToLoad.id + '" src="' + imageToLoad.url + '"/\>');
 
-        //console.log(imageToLoad.url);
-
         imageToLoad.image.load(function() {
 
-            console.log($(this).attr('id') + $(this).attr('src') + ' loaded !');
             $('body').append($(this));
 
             for(var key2 in filesToLoad) {
@@ -181,12 +175,10 @@ require([
     //        // 512 kB sec:
     //        jstToLoad.timeoutLength = Math.ceil(jstToLoad.size / 512) * 1000; // milliseconds
     //
-    //        console.log('load ' + jstToLoad.url);
     //        $.ajax({
     //            url: jstToLoad.url,
     //            type: 'GET',
     //            success: function() {
-    //                console.log('loaded! ' + jstToLoad.url);
     //                for(var key2 in filesToLoad) {
     //                    if (jstToLoad.id == filesToLoad[key2].id) {
     //                        filesToLoad[key2].isLoaded = true;
@@ -197,7 +189,6 @@ require([
     //            },
     //            complete: function (xhr, text_status) {
     //                if (('timeout' === text_status || xhr.status === 0)) {
-    //                    console.log('reload JST');
     //                    window.preLoadJst(jstToLoad);
     //                }
     //            },
@@ -222,12 +213,10 @@ require([
             cssToLoad.timeoutLength = 6000;
         }
 
-        //console.log('load ' + cssToLoad.url);
         $.ajax({
             url: cssToLoad.url,
             type: 'GET',
             success: function() {
-                //console.log('loaded! ' + cssToLoad.url);
                 for(var key2 in filesToLoad) {
                     if (cssToLoad.id == filesToLoad[key2].id) {
                         filesToLoad[key2].isLoaded = true;
@@ -237,9 +226,7 @@ require([
                 }
             },
             complete: function (xhr, text_status) {
-                //console.log(xhr, text_status);
                 if (('timeout' === text_status /*|| xhr.status === 0*/)) {
-                    //console.log('reload CSS');
                     window.preLoadCss(cssToLoad);
                 }
             },
@@ -267,12 +254,10 @@ require([
         cursorToLoad.image = $('<img width="0" height="0" style="opacity: 0;" id="'
             + cursorToLoad.id + '" src="' + cursorToLoad.url + '"/\>');
 
-        //console.log('load ' + cursorToLoad.url);
         $.ajax({
             url: cursorToLoad.url,
             type: 'GET',
             success: function() {
-                //console.log('loaded! ' + cursorToLoad.url);
                 for(var key2 in filesToLoad) {
                     if (cursorToLoad.id == filesToLoad[key2].id) {
                         filesToLoad[key2].isLoaded = true;
@@ -285,7 +270,6 @@ require([
             },
             complete: function (xhr, text_status) {
                 if (('timeout' === text_status || xhr.status === 0)) {
-                    //console.log('reload cursor');
                     window.preLoadCursor(cursorToLoad);
                 }
             },
@@ -297,7 +281,6 @@ require([
      * Метод вызывает функцию предзагрузки для каждой картинки
      */
     var preLoadImage_s = function() {
-        //console.log(filesToLoad);
         for (var key in filesToLoad) {
             if ('image' == filesToLoad[key].type) {
                 preLoadImage(filesToLoad[key]);

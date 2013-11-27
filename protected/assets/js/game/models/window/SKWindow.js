@@ -60,7 +60,8 @@ define([], function () {
                 }
                 if (! (this.get('name') in screens)) {
                     console.log('initialize: ', this);
-                    throw new Error ('Unknown screen ' + this.get('name') + ', window: ' + window_id);
+                    throw new Error ('Unknown screen ' + this.get('name') + ', window: ' + window_id
+                        + ', subname: ' + this.get('subname')+ ', id: ' + this.get('id'));
                 }
                 if (! (this.get('subname') in screensSub)) {
                     throw new Error ('Unknown subscreen ' + this.get('subname') + ', window: ' + window_id + ', screen: ' +  + this.get('name'));

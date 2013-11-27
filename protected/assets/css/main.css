@@ -1797,3 +1797,7 @@ body.loading {
 #mailEmulatorContentDiv {
     text-align: left;
 }
+
+#cs-button-function div {
+    width: 25px;
+}
