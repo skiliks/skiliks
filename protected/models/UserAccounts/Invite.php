@@ -112,8 +112,15 @@ class Invite extends CActiveRecord
         if (null === $days) {
             $days = Yii::app()->params['inviteExpired'];
         }
+        $account = $this->ownerUser->account_corporate;
+        if($account->expire_invite_rule === UserAccountCorporate::EXPIRE_INVITE_RULE_BY_TARIFF) {
 
-        $this->expired_at = date("Y-m-d H:i:s", time() + 60*60*24* $days);
+            $this->expired_at = (new DateTime($account->getActiveTariffPlan()->finished_at))->modify('+'.$days.' days')->format("Y-m-d H:i:s");
+
+        } else {
+
+            $this->expired_at = (new DateTime())->modify('+'.$days.' days')->format("Y-m-d H:i:s");
+        }
     }
 
     /**
