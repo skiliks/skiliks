@@ -191,6 +191,7 @@ return CMap::mergeArray(
                 'img/workplace-small.png',
                 'img/doc-icons.png',
                 'img/doc-icons-mini.png',
+                'img/window-title-dots.png',
 
                 // SocialCacl:
                 'img/excel',
