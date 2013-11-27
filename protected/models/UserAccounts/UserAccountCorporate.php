@@ -130,7 +130,7 @@ class UserAccountCorporate extends CActiveRecord
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
             array('ownership_type, company_name, invites_limit, referrals_invite_limit, tariff_expired_at', 'safe'),
-            array('inn, cpp, bank_account_number, bic, preference_payment_method', 'safe'),
+            array('inn, cpp, bank_account_number, bic, preference_payment_method', 'industry_id', 'safe'),
             array('default_invitation_mail_text, is_display_referrals_popup, is_display_tariff_expire_pop_up', 'safe'),
 			array('user_id, industry_id', 'safe', 'on'=>'search'),
 		);
