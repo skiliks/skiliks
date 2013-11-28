@@ -20,7 +20,7 @@
 
             <?php if($user->account_corporate->getActiveTariff()->isDisplayOnTariffsPage()) : ?>
                 <div class="action">
-                    <a class="light-btn make-order-button" href="/static/tariffs/">Сменить</a>
+                    <a class="light-btn make-order-button" href="/static/tariffs">Сменить</a>
                 </div>
             <?php endif ?>
         </div>
@@ -40,7 +40,7 @@
                 </div>
             <?php else : ?>
                 <div class="action">
-                    <a class="light-btn make-order-button" href="/static/tariffs/">Сменить</a>
+                    <a class="light-btn make-order-button" href="/static/tariffs">Сменить</a>
                 </div>
             <?php endif ?>
         </div>
