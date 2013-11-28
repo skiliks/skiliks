@@ -326,10 +326,6 @@ var fixLogotypes = function() {
             return false;
         };
 
-//        $('.sign-in-box form#login-form').submit(function(event) {
-//            return false;
-//        });
-
         // Ajax Validation {
 
         window.authenticateValidation = function authenticateValidation(form, data, hasError) {
