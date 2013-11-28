@@ -189,11 +189,14 @@ class Invoice extends CActiveRecord
             $tariff = Tariff::model()->findByAttributes(['id'=>$this->tariff_id]);
             if(0 === (int)$account->invites_limit) {
                 $account->setTariff($tariff, true);
+                $account->setInvoiceOnTariffPlan($this, $account->getActiveTariffPlan());
             } else {
                 if($account->getActiveTariff()->weight >= $tariff->weight) {
                     $account->addPendingTariff($tariff);
+                    $account->setInvoiceOnTariffPlan($this, $account->getPendingTariffPlan());
                 } else {
                     $account->setTariff($tariff, true);
+                    $account->setInvoiceOnTariffPlan($this, $account->getActiveTariffPlan());
                 }
             }
             // Setting referral invites
@@ -236,9 +239,9 @@ class Invoice extends CActiveRecord
         $inviteEmailTemplate = Yii::app()->params['emails']['completeInvoiceUserEmail'];
 
         // TODO Remake email to send referrer invites
-        $body = Yii::app()->controller->renderPartial($inviteEmailTemplate, [
+        $body = UserService::renderEmailPartial($inviteEmailTemplate, [
             'invoice' => $this, 'user' => $this->user, 'user_invites' => $this->user->getAccount()->invites_limit
-        ], true);
+        ]);
 
 
         $mail = [

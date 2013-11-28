@@ -446,6 +446,17 @@ class UserAccountCorporate extends CActiveRecord
 
     }
 
+    /**
+     * @return null|TariffPlan
+     */
+    public function hasPendingTariffPlan() {
+
+        $tariff_plan = TariffPlan::model()->findByAttributes(['user_id'=>$this->user_id, 'status' => TariffPlan::STATUS_PENDING]);
+
+        return null !== $tariff_plan;
+
+    }
+
     public function addPendingTariff(Tariff $tariff) {
         $active_tariff = TariffPlan::model()->findByAttributes(['user_id'=>$this->user_id, 'status'=>TariffPlan::STATUS_ACTIVE]);
         /* @var $active_tariff TariffPlan */
@@ -458,5 +469,9 @@ class UserAccountCorporate extends CActiveRecord
         $tariff_plan->save(false);
     }
 
+    public function setInvoiceOnTariffPlan(Invoice $invoice, TariffPlan $tariff_plan) {
+        $tariff_plan->invoice_id = $invoice->id;
+        $tariff_plan->save(false);
+    }
 
 }

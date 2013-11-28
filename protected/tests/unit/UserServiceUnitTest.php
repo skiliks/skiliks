@@ -31,6 +31,22 @@ class UserServiceUnitTest extends CDbTestCase
         $this->assertCount(0, $forBad);
     }
 
+    public function deleteUsersByEmail(array $emails) {
+
+        foreach($emails as $email) {
+            $user = YumProfile::model()->findByAttributes(['email'=>$email]);
+            if(null !== $user) {
+                Invoice::model()->deleteAllByAttributes(['user_id'=>$user->user_id]);
+                UserReferral::model()->deleteAllByAttributes(['referrer_id'=>$user->user_id]);
+                YumUser::model()->deleteAllByAttributes(['id'=>$user->user_id]);
+                YumProfile::model()->deleteAllByAttributes(['user_id'=>$user->user_id]);
+                UserAccountCorporate::model()->deleteAllByAttributes(['user_id'=>$user->user_id]);
+                UserAccountPersonal::model()->deleteAllByAttributes(['user_id'=>$user->user_id]);
+            }
+        }
+
+    }
+
     /**
      * test that TestUserHelper::getCorporateActivationUrl return string :)
      */
@@ -54,42 +70,11 @@ class UserServiceUnitTest extends CDbTestCase
     public function testInvitesMovementAndUserRegistration() {
 
         //Удаляем тестовых юзеров если такие есть чтоб создать потом заново
-        $exist_ref = UserReferral::model()->findByAttributes(['referral_email'=>'referall-unit-text@kiliks.com']);
-        if( null !== $exist_ref ) {
-            $exist_ref->delete();
-        }
-        $exist_ref2 = UserReferral::model()->findByAttributes(['referral_email'=>'referall-unit-text2@kiliks.com']);
-        if( null !== $exist_ref2 ) {
-            $exist_ref2->delete();
-        }
-        /* @var $profile YumProfile */
-        $exist_profile_corporate = YumProfile::model()->findByAttributes(['email'=>'test-corporate-phpunit-account@skiliks.com']);
-        if(null !== $exist_profile_corporate){
-            YumUser::model()->deleteAllByAttributes(['id'=>$exist_profile_corporate->user_id]);
-            YumProfile::model()->deleteAllByAttributes(['user_id'=>$exist_profile_corporate->user_id]);
-            UserAccountCorporate::model()->deleteAllByAttributes(['user_id'=>$exist_profile_corporate->user_id]);
-        }
-        $exist_profile_personal = YumProfile::model()->findByAttributes(['email'=>'test-private-phpunit-account@skiliks.com']);
-        if(null !== $exist_profile_personal){
-            YumUser::model()->deleteAllByAttributes(['id'=>$exist_profile_personal->user_id]);
-            YumProfile::model()->deleteAllByAttributes(['user_id'=>$exist_profile_personal->user_id]);
-            UserAccountCorporate::model()->deleteAllByAttributes(['user_id'=>$exist_profile_personal->user_id]);
-        }
-        $exist_profile_referral = YumProfile::model()->findByAttributes(['email'=>'referall-unit-text@kiliks.com']);
-
-        if(null !== $exist_profile_referral){
-            YumUser::model()->deleteAllByAttributes(['id'=>$exist_profile_referral->user_id]);
-            YumProfile::model()->deleteAllByAttributes(['user_id'=>$exist_profile_referral->user_id]);
-            UserAccountCorporate::model()->deleteAllByAttributes(['user_id'=>$exist_profile_referral->user_id]);
-        }
-        $exist_profile_referral2 = YumProfile::model()->findByAttributes(['email'=>'referall-unit-text2@kiliks.com']);
-
-        if(null !== $exist_profile_referral2){
-            YumUser::model()->deleteAllByAttributes(['id'=>$exist_profile_referral2->user_id]);
-            YumProfile::model()->deleteAllByAttributes(['user_id'=>$exist_profile_referral2->user_id]);
-            UserAccountCorporate::model()->deleteAllByAttributes(['user_id'=>$exist_profile_referral2->user_id]);
-        }
-
+        $this->deleteUsersByEmail([
+            'test-corporate-phpunit-account@skiliks.com',
+            'test-private-phpunit-account@skiliks.com',
+            'referall-unit-text@kiliks.com',
+            'referall-unit-text2@kiliks.com']);
         //Создаем корпоративного пользователя для тестов
         $user_corporate  = new YumUser('registration');
         $user_corporate->setAttributes(['password'=>'123123', 'password_again'=>'123123', 'agree_with_terms'=>'yes']);
@@ -356,6 +341,121 @@ class UserServiceUnitTest extends CDbTestCase
         UserService::tariffExpired();
         $active_plan = $assert_account_corporate->getActiveTariffPlan();
         $this->assertEquals($active_plan->tariff->slug, Tariff::SLUG_FREE);
+
+    }
+
+    public function testPaymentSystem() {
+
+        $this->deleteUsersByEmail([
+            'test-corporate-phpunit-account@skiliks.com']);
+        //Создаем корпоративного пользователя для тестов
+        $user_corporate  = new YumUser('registration');
+        $user_corporate->setAttributes(['password'=>'123123', 'password_again'=>'123123', 'agree_with_terms'=>'yes']);
+        $profile_corporate  = new YumProfile('registration_corporate');
+        $profile_corporate->setAttributes(['firstname'=>'Алексей', 'lastname'=>'Сафронов', 'email'=>'test-corporate-phpunit-account@skiliks.com']);
+        $account_corporate = new UserAccountCorporate('corporate');
+        $account_corporate->setAttributes(['industry_id'=>Industry::model()->findByAttributes(['label'=>'Другая'])->id]);
+        $assert_result_corporate = UserService::createCorporateAccount($user_corporate, $profile_corporate, $account_corporate);
+        $this->assertTrue($assert_result_corporate);
+
+        //Активируем его
+        $status_activation = YumUser::activate($profile_corporate->email, $user_corporate->activationKey);
+        $this->assertInstanceOf('YumUser', $status_activation);
+        /* @var $assert_profile_corporate YumProfile */
+        $assert_profile_corporate = YumProfile::model()->findByAttributes(['email'=>'test-corporate-phpunit-account@skiliks.com']);
+
+        $account = &$assert_profile_corporate->user->account_corporate;
+
+        /* @var $tariff Tariff */
+        $tariff = Tariff::model()->findByAttributes(['slug'=>Tariff::SLUG_FREE]);
+
+        $account->setTariff($tariff, true);
+
+        $active_tariff_plan = $account->getActiveTariffPlan();
+
+        $tariff_plan_id = $active_tariff_plan->id;
+
+        $active_tariff_plan->finished_at = (new DateTime())->format("Y-m-d H:i:s");
+
+        $active_tariff_plan->save(false);
+
+        UserService::tariffExpired();
+
+        $after_plan = $account->getActiveTariffPlan();
+
+        $this->assertNotEquals($tariff_plan_id, $after_plan->id);
+
+        $this->assertEquals(Tariff::SLUG_FREE, $after_plan->tariff->slug);
+
+        $tariff = Tariff::model()->findByAttributes(['slug'=>Tariff::SLUG_LITE_FREE]);
+
+        $this->assertFalse(UserService::isAllowOrderTariff($tariff, $account));
+
+        $action = UserService::getActionOnPopup($account, Tariff::SLUG_LITE);
+
+        $this->assertEquals(['type'=>'link'], $action);
+
+        $tariff = Tariff::model()->findByAttributes(['slug'=>Tariff::SLUG_LITE]);
+
+        $invoice = UserService::createFakeInvoiceForUnitTest($tariff, $account);
+
+        $this->assertTrue($invoice->completeInvoice());
+
+        $active_tariff = $account->getActiveTariffPlan();
+
+        $this->assertEquals(Tariff::SLUG_LITE, $active_tariff->tariff->slug);
+
+
+        $action = UserService::getActionOnPopup($account, Tariff::SLUG_LITE);
+
+        $this->assertEquals('extend-tariff-popup', $action['popup_class']);
+
+
+        $action = UserService::getActionOnPopup($account, Tariff::SLUG_PROFESSIONAL);
+
+        $this->assertEquals('tariff-replace-now-popup', $action['popup_class']);
+
+
+        $tariff = Tariff::model()->findByAttributes(['slug'=>Tariff::SLUG_PROFESSIONAL]);
+
+        $invoice = UserService::createFakeInvoiceForUnitTest($tariff, $account);
+
+        $this->assertTrue($invoice->completeInvoice());
+
+
+        $active_tariff = $account->getActiveTariffPlan();
+
+        $this->assertEquals(Tariff::SLUG_PROFESSIONAL, $active_tariff->tariff->slug);
+
+
+
+        $action = UserService::getActionOnPopup($account, Tariff::SLUG_STARTER);
+
+        $this->assertEquals('downgrade-tariff-popup', $action['popup_class']);
+
+
+        $tariff = Tariff::model()->findByAttributes(['slug'=>Tariff::SLUG_STARTER]);
+
+        $invoice = UserService::createFakeInvoiceForUnitTest($tariff, $account);
+
+        $this->assertTrue($invoice->completeInvoice());
+
+        $active_tariff = $account->getActiveTariffPlan();
+
+        $this->assertEquals(Tariff::SLUG_PROFESSIONAL, $active_tariff->tariff->slug);
+
+
+        $pending_tariff = $account->getPendingTariffPlan();
+
+        $this->assertEquals(Tariff::SLUG_STARTER, $pending_tariff->tariff->slug);
+
+
+        $action = UserService::getActionOnPopup($account, Tariff::SLUG_STARTER);
+
+        $this->assertEquals('tariff-already-booked-popup', $action['popup_class']);
+
+
+        $this->assertFalse(UserService::isAllowOrderTariff($tariff, $account));
 
     }
 
