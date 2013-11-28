@@ -33,7 +33,17 @@ $cs->registerCssFile($assetsUrl . "/css/popover.css");
  */
 if(preg_match('/(?i)msie [10]/',$_SERVER['HTTP_USER_AGENT']))
 {
-    $cs->registerCssFile($assetsUrl . "/css/ie10.css");
+    $cs->registerCssFile($assetsUrl . "/css/site_ie10.css");
+}
+
+if(preg_match('/(?i)Chrome/',$_SERVER['HTTP_USER_AGENT']))
+{
+    $cs->registerCssFile($assetsUrl . "/css/site_chrome.css");
+}
+
+if(preg_match('/(?i)Firefox/',$_SERVER['HTTP_USER_AGENT']))
+{
+    $cs->registerCssFile($assetsUrl . "/css/site_firefox.css");
 }
 
 ?>
