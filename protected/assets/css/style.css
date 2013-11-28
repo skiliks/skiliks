@@ -2565,7 +2565,7 @@ html[lang="en"] .footer .social_networks {
         font-size:22px;
     }
 	.login-form{
-	    width:190px;
+	    width:220px;
 	    padding:7px 24px 7px 10px;
 	    top:75px;
 	    /*margin-left:33px;*/
@@ -2604,7 +2604,7 @@ html[lang="en"] .footer .social_networks {
     .popup-recovery input[type=text],
     .change_pass-pop-up div input[type=password], #change-password-form input[type="password"] {
         font-size:11px;
-		width:171px;
+		width: 206px;
 		height:11px;
 		padding:6px 7px;
 	}
