@@ -474,4 +474,13 @@ class UserAccountCorporate extends CActiveRecord
         $tariff_plan->save(false);
     }
 
+    /**
+     * @return TariffPlan[]
+     */
+    public function getAllTariffPlans() {
+
+        return TariffPlan::model()->findAllByAttributes(['user_id'=>$this->user_id]);
+
+    }
+
 }
