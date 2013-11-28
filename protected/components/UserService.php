@@ -696,9 +696,6 @@ class UserService {
         if( null !== $tariff_plans ) {
             /* @var $tariff_plan TariffPlan */
             foreach( $tariff_plans as $tariff_plan ) {
-                if($tariff_plan->tariff->slug === Tariff::SLUG_FREE) {
-                    continue;
-                }
                 $account = $tariff_plan->user->account_corporate;
                 $initValue = $account->getTotalAvailableInvitesLimit();
                 UserService::logCorporateInviteMovementAdd('Тарифный план '.$account->tariff->label.' истёк. Количество доступных симуляция обнулено.', $account, $initValue);
@@ -802,6 +799,62 @@ class UserService {
         $referral->save(false);
         $referral->uniqueid    = md5($referral->id . time());
         return $referral->save(false);
+    }
+
+    /**
+     * @param Tariff $tariff
+     * @param UserAccountCorporate $account
+     * @return Invoice
+     */
+    public static function createFakeInvoiceForUnitTest(Tariff $tariff, UserAccountCorporate $account) {
+        $invoice = new Invoice();
+        $invoice->user_id = $account->user_id;
+        $invoice->tariff_id = $tariff->id;
+        $invoice->save(false);
+
+        return $invoice;
+    }
+
+    public static function getActionOnPopup(UserAccountCorporate $account, $tariff_slug) {
+        $pending = $account->getPendingTariffPlan();
+        $result = ['type' => 'popup'];
+        if(null !== $pending) {
+            $result['tariff_label'] = $pending->tariff->label;
+            $result['tariff_start'] = (new DateTime($pending->started_at))->modify('+30 days')->format("d.m.Y");
+            $result['popup_class'] = 'tariff-already-booked-popup';
+            return $result;
+        }
+        /* @var $tariff Tariff */
+        $tariff = Tariff::model()->findByAttributes(['slug'=>$tariff_slug]);
+        $active = $account->getActiveTariff();
+        if($active->slug === Tariff::SLUG_FREE) {
+            return ['type'=>'link'];
+        }
+        $result['tariff_label'] = $tariff->label;
+        $result['tariff_limits'] = $tariff->simulations_amount;
+        $finish_at = $account->getActiveTariffPlan()->finished_at;
+        $result['tariff_start'] = (new DateTime($finish_at))->modify('+30 days')->format("d.m.Y");
+        $result['tariff_end'] = (new DateTime($result['tariff_start']))->modify('+30 days')->format("d.m.Y");
+
+        if((int)$active->weight === (int)$tariff->weight) {
+            $result['popup_class'] = 'extend-tariff-popup';
+        } elseif((int)$active->weight < (int)$tariff->weight) {
+            $result['popup_class'] = 'tariff-replace-now-popup';
+        } else {
+            $result['popup_class'] = 'downgrade-tariff-popup';
+        }
+        return $result;
+    }
+
+    /**
+     * @param Tariff $tariff
+     * @param UserAccountCorporate $account
+     * @return bool
+     */
+    public static function isAllowOrderTariff(Tariff $tariff, UserAccountCorporate $account){
+
+        return !$account->hasPendingTariffPlan() && $tariff->isDisplayOnTariffsPage();
+
     }
 
 }

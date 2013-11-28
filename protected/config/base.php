@@ -154,7 +154,7 @@ return CMap::mergeArray(
 
                 'newInvoiceToBooker'       => '//global_partials/mails/new_invoice',
 
-                'completeInvoiceUserEmail' => '//global_partials/mails/completeInvoiceUserEmail',
+                'completeInvoiceUserEmail' => 'completeInvoiceUserEmail',
 
                 'referrerInviteEmail'      => '//global_partials/mails/referrerEmail',
 
