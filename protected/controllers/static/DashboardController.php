@@ -607,37 +607,8 @@ class DashboardController extends SiteBaseController implements AccountPageContr
     public function actionChangeTariff() {
 
         $this->checkUser();
-        $pending = $this->user->account_corporate->getPendingTariffPlan();
-        $result = ['type' => 'popup'];
-        if(null !== $pending) {
-            $result['tariff_label'] = $pending->tariff->label;
-            $result['tariff_start'] = (new DateTime($pending->started_at))->modify('+30 days')->format("d.m.Y");
-            $result['popup_class'] = 'tariff-already-booked-popup';
-            return $this->sendJSON($result);
-        }
-        $tariff_slug = $this->getParam('tariff_slug');
-        /* @var $tariff Tariff */
-        $tariff = Tariff::model()->findByAttributes(['slug'=>$tariff_slug]);
-        $active = $this->user->account_corporate->getActiveTariff();
-        if($active->slug === Tariff::SLUG_FREE) {
-            return $this->sendJSON(['type'=>'link']);
-        }
-        $result['tariff_label'] = $tariff->label;
-        $result['tariff_limits'] = $tariff->simulations_amount;
-        $finish_at = $this->user->account_corporate->getActiveTariffPlan()->finished_at;
-        $result['tariff_start'] = (new DateTime($finish_at))->modify('+30 days')->format("d.m.Y");
-        $result['tariff_end'] = (new DateTime($result['tariff_start']))->modify('+30 days')->format("d.m.Y");
-
-        if((int)$active->weight === (int)$tariff->weight) {
-            $result['popup_class'] = 'extend-tariff-popup';
-            $this->sendJSON($result);
-        } elseif((int)$active->weight < (int)$tariff->weight) {
-            $result['popup_class'] = 'tariff-replace-now-popup';
-            $this->sendJSON($result);
-        } else {
-            $result['popup_class'] = 'downgrade-tariff-popup';
-            $this->sendJSON($result);
-        }
+        $result = UserService::getActionOnPopup($this->user->account_corporate, $this->getParam('tariff_slug'));
+        $this->sendJSON($result);
     }
 
 }

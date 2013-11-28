@@ -32,7 +32,14 @@ class PaymentController extends SiteBaseController
            $user->account_corporate->tariff :
            Tariff::model()->findByAttributes(['slug' => $tariffType]);
 
-        if (null === $tariff) {
+        if ( null === $tariff ) {
+            Yii::app()->user->setFlash('error', sprintf(
+                'Ошибка системы. Обратитесь в владельцам сайта для уточнения причины.'
+            ));
+            $this->redirect('/');
+        }
+
+        if ( UserService::isAllowOrderTariff($tariff, $user->account_corporate) === false ) {
             Yii::app()->user->setFlash('error', sprintf(
                 'Ошибка системы. Обратитесь в владельцам сайта для уточнения причины.'
             ));
