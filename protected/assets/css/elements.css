@@ -929,7 +929,8 @@ a.registration_check {
     background-position: 10px 50%;
     font-size: 16px;
     height: 53px;
-    padding-bottom: 3px;
+    padding-top: 3px;
+    padding-bottom: 0px;
     padding-left: 37px;
     padding-right: 6px;
     min-width: 208px;
