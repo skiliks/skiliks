@@ -703,14 +703,21 @@ class ProfileController extends SiteBaseController implements AccountPageControl
         if(!$this->user->isCorporate()) {
             $this->redirect('/dashboard');
         }else{
-            $path = SimulationService::saveLogsAsExcelReport2ForCorporateUser(
-                $this->user->account_corporate,
-                $this->getParam('version'));
-            if($path !== null){
+            $user_assessment_version = $this->getParam('version');
+            $system_assessment_version = $this->getConfig("assessment_engine_version");
+            if($user_assessment_version === $system_assessment_version) {
+                $path = SimulationService::saveLogsAsExcelReport2ForCorporateUser(
+                    $this->user->account_corporate,
+                    $user_assessment_version);
+            } else {
+                $path = SimulationService::createPathForAnalyticsFile($this->user->id, $user_assessment_version);
+            }
+            if($path !== null) {
                 if (file_exists($path)) {
                     $xls = file_get_contents($path);
                 } else {
-                    throw new Exception("Файл не найден");
+                    Yii::app()->user->setFlash('error', 'Файл не найден');
+                    $this->redirect('/dashboard');
                 }
 
                 $filename = 'Analysis_file_'.$this->getParam('version').'.xlsx';
