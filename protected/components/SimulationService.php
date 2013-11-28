@@ -1114,11 +1114,16 @@ class SimulationService
             }else{
                 $user_id = $account->user_id;
             }
-            $path = __DIR__.'/../system_data/analytic_files_2/'.$user_id.'_'.$simulation->assessment_version.'.xlsx';
+
+            $path = self::createPathForAnalyticsFile($user_id, $simulation->assessment_version);
 
             $excelWriter->save($path);
             return $path;
         }
+    }
+
+    public static function createPathForAnalyticsFile($user_id, $assessment_version) {
+        return __DIR__.'/../system_data/analytic_files_2/'.$user_id.'_'.$assessment_version.'.xlsx';
     }
 
     public static function saveLogsAsExcelReport2ForCorporateUser(UserAccountCorporate $account, $assessment_version) {
