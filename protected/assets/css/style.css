@@ -5389,7 +5389,7 @@ ul.default li:hover {
     text-align: center;
 
     color: #3C3C32;
-    line-height: 20px;
+    line-height: 22px;
     font-size: 20px;
 }
 
@@ -5404,12 +5404,12 @@ ul.default li:hover {
 .referral-right-div .ProximaNova-font-11px {
     text-align: left;
     font-size: 11px;
-    line-height: 11px;
-    margin-top:5px;
+    line-height: 12px;
+    margin-top:11px;
 }
 
 .referral-right-div .ProximaNova-font-11px.with-margin-top {
-    margin-top:46px;
+    margin-top:30px;
 }
 
 .referral-bottom-p {
@@ -5527,13 +5527,13 @@ ul.default li:hover {
 
     .referral-right-div .ProximaNova-font-11px {
         text-align: left;
-        font-size: 9px;
-        line-height: 9px;
-        margin-top:4px;
+        font-size: 10px;
+        line-height: 10px;
+        margin-top: 10px;
     }
 
     .referral-right-div .ProximaNova-font-11px.with-margin-top {
-        margin-top: 60px;
+        margin-top: 48px;
     }
 
     .referral-bottom-p {
