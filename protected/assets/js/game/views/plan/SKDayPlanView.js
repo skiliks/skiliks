@@ -50,6 +50,39 @@ define([
             SKWindowView.prototype.events
         ),
 
+        fixDayPlanMarkUp: function() {
+            // IE10-fix - исправление ширины контента внутри колонок день-1, день-2, после отпуска {
+            // В IE10 при инициализации .draggable(), тот елемент что назначен в "snap"
+            // уменьшает ширину вдвое. SKILIKS-4824
+            // Данный код явно задаёт ширину, и IE прекращает глючить.
+            // В остальных браузерах ничего не портит - поэтому код не обёрнут в if(MSIE){...}
+
+            // 45 - магическое число. Установленное просто замером,
+            // в вёрстке плана поле для задачи именно на столько уже самой колонки дня
+            $('.planner-book-timetable-event-fl').width(
+                $('.planner-book-today-head').width() - 45
+            );
+            // IE10-fix }
+
+            // что-то случилось с шириной колонкой '.planner-book-head',
+            // и теперь приходится твичить её ширину {
+            $('.planner-book-head').width($('#plannerBookToday').width());
+            var maxPlannerDayWidth = 341;
+
+            if (true === $.browser['msie'] && $('#plannerBookToday').width() < maxPlannerDayWidth) {
+                $('.planner-book-head').width($('#plannerBookToday').width()- 0.5);
+            }
+
+            if (true === $.browser['mozilla']) {
+                $('.planner-book-head').width($('#plannerBookToday').width()- 2);
+            }
+
+            if (true === $.browser['chrome'] && $('#plannerBookToday').width() < maxPlannerDayWidth) {
+                $('.planner-book-head').width($('#plannerBookToday').width()- 0.5);
+            }
+            // что-то случилось с шириной колонок, теперь приходится твичить }
+        },
+
         /**
          * @method
          */
@@ -58,15 +91,7 @@ define([
                 var me = this,
                 elements = this.$('.planner-task:not(.locked)');
 
-                // IE10-fix {
-                // В IE10 при инициализации .draggable(), тот елемент что назначен в "snap"
-                // уменьшает ширину вдвое. SKILIKS-4824
-                // Данный код явно задаёт ширину, и IE прекращает глючить.
-                // В остальных браузерах ничего не портит - поэтому код не обёрнут в if(MSIE){...}
-                $('.planner-book-timetable-event-fl').width(
-                    $('.planner-book-timetable-event-fl').width()
-                );
-                // IE10-fix }
+                me.fixDayPlanMarkUp();
 
                 elements.draggable("destroy");
                 var d31 = new Date();
@@ -863,6 +888,7 @@ define([
                 }
             }
         },
+
         showHint:function($task) {
             try {
                 var position = $task.parent().offset();
@@ -903,6 +929,8 @@ define([
             try {
                 window.SKWindowView.prototype.onResize.call(this);
                 this.fixQuarterPlanMarkUp();
+                this.fixDayPlanMarkUp();
+                console.log('fixed');
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);
