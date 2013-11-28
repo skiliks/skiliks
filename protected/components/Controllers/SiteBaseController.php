@@ -167,4 +167,8 @@ class SiteBaseController extends CController {
     public function getParam($name, $defaultValue = null) {
         return Yii::app()->request->getParam($name, $defaultValue);
     }
+
+    public function getConfig($name) {
+        return Yii::app()->params[$name];
+    }
 }
