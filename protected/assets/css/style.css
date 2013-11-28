@@ -331,7 +331,7 @@ a:focus, a:active {
         font-family:'ProximaNova-Regular';
 		line-height: 17px;
 		text-indent: 4px;
-        width: 110px;
+        /*width: 110px;*/
 	}
 	.sbToggle{
 		background-image:url("../img/bg-select-toggle-min.png");
