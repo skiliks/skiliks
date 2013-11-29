@@ -7,17 +7,18 @@ class CodeStyleCheckUnitTest  extends CDbTestCase
     public function testVarDumpsAndScriptStoppres()
     {
         $folders = [
-            '/components/',
+            /*'/components/',
             '/models/',
             '/controllers/',
-            '/modules',
-            '/views/',
-            '/assets/',
+            '/modules/',
+            '/views/',*/
             '/assets/js/game/',
             '/assets/js/game/models/',
+            '/assets/js/game/views/',
+            '/assets/js/game/views/mail/',
             '/assets/js/game/models/window/',
         ];
-        $targets = ['var_dump', 'die(', 'exit(', '====', '>>>', '<<<', '<? ', '</br>'];
+        $targets = ['var_dump', 'die(', 'exit(', '====', '>>>', '<<<', '<? ', '</br>', 'debugger'];
 
         foreach ($folders as $folder) {
             $dir = Yii::app()->getBasePath().$folder;
@@ -28,7 +29,7 @@ class CodeStyleCheckUnitTest  extends CDbTestCase
 
             foreach ($filesList as $filename) {
                 $fileText = file_get_contents($filename);
-
+                echo $filename." \n";
 
                 foreach ($targets as $target) {
                     $this->assertEquals(
@@ -69,8 +70,20 @@ class CodeStyleCheckUnitTest  extends CDbTestCase
     }
 }
 
-function getFilesList($dir, &$results, $excludeFiles = ['yiic.php'],
-    $filesToIgnore = ['.', '..', 'lib'], $extensionsToUse = ['php'],
+/**
+ * @param string $dir
+ * @param array $results
+ * @param array $excludeFiles
+ * @param array $filesToIgnore
+ * @param array $extensionsToUse
+ * @param array $excludeFolders
+ */
+function getFilesList(
+    $dir,
+    &$results,
+    $excludeFiles = ['yiic.php'],
+    $filesToIgnore = ['.', '..', 'lib', 'pdf.js'],
+    $extensionsToUse = ['php','js'],
     $excludeFolders = ['.', '..', 'yii-sentry-log'] )
 {
     if (is_dir($dir)) {
