@@ -231,12 +231,6 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             $this->redirect(Yii::app()->request->urlReferrer);
         }
 
-        if ($invite->isPending()) {
-            Yii::app()->user->setFlash('success', sprintf(
-                "Нельзя удалить приглашение которое находится в статусе 'В ожидании'."
-            ));
-            $this->redirect(Yii::app()->request->urlReferrer);
-        }
 
         if ($invite->isAccepted()) {
             Yii::app()->user->setFlash('success', sprintf(
