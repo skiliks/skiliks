@@ -52,6 +52,11 @@ class UserAccountCorporate extends CActiveRecord
         $this->tariff_activated_at = (new DateTime())->format("Y-m-d H:i:s");
         $this->tariff_expired_at = (new DateTime())->modify('+30 days')->format("Y-m-d H:i:s");
         $this->invites_limit = $tariff->simulations_amount;
+        if($tariff->slug === Tariff::SLUG_FREE) {
+            $this->is_display_tariff_expire_pop_up = 1;
+        } else {
+            $this->is_display_tariff_expire_pop_up = 0;
+        }
 
         $tariff_plan = TariffPlan::model()->findByAttributes(['user_id'=>$this->user_id, 'status'=>TariffPlan::STATUS_ACTIVE]);
         if(null !== $tariff_plan) {

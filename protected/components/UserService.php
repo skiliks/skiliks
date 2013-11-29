@@ -703,7 +703,6 @@ class UserService {
                 if(null === $pending) {
                     $tariff = Tariff::model()->findByAttributes(['slug'=>Tariff::SLUG_FREE]);
                     $account->setTariff($tariff, true);
-                    $account->is_display_tariff_expire_pop_up = 1;
                 } else {
                     $active = $account->getActiveTariffPlan();
                     $active->status = TariffPlan::STATUS_EXPIRED;
