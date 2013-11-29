@@ -24,7 +24,7 @@ class EventsManager {
 //                'window' => 1,
 //                'end_time' => '00:00:00'
 //            ]);
-            LibSendMs::sendMsByCode($simulation, $eventCode, $gameTime, 1, 1, $window->window_uid, 2);
+            LibSendMs::sendMsByCode($simulation, $eventCode, $gameTime, 1, 1, null, 2);
             return ['result' => 2];
         }
 
