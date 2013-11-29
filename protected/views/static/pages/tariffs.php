@@ -64,7 +64,7 @@ $lang = Yii::app()->getLanguage();
         <sup>*</sup> Первый месяц использования
         <?php endif; ?>
     </p>
-    <?php if(!Yii::app()->user->isGuest) : ?>
+    <?php if($user->isAuth() && $user->isCorporate()) : ?>
         <?php $this->renderPartial('//static/dashboard/partials/tariff-already-booked-popup', ['account'=>$user->account_corporate]) ?>
         <?php $this->renderPartial('//static/dashboard/partials/extend-tariff-popup', ['account'=>$user->account_corporate]) ?>
         <?php $this->renderPartial('//static/dashboard/partials/tariff-replace-now-popup', ['account'=>$user->account_corporate]) ?>
