@@ -568,12 +568,13 @@ var fixLogotypes = function() {
                             resizable: false,
                             draggable:false,
                             width:881,
-                            open: function( event, ui ) {
+                            open: function( event, ui ) { //invite_limits
                                 $("."+data.popup_class).find('.tariff_label').text(data.tariff_label);
                                 $("."+data.popup_class).find('.tariff_limits').text(data.tariff_limits);
                                 $("."+data.popup_class).find('.tariff_start').text(data.tariff_start);
                                 $("."+data.popup_class).find('.tariff_end').text(data.tariff_end);
                                 $("."+data.popup_class).find('.tariff-link').attr('href', "/payment/order/"+slug);
+                                $("."+data.popup_class).find('.invite_limits').text(data.invite_limits);
                                 Cufon.refresh();
                             }
                         });
