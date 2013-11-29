@@ -710,6 +710,7 @@ class UserService {
                     $pending->status = TariffPlan::STATUS_ACTIVE;
                     $pending->save(false);
                     $account->tariff_id = $pending->tariff_id;
+                    $account->invites_limit = $pending->tariff->simulations_amount;
                     $account->tariff_expired_at = $pending->finished_at;
                     $account->tariff_activated_at = $pending->started_at;
 
