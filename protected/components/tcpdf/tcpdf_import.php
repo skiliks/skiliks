@@ -77,12 +77,10 @@ class TCPDF_IMPORT extends TCPDF {
 			'ignore_filter_decoding_errors' => true,
 			'ignore_missing_filter_decoders' => true,
 		);
-		try {
-			// parse PDF data
-			$pdf = new TCPDF_PARSER($rawdata, $cfg);
-		} catch (Exception $e) {
-			die($e->getMessage());
-		}
+
+//	    parse PDF data
+        $pdf = new TCPDF_PARSER($rawdata, $cfg);
+
 		// get the parsed data
 		$data = $pdf->getParsedData();
 		// release some memory

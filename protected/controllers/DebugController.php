@@ -302,17 +302,6 @@ class DebugController extends SiteBaseController
      */
     private function getLogs()
     {
-//        $file_0 = file_get_contents('/var/log/nginx/access.log');
-//        $file_1 = file_get_contents('/var/log/nginx/access.log.1');
-//
-//        $z = gzopen('/var/log/nginx/access.log.2.gz','r') or die("can't open: $php_errormsg");
-//        $file_2 = '';
-//        while ($line = gzgets($z,1024)) {
-//            $file_2 .= $line;
-//        }
-//
-//        $file = $file_0."\n".$file_1."\n".$file_2;
-
         $file = '';
 
         //for ($i = 41; $i < 53; $i++) {
@@ -669,7 +658,6 @@ class DebugController extends SiteBaseController
             if ('' == $lineArr[20] /*|| false == isset($lineArr[14]) || false == isset($lineArr[15])
                 || false == isset($lineArr[16]) || false == isset($lineArr[17]) || false == isset($lineArr[18])
                 || false == isset($lineArr[19]) || false == isset($lineArr[20])*/) {
-                var_dump($lineArr);
                 echo ' >> ' . $line . '<br/>'; die;
                 $userAgent = '???';
             } else {
@@ -1436,7 +1424,11 @@ class DebugController extends SiteBaseController
         $file_0 = file_get_contents(__DIR__.'/access.log');
         $file_1 = file_get_contents(__DIR__.'/access.log.1');
 
-        $z = gzopen(__DIR__.'/access.log.2.gz','r') or die("can't open: $php_errormsg");
+        $z = gzopen (__DIR__.'/access.log.2.gz','r');
+        if (false == $z) {
+            throw new Exception("can't open: $php_errormsg");
+        }
+
         $file_2 = '';
         while ($line = gzgets($z,1024)) {
             $file_2 .= $line;

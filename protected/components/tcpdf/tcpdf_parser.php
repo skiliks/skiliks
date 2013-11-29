@@ -785,7 +785,7 @@ class TCPDF_PARSER {
 	 */
 	public function Error($msg) {
 		if ($this->cfg['die_for_errors']) {
-			die('<strong>TCPDF_PARSER ERROR: </strong>'.$msg);
+            throw new Exception('<strong>TCPDF_PARSER ERROR: </strong>'.$msg);
 		} else {
 			throw new Exception('TCPDF_PARSER ERROR: '.$msg);
 		}
