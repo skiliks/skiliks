@@ -69,6 +69,10 @@ define([
                 this.preventOtherClicksElement =
                     $('<div class="preventOtherClicks" style="position: absolute; background: none repeat scroll 0 0 transparent; z-index: 2001; height: 100%;;width:100%;"></div>');
 
+                if ($.browser['msie']) {
+                    this.preventOtherClicksElement =
+                        $('<div class="preventOtherClicks" style="position: absolute; background-color: #000000; opacity: 0; z-index: 2001; height: 100%;;width:100%;"></div>');
+                }
 
                 $('.canvas').prepend(this.preventOtherClicksElement);
 
