@@ -842,6 +842,7 @@ class UserService {
             $result['popup_class'] = 'tariff-replace-now-popup';
         } else {
             $result['popup_class'] = 'downgrade-tariff-popup';
+            $result['invite_limits'] = $account->invites_limit;
         }
         return $result;
     }
