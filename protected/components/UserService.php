@@ -716,6 +716,10 @@ class UserService {
                 }
                 $account->save(false);
                 $expiredAccounts[] = $account;
+
+                if(null !== $pending) {
+                    continue;
+                }
                 // send email for any account {
                 $emailTemplate = Yii::app()->params['emails']['tariffExpiredTemplateIfInvitesZero'];
 
@@ -825,8 +829,8 @@ class UserService {
         }
         /* @var $tariff Tariff */
         $tariff = Tariff::model()->findByAttributes(['slug'=>$tariff_slug]);
-        $active = $account->getActiveTariff();
-        if($active->slug === Tariff::SLUG_FREE) {
+        $active = $account->getActiveTariffPlan();
+        if($active->tariff->slug === Tariff::SLUG_FREE) {
             return ['type'=>'link'];
         }
         $result['tariff_label'] = $tariff->label;
@@ -835,10 +839,28 @@ class UserService {
         $result['tariff_start'] = (new DateTime($finish_at))->modify('+30 days')->format("d.m.Y");
         $result['tariff_end'] = (new DateTime($result['tariff_start']))->modify('+30 days')->format("d.m.Y");
 
-        if((int)$active->weight === (int)$tariff->weight) {
+        if((int)$active->tariff->weight === (int)$tariff->weight) {
             $result['popup_class'] = 'extend-tariff-popup';
-        } elseif((int)$active->weight < (int)$tariff->weight) {
-            $result['popup_class'] = 'tariff-replace-now-popup';
+        } elseif((int)$active->tariff->weight < (int)$tariff->weight) {
+            if((int)$account->invites_limit > 0) {
+                $result['popup_class'] = 'tariff-replace-now-popup';
+            }else{
+                $invites = (int)Invite::model()->count('tariff_plan_id = :tariff_plan_id and owner_id = :owner_id and (status = :pending or status = :accepted or status = :in_progress)',
+                    [
+                        'tariff_plan_id' => $active->id,
+                        'owner_id' => $account->user_id,
+                        'accepted'=>Invite::STATUS_ACCEPTED,
+                        'pending'=>Invite::STATUS_PENDING,
+                        'in_progress'=>Invite::STATUS_IN_PROGRESS
+                    ]
+                );
+                if( $invites > 0 ) {
+                    $result['popup_class'] = 'tariff-replace-if-zero-popup';
+                    $result['invite_limits'] = $invites;
+                } else {
+                    $result['popup_class'] = 'tariff-replace-now-popup';
+                }
+            }
         } else {
             $result['popup_class'] = 'downgrade-tariff-popup';
             $result['invite_limits'] = $account->invites_limit;
