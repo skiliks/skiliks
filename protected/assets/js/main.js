@@ -591,8 +591,9 @@ var fixLogotypes = function() {
         });
 
         $('.subscribe-ti-tariff-close').click(function(event) {
-            event.preventDefault();
+            //event.preventDefault();
             var data_class = $(this).attr('data-class');
+            console.log(data_class)
             $("."+data_class).dialog('close');
             return false;
         });
