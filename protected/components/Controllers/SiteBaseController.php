@@ -13,6 +13,11 @@ class SiteBaseController extends CController {
     public $request;
 
     /**
+     * @var CApplication
+     */
+    public $app;
+
+    /**
      * @param CAction $action
      * @return bool
      */
