@@ -1349,8 +1349,8 @@ class DebugController extends SiteBaseController
             }
         }
 
-        echo '<hr/>';
-        echo '<h1> Запросы напрямую к 144.76.56.104</h1>';
+        echo '</pre><hr/>';
+        echo '<h1> Запросы напрямую к 144.76.56.104</h1><pre>';
 
         foreach ($ips as $ip) {
             if ($ip['obj']->request == '144.76.56.104') {
