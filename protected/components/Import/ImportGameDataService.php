@@ -2981,6 +2981,10 @@ class ImportGameDataService
 
             if(empty($name) || empty($value)) { continue; }
 
+            if ('game_date_data' == $name && '4.10.2013' ==  $value) {
+                $value = '04.10.2013';
+            }
+
             $scenarioConfig->{$name} = $value;
             $items++;
         }
