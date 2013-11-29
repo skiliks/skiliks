@@ -54,6 +54,44 @@ define([], function () {
          */
         initialize: function () {
             try {
+
+                // иногда обьект SKWindow приходит с id - что удивительно {
+                // и mainScreen и subname == undefined
+                // причину этого бага мы пока не нашли,
+                // но если такое случается, то игра становится заблокированной, что недопустимо
+                //
+                // - поэтому лечим последствия
+                if ('mainScreen' == this.get('id') || 'mainScreen' == this.get('subname')) {
+                    this.set('id', 'mainScreen');
+                    this.set('name', undefined);
+                    this.set('subname', undefined);
+                    console.error('Undefined name or subname.');
+                }
+                if ('manual' == this.get('id') || 'manual' == this.get('subname')) {
+                    this.set('id', 'manual');
+                    this.set('name', undefined);
+                    this.set('subname', undefined);
+                    console.error('Undefined name or subname.');
+                }
+
+                if ('undefined' == typeof this.get('name') && 'undefined' == typeof this.get('subname')) {
+                    if ('mainScreen' == this.get('id')) {
+                        this.set('name', 'mainScreen');
+                        this.set('subname', 'mainScreen');
+                    }
+                    if ('manual' == this.get('id')) {
+                        this.set('name', 'mainScreen');
+                        this.set('subname', 'manual');
+                    }
+
+                    if (window.Raven) {
+                        window.Raven.captureMessage(
+                            'Warning! SKWindow name and subname is undefined. Id is ' + this.get('id')
+                        );
+                    }
+                }
+                // иногда обьект SKWindow приходит с id - что удивительно }
+
                 var window_id = this.get('name') + "/" + this.get('subname');
                 if (window_id in SKApp.simulation.window_set) {
                     throw new Error ("Window " + window_id + " already exists");
