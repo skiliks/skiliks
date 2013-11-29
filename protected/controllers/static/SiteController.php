@@ -167,7 +167,7 @@ class SiteController extends SiteBaseController
         $invite->scenario = $scenario;
         $invite->scenario_id = $scenario->id;
         $invite->is_display_simulation_results = 1;
-        $invite->setExpiredAt();
+        //$invite->setExpiredAt();
         $invite->save(false);
 
         $this->redirect('/simulation/promo/lite/'.$invite->id);
