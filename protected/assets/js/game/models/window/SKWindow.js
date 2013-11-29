@@ -62,10 +62,12 @@ define([], function () {
                 //
                 // - поэтому лечим последствия
                 if ('undefined' == typeof this.get('name') && 'undefined' == typeof this.get('subname')) {
+                    console.error('Warning! SKWindow name and subname is undefined. Id is ' + this.get('id'));
+
                     if ('mainScreen' == this.get('id')) {
                         this.set('name', 'mainScreen');
                         this.set('subname', 'mainScreen');
-                    }
+                              }
                     if ('manual' == this.get('id')) {
                         this.set('name', 'mainScreen');
                         this.set('subname', 'manual');
