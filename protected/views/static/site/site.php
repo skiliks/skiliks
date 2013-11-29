@@ -137,7 +137,7 @@ $cs->compileLess($assetsUrl . '/less/documents.less',  $assetsUrl . '/compiled_c
 
     <?php if(preg_match('/(?i)msie [10]/',$_SERVER['HTTP_USER_AGENT'])): ?>
         <script type="text/javascript">
-            preLoadImages.push("<?= $assetsUrl . '/css/ie10.css'; ?>");
+            preLoadImages.push("<?= $assetsUrl . '/css/site_ie10.css'; ?>");
         </script>
     <?php endif ?>
 
