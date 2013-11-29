@@ -1,7 +1,7 @@
 <?php
 $assetsUrl = $this->getAssetsUrl();
 ?>
-
+<?php /* @var $user YumUser */ ?>
 <br/>
 <br/>
 
@@ -42,7 +42,10 @@ $assetsUrl = $this->getAssetsUrl();
 
 &nbsp; &nbsp;
 <a class="btn btn-success" href="/admin_area/login/ghost/<?= $user->id ?>">Войти на сайт от имени пользователя</a>
-
+<?php if($user->isCorporate()) : ?>
+<p></p>
+<a class="btn btn-success" href="/admin_area/list-tariff-plan?user_id=<?= $user->id ?>">Тарифные планы</a>
+<?php endif ?>
 <br/>
 <br/>
 
