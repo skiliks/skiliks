@@ -61,19 +61,6 @@ define([], function () {
                 // но если такое случается, то игра становится заблокированной, что недопустимо
                 //
                 // - поэтому лечим последствия
-                if ('mainScreen' == this.get('id') || 'mainScreen' == this.get('subname')) {
-                    this.set('id', 'mainScreen');
-                    this.set('name', undefined);
-                    this.set('subname', undefined);
-                    console.error('Undefined name or subname.');
-                }
-                if ('manual' == this.get('id') || 'manual' == this.get('subname')) {
-                    this.set('id', 'manual');
-                    this.set('name', undefined);
-                    this.set('subname', undefined);
-                    console.error('Undefined name or subname.');
-                }
-
                 if ('undefined' == typeof this.get('name') && 'undefined' == typeof this.get('subname')) {
                     if ('mainScreen' == this.get('id')) {
                         this.set('name', 'mainScreen');
