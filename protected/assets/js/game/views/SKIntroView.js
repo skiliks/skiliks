@@ -94,7 +94,15 @@ define([
                                     onclick: function() {
                                         warning.remove();
                                         me.stopPause();
+
                                         $('.time').removeClass("paused");
+                                        if ($.browser['msie']) {
+                                            $('.time span:eq(1)').removeClass("delimiter");
+                                            setTimeout(function(){
+                                                $('.time span:eq(1)').addClass("delimiter");
+                                                $('.time span:eq(1)').addClass("xxx");
+                                            }, 1000);
+                                        }
                                     }
                                 }]
                             });
