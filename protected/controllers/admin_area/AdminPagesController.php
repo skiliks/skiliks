@@ -648,7 +648,7 @@ class AdminPagesController extends SiteBaseController {
         ]);
 
         if ($documentTemplate === null) {
-            throw new Exception("Файл не найден");
+            throw new Exception('Файл-шаблон для документа D1 не найден');
         }
 
         /** @var MyDocument $document */
@@ -670,7 +670,7 @@ class AdminPagesController extends SiteBaseController {
         if (file_exists($filePath)) {
             $xls = file_get_contents($filePath);
         } else {
-            throw new Exception("Файл не найден");
+            throw new Exception(sprintf('Файл %s не найден', $filePath));
         }
 
         $filename = $sim_id . '_' . $documentTemplate->fileName;
