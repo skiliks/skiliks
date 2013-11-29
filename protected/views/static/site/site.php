@@ -202,7 +202,7 @@ $cs->compileLess($assetsUrl . '/less/documents.less',  $assetsUrl . '/compiled_c
 
 </head>
 
-<body class="body" style="background-color: #2e2e2e; text-align: center;">
+<body class="body" style="background-color: #2e2e2e; text-align: center; font-size: 0; overflow: hidden;">
     <div id="loading-cup">
         <img id="loading-cup-img" src="<?= $assetsUrl; ?>/img/loading-cup.jpg" alt="" />
         <h2 class="white-color">Загружается <?=$scenarioLabel?></h2>
@@ -212,7 +212,7 @@ $cs->compileLess($assetsUrl . '/less/documents.less',  $assetsUrl . '/compiled_c
             <div id="images-loader-bar"></div>
         </div>
     </div>
-    <div id="excel-cache" style="display: none; visibility: hidden;"></div>
+    <div id="excel-cache" style="display: none; visibility: hidden; font-size: 0;"></div>
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/require.js" data-main="game/application.js"></script>
 </body>
 </html>

@@ -4,14 +4,10 @@
 var SKApplicationView;
 
 define([
-    "text!game/jst/world/simulation_template.jst",
-
     "game/models/SKApplication",
     "game/views/world/SKSimulationView",
     "game/views/world/SKLoginView"
-], function (
-    simulation_template
-    ) {
+], function () {
     "use strict";
     /**
      * Глобальный view нашего приложения
