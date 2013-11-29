@@ -289,7 +289,8 @@ class DebugController extends SiteBaseController
     public static $allowedIps = [
         '62.205.135.161', // Киев - альфа нет
         '93.73.36.120',   //  Киев - воля
-        '195.69.87.166'   // Киев - Андрей домашний
+        '195.69.87.166',   // Киев - Андрей домашний
+        '62.205.135.161',   // Teamcity
     ];
 
     /**
@@ -323,6 +324,20 @@ class DebugController extends SiteBaseController
     }
 
     public static $hackerIps = [
+        /*
+         * seo-bot
+         * подбор пароля пользователя
+         * попытка взлома админки
+         * попытка полученяи доступа к серверу, БД, ФС, вополнения сценария на сервере
+         * DDOS
+         */
+
+        /*
+         * Обращается напрямую к IP
+         */
+        '194.226.108.23' /* 700+ */ ,
+        '194.226.108.22' /* 200+ */ ,
+
         '150.70.97.99','150.70.97.115','150.70.173.56','150.70.75.32','150.70.173.57', '150.70.97.98',
         '150.70.75.38','150.70.172.111','150.70.173.46','150.70.173.49','150.70.172.104', '150.70.97.124',
         '150.70.64.211','150.70.64.214','150.70.173.45','150.70.97.120','150.70.97.96', '150.70.173.43',
@@ -333,14 +348,15 @@ class DebugController extends SiteBaseController
         '150.70.97.121','150.70.97.123','150.70.97.127','150.70.97.87','150.70.97.88', '150.70.97.43',
         '150.70.97.116','150.70.173.55','150.70.173.59','150.70.97.122', '218.37.236.7', '157.55.34.32',
         '58.61.152.123', '217.199.169.106', '202.130.161.195', '80.250.232.92', '75.126.189.226', '199.30.26.221',
-        '94.229.74.238', '178.158.214.36', '82.221.102.181', '66.249.73.34' /* 3 */, '80.86.84.72', '188.143.234.6',
+        '94.229.74.238', '178.158.214.36', '82.221.102.181', '66.249.73.34' /* 3 */, '80.86.84.72' /* 9 */, '188.143.234.6',
         '171.101.226.159' /* 3 */, '103.31.186.84', '85.114.135.126', '95.211.192.202', '37.9.53.51', '1.234.83.11',
         '192.241.133.80', '97.79.239.37', '91.93.20.67', '87.240.182.162', '212.252.216.10', '188.138.115.94',
         '125.27.11.39', '213.183.59.3', '77.73.105.179', '46.119.112.117', '178.210.65.38', '37.57.133.189',
         '78.46.42.239','188.64.170.222','188.143.232.103','194.226.108.22','217.20.184.45', '82.193.120.229',
         '94.23.67.170','88.190.220.13' /* 15 */,'192.151.144.234','94.102.56.237','197.242.150.130','157.55.33.182',
         '94.102.53.219' /* 4 */,'192.99.11.13','63.141.227.74' /* 6 */,'152.104.210.52','62.75.181.134','103.7.52.7',
-        '211.155.95.122' /* 10 */,'77.120.96.66' /* 2 */,'152.104.210.52'/* 5 */ ,'','','',
+        '211.155.95.122' /* 10 */,'77.120.96.66' /* 4 */,'152.104.210.52'/* 5 */ ,'95.7.38.93' /* 4 */,'162.243.72.5' /* 4 */,'203.128.84.186',
+        '5.61.39.55' /* 2 */,'','','','','',
         '','','','','','',
         // '93.75.179.229', // он знает /admin_area
         /*'77.47.204.138' Таня? */
@@ -1052,8 +1068,7 @@ class DebugController extends SiteBaseController
 
             $lineObj = $this->parseLogLine($line);
 
-            if (-1 < strstr($lineObj->line, 'admin')
-                && false == in_array($lineObj->ip, self::$allowedIps)) {
+            if ($this->isHackerRequest($lineObj->line, $lineObj->ip)) {
 
                     echo sprintf(
                         '%15s %15s %15s %100s   %90s',
@@ -1096,6 +1111,7 @@ class DebugController extends SiteBaseController
         echo '<pre>';
 
         $ips = [];
+        $n = [];
 
         foreach ($rows as $line) {
 
@@ -1106,17 +1122,24 @@ class DebugController extends SiteBaseController
 
             $lineObj = $this->parseLogLine($line);
 
-            if (-1 < strstr($lineObj->line, 'admin')
-                && false == in_array($lineObj->ip, self::$allowedIps)) {
+            if ($this->isHackerRequest($lineObj->line, $lineObj->ip)) {
+                $index = $lineObj->ip.' '.$lineObj->userAgent;
 
-                    $ips[$lineObj->ip.' '.$lineObj->userAgent] =  sprintf(
-                        '%15s %15s %15s %100s   %90s',
-                        $lineObj->date,
-                        $lineObj->ip,
-                        $lineObj->response,
-                        $lineObj->request,
-                        $lineObj->userAgent
-                    ) . '<br/>';
+                if (false == isset($n[$index])) {
+                    $n[$index] = 1;
+                } else {
+                    $n[$index]++;
+                }
+
+                $ips[$index] =  sprintf(
+                    '%3s :: %15s %15s %15s %100s   %90s',
+                    $n[$index],
+                    $lineObj->date,
+                    $lineObj->ip,
+                    $lineObj->response,
+                    $lineObj->request,
+                    $lineObj->userAgent
+                ) . '<br/>';
             }
         }
 
@@ -1126,6 +1149,23 @@ class DebugController extends SiteBaseController
 
         echo '</pre>
             <br/> That is all.';
+    }
+
+    public function isHackerRequest($line, $ip) {
+        if ((-1 < strstr($line, 'user/auth ')
+        || -1 < strstr($line, '/admin_area ')
+        || -1 < strstr($line, 'admin')
+        || -1 < strstr($line, 'setup')
+        || -1 < strstr($line, 'cgi')
+        || -1 < strstr($line, 'admin.php')
+        || -1 < strstr($line, 'wp-login.php')
+        || -1 < strstr($line, '/admin_area/dashboard ')
+        || -1 < strstr($line, '/admin_area/login ')
+                ) && false == in_array($ip, self::$allowedIps)) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -1160,21 +1200,15 @@ class DebugController extends SiteBaseController
 
             $lineObj = $this->parseLogLine($line);
 
-            if ((
-                    -1 < strstr($lineObj->line, 'user/auth ')
-                    || -1 < strstr($lineObj->line, '/admin_area ')
-                    || -1 < strstr($lineObj->line, '/admin_area/dashboard ')
-                    || -1 < strstr($lineObj->line, '/admin_area/login ')
-                ) && false == in_array($lineObj->ip, self::$allowedIps)) {
-
-                    echo sprintf(
-                        '%15s %15s %15s %100s   %90s',
-                        $lineObj->date,
-                        $lineObj->ip,
-                        $lineObj->response,
-                        $lineObj->request,
-                        $lineObj->userAgent
-                    ) . '<br/>';
+            if ($this->isHackerRequest($lineObj->line, $lineObj->ip)) {
+                echo sprintf(
+                    '%15s %15s %15s %100s   %90s',
+                    $lineObj->date,
+                    $lineObj->ip,
+                    $lineObj->response,
+                    $lineObj->request,
+                    $lineObj->userAgent
+                ) . '<br/>';
             }
         }
 
@@ -1218,15 +1252,7 @@ class DebugController extends SiteBaseController
 
             $lineObj = $this->parseLogLine($line);
 
-            if ((
-                    -1 < strstr($lineObj->line, 'user/auth ')
-                    || -1 < strstr($lineObj->line, 'admin.php')
-                    || -1 < strstr($lineObj->line, 'setup')
-                    || -1 < strstr($lineObj->line, 'wp-login.php')
-                    || -1 < strstr($lineObj->line, '/admin_area ')
-                    || -1 < strstr($lineObj->line, '/admin_area/dashboard ')
-                    || -1 < strstr($lineObj->line, '/admin_area/login ')
-                ) && false == in_array($lineObj->ip, self::$allowedIps)) {
+            if ($this->isHackerRequest($lineObj->line, $lineObj->ip)) {
 
                     $index = $lineObj->ip.' '.$lineObj->userAgent.' '.$lineObj->response;
 
@@ -1256,6 +1282,88 @@ class DebugController extends SiteBaseController
 
     /**
      * Прототип функции которая возвращает все ,
+     * сгруппированные по IP и юзер агенту логи
+     *
+     * Отображает:
+     * дату запроса - IP - результат запроса - URL запроса - user agent (если есть)
+     *
+     */
+    public function actionGetGroupedRequests()
+    {
+        if ('jdndsuiqw12009c3mv-NCALA023-4NLDL2-nCDp--23LKLCK-23=2-r=-2lasSDFVdn923cVESskd3865SVedfvAFD' != $_GET['dsinvoejgdb']) {
+            Yii::log('Somebody try to use debug controller!', 'warning');
+            Yii::app()->end();
+        }
+
+        $file = $this->getLogs();
+
+        $rows = explode("\n", $file);
+
+        echo sprintf('<h1>Grouped by request logs:</h1>');
+        echo sprintf('<h4 style="color: grey;">Grouped by IP-userAgent-ResponseCode:</h4>');
+
+        echo '<pre>';
+
+        $ips = [];
+
+        foreach ($rows as $line) {
+
+            $line = trim($line);
+            if (true == empty($line)) {
+                continue;
+            }
+
+            $lineObj = $this->parseLogLine($line);
+
+            if (in_array($lineObj->ip, self::$allowedIps)) {
+                continue;
+            }
+
+            if ('/index.php/events/getState' == $lineObj->request) {
+                continue;
+            }
+
+            $index = $lineObj->ip.' '.$lineObj->userAgent.' '.$lineObj->request;
+
+            if (false == isset($ips[$index])) {
+                $ips[$index]['counter'] = 0;
+            }
+
+            $ips[$index]['obj'] = $lineObj;
+
+            $ips[$index]['log'] = sprintf(
+                    '%15s %15s %15s %100s   %90s',
+                    $lineObj->date,
+                    $lineObj->ip,
+                    $lineObj->response,
+                    $lineObj->request,
+                    $lineObj->userAgent
+                ) . '<br/>';
+            $ips[$index]['counter']++;
+
+        }
+
+        foreach ($ips as $ip) {
+            if (100 < $ip['counter'] && $ip['obj']->request != '144.76.56.104') {
+                echo sprintf('%3s :: %s', $ip['counter'], $ip['log']);
+            }
+        }
+
+        echo '<hr/>';
+        echo '<h1> Запросы напрямую к 144.76.56.104</h1>';
+
+        foreach ($ips as $ip) {
+            if ($ip['obj']->request == '144.76.56.104') {
+                echo sprintf('%3s :: %s', $ip['counter'], $ip['log']);
+            }
+        }
+
+        echo '</pre>
+            <br/> That is all.';
+    }
+
+    /**
+     * Прототип функции которая возвращает все ,
      * сгруппированные по IP и юзер агенту и коду ответа нашего сервера,
      * логи с 404, 429, 500 ошибкой
      *
@@ -1274,7 +1382,8 @@ class DebugController extends SiteBaseController
 
         $rows = explode("\n", $file);
 
-        echo sprintf('<h1>404, 405, 429 Error logs:</h1>');
+        echo sprintf('<h1>404, 405, 429, 400 Error logs:</h1>');
+        echo '<p>400 400 Bad Request. The request cannot be fulfilled due to bad syntax.</p>';
         echo '<p>405 Method Not Allowed</p>';
         echo '<p>429 Too Many Requests</p>';
 
@@ -1290,9 +1399,10 @@ class DebugController extends SiteBaseController
             $lineObj = $this->parseLogLine($line);
 
             if ((
-                    -1 < strstr($lineObj->response, '404')
-//                 || -1 < strstr($lineObj->response, '429')
-//                 || -1 < strstr($lineObj->response, '500')
+                    -1 < strstr($lineObj->response, '400')
+                 || -1 < strstr($lineObj->response, '404')
+                 || -1 < strstr($lineObj->response, '429')
+                 || -1 < strstr($lineObj->response, '500')
                 ) && false == in_array($lineObj->ip, self::$allowedIps)
                   && false == $lineObj->isTrusted
                 ) {
