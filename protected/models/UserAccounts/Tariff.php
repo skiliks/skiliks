@@ -129,19 +129,11 @@ class Tariff extends CActiveRecord
      */
     public function isUserCanChooseTariff($user)
     {
-        if (Yii::app()->getLanguage() != 'ru') {
+        if (!$user->isAuth()) {
             return false;
         }
-//
-//        if (self::SLUG_LITE !== $this->slug) {
-//            return false;
-//        }
 
-        if (false == $user->isAuth()) {
-            return true;
-        }
-
-        if ($user->isPersonal()) {
+        if ($user->isCorporate()) {
             return true;
         }
 

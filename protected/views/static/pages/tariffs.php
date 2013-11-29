@@ -40,7 +40,7 @@ $lang = Yii::app()->getLanguage();
                     <?php endforeach ?>
                 </div>
 
-                <?php if ($tariff->isUserCanChooseTariff($user)): ?>
+                <?php if (false === $tariff->isUserCanChooseTariff($user)): ?>
                      <div class="subscribe-ti-tariff go-to-link">
                          <a class="light-btn" href="/tariffs/<?php echo $tariff->slug ?>">
                              <?php echo $tariff->getFormattedLinkLabel($user) ?>
