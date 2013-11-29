@@ -18,4 +18,27 @@ class SiteUnitTest extends CDbTestCase
         $this->assertContains("ga('send', 'pageview');", $response);
         $this->assertContains('google-analytics.com/analytics.js', $response);
     }
+
+    public function testTCPDFworks()
+    {
+        /**
+         * @var TCPDF $pdf
+         */
+        $pdf = Yii::createComponent('application.components.tcpdf.tcpdf',
+            'P', 'mm', 'A4', true, 'UTF-8');
+
+        $pdf->setPrintHeader(false);
+        $pdf->setPrintFooter(false);
+
+        //текст на русском
+        $pdf->SetFont('arialcyr', '', 7, '', false);
+        $pdf->SetX(40);
+        $pdf->SetY(132);
+        $pdf->Write(0, "Иван Иванов", '', 0, '', false, 0, false, false, 0);
+
+        $pdf->Output('test.pdf');
+
+        // если тест дошел до этой строки - значит TCPD работает
+        $this->assertTrue(true);
+    }
 } 
