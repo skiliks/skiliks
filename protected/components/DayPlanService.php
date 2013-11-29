@@ -238,7 +238,7 @@ class DayPlanService
         $docTemplate = $simulation->game_type->getDocumentTemplate(['code' => 'D20']);
         /** @var MyDocument $document */
         $document = MyDocument::model()->findByAttributes([
-            'sim_id' => $simulation->id,
+            'sim_id'      => $simulation->id,
             'template_id' => $docTemplate->id
         ]);
 
