@@ -93,6 +93,8 @@ class UserServiceUnitTest extends CDbTestCase
         //Проверяем что пользователь добавлен и у него корпоративный аккаунт
         $this->assertNotNull($assert_profile_corporate);
         $this->assertNotNull($assert_profile_corporate->user);
+
+        /* var UserAccountCorporate $assert_account_corporate */
         $assert_account_corporate = UserAccountCorporate::model()->findByAttributes(['user_id'=>$assert_profile_corporate->user_id]);
         $this->assertNotNull($assert_account_corporate);
 
@@ -333,15 +335,28 @@ class UserServiceUnitTest extends CDbTestCase
         $assert_account_corporate->refresh();
         $this->assertEquals($assert_account_corporate->invites_limit, $tariff->simulations_amount);
 
+        // и +1 рефералл
+        $this->assertEquals($assert_account_corporate->getTotalAvailableInvitesLimit(), $tariff->simulations_amount + 1);
+
         $this->assertEquals($assert_account_corporate->getActiveTariff()->slug, Tariff::SLUG_LITE);
 
+        // Проверяем "устаревание" аккаунта с Lite тарифом: должен стать Free с 0 симуляций.
         $active_plan = $assert_account_corporate->getActiveTariffPlan();
         $active_plan->finished_at = (new DateTime())->format("Y-m-d H:i:s");
         $active_plan->save(false);
         UserService::tariffExpired();
+        $assert_account_corporate->refresh();
+
         $active_plan = $assert_account_corporate->getActiveTariffPlan();
         $this->assertEquals($active_plan->tariff->slug, Tariff::SLUG_FREE);
 
+        $this->assertEquals($assert_account_corporate->invites_limit, $active_plan->tariff->simulations_amount);
+
+        // и +1 рефералл
+        $this->assertEquals(
+            $assert_account_corporate->getTotalAvailableInvitesLimit(),
+            $active_plan->tariff->simulations_amount +1
+        );
     }
 
     public function testPaymentSystem() {
@@ -365,38 +380,40 @@ class UserServiceUnitTest extends CDbTestCase
         $assert_profile_corporate = YumProfile::model()->findByAttributes(['email'=>'test-corporate-phpunit-account@skiliks.com']);
 
         $account = &$assert_profile_corporate->user->account_corporate;
+        /* @var $tariffLiteFree Tariff */
+        $tariffLiteFree = Tariff::model()->findByAttributes(['slug'=>Tariff::SLUG_LITE_FREE]);
+
+        // количество симуляций верное для только что активированного аккаунта?
+        $this->assertEquals($tariffLiteFree->simulations_amount, $account->getTotalAvailableInvitesLimit());
+
+        // ---
 
         /* @var $tariff Tariff */
         $tariff = Tariff::model()->findByAttributes(['slug'=>Tariff::SLUG_FREE]);
-
         $account->setTariff($tariff, true);
-
         $active_tariff_plan = $account->getActiveTariffPlan();
-
-        $tariff_plan_id = $active_tariff_plan->id;
-
+        $before_tariff_plan_id = $active_tariff_plan->id;
         $active_tariff_plan->finished_at = (new DateTime())->format("Y-m-d H:i:s");
-
         $active_tariff_plan->save(false);
 
         UserService::tariffExpired();
 
         $after_plan = $account->getActiveTariffPlan();
 
-        $this->assertNotEquals($tariff_plan_id, $after_plan->id);
-
+        $this->assertNotEquals($before_tariff_plan_id, $after_plan->id);
         $this->assertEquals(Tariff::SLUG_FREE, $after_plan->tariff->slug);
+        $this->assertEquals(0, $account->getTotalAvailableInvitesLimit());
+
+        // ---
 
         $tariff = Tariff::model()->findByAttributes(['slug'=>Tariff::SLUG_LITE_FREE]);
-
         $this->assertFalse(UserService::isAllowOrderTariff($tariff, $account));
 
+        // проверка ссылки для попапа
         $action = UserService::getActionOnPopup($account, Tariff::SLUG_LITE);
-
         $this->assertEquals(['type'=>'link'], $action);
 
         $tariff = Tariff::model()->findByAttributes(['slug'=>Tariff::SLUG_LITE]);
-
         $invoice = UserService::createFakeInvoiceForUnitTest($tariff, $account);
 
         $this->assertTrue($invoice->completeInvoice());
@@ -405,6 +422,10 @@ class UserServiceUnitTest extends CDbTestCase
 
         $this->assertEquals(Tariff::SLUG_LITE, $active_tariff->tariff->slug);
 
+        $account->refresh();
+        $this->assertEquals($tariff->simulations_amount, $account->getTotalAvailableInvitesLimit());
+
+        // ---
 
         $action = UserService::getActionOnPopup($account, Tariff::SLUG_LITE);
 
@@ -427,7 +448,7 @@ class UserServiceUnitTest extends CDbTestCase
 
         $this->assertEquals(Tariff::SLUG_PROFESSIONAL, $active_tariff->tariff->slug);
 
-
+        // ---
 
         $action = UserService::getActionOnPopup($account, Tariff::SLUG_STARTER);
 
@@ -435,34 +456,27 @@ class UserServiceUnitTest extends CDbTestCase
 
 
         $tariff = Tariff::model()->findByAttributes(['slug'=>Tariff::SLUG_STARTER]);
-
         $invoice = UserService::createFakeInvoiceForUnitTest($tariff, $account);
-
         $this->assertTrue($invoice->completeInvoice());
-
+        $account->refresh();
         $active_tariff = $account->getActiveTariffPlan();
 
         $this->assertEquals(Tariff::SLUG_PROFESSIONAL, $active_tariff->tariff->slug);
-
+        $this->assertEquals(
+            $account->getActiveTariffPlan()->tariff->simulations_amount,
+            $account->getTotalAvailableInvitesLimit()
+        );
 
         $pending_tariff = $account->getPendingTariffPlan();
 
         $this->assertEquals(Tariff::SLUG_STARTER, $pending_tariff->tariff->slug);
 
+        // ---
 
         $action = UserService::getActionOnPopup($account, Tariff::SLUG_STARTER);
 
         $this->assertEquals('tariff-already-booked-popup', $action['popup_class']);
-
-
         $this->assertFalse(UserService::isAllowOrderTariff($tariff, $account));
 
     }
-
-    /*public function testDebug(){
-
-        SimulationService::CalculateTheEstimate(565, 'tetyana.grybok@skiliks.com');
-
-    }*/
-
 }
