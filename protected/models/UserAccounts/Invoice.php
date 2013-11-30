@@ -178,7 +178,6 @@ class Invoice extends CActiveRecord
     /**
      * Method add paid_date to Invoice and saves it
      */
-
     public function completeInvoice($isAdmin = null) {
         if(!$this->isComplete()) {
 

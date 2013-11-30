@@ -29,25 +29,40 @@ $assetsUrl = $this->getAssetsUrl();
     Изменить пароль</a>
 <?php if ($user->isCorporate()): ?>
     &nbsp; &nbsp;
-    <a class="btn btn-info"
-       href="<?= $this->createAbsoluteUrl('admin_area/AdminPages/UserReferrals', ['userId' => $user->id]) ?>">
-        <i class="icon icon-share icon-white"></i>&nbsp;
-        Рефераллы</a>
-    &nbsp; &nbsp;
-    <a class="btn btn-info" href="/admin_area/corporate-account/<?= $user->id ?>/invite-limit-logs">Логи списания/зачисления симуляций</a>
-
-    <button class="btn btn-success ban-corporate-user" data-id="<?= $user->id ?>" data-email="<?= $user->profile->email ?>">Забанить аккаунт</button>
-
+    <a class="btn btn-success ban-corporate-user" data-id="<?= $user->id ?>" data-email="<?= $user->profile->email ?>">
+        <i class="icon icon-ban-circle icon-white"></i>
+        Забанить аккаунт
+    </a>
 <?php endif; ?>
 
 &nbsp; &nbsp;
-<a class="btn btn-success" href="/admin_area/login/ghost/<?= $user->id ?>">Войти на сайт от имени пользователя</a>
+<a class="btn btn-success" href="/admin_area/login/ghost/<?= $user->id ?>">
+    <i class="icon icon-home icon-white"></i>
+    Войти на сайт от имени пользователя
+</a>
+
+<!-- разделитель кнопок -->
+<p>&nbsp; &nbsp;</p>
+
 <?php if($user->isCorporate()) : ?>
-<p></p>
-<a class="btn btn-success" href="/admin_area/list-tariff-plan?user_id=<?= $user->id ?>">Тарифные планы</a>
+    <a class="btn btn-info"
+       href="<?= $this->createAbsoluteUrl('admin_area/AdminPages/UserReferrals', ['userId' => $user->id]) ?>">
+        <i class="icon icon-gift icon-white"></i>&nbsp;
+        Рефераллы</a>
+    &nbsp; &nbsp;
+    <a class="btn btn-info" href="/admin_area/corporate-account/<?= $user->id ?>/invite-limit-logs">
+        <i class="icon icon-list icon-white"></i>
+        Логи списания/зачисления симуляций
+    </a>
+    &nbsp; &nbsp;
+    <a class="btn btn-info" href="/admin_area/list-tariff-plan?user_id=<?= $user->id ?>">
+        <strong>$</strong>
+        Тарифные планы
+    </a>
+    <br/>
+    <br/>
+    <br/>
 <?php endif ?>
-<br/>
-<br/>
 
 <table class="table">
     <tr>

@@ -76,7 +76,11 @@ class UserAccountCorporate extends CActiveRecord
         if ($isSave) {
 
             if(false === $this->save(false)){
-                throw new Exception("Not save Tariff");
+                throw new Exception(sprintf(
+                    "Tariff #%s for account #%s was not set. ",
+                    $tariff->id,
+                    $this->id
+                ));
             }
 
         }
