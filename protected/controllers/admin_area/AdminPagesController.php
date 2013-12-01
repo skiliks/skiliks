@@ -1430,6 +1430,11 @@ class AdminPagesController extends SiteBaseController {
     {
         $user = YumUser::model()->findByPk($userId);
 
+        if (null === $user) {
+            Yii::app()->user->setFlash('error', sprintf('Пользователь с ID = %s не найден', $userId));
+            $this->redirect('/admin_area/users');
+        }
+
         if($user->isCorporate()) {
             $isSwitchShowReferralInfoPopup = Yii::app()->request->getParam("switchReferralInfoPopup", null);
             if($isSwitchShowReferralInfoPopup !== null) {
