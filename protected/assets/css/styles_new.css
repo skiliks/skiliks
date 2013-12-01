@@ -1017,7 +1017,7 @@ span.required, .form-simple span.required {
 .yiiPager li, .yiiPager li a, .pager .yiiPager li, .pager .yiiPager li a {
     color: #fff;
     display: inline-block;
-    font-family:"ProximaNova-Semibold", Sans-Serif;
+    font-family: Sans-Serif;
 }
 .yiiPager a, .pager .yiiPager a {
     margin: 0px 2px;
@@ -1035,7 +1035,7 @@ span.required, .form-simple span.required {
 .pager .yiiPager .previous a:visited, .pager .yiiPager .next a:visited {
     background: #6caab3;
     border: none;
-    font-family:"ProximaNova-Semibold", Sans-Serif;
+    font-family: Sans-Serif;
 }
 .yiiPager a:link, .pager .yiiPager a:link, .yiiPager a:visited, .pager .yiiPager a:visited {
     border:none;

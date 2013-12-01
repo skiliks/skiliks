@@ -53,7 +53,7 @@ var fixLogotypes = function() {
                 success: function (data) {
                     simulation_popup.html(data);
                     simulation_popup.dialog('open');
-                    Cufon.refresh();
+                    /* Cufon.refresh(); */
                     // fixSimResultsDialog {
                     $('.simulation-details .estmfooter a').click(function () {
                         fixSimResultsDialog();
@@ -227,7 +227,7 @@ var fixLogotypes = function() {
                     width:881,
                     draggable: false,
                     open: function( event, ui ) {
-                        Cufon.refresh();
+                        /* Cufon.refresh(); */
                         $('.start-lite-simulation-now').click(function() {
                             $('.start-lite-simulation-now').addClass('clicked');
                             $('#yum-user-registration-form-activation-success').submit();
@@ -264,7 +264,7 @@ var fixLogotypes = function() {
                 width:881,
                 draggable: false,
                 open: function( event, ui ) {
-                    Cufon.refresh();
+                    //Cufon.refresh();
                     $('.start-lite-simulation-now').click(function() {
                         location.assign(href);
                     });
@@ -299,7 +299,7 @@ var fixLogotypes = function() {
                         });
                     }
 
-                    Cufon.refresh();
+                    //Cufon.refresh();
                 }
             });
 
@@ -406,7 +406,7 @@ var fixLogotypes = function() {
         // delete vacancy }
 
         $(window).on('resize', function () {
-            Cufon.refresh();
+            //Cufon.refresh();
 
             fixLogotypes();
         });
@@ -432,8 +432,10 @@ var fixLogotypes = function() {
 
         // show/hide sign-in box {
         $('.sign-in-link').click(function(event){
-            event.preventDefault();
+
+            event.preventDefault(event);
             $(".sign-in-box").dialog('open');
+            return false;
         });
 
         var pre_simulation_popup = $(".dashboard .full-simulation-info-popup");
@@ -481,7 +483,7 @@ var fixLogotypes = function() {
                             resizable: false,
                             width:881,
                             open: function( event, ui ) {
-                                Cufon.refresh();
+                                //Cufon.refresh();
 
                                 // пользователь выбирает не прерывать текущую симуляцию
                                 $('.exists-self-to-self-simulation-warning-popup .back-button').click(function(){
@@ -535,7 +537,7 @@ var fixLogotypes = function() {
                     width:881,
                     open: function( event, ui ) {
                         $('.start-full-simulation-next').attr('data-href', href);
-                        Cufon.refresh();
+                        //Cufon.refresh();
                     }
                 });
             } else {
@@ -575,7 +577,7 @@ var fixLogotypes = function() {
                                 $("."+data.popup_class).find('.tariff_end').text(data.tariff_end);
                                 $("."+data.popup_class).find('.tariff-link').attr('href', "/payment/order/"+slug);
                                 $("."+data.popup_class).find('.invite_limits').text(data.invite_limits);
-                                Cufon.refresh();
+                                //Cufon.refresh();
                             }
                         });
                     } else {
@@ -654,7 +656,7 @@ var fixLogotypes = function() {
                 }
             });
             $(".form-vacancy").dialog('open');
-            Cufon.refresh();
+            //Cufon.refresh();
         });
 
         // password recovery {
@@ -673,7 +675,7 @@ var fixLogotypes = function() {
                     of: $('#top header #static-page-links')
                 },
                 width: 275,
-                open: function( event, ui ) { Cufon.refresh(); }
+                open: function( event, ui ) { /*Cufon.refresh();*/ }
             });
             return false;
         });
@@ -729,7 +731,7 @@ var fixLogotypes = function() {
                 $(this).css('color', '#555742');
                 $(this).removeClass("active");
             }
-            Cufon.refresh();
+            //Cufon.refresh();
         })
 
         $(".change-simulation-result-render").click(function() {
@@ -779,7 +781,7 @@ var fixLogotypes = function() {
                                         }
                                     });
                                 }
-                                Cufon.refresh();
+                                //Cufon.refresh();
                             }
                         });
 
@@ -787,7 +789,7 @@ var fixLogotypes = function() {
                     });
                 }
             });
-            Cufon.refresh();
+            //Cufon.refresh();
             $(".ui-dialog-titlebar").removeClass('ui-widget-header');
             return false;
         });
@@ -879,7 +881,7 @@ var fixLogotypes = function() {
                     var a = $(this).next().toggle();
                     $(this).parent().parent().toggleClass('selected-sk');
                 }
-                Cufon.refresh();
+                //Cufon.refresh();
             });
 
             $('.invites-smallmenu-item').click(function(){
