@@ -1,6 +1,6 @@
 <div id="tariff-expired-popup">
     <div style="clear: both;"></div>
-    <div class="ProximaNova-Bold" style="overflow-y:hidden;">
+    <div class="message-text" style="overflow-y:hidden;">
         Ваш тарифный план истёк. Вы можете его <a href="<?= MailHelper::createUrlWithHostname('profile/corporate/tariff') ?>">продлить</a> или <a href="<?= MailHelper::createUrlWithHostname('static/tariffs') ?>">оформить новый</a>.
     </div>
 </div>

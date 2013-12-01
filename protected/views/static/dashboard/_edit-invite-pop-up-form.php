@@ -40,7 +40,7 @@
          $( ".form-invite-message-editor").dialog({
             modal: true,
             width: 780,
-            open: function( event, ui ) { Cufon.refresh(); }
+            open: function( event, ui ) { /*Cufon.refresh();*/ }
 
         });
         $( ".form-invite-message-editor").dialog('close');

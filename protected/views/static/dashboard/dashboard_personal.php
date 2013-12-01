@@ -13,9 +13,9 @@
            class="start-lite-simulation-btn start-lite-simulation-btn-no-margin start-lite-in-personal light-btn">
             Пройти демо (<?= Yii::app()->params['demoDuration'] ?> мин)
         </a>
-        <div class="popover popover-div-on-hover dashboard-personal-change-percentile"><div class="popover-triangle"></div><div class="popover-content"><div class="popup-content ProximaNova">Переключение между относительным и абсолютным рейтингом.</div></div></div>
+        <div class="popover popover-div-on-hover dashboard-personal-change-percentile"><div class="popover-triangle"></div><div class="popover-content"><div class="popup-content">Переключение между относительным и абсолютным рейтингом.</div></div></div>
         <h1 class="thetitle received-invites-personal">Полученные приглашения</h1>
-        <div class="change-simulation-result-render personal-button ProximaNova-Bold">
+        <div class="change-simulation-result-render personal-button">
             <?php if($user->profile->assessment_results_render_type == "standard") : ?>
                 Относительный рейтинг
             <?php else : ?>

@@ -3962,12 +3962,12 @@ body.action-controller-corporateReferrals-static-profile .popup-before-start-sim
         width: 700px !important;
     }
     .dialogReferralPending .list-ordered p.ProximaNova {
-        font-size: 12px;
-        text-align: center;
+        /*font-size: 12px;
+        text-align: center;*/
     }
     .dialogReferralRejected .list-ordered p.ProximaNova {
-        font-size: 12px;
-        text-align: center;
+        /*font-size: 12px;
+        text-align: center;*/
     }
     #corporate-invitations-list-box .grid-view tr th:last-child, #corporate-invitations-list-box .grid-view tr td:last-child {
         max-width: 110px;
@@ -5397,18 +5397,14 @@ ul.default li:hover {
     margin-top: 42px;
 }
 
-.referral-span-first .ProximaNova-20, .referral-span-first .ProximaNova-Bold-22px {
-    font-size: 20px;
-}
-
-.referral-right-div .ProximaNova-font-11px {
+.footnote-black {
     text-align: left;
     font-size: 11px;
     line-height: 12px;
     margin-top:11px;
 }
 
-.referral-right-div .ProximaNova-font-11px.with-margin-top {
+.footnote-black.with-margin-top {
     margin-top:30px;
 }
 
@@ -5521,18 +5517,14 @@ ul.default li:hover {
         margin-top: 33px;
     }
 
-    .referral-span-first .ProximaNova-20, .referral-span-first .ProximaNova-Bold-22px {
-        font-size: 16px;
-    }
-
-    .referral-right-div .ProximaNova-font-11px {
+    .footnote-black {
         text-align: left;
         font-size: 10px;
         line-height: 10px;
         margin-top: 10px;
     }
 
-    .referral-right-div .ProximaNova-font-11px.with-margin-top {
+    .footnote-black.with-margin-top {
         margin-top: 48px;
     }
 
@@ -5584,7 +5576,7 @@ ul.default li:hover {
     border-radius: 7px;
 }
 
-.show-popup-top .ProximaNova-Bold {
+.show-popup-top .message-text {
     font-size: 14px;
     margin-top:-3px;
     font-weight: bold;
@@ -5600,7 +5592,7 @@ ul.default li:hover {
         height: 48px !important;
     }
 
-    .show-popup-top .ProximaNova-Bold {
+    .show-popup-top .message-text {
         margin-top: 5px;
         font-size: 12px;
         color: #3d4041;
@@ -5691,7 +5683,7 @@ ul.default li:hover {
     }
 
 }
-.aglobalErrorMessage.emailIsExistAndNotActivated.ProximaNova a {
+.aglobalErrorMessage.emailIsExistAndNotActivated a {
     text-decoration: none;
 }
 
