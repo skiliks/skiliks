@@ -68,15 +68,6 @@ nav ul, nav ul li {
     font-style: normal;
 }
 @font-face {
-    font-family: 'ProximaNova-Semibold';
-    src: url('../fonts/ProximaNova-Semibold.eot');
-    src: url('../fonts/ProximaNova-Semibold.woff') format('woff'),
-    url('../fonts/ProximaNova-Semibold.ttf') format('truetype'),
-    url('../fonts/ProximaNova-Semibold.svg') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
-@font-face {
     font-family: 'SegoePrint';
     src: url('../fonts/25D0FC_0_0.eot');
     src: url('../fonts/25D0FC_0_0.eot?#iefix') format('embedded-opentype'),url('../fonts/25D0FC_0_0.woff') format('woff'),url('../fonts/25D0FC_0_0.ttf') format('truetype');

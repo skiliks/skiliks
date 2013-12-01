@@ -59,7 +59,7 @@ $lang = Yii::app()->getLanguage();
     <?php endif ?>
 <?php endforeach ?>
 
-    <p class="text-left text16 ProximaNova-Bold additional-text">
+    <p class="text-left text16 additional-text">
         <?php if ($lang == 'ru'): ?>
         <sup>*</sup> Первый месяц использования
         <?php endif; ?>
