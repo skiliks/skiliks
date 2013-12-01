@@ -427,4 +427,5 @@ return array(
     'www.skiliks.com - online simulation aimed at testing management skills' => 'www.skiliks.com - онлайн симуляция для оценки навыков менеджеров',
     'This user\'s name already exists.' => 'Такое имя пользователя уже занято.',
     'Additional simulations' => 'Дополнительные симуляции',
+    'Your account has been locked' => 'Ваш аккаунт заблокирован'
 );
