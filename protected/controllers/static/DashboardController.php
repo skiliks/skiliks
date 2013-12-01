@@ -222,6 +222,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         }
 
         $user = $user->data();  //YumWebUser -> YumUser
+        /* @var YumUser $user */
 
         // owner only can delete his invite
         if ($user->id !== $invite->owner_id) {
@@ -253,9 +254,17 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             $this->redirect(Yii::app()->request->urlReferrer);
         }
 
+
+        $initValue = $user->account_corporate->getTotalAvailableInvitesLimit();
+               UserService::logCorporateInviteMovementAdd(
+                'Ивайт удален пользователем в статусе '.$invite->status,
+                $this->user->getAccount(),
+                $initValue
+            );
+
         $invite->deleteInvite();
 
-        $user->getAccount()->increaseLimit($invite);
+        $user->account_corporate->increaseLimit($invite);
 
         $this->redirect(Yii::app()->request->urlReferrer);
     }
