@@ -23,7 +23,7 @@ class SiteController extends SiteBaseController
          */
         if(preg_match('/(?i)msie [5|6|7|8|9]/', $_SERVER['HTTP_USER_AGENT']))
         {
-            $this->redirect('/old-browser');
+            $this->redirect('/system-mismatch');
         }
 
 

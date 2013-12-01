@@ -32,7 +32,7 @@ try {
                 for (var name in minSupport) {
                     if (minSupport.hasOwnProperty(name)) {
                         if ($.browser[name]) {
-                            if (parseFloat($.browser.version) >= minSupport[name]) {
+                            if (parseFloat($.browser.version) >= minSupport[name] && this.isAllowOS(['Windows', 'MacOS'])) {
                                 updateImageLoaderBar('Проверка совместимости браузера... OK!', 0.85, true);
                                 return true;
                             } else {
@@ -142,6 +142,26 @@ try {
 
                 updateImageLoaderBar('Запуск симуляции...', 0.95, true);
                 return true;
+            },
+
+            isAllowOS:function(list) {
+
+                var OSName="Unknown OS";
+                if (navigator.appVersion.indexOf("Win")!=-1) OSName="Windows";
+                if (navigator.appVersion.indexOf("Mac")!=-1) OSName="MacOS";
+                if (navigator.appVersion.indexOf("X11")!=-1) OSName="UNIX";
+                if (navigator.appVersion.indexOf("Linux")!=-1) OSName="Linux";
+
+                var result = false;
+
+                $.each(list, function(i, os_name) {
+                    if(OSName === os_name){
+                        result = true;
+                        return false;
+                    }
+                });
+                return result;
+
             }
         };
 
