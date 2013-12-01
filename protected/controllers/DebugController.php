@@ -291,6 +291,7 @@ class DebugController extends SiteBaseController
         '93.73.36.120',   //  Киев - воля
         '195.69.87.166',   // Киев - Андрей домашний
         '62.205.135.161',   // Teamcity
+        '188.32.209.89', // Таня
     ];
 
     /**
@@ -326,6 +327,8 @@ class DebugController extends SiteBaseController
          */
         '194.226.108.23' /* 700+ */ ,
         '194.226.108.22' /* 200+ */ ,
+        '194.226.108.22' /* 200+ */,
+        '46.39.37.145' /* 100+ */,
 
         '150.70.97.99','150.70.97.115','150.70.173.56','150.70.75.32','150.70.173.57', '150.70.97.98',
         '150.70.75.38','150.70.172.111','150.70.173.46','150.70.173.49','150.70.172.104', '150.70.97.124',
@@ -341,15 +344,17 @@ class DebugController extends SiteBaseController
         '171.101.226.159' /* 3 */, '103.31.186.84', '85.114.135.126', '95.211.192.202', '37.9.53.51', '1.234.83.11',
         '192.241.133.80', '97.79.239.37', '91.93.20.67', '87.240.182.162', '212.252.216.10', '188.138.115.94',
         '125.27.11.39', '213.183.59.3', '77.73.105.179', '46.119.112.117', '178.210.65.38', '37.57.133.189',
-        '78.46.42.239','188.64.170.222','188.143.232.103','194.226.108.22','217.20.184.45', '82.193.120.229',
+        '78.46.42.239','188.64.170.222','188.143.232.103','217.20.184.45', '82.193.120.229',
         '94.23.67.170','88.190.220.13' /* 15 */,'192.151.144.234','94.102.56.237','197.242.150.130','157.55.33.182',
-        '94.102.53.219' /* 4 */,'192.99.11.13','63.141.227.74' /* 6 */,'152.104.210.52','62.75.181.134','103.7.52.7',
+        '94.102.53.219' /* 4 */,'192.99.11.13','63.141.227.74' /* 6 */,'152.104.210.52','62.75.181.134' /*2*/,'103.7.52.7',
         '211.155.95.122' /* 10 */,'77.120.96.66' /* 4 */,'152.104.210.52'/* 5 */ ,'95.7.38.93' /* 4 */,'162.243.72.5' /* 4 */,'203.128.84.186',
-        '5.61.39.55' /* 2 */,'','','','','',
-        '','','','','','',
+        '5.61.39.55' /* 2 */,'95.211.223.32' /* 2 */,'94.102.49.37' /* 3 */,'80.86.84.72','176.31.13.28','',
+        '91.121.98.48' /* 6 */,'91.210.189.145' /* 3 */,'133.242.12.230'/* 5 */,'46.164.129.180' /* 5 */,'66.249.73.235','85.214.104.62',
+        '','','','','','','',
+        '','','','','','','',
         // '93.75.179.229', // он знает /admin_area
         /*'77.47.204.138' Таня? */
-        /*'188.32.209.89' Антон? */
+        /*'188.32.209.89' Антон? Таня! :) */
 
     ];
 
@@ -687,7 +692,20 @@ class DebugController extends SiteBaseController
             $log->isTrusted = true;
         }
 
+        if ('POST 302' == $log->response && '/dashboard' == $log->request) {
+            $log->isTrusted = true;
+        }
+
+        if ('POST 302' == $log->response && '/registration/' == $log->request) {
+            $log->isTrusted = true;
+        }
+
         if ('POST 302' == $log->response && '/registration' == $log->request) {
+            $log->isTrusted = true;
+        }
+
+        if ('POST 302' == $log->response && -1 < strstr($log->request, '/registration/by-link/')
+            && 67 == strlen($log->request)) {
             $log->isTrusted = true;
         }
 
@@ -746,7 +764,10 @@ class DebugController extends SiteBaseController
         }
 
         if (in_array($log->ip, self::$hackerIps)) {
+            $log->isHacker = true;
+        }
 
+        if (-1 < strstr($log->request, '144.76.56.104')) {
             $log->isHacker = true;
         }
 
@@ -1056,7 +1077,7 @@ class DebugController extends SiteBaseController
 
             $lineObj = $this->parseLogLine($line);
 
-            if ($this->isHackerRequest($lineObj->line, $lineObj->ip)) {
+            if ($this->isHackAdminkaRequest($lineObj)) {
 
                     echo sprintf(
                         '%15s %15s %15s %100s   %90s',
@@ -1110,7 +1131,7 @@ class DebugController extends SiteBaseController
 
             $lineObj = $this->parseLogLine($line);
 
-            if ($this->isHackerRequest($lineObj->line, $lineObj->ip)) {
+            if ($this->isHackAdminkaRequest($lineObj, $lineObj->ip)) {
                 $index = $lineObj->ip.' '.$lineObj->userAgent;
 
                 if (false == isset($n[$index])) {
@@ -1139,17 +1160,39 @@ class DebugController extends SiteBaseController
             <br/> That is all.';
     }
 
-    public function isHackerRequest($line, $ip) {
-        if ((-1 < strstr($line, 'user/auth ')
-        || -1 < strstr($line, '/admin_area ')
-        || -1 < strstr($line, 'admin')
-        || -1 < strstr($line, 'setup')
-        || -1 < strstr($line, 'cgi')
-        || -1 < strstr($line, 'admin.php')
-        || -1 < strstr($line, 'wp-login.php')
-        || -1 < strstr($line, '/admin_area/dashboard ')
-        || -1 < strstr($line, '/admin_area/login ')
-                ) && false == in_array($ip, self::$allowedIps)) {
+    /**
+     * @param StdClass $line
+     *
+     * @return bool
+     */
+    public function isHackAdminkaRequest($line) {
+        if ((-1 < strstr($line->request, '/admin_area ')
+                || -1 < strstr($line->request, 'admin')
+                || -1 < strstr($line->request, 'admin.php')
+                || -1 < strstr($line->request, 'wp-login.php')
+                || -1 < strstr($line->request, '/admin_area/dashboard ')
+                || -1 < strstr($line->request, '/admin_area/login ')
+            ) && false == in_array($line->ip, self::$allowedIps)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @param StdClass $line
+     *
+     * @return bool
+     */
+    public function isHackerRequest($line) {
+        if ((-1 < strstr($line->request, 'user/auth ')
+        || -1 < strstr($line->request, 'setup')
+        || -1 < strstr($line->request, 'cgi')
+                ) && false == in_array($line->ip, self::$allowedIps)) {
+            return true;
+        }
+
+        if ($this->isHackAdminkaRequest($line)) {
             return true;
         }
 
@@ -1188,7 +1231,7 @@ class DebugController extends SiteBaseController
 
             $lineObj = $this->parseLogLine($line);
 
-            if ($this->isHackerRequest($lineObj->line, $lineObj->ip)) {
+            if ($this->isHackerRequest($lineObj)) {
                 echo sprintf(
                     '%15s %15s %15s %100s   %90s',
                     $lineObj->date,
@@ -1240,7 +1283,7 @@ class DebugController extends SiteBaseController
 
             $lineObj = $this->parseLogLine($line);
 
-            if ($this->isHackerRequest($lineObj->line, $lineObj->ip)) {
+            if ($this->isHackerRequest($lineObj)) {
 
                     $index = $lineObj->ip.' '.$lineObj->userAgent.' '.$lineObj->response;
 
