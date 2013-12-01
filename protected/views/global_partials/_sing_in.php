@@ -105,7 +105,7 @@
             resizable: false,
             title: '<?php echo Yii::t('site', 'Sign in') ?>',
             width: 275,
-            open: function( event, ui ) { /*Cufon.refresh();/* }
+            open: function( event, ui ) { /* Cufon.refresh(); */ }
         });
         $(".sign-in-box").dialog("close");
 
