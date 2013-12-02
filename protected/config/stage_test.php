@@ -34,6 +34,7 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
         ),
     ),
     'params'=>array(
+        'isSkipOsCheck' => true, //Проверка ОС перед стартом игры
         'server_name' => 'http://test.skiliks.com/',
         'frontendUrl' => 'http://test.skiliks.com/',
         'sentry' => [
