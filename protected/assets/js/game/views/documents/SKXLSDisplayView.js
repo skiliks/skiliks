@@ -149,46 +149,26 @@ define([
                     }
                 });
 
+                // высота шапки окна екселя + высота закладок
+                var excelNavigationTotalHeight =
+                    this.$el.find('.header-inner').height()
+                    + this.$el.find('.toolbar').height()
+                    + this.$el.find('.sheet-tabs').height()
+                    - 42; // это реально магическое число
+
+                var newHeight = this.$el.height() - excelNavigationTotalHeight;
+
                 if (activeSheetView.oldWidth == activeSheetView.$el.width() &&
-                    activeSheetView.oldHeigth == activeSheetView.$el.height() ) {
+                    activeSheetView.oldHeigth == newHeight ) {
                     // нам не надо реперисовывать скролы, если размеры окна не поменялись
                     // перерисовка занимает время - в это время не работают горячие клавиши копирования
                     return;
                 }
 
-                if ('undefined' == typeof isResize) {
-                    isResize = false;
-                }
-
-                /**
-                 * IE (10) не может перерисовать SC нормально SKILIKS-4803, SKILIKS-4804.
-                 * Попытки сменить схему расчёта в activeSheetView.spreadsheet.InitializeSpreadsheetControl конкретно для IE
-                 * не привели к результату.
-                 * Задача заняла уже день, чтоисправить с js коде самого SC непонятно,
-                 * поэтому решение -- заново вызвать renderWindow() только для IE,
-                 * вместо перерисования активной вкладки.
-                 */
-                // Internet explorer {
-                // если вкладка открывается не первый раз: ('undefined' != typeof activeSheetView.oldWidth или Heigth)
-                // также надо обязательно перерисовывать окно при ресайзе в IE
-                if ( isResize && $.browser['msie']
-                    || ('undefined' != typeof activeSheetView.oldWidth
-                        && 'undefined' != typeof activeSheetView.oldHeigth
-                        && $.browser['msie'])) {
-
-                    var id = activeSheetView.$el.attr('id');
-                    var doc = me.options.model_instance.get('document');
-
-                    this.renderWindow();
-
-                    return;
-                }
-                // } Internet explorer
-
                 // /protected/assets/js/socialcalc/socialcalcspreadsheetcontrol.js:178
                 activeSheetView.spreadsheet.InitializeSpreadsheetControl(
                     $(activeSheetView.el).attr('id'),
-                    activeSheetView.$el.height(),
+                    newHeight,
                     activeSheetView.$el.width(),
                     0
                 );
@@ -197,7 +177,7 @@ define([
                 activeSheetView.spreadsheet.ExecuteCommand('redisplay', '');
 
                 activeSheetView.oldWidth = activeSheetView.$el.width();
-                activeSheetView.oldHeigth = activeSheetView.$el.height();
+                activeSheetView.oldHeigth = newHeight;
 
                 // показать скрытую, для данного окна, строку ввода формул
                 this.$('.menu_bar').show();

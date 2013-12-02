@@ -184,21 +184,34 @@ define([
                                             {
                                                 'value': 'Продолжить игру',
                                                 'onclick': function () {
-                                                        SKApp.simulation.stopPause(function() {
-                                                            $('.time').removeClass('paused');
-                                                            SKApp.server.requests_queue.each(function(request) {
-                                                                request.set('is_repeat_request', true);
-                                                                request.set('status', 'padding');
-                                                                if(request.get('url') === '/index.php/events/getState' || request.get('url') !== '/index.php/simulation/stop'){
-                                                                    SKApp.server.apiQueue(request.get('url'), request.get('data'), request.get('callback'));
-                                                                }else{
-                                                                    SKApp.server.api(request.get('url'), request.get('data'), request.get('callback'));
-                                                                }
+                                                    // Если происхои митинг - то не надо снимать игру с паузы
+                                                    // а то вермя пойдёт, а игрок не заметит
+                                                    // (на екране ведь затемнение "Ушел на встречу, вернусь в ХХ:ХХ.")
+                                                    var restoreAbortedRequests = function() {
+                                                        SKApp.server.requests_queue.each(function(request) {
+                                                            request.set('is_repeat_request', true);
+                                                            request.set('status', 'padding');
+                                                            if(request.get('url') === '/index.php/events/getState' || request.get('url') !== '/index.php/simulation/stop'){
+                                                                SKApp.server.apiQueue(request.get('url'), request.get('data'), request.get('callback'));
+                                                            }else{
+                                                                SKApp.server.api(request.get('url'), request.get('data'), request.get('callback'));
+                                                            }
 
-                                                            });
-                                                            me.success_dialog.remove();
-                                                            delete me.success_dialog;
                                                         });
+                                                        me.success_dialog.remove();
+                                                        delete me.success_dialog;
+                                                    }
+
+                                                    if (SKApp.simulation.isActiveMeetingPresent()) {
+                                                        console.log('isActiveMeetingPresent');
+                                                        restoreAbortedRequests();
+                                                    } else {
+                                                        SKApp.simulation.stopPause(function() {
+                                                            console.log('FALSE isActiveMeetingPresent');
+                                                            $('.time').removeClass('paused');
+                                                            restoreAbortedRequests();
+                                                        });
+                                                    }
                                                 }
                                             }
                                         ]

@@ -1,5 +1,5 @@
 <?php
-//============================================================+
+//######################################################################################+
 // File name   : tcpdf.php
 // Version     : 6.0.046
 // Begin       : 2002-08-03
@@ -65,7 +65,7 @@
 //  * XOBject Templates;
 //  * Layers and object visibility.
 //	* PDF/A-1b support
-//============================================================+
+//######################################################################################+
 
 /**
  * @file
@@ -2893,7 +2893,7 @@ class TCPDF {
 		// unset all class variables
 		$this->_destroy(true);
 		if (defined('K_TCPDF_THROW_EXCEPTION_ERROR') AND !K_TCPDF_THROW_EXCEPTION_ERROR) {
-			die('<strong>TCPDF ERROR: </strong>'.$msg);
+            throw new Exception('<strong>TCPDF ERROR: </strong>'.$msg);
 		} else {
 			throw new Exception('TCPDF ERROR: '.$msg);
 		}
@@ -24147,6 +24147,6 @@ Putting 1 is equivalent to putting 0 and calling Ln() just after. Default value:
 
 } // END OF TCPDF CLASS
 
-//============================================================+
+//######################################################################################+
 // END OF FILE
-//============================================================+
+//######################################################################################+

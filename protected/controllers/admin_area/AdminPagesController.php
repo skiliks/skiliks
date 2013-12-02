@@ -12,12 +12,14 @@ class AdminPagesController extends SiteBaseController {
         $user = Yii::app()->user->data();
         $this->user = $user;
         if(in_array($action->id, $public)){
+            parent::beforeAction($action);
             return true;
         }elseif(!$user->isAuth()){
             $this->redirect('/admin_area/login');
         }elseif(!$user->isAdmin()){
             $this->redirect('/dashboard');
         }
+        parent::beforeAction($action);
         return true;
     }
 
@@ -646,7 +648,7 @@ class AdminPagesController extends SiteBaseController {
         ]);
 
         if ($documentTemplate === null) {
-            throw new Exception("Файл не найден");
+            throw new Exception('Файл-шаблон для документа D1 не найден');
         }
 
         /** @var MyDocument $document */
@@ -668,7 +670,7 @@ class AdminPagesController extends SiteBaseController {
         if (file_exists($filePath)) {
             $xls = file_get_contents($filePath);
         } else {
-            throw new Exception("Файл не найден");
+            throw new Exception(sprintf('Файл %s не найден', $filePath));
         }
 
         $filename = $sim_id . '_' . $documentTemplate->fileName;
@@ -713,7 +715,6 @@ class AdminPagesController extends SiteBaseController {
         // taking up address to
 
         if( null !== $disableFilters) {
-            $address = '/admin_area/orders';
             $session["order_address"] = null;
         }
 
@@ -1413,9 +1414,26 @@ class AdminPagesController extends SiteBaseController {
         ]);
     }
 
+    public function actionUserDetailsByEmail() {
+        $email = Yii::app()->request->getParam('email');
+        $profile = YumProfile::model()->findByAttributes(['email' => urldecode($email)]);
+
+        if (null === $profile) {
+            Yii::app()->user->setFlash('error', sprintf('Не найден пользователь с email "%s".' ,$email));
+            $this->redirect('/admin_area');
+        }
+
+        $this->redirect(sprintf('/admin_area/user/%s/details/', $profile->user_id));
+    }
+
     public function actionUserDetails($userId)
     {
         $user = YumUser::model()->findByPk($userId);
+
+        if (null === $user) {
+            Yii::app()->user->setFlash('error', sprintf('Пользователь с ID = %s не найден', $userId));
+            $this->redirect('/admin_area/users');
+        }
 
         if($user->isCorporate()) {
             $isSwitchShowReferralInfoPopup = Yii::app()->request->getParam("switchReferralInfoPopup", null);
@@ -1439,6 +1457,7 @@ class AdminPagesController extends SiteBaseController {
 
     public function actionUserSetTariff($userId, $label)
     {
+        /* @var $user YumUser */
         $user = YumUser::model()->findByPk($userId);
         if (null === $user ) {
             Yii::app()->user->setFlash('error', sprintf(
@@ -1458,7 +1477,6 @@ class AdminPagesController extends SiteBaseController {
             $this->redirect('/admin_area/user/'.$userId.'/details');
         }
 
-        $initValue = $user->getAccount()->getTotalAvailableInvitesLimit();
         $tariff = Tariff::model()->findByAttributes(['slug' => $label]);
 
         if (null == $tariff) {
@@ -1470,11 +1488,7 @@ class AdminPagesController extends SiteBaseController {
         }
 
         // set Tariff {
-        $user->getAccount()->tariff_id = $tariff->id;
-        $user->getAccount()->tariff_activated_at = date('Y-m-d H:i:s');
-        $user->getAccount()->tariff_expired_at = date('Y-').(date('m')+1).date('-d H:i:s');
-        $user->getAccount()->invites_limit = $tariff->simulations_amount;
-        $user->getAccount()->save();
+        $user->getAccount()->setTariff($tariff, true);
         // set Tariff }
 
         $admin = Yii::app()->user->data();
@@ -2016,5 +2030,74 @@ class AdminPagesController extends SiteBaseController {
 
         $this->layout = '/admin_area/layouts/admin_main';
         $this->render('/admin_area/pages/not_corporate_emails', ['dataProvider' => $dataProvider, 'email'=>$email]);
+    }
+
+    public function actionSetInviteExpiredAt() {
+
+            $expired_at = $this->getParam('expired_at');
+            $invite_id = $this->getParam('invite_id');
+            if($expired_at !== null && $invite_id !== null){
+                /* @var $invite Invite */
+                $invite = Invite::model()->findByPk($invite_id);
+                $invite->expired_at = $expired_at;
+                $invite->save(false);
+            }
+        $this->redirect($this->request->urlReferrer);
+    }
+
+    public function actionExpireInvitesAndTariffPlans() {
+
+        $expiredInvites = InviteService::makeExpiredInvitesExpired();
+
+        $expiredAccounts = UserService::tariffExpired();
+        $this->layout = '/admin_area/layouts/admin_main';
+        $this->render('/admin_area/pages/expired-invites-and-tariff-plans', [
+            'expiredInvites'=>$expiredInvites,
+            'expiredAccounts'=>$expiredAccounts]);
+    }
+
+    public function actionChangeInviteExpireRule() {
+
+        $rule = $this->getParam('rule');
+        $user_id = $this->getParam('user_id');
+        if($rule !== null && $user_id !== null){
+            /* @var $user YumUser */
+            $user = YumUser::model()->findByPk($user_id);
+            $user->account_corporate->expire_invite_rule = $rule;
+            $user->account_corporate->save(false);
+        }
+        $this->redirect($this->request->urlReferrer);
+    }
+
+    public function actionListTariffPlan() {
+        $user = YumUser::model()->findByPk($this->getParam('user_id'));
+        $this->layout = '/admin_area/layouts/admin_main';
+        $this->render('/admin_area/pages/list-tariff-plan', ['user'=>$user]);
+    }
+
+    public function actionUpdateTariffPlan() {
+        if(null !== $this->getParam('finished_at') &&
+           null !== $this->getParam('started_at') &&
+           null !== $this->getParam('tariff_plan_id')
+          ) {
+
+            $tariff_plan = TariffPlan::model()->findByPk($this->getParam('tariff_plan_id'));
+            $tariff_plan->started_at = $this->getParam('started_at');
+            $tariff_plan->finished_at = $this->getParam('finished_at');
+            $tariff_plan->save(false);
+        }
+
+        $this->redirect($this->request->urlReferrer);
+    }
+
+    public function actionChangeSecurityRisk() {
+        if(null !== $this->getParam('set') && null !== $this->getParam('id')) {
+
+            $email = FreeEmailProvider::model()->findByPk($this->getParam('id'));
+            $email->security_risk = $this->getParam('set');
+            $email->save(false);
+        }
+
+        $this->redirect($this->request->urlReferrer);
     }
 }

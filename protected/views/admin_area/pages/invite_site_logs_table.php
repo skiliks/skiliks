@@ -35,8 +35,22 @@
             <td> <?= (null !== $invite->sent_time) ? $invite->sent_time : '-'; ?></td>
         </tr>
         <tr>
-            <td>Дата окончание</td>
+            <td>Дата, когда приглашение устареет</td>
             <td> <?= (null !== $invite->expired_at) ? $invite->expired_at : '-'; ?></td>
+        </tr>
+        <tr>
+            <td>Tariff Plan id</td>
+            <td> <?= (null !== $invite->tariff_plan_id) ? $invite->tariff_plan_id : '-'; ?></td>
+        </tr>
+        <tr>
+            <td>Задать дату, когда приглашение устареет</td>
+            <td>
+                <form class="form-inline" action="/admin_area/set-invite-expired-at">
+                    <input class="input-medium" type="text" name="expired_at" placeholder="Y-m-d H:i:s"/>
+                    <input type="hidden" name="invite_id" value="<?= $invite->id ?>"/>
+                    <input class="btn" type="submit" name="" value="Задать"/>
+                </form>
+            </td>
         </tr>
     </table>
 

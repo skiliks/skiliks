@@ -74,7 +74,7 @@
                 at: "left top",
                 of: $('#corporate-invitations-list-box .items')
             },
-            open: function( event, ui ) { Cufon.refresh(); }
+            open: function( event, ui ) { /*Cufon.refresh();*/ }
         });
 
         $( ".message_window").parent().addClass('popup-primary popup-site title-in-ui submit-primry cabmessage');

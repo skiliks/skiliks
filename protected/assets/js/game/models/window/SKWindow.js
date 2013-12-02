@@ -54,15 +54,44 @@ define([], function () {
          */
         initialize: function () {
             try {
+
+                // иногда обьект SKWindow приходит с id - что удивительно {
+                // и mainScreen и subname == undefined
+                // причину этого бага мы пока не нашли,
+                // но если такое случается, то игра становится заблокированной, что недопустимо
+                //
+                // - поэтому лечим последствия
+                if ('undefined' == typeof this.get('name') && 'undefined' == typeof this.get('subname')) {
+                    console.error('Warning! SKWindow name and subname is undefined. Id is ' + this.get('id'));
+
+                    if ('mainScreen' == this.get('id')) {
+                        this.set('name', 'mainScreen');
+                        this.set('subname', 'mainScreen');
+                              }
+                    if ('manual' == this.get('id')) {
+                        this.set('name', 'mainScreen');
+                        this.set('subname', 'manual');
+                    }
+
+                    if (window.Raven) {
+                        window.Raven.captureMessage(
+                            'Warning! SKWindow name and subname is undefined. Id is ' + this.get('id')
+                        );
+                    }
+                }
+                // иногда обьект SKWindow приходит с id - что удивительно }
+
                 var window_id = this.get('name') + "/" + this.get('subname');
                 if (window_id in SKApp.simulation.window_set) {
                     throw new Error ("Window " + window_id + " already exists");
                 }
                 if (! (this.get('name') in screens)) {
-                    throw new Error ('Unknown screen');
+                    console.log('initialize: ', this);
+                    throw new Error ('Unknown screen ' + this.get('name') + ', window: ' + window_id
+                        + ', subname: ' + this.get('subname')+ ', id: ' + this.get('id'));
                 }
                 if (! (this.get('subname') in screensSub)) {
-                    throw new Error ('Unknown subscreen');
+                    throw new Error ('Unknown subscreen ' + this.get('subname') + ', window: ' + window_id + ', screen: ' +  + this.get('name'));
                 }
                 if (!this.has('id')) {
                     this.set('id', this.get('subname'));

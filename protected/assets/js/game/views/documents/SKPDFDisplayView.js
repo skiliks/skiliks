@@ -102,7 +102,7 @@ define([
                             document_pdf_template,
                             { pages: this.options.model_instance.get('document').get('pages'),
                               isDisplaySettingsButton:this.isDisplaySettingsButton,
-                              documents_path:'http://'+window.location.hostname+'/documents/templates/'
+                              documents_path: 'http://' + window.location.hostname + window.assetsUrl + '/img/documents/templates/'
                             }
                         )
                     );

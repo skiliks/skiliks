@@ -397,7 +397,7 @@ class ProfileController extends SiteBaseController implements AccountPageControl
             $this->redirect('/dashboard');
         }
 
-        $this->render('tariff_corporate', []);
+        $this->render('tariff_corporate', ['user'=>$this->user]);
     }
 
     public function actionCorporateReferrals() {
@@ -694,5 +694,41 @@ class ProfileController extends SiteBaseController implements AccountPageControl
             'specializations' => $specializations,
             'positionLevels'  => $positionLevels,
         ]);
+    }
+
+    public function actionSaveAssessmentAnalyticFile2()
+    {
+        $this->checkUser();
+
+        if(!$this->user->isCorporate()) {
+            $this->redirect('/dashboard');
+        }else{
+            $user_assessment_version = $this->getParam('version');
+            $system_assessment_version = $this->getConfig("assessment_engine_version");
+            if($user_assessment_version === $system_assessment_version) {
+                $path = SimulationService::saveLogsAsExcelReport2ForCorporateUser(
+                    $this->user->account_corporate,
+                    $user_assessment_version);
+            } else {
+                $path = SimulationService::createPathForAnalyticsFile($this->user->id, $user_assessment_version);
+            }
+            if($path !== null) {
+                if (file_exists($path)) {
+                    $xls = file_get_contents($path);
+                } else {
+                    Yii::app()->user->setFlash('error', 'Файл не найден');
+                    $this->redirect('/dashboard');
+                }
+
+                $filename = 'Analysis_file_'.$this->getParam('version').'.xlsx';
+                header('Content-Type:   application/vnd.ms-excel; charset=utf-8');
+                header('Content-Disposition: attachment; filename="' . $filename . '"');
+                echo $xls;
+            }else{
+                Yii::app()->user->setFlash('error', 'У вас нет пройденных симуляций для сравнения');
+                $this->redirect('/dashboard');
+            }
+        }
+
     }
 }

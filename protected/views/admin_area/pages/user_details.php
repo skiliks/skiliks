@@ -1,7 +1,7 @@
 <?php
 $assetsUrl = $this->getAssetsUrl();
 ?>
-
+<?php /* @var $user YumUser */ ?>
 <br/>
 <br/>
 
@@ -29,22 +29,40 @@ $assetsUrl = $this->getAssetsUrl();
     Изменить пароль</a>
 <?php if ($user->isCorporate()): ?>
     &nbsp; &nbsp;
-    <a class="btn btn-info"
-       href="<?= $this->createAbsoluteUrl('admin_area/AdminPages/UserReferrals', ['userId' => $user->id]) ?>">
-        <i class="icon icon-share icon-white"></i>&nbsp;
-        Рефераллы</a>
-    &nbsp; &nbsp;
-    <a class="btn btn-info" href="/admin_area/corporate-account/<?= $user->id ?>/invite-limit-logs">Логи списания/зачисления симуляций</a>
-
-    <button class="btn btn-success ban-corporate-user" data-id="<?= $user->id ?>" data-email="<?= $user->profile->email ?>">Забанить аккаунт</button>
-
+    <a class="btn btn-success ban-corporate-user" data-id="<?= $user->id ?>" data-email="<?= $user->profile->email ?>">
+        <i class="icon icon-ban-circle icon-white"></i>
+        Забанить аккаунт
+    </a>
 <?php endif; ?>
 
 &nbsp; &nbsp;
-<a class="btn btn-success" href="/admin_area/login/ghost/<?= $user->id ?>">Войти на сайт от имени пользователя</a>
+<a class="btn btn-success" href="/admin_area/login/ghost/<?= $user->id ?>">
+    <i class="icon icon-home icon-white"></i>
+    Войти на сайт от имени пользователя
+</a>
 
-<br/>
-<br/>
+<!-- разделитель кнопок -->
+<p>&nbsp; &nbsp;</p>
+
+<?php if($user->isCorporate()) : ?>
+    <a class="btn btn-info"
+       href="<?= $this->createAbsoluteUrl('admin_area/AdminPages/UserReferrals', ['userId' => $user->id]) ?>">
+        <i class="icon icon-gift icon-white"></i>&nbsp;
+        Рефераллы</a>
+    &nbsp; &nbsp;
+    <a class="btn btn-info" href="/admin_area/corporate-account/<?= $user->id ?>/invite-limit-logs">
+        <i class="icon icon-list icon-white"></i>
+        Логи списания/зачисления симуляций
+    </a>
+    &nbsp; &nbsp;
+    <a class="btn btn-info" href="/admin_area/list-tariff-plan?user_id=<?= $user->id ?>">
+        <strong>$</strong>
+        Тарифные планы
+    </a>
+    <br/>
+    <br/>
+    <br/>
+<?php endif ?>
 
 <table class="table">
     <tr>
@@ -113,7 +131,7 @@ $assetsUrl = $this->getAssetsUrl();
         <?php if ($user->isCorporate()) : ?>
             <td>Текущий тарифный план</td>
             <td>
-                <?= $user->getAccount()->tariff->label ?>
+                <?= $user->getAccount()->getActiveTariff()->label ?>
 
                 &nbsp;&nbsp;
 
@@ -147,7 +165,7 @@ $assetsUrl = $this->getAssetsUrl();
         <?php if ($user->isCorporate()) : ?>
             <td>Тариф истекает</td>
             <td>
-                <?= $user->getAccount()->tariff_expired_at ?>
+                <?= $user->getAccount()->getActiveTariffPlan()->finished_at ?>
             </td>
             <td>
                 Добавить симуляции в аккаунт
@@ -204,15 +222,52 @@ $assetsUrl = $this->getAssetsUrl();
                         </form>
 
                 </td>
-                <td></td>
-                <td></td>
+                <?php if ($user->isCorporate()) : ?>
+                    <td>Правило для срока годности приглашения</td>
+                    <td>
+                        <?= $user->getAccount()->expire_invite_rule ?>
+
+                        &nbsp;&nbsp;
+
+                        <div class="btn-group">
+                            <a class=" btn btn-success dropdown-toggle" data-toggle="dropdown" href="#">
+                                <i class="icon icon-refresh icon-white"></i>
+                                Сменить на:
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu pull-right">
+                                <?php if($user->getAccount()->expire_invite_rule === 'standard') : ?>
+                                    <li>
+                                        <a href="/admin_area/change-invite-expire-rule/?user_id=<?= $user->id ?>&rule=by_tariff">
+                                            By Tariff
+                                        </a>
+                                    </li>
+                                <?php else : ?>
+                                    <li>
+                                        <a href="/admin_area/change-invite-expire-rule/?user_id=<?= $user->id ?>&rule=standard">
+                                            Standard
+                                        </a>
+                                    </li>
+                                <?php endif ?>
+                            </ul>
+                        </div>
+                    </td>
+                <?php else : ?>
+                    <td></td>
+                    <td></td>
+                <?php endif ?>
             </tr>
-        <?php endif; ?>
+        <?php endif ?>
     <tr>
         <td>IP Address</td>
         <td><?= ($user->ip_address !== null) ? $user->ip_address : "-"; ?></td>
+        <?php if ($user->isCorporate()) : ?>
+        <td>Tariff Plan id</td>
+        <td><?= $user->account_corporate->getActiveTariffPlan()->id ?></td>
+        <?php else: ?>
         <td></td>
         <td></td>
+        <?php endif ?>
     </tr>
 
 </table>

@@ -64,7 +64,7 @@
             )); ?>
             <?php $recoveryForm = new YumPasswordRecoveryForm; ?>
             <div class="row">
-                <?php echo $form->textField($recoveryForm, 'email', ['placeholder'=>Yii::t("site","Enter email")]); ?>
+                <?php echo $form->textField($recoveryForm, 'email', ['placeholder'=>Yii::t("site", "Enter email")]); ?>
                 <?php echo $form->error($recoveryForm, 'email'); ?>
             </div>
 
@@ -105,7 +105,7 @@
             resizable: false,
             title: '<?php echo Yii::t('site', 'Sign in') ?>',
             width: 275,
-            open: function( event, ui ) { Cufon.refresh(); }
+            open: function( event, ui ) { /* Cufon.refresh(); */ }
         });
         $(".sign-in-box").dialog("close");
 

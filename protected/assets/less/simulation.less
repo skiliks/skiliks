@@ -16,6 +16,21 @@
   }
 }
 
+@-webkit-keyframes icon-bouncer {
+  0%, 16%, 33%, 50%, 100% {
+    right: 0;
+  }
+  8% {
+    right: 40px;
+  }
+  25% {
+    right: 20px;
+  }
+  42% {
+    right: 10px;
+  }
+}
+
 @keyframes icon-bouncer {
   0%, 16%, 33%, 50%, 100% {
     right: 0;
@@ -451,9 +466,15 @@ body {
     .only-active, .icon-button-disabled {
       #icons_phone {
         background: url("../img/main-screen/icon-phone-disabled.png") no-repeat;
+        .counter {
+          background: url("../img/main-screen/bg-new-disabled.png") no-repeat;
+        }
       }
       #icons_visit {
         background: url("../img/main-screen/icon-door-disabled.png") no-repeat;
+        .counter  {
+          background: url("../img/main-screen/bg-new-disabled.png") no-repeat;
+        }
       }
     }
 
@@ -474,8 +495,11 @@ body {
     }
 
     .icon-active {
+      -webkit-animation: icon-bouncer 2s linear 10;
       animation: icon-bouncer 2s linear 10;
+
       &.icon-active-short {
+        -webkit-animation-iteration-count: 2;
         animation-iteration-count: 2;
       }
     }

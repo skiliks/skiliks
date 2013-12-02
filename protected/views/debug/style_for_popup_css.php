@@ -10,8 +10,8 @@ $cs->scriptMap=array(
 );
 
 $cs->registerCoreScript('jquery');
-$cs->registerScriptFile($assetsUrl . '/js/cufon-yui.js');
-$cs->registerScriptFile($assetsUrl . '/js/ProximaNova.font.js');
+//$cs->registerScriptFile($assetsUrl . '/js/cufon-yui.js');
+//$cs->registerScriptFile($assetsUrl . '/js/ProximaNova.font.js');
 
 $cs->registerCssFile($assetsUrl . "/css/static.css");
 ?>
@@ -92,11 +92,4 @@ body {
 
 <div class="ui-widget-overlay"></div>
 </body>
-
-<script type="text/javascript">
-    jQuery(document).ready(function(){
-        Cufon.replace('.btn', {fontFamily:"ProximaNova-Bold", hover: true});
-    });
-</script>
-
 </html>

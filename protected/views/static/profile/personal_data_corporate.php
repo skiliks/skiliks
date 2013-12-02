@@ -14,6 +14,8 @@
 </style>
 
 <h2 class="thetitle"><?php echo Yii::t('site', 'Profile') ?></h2>
+<a href="/profile/save-analytic-file-2?version=v1">Аналитический файл v1</a>
+<a href="/profile/save-analytic-file-2?version=v2">Аналитический файл v2</a>
 <div class="transparent-boder profilewrap">
 
 <?php $this->renderPartial('_menu_corporate', ['active' => ['personal-data' => true]]) ?>

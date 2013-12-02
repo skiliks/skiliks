@@ -6,8 +6,8 @@ class PagesController extends SiteBaseController
 
     public function beforeAction($action)
     {
-        $user = Yii::app()->user;
-        if (!$user->isGuest && $user->data()->account_corporate && !$user->data()->isActive()) {
+        $this->user = Yii::app()->user->data();
+        if (!$this->user->isAuth() && $this->user->account_corporate && !$this->user->isActive()) {
             $this->redirect('/userAuth/afterRegistration');
         }
 
@@ -44,11 +44,12 @@ class PagesController extends SiteBaseController
      */
     public function actionTariffs()
     {
-        $user = Yii::app()->user;
-        $user = $user->data();
+        if($this->user->isAuth()) {
+            Yii::app()->setLanguage("ru");
+        }
 
         $this->render('tariffs', [
-            'tariffs' => Tariff::model()->findAll('',['order' => 'order ASD']), 'user' => $user
+            'tariffs' => Tariff::model()->findAll('',['order' => 'order ASD']), 'user' => $this->user
         ]);
     }
 

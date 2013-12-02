@@ -24,6 +24,7 @@
  * @property string $tutorial_displayed_at
  * @property string $tutorial_finished_at
  * @property integer $can_be_reloaded
+ * @property integer $tariff_plan_id
  * @property boolean $is_display_simulation_results
  * @property string $stacktrace
  * @property bolean $is_crashed
@@ -111,8 +112,16 @@ class Invite extends CActiveRecord
         if (null === $days) {
             $days = Yii::app()->params['inviteExpired'];
         }
+        $account = UserAccountCorporate::model()->findByAttributes(['user_id'=>$this->owner_id]);
+        /* @var $account UserAccountCorporate */
+        if($account->expire_invite_rule === UserAccountCorporate::EXPIRE_INVITE_RULE_BY_TARIFF) {
 
-        $this->expired_at = date("Y-m-d H:i:s", time() + 60*60*24* $days);
+            $this->expired_at = (new DateTime($account->getActiveTariffPlan()->finished_at))->modify('+'.$days.' days')->format("Y-m-d H:i:s");
+
+        } else {
+
+            $this->expired_at = (new DateTime())->modify('+'.$days.' days')->format("Y-m-d H:i:s");
+        }
     }
 
     /**
@@ -246,6 +255,17 @@ class Invite extends CActiveRecord
     }
 
     /**
+     * Этот мотод-заглушка нужен для того чтобы не вызывать исключения при сохранении объекта
+     * так как поля fullname в БД не существует - для него нет сеттера и происходит ошибка валидации
+     *
+     * @return string
+     */
+    public function setFullname()
+    {
+        // nothing
+    }
+
+    /**
      * @return string
      */
     public function getStatusText()
@@ -304,10 +324,11 @@ class Invite extends CActiveRecord
         $invite->scenario_id = $scenario->id;
         $invite->status      = Invite::STATUS_ACCEPTED;
         $invite->sent_time   = date("Y-m-d H:i:s");
-        $invite->setExpiredAt();
         if($scenario->isFull()) {
+            $invite->setExpiredAt();
             $invite->tutorial_scenario_id = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_TUTORIAL])->id;
             $invite->is_display_simulation_results = 1;
+            $invite->setTariffPlan();
         }
         $invite->updated_at = (new DateTime('now', new DateTimeZone('Europe/Moscow')))->format("Y-m-d H:i:s");
         $invite->email = strtolower($user->profile->email);
@@ -386,9 +407,11 @@ class Invite extends CActiveRecord
         if (null === $account) {
             return false;
         }
-
-        $account->invites_limit++;
-        $account->save();
+        /* @var $account UserAccountCorporate */
+        if($account->getActiveTariffPlan()->id === $this->tariff_plan_id) {
+            $account->invites_limit++;
+            $account->save(false);
+        }
 
         return true;
     }
@@ -492,6 +515,7 @@ class Invite extends CActiveRecord
 			array('simulation_id, scenario_id, tutorial_scenario_id, tutorial_displayed_at', 'safe'),
 			array('tutorial_finished_at, can_be_reloaded, is_display_simulation_results', 'safe'),
 			array('stacktrace, is_crashed, expired_at', 'safe'),
+			array('fullname', 'length', 'max' => 50, 'allowEmpty' => true),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, owner_id, receiver_id, firstname, lastname, email, message, signature, code, vacancy_id, status, sent_time', 'safe', 'on'=>'search'),
@@ -938,6 +962,10 @@ class Invite extends CActiveRecord
             return "не задано";
         }
         return self::$statusTextRus[$code];
+    }
+
+    public function setTariffPlan() {
+        $this->tariff_plan_id = $this->ownerUser->account_corporate->getActiveTariffPlan()->id;
     }
 
 }
