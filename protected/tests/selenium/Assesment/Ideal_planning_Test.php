@@ -48,9 +48,9 @@ class Ideal_planning_Test extends SeleniumTestHelper
         sleep(45);
 
         $this->simulation_showLogs();
+        $this->waitForVisible(Yii::app()->params['test_mappings']['log']['group_1_1']);
+        $this->assertText(Yii::app()->params['test_mappings']['log']['group_1_1'],"100.00");
         $this->waitForVisible(Yii::app()->params['test_mappings']['log']['group_1_2']);
         $this->assertText(Yii::app()->params['test_mappings']['log']['group_1_2'],"100.00");
-        $this->waitForVisible(Yii::app()->params['test_mappings']['log']['group_1_3']);
-        $this->assertText(Yii::app()->params['test_mappings']['log']['group_1_3'],"100.00");
     }
 }
