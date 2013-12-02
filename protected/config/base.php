@@ -92,7 +92,8 @@ return CMap::mergeArray(
         // application-level parameters that can be accessed
         // using Yii::app()->params['paramName']
         'params' => array(
-            'server_name'                   => 'http://skiliks.com/',
+            // имя сервера, стоб понимать с какого сервера пришли письма про подозрительную активность
+            'server_name'                   => 'не указан',
 
             // просто подпись на сайте, вынесена в конфиг - чтоб было проще править
             'demoDuration'                  => 5, // min
@@ -153,7 +154,7 @@ return CMap::mergeArray(
 
                 'newInvoiceToBooker'       => '//global_partials/mails/new_invoice',
 
-                'completeInvoiceUserEmail' => '//global_partials/mails/completeInvoiceUserEmail',
+                'completeInvoiceUserEmail' => 'completeInvoiceUserEmail',
 
                 'referrerInviteEmail'      => '//global_partials/mails/referrerEmail',
 
@@ -181,8 +182,39 @@ return CMap::mergeArray(
                 ]
             ],
 
+            'imagesForPreLoad' => [
+                'img/papka-small.png',
+                'img/pause.png',
+                'img/phone-small.png',
+                'img/plan-small.png',
+                'img/pochta-small.png',
+                'img/workplace-small.png',
+                'img/doc-icons.png',
+                'img/doc-icons-mini.png',
+                'img/window-title-dots.png',
+                'img/main-screen/bg-main-light.jpg',
+
+                // SocialCacl:
+                'img/excel',
+
+                'img/manual',
+
+                'img/documents',
+                'img/interface',
+                'img/mail',
+                'img/main-screen',
+                'img/phone',
+                'img/planner',
+                'img/tag-handler',
+
+                'img/visitor',
+            ],
+
             // This part will be sent to JS
             'public' => [
+
+                'isSkipOsCheck'=>false, //Проверка ОС перед стартом игры
+
                 'runMigrationOn'                     => 'nobody', //production - skiliks.com, live - live.skiliks.com, loc - loc.skiliks.com
 
                 // Позволено ли игроку пропустить интро видео
@@ -196,9 +228,6 @@ return CMap::mergeArray(
 
                 // Адрес хранилища видео и звуков
                 'storageURL'                         => 'http://storage.dev.skiliks.com/',
-
-                //
-                'afterCallZoomerDuration'            => 2000, // milliseconds
 
                 // Показывать ли 500 ошибки с сирвера в виде сообщений в игре
                 'isDisplayServer500errors'           => false,
@@ -284,7 +313,8 @@ return CMap::mergeArray(
                 'Desc'           => 'Оплата согласно...',
                 'sMerchantPass1' => 'dcZz6P318a',
                 'sMerchantPass2' => 'S358oP0ikj'
-            ]
+            ],
+            'assessment_engine_version' => 'v2' //версия оценки(используеться в выводе попапа с оценкой)
     //            Test robokassa
     //            [
     //                'url'            => 'http://test.robokassa.ru/Index.aspx',

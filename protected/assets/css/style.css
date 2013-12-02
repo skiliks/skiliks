@@ -331,7 +331,7 @@ a:focus, a:active {
         font-family:'ProximaNova-Regular';
 		line-height: 17px;
 		text-indent: 4px;
-        width: 110px;
+        /*width: 110px;*/
 	}
 	.sbToggle{
 		background-image:url("../img/bg-select-toggle-min.png");
@@ -2565,7 +2565,7 @@ html[lang="en"] .footer .social_networks {
         font-size:22px;
     }
 	.login-form{
-	    width:190px;
+	    width:220px;
 	    padding:7px 24px 7px 10px;
 	    top:75px;
 	    /*margin-left:33px;*/
@@ -2604,7 +2604,7 @@ html[lang="en"] .footer .social_networks {
     .popup-recovery input[type=text],
     .change_pass-pop-up div input[type=password], #change-password-form input[type="password"] {
         font-size:11px;
-		width:171px;
+		width: 206px;
 		height:11px;
 		padding:6px 7px;
 	}
@@ -3321,7 +3321,7 @@ ul.profile-menu li {
     color:#232323;
     cursor:pointer;
     display: inline-block;
-    height: 24px;
+    height: 22px;
     text-decoration: none;
     width: 22px;
 }
@@ -3962,12 +3962,12 @@ body.action-controller-corporateReferrals-static-profile .popup-before-start-sim
         width: 700px !important;
     }
     .dialogReferralPending .list-ordered p.ProximaNova {
-        font-size: 12px;
-        text-align: center;
+        /*font-size: 12px;
+        text-align: center;*/
     }
     .dialogReferralRejected .list-ordered p.ProximaNova {
-        font-size: 12px;
-        text-align: center;
+        /*font-size: 12px;
+        text-align: center;*/
     }
     #corporate-invitations-list-box .grid-view tr th:last-child, #corporate-invitations-list-box .grid-view tr td:last-child {
         max-width: 110px;
@@ -5389,7 +5389,7 @@ ul.default li:hover {
     text-align: center;
 
     color: #3C3C32;
-    line-height: 20px;
+    line-height: 22px;
     font-size: 20px;
 }
 
@@ -5397,19 +5397,15 @@ ul.default li:hover {
     margin-top: 42px;
 }
 
-.referral-span-first .ProximaNova-20, .referral-span-first .ProximaNova-Bold-22px {
-    font-size: 20px;
-}
-
-.referral-right-div .ProximaNova-font-11px {
+.footnote-black {
     text-align: left;
     font-size: 11px;
-    line-height: 11px;
-    margin-top:5px;
+    line-height: 12px;
+    margin-top:11px;
 }
 
-.referral-right-div .ProximaNova-font-11px.with-margin-top {
-    margin-top:46px;
+.footnote-black.with-margin-top {
+    margin-top:30px;
 }
 
 .referral-bottom-p {
@@ -5521,19 +5517,15 @@ ul.default li:hover {
         margin-top: 33px;
     }
 
-    .referral-span-first .ProximaNova-20, .referral-span-first .ProximaNova-Bold-22px {
-        font-size: 16px;
-    }
-
-    .referral-right-div .ProximaNova-font-11px {
+    .footnote-black {
         text-align: left;
-        font-size: 9px;
-        line-height: 9px;
-        margin-top:4px;
+        font-size: 10px;
+        line-height: 10px;
+        margin-top: 10px;
     }
 
-    .referral-right-div .ProximaNova-font-11px.with-margin-top {
-        margin-top: 60px;
+    .footnote-black.with-margin-top {
+        margin-top: 48px;
     }
 
     .referral-bottom-p {
@@ -5584,7 +5576,7 @@ ul.default li:hover {
     border-radius: 7px;
 }
 
-.show-popup-top .ProximaNova-Bold {
+.show-popup-top .message-text {
     font-size: 14px;
     margin-top:-3px;
     font-weight: bold;
@@ -5600,7 +5592,7 @@ ul.default li:hover {
         height: 48px !important;
     }
 
-    .show-popup-top .ProximaNova-Bold {
+    .show-popup-top .message-text {
         margin-top: 5px;
         font-size: 12px;
         color: #3d4041;
@@ -5691,7 +5683,7 @@ ul.default li:hover {
     }
 
 }
-.aglobalErrorMessage.emailIsExistAndNotActivated.ProximaNova a {
+.aglobalErrorMessage.emailIsExistAndNotActivated a {
     text-decoration: none;
 }
 

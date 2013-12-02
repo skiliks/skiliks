@@ -7,6 +7,7 @@ $lang = Yii::app()->getLanguage();
 ?>
 <div class="tarifswrap">
 <?php foreach ($tariffs as $tariff): ?>
+    <?php if($tariff->isDisplayOnTariffsPage()): ?>
     <div class="nice-border onetariff tariff-<?=$tariff->slug?>">
         <div class="tariff-box radiusthree">
             <?php if($tariff->slug == "lite") : ?>
@@ -39,15 +40,15 @@ $lang = Yii::app()->getLanguage();
                     <?php endforeach ?>
                 </div>
 
-                <?php if ($tariff->isUserCanChooseTariff($user)): ?>
-                     <div class="subscribe-ti-tariff">
+                <?php if (false === $tariff->isUserCanChooseTariff($user)): ?>
+                     <div class="subscribe-ti-tariff go-to-link">
                          <a class="light-btn" href="/tariffs/<?php echo $tariff->slug ?>">
                              <?php echo $tariff->getFormattedLinkLabel($user) ?>
                          </a>
                      </div>
                 <?php else: ?>
                     <div class="subscribe-ti-tariff">
-                        <a class="light-btn" href="/payment/order/<?= $tariff->slug ?>">
+                        <a class="light-btn" href="#" data-tariff-slug="<?= $tariff->slug ?>">
                             <?php echo  Yii::t('site', 'Subscribe') ?>
                         </a>
                     </div>
@@ -55,13 +56,21 @@ $lang = Yii::app()->getLanguage();
             </div>
         </div>
     </div>
+    <?php endif ?>
 <?php endforeach ?>
 
-    <p class="text-left text16 ProximaNova-Bold additional-text">
+    <p class="text-left text16 additional-text">
         <?php if ($lang == 'ru'): ?>
         <sup>*</sup> Первый месяц использования
         <?php endif; ?>
     </p>
+    <?php if($user->isAuth() && $user->isCorporate()) : ?>
+        <?php $this->renderPartial('//static/dashboard/partials/tariff-already-booked-popup', ['account'=>$user->account_corporate]) ?>
+        <?php $this->renderPartial('//static/dashboard/partials/extend-tariff-popup', ['account'=>$user->account_corporate]) ?>
+        <?php $this->renderPartial('//static/dashboard/partials/tariff-replace-now-popup', ['account'=>$user->account_corporate]) ?>
+        <?php $this->renderPartial('//static/dashboard/partials/downgrade-tariff-popup', ['account'=>$user->account_corporate]) ?>
+        <?php $this->renderPartial('//static/dashboard/partials/tariff-replace-if-zero-popup', ['account'=>$user->account_corporate]) ?>
+    <?php endif ?>
     <div class="contwrap"><a class="light-btn feedback"><?= Yii::t('site', 'Send feedback') ?></a>
     <span class="social_networks">
         <?php $this->renderPartial('//global_partials/addthis', ['force' => true]) ?>

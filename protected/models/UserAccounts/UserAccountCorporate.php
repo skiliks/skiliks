@@ -5,12 +5,14 @@
  *
  * The followings are the available columns in table 'user_account_corporate':
  * @property string $user_id
+ * @property string $tariff_id
  * @property integer $industry_id
  * @property string $ownership_type
  * @property string $company_name
  * @property integer $invites_limit
  * @property integer $referrals_invite_limit
- * @property datetime $tariff_expired_at
+ * @property string $tariff_activated_at
+ * @property string $tariff_expired_at
  * @property string $inn
  * @property string $cpp
  * @property string $bank_account_number
@@ -19,7 +21,7 @@
  * @property string $default_invitation_mail_text
  * @property integer $is_display_referrals_popup
  * @property integer $is_display_tariff_expire_pop_up
- *
+ * @property string $expire_invite_rule
  *
  * The followings are the available model relations:
  * @property YumUser $user
@@ -30,6 +32,11 @@ class UserAccountCorporate extends CActiveRecord
 {
     const PAYMENT_METHOD_INVOICE = "invoice";
     const PAYMENT_METHOD_CARD = "card";
+
+    const EXPIRE_INVITE_RULE_STANDARD = 'standard';
+
+    const EXPIRE_INVITE_RULE_BY_TARIFF = 'by_tariff';
+
     public function getTariffLabel()
     {
         return (null === $this->tariff) ? 'Не задан' : $this->tariff->getFormattedLabel();
@@ -39,34 +46,43 @@ class UserAccountCorporate extends CActiveRecord
      * @param Tariff $tariff
      * @param bool $isSave
      */
-    public function setTariff($tariff, $isSave = false)
+    public function setTariff(Tariff $tariff, $isSave = false)
     {
         $this->tariff_id = $tariff->id;
         $this->tariff_activated_at = (new DateTime())->format("Y-m-d H:i:s");
         $this->tariff_expired_at = (new DateTime())->modify('+30 days')->format("Y-m-d H:i:s");
-
-        $initValue = $this->getTotalAvailableInvitesLimit();
-
         $this->invites_limit = $tariff->simulations_amount;
+        if($tariff->slug === Tariff::SLUG_FREE) {
+            $this->is_display_tariff_expire_pop_up = 1;
+        } else {
+            $this->is_display_tariff_expire_pop_up = 0;
+        }
+
+        $tariff_plan = TariffPlan::model()->findByAttributes(['user_id'=>$this->user_id, 'status'=>TariffPlan::STATUS_ACTIVE]);
+        if(null !== $tariff_plan) {
+            /* @var $tariff_plan TariffPlan */
+            $tariff_plan->status = TariffPlan::STATUS_EXPIRED;
+            $tariff_plan->save(false);
+        }
+
+        $tariff_plan = new TariffPlan();
+        $tariff_plan->user_id = $this->user_id;
+        $tariff_plan->tariff_id = $this->tariff_id;
+        $tariff_plan->started_at = $this->tariff_activated_at;
+        $tariff_plan->finished_at = $this->tariff_expired_at;
+        $tariff_plan->status = TariffPlan::STATUS_ACTIVE;
+        $tariff_plan->save(false);
 
         if ($isSave) {
 
             if(false === $this->save(false)){
-                throw new Exception("Not save Tariff");
+                throw new Exception(sprintf(
+                    "Tariff #%s for account #%s was not set. ",
+                    $tariff->id,
+                    $this->id
+                ));
             }
 
-//            UserService::logCorporateInviteMovementAdd(
-//                'Account setTariff and save',
-//                $this->user->getAccount(),
-//                $initValue
-//            );
-
-        } else {
-//            UserService::logCorporateInviteMovementAdd(
-//                'Account setTariff but not save (?)',
-//                $this->user->getAccount(),
-//                $initValue
-//            );
         }
 
 
@@ -117,7 +133,7 @@ class UserAccountCorporate extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('user_id'     , 'required', 'on' => ['insert', 'update', 'corporate']),
-			array('industry_id' , 'numerical', 'integerOnly'=>true, 'on' => ['registration', 'insert', 'update', 'corporate']),
+			array('industry_id' , 'numerical', 'integerOnly'=>true),
             array('industry_id' , 'required', 'on' => ['registration', 'corporate'], 'message' => Yii::t('site', 'Выберите отрасль')),
 			array('user_id'     , 'length'   , 'max'=>10, 'on' => ['registration', 'corporate']),
 			// The following rule is used by search().
@@ -210,9 +226,8 @@ class UserAccountCorporate extends CActiveRecord
      */
     public function increaseLimit($invite)
     {
-        if (Invite::STATUS_PENDING == $invite->status) {
 
-            $initValue = $this->getTotalAvailableInvitesLimit();
+           // $initValue = $this->getTotalAvailableInvitesLimit();
 
             $this->invites_limit++;
             $this->save(false, ['invites_limit']);
@@ -223,7 +238,6 @@ class UserAccountCorporate extends CActiveRecord
 //                $this->user->getAccount(),
 //                $initValue
 //            );
-        }
     }
 
     public function decreaseLimit()
@@ -387,6 +401,92 @@ class UserAccountCorporate extends CActiveRecord
             $this->user->profile->lastname,
             $this->invites_limit
         ));
+
+    }
+
+    /**
+     * @return null|Tariff
+     */
+    public function getActiveTariff() {
+
+        $tariff_plan = $this->getActiveTariffPlan();
+
+        if(null !== $tariff_plan){
+            /* @var $tariff_plan TariffPlan */
+            return $tariff_plan->tariff;
+        }else{
+            return null;
+        }
+    }
+
+    /**
+     * @return TariffPlan
+     */
+    public function getActiveTariffPlan() {
+
+        return TariffPlan::model()->findByAttributes(['user_id'=>$this->user_id, 'status' => TariffPlan::STATUS_ACTIVE]);
+
+    }
+
+
+    /**
+     * @return null|Tariff
+     */
+    public function getPendingTariff() {
+
+        $tariff_plan = $this->getPendingTariffPlan();
+
+        if(null !== $tariff_plan){
+            /* @var $tariff_plan TariffPlan */
+            return $tariff_plan->tariff;
+        }else{
+            return null;
+        }
+    }
+
+    /**
+     * @return null|TariffPlan
+     */
+    public function getPendingTariffPlan() {
+
+        return TariffPlan::model()->findByAttributes(['user_id'=>$this->user_id, 'status' => TariffPlan::STATUS_PENDING]);
+
+    }
+
+    /**
+     * @return null|TariffPlan
+     */
+    public function hasPendingTariffPlan() {
+
+        $tariff_plan = TariffPlan::model()->findByAttributes(['user_id'=>$this->user_id, 'status' => TariffPlan::STATUS_PENDING]);
+
+        return null !== $tariff_plan;
+
+    }
+
+    public function addPendingTariff(Tariff $tariff) {
+        $active_tariff = TariffPlan::model()->findByAttributes(['user_id'=>$this->user_id, 'status'=>TariffPlan::STATUS_ACTIVE]);
+        /* @var $active_tariff TariffPlan */
+        $tariff_plan = new TariffPlan();
+        $tariff_plan->user_id = $this->user_id;
+        $tariff_plan->tariff_id = $tariff->id;
+        $tariff_plan->started_at = $active_tariff->finished_at;
+        $tariff_plan->finished_at = (new DateTime($active_tariff->finished_at))->modify('+30 days')->format("Y-m-d H:i:s");
+        $tariff_plan->status = TariffPlan::STATUS_PENDING;
+        $tariff_plan->save(false);
+    }
+
+    public function setInvoiceOnTariffPlan(Invoice $invoice, TariffPlan $tariff_plan) {
+        $tariff_plan->invoice_id = $invoice->id;
+        $tariff_plan->save(false);
+    }
+
+    /**
+     * @return TariffPlan[]
+     */
+    public function getAllTariffPlans() {
+
+        return TariffPlan::model()->findAllByAttributes(['user_id'=>$this->user_id]);
 
     }
 

@@ -31,6 +31,22 @@ class UserServiceUnitTest extends CDbTestCase
         $this->assertCount(0, $forBad);
     }
 
+    public function deleteUsersByEmail(array $emails) {
+
+        foreach($emails as $email) {
+            $user = YumProfile::model()->findByAttributes(['email'=>$email]);
+            if(null !== $user) {
+                Invoice::model()->deleteAllByAttributes(['user_id'=>$user->user_id]);
+                UserReferral::model()->deleteAllByAttributes(['referrer_id'=>$user->user_id]);
+                YumUser::model()->deleteAllByAttributes(['id'=>$user->user_id]);
+                YumProfile::model()->deleteAllByAttributes(['user_id'=>$user->user_id]);
+                UserAccountCorporate::model()->deleteAllByAttributes(['user_id'=>$user->user_id]);
+                UserAccountPersonal::model()->deleteAllByAttributes(['user_id'=>$user->user_id]);
+            }
+        }
+
+    }
+
     /**
      * test that TestUserHelper::getCorporateActivationUrl return string :)
      */
@@ -54,42 +70,11 @@ class UserServiceUnitTest extends CDbTestCase
     public function testInvitesMovementAndUserRegistration() {
 
         //Удаляем тестовых юзеров если такие есть чтоб создать потом заново
-        $exist_ref = UserReferral::model()->findByAttributes(['referral_email'=>'referall-unit-text@kiliks.com']);
-        if( null !== $exist_ref ) {
-            $exist_ref->delete();
-        }
-        $exist_ref2 = UserReferral::model()->findByAttributes(['referral_email'=>'referall-unit-text2@kiliks.com']);
-        if( null !== $exist_ref2 ) {
-            $exist_ref2->delete();
-        }
-        /* @var $profile YumProfile */
-        $exist_profile_corporate = YumProfile::model()->findByAttributes(['email'=>'test-corporate-phpunit-account@skiliks.com']);
-        if(null !== $exist_profile_corporate){
-            YumUser::model()->deleteAllByAttributes(['id'=>$exist_profile_corporate->user_id]);
-            YumProfile::model()->deleteAllByAttributes(['user_id'=>$exist_profile_corporate->user_id]);
-            UserAccountCorporate::model()->deleteAllByAttributes(['user_id'=>$exist_profile_corporate->user_id]);
-        }
-        $exist_profile_personal = YumProfile::model()->findByAttributes(['email'=>'test-private-phpunit-account@skiliks.com']);
-        if(null !== $exist_profile_personal){
-            YumUser::model()->deleteAllByAttributes(['id'=>$exist_profile_personal->user_id]);
-            YumProfile::model()->deleteAllByAttributes(['user_id'=>$exist_profile_personal->user_id]);
-            UserAccountCorporate::model()->deleteAllByAttributes(['user_id'=>$exist_profile_personal->user_id]);
-        }
-        $exist_profile_referral = YumProfile::model()->findByAttributes(['email'=>'referall-unit-text@kiliks.com']);
-
-        if(null !== $exist_profile_referral){
-            YumUser::model()->deleteAllByAttributes(['id'=>$exist_profile_referral->user_id]);
-            YumProfile::model()->deleteAllByAttributes(['user_id'=>$exist_profile_referral->user_id]);
-            UserAccountCorporate::model()->deleteAllByAttributes(['user_id'=>$exist_profile_referral->user_id]);
-        }
-        $exist_profile_referral2 = YumProfile::model()->findByAttributes(['email'=>'referall-unit-text2@kiliks.com']);
-
-        if(null !== $exist_profile_referral2){
-            YumUser::model()->deleteAllByAttributes(['id'=>$exist_profile_referral2->user_id]);
-            YumProfile::model()->deleteAllByAttributes(['user_id'=>$exist_profile_referral2->user_id]);
-            UserAccountCorporate::model()->deleteAllByAttributes(['user_id'=>$exist_profile_referral2->user_id]);
-        }
-
+        $this->deleteUsersByEmail([
+            'test-corporate-phpunit-account@skiliks.com',
+            'test-private-phpunit-account@skiliks.com',
+            'referall-unit-text@kiliks.com',
+            'referall-unit-text2@kiliks.com']);
         //Создаем корпоративного пользователя для тестов
         $user_corporate  = new YumUser('registration');
         $user_corporate->setAttributes(['password'=>'123123', 'password_again'=>'123123', 'agree_with_terms'=>'yes']);
@@ -108,6 +93,8 @@ class UserServiceUnitTest extends CDbTestCase
         //Проверяем что пользователь добавлен и у него корпоративный аккаунт
         $this->assertNotNull($assert_profile_corporate);
         $this->assertNotNull($assert_profile_corporate->user);
+
+        /* var UserAccountCorporate $assert_account_corporate */
         $assert_account_corporate = UserAccountCorporate::model()->findByAttributes(['user_id'=>$assert_profile_corporate->user_id]);
         $this->assertNotNull($assert_account_corporate);
 
@@ -327,12 +314,169 @@ class UserServiceUnitTest extends CDbTestCase
         $assert_account_corporate->refresh();
         $this->assertEquals($assert_account_corporate->invites_limit, 5);
 
+        /* @var $my_invite Invite */
+
+        $invite2->refresh();
+        $this->assertEquals($invite2->status, Invite::STATUS_PENDING);
+
+        $invite2->expired_at = (new DateTime())->format("Y-m-d H:i:s");
+        $invite2->save(false);
+
+        /* @var $tariff Tariff */
+        $tariff = Tariff::model()->findByAttributes(['slug'=>Tariff::SLUG_LITE]);
+
+        $assert_account_corporate->setTariff($tariff, true);
+
+        InviteService::makeExpiredInvitesExpired();
+
+        $invite2->refresh();
+        $this->assertEquals($invite2->status, Invite::STATUS_EXPIRED);
+
+        $assert_account_corporate->refresh();
+        $this->assertEquals($assert_account_corporate->invites_limit, $tariff->simulations_amount);
+
+        // и +1 рефералл
+        $this->assertEquals($assert_account_corporate->getTotalAvailableInvitesLimit(), $tariff->simulations_amount + 1);
+
+        $this->assertEquals($assert_account_corporate->getActiveTariff()->slug, Tariff::SLUG_LITE);
+
+        // Проверяем "устаревание" аккаунта с Lite тарифом: должен стать Free с 0 симуляций.
+        $active_plan = $assert_account_corporate->getActiveTariffPlan();
+        $active_plan->finished_at = (new DateTime())->format("Y-m-d H:i:s");
+        $active_plan->save(false);
+        UserService::tariffExpired();
+        $assert_account_corporate->refresh();
+
+        $active_plan = $assert_account_corporate->getActiveTariffPlan();
+        $this->assertEquals($active_plan->tariff->slug, Tariff::SLUG_FREE);
+
+        $this->assertEquals($assert_account_corporate->invites_limit, $active_plan->tariff->simulations_amount);
+
+        // и +1 рефералл
+        $this->assertEquals(
+            $assert_account_corporate->getTotalAvailableInvitesLimit(),
+            $active_plan->tariff->simulations_amount +1
+        );
     }
 
-    /*public function testDebug(){
+    public function testPaymentSystem() {
 
-        SimulationService::CalculateTheEstimate(565, 'tetyana.grybok@skiliks.com');
+        $this->deleteUsersByEmail([
+            'test-corporate-phpunit-account@skiliks.com']);
+        //Создаем корпоративного пользователя для тестов
+        $user_corporate  = new YumUser('registration');
+        $user_corporate->setAttributes(['password'=>'123123', 'password_again'=>'123123', 'agree_with_terms'=>'yes']);
+        $profile_corporate  = new YumProfile('registration_corporate');
+        $profile_corporate->setAttributes(['firstname'=>'Алексей', 'lastname'=>'Сафронов', 'email'=>'test-corporate-phpunit-account@skiliks.com']);
+        $account_corporate = new UserAccountCorporate('corporate');
+        $account_corporate->setAttributes(['industry_id'=>Industry::model()->findByAttributes(['label'=>'Другая'])->id]);
+        $assert_result_corporate = UserService::createCorporateAccount($user_corporate, $profile_corporate, $account_corporate);
+        $this->assertTrue($assert_result_corporate);
 
-    }*/
+        //Активируем его
+        $status_activation = YumUser::activate($profile_corporate->email, $user_corporate->activationKey);
+        $this->assertInstanceOf('YumUser', $status_activation);
+        /* @var $assert_profile_corporate YumProfile */
+        $assert_profile_corporate = YumProfile::model()->findByAttributes(['email'=>'test-corporate-phpunit-account@skiliks.com']);
 
+        $account = &$assert_profile_corporate->user->account_corporate;
+        /* @var $tariffLiteFree Tariff */
+        $tariffLiteFree = Tariff::model()->findByAttributes(['slug'=>Tariff::SLUG_LITE_FREE]);
+
+        // количество симуляций верное для только что активированного аккаунта?
+        $this->assertEquals($tariffLiteFree->simulations_amount, $account->getTotalAvailableInvitesLimit());
+
+        // ---
+
+        /* @var $tariff Tariff */
+        $tariff = Tariff::model()->findByAttributes(['slug'=>Tariff::SLUG_FREE]);
+        $account->setTariff($tariff, true);
+        $active_tariff_plan = $account->getActiveTariffPlan();
+        $before_tariff_plan_id = $active_tariff_plan->id;
+        $active_tariff_plan->finished_at = (new DateTime())->format("Y-m-d H:i:s");
+        $active_tariff_plan->save(false);
+
+        UserService::tariffExpired();
+
+        $after_plan = $account->getActiveTariffPlan();
+
+        $this->assertNotEquals($before_tariff_plan_id, $after_plan->id);
+        $this->assertEquals(Tariff::SLUG_FREE, $after_plan->tariff->slug);
+        $this->assertEquals(0, $account->getTotalAvailableInvitesLimit());
+
+        // ---
+
+        $tariff = Tariff::model()->findByAttributes(['slug'=>Tariff::SLUG_LITE_FREE]);
+        $this->assertFalse(UserService::isAllowOrderTariff($tariff, $account));
+
+        // проверка ссылки для попапа
+        $action = UserService::getActionOnPopup($account, Tariff::SLUG_LITE);
+        $this->assertEquals(['type'=>'link'], $action);
+
+        $tariff = Tariff::model()->findByAttributes(['slug'=>Tariff::SLUG_LITE]);
+        $invoice = UserService::createFakeInvoiceForUnitTest($tariff, $account);
+
+        $this->assertTrue($invoice->completeInvoice());
+
+        $active_tariff = $account->getActiveTariffPlan();
+
+        $this->assertEquals(Tariff::SLUG_LITE, $active_tariff->tariff->slug);
+
+        $account->refresh();
+        $this->assertEquals($tariff->simulations_amount, $account->getTotalAvailableInvitesLimit());
+
+        // ---
+
+        $action = UserService::getActionOnPopup($account, Tariff::SLUG_LITE);
+
+        $this->assertEquals('extend-tariff-popup', $action['popup_class']);
+
+
+        $action = UserService::getActionOnPopup($account, Tariff::SLUG_PROFESSIONAL);
+
+        $this->assertEquals('tariff-replace-now-popup', $action['popup_class']);
+
+
+        $tariff = Tariff::model()->findByAttributes(['slug'=>Tariff::SLUG_PROFESSIONAL]);
+
+        $invoice = UserService::createFakeInvoiceForUnitTest($tariff, $account);
+
+        $this->assertTrue($invoice->completeInvoice());
+
+
+        $active_tariff = $account->getActiveTariffPlan();
+
+        $this->assertEquals(Tariff::SLUG_PROFESSIONAL, $active_tariff->tariff->slug);
+
+        // ---
+
+        $action = UserService::getActionOnPopup($account, Tariff::SLUG_STARTER);
+
+        $this->assertEquals('downgrade-tariff-popup', $action['popup_class']);
+
+
+        $tariff = Tariff::model()->findByAttributes(['slug'=>Tariff::SLUG_STARTER]);
+        $invoice = UserService::createFakeInvoiceForUnitTest($tariff, $account);
+        $this->assertTrue($invoice->completeInvoice());
+        $account->refresh();
+        $active_tariff = $account->getActiveTariffPlan();
+
+        $this->assertEquals(Tariff::SLUG_PROFESSIONAL, $active_tariff->tariff->slug);
+        $this->assertEquals(
+            $account->getActiveTariffPlan()->tariff->simulations_amount,
+            $account->getTotalAvailableInvitesLimit()
+        );
+
+        $pending_tariff = $account->getPendingTariffPlan();
+
+        $this->assertEquals(Tariff::SLUG_STARTER, $pending_tariff->tariff->slug);
+
+        // ---
+
+        $action = UserService::getActionOnPopup($account, Tariff::SLUG_STARTER);
+
+        $this->assertEquals('tariff-already-booked-popup', $action['popup_class']);
+        $this->assertFalse(UserService::isAllowOrderTariff($tariff, $account));
+
+    }
 }

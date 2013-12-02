@@ -35,17 +35,21 @@ return [
 
                 'static/<_lang:\w+>'         => 'static/pages/index',
 
-                'admin/'                  => 'static/admin/',
-                'admin/displayLog/<simulation:\w+>' => 'static/admin/displayLog',
-                'static/admin/saveLog/<simulation:\w+>' => 'static/admin/saveLog',
+                // SimStop and show logs
+                'admin/displayLog/<simulation:\w+>' => 'static/simStopAndShowLogs/displayLog',
+
+                // Save logs to excel on page "SimStop and show logs"
+                'static/admin/saveLog/<simulation:\w+>' => 'static/simStopAndShowLogs/saveLog',
+
+//                'admin/'                  => 'static/admin/',
+//                'Admin/Log'              => 'static/Admin/Log',
 
                 'cheat/quick-start/full'                => 'static/cheats/startSimulationForFastSeleniumTest',
                 'cheat/clean-events-queue/<simId:\w+>'  => 'static/cheats/cleanEventsQueue',
 
-                'Admin/Log'              => 'static/Admin/Log',
                 'logout'                  => 'static/userAuth/logout',
 
-                'old-browser' => 'static/pages/oldBrowser',
+                'system-mismatch' => 'static/pages/oldBrowser',
 
                 'profile/without-account' => 'static/site/runSimulationOrChooseAccount',
 
@@ -137,6 +141,7 @@ return [
                 'profile/'          => 'static/profile/index',
                 'profile/corporate' => 'static/profile/index',
                 'profile/personal'  => 'static/profile/index',
+                'profile/save-analytic-file-2'  => 'static/profile/SaveAssessmentAnalyticFile2',
 
                 'statistic/'          => 'static/statistic/index',
                 'statistic/corporate' => 'static/statistic/corporate',
@@ -159,6 +164,7 @@ return [
 
                 'dashboard/decline-invite/validation' => 'static/dashboard/validateDeclineExplanation',
                 'dashboard/send-invite'               => 'static/dashboard/sendInviteEmail',
+                'dashboard/change-tariff'             => 'static/dashboard/ChangeTariff',
                 'dashboard/accept-invite/<id:\w+>'  => 'static/dashboard/acceptInvite',
                 'dashboard/decline-invite/<id:\w+>' => 'static/dashboard/declineInvite',
 
@@ -201,7 +207,13 @@ return [
                 'admin_area/getInvoiceLog'     => 'admin_area/AdminPages/GetInvoiceLog',
                 'admin_area/referrals'         => 'admin_area/AdminPages/ReferralsList',
                 'admin_area/not-corporate-emails' => 'admin_area/AdminPages/NotCorporateEmails',
-                'admin_area/RegistrationList'  => 'admin_area/AdminPages/RegistrationList',
+                'admin_area/RegistrationList'      => 'admin_area/AdminPages/RegistrationList',
+                'admin_area/set-invite-expired-at' => 'admin_area/AdminPages/SetInviteExpiredAt',
+                'admin_area/expired-invites-and-tariff-plans' => 'admin_area/AdminPages/ExpireInvitesAndTariffPlans',
+                'admin_area/change-invite-expire-rule' => 'admin_area/AdminPages/ChangeInviteExpireRule',
+                'admin_area/list-tariff-plan' => 'admin_area/AdminPages/ListTariffPlan',
+                'admin_area/update-tariff-plan' => 'admin_area/AdminPages/UpdateTariffPlan',
+                'admin_area/change_security_risk' => 'admin_area/AdminPages/ChangeSecurityRisk',
 
                 'admin_area/simulations/rating/csv'                       => 'admin_area/AdminPages/SimulationsRatingCsv',
                 'admin_area/simulations/rating'                           => 'admin_area/AdminPages/SimulationsRating',
@@ -230,14 +242,13 @@ return [
                 'admin_area/simulation/<simId:\w+>/requests'      => 'admin_area/AdminPages/SimulationRequests',
                 'admin_area/AdminPages/SubscribersList'           => 'admin_area/AdminPages/SubscribersList',
                 'admin_area/user/<userId:\w+>/details'            => 'admin_area/AdminPages/UserDetails',
+                'admin_area/user/by-email'                => 'admin_area/AdminPages/UserDetailsByEmail',
                 'admin_area/user-referrals/<userId:\d+>'          => 'admin_area/AdminPages/UserReferrals',
                 'admin_area/login/ghost/<userId:\d+>'             => 'admin_area/AdminPages/GhostLogin',
 
                 'admin_area/user/<userId:\w+>/set-tariff/<label:\w+>'        => 'admin_area/AdminPages/UserSetTariff',
                 'admin_area/user/<userId:\w+>/set-invites-limit/<value:[\w\-]+>' => 'admin_area/AdminPages/UserAddRemoveInvitations',
 
-                'cache.manifest'                                  => 'static/ApplicationCache/Manifest',
-                'page_for_cache'                                  => 'static/ApplicationCache/PageForCache',
 
                 'admin_area/corporate-account/<id:\w+>/invite-limit-logs' => 'admin_area/AdminPages/CorporateAccountInviteLimitLogs',
                 'admin_area/site-user/<userId:\w+>/update-password'           => 'admin_area/AdminPages/UpdatePassword',

@@ -56,7 +56,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         if (null !== Yii::app()->request->getParam('prevalidate')) {
             $invite->attributes = Yii::app()->request->getParam('Invite');
             $invite->owner_id = $this->user->id;
-            $invite->expired_at = date("Y-m-d H:i:s", time() + 86400*Yii::app()->params['inviteExpired']);
+            $invite->setExpiredAt();
 
             // show result to user by default have to be false
             $invite->is_display_simulation_results = false;
@@ -222,6 +222,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         }
 
         $user = $user->data();  //YumWebUser -> YumUser
+        /* @var YumUser $user */
 
         // owner only can delete his invite
         if ($user->id !== $invite->owner_id) {
@@ -231,12 +232,6 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             $this->redirect(Yii::app()->request->urlReferrer);
         }
 
-        if ($invite->isPending()) {
-            Yii::app()->user->setFlash('success', sprintf(
-                "Нельзя удалить приглашение которое находится в статусе 'В ожидании'."
-            ));
-            $this->redirect(Yii::app()->request->urlReferrer);
-        }
 
         if ($invite->isAccepted()) {
             Yii::app()->user->setFlash('success', sprintf(
@@ -259,10 +254,21 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             $this->redirect(Yii::app()->request->urlReferrer);
         }
 
+        if($invite->status === Invite::STATUS_PENDING) {
+
+            $status = $invite->status;
+            $initValue = $user->account_corporate->getTotalAvailableInvitesLimit();
+
+            $user->account_corporate->increaseLimit($invite);
+
+            UserService::logCorporateInviteMovementAdd(
+                'Ивайт удален пользователем в статусе '.Invite::getStatusNameByCode($status),
+                $this->user->getAccount(),
+                $initValue
+            );
+        }
+
         $invite->deleteInvite();
-
-        $user->getAccount()->increaseLimit($invite);
-
         $this->redirect(Yii::app()->request->urlReferrer);
     }
 
@@ -501,11 +507,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
 
         $details = $simulation->getAssessmentDetails();
 
-        // update sim results popup info:
-        $simulation->results_popup_partials_path = '//static/dashboard/partials/';
-        $simulation->save(false);
-
-        $baseView = str_replace('partials/', 'simulation_details', $simulation->results_popup_partials_path);
+        $baseView = $simulation->results_popup_partials_path.'/simulation_details';
 
         $this->render($baseView, [
             'simulation'     => $simulation,
@@ -606,6 +608,13 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         $profile->save(false);
 
         Yii::app()->end();
+    }
+
+    public function actionChangeTariff() {
+
+        $this->checkUser();
+        $result = UserService::getActionOnPopup($this->user->account_corporate, $this->getParam('tariff_slug'));
+        $this->sendJSON($result);
     }
 
 }

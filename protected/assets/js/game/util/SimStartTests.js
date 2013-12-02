@@ -8,7 +8,7 @@ define(["jquery/jquery.browser"], function() {
 try {
         var checkers = {
             browser: function(cfg) {
-
+                updateImageLoaderBar('Проверка совместимости браузера...');
                 if (cfg.isSkipBrowserCheck) {
                     return true;
                 }
@@ -32,7 +32,8 @@ try {
                 for (var name in minSupport) {
                     if (minSupport.hasOwnProperty(name)) {
                         if ($.browser[name]) {
-                            if (parseFloat($.browser.version) >= minSupport[name]) {
+                            if (parseFloat($.browser.version) >= minSupport[name] && this.isAllowOS(cfg.isSkipOsCheck, ['Windows', 'MacOS'])) {
+                                updateImageLoaderBar('Проверка совместимости браузера... OK!', 0.85, true);
                                 return true;
                             } else {
                                 location.href = cfg.oldBrowserUrl;
@@ -47,49 +48,55 @@ try {
             },
 
             processorSpeed: function(cfg) {
+                updateImageLoaderBar('Проверка текущего быстродействия...');
 
-                    var processorTestResult = jsBogoMips.getAveragedJsBogoMips(3);
+                var processorTestResult = jsBogoMips.getAveragedJsBogoMips(3);
 
-                    var isDevMode = document.location.href.indexOf('developer') > -1;
+                var isDevMode = document.location.href.indexOf('developer') > -1;
 
-                    if(true == isDevMode) {
-                        return true;
-                    }
+                if(true == isDevMode) {
+                    return true;
+                }
 
-                    $.ajax({
-                        url: '/index.php/logService/addInviteLog',
-                        data: {
-                            inviteId: window.inviteId,
-                            action: 'Предупреждение о низкой скорости процессора. Уровень ' + processorTestResult.average,
-                            uniqueId: -1,
-                            time: '00:00:00'
-                        },
-                        type: 'POST',
-                        cache: false,
-                        async: false
-                    });
+                $.ajax({
+                    url: '/index.php/logService/addInviteLog',
+                    data: {
+                        inviteId: window.inviteId,
+                        action: 'Предупреждение о низкой скорости процессора. Уровень ' + processorTestResult.average,
+                        uniqueId: -1,
+                        time: '00:00:00'
+                    },
+                    type: 'POST',
+                    cache: false,
+                    async: false
+                });
 
-                    if(processorTestResult.average > 1) {
-                        return true;
+                if(processorTestResult.average > 0) {
+                    updateImageLoaderBar('Проверка текущего быстродействия... OK!', 0.90, true);
+                    return true;
+                }
+                else {
+                    // Spike to make alert ok works fine
+                    // TODO: refactor all dialog views to one style
+                    if (alert('Мы сожалеем, но конфигурация Вашего компьютера ниже минимально допустимой. ' +
+                        'Минимальные системный требования для комфортной игры двухядерный процессор (2х1,1ГГц)'+
+                        ' и 2 Гб оперативной памяти. Попробуйте запустить игру на другом компьютере. ' +
+                        'Производительность вашего компьютера ' + processorTestResult.average + ' баллов.')) {
+                        location.href = '/dashboard';
+                        return false;
                     }
                     else {
-                        // Spike to make alert ok works fine
-                        // TODO: refactor all dialog views to one style
-                        if (alert('Мы сожалеем, но конфигурация Вашего компьютера ниже минимально допустимой. ' +
-                            'Минимальные системный требования для комфортной игры двухядерный процессор (2х1,1ГГц)'+
-                            ' и 2 Гб оперативной памяти. Попробуйте запустить игру на другом компьютере.')) {
-                            location.href = '/dashboard';
-                            return false;
-                        }
-                        else {
-                            location.href = '/dashboard';
-                            return false;
-                        }
+                        location.href = '/dashboard';
+                        return false;
                     }
+                }
+
+                updateImageLoaderBar('Проверка текущего быстродействия... OK!', 0.90, true);
                 return true;
             },
 
-            speed: function(cfg) {
+            downloadSpeed: function(cfg) {
+                updateImageLoaderBar('Проверка скорости соединения...');
                 window.netSpeedVerbose = 'fast';
 
                 var isDevMode = document.location.href.indexOf('developer') > -1;
@@ -133,7 +140,32 @@ try {
                     callback();
                 }
 
+                updateImageLoaderBar('Запуск симуляции...', 0.95, true);
                 return true;
+            },
+
+            isAllowOS:function(isSkipOsCheck, allowed_os_list) {
+
+                if(isSkipOsCheck) {
+                    return true
+                }
+                var os_name ="Unknown OS";
+                if (navigator.appVersion.indexOf("Win")!=-1) { os_name = "Windows"; }
+                if (navigator.appVersion.indexOf("Mac")!=-1) { os_name = "MacOS"; }
+                if (navigator.appVersion.indexOf("X11")!=-1) { os_name = "UNIX"; }
+                if (navigator.appVersion.indexOf("Linux")!=-1) { os_name = "Linux"; }
+
+                var result = false;
+
+                $.each(allowed_os_list, function(i, current_os_name) {
+                    if(current_os_name === os_name){
+                        result = true;
+                        return false;
+                    }
+                });
+                console.log('result',result);
+                return result;
+
             }
         };
 

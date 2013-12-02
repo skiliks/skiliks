@@ -2750,7 +2750,6 @@ define([
 
                         // set attachment
                         if (response.attachmentId) {
-                            debugger;
                             this.mailClient.uploadAttachmentsList(function () {
                                 var attachmentsListHtml = [];
 

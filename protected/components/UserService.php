@@ -234,10 +234,8 @@ class UserService {
 
             $account_corporate->user_id = $user->id;
             $account_corporate->default_invitation_mail_text = 'Вопросы относительно тестирования вы можете задать по адресу '.$profile->email.', куратор тестирования - '.$profile->firstname.' '. $profile->lastname .'.';
-            $tariff = Tariff::model()->findByAttributes(['slug' => Tariff::SLUG_LITE]);
+            $tariff = Tariff::model()->findByAttributes(['slug' => Tariff::SLUG_LITE_FREE]);
             $account_corporate->setTariff($tariff, true);
-
-            $account_corporate->invites_limit = Yii::app()->params['initialSimulationsAmount'];
             $account_corporate->save(false);
 
             UserService::logCorporateInviteMovementAdd(
@@ -335,6 +333,7 @@ class UserService {
                 $invite->message = preg_replace('/(\n\r)/', '<br>', $invite->message);
                 $invite->message = preg_replace('/\\n|\\r/', '<br>', $invite->message);
                 $invite->is_display_simulation_results = (int) !$is_display_results;
+                $invite->setTariffPlan();
                 $invite->setExpiredAt();
                 $invite->save(false);
 
@@ -656,7 +655,7 @@ class UserService {
                 'end' => $scenario->scenario_config->game_end_workday_timestamp,
                 'finish' => $scenario->scenario_config->game_end_timestamp,
                 'badBrowserUrl' => '/old-browser',
-                'oldBrowserUrl' => '/old-browser',
+                'oldBrowserUrl' => '/system-mismatch',
                 'dummyFilePath' => $assetsUrl . '/img/kotik.jpg',
                 'invite_id'     => $invite_id,
                 'game_date_text'=>$scenario->scenario_config->game_date_text,
@@ -685,29 +684,43 @@ class UserService {
     public static function tariffExpired() {
 
         /* @var $users UserAccountCorporate[] */
-        $accounts = UserAccountCorporate::model()->findAll(
-            sprintf("'%s' < tariff_expired_at AND tariff_expired_at <= '%s'",
+        $tariff_plans = TariffPlan::model()->findAll(
+            sprintf("'%s' < finished_at AND finished_at <= '%s' AND status = '%s'",
                 date("Y-m-d 00:00:00"),
-                date("Y-m-d 23:59:59")
+                date("Y-m-d 23:59:59"),
+                TariffPlan::STATUS_ACTIVE
             ));
 
         $expiredAccounts = [];
 
-        if( null !== $accounts ) {
-            /* @var $user UserAccountCorporate */
-            foreach( $accounts as $account ) {
-                $account->is_display_tariff_expire_pop_up = 1;
-                if((int)$account->invites_limit !== 0) {
-                    $initValue = $account->getTotalAvailableInvitesLimit();
+        if( null !== $tariff_plans ) {
+            /* @var $tariff_plan TariffPlan */
+            foreach( $tariff_plans as $tariff_plan ) {
+                $account = $tariff_plan->user->account_corporate;
+                $initValue = $account->getTotalAvailableInvitesLimit();
+                UserService::logCorporateInviteMovementAdd('Тарифный план '.$account->tariff->label.' истёк. Количество доступных симуляция обнулено.', $account, $initValue);
+                $pending = $account->getPendingTariffPlan();
+                if(null === $pending) {
+                    $tariff = Tariff::model()->findByAttributes(['slug'=>Tariff::SLUG_FREE]);
+                    $account->setTariff($tariff, true);
+                } else {
+                    $active = $account->getActiveTariffPlan();
+                    $active->status = TariffPlan::STATUS_EXPIRED;
+                    $active->save(false);
+                    $pending->status = TariffPlan::STATUS_ACTIVE;
+                    $pending->save(false);
+                    $account->tariff_id = $pending->tariff_id;
+                    $account->invites_limit = $pending->tariff->simulations_amount;
+                    $account->tariff_expired_at = $pending->finished_at;
+                    $account->tariff_activated_at = $pending->started_at;
 
-                    $account->invites_limit = 0;
-                    $account->update();
-
-                    $expiredAccounts[] = $account;
-
-                    UserService::logCorporateInviteMovementAdd('Тарифный план '.$account->tariff->label.' истёк. Количество доступных симуляция обнулено.', $account, $initValue);
                 }
+                $account->save(false);
+                $expiredAccounts[] = $account;
 
+                if(null !== $pending) {
+                    continue;
+                }
                 // send email for any account {
                 $emailTemplate = Yii::app()->params['emails']['tariffExpiredTemplateIfInvitesZero'];
 
@@ -790,6 +803,81 @@ class UserService {
         $referral->save(false);
         $referral->uniqueid    = md5($referral->id . time());
         return $referral->save(false);
+    }
+
+    /**
+     * @param Tariff $tariff
+     * @param UserAccountCorporate $account
+     * @return Invoice
+     */
+    public static function createFakeInvoiceForUnitTest(Tariff $tariff, UserAccountCorporate $account) {
+        $invoice = new Invoice();
+        $invoice->user_id = $account->user_id;
+        $invoice->tariff_id = $tariff->id;
+        $invoice->save(false);
+
+        return $invoice;
+    }
+
+    public static function getActionOnPopup(UserAccountCorporate $account, $tariff_slug) {
+        $pending = $account->getPendingTariffPlan();
+        $result = ['type' => 'popup'];
+        if(null !== $pending) {
+            $result['tariff_label'] = $pending->tariff->label;
+            $result['tariff_start'] = (new DateTime($pending->started_at))->modify('+30 days')->format("d.m.Y");
+            $result['popup_class'] = 'tariff-already-booked-popup';
+            return $result;
+        }
+        /* @var $tariff Tariff */
+        $tariff = Tariff::model()->findByAttributes(['slug'=>$tariff_slug]);
+        $active = $account->getActiveTariffPlan();
+        if($active->tariff->slug === Tariff::SLUG_FREE) {
+            return ['type'=>'link'];
+        }
+        $result['tariff_label'] = $tariff->label;
+        $result['tariff_limits'] = $tariff->simulations_amount;
+        $finish_at = $account->getActiveTariffPlan()->finished_at;
+        $result['tariff_start'] = (new DateTime($finish_at))->modify('+30 days')->format("d.m.Y");
+        $result['tariff_end'] = (new DateTime($result['tariff_start']))->modify('+30 days')->format("d.m.Y");
+
+        if((int)$active->tariff->weight === (int)$tariff->weight) {
+            $result['popup_class'] = 'extend-tariff-popup';
+        } elseif((int)$active->tariff->weight < (int)$tariff->weight) {
+            if((int)$account->invites_limit > 0) {
+                $result['popup_class'] = 'tariff-replace-now-popup';
+            }else{
+                $invites = (int)Invite::model()->count('tariff_plan_id = :tariff_plan_id and owner_id = :owner_id and (status = :pending or status = :accepted or status = :in_progress)',
+                    [
+                        'tariff_plan_id' => $active->id,
+                        'owner_id' => $account->user_id,
+                        'accepted'=>Invite::STATUS_ACCEPTED,
+                        'pending'=>Invite::STATUS_PENDING,
+                        'in_progress'=>Invite::STATUS_IN_PROGRESS
+                    ]
+                );
+                if( $invites > 0 ) {
+                    $result['popup_class'] = 'tariff-replace-if-zero-popup';
+                    $result['invite_limits'] = $invites;
+                } else {
+                    $result['popup_class'] = 'tariff-replace-now-popup';
+                }
+            }
+        } else {
+            $result['popup_class'] = 'downgrade-tariff-popup';
+            $result['invite_limits'] = $account->invites_limit;
+        }
+        return $result;
+    }
+
+    /**
+     * @param Tariff $tariff
+     * @param UserAccountCorporate $account
+     * @return bool
+     */
+    public static function isAllowOrderTariff(Tariff $tariff, UserAccountCorporate $account){
+
+        return !$account->hasPendingTariffPlan() && $tariff->isDisplayOnTariffsPage();
+
     }
 
 }

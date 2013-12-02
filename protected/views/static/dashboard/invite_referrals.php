@@ -1,14 +1,14 @@
 <?php $assetsUrl = $this->getAssetsUrl(); ?>
 
 <div style="overflow: hidden;">
-    <h1 class="additional-simulations-header ProximaNova-Bold">
+    <h1 class="additional-simulations-header">
         Порекомендуйте нас друзьям и получите дополнительные симуляции
     </h1>
 
     <div style="min-height: 15px;"></div>
 
     <div class="referral-left-div">
-        <h2 class="ProximaNova-Bold">Отправить приглашение</h2>
+        <h2 class="">Отправить приглашение</h2>
 
         <div style="clear: both; min-height: 15px;"></div>
 
@@ -66,17 +66,17 @@
                 1 симуляция в месяц <strong>НАВСЕГДА</strong><br/>
                 за каждого нового корпоративного пользователя по вашей рекомендации
             </p>
-            <p class="ProximaNova-font-11px with-margin-top">
+            <p class="footnote-black with-margin-top">
                 Симуляции останутся на вашем аккаунте навсегда, даже если у вас закончится текущий тариф.
             </p>
-            <p class="ProximaNova-font-11px">
+            <p class="footnote-black">
                 Количество симуляций по программе не ограничено.
             </p>
         </div>
 
         <div style="clear: both; min-height: 15px;"></div>
 
-        <p class="referral-bottom-p ProximaNova">
+        <p class="referral-bottom-p">
             После отправки приглашений <a href="/profile/corporate/referrals">просмотрите их состояние</a>
         </p>
 

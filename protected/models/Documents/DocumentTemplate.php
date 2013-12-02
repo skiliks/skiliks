@@ -182,7 +182,12 @@ class DocumentTemplate extends CActiveRecord implements IGameAction
 
     public function getPathFromName($name)
     {
-        return __DIR__."/../../../documents/templates/".$name;
+        if (-1 < (strstr($name, '.xls'))) {
+            return __DIR__."/../../../documents/templates/".$name;
+        }
+
+        // JPGs: doc, ptt
+        return __DIR__."/../../../protected/assets/img/documents/templates/".$name;
     }
 }
 

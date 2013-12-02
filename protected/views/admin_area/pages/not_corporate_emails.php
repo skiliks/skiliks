@@ -23,6 +23,8 @@ $this->widget('zii.widgets.grid.CGridView', [
     ],
     'columns' => [
         ['header' => 'ID', 'name' => 'id', 'value' => '$data->id'],
-        ['header' => 'Домен', 'name' => 'domain', 'value' => '$data->domain']
+        ['header' => 'Домен', 'name' => 'domain', 'value' => '$data->domain'],
+        ['header' => 'Тип', 'name' => 'security_risk', 'value' => '$data->security_risk'],
+        ['name' => 'actions', 'header' => 'Actions', 'value' => '$data->getActions()', 'filter' => false, 'type'=>'raw']
     ]
 ]);

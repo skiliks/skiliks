@@ -42,6 +42,8 @@ return CMap::mergeArray(
             ),
         ),
         'params' => array(
+            'isBlockGhostLogin' => false,
+            'isUseStrictRulesForGhostLogin'=>false,
             'frontendUrl' => 'http://loc.skiliks.com/',
             'assetsDebug' => true,
             'sentry' => [

@@ -288,7 +288,7 @@ return [
         'link_terms' => "css=.terms",
         // на test.skiliks.com 5й див, а на лайве и локально 6й, так как есть чат тех поддержки
         'close_terms_popup' => "xpath=//body/div[5]/div[1]/a/span",
-        'register_button' => "css=.ProximaNova-Bold.blue-submit-button",
+        'register_button' => "css=.registration-form .blue-submit-button",
         'decline_register' => "css=.decline-link",
         'error_name' => "css=.errorMessage.YumProfile_firstname",
         'error_surname' => "css=.errorMessage.YumProfile_lastname",
