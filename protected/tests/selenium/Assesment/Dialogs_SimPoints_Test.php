@@ -115,7 +115,6 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
         $this->run_event('RS1.2',"xpath=(//*[contains(text(),'тебе огромное за помощь!')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Кто вам нужен?')])");
 
-
         $this->run_event('E1',"xpath=(//*[contains(text(),'Раиса Романовна, помню про бюджет')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Ну, с помощью Крутько я должен управиться в эти сроки')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Марина, бросай все свои дела')])");
@@ -241,7 +240,7 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
         $this->run_event('MS54');
         sleep(5);
         $this->simulation_showLogs();
-        $this->checkSimPoints('0','-31');
+        $this->checkSimPoints('0','-32');
         sleep(2);
     }
 
@@ -274,7 +273,7 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'сейчас поговорю с ним и уточню задание')])");
         sleep(2);
         $this->simulation_showLogs();
-        $this->checkSimPoints('11.667','-9');
+        $this->checkSimPoints('13.167','-9');
         sleep(2);
     }
 }
