@@ -144,24 +144,26 @@ try {
                 return true;
             },
 
-            isAllowOS:function(isSkipOsCheck, list) {
+            isAllowOS:function(isSkipOsCheck, allowed_os_list) {
+
                 if(isSkipOsCheck) {
                     return true
                 }
-                var OSName="Unknown OS";
-                if (navigator.appVersion.indexOf("Win")!=-1) OSName="Windows";
-                if (navigator.appVersion.indexOf("Mac")!=-1) OSName="MacOS";
-                if (navigator.appVersion.indexOf("X11")!=-1) OSName="UNIX";
-                if (navigator.appVersion.indexOf("Linux")!=-1) OSName="Linux";
+                var os_name ="Unknown OS";
+                if (navigator.appVersion.indexOf("Win")!=-1) { os_name = "Windows"; }
+                if (navigator.appVersion.indexOf("Mac")!=-1) { os_name = "MacOS"; }
+                if (navigator.appVersion.indexOf("X11")!=-1) { os_name = "UNIX"; }
+                if (navigator.appVersion.indexOf("Linux")!=-1) { os_name = "Linux"; }
 
                 var result = false;
 
-                $.each(list, function(i, os_name) {
-                    if(OSName === os_name){
+                $.each(allowed_os_list, function(i, current_os_name) {
+                    if(current_os_name === os_name){
                         result = true;
                         return false;
                     }
                 });
+                console.log('result',result);
                 return result;
 
             }
