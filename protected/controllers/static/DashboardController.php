@@ -254,14 +254,14 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             $this->redirect(Yii::app()->request->urlReferrer);
         }
 
-
+        $status = $invite->getStatusText();
         $initValue = $user->account_corporate->getTotalAvailableInvitesLimit();
         $invite->deleteInvite();
 
         $user->account_corporate->increaseLimit($invite);
 
         UserService::logCorporateInviteMovementAdd(
-            'Ивайт удален пользователем в статусе '.$invite->status,
+            'Ивайт удален пользователем в статусе '.Invite::getStatusNameByCode($status),
             $this->user->getAccount(),
             $initValue
         );
