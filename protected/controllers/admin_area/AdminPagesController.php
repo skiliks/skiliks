@@ -2089,4 +2089,15 @@ class AdminPagesController extends SiteBaseController {
 
         $this->redirect($this->request->urlReferrer);
     }
+
+    public function actionChangeSecurityRisk() {
+        if(null !== $this->getParam('set') && null !== $this->getParam('id')) {
+
+            $email = FreeEmailProvider::model()->findByPk($this->getParam('id'));
+            $email->security_risk = $this->getParam('set');
+            $email->save(false);
+        }
+
+        $this->redirect($this->request->urlReferrer);
+    }
 }
