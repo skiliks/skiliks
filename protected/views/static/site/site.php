@@ -200,7 +200,7 @@ $cs->compileLess($assetsUrl . '/less/documents.less',  $assetsUrl . '/compiled_c
     <div id="loading-cup">
         <img id="loading-cup-img" src="<?= $assetsUrl; ?>/img/loading-cup.jpg" alt="" />
         <h2 class="white-color">Загружается <?=$scenarioLabel?></h2>
-        <div id="images-loader-text" style="line-height: 12px;"></div>
+        <div id="images-loader-text" style="line-height: 14px;"></div>
         <div id="images-loader">
             <div id="images-loader-bar"></div>
         </div>
