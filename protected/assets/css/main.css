@@ -1791,6 +1791,12 @@ body.loading {
     left: 626px !important;
 }
 
+#documents-window {
+    line-height: 14px;
+    font-size: 14px;
+}
+
+.flyleaf p,
 .mailclient-autocomplite,
 .plannerBookDayPlan,
 .book .flyleaf,
