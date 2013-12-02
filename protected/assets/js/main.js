@@ -675,7 +675,10 @@ var fixLogotypes = function() {
                     of: $('#top header #static-page-links')
                 },
                 width: 275,
-                open: function( event, ui ) { /*Cufon.refresh();*/ }
+                open: function( event, ui ) {
+                    /*Cufon.refresh();*/
+                    $('#YumPasswordRecoveryForm_email').blur();
+                }
             });
             return false;
         });

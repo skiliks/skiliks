@@ -168,6 +168,10 @@ define([
                     this.initSocialcalcHotkeys();
 
                     this.documentsManager = new SKDocumentsManager();
+
+                    if(this.isDebug()) {
+                        $('body').css('overflow', 'auto');
+                    }
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
