@@ -11,9 +11,13 @@
  *
  * @property integer $id
  * @property string $domain
+ * @property string $security_risk
  */
 class FreeEmailProvider extends CActiveRecord
 {
+    const FREE_MAIL = 'free_mail';
+
+    const TEN_MINUTES_MAIL = 'ten_minutes_mail';
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -133,5 +137,14 @@ class FreeEmailProvider extends CActiveRecord
                 'pageVar' => 'page'
             ]
         ]);
+    }
+
+    public function getActions() {
+        if($this->security_risk === self::TEN_MINUTES_MAIL){
+            $alias = self::FREE_MAIL;
+        }else{
+            $alias = self::TEN_MINUTES_MAIL;
+        }
+        return CHtml::link($alias, '/admin_area/change_security_risk?set='.$alias.'&id='.$this->id);
     }
 }
