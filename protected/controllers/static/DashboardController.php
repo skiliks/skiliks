@@ -254,7 +254,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             $this->redirect(Yii::app()->request->urlReferrer);
         }
 
-        $status = $invite->getStatusText();
+        $status = $invite->status;
         $initValue = $user->account_corporate->getTotalAvailableInvitesLimit();
         $invite->deleteInvite();
 
