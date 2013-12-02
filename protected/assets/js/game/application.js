@@ -161,7 +161,7 @@ require([
                     imageToLoad.timeoutLength = 6000;
                 }
 
-                imageToLoad.image = $('<img width="0" height="0" style="opacity: 0;" id="' + imageToLoad.id + '" src="' + imageToLoad.url + '"/\>');
+                imageToLoad.image = $('<img style="opacity: 0; height: 0px; width: 0px;" id="' + imageToLoad.id + '" src="' + imageToLoad.url + '"/\>');
 
                 imageToLoad.image.load(function() {
 
@@ -170,7 +170,7 @@ require([
                     for(var key2 in filesToLoad) {
                         if ($(this).attr('id') == filesToLoad[key2].id) {
                             filesToLoad[key2].isLoaded = true;
-                             updateImageLoaderBar('Загрузка данных...');
+                            updateImageLoaderBar('Загрузка данных...');
                             break;
                         }
                     }

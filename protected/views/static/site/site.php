@@ -3,9 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-    <title>Skiliks</title>
-
-
+    <title>Skiliks - Simulation</title>
 <?php
 
  $cs = Yii::app()->clientScript;
@@ -154,8 +152,6 @@ $cs->compileLess($assetsUrl . '/less/documents.less',  $assetsUrl . '/compiled_c
     <?php endif ?>
 
 <?php // файлы которые надо будет предзагрузить } ?>
-
-
     <style>
         #loading-cup {
             color: #ffffff !important;
@@ -199,20 +195,17 @@ $cs->compileLess($assetsUrl . '/less/documents.less',  $assetsUrl . '/compiled_c
             width: 0px;
         }
     </style>
-
 </head>
-
-<body class="body" style="background-color: #2e2e2e; text-align: center; font-size: 0; overflow: hidden;">
+<body class="body" style="background-color: #2e2e2e; text-align: center; line-height: 0px; font-size: 0px; overflow: hidden;">
     <div id="loading-cup">
         <img id="loading-cup-img" src="<?= $assetsUrl; ?>/img/loading-cup.jpg" alt="" />
         <h2 class="white-color">Загружается <?=$scenarioLabel?></h2>
-        <div id="images-loader-text"></div>
-
+        <div id="images-loader-text" style="line-height: 12px;"></div>
         <div id="images-loader">
             <div id="images-loader-bar"></div>
         </div>
     </div>
-    <div id="excel-cache" style="display: none; visibility: hidden; font-size: 0;"></div>
+    <div id="excel-cache" style="display: none; visibility: hidden;  line-height: 0px;t-zize "></div>
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/require.js" data-main="game/application.js"></script>
 </body>
 </html>

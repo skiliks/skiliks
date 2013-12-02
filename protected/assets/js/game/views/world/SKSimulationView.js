@@ -40,11 +40,11 @@ define([
          */
         {
             'attributes': {
-                'style': 'width: 100%; height: 100%; float: left;'
+                'style': 'width: 100%; height: 100%; '
                     + ' -moz-user-select: none; '
                     + ' -webkit-user-select: none;'
                     + ' -ms-user-select:none; user-select:none;'
-                    + ' font-size: 0;'
+                    + '  line-height: 0px; '
             },
 
             'events':          {
@@ -237,6 +237,10 @@ define([
                     // hiding loading screen and setting backgorund color to white for development mode
                     $("#loading-cup").remove();
                     $("body").css("background-color", "#ffffff");
+
+                    if ($.browser['msie']) {
+                        $('body>img').height(0);
+                    }
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
