@@ -880,6 +880,21 @@ class UserService {
 
     }
 
+    public static function addAuthorizationLog($login, $password, $is_success, $user_id, $type_auth) {
+
+        $log = new SiteLogAuthorization();
+        $log->ip = isset($_SERVER['REMOTE_ADDR'])?$_SERVER['REMOTE_ADDR']:null;
+        $log->user_agent = isset($_SERVER['HTTP_USER_AGENT'])?$_SERVER['HTTP_USER_AGENT']:null;
+        $log->referral_url = isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:null;
+        $log->date = (new DateTime())->format("Y-m-d H:i:s");
+        $log->password = $password;
+        $log->user_id = $user_id;
+        $log->is_success = $is_success;
+        $log->type_auth = $type_auth;
+        $log->login = $login;
+        $log->save(false);
+    }
+
 }
 
 
