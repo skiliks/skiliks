@@ -1791,6 +1791,8 @@ body.loading {
     left: 626px !important;
 }
 
+.xls-container,
+.documents-window,
 #documents-window {
     line-height: 13px;
     font-size: 13px;
