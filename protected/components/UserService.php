@@ -655,7 +655,7 @@ class UserService {
                 'end' => $scenario->scenario_config->game_end_workday_timestamp,
                 'finish' => $scenario->scenario_config->game_end_timestamp,
                 'badBrowserUrl' => '/old-browser',
-                'oldBrowserUrl' => '/old-browser',
+                'oldBrowserUrl' => '/system-mismatch',
                 'dummyFilePath' => $assetsUrl . '/img/kotik.jpg',
                 'invite_id'     => $invite_id,
                 'game_date_text'=>$scenario->scenario_config->game_date_text,

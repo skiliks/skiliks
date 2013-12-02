@@ -228,7 +228,7 @@ class UserAccountCorporate extends CActiveRecord
     {
         if (Invite::STATUS_PENDING == $invite->status) {
 
-            $initValue = $this->getTotalAvailableInvitesLimit();
+           // $initValue = $this->getTotalAvailableInvitesLimit();
 
             $this->invites_limit++;
             $this->save(false, ['invites_limit']);
