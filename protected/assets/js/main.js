@@ -677,7 +677,6 @@ var fixLogotypes = function() {
                 width: 275,
                 open: function( event, ui ) {
                     /*Cufon.refresh();*/
-                    $('#YumPasswordRecoveryForm_email').blur();
                 }
             });
             return false;
