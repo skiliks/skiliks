@@ -32,7 +32,7 @@ try {
                 for (var name in minSupport) {
                     if (minSupport.hasOwnProperty(name)) {
                         if ($.browser[name]) {
-                            if (parseFloat($.browser.version) >= minSupport[name] && this.isAllowOS(['Windows', 'MacOS'])) {
+                            if (parseFloat($.browser.version) >= minSupport[name] && this.isAllowOS(cfg.isSkipOsCheck, ['Windows', 'MacOS'])) {
                                 updateImageLoaderBar('Проверка совместимости браузера... OK!', 0.85, true);
                                 return true;
                             } else {
@@ -144,8 +144,10 @@ try {
                 return true;
             },
 
-            isAllowOS:function(list) {
-
+            isAllowOS:function(isSkipOsCheck, list) {
+                if(isSkipOsCheck) {
+                    return true
+                }
                 var OSName="Unknown OS";
                 if (navigator.appVersion.indexOf("Win")!=-1) OSName="Windows";
                 if (navigator.appVersion.indexOf("Mac")!=-1) OSName="MacOS";
