@@ -1745,6 +1745,11 @@ tr.email-list-separator {
     background-position: 0 -20px;
 }
 
+.debug-panel {
+    line-height: 14px;
+    text-align: left;
+}
+
 .debug-panel form.trigger-event .alert {
     position: absolute;
     top: 10px;
@@ -1796,6 +1801,8 @@ body.loading {
 #mailEmulatorMainScreen,
 #mailEmulatorContentDiv {
     text-align: left;
+    line-height: 14px;
+    font-size: 14px;
 }
 
 #cs-button-function div {
