@@ -201,6 +201,19 @@ return array(
     'November' => 'Ноябрь',
     'December' => 'Декабрь',
 
+    'Jan' => "янв",
+    'Feb' => "фев",
+    'Mar' => "мар",
+    'Apr' => "апр",
+    'May' => "май",
+    'Jun' => "июн",
+    'Jul' => "июл",
+    'Aug' => "авг",
+    'Sep' => "сен",
+    'Oct' => "окт",
+    'Nov' => "ноя",
+    'Des' => "дек",
+
     'Sign in' => 'Вход',
     'Forgot your password?' => 'Забыли пароль?',
     'Remember me' => 'Запомнить меня',
@@ -409,18 +422,6 @@ return array(
     'Preparation for the simulation' => 'Подготовка к прохождению симуляции',
 
     'Watch the video to learn more' => 'Смотреть видео и узнать больше',
-    'Jan' => "янв",
-    'Feb' => "фев",
-    'Mar' => "мар",
-    'Apr' => "апр",
-    'May' => "май",
-    'Jun' => "июн",
-    'Jul' => "июл",
-    'Aug' => "авг",
-    'Sep' => "сен",
-    'Oct' => "окт",
-    'Nov' => "ноя",
-    'Des' => "дек",
 
     'Email is already in use.' => 'Данный email занят',
 
