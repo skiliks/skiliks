@@ -22,7 +22,7 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
      */
     public function testSK1338() {
         //$this->markTestIncomplete();
-        $this->start_simulation();
+        $this->start_simulation("F3_testSK1338");
         $this->run_event('E1.2', "xpath=(//*[contains(text(),'Марина, есть срочная работа.')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),'— Закончила? Теперь слушай сюда.')])");
         sleep(5);
@@ -54,7 +54,7 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
      */
     public function testSK1339() {
         //$this->markTestIncomplete();
-        $this->start_simulation();
+        $this->start_simulation("F3_testSK1339");
         $this->run_event('E1.2', "xpath=(//*[contains(text(),'Марина, есть срочная работа.')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),'А мне что делать')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Пусть спрашивает')])");
@@ -86,7 +86,7 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
      */
     public function testSK1340() {
         //$this->markTestIncomplete();
-        $this->start_simulation();
+        $this->start_simulation("F3_testSK1340");
         $this->run_event('E1.2', "xpath=(//*[contains(text(),'Марина, есть срочная работа.')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),'А мне что делать')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Ты же у нас такая талантливая и умная!')])");
@@ -115,7 +115,7 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
      * 6. Заканчиваем симуляцию
      */
     public function testSK1341() {
-        $this->start_simulation();
+        $this->start_simulation("F3_testSK1341");
 
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "10");
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "02");
@@ -156,7 +156,7 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
      */
     public function testSK1411()
     {
-        $this->start_simulation();
+        $this->start_simulation("F3_testSK1411");
         $this->run_event('E1.2', "xpath=(//*[contains(text(),'Марина, есть срочная работа.')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),'— Закончила? Теперь слушай сюда.')])");
         sleep(5);

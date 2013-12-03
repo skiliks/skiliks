@@ -18,7 +18,7 @@ class F22_SK1428_Test extends SeleniumTestHelper
     public function testSK1428()
     {
         //$this->markTestIncomplete();
-        $this->start_simulation();
+        $this->start_simulation("F22_SK1428_Test");
         $this->optimal_click('link=F38_1');
         $this->optimal_click('link=F38_2');
         sleep(2);
@@ -40,7 +40,7 @@ class F22_SK1428_Test extends SeleniumTestHelper
     public function testSK1428_Case2()
     {
         //$this->markTestIncomplete();
-        $this->start_simulation();
+        $this->start_simulation("F22_SK1428_Test_Case_1");
         $this->optimal_click('link=F38_1');
         $this->optimal_click('link=F38_2');
         $this->optimal_click('link=F38_3');

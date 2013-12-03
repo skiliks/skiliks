@@ -77,6 +77,7 @@ class SimulationController extends SimulationBaseController
                 'result'        => 1,
                 'speedFactor'   => $simulation->getSpeedFactor(),
                 'simId'         => $simulation->id,
+                'inviteId'      => $simulation->invite->id,
                 'scenarioName'  => $scenarioName,
                 'scenarioLabel' => $scenarioConfigLabelText
             )
@@ -88,10 +89,20 @@ class SimulationController extends SimulationBaseController
      */
     public function actionStop()
     {
-        SimulationService::simulationStop(
-            $this->getSimulationEntity(),
-            Yii::app()->request->getParam('logs', array())
-        );
+        $simulation = $this->getSimulationEntity();
+        SimulationService::logAboutSim($simulation, 'Начало simulation/stop');
+        $transaction = $simulation->dbConnection->beginTransaction();
+        try {
+            SimulationService::simulationStop(
+                $this->getSimulationEntity(),
+                Yii::app()->request->getParam('logs', array())
+            );
+            $transaction->commit();
+        } catch (Exception $e) {
+            SimulationService::logAboutSim($simulation, 'Ошибка на simulation/stop '.$e->getMessage());
+            $transaction->rollback();
+            throw $e;
+        }
         $this->sendJSON([
             'result' => self::STATUS_SUCCESS
         ]);
@@ -205,7 +216,15 @@ class SimulationController extends SimulationBaseController
 
     public function actionConnect()
     {
-        SimulationService::logAboutSim($this->getSimulationEntity(), 'internet connection break');
+        if(null !== Yii::app()->request->getParam('simId')){
+            SimulationService::logAboutSim($this->getSimulationEntity(), 'internet connection break');
+        }else{
+            $invite_id = Yii::app()->request->getParam('invite_id');
+            if(null !== $invite_id) {
+                $invite = Invite::model()->findByPk($invite_id);
+                InviteService::logAboutInviteStatus($invite, 'internet connection break');
+            }
+        }
         $this->sendJSON(['result' => self::STATUS_SUCCESS]);
     }
 

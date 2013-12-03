@@ -21,8 +21,8 @@ define(["text!game/jst/window.jst"],
 
         'events': {
             'click .win-close': 'doWindowClose',
-            'mousedown': 'doActivate',
-            'click .btn-set':'doSettingsMenu',
+            'mousedown':        'doActivate',
+            'click .btn-set':   'doSettingsMenu',
             'click .sim-window-settings .volume-control':'doVolumeChange'
         },
 
@@ -55,7 +55,9 @@ define(["text!game/jst/window.jst"],
             }
         },
 
-
+        /**
+         *
+         */
         renderWindow: function () {
             try {
                 var me = this;
@@ -93,6 +95,7 @@ define(["text!game/jst/window.jst"],
                 }
             }
         },
+
         /**
          * @abstract
          * @param {jQuery} el
@@ -100,9 +103,11 @@ define(["text!game/jst/window.jst"],
         renderTitle: function (el) {
             // Do nothing
         },
+
         renderContent: function (el) {
             throw new Error ('You need to override it');
         },
+
         remove: function () {
             var me = this;
             try {
@@ -222,18 +227,32 @@ define(["text!game/jst/window.jst"],
             }
         },
 
-        doWindowClose: function () {
+        /**
+         *
+         * @param event
+         */
+        doWindowClose: function (event) {
             try {
-                this.onWindowClose();
-                this.options.model_instance.close();
+// иногда игрок не может закрыть Window - получается заблокированная игра
+//                if($(event.currentTarget).attr('data-disabled') !== 'true'){
+//                    $(event.currentTarget).attr('data-disabled', 'true');
+                    this.onWindowClose();
+                    this.options.model_instance.close();
+//                } else {
+//                }
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);
                 }
             }
         },
+
+        /**
+         *
+         */
         doActivate: function () {
             try {
+                this.$('.menu_bar').show();
                 this.options.model_instance.setOnTop();
             } catch(exception) {
                 if (window.Raven) {
@@ -258,6 +277,7 @@ define(["text!game/jst/window.jst"],
 
         unBlock: function() {
             try {
+                this.$('.menu_bar').show();
                 this.$('.overlay').addClass('hidden');
             } catch(exception) {
                 if (window.Raven) {

@@ -22,7 +22,7 @@ class F4_SK1413_N_Test extends SeleniumTestHelper
      */
     public function testSK1413_N_Case1() {
         // $this->markTestIncomplete();
-        $this->start_simulation();
+        $this->start_simulation("F4_SK1413_N_Test_Case1");
         $this->optimal_click('link=F32');
         sleep(5);
         $this->run_event('E1.3',"xpath=(//*[contains(text(),'Ты не мог бы мне помочь?')])",'click');
@@ -34,7 +34,7 @@ class F4_SK1413_N_Test extends SeleniumTestHelper
 
         $this->run_event('ET1.3.1');
         sleep(10);
-        $this->assertFalse($this->isElementPresent(Yii::app()->params['test_mappings']['icons']['phone']));
+        $this->assertFalse($this->isElementPresent(Yii::app()->params['test_mappings']['icons_active']['phone']));
         $this->simulation_stop();
     }
 
@@ -52,7 +52,7 @@ class F4_SK1413_N_Test extends SeleniumTestHelper
      */
     public function testSK1413_N_Case2() {
         // $this->markTestIncomplete();
-        $this->start_simulation();
+        $this->start_simulation("F4_SK1413_N_Test_Case2");
         $this->optimal_click('link=F32');
         sleep(5);
         $this->run_event('E1.3',"xpath=(//*[contains(text(),'Ты не мог бы мне помочь?')])",'click');
@@ -65,7 +65,7 @@ class F4_SK1413_N_Test extends SeleniumTestHelper
 
         $this->run_event('ET1.3.2');
         sleep(5);
-        $this->assertFalse($this->isElementPresent(Yii::app()->params['test_mappings']['icons']['phone']));
+        $this->assertFalse($this->isElementPresent(Yii::app()->params['test_mappings']['icons_active']['phone']));
         $this->simulation_stop();
     }
 }

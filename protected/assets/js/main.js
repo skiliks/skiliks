@@ -53,7 +53,7 @@ var fixLogotypes = function() {
                 success: function (data) {
                     simulation_popup.html(data);
                     simulation_popup.dialog('open');
-                    Cufon.refresh();
+                    /* Cufon.refresh(); */
                     // fixSimResultsDialog {
                     $('.simulation-details .estmfooter a').click(function () {
                         fixSimResultsDialog();
@@ -141,6 +141,43 @@ var fixLogotypes = function() {
             return false;
         });
 
+        $('.show-simulation-rules span').click(function(e) {
+
+            // удлиннить окно чтоб футер был ниже нижнего края попапа
+            $('.content').css('margin-bottom', '600px');
+
+            $('#invite-accept-form').dialog({
+                dialogClass: 'accept-invite-warning-popup full-simulation-info-popup margin-top-popup',
+                modal:       true,
+                autoOpen:    true,
+                resizable:   false,
+                draggable:   false,
+                width:       881,
+                maxHeight:   600,
+                position: {
+                    my: "left top",
+                    at: "left bottom",
+                    of: $("header h1")
+                },
+                open: function() {
+                    $(".accept-requirements-div").hide();
+                },
+                close: function () {
+                    $(".accept-requirements-div").show();
+                }
+            });
+
+            // hack {
+            $('.accept-invite-warning-popup full-simulation-info-popup').css('top', '50px');
+            $(window).scrollTop('.narrow-contnt');
+
+            // hack }
+
+            return false;
+        });
+
+
+
         $(".registration_check").click(function () {
 
             if($(this).parent().hasClass('form-account-personal')) {
@@ -190,7 +227,7 @@ var fixLogotypes = function() {
                     width:881,
                     draggable: false,
                     open: function( event, ui ) {
-                        Cufon.refresh();
+                        /* Cufon.refresh(); */
                         $('.start-lite-simulation-now').click(function() {
                             $('.start-lite-simulation-now').addClass('clicked');
                             $('#yum-user-registration-form-activation-success').submit();
@@ -213,8 +250,8 @@ var fixLogotypes = function() {
 
         // попап перед стартом лайт симуляции в кабинетах
         $('.start-lite-simulation-btn').click(function(event) {
-            event.preventDefault();
-
+            event.preventDefault('.start-lite-simulation-btn');
+            console.log(".start-lite-simulation-btn");
             // get URL for lite simulation
             var href = $(this).attr('data-href');
 
@@ -227,7 +264,7 @@ var fixLogotypes = function() {
                 width:881,
                 draggable: false,
                 open: function( event, ui ) {
-                    Cufon.refresh();
+                    //Cufon.refresh();
                     $('.start-lite-simulation-now').click(function() {
                         location.assign(href);
                     });
@@ -262,7 +299,7 @@ var fixLogotypes = function() {
                         });
                     }
 
-                    Cufon.refresh();
+                    //Cufon.refresh();
                 }
             });
 
@@ -288,10 +325,6 @@ var fixLogotypes = function() {
             }
             return false;
         };
-
-        $('.sign-in-box form#login-form').submit(function(event) {
-            return false;
-        });
 
         // Ajax Validation {
 
@@ -373,7 +406,7 @@ var fixLogotypes = function() {
         // delete vacancy }
 
         $(window).on('resize', function () {
-            Cufon.refresh();
+            //Cufon.refresh();
 
             fixLogotypes();
         });
@@ -399,8 +432,10 @@ var fixLogotypes = function() {
 
         // show/hide sign-in box {
         $('.sign-in-link').click(function(event){
-            event.preventDefault();
+
+            event.preventDefault(event);
             $(".sign-in-box").dialog('open');
+            return false;
         });
 
         var pre_simulation_popup = $(".dashboard .full-simulation-info-popup");
@@ -448,7 +483,7 @@ var fixLogotypes = function() {
                             resizable: false,
                             width:881,
                             open: function( event, ui ) {
-                                Cufon.refresh();
+                                //Cufon.refresh();
 
                                 // пользователь выбирает не прерывать текущую симуляцию
                                 $('.exists-self-to-self-simulation-warning-popup .back-button').click(function(){
@@ -502,7 +537,7 @@ var fixLogotypes = function() {
                     width:881,
                     open: function( event, ui ) {
                         $('.start-full-simulation-next').attr('data-href', href);
-                        Cufon.refresh();
+                        //Cufon.refresh();
                     }
                 });
             } else {
@@ -511,6 +546,59 @@ var fixLogotypes = function() {
                 infoPopup_aboutFullSimulation(href);
             }
         }
+
+        $('.subscribe-ti-tariff').click(function(event) {
+            //event.preventDefault();
+            var me = this;
+            if($(this).hasClass('go-to-link')) {
+                console.log('переход');
+                return true;
+            }
+            var slug = $(me).find('a').attr('data-tariff-slug');
+            $.ajax({
+                url: "/dashboard/change-tariff",
+                data:{tariff_slug:slug},
+                success: function (data) {
+                    if(data.type === 'link') {
+                        location.assign("/payment/order/"+slug);
+                    }else if(data.type === 'popup') {
+                        $("."+data.popup_class).dialog({
+                            closeOnEscape: true,
+                            dialogClass: 'popup-before-start-sim',
+                            minHeight: 220,
+                            modal: true,
+                            resizable: false,
+                            draggable:false,
+                            width:881,
+                            open: function( event, ui ) { //invite_limits
+                                $("."+data.popup_class).find('.tariff_label').text(data.tariff_label);
+                                $("."+data.popup_class).find('.tariff_limits').text(data.tariff_limits);
+                                $("."+data.popup_class).find('.tariff_start').text(data.tariff_start);
+                                $("."+data.popup_class).find('.tariff_end').text(data.tariff_end);
+                                $("."+data.popup_class).find('.tariff-link').attr('href', "/payment/order/"+slug);
+                                $("."+data.popup_class).find('.invite_limits').text(data.invite_limits);
+                                //Cufon.refresh();
+                            }
+                        });
+                    } else {
+                        throw new Error("Не верный тип действия");
+                    }
+                }
+            });
+            //extend-tariff-popup
+            //tariff-already-booked-popup
+            //tariff-replace-now-popup
+
+            return false;
+        });
+
+        $('.subscribe-ti-tariff-close').click(function(event) {
+            //event.preventDefault();
+            var data_class = $(this).attr('data-class');
+            console.log(data_class)
+            $("."+data_class).dialog('close');
+            return false;
+        });
 
         $('.start-full-simulation-passed').click(function(event){
             event.preventDefault();
@@ -560,10 +648,15 @@ var fixLogotypes = function() {
                     my: "left top",
                     at: "left top",
                     of: $('#corporate-invitations-list-box .items')
+                },
+                open: function () {
+                    // This is fix render for IE10
+                    // z-index правильный, но затемнение отрысовывается над попапом!
+                    $(window).trigger('resize');
                 }
             });
             $(".form-vacancy").dialog('open');
-            Cufon.refresh();
+            //Cufon.refresh();
         });
 
         // password recovery {
@@ -582,7 +675,9 @@ var fixLogotypes = function() {
                     of: $('#top header #static-page-links')
                 },
                 width: 275,
-                open: function( event, ui ) { Cufon.refresh(); }
+                open: function( event, ui ) {
+                    /*Cufon.refresh();*/
+                }
             });
             return false;
         });
@@ -638,11 +733,11 @@ var fixLogotypes = function() {
                 $(this).css('color', '#555742');
                 $(this).removeClass("active");
             }
-            Cufon.refresh();
+            //Cufon.refresh();
         })
 
         $(".change-simulation-result-render").click(function() {
-            $.post("/dashboard/remakeRenderType", {remakeRender : "true"}).done(function() {
+            $.post("/dashboard/switchAssessmentResultsRenderType").done(function() {
                 location.reload();
             })
         });
@@ -688,7 +783,7 @@ var fixLogotypes = function() {
                                         }
                                     });
                                 }
-                                Cufon.refresh();
+                                //Cufon.refresh();
                             }
                         });
 
@@ -696,7 +791,7 @@ var fixLogotypes = function() {
                     });
                 }
             });
-            Cufon.refresh();
+            //Cufon.refresh();
             $(".ui-dialog-titlebar").removeClass('ui-widget-header');
             return false;
         });
@@ -736,6 +831,74 @@ var fixLogotypes = function() {
                 $(".popover").removeClass("active");
             }
         );
+
+        if($("#corporate-invitations-list-box").length != 0) {
+
+            $('.items td a').hide();
+
+            // append pop-up sub-menu
+            if (2 < $('.items tr').length || '' != $('.items tr:eq(1) td:eq(3)').text()) { //fix for empty list
+                $('.items tr').each(function(){
+                    $(this).find('td:eq(0)').html(
+                        '<a class="invites-smallmenu-switcher"></a><div class="invites-smallmenu-item" ></div><span class="topline"></span>'
+                    );
+                });
+            }
+
+            // remove last 3 TH
+            $('.items').find('th:eq(7)').remove();
+            $('.items').find('th:eq(6)').remove();
+
+            $('.invites-smallmenu-switcher').each(function(){
+                // move links from last 3 TD to pop-up sub-menu
+                $(this).next().append(
+                    $(this).parent().parent().find('td:eq(6)').html()
+                        + $(this).parent().parent().find('td:eq(7)').html()
+                );
+
+                // remove last 3 TD
+                $(this).parent().parent().find('td:eq(7)').remove();
+                $(this).parent().parent().find('td:eq(6)').remove();
+
+                // make links (now they in pop-up sub-menu) visible
+                $('.items td a').show();
+
+            });
+
+            // setup sub-menu switcher behaviour
+            $('.invites-smallmenu-switcher').click(function(){
+
+                var isVisible = $(this).next().is(":visible");
+
+                // click must close all other open "small-menu"
+                $('tr.selected-sk .invites-smallmenu-item').hide();
+                $('tr.selected-sk').removeClass('selected-sk');
+
+                // after removeClass('selected-sk') and hide(), function this.toggle() will always shown element,
+                // so I store menu state before I hide all menus and use isVisible to determine show or hide current menu
+                if (isVisible) {
+                    var a = $(this).next().hide();
+                    $(this).parent().parent().removeClass('selected-sk');
+                } else {
+                    var a = $(this).next().toggle();
+                    $(this).parent().parent().toggleClass('selected-sk');
+                }
+                //Cufon.refresh();
+            });
+
+            $('.invites-smallmenu-item').click(function(){
+                $(this).hide();
+                $(this).parent().parent().removeClass('selected-sk');
+            });
+
+            $(document).click(function(e) {
+                if(!$(e.target).is('.invites-smallmenu-switcher')) {
+                    var visibleMenu = $(".invites-smallmenu-item:visible");
+                    visibleMenu.parents("tr").removeClass('selected-sk');
+                    visibleMenu.hide();
+                }
+            });
+        }
 
     });
 })(jQuery);

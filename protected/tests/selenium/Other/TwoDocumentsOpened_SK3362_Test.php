@@ -10,7 +10,7 @@ class TwoDocumentsOpened_SK3362_Test extends SeleniumTestHelper
 {
     public function test_TwoDocumentsOpened_SK3362 ()
     {
-        $this->start_simulation();
+        $this->start_simulation("TwoDocumentsOpened_SK3362_Test");
 
         $this->clearEventQueueBeforeEleven('RST1');
 

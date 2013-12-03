@@ -264,6 +264,9 @@ class TimeManagementAnalyzer
         $assessment_1st->save();
 
         $this->firstPriorityTotal = $assessment_1st->value;
+        if($this->firstPriorityTotal >= 95){
+            $this->firstPriorityTotal = 100;
+        }
 
         $assessment_non = new TimeManagementAggregated();
         $assessment_non->sim_id = $this->simulation->id;

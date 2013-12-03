@@ -47,6 +47,21 @@ class YiiLessCClientScript extends CClientScript
         return $this;
     }
 
+    public function compileLess($lessUrl, $cssUrl)
+    {
+        $lessFilePath = realpath($this->basePath . DIRECTORY_SEPARATOR . $lessUrl);
+        $cssFilePath = str_replace('/', DIRECTORY_SEPARATOR, $this->basePath . DIRECTORY_SEPARATOR . $cssUrl);
+
+
+        $lessCompiler = new lessc();
+
+        if ($this->cache === false) {
+            $lessCompiler->compileFile($lessFilePath, $cssFilePath);
+        } else {
+            $lessCompiler->checkedCompile($lessFilePath, $cssFilePath);
+        }
+    }
+
     public function registerLess($id, $less, $media='')
     {
         $lessCompiler = new lessc();

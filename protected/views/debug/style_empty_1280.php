@@ -9,8 +9,8 @@ $cs->scriptMap=array(
 );
 
 $cs->registerCoreScript('jquery');
-$cs->registerScriptFile($assetsUrl . '/js/cufon-yui.js');
-$cs->registerScriptFile($assetsUrl . '/js/ProximaNova.font.js');
+//$cs->registerScriptFile($assetsUrl . '/js/cufon-yui.js');
+//$cs->registerScriptFile($assetsUrl . '/js/ProximaNova.font.js');
 
 $cs->registerCssFile($assetsUrl . "/css/static.css");
 ?>
@@ -70,11 +70,4 @@ $cs->registerCssFile($assetsUrl . "/css/static.css");
         </footer>
     </div><!-- /site-wrap -->
 </body>
-<script type="text/javascript">
-    jQuery(document).ready(function(){
-        Cufon.replace('li, p, label, input, select, .proxima-reg, .to-top', {fontFamily:"ProximaNova-Regular", hover: true});
-        Cufon.replace('.btn, .proxima-bold, h1, h2, h3, h4, h5, .dark-labels label, .list-dark li', {fontFamily:"ProximaNova-Bold", hover: true});
-        Cufon.replace('.semi', {fontFamily:"Conv_ProximaNova-Semibold", hover: true});
-    });
-</script>
 </html>

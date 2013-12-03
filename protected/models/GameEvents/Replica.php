@@ -10,7 +10,8 @@
  * @property string  $code, dialog code 'ET1.1', 'E8' ...
  * @property string  $next_event_code, 'ET1.1', 'D1', 'P1', 'M1', 'MS2'
  * @property string  $next_event
- * @property string  $sound
+ * @property string  $media_file_name
+ * @property string  $media_type
  * @property string  $type_of_init, Replica initialization type: dialog, icon, time, flex etc.
  * @property string  $flag_to_switch
  * @property string  $flag_to_switch_2

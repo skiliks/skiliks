@@ -103,11 +103,12 @@ define([
                     this.isUserCanFinalizeCall = false;
                 }
 
+                var sound = event.getAudioSrc();
+
                 var callInHtml = _.template(dialog_template, {
                     'remote_replica':            remote_replica,
                     'my_replicas':               my_replicas,
-                    'audio_src':                 event.getAudioSrc(),
-                    'type':                      'audio/wav',
+                    'audio_src':                 sound,
                     isUserCanFinalizeCall: this.isUserCanFinalizeCall,
                     isDisplaySettingsButton:this.isDisplaySettingsButton,
                     windowName:this.windowName

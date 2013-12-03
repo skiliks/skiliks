@@ -1,19 +1,23 @@
 <?php
+
+// Team 'Production - skiliks.com'
+$sentryDsn = 'https://45ab0baac6fa42cd9a605c26a72f6c2c:1a06feee2a7a4a6ba778a9b11f56d337@app.getsentry.com/15803';
+
 define(YII_DEBUG, false);
 return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
     'preload'=> array('log', 'RSentryException'),
     'components'=>array(
         'RSentryException'=> array(
-            'dsn'=> 'https://bfd7395024f24728afdf79e9034bca04:2f8bec2e2c40493dbf7b07db88afc94f@app.getsentry.com/4572',
+            'dsn'   => $sentryDsn,
             'class' => 'application.components..yii-sentry-log.RSentryComponent',
         ),
         'log'=>array(
             'class'=>'CLogRouter',
             'routes'=>array(
                 array(
-                    'class'=>'application.components.yii-sentry-log.RSentryLog',
-                    'dsn'=> 'https://bfd7395024f24728afdf79e9034bca04:2f8bec2e2c40493dbf7b07db88afc94f@app.getsentry.com/4572',
-                    'levels'=>'error, warning',
+                    'class'  => 'application.components.yii-sentry-log.RSentryLog',
+                    'dsn'    => $sentryDsn,
+                    'levels' => 'error, warning',
                 ),
             ),
         ),
@@ -29,14 +33,15 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
         ),
     ),
     'params' => array(
-        'frontendUrl' => 'http://front.skiliks.com/',
+        'server_name'    => 'не указан',
+        'frontendUrl'    => 'http://front.skiliks.com/',
         'runMigrationOn' => 'production',
+        'sentry' => [
+            'dsn' => $sentryDsn,
+        ],
         'public' => [
-            'isLocalPc'          => true,
             'useSentryForJsLog'  => true,
-            'isUseZohoProxy'     => false,
             'isSkipBrowserCheck' => false,
-
             'isIncludeGoogleAnalyticsJavaScript' => true,
         ],
         'robokassa' => [
@@ -44,12 +49,7 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
             'MrchLogin'      => 'leah',
             'sMerchantPass1' => 'as24ED4rFdrG456Dsd0d9f7gjec3',
             'sMerchantPass2' => 'd89DCs6d9ft66ygfr8iexmv67werd'
-        ],
-        'zoho' => array(
-            'saveUrl'     => 'http://skiliks.com/zoho/saveExcel',
-            'apiKey'      => '32498387c50f6db99096ec9e70e4ea2a',
-            'sendFileUrl' => 'https://sheet.zoho.com/remotedoc.im?apikey=%s&output=editor',
-        ),
+        ]
     )
 ));
 

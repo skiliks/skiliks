@@ -68,15 +68,6 @@ nav ul, nav ul li {
     font-style: normal;
 }
 @font-face {
-    font-family: 'ProximaNova-Semibold';
-    src: url('../fonts/ProximaNova-Semibold.eot');
-    src: url('../fonts/ProximaNova-Semibold.woff') format('woff'),
-    url('../fonts/ProximaNova-Semibold.ttf') format('truetype'),
-    url('../fonts/ProximaNova-Semibold.svg') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
-@font-face {
     font-family: 'SegoePrint';
     src: url('../fonts/25D0FC_0_0.eot');
     src: url('../fonts/25D0FC_0_0.eot?#iefix') format('embedded-opentype'),url('../fonts/25D0FC_0_0.woff') format('woff'),url('../fonts/25D0FC_0_0.ttf') format('truetype');
@@ -1026,7 +1017,7 @@ span.required, .form-simple span.required {
 .yiiPager li, .yiiPager li a, .pager .yiiPager li, .pager .yiiPager li a {
     color: #fff;
     display: inline-block;
-    font-family:"ProximaNova-Semibold", Sans-Serif;
+    font-family: Sans-Serif;
 }
 .yiiPager a, .pager .yiiPager a {
     margin: 0px 2px;
@@ -1044,7 +1035,7 @@ span.required, .form-simple span.required {
 .pager .yiiPager .previous a:visited, .pager .yiiPager .next a:visited {
     background: #6caab3;
     border: none;
-    font-family:"ProximaNova-Semibold", Sans-Serif;
+    font-family: Sans-Serif;
 }
 .yiiPager a:link, .pager .yiiPager a:link, .yiiPager a:visited, .pager .yiiPager a:visited {
     border:none;

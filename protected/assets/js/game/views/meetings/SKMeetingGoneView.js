@@ -21,7 +21,8 @@ define([
 
         'events':_.defaults({
             'click .proceed-btn': 'doProceedWork'
-        }, SKWindowView.prototype.events),
+
+            }, SKWindowView.prototype.events),
 
         isDisplaySettingsButton: false,
 
@@ -76,6 +77,8 @@ define([
 
                 AppView.frame._showPausedScreen();
                 this.$el.css('zIndex', 1001);
+
+                this.delegateEvents();
                 //this.$el.topZIndex();
             } catch(exception) {
                 if (window.Raven) {
@@ -108,6 +111,7 @@ define([
 
         doProceedWork: function(e) {
             try {
+                console.log('doProceedWork');
                 var simulation = SKApp.simulation,
                     subject = this.options.model_instance.get('subject'),
                     me = this;

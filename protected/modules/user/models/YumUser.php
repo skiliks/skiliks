@@ -362,7 +362,7 @@ class YumUser extends YumActiveRecord
             $this->createtime = time();
 
             if (false === Yii::app() instanceof CConsoleApplication) {
-                $this->ip_address = $_SERVER['REMOTE_ADDR'];
+                $this->ip_address = isset($_SERVER['REMOTE_ADDR'])?$_SERVER['REMOTE_ADDR']:'127.0.0.1';//для тестов движения инвайтов
             }
         }
         return true;
@@ -844,7 +844,7 @@ class YumUser extends YumActiveRecord
         ) {
 
             if ($user = $profile->user) {
-                var_dump($user->status);
+                //var_dump($user->status);
 
 //                if ($user->status != self::STATUS_INACTIVE)
 //                    return -1;
@@ -1055,6 +1055,8 @@ class YumUser extends YumActiveRecord
         $this->getAccount()->banUser();
         $this->status = self::STATUS_BANNED;
         $isSaved = $this->save(false);
+        $tariff = Tariff::model()->findByAttributes(['slug'=>Tariff::SLUG_FREE]);
+        $this->account_corporate->setTariff($tariff, true);
 
         if($isSaved) {
             $this->sendBannedEmail();

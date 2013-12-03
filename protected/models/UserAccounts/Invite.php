@@ -17,14 +17,18 @@
  * @property string $status
  * @property string $sent_time
  * @property string $updated_at
- * @property string $fullname
+ * @property string $fullname - "виртуальное свойство", такого поля нет в БД, для него есть только геттер, нет сеттера.
  * @property integer $simulation_id
  * @property integer $scenario_id
  * @property integer $tutorial_scenario_id
  * @property string $tutorial_displayed_at
  * @property string $tutorial_finished_at
  * @property integer $can_be_reloaded
+ * @property integer $tariff_plan_id
  * @property boolean $is_display_simulation_results
+ * @property string $stacktrace
+ * @property bolean $is_crashed
+ * @property string $expired_at
  *
  * The followings are the available model relations:
  * @property YumUser $ownerUser
@@ -101,6 +105,26 @@ class Invite extends CActiveRecord
     }
 
     /**
+     * Устанавливает дату до которой приглашение пожет быть принято согластно конфигу
+     */
+    public function setExpiredAt($days = null)
+    {
+        if (null === $days) {
+            $days = Yii::app()->params['inviteExpired'];
+        }
+        $account = UserAccountCorporate::model()->findByAttributes(['user_id'=>$this->owner_id]);
+        /* @var $account UserAccountCorporate */
+        if($account->expire_invite_rule === UserAccountCorporate::EXPIRE_INVITE_RULE_BY_TARIFF) {
+
+            $this->expired_at = (new DateTime($account->getActiveTariffPlan()->finished_at))->modify('+'.$days.' days')->format("Y-m-d H:i:s");
+
+        } else {
+
+            $this->expired_at = (new DateTime())->modify('+'.$days.' days')->format("Y-m-d H:i:s");
+        }
+    }
+
+    /**
      * @return string
      */
     public function getVacancyLabel()
@@ -164,7 +188,7 @@ class Invite extends CActiveRecord
     public function markAsSendToday()
     {
         $datetime = new DateTime('now', new DateTimeZone('Europe/Moscow'));
-        $this->sent_time = $datetime->getTimestamp();
+        $this->sent_time  = $datetime->format("Y-m-d H:i:s");
         $this->updated_at = $datetime->format("Y-m-d H:i:s");
         if (null === $this->status) {
             $this->status = self::STATUS_PENDING;
@@ -176,7 +200,7 @@ class Invite extends CActiveRecord
      */
     public function getExpiredDate()
     {
-        $time = $this->sent_time + self::EXPIRED_TIME;
+        $time = time($this->sent_time) + self::EXPIRED_TIME;
         return Yii::t('site', date('F', $time)).date(' d, Y', $time);
     }
 
@@ -231,6 +255,17 @@ class Invite extends CActiveRecord
     }
 
     /**
+     * Этот мотод-заглушка нужен для того чтобы не вызывать исключения при сохранении объекта
+     * так как поля fullname в БД не существует - для него нет сеттера и происходит ошибка валидации
+     *
+     * @return string
+     */
+    public function setFullname()
+    {
+        // nothing
+    }
+
+    /**
      * @return string
      */
     public function getStatusText()
@@ -264,9 +299,7 @@ class Invite extends CActiveRecord
      */
     public function getSentTime()
     {
-        $datetime = new DateTime('now', new DateTimeZone('Europe/Moscow'));
-        $datetime->setTimestamp((int)$this->sent_time);
-        return $datetime;
+        return $this->sent_time;
     }
 
     /**
@@ -283,25 +316,27 @@ class Invite extends CActiveRecord
      * @return Invite
      */
     public static function addFakeInvite(YumUser $user, Scenario $scenario) {
-        $newInvite              = new Invite();
-        $newInvite->owner_id    = $user->id;
-        $newInvite->receiver_id = $user->id;
-        $newInvite->firstname   = $user->profile->firstname;
-        $newInvite->lastname    = $user->profile->lastname;
-        $newInvite->scenario_id = $scenario->id;
-        $newInvite->status      = Invite::STATUS_ACCEPTED;
-        $newInvite->sent_time   = time(); // @fix DB!
-        $newInvite->updated_at = (new DateTime('now', new DateTimeZone('Europe/Moscow')))->format("Y-m-d H:i:s");
-        $newInvite->save(true, [
-            'owner_id', 'receiver_id', 'firstname', 'lastname', 'scenario_id', 'status'
-        ]);
+        $invite              = new Invite();
+        $invite->owner_id    = $user->id;
+        $invite->receiver_id = $user->id;
+        $invite->firstname   = $user->profile->firstname;
+        $invite->lastname    = $user->profile->lastname;
+        $invite->scenario_id = $scenario->id;
+        $invite->status      = Invite::STATUS_ACCEPTED;
+        $invite->sent_time   = date("Y-m-d H:i:s");
+        if($scenario->isFull()) {
+            $invite->setExpiredAt();
+            $invite->tutorial_scenario_id = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_TUTORIAL])->id;
+            $invite->is_display_simulation_results = 1;
+            $invite->setTariffPlan();
+        }
+        $invite->updated_at = (new DateTime('now', new DateTimeZone('Europe/Moscow')))->format("Y-m-d H:i:s");
+        $invite->email = strtolower($user->profile->email);
+        $invite->save(false);
 
-        $newInvite->email = strtolower(Yii::app()->user->data()->profile->email);
-        $newInvite->save(false);
+        InviteService::logAboutInviteStatus($invite, 'Добваление инвайта для прохождения симуляции '.$scenario->slug.' сам себе ');
 
-        InviteService::logAboutInviteStatus($newInvite, 'Добваление инвайта для прохождения сам себе');
-
-        return $newInvite;
+        return $invite;
     }
 
     public function isAllowedToSeeResults(YumUser $user)
@@ -348,21 +383,23 @@ class Invite extends CActiveRecord
      */
     public function inviteExpired()
     {
-        if (Invite::STATUS_IN_PROGRESS == $this->status) {
+        if (Invite::STATUS_IN_PROGRESS == $this->status && null !== $this->simulation) {
             $lastLog = LogServerRequest::model()->find([
                 'order' => 'real_time DESC',
                 'condition' => 'sim_id = '.$this->simulation->id
             ]);
 
+            $last_request_time = strtotime($lastLog->real_time);
+            $expired_time = strtotime('-1 hour');
             // проверяем что последний лог пришел посже чем час назад
-            if ($lastLog !== null && $lastLog->real_time > date('Y-m-d H:i:s', strtotime('-1 hour'))) {
+            if ($lastLog !== null && $last_request_time > $expired_time) {
                 // если последний лог пришел посже чем час назад - то инвайт не делаем просроченным
                 return false;
             }
         }
         $invite_status = $this->status;
         $this->status = Invite::STATUS_EXPIRED;
-        $this->update();
+        $this->save(false);
 
         InviteService::logAboutInviteStatus($this, 'Сменился статус с '.Invite::getStatusNameByCode($invite_status)." на ".Invite::getStatusNameByCode($this->status));
         $account = UserAccountCorporate::model()->findByAttributes(['user_id' => $this->owner_id]);
@@ -370,11 +407,11 @@ class Invite extends CActiveRecord
         if (null === $account) {
             return false;
         }
-
-        $initValue = $account->getTotalAvailableInvitesLimit();
-
-        $account->invites_limit++;
-        $account->save();
+        /* @var $account UserAccountCorporate */
+        if($account->getActiveTariffPlan()->id === $this->tariff_plan_id) {
+            $account->invites_limit++;
+            $account->save(false);
+        }
 
         return true;
     }
@@ -474,7 +511,11 @@ class Invite extends CActiveRecord
 			array('code', 'length', 'max'=>50),
             array('email', 'email', 'message' => Yii::t('site', 'Wrong email')),
             array('owner_id, email', 'uniqueEmail', 'message' => "Приглашение уже отправлено"),
-			array('message', 'safe'),
+			array('message, signature, status, sent_time, updated_at', 'safe'),
+			array('simulation_id, scenario_id, tutorial_scenario_id, tutorial_displayed_at', 'safe'),
+			array('tutorial_finished_at, can_be_reloaded, is_display_simulation_results', 'safe'),
+			array('stacktrace, is_crashed, expired_at', 'safe'),
+			array('fullname', 'length', 'max' => 50, 'allowEmpty' => true),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, owner_id, receiver_id, firstname, lastname, email, message, signature, code, vacancy_id, status, sent_time', 'safe', 'on'=>'search'),
@@ -921,6 +962,10 @@ class Invite extends CActiveRecord
             return "не задано";
         }
         return self::$statusTextRus[$code];
+    }
+
+    public function setTariffPlan() {
+        $this->tariff_plan_id = $this->ownerUser->account_corporate->getActiveTariffPlan()->id;
     }
 
 }

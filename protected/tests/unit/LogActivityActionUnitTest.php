@@ -10,13 +10,15 @@
 class LogActivityActionUnitTest extends CDbTestCase
 {
     use UnitLoggingTrait;
+    use UnitTestBaseTrait;
 
     public function testActivityActionDetail()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $this->initTestUserAsd();
+
         $invite = new Invite();
         $invite->scenario = new Scenario();
-        $invite->receiverUser = $user;
+        $invite->receiverUser = $this->user;
         $invite->scenario->slug = Scenario::TYPE_FULL;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 
@@ -48,7 +50,6 @@ class LogActivityActionUnitTest extends CDbTestCase
         $this->assertEquals(0, $json['result']);
         unset($json);
         $st = array(
-            0 =>
             array(
                 'sim_id' => $simulation->id,
                 'leg_type' => 'Window',
@@ -59,7 +60,6 @@ class LogActivityActionUnitTest extends CDbTestCase
                 'activity_id' => 'A_wait',
                 'window_uid' => 1
             ),
-            1 =>
             array(
                 'sim_id' => $simulation->id,
                 'leg_type' => 'System_dial_leg',
@@ -70,18 +70,6 @@ class LogActivityActionUnitTest extends CDbTestCase
                 'activity_id' => 'AE1',
                 'window_uid' => 2
             ),
-            2 =>
-            array(
-                'sim_id' => $simulation->id,
-                'leg_type' => 'Window',
-                'leg_action' => 'main screen',
-                'window' => 1,
-                'start_time' => '11:14:53',
-                'end_time' => '11:14:53',
-                'activity_id' => 'A_wait',
-                'window_uid' => 3
-            ),
-            3 =>
             array(
                 'sim_id' => $simulation->id,
                 'leg_type' => 'System_dial_leg',
@@ -92,32 +80,32 @@ class LogActivityActionUnitTest extends CDbTestCase
                 'activity_id' => 'AE1',
                 'window_uid' => 4
             ),
-            4 =>
             array(
                 'sim_id' => $simulation->id,
                 'leg_type' => 'Window',
-                'window' => 1,
                 'leg_action' => 'main screen',
+                'window' => 1,
                 'start_time' => '12:13:12',
                 'end_time' => '12:13:22',
                 'activity_id' => 'A_wait',
                 'window_uid' => 5
 
-            ));
+            )
+        );
 
         SimulationService::simulationStop($simulation);
         $activityActions = $simulation->log_activity_actions;
         $data = [];
         foreach ($activityActions as $activityAction) {
             $data[] = [
-                'sim_id' => $activityAction->sim_id,
-                'leg_type' => $activityAction->activityAction->leg_type,
-                'leg_action' => $activityAction->activityAction->getAction()->getCode(),
-                'window' => $activityAction->window,
-                'start_time' => $activityAction->start_time,
-                'end_time' => $activityAction->end_time,
+                'sim_id'      => $activityAction->sim_id,
+                'leg_type'    => $activityAction->activityAction->leg_type,
+                'leg_action'  => $activityAction->activityAction->getAction()->getCode(),
+                'window'      => $activityAction->window,
+                'start_time'  => $activityAction->start_time,
+                'end_time'    => $activityAction->end_time,
                 'activity_id' => $activityAction->activityAction->activity->code,
-                'window_uid' => $activityAction->window_uid
+                'window_uid'  => $activityAction->window_uid
             ];
         }
         $this->assertEquals($st, $data);
@@ -128,10 +116,10 @@ class LogActivityActionUnitTest extends CDbTestCase
      */
     public function testTrutnevDelegation()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
-        $invite->receiverUser = $user;
+        $invite->receiverUser = $this->user;
         $invite->scenario->slug = Scenario::TYPE_FULL;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
         $logs = [];
@@ -158,13 +146,13 @@ class LogActivityActionUnitTest extends CDbTestCase
      */
     public function testActivityAction2()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $profile = YumProfile::model()->findByAttributes(['email' => 'asd@skiliks.com']);
+        $user = $profile->user;
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
         $invite->scenario->slug = Scenario::TYPE_FULL;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
-
 
         $json = EventsManager::getState($simulation, [
             [1, 1, 'activated', 32400, 'window_uid' => 1]
@@ -233,8 +221,8 @@ class LogActivityActionUnitTest extends CDbTestCase
                 'activity_id' => $activityAction->activityAction->activity->code,
             ];
         }
+
         $tmp = array(
-            0 =>
             array(
                 'sim_id' => $simulation->id,
                 'leg_type' => 'Window',
@@ -243,7 +231,6 @@ class LogActivityActionUnitTest extends CDbTestCase
                 'end_time' => '12:02:19',
                 'activity_id' => 'A_wait',
             ),
-            1 =>
             array(
                 'sim_id' => $simulation->id,
                 'leg_type' => 'System_dial_leg',
@@ -252,16 +239,6 @@ class LogActivityActionUnitTest extends CDbTestCase
                 'end_time' => '12:02:50',
                 'activity_id' => 'AE2a',
             ),
-            2 =>
-            array(
-                'sim_id' => $simulation->id,
-                'leg_type' => 'Window',
-                'leg_action' => 'main screen',
-                'start_time' => '12:02:50',
-                'end_time' => '12:02:50',
-                'activity_id' => 'A_wait',
-            ),
-            3 =>
             array(
                 'sim_id' => $simulation->id,
                 'leg_type' => 'System_dial_leg',
@@ -270,16 +247,6 @@ class LogActivityActionUnitTest extends CDbTestCase
                 'end_time' => '12:03:24',
                 'activity_id' => 'AE2a',
             ),
-            4 =>
-            array(
-                'sim_id' => $simulation->id,
-                'leg_type' => 'Window',
-                'leg_action' => 'main screen',
-                'start_time' => '12:03:24',
-                'end_time' => '12:03:24',
-                'activity_id' => 'A_wait',
-            ),
-            5 =>
             array(
                 'sim_id' => $simulation->id,
                 'leg_type' => 'System_dial_leg',
@@ -288,16 +255,6 @@ class LogActivityActionUnitTest extends CDbTestCase
                 'end_time' => '12:06:12',
                 'activity_id' => 'AE2a',
             ),
-            6 =>
-            array(
-                'sim_id' => $simulation->id,
-                'leg_type' => 'Window',
-                'leg_action' => 'main screen',
-                'start_time' => '12:06:12',
-                'end_time' => '12:06:12',
-                'activity_id' => 'A_wait',
-            ),
-            7 =>
             array(
                 'sim_id' => $simulation->id,
                 'leg_type' => 'System_dial_leg',
@@ -306,7 +263,6 @@ class LogActivityActionUnitTest extends CDbTestCase
                 'end_time' => '12:09:25',
                 'activity_id' => 'AE2b',
             ),
-            8 =>
             array(
                 'sim_id' => $simulation->id,
                 'leg_type' => 'Window',
@@ -330,13 +286,14 @@ class LogActivityActionUnitTest extends CDbTestCase
 
         $transaction = Yii::app()->db->beginTransaction();
         try {
-            $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+            $this->initTestUserAsd();
             $invite = new Invite();
             $invite->scenario = new Scenario();
-            $invite->receiverUser = $user;
+            $invite->receiverUser = $this->user;
             $invite->scenario->slug = Scenario::TYPE_FULL;
             $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 
+            // Create fake Activity {
             $activity = new Activity();
             $activity->code = "WINPA";
             $activity->parent = 'WIN';
@@ -348,6 +305,7 @@ class LogActivityActionUnitTest extends CDbTestCase
             $activity->type = "Activity";
             $activity->scenario_id = $simulation->game_type->getPrimaryKey();
             $activity->save();
+
             $activityAction = new ActivityAction();
             $activityAction->activity_id = $activity->getPrimaryKey();
             $activityAction->window_id = 3;
@@ -355,8 +313,11 @@ class LogActivityActionUnitTest extends CDbTestCase
             $activityAction->import_id = '1234';
             $activityAction->scenario_id = $simulation->game_type->getPrimaryKey();
             $activityAction->save();
+            // Create fake Activity }
+
             $db = Activity::model()->findByAttributes(['code' => 'WINPA']);
             $this->assertNotNull($db);
+
             $db2 = ActivityAction::model()->findByAttributes(['activity_id' => $activity->getPrimaryKey(), 'scenario_id' => $simulation->game_type->getPrimaryKey()]);
             $this->assertNotNull($db2);
 
@@ -366,8 +327,16 @@ class LogActivityActionUnitTest extends CDbTestCase
             ];
 
             EventsManager::processLogs($simulation, $logs);
+
+            // Генерация activityAction {
+            LogHelper::updateUniversalLog($simulation);
+            $analyzer = new ActivityActionAnalyzer($simulation);
+            $analyzer->run();
+            // Генерация activityAction }
+
             $logAction = LogActivityAction::model()->findByAttributes(['sim_id' => $simulation->id, 'window' => 3, 'window_uid' => 130]);
             $this->assertEquals($activityAction->id, $logAction->activity_action_id);
+
             $resActivity = ActivityAction::model()->findByAttributes(['id' => $logAction->activity_action_id]);
             $this->assertEquals('WINPA', $resActivity->activity->code);
 
@@ -388,10 +357,10 @@ class LogActivityActionUnitTest extends CDbTestCase
     {
         //$transaction = Yii::app()->db->beginTransaction();
         try {
-            $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+            $this->initTestUserAsd();
             $invite = new Invite();
             $invite->scenario = new Scenario();
-            $invite->receiverUser = $user;
+            $invite->receiverUser = $this->user;
             $invite->scenario->slug = Scenario::TYPE_FULL;
             $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 
@@ -460,6 +429,12 @@ class LogActivityActionUnitTest extends CDbTestCase
             ];
 
             EventsManager::processLogs($simulation, $logs);
+
+            // Генерация activityAction {
+            LogHelper::updateUniversalLog($simulation);
+            $analyzer = new ActivityActionAnalyzer($simulation);
+            $analyzer->run();
+            // Генерация activityAction }
 
             LogMail::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
 

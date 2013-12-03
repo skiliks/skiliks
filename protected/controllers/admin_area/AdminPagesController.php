@@ -12,12 +12,14 @@ class AdminPagesController extends SiteBaseController {
         $user = Yii::app()->user->data();
         $this->user = $user;
         if(in_array($action->id, $public)){
+            parent::beforeAction($action);
             return true;
         }elseif(!$user->isAuth()){
             $this->redirect('/admin_area/login');
         }elseif(!$user->isAdmin()){
             $this->redirect('/dashboard');
         }
+        parent::beforeAction($action);
         return true;
     }
 
@@ -83,8 +85,12 @@ class AdminPagesController extends SiteBaseController {
         if(null !== $form) {
             $model->setAttributes($form);
             if($model->loginByUsernameAdmin()){
+
+                UserService::addAuthorizationLog($_POST['YumUserLogin']['username'], null, SiteLogAuthorization::SUCCESS_AUTH, $model->user->id, SiteLogAuthorization::ADMIN_AREA);
                 $model->user->authenticate($form['password']);
                 $this->redirect('/admin_area/dashboard');
+            } else {
+                UserService::addAuthorizationLog($_POST['YumUserLogin']['username'], $_POST['YumUserLogin']['password'], SiteLogAuthorization::FAIL_AUTH, null, SiteLogAuthorization::ADMIN_AREA);
             }
         }
         $this->layout = '//admin_area/layouts/login';
@@ -153,6 +159,7 @@ class AdminPagesController extends SiteBaseController {
             'ownerEmailForFiltration'    => isset($allFilters['filters']['owner_email']) ? $allFilters['filters']['owner_email'] : "",
             'invite_id'                  => isset($allFilters['filters']['invite_id']) ? $allFilters['filters']['invite_id'] : "",
             'scenario_id'                => isset($allFilters['filters']['filter_scenario_id']) ? $allFilters['filters']['filter_scenario_id'] : "",
+            'is_invite_crashed'          => isset($allFilters['filters']['is_invite_crashed']) ? $allFilters['filters']['is_invite_crashed'] : "",
             'scenarios'                  => $scenarios
         ]);
     }
@@ -187,6 +194,7 @@ class AdminPagesController extends SiteBaseController {
             $invite_id = trim(Yii::app()->request->getParam('invite_id', null));
             $exceptDevelopersFiltration = (bool)trim(Yii::app()->request->getParam('except-developers', true));
             $simulationScenario = Yii::app()->request->getParam('filter_scenario_id', true);
+            $isInviteCrashed = Yii::app()->request->getParam('is_invite_crashed', true);
 
             // remaking email form
             if ($isReloadRequest) {
@@ -231,6 +239,15 @@ class AdminPagesController extends SiteBaseController {
                 }
                 else {
                     $filter_form['invite_id'] = "";
+                }
+            }
+
+            if ($isReloadRequest) {
+                if (null !== $isInviteCrashed) {
+                    $filter_form['is_invite_crashed'] = $isInviteCrashed;
+                }
+                else {
+                    $filter_form['is_invite_crashed'] = "";
                 }
             }
 
@@ -298,6 +315,16 @@ class AdminPagesController extends SiteBaseController {
                     $condition .= " AND ";
                 }
                 $condition .= " receiver_id != owner_id ";
+            }
+
+
+            if (isset($filter_form['is_invite_crashed']) && $filter_form['is_invite_crashed'] != "") {
+                if (false === $previousConditionPresent) {
+                    $previousConditionPresent = true;
+                } else {
+                    $condition .= " AND ";
+                }
+                $condition .= " is_crashed = " . $filter_form['is_invite_crashed'];
             }
             // exclude_invites_from_me_to_me }
 
@@ -625,7 +652,7 @@ class AdminPagesController extends SiteBaseController {
         ]);
 
         if ($documentTemplate === null) {
-            throw new Exception("Файл не найден");
+            throw new Exception('Файл-шаблон для документа D1 не найден');
         }
 
         /** @var MyDocument $document */
@@ -647,7 +674,7 @@ class AdminPagesController extends SiteBaseController {
         if (file_exists($filePath)) {
             $xls = file_get_contents($filePath);
         } else {
-            throw new Exception("Файл не найден");
+            throw new Exception(sprintf('Файл %s не найден', $filePath));
         }
 
         $filename = $sim_id . '_' . $documentTemplate->fileName;
@@ -692,7 +719,6 @@ class AdminPagesController extends SiteBaseController {
         // taking up address to
 
         if( null !== $disableFilters) {
-            $address = '/admin_area/orders';
             $session["order_address"] = null;
         }
 
@@ -1001,6 +1027,7 @@ class AdminPagesController extends SiteBaseController {
             'logInvite'     => $logInvite,
             'logSimulation' => $logSimulation,
             'simulation'    => $simulation,
+            'invite'        => $invite,
         ]);
     }
 
@@ -1391,9 +1418,26 @@ class AdminPagesController extends SiteBaseController {
         ]);
     }
 
+    public function actionUserDetailsByEmail() {
+        $email = Yii::app()->request->getParam('email');
+        $profile = YumProfile::model()->findByAttributes(['email' => urldecode($email)]);
+
+        if (null === $profile) {
+            Yii::app()->user->setFlash('error', sprintf('Не найден пользователь с email "%s".' ,$email));
+            $this->redirect('/admin_area');
+        }
+
+        $this->redirect(sprintf('/admin_area/user/%s/details/', $profile->user_id));
+    }
+
     public function actionUserDetails($userId)
     {
         $user = YumUser::model()->findByPk($userId);
+
+        if (null === $user) {
+            Yii::app()->user->setFlash('error', sprintf('Пользователь с ID = %s не найден', $userId));
+            $this->redirect('/admin_area/users');
+        }
 
         if($user->isCorporate()) {
             $isSwitchShowReferralInfoPopup = Yii::app()->request->getParam("switchReferralInfoPopup", null);
@@ -1417,6 +1461,7 @@ class AdminPagesController extends SiteBaseController {
 
     public function actionUserSetTariff($userId, $label)
     {
+        /* @var $user YumUser */
         $user = YumUser::model()->findByPk($userId);
         if (null === $user ) {
             Yii::app()->user->setFlash('error', sprintf(
@@ -1436,7 +1481,6 @@ class AdminPagesController extends SiteBaseController {
             $this->redirect('/admin_area/user/'.$userId.'/details');
         }
 
-        $initValue = $user->getAccount()->getTotalAvailableInvitesLimit();
         $tariff = Tariff::model()->findByAttributes(['slug' => $label]);
 
         if (null == $tariff) {
@@ -1448,11 +1492,7 @@ class AdminPagesController extends SiteBaseController {
         }
 
         // set Tariff {
-        $user->getAccount()->tariff_id = $tariff->id;
-        $user->getAccount()->tariff_activated_at = date('Y-m-d H:i:s');
-        $user->getAccount()->tariff_expired_at = date('Y-').(date('m')+1).date('-d H:i:s');
-        $user->getAccount()->invites_limit = $tariff->simulations_amount;
-        $user->getAccount()->save();
+        $user->getAccount()->setTariff($tariff, true);
         // set Tariff }
 
         $admin = Yii::app()->user->data();
@@ -1491,29 +1531,11 @@ class AdminPagesController extends SiteBaseController {
         }
 
         // set invites_limit {
-        $initValue = $user->getAccount()->getTotalAvailableInvitesLimit();
-        $account = $user->getAccount();
 
-        $user->getAccount()->invites_limit += $value;
-        if ($user->getAccount()->invites_limit < 0) {
-            $user->getAccount()->invites_limit = 0;
-        }
-        $user->getAccount()->save();
+        $user->getAccount()->changeInviteLimits($value, $admin);
+
         // set invites_limit }
 
-        UserService::logCorporateInviteMovementAdd(
-           sprintf('Количество доступных симуляций установлено в %s в админ области, из них за рефераллов %s. '.
-           ' Админ %s (емейл текущего авторизованного в админке пользователя).', $account->invites_limit, $account->referrals_invite_limit, $admin->profile->email),
-            $user->getAccount(),
-            $initValue
-        );
-
-        Yii::app()->user->setFlash('success', sprintf(
-            'Количество доступных симуляций для "%s %s" установнено %s.',
-            $user->profile->firstname,
-            $user->profile->lastname,
-            $user->getAccount()->invites_limit
-        ));
 
         $this->redirect('/admin_area/user/'.$userId.'/details');
     }
@@ -1604,11 +1626,11 @@ class AdminPagesController extends SiteBaseController {
         $user->getAccount()->invites_limit += 10;
         $user->getAccount()->save();
 
-        UserService::logCorporateInviteMovementAdd(
-            'Cheats: actionIncreaseInvites',
-            $user->getAccount(),
-            $initValue
-        );
+//        UserService::logCorporateInviteMovementAdd(
+//            'Cheats: actionIncreaseInvites',
+//            $user->getAccount(),
+//            $initValue
+//        );
 
         Yii::app()->user->setFlash('success', "Вам добавлено 10 приглашений!");
 
@@ -2012,5 +2034,84 @@ class AdminPagesController extends SiteBaseController {
 
         $this->layout = '/admin_area/layouts/admin_main';
         $this->render('/admin_area/pages/not_corporate_emails', ['dataProvider' => $dataProvider, 'email'=>$email]);
+    }
+
+    public function actionSetInviteExpiredAt() {
+
+            $expired_at = $this->getParam('expired_at');
+            $invite_id = $this->getParam('invite_id');
+            if($expired_at !== null && $invite_id !== null){
+                /* @var $invite Invite */
+                $invite = Invite::model()->findByPk($invite_id);
+                $invite->expired_at = $expired_at;
+                $invite->save(false);
+            }
+        $this->redirect($this->request->urlReferrer);
+    }
+
+    public function actionExpireInvitesAndTariffPlans() {
+
+        $expiredInvites = InviteService::makeExpiredInvitesExpired();
+
+        $expiredAccounts = UserService::tariffExpired();
+        $this->layout = '/admin_area/layouts/admin_main';
+        $this->render('/admin_area/pages/expired-invites-and-tariff-plans', [
+            'expiredInvites'=>$expiredInvites,
+            'expiredAccounts'=>$expiredAccounts]);
+    }
+
+    public function actionChangeInviteExpireRule() {
+
+        $rule = $this->getParam('rule');
+        $user_id = $this->getParam('user_id');
+        if($rule !== null && $user_id !== null){
+            /* @var $user YumUser */
+            $user = YumUser::model()->findByPk($user_id);
+            $user->account_corporate->expire_invite_rule = $rule;
+            $user->account_corporate->save(false);
+        }
+        $this->redirect($this->request->urlReferrer);
+    }
+
+    public function actionListTariffPlan() {
+        $user = YumUser::model()->findByPk($this->getParam('user_id'));
+        $this->layout = '/admin_area/layouts/admin_main';
+        $this->render('/admin_area/pages/list-tariff-plan', ['user'=>$user]);
+    }
+
+    public function actionUpdateTariffPlan() {
+        if(null !== $this->getParam('finished_at') &&
+           null !== $this->getParam('started_at') &&
+           null !== $this->getParam('tariff_plan_id')
+          ) {
+
+            $tariff_plan = TariffPlan::model()->findByPk($this->getParam('tariff_plan_id'));
+            $tariff_plan->started_at = $this->getParam('started_at');
+            $tariff_plan->finished_at = $this->getParam('finished_at');
+            $tariff_plan->save(false);
+        }
+
+        $this->redirect($this->request->urlReferrer);
+    }
+
+    public function actionChangeSecurityRisk() {
+        if(null !== $this->getParam('set') && null !== $this->getParam('id')) {
+
+            $email = FreeEmailProvider::model()->findByPk($this->getParam('id'));
+            $email->security_risk = $this->getParam('set');
+            $email->save(false);
+        }
+
+        $this->redirect($this->request->urlReferrer);
+    }
+
+    public function actionSiteLogAuthorization() {
+
+        //$dataProvider = FreeEmailProvider::model()->searchEmails();
+
+        $dataProvider = SiteLogAuthorization::model()->searchSiteLogs();
+
+        $this->layout = '/admin_area/layouts/admin_main';
+        $this->render('/admin_area/pages/site_log_authorization', ['dataProvider' => $dataProvider]);
     }
 }

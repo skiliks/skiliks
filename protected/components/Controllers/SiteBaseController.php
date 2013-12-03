@@ -7,6 +7,15 @@ class SiteBaseController extends CController {
      */
     public $user;
     public $is_test = false;
+    /**
+     * @var CHttpRequest
+     */
+    public $request;
+
+    /**
+     * @var CApplication
+     */
+    public $app;
 
     /**
      * @param CAction $action
@@ -14,6 +23,7 @@ class SiteBaseController extends CController {
      */
     protected function beforeAction($action)
     {
+        $this->request = &Yii::app()->request;
         if(Yii::app()->params['disableAssets']) {
             /* @var CAssetManager $manager */
             $manager = Yii::app()->getAssetManager();
@@ -157,5 +167,13 @@ class SiteBaseController extends CController {
         echo $body;
 
         Yii::app()->end();
+    }
+
+    public function getParam($name, $defaultValue = null) {
+        return Yii::app()->request->getParam($name, $defaultValue);
+    }
+
+    public function getConfig($name) {
+        return Yii::app()->params[$name];
     }
 }

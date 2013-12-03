@@ -40,7 +40,11 @@ define([
          */
         {
             'attributes': {
-                'style': 'width: 100%; height: 100%'
+                'style': 'width: 100%; height: 100%; '
+                    + ' -moz-user-select: none; '
+                    + ' -webkit-user-select: none;'
+                    + ' -ms-user-select:none; user-select:none;'
+                    + '  line-height: 0px; '
             },
 
             'events':          {
@@ -89,9 +93,6 @@ define([
                     this.listenTo(simulation, 'before-stop', this.stopExitProtection);
                     this.listenTo(simulation, 'stop-time', this.stopSimulation);
                     this.listenTo(simulation, 'documents:error', this.documentsLoadError);
-
-
-                    $('#sim-id').text(SKApp.simulation.id);
 
                 } catch(exception) {
                     if (window.Raven) {
@@ -180,57 +181,6 @@ define([
                     }
                 }
             },
-
-            /**
-             * Preloads excel with Zoho on simulation start
-             *
-             * @method
-             * @param doc
-             */
-            preloadZoho:       function (doc) {
-                var me = this;
-
-                if (!me.preloadObject) {
-                    me.preloadObject = new Image();
-                    me.preloadObject.src = doc.get('excel_url');
-                    me.preloadObject.onload = me.preloadObject.onerror = function(e) {
-                        me._appendZohoIframe(doc);
-                        me.trigger('preload:finished');
-                    };
-                } else if (me.preloadObject.complete) {
-                    me._appendZohoIframe(doc);
-                } else {
-                    me.on('preload:finished', _.bind(me._appendZohoIframe, me, doc));
-                }
-            },
-
-            _appendZohoIframe: function(doc) {
-                try {
-                    var iframe = $('#' + 'excel-preload-' + doc.id),
-                        $body = $('body');
-
-                    if (iframe.length) {
-                        iframe.attr('src', doc.get('excel_url'));
-                    } else {
-                        $body.append($('<iframe />', {
-                            src: doc.get('excel_url'),
-                            id:  'excel-preload-' + doc.id,
-                            class: 'excel-preload-window'
-                        }).css({
-                            'position': 'absolute',
-                            'left':     '-10000px',
-                            'top':      0,
-                            'width':    $body.width(),
-                            'height':   $body.height() - 4
-                        }));
-                    }
-                } catch(exception) {
-                    if (window.Raven) {
-                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
-                    }
-                }
-            },
-
             documentsLoadError: function() {
                 try {
                     var me = this;
@@ -287,6 +237,10 @@ define([
                     // hiding loading screen and setting backgorund color to white for development mode
                     $("#loading-cup").remove();
                     $("body").css("background-color", "#ffffff");
+
+                    if ($.browser['msie']) {
+                        $('body>img').height(0);
+                    }
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);

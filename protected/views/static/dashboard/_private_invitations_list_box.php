@@ -94,7 +94,7 @@
         // setup sub-menu switcher behaviour
         $('.invites-smallmenu-switcher').click(function(){
             $(this).next().toggle();
-            Cufon.refresh();
+            /*Cufon.refresh();*/
         });
 
         // decline dialog {

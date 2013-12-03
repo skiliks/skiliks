@@ -109,7 +109,6 @@ See the comments in the main SocialCalc code module file of the SocialCalc packa
 SocialCalc.SpreadsheetControl = function(idPrefix) {
 
    var scc = SocialCalc.Constants;
-   // console.log(idPrefix);
    // Properties:
 
    this.parentNode = null;
@@ -248,17 +247,23 @@ SocialCalc.InitializeSpreadsheetControl = function(spreadsheet, node, height, wi
 
    html = '<div class="toolbar" style="'+spreadsheet.toolbarbackground + 'padding: 0px 10px 10px 4px; height:45px;">' +
         '<ul class="button_menu">' +
-        '<li><img class="button-undo" onmouseover="$(this).attr(\'src\', \'%img.undo-hover.png\')" onmouseout="$(this).attr(\'src\', \'%img.undo.png\')" id="%id.button_undo" src="%img.undo.png"></li>' +
-        '<li><img class="button-redo" onmouseover="$(this).attr(\'src\', \'%img.redo-hover.png\')" onmouseout="$(this).attr(\'src\', \'%img.redo.png\')" id="%id.button_redo" src="%img.redo.png"></li>' +
-        '<li><img class="button-copy" onmouseover="$(this).attr(\'src\', \'%img.copy-hover.png\')" onmouseout="$(this).attr(\'src\', \'%img.copy.png\')" id="%id.button_copy" src="%img.copy.png"></li>' +
-        '<li><img class="button-paste" onmouseover="$(this).attr(\'src\', \'%img.paste-hover.png\')" onmouseout="$(this).attr(\'src\', \'%img.paste.png\')" id="%id.button_paste" src="%img.paste.png"></li>' +
-        '<li><img class="button-sum" onmouseover="$(this).attr(\'src\', \'%img.sum-hover.png\')" onmouseout="$(this).attr(\'src\', \'%img.sum.png\')" id="%id.button_sum" src="%img.sum.png"></li>' +
-        '<li><img class="button-percent" onmouseover="$(this).attr(\'src\', \'%img.percent-hover.png\')" onmouseout="$(this).attr(\'src\', \'%img.percent.png\')" id="%id.button_percent" src="%img.percent.png"></li>' +
+        '<li id="sc-button-undo"><img class="button-undo" onmouseover="$(this).attr(\'src\', \'%img.undo-hover.png\')" onmouseout="$(this).attr(\'src\', \'%img.undo.png\')" id="%id.button_undo" src="%img.undo.png"></li>' +
+        '<li id="sc-button-redo"><img class="button-redo" onmouseover="$(this).attr(\'src\', \'%img.redo-hover.png\')" onmouseout="$(this).attr(\'src\', \'%img.redo.png\')" id="%id.button_redo" src="%img.redo.png"></li>' +
+        '<li id="sc-button-copy"><img class="button-copy" onmouseover="$(this).attr(\'src\', \'%img.copy-hover.png\')" onmouseout="$(this).attr(\'src\', \'%img.copy.png\')" id="%id.button_copy" src="%img.copy.png"></li>' +
+        '<li id="sc-button-paste"><img class="button-paste" onmouseover="$(this).attr(\'src\', \'%img.paste-hover.png\')" onmouseout="$(this).attr(\'src\', \'%img.paste.png\')" id="%id.button_paste" src="%img.paste.png"></li>' +
+        '<li id="sc-button-sum"><img class="button-sum" onmouseover="$(this).attr(\'src\', \'%img.sum-hover.png\')" onmouseout="$(this).attr(\'src\', \'%img.sum.png\')" id="%id.button_sum" src="%img.sum.png"></li>' +
+        '<li id="sc-button-percent"><img class="button-percent" onmouseover="$(this).attr(\'src\', \'%img.percent-hover.png\')" onmouseout="$(this).attr(\'src\', \'%img.percent.png\')" id="%id.button_percent" src="%img.percent.png"></li>' +
         '</ul>' +
-        '<ul class="menu_bar"><li><input class="status" id="%id.statusline" type="text" disabled="disabled" value="" /></span></li>' +
-        '<li><div class="grid-row"><div><div><img src="%img.function.png" style="cursor:default;"></div></div></div></li>' +
-        '<li><input class="formula" id="%id.formula_field" type="text" size="100" value="" /></li></ul>' +
+        '<ul class="menu_bar" style="display: none;">' +
+        '<li id="cs-button-statusline"><input class="status" id="%id.statusline" type="text" disabled="disabled" value="" /></span></li>' +
+        '<li id="cs-button-function"><div class="grid-row"><div><div><img src="%img.function.png" style="cursor:default;"></div></div></div></li>' +
+        '<li id="cs-button-formula"><input class="formula" id="%id.formula_field" type="text" size="100" value="" /></li>' +
+        '</ul>' +
     '</div>';
+
+    // "menu_bar" - скрыта во время исхлдного рендера, чтоб интерфейс многостраничных документов не прыгал
+    // посже, в SKXLSDisplayView, этот элемент становится видимым для текущей страницы
+    // (при первоначальном рендере контента и потом, при переключении вкладок - для текущей вкладки)
 
    html = html.replace(/\%s\./g, "SocialCalc.");
    html = html.replace(/\%id\./g, spreadsheet.idPrefix);
@@ -270,7 +275,6 @@ SocialCalc.InitializeSpreadsheetControl = function(spreadsheet, node, height, wi
    node.appendChild(spreadsheet.spreadsheetDiv);
 
    // Initialize SocialCalc buttons
-
    spreadsheet.Buttons = {
        button_undo: {tooltip: "Undo", command: "undo"},
        button_redo: {tooltip: "Redo", command: "redo"},
@@ -377,7 +381,6 @@ SocialCalc.GetSpreadsheetControlObject = function(id) {
 
     if (id === undefined) {
         console.warn('GetSpreadsheetControlObject MUST have id argument to work properly')
-        console.trace();
        var csco = SocialCalc.CurrentSpreadsheetControlObject;
        if (csco) return csco;
     } else {

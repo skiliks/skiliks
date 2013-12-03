@@ -23,7 +23,7 @@ class F13_SK1415_Test extends SeleniumTestHelper
     public function testSK1415_Case1()
     {
         //$this->markTestIncomplete();
-        $this->start_simulation();
+        $this->start_simulation("F13_SK1415_Test_Case_1");
         $this->optimal_click('link=F32');
         sleep(5);
         $this->run_event('E1.3',"xpath=(//*[contains(text(),' Сергей, привет! Ты не мог бы мне помочь?')])",'click');
@@ -63,7 +63,7 @@ class F13_SK1415_Test extends SeleniumTestHelper
     public function testSK1415_Case2()
     {
         //$this->markTestIncomplete();
-        $this->start_simulation();
+        $this->start_simulation("F13_SK1415_Test_Case_2");
         $this->optimal_click('link=F32');
         sleep(5);
         $this->run_event('E1.3',"xpath=(//*[contains(text(),' Сергей, привет! Ты не мог бы мне помочь?')])",'click');
@@ -100,7 +100,7 @@ class F13_SK1415_Test extends SeleniumTestHelper
     public function testSK1415_Case3()
     {
         //$this->markTestIncomplete();
-        $this->start_simulation();
+        $this->start_simulation("F13_SK1415_Test_Case_3");
         $this->optimal_click('link=F32');
         sleep(5);
         $this->run_event('E1.3',"xpath=(//*[contains(text(),'Сергей, привет! Ты не мог бы мне помочь?')])",'click');

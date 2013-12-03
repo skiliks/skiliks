@@ -42,7 +42,7 @@
         },
         title: 'Сменить пароль',
         width: 275,
-        open: function( event, ui ) { Cufon.refresh(); }
+        open: function( event, ui ) { /*Cufon.refresh();*/ }
     });
     //$('.flash-pop-up .ui-dialog-titlebar').remove();
     $('.change_pass').dialog('open');

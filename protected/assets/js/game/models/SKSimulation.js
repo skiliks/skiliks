@@ -97,16 +97,6 @@ define([
 
                     this.loadDocsDialog = null;
 
-                    try {
-                        document.domain = 'skiliks.com'; // to easy work with zoho iframes from our JS
-                    } catch(e) {
-                        // this to protect against busted-sj test crash
-                    }
-
-                    this.set('isZohoDocumentSuccessfullySaved', null);
-                    this.set('isZohoSavedDocTestRequestSent', false);
-
-                    this.set('ZohoDocumentSaveCheckAttempt', 1);
                     this.set('scenarioName', null);
 
                     this.on('tick', function () {
@@ -162,16 +152,15 @@ define([
                         });
                     });
 
-                    $(window).on('message', function(event) {
-                        event = event.originalEvent;
-                        if (event.data) {
-                            if ('DocumentLoaded' === event.data.type) {
-                                me.onDocumentLoaded(event);
-                            } else if ('Zoho_500' === event.data.type) {
-                                me.onZoho500(event);
-                            }
-                        }
-                    });
+//                  это, вроде, только для Zoho надо?
+//                    $(window).on('message', function(event) {
+//                        event = event.originalEvent;
+//                        if (event.data) {
+//                            if ('DocumentLoaded' === event.data.type) {
+//                                me.onDocumentLoaded(event);
+//                            }
+//                        }
+//                    });
 
                     this.bindEmergencyHotkey();
 
@@ -179,6 +168,10 @@ define([
                     this.initSocialcalcHotkeys();
 
                     this.documentsManager = new SKDocumentsManager();
+
+                    if(this.isDebug()) {
+                        $('body').css('overflow', 'auto');
+                    }
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -216,9 +209,7 @@ define([
                 try {
                     var me = this,
                         doc;
-                    console.log("savePlan");
                     if (me.dayPlanDocId) {
-                        console.log("me.dayPlanDocId", me.dayPlanDocId)
                         doc = _.first(me.documents.where({id: me.dayPlanDocId}));
                         delete SKDocument._excel_cache[me.dayPlanDocId];
                         me.documents.remove(doc);
@@ -388,6 +379,8 @@ define([
                             me.events.trigger('event:' + event_model.getTypeSlug(), event_model);
                         } else if (event.data[0].code !== 'None' && event.eventTime) {
                             me.events.wait(event.data[0].code, event.eventTime);
+                        } else {
+                            throw new Error('parseNewEvents. System can`t add event and can`t event.data[0].code !== None.');
                         }
                     });
                 } catch(exception) {
@@ -468,10 +461,16 @@ define([
                             me.id = data.simId;
                         }
 
+                        if ('undefined' !== typeof data.inviteId) {
+                            me.inviteId = data.inviteId;
+                        }
+
                         me.start_time = new Date();
                         localStorage.setItem('lastGetState', nowDate.getTime());
 
-                        win = me.window = new SKWindow({name:'mainScreen', subname:'mainScreen'});
+                        me.window = new SKWindow({name:'mainScreen', subname:'mainScreen'});
+                        win = me.window;
+                        console.log('win 1 : ', win, ' , ', me.window);
                         win.open();
 
                         me.todo_tasks.fetch();
@@ -902,6 +901,46 @@ define([
 
                     return false;
                 });
+            },
+
+            getPathForMedia : function(replicas, type) {
+                var media_src = null;
+                var media_type = null;
+                replicas.forEach(function (replica) {
+                    media_src = media_src || replica.media_file_name;
+                    media_type = media_type || replica.media_type;
+                });
+                if (media_src !== null && media_type !== type) {
+                    media_src = null;
+                }else{
+                    if($.browser['msie'] == true) {
+                        if(type === 'wav'){
+                            media_type = 'mp3';
+                        }else if(type === 'webm'){
+                            media_type = 'mp4';
+                        }
+                    }
+                }
+                return media_src ? SKApp.get('storageURL') + '/' + media_type+ '/standard/' + media_src + '.' + media_type : undefined;
+            },
+
+            getMediaFile : function(media_src, media_type) {
+                if(media_type === 'webm' && $.browser['msie']){
+                    media_type = 'mp4';
+                }
+                if(media_type === 'wav' && $.browser['msie']){
+                    media_type = 'mp3';
+                }
+                return SKApp.get('storageURL') + '/' + media_type+ '/standard/' + media_src + '.' + media_type;
+            },
+
+            /**
+             * Метод проверяет находится ли симуляции в состоянии "Ушел на встречу"
+             *
+             * @returns {boolean}
+             */
+            isActiveMeetingPresent: function() {
+                return $('.meeting-gone-content').length == 1;
             }
         });
     return SKSimulation;

@@ -1,12 +1,13 @@
 .htaccess
 .idea/
 /assets/
-/documents/zoho/
 /documents/user/
 /protected/config/main.php
 /protected/runtime/
 /protected/assets/compiled_css/
 /protected/logs/
+/protected/system_data/analytic_files_2/
 /protected/documents/social_templates/
 protected/views/static/applicationcache/manifest.php
 /protected/views/static/applicationcache/manifest.php
+/protected/views/static/applicationcache/preload_images.php

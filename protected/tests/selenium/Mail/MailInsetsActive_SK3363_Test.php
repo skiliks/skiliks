@@ -11,7 +11,7 @@ class MailInsetsActive_SK3363_Test extends SeleniumTestHelper
     public function test_MailInsetsActive_SK3363()
     {
         //$this->markTestIncomplete();
-        $this->start_simulation();
+        $this->start_simulation("MailInsetsActive_SK3363_Test");
         sleep(3);
 
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
@@ -20,7 +20,6 @@ class MailInsetsActive_SK3363_Test extends SeleniumTestHelper
 
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_main']['draft']);
         sleep(2);
-        //printf($this->getText("xpath=//li[contains(@class, 'active')]/label"));
         $this->assertTrue($this->getText("xpath=//li[contains(@class, 'active')]/label")=="Черновики");
 
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_main']['outbox']);

@@ -23,7 +23,7 @@ class F4_SK1413_P_Test extends SeleniumTestHelper
      */
     public function testSK1413_P_Case1() {
         //$this->markTestIncomplete();
-        $this->start_simulation();
+        $this->start_simulation("F4_SK1413_P_Test_Case_1");
         $this->optimal_click('link=F32');
         sleep(5);
         $this->run_event('E1.3',"xpath=(//*[contains(text(),'Ты не мог бы мне помочь?')])",'click');
@@ -54,7 +54,7 @@ class F4_SK1413_P_Test extends SeleniumTestHelper
      */
     public function testSK1413_P_Case2() {
         //$this->markTestIncomplete();
-        $this->start_simulation();
+        $this->start_simulation("F4_SK1413_P_Test_Case_2");
         $this->optimal_click('link=F32');
         sleep(5);
         $this->run_event('E1.3',"xpath=(//*[contains(text(),'Ты не мог бы мне помочь?')])",'click');
@@ -87,7 +87,7 @@ class F4_SK1413_P_Test extends SeleniumTestHelper
      */
     public function testSK1413_P_Case3() {
         //$this->markTestIncomplete();
-        $this->start_simulation();
+        $this->start_simulation("F4_SK1413_P_Test_Case_3");
         $this->optimal_click('link=F32');
         sleep(5);
         $this->run_event('E1.3',"xpath=(//*[contains(text(),'Ты не мог бы мне помочь?')])",'click');
@@ -118,7 +118,7 @@ class F4_SK1413_P_Test extends SeleniumTestHelper
      */
     public function testSK1413_P_Case4() {
         //$this->markTestIncomplete();
-        $this->start_simulation();
+        $this->start_simulation("F4_SK1413_P_Test_Case_4");
         $this->optimal_click('link=F32');
         sleep(5);
         $this->run_event('E1.3',"xpath=(//*[contains(text(),'Ты не мог бы мне помочь?')])",'click');

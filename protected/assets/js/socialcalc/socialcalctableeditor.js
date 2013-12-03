@@ -2834,7 +2834,9 @@ SocialCalc.FitToEditTable = function(editor) {
          }
       }
 
-   for (colnum=context.colpanes[colpane].first; colnum<=10000; colnum++) { //!!! max for safety, but makes that col max!!!
+   //!!! max for safety, but makes that col max!!!
+   // for (colnum=context.colpanes[colpane].first; colnum<=10000; colnum++) {
+   for (colnum=context.colpanes[colpane].first; colnum <= 200; colnum++) {
       colname=SocialCalc.rcColname(colnum);
       colwidth = sheetobj.colattribs.width[colname] || sheetobj.attribs.defaultcolwidth || SocialCalc.Constants.defaultColWidth;
       if (colwidth=="blank" || colwidth=="auto") colwidth="";
@@ -2849,13 +2851,13 @@ SocialCalc.FitToEditTable = function(editor) {
    totalrows=context.showRCHeaders ? 1 : 0;
    for (rowpane=0; rowpane<context.rowpanes.length-1; rowpane++) { // count all panes but last one
       totalrows += context.rowpanes[rowpane].last - context.rowpanes[rowpane].first + 1;
-      }
+   }
 
    needed = editor.tableheight - totalrows * context.pixelsPerRow; // estimate amount needed
 
    context.rowpanes[rowpane].last = context.rowpanes[rowpane].first + Math.floor(needed / context.pixelsPerRow) + 1;
 
-   }
+}
 
 //
 // CalculateEditorPositions(editor)
@@ -3430,10 +3432,16 @@ SocialCalc.InputBox.prototype.Select = function(t) {
       case "end":
          if (document.selection && document.selection.createRange) {
             /* IE 4+ - Safer than setting .selectionEnd as it also works for Textareas. */
-            var range = document.selection.createRange().duplicate();
-            range.moveToElementText(this.element);
-            range.collapse(false);
-            range.select();
+            try {
+                var range = document.selection.createRange().duplicate();
+                range.moveToElementText(this.element);
+                range.collapse(false);
+                range.select();
+            } catch(error) {
+                // But in IE10 we have an error
+                this.element.selectionStart=this.element.value.length;
+                this.element.selectionEnd=this.element.value.length;
+            }
          } else if (this.element.selectionStart!=undefined) {
             this.element.selectionStart=this.element.value.length;
             this.element.selectionEnd=this.element.value.length;

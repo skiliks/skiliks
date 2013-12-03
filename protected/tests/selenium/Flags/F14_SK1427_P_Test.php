@@ -21,7 +21,7 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
      */
     public function testSK1427_Case1()
     {
-        $this->start_simulation();
+        $this->start_simulation("F14_SK1427_P_Test_Case_1");
         sleep(5);
         $this->assertTrue($this->verify_flag('F14','0'));
 
@@ -55,7 +55,7 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
      */
     public function testSK1427_Case2()
      {
-         $this->start_simulation();
+         $this->start_simulation("F14_SK1427_P_Test_Case_2");
          sleep(10);
          $this->assertTrue($this->verify_flag('F14','0'));
 
@@ -89,7 +89,7 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
      */
     public function testSK1427_Case3_1()
     {
-        $this->start_simulation();
+        $this->start_simulation("F14_SK1427_P_Test_Case_3_1");
         sleep(10);
         $this->assertTrue($this->verify_flag('F14','0'));
 
@@ -125,7 +125,7 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
      */
     public function testSK1427_Case3_2()
     {
-        $this->start_simulation();
+        $this->start_simulation("F14_SK1427_P_Test_Case_3_2");
         sleep(10);
         $this->assertTrue($this->verify_flag('F14','0'));
 
@@ -161,7 +161,7 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
      */
     public function testSK1427_Case3_3()
     {
-        $this->start_simulation();
+        $this->start_simulation("F14_SK1427_P_Test_Case_3_3");
         sleep(10);
         $this->assertTrue($this->verify_flag('F14','0'));
 

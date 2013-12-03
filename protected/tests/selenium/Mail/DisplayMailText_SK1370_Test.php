@@ -16,7 +16,7 @@ class DisplayMailText_SK1370_Test extends SeleniumTestHelper
     public function test_DisplayMailText_SK1370()
     {
         //$this->markTestIncomplete();
-        $this->start_simulation();
+        $this->start_simulation("DisplayMailText_SK1370_Test");
         $this->optimal_click('link=F32');
         sleep(5);
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);

@@ -4,8 +4,6 @@ class GameTime
 {
     const SET_DEFAULT_TIMEZONE = false;
 
-    const TODAY = '04.10.2013';
-
     const TIME_ZONE = "Europe/Moscow";
 
     /**
@@ -31,9 +29,9 @@ class GameTime
      * @param $time
      * @return string
      */
-    public static function setTimeToday($time)
+    public static function setTimeToday(Simulation $simulation, $time)
     {
-        $date = new DateTime(self::TODAY . ' ' . $time, new DateTimeZone(self::getTimeZone()));
+        $date = new DateTime($simulation->game_type->scenario_config->game_date_data. ' ' . $time, new DateTimeZone(self::getTimeZone()));
 
         return $date->format('Y-m-d H:i:s');
     }

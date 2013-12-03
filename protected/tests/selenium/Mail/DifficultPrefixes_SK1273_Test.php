@@ -16,7 +16,7 @@ class DifficultPrefixes_SK1273_Test extends SeleniumTestHelper
      */
     public function test_DifficultPrefixes_SK1273_Case1() {
         //$this->markTestIncomplete();
-        $this->start_simulation();
+        $this->start_simulation("test_DifficultPrefixes_SK1273_Case1");
         sleep(5);
         $this->write_email();
         $this->addRecipient("xpath=(//*[contains(text(),'Трудякин')])");
@@ -68,7 +68,7 @@ class DifficultPrefixes_SK1273_Test extends SeleniumTestHelper
         $this->assertTrue($this->isTextPresent("Re: Re: Re: Re: Срочно жду бюджет логистики"));
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['close']);
 
-        $this->assertFalse($this->isElementPresent(Yii::app()->params['test_mappings']['icons']['mail']));
+        $this->assertFalse($this->isElementPresent(Yii::app()->params['test_mappings']['icons_active']['mail']));
 
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_main']['inbox']);
@@ -103,9 +103,9 @@ class DifficultPrefixes_SK1273_Test extends SeleniumTestHelper
      */
     public function test_DifficultPrefixes_SK1273_Case2() {
         //$this->markTestIncomplete();
-        $this->start_simulation();
+        $this->start_simulation("test_DifficultPrefixes_SK1273_Case2");
         sleep(30);
-        $this->run_event('M65',Yii::app()->params['test_mappings']['icons']['mail'], 'click');
+        $this->run_event('M65',Yii::app()->params['test_mappings']['icons_active']['mail'], 'click');
 
         $this->waitForVisible("xpath=(//*[contains(text(),'По ценовой политике')])");
         $this->assertTrue($this->isTextPresent("вакцинация!"));

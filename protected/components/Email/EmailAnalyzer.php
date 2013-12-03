@@ -382,22 +382,16 @@ class EmailAnalyzer
      * 
      * @return mixed array
      */
-    public function check_3313($limit = 0.9)
+    public function check_3313()
     {
         $behave_3313 = $this->simulation->game_type->getHeroBehaviour(['code'=> 3313, 'type_scale'=>1]);
-
-        if (null === $behave_3313) {
-            return [
-                '3313' => []
-            ];
-        }
 
         $possibleRightActions = 0;
         $rightActions = 0;
         
         // inbox + trashCan
         foreach ($this->userInboxEmails as $emailData) {
-            if (false === $emailData->getIsSpam() ) {
+            if (false === $emailData->getIsSpam() && false === $emailData->isYesterdayEmail()) {
                 $possibleRightActions++;
                 
                 if (true === $emailData->getIsReaded()) {
@@ -405,17 +399,16 @@ class EmailAnalyzer
                 }
             }
         }
-        
-        // grand score for user, if he read more or equal to $limit of not-spam emails only
-        $mark = 0;
-        if ($possibleRightActions === 0) {
-            $mark = 0;
-        } else if ($limit <= $rightActions/$possibleRightActions) {
-            $mark = 1;
+
+        if($possibleRightActions !== 0){
+            // grand score for user, if he read more or equal to $limit of not-spam emails only
+            $value = $behave_3313->scale * $rightActions/$possibleRightActions;
+        } else {
+            $value = 0;
         }
-        
+
         return array(
-            'positive' => $behave_3313 ? $mark * $behave_3313->scale : 0,
+            'positive' => $value,
             'obj'      => $behave_3313,
         );
     }
@@ -428,12 +421,6 @@ class EmailAnalyzer
     public function check_3333()
     {
         $behave_3333 = $this->simulation->game_type->getHeroBehaviour(['code' => '3333', 'type_scale' => 1]);
-
-        if (null === $behave_3333) {
-            return [
-                '3333' => []
-            ];
-        }
 
         $wrongActions = 0;
         
@@ -465,17 +452,9 @@ class EmailAnalyzer
     {
         $behave_3326 = $this->simulation->game_type->getHeroBehaviour(['code' => '3326', 'type_scale' => 1]);
 
-        if (null === $behave_3326) {
-            return [
-                '3326' => []
-            ];
-        }
-
         $configs = Yii::app()->params['analizer']['emails']['3326'];
 
         $limitToGetPoints  = $configs['limitToGetPoints'];
-        $limitToGet1points = $configs['limitToGet1points'];
-        $limitToGet2points = $configs['limitToGet2points'];
 
         $criteria = new CDbCriteria();
         $criteria->compare('wr', 'R');
@@ -485,8 +464,7 @@ class EmailAnalyzer
         // gather statistic  {
         $userRightEmailsArray = []; // email with same MSxx must be counted once only
         $userWrongEmails = 0;
-        $userTotalEmails = count($this->userOutboxEmails);
-
+        $debug_wrong = [];
         foreach ($this->userOutboxEmails as $emailData) {
             // @todo: remove trick
             // ignore MSY letters
@@ -494,14 +472,18 @@ class EmailAnalyzer
                 continue;
             }
 
-            if ('R' == $emailData->email->subject_obj->wr) {
-                $userRightEmailsArray[$emailData->email->code] = 'something';
-            }
-            if ('W' == $emailData->email->subject_obj->wr) {
+            if($emailData->email->isMS()){
+                if ('R' == $emailData->email->subject_obj->wr) {
+                    $userRightEmailsArray[$emailData->email->code] = 'something';
+                }
+                if ('W' == $emailData->email->subject_obj->wr) {
+                    $debug_wrong[] = $emailData->email->subject_obj->text;
+                    $userWrongEmails++;
+                }
+            }else{
+                $debug_wrong[] = $emailData->email->subject_obj->text;
                 $userWrongEmails++;
             }
-
-            $userTotalEmails++;
         }
 
         $userRightEmails = count($userRightEmailsArray);
@@ -513,29 +495,21 @@ class EmailAnalyzer
                 'positive' => 0,
                 'obj'      => $behave_3326,
             );
-        }
-
-        // 2 points
-        if ($userWrongEmails/$userRightEmails < $limitToGet2points) {
+        } else {
+            if($userRightEmails !== 0){
+                $K = $userWrongEmails/$userRightEmails;
+            }else{
+                $K = 1;
+            }
+            if($K > 1) {
+                $K = 1;
+            }
+            $value = (1 - $K)*$behave_3326->scale;
             return array(
-                'positive' => $behave_3326->scale,
+                'positive' => $value,
                 'obj'      => $behave_3326,
             );
         }
-
-        // 1 point
-        if ($userWrongEmails/$userRightEmails < $limitToGet1points) {
-            return array(
-                'positive' => $behave_3326->scale*0.5,
-                'obj'      => $behave_3326,
-            );
-        }
-
-        // user write too much not right emails
-        return array(
-            'positive' => 0,
-            'obj'      => $behave_3326,
-        );
     }
 
     /**
@@ -585,43 +559,39 @@ class EmailAnalyzer
                 $workWithMailTotalDuration += TimeTools::timeToSeconds($logItem->duration);
             }
         }
+        $workWithMailTotalDuration = $workWithMailTotalDuration/60; // minutes
 
         // проверяем что пользователь читал почту более 90 минут - это плохо
-        if (180*60 < $workWithMailTotalDuration) {
-            return array(
-                $behave_3311->getTypeScaleSlug() => 0,
-                'obj'                            => $behave_3311,
-                'case'                           => 2, // 'case' - option for test reasons only
-            );
-        } else {
+        if ($workWithMailTotalDuration < 90) {
 
-            $value = 0;
-
-            if ($workWithMailTotalDuration <= 120*60) {
-                $value = $behave_3311->scale;
-            }
-
-            if (120*60 < $workWithMailTotalDuration && $workWithMailTotalDuration <= 150*60) {
-                $value = $behave_3311->scale * (2/3);
-            }
-
-            if (150*60 < $workWithMailTotalDuration && $workWithMailTotalDuration <= 180*60) {
-                $value = $behave_3311->scale * (1/3);
-            }
+            $value = $behave_3311->scale;
 
             return array(
                 $behave_3311->getTypeScaleSlug() => $value,
                 'obj'                            => $behave_3311,
-                'case'                           => 5, // 'case' - option for test reasons only
+                'case'                           => 2, // 'case' - option for test reasons only
             );
+        } else {
+            $value = $behave_3311->scale * (1 - (($workWithMailTotalDuration - 90)/100));
+
+            // Пользователь может проработать с почтой более 190 минут
+            // тогда "($workWithMailTotalDuration - 90) / 100" будет менше нуля
+            // это недопустимо, минимальное значение - 0.
+            $value = ( $value < 0 ) ? 0 : $value;
+
+            return [
+                $behave_3311->getTypeScaleSlug() => $value,
+                'obj'                            => $behave_3311,
+                'case'                           => 3, // 'case' - option for test reasons only
+            ];
         }
 
         // сюда программа дойти не должна - но пусть хоть 0 вернёт, на всякий случай
-        return array(
+        return [
             $behave_3311->getTypeScaleSlug() => 0,
             'obj'                            => $behave_3311,
             'case'                           => 0, // 'case' - option for test reasons only
-        );
+        ];
     }
 
     /**

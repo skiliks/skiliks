@@ -141,7 +141,7 @@
                             at: "left top",
                             of: $('#corporate-invitations-list-box')
                         },
-                        open: function( event, ui ) { Cufon.refresh(); }
+                        open: function( event, ui ) { /*Cufon.refresh();*/ }
                     });
 
                     $( ".message_window").parent().addClass('nice-border cabmessage');
