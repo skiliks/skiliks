@@ -99,6 +99,7 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
     public function test_Dialogs_for_SK1790()
     {
         //$this->markTestIncomplete();
+        
         $this->start_simulation("test_Dialogs_for_SK1790", 1);
         $this->optimal_click('link=F39');
 
