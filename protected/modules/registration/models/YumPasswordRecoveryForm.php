@@ -18,9 +18,10 @@ class YumPasswordRecoveryForm extends YumFormModel {
 		$rules = array(
 				// username and password are required
 				array('email', 'required', 'message' => Yii::t('site', 'Email is required')),
-				array('email', 'checkexists'),
-                array('email', 'isBanned'),
+				array('email', 'checkexists', 'message' => Yii::t('site', 'User with this email does not exist')),
+
 				array('email', 'email', 'message' => Yii::t('site', 'Wrong email')),
+                array('email', 'isBanned'),
 				);
 
 		return $rules;
@@ -54,9 +55,10 @@ class YumPasswordRecoveryForm extends YumFormModel {
 
     public function isBanned($attribute, $params) {
         if(!$this->hasErrors()) {
-            if($this->user->isBanned()) {
+            if($this->user !== null && $this->user->isBanned()) {
                 $this->addError('email', Yii::t('site', 'Your account has been locked'));
             }
+        //return;
         }
     }
 }
