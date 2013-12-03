@@ -49,7 +49,8 @@ class MyDocumentsService
                 'id' => $document->id,
                 'name' => $document->template->fileName,
                 'srcFile' => $document->template->srcFile,
-                'mime' => $document->template->getMimeType()
+                'mime' => $document->template->getMimeType(),
+                'pages' => $document->template->getPages()
             );
         }
         

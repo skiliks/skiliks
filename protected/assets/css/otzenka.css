@@ -675,10 +675,10 @@
 .questn {
     background: url(../img/questn.png) no-repeat left bottom;
     display: inline-block;
-    height:26px;
+    height:30px;
     margin-left:6px;
     margin-bottom: -6px;
-    width: 27px;
+    width: 31px;
 
     /*background: #bedadc;
     color: #fff !important;

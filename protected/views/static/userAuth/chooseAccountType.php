@@ -8,7 +8,7 @@
 	<h2 class="shorter-title"><?php echo empty($simPassed) ? 'Зарегистрируйтесь, выбрав подходящий профиль' : 'Зарегистрируйтесь, выбрав подходящий профиль, и получите пример отчёта' ?></h2>
 	<div class="form form-account-personal">
 	    <h1><?php echo Yii::t('site', 'Personal account') ?></h1>
-        <p class="ProximaNova-Bold-22px p-chose-accaount-type">(Вы - сотрудник или соискатель)</p>
+        <p class="p-chose-accaount-type">(Вы - сотрудник или соискатель)</p>
         <ul>
 			<li><?php echo Yii::t('site', 'Возможность получать приглашения от работодателя') ?></li>
 			<li><?php echo Yii::t('site', 'Полная версия по приглашению') ?></li>
@@ -53,7 +53,7 @@
 	<!-- --------------------------------------------------------------------------------------------------------- -->
 	<div class="form form-account-corporate">
 	    <h1><?php echo Yii::t('site', 'Corporate account') ?></h1>
-        <p class="ProximaNova-Bold-22px p-chose-accaount-type">(Вы - работодатель)</p>
+        <p class="p-chose-accaount-type">(Вы - работодатель)</p>
 	    <ul>
 			<li><?php echo Yii::t('site', '10 симуляций бесплатно (Полная версия)') ?></li>
 			<li><?php echo Yii::t('site', 'Package of simulations to assess others') ?></li>

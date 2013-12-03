@@ -58,6 +58,7 @@ class InitBaseUsersCommand
             }
 
             $profile->firstname = $user['username'];
+            $profile->lastname = 'L.N.';
             $profile->email     = strtolower($user['email']);
 
             // register user (init user object, validate, save) {

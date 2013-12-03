@@ -20,7 +20,9 @@
         <!--li><a class="fullscreen-toggle"><img alt="" src="<@=SKApp.get('assetsUrl')@>/img/main-screen/icon-help.png" /></a></li-->
     </ul>
     <ul class="top-right-icons">
-        <li><a class="fullscreen"></a></li>
+        <@ if(!$.browser['msie']){ @>
+            <li><a class="fullscreen"></a></li>
+        <@ } @>
     </ul>
     <nav class="main-screen-icons"></nav>
     <div class="windows-container">

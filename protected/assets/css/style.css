@@ -331,7 +331,7 @@ a:focus, a:active {
         font-family:'ProximaNova-Regular';
 		line-height: 17px;
 		text-indent: 4px;
-        width: 110px;
+        /*width: 110px;*/
 	}
 	.sbToggle{
 		background-image:url("../img/bg-select-toggle-min.png");
@@ -1366,13 +1366,13 @@ html[lang=ru] .product section table th{
 	color:#555545;
 	margin:46px 0 0px 57px;
 }
-#registration-general-error {
+.registration-general-error {
     text-align: center;
     width:100%;
     color: #6D6D5B;
     margin-top: 35px;
 }
-#registration-general-error a {
+.registration-general-error a {
     color: #fff;
 }
 .registration .form>ul{
@@ -1911,40 +1911,47 @@ html[lang="en"] .footer .social_networks {
     height:31px;
     margin-left:10px;
 }
-.social_networks a.addthis_button_vk, .smallicons a.addthis_button_vk {
+.new_social_buttons_footer a {
+    background:url(../img/icons/social_networks.png) -100% -100% no-repeat;
+    width:32px;
+    height:31px;
+    margin-left:10px;
+}
+.social_networks a.addthis_button_vk, .social_networks .vk_share_button_footer, .smallicons .vk_share_button,  .social_networks .addthis_button_vk {
     background-position: 0px 0px;
 }
-.social_networks a.addthis_button_facebook {
+.social_networks a.addthis_button_facebook, .social_networks .facebook_share_button_footer {
     background-position: -42px 0px;
 }
-.social_networks a.addthis_button_twitter {
-    background-position: -83px 0px;
-    width:33px;
+.social_networks a.addthis_button_twitter, .social_networks .twitter_share_button_footer {
+    background-position: -82px 0;
+    min-height: 31px;
+    min-width: 34px;
 }
-.social_networks a.addthis_button_google_plusone_share {
+.social_networks a.addthis_button_google_plusone_share, .social_networks .google_share_button_footer {
     background-position: -125px 0px;
 }
-.social_networks a.addthis_button_linkedin {
+.social_networks a.addthis_button_linkedin, .social_networks .linkedin_share_button_footer {
     background-position: -166px 0px;
 }
-.social_networks a.addthis_button_vk:hover {
+.social_networks a.addthis_button_vk:hover, .vk_share_button_footer:hover, .vk_share_button:hover {
     background-position: 0px 100%;
     opacity: 1 !important;
 }
-.social_networks a.addthis_button_facebook:hover {
+.social_networks a.addthis_button_facebook:hover, .social_networks .facebook_share_button_footer:hover {
     background-position: -42px 100%;
     opacity: 1 !important;
 }
-.social_networks a.addthis_button_twitter:hover {
+.social_networks a.addthis_button_twitter:hover, .social_networks .twitter_share_button_footer:hover {
     background-position: -83px 100%;
     width:33px;
     opacity: 1 !important;
 }
-.social_networks a.addthis_button_google_plusone_share:hover {
+.social_networks a.addthis_button_google_plusone_share:hover, .social_networks .google_share_button_footer:hover {
     background-position: -125px 100%;
     opacity: 1 !important;
 }
-.social_networks a.addthis_button_linkedin:hover {
+.social_networks a.addthis_button_linkedin:hover, .social_networks .linkedin_share_button_footer:hover {
     background-position: -166px 100%;
     opacity: 1 !important;
 }
@@ -1953,40 +1960,47 @@ html[lang="en"] .footer .social_networks {
     background:none !important;
 }
 
-.smallicons a {
+.smallicons a, .new_social_buttons {
     background:url("../img/social-small.png") -100% -100% no-repeat;
     width:28px !important;
     height:27px !important;
     margin-left:8px;
 }
+
+.new_social_buttons {
+    display: inline-block;
+    text-align: right;
+    width: 155px;
+}
+
 .smallicons>span {
     display: inline-block;
     text-align: right;
     width: 155px;
 }
-.smallicons a.addthis_button_facebook {
+.smallicons a.addthis_button_facebook, .smallicons .facebook_share_button {
     background-position: -36px 0px;
 }
-.smallicons a.addthis_button_facebook:hover {
+.smallicons a.addthis_button_facebook:hover, .smallicons .facebook_share_button:hover {
     background-position: -36px -33px;
 }
-.smallicons a.addthis_button_twitter {
+.smallicons a.addthis_button_twitter, .smallicons .twitter_share_button {
     background-position: -71px 0px;
     width:29px !important;
 }
-.smallicons a.addthis_button_twitter:hover {
+.smallicons a.addthis_button_twitter:hover, .smallicons .twitter_share_button:hover {
     background-position: -71px -33px;
 }
-.smallicons a.addthis_button_google_plusone_share {
+.smallicons a.addthis_button_google_plusone_share, .smallicons .google_share_button {
     background-position: -107px 0px;
 }
-.smallicons a.addthis_button_google_plusone_share:hover {
+.smallicons a.addthis_button_google_plusone_share:hover, .smallicons .google_share_button:hover {
     background-position: -107px -33px;
 }
-.smallicons a.addthis_button_linkedin {
+.smallicons a.addthis_button_linkedin, .smallicons .linkedin_share_button  {
     background-position: -142px 0px;
 }
-.smallicons a.addthis_button_linkedin:hover {
+.smallicons a.addthis_button_linkedin:hover,  .smallicons .linkedin_share_button:hover  {
     background-position: -142px -33px;
 }
 .videosocwrap .social_networks {
@@ -2058,6 +2072,20 @@ html[lang="en"] .footer .social_networks {
     margin-top: -18px;
 }
 
+.show-simulation-rules {
+    position: relative;
+    color:#fff;
+    font-size:12px;
+    right:0;
+    top: 5px;
+    text-align: right;
+    z-index:15;
+}
+
+.show-simulation-rules span {
+    cursor: pointer;
+}
+
 .help-contact-us a {
     text-decoration: none;
     font: 14px "ProximaNova-Regular";
@@ -2067,6 +2095,10 @@ html[lang="en"] .footer .social_networks {
 @media screen and (max-width: 1146px){
     .help-contact-us {
         margin-top: -12px;
+    }
+
+    .show-simulation-rules {
+        font-size: 11px;
     }
 
 	.footer{
@@ -2164,7 +2196,7 @@ html[lang="en"] .footer .social_networks {
 	line-height:1;
 	color:#146672;
 	width:214px;
-	height:12px;
+	height:14px;
 	padding:7px 9px;
 	outline:none;
 }
@@ -2533,7 +2565,7 @@ html[lang="en"] .footer .social_networks {
         font-size:22px;
     }
 	.login-form{
-	    width:190px;
+	    width:220px;
 	    padding:7px 24px 7px 10px;
 	    top:75px;
 	    /*margin-left:33px;*/
@@ -2572,7 +2604,7 @@ html[lang="en"] .footer .social_networks {
     .popup-recovery input[type=text],
     .change_pass-pop-up div input[type=password], #change-password-form input[type="password"] {
         font-size:11px;
-		width:171px;
+		width: 206px;
 		height:11px;
 		padding:6px 7px;
 	}
@@ -3289,7 +3321,7 @@ ul.profile-menu li {
     color:#232323;
     cursor:pointer;
     display: inline-block;
-    height: 24px;
+    height: 22px;
     text-decoration: none;
     width: 22px;
 }
@@ -3930,12 +3962,12 @@ body.action-controller-corporateReferrals-static-profile .popup-before-start-sim
         width: 700px !important;
     }
     .dialogReferralPending .list-ordered p.ProximaNova {
-        font-size: 12px;
-        text-align: center;
+        /*font-size: 12px;
+        text-align: center;*/
     }
     .dialogReferralRejected .list-ordered p.ProximaNova {
-        font-size: 12px;
-        text-align: center;
+        /*font-size: 12px;
+        text-align: center;*/
     }
     #corporate-invitations-list-box .grid-view tr th:last-child, #corporate-invitations-list-box .grid-view tr td:last-child {
         max-width: 110px;
@@ -4365,29 +4397,29 @@ body.action-controller-corporateReferrals-static-profile .popup-before-start-sim
         height: 27px !important;
         margin-left: 8px;
     }
-    .social_networks a.addthis_button_facebook {
+    .social_networks a.addthis_button_facebook, .social_networks .facebook_share_button_footer {
         background-position: -36px 0px;
     }
-    .social_networks a.addthis_button_facebook:hover {
+    .social_networks a.addthis_button_facebook:hover,  .social_networks .facebook_share_button_footer:hover {
         background-position: -36px -33px;
     }
-    .social_networks a.addthis_button_twitter {
+    .social_networks a.addthis_button_twitter, .social_networks .twitter_share_button_footer {
         background-position: -71px 0px;
         width:29px !important;
     }
-    .social_networks a.addthis_button_twitter:hover {
+    .social_networks a.addthis_button_twitter:hover, .social_networks .twitter_share_button_footer:hover {
         background-position: -71px -33px;
     }
-    .social_networks a.addthis_button_google_plusone_share {
+    .social_networks a.addthis_button_google_plusone_share, .social_networks .google_share_button_footer {
         background-position: -107px 0px;
     }
-    .social_networks a.addthis_button_google_plusone_share:hover {
+    .social_networks a.addthis_button_google_plusone_share:hover,  .social_networks .google_share_button_footer:hover {
         background-position: -107px -33px;
     }
-    .social_networks a.addthis_button_linkedin {
+    .social_networks a.addthis_button_linkedin, .social_networks .linkedin_share_button_footer {
         background-position: -142px 0px;
     }
-    .social_networks a.addthis_button_linkedin:hover {
+    .social_networks a.addthis_button_linkedin:hover, .social_networks .linkedin_share_button_footer:hover  {
         background-position: -142px -33px;
     }
     .social_networks>span {
@@ -5353,27 +5385,27 @@ ul.default li:hover {
     margin-left: 25px;
     width:392px;
     background-color: #fdfbc6;
-    color:#fff;
     padding: 24px 24px 10px 24px;
     text-align: center;
+
+    color: #3C3C32;
+    line-height: 22px;
+    font-size: 20px;
 }
 
 .referral-span-first {
     margin-top: 42px;
 }
 
-.referral-span-first .ProximaNova-20, .referral-span-first .ProximaNova-Bold-22px {
-    font-size: 20px;
-}
-
-.referral-right-div .ProximaNova-font-11px {
+.footnote-black {
     text-align: left;
     font-size: 11px;
-    margin-top:5px;
+    line-height: 12px;
+    margin-top:11px;
 }
 
-.referral-right-div .ProximaNova-font-11px.with-margin-top {
-    margin-top:46px;
+.footnote-black.with-margin-top {
+    margin-top:30px;
 }
 
 .referral-bottom-p {
@@ -5473,27 +5505,27 @@ ul.default li:hover {
         margin-left: 16px;
         width:313px;
         background-color: #fdfbc6;
-        color:#fff;
         padding: 15px 15px 8px 15px;
         text-align: center;
+
+        color: #3C3C32;
+        line-height: 16px;
+        font-size: 16px;
     }
 
     .referral-span-first {
         margin-top: 33px;
     }
 
-    .referral-span-first .ProximaNova-20, .referral-span-first .ProximaNova-Bold-22px {
-        font-size: 16px;
-    }
-
-    .referral-right-div .ProximaNova-font-11px {
+    .footnote-black {
         text-align: left;
-        font-size: 9px;
-        margin-top:4px;
+        font-size: 10px;
+        line-height: 10px;
+        margin-top: 10px;
     }
 
-    .referral-right-div .ProximaNova-font-11px.with-margin-top {
-        margin-top:37px;
+    .footnote-black.with-margin-top {
+        margin-top: 48px;
     }
 
     .referral-bottom-p {
@@ -5544,7 +5576,7 @@ ul.default li:hover {
     border-radius: 7px;
 }
 
-.show-popup-top .ProximaNova-Bold {
+.show-popup-top .message-text {
     font-size: 14px;
     margin-top:-3px;
     font-weight: bold;
@@ -5560,7 +5592,7 @@ ul.default li:hover {
         height: 48px !important;
     }
 
-    .show-popup-top .ProximaNova-Bold {
+    .show-popup-top .message-text {
         margin-top: 5px;
         font-size: 12px;
         color: #3d4041;
@@ -5651,7 +5683,7 @@ ul.default li:hover {
     }
 
 }
-.aglobalErrorMessage.emailIsExistAndNotActivated.ProximaNova a {
+.aglobalErrorMessage.emailIsExistAndNotActivated a {
     text-decoration: none;
 }
 

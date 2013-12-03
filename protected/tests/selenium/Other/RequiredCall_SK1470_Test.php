@@ -11,7 +11,7 @@ class RequiredCall_SK1470_Test extends SeleniumTestHelper
 {
     public function test_RequiredCall_SK1470_Case1()
     {
-        $this->start_simulation();
+        $this->start_simulation("test_RequiredCall_SK1470_Case1");
         $this->run_event('ET2.4', Yii::app()->params['test_mappings']['phone']['reply'], '-');
         $this->assertElementNotPresent(Yii::app()->params['test_mappings']['phone']['no_reply']);
         sleep(10);

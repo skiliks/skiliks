@@ -29,7 +29,7 @@ $this->widget('zii.widgets.CMenu', array(
         ['label' => Yii::t('site','About Us'), 'url' => ['/static/pages/team'], 'visible' => $isGuest || false === $isDisplayAccountLinks],
         ['label' => Yii::t('site', 'Product'), 'url' => ['/static/pages/product'], 'visible' => $isGuest || false === $isDisplayAccountLinks],
         ['label' => Yii::t('site', 'Pricing & Plans'), 'url' => ['/static/pages/tariffs'], 'visible' => $isGuest || false === $isDisplayAccountLinks],
-        ['label' => Yii::t('site', 'Demo'), 'url' => ['#'], 'visible' => $isGuest && empty($disableDemo), 'linkOptions'=>array('class'=>'start-lite-simulation-btn main-menu-demo', 'data-href'=>'/simulation/demo')],
+        ['label' => Yii::t('site', 'Demo'), 'url' => ['#'], 'visible' => $isGuest && empty($disableDemo) && Yii::app()->language === 'ru', 'linkOptions'=>array('class'=>'start-lite-simulation-btn main-menu-demo', 'data-href'=>'/simulation/demo')],
         [
             'label'   => Yii::t('site', 'Work dashboard'),
             'url'     => ['/static/dashboard/index'],

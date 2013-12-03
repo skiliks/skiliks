@@ -21,7 +21,7 @@ class CountOfEmails_SK1471_Test extends SeleniumTestHelper
     public function test_CountOfEmails_SK1471()
     {
         //$this->markTestIncomplete();
-        $this->start_simulation();
+        $this->start_simulation("CountOfEmails_SK1471_Test");
         sleep(5);
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "12");
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "01");

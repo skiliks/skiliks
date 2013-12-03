@@ -7,6 +7,7 @@
 class SimulationServiceUnitTest extends CDbTestCase
 {
     use UnitLoggingTrait;
+    use UnitTestBaseTrait;
     /**
      * Проверяет что в результат запуска чимуляции:
      * 1. Проверяет что инициализируются флаги
@@ -82,7 +83,7 @@ class SimulationServiceUnitTest extends CDbTestCase
      */
     public function testCalculateAgregatedPointsFor1122() 
     {
-        //$this->markTestSkipped();
+        $this->markTestSkipped();
 
         // init simulation
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
@@ -162,13 +163,11 @@ class SimulationServiceUnitTest extends CDbTestCase
      */
     public function testCalculateAggregatedPointsFor4124()
     {
-        //$this->markTestSkipped();
-
         // init simulation
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
-        $invite->receiverUser = $user;
+        $invite->receiverUser = $this->user;
         $invite->scenario->slug = Scenario::TYPE_FULL;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 
@@ -272,18 +271,17 @@ class SimulationServiceUnitTest extends CDbTestCase
      * 4. Проверяет особенность для суммирования работа с письмами
      *     (а то правило для mail main сильно фрагментирует работу с почтой)
      */
-    public function testActionsAgregationMechanism()
+    public function testActionsAggregationMechanism()
     {
         //$this->markTestSkipped();
 
         // init simulation
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
-        $invite->receiverUser = $user;
+        $invite->receiverUser = $this->user;
         $invite->scenario->slug = Scenario::TYPE_FULL;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
-
 
         $time = 32000;
         $speedFactor = $simulation->getSpeedFactor();
@@ -350,6 +348,12 @@ class SimulationServiceUnitTest extends CDbTestCase
             // add short by time user-action }
         }
 
+        // init activity actions log
+        LogHelper::updateUniversalLog($simulation);
+        $analyzer = new ActivityActionAnalyzer($simulation);
+        $analyzer->run();
+
+        // init activity actions Aggregated log
         LogHelper::combineLogActivityAgregated($simulation);
 
         $aggregatedLogs = LogActivityActionAgregated::model()->findAllByAttributes([
@@ -429,7 +433,7 @@ class SimulationServiceUnitTest extends CDbTestCase
 
         $j = 0;
         foreach ($aggregatedLogs as $aggregatedLog) {
-            // echo "\n", $aggregatedLog->leg_action, ' :: ', $aggregatedLog->duration;
+            echo "\n", $aggregatedLog->leg_action, ' :: ', $aggregatedLog->duration;
             $this->assertEquals($res[$j]['action'],   $aggregatedLog->leg_action, 'type, iteration '.$j);
             $this->assertEquals($res[$j]['duration'], $aggregatedLog->duration,  'duration, iteration '.$j);
             $j++;
@@ -828,7 +832,8 @@ class SimulationServiceUnitTest extends CDbTestCase
      */
     public function testSimulation_SimStopWithOpenLog()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $profile = YumProfile::model()->findByAttributes(['email' => 'asd@skiliks.com']);
+        $user = $profile->user;
         $scenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_FULL]);
         $vacancy = Vacancy::model()->find();
         $positionLevel = PositionLevel::model()->find();
@@ -860,16 +865,22 @@ class SimulationServiceUnitTest extends CDbTestCase
         $invite->vacancy_id = $vacancy->id;
         $invite->save();
 
-        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL, Simulation::MODE_DEVELOPER_LABEL);
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL, Scenario::TYPE_FULL);
         $simulation->invite = $invite;
         $simulation->save();
 
         $logs = [];
         $logs[0][0]	= 1;
         $logs[0][1]	= 1;
-        $logs[0][2]	= 'activated';
+        $logs[0][2]	= LogHelper::ACTION_ACTIVATED;
         $logs[0][3]	= 65115;
         $logs[0]['window_uid'] = 24;
+
+        $logs[1][0]	= 1;
+        $logs[1][1]	= 1;
+        $logs[1][2]	= LogHelper::ACTION_DEACTIVATED;
+        $logs[1][3]	= 65215;
+        $logs[1]['window_uid'] = 24;
 
         SimulationService::simulationStop($simulation, $logs);
 

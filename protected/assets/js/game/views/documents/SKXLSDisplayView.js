@@ -89,7 +89,10 @@ define([
                         sheet.activate();
                     }
                 });
+
+                // зачем?
                 me.$('.header-inner').click();
+
                 clearInterval(SKApp.simulation.sc_interval_id);
                 SKApp.simulation.sc_interval_id = setInterval(function(){
                     if(document.body.style.cursor !== "progress"){
@@ -129,9 +132,10 @@ define([
             }
         },
 
-        resizeActiveTab: function() {
+        resizeActiveTab: function(isResize) {
             try {
                 var doc = this.options.model_instance.get('document');
+                var me = this;
 
                 var activeSheet = doc.get('sheets').where({
                     'name':  $('#' + doc.getCssId() + ' .sheet-tabs li.active').attr('data-sheet-name')
@@ -145,19 +149,38 @@ define([
                     }
                 });
 
+                // высота шапки окна екселя + высота закладок
+                var excelNavigationTotalHeight =
+                    this.$el.find('.header-inner').height()
+                    + this.$el.find('.toolbar').height()
+                    + this.$el.find('.sheet-tabs').height()
+                    - 42; // это реально магическое число
+
+                var newHeight = this.$el.height() - excelNavigationTotalHeight;
+
                 if (activeSheetView.oldWidth == activeSheetView.$el.width() &&
-                    activeSheetView.oldHeidth == activeSheetView.$el.height()) {
-                    // нам не надо реперисовывать скролы, если размеры окан не поменялись
+                    activeSheetView.oldHeigth == newHeight ) {
+                    // нам не надо реперисовывать скролы, если размеры окна не поменялись
                     // перерисовка занимает время - в это время не работают горячие клавиши копирования
                     return;
                 }
 
-                activeSheetView.spreadsheet.InitializeSpreadsheetControl($(activeSheetView.el).attr('id'), activeSheetView.$el.height(), activeSheetView.$el.width(), 0);
+                // /protected/assets/js/socialcalc/socialcalcspreadsheetcontrol.js:178
+                activeSheetView.spreadsheet.InitializeSpreadsheetControl(
+                    $(activeSheetView.el).attr('id'),
+                    newHeight,
+                    activeSheetView.$el.width(),
+                    0
+                );
+
                 activeSheetView.spreadsheet.ExecuteCommand('recalc', '');
                 activeSheetView.spreadsheet.ExecuteCommand('redisplay', '');
 
                 activeSheetView.oldWidth = activeSheetView.$el.width();
-                activeSheetView.oldHeidth = activeSheetView.$el.height();
+                activeSheetView.oldHeigth = newHeight;
+
+                // показать скрытую, для данного окна, строку ввода формул
+                this.$('.menu_bar').show();
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -169,7 +192,7 @@ define([
             try {
                 window.SKWindowView.prototype.onResize.call(this);
                 var me = this;
-                me.resizeActiveTab();
+                me.resizeActiveTab(true);
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -189,14 +212,15 @@ define([
         },
 
         doActivateRedirect: function() {
-        try {
-            this.windowObject.doActivate();
+            try {
+                this.windowObject.doActivate();
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);
                 }
             }
         },
+
         doHoverMenuIcon:function() {
             $('.button_menu li').hover(function(){
                 $(this).find('a.grid-row').css('text-decoration', 'underline');

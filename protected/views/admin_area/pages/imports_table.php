@@ -47,7 +47,7 @@
 
         $('#import-console').show();
         $('#import-console-text')
-            .html('Импорт начался. </br> Идёт поиск и парсинг сценария.');
+            .html('Импорт начался. <br/> Идёт поиск и парсинг сценария.');
 
         var slug = $(this).attr('data-scenario');
         $('#import-scenario-slug').text(slug + '...');

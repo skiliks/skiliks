@@ -16,7 +16,7 @@
                 <?= $simulationLog->real_time ?> (<?= $simulationLog->request_uid?>)
                 <strong><?= $simulationLog->frontend_game_time ?></strong>,
 
-                </br>
+                <br/>
                 <?= str_replace('/index.php/', '', $simulationLog->request_url) ?>
             </td>
             <td style="padding: 5px;">

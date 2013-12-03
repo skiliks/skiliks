@@ -640,12 +640,9 @@ Protoplus.ui = {
                 document.startTooltips();
                 setTimeout(function(){
                      if($(outer.parentNode.parentNode).__drag_just_after_add !== true){
-                        //console.log("direct save call");
                         outer.onEnd(outer, outer.innerHTML, oldValue, elem.getSelected() || val);
                      }else{
-                        //console.log("will try to call value = ",$(outer.parentNode.parentNode).__drag_just_after_add);
                         $(outer.parentNode.parentNode).__drag_just_after_add_on_end_relay = function(){
-                             //console.log("drag is ended properly now data will be saved");
                              outer.onEnd(outer, outer.innerHTML, oldValue, elem.getSelected() || val);
                         };
                      }

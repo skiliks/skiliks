@@ -50,6 +50,39 @@ define([
             SKWindowView.prototype.events
         ),
 
+        fixDayPlanMarkUp: function() {
+            // IE10-fix - исправление ширины контента внутри колонок день-1, день-2, после отпуска {
+            // В IE10 при инициализации .draggable(), тот елемент что назначен в "snap"
+            // уменьшает ширину вдвое. SKILIKS-4824
+            // Данный код явно задаёт ширину, и IE прекращает глючить.
+            // В остальных браузерах ничего не портит - поэтому код не обёрнут в if(MSIE){...}
+
+            // 45 - магическое число. Установленное просто замером,
+            // в вёрстке плана поле для задачи именно на столько уже самой колонки дня
+            $('.planner-book-timetable-event-fl').width(
+                $('.planner-book-today-head').width() - 45
+            );
+            // IE10-fix }
+
+            // что-то случилось с шириной колонкой '.planner-book-head',
+            // и теперь приходится твичить её ширину {
+            $('.planner-book-head').width($('#plannerBookToday').width());
+            var maxPlannerDayWidth = 341;
+
+            if (true === $.browser['msie'] && $('#plannerBookToday').width() < maxPlannerDayWidth) {
+                $('.planner-book-head').width($('#plannerBookToday').width()- 0.5);
+            }
+
+            if (true === $.browser['mozilla']) {
+                $('.planner-book-head').width($('#plannerBookToday').width()- 2);
+            }
+
+            if (true === $.browser['chrome'] && $('#plannerBookToday').width() < maxPlannerDayWidth) {
+                $('.planner-book-head').width($('#plannerBookToday').width()- 0.5);
+            }
+            // что-то случилось с шириной колонок, теперь приходится твичить }
+        },
+
         /**
          * @method
          */
@@ -57,6 +90,8 @@ define([
             try {
                 var me = this,
                 elements = this.$('.planner-task:not(.locked)');
+
+                me.fixDayPlanMarkUp();
 
                 elements.draggable("destroy");
                 var d31 = new Date();
@@ -257,10 +292,12 @@ define([
 
                 // add title attribute to HTMl with full code
                 drop_td.attr('title', drop_td.find('.title').text());
+                //drop_td.attr('title', model.get('title'));
 
                 var max_height = Math.ceil(duration / 15) * 10;
                 setTimeout(function () {
                     me.overflowText(drop_td.find('.title'), max_height, drop_td.find('.title'));
+                    //me.overflowText(model.get('title'), max_height, model.get('title'));
                 }, 0);
                 var todo_el = drop_td.find('.day-plan-todo-task');
 
@@ -427,7 +464,10 @@ define([
                                 // Reverting old element location
                                 var task_id = ui.draggable.attr('data-task-id');
                                 var prev_cell = ui.draggable.parents('td');
-
+                                var task = SKApp.simulation.todo_tasks.get(task_id);
+                                if(task === undefined){
+                                    task = SKApp.simulation.dayplan_tasks.get(task_id);
+                                }
                                 if (prev_cell.length) {
                                     SKApp.simulation.dayplan_tasks.get(task_id).destroy();
                                 }
@@ -435,10 +475,10 @@ define([
                                 if (ui.draggable.parents('.plan-todo').length) {
                                     SKApp.simulation.todo_tasks.get(task_id).destroy();
                                 }
-
+                                console.log(task_id);
                                 //Appending to new location
                                 SKApp.simulation.dayplan_tasks.create({
-                                    title:ui.draggable.find('.title').text(),
+                                    title:task.get('title'),
                                     date:time,
                                     task_id:task_id,
                                     duration:duration,
@@ -681,8 +721,12 @@ define([
                     task.set('date', $(this).parent().attr('data-hour') + ':' + $(this).parent().attr('data-minute'));
                     if (SKApp.simulation.dayplan_tasks.isTimeSlotFree(task.get('date'), task.get('day'), duration)) {
                         task.destroy();
+                        console.log("$(e.currentTarget).find('.title').text()",$(e.currentTarget).find('.title').text());
+                        console.log("task.get('date')",task.get('date'));
+                        console.log("task.id",task.id);
+                        console.log("task.id",duration);
                         SKApp.simulation.dayplan_tasks.create({
-                            title:$(e.currentTarget).find('.title').text(),
+                            title: task.get('title'),
                             date:task.get('date'),
                             task_id:task.id,
                             duration:duration,
@@ -771,7 +815,7 @@ define([
          */
         doPlannerBookQuarterPlan:function(e) {
             try {
-                if(!$(e.currentTarget).hasClass('is-active-plan-tab')){
+                if(!$(e.currentTarget).hasClass('is-active-plan-tab')) {
                     var tab = $('.is-active-plan-tab');
                     tab.css('cursor', 'pointer');
                     tab.removeClass('is-active-plan-tab');
@@ -781,6 +825,8 @@ define([
                     $(e.currentTarget).children('img').attr('src', SKApp.get('assetsUrl')+'/img/planner/plan_quarter-active.png');
                     $('.plannerBookDayPlan').css('display', 'none');
                     $('.plannerBookQuarterPlan').css('display', 'block');
+
+                    this.fixQuarterPlanMarkUp();
                 }
             } catch(exception) {
                 if (window.Raven) {
@@ -842,6 +888,7 @@ define([
                 }
             }
         },
+
         showHint:function($task) {
             try {
                 var position = $task.parent().offset();
@@ -865,8 +912,30 @@ define([
                 }
             }
         },
+
         hideHint:function(e) {
             $('.plan_hint_tooltip').remove();
+        },
+
+        fixQuarterPlanMarkUp: function() {
+            if ($.browser['msie']) {
+                $('.plan-unit').height(
+                    $('.plan-quater-table .cur').height() - 20
+                );
+            }
+        },
+
+        onResize: function() {
+            try {
+                window.SKWindowView.prototype.onResize.call(this);
+                this.fixQuarterPlanMarkUp();
+                this.fixDayPlanMarkUp();
+                console.log('fixed');
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
+            }
         }
     });
 

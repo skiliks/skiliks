@@ -24,6 +24,7 @@ use application\components\Logging\LogTableList as LogTableList;
  * @property string $ipv4
  * @property string $status
  * @property string $percentile
+ * @property string $assessment_version
  *
  * @property SimulationCompletedParent[] $completed_parent_activities
  * @property AssessmentAggregated[] $assessment_aggregated
@@ -58,8 +59,6 @@ use application\components\Logging\LogTableList as LogTableList;
 
 class Simulation extends CActiveRecord
 {
-    const SIMULATION_DAY_DATE = '04.10.2013';
-    
     const MODE_PROMO_ID       = 1;
     const MODE_DEVELOPER_ID   = 2;
 
@@ -72,10 +71,16 @@ class Simulation extends CActiveRecord
 
     public $id;
 
+    //public $assessment_version;
+
     /** ------------------------------------------------------------------------------------------------------------ **/
 
-    public static function formatDateForMissedCalls($time, $date = self::SIMULATION_DAY_DATE)
+    public function formatDateForMissedCalls($time, $date = null)
     {
+        if(null === $date){
+
+            $date = $this->game_type->scenario_config->game_date_data;
+        }
         return $date . ' | ' . $time;
     }
 
@@ -161,6 +166,59 @@ class Simulation extends CActiveRecord
         return '';
     }
 
+    /**
+     * @param YumUser $user, to check is it allowed for this $user to clean events queue
+     *@param boolean $exceptEmails
+     * @return boolean
+     */
+    public function cleanEventsQueue($user, $exceptEmails = true)
+    {
+        if ($user->id != $this->user->id) {
+            return false;
+        }
+
+        if (false === $user->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)) {
+            return false;
+        }
+
+        if ($exceptEmails) {
+            // UPDATE with JOIN works in Yii 1.1.14 only
+            // @link: http://stackoverflow.com/questions/10579587/yii-update-with-join
+            // so - use findAll + foreach
+
+            $events = EventTrigger::model()->findAll(
+                ' sim_id = :sim_id ',
+                [
+                    'sim_id' => $this->id,
+                ]
+            );
+
+            /**
+             * @var  EventTrigger $event
+             */
+            foreach ($events as $event) {
+
+                // clean time for non emails
+                if (false == $event->event_sample->isMail()) {
+                    $event->trigger_time = null;
+                    $event->save();
+                }
+            }
+        } else {
+            EventTrigger::model()->updateAll(
+                [
+                    'trigger_time' => NULL,
+                ],
+                ' sim_id = :sim_id ',
+                [
+                    'sim_id' => $this->id,
+                ]
+            );
+        }
+
+        return true;
+    }
+
     /** ------------------------------------------------------------------------------------------------------------ **/
 
     /**
@@ -209,14 +267,22 @@ class Simulation extends CActiveRecord
 
     /**
      * Returns current simulation time
+     * @param $precision string second or minute
+     * @return string Return H:i:s or H:i
      */
-    public function getGameTime()
+    public function getGameTime($precision='second')
     {
         $time = Yii::app()->request->getParam('time');
-        if(null === $time) {
+        if( null === $time ) {
             // for unit tests with time {
             if (isset(Yii::app()->session['gameTime'])) {
-                return Yii::app()->session['gameTime'];
+                if($precision === 'second') {
+                    return date('H:i:s', strtotime(Yii::app()->session['gameTime']));
+                } else if($precision === 'minute') {
+                    return date('H:i', strtotime(Yii::app()->session['gameTime']));
+                } else {
+                    throw new Exception("Unknown precision type ".$precision);
+                }
             }
             // for unit tests with time }
 
@@ -226,9 +292,21 @@ class Simulation extends CActiveRecord
             $startTime = explode(':', $this->game_type->start_time);
             $unixtime = $variance + $startTime[0] * 3600 + $startTime[1] * 60 + $startTime[2];
 
-            return gmdate('H:i:s', $unixtime);
+            if($precision === 'second'){
+                return gmdate('H:i:s', $unixtime); //for unit tests or console
+            } else if($precision === 'minute') {
+                return gmdate('H:i', $unixtime);
+            } else{
+                throw new Exception("Unknown precision type ".$precision);
+            }
         }else{
-            return $time;
+            if($precision === 'second'){
+                return date('H:i:s', strtotime($time));
+            } else if($precision === 'minute') {
+                return date('H:i', strtotime($time));
+            } else{
+                throw new Exception("Unknown precision type ".$precision);
+            }
         }
 
     }
@@ -617,9 +695,9 @@ class Simulation extends CActiveRecord
     public function getAssessmentDetails()
     {
         // use cached results popup data
-//        if (null !== $this->results_popup_cache && Yii::app()->params['isUseResultPopUpCache']) {
-//            return unserialize($this->results_popup_cache);
-//        }
+        if (null !== $this->results_popup_cache) {
+            return json_encode(unserialize($this->results_popup_cache));
+        }
 
         if ($this->game_type->isLite()) {
             return StaticSiteTools::getRandomAssessmentDetails();

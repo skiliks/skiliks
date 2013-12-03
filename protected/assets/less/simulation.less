@@ -16,6 +16,21 @@
   }
 }
 
+@-webkit-keyframes icon-bouncer {
+  0%, 16%, 33%, 50%, 100% {
+    right: 0;
+  }
+  8% {
+    right: 40px;
+  }
+  25% {
+    right: 20px;
+  }
+  42% {
+    right: 10px;
+  }
+}
+
 @keyframes icon-bouncer {
   0%, 16%, 33%, 50%, 100% {
     right: 0;
@@ -55,10 +70,10 @@ body {
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 101%; /* 101% - for IE10 */
   background-color: #000;
   opacity: 0.3;
-  z-index: 1;
+  z-index: 9;
 }
 
 .canvas {
@@ -177,6 +192,7 @@ body {
                   background: url('../img/window-title-dots.png') 2px 0, -o-linear-gradient(top, #5e5e5e, #2e2d2d);
                   background: url('../img/window-title-dots.png') 2px 0, -ms-linear-gradient(top, #5e5e5e, #2e2d2d);
                   background: url('../img/window-title-dots.png') 2px 0, linear-gradient(top, #5e5e5e, #2e2d2d);
+
                   ul.button_menu{
                     position: absolute;
                     float: left;
@@ -220,7 +236,6 @@ body {
                     display: table;
                     position: absolute;
                     margin-top: 25px;
-
 
                     li {
                       //position: absolute;
@@ -449,9 +464,23 @@ body {
       z-index: 2;
     }
     .only-active, .icon-button-disabled {
-      filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0\'/></filter></svg>#grayscale"); /* Firefox 10+, Firefox on Android */
-      filter: gray; /* IE6-9 */
-      -webkit-filter: grayscale(100%); /* Chrome 19+, Safari 6+, Safari 6+ iOS */
+      #icons_phone {
+        background: url("../img/main-screen/icon-phone-disabled.png") no-repeat;
+        .counter {
+          background: url("../img/main-screen/bg-new-disabled.png") no-repeat;
+        }
+      }
+      #icons_visit {
+        background: url("../img/main-screen/icon-door-disabled.png") no-repeat;
+        .counter  {
+          background: url("../img/main-screen/bg-new-disabled.png") no-repeat;
+        }
+      }
+    }
+
+    .icon-button-disabled:hover{
+      cursor: default;
+      background-color: gray;
     }
     ul li.only-active span:hover {
       cursor: default;
@@ -466,8 +495,11 @@ body {
     }
 
     .icon-active {
+      -webkit-animation: icon-bouncer 2s linear 10;
       animation: icon-bouncer 2s linear 10;
+
       &.icon-active-short {
+        -webkit-animation-iteration-count: 2;
         animation-iteration-count: 2;
       }
     }
@@ -709,11 +741,9 @@ body {
 }
 .simulation-controls {
   position: absolute;
-  left: 50%;
-  width: 980px;
-  margin-left: -490px;
+  width: 100%;
+  margin-left: 20px;
 }
-
 .hidden {
   display: none;
 }
@@ -862,14 +892,20 @@ body {
       text-align: center;
       width:344px;
 
+      background-color: #25211b;
       background: -webkit-linear-gradient(top, #443d32, #25211b);
       background: -moz-linear-gradient(top, #443d32, #25211b);
-      background: linear-gradient(top, #443d32, #25211b);
+      background-image: linear-gradient(top, #443d32, #25211b);
+      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#443d32', endColorstr='#25211b', GradientType=1); /* IE6-9 */
+      background-image: -ms-linear-gradient(top, #443d32 0%, #25211b 100%); /* IE 10 */
 
       &:hover {
+        background-color: #a56e25;
         background: -webkit-linear-gradient(top, #a56e25, #905810);
         background: -moz-linear-gradient(top, #a56e25, #905810);
-        background: linear-gradient(top, #a56e25, #905810);
+        background-image: linear-gradient(top, #a56e25, #905810);
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a56e25', endColorstr='#905810', GradientType=1); /* IE6-9 */
+        background-image: -ms-linear-gradient(top, #a56e25 0%, #905810 100%); /* IE 10 */
       }
     }
   }

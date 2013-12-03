@@ -1,6 +1,6 @@
 <div id="referral-popup" style="min-height: 17px !important;">
     <div style="clear: both;"></div>
-    <div class="ProximaNova-Bold" style="overflow-y:hidden;">
+    <div class="message-text" style="overflow-y:hidden;">
         Теперь вы можете получить дополнительные симуляции, пригласив друзей
     </div>
 </div>
@@ -28,7 +28,7 @@
                 $("span#ui-dialog-title-referral-popup").remove();
             },
             close: function() {
-                $.post( "/dashboard/dontShowPopup", { dontShowPopup : 1}).done(function() {
+                $.post( "/dashboard/dontShowInviteReferralsPopup").done(function() {
                     $(".tariff-expired-popup").css("margin-top", "0");
                 });
             }

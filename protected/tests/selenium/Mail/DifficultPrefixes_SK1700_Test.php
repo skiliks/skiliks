@@ -16,7 +16,7 @@ class DifficultPrefixes_SK1700_Test extends SeleniumTestHelper
      */
     public function test_DifficultPrefixes_SK1700_Case3() {
         //$this->markTestIncomplete('Some delay needs');
-        $this->start_simulation();
+        $this->start_simulation("test_DifficultPrefixes_SK1700_Case3");
         sleep(5);
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "11");
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "02");
@@ -56,7 +56,7 @@ class DifficultPrefixes_SK1700_Test extends SeleniumTestHelper
      */
     public function test_DifficultPrefixes_SK1700_Case4() {
         //$this->markTestIncomplete();
-        $this->start_simulation();
+        $this->start_simulation("test_DifficultPrefixes_SK1700_Case4");
         sleep(5);
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "14");
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "06");

@@ -124,35 +124,6 @@ class DocumentTemplate extends CActiveRecord implements IGameAction
         return $this->code;
     }
 
-    public function getMimeType() {
-        // tweak for not ready files, in ready project we willn`t need it any more
-        if (in_array($this->srcFile, ['TP', 'MG'])) {
-            return 'plain/text';
-        }
-
-        if (isset(self::$mimeMap[$this->format])) {
-            return self::$mimeMap[$this->format];
-        }
-        
-        $finfo = finfo_open(FILEINFO_MIME_TYPE);
-        $mime = finfo_file($finfo, $this->getFilePath());
-        finfo_close($finfo);
-        return $mime;
-    }
-
-    public function getFilePath()
-    {
-        $zohoConfigs = Yii::app()->params['zoho'];
-
-        $path = sprintf("%s/../../../%s/%s",
-            __DIR__,
-            $zohoConfigs['xlsTemplatesDirPath'],
-            $this->srcFile
-        );
-
-        return $path;
-    }
-    
     /**
      * Выбрать по заданному набору шаблонов документов
      * @param array $ids
@@ -167,6 +138,56 @@ class DocumentTemplate extends CActiveRecord implements IGameAction
             'condition' => "id in ({$ids})"
         ));
         return $this;
+    }
+
+    public function getMimeType() {
+        // tweak for not ready files, in ready project we willn`t need it any more
+        if (in_array($this->srcFile, ['TP', 'MG'])) {
+            return 'plain/text';
+        }
+
+        if (isset(self::$mimeMap[$this->format])) {
+            return self::$mimeMap[$this->format];
+        }
+
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $mime = finfo_file($finfo, $this->getFilePath());
+        finfo_close($finfo);
+        return $mime;
+    }
+
+    public function getFilePath()
+    {
+        return $this->getPathFromName($this->srcFile);
+    }
+
+    public function getPages() {
+        if($this->format === 'docx' || $this->format === 'pptx') {
+            $pdf_dir = str_replace('.pdf', '', $this->srcFile);
+            if(is_dir($this->getPathFromName($pdf_dir))) {
+                $pages = [];
+                foreach(scandir($this->getPathFromName($pdf_dir)) as $filename){
+                    if($filename !== "." && $filename !== ".."){
+                        $pages[] = $pdf_dir.'/'.$filename;
+                    }
+                }
+                return $pages;
+            } else {
+                throw new Exception('Dir '.$this->getPathFromName($pdf_dir).' not found');
+            }
+        }else{
+            return [];
+        }
+    }
+
+    public function getPathFromName($name)
+    {
+        if (-1 < (strstr($name, '.xls'))) {
+            return __DIR__."/../../../documents/templates/".$name;
+        }
+
+        // JPGs: doc, ptt
+        return __DIR__."/../../../protected/assets/img/documents/templates/".$name;
     }
 }
 

@@ -75,25 +75,6 @@ class LogDocument extends CActiveRecord
 		);
 	}
 
-    protected function afterSave()
-    {
-        if(false === Yii::app()->params['disableOldLogging']) {
-
-            $activityAction = ActivityAction::model()->findByPriority(
-                ['document_id' => $this->file->template_id],
-                null,
-                $this->simulation
-            );
-
-            if ($activityAction !== null) {
-                $activityAction->appendLog($this);
-            } else {
-                //throw new CException("The document must have id"); TODO:Костыль, для лайт это 500-ая, нужно исправить в релизе 2
-            }
-        }
-        parent::afterSave();
-    }
-
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.

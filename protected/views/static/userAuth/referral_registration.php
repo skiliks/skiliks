@@ -1,7 +1,7 @@
 
 <section class="registration-by-link">
     <div class="text-right"></div>
-    <h1 class="ProximaNova" style="text-align: center; width: 100%;">Создание корпоративного профиля</h1>
+    <h1 class="" style="text-align: center; width: 100%;">Создание корпоративного профиля</h1>
 
     <div class="form form-with-red-errors registration-form" style="min-height:680px; padding-top: 20px;">
 
@@ -40,7 +40,7 @@
             <?= $form->checkBox($user, 'agree_with_terms', ['value' => 'yes', 'uncheckValue' => null]); ?>
             <?= $form->labelEx($user, 'agree_with_terms', ['label' => 'Я принимаю <a href="#" class="terms">Условия и Лицензионное соглашение</a>']); ?>
         </div><div class="row buttons">
-            <button type="submit" class="ProximaNova-Bold blue-submit-button">
+            <button type="submit" class="blue-submit-button">
                 <?= Yii::t("site","Sign up") ?>
             </button>
         </div>

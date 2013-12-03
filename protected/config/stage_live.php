@@ -1,4 +1,8 @@
 <?php
+
+// Team 'Develop - live.skiliks.com'
+$sentryDsn = 'https://41680afc32f344d88ab67eef43254684:e4265582b811477089af672d368c93bf@app.getsentry.com/15804';
+
 define(YII_DEBUG, false);
 return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
     'preload'=> array('log', 'RSentryException'),
@@ -14,40 +18,36 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
             'enableProfiling'=>true
         ),
         'RSentryException'=> array(
-            'dsn'=> 'https://bfd7395024f24728afdf79e9034bca04:2f8bec2e2c40493dbf7b07db88afc94f@app.getsentry.com/4572',
+            // Team 'Develop - live.skiliks.com'
+            'dsn'   => $sentryDsn,
             'class' => 'application.components..yii-sentry-log.RSentryComponent',
         ),
         'log'=>array(
             'class'=>'CLogRouter',
             'routes'=>array(
                 array(
-                    'class'=>'application.components.yii-sentry-log.RSentryLog',
-                    'dsn'=> 'https://bfd7395024f24728afdf79e9034bca04:2f8bec2e2c40493dbf7b07db88afc94f@app.getsentry.com/4572',
-                    'levels'=>'error, warning',
+                    // Team 'Develop - live.skiliks.com'
+                    'class'  => 'application.components.yii-sentry-log.RSentryLog',
+                    'dsn'    => $sentryDsn,
+                    'levels' => 'error, warning',
                 ),
             ),
         ),
     ),
     'params'=>array(
-        'server_name'                   => 'http://skiliks.com/',
-        'frontendUrl'=>'http://live.skiliks.com/',
+        'isBlockGhostLogin' => false,
+        'isUseStrictRulesForGhostLogin'=>false,
+        'server_name'    => 'http://live.skiliks.com/',
+        'frontendUrl'    => 'http://live.skiliks.com/',
         'runMigrationOn' => 'live',
-        'public' => [
-            'storageURL'           => 'http://storage.dev.skiliks.com/v1',
-            'isLocalPc'            => true,
-            'isUseZohoProxy'       => false,
-            'useSentryForJsLog'    => true,
-            'isSkipBrowserCheck'   => true,
-            'isDisplaySupportChat' => false,
+        'sentry' => [
+            'dsn' => $sentryDsn,
         ],
-        'zoho' => array(
-            'apiKey'              => 'e52059ce3aeff6dd2c71afb9499bdcf7',
-            'saveUrl'             => 'http://live.skiliks.com/zoho/saveExcel',
-            'xlsTemplatesDirPath' => 'documents/templates',
-            'templatesDirPath'    => 'documents/zoho',
-            'sendFileUrl'         => 'https://sheet.zoho.com/remotedoc.im?apikey=%s&output=editor',
-            'extExcel'            => 'xls'
-        ),
+        'public' => [
+            'storageURL'           => 'http://storage.dev.skiliks.com/',
+            'useSentryForJsLog'    => true,
+            'isDisplaySupportChat' => true,
+        ]
     )
 ));
 

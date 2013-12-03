@@ -56,4 +56,3 @@ abstract class YumActiveRecord extends CActiveRecord {
 	}
 
 }
-?>

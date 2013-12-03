@@ -14,8 +14,6 @@ class LogHelper
 
     const LOGIN = false; //Писать лог в файл? true - да, false - нет
 
-    public $bom = "0xEF 0xBB 0xBF";
-
     protected static $codes_documents = array(40, 41, 42);
 
     protected static $codes_mail = array(10, 11, 12, 13, 14);
@@ -131,7 +129,7 @@ class LogHelper
 
                 if (!isset($log[4]['fileId'])) continue;
 
-                if (self::ACTION_OPEN == (string)$log[2] OR self::ACTION_ACTIVATED == (string)$log[2]) {
+                if (self::ACTION_OPEN == (string)$log[2] || self::ACTION_ACTIVATED == (string)$log[2]) {
 
                     $log_obj = new LogDocument();
                     $log_obj->sim_id = $simId;
@@ -140,7 +138,7 @@ class LogHelper
                     $log_obj->end_time   = '00:00:00';
                     $log_obj->window_uid = $log['window_uid'];
                     $log_obj->save();
-                } elseif (self::ACTION_CLOSE == (string)$log[2] OR self::ACTION_DEACTIVATED == (string)$log[2]) {
+                } elseif (self::ACTION_CLOSE == (string)$log[2] || self::ACTION_DEACTIVATED == (string)$log[2]) {
 
                     $log_obj = LogDocument::model()->findByAttributes(array(
                         'file_id'  => $log[4]['fileId'],
@@ -152,7 +150,7 @@ class LogHelper
                     $log_obj->save();
                     continue;
                 } else {
-                    throw new Exception("Ошибка"); //TODO:Описание доделать
+                    throw new Exception("Ошибка создании лога окна. Неправильное имя действия открытие/закрытие откна."); //TODO:Описание доделать
                 }
             }
         }
@@ -331,53 +329,53 @@ class LogHelper
 
     public static function setWindowsLog($simId, $logs)
     {
-        if (!is_array($logs)) return false;
-        foreach ($logs as $key => $log) {
-            assert(isset($log['window_uid']));
-            if (self::ACTION_OPEN == (string)$log[2] || self::ACTION_ACTIVATED == (string)$log[2]) {
-                $window = LogWindow::model()->findByAttributes([
-                    'end_time' => '00:00:00',
-                    'sim_id' => $simId
-                ]);
-
-                if ($window) {
-                    $window->end_time = gmdate("H:i:s", $log[3]);
-                    $window->save();
-                    Yii::log(sprintf(
-                        'Previous window is still activated. Simulation id %d. Window log id %d',
-                        $simId, $window->id
-                    ), CLogger::LEVEL_WARNING);
-                }
-
-                $log_window = new LogWindow();
-                $log_window->sim_id = $simId;
-                $log_window->window = $log[1]; // this is ID of Window table
-                $log_window->start_time = gmdate("H:i:s", $log[3]);
-                $log_window->end_time      = '00:00:00';
-                $log_window->window_uid = (isset($log['window_uid'])) ? $log['window_uid'] : NULL;
-                $log_window->save();
-                continue;
-
-            } elseif (self::ACTION_CLOSE == (string)$log[2] || self::ACTION_DEACTIVATED == (string)$log[2]) {
-                $window = LogWindow::model()->findByAttributes([
-                    'end_time' => '00:00:00',
-                    'sim_id' => $simId,
-                    'window_uid' => $log['window_uid']
-                ]);
-
-                if ($window) {
-                    $window->end_time = gmdate("H:i:s", $log[3]);
-                    $window->save();
-                } else {
-                    Yii::log(sprintf(
-                        'Can not close window. Simulation id %d. Log: %s',
-                        $simId, serialize($log)
-                    ), CLogger::LEVEL_WARNING);
-                }
-            } else {
-                throw new CException("Ошибка"); //TODO:Описание доделать
-            }
-        }
+//        if (!is_array($logs)) return false;
+//        foreach ($logs as $key => $log) {
+//            assert(isset($log['window_uid']));
+//            if (self::ACTION_OPEN == (string)$log[2] || self::ACTION_ACTIVATED == (string)$log[2]) {
+//                $window = LogWindow::model()->findByAttributes([
+//                    'end_time' => '00:00:00',
+//                    'sim_id' => $simId
+//                ]);
+//
+//                if ($window) {
+//                    $window->end_time = gmdate("H:i:s", $log[3]);
+//                    $window->save();
+//                    Yii::log(sprintf(
+//                        'Warning. Previous window is still activated. Simulation id %d. Window log id %d',
+//                        $simId, $window->id
+//                    ), CLogger::LEVEL_WARNING);
+//                }
+//
+//                $log_window = new LogWindow();
+//                $log_window->sim_id = $simId;
+//                $log_window->window = $log[1]; // this is ID of Window table
+//                $log_window->start_time = gmdate("H:i:s", $log[3]);
+//                $log_window->end_time      = '00:00:00';
+//                $log_window->window_uid = (isset($log['window_uid'])) ? $log['window_uid'] : NULL;
+//                $log_window->save();
+//                continue;
+//
+//            } elseif (self::ACTION_CLOSE == (string)$log[2] || self::ACTION_DEACTIVATED == (string)$log[2]) {
+//                $window = LogWindow::model()->findByAttributes([
+//                    'end_time' => '00:00:00',
+//                    'sim_id' => $simId,
+//                    'window_uid' => $log['window_uid']
+//                ]);
+//
+//                if ($window) {
+//                    $window->end_time = gmdate("H:i:s", $log[3]);
+//                    $window->save();
+//                } else {
+//                    Yii::log(sprintf(
+//                        'Can not close window. Simulation id %d. Log: %s',
+//                        $simId, serialize($log)
+//                    ), CLogger::LEVEL_WARNING);
+//                }
+//            } else {
+//                throw new CException("Ошибка"); //TODO:Описание доделать
+//            }
+//        }
 
         return true;
     }
@@ -803,6 +801,8 @@ class LogHelper
                 }
             }
         }
+
+        $simulation->refresh();
     }
 
 }

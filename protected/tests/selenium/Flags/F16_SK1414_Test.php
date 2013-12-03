@@ -23,7 +23,7 @@ class F16_SK1414_Test extends SeleniumTestHelper
     {
         // tests to checking the actions before F16 = 1
         //$this->markTestIncomplete();
-        $this->start_simulation();
+        $this->start_simulation("F16_SK1414_Test");
         sleep(10);
         $this->assertTrue($this->verify_flag('F16','0'));
 

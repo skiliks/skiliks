@@ -38,10 +38,10 @@ parseUri.options = {
 //     * Either jQuery (>1.5) or Zepto.js (>0.8).
 //     * parseUri (included in the full and minified distribution files)
 
-//(function(){
-    // Save a reference to the global object (`window` in the browser, `global`
-    // on the server).
-    'use strict';
+
+// Save a reference to the global object (`window` in the browser, `global`
+// on the server).
+'use strict';
 
 // First, check for JSON support
 // If there is no JSON, we no-op the core features of Raven
@@ -503,12 +503,8 @@ parseUri.options = {
         }
         return true;
     }
-//}).call(this);
 
-window.Raven.config('https://bfd7395024f24728afdf79e9034bca04:2f8bec2e2c40493dbf7b07db88afc94f@app.getsentry.com/4572').install();
+    window.onError = function(error) {
+        window.Raven.handleStackInfo()
+    };
 
-window.onError = function(error) {
-    window.Raven.handleStackInfo()
-};
-
-//console.error = window.Raven.processException;

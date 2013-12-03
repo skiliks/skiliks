@@ -37,7 +37,7 @@
                                     </h1>
 
                                     <p  style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
-                                        Ваш тарифный план истёк. Вы можете его <a href="<?= MailHelper::createUrlWithHostname('payment/order/'.$user->account_corporate->tariff->slug) ?>">продлить</a> или <a href="<?= MailHelper::createUrlWithHostname('static/tariffs') ?>">оформить новый</a>.
+                                        Ваш тарифный план истёк. Вы можете его <a href="<?= MailHelper::createUrlWithHostname("profile/corporate/tariff") ?>">продлить</a> или <a href="<?= MailHelper::createUrlWithHostname('static/tariffs') ?>">оформить новый</a>.
                                     </p>
 
                                 </td>

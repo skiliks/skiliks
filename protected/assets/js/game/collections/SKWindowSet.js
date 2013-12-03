@@ -158,16 +158,17 @@ define([
          */
         'showWindow': function (win) {
             try {
-                if (win.single === true && this.get(win)) {
+                var me = this;
+                if (win.single === true && me.get(win)) {
                     throw new Error('Window already displayed');
                 }
-                if (this.length) {
-                    this.at(this.length - 1).deactivate();
+                if (me.length) {
+                    me.at(this.length - 1).deactivate();
                 }
-                if (this.get(win.id)) {
+                if (me.get(win.id)) {
                     throw new Error('Trying to add window with same ID');
                 }
-                this.add(win);
+                me.add(win);
                 win.activate();
             } catch(exception) {
                 if (window.Raven) {
@@ -213,7 +214,9 @@ define([
                     }
                 } else {
                     var WindowType = this.window_classes[name + '/' + subname] || SKWindow;
+                    console.log('WindowType 1 : ', name + '/' + subname, ' , ', WindowType);
                     var win = new WindowType(_.extend({name: name, subname: subname}, params));
+                    console.log('win 1 : ', win);
                     win.open();
                 }
             } catch(exception) {
@@ -279,7 +282,6 @@ define([
         open: function (name, subname, params) {
             try {
                 var windows = this.where({name: name, subname: subname});
-
                 if (windows.length !== 0) {
                     if (this.at(this.length - 1).id !== subname) { // If this is top window
                         windows[0].setOnTop();
@@ -293,6 +295,7 @@ define([
                     return windows[0];
                 } else {
                     var WindowType = this.window_classes[name + '/' + subname] || SKWindow;
+                    console.log('WindowType 2 : ', WindowType);
                     var win = new WindowType(_.extend({name: name, subname: subname}, params));
                     win.open();
                     return win;

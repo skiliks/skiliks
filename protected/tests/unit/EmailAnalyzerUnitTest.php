@@ -621,7 +621,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         $log->activity_action_id = $MY1_activityAction_id;
         $log->start_time = '11:00:00';
         $log->end_time = '11:00:20';
-        $log->duration = '01:00:00';
+        $log->duration = '00:00:20';
         $log->save();
 
         $log = new LogActivityActionAgregated();
@@ -630,9 +630,9 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         $log->leg_action = 'MY1';
         $log->activity_action_id = $MY1_activityAction_id;
         $log->start_time = '11:00:00';
-        $log->end_time = '14:06:00';
+        $log->end_time = '12:06:00';
 
-        $log->duration = '03:06:00';
+        $log->duration = '01:06:00';
         $log->save();
         // лог }
 
@@ -642,7 +642,9 @@ class EmailAnalyzerUnitTest extends CDbTestCase
 
         $result = $emailAnalyzer->check_3311();
 
-        $this->assertEquals(0, $result['positive']);
+        $behave_3311 = $simulation->game_type->getHeroBehaviour(['code' => '3311']);
+
+        $this->assertEquals($behave_3311->scale, $result['positive']);
         $this->assertEquals(2, $result['case']); // 'case' - option for test reasons only
     }
 
@@ -650,7 +652,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
      * 3311, Пользователь прочёл и написал пдостаточно писем, работал с почтой нормальнео число (2) раз,
      * и правильное количество минут - 60 мин
      */
-    public function test_3311_case5()
+    public function test_3311_case3()
     {
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $invite = new Invite();
@@ -684,224 +686,8 @@ class EmailAnalyzerUnitTest extends CDbTestCase
             $log->leg_action = 'MY1';
             $log->activity_action_id = $MY1_activityAction_id;
             $log->start_time = '11:00:00';
-            $log->end_time = '11:11:00';
-            $log->duration = '00:30:00';
-            $log->save();
-
-            $log = new LogActivityActionAgregated();
-            $log->sim_id = $simulation->id;
-            $log->leg_type = ActivityAction::LEG_TYPE_DOCUMENTS;
-            $log->leg_action = 'AD2';
-            $log->activity_action_id = $D2_activityAction_id;
-            $log->start_time = '11:00:00';
-            $log->end_time = '11:11:00';
-            $log->duration = '00:10:00';
-            $log->save();
-        }
-        // лог }
-
-        $this->setEmailFor3311Tests($simulation);
-
-        $emailAnalyzer = new EmailAnalyzer($simulation);
-
-        $result = $emailAnalyzer->check_3311();
-
-        $this->assertEquals($result['obj']->scale, $result['positive']);
-        $this->assertEquals(5, $result['case']); // 'case' - option for test reasons only
-    }
-
-    /**
-     * 3311, Пользователь прочёл и написал достаточно писем,
-     * и правильное количество минут - 150 мин
-     */
-    public function test_3311_case6()
-    {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $invite = new Invite();
-        $invite->scenario = new Scenario();
-        $invite->receiverUser = $user;
-        $invite->scenario->slug = Scenario::TYPE_FULL;
-        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
-
-        $D2_template = $simulation->game_type->getDocumentTemplate(['code' =>  'D2']);
-        $D2_activity = $simulation->game_type->getActivity(['code' => 'T2']);
-        $D2_activityAction_id = $simulation->game_type->getActivityAction([
-            'document_id' => $D2_template->getPrimaryKey(),
-            'leg_type'    => ActivityAction::LEG_TYPE_DOCUMENTS,
-            'activity_id' => $D2_activity->id,
-        ])->getPrimaryKey();
-
-        $MY1_template = $simulation->game_type->getMailTemplate(['code' =>  'MY1']);
-        $MY1_activity = $simulation->game_type->getActivity(['code' => 'AMY1']);
-        $MY1_activityAction_id = $simulation->game_type->getActivityAction([
-            'mail_id'     => $MY1_template->getPrimaryKey(),
-            'leg_type'    => ActivityAction::LEG_TYPE_INBOX,
-            'activity_id' => $MY1_activity->id,
-        ])->getPrimaryKey();
-
-        // лог {
-        // 2 лога - чтобы проверить что их длительность просуммируется
-        for ($i = 0; $i < 5; $i++) {
-            $log = new LogActivityActionAgregated();
-            $log->sim_id = $simulation->id;
-            $log->leg_type = ActivityAction::LEG_TYPE_INBOX;
-            $log->leg_action = 'MY1';
-            $log->activity_action_id = $MY1_activityAction_id;
-            $log->start_time = "1$i:00:00";
-            $log->end_time = "1$i:25:00";
-            $log->duration = '00:25:00';
-            $log->save();
-
-            $log = new LogActivityActionAgregated();
-            $log->sim_id = $simulation->id;
-            $log->leg_type = ActivityAction::LEG_TYPE_DOCUMENTS;
-            $log->leg_action = 'AD2';
-            $log->activity_action_id = $D2_activityAction_id;
-            $log->start_time = "1$i:30:00";
-            $log->end_time = "1$i:40:00";
-            $log->duration = '00:10:00';
-            $log->save();
-        }
-        // лог }
-
-        $this->setEmailFor3311Tests($simulation);
-
-        $emailAnalyzer = new EmailAnalyzer($simulation);
-
-        $result = $emailAnalyzer->check_3311();
-
-        $this->assertEquals(5, $result['case']); // 'case' - option for test reasons only
-        $this->assertEquals($result['obj']->scale*(2/3), $result['positive']);
-    }
-
-    /**
-     * 3311, Пользователь прочёл и написал достаточно писем, ,
-     * и правильное количество минут - 180 мин
-     */
-    public function test_3311_case7()
-    {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $invite = new Invite();
-        $invite->scenario = new Scenario();
-        $invite->receiverUser = $user;
-        $invite->scenario->slug = Scenario::TYPE_FULL;
-        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
-
-        $D2_template = $simulation->game_type->getDocumentTemplate(['code' =>  'D2']);
-        $D2_activity = $simulation->game_type->getActivity(['code' => 'T2']);
-        $D2_activityAction_id = $simulation->game_type->getActivityAction([
-            'document_id' => $D2_template->getPrimaryKey(),
-            'leg_type'    => ActivityAction::LEG_TYPE_DOCUMENTS,
-            'activity_id' => $D2_activity->id,
-        ])->getPrimaryKey();
-
-        $MY1_template = $simulation->game_type->getMailTemplate(['code' =>  'MY1']);
-        $MY1_activity = $simulation->game_type->getActivity(['code' => 'AMY1']);
-        $MY1_activityAction_id = $simulation->game_type->getActivityAction([
-            'mail_id'     => $MY1_template->getPrimaryKey(),
-            'leg_type'    => ActivityAction::LEG_TYPE_INBOX,
-            'activity_id' => $MY1_activity->id,
-        ])->getPrimaryKey();
-
-        // лог {
-        // 2 лога - чтобы проверить что их длительность просуммируется
-        for ($i = 0; $i < 6; $i++) {
-            $log = new LogActivityActionAgregated();
-            $log->sim_id = $simulation->id;
-            $log->leg_type = ActivityAction::LEG_TYPE_INBOX;
-            $log->leg_action = 'MY1';
-            $log->activity_action_id = $MY1_activityAction_id;
-            $log->start_time = "1$i:00:00";
-            $log->end_time = "1$i:30:00";
-            $log->duration = '00:30:00';
-            $log->save();
-
-            $log = new LogActivityActionAgregated();
-            $log->sim_id = $simulation->id;
-            $log->leg_type = ActivityAction::LEG_TYPE_DOCUMENTS;
-            $log->leg_action = 'AD2';
-            $log->activity_action_id = $D2_activityAction_id;
-            $log->start_time = "1$i:00:00";
-            $log->end_time = "1$i:10:00";
-            $log->duration = '00:10:00';
-            $log->save();
-        }
-        // лог }
-
-        $this->setEmailFor3311Tests($simulation);
-
-        $emailAnalyzer = new EmailAnalyzer($simulation);
-
-        $result = $emailAnalyzer->check_3311();
-
-
-        $this->assertEquals(5, $result['case']); // 'case' - option for test reasons only
-        $this->assertEquals($result['obj']->scale*(1/3), $result['positive']);
-    }
-
-    /**
-     * 3311, Пользователь прочёл и написал пдостаточно писем, работал с почтой много (8) раз,
-     * и правильное количество минут - 60 мин
-     * после 11:00 только 2 сессии - они учитываются
-     */
-    public function test_3311_case8()
-    {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $invite = new Invite();
-        $invite->scenario = new Scenario();
-        $invite->receiverUser = $user;
-        $invite->scenario->slug = Scenario::TYPE_FULL;
-        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
-
-        $D2_template = $simulation->game_type->getDocumentTemplate(['code' =>  'D2']);
-        $D2_activity = $simulation->game_type->getActivity(['code' => 'T2']);
-        $D2_activityAction_id = $simulation->game_type->getActivityAction([
-            'document_id' => $D2_template->getPrimaryKey(),
-            'leg_type'    => ActivityAction::LEG_TYPE_DOCUMENTS,
-            'activity_id' => $D2_activity->id,
-        ])->getPrimaryKey();
-
-        $MY1_template = $simulation->game_type->getMailTemplate(['code' =>  'MY1']);
-        $MY1_activity = $simulation->game_type->getActivity(['code' => 'AMY1']);
-        $MY1_activityAction_id = $simulation->game_type->getActivityAction([
-            'mail_id'     => $MY1_template->getPrimaryKey(),
-            'leg_type'    => ActivityAction::LEG_TYPE_INBOX,
-            'activity_id' => $MY1_activity->id,
-        ])->getPrimaryKey();
-
-        // лог {
-        // 2 лога - чтобы проверить что их длительность просуммируется
-        for ($i = 0; $i < 5; $i++) {
-            $log = new LogActivityActionAgregated();
-            $log->sim_id = $simulation->id;
-            $log->leg_type = ActivityAction::LEG_TYPE_INBOX;
-            $log->leg_action = 'MY1';
-            $log->activity_action_id = $MY1_activityAction_id;
-            $log->start_time = '9:00:00';
-            $log->end_time = '11:05:00';
-            $log->duration = '00:05:00';
-            $log->save();
-
-            $log = new LogActivityActionAgregated();
-            $log->sim_id = $simulation->id;
-            $log->leg_type = ActivityAction::LEG_TYPE_INBOX;
-            $log->leg_action = 'AD2';
-            $log->activity_action_id = $D2_activityAction_id;
-            $log->start_time = '9:00:00';
-            $log->end_time = '11:05:00';
-            $log->duration = '00:05:00';
-            $log->save();
-        }
-
-        for ($i = 0; $i < 2; $i++) {
-            $log = new LogActivityActionAgregated();
-            $log->sim_id = $simulation->id;
-            $log->leg_type = ActivityAction::LEG_TYPE_INBOX;
-            $log->leg_action = 'MY1';
-            $log->activity_action_id = $MY1_activityAction_id;
-            $log->start_time = '12:00:00';
-            $log->end_time = '12:05:00';
-            $log->duration = '00:05:00';
+            $log->end_time = '12:00:00';
+            $log->duration = '01:00:00';
             $log->save();
 
             $log = new LogActivityActionAgregated();
@@ -910,8 +696,8 @@ class EmailAnalyzerUnitTest extends CDbTestCase
             $log->leg_action = 'AD2';
             $log->activity_action_id = $D2_activityAction_id;
             $log->start_time = '12:00:00';
-            $log->end_time = '12:05:00';
-            $log->duration = '00:05:00';
+            $log->end_time = '13:00:00';
+            $log->duration = '01:00:00';
             $log->save();
         }
         // лог }
@@ -922,8 +708,8 @@ class EmailAnalyzerUnitTest extends CDbTestCase
 
         $result = $emailAnalyzer->check_3311();
 
-        $this->assertEquals(5, $result['case']); // 'case' - option for test reasons only
-        $this->assertEquals($result['obj']->scale, $result['positive']);
+        $this->assertEquals(2.1, $result['positive']);
+        $this->assertEquals(3, $result['case']); // 'case' - option for test reasons only
     }
 
     /**
@@ -1241,7 +1027,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
 
         foreach ($assessments as $assessment) {
             if ($assessment->point->code === '3326') {
-                $this->assertEquals(0, $assessment->value, '3326 value!');
+                $this->assertEquals(1, $assessment->value, '3326 value!');
                 $is_3326_scored = true;
             }
         }
@@ -1495,7 +1281,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
 
         foreach ($assessments as $assessment) {
             if ($assessment->point->code === '3326') {
-                $this->assertEquals(3, $assessment->value, '3326 value!');
+                $this->assertEquals(2.86, $assessment->value, '3326 value!');
                 $is_3326_scored = true;
             }
         }
@@ -1585,7 +1371,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
 
         foreach ($assessments as $assessment) {
             if ($assessment->point->code === '3326') {
-                $this->assertEquals(1.5, $assessment->value, '3326 value!');
+                $this->assertEquals(2.14, $assessment->value, '3326 value!');
                 $is_3326_scored = true;
             }
         }
@@ -1671,7 +1457,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
 
         foreach ($assessments as $assessment) {
             if ($assessment->point->code === '3326') {
-                $this->assertEquals(3, $assessment->value, '3326 value!');
+                $this->assertEquals(2.71, $assessment->value, '3326 value!');
                 $is_3326_scored = true;
             }
         }
@@ -1742,7 +1528,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
 
         foreach ($assessments as $assessment) {
             if ($assessment->point->code === '3326') {
-                $this->assertEquals(0, $assessment->value, '3326 value!');
+                $this->assertEquals(2.73, $assessment->value, '3326 value!');
                 $is_3326_scored = true;
             }
         }
@@ -1863,7 +1649,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         $invite->scenario->slug = Scenario::TYPE_LITE;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
 
-        SimulationService::setSimulationClockTime($simulation, 10, 50);
+        SimulationService::setSimulationClockTime($simulation, 10, 05);
 
         EventsManager::getState($simulation, []);
         EventsManager::getState($simulation, []);

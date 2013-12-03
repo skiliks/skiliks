@@ -16,11 +16,11 @@ $isPersonal = $account_type === 'personal';
             </span>
         </a>
         <h1>Индивидуальный<br>профиль</h1>
-        <p class="p-chose-account-type ProximaNova-Bold">(Вы - сотрудник или соискатель)</p>
+        <p class="p-chose-account-type ">(Вы - сотрудник или соискатель)</p>
         <ul>
-            <li class="ProximaNova-Bold"><?php echo Yii::t('site', 'Возможность получать приглашения от работодателя') ?></li>
-            <li class="ProximaNova-Bold"><?php echo Yii::t('site', 'Полная версия по приглашению') ?></li>
-            <li class="ProximaNova-Bold"><?php echo Yii::t('site', 'Демо-версия бесплатно') ?></li>
+            <li class=""><?php echo Yii::t('site', 'Возможность получать приглашения от работодателя') ?></li>
+            <li class=""><?php echo Yii::t('site', 'Полная версия по приглашению') ?></li>
+            <li class=""><?php echo Yii::t('site', 'Демо-версия бесплатно') ?></li>
         </ul>
         <?php $form = $this->beginWidget('CActiveForm', array(
             'id'                   => 'yum-user-registration-form',
@@ -29,7 +29,7 @@ $isPersonal = $account_type === 'personal';
         <div class="row">
             <?php echo $form->error($accountPersonal, 'professional_status_id', ["class" => "errorMessage general_error registration-industry-error"]); ?>
             <div class="field registration-personal-additional-field">
-                <?php echo $form->labelEx($accountPersonal     ,'professional_status_id', ["class" => "ProximaNova-Bold"]); ?>
+                <?php echo $form->labelEx($accountPersonal     ,'professional_status_id', ["class" => ""]); ?>
                 <?php echo $form->dropDownList($accountPersonal,'professional_status_id', $statuses); ?>
             </div>
         </div>
@@ -43,16 +43,16 @@ $isPersonal = $account_type === 'personal';
             </span>
         </a>
         <h1>Корпоративный<br>профиль</h1>
-        <p class="p-chose-account-type ProximaNova-Bold">(Вы - работодатель)</p>
+        <p class="p-chose-account-type ">(Вы - работодатель)</p>
         <ul class="registration-corporate-benefits">
-            <li class="ProximaNova-Bold"><?php echo Yii::t('site', '3 симуляции бесплатно (Полная версия)') ?></li>
-            <li class="ProximaNova-Bold"><?php echo Yii::t('site', 'Пакет симуляций для оценки кандидатов и сотрудников') ?></li>
-            <li class="ProximaNova-Bold"><?php echo Yii::t('site', 'Удобный инструмент для прогресса оценки') ?></li>
+            <li class=""><?php echo Yii::t('site', '3 симуляции бесплатно (Полная версия)') ?></li>
+            <li class=""><?php echo Yii::t('site', 'Пакет симуляций для оценки кандидатов и сотрудников') ?></li>
+            <li class=""><?php echo Yii::t('site', 'Удобный инструмент для прогресса оценки') ?></li>
         </ul>
         <div class="row">
             <?php echo $form->error($accountCorporate, 'industry_id', ["class" => "errorMessage general_error registration-industry-error"]); ?>
             <div class="field">
-                <?php echo $form->labelEx($accountCorporate     , 'industry_id', ["class" => "ProximaNova-Bold"]); ?>
+                <?php echo $form->labelEx($accountCorporate     , 'industry_id', ["class" => ""]); ?>
                 <?php echo $form->dropDownList($accountCorporate, 'industry_id', $industries); ?>
             </div>
         </div>
@@ -61,11 +61,8 @@ $isPersonal = $account_type === 'personal';
     <div style="clear:both;"></div>
 </section>
 
-<?php if($emailIsExistAndNotActivated) : ?>
-    <div id="registration-general-error" class="globalErrorMessage emailIsExistAndNotActivated ProximaNova">
-        <?=$emailIsExistAndNotActivated?>
-    </div>
-<?php endif; ?>
+    <?php echo $form->error($profile, 'not_activated', ['class'=>'registration-general-error globalErrorMessage emailIsExistAndNotActivated']); ?>
+    <?php echo $form->error($profile, 'is_baned', ['class'=>'registration-general-error globalErrorMessage emailIsExistAndNotActivated']); ?>
 
 <?php if($display_results_for) : ?>
     <?php $this->renderPartial('//global_partials/_popup_result_simulation_container', [ 'display_results_for' => $display_results_for]) ?>
@@ -103,7 +100,7 @@ $isPersonal = $account_type === 'personal';
                 <input type="hidden" value="<?=$account_type?>" name="account-type">
             </div>
             <div class="row four-parts to-right submit-input">
-                <button type="submit" class="ProximaNova-Bold blue-submit-button registration-button"><?= Yii::t("site","Sign up") ?></button>
+                <button type="submit" class=" blue-submit-button registration-button"><?= Yii::t("site","Sign up") ?></button>
             </div>
         </div>
         <div style="clear:both;"></div>

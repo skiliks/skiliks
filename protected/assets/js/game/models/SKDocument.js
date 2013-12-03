@@ -19,16 +19,8 @@ define(["game/collections/SKSheetCollection"], function (SKSheetCollection) {
     SKDocument = Backbone.Model.extend({
 
         /**
-         * @property isHasZoho500
-         * @type boolean
-         * @default false
-         */
-        isHasZoho500: false,
-
-        /**
          * Shows is document initialized or not
-         * 1. Zoho excel is initialized if we have iframe URL
-         * 2. Other docs is initialized already after initialization
+         * Other docs is initialized already after initialization
          *
          * @property isInitialized
          * @type boolean

@@ -61,6 +61,7 @@ class UserAccountPersonal extends CActiveRecord
             array('user_id'     , 'length'   , 'max'=>10, 'on' => ['personal', 'insert']),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
+            array('professional_status_id, birthday', 'safe'),
 			array('user_id, industry_id, professional_status_id,birthday,location', 'safe', 'on'=>'search'),
 		);
 	}

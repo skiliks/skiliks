@@ -112,6 +112,20 @@
                 'visible' => true,
 
             ),
+
+            array(
+                'label' => 'Выполнить Expire',
+                'url'   => ['admin_area/AdminPages/ExpireInvitesAndTariffPlans'],
+                'visible' => true,
+
+            ),
+
+            array(
+                'label' => 'Лог авторизации',
+                'url'   => ['admin_area/AdminPages/SiteLogAuthorization'],
+                'visible' => true,
+
+            ),
         ),
         'htmlOptions'=>array('class'=>'nav nav-list')
     )) ?>

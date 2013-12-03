@@ -20,6 +20,8 @@
  * @property string $write_new_email_screen_icons
  * @property string $edit_draft_email_screen_icons
  * @property string $game_date
+ * @property string $game_date_data
+ * @property string $game_date_text
  * @property string $intro_video_path
  * @property string $docs_to_save
  * @property string $is_calculate_assessment

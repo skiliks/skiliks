@@ -53,7 +53,7 @@ class Invoice extends CActiveRecord
         // will receive user inputs.
         return array(
             array('user_id, tariff_id', 'required'),
-            array('user_id', 'checkHavingInvites'),
+            //array('user_id', 'checkHavingInvites'),
             array('user_id, tariff_id', 'safe', 'on'=>'search'),
         );
     }
@@ -178,28 +178,34 @@ class Invoice extends CActiveRecord
     /**
      * Method add paid_date to Invoice and saves it
      */
-
     public function completeInvoice($isAdmin = null) {
         if(!$this->isComplete()) {
 
+            //$date->add(new DateInterval('P'.$this->month_selected.'M')); N month
             // Setting tariff invites
-            $this->user->account_corporate->invites_limit = $this->tariff->simulations_amount;
-            $this->user->account_corporate->tariff_activated_at = date('Y-m-d H:i:s');
-
+            $account = $this->user->account_corporate;
+            /* @var $tariff Tariff */
+            $tariff = Tariff::model()->findByAttributes(['id'=>$this->tariff_id]);
+            if(0 === (int)$account->invites_limit) {
+                $account->setTariff($tariff, true);
+                $account->setInvoiceOnTariffPlan($this, $account->getActiveTariffPlan());
+            } else {
+                if($account->getActiveTariff()->weight >= $tariff->weight) {
+                    $account->addPendingTariff($tariff);
+                    $account->setInvoiceOnTariffPlan($this, $account->getPendingTariffPlan());
+                } else {
+                    $account->setTariff($tariff, true);
+                    $account->setInvoiceOnTariffPlan($this, $account->getActiveTariffPlan());
+                }
+            }
             // Setting referral invites
-            $this->user->account_corporate->referrals_invite_limit =
+            $account->referrals_invite_limit =
                 UserReferral::model()->countUserRegisteredReferrals($this->user->id);
 
             $this->paid_at = date('Y-m-d H:i:s');
 
-            $date = new DateTime();
-            $date->add(new DateInterval('P'.$this->month_selected.'M'));
-
-            $this->user->account_corporate->tariff_expired_at = $date->format('Y-m-d H:i:s');
-            $this->user->account_corporate->tariff_id = $this->tariff_id;
-
-            $this->user->account_corporate->save();
-            $this->save();
+            $account->save(false);
+            $this->save(false);
 
             $this->sendCompleteEmailToUser();
 
@@ -232,9 +238,9 @@ class Invoice extends CActiveRecord
         $inviteEmailTemplate = Yii::app()->params['emails']['completeInvoiceUserEmail'];
 
         // TODO Remake email to send referrer invites
-        $body = Yii::app()->controller->renderPartial($inviteEmailTemplate, [
+        $body = UserService::renderEmailPartial($inviteEmailTemplate, [
             'invoice' => $this, 'user' => $this->user, 'user_invites' => $this->user->getAccount()->invites_limit
-        ], true);
+        ]);
 
 
         $mail = [

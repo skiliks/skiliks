@@ -15,7 +15,7 @@ class F30_SK1429_Test extends SeleniumTestHelper
     public function testSK1429()
     {
     //$this->markTestIncomplete();
-    $this->start_simulation();
+    $this->start_simulation("F30_SK1429_Test");
     sleep(5);
     $this->write_email();
     $this->addRecipient("xpath=(//a[contains(text(),'Трудякин')])");

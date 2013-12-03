@@ -37,21 +37,6 @@ class LogDialog extends CActiveRecord
 
     protected function afterSave()
     {
-        if(false === Yii::app()->params['disableOldLogging']) {
-
-            /** @var $activityAction ActivityAction */
-            $activityAction = ActivityAction::model()->findByPriority(
-                ['dialog_id' => $this->dialog_id],
-                NULL,
-                $this->simulation
-            );
-
-            if (null !== $activityAction) {
-                $activityAction->appendLog($this);
-            }
-
-
-        }
 
             if ($this->getLastReplica()) {
                 foreach ($this->getLastReplica()->termination_parent_actions as $parentAction) {

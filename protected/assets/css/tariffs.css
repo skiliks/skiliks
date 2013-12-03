@@ -48,10 +48,10 @@ body  .onetariff  {
     padding: 0 6px 0 18px;
 }
 .price.ru p {
-    background:url("../img/rublicon.png") no-repeat 5px 5px;
+    background:url("../img/rublicon.png") no-repeat -5px 5px;
 }
 .price.en p {
-    background:url("../img/dollar.png") no-repeat 10px 5px;
+    background:url("../img/dollar.png") no-repeat 0px 5px;
 }
 .price span {
     font-size: 58px;
@@ -203,17 +203,39 @@ body  .onetariff  {
     top: -45px;
 }
 
+.tariff-lite .price.en p {
+    position: relative;
+    top: 3px;
+    left: 60px;
+}
 
 .tariff-lite .tarifwrap {
     top: -2px;
     position: relative;
 }
 
+.tariff-lite .tarifwrap.en {
+    padding-top: 45px;
+}
+
+.tariff-lite .tarifwrap.ru {
+    top: -5px;
+}
+
 @media screen and (max-width: 1146px) {
+
+    .tariff-lite .tarifwrap.en {
+        padding-top: 31px;
+    }
+
+    .tariff-lite .tarifwrap.ru {
+        top: 5px;
+    }
 
     .show-free-tariff-img {
         position: relative;
         top: -12px;
+        right:-14px;
         right:-14px;
         height: 94px;
         width: 94px;
@@ -242,11 +264,17 @@ body  .onetariff  {
         position: relative;
     }
 
+    .tariff-lite .price.en p {
+        position: relative;
+        top: -4px;
+        left: 47px;
+    }
+
     .tariff-lite .price p {
         position: relative;
         top: -37px;
+        left: 0px;
     }
-
 
     .tariff-lite .tarifwrap {
         top: 7px;

@@ -794,7 +794,7 @@ class MailBoxService
         $sendEmail->sender_id = $sendMailOptions->senderId;
         $sendEmail->subject_id = $sendMailOptions->subject_id;
         $sendEmail->receiver_id = $receiverId;
-        $sendEmail->sent_at = GameTime::setTimeToday($sendMailOptions->time); //TODO: Время, проверить
+        $sendEmail->sent_at = GameTime::setTimeToday($sendMailOptions->simulation, $sendMailOptions->time); //TODO: Время, проверить
         $sendEmail->readed = 0;
 
         if ($letterType != 'new') {

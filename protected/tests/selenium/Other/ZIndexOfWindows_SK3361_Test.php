@@ -10,7 +10,7 @@ class ZIndexOfWindows_SK3361_Test extends SeleniumTestHelper
 {
     public function test_ZIndexOfWindows_SK3361 ()
     {
-        $this->start_simulation();
+        $this->start_simulation("test_ZIndexOfWindows_SK3361");
 
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['todo']);
         sleep(5);

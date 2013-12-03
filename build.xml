@@ -26,8 +26,9 @@
         <chmod file="./assets" mode="777" />
         <mkdir dir="./protected/assets/compiled_css" />
         <chmod file="./protected/assets/compiled_css" mode="777" />
+        <mkdir dir="./protected/system_data/analytic_files_2" mode="777" />
         <exec command=">> ./protected/views/static/applicationcache/manifest.php" escape="false" />
-        <chmod file="./protected/views/static/applicationcache/manifest.php" mode="775" />
+        <chmod file="./protected/views/static/applicationcache/preload_images.php" mode="777" />
         <exec command="r.js -o protected/assets/js/build.js" />
         <if>
             <equals arg1="${stage}" arg2="devel"/>
@@ -49,6 +50,7 @@
 
         </if>
         <exec command="./yiic createcachemanifest" />
+        <exec command="./yiic createlistofpreloadedfiles" />
     </target>
     <target name="prepare_test">
         <delete includeemptydirs="true" description="Clear artifacts dir">
