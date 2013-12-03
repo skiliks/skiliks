@@ -214,6 +214,7 @@ return [
                 'admin_area/list-tariff-plan' => 'admin_area/AdminPages/ListTariffPlan',
                 'admin_area/update-tariff-plan' => 'admin_area/AdminPages/UpdateTariffPlan',
                 'admin_area/change_security_risk' => 'admin_area/AdminPages/ChangeSecurityRisk',
+                'admin_area/site-log-authorization' => 'admin_area/AdminPages/SiteLogAuthorization',
 
                 'admin_area/simulations/rating/csv'                       => 'admin_area/AdminPages/SimulationsRatingCsv',
                 'admin_area/simulations/rating'                           => 'admin_area/AdminPages/SimulationsRating',
