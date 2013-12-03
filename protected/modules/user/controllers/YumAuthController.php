@@ -275,15 +275,17 @@ class YumAuthController extends YumController {
             // validate is profile exist, bur email not confirmed or banned }
 
             if (0 < count(json_decode($json, true))) {
+                UserService::addAuthorizationLog($_POST['YumUserLogin']['username'], $_POST['YumUserLogin']['password'], SiteLogAuthorization::FAIL_AUTH, null, SiteLogAuthorization::USER_AREA);
                 echo $json;
                 Yii::app()->end();
                 return false;
             } else {
+                UserService::addAuthorizationLog($_POST['YumUserLogin']['username'], null, SiteLogAuthorization::SUCCESS_AUTH, $profile->user_id, SiteLogAuthorization::USER_AREA);
                 return true;
             }
         }
     }
-
+    // GET user/auth
 	public function actionLogin() {
         $form = 'login-form';
 		// If the user is already logged in send them to the return Url 
@@ -371,8 +373,10 @@ class YumAuthController extends YumController {
                         Yii::app()->end();
                     }
                 }
+                UserService::addAuthorizationLog($_POST['YumUserLogin']['username'], null, SiteLogAuthorization::SUCCESS_AUTH, $success->id, SiteLogAuthorization::USER_AREA);
 				$this->redirectUser($success);
 			} else {
+                UserService::addAuthorizationLog($_POST['YumUserLogin']['username'], $_POST['YumUserLogin']['password'], SiteLogAuthorization::FAIL_AUTH, null, SiteLogAuthorization::USER_AREA);
                 if ($t & UserModule::LOGIN_BY_EMAIL) {
                     $profile = YumProfile::model()->findByAttributes(['email' => strtolower($this->loginForm->username)]);
                     if (null !== $profile && false == $profile->user->isActive()) {

@@ -85,8 +85,12 @@ class AdminPagesController extends SiteBaseController {
         if(null !== $form) {
             $model->setAttributes($form);
             if($model->loginByUsernameAdmin()){
+
+                UserService::addAuthorizationLog($_POST['YumUserLogin']['username'], null, SiteLogAuthorization::SUCCESS_AUTH, $model->user->id, SiteLogAuthorization::ADMIN_AREA);
                 $model->user->authenticate($form['password']);
                 $this->redirect('/admin_area/dashboard');
+            } else {
+                UserService::addAuthorizationLog($_POST['YumUserLogin']['username'], $_POST['YumUserLogin']['password'], SiteLogAuthorization::FAIL_AUTH, null, SiteLogAuthorization::ADMIN_AREA);
             }
         }
         $this->layout = '//admin_area/layouts/login';
@@ -2099,5 +2103,15 @@ class AdminPagesController extends SiteBaseController {
         }
 
         $this->redirect($this->request->urlReferrer);
+    }
+
+    public function actionSiteLogAuthorization() {
+
+        //$dataProvider = FreeEmailProvider::model()->searchEmails();
+
+        $dataProvider = SiteLogAuthorization::model()->searchSiteLogs();
+
+        $this->layout = '/admin_area/layouts/admin_main';
+        $this->render('/admin_area/pages/site_log_authorization', ['dataProvider' => $dataProvider]);
     }
 }

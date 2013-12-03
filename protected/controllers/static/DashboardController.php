@@ -254,7 +254,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             $this->redirect(Yii::app()->request->urlReferrer);
         }
 
-        if($invite->status === Invite::STATUS_PENDING) {
+        if((int)$invite->status === Invite::STATUS_PENDING) {
 
             $status = $invite->status;
             $initValue = $user->account_corporate->getTotalAvailableInvitesLimit();

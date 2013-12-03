@@ -339,8 +339,7 @@ class UserServiceUnitTest extends CDbTestCase
         $this->assertEquals($assert_account_corporate->getTotalAvailableInvitesLimit(), $tariff->simulations_amount + 1);
 
         $this->assertEquals($assert_account_corporate->getActiveTariff()->slug, Tariff::SLUG_LITE);
-
-        // Проверяем "устаревание" аккаунта с Lite тарифом: должен стать Free с 0 симуляций.
+        //Тест 3.1. Проверить, что при устаревании тарифного плана, после FreeLite у человека будет Free.
         $active_plan = $assert_account_corporate->getActiveTariffPlan();
         $active_plan->finished_at = (new DateTime())->format("Y-m-d H:i:s");
         $active_plan->save(false);
@@ -399,23 +398,27 @@ class UserServiceUnitTest extends CDbTestCase
         UserService::tariffExpired();
 
         $after_plan = $account->getActiveTariffPlan();
-
+        //Тест 3. Проверить, что при устаревании тарифного плана, после Free у человека будет Free.
         $this->assertNotEquals($before_tariff_plan_id, $after_plan->id);
         $this->assertEquals(Tariff::SLUG_FREE, $after_plan->tariff->slug);
         $this->assertEquals(0, $account->getTotalAvailableInvitesLimit());
 
         // ---
-
+        //Тест 2. Проверить с Free тарифного плана нельзя перейти на LiteFree.
+        //2.1. На уровне попапа
+        //2.2. Если использовать setTariff()
         $tariff = Tariff::model()->findByAttributes(['slug'=>Tariff::SLUG_LITE_FREE]);
         $this->assertFalse(UserService::isAllowOrderTariff($tariff, $account));
 
         // проверка ссылки для попапа
+        //Тест 1. Проверить с Free тарифного плана можно перейти на больший.
+        //1.1. На уровне попапа
         $action = UserService::getActionOnPopup($account, Tariff::SLUG_LITE);
         $this->assertEquals(['type'=>'link'], $action);
 
         $tariff = Tariff::model()->findByAttributes(['slug'=>Tariff::SLUG_LITE]);
         $invoice = UserService::createFakeInvoiceForUnitTest($tariff, $account);
-
+        //1.2. вызвать setTariff() в нутри метода completeInvoice
         $this->assertTrue($invoice->completeInvoice());
 
         $active_tariff = $account->getActiveTariffPlan();
@@ -436,7 +439,7 @@ class UserServiceUnitTest extends CDbTestCase
 
         $this->assertEquals('tariff-replace-now-popup', $action['popup_class']);
 
-
+        //Тест 7. Проверить случай перехода с Lite на PROFESSIONAL,при наличии активного тарифа, но пользователь выбрал "применить сейчас". Татифный план должен быть применён сразу.
         $tariff = Tariff::model()->findByAttributes(['slug'=>Tariff::SLUG_PROFESSIONAL]);
 
         $invoice = UserService::createFakeInvoiceForUnitTest($tariff, $account);
@@ -454,7 +457,7 @@ class UserServiceUnitTest extends CDbTestCase
 
         $this->assertEquals('downgrade-tariff-popup', $action['popup_class']);
 
-
+        //Тест 6. Проверить случай перехода с Lite на Started,при наличии активного тарифа. Татифный план должен ставиться в очередь.
         $tariff = Tariff::model()->findByAttributes(['slug'=>Tariff::SLUG_STARTER]);
         $invoice = UserService::createFakeInvoiceForUnitTest($tariff, $account);
         $this->assertTrue($invoice->completeInvoice());
@@ -467,6 +470,8 @@ class UserServiceUnitTest extends CDbTestCase
             $account->getTotalAvailableInvitesLimit()
         );
 
+        //Тест 5. Проверить случай перехода с Started на Lite. Татифный план должен ставиться в очередь.
+
         $pending_tariff = $account->getPendingTariffPlan();
 
         $this->assertEquals(Tariff::SLUG_STARTER, $pending_tariff->tariff->slug);
@@ -476,6 +481,7 @@ class UserServiceUnitTest extends CDbTestCase
         $action = UserService::getActionOnPopup($account, Tariff::SLUG_STARTER);
 
         $this->assertEquals('tariff-already-booked-popup', $action['popup_class']);
+        //Тест 4. Проверить что FreeLite тарифный план нельзя продлить.
         $this->assertFalse(UserService::isAllowOrderTariff($tariff, $account));
 
     }
