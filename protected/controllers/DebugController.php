@@ -350,7 +350,7 @@ class DebugController extends SiteBaseController
         '211.155.95.122' /* 10 */,'77.120.96.66' /* 4 */,'152.104.210.52'/* 5 */ ,'95.7.38.93' /* 4 */,'162.243.72.5' /* 4 */,'203.128.84.186',
         '5.61.39.55' /* 2 */,'95.211.223.32' /* 2 */,'94.102.49.37' /* 3 */,'80.86.84.72','176.31.13.28','',
         '91.121.98.48' /* 6 */,'91.210.189.145' /* 3 */,'133.242.12.230'/* 5 */,'46.164.129.180' /* 5 */,'66.249.73.235','85.214.104.62',
-        '','','','','','','',
+        '72.167.113.216' /* 5 */,'118.175.36.34' /* 3 */,'','','','','',
         '','','','','','','',
         // '93.75.179.229', // он знает /admin_area
         /*'77.47.204.138' Таня? */
@@ -640,6 +640,9 @@ class DebugController extends SiteBaseController
         } elseif ('"-"' == $lineArr[12] && '"-"' == $lineArr[17]) {
             $userAgent = $lineArr[13]. ' '.$lineArr[14]. ' '.$lineArr[15]. ' '.$lineArr[16]. ' '.$lineArr[17];
 
+        } elseif ('"-"' == $lineArr[12] && '"unknown"' == $lineArr[17]) {
+            $userAgent = $lineArr[13]. ' '.$lineArr[14]. ' '.$lineArr[15]. ' '.$lineArr[16]. ' '.$lineArr[17];
+
         } elseif ('"-"' == $lineArr[12] && '"-"' == $lineArr[18]) {
             $userAgent = $lineArr[13]. ' '.$lineArr[14]. ' '.$lineArr[15]. ' '.$lineArr[16]. ' '.$lineArr[17]. ' '.$lineArr[18];
 
@@ -663,7 +666,9 @@ class DebugController extends SiteBaseController
             if ('' == $lineArr[20] /*|| false == isset($lineArr[14]) || false == isset($lineArr[15])
                 || false == isset($lineArr[16]) || false == isset($lineArr[17]) || false == isset($lineArr[18])
                 || false == isset($lineArr[19]) || false == isset($lineArr[20])*/) {
-                echo ' >> ' . $line . '<br/>'; die;
+                var_dump($lineArr);
+                //echo ' >> ' . $line . '<br/>';
+                die;
                 $userAgent = '???';
             } else {
                 $userAgent = $lineArr[13].
