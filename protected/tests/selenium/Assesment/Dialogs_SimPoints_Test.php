@@ -99,7 +99,7 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
     public function test_Dialogs_for_SK1790()
     {
         //$this->markTestIncomplete();
-        
+
         $this->start_simulation("test_Dialogs_for_SK1790", 1);
         $this->optimal_click('link=F39');
 
@@ -115,7 +115,6 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Ну что ты, Сергей! За кофе по дороге на работу зайдешь')])");
 
         $this->run_event('RS1.2',"xpath=(//*[contains(text(),'тебе огромное за помощь!')])", 'click');
-        $this->optimal_click("xpath=(//*[contains(text(),'Кто вам нужен?')])");
 
         $this->run_event('E1',"xpath=(//*[contains(text(),'Раиса Романовна, помню про бюджет')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Ну, с помощью Крутько я должен управиться в эти сроки')])");
