@@ -103,6 +103,7 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
         $this->optimal_click('link=F39');
 
         $this->run_event('RST1',Yii::app()->params['test_mappings']['icons_active']['phone'], 'click');
+        $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
         $this->optimal_click("xpath=(//*[contains(text(),'Кто вам нужен?')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Да, а вы кто?')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Слушайте, у меня времени нет, я смогу только в обед!')])");
