@@ -16,6 +16,8 @@
  * @property integer $agree_with_terms
  * @property integer $is_admin
  * @property string $ip_address
+ * @property string is_password_bruteforce_detected
+ * @property string $authorization_after_bruteforce_key
  *
  * Relations
  * @property YumProfile $profile
@@ -45,6 +47,14 @@ class YumUser extends YumActiveRecord
     const AGREEMENT_MADE = 'yes';
 
     const IS_ADMIN = '1';
+
+    const IS_PASSWORD_BRUTEFORCE_DETECTED = '1';
+
+    const IS_NOT_PASSWORD_BRUTEFORCE = '0';
+
+    const PASSWORD_BRUTEFORCE_IT_IS_ME = 'it_is_me';
+
+    const PASSWORD_BRUTEFORCE_IT_IS_NOT_ME = 'it_is_not_me';
 
     public $username;
     public $password;
@@ -1121,5 +1131,9 @@ class YumUser extends YumActiveRecord
                 return 'удалён';
                 break;
         }
+    }
+
+    public function getPasswordChangeUrl() {
+        return ($this->isCorporate())?'/profile/corporate/password':'/profile/personal/password';
     }
 }

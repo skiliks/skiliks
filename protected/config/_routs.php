@@ -132,6 +132,7 @@ return [
                 'profile/corporate/vacancies/'  => 'static/profile/corporateVacancies',
                 'profile/corporate/tariff/'  => 'static/profile/corporateTariff',
                 'profile/corporate/payment-method/'  => 'static/profile/corporatePaymentMethod',
+                'profile/restore-authorization/'  => 'static/profile/RestoreAuthorization',
 
                 'vacancy/add'                     => 'static/profile/vacancyAdd',
 
@@ -216,6 +217,8 @@ return [
                 'admin_area/update-tariff-plan' => 'admin_area/AdminPages/UpdateTariffPlan',
                 'admin_area/change_security_risk' => 'admin_area/AdminPages/ChangeSecurityRisk',
                 'admin_area/site-log-authorization' => 'admin_area/AdminPages/SiteLogAuthorization',
+                'admin_area/site-log-account-action' => 'admin_area/AdminPages/SiteLogAccountAction',
+                'admin_area/user-bruteforce' => 'admin_area/AdminPages/UserBruteforce',
 
                 'admin_area/simulations/rating/csv'                       => 'admin_area/AdminPages/SimulationsRatingCsv',
                 'admin_area/simulations/rating'                           => 'admin_area/AdminPages/SimulationsRating',

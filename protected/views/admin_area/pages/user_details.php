@@ -41,6 +41,24 @@ $assetsUrl = $this->getAssetsUrl();
     Войти на сайт от имени пользователя
 </a>
 
+&nbsp; &nbsp;
+<a class="btn btn-success" href="/admin_area/site-log-account-action/?user_id=<?= $user->id ?>">
+    Логи аккаунта
+</a>
+
+
+<?php if($user->is_password_bruteforce_detected === YumUser::IS_PASSWORD_BRUTEFORCE_DETECTED) : ?>
+    &nbsp; &nbsp;
+    <a class="btn btn-success" href="/admin_area/user-bruteforce/?user_id=<?= $user->id ?>&set=<?=YumUser::IS_NOT_PASSWORD_BRUTEFORCE?>">
+        Розблокировать авторизацию
+    </a>
+<?php else : ?>
+    &nbsp; &nbsp;
+    <a class="btn btn-danger" href="/admin_area/user-bruteforce/?user_id=<?= $user->id ?>&set=<?=YumUser::IS_PASSWORD_BRUTEFORCE_DETECTED?>">
+         Заблокировать авторизацию
+    </a>
+<?php endif ?>
+
 <!-- разделитель кнопок -->
 <p>&nbsp; &nbsp;</p>
 
