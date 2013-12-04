@@ -73,6 +73,7 @@ return [
                 'registration/account-type/added'                => 'static/userAuth/accountTypeSavesSuccessfully',
                 'simulationIsStarted'                            => 'static/site/IsStarted',
                 'watchVideo'                                     => 'static/site/watchVideo',
+                'watchVideo/<_lang:\w+>'                         => 'static/site/watchVideo',
                 'userStartSecondSimulation'                      => 'static/site/UserStartSecondSimulation',
                 'userRejectStartSecondSimulation'                => 'static/site/UserRejectStartSecondSimulation',
                 'logout/registration'                            =>'static/userAuth/LogoutAndRegistration',
