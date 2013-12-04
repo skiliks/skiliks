@@ -8,9 +8,10 @@
 
         <div class="addthis_toolbox addthis_default_style addthis_32x32_style">
 
-            <a class="new_social_buttons_footer vk_share_button_footer" title="Facebook" onclick="
+            <a class="new_social_buttons_footer vk_share_button_footer" title="ВКонтакте" onclick="
                 window.open(
-                'http://vk.com/share.php?url=' + encodeURIComponent('<?=Yii::app()->request->hostInfo?>'),
+                'http://vk.com/share.php?url='
+                + encodeURIComponent('<?= Yii::app()->request->hostInfo; ?>/<?= Yii::app()->language; ?>'),
                 'vk-share-dialog',
                 'width=626,height=436');
                 return false;" href="#" target="_blank">
@@ -18,24 +19,26 @@
 
             <a class="new_social_buttons_footer facebook_share_button_footer" title="Facebook" onclick="
                 window.open(
-                  'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent('<?=Yii::app()->request->hostInfo?>'),
-                  'vk-share-dialog',
+                  'https://www.facebook.com/sharer/sharer.php?u='
+                  + encodeURIComponent('<?= Yii::app()->request->hostInfo; ?>/<?= Yii::app()->language; ?>'),
+                  'fb-share-dialog',
                   'width=626,height=436');
                 return false;" href="#" target="_blank">
             </a>
 
             <a class="new_social_buttons twitter_share_button_footer" title="Twitter" onclick="
-                                        window.open(
-                                        'https://twitter.com/share?url=' + encodeURIComponent('<?=Yii::app()->request->hostInfo?>'),
-                                        'twitter-share-dialog',
-                                        'width=626,height=436');
-                                        return false;" href="#" target="_blank">
+                window.open(
+                'https://twitter.com/share?url='
+                + encodeURIComponent('<?= Yii::app()->request->hostInfo; ?>/<?= Yii::app()->language; ?>'),
+                'twitter-share-dialog',
+                'width=626,height=436');
+                return false;" href="#" target="_blank">
             </a>
-
 
             <a class="new_social_buttons_footer google_share_button_footer" title="Google" onclick="
                 window.open(
-                'https://plus.google.com/share?url=' + encodeURIComponent('<?=Yii::app()->request->hostInfo?>'),
+                'https://plus.google.com/share?url='
+                + encodeURIComponent('<?= Yii::app()->request->hostInfo; ?>/<?= Yii::app()->language; ?>'),
                 'google-share-dialog',
                 'width=626,height=436');
                 return false;" href="#" target="_blank">
@@ -43,7 +46,8 @@
 
             <a class="new_social_buttons_footer linkedin_share_button_footer" title="Linkedin" onclick="
                 window.open(
-                'https://www.linkedin.com/cws/share?url=' + encodeURIComponent('<?=Yii::app()->request->hostInfo?>'),
+                'https://www.linkedin.com/cws/share?url='
+                + encodeURIComponent('<?= Yii::app()->request->hostInfo; ?>/<?= Yii::app()->language; ?>'),
                 'linkedin-share-dialog',
                 'width=626,height=436');
                 return false;" href="#" target="_blank">

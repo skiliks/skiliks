@@ -1794,8 +1794,8 @@ body.loading {
 .xls-container,
 .documents-window,
 #documents-window {
-    line-height: 13px;
     font-size: 13px;
+    line-height: 18px;
 }
 
 .flyleaf p,

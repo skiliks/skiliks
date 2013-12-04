@@ -99,10 +99,12 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
     public function test_Dialogs_for_SK1790()
     {
         //$this->markTestIncomplete();
+
         $this->start_simulation("test_Dialogs_for_SK1790", 1);
         $this->optimal_click('link=F39');
 
         $this->run_event('RST1',Yii::app()->params['test_mappings']['icons_active']['phone'], 'click');
+        $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
         $this->optimal_click("xpath=(//*[contains(text(),'Кто вам нужен?')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Да, а вы кто?')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Слушайте, у меня времени нет, я смогу только в обед!')])");
@@ -113,7 +115,6 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Ну что ты, Сергей! За кофе по дороге на работу зайдешь')])");
 
         $this->run_event('RS1.2',"xpath=(//*[contains(text(),'тебе огромное за помощь!')])", 'click');
-        $this->optimal_click("xpath=(//*[contains(text(),'Кто вам нужен?')])");
 
         $this->run_event('E1',"xpath=(//*[contains(text(),'Раиса Романовна, помню про бюджет')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Ну, с помощью Крутько я должен управиться в эти сроки')])");

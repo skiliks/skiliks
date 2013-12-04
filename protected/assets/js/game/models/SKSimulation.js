@@ -469,8 +469,10 @@ define([
                         localStorage.setItem('lastGetState', nowDate.getTime());
 
                         me.window = new SKWindow({name:'mainScreen', subname:'mainScreen'});
+                        me.window.set('name', 'mainScreen');
+                        me.window.set('subname', 'mainScreen');
                         win = me.window;
-                        console.log('win 1 : ', win, ' , ', me.window);
+                        console.log('win 1 : ', win, ' , ', me.window, ' , ', me.window.id);
                         win.open();
 
                         me.todo_tasks.fetch();
