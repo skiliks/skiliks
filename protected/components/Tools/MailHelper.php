@@ -6,7 +6,7 @@ class MailHelper
      * @param array $email
      * @return bool
      */
-    public static function addMailToQueue($email)
+    public static function addMailToQueue(array $email)
     {
         $queue = new EmailQueue();
         $queue->sender_email = $email['from'];
@@ -18,6 +18,19 @@ class MailHelper
         $queue->status = EmailQueue::STATUS_PENDING;
         $queue->attachments = json_encode(empty($email['embeddedImages'])?[]:$email['embeddedImages']);
         return $queue->save();
+    }
+
+    /**
+     * @param array $email
+     * @return bool
+     */
+    public static function addMailsToQueue(array $emails)
+    {
+        $return = [];
+        foreach($emails as $email) {
+            $return[] = self::addMailToQueue($email);
+        }
+        return $return;
     }
 
     public static function sendMailFromQueue()

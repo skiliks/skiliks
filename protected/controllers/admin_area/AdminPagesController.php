@@ -2114,4 +2114,27 @@ class AdminPagesController extends SiteBaseController {
         $this->layout = '/admin_area/layouts/admin_main';
         $this->render('/admin_area/pages/site_log_authorization', ['dataProvider' => $dataProvider]);
     }
+
+    public function actionSiteLogAccountAction() {
+
+        //$dataProvider = SiteLogAuthorization::model()->searchSiteLogs();
+        $user_id = Yii::app()->request->getParam('user_id');
+        $dataProvider = SiteLogAccountAction::model()->searchSiteLogs($user_id);
+
+        $this->layout = '/admin_area/layouts/admin_main';
+        $this->render('/admin_area/pages/site_log_account_action', ['dataProvider' => $dataProvider]);
+    }
+
+    public function actionUserBruteForce() {
+
+        //$dataProvider = SiteLogAuthorization::model()->searchSiteLogs();
+        $user_id = Yii::app()->request->getParam('user_id');
+        $set = Yii::app()->request->getParam('set');
+        /* @var $user YumUser */
+        $user = YumUser::model()->findByPk($user_id);
+        $user->is_password_bruteforce_detected = $set;
+        $user->save(false);
+
+        $this->redirect(Yii::app()->request->urlReferrer);
+    }
 }
