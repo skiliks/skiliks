@@ -731,4 +731,41 @@ class ProfileController extends SiteBaseController implements AccountPageControl
         }
 
     }
+
+    public function actionRestoreAuthorization() {
+        $user_id = $this->getParam('user_id');
+        $key = $this->getParam('key');
+        $type = $this->getParam('type');
+        if($user_id !== null && $key !== null && $type !== null) {
+            /* @var YumUser $user */
+            $user = YumUser::model()->findByPk($user_id);
+            if(null !== $user) {
+                if($user->is_password_bruteforce_detected === YumUser::IS_PASSWORD_BRUTEFORCE_DETECTED) {
+                    if($user->authorization_after_bruteforce_key === $key) {
+                        if($type === YumUser::PASSWORD_BRUTEFORCE_IT_IS_ME) {
+                            UserService::authenticate($user);
+                            UserService::logAccountAction($user, $this->request->getUserHostAddress(), 'Пользователь забыл пароль и 5 раз пытался ввести неправильный пароль.');
+                            $user->is_password_bruteforce_detected = YumUser::IS_NOT_PASSWORD_BRUTEFORCE;
+                            $user->save(false);
+                            $this->redirect('/dashboard');
+                        } else if($type === YumUser::PASSWORD_BRUTEFORCE_IT_IS_NOT_ME){
+                            UserService::authenticate($user);
+                            UserService::logAccountAction($user, $this->request->getUserHostAddress(), 'Была попытка подобрать пароль к аккаунту пользователя пользователя. По словам пользователя, это не он.');
+                            $user->is_password_bruteforce_detected = YumUser::IS_NOT_PASSWORD_BRUTEFORCE;
+                            $user->save(false);
+                            Yii::app()->user->setFlash('error', 'Смените, пожалуйста, свой пароль, если он простой.');
+                            $this->redirect($user->getPasswordChangeUrl());
+                        }else{
+                            UserService::logAccountAction($user, $this->request->getUserHostAddress(), 'Человек пытался ввести неверный тип розблокировки!');
+                        }
+                    } else {
+                        UserService::logAccountAction($user, $this->request->getUserHostAddress(), 'Человек пытался ввести неверный ключ розблокировки!');
+                    }
+                } else {
+                    UserService::logAccountAction($user, $this->request->getUserHostAddress(), 'Человек пытался розблокировать аккаунт повторно!');
+                }
+            }
+        }
+        $this->redirect('/');
+    }
 }
