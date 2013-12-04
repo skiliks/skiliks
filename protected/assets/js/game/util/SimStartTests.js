@@ -163,9 +163,8 @@ try {
                         return false;
                     }
                 });
-                console.log('result',result);
-                return result;
 
+                return result;
             }
         };
 

@@ -203,11 +203,9 @@ define([
                                                     }
 
                                                     if (SKApp.simulation.isActiveMeetingPresent()) {
-                                                        console.log('isActiveMeetingPresent');
                                                         restoreAbortedRequests();
                                                     } else {
                                                         SKApp.simulation.stopPause(function() {
-                                                            console.log('FALSE isActiveMeetingPresent');
                                                             $('.time').removeClass('paused');
                                                             restoreAbortedRequests();
                                                         });

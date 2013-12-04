@@ -63,24 +63,26 @@ define([
 
                 onStart = function() {
                     var me = this,
-                        wnd = new SKWindow({
+                        windowManual = new SKWindow({
                             name: 'mainScreen',
                             subname: 'manual',
                             required: true
                         });
-                        console.log('wnd 1 : ', wnd);
+                        windowManual.set('name', 'mainScreen');
+                        windowManual.set('subname', 'manual');
+                        console.log('windowManual 1 : ', windowManual, ',', windowManual.id);
                     var warning;
 
                     appView.drawDesktop();
 
                     if (app.isTutorial()) {
-                        wnd.on('close', function() {
+                        windowManual.on('close', function() {
                             appView.frame._hidePausedScreen();
                             appView.frame._toggleClockFreeze(false);
                             me.stopPause();
                         });
                         appView.frame._showPausedScreen();
-                        wnd.open();
+                        windowManual.open();
                     } else if(!app.isLite()) {
                         if(false === SKApp.simulation.isDebug()) {
                             $('.time').addClass("paused");
