@@ -1,4 +1,4 @@
-<div id="referral-popup" style="min-height: 17px !important;">
+<div id="referral-popup">
     <div style="clear: both;"></div>
     <div class="message-text" style="overflow-y:hidden;">
         Теперь вы можете получить дополнительные симуляции, пригласив друзей
