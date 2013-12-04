@@ -190,8 +190,6 @@ define(["text!game/jst/simulation/debug.jst"], function (debug_template) {
             try {
                 var me = this;
 
-                console.log('xxx ', 'cheat/clean-events-queue/' + SKApp.simulation.id)
-
                 $.ajax({
                         type: 'POST',
                         url: '/cheat/clean-events-queue/' + SKApp.simulation.id

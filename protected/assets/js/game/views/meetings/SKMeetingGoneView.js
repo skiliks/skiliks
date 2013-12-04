@@ -111,7 +111,6 @@ define([
 
         doProceedWork: function(e) {
             try {
-                console.log('doProceedWork');
                 var simulation = SKApp.simulation,
                     subject = this.options.model_instance.get('subject'),
                     me = this;
