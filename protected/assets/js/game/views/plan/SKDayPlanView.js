@@ -81,6 +81,7 @@ define([
                 $('.planner-book-head').width($('#plannerBookToday').width()- 0.5);
             }
             // что-то случилось с шириной колонок, теперь приходится твичить }
+
         },
 
         /**
@@ -475,7 +476,6 @@ define([
                                 if (ui.draggable.parents('.plan-todo').length) {
                                     SKApp.simulation.todo_tasks.get(task_id).destroy();
                                 }
-                                console.log(task_id);
                                 //Appending to new location
                                 SKApp.simulation.dayplan_tasks.create({
                                     title:task.get('title'),
@@ -721,10 +721,6 @@ define([
                     task.set('date', $(this).parent().attr('data-hour') + ':' + $(this).parent().attr('data-minute'));
                     if (SKApp.simulation.dayplan_tasks.isTimeSlotFree(task.get('date'), task.get('day'), duration)) {
                         task.destroy();
-                        console.log("$(e.currentTarget).find('.title').text()",$(e.currentTarget).find('.title').text());
-                        console.log("task.get('date')",task.get('date'));
-                        console.log("task.id",task.id);
-                        console.log("task.id",duration);
                         SKApp.simulation.dayplan_tasks.create({
                             title: task.get('title'),
                             date:task.get('date'),
@@ -852,6 +848,7 @@ define([
                     $('.plannerBookDayPlan').css('display', 'block');
                     $('.plannerBookQuarterPlan').css('display', 'none');
                 }
+                this.fixDayPlanMarkUp();
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -930,7 +927,6 @@ define([
                 window.SKWindowView.prototype.onResize.call(this);
                 this.fixQuarterPlanMarkUp();
                 this.fixDayPlanMarkUp();
-                console.log('fixed');
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);

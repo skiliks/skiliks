@@ -2572,7 +2572,6 @@ define([
                     // set attachment
                     if (response.attachmentId) {
                         this.once('attachment:load_completed', function () {
-                            console.log('attachment:load_completed');
                             var attachmentIndex = 0;
                             $.each(me.mailClient.availableAttachments, function(index, attachment) {
                                 if(response.attachmentId === attachment.fileMySqlId){
@@ -2756,7 +2755,6 @@ define([
                                 var attach = new SKAttachment();
                                 attach.fileMySqlId = response.attachmentId;
                                 attach.label = response.attachmentName;
-                                console.log('attach.label', attach.label);
                                 attachmentsListHtml.push({
                                     text: attach.label,
                                     value: attach.fileMySqlId,
@@ -2984,7 +2982,6 @@ define([
                     var me = this;
                     me.isFantasticSend = true;
                         me.renderWriteCustomNewEmailScreen(undefined, undefined, undefined, function() {
-                            console.log('Callback');
                             me.fillMessageWindow(email);
                             var cursor = me.make('div', {'class': 'cursor'});
                             me.$el.append(cursor);
