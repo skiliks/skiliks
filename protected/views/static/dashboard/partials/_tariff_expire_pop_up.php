@@ -35,32 +35,3 @@
     })
 </script>
 
-<style>
-    .tariff-expired-popup .ui-dialog-titlebar {
-        padding: 0.1em 0 0 0;
-        margin-top: -14px;
-    }
-
-    #tariff-expired-popup {
-        height: 10px !important;
-        overflow: hidden;
-    }
-
-    .referral-popup .ui-dialog-titlebar {
-        padding: 1em 0 0 0;
-        margin-top: -16px;
-    }
-
-    .referral-popup .ui-dialog-titlebar-close {
-        margin-top: 11px;
-    }
-
-    #referral-popup {
-        height: 10px !important;
-        overflow: hidden;
-    }
-
-    .show-popup-top.referral-popup {
-        top: 103px !important;
-    }
-</style>
