@@ -5621,9 +5621,66 @@ ul.default li:hover {
     padding-left: 30px;
 }
 
+.tariff-expired-popup .ui-dialog-titlebar {
+    padding: 0.1em 0 0 0;
+    margin-top: -14px;
+}
+
+#tariff-expired-popup {
+    height: 10px !important;
+    overflow: hidden;
+}
+
+.referral-popup .ui-dialog-titlebar {
+    padding: 1em 0 0 0;
+    margin-top: -16px;
+}
+
+.referral-popup .ui-dialog-titlebar-close {
+    margin-top: 11px;
+}
+
+#referral-popup {
+    height: 10px !important;
+    overflow: hidden;
+}
+
+.show-popup-top.referral-popup {
+    top: 103px !important;
+}
+
 @media screen and (max-width: 1146px) {
     .container > header nav#static-page-links a.additional-simulations {
         background-size: 16px 16px;
+    }
+
+    #tariff-expired-popu {
+        height: 20px !important;
+        margin-top: 2px;
+    }
+
+    #referral-popup,
+    #referral-popup,
+    #referral-popup .message-text,
+    .referral-popup {
+        height: 20px !important;
+    }
+
+    .tariff-expired-popup .ui-dialog-titlebar {
+        margin-top: 0px;
+    }
+
+    #tariff-expired-popup,
+    .tariff-expired-popup {
+        height: 18px !important;
+    }
+
+    .show-popup-top #tariff-expired-popup .message-text {
+        margin-top: 1px;
+    }
+
+    .show-popup-top.tariff-expired-popup {
+        top: 98px !important;
     }
 }
 
