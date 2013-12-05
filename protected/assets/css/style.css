@@ -119,7 +119,12 @@ body.inner-registration {
 
 .action-controller-comingSoonSuccess-static-pages .container,
 .action-controller-index-static-pages .container{
-	background:url("../img/bg-heroes.png") no-repeat center 12px;
+	background:url("../img/home-page-bg/bg-heroes.png") no-repeat center 12px;
+}
+
+.theme-new-year.action-controller-comingSoonSuccess-static-pages .container,
+.theme-new-year.action-controller-index-static-pages .container{
+    background:url("../img/home-page-bg/bg-heroes-ny.png") no-repeat center 12px;
 }
 
 .inner-registration .container{
@@ -131,7 +136,11 @@ body.inner-registration {
 @media screen and (max-width: 1146px){
     .action-controller-comingSoonSuccess-static-pages .container,
     .action-controller-index-static-pages .container{
-		background:url("../img/bg-heroes-min.png") no-repeat center 2px;
+		background:url("../img/home-page-bg/bg-heroes-min-ny.png") no-repeat center 2px;
+	}
+    .theme-new-year.action-controller-comingSoonSuccess-static-pages .container,
+    .theme-new-year.action-controller-index-static-pages .container{
+		background:url("../img/home-page-bg/bg-heroes-min-ny.png") no-repeat center 2px;
 	}
 }
 input, select, button, textarea {
