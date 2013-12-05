@@ -993,7 +993,6 @@ class UserService {
     }
 
     public static function authenticate(YumUser $user) {
-
         $identity = new YumUserIdentity($user->username, false);
 
         $identity->authenticate(true);
