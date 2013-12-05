@@ -54,6 +54,8 @@ class StaticSiteTools
             $results .= " inner";
         }
 
+        $results .= ' ' . Yii::app()->params['css-theme'];
+
         return $results;
     }
 

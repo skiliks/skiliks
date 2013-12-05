@@ -142,6 +142,9 @@ return CMap::mergeArray(
             // http://siteheart.com/ru/doc/sso
             'SiteHeartSecretKey'                 => 'qaDECE9Mk7',
 
+            // CSS класс который доавляется во все BODY на сайте
+            'css-theme' => 'theme-new-year',
+
             // ???
             'emails' => [
                 'isDisplayStandardInvitationMailTopText' => true, // 'Вопросы относительно вакансии вы можете задать по адресу %s, куратор вакансии - %s.'
