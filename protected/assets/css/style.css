@@ -5623,7 +5623,6 @@ ul.default li:hover {
 
 .tariff-expired-popup .ui-dialog-titlebar {
     padding: 0.1em 0 0 0;
-    margin-top: -14px;
 }
 
 #tariff-expired-popup {
@@ -5647,6 +5646,10 @@ ul.default li:hover {
 
 .show-popup-top.referral-popup {
     top: 103px !important;
+}
+
+.show-popup-top.tariff-expired-popup {
+    top: 105px !important;
 }
 
 @media screen and (max-width: 1146px) {
