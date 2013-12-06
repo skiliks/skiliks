@@ -904,7 +904,7 @@ class UserService {
             );
 
             if($fail_try === Yii::app()->params['max_auth_failed_attempt']) {
-                $logs = SiteLogAuthorization::model()->findAll("login = :login and is_success = :is_success and date >= :date limit 5 order by id desc",
+                $logs = SiteLogAuthorization::model()->findAll("login = :login and is_success = :is_success and date >= :date order by id desc limit 5",
                     [
                         'login'=>$login,
                         'is_success'=>SiteLogAuthorization::FAIL_AUTH,
