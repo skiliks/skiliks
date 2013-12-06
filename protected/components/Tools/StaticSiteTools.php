@@ -56,6 +56,8 @@ class StaticSiteTools
 
         $results .= ' ' . Yii::app()->params['css-theme'];
 
+        $results .= ' language-' . Yii::app()->language;
+
         return $results;
     }
 

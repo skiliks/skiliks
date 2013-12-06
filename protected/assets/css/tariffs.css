@@ -179,6 +179,10 @@ body  .onetariff  {
     z-index: 5;
 }
 
+.language-en .show-free-tariff-img {
+    background-image: none;
+}
+
 .tariff-lite .label_div {
     left: 81px;
     position: relative;
