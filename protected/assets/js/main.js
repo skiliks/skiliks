@@ -742,9 +742,6 @@ var fixLogotypes = function() {
             })
         });
 
-
-
-
         $(".showDialogRejected").click(function(e){
             e.preventDefault();
             var reason = $(this).attr('data-reject-reason');
@@ -899,6 +896,28 @@ var fixLogotypes = function() {
                 }
             });
         }
+
+        $('.link-to-loading').click(function(e) {
+
+            var url = $(this).attr('href');
+            var background = $(this).find('i').css('background-image');
+
+            if ('#' == url) {
+                e.preventDefault(e);
+                return false;
+            }
+            console.log('1');
+
+            $(this).attr('href', '#');
+            $(this).find('i').addClass('icon-loading');
+
+            setTimeout(function(){
+                $(this).attr('href', url);
+                $(this).find('i').removeClass('icon-loading');
+            }, 30*1000);
+
+            window.location.href = url;
+        })
 
     });
 })(jQuery);
