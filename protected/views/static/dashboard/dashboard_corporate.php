@@ -41,6 +41,16 @@
             ]) ?>
         </div>
 
+        <a class="pull-left link-regular additional-dashboard-link" href="/profile/save-analytic-file-2?version=v1">
+            <i class="excel-icon"></i>
+            <div>Результаты</div>
+        </a>
+
+        <a class="pull-right link-regular additional-dashboard-link" href="<?= $this->getAssetsUrl() ?>/instructions/Assessment_key_file.pdf">
+            <i class="doc-icon"></i>
+            <div>Инструкция по оценке</div>
+        </a>
+
         <?php $this->renderPartial('partials/accept-invite-warning-popup', []) ?>
 
         <?php if($show_user_referral_popup) : ?>

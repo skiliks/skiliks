@@ -292,6 +292,7 @@ class DebugController extends SiteBaseController
         '195.69.87.166',   // Киев - Андрей домашний
         '62.205.135.161',   // Teamcity
         '188.32.209.89', // Таня
+        '86.62.110.225', // Лея
     ];
 
     /**
