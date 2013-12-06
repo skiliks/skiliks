@@ -50,6 +50,7 @@ return CMap::mergeArray(
             ],
             'public' => [
                 'useSentryForJsLog'    => true,
+                'isSkipBrowserCheck'   => true,
             ]
         )
     )
