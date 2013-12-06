@@ -48,19 +48,6 @@
         <?php $this->endWidget(); ?>
     </div>
 </div>
-<script type="text/javascript">
-/*$('.editable').editable(function(value) {
-    var names = value.split(/\s+/).slice(0, 2);
-
-    $('#profile_firstname').val(names[0]);
-    $('#profile_lastname').val(names[1]);
-
-    return names.join(' ');
-}, {
-    width: 200,
-    onblur: 'submit'
-});*/
-</script>
 <script>
     $(document).ready(function(){
         var errors = $(".errorMessage");
