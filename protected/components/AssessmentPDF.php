@@ -109,12 +109,21 @@ class AssessmentPDF {
         $this->writeTextBold($value.'%', $x+2, $y+2, 12);
     }
 
+    /**
+     * Метод изображает на странице круговую диаграмму "Распределение времени"
+     *
+     * @param float $x, миллиметры
+     * @param float $y, миллиметры
+     * @param float $productive_time_percent
+     * @param float $unproductive_time_percent
+     * @param float $communications_management__percent
+     *
+     * @return void
+     */
     public function addTimeDistribution($x, $y, $productive_time_percent, $unproductive_time_percent, $communications_management__percent) {
 
-        $productive_time = 360*$productive_time_percent/100;
-        //var_dump(360*$productive_time_percent/100);
-        //exit;
-        $unproductive_time = 360*$unproductive_time_percent/100;
+        $productive_time = 360*$productive_time_percent/100; // в градусах
+        $unproductive_time = 360*$unproductive_time_percent/100; // в градусах
 
         $this->pdf->SetFillColor(202, 219, 220);
         $this->pdf->PieSector($x, $y, 24, 0, 360, 'F', false, 0);
@@ -126,20 +135,89 @@ class AssessmentPDF {
         $this->pdf->SetFillColor(205, 56, 54);
         $this->pdf->PieSector($x, $y, 24, 360-$unproductive_time, 360, 'F', false, 90+360 - $productive_time);
 
-        //var_dump($productive_time);
-        //exit;
-        $x1 = $x + (cos(deg2rad(($productive_time-180)/2)) * 12);
-        $y1 = $y + (sin(deg2rad(($productive_time-180)/2)) * 12);
+        // расчёт положения цифр с процентами {
 
-        $this->writeTextBold('.', $x1, $y1, 11.87);
-        //var_dump($productive_time, $unproductive_time);
-        //exit;
-        //$x1 = $x + (cos(deg2rad(($unproductive_time)/2)) * 12);
-        //$y1 = $y + (sin(deg2rad(($unproductive_time)/2)) * 12);
+        // радиус окнужности на которой
+        // будут находится геометрические центры надписей
+        $radius = 16; // миллиметров
 
-        //$this->writeTextBold('.', $x1, $y1, 11.87, [0,0,255]);
+        // выполнение приоритетных задачь:
+        // величина смещения, относительно центра круга, в мм
+        $shifts = $this->getXYforTimeDistribution($productive_time/2, $radius);
+        $text = (9 < $productive_time_percent) ? $productive_time_percent . '%' : ''; // подпись
+        $this->writeTextBold($text, $x + $shifts['x'], $y + $shifts['y'], 11.87);
 
+        // выполнение приоритетных задачь:
+        $shifts = $this->getXYforTimeDistribution($productive_time + ($unproductive_time/2), $radius);
+        $text = (9 < $unproductive_time_percent) ? $unproductive_time_percent . '%' : '';
+        $this->writeTextBold($text, $x + $shifts['x'], $y + $shifts['y'], 11.87);
+
+        // прочее:
+        $shifts = $this->getXYforTimeDistribution(
+            $productive_time + $unproductive_time + (360 - $productive_time - $unproductive_time)/2,
+            $radius
+        );
+        $other_time = 100 - $productive_time_percent - $unproductive_time_percent;
+        $text = (9 < $other_time) ? $other_time . '%' : '';
+        $this->writeTextBold($text, $x + $shifts['x'], $y + $shifts['y'], 11.87);
+
+        // расчёт положения цифр с процентами }
     }
+
+    /**
+     * Служебный метод, для определения проекций отрезка на оси X и Y
+     * (используется пририсовании подписей в круговой диаграмме "Распределение времени")
+     *
+     * @param float $alphaOriginal - в градусах градусах
+     * @param float $radius, в миллиметрах
+     *
+     * @return array of float ['x', 'y']
+     */
+    public function getXYforTimeDistribution($alphaOriginal, $radius)
+    {
+        // определяем квадрант
+        // $alpha - угол, который всегда ближе к Y оси координат
+        if (0 <= $alphaOriginal && $alphaOriginal < 90) {
+            $k = 1;
+            $alpha = $alphaOriginal;
+        } elseif (90 <= $alphaOriginal && $alphaOriginal < 180) {
+            $k = 2;
+            $alpha = 180 - $alphaOriginal;
+        } elseif (180 <= $alphaOriginal && $alphaOriginal < 270) {
+            $k = 3;
+            $alpha = $alphaOriginal - 180;
+        } elseif (270 <= $alphaOriginal && $alphaOriginal <= 360) {
+            $k = 4;
+            $alpha = 360 - $alphaOriginal;
+        }
+
+        // далее для расчётов, нам нужен угол меньше 90 градусов в конкретном квадранте
+
+        $beta = 90 - $alpha;
+
+        // по X ось направлена в право
+        // по Y ось направлена вниз (!)
+        if ($k == 1 || $k == 2) { $kx = 1; } else { $kx = -1; }
+        if ($k == 1 || $k == 4) { $ky = -1; } else { $ky = 1; }
+
+        // высчитываем проекции радиуса, повёрнутого на $alphaOriginal градусов
+        // на оси X и Y
+        $x1 = $radius * cos(deg2rad($beta)) * $kx;
+        $y1 = $radius * cos(deg2rad($alpha)) * $ky;
+
+        // наппись "80%" в ширину прмерно 10 мм, а в всоту 4 мм.
+        // отнимаем от координат смещения по половине этого расстояния,
+        // чтоб центр цифры с % был в координатах {x1, y1}
+        $x1 = $x1 - 5;
+        $y1 = $y1 - 2;
+
+        // возвращаем смещения
+        return [
+            'x' => $x1,
+            'y' => $y1,
+        ];
+    }
+
     public function addOvertime($x, $y, $red, $green, $yellow, $time) {
 
         $red = (360 - (360*$red/100));
