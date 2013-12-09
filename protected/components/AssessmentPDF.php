@@ -292,9 +292,18 @@ class AssessmentPDF {
         }else{
             $color = [205,56,54];
         }
-
+        $width = $max_width * $value/100;
         $this->pdf->SetLineStyle(array('width' => 0.2, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(0, 0, 0)));
-        $this->pdf->RoundedRect($x, $y, $max_width, '5.17', $r = '1', $round_corner, 'FD', '', $color);
+        $this->pdf->RoundedRect($x, $y, $max_width, '6.6', $r = '1', $round_corner, 'FD', '', [189,210,213]);
+        if((int)$value !== 100) {
+            $round_corner = self::ROUNDED_LEFT;
+        }
+        $this->pdf->RoundedRect($x, $y, $width, '6.6', $r = '1', $round_corner, 'FD', '', $color);
+
+        $x+= ($width/2)-6;
+        if($width >= 10) {
+            $this->writeTextBold($value.'%', $x, $y+1, 12, [255,255,255]);
+        }
     }
 
 }
