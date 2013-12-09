@@ -1,3 +1,4 @@
+.popover-status,
 .popover {
     color: black;
     font-weight: normal;
@@ -16,6 +17,7 @@
     transition: opacity 0.25s linear;
 }
 
+.popover-status.active,
 .popover.active {
     opacity: 1;
     z-index: 1002;
@@ -28,10 +30,12 @@
     line-height: 120%;
 }
 
+.clearfix .labels .row .popover-status
 .clearfix .labels .row .popover {
     margin-top: 35px !important;
 }
 
+.popover-status > .popover-triangle,
 .popover > .popover-triangle {
     position: absolute;
     top: -16px;
@@ -46,6 +50,7 @@
     left: 107px;
 }
 
+.popover-status > .popover-header,
 .popover > .popover-header {
     display: none;
     margin: 0;
@@ -56,6 +61,7 @@
     text-align: center;
 }
 
+.popover-status > .popover-content,
 .popover > .popover-content {
     padding: 15px;
     min-width: 200px;
@@ -152,4 +158,34 @@
         font-size: 11px;
     }
 
+}
+
+.popover-status {
+    background-color: #F0FEFF;
+    left: 410px;
+    margin-top: 10px;
+    width: 210px;
+}
+
+.popover-status .popover-triangle {
+    border-color: rgba(0, 0, 0, 0) rgba(0, 0, 0, 0) #F0FEFF;
+}
+
+.popover-status .popover-content {
+    padding: 0;
+}
+
+.popover-status .popup-content {
+    font-family: "ProximaNova-Regular";
+    font-size: 11px;
+    line-height: 15px;
+    padding: 15px 5px;
+    text-align: center;
+    width: 200px;
+}
+
+.popover-status > .popover-triangle {
+    top: 21px;
+    left: -16px;
+    border-color: rgba(0, 0, 0, 0) #F0FEFF rgba(0, 0, 0, 0) rgba(0, 0, 0, 0);
 }

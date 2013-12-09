@@ -5900,3 +5900,17 @@ ul.default li:hover {
 
 
 }
+
+.invite-status-tooltip-toggle .invite-status-tooltip {
+    display: none;
+}
+
+.invite-status-tooltip-toggle.active .invite-status-tooltip {
+    display: block;
+}
+
+.link-in-table {
+    color: #428290;
+    cursor: hand;
+    cursor: pointer;
+}
