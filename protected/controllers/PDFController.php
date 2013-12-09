@@ -38,39 +38,46 @@ class PDFController extends SiteBaseController {
 
         $pdf->addPage();
         $pdf->writeTextBold($username, 3.5, 3.5, 21);
-        $pdf->writeTextBold('100%', 184.1, 28.4, 10, array(255,255,255));
-        $pdf->addTimeDistribution(53.9, 89.7,    25,25,50);
-        $pdf->addOvertime(156.2, 90.7,  50, 25, 25,  120);
+        $pdf->writeTextBold(round($data['time']['total']).'%', 184.1, 28.4, 10, array(255,255,255));
+        $pdf->addTimeDistribution(53.9, 89.7,
+            $data['time']['time_spend_for_1st_priority_activities'],
+            $data['time']['time_spend_for_non_priority_activities'],
+            $data['time']['time_spend_for_inactivity']
+        );
+        $pdf->addOvertime(156.2, 90.7, $data['time']['workday_overhead_duration']);
 
-        $pdf->writeTextBold('100%', 177, 175.84, 10, [255,255,255]);//Распеределение времени
+        $pdf->writeTextBold(round($data['time']['total']).'%', 177, 175.84, 10, [255,255,255]);//Распеределение времени
 
-        $pdf->writeTextBold('87%', 82.1, 197.5, 16);//Продуктивное время
+        $pdf->writeTextBold(round($data['time'][TimeManagementAggregated::SLUG_GLOBAL_TIME_SPEND_FOR_1ST_PRIORITY_ACTIVITIES]).'%',
+            82.1, 197.5, 16);//Продуктивное время
 
 
-        $pdf->writeTextBold('100%', 185, 197.5, 16);//Не продуктивное время
+        $pdf->writeTextBold(round($data['time'][TimeManagementAggregated::SLUG_GLOBAL_TIME_SPEND_FOR_NON_PRIORITY_ACTIVITIES]).'%', 185, 197.5, 16);//Не продуктивное время
         //Positive
         $x_positive = 33;
-        $pdf->addTimeBarProductive($x_positive, 218, 22, 100); //Документы
+        $max_positive = $pdf->getMaxTimePositive($data['time']);
+        $pdf->addTimeBarProductive($x_positive, 218, $data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_DOCUMENTS], $max_positive); //Документы
 
-        $pdf->addTimeBarProductive($x_positive, 228.5, 60, 100);//Встречи
+        $pdf->addTimeBarProductive($x_positive, 228.5, $data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_MEETINGS], $max_positive);//Встречи
 
-        $pdf->addTimeBarProductive($x_positive, 239, 38, 100);//Звонки
+        $pdf->addTimeBarProductive($x_positive, 239, $data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_PHONE_CALLS], $max_positive);//Звонки
 
-        $pdf->addTimeBarProductive($x_positive, 249.5, 87, 100);//Почта
+        $pdf->addTimeBarProductive($x_positive, 249.5, $data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_MAIL], $max_positive);//Почта
 
-        $pdf->addTimeBarProductive($x_positive, 260, 4, 100);//План
+        $pdf->addTimeBarProductive($x_positive, 260, $data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_PLANING], $max_positive);//План
 
         //Negative
         $y_positive = 137;
-        $pdf->addTimeBarUnproductive($y_positive, 218, 49, 100); //Документы
+        $max_negative = $pdf->getMaxTimeNegative($data['time']);
+        $pdf->addTimeBarUnproductive($y_positive, 218, $data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_DOCUMENTS], $max_negative); //Документы
 
-        $pdf->addTimeBarUnproductive($y_positive, 228.5, 34, 100);//Встречи
+        $pdf->addTimeBarUnproductive($y_positive, 228.5, $data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_MEETINGS], $max_negative);//Встречи
 
-        $pdf->addTimeBarUnproductive($y_positive, 239, 100, 100);//Звонки
+        $pdf->addTimeBarUnproductive($y_positive, 239, $data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_PHONE_CALLS], $max_negative);//Звонки
 
-        $pdf->addTimeBarUnproductive($y_positive, 249.5, 87, 100);//Почта
+        $pdf->addTimeBarUnproductive($y_positive, 249.5, $data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_MAIL], $max_negative);//Почта
 
-        $pdf->addTimeBarUnproductive($y_positive, 260, 4, 100);//План
+        $pdf->addTimeBarUnproductive($y_positive, 260, $data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_PLANING], $max_negative);//План
 
         $pdf->addPage();
         $pdf->writeTextBold($username, 3.5, 3.5, 21);
