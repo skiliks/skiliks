@@ -81,12 +81,12 @@ class PDFController extends SiteBaseController {
 
         $pdf->addPage();
         $pdf->writeTextBold($username, 3.5, 3.5, 21);
-        $pdf->writeTextBold('100%', 134, 27.8, 10, [255,255,255]);//Результативность
+        $pdf->writeTextBold(round($data['performance']['total']).'%', 134, 27.8, 10, [255,255,255]);//Результативность
 
-        $pdf->addUniversalBar(77, 45.8, 23, 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);//Срочно
-        $pdf->addUniversalBar(77, 56.3, 98, 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);//Высокий приоритет
-        $pdf->addUniversalBar(77, 66.9, 43, 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);//Средний приоритет
-        $pdf->addUniversalBar(77, 77.5, 0, 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);//Двухминутные задачи
+        $pdf->addUniversalBar(77, 45.8, $pdf->getPerformanceCategory($data['performance'], '0'), 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);//Срочно
+        $pdf->addUniversalBar(77, 56.3, $pdf->getPerformanceCategory($data['performance'], '1'), 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);//Высокий приоритет
+        $pdf->addUniversalBar(77, 66.9, $pdf->getPerformanceCategory($data['performance'], '2'), 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);//Средний приоритет
+        $pdf->addUniversalBar(77, 77.5, $pdf->getPerformanceCategory($data['performance'], '2_min'), 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);//Двухминутные задачи
 
         $pdf->addPage();
 
