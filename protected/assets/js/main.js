@@ -829,6 +829,26 @@ var fixLogotypes = function() {
             }
         );
 
+        // invite-status-tooltip-toggle {
+        $(".invite-status-tooltip-toggle").click(function() {
+            // закрыть уже открытые status-tooltips
+            $(".invite-status-tooltip-toggle").removeClass("active");
+
+            $(this).addClass("active");
+            var popoverStatus =  $(this).find('.popover-status');
+            popoverStatus.addClass("active");
+            popoverStatus.css("margin-top", - popoverStatus.height()/2 - 4);
+            $(this).find('.popover-triangle').css("top", (popoverStatus.height() - 16)/2);
+        });
+
+        $(document).click(function(e) {
+            if(!$(e.target).is('.invite-status-tooltip-toggle')) {
+                $(".invite-status-tooltip-toggle").removeClass("active");
+                $(".popover-status").removeClass("active");
+            }
+        });
+        // invite-status-tooltip-toggle }
+
         if($("#corporate-invitations-list-box").length != 0) {
 
             $('.items td a').hide();
