@@ -110,8 +110,29 @@ class PDFController extends SiteBaseController {
 
 
         $pdf->writeTextBold('100%', 185, 197.5, 16);//Не продуктивное время
+        //Positive
+        $x_positive = 33;
+        $pdf->addTimeBarProductive($x_positive, 218, 22, 100); //Документы
 
-        $pdf->addTimeBarProductive(33, 218, 30, 100);
+        $pdf->addTimeBarProductive($x_positive, 228.5, 60, 100);//Встречи
+
+        $pdf->addTimeBarProductive($x_positive, 239, 38, 100);//Звонки
+
+        $pdf->addTimeBarProductive($x_positive, 249.5, 87, 100);//Почта
+
+        $pdf->addTimeBarProductive($x_positive, 260, 4, 100);//План
+
+        //Negative
+        $y_positive = 137;
+        $pdf->addTimeBarUnproductive($y_positive, 218, 49, 100); //Документы
+
+        $pdf->addTimeBarUnproductive($y_positive, 228.5, 34, 100);//Встречи
+
+        $pdf->addTimeBarUnproductive($y_positive, 239, 100, 100);//Звонки
+
+        $pdf->addTimeBarUnproductive($y_positive, 249.5, 87, 100);//Почта
+
+        $pdf->addTimeBarUnproductive($y_positive, 260, 4, 100);//План
 
         /*$pdf->addPage();
         $pdf->addPage();
