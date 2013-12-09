@@ -153,8 +153,7 @@ class PDFController extends SiteBaseController {
         $pdf->addUniversalBar(77.7, 59.5, 98, 128.7, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);//2
         $pdf->addUniversalBar(77.7, 70.1, 43, 128.7, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);//3
 
-    */
-        $pdf->page_number = 5;
+
         $pdf->addPage();
         $pdf->writeTextBold($username, 3.5, 3.5, 21);
         $pdf->writeTextBold('100%', 149.9, 28.2, 10, [255,255,255]);//1
@@ -169,9 +168,22 @@ class PDFController extends SiteBaseController {
         $pdf->addUniversalBar(152, 70.6, 98, 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//1.2 negative
         $pdf->addUniversalBar(152, 81.2, 23, 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//1.3 negative
         $pdf->addUniversalBar(152, 91.8, 100, 54.14, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_NEGATIVE);//1.4 negative
+        */
 
-        /*$pdf->addPage();
-        $pdf->addPage();*/
+        $pdf->page_number = 6;
+        $pdf->addPage();
+        $pdf->writeTextBold($username, 3.5, 3.5, 21);
+        $pdf->writeTextBold('100%', 149.9, 27.8, 10, [255,255,255]);//1
+        $pdf->writeTextBold('100%', 2.8, 36.8, 18);
+
+        $pdf->addUniversalBar(77, 60, 3, 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//2.1 positive
+        $pdf->addUniversalBar(77, 70.6, 30, 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//2.2 positive
+        $pdf->addUniversalBar(77, 81.2, 93, 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//2.3 positive
+
+        $pdf->addUniversalBar(152, 60, 26, 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//2.1 negative
+        $pdf->addUniversalBar(152, 70.6, 0, 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//2.2 negative
+        $pdf->addUniversalBar(152, 81.2, 2, 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//2.3 negative
+        /*$pdf->addPage();*/
         $pdf->renderOnBrowser('Assessment_v2');
     }
 
