@@ -144,8 +144,6 @@ class PDFController extends SiteBaseController {
         $pdf->addUniversalBar(77, 66.9, 43, 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);//Средний приоритет
         $pdf->addUniversalBar(77, 77.5, 0, 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);//Двухминутные задачи
 
-*/
-        $pdf->page_number = 4;
         $pdf->addPage();
 
         $pdf->writeTextBold($username, 3.5, 3.5, 21);
@@ -155,8 +153,24 @@ class PDFController extends SiteBaseController {
         $pdf->addUniversalBar(77.7, 59.5, 98, 128.7, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);//2
         $pdf->addUniversalBar(77.7, 70.1, 43, 128.7, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);//3
 
-        /*$pdf->addPage();
+    */
+        $pdf->page_number = 5;
         $pdf->addPage();
+        $pdf->writeTextBold($username, 3.5, 3.5, 21);
+        $pdf->writeTextBold('100%', 149.9, 28.2, 10, [255,255,255]);//1
+        $pdf->writeTextBold('100%', 3.4, 36.8, 18);
+
+
+        $pdf->addUniversalBar(77, 60, 23, 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//1.1 positive
+        $pdf->addUniversalBar(77, 70.6, 100, 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//1.2 positive
+        $pdf->addUniversalBar(77, 81.2, 43, 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//1.3 positive
+
+        $pdf->addUniversalBar(152, 60, 23, 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//1.1 negative
+        $pdf->addUniversalBar(152, 70.6, 98, 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//1.2 negative
+        $pdf->addUniversalBar(152, 81.2, 23, 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//1.3 negative
+        $pdf->addUniversalBar(152, 91.8, 100, 54.14, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_NEGATIVE);//1.4 negative
+
+        /*$pdf->addPage();
         $pdf->addPage();*/
         $pdf->renderOnBrowser('Assessment_v2');
     }

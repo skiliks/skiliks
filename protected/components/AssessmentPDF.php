@@ -5,6 +5,7 @@ class AssessmentPDF {
     const ROUNDED_LEFT = '0011';
     const ROUNDED_RIGHT = '1100';
     const ROUNDED_BOTH = '1111';
+    const ROUNDED_NONE = '0000';
 
     const BAR_POSITIVE = 'positive';
     const BAR_NEGATIVE = 'negative';
@@ -296,7 +297,11 @@ class AssessmentPDF {
         $this->pdf->SetLineStyle(array('width' => 0.2, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(0, 0, 0)));
         $this->pdf->RoundedRect($x, $y, $max_width, '6.6', $r = '1', $round_corner, 'FD', '', [189,210,213]);
         if((int)$value !== 100) {
-            $round_corner = self::ROUNDED_LEFT;
+            if($round_corner === self::ROUNDED_RIGHT){
+                $round_corner = self::ROUNDED_NONE;
+            } else {
+                $round_corner = self::ROUNDED_LEFT;
+            }
         }
         if((int)$value !== 0){
             $this->pdf->RoundedRect($x, $y, $width, '6.6', $r = '1', $round_corner, 'FD', '', $color);
