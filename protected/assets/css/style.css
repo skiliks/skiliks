@@ -431,7 +431,7 @@ a.link-regular:hover,
 }
 
 .additional-dashboard-link {
-    /*margin-top: 10px;*/
+    margin-top: 5px;
     display: inline-block;
     position: relative;
     z-index: 10;
@@ -3441,7 +3441,7 @@ ul.profile-menu li {
     position: relative;
 }
 #private-invitations-list-box .grid-view .pager, #corporate-invitations-list-box .grid-view .pager {
-    bottom: -110px;
+    bottom: -85px;
     height: 40px;
     margin: 0px;
     text-align: center;

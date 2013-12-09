@@ -14,7 +14,27 @@ class StringTools
         "О" => "o", "П" => "p", "Р" => "r", "С" => "s", "Т" => "t",
         "У" => "u", "Ф" => "f", "Х" => "kh", "Ц" => "ts", "Ч" => "ch",
         "Ш" => "sh", "Щ" => "sch", "Ъ" => "", "Ы" => "y", "Ь" => "",
-        "Э" => "e", "Ю" => "yu", "Я" => "ya", "а" => "a", "б" => "b",
+        "Э" => "e", "Ю" => "yu", "Я" => "ya",
+        "а" => "a", "б" => "b",
+        "в" => "v", "г" => "g", "д" => "d", "е" => "e", "ё" => "yo",
+        "ж" => "zh", "з" => "z", "й" => "j", "й" => "j", "к" => "k",
+        "л" => "l", "м" => "m", "и" => "i", "н" => "n", "о" => "o", "п" => "p",
+        "р" => "r", "с" => "s", "т" => "t", "у" => "u", "ф" => "f",
+        "х" => "kh", "ц" => "ts", "ч" => "ch", "ш" => "sh", "щ" => "sch",
+        "ъ" => "", "ы" => "y", "ь" => "", "э" => "e", "ю" => "yu",
+        "я" => "ya"
+    );
+
+    /* this code contains MacOS Unicode magic */
+    public static $CyToEnWithUppercase = array(
+        "А" => "A", "Б" => "B", "В" => "V", "Г" => "G", "Д" => "D",
+        "Е" => "E", "Ё" => "YO", "Ж" => "ZH", "З" => "Z", "И" => "I",
+        "Й" => "J", "К" => "K", "Л" => "L", "М" => "M", "Н" => "N",
+        "О" => "O", "П" => "P", "Р" => "R", "С" => "S", "Т" => "T",
+        "У" => "U", "Ф" => "F", "Х" => "KH", "Ц" => "TS", "Ч" => "CH",
+        "Ш" => "SH", "Щ" => "SCH", "Ъ" => "", "Ы" => "Y", "Ь" => "",
+        "Э" => "E", "Ю" => "YU", "Я" => "YA",
+        "а" => "a", "б" => "b",
         "в" => "v", "г" => "g", "д" => "d", "е" => "e", "ё" => "yo",
         "ж" => "zh", "з" => "z", "й" => "j", "й" => "j", "к" => "k",
         "л" => "l", "м" => "m", "и" => "i", "н" => "n", "о" => "o", "п" => "p",
@@ -27,6 +47,15 @@ class StringTools
     public static function CyToEn($string)
     {
         foreach (self::$CyToEn as $ruChar => $enChar) {
+            $string = mb_eregi_replace($ruChar, $enChar, $string);
+
+        }
+        return $string;
+    }
+
+    public static function CyToEnWithUppercase($string)
+    {
+        foreach (self::$CyToEnWithUppercase as $ruChar => $enChar) {
             $string = mb_eregi_replace($ruChar, $enChar, $string);
 
         }
