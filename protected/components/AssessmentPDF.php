@@ -365,4 +365,13 @@ class AssessmentPDF {
         return (int)max($data);
     }
 
+    public function getPerformanceCategory($performance, $category)
+    {
+        if(isset($performance[$category])){
+            return (int)round($performance[$category]);
+        } else {
+            return 0;
+        }
+    }
+
 }
