@@ -56,8 +56,9 @@ class AssessmentPDF {
     }
 
     public function addRatingPercentile($x, $y, $value) {
+        $value = round($value);
         $max_width = 13.1;
-        $width = $max_width*$value/100;
+        $width = $max_width*round($value)/100;
 
         $this->pdf->Rect($x+1.12, $y+1.5, 14, 4.1, 'F', '', array(89, 89, 91));
         $this->pdf->Rect($x+1.19, $y+1.5, $width, 4.1, 'F', '', array(210, 91, 47));
@@ -68,6 +69,7 @@ class AssessmentPDF {
 
     public function addRatingOverall($x, $y, $value)
     {
+        $value = round($value);
         $max_width = 22.2;
         $width = $max_width*$value/100;
         $this->pdf->Rect($x+0.9, $y+1.5, $width, 4.1, 'F', '', array(223, 146, 46));
@@ -79,6 +81,7 @@ class AssessmentPDF {
 
     public function addSpeedometer($x, $y, $value)
     {
+        $value = round($value);
         $x0 = $x;
         $y0 = $y;
         $this->pdf->Image($this->images_dir.'rainbow.png', $x, $y, 29.55, 13.72);

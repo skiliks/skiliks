@@ -24,17 +24,17 @@ class PDFController extends SiteBaseController {
             $this->redirect('/dashboard');
         }
 
-        $data = $simulation->getAssessmentDetails();
+        $data = json_decode($simulation->getAssessmentDetails(), true);
 
         $pdf = new AssessmentPDF();
         $username = $this->user->profile->firstname.' '.$this->user->profile->lastname;
         $pdf->addPage();
         $pdf->writeTextBold($username, 3.5, 3.5, 21);
-        $pdf->addRatingPercentile(92.4, 37.6, 4);
-        $pdf->addRatingOverall(85, 48, 100);
-        $pdf->addSpeedometer(19.8, 109.2, 23);
-        $pdf->addSpeedometer(87.9, 109.2, 56);
-        $pdf->addSpeedometer(156.9, 109.2, 97);
+        $pdf->addRatingPercentile(92.4, 37.6, $data['percentile']['total']);
+        $pdf->addRatingOverall(85, 48, $data['overall']);
+        $pdf->addSpeedometer(19.8, 109.2, $data['time']['total']);
+        $pdf->addSpeedometer(87.9, 109.2, $data['performance']['total']);
+        $pdf->addSpeedometer(156.9, 109.2, $data['management']['total']);
 
         $pdf->addPage();
         $pdf->writeTextBold($username, 3.5, 3.5, 21);
