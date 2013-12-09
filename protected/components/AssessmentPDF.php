@@ -2,6 +2,13 @@
 
 class AssessmentPDF {
 
+    const ROUNDED_LEFT = '0011';
+    const ROUNDED_RIGHT = '1100';
+    const ROUNDED_BOTH = '1111';
+    const ROUNDED_NONE = '0000';
+
+    const BAR_POSITIVE = 'positive';
+    const BAR_NEGATIVE = 'negative';
     /**
      * @var TCPDF
      */
@@ -54,9 +61,9 @@ class AssessmentPDF {
 
         $this->pdf->Rect($x+1.12, $y+1.5, 14, 4.1, 'F', '', array(89, 89, 91));
         $this->pdf->Rect($x+1.19, $y+1.5, $width, 4.1, 'F', '', array(210, 91, 47));
-        $this->pdf->Image($this->images_dir.'Percentile.png', $x, $y, 23.96, 7.03);
+        $this->pdf->Image($this->images_dir.'percentile.png', $x, $y, 23.96, 7.03);
 
-        $this->writeTextBold('P'.$value, $x+14.9, $y+2.16, 8.13, [255,255,255]);
+        $this->writeTextBold('P'.$value, $x+14.9, $y+2.16, 8.13);
     }
 
     public function addRatingOverall($x, $y, $value)
@@ -64,9 +71,10 @@ class AssessmentPDF {
         $max_width = 22.2;
         $width = $max_width*$value/100;
         $this->pdf->Rect($x+0.9, $y+1.5, $width, 4.1, 'F', '', array(223, 146, 46));
-        $this->pdf->Image($this->images_dir.'Stars.png', $x, $y, 23.96, 7.03);
 
-        $this->writeTextBold($value.'%', $x+28, $y+1.5, 10);
+        $this->pdf->Image($this->images_dir.'stars.png', $x, $y, 23.96, 7.03);
+
+        $this->writeTextBold($value.'%', $x+28, $y+1.5, 10, [255,255,255]);
     }
 
     public function addSpeedometer($x, $y, $value)
@@ -84,7 +92,7 @@ class AssessmentPDF {
         //var_dump($angle);
         //exit;
         $this->pdf->Rotate($angle, $x+3, $y+19.1);
-        $this->pdf->Image($this->images_dir.'Arrow.png', $x, $y, 5.16, 40);
+        $this->pdf->Image($this->images_dir.'arrow.png', $x, $y, 5.16, 40);
         $this->pdf->StopTransform();
         //var_dump($y0 - 118);
         //exit;
@@ -278,6 +286,32 @@ class AssessmentPDF {
             $this->writeTextBold($value, $x, $y, 12, [255,255,255]);
         }
 
+    }
+
+    public function addUniversalBar($x, $y, $value, $max_width, $round_corner, $type) {
+        if($type === self::BAR_POSITIVE) {
+            $color = [61,102,113];
+        }else{
+            $color = [205,56,54];
+        }
+        $width = $max_width * $value/100;
+        $this->pdf->SetLineStyle(array('width' => 0.2, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(0, 0, 0)));
+        $this->pdf->RoundedRect($x, $y, $max_width, '6.6', $r = '1', $round_corner, 'FD', '', [189,210,213]);
+        if((int)$value !== 100) {
+            if($round_corner === self::ROUNDED_RIGHT){
+                $round_corner = self::ROUNDED_NONE;
+            } else {
+                $round_corner = self::ROUNDED_LEFT;
+            }
+        }
+        if((int)$value !== 0){
+            $this->pdf->RoundedRect($x, $y, $width, '6.6', $r = '1', $round_corner, 'FD', '', $color);
+        }
+
+        $x+= ($width/2)-6;
+        if($width >= 10) {
+            $this->writeTextBold($value.'%', $x, $y+1, 12, [255,255,255]);
+        }
     }
 
 }
