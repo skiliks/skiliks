@@ -90,11 +90,20 @@ class PDFController extends SiteBaseController {
         $pdf->Output('test.pdf');*/
 
         $pdf = new AssessmentPDF();
-        $pdf->addPage();
-        $pdf->writeTextBold('Иван Иванов', 4, 4, 20);
-        $pdf->addRatingPercentile(92.4, 37.6, 4);
         /*$pdf->addPage();
-        $pdf->addPage();
+        $pdf->writeTextBold('Иван Иванов', 3.5, 3.5, 21);
+        $pdf->addRatingPercentile(92.4, 37.6, 4);
+        $pdf->addRatingOverall(85, 48, 100);
+        $pdf->addSpeedometer(19.8, 109.2, 23);
+        $pdf->addSpeedometer(87.9, 109.2, 56);
+        $pdf->addSpeedometer(156.9, 109.2, 97);*/
+        $pdf->page_number = 2;
+        $pdf->addPage();//*/
+        $pdf->writeTextBold('Иван Иванов', 3.5, 3.5, 21);
+        $pdf->writeTextBold('100%', 184.1, 28.4, 10, array(255,255,255));
+        $pdf->addTimeDistribution(53.9, 89.7, 75, 12.5, 12.5);
+        $pdf->addOvertime(156.2, 90.7, 50, 25, 25, 120);
+        /*$pdf->addPage();
         $pdf->addPage();
         $pdf->addPage();
         $pdf->addPage();
