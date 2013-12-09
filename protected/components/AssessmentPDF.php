@@ -246,8 +246,37 @@ class AssessmentPDF {
 
     public function addTimeBarProductive($x, $y, $value, $max_value) {
 
-        //$width =
-        $this->pdf->RoundedRect($x, $y, '57', '6.7', $r = '1', '0011', 'F', '', array(255, 170, 96));
+        $width = 57 * ($value/$max_value);
+        if((int)$value === 100) {
+            $round_corner = '1111';
+        }else{
+            $round_corner = '0011';
+        }
+        $this->pdf->RoundedRect($x, $y, $width, '6.7', $r = '1', $round_corner, 'F', '', array(61, 102, 113));
+        $x+= ($width/2)-4;
+        $y+=1;
+        if($x >= 34.8) {
+            $this->writeTextBold($value, $x, $y, 12, [255,255,255]);
+        }
+
+    }
+
+    public function addTimeBarUnproductive($x, $y, $value, $max_value) {
+
+        $width = 57 * ($value/$max_value);
+        if((int)$value === 100) {
+            $round_corner = '1111';
+        }else{
+            $round_corner = '0011';
+        }
+        $this->pdf->RoundedRect($x, $y, $width, '6.7', $r = '1', $round_corner, 'F', '', [205,56,54]);
+        $x+= ($width/2)-4;
+        $y+=1;
+        //var_dump($x);
+        //exit;
+        if($x >= 139) {
+            $this->writeTextBold($value, $x, $y, 12, [255,255,255]);
+        }
 
     }
 

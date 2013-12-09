@@ -90,16 +90,17 @@ class PDFController extends SiteBaseController {
         $pdf->Output('test.pdf');*/
 
         $pdf = new AssessmentPDF();
+        $username = "Иван Иванов";
         /*$pdf->addPage();
-        $pdf->writeTextBold('Иван Иванов', 3.5, 3.5, 21);
+        $pdf->writeTextBold($username, 3.5, 3.5, 21);
         $pdf->addRatingPercentile(92.4, 37.6, 4);
         $pdf->addRatingOverall(85, 48, 100);
         $pdf->addSpeedometer(19.8, 109.2, 23);
         $pdf->addSpeedometer(87.9, 109.2, 56);
-        $pdf->addSpeedometer(156.9, 109.2, 97);*/
-        $pdf->page_number = 2;
-        $pdf->addPage();//*/
-        $pdf->writeTextBold('Иван Иванов', 3.5, 3.5, 21);
+        $pdf->addSpeedometer(156.9, 109.2, 97);
+
+        $pdf->addPage();
+        $pdf->writeTextBold($username, 3.5, 3.5, 21);
         $pdf->writeTextBold('100%', 184.1, 28.4, 10, array(255,255,255));
         $pdf->addTimeDistribution(53.9, 89.7,    25,25,50);
         $pdf->addOvertime(156.2, 90.7,  50, 25, 25,  120);
@@ -110,11 +111,34 @@ class PDFController extends SiteBaseController {
 
 
         $pdf->writeTextBold('100%', 185, 197.5, 16);//Не продуктивное время
+        //Positive
+        $x_positive = 33;
+        $pdf->addTimeBarProductive($x_positive, 218, 22, 100); //Документы
 
-        $pdf->addTimeBarProductive(33, 218, 30, 100);
+        $pdf->addTimeBarProductive($x_positive, 228.5, 60, 100);//Встречи
 
-        /*$pdf->addPage();
+        $pdf->addTimeBarProductive($x_positive, 239, 38, 100);//Звонки
+
+        $pdf->addTimeBarProductive($x_positive, 249.5, 87, 100);//Почта
+
+        $pdf->addTimeBarProductive($x_positive, 260, 4, 100);//План
+
+        //Negative
+        $y_positive = 137;
+        $pdf->addTimeBarUnproductive($y_positive, 218, 49, 100); //Документы
+
+        $pdf->addTimeBarUnproductive($y_positive, 228.5, 34, 100);//Встречи
+
+        $pdf->addTimeBarUnproductive($y_positive, 239, 100, 100);//Звонки
+
+        $pdf->addTimeBarUnproductive($y_positive, 249.5, 87, 100);//Почта
+
+        $pdf->addTimeBarUnproductive($y_positive, 260, 4, 100);//План*/
+
+        $pdf->page_number = 3;
         $pdf->addPage();
+        $pdf->writeTextBold($username, 3.5, 3.5, 21);
+        /*$pdf->addPage();
         $pdf->addPage();
         $pdf->addPage();
         $pdf->addPage();*/
