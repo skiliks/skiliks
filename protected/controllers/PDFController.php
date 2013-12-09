@@ -96,9 +96,9 @@ class PDFController extends SiteBaseController {
         $pdf->addRatingOverall(85, 48, 100);
         $pdf->addSpeedometer(19.8, 109.2, 23);
         $pdf->addSpeedometer(87.9, 109.2, 56);
-        $pdf->addSpeedometer(156.9, 109.2, 97);*/
-        $pdf->page_number = 2;
-        $pdf->addPage();//*/
+        $pdf->addSpeedometer(156.9, 109.2, 97);
+
+        $pdf->addPage();
         $pdf->writeTextBold('Иван Иванов', 3.5, 3.5, 21);
         $pdf->writeTextBold('100%', 184.1, 28.4, 10, array(255,255,255));
         $pdf->addTimeDistribution(53.9, 89.7, 30, 25, 45);
@@ -132,10 +132,11 @@ class PDFController extends SiteBaseController {
 
         $pdf->addTimeBarUnproductive($y_positive, 249.5, 87, 100);//Почта
 
-        $pdf->addTimeBarUnproductive($y_positive, 260, 4, 100);//План
+        $pdf->addTimeBarUnproductive($y_positive, 260, 4, 100);//План*/
 
-        /*$pdf->addPage();
+        $pdf->page_number = 3;
         $pdf->addPage();
+        /*$pdf->addPage();
         $pdf->addPage();
         $pdf->addPage();
         $pdf->addPage();*/
