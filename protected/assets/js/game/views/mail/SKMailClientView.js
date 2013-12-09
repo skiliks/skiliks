@@ -845,7 +845,7 @@ define([
                         });
 
                         // SKILIKS-4940 {
-                        if ($.browser['firefox'] == true) {
+                        if ($.browser['mozilla'] == true) {
                             $('.folder-list').height($('#mail-window').height() - 315);
                             console.log('delta: ', $('#mail-window').height() - 315, $('#mail-window').height());
                         }
