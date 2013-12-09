@@ -127,6 +127,8 @@ class AssessmentPDF {
      */
     public function addTimeDistribution($x, $y, $productive_time_percent, $unproductive_time_percent, $communications_management__percent) {
 
+        $productive_time_percent = round($productive_time_percent);
+        $unproductive_time_percent = round($unproductive_time_percent);
         $productive_time = 360*$productive_time_percent/100; // в градусах
         $unproductive_time = 360*$unproductive_time_percent/100; // в градусах
 
@@ -223,22 +225,30 @@ class AssessmentPDF {
         ];
     }
 
-    public function addOvertime($x, $y, $red, $green, $yellow, $time) {
+    public function addOvertime($x, $y, $time) {
+        $time = (int)round($time);
+        if($time === 0) {
 
-        $red = (360 - (360*$red/100));
-        //var_dump($productive_time);
-        //exit;
-        $green = (360 - (360*$green/100));
+        }elseif($time<= 30) {
+            $this->pdf->SetFillColor(158, 200, 138);
+            $this->pdf->PieSector($x, $y, 24, 360-(30*360/120), 360, 'F', false, 90);
+        }elseif($time > 30 && $time <= 60) {
+            $this->pdf->SetFillColor(158, 200, 138);
+            $this->pdf->PieSector($x, $y, 24, 360-(30*360/120), 360, 'F', false, 90);
 
-        $this->pdf->SetFillColor(248, 243, 159);
-        $this->pdf->PieSector($x, $y, 24, 0, 360, 'F', false, 0);
+            $this->pdf->SetFillColor(248, 243, 159);
+            $this->pdf->PieSector($x, $y, 24, 360-(($time-30)*360/120), 360, 'F', false, 0);
+        }else{
 
-        $this->pdf->SetFillColor(205, 56, 54);
-        $this->pdf->PieSector($x, $y, 24, $red, 360, 'F', false, -90);
+            $this->pdf->SetFillColor(158, 200, 138);
+            $this->pdf->PieSector($x, $y, 24, 360-(30*360/120), 360, 'F', false, 90);
 
-        $this->pdf->SetFillColor(158, 200, 138);
-        $this->pdf->PieSector($x, $y, 24, $green, 360, 'F', false, -90+$red);
+            $this->pdf->SetFillColor(248, 243, 159);
+            $this->pdf->PieSector($x, $y, 24, 360-(($time-30)*360/120), 360, 'F', false, 0);
 
+            $this->pdf->SetFillColor(205, 56, 54);
+            $this->pdf->PieSector($x, $y, 24, 360-(($time-60)*360/120), 360, 'F', false, -90);
+        }
 
         $this->pdf->SetFillColor(100, 101, 103);
         $this->pdf->PieSector($x, $y, 18.15, 0, 360, 'F', false, 0);
@@ -256,14 +266,20 @@ class AssessmentPDF {
     }
 
     public function addTimeBarProductive($x, $y, $value, $max_value) {
-
-        $width = 57 * ($value/$max_value);
+        $value = round($value);
+        if((int)$max_value === 0) {
+            $width = 0;
+        }else{
+            $width = 57 * ($value/$max_value);
+        }
         if((int)$value === 100) {
             $round_corner = '1111';
         }else{
             $round_corner = '0011';
         }
-        $this->pdf->RoundedRect($x, $y, $width, '6.7', $r = '1', $round_corner, 'F', '', array(61, 102, 113));
+        if($width!==0){
+            $this->pdf->RoundedRect($x, $y, $width, '6.7', $r = '1', $round_corner, 'F', '', array(61, 102, 113));
+        }
         $x+= ($width/2)-4;
         $y+=1;
         if($x >= 34.8) {
@@ -273,14 +289,20 @@ class AssessmentPDF {
     }
 
     public function addTimeBarUnproductive($x, $y, $value, $max_value) {
-
-        $width = 57 * ($value/$max_value);
+        $value = round($value);
+        if((int)$max_value === 0) {
+            $width = 0;
+        }else{
+            $width = 57 * ($value/$max_value);
+        }
         if((int)$value === 100) {
             $round_corner = '1111';
         }else{
             $round_corner = '0011';
         }
-        $this->pdf->RoundedRect($x, $y, $width, '6.7', $r = '1', $round_corner, 'F', '', [205,56,54]);
+        if($width!==0) {
+            $this->pdf->RoundedRect($x, $y, $width, '6.7', $r = '1', $round_corner, 'F', '', [205,56,54]);
+        }
         $x+= ($width/2)-4;
         $y+=1;
         //var_dump($x);
@@ -315,6 +337,32 @@ class AssessmentPDF {
         if($width >= 10) {
             $this->writeTextBold($value.'%', $x, $y+1, 12, [255,255,255]);
         }
+    }
+
+    public function getMaxTimeNegative($time)
+    {
+        $data = [
+            round($time[TimeManagementAggregated::SLUG_NON_PRIORITY_DOCUMENTS]),
+            round($time[TimeManagementAggregated::SLUG_NON_PRIORITY_MEETINGS]),
+            round($time[TimeManagementAggregated::SLUG_NON_PRIORITY_PHONE_CALLS]),
+            round($time[TimeManagementAggregated::SLUG_NON_PRIORITY_MAIL]),
+            round($time[TimeManagementAggregated::SLUG_NON_PRIORITY_PLANING]),
+        ];
+
+        return (int)max($data);
+    }
+
+    public function getMaxTimePositive($time)
+    {
+        $data = [
+            round($time[TimeManagementAggregated::SLUG_1ST_PRIORITY_DOCUMENTS]),
+            round($time[TimeManagementAggregated::SLUG_1ST_PRIORITY_MEETINGS]),
+            round($time[TimeManagementAggregated::SLUG_1ST_PRIORITY_PHONE_CALLS]),
+            round($time[TimeManagementAggregated::SLUG_1ST_PRIORITY_MAIL]),
+            round($time[TimeManagementAggregated::SLUG_1ST_PRIORITY_PLANING]),
+        ];
+
+        return (int)max($data);
     }
 
 }
