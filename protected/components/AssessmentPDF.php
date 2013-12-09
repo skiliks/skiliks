@@ -71,6 +71,9 @@ class AssessmentPDF {
         $max_width = 22.2;
         $width = $max_width*$value/100;
         $this->pdf->Rect($x+0.9, $y+1.5, $width, 4.1, 'F', '', array(223, 146, 46));
+        if(!file_exists($this->images_dir.'Stars.png')){
+            throw new Exception("file ".$this->images_dir.'Stars.png'.' not found');
+        }
         $this->pdf->Image($this->images_dir.'Stars.png', $x, $y, 23.96, 7.03);
 
         $this->writeTextBold($value.'%', $x+28, $y+1.5, 10, [255,255,255]);
