@@ -105,32 +105,33 @@ class AssessmentPDF {
 
     public function addTimeDistribution($x, $y, $productive_time_percent, $unproductive_time_percent, $communications_management__percent) {
 
-        $productive_time = (360 - (360*$productive_time_percent/100));
-        //var_dump($productive_time);
+        $productive_time = 360*$productive_time_percent/100;
+        //var_dump(360*$productive_time_percent/100);
         //exit;
-        $unproductive_time = (360 - (360*$unproductive_time_percent/100));
+        $unproductive_time = 360*$unproductive_time_percent/100;
 
         $this->pdf->SetFillColor(202, 219, 220);
         $this->pdf->PieSector($x, $y, 24, 0, 360, 'F', false, 0);
 
 
         $this->pdf->SetFillColor(61, 106, 113);
-        $this->pdf->PieSector($x, $y, 24, $productive_time, 360, 'F', false, 0);
+        $this->pdf->PieSector($x, $y, 24, 360-$productive_time, 360, 'F', false, 90);
 
         $this->pdf->SetFillColor(205, 56, 54);
-        $this->pdf->PieSector($x, $y, 24, $unproductive_time, 360, 'F', false, 0+$productive_time);
+        $this->pdf->PieSector($x, $y, 24, 360-$unproductive_time, 360, 'F', false, 90+360 - $productive_time);
 
+        //var_dump($productive_time);
+        //exit;
+        $x1 = $x + (cos(deg2rad(($productive_time-180)/2)) * 12);
+        $y1 = $y + (sin(deg2rad(($productive_time-180)/2)) * 12);
 
-        $x1 = $x + (cos(deg2rad((360-$productive_time)/2)) * 12);
-        $y1 = $y + (sin(deg2rad((360-$productive_time)/2)) * 12);
-
-        $this->writeTextBold($productive_time_percent.'%', $x1, $y1, 11.87);
+        $this->writeTextBold('.', $x1, $y1, 11.87);
         //var_dump($productive_time, $unproductive_time);
         //exit;
-        $x1 = $x + (cos(deg2rad(($productive_time-$unproductive_time)/2)) * 12);
-        $y1 = $y + (sin(deg2rad(($productive_time-$unproductive_time)/2)) * 12);
+        //$x1 = $x + (cos(deg2rad(($unproductive_time)/2)) * 12);
+        //$y1 = $y + (sin(deg2rad(($unproductive_time)/2)) * 12);
 
-        $this->writeTextBold($unproductive_time_percent.'%', $x1, $y1, 11.87);
+        //$this->writeTextBold('.', $x1, $y1, 11.87, [0,0,255]);
 
     }
     public function addOvertime($x, $y, $red, $green, $yellow, $time) {

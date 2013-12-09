@@ -101,7 +101,7 @@ class PDFController extends SiteBaseController {
         $pdf->addPage();//*/
         $pdf->writeTextBold('Иван Иванов', 3.5, 3.5, 21);
         $pdf->writeTextBold('100%', 184.1, 28.4, 10, array(255,255,255));
-        $pdf->addTimeDistribution(53.9, 89.7, 75, 12.5, 12.5);
+        $pdf->addTimeDistribution(53.9, 89.7, 30, 25, 45);
         $pdf->addOvertime(156.2, 90.7, 50, 25, 25, 120);
         /*$pdf->addPage();
         $pdf->addPage();
