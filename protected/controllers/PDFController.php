@@ -103,6 +103,16 @@ class PDFController extends SiteBaseController {
         $pdf->writeTextBold('100%', 184.1, 28.4, 10, array(255,255,255));
         $pdf->addTimeDistribution(53.9, 89.7, 30, 25, 45);
         $pdf->addOvertime(156.2, 90.7, 50, 25, 25, 120);
+
+        $pdf->writeTextBold('100%', 177, 175.84, 10, [255,255,255]);//Распеределение времени
+
+        $pdf->writeTextBold('87%', 82.1, 197.5, 16);//Продуктивное время
+
+
+        $pdf->writeTextBold('100%', 185, 197.5, 16);//Не продуктивное время
+
+        $pdf->addTimeBarProductive(33, 218, 30, 100);
+
         /*$pdf->addPage();
         $pdf->addPage();
         $pdf->addPage();

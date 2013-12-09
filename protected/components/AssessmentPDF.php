@@ -166,4 +166,11 @@ class AssessmentPDF {
         $this->writeTextRegular($time, $x, $y, 56.79, [255, 255, 255]);
     }
 
+    public function addTimeBarProductive($x, $y, $value, $max_value) {
+
+        //$width =
+        $this->pdf->RoundedRect($x, $y, '57', '6.7', $r = '1', '0011', 'F', '', array(255, 170, 96));
+
+    }
+
 }
