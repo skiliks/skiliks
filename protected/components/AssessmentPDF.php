@@ -63,7 +63,7 @@ class AssessmentPDF {
         $this->pdf->Rect($x+1.19, $y+1.5, $width, 4.1, 'F', '', array(210, 91, 47));
         $this->pdf->Image($this->images_dir.'Percentile.png', $x, $y, 23.96, 7.03);
 
-        $this->writeTextBold('P'.$value, $x+14.9, $y+2.16, 8.13, [255,255,255]);
+        $this->writeTextBold('P'.$value, $x+14.9, $y+2.16, 8.13);
     }
 
     public function addRatingOverall($x, $y, $value)
@@ -73,7 +73,7 @@ class AssessmentPDF {
         $this->pdf->Rect($x+0.9, $y+1.5, $width, 4.1, 'F', '', array(223, 146, 46));
         $this->pdf->Image($this->images_dir.'Stars.png', $x, $y, 23.96, 7.03);
 
-        $this->writeTextBold($value.'%', $x+28, $y+1.5, 10);
+        $this->writeTextBold($value.'%', $x+28, $y+1.5, 10, [255,255,255]);
     }
 
     public function addSpeedometer($x, $y, $value)
