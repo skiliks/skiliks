@@ -2,6 +2,12 @@
 
 class AssessmentPDF {
 
+    const ROUNDED_LEFT = '0011';
+    const ROUNDED_RIGHT = '1100';
+    const ROUNDED_BOTH = '1111';
+
+    const BAR_POSITIVE = 'positive';
+    const BAR_NEGATIVE = 'negative';
     /**
      * @var TCPDF
      */
@@ -200,6 +206,17 @@ class AssessmentPDF {
             $this->writeTextBold($value, $x, $y, 12, [255,255,255]);
         }
 
+    }
+
+    public function addUniversalBar($x, $y, $value, $max_width, $round_corner, $type) {
+        if($type === self::BAR_POSITIVE) {
+            $color = [61,102,113];
+        }else{
+            $color = [205,56,54];
+        }
+
+        $this->pdf->SetLineStyle(array('width' => 0.2, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(0, 0, 0)));
+        $this->pdf->RoundedRect($x, $y, $max_width, '5.17', $r = '1', $round_corner, 'FD', '', $color);
     }
 
 }

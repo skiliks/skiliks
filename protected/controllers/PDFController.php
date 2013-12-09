@@ -138,6 +138,7 @@ class PDFController extends SiteBaseController {
         $pdf->page_number = 3;
         $pdf->addPage();
         $pdf->writeTextBold($username, 3.5, 3.5, 21);
+        $pdf->addUniversalBar(83, 49, 45, 60, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);
         /*$pdf->addPage();
         $pdf->addPage();
         $pdf->addPage();
