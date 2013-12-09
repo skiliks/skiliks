@@ -736,17 +736,29 @@ class ProfileController extends SiteBaseController implements AccountPageControl
 
             if ($path1 == null && $path2 == null) {
                 Yii::app()->user->setFlash('error',
-                    'У вас нет пройденных симуляций, чтоб сгенерировать на их основе анатический файл.');
+                    'У вас нет пройденных симуляций, чтобы сгенерировать на их основе анатический файл');
                 $this->redirect('/dashboard');
             } else {
+
+                // формируем имя для файла-архива {
+                $latinCompanyName = StringTools::CyToEnWithUppercase($this->user->getAccount()->company_name);
+                $latinCompanyName = preg_replace("/[^a-zA-Z0-9]/", "", $latinCompanyName);
+
+                $zipFilename = 'analitics_' . date('dmy');
+                // формируем имя для файла-архива }
+
+                if ('' != $latinCompanyName) {
+                    $zipFilename = $latinCompanyName . '_' . $zipFilename;
+                }
+
                 if (null !== $path1) {
-                    // '/Analysis_file_v1.xlsx' - псевдоним, чтоб не палить структуру папок нашего сервера
-                    $zip->addFile($path1, '/Analysis_file_v1.xlsx');
+                    // задаём псевдоним, чтоб не палить структуру папок нашего сервера
+                    $zip->addFile($path1, '/' . $zipFilename . '_ver_2_1.xlsx');
                 }
 
                 if (null !== $path2) {
-                    // '/Analysis_file_v2.xlsx' - псевдоним, чтоб не палить структуру папок нашего сервера
-                    $zip->addFile($path2, '/Analysis_file_v2.xlsx');
+                    // задаём псевдоним, чтоб не палить структуру папок нашего сервера
+                    $zip->addFile($path2, '/' . $zipFilename . '_ver_2_2.xlsx');
                 }
 
                 if (null !== $path1 || null !== $path2) {
@@ -760,10 +772,9 @@ class ProfileController extends SiteBaseController implements AccountPageControl
                     $this->redirect('/dashboard');
                 }
 
-                $filename = 'Analysis_file.zip';
-
                 header('Content-Type: application/zip; charset=utf-8');
-                header('Content-Disposition: attachment; filename="' . $filename . '"');
+                header('Content-Disposition: attachment; filename="' . $zipFilename . '.zip"');
+
                 echo $zipFile;
             }
         }

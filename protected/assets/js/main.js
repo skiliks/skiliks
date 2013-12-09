@@ -917,23 +917,24 @@ var fixLogotypes = function() {
             });
         }
 
+        /**
+         * Ссылки "Результаты" (скачать аналитический файл) и "Инструкция по оценке"
+         */
         $('.link-to-loading').click(function(e) {
 
-            var url = $(this).attr('href');
-            var background = $(this).find('i').css('background-image');
+            e.preventDefault(e);
+
+            var link = $(this);
+            var url = link.attr('href');
 
             if ('#' == url) {
-                e.preventDefault(e);
                 return false;
             }
-            console.log('1');
+            link.attr('href', '#');
 
-            $(this).attr('href', '#');
-            $(this).find('i').addClass('icon-loading');
-
+            // на 30 секунд ссылка становится не рабочей
             setTimeout(function(){
-                $(this).attr('href', url);
-                $(this).find('i').removeClass('icon-loading');
+                link.attr('href', url);
             }, 30*1000);
 
             window.location.href = url;
