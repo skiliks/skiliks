@@ -314,6 +314,7 @@ class AssessmentPDF {
     }
 
     public function addUniversalBar($x, $y, $value, $max_width, $round_corner, $type) {
+        $value = (int)round($value);
         if($type === self::BAR_POSITIVE) {
             $color = [61,102,113];
         }else{
