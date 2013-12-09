@@ -1572,7 +1572,7 @@ class DebugController extends SiteBaseController
        /* @var $simulation Simulation */
         $simulation = Simulation::model()->findByPk(1);
        echo '<pre>';
-        $data = json_decode($simulation->getAssessmentDetails(),true)['performance'];
+        $data = json_decode($simulation->getAssessmentDetails(),true)['management'][1];
         var_dump($data);
         echo '</pre>';
     }
