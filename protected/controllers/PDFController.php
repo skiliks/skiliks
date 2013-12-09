@@ -133,18 +133,22 @@ class PDFController extends SiteBaseController {
 
         $pdf->addTimeBarUnproductive($y_positive, 249.5, 87, 100);//Почта
 
-        $pdf->addTimeBarUnproductive($y_positive, 260, 4, 100);//План*/
-
+        $pdf->addTimeBarUnproductive($y_positive, 260, 4, 100);//План
+*/
         $pdf->page_number = 3;
         $pdf->addPage();
         $pdf->writeTextBold($username, 3.5, 3.5, 21);
+        $pdf->writeTextBold('100%', 134, 27.8, 10, [255,255,255]);//Результативность
 
-        $pdf->addUniversalBar(77, 45.8, 56, 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);
-        $pdf->addUniversalBar(77, 56.3, 56, 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);
-        $pdf->addUniversalBar(77, 66.9, 56, 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);
-        $pdf->addUniversalBar(77, 77.5, 56, 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);
+        $pdf->addUniversalBar(77, 45.8, 23, 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);//Срочно
+        $pdf->addUniversalBar(77, 56.3, 98, 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);//Высокий приоритет
+        $pdf->addUniversalBar(77, 66.9, 43, 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);//Средний приоритет
+        $pdf->addUniversalBar(77, 77.5, 0, 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);//Двухминутные задачи
+
+
+        //$pdf->page_number = 4;
+        //$pdf->addPage();
         /*$pdf->addPage();
-        $pdf->addPage();
         $pdf->addPage();
         $pdf->addPage();*/
         $pdf->renderOnBrowser('Assessment_v2');

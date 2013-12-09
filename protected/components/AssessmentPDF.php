@@ -298,7 +298,9 @@ class AssessmentPDF {
         if((int)$value !== 100) {
             $round_corner = self::ROUNDED_LEFT;
         }
-        $this->pdf->RoundedRect($x, $y, $width, '6.6', $r = '1', $round_corner, 'FD', '', $color);
+        if((int)$value !== 0){
+            $this->pdf->RoundedRect($x, $y, $width, '6.6', $r = '1', $round_corner, 'FD', '', $color);
+        }
 
         $x+= ($width/2)-6;
         if($width >= 10) {
