@@ -134,8 +134,7 @@ class PDFController extends SiteBaseController {
         $pdf->addTimeBarUnproductive($y_positive, 249.5, 87, 100);//Почта
 
         $pdf->addTimeBarUnproductive($y_positive, 260, 4, 100);//План
-*/
-        $pdf->page_number = 3;
+
         $pdf->addPage();
         $pdf->writeTextBold($username, 3.5, 3.5, 21);
         $pdf->writeTextBold('100%', 134, 27.8, 10, [255,255,255]);//Результативность
@@ -145,9 +144,17 @@ class PDFController extends SiteBaseController {
         $pdf->addUniversalBar(77, 66.9, 43, 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);//Средний приоритет
         $pdf->addUniversalBar(77, 77.5, 0, 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);//Двухминутные задачи
 
+*/
+        $pdf->page_number = 4;
+        $pdf->addPage();
 
-        //$pdf->page_number = 4;
-        //$pdf->addPage();
+        $pdf->writeTextBold($username, 3.5, 3.5, 21);
+        $pdf->writeTextBold('100%', 149.3, 28.3, 10, [255,255,255]);//Управленческие навыки
+
+        $pdf->addUniversalBar(77.7, 48.9, 23, 128.7, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);//1
+        $pdf->addUniversalBar(77.7, 59.5, 98, 128.7, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);//2
+        $pdf->addUniversalBar(77.7, 70.1, 43, 128.7, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);//3
+
         /*$pdf->addPage();
         $pdf->addPage();
         $pdf->addPage();*/
