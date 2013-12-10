@@ -291,7 +291,7 @@ class AssessmentPDF {
     }
 
     public function addTimeBarUnproductive($x, $y, $value, $max_value) {
-        $value = round($value);
+        $value = (int)round($value);
         if((int)$max_value === 0) {
             $width = 0;
         }else{
@@ -302,7 +302,7 @@ class AssessmentPDF {
         }else{
             $round_corner = '0011';
         }
-        if($width!==0) {
+        if($width!==0 && $value !== 0) {
             $this->pdf->RoundedRect($x, $y, $width, '6.7', $r = '1', $round_corner, 'F', '', [205,56,54]);
         }
         $x+= ($width/2)-4;
