@@ -268,7 +268,7 @@ class AssessmentPDF {
     }
 
     public function addTimeBarProductive($x, $y, $value, $max_value) {
-        $value = round($value);
+        $value = (int)round($value);
         if((int)$max_value === 0) {
             $width = 0;
         }else{
