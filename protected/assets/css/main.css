@@ -1746,6 +1746,7 @@ tr.email-list-separator {
 }
 
 .debug-panel {
+    font-size: 12px;
     line-height: 14px;
     text-align: left;
 }
@@ -1821,3 +1822,4 @@ body.loading {
 #cs-button-function div {
     width: 25px;
 }
+
