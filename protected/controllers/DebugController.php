@@ -1569,13 +1569,12 @@ class DebugController extends SiteBaseController
     }
 
     public function actionTariff() {
-        //TariffPlan::model()->deleteAll();
-        $profile = YumProfile::model()->findByAttributes(['email'=>'bekunova@brokinvest.ru']);
-        /* @var $profile YumProfile */
-        $tariff = Tariff::model()->findByAttributes(['slug'=>Tariff::SLUG_STARTER]);
-        $tariff_pending = Tariff::model()->findByAttributes(['slug'=>Tariff::SLUG_LITE]);
-        $profile->user->account_corporate->setTariff($tariff, true);
-        //$profile->user->account_corporate->addPendingTariff($tariff_pending);
+       /* @var $simulation Simulation */
+        $simulation = Simulation::model()->findByPk(1);
+       echo '<pre>';
+        $data = json_decode($simulation->getAssessmentDetails(),true)['management'][1];
+        var_dump($data);
+        echo '</pre>';
     }
 }
 
