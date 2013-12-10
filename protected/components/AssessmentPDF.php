@@ -76,7 +76,8 @@ class AssessmentPDF {
 
         $this->pdf->Image($this->images_dir.'stars.png', $x, $y, 23.96, 7.03);
 
-        $this->writeTextBold($value.'%', $x+28, $y+1.5, 10, [255,255,255]);
+        //$this->writeTextBold($value.'%', $x+28, $y+1.5, 10, [255,255,255]);
+        $this->addPercentSmallInfo($value, $x+28, $y+1.5, [255,255,255]);
     }
 
     public function addSpeedometer($x, $y, $value)
@@ -132,15 +133,16 @@ class AssessmentPDF {
         $productive_time = 360*$productive_time_percent/100; // в градусах
         $unproductive_time = 360*$unproductive_time_percent/100; // в градусах
 
+
         $this->pdf->SetFillColor(202, 219, 220);
         $this->pdf->PieSector($x, $y, 24, 0, 360, 'F', false, 0);
 
 
         $this->pdf->SetFillColor(61, 106, 113);
-        $this->pdf->PieSector($x, $y, 24, 360-$productive_time, 360, 'F', false, 90);
+        $this->pdf->PieSector($x, $y, 24, 360-$productive_time, 360, 'FD', false, 90);
 
         $this->pdf->SetFillColor(205, 56, 54);
-        $this->pdf->PieSector($x, $y, 24, 360-$unproductive_time, 360, 'F', false, 90+360 - $productive_time);
+        $this->pdf->PieSector($x, $y, 24, 360-$unproductive_time, 360, 'FD', false, 90+360 - $productive_time);
 
         // расчёт положения цифр с процентами {
 
@@ -231,7 +233,7 @@ class AssessmentPDF {
 
         }elseif($time<= 30) {
             $this->pdf->SetFillColor(158, 200, 138);
-            $this->pdf->PieSector($x, $y, 24, 360-(30*360/120), 360, 'F', false, 90);
+            $this->pdf->PieSector($x, $y, 24, 360-($time*360/120), 360, 'F', false, 90);
         }elseif($time > 30 && $time <= 60) {
             $this->pdf->SetFillColor(158, 200, 138);
             $this->pdf->PieSector($x, $y, 24, 360-(30*360/120), 360, 'F', false, 90);
@@ -266,7 +268,7 @@ class AssessmentPDF {
     }
 
     public function addTimeBarProductive($x, $y, $value, $max_value) {
-        $value = round($value);
+        $value = (int)round($value);
         if((int)$max_value === 0) {
             $width = 0;
         }else{
@@ -277,7 +279,7 @@ class AssessmentPDF {
         }else{
             $round_corner = '0011';
         }
-        if($width!==0){
+        if($width!==0 && $value !== 0){
             $this->pdf->RoundedRect($x, $y, $width, '6.7', $r = '1', $round_corner, 'F', '', array(61, 102, 113));
         }
         $x+= ($width/2)-4;
@@ -289,7 +291,7 @@ class AssessmentPDF {
     }
 
     public function addTimeBarUnproductive($x, $y, $value, $max_value) {
-        $value = round($value);
+        $value = (int)round($value);
         if((int)$max_value === 0) {
             $width = 0;
         }else{
@@ -300,7 +302,7 @@ class AssessmentPDF {
         }else{
             $round_corner = '0011';
         }
-        if($width!==0) {
+        if($width!==0 && $value !== 0) {
             $this->pdf->RoundedRect($x, $y, $width, '6.7', $r = '1', $round_corner, 'F', '', [205,56,54]);
         }
         $x+= ($width/2)-4;
@@ -334,7 +336,14 @@ class AssessmentPDF {
             $this->pdf->RoundedRect($x, $y, $width, '6.6', $r = '1', $round_corner, 'FD', '', $color);
         }
 
-        $x+= ($width/2)-6;
+        $x+= ($width/2)-5.4;
+        if($type === self::BAR_NEGATIVE) {
+            if($value < 24){
+                $x+=1.4;
+            }else{
+                $x+=1.1;
+            }
+        }
         if($width >= 10) {
             $this->writeTextBold($value.'%', $x, $y+1, 12, [255,255,255]);
         }
@@ -373,6 +382,40 @@ class AssessmentPDF {
         } else {
             return 0;
         }
+    }
+
+    public function addPercentSmallInfo($percent, $x, $y, $color=[255,255,255]) {
+        $percent = (int)round($percent);
+        if($percent <= 9) {
+            $x+= 1.7;
+        } elseif($percent > 10 && $percent < 100) {
+            $x+= 0.9;
+        }
+        $this->writeTextBold($percent.'%', $x, $y, 10, $color);
+
+    }
+
+    public function addPercentMiddleInfo($percent, $x, $y, $color=[0,0,0]) {
+        $percent = (int)round($percent);
+        if($percent <= 9) {
+            $x+= 2.4;
+        } elseif($percent > 10 && $percent < 100) {
+            $x+= 1.2;
+        }
+        $this->writeTextBold($percent.'%', $x, $y, 16, $color);
+
+    }
+
+    public function addPercentBigInfo($percent, $x, $y, $color=[0,0,0]) {
+
+        $percent = (int)round($percent);
+        if($percent <= 9) {
+            $x+= 3;
+        } elseif($percent > 10 && $percent < 100) {
+            $x+= 1.2;
+        }
+        $this->writeTextBold($percent.'%', $x, $y, 18, $color);
+
     }
 
 }

@@ -23,10 +23,15 @@
                         <table cellpadding="0" cellspacing="0" width="545">
                             <tr>
                                 <td valign="top" bgcolor="fdfbc6">
-                                    <?= $name ?>!<br>
-                                    Служба безопасности skiliks заметила подозрительную активность с вашим аккаунтом <?= $email ?>. Кто-то, возможно вы, пытался подобрать пароль к аккаунту <?= $date ?>.<br>
-                                    Если это вы - перейдите по <a href="<?= MailHelper::createUrlWithHostname("profile/restore-authorization/").'?user_id='.$user_id.'&key='.$key.'&type='.YumUser::PASSWORD_BRUTEFORCE_IT_IS_ME ?>">ссылке</a><br>
-                                    Если это НЕ вы - перейдите по <a href="<?= MailHelper::createUrlWithHostname("profile/restore-authorization/").'?user_id='.$user_id.'&key='.$key.'&type='.YumUser::PASSWORD_BRUTEFORCE_IT_IS_NOT_ME ?>">ссылке</a><br>
+                                    <h1 style="color:#626250;font-family:Tahoma, Geneva, sans-serif;font-size:28px;margin:0 0 15px 0;padding:0;">
+                                        Приветствуем, <?=$name ?>!
+                                    </h1>
+
+                                    <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
+                                        Служба безопасности skiliks заметила подозрительную активность с вашим аккаунтом <?= $email ?>. Кто-то, возможно вы, пытался подобрать пароль к аккаунту <?= $date ?>.<br>
+                                        Если это вы - перейдите по <a href="<?= MailHelper::createUrlWithHostname("profile/restore-authorization/").'?user_id='.$user_id.'&key='.$key.'&type='.YumUser::PASSWORD_BRUTEFORCE_IT_IS_ME ?>">ссылке</a><br>
+                                        Если это НЕ вы - перейдите по <a href="<?= MailHelper::createUrlWithHostname("profile/restore-authorization/").'?user_id='.$user_id.'&key='.$key.'&type='.YumUser::PASSWORD_BRUTEFORCE_IT_IS_NOT_ME ?>">ссылке</a><br>
+                                    </p>
                                 </td>
                             </tr>
                         </table>
