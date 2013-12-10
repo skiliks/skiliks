@@ -10,10 +10,6 @@ class PDFController extends SiteBaseController {
             $this->redirect('/registration');
         }
 
-        if(false === $this->user->isCorporate()) {
-            $this->redirect('/dashboard');
-        }
-
         $sim_id = $this->getParam('sim_id');
         /* @var $simulation Simulation */
         $simulation = Simulation::model()->findByPk($sim_id);
