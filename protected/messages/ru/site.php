@@ -213,7 +213,7 @@ return array(
     'Oct' => "окт",
     'Nov' => "ноя",
     'Des' => "дек",
-
+    'Dec' => "дек",
     'Sign in' => 'Вход',
     'Forgot your password?' => 'Забыли пароль?',
     'Remember me' => 'Запомнить меня',

@@ -847,7 +847,15 @@ class UserService {
             if((int)$account->invites_limit > 0) {
                 $result['popup_class'] = 'tariff-replace-now-popup';
             }else{
-                $invites = (int)Invite::model()->count('tariff_plan_id = :tariff_plan_id and owner_id = :owner_id and (status = :pending or status = :accepted or status = :in_progress)',
+
+                $invites = (int)Invite::model()->count('tariff_plan_id = :tariff_plan_id and owner_id = :owner_id and owner_id = receiver_id and status = :in_progress',
+                    [
+                        'tariff_plan_id' => $active->id,
+                        'owner_id' => $account->user_id,
+                        'in_progress'=>Invite::STATUS_IN_PROGRESS
+                    ]
+                );
+                $invites += (int)Invite::model()->count('tariff_plan_id = :tariff_plan_id and owner_id = :owner_id and owner_id != receiver_id or receiver_id is null and (status = :pending or status = :accepted or status = :in_progress)',
                     [
                         'tariff_plan_id' => $active->id,
                         'owner_id' => $account->user_id,
