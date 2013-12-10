@@ -741,14 +741,21 @@ class ProfileController extends SiteBaseController implements AccountPageControl
             } else {
 
                 // формируем имя для файла-архива {
+                $latinCompanyOwnership = StringTools::CyToEnWithUppercase($this->user->getAccount()->ownership_type);
                 $latinCompanyName = StringTools::CyToEnWithUppercase($this->user->getAccount()->company_name);
+
+                $latinCompanyOwnership = preg_replace("/[^a-zA-Z0-9]/", "", $latinCompanyOwnership);
                 $latinCompanyName = preg_replace("/[^a-zA-Z0-9]/", "", $latinCompanyName);
 
                 $zipFilename = 'analitics_' . date('dmy');
                 // формируем имя для файла-архива }
 
+                // добавляем имя компании к имени файла спереди, но только если имя компании не пустое
                 if ('' != $latinCompanyName) {
                     $zipFilename = $latinCompanyName . '_' . $zipFilename;
+                }
+                if ('' != $latinCompanyOwnership) {
+                    $zipFilename = $latinCompanyOwnership . '_' . $zipFilename;
                 }
 
                 if (null !== $path1) {
