@@ -932,7 +932,7 @@ class UserService {
 
         $mails[] = [
             'from' => Yum::module('registration')->recoveryEmail,
-            'to' => 'support@skiliks.com,tetyana.grybok@skiliks.com',
+            'to' => 'support@skiliks.com',
             'subject' => 'Обнаружена попытка подобрать пароль', //Yii::t('site', 'You requested a new password'),
             'body' => $body,
             'embeddedImages' => [],
@@ -962,26 +962,26 @@ class UserService {
                 'subject' => 'Обнаружена попытка подобрать пароль', //Yii::t('site', 'You requested a new password'),
                 'body' => $body,
                 'embeddedImages' => [
-                    [
-                        'path'     => Yii::app()->basePath.'/assets/img/mailtopclean.png',
-                        'cid'      => 'mail-top-clean',
-                        'name'     => 'mailtopclean',
-                        'encoding' => 'base64',
-                        'type'     => 'image/png',
-                    ],[
-                        'path'     => Yii::app()->basePath.'/assets/img/mailchair.png',
-                        'cid'      => 'mail-chair',
-                        'name'     => 'mailchair',
-                        'encoding' => 'base64',
-                        'type'     => 'image/png',
-                    ],[
-                        'path'     => Yii::app()->basePath.'/assets/img/mail-bottom.png',
-                        'cid'      => 'mail-bottom',
-                        'name'     => 'mailbottom',
-                        'encoding' => 'base64',
-                        'type'     => 'image/png',
-                    ],
+                [
+                    'path'     => Yii::app()->basePath.'/assets/img/mailtopclean.png',
+                    'cid'      => 'mail-top-clean',
+                    'name'     => 'mailtopclean',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],[
+                    'path'     => Yii::app()->basePath.'/assets/img/mailchair.png',
+                    'cid'      => 'mail-chair',
+                    'name'     => 'mailchair',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],[
+                    'path'     => Yii::app()->basePath.'/assets/img/mail-bottom.png',
+                    'cid'      => 'mail-bottom',
+                    'name'     => 'mailbottom',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
                 ],
+            ],
             ];
         }
 
