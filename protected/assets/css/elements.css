@@ -615,7 +615,7 @@ a.registration_check {
     color:white;
 }
 #login-form.login-form .errorMessage#YumUserLogin_username_em_ {
-    bottom:29px;
+    bottom:31px;
     left:3px;
 }
 #login-form.login-form .errorMessage#YumUserLogin_password_em_ {

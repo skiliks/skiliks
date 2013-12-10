@@ -824,7 +824,7 @@ class UserService {
         $result = ['type' => 'popup'];
         if(null !== $pending) {
             $result['tariff_label'] = $pending->tariff->label;
-            $result['tariff_start'] = (new DateTime($pending->started_at))->modify('+30 days')->format("d.m.Y");
+            $result['tariff_start'] = StaticSiteTools::formattedDateTimeWithRussianMonth((new DateTime($pending->started_at))->modify('+30 days'));
             $result['popup_class'] = 'tariff-already-booked-popup';
             return $result;
         }
@@ -837,8 +837,9 @@ class UserService {
         $result['tariff_label'] = $tariff->label;
         $result['tariff_limits'] = $tariff->simulations_amount;
         $finish_at = $account->getActiveTariffPlan()->finished_at;
-        $result['tariff_start'] = (new DateTime($finish_at))->modify('+30 days')->format("d.m.Y");
-        $result['tariff_end'] = (new DateTime($result['tariff_start']))->modify('+30 days')->format("d.m.Y");
+        $result['tariff_start'] = StaticSiteTools::formattedDateTimeWithRussianMonth((new DateTime($finish_at))->modify('+30 days'));
+        $start_time = (new DateTime($finish_at))->modify('+30 days')->format("Y-m-d H:i:s");
+        $result['tariff_end'] = StaticSiteTools::formattedDateTimeWithRussianMonth((new DateTime($start_time))->modify('+30 days'));
 
         if((int)$active->tariff->weight === (int)$tariff->weight) {
             $result['popup_class'] = 'extend-tariff-popup';
@@ -932,8 +933,8 @@ class UserService {
 
         $mails[] = [
             'from' => Yum::module('registration')->recoveryEmail,
-            'to' => 'support@skiliks.com,tetyana.grybok@skiliks.com',
-            'subject' => 'Обнаружена попытка подобрать пароль', //Yii::t('site', 'You requested a new password'),
+            'to' => 'support@skiliks.com',
+            'subject' => 'Обнаружена попытка подобрать пароль на '.Yii::app()->params['server_name'], //Yii::t('site', 'You requested a new password'),
             'body' => $body,
             'embeddedImages' => [],
         ];
@@ -962,26 +963,26 @@ class UserService {
                 'subject' => 'Обнаружена попытка подобрать пароль', //Yii::t('site', 'You requested a new password'),
                 'body' => $body,
                 'embeddedImages' => [
-                    [
-                        'path'     => Yii::app()->basePath.'/assets/img/mailtopclean.png',
-                        'cid'      => 'mail-top-clean',
-                        'name'     => 'mailtopclean',
-                        'encoding' => 'base64',
-                        'type'     => 'image/png',
-                    ],[
-                        'path'     => Yii::app()->basePath.'/assets/img/mailchair.png',
-                        'cid'      => 'mail-chair',
-                        'name'     => 'mailchair',
-                        'encoding' => 'base64',
-                        'type'     => 'image/png',
-                    ],[
-                        'path'     => Yii::app()->basePath.'/assets/img/mail-bottom.png',
-                        'cid'      => 'mail-bottom',
-                        'name'     => 'mailbottom',
-                        'encoding' => 'base64',
-                        'type'     => 'image/png',
-                    ],
+                [
+                    'path'     => Yii::app()->basePath.'/assets/img/mailtopclean.png',
+                    'cid'      => 'mail-top-clean',
+                    'name'     => 'mailtopclean',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],[
+                    'path'     => Yii::app()->basePath.'/assets/img/mailchair.png',
+                    'cid'      => 'mail-chair',
+                    'name'     => 'mailchair',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],[
+                    'path'     => Yii::app()->basePath.'/assets/img/mail-bottom.png',
+                    'cid'      => 'mail-bottom',
+                    'name'     => 'mailbottom',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
                 ],
+            ],
             ];
         }
 

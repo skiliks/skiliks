@@ -93,7 +93,7 @@ return CMap::mergeArray(
         // using Yii::app()->params['paramName']
         'params' => array(
             // имя сервера, стоб понимать с какого сервера пришли письма про подозрительную активность
-            'server_name'                   => 'не указан',
+            'server_name'                   => 'http://skiliks.com',
 
             // просто подпись на сайте, вынесена в конфиг - чтоб было проще править
             'demoDuration'                  => 5, // min
