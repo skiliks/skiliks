@@ -59,7 +59,7 @@ class YumUserLogin extends YumFormModel {
             $this->user = YumUser::model()->findByPK($this->profile->user_id);
             if(null !== $this->user) {
                 if($this->user->is_password_bruteforce_detected === YumUser::IS_PASSWORD_BRUTEFORCE_DETECTED){
-                    $this->addError('username', Yum::t('неправильный логин или пароль'));
+                    $this->addError('username', Yum::t('Неправильный логин или пароль'));
                     return false;
                 }
                 if(YumEncrypt::encrypt($this->password, $this->user->salt) === $this->user->password){
