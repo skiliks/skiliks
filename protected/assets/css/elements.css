@@ -979,53 +979,102 @@ a.registration_check {
     color:white;
     font:bold 14px/18px "ProximaNova-Regular";
 }
-/* Bad browser */
+/* System mismatch */
 .browsers{
     text-align:center;
     color:white;
 }
+.browsers .browser {
+    width: 210px;
+}
 .browsers h2 {
-    font:normal 44px/60px ProximaNova-Bold;
-    margin:10px 0 0;
+    font:normal 36px/42px ProximaNova-Bold;
+    margin:10px 0 30px 0;
+}
+.browsers span {
+    font-size: 16px;
+    line-height: 19px;
+}
+.browsers strong {
+    font-size: 24px;
+    line-height: 19px;
+}
+.browsers .or {
+    position: relative;
+    top: -75px;
 }
 .browsers span {
     font:20px ProximaNova-Regular;
     display:inline-block;
-    zoom:1;
-    *display:inline;
-    vertical-align: middle;
+    margin-bottom: 46px;
 }
-.browsers .chrome,
-.browsers .firefox {
-    font: normal 30px ProximaNova-Regular;
-    padding:30px 40px 0;
+.browsers label {
+    font: bold 19px ProximaNova-Regular;
+    padding:30px  0 0 0;
 }
 .browsers .ico {
-    background:url("../img/browsers.png") no-repeat -100% -100%;
-    margin:20px auto 0;
-    width:130px;
-    height:130px;
+    background-size: 100% 100%;
+    margin: 20px auto 0;
+    width:  86px;
+    height: 86px;
 }
 .browsers .chrome .ico {
-    background-position:0 -40px;
+    background-image:url('../img/browsers/chrome.png');
 }
 .browsers .firefox .ico {
-    background-position:100% -40px;
+    background-image:url('../img/browsers/firefox.png');
+}
+.browsers .internet-explorer .ico {
+    background-image:url('../img/browsers/ie.png');
 }
 .browsers a {
-    background:url(../img/browsers.png) #146672 no-repeat 0 0;
-    font:normal 14px/30px ProximaNova-Bold;
-    border-radius:3px;
-    text-decoration:none;
-    display:inline-block;
-    zoom:1;
-    *display:inline;
-    padding:0 10px 0 20px;
-    color:white;
+    margin-top: 17px;
 }
-.browsers a:hover {
-    background-color: #bd2929;
+
+@media screen and (max-width: 1146px) {
+    .browsers {
+        width: 800px;
+        margin: 0 auto;
+    }
+    .system-mismatch-popup .browsers {
+        width: 700px;
+    }
+    .browsers .browser {
+        width: 170px;
+    }
+    .browsers h2 {
+        font:normal 29px/34px ProximaNova-Bold;
+        margin:8px 0 24px 0;
+    }
+    .browsers span {
+        font-size: 11px;
+        line-height: 16px;
+    }
+    .browsers strong {
+        font-size: 21px;
+        line-height: 16px;
+    }
+    .browsers .or {
+        top: -60px;
+    }
+    .browsers span {
+        font-size: 16px;
+        margin-bottom: 37px;
+    }
+    .browsers label {
+        font-size: 16px;
+        padding: 24px  0 0 0;
+    }
+    .browsers .ico {
+        margin: 16px auto 0;
+        width:  69px;
+        height: 69px;
+    }
+    .browsers a {
+        margin-top: 14px;
+    }
 }
+
 /* universal */
 .blackout {
     position: fixed;
@@ -1057,4 +1106,10 @@ a.registration_check {
 .form-with-red-errors .sbHolder_error,
 .form-with-red-errors input.error {
     border: 2px solid #bd2929 !important;
+}
+
+.system-mismatch-popup .browsers h2,
+.system-mismatch-popup .browsers span,
+.system-mismatch-popup .browsers strong {
+    color: #3d4041;
 }

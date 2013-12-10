@@ -49,7 +49,7 @@ return [
 
                 'logout'                  => 'static/userAuth/logout',
 
-                'system-mismatch' => 'static/pages/oldBrowser',
+                'system-mismatch' => 'static/pages/systemMismatch',
 
                 'profile/without-account' => 'static/site/runSimulationOrChooseAccount',
 
