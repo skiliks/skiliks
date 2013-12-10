@@ -24,7 +24,7 @@ class PDFController extends SiteBaseController {
             $data = json_decode($simulation->getAssessmentDetails(), true);
 
             $pdf = new AssessmentPDF();
-            $username = $this->user->profile->firstname.' '.$this->user->profile->lastname;
+            $username = $simulation->user->profile->firstname.' '.$simulation->user->profile->lastname;
             $pdf->addPage();
             $pdf->writeTextBold($username, 3.5, 3.5, 21);
             $pdf->addRatingPercentile(92.4, 37.6, $data['percentile']['total']);
@@ -147,7 +147,14 @@ class PDFController extends SiteBaseController {
             $pdf->addUniversalBar(152, 81.2, $data['management'][3]['3_3']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//3.3 negative
             $pdf->addUniversalBar(152, 91.8, $data['management'][3]['3_4']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//3.4 negative
 
-            $pdf->renderOnBrowser('Assessment_v2');
+
+            $first_name = StringTools::CyToEnWithUppercase($simulation->user->profile->firstname);
+            $last_name = StringTools::CyToEnWithUppercase($simulation->user->profile->lastname);
+            $company_name = "";
+            if($simulation->invite->owner_id === $simulation->invite->receiver_id) {
+                $company_name = "_".StringTools::CyToEnWithUppercase($simulation->user->account_corporate->company_name);
+            }
+            $pdf->renderOnBrowser($first_name.'_'.$last_name.$company_name.'_ver_2 '.date('dmy'));
         } else {
             $this->redirect('/dashboard');
         }
