@@ -105,7 +105,7 @@ class PDFController extends SiteBaseController {
             $pdf->writeTextBold($username, 3.5, 3.5, 21);
             //$pdf->writeTextBold('100%', 149.9, 28.2, 10, [255,255,255]);//1
             //$pdf->writeTextBold(round($data['management'][1]['total']).'%', 3.4, 36.8, 18);
-            $pdf->addPercentBigInfo(/*$data['management'][1]['total']*/39, 3.4, 36.8);
+            $pdf->addPercentBigInfo($data['management'][1]['total'], 3.4, 36.8);
 
             $pdf->addUniversalBar(77, 60, $data['management'][1]['1_1']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//1.1 positive
             $pdf->addUniversalBar(77, 70.6, $data['management'][1]['1_2']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//1.2 positive
