@@ -30,7 +30,7 @@
     <?php endif ?>
 
     <h4>Перейти к пользователю по его email:</h4>
-    <form metho="POST" action="admin_area/user/by-email">
+    <form metho="POST" action="/admin_area/user/by-email">
         <input name="email" /> <input class="btn" type='submit' value="Найти!">
     </form>
 

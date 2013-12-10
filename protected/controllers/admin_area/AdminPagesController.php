@@ -1420,6 +1420,7 @@ class AdminPagesController extends SiteBaseController {
 
     public function actionUserDetailsByEmail() {
         $email = Yii::app()->request->getParam('email');
+        $email = trim($email);
         $profile = YumProfile::model()->findByAttributes(['email' => urldecode($email)]);
 
         if (null === $profile) {
