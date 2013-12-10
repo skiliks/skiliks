@@ -824,7 +824,7 @@ class UserService {
         $result = ['type' => 'popup'];
         if(null !== $pending) {
             $result['tariff_label'] = $pending->tariff->label;
-            $result['tariff_start'] = (new DateTime($pending->started_at))->modify('+30 days')->format("d.m.Y");
+            $result['tariff_start'] = StaticSiteTools::formattedDateTimeWithRussianMonth((new DateTime($pending->started_at))->modify('+30 days'));
             $result['popup_class'] = 'tariff-already-booked-popup';
             return $result;
         }
@@ -837,8 +837,9 @@ class UserService {
         $result['tariff_label'] = $tariff->label;
         $result['tariff_limits'] = $tariff->simulations_amount;
         $finish_at = $account->getActiveTariffPlan()->finished_at;
-        $result['tariff_start'] = (new DateTime($finish_at))->modify('+30 days')->format("d.m.Y");
-        $result['tariff_end'] = (new DateTime($result['tariff_start']))->modify('+30 days')->format("d.m.Y");
+        $result['tariff_start'] = StaticSiteTools::formattedDateTimeWithRussianMonth((new DateTime($finish_at))->modify('+30 days'));
+        $start_time = (new DateTime($finish_at))->modify('+30 days')->format("Y-m-d H:i:s");
+        $result['tariff_end'] = StaticSiteTools::formattedDateTimeWithRussianMonth((new DateTime($start_time))->modify('+30 days'));
 
         if((int)$active->tariff->weight === (int)$tariff->weight) {
             $result['popup_class'] = 'extend-tariff-popup';
