@@ -76,7 +76,8 @@ class AssessmentPDF {
 
         $this->pdf->Image($this->images_dir.'stars.png', $x, $y, 23.96, 7.03);
 
-        $this->writeTextBold($value.'%', $x+28, $y+1.5, 10, [255,255,255]);
+        //$this->writeTextBold($value.'%', $x+28, $y+1.5, 10, [255,255,255]);
+        $this->addPercentSmallInfo($value, $x+28, $y+1.5, [255,255,255]);
     }
 
     public function addSpeedometer($x, $y, $value)
@@ -373,6 +374,40 @@ class AssessmentPDF {
         } else {
             return 0;
         }
+    }
+
+    public function addPercentSmallInfo($percent, $x, $y, $color=[255,255,255]) {
+        $percent = (int)round($percent);
+        if($percent <= 9) {
+            $x+= 1.7;
+        } elseif($percent > 10 && $percent < 100) {
+            $x+= 0.9;
+        }
+        $this->writeTextBold($percent.'%', $x, $y, 10, $color);
+
+    }
+
+    public function addPercentMiddleInfo($percent, $x, $y, $color=[0,0,0]) {
+        $percent = (int)round($percent);
+        if($percent <= 9) {
+            $x+= 2.4;
+        } elseif($percent > 10 && $percent < 100) {
+            $x+= 1.2;
+        }
+        $this->writeTextBold($percent.'%', $x, $y, 16, $color);
+
+    }
+
+    public function addPercentBigInfo($percent, $x, $y, $color=[0,0,0]) {
+
+        $percent = (int)round($percent);
+        if($percent <= 9) {
+            $x+= 3;
+        } elseif($percent > 10 && $percent < 100) {
+            $x+= 1.2;
+        }
+        $this->writeTextBold($percent.'%', $x, $y, 18, $color);
+
     }
 
 }
