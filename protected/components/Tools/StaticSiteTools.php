@@ -432,4 +432,11 @@ class StaticSiteTools
 
         return $user_base64 . "_" . $time . "_" . $sign;
     }
+
+    public static function formattedDateTimeWithRussianMonth(\DateTime $datetime) {
+        $year = $datetime->format("Y");
+        $day = $datetime->format("d");
+        $month = Yii::t('site', $datetime->format("M"));
+        return $day.' '.$month.' '.$year;
+    }
 }
