@@ -84,6 +84,7 @@ body.inner-registration,
 body.action-error404,
 body.action-badBrowser,
 body.action-oldBrowser,
+body.action-watchVideo,
 body.controller-static-help {
     background-image: url("../img/bg-top-inner.jpg"), url("../img/background.jpg");
     background-repeat: no-repeat, repeat-y;
