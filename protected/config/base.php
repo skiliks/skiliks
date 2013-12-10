@@ -215,9 +215,6 @@ return CMap::mergeArray(
 
             // This part will be sent to JS
             'public' => [
-
-                'isSkipOsCheck'=>false, //Проверка ОС перед стартом игры
-
                 'runMigrationOn'                     => 'nobody', //production - skiliks.com, live - live.skiliks.com, loc - loc.skiliks.com
 
                 // Позволено ли игроку пропустить интро видео
@@ -246,6 +243,10 @@ return CMap::mergeArray(
                 'useSentryForJsLog'                  => false,
 
                 'isSkipBrowserCheck'                 => false,
+
+                'isSkipSpeedTest'                    => false,
+
+                'isSkipOsCheck'                      => false, //Проверка ОС перед стартом игры
 
                 // позволяет отобразить это JS только на продакшене
                 'isIncludeGoogleAnalyticsJavaScript' => false,

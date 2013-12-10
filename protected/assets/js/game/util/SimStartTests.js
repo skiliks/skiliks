@@ -58,6 +58,10 @@ try {
                     return true;
                 }
 
+                if (cfg.isSkipSpeedTest) {
+                    return true;
+                }
+
                 $.ajax({
                     url: '/index.php/logService/addInviteLog',
                     data: {
