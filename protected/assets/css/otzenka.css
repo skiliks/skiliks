@@ -761,6 +761,7 @@
     padding: 0px 10px 0px 10px;
     position: absolute;
     width: 960px;
+    text-align: center;
 }
 .estmfooter .prev {
     float: left;
@@ -783,7 +784,7 @@
 .estmfooter .prev, .estmfooter .fullreport, .estmfooter .next {
     background: #66a3ab;
 }
-.estmfooter .prev:hover, .estmfooter .fullreport, .estmfooter .next:hover {
+.estmfooter .prev:hover, .estmfooter .fullreport:hover, .estmfooter .next:hover {
     background: #146672;
 }
 .feedbackwrap .ui-dialog-titlebar-close {
