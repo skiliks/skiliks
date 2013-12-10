@@ -71,7 +71,7 @@ try {
                     async: false
                 });
 
-                if(processorTestResult.average > 0) {
+                if(processorTestResult.average > 1) {
                     updateImageLoaderBar('Проверка текущего быстродействия... OK!', 0.90, true);
                     return true;
                 }
