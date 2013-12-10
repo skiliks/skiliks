@@ -2854,7 +2854,7 @@ h2 {
     font-family: "ProximaNova-Regular" !important;
     padding: 0 0 10px 6px;
     text-decoration: none;
-    z-index: 10000;
+    z-index: 2020;
     /*width: 150px;*/
 }
 .action-controller-corporate-static-dashboard .invites-smallmenu-item .edit-invite {

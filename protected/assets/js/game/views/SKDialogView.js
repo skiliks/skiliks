@@ -119,6 +119,11 @@ define([
                 });
                 me.$el.topZIndex();
 
+                $('#messageSystemMessageDiv').css('z-index', 10000);
+                me.$el.css('z-index', 10001);
+
+                console.log('z-index 1: ', me.$el.css('z-index'));
+
                 if ($('.windows-container').length) {
                     $('.windows-container').prepend(this.$el);
                 } else {
