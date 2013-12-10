@@ -151,7 +151,7 @@ class PDFController extends SiteBaseController {
             $first_name = StringTools::CyToEnWithUppercase($simulation->user->profile->firstname);
             $last_name = StringTools::CyToEnWithUppercase($simulation->user->profile->lastname);
             $vacancy_name = "";
-            if($simulation->invite->owner_id === $simulation->invite->receiver_id) {
+            if($simulation->invite->owner_id !== $simulation->invite->receiver_id) {
                 $vacancy_name = "_".StringTools::CyToEnWithUppercase($simulation->invite->vacancy->label);
             }
             $pdf->renderOnBrowser($first_name.'_'.$last_name.$vacancy_name.'_ver_2 '.date('dmy'));
