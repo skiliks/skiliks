@@ -63,8 +63,6 @@
         var supportedOs = ['Windows', 'MacOS'];
         var unsupportedOs = ['iPhone', 'iPad', 'iPod'];
 
-        alert(navigator.appVersion);
-
         if (navigator.appVersion.indexOf("Win")    != -1 ) { os_name = "Windows"; }
         if (navigator.appVersion.indexOf("Mac")    != -1 ) { os_name = "MacOS";   }
         if (navigator.appVersion.indexOf("iPhone") != -1 ) { os_name = "iPhoneS"; }
