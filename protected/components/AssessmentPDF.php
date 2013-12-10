@@ -133,15 +133,16 @@ class AssessmentPDF {
         $productive_time = 360*$productive_time_percent/100; // в градусах
         $unproductive_time = 360*$unproductive_time_percent/100; // в градусах
 
+
         $this->pdf->SetFillColor(202, 219, 220);
         $this->pdf->PieSector($x, $y, 24, 0, 360, 'F', false, 0);
 
 
         $this->pdf->SetFillColor(61, 106, 113);
-        $this->pdf->PieSector($x, $y, 24, 360-$productive_time, 360, 'F', false, 90);
+        $this->pdf->PieSector($x, $y, 24, 360-$productive_time, 360, 'FD', false, 90);
 
         $this->pdf->SetFillColor(205, 56, 54);
-        $this->pdf->PieSector($x, $y, 24, 360-$unproductive_time, 360, 'F', false, 90+360 - $productive_time);
+        $this->pdf->PieSector($x, $y, 24, 360-$unproductive_time, 360, 'FD', false, 90+360 - $productive_time);
 
         // расчёт положения цифр с процентами {
 
@@ -232,7 +233,7 @@ class AssessmentPDF {
 
         }elseif($time<= 30) {
             $this->pdf->SetFillColor(158, 200, 138);
-            $this->pdf->PieSector($x, $y, 24, 360-(30*360/120), 360, 'F', false, 90);
+            $this->pdf->PieSector($x, $y, 24, 360-($time*360/120), 360, 'F', false, 90);
         }elseif($time > 30 && $time <= 60) {
             $this->pdf->SetFillColor(158, 200, 138);
             $this->pdf->PieSector($x, $y, 24, 360-(30*360/120), 360, 'F', false, 90);
@@ -278,7 +279,7 @@ class AssessmentPDF {
         }else{
             $round_corner = '0011';
         }
-        if($width!==0){
+        if($width!==0 && $value !== 0){
             $this->pdf->RoundedRect($x, $y, $width, '6.7', $r = '1', $round_corner, 'F', '', array(61, 102, 113));
         }
         $x+= ($width/2)-4;
