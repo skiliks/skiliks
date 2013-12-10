@@ -61,17 +61,27 @@
         var os_name ="Unknown OS";
         var isUnsupportedOs = true;
         var supportedOs = ['Windows', 'MacOS'];
+        var unsupportedOs = ['iPhone', 'iPad', 'iPod'];
 
         alert(navigator.appVersion);
 
-        if (navigator.appVersion.indexOf("Win")   != -1 ) { os_name = "Windows"; }
-        if (navigator.appVersion.indexOf("Mac")   != -1 ) { os_name = "MacOS";   }
-        if (navigator.appVersion.indexOf("X11")   != -1 ) { os_name = "UNIX";    }
-        if (navigator.appVersion.indexOf("Linux") != -1 ) { os_name = "Linux";   }
+        if (navigator.appVersion.indexOf("Win")    != -1 ) { os_name = "Windows"; }
+        if (navigator.appVersion.indexOf("Mac")    != -1 ) { os_name = "MacOS";   }
+        if (navigator.appVersion.indexOf("iPhone") != -1 ) { os_name = "iPhoneS"; }
+        if (navigator.appVersion.indexOf("iPad")   != -1 ) { os_name = "iPad";    }
+        if (navigator.appVersion.indexOf("iPod")   != -1 ) { os_name = "iPod";    }
+        if (navigator.appVersion.indexOf("X11")    != -1 ) { os_name = "UNIX";    }
+        if (navigator.appVersion.indexOf("Linux")  != -1 ) { os_name = "Linux";   }
 
         $.each(supportedOs, function(i, current_os_name) {
             if(current_os_name === os_name){
                 isUnsupportedOs = false;
+            }
+        });
+
+        $.each(unsupportedOs, function(i, current_os_name) {
+            if(current_os_name === os_name){
+                isUnsupportedOs = true;
             }
         });
 
