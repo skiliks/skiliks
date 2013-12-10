@@ -32,7 +32,11 @@ class AssessmentPDF {
 
     public function addPage() {
         $this->pdf->AddPage();
-        $this->pdf->ImageEps($this->images_dir.$this->page_number++.'_.eps', 0, 0, 210, 297);
+
+        // "297.2" вместо "297", чтобы квадраты номеров страниц внизу соприкасались с краем страницы
+        // видимо, из-за какой-то ошибки рендера, картинка высотой 297 чуть короче страницы высотой 297
+        // и под номером страницы видна белая полоса 0,2 мм
+        $this->pdf->ImageEps($this->images_dir.$this->page_number++.'_.eps', 0, 0, 210, 297.2);
     }
 
     public function renderOnBrowser($name) {
@@ -60,8 +64,11 @@ class AssessmentPDF {
         $max_width = 13.1;
         $width = $max_width*round($value)/100;
 
-        $this->pdf->Rect($x+1.12, $y+1.5, 14, 4.1, 'F', '', array(89, 89, 91));
-        $this->pdf->Rect($x+1.19, $y+1.5, $width, 4.1, 'F', '', array(210, 91, 47));
+        // серый фон
+        $this->pdf->Rect($x+1.12, $y+1.5, 14, 4.1, 'F', '', array(89, 89, 89));
+
+        // ораневая полоса прогресса
+        $this->pdf->Rect($x+1.19, $y+1.5, $width, 4.1, 'F', '', array(240, 87, 41));
         $this->pdf->Image($this->images_dir.'percentile.png', $x, $y, 23.96, 7.03);
 
         $this->writeTextBold('P'.$value, $x+14.9, $y+2.16, 8.13);
@@ -72,7 +79,7 @@ class AssessmentPDF {
         $value = round($value);
         $max_width = 22.2;
         $width = $max_width*$value/100;
-        $this->pdf->Rect($x+0.9, $y+1, $width, 4.5, 'F', '', array(223, 146, 46));
+        $this->pdf->Rect($x+0.9, $y+1, $width, 4.5, 'F', '', array(245, 144, 29));
 
         $this->pdf->Image($this->images_dir.'stars.png', $x, $y, 23.96, 7.03);
 
@@ -133,15 +140,16 @@ class AssessmentPDF {
         $productive_time = 360*$productive_time_percent/100; // в градусах
         $unproductive_time = 360*$unproductive_time_percent/100; // в градусах
 
-
-        $this->pdf->SetFillColor(202, 219, 220);
+        // непродуктивное время
+        $this->pdf->SetFillColor(194, 219, 221);
         $this->pdf->PieSector($x, $y, 24, 0, 360, 'F', false, 0);
 
-
-        $this->pdf->SetFillColor(61, 106, 113);
+        // важные задачи
+        $this->pdf->SetFillColor(62, 130, 138);
         $this->pdf->PieSector($x, $y, 24, 360-$productive_time, 360, 'FD', false, 90);
 
-        $this->pdf->SetFillColor(205, 56, 54);
+        // неважные задачи
+        $this->pdf->SetFillColor(235, 49, 49);
         $this->pdf->PieSector($x, $y, 24, 360-$unproductive_time, 360, 'FD', false, 90+360 - $productive_time);
 
         // расчёт положения цифр с процентами {
@@ -227,38 +235,54 @@ class AssessmentPDF {
         ];
     }
 
+    /**
+     * @param float $x, мм
+     * @param float $y, мм
+     * @param float $time, секунды
+     */
     public function addOvertime($x, $y, $time) {
         $time = (int)round($time);
         if($time === 0) {
 
         }elseif($time<= 30) {
-            $this->pdf->SetFillColor(158, 200, 138);
+            // зелёная шкала
+            $this->pdf->SetFillColor(136, 200, 134);
             $this->pdf->PieSector($x, $y, 24, 360-($time*360/120), 360, 'F', false, 90);
         }elseif($time > 30 && $time <= 60) {
-            $this->pdf->SetFillColor(158, 200, 138);
+            // зелёная шкала
+            $this->pdf->SetFillColor(136, 200, 134);
             $this->pdf->PieSector($x, $y, 24, 360-(30*360/120), 360, 'F', false, 90);
 
-            $this->pdf->SetFillColor(248, 243, 159);
+            // желтая шкала
+            $this->pdf->SetFillColor(246, 242, 155);
             $this->pdf->PieSector($x, $y, 24, 360-(($time-30)*360/120), 360, 'F', false, 0);
         }else{
-
-            $this->pdf->SetFillColor(158, 200, 138);
+            // зелёная шкала
+            $this->pdf->SetFillColor(136, 200, 134);
             $this->pdf->PieSector($x, $y, 24, 360-(30*360/120), 360, 'F', false, 90);
 
-            $this->pdf->SetFillColor(248, 243, 159);
+            // желтая шкала
+            $this->pdf->SetFillColor(246, 242, 155);
             $this->pdf->PieSector($x, $y, 24, 360-(($time-30)*360/120), 360, 'F', false, 0);
 
-            $this->pdf->SetFillColor(205, 56, 54);
+            // красная шкала
+            $this->pdf->SetFillColor(236, 48, 48);
             $this->pdf->PieSector($x, $y, 24, 360-(($time-60)*360/120), 360, 'F', false, -90);
         }
 
         $this->pdf->SetFillColor(100, 101, 103);
         $this->pdf->PieSector($x, $y, 18.15, 0, 360, 'F', false, 0);
-        if($time < 10) {
+        if ($time < 10) {
             $x-=7.7;
             $y-=12;
-        }elseif($time >= 10 && $time < 100) {
+        } elseif ($time >= 10 && $time < 100) {
             $x-=12.5;
+            $y-=12;
+        } elseif ($time >= 100 && $time < 110) {
+            $x-=16.5;
+            $y-=12;
+        } elseif ($time >= 110 && $time < 120) {
+            $x-=14.5; // единица - узкая цифра. И "112" получается уже чем "102" или "120"
             $y-=12;
         } else {
             $x-=16.5;
@@ -267,29 +291,41 @@ class AssessmentPDF {
         $this->writeTextRegular($time, $x, $y, 56.79, [255, 255, 255]);
     }
 
+    /**
+     * @param float $x, мм
+     * @param float $y, мм
+     * @param int $value, минуты
+     * @param int $max_value, минуты
+     */
     public function addTimeBarProductive($x, $y, $value, $max_value) {
         $value = (int)round($value);
-        if((int)$max_value === 0) {
+        if ((int)$max_value === 0) {
             $width = 0;
-        }else{
+        } else {
             $width = 57 * ($value/$max_value);
         }
         if((int)$value === 100) {
             $round_corner = '1111';
-        }else{
+        } else {
             $round_corner = '0011';
         }
         if($width!==0 && $value !== 0){
-            $this->pdf->RoundedRect($x, $y, $width, '6.7', $r = '1', $round_corner, 'F', '', array(61, 102, 113));
+            $this->pdf->RoundedRect($x, $y, $width, '6.7', $r = '1', $round_corner, 'F', '', array(62, 130, 138));
         }
         $x+= ($width/2)-4;
         $y+=1;
-        if($x >= 34.8) {
+        if ($x >= 34.8) {
             $this->writeTextBold($value, $x, $y, 12, [255,255,255]);
         }
 
     }
 
+    /**
+     * @param float $x, мм
+     * @param float $y, мм
+     * @param int $value, минуты
+     * @param int $max_value, минуты
+     */
     public function addTimeBarUnproductive($x, $y, $value, $max_value) {
         $value = (int)round($value);
         if((int)$max_value === 0) {
@@ -303,7 +339,7 @@ class AssessmentPDF {
             $round_corner = '0011';
         }
         if($width!==0 && $value !== 0) {
-            $this->pdf->RoundedRect($x, $y, $width, '6.7', $r = '1', $round_corner, 'F', '', [205,56,54]);
+            $this->pdf->RoundedRect($x, $y, $width, '6.7', $r = '1', $round_corner, 'F', '', [235, 49, 49]);
         }
         $x+= ($width/2)-4;
         $y+=1;
@@ -315,12 +351,20 @@ class AssessmentPDF {
 
     }
 
+    /**
+     * @param float $x, мм
+     * @param float $y, мм
+     * @param float $value, проценты
+     * @param $max_width, мм
+     * @param string $round_corner, парамент TCPDF отвечающий за скругление углов
+     * @param string $type, позитивная/негативная шкала
+     */
     public function addUniversalBar($x, $y, $value, $max_width, $round_corner, $type) {
         $value = (int)round($value);
         if($type === self::BAR_POSITIVE) {
-            $color = [61,102,113];
+            $color = [62, 130, 138];
         }else{
-            $color = [205,56,54];
+            $color = [235, 49, 49];
         }
         $width = $max_width * $value/100;
         $this->pdf->SetLineStyle(array('width' => 0.2, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(0, 0, 0)));
