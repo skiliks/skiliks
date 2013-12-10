@@ -14,8 +14,12 @@ class PDFController extends SiteBaseController {
         /* @var $simulation Simulation */
         $simulation = Simulation::model()->findByPk($sim_id);
         $isUser = $simulation->user_id === $this->user->id;
+        var_dump('$isUser', $isUser);
         $isOwner = $simulation->invite->owner_id === $this->user->id;
+        var_dump('$isOwner', $isOwner);
         $isAdmin = $this->user->isAdmin();
+        var_dump('$isAdmin', $isAdmin);
+        exit;
         if(false === $isUser || false === $isOwner || false === $isAdmin) {
             $this->redirect('/dashboard');
         }
