@@ -101,10 +101,10 @@ define([
                         }
                     }
                     return {
-                        data:      params,
-                        url:       url,
-                        type:      "POST",
-                        dataType:  "json",
+                        data:       params,
+                        url:        url,
+                        type:       "POST",
+                        dataType:   "json",
                         xhrFields: {
                             withCredentials: true
                         },
@@ -219,7 +219,6 @@ define([
                             }
                         },
                         error: function (xhr, ajaxOptions, thrownError) {
-
                             if (SKApp.get('isDisplayServer500errors')) {
                                 this.trigger('server:error');
                             }
@@ -245,7 +244,11 @@ define([
             api:function (path, params, callback) {
                 try {
                     // this done for SKServer not to make any requests after Simulation stop
-                    if(!SKApp.simulation.is_stopped || path == "simulation/stop") {
+                    if(!SKApp.simulation.is_stopped
+                        || path == this.connectPath
+                        || path == "/index.php/simulation/stop"
+                        || path == "simulation/stop") {
+
                         var ajaxParams = this.getAjaxParams(path, params, callback);
                         var request = _.first(SKApp.server.requests_queue.where({uniqueId:ajaxParams.data.uniqueId}));
                         var ajax = $.ajax(ajaxParams);
@@ -270,7 +273,6 @@ define([
                     if(!SKApp.simulation.is_stopped || path === "simulation/stop") {
                         var ajaxParams = this.getAjaxParams(path, params, callback);
                         var request = _.first(SKApp.server.requests_queue.where({uniqueId:ajaxParams.data.uniqueId}));
-                        //console
                         var ajax = $.ajaxQueue(ajaxParams);
                         if(path !== this.connectPath){
                             request.set('ajax', ajax);
