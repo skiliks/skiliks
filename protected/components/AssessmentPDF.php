@@ -336,7 +336,14 @@ class AssessmentPDF {
             $this->pdf->RoundedRect($x, $y, $width, '6.6', $r = '1', $round_corner, 'FD', '', $color);
         }
 
-        $x+= ($width/2)-6;
+        $x+= ($width/2)-5.4;
+        if($type === self::BAR_NEGATIVE) {
+            if($value < 24){
+                $x+=1.4;
+            }else{
+                $x+=1.1;
+            }
+        }
         if($width >= 10) {
             $this->writeTextBold($value.'%', $x, $y+1, 12, [255,255,255]);
         }
