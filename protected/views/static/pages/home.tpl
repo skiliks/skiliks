@@ -99,17 +99,19 @@
             window.displaySystemMismatch();
         }
 
+        var isSupportedBrowser = false;
         for (var name in minSupport) {
             if (minSupport.hasOwnProperty(name)) {
                 if ($.browser[name]) {
                     if (parseFloat($.browser.version) >= minSupport[name]) {
-                        // nothing
-                    } else {
-                        //location.href = cfg.oldBrowserUrl;
-                        window.displaySystemMismatch();
+                        isSupportedBrowser = true;
                     }
                 }
             }
+        }
+
+        if (false == isSupportedBrowser) {
+            window.displaySystemMismatch();
         }
         // проверка браузера }
     })
