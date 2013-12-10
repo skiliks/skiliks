@@ -20,6 +20,7 @@ class PagesController extends SiteBaseController
         $this->render('home', [
             'assetsUrl'      => $this->getAssetsUrl(),
             'userSubscribed' => false,
+            'httpUserAgent'  => $_SERVER['HTTP_USER_AGENT'],
         ]);
     }
 

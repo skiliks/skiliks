@@ -1,4 +1,6 @@
-<script>
+<script type="text/javascript">
+    window.httpUserAgent = '{$httpUserAgent}';
+
     $(document).ready(function(){
         var iframesrc = $(".iframe-video iframe").attr("src");
         var iframesrcautoplay = iframesrc +'?autoplay=1';
@@ -38,6 +40,52 @@
             });
 
         });
+
+        // проверка ОС {
+        var os_name ="Unknown OS";
+        var isUnsupportedOs = true;
+        var supportedOs = ['Windows', 'MacOS'];
+
+        if (navigator.appVersion.indexOf("Win")   != -1 ) { os_name = "Windows"; }
+        if (navigator.appVersion.indexOf("Mac")   != -1 ) { os_name = "MacOS";   }
+        if (navigator.appVersion.indexOf("X11")   != -1 ) { os_name = "UNIX";    }
+        if (navigator.appVersion.indexOf("Linux") != -1 ) { os_name = "Linux";   }
+
+        $.each(supportedOs, function(i, current_os_name) {
+            if(current_os_name === os_name){
+                isUnsupportedOs = false;
+            }
+        });
+
+        if (isUnsupportedOs) {
+            console.log('wrong OS!');
+        }
+        // проверка ОС }
+
+        // проверка браузера {
+        var minSupport = {
+            mozilla: 18,
+            chrome: 27,
+            msie: 10
+        };
+
+        if (window.httpUserAgent.indexOf('YaBrowser') != -1) {
+            console.log('wrong browser!');
+        }
+
+        for (var name in minSupport) {
+            if (minSupport.hasOwnProperty(name)) {
+                if ($.browser[name]) {
+                    if (parseFloat($.browser.version) >= minSupport[name]) {
+                        // nothing
+                    } else {
+                        //location.href = cfg.oldBrowserUrl;
+                        console.log('wrong browser!');
+                    }
+                }
+            }
+        }
+        // проверка браузера }
     })
 
 </script>
