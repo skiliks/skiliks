@@ -934,7 +934,7 @@ class UserService {
         $mails[] = [
             'from' => Yum::module('registration')->recoveryEmail,
             'to' => 'support@skiliks.com',
-            'subject' => 'Обнаружена попытка подобрать пароль', //Yii::t('site', 'You requested a new password'),
+            'subject' => 'Обнаружена попытка подобрать пароль на '.Yii::app()->params['server_name'], //Yii::t('site', 'You requested a new password'),
             'body' => $body,
             'embeddedImages' => [],
         ];
