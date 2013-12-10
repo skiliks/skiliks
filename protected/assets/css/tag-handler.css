@@ -42,7 +42,7 @@
 }
 .tagHandler ul.tagHandlerContainer li.tagItem:after{
 	display:inline-block;
-	content:'×';
+	content:'x';
 	background:url("../img/mail/bg-mail-send-to.png") no-repeat right top;
 	width:9px;
 	height:22px;
