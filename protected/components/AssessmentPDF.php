@@ -72,7 +72,7 @@ class AssessmentPDF {
         $value = round($value);
         $max_width = 22.2;
         $width = $max_width*$value/100;
-        $this->pdf->Rect($x+0.9, $y+1.5, $width, 4.1, 'F', '', array(223, 146, 46));
+        $this->pdf->Rect($x+0.9, $y+1, $width, 4.5, 'F', '', array(223, 146, 46));
 
         $this->pdf->Image($this->images_dir.'stars.png', $x, $y, 23.96, 7.03);
 
