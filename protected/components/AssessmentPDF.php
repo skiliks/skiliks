@@ -1,20 +1,62 @@
 <?php
 
+/**
+ * Класс генерации PDF
+ *
+ * Печатная копия попапа с оценками
+ *
+ * @version 1.0
+ * @author Tugay Ivan <ivan@skiliks.com>
+ * @project skiliks
+ */
 class AssessmentPDF {
 
+    /**
+     * Скруглённые углы бара с левой стороны
+     */
     const ROUNDED_LEFT = '0011';
+    /**
+     * Скруглённые углы бара с правой стороны
+     */
     const ROUNDED_RIGHT = '1100';
+    /**
+     * Скруглённые углы бара с обох сторон
+     */
     const ROUNDED_BOTH = '1111';
+    /**
+     * Без скруглённых углов
+     */
     const ROUNDED_NONE = '0000';
 
+    /**
+     * Бар по позитивной шкале
+     */
     const BAR_POSITIVE = 'positive';
+    /**
+     * Бар по негативной шкале
+     */
     const BAR_NEGATIVE = 'negative';
     /**
+     * Класс для генерации pdf
      * @var TCPDF
+     * @link http://tcpdf.org
      */
     public $pdf;
+    /**
+     * Путь к jpg, png и eps файлам для pdf
+     * @var string
+     */
     public $images_dir;
+    /**
+     * Номер страницы
+     * @var int
+     */
     public $page_number = 1;
+
+    /**
+     * Создание шаблона pdf задание параметров и конфигов
+     * Еденица измерения мм для всего документа
+     */
     public function __construct() {
         $this->pdf = Yii::createComponent('application.components.tcpdf.tcpdf',
             'P', 'mm', 'A4', true, 'UTF-8');
@@ -30,6 +72,9 @@ class AssessmentPDF {
         $this->pdf->SetAutoPageBreak(false, 0);
     }
 
+    /**
+     * Создание страницы по шаблону с eps на весь экран
+     */
     public function addPage() {
         $this->pdf->AddPage();
 
@@ -39,10 +84,22 @@ class AssessmentPDF {
         $this->pdf->ImageEps($this->images_dir.$this->page_number++.'_.eps', 0, 0, 210, 297.2);
     }
 
+    /**
+     * Выводит файл в браузер
+     * @param $name имя файла
+     */
     public function renderOnBrowser($name) {
         $this->pdf->Output($name.'.pdf');
     }
 
+    /**
+     * Печать текста Proxima Nova Bold
+     * @param $text текст который будет напечатан
+     * @param $x отступ от левого края в мм
+     * @param $y отступ от левого края в мм
+     * @param $size размер шрифта
+     * @param array $color цвет RGB
+     */
     public function writeTextBold($text, $x, $y, $size, $color = array(0,0,0)) {
         $this->pdf->SetFont('proxima-nova-bold', '', $size);
         $this->pdf->SetY($y);
@@ -51,6 +108,14 @@ class AssessmentPDF {
         $this->pdf->Write(0, $text);
     }
 
+    /**
+     * Печать текста Proxima Nova Regular
+     * @param $text текст который будет напечатан
+     * @param $x отступ от левого края в мм
+     * @param $y отступ от левого края в мм
+     * @param $size размер шрифта
+     * @param array $color цвет RGB
+     */
     public function writeTextRegular($text, $x, $y, $size, $color = array(0,0,0)) {
         $this->pdf->SetFont('proxima-nova-regular', '', $size);
         $this->pdf->SetY($y);
@@ -59,6 +124,12 @@ class AssessmentPDF {
         $this->pdf->Write(0, $text);
     }
 
+    /**
+     * Процентиль
+     * @param $x отступ от левого края в мм
+     * @param $y отступ от левого края в мм
+     * @param $value int значение процентиля
+     */
     public function addRatingPercentile($x, $y, $value) {
         $value = round($value);
         $max_width = 13.1;
@@ -74,6 +145,12 @@ class AssessmentPDF {
         $this->writeTextBold('P'.$value, $x+14.9, $y+2.16, 8.13);
     }
 
+    /**
+     * Общая оценка
+     * @param $x отступ от левого края в мм
+     * @param $y отступ от левого края в мм
+     * @param $value int вес оценки
+     */
     public function addRatingOverall($x, $y, $value)
     {
         $value = round($value);
@@ -87,6 +164,12 @@ class AssessmentPDF {
         $this->addPercentSmallInfo($value, $x+28, $y+1.5, [255,255,255]);
     }
 
+    /**
+     * Добавляет спидометр
+     * @param $x отступ от левого края в мм
+     * @param $y отступ от левого края в мм
+     * @param $value величина в процентах
+     */
     public function addSpeedometer($x, $y, $value)
     {
         $value = round($value);
@@ -393,6 +476,11 @@ class AssessmentPDF {
         }
     }
 
+    /**
+     * Находит максимальное значение среди TimeManagementAggregated
+     * @param array $time
+     * @return int
+     */
     public function getMaxTimeNegative($time)
     {
         $data = [
@@ -406,6 +494,11 @@ class AssessmentPDF {
         return (int)max($data);
     }
 
+    /**
+     * Находит максимальное значение среди TimeManagementAggregated
+     * @param $time
+     * @return int
+     */
     public function getMaxTimePositive($time)
     {
         $data = [
@@ -419,6 +512,12 @@ class AssessmentPDF {
         return (int)max($data);
     }
 
+    /**
+     * Геттер категории с массива
+     * @param $performance
+     * @param $category
+     * @return int
+     */
     public function getPerformanceCategory($performance, $category)
     {
         if(isset($performance[$category])){
@@ -428,6 +527,13 @@ class AssessmentPDF {
         }
     }
 
+    /**
+     * Выводит маленькие проценты напротив областей обучений
+     * @param $percent
+     * @param $x мм
+     * @param $y мм
+     * @param array $color
+     */
     public function addPercentSmallInfo($percent, $x, $y, $color=[255,255,255]) {
         $percent = (int)round($percent);
         if($percent <= 9) {
@@ -439,6 +545,13 @@ class AssessmentPDF {
 
     }
 
+    /**
+     * Выводит средьние проценты
+     * @param $percent
+     * @param $x мм
+     * @param $y мм
+     * @param array $color
+     */
     public function addPercentMiddleInfo($percent, $x, $y, $color=[0,0,0]) {
         $percent = (int)round($percent);
         if($percent <= 9) {
@@ -450,6 +563,13 @@ class AssessmentPDF {
 
     }
 
+    /**
+     * Выводит большие проценты
+     * @param int $percent
+     * @param int $x мм
+     * @param int $y мм
+     * @param array $color
+     */
     public function addPercentBigInfo($percent, $x, $y, $color=[0,0,0]) {
 
         $percent = (int)round($percent);
