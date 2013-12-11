@@ -356,7 +356,7 @@ class SimulationServiceUnitTest extends CDbTestCase
         // init activity actions Aggregated log
         LogHelper::combineLogActivityAgregated($simulation);
 
-        $aggregatedLogs = LogActivityActionAgregated::model()->findAllByAttributes([
+        $aggregatedLogs = LogActivityActionAggregated::model()->findAllByAttributes([
             'sim_id' => $simulation->id
         ]);
 
@@ -599,7 +599,7 @@ class SimulationServiceUnitTest extends CDbTestCase
 
         LogHelper::combineLogActivityAgregated($simulation, $data);
 
-        $aggregatedLogs = LogActivityActionAgregated::model()->findAllByAttributes([
+        $aggregatedLogs = LogActivityActionAggregated::model()->findAllByAttributes([
             'sim_id' => $simulation->id
         ]);
 

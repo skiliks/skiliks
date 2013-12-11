@@ -309,11 +309,12 @@ class SimulationService
                     /** @var Replica $replica */
                     $replica = Replica::model()->findByPk($condition->replica_id);
 
-                    $satisfies = LogDialog::model()
-                        ->bySimulationId($simulation->id)
-                        ->byLastReplicaId($replica->excel_id)
-                        ->exists();
-
+                    $satisfies = LogDialog::model()->exists(
+                        ' sim_id = :sim_id AND last_id = :last_id ',
+                        [
+                            'sim_id'  => $simulation->id,
+                            'last_id' => $replica->excel_id
+                        ]);
                 } elseif ($condition->mail_id) {
                     /** @var MailBox $mail */
                     $mail = MailBox::model()->findByAttributes([
@@ -322,10 +323,12 @@ class SimulationService
                     ]);
 
                     $satisfies = $mail ?
-                        LogMail::model()
-                            ->bySimId($simulation->id)
-                            ->byMailBoxId($mail->id)
-                            ->exists() :
+                        LogMail::model()->exists(
+                            ' sim_id = :sim_id AND mail_id = :mail_id ',
+                            [
+                                'sim_id'  => $simulation->id,
+                                'mail_id' => $mail->id
+                            ]) :
                         false;
                 } elseif ($condition->excel_formula_id) {
 
@@ -438,11 +441,13 @@ class SimulationService
                 ]);
 
                 $satisfies = $mail ?
-                    LogMail::model()
-                        ->bySimId($simulation->id)
-                        ->byMailBoxId($mail->id)
-                        ->exists() :
-                    false;
+                    LogMail::model()->exists(
+                        ' sim_id = :sim_id AND mail_id = :mail_id ',
+                        [
+                            'sim_id'  => $simulation->id,
+                            'mail_id' => $mail->id
+                        ]
+                    ) : false;
             }
 
             if (!empty($satisfies)) {
@@ -918,8 +923,8 @@ class SimulationService
         }
 
         LogActivityAction::model()->deleteAllByAttributes(['sim_id' => $simId]);
-        LogActivityActionAgregated::model()->deleteAllByAttributes(['sim_id' => $simId]);
-        LogActivityActionAgregated214d::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        LogActivityActionAggregated::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        LogActivityActionAggregated214d::model()->deleteAllByAttributes(['sim_id' => $simId]);
         TimeManagementAggregated::model()->deleteAllByAttributes(['sim_id' => $simId]);
         AssessmentCalculation::model()->deleteAllByAttributes(['sim_id' => $simId]);
         DayPlanLog::model()->deleteAllByAttributes(['sim_id' => $simId, 'snapshot_time' => DayPlanLog::ON_18_00]);
@@ -1063,8 +1068,8 @@ class SimulationService
         TimeManagementAggregated::model()->deleteAllByAttributes(['sim_id' => $simId]);
 
         LogActivityAction::model()->deleteAllByAttributes(['sim_id' => $simId]);
-        LogActivityActionAgregated::model()->deleteAllByAttributes(['sim_id' => $simId]);
-        LogActivityActionAgregated214d::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        LogActivityActionAggregated::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        LogActivityActionAggregated214d::model()->deleteAllByAttributes(['sim_id' => $simId]);
         LogAssessment214g::model()->deleteAllByAttributes(['sim_id' => $simId]);
         LogCommunicationThemeUsage::model()->deleteAllByAttributes(['sim_id' => $simId]);
         LogDialog::model()->deleteAllByAttributes(['sim_id' => $simId]);

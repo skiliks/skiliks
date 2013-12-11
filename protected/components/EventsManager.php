@@ -348,11 +348,15 @@ class EventsManager {
                             ]);
 
                             if (null !== $callDialog) {
-                                $logRecord = LogDialog::model()
-                                    ->bySimulationId($simId)
-                                    ->byDialogId($callDialog->id)
-                                    ->orderById('DESC')
-                                    ->find();
+                                $logRecord = LogDialog::model()->find([
+                                    'conditions' => ' sim_id = :simId AND dialog_id = :dialogId ',
+                                    'params'    => [
+                                        'simId'    => $simId,
+                                        'dialogId' => $callDialog->id
+                                    ],
+                                    'order' => 'id DESC'
+                                ]);
+
                                 if (null !== $logRecord) {
                                     $logRecord->last_id = $currentDialog->excel_id;
                                     $logRecord->save();

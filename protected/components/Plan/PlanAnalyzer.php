@@ -133,7 +133,7 @@ class PlanAnalyzer {
                     'start'       => $logItem->start_time,
                     'end'         => $logItem->end_time,
                     'available'   => $this->calculateParentAvailability($parentAvailability, $groupedLog),
-                    'keepLastCategoryAfter60sec' => LogActivityActionAgregated214d::KEEP_LAST_CATEGORY_YES ===
+                    'keepLastCategoryAfter60sec' => LogActivityActionAggregated214d::KEEP_LAST_CATEGORY_YES ===
                         $this->calcKeepLastCategoryAfter(
                             $logItem->start_time,
                             $logItem->end_time,
@@ -167,7 +167,7 @@ class PlanAnalyzer {
 
         /* @var $parent ActivityParentAvailability */
         foreach($parents as $parent){
-            $this->parents_keep_last_category[$parent->code] = ((int)$parent->is_keep_last_category === 1)?LogActivityActionAgregated214d::KEEP_LAST_CATEGORY_YES:LogActivityActionAgregated214d::KEEP_LAST_CATEGORY_NO;
+            $this->parents_keep_last_category[$parent->code] = ((int)$parent->is_keep_last_category === 1)?LogActivityActionAggregated214d::KEEP_LAST_CATEGORY_YES:LogActivityActionAggregated214d::KEEP_LAST_CATEGORY_NO;
         }
         $last_log_214d = null;
         /* Log ActivityActionsAggregated214d */
@@ -175,14 +175,14 @@ class PlanAnalyzer {
             if(isset($this->must_present_for_214d[$log['parent']])) {
                 unset($this->must_present_for_214d[$log['parent']]);
             }
-            $this->saveLogActivityActionAgregated214d($log);
+            $this->saveLogActivityActionAggregated214d($log);
         }
         /* @var $last_log LogActivityAction */
         $last_log = LogActivityAction::model()->find("sim_id = :sim_id  order by id desc", ['sim_id'=>$simulation->id]);
         /* @var $activity_parent ActivityParentAvailability */
         if(null !== $last_log) {
             foreach($this->must_present_for_214d as $activity_parent){
-                $this->saveLogActivityActionAgregated214d([
+                $this->saveLogActivityActionAggregated214d([
                     'sim_id'=>$simulation->id,
                     'leg_type'=>null,
                     'leg_action'=>null,
@@ -199,7 +199,7 @@ class PlanAnalyzer {
                     'start'       => $last_log->end_time,
                     'end'         => $last_log->end_time,
                     'available'   => $this->calculateParentAvailability($activity_parent, $this->logActivityActionsAggregatedGroupByParent),
-                    'keepLastCategoryAfter60sec' => LogActivityActionAgregated214d::KEEP_LAST_CATEGORY_YES ===
+                    'keepLastCategoryAfter60sec' => LogActivityActionAggregated214d::KEEP_LAST_CATEGORY_YES ===
                     $this->calcKeepLastCategoryAfter(
                         $last_log->end_time,
                         $last_log->end_time,
@@ -210,8 +210,8 @@ class PlanAnalyzer {
         }
     }
 
-    public function saveLogActivityActionAgregated214d($log) {
-        $var_214d = new LogActivityActionAgregated214d();
+    public function saveLogActivityActionAggregated214d($log) {
+        $var_214d = new LogActivityActionAggregated214d();
         $var_214d->sim_id = $log['sim_id'];
         $var_214d->leg_type = $log['leg_type'];
         $var_214d->leg_action = $log['leg_action'];
@@ -230,22 +230,22 @@ class PlanAnalyzer {
 
     public static function calcKeepLastCategoryAfter($start_time, $end_time, $keep_last_category_initial)
     {
-        if($keep_last_category_initial === LogActivityActionAgregated214d::KEEP_LAST_CATEGORY_YES) {
+        if($keep_last_category_initial === LogActivityActionAggregated214d::KEEP_LAST_CATEGORY_YES) {
             if((Yii::app()->params['keep_last_category_time_214g'] / 60 * Yii::app()->params['public']['skiliksSpeedFactor']) <=
                 ((strtotime($end_time) - strtotime($start_time)) / 60)){
-                return LogActivityActionAgregated214d::KEEP_LAST_CATEGORY_NO;
+                return LogActivityActionAggregated214d::KEEP_LAST_CATEGORY_NO;
             }else{
-                return LogActivityActionAgregated214d::KEEP_LAST_CATEGORY_YES;
+                return LogActivityActionAggregated214d::KEEP_LAST_CATEGORY_YES;
             }
         }else{
-            return LogActivityActionAgregated214d::KEEP_LAST_CATEGORY_NO;
+            return LogActivityActionAggregated214d::KEEP_LAST_CATEGORY_NO;
         }
     }
 
     public function isLastParent($parent, $current) {
 
         foreach($this->logAggregated214d as $find => $log) {
-            /* @var $log LogActivityActionAgregated214d */
+            /* @var $log LogActivityActionAggregated214d */
             if($current < $find){
                 if($parent === $log->parent){
                     return false;
@@ -991,7 +991,7 @@ class PlanAnalyzer {
                     continue;
                 }
 
-                if($taskLogItemToCheck['keepLastCategoryAfter60sec'] == (bool)LogActivityActionAgregated::KEEP_LAST_CATEGORY_YES){
+                if($taskLogItemToCheck['keepLastCategoryAfter60sec'] == (bool)LogActivityActionAggregated::KEEP_LAST_CATEGORY_YES){
                     continue;
                 }
 
@@ -1036,7 +1036,7 @@ class PlanAnalyzer {
         $value = 0;
 
         $in_work = [];
-        /* @var $log LogActivityActionAgregated214d */
+        /* @var $log LogActivityActionAggregated214d */
         foreach($this->logAggregated214d as $key => $log) {
             $parent = $log->parent;
             if(in_array($log->category, $enable_categories)){
@@ -1061,8 +1061,8 @@ class PlanAnalyzer {
                 }
             }else{
                 if(!empty($in_work)) {
-                    if($log->keep_last_category_initial === LogActivityActionAgregated214d::KEEP_LAST_CATEGORY_YES) {
-                        if($log->keep_last_category_after === LogActivityActionAgregated214d::KEEP_LAST_CATEGORY_NO) {
+                    if($log->keep_last_category_initial === LogActivityActionAggregated214d::KEEP_LAST_CATEGORY_YES) {
+                        if($log->keep_last_category_after === LogActivityActionAggregated214d::KEEP_LAST_CATEGORY_NO) {
                             $value += (float)$behaviour->scale;
                             $log_214g = new LogAssessment214g();
                             $log_214g->sim_id = $this->simulation->id;

@@ -533,7 +533,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         ])->getPrimaryKey();
 
         // лог {
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id = $simulation->id;
         $log->leg_type = 'Inbox_leg';
         $log->leg_action = 'MY1';
@@ -614,7 +614,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
 
         // лог {
         // 2 лога - чтобы проверить что их длительность просуммируется
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id = $simulation->id;
         $log->leg_type = ActivityAction::LEG_TYPE_INBOX;
         $log->leg_action = 'MY1';
@@ -624,7 +624,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         $log->duration = '00:00:20';
         $log->save();
 
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id = $simulation->id;
         $log->leg_type = ActivityAction::LEG_TYPE_INBOX;
         $log->leg_action = 'MY1';
@@ -680,7 +680,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         // лог {
         // 2 лога - чтобы проверить что их длительность просуммируется
         for ($i = 0; $i < 2; $i++) {
-            $log = new LogActivityActionAgregated();
+            $log = new LogActivityActionAggregated();
             $log->sim_id = $simulation->id;
             $log->leg_type = ActivityAction::LEG_TYPE_INBOX;
             $log->leg_action = 'MY1';
@@ -690,7 +690,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
             $log->duration = '01:00:00';
             $log->save();
 
-            $log = new LogActivityActionAgregated();
+            $log = new LogActivityActionAggregated();
             $log->sim_id = $simulation->id;
             $log->leg_type = ActivityAction::LEG_TYPE_DOCUMENTS;
             $log->leg_action = 'AD2';

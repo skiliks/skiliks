@@ -21,14 +21,14 @@
  * @property Simulation $simulation
  * @property ActivityAction $activityAction
  */
-class LogActivityActionAgregated214d extends CActiveRecord
+class LogActivityActionAggregated214d extends CActiveRecord
 {
     const KEEP_LAST_CATEGORY_YES = '1';
     const KEEP_LAST_CATEGORY_NO = '0';
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
-     * @return LogActivityActionAgregated214d the static model class
+     * @return LogActivityActionAggregated214d the static model class
      */
     public static function model($className=__CLASS__)
     {

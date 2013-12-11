@@ -11,17 +11,30 @@
  */
 class LogDialog extends CActiveRecord
 {
-    public $id;
-    
-    public $sim_id;
-    
-    public $mail_id;
-    
-    public $dialog_id;
-    
-    public $start_time;
-    
-    public $end_time;
+    /**
+     * Returns last replica object
+     * @return Replica
+     */
+    public function getLastReplica()
+    {
+        return Replica::model()->findByAttributes(['excel_id' => $this->last_id]);
+    }
+
+    /**
+     * ???
+     */
+    protected function afterSave()
+    {
+        if ($this->getLastReplica()) {
+            foreach ($this->getLastReplica()->termination_parent_actions as $parentAction) {
+                if (!$parentAction->isTerminatedInSimulation($this->simulation)) {
+                    $parentAction->terminateInSimulation($this->simulation, $this->end_time);
+                }
+            };
+        }
+
+        parent::afterSave();
+    }
 
     /** ------------------------------------------------------------------------------------------------------------ **/
     
@@ -35,20 +48,9 @@ class LogDialog extends CActiveRecord
         return parent::model($className);
     }
 
-    protected function afterSave()
-    {
-
-            if ($this->getLastReplica()) {
-                foreach ($this->getLastReplica()->termination_parent_actions as $parentAction) {
-                    if (!$parentAction->isTerminatedInSimulation($this->simulation)) {
-                        $parentAction->terminateInSimulation($this->simulation, $this->end_time);
-                    }
-                };
-            }
-
-        parent::afterSave();
-    }
-
+    /**
+     * @return array of string
+     */
     public function relations()
     {
         return array(
@@ -64,67 +66,4 @@ class LogDialog extends CActiveRecord
     {
         return 'log_dialogs';
     }
-    
-    /**
-     * @param int $simulationId
-     * @return LogDialog
-     */
-    public function bySimulationId($simulationId)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "sim_id = {$simulationId}"
-        ));
-        return $this;
-    }
-    
-    /**
-     * @param int $dialogId
-     * @return LogDialog
-     */
-    public function byDialogId($dialogId)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "dialog_id = {$dialogId}"
-        ));
-        return $this;
-    }
-
-    public function dump()
-    {
-        printf("%s %s\n", $this->start_time, $this->last_id);
-    }
-
-    /**
-     * @param int $replicaId
-     * @return LogDialog
-     */
-    public function byLastReplicaId($replicaId)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "last_id = {$replicaId}"
-        ));
-        return $this;
-    }
-
-    /**
-     * Returns last replica object
-     * @return Replica
-     */
-    public function getLastReplica()
-    {
-        return Replica::model()->findByAttributes(['excel_id' => $this->last_id]);
-    }
-    
-    /**
-     * @param string $sort
-     * @return LogDialog
-     */
-    public function orderById($sort = 'DESC')
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'order' => "id $sort"
-        ));
-        return $this;
-    }
-    
 }

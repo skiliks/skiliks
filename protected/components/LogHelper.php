@@ -537,7 +537,7 @@ class LogHelper
             if (NULL === $aggregatedActivity) {
                 // init new aggregatedActivity at first iteration
                 $diff_time = (new DateTime($activityAction->start_time))->diff(new DateTime($activityAction->end_time))->format('%H:%I:%S');
-                $aggregatedActivity = new LogActivityActionAgregated();
+                $aggregatedActivity = new LogActivityActionAggregated();
 
                 $aggregatedActivity->sim_id =                $simulation->id;
                 $aggregatedActivity->leg_type =              $activityAction->activityAction->leg_type;
@@ -603,7 +603,7 @@ class LogHelper
                     $aggregatedActivity->save();
 
                     // init new aggregatedActivity for new activity
-                    $aggregatedActivity = new LogActivityActionAgregated();
+                    $aggregatedActivity = new LogActivityActionAggregated();
 
                     $aggregatedActivity->sim_id =                $simulation->id;
                     $aggregatedActivity->leg_type =              $activityAction->activityAction->leg_type;

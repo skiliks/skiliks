@@ -28,19 +28,6 @@ class MailCopy extends CActiveRecord
     {
         return 'mail_copies';
     }
-    
-    /**
-     * Выбрать по заданному письму
-     * @param int $mailId
-     * @return MailCopy
-     */
-    public function byMailId($mailId)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "mail_id = {$mailId}"
-        ));
-        return $this;
-    }
 
     public function relations() {
         return array(
