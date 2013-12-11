@@ -1,33 +1,63 @@
 <?php
+
 /**
- * Created by JetBrains PhpStorm.
- * User: macbookpro
- * Date: 14.10.13
- * Time: 12:37
- * To change this template use File | Settings | File Templates.
+ * Class CountRegisteredUsers
  */
+class CountRegisteredUsers {
 
-class countRegisteredUsers {
-
+    /**
+     * @var
+     */
     private $condition;
+    /**
+     * @var DateTime
+     */
     public $fromDate;
+    /**
+     * @var DateTime
+     */
     public $toDate;
+    /**
+     * @var
+     */
     private $dbCommand;
 
+    /**
+     * @var array
+     */
     public  $totalRegistrations   = [];
+    /**
+     * @var array
+     */
     public  $totalPersonals       = [];
+    /**
+     * @var array
+     */
     public  $totalCorporate       = [];
+    /**
+     * @var array
+     */
     public  $totalNonActivePersonals = [];
+    /**
+     * @var array
+     */
     public  $totalNonActiveCorporate = [];
 
 
+    /**
+     * Задает промежуток времени от текущого +1 день
+     */
     public function __construct() {
         $this->fromDate = new DateTime();
         $date = new DateTime();
         $this->toDate   = $date->add(new DateInterval('P1D'));
     }
 
+    /**
+     * Групирует пользователей по дате
+     */
     public function getAllUserForDays() {
+
         $this->_prepare_dbCommand('DATE_FORMAT(FROM_UNIXTIME(createtime), \'%Y-%m-%d\') as date,');
         $this->dbCommand->group('DATE_FORMAT(FROM_UNIXTIME(createtime), \'%Y-%m-%d\')');
         $this->dbCommand->limit(30);
@@ -35,6 +65,9 @@ class countRegisteredUsers {
         $this->saveAllUsers($rows);
     }
 
+    /**
+     * Групирует пользователей по меяцу
+     */
     public function getAllUserForMonths() {
         $this->_prepare_dbCommand('DATE_FORMAT(FROM_UNIXTIME(createtime), \'%M\') as date,');
         $this->dbCommand->group('DATE_FORMAT(FROM_UNIXTIME(createtime), \'%M\')');
@@ -43,6 +76,9 @@ class countRegisteredUsers {
         $this->saveAllUsers($rows);
     }
 
+    /**
+     * Групирует не активных пользователей по дате
+     */
     public function getNonActiveUsersForDays() {
         $this->_prepare_dbCommand('DATE_FORMAT(FROM_UNIXTIME(createtime), \'%Y-%m-%d\') as date,');
         $this->dbCommand->group('DATE_FORMAT(FROM_UNIXTIME(createtime), \'%Y-%m-%d\')');
@@ -53,6 +89,9 @@ class countRegisteredUsers {
         $this->saveActiveUsers($rows);
     }
 
+    /**
+     * Групирует не активных пользователей по месяцу
+     */
     public function getNonActiveUsersForMonths() {
         $this->_prepare_dbCommand('DATE_FORMAT(FROM_UNIXTIME(createtime), \'%M\') as date,');
         $this->dbCommand->group('DATE_FORMAT(FROM_UNIXTIME(createtime), \'%M\')');
@@ -63,6 +102,9 @@ class countRegisteredUsers {
         $this->saveActiveUsers($rows);
     }
 
+    /**
+     * Групирует всех пользователей по году
+     */
     public function getAllUserForYears() {
         $this->_prepare_dbCommand('DATE_FORMAT(FROM_UNIXTIME(createtime), \'%Y\') as date,');
         $this->dbCommand->group('DATE_FORMAT(FROM_UNIXTIME(createtime), \'%Y\')');
@@ -71,6 +113,9 @@ class countRegisteredUsers {
         $this->saveAllUsers($rows);
     }
 
+    /**
+     * Групирует не активных пользователей
+     */
     public function getNonActiveUserForYears() {
         $this->_prepare_dbCommand('DATE_FORMAT(FROM_UNIXTIME(createtime), \'%Y\') as date,');
         $this->dbCommand->group('DATE_FORMAT(FROM_UNIXTIME(createtime), \'%Y\')');
@@ -82,6 +127,9 @@ class countRegisteredUsers {
     }
 
 
+    /**
+     * Сортирует данные для вывода в обратнои порядке
+     */
     public function prepare_for_view() {
         $this->totalRegistrations   = array_reverse($this->totalRegistrations);
         $this->totalPersonals       = array_reverse($this->totalPersonals);
@@ -90,7 +138,11 @@ class countRegisteredUsers {
         $this->totalNonActiveCorporate = array_reverse($this->totalNonActiveCorporate);
     }
 
-    private function saveAllUsers($rows) {
+    /**
+     * Наполняет массив дней количеством всех пользователей
+     * @param array $rows массив колечеств пользователей
+     */
+    private function saveAllUsers(array $rows) {
         foreach($rows as $row) {
             $this->totalRegistrations[$row['date']] = $row['total_users'];
             $this->totalPersonals[$row['date']]     = $row['personal_users'];
@@ -98,6 +150,10 @@ class countRegisteredUsers {
         }
     }
 
+    /**
+     * Наполняет массив дней количеством активных пользователей
+     * @param $rows
+     */
     private function saveActiveUsers($rows) {
         foreach($rows as $row) {
             $this->totalActiveRegistrations[$row['date']] = $row['total_users'];
@@ -106,13 +162,10 @@ class countRegisteredUsers {
         }
     }
 
-    private function addOneDayConditionsToQuery() {
-        $this->addFromDateCondition();
-        $this->addToDateCondition();
-    }
-
-
-
+    /**
+     * Подсчитевает количество всех, персональных, копоративных пользователей
+     * @param string $select часть sql запроса
+     */
     private function _prepare_dbCommand($select = "") {
         $this->dbCommand = Yii::app()->db->createCommand();
         $this->condition = "";
@@ -126,18 +179,18 @@ class countRegisteredUsers {
         $this->dbCommand->order("user.id DESC");
     }
 
+    /**
+     * возвращает массив с данныи из БД
+     * @return array
+     */
     private function getData() {
         return $this->dbCommand->queryAll();
     }
 
-    private function addFromDateCondition() {
-        $this->addCondition('FROM_UNIXTIME(user.createtime) >= (\''.date_format($this->fromDate, 'Y-m-d').'\')');
-    }
-
-    private function addToDateCondition() {
-        $this->addCondition('FROM_UNIXTIME(user.createtime) <= (\''.date_format($this->toDate, 'Y-m-d').'\')');
-    }
-
+    /**
+     * Добавляет часть sql звпроса
+     * @param string $condition часть sql выражения
+     */
     private function addCondition($condition) {
         if($this->condition != null) {
             $this->condition .= " AND ";
