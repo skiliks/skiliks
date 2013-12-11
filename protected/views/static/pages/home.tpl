@@ -1,4 +1,22 @@
-<script>
+<script type="text/javascript">
+    window.httpUserAgent = '{$httpUserAgent}';
+    window.isSkipBrowserCheck = '{$isSkipBrowserCheck}';
+
+    var displaySystemMismatch = function() {
+        if (1 == window.isSkipBrowserCheck) {
+            return;
+        }
+        $(".system-mismatch-popup").dialog({
+            closeOnEscape: true,
+            dialogClass: 'popup-before-start-sim',
+            minHeight: 220,
+            modal: true,
+            resizable: false,
+            width:881,
+            draggable: false
+        });
+    }
+
     $(document).ready(function(){
         var iframesrc = $(".iframe-video iframe").attr("src");
         var iframesrcautoplay = iframesrc +'?autoplay=1';
@@ -38,191 +56,261 @@
             });
 
         });
+
+        // проверка ОС {
+        var os_name ="Unknown OS";
+        var isUnsupportedOs = true;
+        var supportedOs = ['Windows', 'MacOS'];
+        var unsupportedOs = ['iPhone', 'iPad', 'iPod'];
+
+        if (navigator.appVersion.indexOf("Win")    != -1 ) { os_name = "Windows"; }
+        if (navigator.appVersion.indexOf("Mac")    != -1 ) { os_name = "MacOS";   }
+        if (navigator.appVersion.indexOf("iPhone") != -1 ) { os_name = "iPhoneS"; }
+        if (navigator.appVersion.indexOf("iPad")   != -1 ) { os_name = "iPad";    }
+        if (navigator.appVersion.indexOf("iPod")   != -1 ) { os_name = "iPod";    }
+        if (navigator.appVersion.indexOf("X11")    != -1 ) { os_name = "UNIX";    }
+        if (navigator.appVersion.indexOf("Linux")  != -1 ) { os_name = "Linux";   }
+
+        $.each(supportedOs, function(i, current_os_name) {
+            if(current_os_name === os_name){
+                isUnsupportedOs = false;
+            }
+        });
+
+        $.each(unsupportedOs, function(i, current_os_name) {
+            if(current_os_name === os_name){
+                isUnsupportedOs = true;
+            }
+        });
+
+        if (isUnsupportedOs) {
+            window.displaySystemMismatch();
+        }
+        // проверка ОС }
+
+        // проверка браузера {
+        var minSupport = {
+            mozilla: 18,
+            chrome: 27,
+            msie: 10
+        };
+
+        if (window.httpUserAgent.indexOf('YaBrowser') != -1) {
+            window.displaySystemMismatch();
+        }
+
+        var isSupportedBrowser = false;
+        for (var name in minSupport) {
+            if (minSupport.hasOwnProperty(name)) {
+                if ($.browser[name]) {
+                    if (parseFloat($.browser.version) >= minSupport[name]) {
+                        isSupportedBrowser = true;
+                    }
+                }
+            }
+        }
+
+        if (false == isSupportedBrowser) {
+            window.displaySystemMismatch();
+        }
+        // проверка браузера }
     })
-
 </script>
+
 <!--features-->
-				<section class="features">
-					<h2>{Yii::t('site', 'Easy &amp; reliable way to discover your people management skills!')}</h2>
-                    <div class="iframe-video-wrap">
-                        <div class="iframe-video">
-                            <iframe src="http://player.vimeo.com/video/{Yii::t('site', '61258856')}" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
-                        </div>
+    <section class="features">
+        <h2>{Yii::t('site', 'Easy &amp; reliable way to discover your people management skills!')}</h2>
+        <div class="iframe-video-wrap">
+            <div class="iframe-video">
+                <iframe src="http://player.vimeo.com/video/{Yii::t('site', '61258856')}" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+            </div>
+        </div>
+        <div class="videosocwrap clearfix">
+            <div class="video" style="cursor: pointer;">
+                <span class="video-caption">{Yii::t('site', 'Watch the video to learn more')}</span>
+            </div>
+            <div class="social_networks smallicons">
+                <span>{Yii::t('site', 'Share video')}:</span>
+                <div class="addthis_toolbox addthis_default_style addthis_32x32_style"
+                     addthis:url="http://player.vimeo.com/video/{Yii::t('site', '61258856')}?title=0&amp;byline=0&amp;portrait=0&amp;color=24bdd3"
+                     addthis:title="Skiliks - game the skills"
+                     addthis:description="{Yii::t('site', 'www.skiliks.com - online simulation aimed at testing management skills')}">
+
+                    <a class="new_social_buttons vk_share_button" title="VK" onclick="
+                            window.open(
+                            'http://vk.com/share.php?'
+                            + 'description={Yii::t('site', 'www.skiliks.com - online simulation aimed at testing management skills')}'
+                            + '&url=' + encodeURIComponent('{Yii::app()->request->hostInfo}'
+                            +'/watchVideo/' + '{Yii::app()->language}'),
+                            'vk-share-dialog',
+                            'width=626, height=436');
+                            return false;" href="#" target="_blank">
+                    </a>
+
+                    <a class="new_social_buttons facebook_share_button" title="Facebook" onclick="
+                        window.open(
+                        'https://www.facebook.com/sharer/sharer.php?u='
+                            + encodeURIComponent('{Yii::app()->request->hostInfo}'
+                            +'/watchVideo/' + '{Yii::app()->language}'),
+                        'facebook-share-dialog',
+                        'width=626,height=436');
+                        return false;" href="#" target="_blank">
+                    </a>
+
+
+                    <a class="new_social_buttons twitter_share_button" title="Twitter" onclick="
+                        window.open(
+                        'https://twitter.com/share?url='
+                            + encodeURIComponent('{Yii::app()->request->hostInfo}'
+                            + '/watchVideo/' + '{Yii::app()->language}'),
+                        'twitter-share-dialog',
+                        'width=626,height=436');
+                        return false;" href="#" target="_blank">
+                    </a>
+
+                    <a class="new_social_buttons google_share_button" title="Google" onclick="
+                        window.open(
+                        'https://plus.google.com/share?url='
+                            + encodeURIComponent('{Yii::app()->request->hostInfo}'
+                            + '/watchVideo/' + '{Yii::app()->language}'),
+                        'google-share-dialog',
+                        'width=626,height=436');
+                        return false;" href="#" target="_blank">
+                    </a>
+
+                    <a class="new_social_buttons linkedin_share_button" title="Linkedin" onclick="
+                        window.open(
+                        'https://www.linkedin.com/cws/share?url='
+                            + encodeURIComponent('{Yii::app()->request->hostInfo}'
+                            + '/watchVideo/' + '{Yii::app()->language}'),
+                        'linkedin-share-dialog',
+                        'width=626,height=436');
+                        return false;" href="#" target="_blank">
+                    </a>
+                </div>
+            </div>
+        </div>
+        <ul>
+            <li>{Yii::t('site', 'Simulation aimed at testing basic manager’s skills')}</li>
+            <li>{Yii::t('site', '2-3-hours game')}</li>
+            <li>{Yii::t('site', 'Live tasks and decision-making situations')}</li>
+            <li>{Yii::t('site', 'A tool to assess candidates and newcomers')}</li>
+        </ul>
+
+        {if ('ru' == Yii::app()->getlanguage()) }
+
+            <a href="/registration" class="bigbtnsubmt freeacess">{Yii::t('site', 'Start using it now for free')}</a>
+
+        {elseif ('en' == Yii::app()->getlanguage()) }
+                <!-- FORM { -->
+                <div id="notify-form">
+                <form action="static/pages/addUserSubscription" id="subscribe-form">
+                    <div>
+                        <input type="text"
+                               id = "user-email-value"
+                               placeholder="{Yii::t('site', 'Enter your email address')}"
+                               />
+                        <p id="user-email-error-box" class="errorMessage" style="display: none; top:-17px; left:2px; white-space: nowrap;">
+                            {Yii::t('site', 'Please enter a valid email address')}
+                        </p>
                     </div>
-                    <div class="videosocwrap clearfix">
-                        <div class="video" style="cursor: pointer;">
-                            <span class="video-caption">{Yii::t('site', 'Watch the video to learn more')}</span>
-                        </div>
-                        <div class="social_networks smallicons">
-                            <span>{Yii::t('site', 'Share video')}:</span>
-                            <div class="addthis_toolbox addthis_default_style addthis_32x32_style"
-                                 addthis:url="http://player.vimeo.com/video/{Yii::t('site', '61258856')}?title=0&amp;byline=0&amp;portrait=0&amp;color=24bdd3"
-                                 addthis:title="Skiliks - game the skills"
-                                 addthis:description="{Yii::t('site', 'www.skiliks.com - online simulation aimed at testing management skills')}">
+                    <div><input type="submit" value="{Yii::t('site', 'Notify me')}" /></div>
+                </form>
+                </div>
+            <!-- FORM } -->
+        {/if}
 
-                                <a class="new_social_buttons vk_share_button" title="VK" onclick="
-                                        window.open(
-                                        'http://vk.com/share.php?url=' + encodeURIComponent('{Yii::app()->request->hostInfo}' +'/watchVideo'),
-                                        'vk-share-dialog',
-                                        'width=626,height=436');
-                                        return false;" href="#" target="_blank">
-                                </a>
+    </section>
+    <!--features end-->
 
-                                <a class="new_social_buttons facebook_share_button" title="Facebook" onclick="
-                                    window.open(
-                                      'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent('{Yii::app()->request->hostInfo}' +'/watchVideo'),
-                                      'facebook-share-dialog',
-                                      'width=626,height=436');
-                                    return false;" href="#" target="_blank">
-                                </a>
+    <!--main article-->
+    <section class="main-article">
+        <article>
+            <h3>{Yii::t('site', 'Easy')}</h3>
+            <ul>
+                <li>{Yii::t('site', 'Saves your time')}</li>
+                <li>{Yii::t('site', 'Can be used by an unlimited number of applicants in any part of the world')}</li>
+                <li>{Yii::t('site', 'No hard-, soft- or any-ware required! ! Just make sure you are online')}</li>
+                <li>{Yii::t('site', 'Results can be obtained and used immediately')}</li>
+            </ul>
+        </article>
 
+        <article>
+            <h3>{Yii::t('site', 'Reliable')}</h3>
+            <ul>
+                <li>{Yii::t('site', 'Focused on key practical skills')}</li>
+                <li>{Yii::t('site', 'Based on best working practices')}</li>
+                <li>{Yii::t('site', 'Uses real work environment, tasks and decision<br />making situations')}</li>
+                <li>{Yii::t('site', 'Based on mathematical methods not just feelings')}</li>
+            </ul>
+        </article>
+    </section>
+    <!--main article end-->
 
-                                <a class="new_social_buttons twitter_share_button" title="Twitter" onclick="
-                                        window.open(
-                                        'https://twitter.com/share?url=' + encodeURIComponent('{Yii::app()->request->hostInfo}' +'/watchVideo'),
-                                        'twitter-share-dialog',
-                                        'width=626,height=436');
-                                        return false;" href="#" target="_blank">
-                                </a>
+    <!--clients-->
+    <section class="clients">
+        <h3>{Yii::t('site', 'Our Clients')}</h3>
 
-                                <a class="new_social_buttons google_share_button" title="Google" onclick="
-                                    window.open(
-                                    'https://plus.google.com/share?url=' + encodeURIComponent('{Yii::app()->request->hostInfo}' +'/watchVideo'),
-                                    'google-share-dialog',
-                                    'width=626,height=436');
-                                    return false;" href="#" target="_blank">
-                                </a>
+        <ul>
+            <li style="display:none;">{CHtml::image("$assetsUrl/img/skiliks-fb.png")}</li>
+            <li>{CHtml::image("$assetsUrl/img/icon-hipway.png")}</a></li>
+            <li>{CHtml::image("$assetsUrl/img/icon-mif.png")}</li>
+            <li>{CHtml::image("$assetsUrl/img/icon-wikimart.png")}</li>
+            <li>{CHtml::image("$assetsUrl/img/icon-mcg.png")}</li>
+        </ul>
+    </section>
+    <!--clients end-->
+{$this->renderPartial('//global_partials/_system_mismatch_popup')}
 
-                                <a class="new_social_buttons linkedin_share_button" title="Linkedin" onclick="
-                                        window.open(
-                                        'https://www.linkedin.com/cws/share?url=' + encodeURIComponent('{Yii::app()->request->hostInfo}' +'/watchVideo'),
-                                        'linkedin-share-dialog',
-                                        'width=626,height=436');
-                                        return false;" href="#" target="_blank">
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-					<ul>
-						<li>{Yii::t('site', 'Simulation aimed at testing basic manager’s skills')}</li>
-						<li>{Yii::t('site', '2-3-hours game')}</li>
-						<li>{Yii::t('site', 'Live tasks and decision-making situations')}</li>
-						<li>{Yii::t('site', 'A tool to assess candidates and newcomers')}</li>
-					</ul>
+{literal}
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#subscribe-form').submit(function(e) {
+            hideError();
+            e.preventDefault();
 
-                    {if ('ru' == Yii::app()->getlanguage()) }
-
-                        <a href="/registration" class="bigbtnsubmt freeacess">{Yii::t('site', 'Start using it now for free')}</a>
-
-                    {elseif ('en' == Yii::app()->getlanguage()) }
-                            <!-- FORM { -->
-                            <div id="notify-form">
-                            <form action="static/pages/addUserSubscription" id="subscribe-form">
-                                <div>
-                                    <input type="text"
-                                           id = "user-email-value"
-                                           placeholder="{Yii::t('site', 'Enter your email address')}"
-                                           />
-                                    <p id="user-email-error-box" class="errorMessage" style="display: none; top:-17px; left:2px; white-space: nowrap;">
-                                        {Yii::t('site', 'Please enter a valid email address')}
-                                    </p>
-                                </div>
-                                <div><input type="submit" value="{Yii::t('site', 'Notify me')}" /></div>
-                            </form>
-                            </div>
-                        <!-- FORM } -->
-                    {/if}
-
-				</section>
-				<!--features end-->
-				
-				<!--main article-->
-				<section class="main-article">
-					<article>
-						<h3>{Yii::t('site', 'Easy')}</h3>
-						<ul>
-							<li>{Yii::t('site', 'Saves your time')}</li>
-							<li>{Yii::t('site', 'Can be used by an unlimited number of applicants in any part of the world')}</li>
-							<li>{Yii::t('site', 'No hard-, soft- or any-ware required! ! Just make sure you are online')}</li>
-							<li>{Yii::t('site', 'Results can be obtained and used immediately')}</li>
-						</ul>
-					</article>
-					
-					<article>
-						<h3>{Yii::t('site', 'Reliable')}</h3>
-						<ul>
-							<li>{Yii::t('site', 'Focused on key practical skills')}</li>
-							<li>{Yii::t('site', 'Based on best working practices')}</li>
-							<li>{Yii::t('site', 'Uses real work environment, tasks and decision<br />making situations')}</li>
-							<li>{Yii::t('site', 'Based on mathematical methods not just feelings')}</li>
-						</ul>
-					</article>
-				</section>
-				<!--main article end-->
-				
-				<!--clients-->
-				<section class="clients">
-					<h3>{Yii::t('site', 'Our Clients')}</h3>
-					
-					<ul>
-                        <li style="display:none;">{CHtml::image("$assetsUrl/img/skiliks-fb.png")}</li>
-                        <li>{CHtml::image("$assetsUrl/img/icon-hipway.png")}</a></li>
-						<li>{CHtml::image("$assetsUrl/img/icon-mif.png")}</li>
-						<li>{CHtml::image("$assetsUrl/img/icon-wikimart.png")}</li>
-						<li>{CHtml::image("$assetsUrl/img/icon-mcg.png")}</li>
-					</ul>
-				</section>
-				<!--clients end-->
-		
-        {literal}
-        <script type="text/javascript">
-            $(document).ready(function(){
-                $('#subscribe-form').submit(function(e) {
-                    hideError();
-                    e.preventDefault();
-            
-                    $.ajax({
-                        url: $(this).attr('action'),
-                        type: 'POST',
-                        data: {'email': $('#user-email-value').val()},
-                        success: function(response) {
-                            if ('undefined' !== typeof response.result || 'undefined' !== typeof response.message) {
-                                if (1 === response.result) {
-                                    // redirect to success page
-                                    $('#notify-form').html('<p class="success">Thank you! See you soon</p>');
-                                    //window.location.href = '/static/comingSoonSuccess/en';
-                                    $.cookie('_lang', 'en'); //установить значение cookie
-                                } else {
-                                    // invalid email
-                                    displayError(response.message);
-                                }
-                            } else {
-                                // wrong server response format
-                                displayError("No proper response from server. Please try again later.");
-                            }
-                        },
-                        error: function() {
-                            // no response from server
-                            displayError("No response from server. Please try again later.");
-                        }                
-                    });
-            
-                    // prevent default behaviour
-                    return true;
-                });
+            $.ajax({
+                url: $(this).attr('action'),
+                type: 'POST',
+                data: {'email': $('#user-email-value').val()},
+                success: function(response) {
+                    if ('undefined' !== typeof response.result || 'undefined' !== typeof response.message) {
+                        if (1 === response.result) {
+                            // redirect to success page
+                            $('#notify-form').html('<p class="success">Thank you! See you soon</p>');
+                            //window.location.href = '/static/comingSoonSuccess/en';
+                            $.cookie('_lang', 'en'); //установить значение cookie
+                        } else {
+                            // invalid email
+                            displayError(response.message);
+                        }
+                    } else {
+                        // wrong server response format
+                        displayError("No proper response from server. Please try again later.");
+                    }
+                },
+                error: function() {
+                    // no response from server
+                    displayError("No response from server. Please try again later.");
+                }
             });
-    
-            displayError = function(msg) {
-                $('#user-email-error-box').text(msg);
-                //$('#user-email-error-box').css('top', '-' + ($('#user-email-error-box').height()) + 'px');
-                $('#user-email-error-box').show();
-                $('#user-email-value').css({"border":"2px solid #BD2929","margin-top":"-2px"});
-            }
 
-            hideError = function() {
-                $('#user-email-error-box').hide();
-                $('#user-email-error-box').text('');
-                $('#user-email-value').css({"border":"none","margin-top":"0"});
-            }
-        </script>
-        {/literal}
+            // prevent default behaviour
+            return true;
+        });
+    });
+
+    displayError = function(msg) {
+        $('#user-email-error-box').text(msg);
+        //$('#user-email-error-box').css('top', '-' + ($('#user-email-error-box').height()) + 'px');
+        $('#user-email-error-box').show();
+        $('#user-email-value').css({"border":"2px solid #BD2929","margin-top":"-2px"});
+    }
+
+    hideError = function() {
+        $('#user-email-error-box').hide();
+        $('#user-email-error-box').text('');
+        $('#user-email-value').css({"border":"none","margin-top":"0"});
+    }
+</script>
+{/literal}

@@ -493,7 +493,7 @@ class UserService {
      *
      * @throws Exception
      */
-    public static function renderEmailPartial($_partial_ ,$_data_ = null)
+    public static function renderEmailPartial($_partial_ ,$_data_ = [])
     {
         $_viewFile_ = __DIR__.'/../views/global_partials/mails/'.$_partial_.'.php';
         if(!file_exists($_viewFile_)) {
@@ -824,7 +824,7 @@ class UserService {
         $result = ['type' => 'popup'];
         if(null !== $pending) {
             $result['tariff_label'] = $pending->tariff->label;
-            $result['tariff_start'] = (new DateTime($pending->started_at))->modify('+30 days')->format("d.m.Y");
+            $result['tariff_start'] = StaticSiteTools::formattedDateTimeWithRussianMonth((new DateTime($pending->started_at))->modify('+30 days'));
             $result['popup_class'] = 'tariff-already-booked-popup';
             return $result;
         }
@@ -837,8 +837,9 @@ class UserService {
         $result['tariff_label'] = $tariff->label;
         $result['tariff_limits'] = $tariff->simulations_amount;
         $finish_at = $account->getActiveTariffPlan()->finished_at;
-        $result['tariff_start'] = (new DateTime($finish_at))->modify('+30 days')->format("d.m.Y");
-        $result['tariff_end'] = (new DateTime($result['tariff_start']))->modify('+30 days')->format("d.m.Y");
+        $result['tariff_start'] = StaticSiteTools::formattedDateTimeWithRussianMonth((new DateTime($finish_at)));
+        $start_time = (new DateTime($finish_at))->format("Y-m-d H:i:s");
+        $result['tariff_end'] = StaticSiteTools::formattedDateTimeWithRussianMonth((new DateTime($start_time))->modify('+30 days'));
 
         if((int)$active->tariff->weight === (int)$tariff->weight) {
             $result['popup_class'] = 'extend-tariff-popup';
@@ -846,7 +847,15 @@ class UserService {
             if((int)$account->invites_limit > 0) {
                 $result['popup_class'] = 'tariff-replace-now-popup';
             }else{
-                $invites = (int)Invite::model()->count('tariff_plan_id = :tariff_plan_id and owner_id = :owner_id and (status = :pending or status = :accepted or status = :in_progress)',
+
+                $invites = (int)Invite::model()->count('tariff_plan_id = :tariff_plan_id and owner_id = :owner_id and owner_id = receiver_id and status = :in_progress',
+                    [
+                        'tariff_plan_id' => $active->id,
+                        'owner_id' => $account->user_id,
+                        'in_progress'=>Invite::STATUS_IN_PROGRESS
+                    ]
+                );
+                $invites += (int)Invite::model()->count('tariff_plan_id = :tariff_plan_id and owner_id = :owner_id and (owner_id != receiver_id or receiver_id is null) and (status = :pending or status = :accepted or status = :in_progress)',
                     [
                         'tariff_plan_id' => $active->id,
                         'owner_id' => $account->user_id,
@@ -893,6 +902,111 @@ class UserService {
         $log->type_auth = $type_auth;
         $log->login = $login;
         $log->save(false);
+
+        if($is_success === SiteLogAuthorization::FAIL_AUTH) {
+            $fail_try = (int)SiteLogAuthorization::model()->count("login = :login and is_success = :is_success and date >= :date",
+                [
+                    'login'=>$login,
+                    'is_success'=>SiteLogAuthorization::FAIL_AUTH,
+                    'date'=>(new DateTime())->modify('-1 day')->format("Y-m-d H:i:s")
+                ]
+            );
+
+            if($fail_try === Yii::app()->params['max_auth_failed_attempt']) {
+                $logs = SiteLogAuthorization::model()->findAll("login = :login and is_success = :is_success and date >= :date order by id desc limit 5",
+                    [
+                        'login'=>$login,
+                        'is_success'=>SiteLogAuthorization::FAIL_AUTH,
+                        'date'=>(new DateTime())->modify('-1 day')->format("Y-m-d H:i:s")
+                    ]
+                );
+                self::sendNoticeEmailAfterMaxAuthAttempt($logs);
+            }
+        }
+    }
+
+    public static function logAccountAction(YumUser $user, $ip, $message) {
+        $log = new SiteLogAccountAction();
+        $log->user_id = $user->id;
+        $log->date = (new DateTime())->format('Y-m-d H:i:s');
+        $log->ip = $ip;
+        $log->message = $message;
+        $log->save(false);
+    }
+
+    public static function sendNoticeEmailAfterMaxAuthAttempt(array $logs) {
+
+        $mails = [];
+        $body = self::renderEmailPartial('bruteforce_notice_for_support', ['logs'=>$logs]);
+
+        $mails[] = [
+            'from' => Yum::module('registration')->recoveryEmail,
+            'to' => 'support@skiliks.com',
+            'subject' => 'Обнаружена попытка подобрать пароль на '.Yii::app()->params['server_name'], //Yii::t('site', 'You requested a new password'),
+            'body' => $body,
+            'embeddedImages' => [],
+        ];
+        /* @var $profile YumProfile */
+        $profile = YumProfile::model()->findByAttributes(['email'=>$logs[0]->login]);
+        if(null !== $profile) {
+            $key = self::generateUniqueHash();
+            $profile->user->is_password_bruteforce_detected = YumUser::IS_PASSWORD_BRUTEFORCE_DETECTED;
+            $profile->user->authorization_after_bruteforce_key = $key;
+            $profile->user->save(false);
+
+
+            UserService::logAccountAction($profile->user, $_SERVER['REMOTE_ADDR'], 'Было '.Yii::app()->params['max_auth_failed_attempt'].'
+            не удачных поппыток авторизации за сутки, пользователь был временно заблокирован');
+
+            $body = self::renderEmailPartial('bruteforce_notice_for_user', [
+                'email'=>$profile->email,
+                'date'=>$logs[count($logs)-1]->date,
+                'name'=>$profile->firstname,
+                'user_id'=>$profile->user_id,
+                'key'=>$key
+            ]);
+            $mails[] = [
+                'from' => Yum::module('registration')->recoveryEmail,
+                'to' => $profile->email,
+                'subject' => 'Обнаружена попытка подобрать пароль', //Yii::t('site', 'You requested a new password'),
+                'body' => $body,
+                'embeddedImages' => [
+                [
+                    'path'     => Yii::app()->basePath.'/assets/img/mailtopclean.png',
+                    'cid'      => 'mail-top-clean',
+                    'name'     => 'mailtopclean',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],[
+                    'path'     => Yii::app()->basePath.'/assets/img/mailchair.png',
+                    'cid'      => 'mail-chair',
+                    'name'     => 'mailchair',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],[
+                    'path'     => Yii::app()->basePath.'/assets/img/mail-bottom.png',
+                    'cid'      => 'mail-bottom',
+                    'name'     => 'mailbottom',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],
+            ],
+            ];
+        }
+
+        MailHelper::addMailsToQueue($mails);
+    }
+
+    public static function generateUniqueHash() {
+        return md5(uniqid('skiliks', true).rand(11111,99999).time());
+    }
+
+    public static function authenticate(YumUser $user) {
+        $identity = new YumUserIdentity($user->username, false);
+
+        $identity->authenticate(true);
+
+        Yii::app()->user->login($identity);
     }
 
 }

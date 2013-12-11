@@ -54,6 +54,10 @@ class StaticSiteTools
             $results .= " inner";
         }
 
+        $results .= ' ' . Yii::app()->params['css-theme'];
+
+        $results .= ' language-' . Yii::app()->language;
+
         return $results;
     }
 
@@ -427,5 +431,12 @@ class StaticSiteTools
         $sign = md5($secret . $user_base64 . $time);
 
         return $user_base64 . "_" . $time . "_" . $sign;
+    }
+
+    public static function formattedDateTimeWithRussianMonth(\DateTime $datetime) {
+        $year = $datetime->format("Y");
+        $day = $datetime->format("d");
+        $month = Yii::t('site', $datetime->format("M"));
+        return $day.' '.$month.' '.$year;
     }
 }

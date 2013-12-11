@@ -10,7 +10,6 @@
     'Тарифный план',
     'Дата регистрации',
     'Дата последнего посещения',
-    'Действия',
 ] ?>
 <div class="row fix-top">
     <h2>Корпоративные аккаунты</h2>
@@ -38,6 +37,7 @@
         <?php /* @var $model Invoice */ ?>
         <?php $step = 12; $i = 0; ?>
         <?php foreach($accounts as $account) : ?>
+            <?php /* @var UserAccountCorporate $account */ ?>
             <?php $i++ ?>
             <?php if($i === $step) : ?>
                     <tr>
@@ -70,55 +70,13 @@
                 <td>"<?= $account->company_name ?>"</td>
                 <td style="text-align: center;"><?= $account->invites_limit ?></td>
                 <td style="width: 150px;">
-                    <?php if ($account->tariff_expired_at < date('Y-m-d H:i:s')) : ?>
-                        Просрочен
-                    <?php else: ?>
-                        <?= ($account->tariff) ? $account->tariff->label : '--' ?>
-                    <?php endif; ?>
-
-                    <div class="btn-group">
-                        <a class="btn dropdown-toggle btn-success" data-toggle="dropdown" href="#">
-                            <i class="icon-refresh"></i>
-                        </a>
-                        <ul class="dropdown-menu pull-right">
-                            <li>
-                                <a href="/static/cheats/set-tariff/<?= Tariff::SLUG_LITE ?>">
-                                    <i class="icon-pencil"></i>
-                                    Назначить Пробный тариф</a>
-                            </li>
-                            <li>
-                                <a href="/static/cheats/set-tariff/<?= Tariff::SLUG_STARTER ?>">
-                                    <i class="icon-pencil"></i>
-                                    Назначить Малый тариф</a>
-                            </li>
-                            <li>
-                                <a href="/static/cheats/set-tariff/<?= Tariff::SLUG_PROFESSIONAL ?>">
-                                    <i class="icon-pencil"></i>
-                                    Назначить Профессиональный тариф</a>
-                            </li>
-                            <li>
-                                <a href="/static/cheats/set-tariff/<?= Tariff::SLUG_BUSINESS ?>">
-                                    <i class="icon-pencil"></i>
-                                    Назначить Бизнес тариф</a>
-                            </li>
-                            <li>
-                                <a href="/static/cheats/set-tariff/" style="color: #b00;">
-                                    <i class="icon-trash"></i>
-                                    Очистить поле тариф</a>
-                            </li>
-                        </ul>
-                    </div>
+                    <?= $account->getActiveTariffPlan()->tariff->label ?>
                 </td>
                 <td style="width: 140px;">
                     <?= date('Y-m-d H:i:s', $account->user->createtime) ?>
                 </td>
                 <td>
                     <?= date('Y-m-d H:i:s', $account->user->lastvisit) ?>
-                </td>
-                <td style="width: 170px;">
-                     <a class="btn btn-info" style="width: 140px;"
-                         href="/admin_area/corporate-account/<?= $account->user_id ?>/invite-limit-logs">
-                         <strong>Смотреть лог движения инвайтов</strong></a>
                 </td>
             </tr>
         <?php endforeach ?>

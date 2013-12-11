@@ -1746,6 +1746,7 @@ tr.email-list-separator {
 }
 
 .debug-panel {
+    font-size: 12px;
     line-height: 14px;
     text-align: left;
 }
@@ -1808,11 +1809,17 @@ body.loading {
 #dialogControllerAnswers,
 #mailEmulatorMainScreen,
 #mailEmulatorContentDiv {
-    text-align: left;
-    line-height: 13px;
     font-size: 13px;
+    line-height: 18px;
+    text-align: left;
 }
+
+.flyleaf p.XL-text {
+    line-height: 26px;
+}
+
 
 #cs-button-function div {
     width: 25px;
 }
+

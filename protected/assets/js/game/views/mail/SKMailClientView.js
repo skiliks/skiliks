@@ -843,6 +843,14 @@ define([
                         mailClientView.$('#' + folderId + ' .ml-header > *').click(function() {
                             $table.find('th:eq(' + $(this).index() + ')').click();
                         });
+
+                        // SKILIKS-4940 {
+                        if ($.browser['mozilla'] == true) {
+                            $('.folder-list').height($('#mail-window').height() - 315);
+                            console.log('delta: ', $('#mail-window').height() - 315, $('#mail-window').height());
+                        }
+                        // SKILIKS-4940 }
+
                         setTimeout(function () {
                             var list = mailClientView.$('#' + folderId + ' .ml-list');
                             if (!list.hasClass('mCustomScrollbar')) {

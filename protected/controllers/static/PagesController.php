@@ -18,8 +18,10 @@ class PagesController extends SiteBaseController
     {
         /* @var $user YumUser */
         $this->render('home', [
-            'assetsUrl'      => $this->getAssetsUrl(),
-            'userSubscribed' => false,
+            'assetsUrl'          => $this->getAssetsUrl(),
+            'userSubscribed'     => false,
+            'httpUserAgent'      => $_SERVER['HTTP_USER_AGENT'],
+            'isSkipBrowserCheck' => (int)Yii::app()->params['public']['isSkipBrowserCheck'],
         ]);
     }
 
@@ -56,9 +58,9 @@ class PagesController extends SiteBaseController
     /**
      *
      */
-    public function actionOldBrowser()
+    public function actionSystemMismatch()
     {
-        $this->render('oldBrowser', [
+        $this->render('system-mismatch', [
             'assetsUrl'      => $this->getAssetsUrl(),
             'userSubscribed' => true,
         ]);

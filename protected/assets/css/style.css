@@ -82,8 +82,8 @@ body.inner,
 body.inner-registration,
 .action-controller-order-static-payment,
 body.action-error404,
-body.action-badBrowser,
-body.action-oldBrowser,
+body.action-systemMismatch,
+body.action-watchVideo,
 body.controller-static-help {
     background-image: url("../img/bg-top-inner.jpg"), url("../img/background.jpg");
     background-repeat: no-repeat, repeat-y;
@@ -119,7 +119,12 @@ body.inner-registration {
 
 .action-controller-comingSoonSuccess-static-pages .container,
 .action-controller-index-static-pages .container{
-	background:url("../img/bg-heroes.png") no-repeat center 12px;
+	background:url("../img/home-page-bg/bg-heroes.png") no-repeat center 12px;
+}
+
+.theme-new-year.action-controller-comingSoonSuccess-static-pages .container,
+.theme-new-year.action-controller-index-static-pages .container{
+    background:url("../img/home-page-bg/bg-heroes-ny.png") no-repeat center 12px;
 }
 
 .inner-registration .container{
@@ -131,7 +136,11 @@ body.inner-registration {
 @media screen and (max-width: 1146px){
     .action-controller-comingSoonSuccess-static-pages .container,
     .action-controller-index-static-pages .container{
-		background:url("../img/bg-heroes-min.png") no-repeat center 2px;
+		background:url("../img/home-page-bg/bg-heroes-min-ny.png") no-repeat center 2px;
+	}
+    .theme-new-year.action-controller-comingSoonSuccess-static-pages .container,
+    .theme-new-year.action-controller-index-static-pages .container{
+		background:url("../img/home-page-bg/bg-heroes-min-ny.png") no-repeat center 2px;
 	}
 }
 input, select, button, textarea {
@@ -392,6 +401,8 @@ html[lang=ru] .betaflag {
 	top:18px;
 	right:0;
 }
+
+.link-regular,
 .container>header .language a{
 	color:#fff;
 	text-decoration:none;
@@ -404,16 +415,73 @@ html[lang=ru] .betaflag {
 	top:10px;
 	right:0;
 }
-.container>header nav#static-page-links a {
+
+.link-regular,
+.container>header nav#static-page-links a{
     background: none;
     font-size:14px;
 }
+
+a.link-regular:hover,
 .container>header nav#static-page-links a:hover,
 .container>header nav#static-page-links a.active,
 .container>header nav#static-page-links .link-block {
     background: #146672;
     border-radius: 3px;
 }
+
+.additional-dashboard-link {
+    margin-top: 5px;
+    display: inline-block;
+    position: relative;
+    z-index: 10;
+}
+
+.additional-dashboard-link div {
+    display: inline-block;
+    line-height: 18px;
+    margin: -5px 10px 0px 0px;
+    vertical-align: text-top;
+}
+
+.additional-dashboard-link i {
+    margin: 5px 0 0 5px;
+}
+
+.pull-left {
+    float: left;
+}
+
+.pull-right {
+     float: right;
+}
+
+i.excel-icon {
+    background: url('../img/documents/xls.png');
+    background-size: 18px, 18px;
+    display: inline-block;
+    height: 17px; /* внизу картини есть белая полоса - скрываем её из области видимости, height: 22px */
+    width: 18px;
+}
+
+i.doc-icon {
+    background: url('../img/documents/doc.png');
+    background-size: 18px, 18px;
+    display: inline-block;
+    height: 17px; /* внизу картини есть белая полоса - скрываем её из области видимости, height: 22px */
+    width: 18px;
+}
+
+i.icon-loading {
+    background: url('../img/loaders/16x16-blue.gif');
+    background-repeat: no-repeat;
+}
+
+a:hover .icon-loading {
+    background: url('../img/loaders/16x16-dark-blue.gif');
+    background-repeat: no-repeat;
+}
+
 #simulation-details{
    /*float: right;*/
 }
@@ -2786,7 +2854,7 @@ h2 {
     font-family: "ProximaNova-Regular" !important;
     padding: 0 0 10px 6px;
     text-decoration: none;
-    z-index: 10000;
+    z-index: 2020;
     /*width: 150px;*/
 }
 .action-controller-corporate-static-dashboard .invites-smallmenu-item .edit-invite {
@@ -3373,11 +3441,11 @@ ul.profile-menu li {
     position: relative;
 }
 #private-invitations-list-box .grid-view .pager, #corporate-invitations-list-box .grid-view .pager {
-    bottom: -75px;
+    bottom: -85px;
     height: 40px;
     margin: 0px;
     text-align: center;
-    padding-top: 25px;
+    /*padding-top: 25px;*/
     position: absolute;
 /*    width:598px; */
     width: 100%;
@@ -5612,9 +5680,69 @@ ul.default li:hover {
     padding-left: 30px;
 }
 
+.tariff-expired-popup .ui-dialog-titlebar {
+    padding: 0.1em 0 0 0;
+}
+
+#tariff-expired-popup {
+    height: 10px !important;
+    overflow: hidden;
+}
+
+.referral-popup .ui-dialog-titlebar {
+    padding: 1em 0 0 0;
+    margin-top: -16px;
+}
+
+.referral-popup .ui-dialog-titlebar-close {
+    margin-top: 11px;
+}
+
+#referral-popup {
+    height: 10px !important;
+    overflow: hidden;
+}
+
+.show-popup-top.referral-popup {
+    top: 103px !important;
+}
+
+.show-popup-top.tariff-expired-popup {
+    top: 105px !important;
+}
+
 @media screen and (max-width: 1146px) {
     .container > header nav#static-page-links a.additional-simulations {
         background-size: 16px 16px;
+    }
+
+    #tariff-expired-popu {
+        height: 20px !important;
+        margin-top: 2px;
+    }
+
+    #referral-popup,
+    #referral-popup,
+    #referral-popup .message-text,
+    .referral-popup {
+        height: 20px !important;
+    }
+
+    .tariff-expired-popup .ui-dialog-titlebar {
+        margin-top: 0px;
+    }
+
+    #tariff-expired-popup,
+    .tariff-expired-popup {
+        height: 18px !important;
+    }
+
+    .show-popup-top #tariff-expired-popup .message-text {
+        margin-top: 1px;
+    }
+
+    .show-popup-top.tariff-expired-popup {
+        top: 98px !important;
     }
 }
 
@@ -5772,3 +5900,28 @@ ul.default li:hover {
 
 
 }
+
+.invite-status-tooltip-toggle .invite-status-tooltip {
+    display: none;
+}
+
+.invite-status-tooltip-toggle.active .invite-status-tooltip {
+    display: block;
+}
+
+.link-in-table {
+    color: #428290;
+    cursor: hand;
+    cursor: pointer;
+}
+
+/*#corporate-invitations-list-box #yw0_c0 {
+    background-image: none;
+    padding-right: 0;
+}
+
+#corporate-invitations-list-box thead,
+#corporate-invitations-list-box thead tr,
+#corporate-invitations-list-box .grid-view .items tr:last-child {
+    background-color: #146672;
+}*/

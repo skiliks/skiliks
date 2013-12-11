@@ -14,8 +14,7 @@
 </style>
 
 <h2 class="thetitle"><?php echo Yii::t('site', 'Profile') ?></h2>
-<a href="/profile/save-analytic-file-2?version=v1">Аналитический файл v1</a>
-<a href="/profile/save-analytic-file-2?version=v2">Аналитический файл v2</a>
+
 <div class="transparent-boder profilewrap">
 
 <?php $this->renderPartial('_menu_corporate', ['active' => ['personal-data' => true]]) ?>
@@ -49,19 +48,6 @@
         <?php $this->endWidget(); ?>
     </div>
 </div>
-<script type="text/javascript">
-/*$('.editable').editable(function(value) {
-    var names = value.split(/\s+/).slice(0, 2);
-
-    $('#profile_firstname').val(names[0]);
-    $('#profile_lastname').val(names[1]);
-
-    return names.join(' ');
-}, {
-    width: 200,
-    onblur: 'submit'
-});*/
-</script>
 <script>
     $(document).ready(function(){
         var errors = $(".errorMessage");

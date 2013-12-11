@@ -68,9 +68,14 @@ if(preg_match('/(?i)Firefox/',$_SERVER['HTTP_USER_AGENT']))
 			<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
     </head>
-    
+
     <body class="<?php echo StaticSiteTools::getBodyClass(Yii::app()->request) ?>">
-		<div class="<?php echo StaticSiteTools::getContainerClass(Yii::app()->request) ?>" id="top">
+
+    <script type="text/javascript">
+        var assetsUrl = '<?= $assetsUrl ?>';
+    </script>
+
+        <div class="<?php echo StaticSiteTools::getContainerClass(Yii::app()->request) ?>" id="top">
 			
 			<!--header SC -->
 			<header>

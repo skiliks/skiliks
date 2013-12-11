@@ -40,41 +40,52 @@
  */
 class Invite extends CActiveRecord
 {
-    const STATUS_PENDING   = 0;
-    const STATUS_ACCEPTED  = 1;
-    const STATUS_COMPLETED = 2;
-    const STATUS_DECLINED = 3;
-    const STATUS_EXPIRED = 4;
+    const STATUS_PENDING     = 0;
+    const STATUS_ACCEPTED    = 1;
+    const STATUS_COMPLETED   = 2;
+    const STATUS_DECLINED    = 3;
+    const STATUS_EXPIRED     = 4;
     const STATUS_IN_PROGRESS = 5;
-    const STATUS_DELETED = 6;
+    const STATUS_DELETED     = 6;
 
     public static $statusText = [
-        self::STATUS_PENDING => 'Pending',
-        self::STATUS_ACCEPTED => 'Accepted',
-        self::STATUS_COMPLETED => 'Completed', // after sim start
+        self::STATUS_PENDING     => 'Pending',
+        self::STATUS_DECLINED    => 'Declined',
+        self::STATUS_ACCEPTED    => 'Accepted',
         self::STATUS_IN_PROGRESS => 'In Progress', // after sim start
-        self::STATUS_DECLINED => 'Declined',
-        self::STATUS_EXPIRED => 'Expired',
-        self::STATUS_DELETED => 'Deleted'
+        self::STATUS_COMPLETED   => 'Completed', // after sim start
+        self::STATUS_EXPIRED     => 'Expired',
+        self::STATUS_DELETED     => 'Deleted'
     ];
 
     public static $statusTextRus = [
-        self::STATUS_PENDING => 'в ожидании',
-        self::STATUS_ACCEPTED => 'принятый',
-        self::STATUS_COMPLETED => 'завершенный', // after sim start
-        self::STATUS_IN_PROGRESS => 'в процессе', // after sim start
-        self::STATUS_DECLINED => 'отклонено',
-        self::STATUS_EXPIRED => 'истекший',
-        self::STATUS_DELETED => 'удален'
+        self::STATUS_PENDING     => 'В ожидании',
+        self::STATUS_DECLINED    => 'Отклонено',
+        self::STATUS_ACCEPTED    => 'Принятый',
+        self::STATUS_IN_PROGRESS => 'В процессе', // after sim start
+        self::STATUS_COMPLETED   => 'Завершенный', // after sim start
+        self::STATUS_EXPIRED     => 'Истекший',
+        self::STATUS_DELETED     => 'Удален'
     ];
 
     public static $statusId = [
-        'Pending'   => self::STATUS_PENDING,
-        'Accepted'  => self::STATUS_ACCEPTED,
-        'Completed' => self::STATUS_COMPLETED,
-        'Declined'  => self::STATUS_DECLINED,
-        'Expired'  => self::STATUS_EXPIRED,
+        'Pending'     => self::STATUS_PENDING,
+        'Declined'    => self::STATUS_DECLINED,
+        'Accepted'    => self::STATUS_ACCEPTED,
+        'In Progress' => self::STATUS_IN_PROGRESS,
+        'Completed'   => self::STATUS_COMPLETED,
+        'Expired'     => self::STATUS_EXPIRED,
         'InProgress'  => self::STATUS_IN_PROGRESS,
+    ];
+
+    public static $statusDescription = [
+        self::STATUS_PENDING     => 'Приглашение отправлено вами, приглашённый пока не предпринял никаких действий',
+        self::STATUS_DECLINED    => 'Приглашённый отклонил ваше приглашение на прохождение симуляции',
+        self::STATUS_ACCEPTED    => 'Приглашённый зарегистрировался на сайте и принял приглашение на прохождение симуляции',
+        self::STATUS_IN_PROGRESS => 'Приглашённый начал прохождение симуляции',
+        self::STATUS_COMPLETED   => 'Симуляция пройдена, доступны результаты',
+        self::STATUS_EXPIRED     => 'Прошли 5 дней с момента отправки приглашения, а приглашённый не предпринял никаких действий',
+        self::STATUS_DELETED     => ''
     ];
 
     const EXPIRED_TIME = 604800; // 7days
@@ -271,6 +282,14 @@ class Invite extends CActiveRecord
     public function getStatusText()
     {
         return self::$statusText[$this->status];
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatusDescription()
+    {
+        return self::$statusDescription[$this->status];
     }
 
     /**

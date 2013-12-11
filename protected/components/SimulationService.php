@@ -1120,6 +1120,9 @@ class SimulationService
             $excelWriter->save($path);
             return $path;
         }
+
+        // симуляций нет
+        return null;
     }
 
     public static function createPathForAnalyticsFile($user_id, $assessment_version) {
@@ -1140,7 +1143,6 @@ class SimulationService
             if($isCompleted && $isFull && $isValidAssessmentVersion) {
                 $simulations[] = $invite->simulation;
             }
-
         }
 
         return self::saveLogsAsExcelReport2($simulations, $account);

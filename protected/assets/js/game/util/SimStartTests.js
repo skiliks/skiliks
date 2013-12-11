@@ -58,6 +58,10 @@ try {
                     return true;
                 }
 
+                if (cfg.isSkipSpeedTest) {
+                    return true;
+                }
+
                 $.ajax({
                     url: '/index.php/logService/addInviteLog',
                     data: {
@@ -71,7 +75,7 @@ try {
                     async: false
                 });
 
-                if(processorTestResult.average > 0) {
+                if(processorTestResult.average > 1) {
                     updateImageLoaderBar('Проверка текущего быстродействия... OK!', 0.90, true);
                     return true;
                 }
