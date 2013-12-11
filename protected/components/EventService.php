@@ -1,7 +1,5 @@
 <?php
 
-
-
 /**
  * Сервис по работе с событиями
  *
@@ -77,7 +75,8 @@ class EventService
     }
 
     /**
-     * @param $code
+     * Удаляет событие по коду
+     * @param $code string код события
      * @param Simulation $simulation
      * @return bool
      */
@@ -216,7 +215,7 @@ class EventService
     }
 
     /**
-     *
+     * Выводит очередь событий в дев. режиме
      */
     public static function getEventsQueueForJs(Simulation $simulation, $eventsQueueDepth = 0)
     {
