@@ -52,7 +52,7 @@ class UserService {
                 $response['message'] =  "Enter your email address";
         }elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $response['message'] =  "Email entered incorrectly";
-        } elseif (EmailsSub::model()->findByEmail($email)) {
+        } elseif (EmailsSub::model()->findByAttributes(['email' => $email])) {
             $response['message'] =  "Email - ${email} has been already added before!";
         } else {
             $subscription = new EmailsSub();

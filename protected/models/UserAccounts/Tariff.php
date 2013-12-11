@@ -41,26 +41,47 @@ class Tariff extends CActiveRecord
 
     /* ----------------------------------------------------------------------------------------------------- */
 
-    public function getPrice()
+    /**
+     * Возвращает цену в валюте, согластно текущей локали пользователя
+     *
+     * @param string $lang, ISO2: 'ru','en'
+     *
+     * @return string
+     */
+    public function getPrice($lang)
     {
-        return Yii::app()->getLanguage() == 'ru' ? $this->price : $this->price_usd;
+        return $lang == 'ru' ? $this->price : $this->price_usd;
     }
 
-    public function getSaveAmount()
+    /**
+     * Возвращает денежную экономию в валюте, согластно текущей локали пользователя
+     * (для рекламмы тарифа на странице цен и тарифов)
+     *
+     * @param string $lang, ISO2: 'ru','en'
+     *
+     * @return string
+     */
+    public function getSaveAmount($lang)
     {
-        return Yii::app()->getLanguage() == 'ru' ? $this->safe_amount : $this->safe_amount_usd;
+        return $lang == 'ru' ? $this->safe_amount : $this->safe_amount_usd;
     }
 
-    public function getFormattedPrice($withCurrency = false)
+    /**
+     * Возвращает цену в валюте, согластно текущей локали пользователя + обозначение валюты
+     *
+     * @param bool $withCurrency
+     * @param string $lang, ISO2: 'ru','en'
+     *
+     * @return string
+     */
+    public function getFormattedPrice($lang, $withCurrency = false)
     {
-        $lang = Yii::app()->getLanguage();
-        $currency = $lang == 'ru' ? 'RUB' : 'USD';
-        $price = StaticSiteTools::getI18nCurrency($this->getPrice(), $currency, $lang, '#,##0');
+        /* почему здесь не используется getPrice() ? */
+        $price = $this->getPrice($lang);
 
-        if (preg_match('/^(\d{1,3})((?:\d{3})*)(\.\d+)/', $price, $match)) {
-            $price = $match[1] . preg_replace('/\d{3}/', ' $1', $match[2]) . $match[3];
-        }
-
+        // использовать getFormattedCurrencyName() нельзя,
+        // така как у цены рублях подпись валюты пошется за цифрой,
+        // а у цены в долларах - перед
         if ($withCurrency) {
             if ($lang == 'ru') {
                 $price .= ' р';
@@ -72,30 +93,44 @@ class Tariff extends CActiveRecord
         return $price;
     }
 
-    public function getFormattedCyName()
+    /**
+     * Возвращает обозначение валюты, согластно текущей локали пользователя
+     *
+     * @param string $lang, ISO2: 'ru','en'
+     * @return string
+     */
+    public function getFormattedCurrencyName($lang)
     {
-        $lang = Yii::app()->getLanguage();
-
-            if ($lang == 'ru') {
-                $price = 'р';
-            } else {
-                $price = '$';
-            }
+        if ($lang == 'ru') {
+            $price = 'р';
+        } else {
+            $price = '$';
+        }
 
         return $price;
     }
 
-    public function getFormattedSafeAmount($prefix = '')
+    /**
+     * Возвращает денежную экономию в валюте, согластно текущей локали пользователя + обозначение валюты
+     *
+     * @param string $prefix
+     * @param string $lang, ISO2: 'ru','en'
+     *
+     * @return string
+     */
+    public function getFormattedSafeAmount($lang, $prefix = '')
     {
         if ($this->is_free) {
             return Yii::t('site', '1 Month free');
         }
 
-        $lang = Yii::app()->getLanguage();
         $currency = $lang == 'ru' ? 'RUB' : 'USD';
-        return  $prefix.($lang == 'en' ? '$' : '').StaticSiteTools::getI18nCurrency($this->getSaveAmount(), $currency, $lang, '#').($lang == 'ru' ? ' р' : '');
+        return  $prefix.($lang == 'en' ? '$' : '').StaticSiteTools::getI18nCurrency($this->getSaveAmount($lang), $currency, $lang, '#').($lang == 'ru' ? ' р' : '');
     }
 
+    /**
+     * @return string
+     */
     public function getFormattedLabel()
     {
         return (null === $this->label) ? 'Не задан' : $this->label;
@@ -151,6 +186,15 @@ class Tariff extends CActiveRecord
         } else {
             return Yii::t('site', 'Subscribe');
         }
+    }
+
+    /**
+     * Определяет, показывать литарифф на странице Тарифы и цены
+     *
+     * @return bool
+     */
+    public function isDisplayOnTariffsPage() {
+        return $this->is_display_on_tariffs_page === '1';
     }
 
     /* ----------------------------------------------------------------------------------------------------- */
@@ -248,8 +292,4 @@ class Tariff extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
-
-    public function isDisplayOnTariffsPage() {
-        return $this->is_display_on_tariffs_page === '1';
-    }
 }

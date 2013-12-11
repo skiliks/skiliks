@@ -99,6 +99,10 @@ class SiteLogAccountAction extends CActiveRecord
         ));
     }
 
+    /**
+     * @param integer $user_id
+     * @return CActiveDataProvider
+     */
     public function searchSiteLogs($user_id) {
 
         $criteria = new CDbCriteria();

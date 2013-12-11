@@ -4,69 +4,27 @@
 /**
  * Модель персонажей. Хранит информацию о персонажах.
  *
- * @param string sex, 'M' - male, 'F' - female, '-' - undefined
+ * @param integer $id
+ * @param string  $title
+ * @param string  $fio
+ * @param string  $email
+ * @param integer $code
+ * @param string  $skype
+ * @param string  $phone
+ * @param string  $import_id
+ * @param string  $has_mail_theme
+ * @param string  $has_phone_theme
+ * @param string  $sex, 'M' - male, 'F' - female, '-' - undefined
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class Character extends CActiveRecord
 {
-    const SEX_MALE = 'M';
-
+    const SEX_MALE   = 'M';
     const SEX_FEMALE = 'F';
 
     const HERO_ID = 1;
 
-    /**
-     * @var integer
-     */
-    public $id;
-    
-    /**
-     * @var string
-     */
-    public $title;
-    
-    /**
-     * @var string
-     */
-    public $fio;
-    
-    /**
-     * @var string
-     */
-    public $email;
-    
-    /**
-     * @var integer
-     */
-    public $code;
-    
-    /**
-     * @var string
-     */
-    public $skype;
-    
-    /**
-     * @var string
-     */
-    public $phone;
-    
-    /**
-     * @var string
-     */
-    public $import_id;
-
-    /**
-     * @var string
-     */
-    public $has_mail_theme;
-
-    /**
-     * @var string
-     */
-    public $has_phone_theme;
-
-    
     /* -------------------------------------------------------------------------------------- */
 
     /**

@@ -45,7 +45,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             // check and add trial lite version }
 
         $vacancies = [];
-        $vacancyList = Vacancy::model()->byUser($this->user->id)->findAll();
+        $vacancyList = Vacancy::model()->findAllByAttributes(['user_id' => $this->user->id]);
         foreach ($vacancyList as $vacancy) {
             $vacancies[$vacancy->id] = Yii::t('site', $vacancy->label);
         }

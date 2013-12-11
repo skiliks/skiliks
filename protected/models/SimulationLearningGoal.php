@@ -21,6 +21,16 @@
  */
 class SimulationLearningGoal extends CActiveRecord
 {
+    /**
+     * @return int
+     */
+    public function getReducingCoefficient()
+    {
+        return LearningGoalAnalyzer::getReducingCoefficient($this->problem);
+    }
+
+    /* --------------------------------------------------------------------------------------------- */
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -102,9 +112,4 @@ class SimulationLearningGoal extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
-
-    public function getReducingCoefficient()
-    {
-        return LearningGoalAnalyzer::getReducingCoefficient($this->problem);
-    }
 }

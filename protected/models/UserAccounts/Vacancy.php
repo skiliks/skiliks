@@ -20,6 +20,14 @@
  */
 class Vacancy extends CActiveRecord
 {
+    /**
+     * Возвращает обрезанный до максимальной длинны URL ссылки на вакансию
+     * @return string
+     */
+    public function getCroppedUrl() {
+        return StringTools::getMaxLength(Yii::app()->params['vacancyLinkInProfileMaxLength'], $this->link);
+    }
+
     /** ------------------------------------------------------------------------------------------- */
 
 	/**
@@ -123,17 +131,4 @@ class Vacancy extends CActiveRecord
             ]
 		]);
 	}
-
-    public function byUser($userId)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => 'user_id = :userId',
-            'params' => ['userId' => $userId]
-        ));
-        return $this;
-    }
-
-    public function getMaxLink() {
-        return StringTools::getMaxLength(Yii::app()->params['vacancyLinkInProfileMaxLength'], $this->link);
-    }
 }

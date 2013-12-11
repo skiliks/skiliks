@@ -14,7 +14,7 @@
                     <label class="grid-cell font-large">Выбран тарифный план</label>
                     <div class="grid-cell value">
                         <strong class="font-green font-xxlarge"><?php echo strtolower(Yii::app()->user->data()->getAccount()->getTariffLabel()) ?></strong>
-                        <small class="font-small font-grey"><?php echo Yii::app()->user->data()->getAccount()->tariff->getFormattedPrice() ?></small>
+                        <small class="font-small font-grey"><?php echo Yii::app()->user->data()->getAccount()->tariff->getFormattedPrice(Yii::app()->getLanguage()) ?></small>
                     </div>
                 <?php endif ?>
                 <?php /*
