@@ -12,12 +12,13 @@ $lang = Yii::app()->getLanguage();
             <h5 class="text-center"><?php echo $tariff->label ?></h5>
             <div class="tariff-price <?= $lang ?>">
                 <p class="proxima-reg">
-                <?php if (floor($tariff->getPrice() / 1000)): ?>
-                    <span><?php echo floor($tariff->getPrice() / 1000) ?></span>
+                <?php if (floor($tariff->getPrice(Yii::app()->getLanguage()) / 1000)): ?>
+                    <span><?php echo floor($tariff->getPrice(Yii::app()->getLanguage()) / 1000) ?></span>
                 <?php endif ?>
-                <?php echo $tariff->getPrice() % 1000 ?></p>
+                <?php echo $tariff->getPrice(Yii::app()->getLanguage()) % 1000 ?></p>
             </div>
-            <strong class="border-primary bg-blue font-xslarge font-white display-ib tariff-save"><?php echo $tariff->getFormattedSafeAmount(Yii::t('site', 'Save ')) ?></strong>
+            <strong class="border-primary bg-blue font-xslarge font-white display-ib tariff-save">
+                <?php echo $tariff->getFormattedSafeAmount(Yii::app()->getLanguage(), Yii::t('site', 'Save ')) ?></strong>
            </header>
 
            <div class="pad-norm text-center">

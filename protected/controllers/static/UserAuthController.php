@@ -86,7 +86,8 @@ class UserAuthController extends YumController
      */
     public function actionRegisterByLink($code)
     {
-        $invite = Invite::model()->findByCode($code);
+        $invite = Invite::model()->findByAttributes([ 'code' => $code ]);
+
         if (empty($invite)) {
             Yii::app()->user->setFlash('error', 'Код приглашения неверный.');
             $this->redirect('/');

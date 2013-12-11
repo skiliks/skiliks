@@ -25,7 +25,7 @@
                     'columns' => [
                         ['header' => '', 'name' => '' , 'value' => '($row+1)."."'],
                         ['header' => Yii::t('site', 'Name'), 'name' => 'label' , 'value' => '$data->label'],
-                        ['header' => Yii::t('site', 'Link'), 'name' => 'link'  , 'value' => '$data->getMaxLink()'],
+                        ['header' => Yii::t('site', 'Link'), 'name' => 'link'  , 'value' => '$data->getCroppedUrl()'],
                         ['header' => ''                                        , 'value' => '"<a class=\"edit-vacancy-link\" href=\"/profile/corporate/vacancy/$data->id/edit\">редактировать</a>"'                   , 'type' => 'html'],
                         ['header' => ''                                        , 'value' => '"<a class=\"delete-vacancy-link\" href=\"/profile/corporate/vacancy/$data->id/remove\">удалить</a>"' , 'type' => 'html'],
                     ]

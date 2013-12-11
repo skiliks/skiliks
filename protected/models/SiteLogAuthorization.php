@@ -25,6 +25,17 @@ class SiteLogAuthorization extends CActiveRecord
 
     const SUCCESS_AUTH = '1';
     const FAIL_AUTH = '0';
+
+    /**
+     * @return string
+     */
+    public function getStatus()
+    {
+        return ($this->is_success === self::SUCCESS_AUTH) ? 'Успешная' : 'Не успешная';
+    }
+
+    /* --------------------------------------------------------------------------------------------------- */
+
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
@@ -121,6 +132,9 @@ class SiteLogAuthorization extends CActiveRecord
         ));
     }
 
+    /**
+     * @return CActiveDataProvider
+     */
     public function searchSiteLogs() {
 
         $criteria = new CDbCriteria();
@@ -152,9 +166,5 @@ class SiteLogAuthorization extends CActiveRecord
                 'pageVar' => 'page'
             ]
         ]);
-    }
-
-    public function getStatus() {
-        return ($this->is_success === self::SUCCESS_AUTH)?'Успешная':'Не успешная';
     }
 }

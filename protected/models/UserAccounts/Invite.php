@@ -93,6 +93,8 @@ class Invite extends CActiveRecord
     /* ------------------------------------------------------------------------------------------------------------ */
 
     /**
+     * Полное имя пользователя, для писем и попапов на сайте
+     *
      * @return string
      */
     public function getReceiverUserName()
@@ -108,6 +110,9 @@ class Invite extends CActiveRecord
         return 'Ваше имя';
     }
 
+    /**
+     * @return string
+     */
     public function getReceiverFirstName()
     {
 
@@ -194,7 +199,7 @@ class Invite extends CActiveRecord
     }
 
     /**
-     *
+     * Иправляет дату создания и изменения, используется при отправки приглашения повторно
      */
     public function markAsSendToday()
     {
@@ -207,7 +212,7 @@ class Invite extends CActiveRecord
     }
 
     /**
-     *
+     * @return string
      */
     public function getExpiredDate()
     {
@@ -358,6 +363,12 @@ class Invite extends CActiveRecord
         return $invite;
     }
 
+    /**
+     * Проверка, моет ли соискатель просмотривать попап с оценкой и шкалу с оценкой
+     * @param YumUser $user, пользователь соискателя
+     *
+     * @return bool
+     */
     public function isAllowedToSeeResults(YumUser $user)
     {
         // просто проверка
@@ -384,21 +395,10 @@ class Invite extends CActiveRecord
         return false;
     }
 
-    /* ------------------------------------------------------------------------------------------------------------ */
-
-    public function uniqueEmail($attribute, $params)
-    {
-        if ($this->getIsNewRecord() && null !== self::model()->findByAttributes([
-            'email'    => strtolower($this->email),
-            'owner_id' => $this->owner_id,
-            'status'   => [self::STATUS_PENDING, self::STATUS_ACCEPTED]
-        ])) {
-            $this->addError('email','Приглашение уже отправлено');
-        }
-    }
-
     /**
+     * Бизнес логика, которая должна быть выполненя в день когда приглашение становится просроченным
      *
+     * @return bool
      */
     public function inviteExpired()
     {
@@ -435,7 +435,122 @@ class Invite extends CActiveRecord
         return true;
     }
 
+
     /**
+     * @return bool
+     */
+    public function canUserSimulationStart() {
+        if ($this->receiver_id === null) {
+            return true;
+        }
+
+        if ((int)$this->receiver_id === (int)$this->receiverUser->id) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * @return array|mixed|null
+     */
+    public function getOverall() {
+        $assessment = AssessmentOverall::model()->findByAttributes([
+            'sim_id'=>$this->simulation_id,
+            'assessment_category_code' => AssessmentCategory::OVERALL
+        ]);
+        if(null === $assessment){
+            return null;
+        }else{
+            return $assessment->value;
+        }
+    }
+
+    /**
+     * @return array|mixed|null
+     */
+    public function getPercentile() {
+        $assessment = AssessmentOverall::model()->findByAttributes([
+            'sim_id' => $this->simulation_id,
+            'assessment_category_code' => AssessmentCategory::PERCENTILE
+        ]);
+        if(null === $assessment){
+            return null;
+        }else{
+            return $assessment->value;
+        }
+    }
+
+    /**
+     * @return bool
+     */
+    public function resetInvite() {
+        $invite_status = $this->status;
+        $this->status = Invite::STATUS_ACCEPTED;
+        $this->simulation->end = gmdate("Y-m-d H:i:s", time());
+        $this->simulation->update();
+        $this->simulation_id = null;
+        $result = $this->save(false);
+
+        InviteService::logAboutInviteStatus($this, 'Сменился статус с '.Invite::getStatusNameByCode($invite_status)." на ".Invite::getStatusNameByCode($this->status));
+        return $result;
+    }
+
+    /**
+     * Sets invites status to deleted and saves it
+     */
+    public function deleteInvite() {
+        $invite_status = $this->status;
+        $this->status = Invite::STATUS_DELETED;
+        $result = $this->save(false);
+
+        InviteService::logAboutInviteStatus($this, 'Сменился статус с '.Invite::getStatusNameByCode($invite_status)." на ".Invite::getStatusNameByCode($this->status));
+        return $result;
+    }
+
+    /**
+     * @param $code
+     * @return string
+     */
+    public static function getStatusNameByCode($code) {
+        if(empty($code)){
+            return "не задано";
+        }
+        return self::$statusTextRus[$code];
+    }
+
+    /**
+     * задаёт тарифный план (ТП), в рамках которого приглашение будет активно,
+     * равным текущему ТП аккаунта создателя этого приглашения
+     */
+    public function setTariffPlan() {
+        $this->tariff_plan_id = $this->ownerUser->account_corporate->getActiveTariffPlan()->id;
+    }
+
+    /* ------------------------------------------------------------------------------------------------------------ */
+
+    /**
+     * Валидатор
+     *
+     * @param $attribute
+     * @param $params
+     */
+    public function uniqueEmail($attribute, $params)
+    {
+        if ($this->getIsNewRecord() && null !== self::model()->findByAttributes([
+            'email'    => strtolower($this->email),
+            'owner_id' => $this->owner_id,
+            'status'   => [self::STATUS_PENDING, self::STATUS_ACCEPTED]
+        ])) {
+            $this->addError('email','Приглашение уже отправлено');
+        }
+    }
+
+
+
+    /**
+     * HTML код кнопки "Принять" (приглашение)
+     *
      * @return null|string
      */
     public function getAcceptActionTag()
@@ -454,6 +569,8 @@ class Invite extends CActiveRecord
     }
 
     /**
+     * HTML код ссылки "Отклонить" (приглашение)
+     *
      * @return null|string
      */
     public function getDeclineActionTag()
@@ -470,6 +587,8 @@ class Invite extends CActiveRecord
     }
 
     /**
+     * HTML код ссылки "удалить" (приглашение)
+     *
      * @return null|string
      */
     public function getSoftRemoveActionTag()
@@ -485,9 +604,17 @@ class Invite extends CActiveRecord
         return null;
     }
 
+    /**
+     * URL ссылки "регистрация по ссылке"
+     *
+     * @return string
+     */
     public function getInviteLink()
     {
-        return Yii::app()->createAbsoluteUrl($this->receiver_id ? '/dashboard' : '/registration/by-link/' . $this->code);
+        return Yii::app()->createAbsoluteUrl(
+            $this->receiver_id ?
+                '/dashboard' :
+                '/registration/by-link/' . $this->code);
     }
 
     /* ------------------------------------------------------------------------------------------------------------ */
@@ -656,7 +783,6 @@ class Invite extends CActiveRecord
      * Retrieves a list of models based on the current search/filter conditions.
      * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
      */
-
     public function searchCorporateInvites($ownerId = null)
     {
         // Warning: Please modify the following code to remove attributes that
@@ -896,95 +1022,4 @@ class Invite extends CActiveRecord
             ]
         ]);
     }
-
-    /**
-     * @param string $code
-     * @return Invite|null
-     */
-    public function findByCode($code)
-    {
-        return $this->findByAttributes([
-            'code' => $code
-        ]);
-    }
-
-    public function canUserSimulationStart() {
-
-        if($this->receiver_id === null){
-            return true;
-        }
-        if((int)$this->receiver_id === (int)$this->receiverUser->id){
-            return true;
-        }else{
-            return false;
-        }
-
-    }
-
-    /**
-     * @return array|mixed|null
-     */
-    public function getOverall() {
-        $assessment = AssessmentOverall::model()->findByAttributes([
-            'sim_id'=>$this->simulation_id,
-            'assessment_category_code' => AssessmentCategory::OVERALL
-        ]);
-        if(null === $assessment){
-            return null;
-        }else{
-            return $assessment->value;
-        }
-    }
-
-    /**
-     * @return array|mixed|null
-     */
-    public function getPercentile() {
-        $assessment = AssessmentOverall::model()->findByAttributes([
-            'sim_id' => $this->simulation_id,
-            'assessment_category_code' => AssessmentCategory::PERCENTILE
-        ]);
-        if(null === $assessment){
-            return null;
-        }else{
-            return $assessment->value;
-        }
-    }
-
-    public function resetInvite() {
-        $invite_status = $this->status;
-        $this->status = Invite::STATUS_ACCEPTED;
-        $this->simulation->end = gmdate("Y-m-d H:i:s", time());
-        $this->simulation->update();
-        $this->simulation_id = null;
-        $result = $this->save(false);
-
-        InviteService::logAboutInviteStatus($this, 'Сменился статус с '.Invite::getStatusNameByCode($invite_status)." на ".Invite::getStatusNameByCode($this->status));
-        return $result;
-    }
-
-    /**
-     * Sets invites status to deleted and saves it
-     */
-
-    public function deleteInvite() {
-        $invite_status = $this->status;
-        $this->status = Invite::STATUS_DELETED;
-        $result = $this->save(false);
-
-        InviteService::logAboutInviteStatus($this, 'Сменился статус с '.Invite::getStatusNameByCode($invite_status)." на ".Invite::getStatusNameByCode($this->status));
-        return $result;
-    }
-
-    public static function getStatusNameByCode($code) {
-        if(empty($code)){
-            return "не задано";
-        }
-        return self::$statusTextRus[$code];
-    }
-
-    public function setTariffPlan() {
-        $this->tariff_plan_id = $this->ownerUser->account_corporate->getActiveTariffPlan()->id;
-    }
-
 }

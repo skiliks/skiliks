@@ -818,7 +818,7 @@ class SimulationServiceUnitTest extends CDbTestCase
 
         SimulationService::simulationStop($simulation);
 
-        $executedRules = StressPoint::model()->bySimId($simulation->id)->findAll();
+        $executedRules = StressPoint::model()->findAllByAttributes(['sim_id' => $simulation->id]);
         $list = array_map(function($rule) {
             return $rule->stressRule->code;
         }, $executedRules);

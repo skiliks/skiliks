@@ -243,7 +243,7 @@ class PagesController extends SiteBaseController
         $passwordForm2->validate();
 
         $vacancies = [];
-        $vacancyList = Vacancy::model()->byUser(Yii::app()->user->id)->findAll();
+        $vacancyList = Vacancy::model()->findAllByAttributes(['user_id' => Yii::app()->user->id]);
         foreach ($vacancyList as $vacancy) {
             $vacancies[$vacancy->id] = Yii::t('site', $vacancy->label);
         }

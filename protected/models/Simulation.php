@@ -75,19 +75,31 @@ class Simulation extends CActiveRecord
 
     /** ------------------------------------------------------------------------------------------------------------ **/
 
+    /**
+     * @param string $time, 'H:i'
+     * @param string $date, 'Y:-m-d'
+     * @return string
+     */
     public function formatDateForMissedCalls($time, $date = null)
     {
-        if(null === $date){
-
+        if (null === $date) {
             $date = $this->game_type->scenario_config->game_date_data;
         }
+
         return $date . ' | ' . $time;
     }
 
+    /**
+     * @return string
+     */
     public function getModeLabel() {
         return ($this->mode == self::MODE_PROMO_ID) ? self::MODE_PROMO_LABEL : self::MODE_DEVELOPER_LABEL;
     }
 
+    /**
+     * @param bool $isConsoleCall
+     * @return bool|string
+     */
     public function saveLogsAsExcel($isConsoleCall = false)
     {
         $logTableList = new LogTableList($this);
@@ -102,6 +114,9 @@ class Simulation extends CActiveRecord
         return true;
     }
 
+    /**
+     * @return string
+     */
     public function getLogFileName()
     {
         return __DIR__.'/../logs/'.sprintf("%s-log.xlsx", $this->id);
@@ -151,6 +166,9 @@ class Simulation extends CActiveRecord
         return false;
     }
 
+    /**
+     * @return string
+     */
     public function getStatusCss()
     {
         $arr = [
@@ -168,7 +186,7 @@ class Simulation extends CActiveRecord
 
     /**
      * @param YumUser $user, to check is it allowed for this $user to clean events queue
-     *@param boolean $exceptEmails
+     * @param boolean $exceptEmails
      * @return boolean
      */
     public function cleanEventsQueue($user, $exceptEmails = true)
@@ -219,426 +237,12 @@ class Simulation extends CActiveRecord
         return true;
     }
 
-    /** ------------------------------------------------------------------------------------------------------------ **/
 
     /**
-     *
-     * @param type $className
-     * @return Simulation
+     * @param $user
+     * @param $type
+     * @return CActiveRecord|null
      */
-    public static function model($className = __CLASS__)
-    {
-        return parent::model($className);
-    }
-
-    /**
-     * @return string the associated database table name
-     */
-    public function tableName()
-    {
-        return 'simulations';
-    }
-
-    /**
-     * Выбрать по заданному пользователю.
-     * @param int $uid
-     * @return Simulation
-     */
-    public function byUid($uid)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => 'user_id = ' . (int)$uid
-        ));
-        return $this;
-    }
-
-    /**
-     * Выбрать ближайшую симуляцию
-     * @return Simulation
-     */
-    public function nearest()
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'order' => 'id DESC',
-            'limit' => 1
-        ));
-        return $this;
-    }
-
-    /**
-     * Returns current simulation time
-     * @param $precision string second or minute
-     * @return string Return H:i:s or H:i
-     */
-    public function getGameTime($precision='second')
-    {
-        $time = Yii::app()->request->getParam('time');
-        if( null === $time ) {
-            // for unit tests with time {
-            if (isset(Yii::app()->session['gameTime'])) {
-                if($precision === 'second') {
-                    return date('H:i:s', strtotime(Yii::app()->session['gameTime']));
-                } else if($precision === 'minute') {
-                    return date('H:i', strtotime(Yii::app()->session['gameTime']));
-                } else {
-                    throw new Exception("Unknown precision type ".$precision);
-                }
-            }
-            // for unit tests with time }
-
-            $variance = GameTime::getUnixDateTime(GameTime::setNowDateTime()) - GameTime::getUnixDateTime($this->start) - $this->skipped;
-            $variance = $variance * $this->getSpeedFactor();
-
-            $startTime = explode(':', $this->game_type->start_time);
-            $unixtime = $variance + $startTime[0] * 3600 + $startTime[1] * 60 + $startTime[2];
-
-            if($precision === 'second'){
-                return gmdate('H:i:s', $unixtime); //for unit tests or console
-            } else if($precision === 'minute') {
-                return gmdate('H:i', $unixtime);
-            } else{
-                throw new Exception("Unknown precision type ".$precision);
-            }
-        }else{
-            if($precision === 'second'){
-                return date('H:i:s', strtotime($time));
-            } else if($precision === 'minute') {
-                return date('H:i', strtotime($time));
-            } else{
-                throw new Exception("Unknown precision type ".$precision);
-            }
-        }
-
-    }
-
-    public function deleteOldTriggers($newHours, $newMinutes)
-    {
-        foreach ($this->events_triggers as $event_trigger) {
-            if ($event_trigger->trigger_time == null) {
-                continue;
-            }
-            if (preg_match('/^M/', $event_trigger->event_sample->code)) {
-                continue;
-            }
-            if ($event_trigger->trigger_time == '00:00:00') {
-                continue;
-            }
-            if (GameTime::timeToSeconds($event_trigger->trigger_time) < ($newHours * 60 + $newMinutes) * 60) {
-                $event_trigger->delete();
-            }
-        }
-    }
-
-    public function relations()
-    {
-        return [
-            'user'                            => [self::BELONGS_TO, 'YumUser', 'user_id'],
-            'events_triggers'                 => [self::HAS_MANY, 'EventTrigger', 'sim_id'],
-            'log_windows'                     => [self::HAS_MANY, 'LogWindow', 'sim_id', 'order' => 'start_time, end_time'],
-            'log_mail'                        => [self::HAS_MANY, 'LogMail', 'sim_id', 'order' => 'start_time, end_time'],
-            'log_plan'                        => [self::HAS_MANY, 'DayPlanLog', 'sim_id', 'order' => 'start_time, end_time'],
-            'log_dialogs'                     => [self::HAS_MANY, 'LogDialog', 'sim_id', 'order' => 'start_time, end_time'],
-            'log_meetings'                    => [self::HAS_MANY, 'LogMeeting', 'sim_id', 'order' => 'start_time, end_time'],
-            'log_documents'                   => [self::HAS_MANY, 'LogDocument', 'sim_id', 'order' => 'start_time, end_time'],
-            'log_activity_actions'            => [self::HAS_MANY, 'LogActivityAction', 'sim_id', 'order' => 'start_time, end_time'],
-            'log_day_plan'                    => [self::HAS_MANY, 'DayPlanLog', 'sim_id'],
-            'log_activity_actions_aggregated' => [self::HAS_MANY, 'LogActivityActionAgregated', 'sim_id', 'order' => 'start_time, end_time'],
-            'log_activity_actions_aggregated_214d' => [self::HAS_MANY, 'LogActivityActionAgregated214d', 'sim_id', 'order' => 'start_time, end_time'],
-            'universal_log'                   => [self::HAS_MANY, 'UniversalLog', 'sim_id'],
-            'completed_parent_activities'     => [self::HAS_MANY, 'SimulationCompletedParent', 'sim_id'],
-            'assessment_aggregated'           => [self::HAS_MANY, 'AssessmentAggregated', 'sim_id', 'with' => 'point', 'order' => 'point.type_scale'],
-            'performance_points'              => [self::HAS_MANY, 'PerformancePoint', 'sim_id'],
-            'performance_aggregated'          => [self::HAS_MANY, 'PerformanceAggregated', 'sim_id'],
-            'stress_points'                   => [self::HAS_MANY, 'StressPoint', 'sim_id'],
-            'assessment_points'               => [self::HAS_MANY, 'AssessmentPoint', 'sim_id'],
-            'assessment_planing_points'       => [self::HAS_MANY, 'AssessmentPlaningPoint', 'sim_id'],
-            'assessment_calculation'          => [self::HAS_MANY, 'AssessmentCalculation', 'sim_id'],
-            'time_management_aggregated'      => [self::HAS_MANY, 'TimeManagementAggregated', 'sim_id'],
-            'simulation_excel_points'         => [self::HAS_MANY, 'SimulationExcelPoint', 'sim_id'],
-            'assessment_overall'              => [self::HAS_MANY, 'AssessmentOverall', 'sim_id', 'order'=>'id ASC'],
-            'game_type'                       => [self::BELONGS_TO, 'Scenario', 'scenario_id'],
-            'learning_area'                   => [self::HAS_MANY, 'SimulationLearningArea', 'sim_id'],
-            'learning_goal'                   => [self::HAS_MANY, 'SimulationLearningGoal', 'sim_id'],
-            'learning_goal_group'             => [self::HAS_MANY, 'SimulationLearningGoalGroup', 'sim_id'],
-            'invite'                          => [self::HAS_ONE, 'Invite', 'simulation_id'],
-            'simFlags'                        => [self::HAS_MANY, 'SimulationFlag', 'sim_id'],
-            'logAssessment214g'               => [self::HAS_MANY, 'LogAssessment214g', 'sim_id'],
-            'mail_box_outbox'                 => [self::HAS_MANY, 'MailBox', 'sim_id', 'condition'=>'mail_box_outbox.group_id = 2 or mail_box_outbox.group_id = 3'],
-            //''                                => [self::HAS_MANY, 'MailBox', 'sim_id', 'condition'=>'mail_box_inbox.type = 1 or mail_box_inbox.type = 3'],
-        ];
-    }
-
-    /**
-     * Data for log after simulation table
-     *
-     * May return point value full sums for positive, negative, personal scale,
-     *
-     * @return array
-     */
-    public function getAssessmentSumByScale()
-    {
-        $assessmentPoints = $this->assessment_aggregated;
-        $result = [];
-        foreach ($assessmentPoints as $assessmentPoint) {
-            if (!isset($result[$assessmentPoint->point->type_scale])) {
-                $result[$assessmentPoint->point->type_scale] = 0;
-            }
-            $typeScale = $assessmentPoint->point->type_scale;
-            $result[$typeScale] += $assessmentPoint->value;
-        }
-
-        // round to make precession predictable for selenium tests
-        foreach ($result as $key => $value) {
-            $result[$key] = round($result[$key], 3);
-        }
-
-        return $result;
-    }
-
-    public function getAssessmentPointsByScale()
-    {
-        $result = [
-            HeroBehaviour::TYPE_ID_POSITIVE => 0,
-            HeroBehaviour::TYPE_ID_NEGATIVE => 0,
-            HeroBehaviour::TYPE_ID_PERSONAL => 0,
-        ];
-
-        // count heroBehavour "1" & "0" {
-
-        $ones = [];
-        $count = [];
-        $points = [];
-
-        foreach ($this->assessment_points as $assessmentPoint) {
-            // save used heroBehavours
-            $points[$assessmentPoint->point->code] = $assessmentPoint->point;
-
-            // count "1"
-            if (false == isset($ones[$assessmentPoint->point->code])) {
-                $ones[$assessmentPoint->point->code] = 0;
-            }
-            $ones[$assessmentPoint->point->code] += $assessmentPoint->value;
-
-            // count total
-            if (false == isset($count[$assessmentPoint->point->code])) {
-                $count[$assessmentPoint->point->code] = 0;
-            }
-            $count[$assessmentPoint->point->code]++;
-        }
-        // count heroBehavour "1" & "0" }
-
-        // calculate mark by scale
-        foreach ($points as $point) {
-            if ($point->isNegative()) {
-                $result[$point->type_scale] += $ones[$point->code]*$point->scale;
-            } else {
-                $result[$point->type_scale] += ($ones[$point->code]/$count[$point->code])*$point->scale;
-            }
-        }
-
-        // round to make precession predictable for selenium tests
-        foreach ($result as $key => $value) {
-            $result[$key] = round($result[$key], 3);
-        }
-
-        return $result;
-    }
-
-
-    /**
-     * Выбрать по идентификатору
-     * @deprecated
-     * @param int $id
-     * @return Simulation
-     */
-    public function byId($id)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => 'id = ' . (int)$id
-        ));
-        return $this;
-    }
-
-    public function checkLogs()
-    {
-        if (Yii::app()->params['public']['isUseStrictAssertsWhenSimStop']) {
-            $this->checkMailLogs();
-            $this->checkDialogLogs();
-            $this->checkActivityLogs();
-            $this->checkWindowLogs();
-            $this->checkActivityAggregatedLogs();
-            $this->checkUniversalLogs();
-            $this->checkDayPlan();
-        }
-    }
-
-    public function checkWindowLogs()
-    {
-        $unixtime = 0;
-        foreach ($this->log_windows as $log) {
-            if (!$log->end_time || $log->end_time == '00:00:00') {
-                throw new Exception("Empty window end time WindowLogs");
-            }
-            if ($unixtime && ($unixtime + 3 * $this->getSpeedFactor() < strtotime($log->start_time))) {
-                throw new Exception("Time gap WindowLogs");
-            }
-            if ($unixtime > strtotime($log->start_time)) {
-                throw new Exception("Time overlap WindowLogs");
-            }
-            $unixtime = strtotime($log->end_time);
-        }
-    }
-
-    /**
-     * @return array
-     * @throws Exception
-     */
-    public function checkActivityLogs()
-    {
-        $unixtime = 0;
-        $total = 0;
-        foreach ($this->log_activity_actions as $log) {
-            if (!$log->end_time || $log->end_time == '00:00:00') {
-                throw new Exception("Empty activity end time ActivityLogs");
-            }
-            if ($unixtime && ($unixtime + 3 * $this->getSpeedFactor() < strtotime($log->start_time))) {
-                throw new Exception("Time gap ActivityLogs");
-            }
-            if ($unixtime > strtotime($log->start_time)) {
-                throw new Exception("Time overlap ActivityLogs");
-            }
-            $unixtime = strtotime($log->end_time);
-            $total += $unixtime - strtotime($log->start_time);
-
-            if (empty($start)) {
-                $start = strtotime($log->start_time);
-            }
-        }
-
-
-    }
-
-    public function checkActivityAggregatedLogs()
-    {
-        $unixtime = 0;
-        $total = 0;
-        foreach ($this->log_activity_actions_aggregated as $log) {
-            if (!$log->end_time || $log->end_time == '00:00:00') {
-                throw new Exception("Empty activity end time ActivityAggregatedLogs");
-            }
-            if ($unixtime && ($unixtime + 3 * $this->getSpeedFactor() < strtotime($log->start_time))) {
-                throw new Exception("Time gap ActivityAggregatedLogs");
-            }
-            if ($unixtime > strtotime($log->start_time)) {
-                throw new Exception("Time overlap ActivityAggregatedLogs");
-            }
-            $unixtime = strtotime($log->end_time);
-            $total += $unixtime - strtotime($log->start_time);
-
-            if (empty($start)) {
-                $start = strtotime($log->start_time);
-            }
-        }
-
-
-    }
-
-    /**
-     * @return array
-     * @throws Exception
-     */
-    public function checkDialogLogs()
-    {
-        $unixtime = 0;
-        foreach ($this->log_dialogs as $log) {
-            if (!$log->end_time || $log->end_time == '00:00:00') {
-                throw new Exception("Empty end time DialogLogs");
-            }
-            if ($unixtime > strtotime($log->start_time)) {
-                throw new Exception("Time overlap DialogLogs");
-            }
-            $unixtime = strtotime($log->end_time);
-        }
-    }
-
-    /**
-     * @return array
-     * @throws Exception
-     */
-    public function checkMailLogs()
-    {
-        $unixtime = 0;
-        foreach ($this->log_mail as $log) {
-            if (!$log->end_time || $log->end_time == '00:00:00') {
-                throw new Exception("Empty mail end time for " . $log->primaryKey." MailLogs");
-            }
-            if ($unixtime > strtotime($log->start_time)) {
-                throw new Exception("Time overlap MailLogs");
-            }
-            $unixtime = strtotime($log->end_time);
-        }
-    }
-
-    public function checkUniversalLogs()
-    {
-        $unixtime = 0;
-        $total = 0;
-        foreach ($this->universal_log as $log) {
-            if (!$log->end_time || $log->end_time == '00:00:00') {
-                throw new Exception("Empty activity end time UniversalLogs");
-            }
-            if ($unixtime && ($unixtime + 3 * $this->getSpeedFactor() < strtotime($log->start_time))) {
-                throw new Exception("Time gap UniversalLogs");
-            }
-            if ($unixtime > strtotime($log->start_time)) {
-                throw new Exception("Time overlap UniversalLogs");
-            }
-            $unixtime = strtotime($log->end_time);
-            $total += $unixtime - strtotime($log->start_time);
-
-            if (empty($start)) {
-                $start = strtotime($log->start_time);
-            }
-        }
-
-
-    }
-
-    /**
-     * Shows is simulation run in develop mode (or promotion)
-     *
-     * @return boolean
-     */
-    public function isDevelopMode() {
-        return self::MODE_DEVELOPER_ID == $this->mode;
-    }
-
-    public function search($userId = null)
-    {
-        // Warning: Please modify the following code to remove attributes that
-        // should not be searched.
-
-        $criteria=new CDbCriteria;
-
-        $criteria->compare('id',$this->id);
-        $criteria->compare('user_id', $userId ?: $this->user_id);
-
-        return new CActiveDataProvider($this, [
-            'criteria' => $criteria,
-            'sort' => [
-                'defaultOrder' => 'id',
-                'sortVar' => 'sort',
-                'attributes' => [
-                    'id'
-                ],
-            ],
-            'pagination' => [
-                'pageSize' => 20,
-                'pageVar' => 'page'
-            ]
-        ]);
-    }
-
     public function getLastSimulation($user, $type) {
         $scenario = Scenario::model()->findByAttributes(['slug' => $type]);
         if ($scenario) {
@@ -652,20 +256,29 @@ class Simulation extends CActiveRecord
         return null;
     }
 
+    /**
+     * @return bool
+     */
     public function isFull() {
         return ($this->game_type->slug === Scenario::TYPE_FULL) ? true : false;
     }
 
+    /**
+     * @return bool
+     */
     public function isTutorial() {
 
         return ($this->game_type->slug === Scenario::TYPE_TUTORIAL)?true:false;
 
     }
 
+    /**
+     * @return mixed
+     */
     public function getSpeedFactor()
     {
         return Yii::app()->params['public'][
-            $this->mode == self::MODE_DEVELOPER_ID ? 'skiliksDeveloperModeSpeedFactor' : 'skiliksSpeedFactor'
+        $this->mode == self::MODE_DEVELOPER_ID ? 'skiliksDeveloperModeSpeedFactor' : 'skiliksSpeedFactor'
         ];
     }
 
@@ -683,6 +296,10 @@ class Simulation extends CActiveRecord
         return null;
     }
 
+    /**
+     * @param $category
+     * @return float|null
+     */
     public function getCategoryAssessmentWithoutRound($category = AssessmentCategory::OVERALL) {
         foreach ($this->assessment_overall as $rate) {
             if ($rate->assessment_category_code == $category) {
@@ -692,6 +309,9 @@ class Simulation extends CActiveRecord
         return null;
     }
 
+    /**
+     * @return string, JSON
+     */
     public function getAssessmentDetails()
     {
         // use cached results popup data
@@ -724,9 +344,9 @@ class Simulation extends CActiveRecord
 
             foreach ($this->learning_goal_group as $row) {
                 if ($row->learningGoalGroup->learning_area_code <= 3) {
-                        $result[AssessmentCategory::MANAGEMENT_SKILLS]
-                               [$row->learningGoalGroup->learning_area_code]
-                               [$row->learningGoalGroup->code] = ['+' => $row->percent, '-' => $row->problem];
+                    $result[AssessmentCategory::MANAGEMENT_SKILLS]
+                    [$row->learningGoalGroup->learning_area_code]
+                    [$row->learningGoalGroup->code] = ['+' => $row->percent, '-' => $row->problem];
                 }
             }
 
@@ -783,6 +403,9 @@ class Simulation extends CActiveRecord
         return $this->game_type->isCalculateAssessment();
     }
 
+    /**
+     * @return string
+     */
     public function getCurrentGameTime() {
         $lastLog = LogServerRequest::model()->find([
             'order'     => 'real_time DESC',
@@ -794,7 +417,7 @@ class Simulation extends CActiveRecord
     }
 
     /**
-     *
+     * Считает и заносит в БД процентиль
      */
     public function calculatePercentile()
     {
@@ -909,7 +532,7 @@ class Simulation extends CActiveRecord
      *
      */
     public function getSimulationRealUsersCondition( $additionalCondition = '',
-        $assessmentCategory = AssessmentCategory::OVERALL ) {
+                                                     $assessmentCategory = AssessmentCategory::OVERALL ) {
         $fullScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_FULL]);
 
         $condition = " profile.email NOT LIKE '%gty1991%' ".
@@ -934,10 +557,451 @@ class Simulation extends CActiveRecord
     /**
      * Setting status to simulation as interrupted and saves it
      */
-
-    public function interruptSimulation() {
+    public function interruptSimulation()
+    {
         $this->status = self::STATUS_INTERRUPTED;
         $this->simulation->save();
+    }
+
+    /** ------------------------------------------------------------------------------------------------------------ **/
+
+    /**
+     *
+     * @param type $className
+     * @return Simulation
+     */
+    public static function model($className = __CLASS__)
+    {
+        return parent::model($className);
+    }
+
+    /**
+     * @return string the associated database table name
+     */
+    public function tableName()
+    {
+        return 'simulations';
+    }
+
+    /**
+     * Выбрать по заданному пользователю.
+     * @param int $uid
+     * @return Simulation
+     */
+    public function byUid($uid)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => 'user_id = ' . (int)$uid
+        ));
+        return $this;
+    }
+
+    /**
+     * Выбрать ближайшую симуляцию
+     * @return Simulation
+     */
+    public function nearest()
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'order' => 'id DESC',
+            'limit' => 1
+        ));
+        return $this;
+    }
+
+    /**
+     * Returns current simulation time
+     * @param $precision string second or minute
+     * @return string Return H:i:s or H:i
+     */
+    public function getGameTime($precision='second')
+    {
+        $time = Yii::app()->request->getParam('time');
+        if( null === $time ) {
+            // for unit tests with time {
+            if (isset(Yii::app()->session['gameTime'])) {
+                if($precision === 'second') {
+                    return date('H:i:s', strtotime(Yii::app()->session['gameTime']));
+                } else if($precision === 'minute') {
+                    return date('H:i', strtotime(Yii::app()->session['gameTime']));
+                } else {
+                    throw new Exception("Unknown precision type ".$precision);
+                }
+            }
+            // for unit tests with time }
+
+            $variance = GameTime::getUnixDateTime(GameTime::setNowDateTime()) - GameTime::getUnixDateTime($this->start) - $this->skipped;
+            $variance = $variance * $this->getSpeedFactor();
+
+            $startTime = explode(':', $this->game_type->start_time);
+            $unixtime = $variance + $startTime[0] * 3600 + $startTime[1] * 60 + $startTime[2];
+
+            if($precision === 'second'){
+                return gmdate('H:i:s', $unixtime); //for unit tests or console
+            } else if($precision === 'minute') {
+                return gmdate('H:i', $unixtime);
+            } else{
+                throw new Exception("Unknown precision type ".$precision);
+            }
+        }else{
+            if($precision === 'second'){
+                return date('H:i:s', strtotime($time));
+            } else if($precision === 'minute') {
+                return date('H:i', strtotime($time));
+            } else{
+                throw new Exception("Unknown precision type ".$precision);
+            }
+        }
+
+    }
+
+    /**
+     * @param string $newHours
+     * @param string $newMinutes
+     */
+    public function deleteOldTriggers($newHours, $newMinutes)
+    {
+        foreach ($this->events_triggers as $event_trigger) {
+            if ($event_trigger->trigger_time == null) {
+                continue;
+            }
+            if (preg_match('/^M/', $event_trigger->event_sample->code)) {
+                continue;
+            }
+            if ($event_trigger->trigger_time == '00:00:00') {
+                continue;
+            }
+            if (GameTime::timeToSeconds($event_trigger->trigger_time) < ($newHours * 60 + $newMinutes) * 60) {
+                $event_trigger->delete();
+            }
+        }
+    }
+
+    public function relations()
+    {
+        return [
+            'user'                            => [self::BELONGS_TO, 'YumUser', 'user_id'],
+            'events_triggers'                 => [self::HAS_MANY, 'EventTrigger', 'sim_id'],
+            'log_windows'                     => [self::HAS_MANY, 'LogWindow', 'sim_id', 'order' => 'start_time, end_time'],
+            'log_mail'                        => [self::HAS_MANY, 'LogMail', 'sim_id', 'order' => 'start_time, end_time'],
+            'log_plan'                        => [self::HAS_MANY, 'DayPlanLog', 'sim_id', 'order' => 'start_time, end_time'],
+            'log_dialogs'                     => [self::HAS_MANY, 'LogDialog', 'sim_id', 'order' => 'start_time, end_time'],
+            'log_meetings'                    => [self::HAS_MANY, 'LogMeeting', 'sim_id', 'order' => 'start_time, end_time'],
+            'log_documents'                   => [self::HAS_MANY, 'LogDocument', 'sim_id', 'order' => 'start_time, end_time'],
+            'log_activity_actions'            => [self::HAS_MANY, 'LogActivityAction', 'sim_id', 'order' => 'start_time, end_time'],
+            'log_day_plan'                    => [self::HAS_MANY, 'DayPlanLog', 'sim_id'],
+            'log_activity_actions_aggregated' => [self::HAS_MANY, 'LogActivityActionAgregated', 'sim_id', 'order' => 'start_time, end_time'],
+            'log_activity_actions_aggregated_214d' => [self::HAS_MANY, 'LogActivityActionAgregated214d', 'sim_id', 'order' => 'start_time, end_time'],
+            'universal_log'                   => [self::HAS_MANY, 'UniversalLog', 'sim_id'],
+            'completed_parent_activities'     => [self::HAS_MANY, 'SimulationCompletedParent', 'sim_id'],
+            'assessment_aggregated'           => [self::HAS_MANY, 'AssessmentAggregated', 'sim_id', 'with' => 'point', 'order' => 'point.type_scale'],
+            'performance_points'              => [self::HAS_MANY, 'PerformancePoint', 'sim_id'],
+            'performance_aggregated'          => [self::HAS_MANY, 'PerformanceAggregated', 'sim_id'],
+            'stress_points'                   => [self::HAS_MANY, 'StressPoint', 'sim_id'],
+            'assessment_points'               => [self::HAS_MANY, 'AssessmentPoint', 'sim_id'],
+            'assessment_planing_points'       => [self::HAS_MANY, 'AssessmentPlaningPoint', 'sim_id'],
+            'assessment_calculation'          => [self::HAS_MANY, 'AssessmentCalculation', 'sim_id'],
+            'time_management_aggregated'      => [self::HAS_MANY, 'TimeManagementAggregated', 'sim_id'],
+            'simulation_excel_points'         => [self::HAS_MANY, 'SimulationExcelPoint', 'sim_id'],
+            'assessment_overall'              => [self::HAS_MANY, 'AssessmentOverall', 'sim_id', 'order'=>'id ASC'],
+            'game_type'                       => [self::BELONGS_TO, 'Scenario', 'scenario_id'],
+            'learning_area'                   => [self::HAS_MANY, 'SimulationLearningArea', 'sim_id'],
+            'learning_goal'                   => [self::HAS_MANY, 'SimulationLearningGoal', 'sim_id'],
+            'learning_goal_group'             => [self::HAS_MANY, 'SimulationLearningGoalGroup', 'sim_id'],
+            'invite'                          => [self::HAS_ONE, 'Invite', 'simulation_id'],
+            'simFlags'                        => [self::HAS_MANY, 'SimulationFlag', 'sim_id'],
+            'logAssessment214g'               => [self::HAS_MANY, 'LogAssessment214g', 'sim_id'],
+            'mail_box_outbox'                 => [self::HAS_MANY, 'MailBox', 'sim_id', 'condition'=>'mail_box_outbox.group_id = 2 or mail_box_outbox.group_id = 3'],
+            //''                                => [self::HAS_MANY, 'MailBox', 'sim_id', 'condition'=>'mail_box_inbox.type = 1 or mail_box_inbox.type = 3'],
+        ];
+    }
+
+    /**
+     * Data for log after simulation table
+     *
+     * May return point value full sums for positive, negative, personal scale,
+     *
+     * @return array
+     */
+    public function getAssessmentSumByScale()
+    {
+        $assessmentPoints = $this->assessment_aggregated;
+        $result = [];
+        foreach ($assessmentPoints as $assessmentPoint) {
+            if (!isset($result[$assessmentPoint->point->type_scale])) {
+                $result[$assessmentPoint->point->type_scale] = 0;
+            }
+            $typeScale = $assessmentPoint->point->type_scale;
+            $result[$typeScale] += $assessmentPoint->value;
+        }
+
+        // round to make precession predictable for selenium tests
+        foreach ($result as $key => $value) {
+            $result[$key] = round($result[$key], 3);
+        }
+
+        return $result;
+    }
+
+    /**
+     * @return array of AssessmentPoint
+     */
+    public function getAssessmentPointsByScale()
+    {
+        $result = [
+            HeroBehaviour::TYPE_ID_POSITIVE => 0,
+            HeroBehaviour::TYPE_ID_NEGATIVE => 0,
+            HeroBehaviour::TYPE_ID_PERSONAL => 0,
+        ];
+
+        // count heroBehavour "1" & "0" {
+
+        $ones = [];
+        $count = [];
+        $points = [];
+
+        foreach ($this->assessment_points as $assessmentPoint) {
+            // save used heroBehavours
+            $points[$assessmentPoint->point->code] = $assessmentPoint->point;
+
+            // count "1"
+            if (false == isset($ones[$assessmentPoint->point->code])) {
+                $ones[$assessmentPoint->point->code] = 0;
+            }
+            $ones[$assessmentPoint->point->code] += $assessmentPoint->value;
+
+            // count total
+            if (false == isset($count[$assessmentPoint->point->code])) {
+                $count[$assessmentPoint->point->code] = 0;
+            }
+            $count[$assessmentPoint->point->code]++;
+        }
+        // count heroBehavour "1" & "0" }
+
+        // calculate mark by scale
+        foreach ($points as $point) {
+            if ($point->isNegative()) {
+                $result[$point->type_scale] += $ones[$point->code]*$point->scale;
+            } else {
+                $result[$point->type_scale] += ($ones[$point->code]/$count[$point->code])*$point->scale;
+            }
+        }
+
+        // round to make precession predictable for selenium tests
+        foreach ($result as $key => $value) {
+            $result[$key] = round($result[$key], 3);
+        }
+
+        return $result;
+    }
+
+
+    /**
+     * Выбрать по идентификатору
+     * @deprecated
+     * @param int $id
+     * @return Simulation
+     */
+//    public function byId($id)
+//    {
+//        $this->getDbCriteria()->mergeWith(array(
+//            'condition' => 'id = ' . (int)$id
+//        ));
+//        return $this;
+//    }
+
+    /**
+     * Используется в dev режиме для выявления багов логирования
+     */
+    public function checkLogs()
+    {
+        if (Yii::app()->params['public']['isUseStrictAssertsWhenSimStop']) {
+            $this->checkMailLogs();
+            $this->checkDialogLogs();
+            $this->checkActivityLogs();
+            $this->checkWindowLogs();
+            $this->checkActivityAggregatedLogs();
+            $this->checkUniversalLogs();
+            $this->checkDayPlan();
+        }
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function checkWindowLogs()
+    {
+        $unixtime = 0;
+        foreach ($this->log_windows as $log) {
+            if (!$log->end_time || $log->end_time == '00:00:00') {
+                throw new Exception("Empty window end time WindowLogs");
+            }
+            if ($unixtime && ($unixtime + 3 * $this->getSpeedFactor() < strtotime($log->start_time))) {
+                throw new Exception("Time gap WindowLogs");
+            }
+            if ($unixtime > strtotime($log->start_time)) {
+                throw new Exception("Time overlap WindowLogs");
+            }
+            $unixtime = strtotime($log->end_time);
+        }
+    }
+
+    /**
+     * @return array
+     * @throws Exception
+     */
+    public function checkActivityLogs()
+    {
+        $unixtime = 0;
+        $total = 0;
+        foreach ($this->log_activity_actions as $log) {
+            if (!$log->end_time || $log->end_time == '00:00:00') {
+                throw new Exception("Empty activity end time ActivityLogs");
+            }
+            if ($unixtime && ($unixtime + 3 * $this->getSpeedFactor() < strtotime($log->start_time))) {
+                throw new Exception("Time gap ActivityLogs");
+            }
+            if ($unixtime > strtotime($log->start_time)) {
+                throw new Exception("Time overlap ActivityLogs");
+            }
+            $unixtime = strtotime($log->end_time);
+            $total += $unixtime - strtotime($log->start_time);
+
+            if (empty($start)) {
+                $start = strtotime($log->start_time);
+            }
+        }
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function checkActivityAggregatedLogs()
+    {
+        $unixtime = 0;
+        $total = 0;
+        foreach ($this->log_activity_actions_aggregated as $log) {
+            if (!$log->end_time || $log->end_time == '00:00:00') {
+                throw new Exception("Empty activity end time ActivityAggregatedLogs");
+            }
+            if ($unixtime && ($unixtime + 3 * $this->getSpeedFactor() < strtotime($log->start_time))) {
+                throw new Exception("Time gap ActivityAggregatedLogs");
+            }
+            if ($unixtime > strtotime($log->start_time)) {
+                throw new Exception("Time overlap ActivityAggregatedLogs");
+            }
+            $unixtime = strtotime($log->end_time);
+            $total += $unixtime - strtotime($log->start_time);
+
+            if (empty($start)) {
+                $start = strtotime($log->start_time);
+            }
+        }
+
+
+    }
+
+    /**
+     * @return array
+     * @throws Exception
+     */
+    public function checkDialogLogs()
+    {
+        $unixtime = 0;
+        foreach ($this->log_dialogs as $log) {
+            if (!$log->end_time || $log->end_time == '00:00:00') {
+                throw new Exception("Empty end time DialogLogs");
+            }
+            if ($unixtime > strtotime($log->start_time)) {
+                throw new Exception("Time overlap DialogLogs");
+            }
+            $unixtime = strtotime($log->end_time);
+        }
+    }
+
+    /**
+     * @return array
+     * @throws Exception
+     */
+    public function checkMailLogs()
+    {
+        $unixtime = 0;
+        foreach ($this->log_mail as $log) {
+            if (!$log->end_time || $log->end_time == '00:00:00') {
+                throw new Exception("Empty mail end time for " . $log->primaryKey." MailLogs");
+            }
+            if ($unixtime > strtotime($log->start_time)) {
+                throw new Exception("Time overlap MailLogs");
+            }
+            $unixtime = strtotime($log->end_time);
+        }
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function checkUniversalLogs()
+    {
+        $unixtime = 0;
+        $total = 0;
+        foreach ($this->universal_log as $log) {
+            if (!$log->end_time || $log->end_time == '00:00:00') {
+                throw new Exception("Empty activity end time UniversalLogs");
+            }
+            if ($unixtime && ($unixtime + 3 * $this->getSpeedFactor() < strtotime($log->start_time))) {
+                throw new Exception("Time gap UniversalLogs");
+            }
+            if ($unixtime > strtotime($log->start_time)) {
+                throw new Exception("Time overlap UniversalLogs");
+            }
+            $unixtime = strtotime($log->end_time);
+            $total += $unixtime - strtotime($log->start_time);
+
+            if (empty($start)) {
+                $start = strtotime($log->start_time);
+            }
+        }
+
+
+    }
+
+    /**
+     * Shows is simulation run in develop mode (or promotion)
+     *
+     * @return boolean
+     */
+    public function isDevelopMode() {
+        return self::MODE_DEVELOPER_ID == $this->mode;
+    }
+
+    /**
+     * @param null $userId
+     * @return CActiveDataProvider
+     */
+    public function search($userId = null)
+    {
+        // Warning: Please modify the following code to remove attributes that
+        // should not be searched.
+
+        $criteria=new CDbCriteria;
+
+        $criteria->compare('id',$this->id);
+        $criteria->compare('user_id', $userId ?: $this->user_id);
+
+        return new CActiveDataProvider($this, [
+            'criteria' => $criteria,
+            'sort' => [
+                'defaultOrder' => 'id',
+                'sortVar' => 'sort',
+                'attributes' => [
+                    'id'
+                ],
+            ],
+            'pagination' => [
+                'pageSize' => 20,
+                'pageVar' => 'page'
+            ]
+        ]);
     }
 }
 
