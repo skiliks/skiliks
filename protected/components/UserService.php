@@ -837,8 +837,8 @@ class UserService {
         $result['tariff_label'] = $tariff->label;
         $result['tariff_limits'] = $tariff->simulations_amount;
         $finish_at = $account->getActiveTariffPlan()->finished_at;
-        $result['tariff_start'] = StaticSiteTools::formattedDateTimeWithRussianMonth((new DateTime($finish_at))->modify('+30 days'));
-        $start_time = (new DateTime($finish_at))->modify('+30 days')->format("Y-m-d H:i:s");
+        $result['tariff_start'] = StaticSiteTools::formattedDateTimeWithRussianMonth((new DateTime($finish_at)));
+        $start_time = (new DateTime($finish_at))->format("Y-m-d H:i:s");
         $result['tariff_end'] = StaticSiteTools::formattedDateTimeWithRussianMonth((new DateTime($start_time))->modify('+30 days'));
 
         if((int)$active->tariff->weight === (int)$tariff->weight) {
@@ -855,7 +855,7 @@ class UserService {
                         'in_progress'=>Invite::STATUS_IN_PROGRESS
                     ]
                 );
-                $invites += (int)Invite::model()->count('tariff_plan_id = :tariff_plan_id and owner_id = :owner_id and owner_id != receiver_id or receiver_id is null and (status = :pending or status = :accepted or status = :in_progress)',
+                $invites += (int)Invite::model()->count('tariff_plan_id = :tariff_plan_id and owner_id = :owner_id and (owner_id != receiver_id or receiver_id is null) and (status = :pending or status = :accepted or status = :in_progress)',
                     [
                         'tariff_plan_id' => $active->id,
                         'owner_id' => $account->user_id,
