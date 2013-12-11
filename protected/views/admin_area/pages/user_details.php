@@ -62,7 +62,13 @@ $assetsUrl = $this->getAssetsUrl();
 <!-- разделитель кнопок -->
 <p>&nbsp; &nbsp;</p>
 
+<a class="btn btn-info" href="/admin_area/invites?page=1&receiver-email-for-filtration=<?= urlencode($user->profile->email) ?>&invite_statuses[0]=on&invite_statuses[1]=on&invite_statuses[5]=on&invite_statuses[2]=on&invite_statuses[4]=on&invite_statuses[3]=on&invite_status[]=on&filter_scenario_id=&is_invite_crashed=">
+        <i class="icon icon-arrow-down icon-white"></i>
+        Приглашения для меня
+</a>
+
 <?php if($user->isCorporate()) : ?>
+    &nbsp; &nbsp;
     <a class="btn btn-info"
        href="<?= $this->createAbsoluteUrl('admin_area/AdminPages/UserReferrals', ['userId' => $user->id]) ?>">
         <i class="icon icon-gift icon-white"></i>&nbsp;
@@ -77,10 +83,16 @@ $assetsUrl = $this->getAssetsUrl();
         <strong>$</strong>
         Тарифные планы
     </a>
-    <br/>
-    <br/>
-    <br/>
+    &nbsp; &nbsp;
+    <a class="btn btn-info" href="/admin_area/invites?page=1&owner_email_for_filtration=<?= urlencode($user->profile->email) ?>&invite_statuses[0]=on&invite_statuses[1]=on&invite_statuses[5]=on&invite_statuses[2]=on&invite_statuses[4]=on&invite_statuses[3]=on&invite_status[]=on&filter_scenario_id=&is_invite_crashed=">
+            <i class="icon icon-arrow-up icon-white"></i>
+            Приглашения от меня
+    </a>
 <?php endif ?>
+
+<br/>
+<br/>
+<br/>
 
 <table class="table">
     <tr>

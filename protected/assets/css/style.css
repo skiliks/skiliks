@@ -5914,3 +5914,14 @@ ul.default li:hover {
     cursor: hand;
     cursor: pointer;
 }
+
+/*#corporate-invitations-list-box #yw0_c0 {
+    background-image: none;
+    padding-right: 0;
+}
+
+#corporate-invitations-list-box thead,
+#corporate-invitations-list-box thead tr,
+#corporate-invitations-list-box .grid-view .items tr:last-child {
+    background-color: #146672;
+}*/
