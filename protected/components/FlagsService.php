@@ -8,6 +8,7 @@
 class FlagsService 
 {
     /**
+     * Проверка можем ли запустить диалог
      * @param Simulation $simulation
      * @param string $dialogCode, 'E1.1'
      *
@@ -38,8 +39,9 @@ class FlagsService
     }
 
     /**
+     * Возвращает состояние флагов для дев. режима в тестах
      * @param Simulation  $simulation
-     * @return mixed array
+     * @return array
      */
     public static function getFlagsState(Simulation $simulation) {
         $result = [];
@@ -56,6 +58,7 @@ class FlagsService
     }
 
     /**
+     * Возвращает состояние флагов для дев. режима
      * @param Simulation  $simulation
      * @return mixed array
      */
@@ -73,7 +76,12 @@ class FlagsService
         return $result;
     }
 
-    public static function getSwitchTime($stack, $flag){
+    /**
+     * @param array $stack очередь флагов
+     * @param SimulationFlag $flag
+     * @return null|string
+     */
+    public static function getSwitchTime(array $stack, SimulationFlag $flag){
         foreach($stack as $item){
             if($item->flag_code === $flag->flag){
                 return $item->switch_time;
@@ -148,12 +156,16 @@ class FlagsService
         return $result;
     }
 
+
     /**
+     * Устанавлевает значение флагов
      * @param Simulation $simulation
-     * @param string $flag
-     * @param integer $value
+     * @param $flag название флага
+     * @param $value значение флага 1 или 0
+     * @return SimulationFlag
+     * @throws Exception
      */
-    public static function setFlag($simulation, $flag, $value)
+    public static function setFlag(Simulation $simulation, $flag, $value)
     {
         $simulationFlag = SimulationFlag::model()->findByAttributes([
             'sim_id' => $simulation->id,
@@ -174,7 +186,12 @@ class FlagsService
         return $simulationFlag;
     }
 
-    public static function isAllowToSendMail($simulation, $mailCode)
+    /**
+     * @param $simulation
+     * @param $mailCode
+     * @return bool
+     */
+    public static function isAllowToSendMail(Simulation $simulation, $mailCode)
     {
         $mail_template = MailTemplate::model()->findByAttributes(['code' => $mailCode]);
         if ($mail_template === null) {
@@ -253,6 +270,10 @@ class FlagsService
         return $list;
     }
 
+    /**
+     * @param Simulation $simulation
+     * @param Flag $flag
+     */
     public static function addFlagDelayAfterReplica(Simulation $simulation, Flag $flag) {
         $queue = new SimulationFlagQueue();
         $queue->sim_id = $simulation->id;
@@ -263,6 +284,9 @@ class FlagsService
         $queue->save(false);
     }
 
+    /**
+     * @param Simulation $simulation
+     */
     public static function copyTimeFlagsToQueue(Simulation $simulation) {
         /** @var FlagSwitchTime[] $timeFlags */
         $timeFlags = $simulation->game_type->getFlagsSwitchTime([]);
@@ -277,6 +301,9 @@ class FlagsService
         }
     }
 
+    /**
+     * @param Simulation $simulation
+     */
     public static function checkFlagsDelay(Simulation $simulation) {
 
         $flags = SimulationFlagQueue::model()->findAll("sim_id = :sim_id and is_processed = :is_processed and switch_time <= :switch_time", [
@@ -290,6 +317,11 @@ class FlagsService
         }
     }
 
+    /**
+     * @param Meeting $meeting
+     * @param Simulation $simulation
+     * @return bool
+     */
     public static function isAllowToStartMeeting(Meeting $meeting, Simulation $simulation)
     {
         /** @var FlagAllowMeeting[] $rules */

@@ -1,10 +1,22 @@
 <?php
 
+/**
+ * Class UserService
+ */
 class UserService {
 
+    /**
+     *
+     */
     const CAN_START_SIMULATION_IN_DEV_MODE = 'start_dev_mode';
+    /**
+     *
+     */
     const CAN_START_FULL_SIMULATION = 'run_full_simulation';
 
+    /**
+     * @var array
+     */
     public static $developersEmails = [
         "'r.kilimov@gmail.com'",
         "'andrey@kostenko.name'",
@@ -43,7 +55,12 @@ class UserService {
         
         return $modes;
     }
-    
+
+    /**
+     * Заносит email в базу подписчиков
+     * @param $email
+     * @return array данные для фронтэнда 1 успешно, 0 нет
+     */
     public static function addUserSubscription($email)
     {
         $response = ['result'  => 0];
@@ -66,6 +83,11 @@ class UserService {
         return $response;
     }
 
+    /**
+     * Проверка по базе что email корпоративный
+     * @param string $email
+     * @return bool
+     */
     public static function isCorporateEmail($email)
     {
         $domain = substr($email, strpos($email, '@') + 1);
@@ -218,6 +240,13 @@ class UserService {
         return $sent;
     }
 
+    /**
+     * Создает копоративного пользователя
+     * @param YumUser $user
+     * @param YumProfile $profile
+     * @param UserAccountCorporate $account_corporate
+     * @return bool
+     */
     public static function createCorporateAccount(YumUser &$user, YumProfile &$profile, UserAccountCorporate &$account_corporate) {
 
         $isValidUserAndProfile = self::createUserAndProfile($user, $profile);
@@ -250,6 +279,13 @@ class UserService {
         return false;
     }
 
+    /**
+     * Создает персонального пользователя
+     * @param YumUser $user
+     * @param YumProfile $profile
+     * @param UserAccountPersonal $account_personal
+     * @return bool
+     */
     public static function createPersonalAccount(YumUser &$user, YumProfile &$profile, UserAccountPersonal &$account_personal) {
         $isValidUserAndProfile = self::createUserAndProfile($user, $profile);
         $isValidPersonal = $account_personal->validate(['professional_status_id']);
@@ -271,6 +307,12 @@ class UserService {
         return false;
     }
 
+    /**
+     * Создает профиль
+     * @param YumUser $user
+     * @param YumProfile $profile
+     * @return bool
+     */
     public static function createUserAndProfile(YumUser &$user, YumProfile &$profile) {
         $user->setUserNameFromEmail($profile->email);
         $user->createtime = time();
@@ -482,15 +524,13 @@ class UserService {
 
     }
 
+
     /**
      * Скопирован с Yii.
-     * Делает то же что и renderPartial, но путь $_viewFile_ уточнён "/global_partials/mails/".
-     *
-     * @param $_partial_
-     * @param null $_data_
-     *
-     * @return string
-     *
+     * Делает то же что и renderPartial, но путь $_viewFile_ уточнён "/global_partials/mails/"
+     * @param string $_partial_ название шаблона
+     * @param array $_data_ данные
+     * @return string данные шаблона
      * @throws Exception
      */
     public static function renderEmailPartial($_partial_ ,$_data_ = [])
@@ -512,10 +552,11 @@ class UserService {
     }
 
     /**
+     * Возвращает не использованые инвайты сама себе
      * @param YumUser $user
      * @param Scenario $scenario
      *
-     * @return array
+     * @return Invite[]
      */
     public static function getSelfToSelfInvite(YumUser $user, Scenario $scenario) {
         // check and add trial full version {
@@ -681,6 +722,11 @@ class UserService {
         ]);
     }
 
+    /**
+     * Запускает устаревание тарифных планов
+     *
+     * @return array
+     */
     public static function tariffExpired() {
 
         /* @var $users UserAccountCorporate[] */
@@ -782,6 +828,14 @@ class UserService {
         return $expiredAccounts;
     }
 
+    /**
+     * Создает реферрала
+     * @param YumUser $user
+     * @param YumProfile $profile
+     * @param UserAccountCorporate $account_corporate
+     * @param UserReferral $userReferralRecord
+     * @return bool
+     */
     public static function createReferral(YumUser &$user, YumProfile &$profile, UserAccountCorporate &$account_corporate, UserReferral &$userReferralRecord) {
         $profile->email = strtolower($userReferralRecord->referral_email);
         if(self::createCorporateAccount($user, $profile, $account_corporate)) {
@@ -796,6 +850,12 @@ class UserService {
         return false;
     }
 
+    /**
+     * Сохраняет реферала в базе
+     * @param YumUser $user
+     * @param UserReferral $referral
+     * @return bool
+     */
     public static function addReferralUser( YumUser $user, UserReferral &$referral ) {
         $referral->referrer_id    = $user->id;
         $referral->invited_at     = date("Y-m-d H:i:s");
@@ -806,6 +866,7 @@ class UserService {
     }
 
     /**
+     * Создает фейковый заказ для тестов
      * @param Tariff $tariff
      * @param UserAccountCorporate $account
      * @return Invoice
@@ -819,6 +880,12 @@ class UserService {
         return $invoice;
     }
 
+    /**
+     * Определяет какой попап показать и какие данные передать
+     * @param UserAccountCorporate $account
+     * @param string $tariff_slug слаг тарифа
+     * @return array
+     */
     public static function getActionOnPopup(UserAccountCorporate $account, $tariff_slug) {
         $pending = $account->getPendingTariffPlan();
         $result = ['type' => 'popup'];
@@ -889,6 +956,14 @@ class UserService {
 
     }
 
+    /**
+     * Пишет лог авторизации
+     * @param string $login Логин
+     * @param string $password Пароль
+     * @param int $is_success успешно или нет
+     * @param int $user_id
+     * @param string $type_auth админка или сайт
+     */
     public static function addAuthorizationLog($login, $password, $is_success, $user_id, $type_auth) {
 
         $log = new SiteLogAuthorization();
@@ -925,6 +1000,12 @@ class UserService {
         }
     }
 
+    /**
+     * Логирует действия пользователя в аккаунте
+     * @param YumUser $user
+     * @param $ip
+     * @param $message
+     */
     public static function logAccountAction(YumUser $user, $ip, $message) {
         $log = new SiteLogAccountAction();
         $log->user_id = $user->id;
@@ -934,6 +1015,10 @@ class UserService {
         $log->save(false);
     }
 
+    /**
+     * Отправка предупреждения что человека возможно пытались взломать
+     * @param array $logs
+     */
     public static function sendNoticeEmailAfterMaxAuthAttempt(array $logs) {
 
         $mails = [];
@@ -997,10 +1082,18 @@ class UserService {
         MailHelper::addMailsToQueue($mails);
     }
 
+    /**
+     * Создает уникальный хэш
+     * @return string
+     */
     public static function generateUniqueHash() {
         return md5(uniqid('skiliks', true).rand(11111,99999).time());
     }
 
+    /**
+     * Аунифицырует пользователя
+     * @param YumUser $user
+     */
     public static function authenticate(YumUser $user) {
         $identity = new YumUserIdentity($user->username, false);
 
