@@ -1639,7 +1639,7 @@ class AdminPagesController extends SiteBaseController {
 
     public function actionRegistrationList() {
         // getting registration by day
-        $userCounter = new countRegisteredUsers();
+        $userCounter = new СountRegisteredUsers();
         $userCounter->getAllUserForDays();
         $userCounter->getNonActiveUsersForDays();
 
@@ -1663,7 +1663,7 @@ class AdminPagesController extends SiteBaseController {
         }
 
         // getting registration by month
-        $userCounter = new countRegisteredUsers();
+        $userCounter = new СountRegisteredUsers();
         $userCounter->getAllUserForMonths();
         $userCounter->getNonActiveUsersForMonths();
 
@@ -1685,7 +1685,7 @@ class AdminPagesController extends SiteBaseController {
         }
 
         // getting registration by year
-        $userCounter = new countRegisteredUsers();
+        $userCounter = new СountRegisteredUsers();
         $userCounter->getAllUserForYears();
         $userCounter->getNonActiveUserForYears();
 
