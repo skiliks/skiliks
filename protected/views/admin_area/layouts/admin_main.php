@@ -24,7 +24,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="brand" href="/">Skiliks: release 2.2.0 beta 2 (2013-12-04 15:00)</a>
+            <a class="brand" href="/">Skiliks: release 2.2.0 beta 3 (2013-12-11 04:00)</a>
             <?php $this->renderPartial('//admin_area/partials/_top_menu') ?>
         </div>
     </div>
