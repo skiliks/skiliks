@@ -40,7 +40,8 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
             'dsn' => $sentryDsn,
         ],
         'public' => [
-            'isSkipOsCheck' => true, //Проверка ОС перед стартом игры
+            'isSkipOsCheck'        => true, //Проверка ОС перед стартом игры
+            'isSkipBrowserCheck'   => true,
             'isDisplaySupportChat' => false,
         ]
     )

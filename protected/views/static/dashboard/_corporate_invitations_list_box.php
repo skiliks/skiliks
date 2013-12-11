@@ -28,7 +28,23 @@ $this->widget('zii.widgets.grid.CGridView', [
         ['header' => ''                           , 'value' => '', 'type' => 'html'],
         ['header' => Yii::t('site', 'Full name')  , 'name' => 'name'        , 'value' => '$data->firstname." ".$data->lastname'],
         ['header' => Yii::t('site', 'Position')   , 'name' => 'vacancy_id'  , 'value' => '(Yii::t("site", $data->getVacancyLabel()) !== null) ? Yii::t("site", $data->getVacancyLabel()) : "-"', 'type' => 'raw'],
-        ['header' => Yii::t('site', 'Status')     , 'name' => 'status'      , 'value' => 'Yii::t("site", $data->getStatusText())'],
+        [
+            'header' => Yii::t('site', 'Status'),
+            'name' => 'status',
+            'value' => function(Invite $data){
+                return '<span class="invite-status-tooltip-toggle link-in-table">'
+                    . Yii::t("site", $data->getStatusText())
+                    . '<div class="popover-status invite-status-tooltip">
+                          <div class="popover-triangle"></div>
+                          <div class="popover-content">
+                              <div class="popup-content">'
+                                  . $data->getStatusDescription()
+                              . '</div>
+                          </div>
+                      </div> </span>';
+                },
+            'type' => 'raw'
+        ],
         [
             'header' => Yii::t('site', 'Date'),
             'name' => 'sent_time'   ,

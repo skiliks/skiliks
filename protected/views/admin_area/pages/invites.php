@@ -68,7 +68,7 @@ $titles = [
                 <td>Результат теста:</td>
                 <td>
                     <select name="is_invite_crashed">
-                        <option value="" ?></option>
+                        <option value="" ></option>
                         <option <?php if($is_invite_crashed != "" && $is_invite_crashed == "0") echo 'selected="selected"' ?> value="0">Success</option>
                         <option <?php if($is_invite_crashed != "" && $is_invite_crashed == "1") echo 'selected="selected"' ?> value="1">Fail</option>
                     </select>

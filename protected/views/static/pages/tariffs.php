@@ -61,7 +61,8 @@ $lang = Yii::app()->getLanguage();
 
     <p class="text-left text16 additional-text">
         <?php if ($lang == 'ru'): ?>
-        <sup>*</sup> Первый месяц использования
+        <sup>*</sup> Первый месяц использования <br/>
+        <sup>**</sup> Симуляции по выбранному тарифу активны в течение месяца. По истечении месяца неиспользованные симуляции сгорают.
         <?php endif; ?>
     </p>
     <?php if($user->isAuth() && $user->isCorporate()) : ?>

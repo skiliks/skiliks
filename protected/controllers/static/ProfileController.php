@@ -696,39 +696,131 @@ class ProfileController extends SiteBaseController implements AccountPageControl
         ]);
     }
 
+    /**
+     * Возвращает архив с Аналитическими файлами.
+     * В случае если файл пуст - он не должен попадать в архив.
+     *
+     * Если у пользователя нет пройденных симуляций (его или по его приглашению)
+     * - экшн генерирует флеш сообщение об этом и перенаправляет пользователя в Кабинет.
+     */
     public function actionSaveAssessmentAnalyticFile2()
     {
         $this->checkUser();
 
-        if(!$this->user->isCorporate()) {
+        if (!$this->user->isCorporate()) {
             $this->redirect('/dashboard');
-        }else{
-            $user_assessment_version = $this->getParam('version');
-            $system_assessment_version = $this->getConfig("assessment_engine_version");
-            if($user_assessment_version === $system_assessment_version) {
-                $path = SimulationService::saveLogsAsExcelReport2ForCorporateUser(
-                    $this->user->account_corporate,
-                    $user_assessment_version);
-            } else {
-                $path = SimulationService::createPathForAnalyticsFile($this->user->id, $user_assessment_version);
+        } else {
+            // Аналитический файл сводной оценки по версии v1 - должен быть уже готов
+            // (мы его создадим при релизе консольной коммандой)
+            $path1 = SimulationService::createPathForAnalyticsFile($this->user->id, 'v1');
+
+            if (false === file_exists($path1)) {
+                $path1 = null;
             }
-            if($path !== null) {
-                if (file_exists($path)) {
-                    $xls = file_get_contents($path);
+
+            // Аналитический файл со сводной оценко по версии v2 надо всегда генерировать
+            $path2 = SimulationService::saveLogsAsExcelReport2ForCorporateUser(
+                $this->user->account_corporate,
+                'v2'
+            );
+
+            $pathToZip = __DIR__ . '/../../system_data/analytic_files_2/analitic_file_' . $this->user->id . '.zip';
+
+            $zip = new ZipArchive;
+
+            if (file_exists($pathToZip)) {
+                $zip->open($pathToZip, ZIPARCHIVE::OVERWRITE);
+            } else {
+                $zip->open($pathToZip, ZIPARCHIVE::CREATE);
+            }
+
+            if ($path1 == null && $path2 == null) {
+                Yii::app()->user->setFlash('error',
+                    'У вас нет пройденных симуляций, чтобы сгенерировать на их основе анатический файл');
+                $this->redirect('/dashboard');
+            } else {
+
+                // формируем имя для файла-архива {
+                $latinCompanyOwnership = StringTools::CyToEnWithUppercase($this->user->getAccount()->ownership_type);
+                $latinCompanyName = StringTools::CyToEnWithUppercase($this->user->getAccount()->company_name);
+
+                $latinCompanyOwnership = preg_replace("/[^a-zA-Z0-9]/", "", $latinCompanyOwnership);
+                $latinCompanyName = preg_replace("/[^a-zA-Z0-9]/", "", $latinCompanyName);
+
+                $zipFilename = 'analitics_' . date('dmy');
+                // формируем имя для файла-архива }
+
+                // добавляем имя компании к имени файла спереди, но только если имя компании не пустое
+                if ('' != $latinCompanyName) {
+                    $zipFilename = $latinCompanyName . '_' . $zipFilename;
+                }
+                if ('' != $latinCompanyOwnership) {
+                    $zipFilename = $latinCompanyOwnership . '_' . $zipFilename;
+                }
+
+                if (null !== $path1) {
+                    // задаём псевдоним, чтоб не палить структуру папок нашего сервера
+                    $zip->addFile($path1, '/' . $zipFilename . '_ver_2_1.xlsx');
+                }
+
+                if (null !== $path2) {
+                    // задаём псевдоним, чтоб не палить структуру папок нашего сервера
+                    $zip->addFile($path2, '/' . $zipFilename . '_ver_2_2.xlsx');
+                }
+
+                if (null !== $path1 || null !== $path2) {
+                    $zip->close();
+                }
+
+                if (file_exists($pathToZip)) {
+                    $zipFile = file_get_contents($pathToZip);
                 } else {
                     Yii::app()->user->setFlash('error', 'Файл не найден');
                     $this->redirect('/dashboard');
                 }
 
-                $filename = 'Analysis_file_'.$this->getParam('version').'.xlsx';
-                header('Content-Type:   application/vnd.ms-excel; charset=utf-8');
-                header('Content-Disposition: attachment; filename="' . $filename . '"');
-                echo $xls;
-            }else{
-                Yii::app()->user->setFlash('error', 'У вас нет пройденных симуляций для сравнения');
-                $this->redirect('/dashboard');
+                header('Content-Type: application/zip; charset=utf-8');
+                header('Content-Disposition: attachment; filename="' . $zipFilename . '.zip"');
+
+                echo $zipFile;
             }
         }
+    }
 
+    public function actionRestoreAuthorization() {
+        $user_id = $this->getParam('user_id');
+        $key = $this->getParam('key');
+        $type = $this->getParam('type');
+        if($user_id !== null && $key !== null && $type !== null) {
+            /* @var YumUser $user */
+            $user = YumUser::model()->findByPk($user_id);
+            if(null !== $user) {
+                if($user->is_password_bruteforce_detected === YumUser::IS_PASSWORD_BRUTEFORCE_DETECTED) {
+                    if($user->authorization_after_bruteforce_key === $key) {
+                        if($type === YumUser::PASSWORD_BRUTEFORCE_IT_IS_ME) {
+                            UserService::authenticate($user);
+                            UserService::logAccountAction($user, $this->request->getUserHostAddress(), 'Пользователь забыл пароль и 5 раз пытался ввести неправильный пароль.');
+                            $user->is_password_bruteforce_detected = YumUser::IS_NOT_PASSWORD_BRUTEFORCE;
+                            $user->save(false);
+                            $this->redirect('/dashboard');
+                        } else if($type === YumUser::PASSWORD_BRUTEFORCE_IT_IS_NOT_ME){
+                            UserService::authenticate($user);
+                            UserService::logAccountAction($user, $this->request->getUserHostAddress(), 'Была попытка подобрать пароль к аккаунту пользователя пользователя. По словам пользователя, это не он.');
+                            $user->is_password_bruteforce_detected = YumUser::IS_NOT_PASSWORD_BRUTEFORCE;
+                            $user->save(false);
+                            Yii::app()->user->setFlash('error', 'Смените, пожалуйста, свой пароль, если он простой.');
+                            $this->redirect($user->getPasswordChangeUrl());
+                        }else{
+                            UserService::logAccountAction($user, $this->request->getUserHostAddress(), 'Человек пытался ввести неверный тип розблокировки!');
+                        }
+                    } else {
+                        UserService::logAccountAction($user, $this->request->getUserHostAddress(), 'Человек пытался ввести неверный ключ розблокировки!');
+                    }
+                } else {
+                    UserService::logAccountAction($user, $this->request->getUserHostAddress(), 'Человек пытался розблокировать аккаунт повторно!');
+                }
+            }
+        }
+        $this->redirect('/');
     }
 }

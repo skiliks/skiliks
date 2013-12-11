@@ -191,95 +191,6 @@ class DebugController extends SiteBaseController
         
     }
 
-    public function actionTCPDF()
-    {
-        /**
-         * @var TCPDF $pdf
-         */
-        $pdf = Yii::createComponent('application.components.tcpdf.tcpdf',
-            'P', 'mm', 'A4', true, 'UTF-8');
-        //$pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8');
-        $images_dir = __DIR__.'/../system_data/tcpdf/images/';
-        // $pdf->SetMargins(0,0,0, true);
-
-        $pdf->setPrintHeader(false);
-        $pdf->setPrintFooter(false);
-
-        //это нужно для того чтоб сделать картинку на всю страницу
-        $pdf->SetAutoPageBreak(false, 0);
-
-        // $pdf->setImageScale(3);
-        //большой JPG в фоне
-        $pdf->AddPage();
-        $pdf->Image($images_dir.'page1.jpg', 0, 0, 210, 297);
-
-        //текст на русском
-        $pdf->SetFont('proxima-nova-bold', '', 20, '', false);
-        $pdf->SetX(20);
-        $pdf->Write(0, "Иван Иванов", '', 0, '', false, 0, false, false, 0);
-
-        //прямоугольник
-        $pdf->Rect(90, 90, 40, 10, 'F', '', array(255, 170, 96));
-        //скуругленные углы
-        $pdf->RoundedRect($x='30', $y='60', $w='50', $h='20', $r = '2', '1111', 'F', '', array(255, 170, 96));
-
-        //картинка-срелка повёрнутая на какой-то не кратный 90 градус (33 к примеру)
-        //$pdf->AddPage();
-        $pdf->StartTransform();
-        // Rotate 20 degrees counter-clockwise centered by (70,110) which is the lower left corner of the rectangle
-
-        $pdf->Rotate(-33, 47.5, 109.5);
-        $pdf->Image($images_dir.'arrow.png', 30, 92, 35, 35);
-        //$pdf->Image('images/page1.jpg', 0, 0, 210, 297);
-        // Stop Transformation
-        $pdf->StopTransform();
-
-        $pdf->Circle(25,105,20);
-        //$pdf->Circle(25,105,10, 90, 180, null);
-        $pdf->PieSector(100, 140, 20, 20, 180, 'F', false, 0, 2);
-        //$pdf->Circle(25,105,10, 270, 360, 'C');
-        //$mask = $pdf->Image('images/blick.png', 60, 110, 35, 35, 'PNG');
-        //$pdf->Image('images/blick.png', 60, 110, 35, 35, 'PNG','','',false, 300, '', false, $mask);
-
-        //$mask = $pdf->Image('images/mask.png', 50, 140, 100, '', '', '', '', false, 300, '', true);
-        //$pdf->Image('images/stars.png', 50, 140, 100, '', '', 'http://www.tcpdf.org', '', false, 300, '', false, $mask);
-
-        $pdf->Image($images_dir.'blick.png', 70, 70, 100, '', '', 'http://www.tcpdf.org', '', false, 300);
-
-
-        //текст на русском
-        $pdf->SetFont('arialcyr', '', 7, '', false);
-        $pdf->SetX(40);
-        $pdf->SetY(132);
-        $pdf->Write(0, "Иван Иванов", '', 0, '', false, 0, false, false, 0);
-
-        $pdf->SetFont('proxima-nova-regular', '', 14, '', false);
-        $pdf->SetX(40);
-        $pdf->SetY(152);
-        $pdf->Write(0, "Иван Иванов", '', 0, '', false, 0, false, false, 0);
-
-        $pdf->SetFont('proxima-nova-bold', '', 14, '', false);
-        $pdf->SetX(40);
-        $pdf->SetY(162);
-        $pdf->Write(0, "Иван Иванов", '', 0, '', false, 0, false, false, 0);
-
-        $pdf->SetFont('proximanovaltb', '', 14, '', false);
-        $pdf->SetX(40);
-        $pdf->SetY(172);
-        $pdf->Write(0, "123 Фыв Asd", '', 0, '', false, 0, false, false, 0);
-
-        $pdf->SetFont('proxima-nova-regular', 'U', 14, '', false);
-        $pdf->SetX(40);
-        $pdf->SetY(182);
-        $pdf->Write(0, "Иван Иванов", '', 0, '', false, 0, false, false, 0);
-
-        $pdf->SetFont('proxima-nova-regular', 'I', 14, '', false);
-        $pdf->SetX(40);
-        $pdf->SetY(192);
-        $pdf->Write(0, "Иван Иванов", '', 0, '', false, 0, false, false, 0);
-
-        $pdf->Output('test.pdf');
-    }
 
     /**
      * Список доверенных IP
@@ -292,6 +203,7 @@ class DebugController extends SiteBaseController
         '195.69.87.166',   // Киев - Андрей домашний
         '62.205.135.161',   // Teamcity
         '188.32.209.89', // Таня
+        '86.62.110.225', // Лея
     ];
 
     /**
@@ -1657,13 +1569,12 @@ class DebugController extends SiteBaseController
     }
 
     public function actionTariff() {
-        //TariffPlan::model()->deleteAll();
-        $profile = YumProfile::model()->findByAttributes(['email'=>'bekunova@brokinvest.ru']);
-        /* @var $profile YumProfile */
-        $tariff = Tariff::model()->findByAttributes(['slug'=>Tariff::SLUG_STARTER]);
-        $tariff_pending = Tariff::model()->findByAttributes(['slug'=>Tariff::SLUG_LITE]);
-        $profile->user->account_corporate->setTariff($tariff, true);
-        //$profile->user->account_corporate->addPendingTariff($tariff_pending);
+       /* @var $simulation Simulation */
+        $simulation = Simulation::model()->findByPk(1);
+       echo '<pre>';
+        $data = json_decode($simulation->getAssessmentDetails(),true)['management'][1];
+        var_dump($data);
+        echo '</pre>';
     }
 }
 

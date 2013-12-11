@@ -26,7 +26,7 @@
     background-position: center 533px, center top, center 65px;
 }
 .action-homeNew .site-wrap {
-    background: url("../img/bg-heroes-home.png") no-repeat center 90px; /*  url("../img/bg-heroes-home.png") no-repeat center 90px; url("../img/heros-home.png") no-repeat center 140px; */
+    background: url("../img/home-page-bg/bg-heroes-home.png") no-repeat center 90px;
     overflow: hidden;
 }
 .home-contnt-box {

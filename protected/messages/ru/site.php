@@ -213,7 +213,7 @@ return array(
     'Oct' => "окт",
     'Nov' => "ноя",
     'Des' => "дек",
-
+    'Dec' => "дек",
     'Sign in' => 'Вход',
     'Forgot your password?' => 'Забыли пароль?',
     'Remember me' => 'Запомнить меня',
@@ -222,12 +222,12 @@ return array(
     'Enter new password' => 'Введите новый пароль',
     'Confirm password' => 'Подтвердите пароль',
 
-    'Pending' => 'в ожидании',
-    'Accepted' => 'подтверждено',
-    'Completed' => 'готово',
-    'Declined' => 'отклонено',
-    'In Progress'  => 'начато',
-    'Expired' => 'просрочено',
+    'Pending'      => 'В ожидании',
+    'Accepted'     => 'Подтверждено',
+    'Completed'    => 'Готово',
+    'Declined'     => 'Отклонено',
+    'In Progress'  => 'Начато',
+    'Expired'      => 'Просрочено',
 
     'Profile' => 'Мой профиль',
     'Statistic' => 'Статистика',

@@ -2,6 +2,8 @@
 
 class PaymentController extends SiteBaseController
 {
+    const SYSTEM_ERROR = 'Ошибка системы. Обратитесь к владельцам сайта для уточнения причины.';
+
     public function actionOrder($tariffType = null)
     {
         /** @var YumUser $user */
@@ -14,35 +16,25 @@ class PaymentController extends SiteBaseController
             $this->redirect('/');
         }
 
-        if(!in_array($this->request->urlReferrer, [$this->request->hostInfo.'/static/tariffs', $this->request->hostInfo.'/corporate/tariff']))
+        if(!in_array($this->request->urlReferrer, [$this->request->hostInfo.'/static/tariffs', $this->request->hostInfo.'/profile/corporate/tariff']))
         {
 
             Yii::app()->user->setFlash('error', 'Вы должны переходить на страницу "Оформление заказа" только через страницы <a href="/static/tariffs">"Цены и Тарифы"</a> и <a href="/profile/corporate/tariff">"Тарифы"</a> в "Мой профиль"');
 
             $this->redirect('/static/tariffs');
         }
-        /*if($user->getInvitesLeft() > 0) {
-            Yii::app()->user->setFlash('error', sprintf(
-                'У вас ещё остались симуляции. Пожалуйста, используйте их, вы сможете сменить тарифный план после.'
-            ));
-            $this->redirect('/dashboard');
-        }*/
 
         $tariff = null === $tariffType ?
            $user->account_corporate->tariff :
            Tariff::model()->findByAttributes(['slug' => $tariffType]);
 
         if ( null === $tariff ) {
-            Yii::app()->user->setFlash('error', sprintf(
-                'Ошибка системы. Обратитесь в владельцам сайта для уточнения причины.'
-            ));
+            Yii::app()->user->setFlash('error', sprintf(self::SYSTEM_ERROR));
             $this->redirect('/');
         }
 
         if ( UserService::isAllowOrderTariff($tariff, $user->account_corporate) === false ) {
-            Yii::app()->user->setFlash('error', sprintf(
-                'Ошибка системы. Обратитесь в владельцам сайта для уточнения причины.'
-            ));
+            Yii::app()->user->setFlash('error', sprintf(self::SYSTEM_ERROR));
             $this->redirect('/');
         }
 
@@ -147,9 +139,7 @@ class PaymentController extends SiteBaseController
         }
 
         // other undefined errors
-        Yii::app()->user->setFlash('error', sprintf(
-            "Ошибка системы. Обратитесь в владельцам сайта для уточнения причины."
-        ));
+        Yii::app()->user->setFlash('error', sprintf(self::SYSTEM_ERROR));
         $this->redirect('/static/tariff');
     }
 
@@ -172,9 +162,7 @@ class PaymentController extends SiteBaseController
             Tariff::model()->findByAttributes(['slug' => $tariffType]);
 
         if (null === $tariff) {
-            Yii::app()->user->setFlash('error', sprintf(
-                'Ошибка системы. Обратитесь в владельцам сайта для уточнения причины.'
-            ));
+            Yii::app()->user->setFlash('error', sprintf(self::SYSTEM_ERROR));
             $this->redirect('/');
         }
 
@@ -229,9 +217,7 @@ class PaymentController extends SiteBaseController
                 Tariff::model()->findByAttributes(['slug' => $tariffType]);
 
             if (null === $tariff) {
-                Yii::app()->user->setFlash('error', sprintf(
-                    'Ошибка системы. Обратитесь в владельцам сайта для уточнения причины.'
-                ));
+                Yii::app()->user->setFlash('error', sprintf(self::SYSTEM_ERROR));
                 $this->redirect('/');
             }
 
@@ -274,9 +260,7 @@ class PaymentController extends SiteBaseController
             Tariff::model()->findByAttributes(['slug' => $tariffType]);
 
         if (null === $tariff) {
-            Yii::app()->user->setFlash('error', sprintf(
-                'Ошибка системы. Обратитесь в владельцам сайта для уточнения причины.'
-            ));
+            Yii::app()->user->setFlash('error', sprintf(self::SYSTEM_ERROR));
             $this->redirect('/');
         }
 

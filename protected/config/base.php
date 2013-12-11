@@ -93,7 +93,7 @@ return CMap::mergeArray(
         // using Yii::app()->params['paramName']
         'params' => array(
             // имя сервера, стоб понимать с какого сервера пришли письма про подозрительную активность
-            'server_name'                   => 'не указан',
+            'server_name'                   => 'http://skiliks.com',
 
             // просто подпись на сайте, вынесена в конфиг - чтоб было проще править
             'demoDuration'                  => 5, // min
@@ -141,6 +141,9 @@ return CMap::mergeArray(
             // ключь привязан к отделу
             // http://siteheart.com/ru/doc/sso
             'SiteHeartSecretKey'                 => 'qaDECE9Mk7',
+
+            // CSS класс который доавляется во все BODY на сайте
+            'css-theme' => 'theme-new-year',
 
             // ???
             'emails' => [
@@ -212,9 +215,6 @@ return CMap::mergeArray(
 
             // This part will be sent to JS
             'public' => [
-
-                'isSkipOsCheck'=>false, //Проверка ОС перед стартом игры
-
                 'runMigrationOn'                     => 'nobody', //production - skiliks.com, live - live.skiliks.com, loc - loc.skiliks.com
 
                 // Позволено ли игроку пропустить интро видео
@@ -243,6 +243,10 @@ return CMap::mergeArray(
                 'useSentryForJsLog'                  => false,
 
                 'isSkipBrowserCheck'                 => false,
+
+                'isSkipSpeedTest'                    => false,
+
+                'isSkipOsCheck'                      => false, //Проверка ОС перед стартом игры
 
                 // позволяет отобразить это JS только на продакшене
                 'isIncludeGoogleAnalyticsJavaScript' => false,
@@ -314,7 +318,8 @@ return CMap::mergeArray(
                 'sMerchantPass1' => 'dcZz6P318a',
                 'sMerchantPass2' => 'S358oP0ikj'
             ],
-            'assessment_engine_version' => 'v2' //версия оценки(используеться в выводе попапа с оценкой)
+            'assessment_engine_version' => 'v2', //версия оценки(используеться в выводе попапа с оценкой)
+            'max_auth_failed_attempt' => 5, //Максимальное число попыток авторизации
     //            Test robokassa
     //            [
     //                'url'            => 'http://test.robokassa.ru/Index.aspx',

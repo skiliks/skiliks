@@ -41,10 +41,34 @@ $assetsUrl = $this->getAssetsUrl();
     Войти на сайт от имени пользователя
 </a>
 
+&nbsp; &nbsp;
+<a class="btn btn-success" href="/admin_area/site-log-account-action/?user_id=<?= $user->id ?>">
+    Логи аккаунта
+</a>
+
+
+<?php if($user->is_password_bruteforce_detected === YumUser::IS_PASSWORD_BRUTEFORCE_DETECTED) : ?>
+    &nbsp; &nbsp;
+    <a class="btn btn-success" href="/admin_area/user-bruteforce/?user_id=<?= $user->id ?>&set=<?=YumUser::IS_NOT_PASSWORD_BRUTEFORCE?>">
+        Розблокировать авторизацию
+    </a>
+<?php else : ?>
+    &nbsp; &nbsp;
+    <a class="btn btn-danger" href="/admin_area/user-bruteforce/?user_id=<?= $user->id ?>&set=<?=YumUser::IS_PASSWORD_BRUTEFORCE_DETECTED?>">
+         Заблокировать авторизацию
+    </a>
+<?php endif ?>
+
 <!-- разделитель кнопок -->
 <p>&nbsp; &nbsp;</p>
 
+<a class="btn btn-info" href="/admin_area/invites?page=1&receiver-email-for-filtration=<?= urlencode($user->profile->email) ?>&invite_statuses[0]=on&invite_statuses[1]=on&invite_statuses[5]=on&invite_statuses[2]=on&invite_statuses[4]=on&invite_statuses[3]=on&invite_status[]=on&filter_scenario_id=&is_invite_crashed=">
+        <i class="icon icon-arrow-down icon-white"></i>
+        Приглашения для меня
+</a>
+
 <?php if($user->isCorporate()) : ?>
+    &nbsp; &nbsp;
     <a class="btn btn-info"
        href="<?= $this->createAbsoluteUrl('admin_area/AdminPages/UserReferrals', ['userId' => $user->id]) ?>">
         <i class="icon icon-gift icon-white"></i>&nbsp;
@@ -59,10 +83,16 @@ $assetsUrl = $this->getAssetsUrl();
         <strong>$</strong>
         Тарифные планы
     </a>
-    <br/>
-    <br/>
-    <br/>
+    &nbsp; &nbsp;
+    <a class="btn btn-info" href="/admin_area/invites?page=1&owner_email_for_filtration=<?= urlencode($user->profile->email) ?>&invite_statuses[0]=on&invite_statuses[1]=on&invite_statuses[5]=on&invite_statuses[2]=on&invite_statuses[4]=on&invite_statuses[3]=on&invite_status[]=on&filter_scenario_id=&is_invite_crashed=">
+            <i class="icon icon-arrow-up icon-white"></i>
+            Приглашения от меня
+    </a>
 <?php endif ?>
+
+<br/>
+<br/>
+<br/>
 
 <table class="table">
     <tr>

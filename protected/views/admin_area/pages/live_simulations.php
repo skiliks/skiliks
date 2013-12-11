@@ -27,10 +27,13 @@
             </tr>
 
         <?php $allSimulation = [$full_simulations, $lite_simulations, $tutorial_simulations]; ?>
+        <?php $keys = ['Full', 'Lite', 'Tutorials']; ?>
 
         <?php $i = 0 ?>
 
-        <?php foreach($allSimulation as $simulations) : ?>
+        <?php foreach($allSimulation as $key =>  $simulations) : ?>
+            <br/><br/>
+            <h5> <?= $keys[$key] ?>: </h5>
             <?php foreach($simulations as $simulation) : ?>
                 <?php $i++; ?>
                 <tr>

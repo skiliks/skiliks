@@ -35,10 +35,8 @@ class AdminPagesController extends SiteBaseController {
     }
 
     public function actionLiveSimulations() {
-        $condition = " `t`.`start` > (NOW() - interval 4 hour) ";
-
         $full_simulations = Simulation::model()->findAll([
-            'condition' => " `game_type`.`slug` = 'full' AND `t`.`start` > (NOW() - interval 4 hour) ",
+            'condition' => " `game_type`.`slug` = 'full' AND `t`.`start` > (NOW() - interval 3 hour) ",
             'with'=>array(
                 'user',
                 'invite',
@@ -49,7 +47,7 @@ class AdminPagesController extends SiteBaseController {
 
 
         $lite_simulations = Simulation::model()->findAll([
-            'condition' => " `game_type`.`slug` = 'lite' AND `t`.`start` > (NOW() - interval 1 hour) ",
+            'condition' => " `game_type`.`slug` = 'lite' AND `t`.`start` > (NOW() - interval 35 hour) ",
             'with'=>array(
                 'user',
                 'invite',
@@ -60,7 +58,7 @@ class AdminPagesController extends SiteBaseController {
 
 
         $tutorial_simulations = Simulation::model()->findAll([
-            'condition' => " `game_type`.`slug` = 'tutorial' AND `t`.`start` > (NOW() - interval 30 minute) ",
+            'condition' => " `game_type`.`slug` = 'tutorial' AND `t`.`start` > (NOW() - interval 15 minute) ",
             'with'=>array(
                 'user',
                 'invite',
@@ -191,65 +189,65 @@ class AdminPagesController extends SiteBaseController {
 
             $receiverEmailForFiltration = trim(Yii::app()->request->getParam('receiver-email-for-filtration', null));
             $ownerEmailForFiltration = trim(Yii::app()->request->getParam('owner_email_for_filtration', null));
-            $invite_id = trim(Yii::app()->request->getParam('invite_id', null));
+            $invite_id = trim(Yii::app()->request->getParam('invite_id'));
             $exceptDevelopersFiltration = (bool)trim(Yii::app()->request->getParam('except-developers', true));
-            $simulationScenario = Yii::app()->request->getParam('filter_scenario_id', true);
-            $isInviteCrashed = Yii::app()->request->getParam('is_invite_crashed', true);
+            $simulationScenario = Yii::app()->request->getParam('filter_scenario_id');
+            $isInviteCrashed = Yii::app()->request->getParam('is_invite_crashed');
 
             // remaking email form
-            if ($isReloadRequest) {
+            //if ($isReloadRequest) {
                 if (null !== $receiverEmailForFiltration) {
                     $filter_form['filter_email'] = $receiverEmailForFiltration;
                 }
                 else {
                     $filter_form['filter_email'] = "";
                 }
-            }
+            //}
 
-            if ($isReloadRequest) {
+            //if ($isReloadRequest) {
                 if (null !== $ownerEmailForFiltration) {
                     $filter_form['owner_email'] = $ownerEmailForFiltration;
                 }
                 else {
                     $filter_form['owner_email'] = "";
                 }
-            }
+            //}
 
-            if ($isReloadRequest) {
+            //if ($isReloadRequest) {
                 if (null !== $exceptDevelopersFiltration) {
                     $filter_form['exceptDevelopersFiltration'] = $exceptDevelopersFiltration;
                 }
                 else {
                     $filter_form['exceptDevelopersFiltration'] = "";
                 }
-            }
+            //}
 
-            if ($isReloadRequest) {
+            //if ($isReloadRequest) {
                 if (null !== $simulationScenario) {
                     $filter_form['filter_scenario_id'] = $simulationScenario;
                 }
                 else {
                     $filter_form['filter_scenario_id'] = "";
                 }
-            }
+            //}
 
-            if ($isReloadRequest) {
+            //if ($isReloadRequest && null == $invite_id) {
                 if (null !== $invite_id) {
                     $filter_form['invite_id'] = $invite_id;
                 }
                 else {
-                    $filter_form['invite_id'] = "";
+                   $filter_form['invite_id'] = "";
                 }
-            }
+            //}
 
-            if ($isReloadRequest) {
+            //if ($isReloadRequest) {
                 if (null !== $isInviteCrashed) {
                     $filter_form['is_invite_crashed'] = $isInviteCrashed;
                 }
                 else {
-                    $filter_form['is_invite_crashed'] = "";
+                   $filter_form['is_invite_crashed'] = "";
                 }
-            }
+            //}
 
             Yii::app()->session['admin_filter_form'] = $filter_form;
 
@@ -1420,6 +1418,7 @@ class AdminPagesController extends SiteBaseController {
 
     public function actionUserDetailsByEmail() {
         $email = Yii::app()->request->getParam('email');
+        $email = trim($email);
         $profile = YumProfile::model()->findByAttributes(['email' => urldecode($email)]);
 
         if (null === $profile) {
@@ -2113,5 +2112,41 @@ class AdminPagesController extends SiteBaseController {
 
         $this->layout = '/admin_area/layouts/admin_main';
         $this->render('/admin_area/pages/site_log_authorization', ['dataProvider' => $dataProvider]);
+    }
+
+    public function actionSiteLogAccountAction() {
+
+        //$dataProvider = SiteLogAuthorization::model()->searchSiteLogs();
+        $user_id = Yii::app()->request->getParam('user_id');
+        $dataProvider = SiteLogAccountAction::model()->searchSiteLogs($user_id);
+
+        $this->layout = '/admin_area/layouts/admin_main';
+        $this->render('/admin_area/pages/site_log_account_action', ['dataProvider' => $dataProvider]);
+    }
+
+    public function actionUserBruteForce() {
+
+        //$dataProvider = SiteLogAuthorization::model()->searchSiteLogs();
+        $user_id = Yii::app()->request->getParam('user_id');
+        $set = Yii::app()->request->getParam('set');
+        /* @var $user YumUser */
+        $user = YumUser::model()->findByPk($user_id);
+        $user->is_password_bruteforce_detected = $set;
+        $user->save(false);
+
+        $this->redirect(Yii::app()->request->urlReferrer);
+    }
+
+    public function actionAdminsList()
+    {
+        $this->layout = '/admin_area/layouts/admin_main';
+        $this->render('//admin_area/pages/users_managament/admins_list', [
+            'admins'
+                => YumUser::model()->findAllByAttributes(['is_admin' => 1]),
+
+            // 1 - action "start_dev_mode"
+            'devPermissions'
+                => YumPermission::model()->findAllByAttributes(['action' => 1]),
+        ]);
     }
 }

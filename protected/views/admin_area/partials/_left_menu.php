@@ -126,6 +126,13 @@
                 'visible' => true,
 
             ),
+
+            array(
+                'label' => 'Список админов',
+                'url'   => ['admin_area/AdminPages/AdminsList'],
+                'visible' => true,
+
+            ),
         ),
         'htmlOptions'=>array('class'=>'nav nav-list')
     )) ?>

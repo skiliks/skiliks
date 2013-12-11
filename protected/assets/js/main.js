@@ -742,9 +742,6 @@ var fixLogotypes = function() {
             })
         });
 
-
-
-
         $(".showDialogRejected").click(function(e){
             e.preventDefault();
             var reason = $(this).attr('data-reject-reason');
@@ -832,6 +829,26 @@ var fixLogotypes = function() {
             }
         );
 
+        // invite-status-tooltip-toggle {
+        $(".invite-status-tooltip-toggle").click(function() {
+            // закрыть уже открытые status-tooltips
+            $(".invite-status-tooltip-toggle").removeClass("active");
+
+            $(this).addClass("active");
+            var popoverStatus =  $(this).find('.popover-status');
+            popoverStatus.addClass("active");
+            popoverStatus.css("margin-top", - popoverStatus.height()/2 - 4);
+            $(this).find('.popover-triangle').css("top", (popoverStatus.height() - 16)/2);
+        });
+
+        $(document).click(function(e) {
+            if(!$(e.target).is('.invite-status-tooltip-toggle')) {
+                $(".invite-status-tooltip-toggle").removeClass("active");
+                $(".popover-status").removeClass("active");
+            }
+        });
+        // invite-status-tooltip-toggle }
+
         if($("#corporate-invitations-list-box").length != 0) {
 
             $('.items td a').hide();
@@ -899,6 +916,29 @@ var fixLogotypes = function() {
                 }
             });
         }
+
+        /**
+         * Ссылки "Результаты" (скачать аналитический файл) и "Инструкция по оценке"
+         */
+        $('.link-to-loading').click(function(e) {
+
+            e.preventDefault(e);
+
+            var link = $(this);
+            var url = link.attr('href');
+
+            if ('#' == url) {
+                return false;
+            }
+            link.attr('href', '#');
+
+            // на 30 секунд ссылка становится не рабочей
+            setTimeout(function(){
+                link.attr('href', url);
+            }, 30*1000);
+
+            window.location.href = url;
+        })
 
     });
 })(jQuery);
