@@ -962,8 +962,10 @@ class ImportGameDataService
 
                 // Проверяется не значится ли у нас для такого письма уже такой получатель и если нет то добавляем запись
                 // todo: use scenario_id!
-                $mrt = MailTemplateRecipient::model()->byMailId($emailTemplateEntity->id)
-                    ->byReceiverId($receiverId)->find();
+                $mrt = MailTemplateRecipient::model()->findByAttributes([
+                        'mail_id'     => $emailTemplateEntity->id,
+                        'receiver_id' => $receiverId
+                    ]);
                 if (null === $mrt) {
                     $mrt = new MailTemplateRecipient();
                     $mrt->mail_id = $emailTemplateEntity->id;
@@ -986,10 +988,11 @@ class ImportGameDataService
 
                 // todo: use scenario_id!
                 $mct = MailTemplateCopy::model()
-                    ->byMailId($emailTemplateEntity->id)
-                    ->byReceiverId($characterId)
-                    ->findByAttributes(['scenario_id' => $this->scenario->getPrimaryKey()]);
-
+                    ->findByAttributes([
+                        'mail_id'     => $emailTemplateEntity->id,
+                        'receiver_id' => $characterId,
+                        'scenario_id' => $this->scenario->getPrimaryKey(),
+                    ]);
 
                 if (null === $mct) {
                     $mct = new MailTemplateCopy();
@@ -1491,10 +1494,10 @@ class ImportGameDataService
 
             // try to find exists entity
             // todo: use scenario_id!
-            $mailTask = MailTask::model()
-                ->byMailId($mail->id)
-                ->byName($this->getCellValue($sheet, 'Task', $i))
-                ->find();
+            $mailTask = MailTask::model()->findByAttributes([
+                'mail_id' => $mail->id,
+                'name' => $this->getCellValue($sheet, 'Task', $i)
+            ]);
 
             // create entity if not exists {
             if (null === $mailTask) {
@@ -1651,7 +1654,10 @@ class ImportGameDataService
             $fileId = $documents[$attache];
 
             // todo: use scenario_id!
-            $attacheModel = MailAttachmentTemplate::model()->byMailId($mail->id)->byFileId($fileId)->find();
+            $attacheModel = MailAttachmentTemplate::model()->findAllByAttributes([
+                'mail_id' => $mail->id,
+                'file_id' => $fileId
+            ]);
             if ($attacheModel === null) {
                 $attacheModel = new MailAttachmentTemplate();
             }

@@ -91,20 +91,7 @@ class DocumentTemplate extends CActiveRecord implements IGameAction
     {
             return 'my_documents_template';
     }
-    
-    /**
-     * Выбрать документ по коду
-     * @param string $code
-     * @return DocumentTemplate
-     */
-    public function byCode($code)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "code = '{$code}'"
-        ));
-        return $this;
-    }
-    
+
     /**
      * Выбрать заданный документ
      * @param int $id

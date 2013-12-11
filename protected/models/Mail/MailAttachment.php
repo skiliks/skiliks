@@ -2,37 +2,22 @@
 /**
  * Вложения писем в рамках конкретной симуляции.
  *
- * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
+ * @property integer id
+ * @property integer $mail_id, mail_box.id
+ * @property integer $file_id
  * @property MyDocument $myDocument
  */
 class MailAttachment extends CActiveRecord
 {
-    /**
-     * @var integer
-     */
-    public $id;
+    /* ------------------------------------------------------------------------------------------------------------ */
     
     /**
-     * mail_box.id
-     * @var int
-     */
-    public $mail_id;
-    
-    /**
-     * @var int
-     */
-    public $file_id; // ?
-    
-    /** ------------------------------------------------------------------------------------------------------------ **/
-    
-    /**
-     *
-     * @param type $className
+     * @param string $className
      * @return MailAttachment
      */
     public static function model($className=__CLASS__)
     {
-            return parent::model($className);
+        return parent::model($className);
     }
 
     /**
@@ -40,22 +25,9 @@ class MailAttachment extends CActiveRecord
      */
     public function tableName()
     {
-            return 'mail_attachments';
+        return 'mail_attachments';
     }
-    
-    /**
-     * Выбрать по заданному письму
-     * @param int $mailId
-     * @return MailAttachment
-     */
-    public function byMailId($mailId)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "mail_id = {$mailId}"
-        ));
-        return $this;
-    }
-    
+
     /**
      * Выбрать по заданному набору писем
      * @param array $mailIds

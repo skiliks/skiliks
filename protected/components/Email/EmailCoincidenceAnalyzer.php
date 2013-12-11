@@ -69,7 +69,7 @@ class EmailCoincidenceAnalyzer
             }
             // mailRecipientId{
             $mailRecipientId = array($mailTemplate->receiver_id);
-            foreach (MailTemplateRecipient::model()->byMailId($mailTemplate->id)->findAll() as $recipient) {
+            foreach (MailTemplateRecipient::model()->findAllByAttributes(['mail_id' => $mailTemplate->id]) as $recipient) {
                 if (false == in_array($recipient->receiver_id, $mailRecipientId)) {
                     $mailRecipientId[] = $recipient->receiver_id;
                 }
@@ -78,14 +78,17 @@ class EmailCoincidenceAnalyzer
             
             // mailCopyId {
             $mailCopyId = array();
-            foreach (MailTemplateCopy::model()->byMailId($mailTemplate->id)->findAll() as $copy) {
+            foreach (MailTemplateCopy::model()->findAllByAttributes(['mail_id' => $mailTemplate->id]) as $copy) {
                 $mailCopyId[] = $copy->receiver_id;
             }
             // mailCopyId }
             
             // mailAttachmentId {
             $mailAttachId = array();
-            foreach (MailAttachmentTemplate::model()->byMailId($mailTemplate->id)->findAll() as $attach) {
+            $mailAttachmentTemplates = MailAttachmentTemplate::model()->findAllByAttributes([
+                'mail_id' => $mailTemplate->id]
+            );
+            foreach ($mailAttachmentTemplates as $attach) {
                 $mailAttachId[] = $attach->file_id;
             }
             // mailAttachmentId }
@@ -127,7 +130,7 @@ class EmailCoincidenceAnalyzer
         
         // mailRecipientId{
         $mailRecipientId = array($this->userEmail->receiver_id);
-        foreach (MailRecipient::model()->byMailId($this->userEmail->id)->findAll() as $recipient) {
+        foreach (MailRecipient::model()->findAllByAttributes(['mail_id' => $this->userEmail->id]) as $recipient) {
             if (false == in_array($recipient->receiver_id, $mailRecipientId)) {
                 $mailRecipientId[] = $recipient->receiver_id;
             }
@@ -137,15 +140,14 @@ class EmailCoincidenceAnalyzer
         // mailCopyId {
         $mailCopyId = array();
 
-        foreach (MailCopy::model()->byMailId($this->userEmail->id)->findAll() as $copy) {
+        foreach (MailCopy::model()->findAllByAttributes(['mail_id' => $this->userEmail->id]) as $copy) {
             $mailCopyId[] = $copy->receiver_id;
         }
-        
         // mailCopyId }
 
         // mailAttachmentId {
         $mailAttachId = array();
-        foreach (MailAttachment::model()->byMailId($this->userEmail->id)->findAll() as $attach) {
+        foreach (MailAttachment::model()->findAllByAttributes(['mail_id' => $this->userEmail->id]) as $attach) {
             $doc = MyDocument::model()->byId($attach->file_id)->find();
             if (null !== $doc) {
                 $mailAttachId[] = $doc->template_id;

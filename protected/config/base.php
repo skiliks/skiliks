@@ -313,8 +313,8 @@ return CMap::mergeArray(
             ),
             'robokassa' => [
                 'url'            => 'http://test.robokassa.ru/Index.aspx',
-                'MrchLogin'      => 'skiliks_dev',
-                'Desc'           => 'Оплата согласно...',
+                'MerchantLogin'  => 'skiliks_dev',
+                'Description'    => 'Оплата согласно...',
                 'sMerchantPass1' => 'dcZz6P318a',
                 'sMerchantPass2' => 'S358oP0ikj'
             ],
@@ -323,8 +323,8 @@ return CMap::mergeArray(
     //            Test robokassa
     //            [
     //                'url'            => 'http://test.robokassa.ru/Index.aspx',
-    //                'MrchLogin'      => 'skiliks_dev',
-    //                'Desc'           => 'Оплата согласно...',
+    //                'MerchantLogin'  => 'skiliks_dev',
+    //                'Description'    => 'Оплата согласно...',
     //                'sMerchantPass1' => 'dcZz6P318a',
     //                'sMerchantPass2' => 'S358oP0ikj'
     //            ]

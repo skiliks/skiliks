@@ -133,20 +133,7 @@ class Replica extends CActiveRecord implements IGameAction
         ));
         return $this;
     }
-    
-    /**
-     * Выбрать по коду диалога
-     * @param string $code
-     * @return Replica
-     */
-    public function byCode($code)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "code = '{$code}'"
-        ));
-        return $this;
-    }
-    
+
     /**
      * Выбрать по полю excel_id - это исходный номер из эксель документа
      * @param int $excelId

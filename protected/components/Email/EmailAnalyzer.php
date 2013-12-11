@@ -744,7 +744,7 @@ class EmailAnalyzer
      */
     private function isMailTaskHasRightAction($mailTemplateId)
     {
-        $taskWays = MailTask::model()->byMailId($mailTemplateId)->byWrongRight('R')->findAll();
+        $taskWays = MailTask::model()->findAllByAttributes(['mail_id' => $mailTemplateId, 'wr' => 'R']);
        
         return (0 < count($taskWays) && null !== $taskWays);
     }
