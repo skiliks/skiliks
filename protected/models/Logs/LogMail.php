@@ -86,20 +86,12 @@ class LogMail extends CActiveRecord
             'order' => "window $sort"
         ));
         return $this;
-    }    
-    
-    public function orderById($sort = 'ACS')
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'order' => "id $sort"
-        ));
-        return $this;
-    }    
+    }
     
     public function byMailBoxId($mailId)
     {
         $this->getDbCriteria()->mergeWith(array(
-            'condition' => "mail_id = {$mailId}"
+            'condition' => "c = {$mailId}"
         ));
         return $this;
     }

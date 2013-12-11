@@ -6,6 +6,7 @@
  * @property integer $window
  * @property string $start_time 'H:i:s'
  * @property string $end_time 'H:i:s'
+ * @property string $duration 'hh:ii:ss'
  * @property string $leg_type
  * @property string $leg_action
  * @property integer $activity_action_id
@@ -16,27 +17,14 @@
  * @property ActivityAction $activityAction
  *
  */
-class LogActivityActionAgregated extends CActiveRecord
+class LogActivityActionAggregated extends CActiveRecord
 {
     const KEEP_LAST_CATEGORY_YES = '1';
     const KEEP_LAST_CATEGORY_NO = '0';
+
     /**
-     * @var string 'hh:ii:ss'
+     * ???
      */
-    public $start_time;
-    
-    /**
-     * @var string 'hh:ii:ss'
-     */
-    public $end_time;
-    
-    /**
-     * @var string 'hh:ii:ss'
-     */
-    public $duration;
-    
-    /** ------------------------------------------------------------------------------------------------------------ **/
-    
     public function updateDuration() {
         $this->duration = TimeTools::secondsToTime(
             (TimeTools::timeToSeconds($this->end_time) - TimeTools::timeToSeconds($this->start_time))
@@ -62,6 +50,9 @@ class LogActivityActionAgregated extends CActiveRecord
         return parent::model($className);
     }
 
+    /**
+     * @return array
+     */
     public function relations()
     {
         return array(

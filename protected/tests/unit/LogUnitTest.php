@@ -352,9 +352,7 @@ class LogUnitTest extends CDbTestCase
         /** @var $mail_logs LogMail[] */
         $mail_logs = LogMail::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
         $this->assertEquals(4, count($mail_logs));
-        //foreach ($activity_actions as $log) {
-            //$log->dump();
-        //}
+
         $this->assertEquals($activity_actions[2]->activityAction->activity->code, 'A_not_sent');
         $this->assertEquals('A_incorrect_sent', $activity_actions[4]->activityAction->activity->code);
         $this->assertEquals('A_not_sent', $activity_actions[6]->activityAction->activity->code);
@@ -773,7 +771,7 @@ class LogUnitTest extends CDbTestCase
         LogHelper::combineLogActivityAgregated($simulation);
         
         // get ActivityAgregated logs
-        $logs = LogActivityActionAgregated::model()->findAll( 'sim_id = :sim_id',  [
+        $logs = LogActivityActionAggregated::model()->findAll( 'sim_id = :sim_id',  [
             'sim_id' => $simulation->id
         ]);
         

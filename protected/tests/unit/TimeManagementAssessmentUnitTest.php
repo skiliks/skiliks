@@ -33,7 +33,7 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
             'activity_id' => $activity_d1->id,
             'document_id' => $doc_d2->id
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id = $simulation->id;
         $log->leg_type = ActivityAction::LEG_TYPE_SYSTEM_DIAL;
         $log->leg_action = 'T2';
@@ -55,7 +55,7 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
             'activity_id' => $activity_d14->id,
             'document_id' => $doc_d14->id
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id = $simulation->id;
         $log->leg_type = ActivityAction::LEG_TYPE_DOCUMENTS;
         $log->leg_action = 'D14';
@@ -77,7 +77,7 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
             'activity_id' => $activity_RS1->id,
             'dialog_id' => $replica_RS1->id
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id = $simulation->id;
         $log->leg_type = ActivityAction::LEG_TYPE_MANUAL_DIAL;
         $log->leg_action = 'T3.1';
@@ -99,7 +99,7 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
             'activity_id' => $activity_RS1->id,
             'dialog_id' => $replica_RS1->id
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id = $simulation->id;
         $log->leg_type = ActivityAction::LEG_TYPE_MANUAL_DIAL;
         $log->leg_action = 'ARS1';
@@ -121,7 +121,7 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
             'mail_id'     => null,
             'document_id' => null,
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id = $simulation->id;
         $log->leg_type = ActivityAction::LEG_TYPE_MANUAL_DIAL;
         $log->leg_action = 'plan';
@@ -147,7 +147,7 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
             'activity_id' => $activity_M2->id,
             'mail_id' => $template_M2->id
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id = $simulation->id;
         $log->leg_type = ActivityAction::LEG_TYPE_MANUAL_DIAL;
         $log->leg_action = 'AM2';
@@ -169,7 +169,7 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
             'activity_id' => $activity_MY2->id,
             'mail_id' => $template_MY2->id
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id = $simulation->id;
         $log->leg_type = ActivityAction::LEG_TYPE_INBOX;
         $log->leg_action = 'AMY2';
@@ -191,7 +191,7 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
             'activity_id' => $activity_S1_2->id,
             'dialog_id' => $replica_S1_2->id
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id = $simulation->id;
         $log->leg_type = ActivityAction::LEG_TYPE_SYSTEM_DIAL;
         $log->leg_action = 'AE1';
@@ -213,14 +213,14 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
             'activity_id' => $activity_ARS2->id,
             'mail_id' => $template_M78->id
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id = $simulation->id;
         $log->leg_type = ActivityAction::LEG_TYPE_MANUAL_DIAL;
         $log->leg_action = 'M78';
         $log->activity_action_id = $activity_action_M78->id;
         $log->activityAction = $activity_action_M78;
         $log->category = $activity_ARS2->category_id;
-        $log->keep_last_category_after_60_sec = LogActivityActionAgregated::KEEP_LAST_CATEGORY_YES;
+        $log->keep_last_category_after_60_sec = LogActivityActionAggregated::KEEP_LAST_CATEGORY_YES;
         $log->start_time = '11:30:00';
         $log->end_time = '11:40:00';
         $log->duration = '00:10:00';
@@ -236,7 +236,7 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
             'activity_id' => $activity_AE3->id,
             'dialog_id' => $replica_AE3->id
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id = $simulation->id;
         $log->leg_type = ActivityAction::LEG_TYPE_WINDOW;
         $log->leg_action = 'AE3';
@@ -258,7 +258,7 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
             'activity_id' => $activity_A_wait->id,
             'window_id'   => $window->id
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id = $simulation->id;
         $log->leg_type = ActivityAction::LEG_TYPE_SYSTEM_DIAL;
         $log->leg_action = null;
@@ -280,7 +280,7 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
             'activity_id' => $activity_A_wrong_call->id,
             'leg_type'    => ActivityAction::LEG_TYPE_MANUAL_DIAL
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id = $simulation->id;
         $log->leg_type = ActivityAction::LEG_TYPE_MANUAL_DIAL;
         $log->leg_action = null;
@@ -300,7 +300,7 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
             'activity_id' => $activity_A_not_sent->id,
             'leg_type'    => ActivityAction::LEG_TYPE_OUTBOX,
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id = $simulation->id;
         $log->leg_type = ActivityAction::LEG_TYPE_OUTBOX;
         $log->leg_action = null;
@@ -320,7 +320,7 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
             'activity_id' => $activity_A_incorrect_sent->id,
             'leg_type'    => ActivityAction::LEG_TYPE_OUTBOX,
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id = $simulation->id;
         $log->leg_type = ActivityAction::LEG_TYPE_OUTBOX;
         $log->leg_action = null;
@@ -339,7 +339,7 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
         $activity_action = $simulation->game_type->getActivityAction([
             'meeting_id' => $meeting->id
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id = $simulation->id;
         $log->leg_type = ActivityAction::LEG_TYPE_MEETING;
         $log->leg_action = "MEE1";
@@ -358,7 +358,7 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
         $activity_action = $simulation->game_type->getActivityAction([
             'meeting_id' => $meeting->id
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id = $simulation->id;
         $log->leg_type = ActivityAction::LEG_TYPE_MEETING;
         $log->leg_action = "MEE2";
@@ -381,7 +381,7 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
             'activity_id' => $activity_RST2->id,
             'dialog_id'   => $replica_RST2->id
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id = $simulation->id;
         $log->leg_type = ActivityAction::LEG_TYPE_SYSTEM_DIAL;
         $log->leg_action = 'ARS2';
@@ -667,7 +667,7 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
             'activity_id' => $activity_A_incorrect_sent->id,
             'leg_type'    => ActivityAction::LEG_TYPE_OUTBOX,
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id = $simulation->id;
         $log->leg_type = ActivityAction::LEG_TYPE_OUTBOX;
         $log->leg_action = null;
@@ -692,7 +692,7 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
             'document_id' => $doc_d2->id
         ]);
 
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id = $simulation->id;
         $log->leg_type = ActivityAction::LEG_TYPE_SYSTEM_DIAL;
         $log->leg_action = 'T2';
@@ -745,7 +745,7 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
             'activity_id' => $activity_A_incorrect_sent->id,
             'leg_type'    => ActivityAction::LEG_TYPE_OUTBOX,
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id = $simulation->id;
         $log->leg_type = ActivityAction::LEG_TYPE_OUTBOX;
         $log->leg_action = null;
@@ -770,7 +770,7 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
             'document_id' => $doc_d2->id
         ]);
 
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id = $simulation->id;
         $log->leg_type = ActivityAction::LEG_TYPE_SYSTEM_DIAL;
         $log->leg_action = 'T2';
@@ -823,7 +823,7 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
             'activity_id' => $activity_A_incorrect_sent->id,
             'leg_type'    => ActivityAction::LEG_TYPE_OUTBOX,
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id = $simulation->id;
         $log->leg_type = ActivityAction::LEG_TYPE_OUTBOX;
         $log->leg_action = null;
@@ -848,7 +848,7 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
             'document_id' => $doc_d2->id
         ]);
 
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id = $simulation->id;
         $log->leg_type = ActivityAction::LEG_TYPE_SYSTEM_DIAL;
         $log->leg_action = 'T2';

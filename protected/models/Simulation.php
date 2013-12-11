@@ -30,8 +30,8 @@ use application\components\Logging\LogTableList as LogTableList;
  * @property AssessmentAggregated[] $assessment_aggregated
  * @property LogWindow[] $log_windows
  * @property LogActivityAction[] $log_activity_actions
- * @property LogActivityActionAgregated[] $log_activity_actions_aggregated
- * @property LogActivityActionAgregated214d[] $log_activity_actions_aggregated_214d
+ * @property LogActivityActionAggregated[] $log_activity_actions_aggregated
+ * @property LogActivityActionAggregated214d[] $log_activity_actions_aggregated_214d
  * @property LogMail[] $log_mail
  * @property LogDialog[] $log_dialogs
  * @property LogDialog[] $log_meetings
@@ -680,38 +680,38 @@ class Simulation extends CActiveRecord
     public function relations()
     {
         return [
-            'user'                            => [self::BELONGS_TO, 'YumUser', 'user_id'],
-            'events_triggers'                 => [self::HAS_MANY, 'EventTrigger', 'sim_id'],
-            'log_windows'                     => [self::HAS_MANY, 'LogWindow', 'sim_id', 'order' => 'start_time, end_time'],
-            'log_mail'                        => [self::HAS_MANY, 'LogMail', 'sim_id', 'order' => 'start_time, end_time'],
-            'log_plan'                        => [self::HAS_MANY, 'DayPlanLog', 'sim_id', 'order' => 'start_time, end_time'],
-            'log_dialogs'                     => [self::HAS_MANY, 'LogDialog', 'sim_id', 'order' => 'start_time, end_time'],
-            'log_meetings'                    => [self::HAS_MANY, 'LogMeeting', 'sim_id', 'order' => 'start_time, end_time'],
-            'log_documents'                   => [self::HAS_MANY, 'LogDocument', 'sim_id', 'order' => 'start_time, end_time'],
-            'log_activity_actions'            => [self::HAS_MANY, 'LogActivityAction', 'sim_id', 'order' => 'start_time, end_time'],
-            'log_day_plan'                    => [self::HAS_MANY, 'DayPlanLog', 'sim_id'],
-            'log_activity_actions_aggregated' => [self::HAS_MANY, 'LogActivityActionAgregated', 'sim_id', 'order' => 'start_time, end_time'],
-            'log_activity_actions_aggregated_214d' => [self::HAS_MANY, 'LogActivityActionAgregated214d', 'sim_id', 'order' => 'start_time, end_time'],
-            'universal_log'                   => [self::HAS_MANY, 'UniversalLog', 'sim_id'],
-            'completed_parent_activities'     => [self::HAS_MANY, 'SimulationCompletedParent', 'sim_id'],
-            'assessment_aggregated'           => [self::HAS_MANY, 'AssessmentAggregated', 'sim_id', 'with' => 'point', 'order' => 'point.type_scale'],
-            'performance_points'              => [self::HAS_MANY, 'PerformancePoint', 'sim_id'],
-            'performance_aggregated'          => [self::HAS_MANY, 'PerformanceAggregated', 'sim_id'],
-            'stress_points'                   => [self::HAS_MANY, 'StressPoint', 'sim_id'],
-            'assessment_points'               => [self::HAS_MANY, 'AssessmentPoint', 'sim_id'],
-            'assessment_planing_points'       => [self::HAS_MANY, 'AssessmentPlaningPoint', 'sim_id'],
-            'assessment_calculation'          => [self::HAS_MANY, 'AssessmentCalculation', 'sim_id'],
-            'time_management_aggregated'      => [self::HAS_MANY, 'TimeManagementAggregated', 'sim_id'],
-            'simulation_excel_points'         => [self::HAS_MANY, 'SimulationExcelPoint', 'sim_id'],
-            'assessment_overall'              => [self::HAS_MANY, 'AssessmentOverall', 'sim_id', 'order'=>'id ASC'],
-            'game_type'                       => [self::BELONGS_TO, 'Scenario', 'scenario_id'],
-            'learning_area'                   => [self::HAS_MANY, 'SimulationLearningArea', 'sim_id'],
-            'learning_goal'                   => [self::HAS_MANY, 'SimulationLearningGoal', 'sim_id'],
-            'learning_goal_group'             => [self::HAS_MANY, 'SimulationLearningGoalGroup', 'sim_id'],
-            'invite'                          => [self::HAS_ONE, 'Invite', 'simulation_id'],
-            'simFlags'                        => [self::HAS_MANY, 'SimulationFlag', 'sim_id'],
-            'logAssessment214g'               => [self::HAS_MANY, 'LogAssessment214g', 'sim_id'],
-            'mail_box_outbox'                 => [self::HAS_MANY, 'MailBox', 'sim_id', 'condition'=>'mail_box_outbox.group_id = 2 or mail_box_outbox.group_id = 3'],
+            'user'                                 => [self::BELONGS_TO, 'YumUser', 'user_id'],
+            'events_triggers'                      => [self::HAS_MANY, 'EventTrigger', 'sim_id'],
+            'log_windows'                          => [self::HAS_MANY, 'LogWindow', 'sim_id', 'order' => 'start_time, end_time'],
+            'log_mail'                             => [self::HAS_MANY, 'LogMail', 'sim_id', 'order' => 'start_time, end_time'],
+            'log_plan'                             => [self::HAS_MANY, 'DayPlanLog', 'sim_id', 'order' => 'start_time, end_time'],
+            'log_dialogs'                          => [self::HAS_MANY, 'LogDialog', 'sim_id', 'order' => 'start_time, end_time'],
+            'log_meetings'                         => [self::HAS_MANY, 'LogMeeting', 'sim_id', 'order' => 'start_time, end_time'],
+            'log_documents'                        => [self::HAS_MANY, 'LogDocument', 'sim_id', 'order' => 'start_time, end_time'],
+            'log_activity_actions'                 => [self::HAS_MANY, 'LogActivityAction', 'sim_id', 'order' => 'start_time, end_time'],
+            'log_day_plan'                         => [self::HAS_MANY, 'DayPlanLog', 'sim_id'],
+            'log_activity_actions_aggregated'      => [self::HAS_MANY, 'LogActivityActionAggregated', 'sim_id', 'order' => 'start_time, end_time'],
+            'log_activity_actions_aggregated_214d' => [self::HAS_MANY, 'LogActivityActionAggregated214d', 'sim_id', 'order' => 'start_time, end_time'],
+            'universal_log'                        => [self::HAS_MANY, 'UniversalLog', 'sim_id'],
+            'completed_parent_activities'          => [self::HAS_MANY, 'SimulationCompletedParent', 'sim_id'],
+            'assessment_aggregated'                => [self::HAS_MANY, 'AssessmentAggregated', 'sim_id', 'with' => 'point', 'order' => 'point.type_scale'],
+            'performance_points'                   => [self::HAS_MANY, 'PerformancePoint', 'sim_id'],
+            'performance_aggregated'               => [self::HAS_MANY, 'PerformanceAggregated', 'sim_id'],
+            'stress_points'                        => [self::HAS_MANY, 'StressPoint', 'sim_id'],
+            'assessment_points'                    => [self::HAS_MANY, 'AssessmentPoint', 'sim_id'],
+            'assessment_planing_points'            => [self::HAS_MANY, 'AssessmentPlaningPoint', 'sim_id'],
+            'assessment_calculation'               => [self::HAS_MANY, 'AssessmentCalculation', 'sim_id'],
+            'time_management_aggregated'           => [self::HAS_MANY, 'TimeManagementAggregated', 'sim_id'],
+            'simulation_excel_points'              => [self::HAS_MANY, 'SimulationExcelPoint', 'sim_id'],
+            'assessment_overall'                   => [self::HAS_MANY, 'AssessmentOverall', 'sim_id', 'order'=>'id ASC'],
+            'game_type'                            => [self::BELONGS_TO, 'Scenario', 'scenario_id'],
+            'learning_area'                        => [self::HAS_MANY, 'SimulationLearningArea', 'sim_id'],
+            'learning_goal'                        => [self::HAS_MANY, 'SimulationLearningGoal', 'sim_id'],
+            'learning_goal_group'                  => [self::HAS_MANY, 'SimulationLearningGoalGroup', 'sim_id'],
+            'invite'                               => [self::HAS_ONE, 'Invite', 'simulation_id'],
+            'simFlags'                             => [self::HAS_MANY, 'SimulationFlag', 'sim_id'],
+            'logAssessment214g'                    => [self::HAS_MANY, 'LogAssessment214g', 'sim_id'],
+            'mail_box_outbox'                      => [self::HAS_MANY, 'MailBox', 'sim_id', 'condition'=>'mail_box_outbox.group_id = 2 or mail_box_outbox.group_id = 3'],
             //''                                => [self::HAS_MANY, 'MailBox', 'sim_id', 'condition'=>'mail_box_inbox.type = 1 or mail_box_inbox.type = 3'],
         ];
     }

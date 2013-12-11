@@ -64,7 +64,7 @@ class TimeManagementAnalyzer
 
     public function calculateGameOverhead()
     {
-        $endLog = LogActivityActionAgregated::model()->find(sprintf(
+        $endLog = LogActivityActionAggregated::model()->find(sprintf(
             " sim_id = %s ORDER BY end_time DESC ",
             $this->simulation->id
         ));
@@ -142,7 +142,7 @@ class TimeManagementAnalyzer
 
             // 1st priority
             if (in_array($logItem->category, [0, 1, 2, '2_min', '0', '1', '2']) ||
-                $logItem->keep_last_category_after_60_sec === LogActivityActionAgregated::KEEP_LAST_CATEGORY_YES) {
+                $logItem->keep_last_category_after_60_sec === LogActivityActionAggregated::KEEP_LAST_CATEGORY_YES) {
                 // 1st, doc
                 if (ActivityAction::LEG_TYPE_DOCUMENTS == $itemLegType) {
                     $this->durationsGrouped['1st_priority'][TimeManagementAggregated::SLUG_1ST_PRIORITY_DOCUMENTS]
