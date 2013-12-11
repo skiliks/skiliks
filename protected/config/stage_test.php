@@ -41,7 +41,7 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
         ],
         'public' => [
             'isSkipOsCheck'        => true, //Проверка ОС перед стартом игры
-            'isSkipBrowserCheck'   => false,
+            'isSkipBrowserCheck'   => true,
             'isDisplaySupportChat' => false,
         ]
     )
