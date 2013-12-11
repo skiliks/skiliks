@@ -703,7 +703,7 @@ class LogHelper
 
     public static function getMailBoxAggregated(Simulation $simulation) {
 
-       $mail_templates = MailTemplate::model()->findAll("scenario_id = :scenario_id and type = :type_m or type = :type_my",
+        $mail_templates = MailTemplate::model()->findAll("scenario_id = :scenario_id and type = :type_m or type = :type_my",
             [
                 'type_my' => 3,
                 'type_m' => 1,
@@ -729,7 +729,7 @@ class LogHelper
                     'plan'   => ((int)$mail->plan === 1)?'Да':'Нет',
                     'reply'  =>((int)$mail->reply === 1)?'Да':'Нет',
                     'mail_box'=>$mail->id,
-                    'type_of_importance'=>$mail->template->type_of_impportance
+                    'type_of_importance'=>$mail->template->type_of_importance
                 ];
         }
         unset($mail_box);
@@ -743,7 +743,7 @@ class LogHelper
                     'plan'   => 'Нет',
                     'reply'  => 'Нет',
                     'mail_box' => 0,
-                    'type_of_importance'=>$template->type_of_impportance
+                    'type_of_importance'=>$template->type_of_importance
                 ];
             }
         }

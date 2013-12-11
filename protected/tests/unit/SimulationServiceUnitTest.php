@@ -680,7 +680,7 @@ class SimulationServiceUnitTest extends CDbTestCase
 
         SimulationService::simulationStop($simulation);
 
-        $executedRules = PerformancePoint::model()->bySimId($simulation->id)->findAll();
+        $executedRules = PerformancePoint::model()->findAllByAttributes(['sim_id' => $simulation->id]);
         $list = array_map(function($rule) {
             return $rule->performanceRule->code;
         }, $executedRules);

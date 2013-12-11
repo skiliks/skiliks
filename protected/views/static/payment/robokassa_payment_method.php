@@ -1,5 +1,5 @@
 <form id="robokassa-payment-form" action="<?= Yii::app()->params['robokassa']['url'] ?>">
-    <input type="hidden" name="MrchLogin" value="" />
+    <input type="hidden" name="MerchantLogin" value="" />
     <input type="hidden" name="InvId" value="" />
     <input type="hidden" name="OutSum" value="" />
     <input type="hidden" name="Desc" value="" />
@@ -15,10 +15,10 @@
                     alert("В процессе обработки возникла ошибка. Пожалуйста, свяжитесь с администрацией сайта.");
                 }
                 else {
-                    $("input[name='MrchLogin']").val(json.login);
+                    $("input[name='MerchantLogin']").val(json.login);
                     $("input[name='InvId']").val(json.invoice_id);
                     $("input[name='OutSum']").val(json.invoice_amount);
-                    $("input[name='Desc']").val(json.description);
+                    $("input[name='Description']").val(json.description);
                     $("input[name='SignatureValue']").val(json.key);
                     $("#robokassa-payment-form").submit();
                     // preventing default form

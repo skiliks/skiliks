@@ -1,46 +1,30 @@
 <?php
-
+/**
+ * Class MailPhrase
+ *
+ * @property integer $id
+ * @property integer $character_theme_id, mail_character-themes.id
+ * @property integer $phrase_type // ???
+ * @property integer $column_number
+ * @property string  $name
+ * @property string  $import_id
+ * @property string  $scenario_id
+ * @property string  $constructor_id
+ * @property string  $code, Constructor code, 'B1','R1' ...
+ */
 class MailPhrase extends CActiveRecord
 {
-    /**
-     * @var integer
-     */
-    public $id;
-    
-    /**
-     * mail_character-themes.id
-     * @var int
-     */
-    public $character_theme_id; 
-    
-    /**
-     * @var string
-     */
-    public $name;
-    
-    /**
-     * @var int
-     */
-    public $thrase_type;
-    
-    /**
-     * Constructor code, 'B1','R1' ...
-     * @var string
-     */
-    public $code;
 
-    public $column_number;
-    
     /** ------------------------------------------------------------------------------------------------------------ **/
     
     /**
      *
-     * @param type $className
+     * @param string $className
      * @return MailPhrase 
      */
     public static function model($className=__CLASS__)
     {
-            return parent::model($className);
+        return parent::model($className);
     }
 
     /**
@@ -48,63 +32,7 @@ class MailPhrase extends CActiveRecord
      */
     public function tableName()
     {
-            return 'mail_phrases';
-    }
-    
-    
-    /**
-     * Выбрать фразы по заданному набору
-     * @param array $ids
-     * @return MailPhrase 
-     */
-    public function byIds($ids)
-    {
-        if (count($ids) == 0) return $this;
-        
-        $ids = implode(',', $ids);
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "id in ({$ids})"
-        ));
-        return $this;
-    }
-    
-    /**
-     * Выбрать по заданному соответствию персонаж - тема
-     * @param int $id
-     * @return MailPhrase 
-     */
-    public function byCharacterThemes($id)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "character_theme_id = {$id}"
-        ));
-        return $this;
-    }
-    
-    /**
-     * Выбрать по типу фразы
-     * @param int $type
-     * @return MailPhrase 
-     */
-    public function byType($type)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "phrase_type = {$type}"
-        ));
-        return $this;
-    }
-    
-    /**
-     * Выбрать фразу по коду
-     * @param string $code
-     * @return MailPhrase 
-     */
-    public function byCode($code)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "code = '{$code}'"
-        ));
-        return $this;
+        return 'mail_phrases';
     }
 }
 

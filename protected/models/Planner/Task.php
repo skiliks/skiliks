@@ -166,21 +166,6 @@ class Task extends CActiveRecord
         return $this;
     }
 
-    /**
-     * Выбрать по коду задачи
-     * @param int $code
-     * @return Tasks
-     */
-    public function byCode($code)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "code = '{$code}'"
-        ));
-        return $this;
-    }
-
-
-
     public function byStartType($startType)
     {
         $this->getDbCriteria()->mergeWith(array(

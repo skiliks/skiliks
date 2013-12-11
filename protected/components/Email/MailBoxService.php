@@ -83,7 +83,7 @@ class MailBoxService
             };
 
             // загрузим ка получателей {
-            $receivers = MailRecipient::model()->byMailId($message->id)->findAll();
+            $receivers = MailRecipient::model()->findAllByAttributes(['mail_id' => $message->id]);
             $receiversCollection = [];
 
             if (count($receivers) == 0) {
@@ -96,7 +96,7 @@ class MailBoxService
             // загрузим ка получателей }
 
             // copy {
-            $copies = MailCopy::model()->byMailId($message->id)->findAll();
+            $copies = MailCopy::model()->findAllByAttributes(['mail_id' => $message->id]);
             $copiesCollection = [];
 
             foreach ($copies as $copy) {
@@ -121,7 +121,7 @@ class MailBoxService
             );
 
             if (!empty($messageId)) {
-                $reply = MailBox::model()->byId($messageId)->find();
+                $reply = MailBox::model()->findByPk($messageId);
                 $item['reply'] = $reply->message;
             }
 
@@ -139,7 +139,9 @@ class MailBoxService
         // Добавим информацию о вложениях
 
         if (count($mailIds) > 0) {
-            $attachments = MailAttachment::model()->byMailIds($mailIds)->findAll();
+            $attachments = MailAttachment::model()->findAll([
+                'condition' => sprintf( 'mail_id IN (%s)', implode(', ', $mailIds))
+            ]);
             foreach ($attachments as $attachment) {
                 if (isset($list[$attachment->mail_id])) {
                     $myDocument = MyDocument::model()->findByPk($attachment->file_id);
@@ -182,7 +184,7 @@ class MailBoxService
      */
     public static function getMessage($id)
     {
-        $email = MailBox::model()->byId($id)->find();
+        $email = MailBox::model()->findByPk($id);
         if (null === $email) {
             return array();
         }
@@ -209,7 +211,7 @@ class MailBoxService
         $characters = self::getCharacters($email->simulation);
 
         // загрузим ка получателей
-        $receivers = MailRecipient::model()->byMailId($id)->findAll();
+        $receivers = MailRecipient::model()->findAllByAttributes(['mail_id' => $id]);
         $receiversCollection = array();
 
         if (count($receivers) == 0)
@@ -221,7 +223,7 @@ class MailBoxService
         $message['receiver'] = implode(',', $receiversCollection);
 
         // загрузим копии
-        $copies = MailCopy::model()->byMailId($id)->findAll();
+        $copies = MailCopy::model()->findAllByAttributes(['mail_id' => $id]);
         $copiesCollection = array();
         foreach ($copies as $copy) {
             $copiesCollection[] = $characters[$copy->receiver_id];
@@ -239,7 +241,7 @@ class MailBoxService
         $message['attachments'] = MailAttachmentsService::get($email);
 
         if (!empty($message_id)) {
-            $reply = MailBox::model()->byId($message_id)->find();
+            $reply = MailBox::model()->findByPk($message_id);
             $message['reply'] = $reply->message;
         }
 
@@ -429,10 +431,10 @@ class MailBoxService
             where mail_template.code = :code AND scenario_id = :scenario_id";
 
         $command = $connection->createCommand($sql);
-        $command->bindParam(":simId", $simulation->id, PDO::PARAM_INT);
-        $command->bindParam(":code", $code);
+        $command->bindValue(":simId", $simulation->id, PDO::PARAM_INT);
+        $command->bindValue(":code", $code);
         $scenarioId = $simulation->game_type->primaryKey;
-        $command->bindParam(":scenario_id", $scenarioId);
+        $command->bindValue(":scenario_id", $scenarioId);
         $command->execute();
 
         $mailModel = MailBox::model()->findByAttributes([
@@ -453,22 +455,22 @@ class MailBoxService
         // выберем копии из шаблона
         $sql = "insert into mail_copies (mail_id, receiver_id) select :mailId, receiver_id from mail_copies_template where mail_id=:templateId";
         $command = $connection->createCommand($sql);
-        $command->bindParam(":mailId", $mailModel->id, PDO::PARAM_INT);
-        $command->bindParam(":templateId", $mailModel->template_id, PDO::PARAM_INT);
+        $command->bindValue(":mailId", $mailModel->id, PDO::PARAM_INT);
+        $command->bindValue(":templateId", $mailModel->template_id, PDO::PARAM_INT);
         $command->execute();
 
         // учтем множественных получателей
         $sql = "insert into mail_receivers (mail_id, receiver_id) select :mailId, receiver_id from mail_receivers_template where mail_id=:templateId";
         $command = $connection->createCommand($sql);
-        $command->bindParam(":mailId", $mailModel->id, PDO::PARAM_INT);
-        $command->bindParam(":templateId", $mailModel->template_id, PDO::PARAM_INT);
+        $command->bindValue(":mailId", $mailModel->id, PDO::PARAM_INT);
+        $command->bindValue(":templateId", $mailModel->template_id, PDO::PARAM_INT);
         $command->execute();
 
         // учесть вложение
         $sql = "select file_id from mail_attachments_template where mail_id = :mailId";
 
         $command = $connection->createCommand($sql);
-        $command->bindParam(":mailId", $mailModel->template_id, PDO::PARAM_INT);
+        $command->bindValue(":mailId", $mailModel->template_id, PDO::PARAM_INT);
         $row = $command->queryRow();
 
         if (isset($row['file_id'])) {
@@ -528,9 +530,9 @@ class MailBoxService
             from mail_template  where group_id IN (1,3) AND scenario_id=:scenario_id";
 
         $command = $connection->createCommand($sql);
-        $command->bindParam(":simId", $simId, PDO::PARAM_INT);
+        $command->bindValue(":simId", $simId, PDO::PARAM_INT);
         $scenarioId = $simulation->game_type->getPrimaryKey();
-        $command->bindParam(":scenario_id", $scenarioId, PDO::PARAM_INT);
+        $command->bindValue(":scenario_id", $scenarioId, PDO::PARAM_INT);
         $command->execute();
 
         // теперь скопируем информацию о копиях писем
@@ -599,7 +601,7 @@ class MailBoxService
      */
     public static function markReaded($id)
     {
-        $model = MailBox::model()->byId($id)->find();
+        $model = MailBox::model()->findByPk($id);
         if (NULL === $model) {
             return SimulationBaseController::STATUS_ERROR;
         }
@@ -640,9 +642,7 @@ class MailBoxService
     {
         if ($sendEmail->letter_type == 'reply' OR $sendEmail->letter_type == 'replyAll') {
             if (!empty($sendEmail->message_id)) {
-                $replyToEmail = MailBox::model()
-                    ->byId($sendEmail->message_id)
-                    ->find();
+                $replyToEmail = MailBox::model()->findByPk($sendEmail->message_id);
                 $replyToEmail->markReplied();
                 $replyToEmail->update();
             } else {
@@ -768,7 +768,7 @@ class MailBoxService
     {
         if ($sendMailOptions->isReply() && $sendMailOptions->isValidMessageId()) {
             //Изменяем запись в бд: SK - 708
-            $repliedEmail = MailBox::model()->byId($sendMailOptions->messageId)->find();
+            $repliedEmail = MailBox::model()->findByPk($sendMailOptions->messageId);
             $repliedEmail->reply = true; //1 - значит что на сообщение отправлен ответ
             $repliedEmail->update();
         }
@@ -953,7 +953,7 @@ class MailBoxService
         $copiesIds = array();
         $copies = array();
 
-        $collection = MailRecipient::model()->byMailId($message->id)->findAll();
+        $collection = MailRecipient::model()->findAllByAttributes(['mail_id' => $message->id]);
         $hero = $message->simulation->game_type->getCharacter(['code' => Character::HERO_ID]);
 
         foreach ($collection as $model) {
@@ -1143,7 +1143,7 @@ class MailBoxService
 
             $result['copiesIds'] = array_map(function(MailCopy $copy) use ($characters) {
                 return $copy->receiver_id;
-            }, MailCopy::model()->byMailId($message->id)->findAll());
+            }, MailCopy::model()->findByAttributes(['mail_id' => $message->id]));
             $result['copies'] = self::getCharacters($message->simulation, $result['copiesIds']);
 
             $result['copiesIds'] = implode(',', $result['copiesIds']);

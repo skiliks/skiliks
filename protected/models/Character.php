@@ -79,7 +79,7 @@ class Character extends CActiveRecord
 
     /* ---------------------------------------------------------------------- */
 
-   /**
+    /**
      *
      * @param type $className
      * @return Character
@@ -110,20 +110,7 @@ class Character extends CActiveRecord
         ));
         return $this;
     }
-    
-    /**
-     * Ограничивает выборку по коду персонажа
-     * @param string $code
-     * @return Character
-     */
-    public function byCode($code)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "code = '{$code}'"
-        ));
-        return $this;
-    }
-    
+
     /**
      * Выборка по конкретному коду персонажа.
      * @param int $id идентификатор персонажа

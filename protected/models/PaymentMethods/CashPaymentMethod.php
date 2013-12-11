@@ -5,16 +5,18 @@
  * Date: 12.09.13
  * Time: 16:50
  * To change this template use File | Settings | File Templates.
+ *
+ * @property string $name
+ *
+ * @property string $inn, ИНН
+ * @property string $cpp, КПП
+ * @property string $account, банковский расчётный счёт
+ * @property string $bic, БИК
  */
 
 class CashPaymentMethod extends CFormModel {
 
     public $name = "cash";
-    public $inn;
-    public $cpp;
-    public $account;
-    public $bic;
-    public $payment_method_view = "";
 
     public function rules()
     {
@@ -36,6 +38,9 @@ class CashPaymentMethod extends CFormModel {
         );
     }
 
+    /**
+     * Валидатор
+     */
     public function checkInn()
     {
         $prefix = +substr($this->inn, 0, 4);
@@ -47,6 +52,9 @@ class CashPaymentMethod extends CFormModel {
         }
     }
 
+    /**
+     * Валидатор
+     */
     public function checkCpp()
     {
         $prefix = +substr($this->cpp, 0, 2);
@@ -58,6 +66,9 @@ class CashPaymentMethod extends CFormModel {
         }
     }
 
+    /**
+     * Валидатор
+     */
     public function checkAccount()
     {
         $correct = preg_match('/^\d{5}(?:810|643)\d{12}$/', $this->account);
@@ -66,6 +77,9 @@ class CashPaymentMethod extends CFormModel {
         }
     }
 
+    /**
+     * Валидатор
+     */
     public function checkBic()
     {
         $prefix = +substr($this->bic, 0, 2);
@@ -108,7 +122,4 @@ class CashPaymentMethod extends CFormModel {
             return $sent;
         }
     }
-
-
-
 }

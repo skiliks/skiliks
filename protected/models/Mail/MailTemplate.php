@@ -1,120 +1,46 @@
 <?php
-
-
-
 /**
  * Шаблон набора писем. Копируется в рамках симуляции в почтовый ящик польщзователя.
  *
- * @property string type_of_importance
- * @property string import_id
- * @property CommunicationTheme subject_obj
- * @property ActivityParent[] termination_parent_actions
- * @property MailAttachmentTemplate[] attachments
- * @property Scenario game_type
+ * @property integer $id
+ * @property integer $group_id, mail_group.id
+ * @property integer $sender_id, characters.id
+ * @property integer $receiver_id, characters.id
+ * @property integer $subject_id, communication_theme.id
+ * @property integer $type // ???
+ * @property string  $type_of_importance: none', 'spam', '2_min', 'plan', 'info', 'first_category', ...
+ * @property string  $sent_at, datetime
+ * @property string  $message
+ * @property string  $code, 'M1', 'MS8' ...
+ * @property string  $flag_to_switch, 'F12'
+ * @property string  $import_id
+ *
+ * @property CommunicationTheme       $subject_obj
+ * @property ActivityParent[]         $termination_parent_actions
+ * @property MailAttachmentTemplate[] $attachments
+ * @property Scenario                 $game_type
  *
  */
 class MailTemplate extends CActiveRecord implements IGameAction
 {
     /**
-     * @var integer
+     * Implements interface
+     * @return string
      */
-    public $id;
-    
-    /**
-     * mail_group.id
-     * @var integer
-     */
-    public $group_id; 
-    
-    /**
-     * characters.id
-     * @var int
-     */
-    public $sender_id;    
-    
-    /**
-     * characters.id
-     * @var int
-     */
-    public $receiver_id;
-
-    /**
-     * @var datetime
-     */
-    public $sent_at;
-
-    /**
-     * @var string
-     */
-    public $message;
-    
-    /**
-     * mail_themes.id
-     * @var int
-     */
-    public $subject_id;
-    
-    /**
-     * Code, 'M1', 'MS8' ...
-     * @var string
-     */
-    public $code;
-
-    /**
-     * @var int
-     */
-    public $type; // ?
-
-    /**
-     * @var string
-     * 'none', 'spam', '2_min', 'plan', 'info', 'first_category', ...
-     */
-    public $type_of_impportance;
-
-    /**
-     * @var string
-     */
-    public $flag_to_switch;
-
-
-    /**
-     * @param integer $receiverId
-     * @return \MailTemplate
-     */
-    public function byReceiverId($receiverId)
+    public function getCode()
     {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "receiver_id = '{$receiverId}'"
-        ));
-        return $this;
+        return $this->code;
     }
 
     /**
-     * @param integer $subjectId
-     * @return \MailTemplate
+     * @return bool
      */
-    public function bySubjectId($subjectId)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "subject_id = '{$subjectId}'"
-        ));
-        return $this;
+    public function isMS(){
+        return substr($this->code, 0, 2) === 'MS';
     }
 
     /**
-     * Returns templates for outbox letters
-     * @return MailTemplate
-     */
-    public function byMS()
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "code like 'MS%'"
-        ));
-        return $this;
-    }
-
-    /**
-     * returns parent template
+     * Returns parent template
      * @return MailTemplate
      */
     public function getParent()
@@ -125,6 +51,7 @@ class MailTemplate extends CActiveRecord implements IGameAction
         }
         $newPrefix = preg_replace('/^(re|fwd)/', '', $subject->mail_prefix) ? : null;
         $parentTheme = CommunicationTheme::model()->findByAttributes(['code' => $subject->code, 'mail_prefix' => $newPrefix]);
+
         return $this->game_type->getMailTemplate(['subject_id' => $parentTheme->primaryKey]);
     }
 
@@ -132,12 +59,12 @@ class MailTemplate extends CActiveRecord implements IGameAction
     
     /**
      *
-     * @param type $className
+     * @param string $className
      * @return MailTemplate
      */
     public static function model($className=__CLASS__)
     {
-            return parent::model($className);
+        return parent::model($className);
     }
 
     /**
@@ -145,9 +72,8 @@ class MailTemplate extends CActiveRecord implements IGameAction
      */
     public function tableName()
     {
-            return 'mail_template';
+        return 'mail_template';
     }
-
 
     public function relations()
     {
@@ -159,19 +85,6 @@ class MailTemplate extends CActiveRecord implements IGameAction
             'sender'                     => [self::BELONGS_TO, 'Character', 'sender_id'],
             'recipient'                  => [self::BELONGS_TO, 'Character', 'receiver_id']
         ];
-    }
-
-    /**
-     * Implements interface
-     * @return string
-     */
-    public function getCode()
-    {
-        return $this->code;
-    }
-
-    public function isMS(){
-        return substr($this->code, 0, 2) === 'MS';
     }
 }
 
