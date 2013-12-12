@@ -722,7 +722,7 @@ var fixLogotypes = function() {
             $("#cash-month-selected").val($( "#month-selected option:selected").val());
         });
 
-        $(".question-container li").click(function() {
+        $(".question-container>li").click(function() {
             if(!$(this).children("div").is(":visible")) {
                 $(this).children("div").slideDown("fast");
                 $(this).css('color', '#146672');
