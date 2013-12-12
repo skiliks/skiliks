@@ -169,7 +169,7 @@ class AssessmentPDF {
         $text = (9 < $unproductive_time_percent) ? $unproductive_time_percent . '%' : '';
         $this->writeTextBold($text, $x + $shifts['x'], $y + $shifts['y'], 11.87);
 
-        // прочее:
+        // Двухминутные задачи:
         $shifts = $this->getXYforTimeDistribution(
             $productive_time + $unproductive_time + (360 - $productive_time - $unproductive_time)/2,
             $radius
@@ -304,7 +304,7 @@ class AssessmentPDF {
         } else {
             $width = 57 * ($value/$max_value);
         }
-        if((int)$value === 100) {
+        if($value === $max_value) {
             $round_corner = '1111';
         } else {
             $round_corner = '0011';
@@ -314,10 +314,12 @@ class AssessmentPDF {
         }
         $x+= ($width/2)-4;
         $y+=1;
-        if ($x >= 34.8) {
+        if (9 < $value && 6 < $width) {
+            $this->writeTextBold($value, $x, $y, 12, [255,255,255]);
+        } elseif($value < 10 && 2 < $width) {
+            $x+= 1.5;
             $this->writeTextBold($value, $x, $y, 12, [255,255,255]);
         }
-
     }
 
     /**
@@ -333,7 +335,7 @@ class AssessmentPDF {
         }else{
             $width = 57 * ($value/$max_value);
         }
-        if((int)$value === 100) {
+        if($value === $max_value) {
             $round_corner = '1111';
         }else{
             $round_corner = '0011';
@@ -343,12 +345,15 @@ class AssessmentPDF {
         }
         $x+= ($width/2)-4;
         $y+=1;
-        //var_dump($x);
-        //exit;
-        if($x >= 139) {
+//        if($x >= 139) {
+//            $this->writeTextBold($value, $x, $y, 12, [255,255,255]);
+//        }
+        if (9 < $value && 6 < $width) {
+            $this->writeTextBold($value, $x, $y, 12, [255,255,255]);
+        } elseif($value < 10 && 2 < $width) {
+            $x+= 1.5;
             $this->writeTextBold($value, $x, $y, 12, [255,255,255]);
         }
-
     }
 
     /**

@@ -5388,8 +5388,9 @@ ul.default {
     background-color: #fff;
 }
 
+ul.question-container ul.default li.active,
 ul.default li {
-    background: 0;
+    background: none;
     border:0;
     list-style-type:disc;
     padding-left:0;
@@ -5401,6 +5402,7 @@ ul.default li {
 }
 ul.default li:hover {
     background: 0;
+    color: #3C3C32;
 }
 @media screen and (max-width: 1146px){
     ul.default li {

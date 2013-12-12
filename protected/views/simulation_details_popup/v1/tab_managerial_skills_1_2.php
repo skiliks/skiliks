@@ -23,7 +23,8 @@
                     if(!$(this).parent("div").find(".popover").hasClass("active")) {
                         $(".popover.active").removeClass("active");
                     }
-                    $(this).parent("div").find(".popover").toggleClass("active").css("margin-top", $(this).parent("div").find(".list-text").innerHeight()+10);
+                    $(this).parent("div").find(".popover").toggleClass("active")
+                        .css("margin-top", $(this).parent("div").find(".list-text").innerHeight()+30);
                 })
             });
         </script>
