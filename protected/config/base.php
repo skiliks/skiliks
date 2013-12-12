@@ -227,9 +227,9 @@ return CMap::mergeArray(
                 'skiliksDeveloperModeSpeedFactor'    => 8,
 
                 // Адрес хранилища видео и звуков
-                'storageURL'                         => 'http://storage.dev.skiliks.com/',
+                'storageURL'                         => 'http://storage.skiliks.com/',
 
-                // Показывать ли 500 ошибки с сирвера в виде сообщений в игре
+                // Показывать ли 500 ошибки с сервера в виде сообщений в игре
                 'isDisplayServer500errors'           => false,
 
                 'isUseStrictAssertsWhenSimStop'      => false,
