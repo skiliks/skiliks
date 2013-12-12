@@ -19,7 +19,14 @@
         </div>
         <script>
             $(document).ready(function() {
-                $(".show-popover").click(function() {
+                $(".show-popover-1").click(function() {
+                    if(!$(this).parent("div").find(".popover").hasClass("active")) {
+                        $(".popover.active").removeClass("active");
+                    }
+                    $(this).parent("div").find(".popover").toggleClass("active")
+                        .css("margin-top", $(this).parent("div").find(".list-text").innerHeight()+10);
+                })
+                $(".show-popover-2").click(function() {
                     if(!$(this).parent("div").find(".popover").hasClass("active")) {
                         $(".popover.active").removeClass("active");
                     }
