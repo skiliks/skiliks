@@ -339,7 +339,7 @@ class UserServiceUnitTest extends CDbTestCase
         $this->assertEquals($assert_account_corporate->getTotalAvailableInvitesLimit(), $tariff->simulations_amount + 1);
 
         $this->assertEquals($assert_account_corporate->getActiveTariff()->slug, Tariff::SLUG_LITE);
-        //Тест 3.1. Проверить, что при устаревании тарифного плана, после FreeLite у человека будет Free.
+        //Тест 3.1. Проверить, что при устаревании тарифного плана, после LiteFree у человека будет Free.
         $active_plan = $assert_account_corporate->getActiveTariffPlan();
         $active_plan->finished_at = (new DateTime())->format("Y-m-d H:i:s");
         $active_plan->save(false);
@@ -481,7 +481,7 @@ class UserServiceUnitTest extends CDbTestCase
         $action = UserService::getActionOnPopup($account, Tariff::SLUG_STARTER);
 
         $this->assertEquals('tariff-already-booked-popup', $action['popup_class']);
-        //Тест 4. Проверить что FreeLite тарифный план нельзя продлить.
+        //Тест 4. Проверить что LiteFree тарифный план нельзя продлить.
         $this->assertFalse(UserService::isAllowOrderTariff($tariff, $account));
 
     }
