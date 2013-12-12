@@ -18,7 +18,7 @@
     </div>
     <div class="blockseprt"></div>
     <div class="timeblock bad">
-        <h2 class="resulttitele">Непродуктивное время <small>(иные действия, не связанные с приоритетами)</small></h2>
+        <h2 class="resulttitele">Непродуктивное время <small>(иные действия, не связанные с приоритетами, минуты)</small></h2>
         <div class="testtime"><strong>20</strong>%</div>
 
         <div class="clearfix">
