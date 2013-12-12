@@ -8,11 +8,12 @@ use application\components\Logging\LogTableList as LogTableList;
 class SimulationService
 {
     /**
+     * Сохранение оценок по почтовику
      * Save results of "work with emails"
      *
-     * @param integer $simId
+     * @param Simulation $simulation
      */
-    public static function saveEmailsAnalyze($simulation)
+    public static function saveEmailsAnalyze(Simulation $simulation)
     {
         // init emails in analyzer
         $emailAnalyzer = new EmailAnalyzer($simulation);
@@ -168,8 +169,9 @@ class SimulationService
     }
 
     /**
+     * Возвращает HeroBehavour в агрегированом виде
      * @param integer $simId
-     * @return array of BehaviourCounter
+     * @return array of HeroBehavour
      */
     public static function getAggregatedPoints($simId)
     {
@@ -200,6 +202,7 @@ class SimulationService
     }
 
     /**
+     * Схраняет Агрегиированные оценки для симуляции
      * @param integer $simId
      */
     public static function saveAggregatedPoints($simId)
@@ -235,9 +238,10 @@ class SimulationService
     }
 
     /**
+     *
      * @param integer $simId
      */
-    public static function copyMailInboxOutboxScoreToAssessmentAggregated($simId)
+    public static function copyScoreToAssessmentAggregated($simId)
     {
         // add mail inbox/outbox points
         foreach (AssessmentCalculation::model()->findAllByAttributes(['sim_id' => $simId]) as $emailBehaviour) {
@@ -361,6 +365,9 @@ class SimulationService
         }
     }
 
+    /**
+     * @param Simulation $simulation
+     */
     public static function calculatePerformanceRate(Simulation $simulation)
     {
         $is40or41ruleUsed = false;
@@ -737,7 +744,7 @@ class SimulationService
 
                 // @todo: this is trick
                 // write all mail outbox/inbox scores to AssessmentAggregate directly
-                SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
+                SimulationService::copyScoreToAssessmentAggregated($simulation->id);
 
                 $learningGoalAnalyzer = new LearningGoalAnalyzer($simulation);
                 $learningGoalAnalyzer->run();
@@ -804,9 +811,10 @@ class SimulationService
     }
 
     /**
+     * Пауза симуляции
      * @param Simulation $simulation
      */
-    public static function pause($simulation)
+    public static function pause(Simulation $simulation)
     {
         if (empty($simulation->paused)) {
             $simulation->paused = GameTime::setNowDateTime();
@@ -814,18 +822,24 @@ class SimulationService
         }
     }
 
+
     /**
-     * @param Simulation $simulation
+     * Обновлении симуляции
+     * @param $simulation
+     * @param $skipped
      */
-    public static function update($simulation, $skipped)
+    public static function update(Simulation $simulation, $skipped)
     {
         $simulation->skipped = $simulation->skipped + $skipped;
         $simulation->paused = null;
         $simulation->save();
     }
 
+
     /**
-     * @param Simulation $simulation
+     * Обновлении времени после паузы
+     * @param $simulation
+     * @param bool $ignoreTimeShift
      */
     public static function resume($simulation, $ignoreTimeShift = false)
     {
@@ -869,6 +883,7 @@ class SimulationService
     }
 
     /**
+     * Расчет AssessmentAggregated 7141
      * @param $simulation
      */
     public static function stressResistance($simulation) {
@@ -901,7 +916,8 @@ class SimulationService
     }
 
     /**
-     * @param $simId
+     * Пересчет оценки
+     * @param $simId ид симуляции
      * @param $email
      * @throws Exception
      */
@@ -1019,6 +1035,7 @@ class SimulationService
      *
      * @param YumUser $user
      * @param Simulation $simulation
+     * @param int $simId
      * @return bool
      */
     public static function removeSimulationData($user, $simulation, $simId = null)
@@ -1092,6 +1109,11 @@ class SimulationService
         $simulation->delete();
     }
 
+    /**
+     * Сохранение логов для Антона
+     * @param array $simulations
+     * @return bool
+     */
     public static function saveLogsAsExcelReport1($simulations = array()) {
         if(!empty($simulations)) {
             $logTableList = new LogTableList();
@@ -1106,6 +1128,12 @@ class SimulationService
         }
     }
 
+    /**
+     * Сохранение аналитического файла
+     * @param array $simulations
+     * @param array $account
+     * @return null|string
+     */
     public static function saveLogsAsExcelReport2($simulations = array(), $account = null) {
         if(!empty($simulations)) {
             $logTableList = new LogTableList();
@@ -1130,10 +1158,22 @@ class SimulationService
         return null;
     }
 
+    /**
+     * Путь к аналитическому файлу
+     * @param $user_id
+     * @param $assessment_version
+     * @return string
+     */
     public static function createPathForAnalyticsFile($user_id, $assessment_version) {
         return __DIR__.'/../system_data/analytic_files_2/'.$user_id.'_'.$assessment_version.'.xlsx';
     }
 
+    /**
+     * Сохранение файла с оценками(аналитический)
+     * @param UserAccountCorporate $account
+     * @param $assessment_version
+     * @return null|string
+     */
     public static function saveLogsAsExcelReport2ForCorporateUser(UserAccountCorporate $account, $assessment_version) {
         $invites = Invite::model()->findAllByAttributes(['owner_id'=>$account->user_id]);
         $simulations = [];

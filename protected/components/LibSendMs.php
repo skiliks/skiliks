@@ -4,18 +4,21 @@
  */
 class LibSendMs
 {
+
     /**
+     * Отправляет MS в игре
      * @param Simulation $simulation
-     * @param string $msCode
-     * @param integer $time, frontend time in seconds, 9:30 = 34200
-     * @param integer $windowId
-     * @param integer $subWindowId
-     * @param integer $windowUid, better set-up value manually - even in test
-     * @param integer $duration
-     *
-     * @return MailBox
+     * @param string $msCode код исходящего письма
+     * @param null $time время отправки
+     * @param int $windowId тип окна
+     * @param int $subWindowId подтип окна
+     * @param null $windowUid уникльный id окна
+     * @param int $duration задержка
+     * @param bool $isDraft черновик
+     * @param string $letterType
+     * @return MailBox|null
      */
-    public static function sendMsByCode($simulation, $msCode,
+    public static function sendMsByCode(Simulation $simulation, $msCode,
         $time = null, $windowId = 1,  $subWindowId = 1, $windowUid = null, $duration = 10, $isDraft = false, $letterType = '')
     {
         if( preg_match('/^MS\d+/', $msCode)) {
@@ -137,7 +140,17 @@ class LibSendMs
 
     }
 
-    public static function sendMsByCodeWithParent($simulation, $ms, $time, $win, $sub_win, $uid, $parent_id)
+    /**
+     * Отправка MS с учётам Parent'a
+     * @param Simulation $simulation
+     * @param string $ms
+     * @param $time время
+     * @param $win окно
+     * @param $sub_win подокно
+     * @param $uid уникальный id окна
+     * @param $parent_id
+     */
+    public static function sendMsByCodeWithParent(Simulation $simulation, $ms, $time, $win, $sub_win, $uid, $parent_id)
     {
         self::sendMsByCode($simulation, $ms, $time, $win, $sub_win, $uid);
         $parent = MailBox::model()->findByAttributes(['coincidence_mail_code'=>$ms, 'sim_id'=>$simulation->id]);
