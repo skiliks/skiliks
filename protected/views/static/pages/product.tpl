@@ -66,7 +66,6 @@
             <ol class="bluelist">
                 <li class="hassubmenu"><a class="sub-menu-switcher" href="#managerial-skills-1-2" data-parent="managerial-skills">{Yii::t('site', 'Manages task in accordance with priorities')}</a>
                     <ul class="productsubmenu">
-                        <li><a href="#">{Yii::t('site', 'Defines priorities')}</a></li>
                         <li><a href="#">{Yii::t('site', 'Uses planning during the day')}</a></li>
                         <li><a href="#">{Yii::t('site', 'Correctly defines tasks’ priorities while planning')}</a></li>
                         <li><a href="#">{Yii::t('site', 'Follows tasks priorities in execution')}</a></li>
