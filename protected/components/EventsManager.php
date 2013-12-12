@@ -349,7 +349,7 @@ class EventsManager {
 
                             if (null !== $callDialog) {
                                 $logRecord = LogDialog::model()->find([
-                                    'conditions' => ' sim_id = :simId AND dialog_id = :dialogId ',
+                                    'condition' => ' sim_id = :simId AND dialog_id = :dialogId ',
                                     'params'    => [
                                         'simId'    => $simId,
                                         'dialogId' => $callDialog->id
