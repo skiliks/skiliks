@@ -1013,7 +1013,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
 
         // calculate point total scores
         SimulationService::saveEmailsAnalyze($simulation);
-        SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
+        SimulationService::copyScoreToAssessmentAggregated($simulation->id);
 
         // check calculation
         $assessments = AssessmentAggregated::model()->findAll('sim_id =:id',[
@@ -1072,7 +1072,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
 
         // calculate point total scores
         SimulationService::saveEmailsAnalyze($simulation);
-        SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
+        SimulationService::copyScoreToAssessmentAggregated($simulation->id);
 
         // check calculation
         $assessments = AssessmentAggregated::model()->findAll('sim_id =:id',[
@@ -1113,7 +1113,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
 
         // calculate point total scores
         SimulationService::saveEmailsAnalyze($simulation);
-        SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
+        SimulationService::copyScoreToAssessmentAggregated($simulation->id);
 
         // check calculation
         $assessments = AssessmentAggregated::model()->findAll('sim_id =:id',[
@@ -1186,7 +1186,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
 
         // calculate point total scores
         SimulationService::saveEmailsAnalyze($simulation);
-        SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
+        SimulationService::copyScoreToAssessmentAggregated($simulation->id);
 
         // check calculation
         $assessments = AssessmentAggregated::model()->findAll('sim_id =:id',[
@@ -1267,7 +1267,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
 
         // calculate point total scores
         SimulationService::saveEmailsAnalyze($simulation);
-        SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
+        SimulationService::copyScoreToAssessmentAggregated($simulation->id);
 
         // check calculation
         $assessments = AssessmentAggregated::model()->findAll('sim_id =:id',[
@@ -1357,7 +1357,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
 
         // calculate point total scores
         SimulationService::saveEmailsAnalyze($simulation);
-        SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
+        SimulationService::copyScoreToAssessmentAggregated($simulation->id);
 
         // check calculation
         $assessments = AssessmentAggregated::model()->findAll('sim_id =:id',[
@@ -1443,7 +1443,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
 
         // calculate point total scores
         SimulationService::saveEmailsAnalyze($simulation);
-        SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
+        SimulationService::copyScoreToAssessmentAggregated($simulation->id);
 
         // check calculation
         $assessments = AssessmentAggregated::model()->findAll('sim_id =:id',[
@@ -1513,7 +1513,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
 
         // calculate point total scores
         SimulationService::saveEmailsAnalyze($simulation);
-        SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
+        SimulationService::copyScoreToAssessmentAggregated($simulation->id);
 
         // check calculation
         $assessments = AssessmentAggregated::model()->findAll('sim_id =:id',[
@@ -1560,7 +1560,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
 
         // calculate point total scores
         SimulationService::saveEmailsAnalyze($simulation);
-        SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
+        SimulationService::copyScoreToAssessmentAggregated($simulation->id);
 
         $heroBehaviour = $simulation->game_type->getHeroBehaviour(['code' => '3333']);
 
@@ -1616,7 +1616,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
 
         // calculate point total scores
         SimulationService::saveEmailsAnalyze($simulation);
-        SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
+        SimulationService::copyScoreToAssessmentAggregated($simulation->id);
 
         // check calculation
         $assessments = AssessmentAggregated::model()->findAll('sim_id =:id',[

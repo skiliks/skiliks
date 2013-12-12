@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Class LearningGoalAnalyzer
+ */
 class LearningGoalAnalyzer
 {
     /**
@@ -7,11 +10,17 @@ class LearningGoalAnalyzer
      */
     private $simulation;
 
+    /**
+     * @param Simulation $sim
+     */
     public function __construct(Simulation $sim)
     {
         $this->simulation = $sim;
     }
 
+    /**
+     * Запуск расчета целей обучения
+     */
     public function run()
     {
         $scenario = $this->simulation->game_type;
@@ -100,22 +109,21 @@ class LearningGoalAnalyzer
         }
     }
 
-
-    // $problem => проблемный коэффициент в процентах
+    /**
+     * @param $problem проблемный коэффициент в процентах
+     * @return int
+     */
     public static function getReducingCoefficient($problem)
     {
-//        if (0 <= $problem && $problem <= 10) {
-//            return (float)1;
-//        } elseif (10 < $problem && $problem <= 20) {
-//            return 0.8;
-//        }elseif (20 < $problem && $problem <= 50) {
-//            return 0.5;
-//        } else {
-//            return 0;
-//        }
         return (1 - $problem/100);
     }
 
+    /**
+     * Расчет положительной оценки
+     * @param $totalPos набраное количество положительных баллов
+     * @param $maxPos максимально возможное количество баллов
+     * @return int|string
+     */
     public static function calculateAssessment($totalPos, $maxPos)
     {
         return $maxPos ? substr(min($totalPos / $maxPos * 100, 100), 0, 5) : 0;

@@ -743,7 +743,7 @@ class SimulationServiceUnitTest extends CDbTestCase
 
         // This calls fill assessment aggregated data
         SimulationService::saveAggregatedPoints($simulation->id);
-        SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
+        SimulationService::copyScoreToAssessmentAggregated($simulation->id);
 
         $points = $simulation->assessment_points;
         $calculations = $simulation->assessment_calculation;

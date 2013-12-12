@@ -1,8 +1,12 @@
 <?php
 
+/**
+ * Class MailHelper
+ */
 class MailHelper
 {
     /**
+     * Добавление письма в очередь
      * @param array $email
      * @return bool
      */
@@ -21,7 +25,8 @@ class MailHelper
     }
 
     /**
-     * @param array $email
+     * Добавление писем в очередь
+     * @param array $emails
      * @return bool
      */
     public static function addMailsToQueue(array $emails)
@@ -33,6 +38,10 @@ class MailHelper
         return $return;
     }
 
+    /**
+     * Отправка писем с очереди
+     * @return array
+     */
     public static function sendMailFromQueue()
     {
         $mails = EmailQueue::model()->findAll("status = :status order by id desc limit 10", ['status' => EmailQueue::STATUS_PENDING]);
@@ -72,6 +81,10 @@ class MailHelper
         return $result;
     }
 
+    /**
+     * Отправка письма Обновление регистрации skiliks.com
+     * @param YumUser $user
+     */
     public static function sendNoticeEmail(YumUser $user) {
 
         if($user->isCorporate() && $user->account_corporate->corporate_email !== null && $user->profile->email !== $user->account_corporate->corporate_email) {
@@ -140,6 +153,10 @@ class MailHelper
 
     }
 
+    /**
+     * Обновление email'а инвайта
+     * @param Invite $invite
+     */
     public static function updateInviteEmail(Invite $invite){
         if($invite->ownerUser->profile->email !== $invite->email){
             $invite->email = $invite->ownerUser->profile->email;
@@ -147,10 +164,19 @@ class MailHelper
         }
     }
 
+    /**
+     * Создание ссылки с именем хоста
+     * @param string $path url
+     * @return string ссылка
+     */
     public static function createUrlWithHostname($path) {
         return Yii::app()->params['server_name'].ltrim($path, '/');
     }
 
+    /**
+     * Отпрвка письма о подозрительной активности
+     * @param Invite $invite
+     */
     public static function sendEmailIfSuspiciousActivity(Invite $invite) {
 
         if($invite->owner_id === $invite->receiver_id && null !== $invite->receiverUser && false == $invite->receiverUser->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE && $invite->scenario->slug === Scenario::TYPE_FULL)) {
