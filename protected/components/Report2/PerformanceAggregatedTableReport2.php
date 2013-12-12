@@ -63,7 +63,7 @@ class PerformanceAggregatedTableReport2 extends LogTable {
         1 => 'Высокий приоритет',
         0 => 'Срочно',
         2 => 'Средний приоритет',
-        3 => 'Прочее',
+        3 => 'Двухминутные задачи',
     ];
 
     /**
