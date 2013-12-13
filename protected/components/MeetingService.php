@@ -1,7 +1,15 @@
 <?php
 
+/**
+ * Class MeetingService
+ */
 class MeetingService
 {
+    /**
+     * Список митингов
+     * @param Simulation $simulation
+     * @return array
+     */
     public static function getList(Simulation $simulation)
     {
         $logList = LogMeeting::model()->findAllByAttributes([
@@ -32,6 +40,13 @@ class MeetingService
         return $result;
     }
 
+    /**
+     * Логирует митинги
+     * @param Simulation $simulation
+     * @param $meetingId
+     * @return string время когда закончиться митинг
+     * @throws LogicException
+     */
     public static function leave(Simulation $simulation, $meetingId)
     {
         $currentTime = explode(':', $simulation->getGameTime()); // get time asap for better accuracy
