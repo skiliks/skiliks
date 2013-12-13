@@ -57,7 +57,13 @@ class EventService
             
             // проверим а есть ли такой триггер
             /** @var $eventsTriggers EventTrigger */
-            $eventsTriggers = EventTrigger::model()->bySimIdAndEventId($simulation->id, $event->id)->find();
+            $eventsTriggers = EventTrigger::model()->find(
+                "sim_id = :sim_id AND event_id = :event_id",
+                [
+                    'sim_id'   => $simulation->id,
+                    'event_id' => $event->id,
+                ]
+            );
             if ($eventsTriggers) {
                 $eventsTriggers->trigger_time = $eventTime;
                 $eventsTriggers->force_run = $force_run;
@@ -90,7 +96,13 @@ class EventService
             return false;
         } // нет у нас такого события
         
-        $eventsTriggers = EventTrigger::model()->bySimIdAndEventId($simulation->id, $event->id)->find();
+        $eventsTriggers = EventTrigger::model()->find(
+                "sim_id = :sim_id AND event_id = :event_id",
+                [
+                    'sim_id'   => $simulation->id,
+                    'event_id' => $event->id,
+                ]
+            );
         if (!$eventsTriggers) {
             return false;
         }

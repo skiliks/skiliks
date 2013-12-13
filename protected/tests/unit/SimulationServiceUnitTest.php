@@ -633,8 +633,8 @@ class SimulationServiceUnitTest extends CDbTestCase
         $eventsManager = new EventsManager();
 
         // Action for rule id 1
-        $first = Replica::model()->byExcelId(516)->find();
-        $last = Replica::model()->byExcelId(523)->find();
+        $first = Replica::model()->findByAttribure(['excel_id' => 516]);
+        $last = Replica::model()->findByAttribure(['excel_id' => 523]);
         $dialogLog = [
             [1, 1, 'activated', 32400, 'window_uid' => 1],
             [1, 1, 'deactivated', 32401, 'window_uid' => 1],
@@ -663,7 +663,7 @@ class SimulationServiceUnitTest extends CDbTestCase
 
         // Alternative action for rule id 8
         $first = $simulation->game_type->getReplica(['excel_id' => 549]);
-        $last = Replica::model()->byExcelId(560)->find();
+        $last = Replica::model()->findByAttribure(['excel_id' => 560]);
         $dialogLog = [
             [1, 1, 'deactivated', 32610, 'window_uid' => 1],
             [20, 23, 'activated', 32610, ['dialogId' => $first->id], 'window_uid' => 4],

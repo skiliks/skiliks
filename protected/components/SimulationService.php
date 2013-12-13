@@ -476,12 +476,13 @@ class SimulationService
     public static function initEventTriggers($simulation)
     {
         $events = EventSample::model()
-            ->byNotDocumentCode()
-            ->byNotPlanTaskCode()
-            ->byNotSentTodayEmailCode()
-            ->byNotSentYesterdayEmailCode()
-            ->byNotTerminatorCode()
-            ->findAllByAttributes(['scenario_id' => $simulation->game_type->getPrimaryKey()]);
+            ->findAll(
+                "code NOT LIKE 'D%' AND code NOT LIKE 'P%' AND code NOT LIKE 'MS%' AND code NOT LIKE 'MY%'".
+                " AND code != 'T' AND scenario_id = :scenario_id ",
+                [
+                    'scenario_id' => $simulation->game_type->getPrimaryKey()
+                ]
+            );
 
         if (count($events) > 0) {
             $sql = [];

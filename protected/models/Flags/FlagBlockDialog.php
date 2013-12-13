@@ -28,6 +28,9 @@ class FlagBlockDialog extends CActiveRecord
 		return 'flag_block_dialog';
 	}
 
+    /**
+     * @return array of string
+     */
     public function primaryKey() {
         return array('flag_code', 'dialog_code');
     }
@@ -37,9 +40,6 @@ class FlagBlockDialog extends CActiveRecord
 	 */
 	public function relations()
 	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
-		return array(
-		);
+		return array();
 	}
 }

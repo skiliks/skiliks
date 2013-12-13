@@ -1,8 +1,5 @@
 <?php
-
 /**
- * This is the model class for table "flag_block_mail".
- *
  * The followings are the available columns in table 'flag_block_mail':
  * @property integer $id
  * @property string $flag_code
@@ -38,14 +35,10 @@ class FlagBlockMail extends CActiveRecord
 	 */
 	public function rules()
 	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
 		return array(
 			array('flag_code, mail_template_id', 'required'),
 			array('value, mail_template_id', 'numerical', 'integerOnly'=>true),
 			array('flag_code', 'length', 'max'=>5),
-			// The following rule is used by search().
-			// Please remove those attributes that should not be searched.
 			array('id, flag_code, value, mail_template_id', 'safe', 'on'=>'search'),
 		);
 	}
@@ -55,8 +48,6 @@ class FlagBlockMail extends CActiveRecord
 	 */
 	public function relations()
 	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
 		return array(
 			'flagCode' => array(self::BELONGS_TO, 'Flag', 'flag_code'),
 			'mailTemplate' => array(self::BELONGS_TO, 'MailTemplate', 'mail_template_id'),
@@ -82,11 +73,7 @@ class FlagBlockMail extends CActiveRecord
 	 */
 	public function search()
 	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
-
 		$criteria=new CDbCriteria;
-
 		$criteria->compare('id',$this->id);
 		$criteria->compare('flag_code',$this->flag_code);
 		$criteria->compare('value',$this->value);

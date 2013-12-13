@@ -1,8 +1,5 @@
 <?php
-
 /**
- * This is the model class for table "flag_run_email".
- *
  * The followings are the available columns in table 'flag_run_email':
  * @property string $flag_code
  * @property string $mail_code
@@ -37,9 +34,6 @@ class FlagRunMail extends CActiveRecord
 	 */
 	public function relations()
 	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
-		return array(
-		);
+		return array();
 	}
 }
