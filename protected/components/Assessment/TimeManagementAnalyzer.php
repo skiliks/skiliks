@@ -129,7 +129,7 @@ class TimeManagementAnalyzer
         $assessment = new TimeManagementAggregated();
         $assessment->slug = TimeManagementAggregated::SLUG_EFFICIENCY;
         $assessment->sim_id = $this->simulation->id;
-        $assessment->value = round($value);
+        $assessment->value = $value;
         $assessment->unit_label = TimeManagementAggregated::getUnitLabel(TimeManagementAggregated::SLUG_EFFICIENCY);
         $assessment->save();
     }

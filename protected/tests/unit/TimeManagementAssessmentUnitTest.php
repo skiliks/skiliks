@@ -509,7 +509,7 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
     /**
      * Пользователь ничего не сделал
      */
-    public function testimeManagementAssessment_case2()
+    public function testTimeManagementAssessment_case2()
     {
         // init simulation
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
@@ -619,35 +619,6 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
             33.33, // percentage
             $values['efficiency'],
             'efficiency'
-        );
-    }
-
-    public function testimeManagementAssessment_case2_for_lite()
-    {
-        // init simulation
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $invite = new Invite();
-        $invite->scenario = new Scenario();
-        $invite->receiverUser = $user;
-        $invite->scenario->slug = Scenario::TYPE_LITE;
-        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
-
-        $tma = new TimeManagementAnalyzer($simulation);
-        $tma->calculateAndSaveAssessments();
-
-        $assessments = TimeManagementAggregated::model()->findAllByAttributes([
-            'sim_id' => $simulation->id
-        ]);
-
-        $values = [];
-        foreach ($assessments as $assessment) {
-            $values[$assessment->slug] = $assessment->value;
-        }
-
-        $this->assertEquals(
-            0, // %
-            $values['time_spend_for_inactivity'],
-            'time_spend_for_inactivity'
         );
     }
 
