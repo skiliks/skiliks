@@ -4,87 +4,38 @@
  * Содержит соотношения - какому персонажу какой набор тем писем
  * соответствует
  *
- * @property MailTemplate $letter
- * @property string $constructor_number
- * @property string $import_id
- * @property string $wr
+ * @property integer $id
+ * @property integer $character_id
+ * @property string  $constructor_number, "R1", "TXT" ...
+ * @property string  $import_id
+ * @property string  $wr, right, wrong : "R", "W"
+ * @property string  $text
+ * @property string  $letter_number, "code" - "M2", "MS45" ...
+ * @property string  $phone, "R1", "TXT" ...
+ * @property string  $phone_wr, right, wrong : "R", "W"
+ * @property string  $phone_dialog_number, ??
+ * @property string  $mail_prefix
+ * @property integer $mail, ??
+ * @property string  $theme_usage, used to filter MSY themes from new mail themes list
+ *
+ *  Source:
+ * "manual" - user write new letter and send it,
+ * "dialog" - new mail window was opened by dialog
+ * "inbox"  - user write reply email
+ * @property string  $source
+ *
  * @property Scenario $game_type
- * @property mixed|null $mail_prefix
- * @property string $theme_usage, used to filter MSY themes from new mail themes list
+ * @property MailTemplate $letter
  *
  */
 class CommunicationTheme extends CActiveRecord
 {
-    const USAGE_OUTBOX = 'mail_outbox';
-
+    const USAGE_OUTBOX     = 'mail_outbox';
     const USAGE_OUTBOX_OLD = 'mail_outbox_old';
-
-    const USAGE_INBOX = 'mail_inbox';
+    const USAGE_INBOX      = 'mail_inbox';
 
     const SLUG_RIGHT = 'R';
     const SLUG_WRONG = 'W';
-
-     /**
-     * @var integer
-     */
-    public $id;
-    
-    /**
-     * @var integer
-     */
-    public $character_id;
-    
-    /**
-     * @var string
-     */
-    public $text;
-    
-    /**
-     * @var string
-     */
-    public $letter_number; // "code" - "M2", "MS45" ...
-    
-    /**
-     * @var string
-     */
-    public $wr; // right, werong : "R", "W"
-    
-    /**
-     * @var string
-     */
-    public $construst_number; // "R1", "TXT" ...
-    
-    /**
-     * @var string
-     */
-    public $phone; // "R1", "TXT" ...
-    
-    /**
-     * @var string
-     */
-    public $phone_wr; // right, werong : "R", "W"
-    
-    /**
-     * @var string
-     */
-    public $phone_dialog_number; // ??
-    
-    /**
-     * @var int
-     */
-    public $mail; // ??
-    
-    /**
-     * @var string
-     * 
-     * "manual" - user write new letter and send it,
-     * "dialog" - new mail window was opened by dialog
-     * "inbox"  - user write reply email
-     */
-    public $source;  
-    
-    public $mail_prefix;
-
 
     /** ------------------------------------------------------------------------------------------------------------ **/
 
@@ -123,147 +74,22 @@ class CommunicationTheme extends CActiveRecord
     }
     
     /**
-     * 
+     * @return string
      */
     public function getPrefixForForward()
     {
-
         return ($this->mail_prefix !== NULL) ? "fwd".$this->mail_prefix : "fwd";
-
     }
 
     /**
-     *
+     * @return string
      */
     public function getPrefixForReply()
     {
         return ($this->mail_prefix !== NULL) ? "re".$this->mail_prefix : "re";
     }
 
-    /** ------------------------------------------------------------------------------------------------------------ **/
-    
-    /**
-     *
-     * @param type $className
-     * @return CommunicationTheme
-     */
-    public static function model($className=__CLASS__)
-    {
-            return parent::model($className);
-    }
 
-    /**
-     * @return string the associated database table name
-     */
-    public function tableName()
-    {
-            return 'communication_themes';
-    }
-    
-    /**
-     * Выбрать по заданному персонажу
-     * @param int $characterId
-     * @return CommunicationTheme
-     */
-    public function byCharacter($characterId)
-    {
-
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "character_id = :characterId",
-            'params' => ['characterId' => $characterId]
-        ));
-        return $this;
-    }
-
-    /**
-     * Выбрать по идентификатору записи
-     * @param int $id
-     * @return CommunicationTheme
-     */
-    public function byId($id)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "id = {$id}"
-        ));
-        return $this;
-    }
-
-    /**
-     * Выборка по набору тем
-     * @param array $ids
-     * @return CommunicationTheme
-     */
-    public function byIds($ids)
-    {
-        $ids = implode(',', $ids);
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "id in ({$ids})"
-        ));
-        return $this;
-    }
-
-    /**
-     * Выбрать с признаком "телефон"
-     * @param int $v
-     * @return CommunicationTheme
-     */
-    public function byPhone($v = 1)
-    {
-        $criteria = new CDbCriteria();
-        $criteria->compare('phone', $v);
-        $this->getDbCriteria()->mergeWith($criteria);
-        return $this;
-    }
-
-    /**
-     * Выбрать по заданной теме
-     * @param int $themeId
-     * @return CommunicationTheme
-     */
-    public function byTheme($themeId)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "id = {$themeId}"
-        ));
-        return $this;
-    }
-
-    /**
-     * @param int $v
-     * @return CommunicationTheme
-     */
-    public function byMail($v = 1)
-    {
-        $criteria = new CDbCriteria();
-        $criteria->compare('mail', $v);
-        $this->getDbCriteria()->mergeWith($criteria);
-        return $this;
-    }
-    
-    /**
-     * @param string $code, mail code 'M1', 'MS2' etc.
-     * @return CommunicationTheme
-     */
-    public function byLetterNumber($code)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "letter_number = '{$code}'"
-        ));
-        return $this;
-    }
-    
-    /**
-     * @param string $text, like 'Служебная записка о сервере. Срочно!' e.g.
-     * @return CommunicationTheme
-     */
-    public function byText($text)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "text = '{$text}'"
-        ));
-        return $this;
-    }
-    
     /**
      * @return MailTemplate | NULL
      */
@@ -273,13 +99,10 @@ class CommunicationTheme extends CActiveRecord
         ]);
     }
 
-    public function relations()
-    {
-        return array(
-            'game_type' => array(self::BELONGS_TO, 'Scenario', 'scenario_id')
-        );
-    }
-
+    /**
+     * @param $simulation
+     * @return bool
+     */
     public function isBlockedByFlags($simulation) {
 
         $flagsDependence = $this->game_type->getFlagCommunicationThemeDependencies(['communication_theme_id'=>$this->id]);
@@ -297,6 +120,10 @@ class CommunicationTheme extends CActiveRecord
         return false;
     }
 
+    /**
+     * @param $themes
+     * @return bool
+     */
     public function themeIsUsed($themes) {
         /* @var $theme LogCommunicationThemeUsage */
         foreach($themes as $key => $theme) {
@@ -306,6 +133,33 @@ class CommunicationTheme extends CActiveRecord
             }
         }
         return false;
+    }
+
+    /** ------------------------------------------------------------------------------------------------------------ **/
+    
+    /**
+     *
+     * @param type $className
+     * @return CommunicationTheme
+     */
+    public static function model($className=__CLASS__)
+    {
+        return parent::model($className);
+    }
+
+    /**
+     * @return string the associated database table name
+     */
+    public function tableName()
+    {
+        return 'communication_themes';
+    }
+
+    public function relations()
+    {
+        return array(
+            'game_type' => array(self::BELONGS_TO, 'Scenario', 'scenario_id')
+        );
     }
 }
 

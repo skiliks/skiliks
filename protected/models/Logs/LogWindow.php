@@ -1,51 +1,27 @@
 <?php
 /**
- * Created by JetBrains PhpStorm.
- * User: gugu
- * Date: 05.12.12
- * Time: 21:52
- * To change this template use File | Settings | File Templates.
- * @property mixed window
- * @property mixed sub_window
- * @property mixed start_time
- * @property int sim_id
+ * @property integer $id
+ * @property string  $window
+ * @property string  $sub_window
+ * @property string  $window_uid , md5, windows unique ID - currently used to determine several mail new windows
+ * @property string  $start_time , '00:00::00' game time
+ * @property string  '00:00::00' , '00:00::00' game time
+ * @property integer $sim_id
+
  */
 class LogWindow extends CActiveRecord
 {
-    /**
-     * @var integer
-     */
-    public $id;
-    
-    /**
-     * simulations.id
-     * @var int
-     */
-    public $sim_id;
-    
-    /**
-     * See LogHelper window codes
-     * @var integer
-     */
-    public $window;
+    public function __toString()
+    {
+        return sprintf("%s\t%s\t%s\t%s", $this->start_time, $this->end_time, $this->window, $this->window_uid);
+    }
 
     /**
-     * '00:00::00' current game day
-     * @var string
+     * @return string
      */
-    public $start_time;
-    
-    /**
-     * '00:00::00' current game day
-     * @var string
-     */
-    public $end_time;
-
-    /**
-     * windows unique ID - currently used to determine several mail new windows
-     * @var string, md5
-     */
-    public $window_uid;
+    public function dump(){
+        return $this->__toString() . "\n";
+    }
 
     /** ------------------------------------------------------------------------------------------------------------ **/
 
@@ -65,15 +41,6 @@ class LogWindow extends CActiveRecord
     public function tableName()
     {
         return 'log_windows';
-    }
-
-    public function dump(){
-        return $this->__toString() . "\n";
-    }
-
-    public function __toString()
-    {
-        return sprintf("%s\t%s\t%s\t%s", $this->start_time, $this->end_time, $this->window, $this->window_uid);
     }
 
     public function relations()
