@@ -1,55 +1,116 @@
 <?php
+
 /**
- * Created by JetBrains PhpStorm.
- * User: root
- * Date: 3/1/13
- * Time: 10:33 PM
- * To change this template use File | Settings | File Templates.
+ * Это анализатор и коментировать не нужно
+ * Class GameContentAnalyzer
  */
 class GameContentAnalyzer
 {
+    /**
+     * @var array
+     */
     public $eventsStartedByTime = [];
 
+    /**
+     * @var array
+     */
     public $hoursChainOfEventsStartedByTime = [];
 
+    /**
+     * @var array
+     */
     public $eventsStartedByCall = [];
 
+    /**
+     * @var array
+     */
     public $eventsFromPlan = [];
 
+    /**
+     * @var array
+     */
     public $aEvents = []; // RAW EventForAnalyze before separation
 
+    /**
+     * @var array
+     */
     public $dialogs = [];
 
+    /**
+     * @var array
+     */
     public $emails = [];
 
+    /**
+     * @var array
+     */
     public $replicas = [];
 
+    /**
+     * @var array
+     */
     public $replicasIndexedByExcelId = [];
 
     // array indexed by dialog.code, contain array of flag that is necessary to run dialog
+    /**
+     * @var
+     */
     public $flagsBlockDialog;
 
     // array indexed by replica.id, contain array of flag that is necessary to run replica
+    /**
+     * @var
+     */
     public $flagsBlockReplica;
 
     // array indexed by mail.code, contain array of flag that is necessary to run mail
+    /**
+     * @var
+     */
     public $flagsBlockMail;
 
     // array indexed by flag.code, contain array of mail.codes that send after flag switch
+    /**
+     * @var
+     */
     public $flagsRunMail;
 
+    /**
+     * @var
+     */
     public $heroBehaviours;
 
+    /**
+     * @var
+     */
     public $replicaPoints;
 
+    /**
+     * @var
+     */
     public $mailPoints;
 
+    /**
+     *
+     */
     const TYPE_PLAN   = 'plan';
+    /**
+     *
+     */
     const TYPE_MAIL   = 'mail';
+    /**
+     *
+     */
     const TYPE_DIALOG = 'dialog';
 
+    /**
+     *
+     */
     const FLAGS_FROM_EXCEL_FILE = false; // this is boolean option in $this->uploadFlags()
 
+    /**
+     *
+     */
     public function __construct() {
 
     }
@@ -112,6 +173,11 @@ class GameContentAnalyzer
         }
     }
 
+    /**
+     * @param $sHeroBehaviours
+     * @param $sReplicaPoints
+     * @param $sMailPoints
+     */
     public function uploadPoints($sHeroBehaviours, $sReplicaPoints, $sMailPoints)
     {
 

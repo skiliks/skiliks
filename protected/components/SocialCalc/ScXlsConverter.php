@@ -1,16 +1,29 @@
 <?php
 
+/**
+ * Class ScXlsConverter
+ */
 class ScXlsConverter
 {
+    /**
+     * Тип xls
+     */
     const TYPE_XLS = 'xls';
 
+    /**
+     * Тип sc
+     */
     const TYPE_SC = 'sc';
 
+    /**
+     * Серелизация
+     */
     const TYPE_SERIALIZE = 'serialize';
 
     /**
+     * Сохраняет файл xls в sc
      * @param PHPExcel|string $xls
-     * @return array
+     * @return array структуру sc
      * @throws RuntimeException
      */
     public static function xls2sc($xls)
@@ -37,8 +50,12 @@ class ScXlsConverter
         return $result;
     }
 
+
     /**
+     * Конвертация sc документа в xls
      * @param array $sheetsData
+     * @param null $xlsPath
+     * @return PHPExcel
      */
     public static function sc2xls(array $sheetsData, $xlsPath = null)
     {
@@ -76,6 +93,11 @@ class ScXlsConverter
         return $excel;
     }
 
+    /**
+     *
+     * @param $filePath
+     * @return null|string
+     */
     public static function getType($filePath)
     {
         if (is_file($filePath)) {

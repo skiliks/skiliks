@@ -1,10 +1,23 @@
 <?php
 
+/**
+ * Базовый контроллер для
+ */
 class SimulationBaseController extends CController {
 
+    /**
+     * Успешный ответ от сервера
+     */
     const STATUS_SUCCESS = 1;
+    /**
+     * Ответ сервера об ошибке
+     */
     const STATUS_ERROR   = 0;
 
+    /**
+     * Это что-то старое нужно найти и удалить
+     * @var bool
+     */
     public $is_test = false;
 
     /**
@@ -12,8 +25,17 @@ class SimulationBaseController extends CController {
      */
     public $user;
 
+    /**
+     * Нужно для логирования запросов симуляции
+     * @var null
+     */
     protected $request_id = null;
 
+    /**
+     * Обработка валидаций и логирование пере запуском экшинка
+     * @param CAction $action
+     * @return bool
+     */
     protected function beforeAction($action)
     {
         $this->saveLogServerRequest();
@@ -21,6 +43,10 @@ class SimulationBaseController extends CController {
         return true;
     }
 
+    /**
+     * Схраняет запросы к симуляции
+     * @throws Exception
+     */
     protected function saveLogServerRequest() {
 
         $uid = Yii::app()->request->getParam('uniqueId');
@@ -79,7 +105,7 @@ class SimulationBaseController extends CController {
     }
 
     /**
-     *
+     * Отправляет ответ на фронтенд
      * @param integer $status, 2xx, 3xx, 4xx, 5xx
      * @param string $body
      * @param string $content_type
@@ -101,6 +127,7 @@ class SimulationBaseController extends CController {
     }
 
     /**
+     * Формирует json для отправки на фронтенд
      * @method void send JSON Writes JSON to output
      */
     protected function sendJSON($data, $status = 200)
@@ -163,7 +190,8 @@ class SimulationBaseController extends CController {
     }
 
     /**
-     *
+     * Возвращает обЪект Симуляции
+     * @throws Exception
      * @return Simulation || HttpJsonResponce (Error)
      */
     public function getSimulationEntity()
