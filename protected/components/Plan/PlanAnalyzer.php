@@ -1,41 +1,83 @@
 <?php
 
+/**
+ * Анализатор оценок планировщика (и следование приоритеттам) 214a, 214b, 214d, 214g
+ * Class PlanAnalyzer
+ */
 class PlanAnalyzer {
-    /*
+    /**
      * Время начала симуляции
      */
     public $start_sim_time;
 
-    /*
+    /**
      * Время конца симуляции
      */
     public $end_sim_time;
 
+    /**
+     * Рабочее время
+     * @var float
+     */
     public $work_time;
 
+    /**
+     * @var array задачи на 11 часов
+     */
     public $tasksOn11 = [];
 
+    /**
+     * @var array задачи на 18 часов
+     */
     public $tasksOn18 = [];
 
+    /**
+     * @var Simulation
+     */
     public $simulation;
 
+    /**
+     * @var string старт рабочего дня на завтра
+     */
     public $tomorrow_day_start = '9:00';
 
+    /**
+     * @var string окончание рабочего дня плана на завтра
+     */
     public $tomorrow_day_end = '16:00';
 
+    /**
+     * @var float рабочее время завтра
+     */
     public $tomorrow_work_time;
 
+    /**
+     * @var array
+     */
     public $logActivityActionsAggregatedGroupByParent = [];
 
+    /**
+     * @var array
+     */
     public $logAggregated214d = [];
 
+    /**
+     * @var array
+     */
     public $parents_keep_last_category = [];
 
+    /**
+     * @var array
+     */
     public $parents_ending_time = [];
 
+    /**
+     * @var array
+     */
     public $must_present_for_214d = [];
 
     /**
+     * Инициализируем данные для расчета
      * @param Simulation $simulation
      */
     public function __construct($simulation)
@@ -210,6 +252,11 @@ class PlanAnalyzer {
         }
     }
 
+    /**
+     * Сохранение Лег экшен агригейт 214d
+     * @param $log
+     * @return LogActivityActionAggregated214d
+     */
     public function saveLogActivityActionAggregated214d($log) {
         $var_214d = new LogActivityActionAggregated214d();
         $var_214d->sim_id = $log['sim_id'];
@@ -228,6 +275,13 @@ class PlanAnalyzer {
         return $var_214d;
     }
 
+    /**
+     * Проверяет сохрнилась ли keep last category после n минут(в конфиге)
+     * @param $start_time время начала категории
+     * @param $end_time время окончания категории
+     * @param $keep_last_category_initial какая категория была изначально
+     * @return string
+     */
     public static function calcKeepLastCategoryAfter($start_time, $end_time, $keep_last_category_initial)
     {
         if($keep_last_category_initial === LogActivityActionAggregated214d::KEEP_LAST_CATEGORY_YES) {
@@ -242,6 +296,12 @@ class PlanAnalyzer {
         }
     }
 
+    /**
+     * Проверяет что это полседний перент
+     * @param $parent
+     * @param $current
+     * @return bool
+     */
     public function isLastParent($parent, $current) {
 
         foreach($this->logAggregated214d as $find => $log) {
@@ -256,7 +316,13 @@ class PlanAnalyzer {
 
     }
 
-    public function calculateParentAvailability($parentAvailability, $groupedLog)
+    /**
+     * Проверяет занимаеться ли человек нужными задачами
+     * @param ActivityParentAvailability $parentAvailability
+     * @param array $groupedLog Лог агригированых легжкшынов по перенту
+     * @return null|string
+     */
+    public function calculateParentAvailability(ActivityParentAvailability $parentAvailability, array $groupedLog)
     {
         if (null === $parentAvailability) {
             return null;
@@ -288,8 +354,6 @@ class PlanAnalyzer {
             foreach ($activities as $activity) {
                 $parentTM8activityIds[] = $activity->id;
             }
-
-            $parentTM8activityLogsIds = [];
 
             $activityActions = ActivityAction::model()->findAll(
                 ' activity_id IN ('.implode(',', $parentTM8activityIds).')',[]
@@ -349,14 +413,18 @@ class PlanAnalyzer {
     }
 
     /**
-     * @param $time
-     * @return float
+     * Переводи время в минту
+     * @param $time время в формате H:i:s
+     * @return float минуты
      */
     public function toMinutes($time)
     {
        return (strtotime($time) - strtotime('today'))/60;
     }
 
+    /**
+     * Расчтет оценок по повидениям
+     */
     public function run()
     {
         // 214a
@@ -393,10 +461,11 @@ class PlanAnalyzer {
         $this->check_214g('214g1', '1', ['0']);
     }
 
-    /*
+    /**
      * "Составляет план на сегодня до 11 утра.
      * Заполнил задачами все слоты на сегодня и
      * сохранил время на незапланированные дела"
+     * @throws Exception
      */
     public function check_214a1()
     {
@@ -429,7 +498,7 @@ class PlanAnalyzer {
         $assessment_calculation->save();
     }
 
-    /*
+    /**
      * 'Составляет полный план на все последующие
      * дни в этой же сессии по планированию - с утра
      * (все задачи из туду листа перенёс в форму планирования,
@@ -462,9 +531,11 @@ class PlanAnalyzer {
 
     }
 
-    /*
+    /**
      * Составляет полный план на ЗАВТРА в
      * конце рабочего дня (на конец дня все слоты на завтра заполнены)
+     *
+     * @throws Exception
      */
     public function check_214a4()
     {
@@ -495,7 +566,7 @@ class PlanAnalyzer {
 
     }
 
-    /*
+    /**
      * Разносит ВСЕ задачи из "сделать" в конце рабочего
      * дня (на конец дня сегодня не осталось задач в туду листе)
      */
@@ -525,7 +596,7 @@ class PlanAnalyzer {
         $assessment_calculation->save();
     }
 
-    /*
+    /**
      * Не планирует вообще. Ни один слот на сегодня
      *  и завтра не заполнен задачами
      */
@@ -637,9 +708,9 @@ class PlanAnalyzer {
     /**
      * Assessment according 11:00 planned tasks log only
      *
-     * @param string $code
+     * @param string $code код повидения 214d5
      * @param int $category
-     * @param array $categories
+     * @param array $wrongCategoryIds
      */
     public function check_214b5_6_8($code = '214b5', $category = 0, $wrongCategoryIds = [4,5])
     {
@@ -687,10 +758,6 @@ class PlanAnalyzer {
 
     /**
      * Assessment according 11:00 planned tasks log only
-     *
-     * @param string $code
-     * @param int $category
-     * @param array $categories
      */
     public function check_214b9()
     {
@@ -773,11 +840,11 @@ class PlanAnalyzer {
     /**
      * Можем ли мы сравтить 2 задачи
      *
-     * @param DayPlanLog $task
-     * @param DayPlanLog $taskToCompare
+     * @param DayPlanLog $taskLogItem
+     * @param DayPlanLog $taskLogItemToCompare
      * @return bool
      */
-    public function isComparable($taskLogItem, $taskLogItemToCompare)
+    public function isComparable(DayPlanLog $taskLogItem, DayPlanLog $taskLogItemToCompare)
     {
         $isBothFromVacation = ($taskLogItem->day == DayPlanLog::AFTER_VACATION &&
             $taskLogItemToCompare->day == DayPlanLog::AFTER_VACATION);
@@ -790,10 +857,13 @@ class PlanAnalyzer {
     }
 
     /**
-     * @param array of DayPlanLog $tasks
-     * @param DayPlanLog $task
+     * Находит задачи для 214d0
+     * @param DayPlanLog[] $taskLogs
+     * @param DayPlanLog $mainTaskLogItem
+     * @param $usedTaskCodes
+     * @return array
      */
-    public function findLessImportantTaskLogsBefore($taskLogs, $mainTaskLogItem, $usedTaskCodes)
+    public function findLessImportantTaskLogsBefore(array $taskLogs, DayPlanLog $mainTaskLogItem, $usedTaskCodes)
     {
         $result = [];
 
@@ -820,7 +890,12 @@ class PlanAnalyzer {
         return $result;
     }
 
-    public function canAddPlusOneBy214b($mainTaskLogItem)
+    /**
+     * Проверяет что задача не план на отмуск и не в туду
+     * @param DayPlanLog $mainTaskLogItem
+     * @return bool
+     */
+    public function canAddPlusOneBy214b(DayPlanLog $mainTaskLogItem)
     {
         $result = true;
 
@@ -831,7 +906,13 @@ class PlanAnalyzer {
         return $result;
     }
 
-    public function canBeAssessedBy214b($mainTaskLogItem, $category)
+    /**
+     * Проверяет что мы можем расчетать оценку 214d по категории
+     * @param DayPlanLog $mainTaskLogItem
+     * @param $category
+     * @return bool
+     */
+    public function canBeAssessedBy214b(DayPlanLog $mainTaskLogItem, $category)
     {
         $isLowPriorityFixedDateTask = (
             'yes' == $mainTaskLogItem->task->time_limit_type &&
@@ -850,6 +931,7 @@ class PlanAnalyzer {
     }
 
     /**
+     * Расчет с 214d0 до 214d4
      * @param $code
      * @param $category
      */
@@ -1029,7 +1111,13 @@ class PlanAnalyzer {
         $assessmentCalculation->save();
     }
 
-    public function check_214g($code, $category, $enable_categories) {
+    /**
+     * Расчет по 214g
+     * @param $code код 214g
+     * @param $category
+     * @param $enable_categories доступные категории
+     */
+    public function check_214g($code, $category, array $enable_categories) {
 
         /* @var $behaviour HeroBehaviour */
         $behaviour = $this->simulation->game_type->getHeroBehaviour(['code'=>$code]);
