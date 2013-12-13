@@ -14,6 +14,8 @@
  */
 class MyDocument extends CActiveRecord
 {
+    public $hidden = null;
+
     /**
      * @param string $filename
      *
