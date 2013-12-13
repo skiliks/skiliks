@@ -1,18 +1,38 @@
 <?php
 
+/**
+ * Оценки 3312 и 341a8 при переключении звуков
+ * в игре
+ * Class CalculateCustomAssessmentsService
+ */
 class CalculateCustomAssessmentsService {
 
+    /**
+     * @var null|Simulation
+     */
     public $simulation = null;
 
+    /**
+     * @param Simulation $simulation
+     */
     public function __construct(Simulation $simulation) {
         $this->simulation = $simulation;
     }
 
+    /**
+     * Запуск расчета оценки
+     */
     public function run() {
         $this->check_3312();
         $this->check_341a8();
     }
 
+    /**
+     * Логирование переключения звука в почте и телефоне
+     * @param $logs логи
+     * @return float|int
+     * @throws LogicException
+     */
     protected function calcTurnOff($logs) {
         /* @var $log LogIncomingCallSoundSwitcher */
         $start_time = 0;
@@ -35,6 +55,9 @@ class CalculateCustomAssessmentsService {
         return $duration/60;
     }
 
+    /**
+     * Рачет повидения 3312
+     */
     protected function check_3312() {
 
         $behaviour = $this->simulation->game_type->getHeroBehaviour(['code'=>'3312']);
@@ -57,6 +80,9 @@ class CalculateCustomAssessmentsService {
 
     }
 
+    /**
+     * Рачет повидения 341a8
+     */
     protected function check_341a8() {
 
         $behaviour = $this->simulation->game_type->getHeroBehaviour(['code'=>'341a8']);
@@ -80,6 +106,12 @@ class CalculateCustomAssessmentsService {
     }
 
 
+    /**
+     * Сохраняет оценку
+     * @param HeroBehaviour $behaviour
+     * @param $value оценка
+     * @throws Exception
+     */
     protected function saveAssessment(HeroBehaviour $behaviour, $value) {
         $assessment_calculation = AssessmentCalculation::model()->findByAttributes(['sim_id'=>$this->simulation->id, 'point_id'=>$behaviour->id]);
         if(null === $assessment_calculation){

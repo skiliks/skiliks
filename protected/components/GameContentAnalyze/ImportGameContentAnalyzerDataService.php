@@ -1,21 +1,33 @@
 <?php
 /**
- * Created by JetBrains PhpStorm.
- * User: root
- * Date: 3/4/13
- * Time: 12:07 AM
- * To change this template use File | Settings | File Templates.
+ * Это анализатор и коментировать не нужно
+ * Class ImportGameContentAnalyzerDataService
  */
 class ImportGameContentAnalyzerDataService
 {
+    /**
+     * @var mixed|null
+     */
     private $filename = null;
 
+    /**
+     * @var null|string
+     */
     private $import_id = null;
 
+    /**
+     * @var null
+     */
     private $errors = null;
 
+    /**
+     * @var null|string
+     */
     private $cache_method = null;
 
+    /**
+     *
+     */
     public function __construct()
     {
         $files = glob(__DIR__ . '/../../../media/scenario*.xlsx');
@@ -28,6 +40,9 @@ class ImportGameContentAnalyzerDataService
         $this->cache_method = PHPExcel_CachedObjectStorageFactory::cache_to_sqlite3;
     }
 
+    /**
+     * @param $name
+     */
     public function setFilename($name)
     {
         $this->filename = $name;
@@ -125,6 +140,9 @@ class ImportGameContentAnalyzerDataService
 
     /* --------------------- */
 
+    /**
+     * @return array
+     */
     public function importDialogs()
     {
         $importedDialogs = [];
@@ -288,6 +306,9 @@ class ImportGameContentAnalyzerDataService
         return $importedEvents;
     }
 
+    /**
+     * @return array
+     */
     public function importEmails()
     {
         $importedEmails = [];
@@ -465,6 +486,10 @@ class ImportGameContentAnalyzerDataService
         return $importedReplica;
     }
 
+    /**
+     * @param $events
+     * @return array
+     */
     public function importFlagsRules($events)
     {
         $excel = $this->getExcel();
