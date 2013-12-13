@@ -15,8 +15,9 @@
 class MyDocument extends CActiveRecord
 {
     /**
-     * Returns sheet list
-     * @return array
+     * @param string $filename
+     *
+     * @return array os string
      */
     public function getSheetList($filename = null)
     {
@@ -90,9 +91,9 @@ class MyDocument extends CActiveRecord
      */
     public function backupFile($extension = 'broken')
     {
-        $filepath = $this->getFilePath() . '.' . $extension;
+        $filePath = $this->getFilePath() . '.' . $extension;
         if (is_file($this->getFilePath())) {
-            copy($this->getFilePath(), $filepath);
+            copy($this->getFilePath(), $filePath);
             return true;
         }
 

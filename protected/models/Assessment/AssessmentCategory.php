@@ -82,7 +82,6 @@ class AssessmentCategory extends CActiveRecord
 	{
 		$criteria=new CDbCriteria;
 		$criteria->compare('code',$this->code,true);
-
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));

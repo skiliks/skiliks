@@ -71,12 +71,12 @@ class SimulationLearningGoalGroup extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'sim_id' => 'Sim',
+			'id'                     => 'ID',
+			'sim_id'                 => 'Sim',
 			'learning_goal_group_id' => 'Learning Goal Group',
-			'value' => 'Value',
-			'percent' => 'Percent',
-			'problem' => 'Problem',
+			'value'                  => 'Value',
+			'percent'                => 'Percent',
+			'problem'                => 'Problem',
 		);
 	}
 

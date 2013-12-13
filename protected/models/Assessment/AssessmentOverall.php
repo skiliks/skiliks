@@ -65,10 +65,10 @@ class AssessmentOverall extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'sim_id' => 'Sim',
+			'id'                       => 'ID',
+			'sim_id'                   => 'Sim',
 			'assessment_category_code' => 'Assessment Category Code',
-			'value' => 'Value',
+			'value'                    => 'Value',
 		);
 	}
 

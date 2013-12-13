@@ -68,9 +68,9 @@ class ReplicaPoint extends CActiveRecord
     public function attributeLabels()
     {
         return array(
-            'id' => 'ID',
+            'id'        => 'ID',
             'dialog_id' => 'Dialog',
-            'point_id' => 'Point',
+            'point_id'  => 'Point',
             'add_value' => 'Add Value',
             'import_id' => 'Import',
         );

@@ -42,8 +42,6 @@ class LearningGoal extends CActiveRecord
      */
     public function relations()
     {
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
         return array(
             'learningArea' => array(self::BELONGS_TO, 'LearningArea', 'learning_area_code'),
             'heroBehaviours' => array(self::HAS_MANY, 'HeroBehaviour', 'learning_goal_id'),

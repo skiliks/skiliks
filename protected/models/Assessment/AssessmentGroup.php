@@ -61,8 +61,8 @@ class AssessmentGroup extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'name' => 'Name',
+			'id'        => 'ID',
+			'name'      => 'Name',
 			'import_id' => 'Import',
 		);
 	}

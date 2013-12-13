@@ -62,15 +62,11 @@ class ActivityParent extends CActiveRecord
 	 */
 	public function rules()
 	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
 		return array(
 			array('parent_code', 'required'),
 			array('id, dialog_id, mail_id', 'numerical', 'integerOnly'=>true),
 			array('import_id', 'length', 'max'=>14),
 			array('parent_code', 'length', 'max'=>10),
-			// The following rule is used by search().
-			// Please remove those attributes that should not be searched.
 			array('id, import_id, parent_code, dialog_id, mail_id', 'safe', 'on'=>'search'),
 		);
 	}
@@ -80,10 +76,7 @@ class ActivityParent extends CActiveRecord
 	 */
 	public function relations()
 	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
-		return array(
-		);
+		return array();
 	}
 
 	/**
@@ -106,11 +99,7 @@ class ActivityParent extends CActiveRecord
 	 */
 	public function search()
 	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
-
 		$criteria=new CDbCriteria;
-
 		$criteria->compare('id',$this->id);
 		$criteria->compare('import_id',$this->import_id);
 		$criteria->compare('parent_code',$this->parent_code);
