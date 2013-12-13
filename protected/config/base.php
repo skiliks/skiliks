@@ -93,7 +93,8 @@ return CMap::mergeArray(
         // using Yii::app()->params['paramName']
         'params' => array(
             // имя сервера, стоб понимать с какого сервера пришли письма про подозрительную активность
-            'server_name'                   => 'http://skiliks.com',
+            // формат 'http://domain.com/'
+            'server_name'                   => 'http://skiliks.com/',
 
             // просто подпись на сайте, вынесена в конфиг - чтоб было проще править
             'demoDuration'                  => 5, // min
@@ -117,6 +118,7 @@ return CMap::mergeArray(
             'vacancyLinkInProfileMaxLength' => 50,
 
             // используется для селениум-теcтов
+            // формат 'http://domain.com:port/'
             'frontendUrl'                   => 'http://skiliks:8080/',
 
             // удалять результаты симуляции если селениум-тест успешно прошел false = не удалять
