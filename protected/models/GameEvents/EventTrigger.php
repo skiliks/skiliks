@@ -20,7 +20,7 @@ class EventTrigger extends CActiveRecord
      * @param $triggerTime
      * @return EventTrigger
      */
-    public function nearest($simId, $triggerTime)
+    public function nearestOne($simId, $triggerTime)
     {
         $condition = new CDbCriteria();
         $condition->compare('t.trigger_time', '<=' . $triggerTime);
@@ -30,7 +30,10 @@ class EventTrigger extends CActiveRecord
         $condition->order = 'CASE WHEN event.code LIKE "P%" THEN 1 WHEN event.code LIKE "M%" THEN 2 ELSE 3 END, '.
             't.trigger_time';
         $condition->join = 'JOIN event_sample event ON event.id=t.event_id';
+        $condition->limit = 1;
+
         $this->getDbCriteria()->mergeWith($condition);
+        $this->getDbCriteria();
 
         return $this;
     }

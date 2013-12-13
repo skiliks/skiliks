@@ -1,136 +1,19 @@
 <?php
-
-
 /**
  * Модель моих документов
  *
- * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
+ * @property integer $id
+ * @property integer $is_was_saved, 1 or 0
+ * @property integer $sim_id
+ * @property integer $template_id
+ * @property integer $hidden
+ * @property string  $uuid
+ * @property string  $fileName
  *
  * @property DocumentTemplate template
- * @property string $uuid
- * @property int $is_was_saved
  */
 class MyDocument extends CActiveRecord
 {
-    /**
-     * @var integer
-     */
-    public $id;
-    
-    /**
-     * simulations.id
-     * @var int
-     */
-    public $sim_id;
-    
-    /**
-     * my_documents_template.id
-     * @var integer
-     */
-    public $template_id;
-    
-    /**
-     * @var string
-     */
-    public $fileName;
-    
-    /**
-     * is hidden
-     * @var integer, (boolean)
-     */
-    public $hidden;
-
-    /** ------------------------------------------------------------------------------------------------------------ **/
-    
-    /**
-     *
-     * @param type $className
-     * @return MyDocument 
-     */
-    public static function model($className=__CLASS__)
-    {
-            return parent::model($className);
-    }
-
-    /**
-     * @return string the associated database table name
-     */
-    public function tableName()
-    {
-            return 'my_documents';
-    }
-
-    /**
-     * Выбрать заданный документ
-     * @param int $id
-     * @return MyDocument 
-     */
-    public function byId($id)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "id = {$id}"
-        ));
-        return $this;
-    }
-    
-    /**
-     * Выбрать по заданному имени файла
-     * @param string $fileName
-     * @return MyDocument 
-     */
-    public function byFileName($fileName)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "fileName = '{$fileName}'"
-        ));
-        return $this;
-    }
-    
-    /**
-     * Отсортировать по имени файла
-     * @return MyDocument 
-     */
-    public function orderByFileName()
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'order' => "fileName asc"
-        ));
-        return $this;
-    }
-    
-    /**
-     * Выбрать по заданному шаблону документа
-     * @param int $templateId
-     * @return MyDocument 
-     */
-    public function byTemplateId($templateId)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "template_id = {$templateId}"
-        ));
-        return $this;
-    }
-
-    /**
-     * Выбрать только видимые документы 
-     * @return MyDocument 
-     */
-    public function visible()
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "hidden = 0"
-        ));
-        return $this;
-    }
-
-    public function relations()
-    {
-        return [
-            'template' => [self::BELONGS_TO, 'DocumentTemplate', 'template_id'],
-            'simulation' => [self::BELONGS_TO, 'Simulation', 'sim_id'],
-        ];
-    }
-
     /**
      * Returns sheet list
      * @return array
@@ -141,7 +24,7 @@ class MyDocument extends CActiveRecord
         $cachePath = $this->getCacheFilePath();
 
         if ($filename && is_file($filename)) {
-             $scData = json_decode(file_get_contents($filename), true);
+            $scData = json_decode(file_get_contents($filename), true);
 
         } elseif (is_file($filePath) || is_file($cachePath)) {
             $scData = json_decode(file_get_contents(is_file($filePath) ? $filePath : $cachePath), true);
@@ -165,6 +48,11 @@ class MyDocument extends CActiveRecord
         return array_values($scData);
     }
 
+    /**
+     * @param $name
+     * @param $sheetContent
+     * @param null $filename
+     */
     public function setSheetContent($name, $sheetContent, $filename = null)
     {
         $filePath = $filename ?: $this->getFilePath();
@@ -196,6 +84,10 @@ class MyDocument extends CActiveRecord
         return $this->template->getCacheFilePath();
     }
 
+    /**
+     * @param string $extension
+     * @return bool
+     */
     public function backupFile($extension = 'broken')
     {
         $filepath = $this->getFilePath() . '.' . $extension;
@@ -217,6 +109,33 @@ class MyDocument extends CActiveRecord
             $this->uuid = new CDbExpression('UUID()');
         }
         return parent::beforeSave();
+    }
+
+    /** ------------------------------------------------------------------------------------------------------------ **/
+    
+    /**
+     * @param string $className
+     * @return MyDocument 
+     */
+    public static function model($className=__CLASS__)
+    {
+        return parent::model($className);
+    }
+
+    /**
+     * @return string the associated database table name
+     */
+    public function tableName()
+    {
+            return 'my_documents';
+    }
+
+    public function relations()
+    {
+        return [
+            'template' => [self::BELONGS_TO, 'DocumentTemplate', 'template_id'],
+            'simulation' => [self::BELONGS_TO, 'Simulation', 'sim_id'],
+        ];
     }
 }
 

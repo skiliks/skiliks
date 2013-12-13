@@ -45,14 +45,10 @@ class SimulationLearningGoalGroup extends CActiveRecord
 	 */
 	public function rules()
 	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
 		return array(
 			array('sim_id, learning_goal_group_id', 'required'),
 			array('sim_id, learning_goal_group_id', 'numerical', 'integerOnly'=>true),
 			array('value, percent, problem', 'length', 'max'=>10),
-			// The following rule is used by search().
-			// Please remove those attributes that should not be searched.
 			array('id, sim_id, learning_goal_group_id, value, percent, problem', 'safe', 'on'=>'search'),
 		);
 	}
@@ -62,8 +58,6 @@ class SimulationLearningGoalGroup extends CActiveRecord
 	 */
 	public function relations()
 	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
 		return array(
 			'learningGoalGroup' => array(self::BELONGS_TO, 'LearningGoalGroup', 'learning_goal_group_id', 'order' => 'code ASC'),
             'learningGoal' => array(self::HAS_MANY, 'SimulationLearningGoal', 'learning_goal_group_id'),
@@ -92,11 +86,7 @@ class SimulationLearningGoalGroup extends CActiveRecord
 	 */
 	public function search()
 	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
-
 		$criteria=new CDbCriteria;
-
 		$criteria->compare('id',$this->id);
 		$criteria->compare('sim_id',$this->sim_id);
 		$criteria->compare('learning_goal_group_id',$this->learning_goal_group_id);
@@ -109,6 +99,9 @@ class SimulationLearningGoalGroup extends CActiveRecord
 		));
 	}
 
+    /**
+     * @return integer
+     */
     public function getReducingCoefficient()
     {
         return LearningGoalAnalyzer::getReducingCoefficient($this->problem);

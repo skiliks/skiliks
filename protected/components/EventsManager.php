@@ -130,13 +130,7 @@ class EventsManager {
             
             // получить ближайшее событие
             /** @var $triggers EventTrigger[] */
-            $triggers = EventTrigger::model()->find(
-                " :from_time <= trigger_time AND trigger_time <= :to_time ",
-                [
-                    'from_time' => $simId,
-                    'to_time'   => $gameTime
-                ]
-            );
+            $triggers = EventTrigger::model()->nearestOne($simId, $gameTime)->findAll();
 
             foreach ($triggers as $key => $trigger) {
                 if(false === FlagsService::isAllowToStartDialog($simulation, $trigger->event_sample->code)) {

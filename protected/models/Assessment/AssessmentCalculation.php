@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This is the model class for table "assessment_calculation".
  *
@@ -73,10 +72,10 @@ class AssessmentCalculation extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'sim_id' => 'Sim',
+			'id'       => 'ID',
+			'sim_id'   => 'Sim',
 			'point_id' => 'Point',
-			'value' => 'Value'
+			'value'    => 'Value'
 		);
 	}
 
