@@ -10,6 +10,21 @@
  */
 class Flag extends CActiveRecord
 {
+    /**
+     * @return int, game minutes
+     *
+     * @throws Exception
+     */
+    public function getDelay(){
+        if(null === $this->delay){
+            throw new Exception("Must be not null");
+        }else{
+            return (int)$this->delay;
+        }
+    }
+
+    /* --------------------------------------------------------------------------------------------- */
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -62,7 +77,7 @@ class Flag extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'code' => 'Code',
+			'code'        => 'Code',
 			'description' => 'Description',
 		);
 	}
@@ -85,12 +100,4 @@ class Flag extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
-
-    public function getDelay(){
-        if(null === $this->delay){
-            throw new Exception("Must be not null");
-        }else{
-            return (int)$this->delay;
-        }
-    }
 }

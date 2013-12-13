@@ -20,6 +20,17 @@ class Dialog extends CActiveRecord
     const TYPE_PHONE_TALK = 'phone_talk';
     const TYPE_KNOCK      = 'knock_knock';
 
+    public function setTypeFromExcel($string) {
+        switch ($string) {
+            case 'Встреча' :              $this->type = self::TYPE_VISIT; break;
+            case 'Звонок' :               $this->type = self::TYPE_PHONE_CALL; break;
+            case 'Разговор по телефону' : $this->type = self::TYPE_PHONE_TALK; break;
+            case 'Стук в дверь' :         $this->type = self::TYPE_KNOCK; break;
+        }
+    }
+
+    /* ---------------------------------------------------------------------------------------------- */
+
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
@@ -28,15 +39,6 @@ class Dialog extends CActiveRecord
     public static function model($className=__CLASS__)
     {
         return parent::model($className);
-    }
-
-    public function setTypeFromExcel($string) {
-        switch ($string) {
-            case 'Встреча' :              $this->type = self::TYPE_VISIT; break;
-            case 'Звонок' :               $this->type = self::TYPE_PHONE_CALL; break;
-            case 'Разговор по телефону' : $this->type = self::TYPE_PHONE_TALK; break;
-            case 'Стук в дверь' :         $this->type = self::TYPE_KNOCK; break;
-        }
     }
 
     /**
@@ -56,9 +58,6 @@ class Dialog extends CActiveRecord
      */
     public function relations()
     {
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
         return [];
     }
-
 }

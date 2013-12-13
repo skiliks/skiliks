@@ -22,7 +22,13 @@ class EventServiceUnitTest extends PHPUnit_Framework_TestCase
         foreach ($events as $e) {
             EventService::addByCode($e['code'], $simulation, $e['time']);
             $event = $simulation->game_type->getEventSample(['code' => $e['code']]);
-            $event = EventTrigger::model()->bySimIdAndEventId($simulation->id, $event->id)->find();
+            $event = EventTrigger::model()->find(
+                "sim_id = :sim_id AND event_id = :event_id",
+                [
+                    'sim_id'   => $simulation->id,
+                    'event_id' => $event->id,
+                ]
+            );
             $this->assertEquals($e['standard_time'], $event->trigger_time);
         }
 

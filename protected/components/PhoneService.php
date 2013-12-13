@@ -158,7 +158,7 @@ class PhoneService {
     
     public static function registerMissed($simId, $dialogId, $time) {
         
-        $dialog = Replica::model()->byId($dialogId)->find();
+        $dialog = Replica::model()->findByPk($dialogId);
         if (!$dialog) throw new Exception("Не могу определить диалог для id {$dialogId}");
         
         $model = new PhoneCall();

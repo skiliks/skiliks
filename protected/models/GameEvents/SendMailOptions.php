@@ -1,40 +1,55 @@
 <?php
-
 /**
- * @author slavka
+ * @property Simulation $simulation
+ * @property integer $senderId
+ * @property integer $groupId
  */
 class SendMailOptions
 {
+    const REPLY_ALL_FRONTEND_SCREEN_ALIAS = 'SCREEN_WRITE_REPLY_ALL';
+
+    /* @var Simulation $simulation */
     public $simulation = NULL;
+
+    /* @var integer */
     public $senderId;
 
+    /* @var integer */
     public $groupId    = MailBox::FOLDER_OUTBOX_ID;
-    /**
-     * @var MailTemplate $messageId
-     */
+
+    /* @var MailTemplate $messageId */
     public $messageId  = NULL;
+
+    /* @var string $time */
     public $time       = NULL;
-    public $fileId     = NULL;
+
+    /* @var integer $fileId */
+    public $fileId  = NULL;
+
+    /* @var integer $subject_id */
     public $subject_id = NULL;
 
+    /* @var integer $id */
     public $id         = NULL;
 
-    // is this email created by press 'Reply all'
+    /* var bool $is_reply_all, is this email created by press 'Reply all' */
     public $is_reply_all = false;
 
+    /* @var array of ??? */
     public $copies     = array();
-    public $phrases    = array();
-     
-    private $letterType = NULL;
-     
-    private $recipients  = array();
 
-    const REPLY_ALL_FRONTEND_SCREEN_ALIAS = 'SCREEN_WRITE_REPLY_ALL';
+    /* @var array of ??? */
+    public $phrases    = array();
+
+    /* @var string $time */
+    private $letterType = NULL;
+
+    /* @var array of ??? */
+    private $recipients  = array();
 
     public function __construct(Simulation $simulation)
     {
         $this->senderId = $simulation->game_type->getCharacter(['code' => Character::HERO_ID])->getPrimaryKey();
-
     }
      
      /**

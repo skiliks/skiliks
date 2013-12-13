@@ -33,7 +33,13 @@ class EventsManager {
 
         $gameTime = GameTime::addMinutesTime($simulation->getGameTime(), $delay);
 
-        $eventsTriggers = EventTrigger::model()->bySimIdAndEventId($simulation->id, $event->id)->find();
+        $eventsTriggers = EventTrigger::model()->find(
+            "sim_id = :sim_id AND event_id = :event_id",
+            [
+                'sim_id'   => $simulation->id,
+                'event_id' => $event->id,
+            ]
+        );
         if ($eventsTriggers) {
             $eventsTriggers->trigger_time = $gameTime;
             $eventsTriggers->save(); // обновляем существующее событие в очереди
@@ -58,7 +64,13 @@ class EventsManager {
     public static function waitEvent($simulation, $eventCode, $eventTime)
     {
         $event = $simulation->game_type->getEventSample(['code' => $eventCode]);
-        $eventsTriggers = EventTrigger::model()->bySimIdAndEventId($simulation->id, $event->id)->find();
+        $eventsTriggers = EventTrigger::model()->find(
+            "sim_id = :sim_id AND event_id = :event_id",
+            [
+                'sim_id'   => $simulation->id,
+                'event_id' => $event->id,
+            ]
+        );
 
         if (!$eventsTriggers) {
             $eventsTriggers = new EventTrigger();
@@ -118,7 +130,13 @@ class EventsManager {
             
             // получить ближайшее событие
             /** @var $triggers EventTrigger[] */
-            $triggers = EventTrigger::model()->nearest($simId, $gameTime)->findAll(['limit' => 1]);
+            $triggers = EventTrigger::model()->find(
+                " :from_time <= trigger_time AND trigger_time <= :to_time ",
+                [
+                    'from_time' => $simId,
+                    'to_time'   => $gameTime
+                ]
+            );
 
             foreach ($triggers as $key => $trigger) {
                 if(false === FlagsService::isAllowToStartDialog($simulation, $trigger->event_sample->code)) {
@@ -144,7 +162,7 @@ class EventsManager {
                 $index = 0;
                 foreach($triggers as $trigger) {
 
-                    $event = EventSample::model()->byId($trigger->event_id)->find();
+                    $event = EventSample::model()->findByPk($trigger->event_id);
 
                     if (null === $event) {
                         throw new CHttpException(

@@ -1,34 +1,15 @@
 <?php
 
 /**
- * состояние флагов пользователя в рамках конкретной симуляции
+ * Состояние флагов пользователя в рамках конкретной симуляции
  *
- * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
+ * @property integer $id
+ * @property integer $sim_id
+ * @property string $flag, 'F1', 'F2', ...
+ * @property integer $value, 0 or 1
  */
 class SimulationFlag extends CActiveRecord
 {
-    /**
-     * @var integer
-     */
-    public $id;
-    
-    /**
-     * simulations.id
-     * @var int
-     */
-    public $sim_id;
-    
-    /**
-     * 'F1', 'F2', ...
-     * @var string
-     */
-    public $flag;
-    
-    /**
-     * @var integer
-     */
-    public $value;
-
     /**
      * sends Email if it is immediate
      * @return void
@@ -52,7 +33,7 @@ class SimulationFlag extends CActiveRecord
      */
     public static function model($className=__CLASS__)
     {
-            return parent::model($className);
+        return parent::model($className);
     }
 
     /**
@@ -60,21 +41,7 @@ class SimulationFlag extends CActiveRecord
      */
     public function tableName()
     {
-            return 'simulation_flags';
-    }
-
-    /**
-     * Выбрать по заданному флагу
-     * @deprecated SQL injection
-     * @param string $flag
-     * @return SimulationFlag 
-     */
-    public function byFlag($flag)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "flag = '{$flag}'"
-        ));
-        return $this;
+        return 'simulation_flags';
     }
 
     public function relations() {
@@ -84,5 +51,3 @@ class SimulationFlag extends CActiveRecord
         );
     }
 }
-
-

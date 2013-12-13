@@ -33,6 +33,33 @@
  */
 class Replica extends CActiveRecord implements IGameAction
 {
+    /**
+     * Probably we need aliases for dialog_subtype instead of ids
+     *
+     * @todo; fix this dirty trick
+     *
+     * @return bool
+     */
+    public function isEvent()
+    {
+        return (1 === (int)$this->dialog_subtype || 5 === (int)$this->dialog_subtype);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPhoneCall()
+    {
+        return (1 === (int)$this->dialog_subtype);
+    }
+
+    /**
+     * @return string
+     */
+    public function getCode()
+    {
+        return $this->code;
+    }
 
     /** ------------------------------------------------------------------------------------------------------------ **/
 
@@ -43,136 +70,15 @@ class Replica extends CActiveRecord implements IGameAction
      */
     public static function model($className=__CLASS__)
     {
-            return parent::model($className);
+        return parent::model($className);
     }
-
-    public function getCode()
-    {
-        return $this->code;
-    }
-
-    /**
-     * @todo; fix this dirty trick
-     * probebly we need aliaces for dialog_subtype instead of ids
-     * @return bool
-     */
-    public function isEvent()
-    {
-        return (1 === (int)$this->dialog_subtype || 5 === (int)$this->dialog_subtype);
-    }
-    
-    public function isPhoneCall()
-    {
-        return (1 === (int)$this->dialog_subtype);
-    }    
 
     /**
      * @return string the associated database table name
      */
     public function tableName()
     {
-            return 'replica';
-    }
-    
-    // old function
-    public function byBranch($branchId)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => 'branch_id = '.$branchId
-        ));
-        return $this;
-    }
-    
-    /**
-     * Выбрать по заданному идентификатору диалога
-     * @param int $id
-     * @return Replica
-     */
-    public function byId($id)
-    {
-        $this->getDbCriteria()->mergeWith(array('condition' => 'id = '.$id));
-        return $this;
-    }
-
-    /**
-     * Выбрать по коду и номеру шага.
-     * @param string $code
-     * @param int $stepNumber
-     * @return Replica
-     */
-    public function byCodeAndStepNumber($code, $stepNumber)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "code = '{$code}' and step_number = {$stepNumber}"
-        ));
-        return $this;
-    }
-    
-    /**
-     * Выбрать по номеру шага
-     * @param int $stepNumber
-     * @return Replica
-     */
-    public function byStepNumber($stepNumber)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "step_number = {$stepNumber}"
-        ));
-        return $this;
-    }
-    
-    /**
-     * Выбрать по номеру реплики
-     * @param int $replicaNumber
-     * @return Replica
-     */
-    public function byReplicaNumber($replicaNumber)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "replica_number = {$replicaNumber}"
-        ));
-        return $this;
-    }
-
-    /**
-     * Выбрать по полю excel_id - это исходный номер из эксель документа
-     * @param int $excelId
-     * @return Replica
-     */
-    public function byExcelId($excelId)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "excel_id = '{$excelId}'"
-        ));
-        return $this;
-    }
-    
-    /**
-     * Выбрать реплики для демо режима
-     * @param int $simulationType
-     * @return Replica
-     */
-    public function byDemo($simulationType)
-    {
-        if ($simulationType == 1) {  //
-            $this->getDbCriteria()->mergeWith(array(
-                'condition' => "demo = 1"
-            ));
-        }    
-        return $this;
-    }
-
-    /**
-     * Gets first replica of the dialog
-     * @param $code
-     * @return Replica
-     */
-    public function getFirstReplica($code) {
-        $criteria = new CDbCriteria();
-        $criteria->compare('code', $code);
-        $criteria->compare('step_number', 1);
-        $criteria->order = 'replica_number';
-        return $this->find($criteria);
+        return 'replica';
     }
 
     public function relations()
