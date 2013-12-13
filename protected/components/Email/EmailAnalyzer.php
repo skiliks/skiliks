@@ -175,7 +175,7 @@ class EmailAnalyzer
         /**
          * Add readedAt, plannedAt, repliedAt
          */
-        $temp_log_mail = LogMail::model()->bySimId($this->simId)->findAll();
+        $temp_log_mail = LogMail::model()->findAllByAttributes(['sim_id' => $this->simId]);
 
         foreach ($temp_log_mail as $logMailLine) {
             $mailId = $logMailLine->mail_id;

@@ -72,7 +72,7 @@ class MailBoxService
             $users[$senderId] = $senderId;
             $users[$receiverId] = $receiverId;
             /** @var $theme CommunicationTheme */
-            $theme = CommunicationTheme::model()->byId($message->subject_id)->find();
+            $theme = CommunicationTheme::model()->findByPk($message->subject_id);
 
             $subject = $theme->getFormattedTheme();
 
@@ -192,7 +192,7 @@ class MailBoxService
         // mark Readed
         $email->readed = 1;
         $email->save();
-        $themes = CommunicationTheme::model()->byId($email->subject_id)->find();
+        $themes = CommunicationTheme::model()->findByPk($email->subject_id);
         $subject = $themes->text;
 
         $message = array(
@@ -265,7 +265,7 @@ class MailBoxService
         if (NULL !== $id) {
             // получить код набора фраз
             /** @var $communicationTheme CommunicationTheme */
-            $communicationTheme = CommunicationTheme::model()->byId($id)->find();
+            $communicationTheme = CommunicationTheme::model()->findByPk($id);
             // Если у нас прописан какой-то конструктор
             if ($communicationTheme) {
                 $constructorNumber = $communicationTheme->constructor_number;

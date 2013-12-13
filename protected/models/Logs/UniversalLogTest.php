@@ -73,14 +73,14 @@ class UniversalLogTest extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'meeting' => array(self::BELONGS_TO, 'Meeting', 'meeting_id'),
-			'replica' => array(self::BELONGS_TO, 'Replica', 'replica_id'),
+			'meeting'        => array(self::BELONGS_TO, 'Meeting', 'meeting_id'),
+			'replica'        => array(self::BELONGS_TO, 'Replica', 'replica_id'),
 			'activityAction' => array(self::BELONGS_TO, 'ActivityAction', 'activity_action_id'),
-			'lastDialog' => array(self::BELONGS_TO, 'Replica', 'last_dialog_id'),
-			'file' => array(self::BELONGS_TO, 'MyDocuments', 'file_id'),
-			'mail' => array(self::BELONGS_TO, 'MailBox', 'mail_id'),
-			'sim' => array(self::BELONGS_TO, 'Simulations', 'sim_id'),
-			'window' => array(self::BELONGS_TO, 'Window', 'window_id'),
+			'lastDialog'     => array(self::BELONGS_TO, 'Replica', 'last_dialog_id'),
+			'file'           => array(self::BELONGS_TO, 'MyDocuments', 'file_id'),
+			'mail'           => array(self::BELONGS_TO, 'MailBox', 'mail_id'),
+			'sim'            => array(self::BELONGS_TO, 'Simulations', 'sim_id'),
+			'window'         => array(self::BELONGS_TO, 'Window', 'window_id'),
 		);
 	}
 
@@ -90,18 +90,18 @@ class UniversalLogTest extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'sim_id' => 'Sim',
-			'window_id' => 'Window',
-			'mail_id' => 'Mail',
-			'file_id' => 'File',
-			'replica_id' => 'Replica',
-			'last_dialog_id' => 'Last Dialog',
+			'id'                 => 'ID',
+			'sim_id'             => 'Sim',
+			'window_id'          => 'Window',
+			'mail_id'            => 'Mail',
+			'file_id'            => 'File',
+			'replica_id'         => 'Replica',
+			'last_dialog_id'     => 'Last Dialog',
 			'activity_action_id' => 'Activity Action',
-			'start_time' => 'Start Time',
-			'end_time' => 'End Time',
-			'meeting_id' => 'Meeting',
-			'window_uid' => 'Window Uid',
+			'start_time'         => 'Start Time',
+			'end_time'           => 'End Time',
+			'meeting_id'         => 'Meeting',
+			'window_uid'         => 'Window Uid',
 		);
 	}
 

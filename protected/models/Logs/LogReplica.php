@@ -15,6 +15,21 @@
  */
 class LogReplica extends CActiveRecord
 {
+    /**
+     * @return array customized attribute labels (name=>label)
+     */
+    public function attributeLabels()
+    {
+        return array(
+            'id' => 'ID',
+            'sim_id' => 'Sim',
+            'replica_id' => 'Replica',
+            'time' => 'Time',
+        );
+    }
+
+    /* ----------------------------------------------------------------------------------------------- */
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -38,13 +53,9 @@ class LogReplica extends CActiveRecord
 	 */
 	public function rules()
 	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
 		return array(
 			array('sim_id, replica_id, time', 'required'),
 			array('sim_id, replica_id', 'numerical', 'integerOnly'=>true),
-			// The following rule is used by search().
-			// Please remove those attributes that should not be searched.
 			array('id, sim_id, replica_id, time', 'safe', 'on'=>'search'),
 		);
 	}
@@ -54,24 +65,9 @@ class LogReplica extends CActiveRecord
 	 */
 	public function relations()
 	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
 		return array(
 			'replica' => array(self::BELONGS_TO, 'Replica', 'replica_id'),
 			'sim' => array(self::BELONGS_TO, 'Simulations', 'sim_id'),
-		);
-	}
-
-	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
-	public function attributeLabels()
-	{
-		return array(
-			'id' => 'ID',
-			'sim_id' => 'Sim',
-			'replica_id' => 'Replica',
-			'time' => 'Time',
 		);
 	}
 
@@ -81,9 +77,6 @@ class LogReplica extends CActiveRecord
 	 */
 	public function search()
 	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
-
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
