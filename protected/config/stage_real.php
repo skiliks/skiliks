@@ -33,9 +33,10 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
         ),
     ),
     'params' => array(
-        'server_name'    => 'http://skiliks.com',
+        'server_name'    => 'http://skiliks.com/',
         'frontendUrl'    => 'http://front.skiliks.com/',
         'runMigrationOn' => 'production',
+        'css-theme'      => '',
         'sentry' => [
             'dsn' => $sentryDsn,
         ],
