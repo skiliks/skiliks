@@ -84,11 +84,11 @@ class Activity extends CActiveRecord
     public function attributeLabels()
     {
         return array(
-            'id' => 'ID',
-            'parent' => 'Parent',
-            'grandparent' => 'Grandparent',
-            'name' => 'Name',
-            'category_id' => 'Category',
+            'id'           => 'ID',
+            'parent'       => 'Parent',
+            'grandparent'  => 'Grandparent',
+            'name'         => 'Name',
+            'category_id'  => 'Category',
         );
     }
 
