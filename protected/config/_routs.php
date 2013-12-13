@@ -230,7 +230,9 @@ return [
                 'admin_area/statistics/testAuth'                          => 'admin_area/AdminPages/TestAuth',
                 'admin_area/statistics/statistic-order-count'             => 'admin_area/AdminPages/StatisticOrderCount',
                 'admin_area/statistics/statistic-feedback-count'          => 'admin_area/AdminPages/StatisticFeedbackCount',
-                'admin_area/statistics/statistic-crash-simulation'        => 'admin_area/AdminPages/StatisticCrashSimulation',
+                'admin_area/statistics/user-blocked-authorization'        => 'admin_area/AdminPages/StatisticUserBlockedAuthorization',
+                'admin_area/users_managament/blocked-authorization-list'  => 'admin_area/AdminPages/UserBlockedAuthorizationList',
+
                 'admin_area/statistics/statistic-mail'                    => 'admin_area/AdminPages/StatisticMail',
                 'admin_area/statistics/free-disk-space'                   => 'admin_area/AdminPages/StatisticFreeDiskSpace',
                 'admin_area/invite/<inviteId:\w+>/switch-can-be-reloaded' => 'admin_area/AdminPages/InviteSwitchCanBeReloaded',
