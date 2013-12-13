@@ -28,8 +28,6 @@ class LearningGoalAnalyzer
         /** @var LearningGoal[] $learningGoals */
         $learningGoalGroups = $scenario->getLearningGoalGroups([]);
 
-        $except = HeroBehaviour::getExcludedFromAssessmentBehavioursCodes();
-
         $values = [];
         foreach ($this->simulation->game_type->getHeroBehavours([]) as $behaviour) {
             $values[$behaviour->id] = 0;
@@ -54,9 +52,6 @@ class LearningGoalAnalyzer
                 $totalPos = 0; $maxPos = 0;
                 $totalCons = 0; $maxCons = 0;
                 foreach ($goal->heroBehaviours as $behaviour) {
-                    if (in_array($behaviour->code, $except)) {
-                        continue;
-                    }
 
                     $value = $values[$behaviour->id];
 

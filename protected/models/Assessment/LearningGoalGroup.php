@@ -41,16 +41,12 @@ class LearningGoalGroup extends CActiveRecord
 	 */
 	public function rules()
 	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
 		return array(
 			array('code, scenario_id', 'required'),
 			array('scenario_id', 'numerical', 'integerOnly'=>true),
 			array('code', 'length', 'max'=>5),
 			array('import_id', 'length', 'max'=>14),
 			array('title', 'safe'),
-			// The following rule is used by search().
-			// Please remove those attributes that should not be searched.
 			array('id, code, title, import_id, scenario_id', 'safe', 'on'=>'search'),
 		);
 	}
@@ -60,8 +56,6 @@ class LearningGoalGroup extends CActiveRecord
 	 */
 	public function relations()
 	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
 		return array(
 			'simulationLearningGoalGroups' => array(self::HAS_MANY, 'SimulationLearningGoalGroup', 'learning_goal_group_id'),
             'learningGoals' => array(self::HAS_MANY, 'LearningGoal', 'learning_goal_group_id'),
@@ -74,10 +68,10 @@ class LearningGoalGroup extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'code' => 'Code',
-			'title' => 'Title',
-			'import_id' => 'Import',
+			'id'          => 'ID',
+			'code'        => 'Code',
+			'title'       => 'Title',
+			'import_id'   => 'Import',
 			'scenario_id' => 'Scenario',
 		);
 	}
@@ -88,11 +82,7 @@ class LearningGoalGroup extends CActiveRecord
 	 */
 	public function search()
 	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
-
 		$criteria=new CDbCriteria;
-
 		$criteria->compare('id',$this->id);
 		$criteria->compare('code',$this->code,true);
 		$criteria->compare('title',$this->title,true);

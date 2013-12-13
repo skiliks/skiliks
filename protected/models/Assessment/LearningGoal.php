@@ -21,7 +21,7 @@ class LearningGoal extends CActiveRecord
 
     /**
      *
-     * @param type $className
+     * @param string $className
      * @return HeroBehaviour
      */
     public static function model($className=__CLASS__)

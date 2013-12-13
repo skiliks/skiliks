@@ -2620,7 +2620,7 @@ class ImportGameDataService
             } elseif ($type == 'outbox' || $type == 'inbox') {
                 $entity = $this->scenario->getMailTemplate(['code' => $code]);
             } elseif ($type == 'excel') {
-                $entity = ExcelPointFormula::model()->byFormulaID($code)->find();
+                $entity = ExcelPointFormula::model()->findByPk($code);
             } else {
                 $entity = null;
             }

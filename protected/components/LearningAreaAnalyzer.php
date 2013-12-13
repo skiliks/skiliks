@@ -141,8 +141,6 @@ class LearningAreaAnalyzer {
         $maxRate = 0;
         $ids = [];
 
-        $except = HeroBehaviour::getExcludedFromAssessmentBehavioursCodes();
-
         $area = $scenario->getLearningArea(['code' => $learningAreaCode]);
         if ($area) {
             foreach ($area->learningGoalGroups as $learningGoalGroup) {
@@ -173,7 +171,7 @@ class LearningAreaAnalyzer {
         foreach ($behaviours as $behaviour) {
             // TODO: Anton decision
             // Remove out second condition
-            if ($behaviour->type_scale == 1 && !in_array($behaviour->code, $except)) {
+            if ($behaviour->type_scale == 1) {
                 $maxRate += $behaviour->scale;
             }
         }
@@ -198,7 +196,6 @@ class LearningAreaAnalyzer {
         $group_1_3_negative = 0;
         $group_1_3_max_negative = 0;
         $group_1_3 = null;
-        //$except = HeroBehaviour::getExcludedFromAssessmentBehavioursCodes();
 
         $area = $scenario->getLearningArea(['code' => $learningAreaCode]);
         if ($area) {

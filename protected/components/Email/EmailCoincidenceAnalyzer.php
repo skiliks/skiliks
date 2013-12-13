@@ -148,7 +148,7 @@ class EmailCoincidenceAnalyzer
         // mailAttachmentId {
         $mailAttachId = array();
         foreach (MailAttachment::model()->findAllByAttributes(['mail_id' => $this->userEmail->id]) as $attach) {
-            $doc = MyDocument::model()->byId($attach->file_id)->find();
+            $doc = MyDocument::model()->findByPk($attach->file_id);
             if (null !== $doc) {
                 $mailAttachId[] = $doc->template_id;
             }

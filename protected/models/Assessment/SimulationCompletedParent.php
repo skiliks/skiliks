@@ -38,14 +38,10 @@ class SimulationCompletedParent extends CActiveRecord
 	 */
 	public function rules()
 	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
 		return array(
 			array('sim_id', 'required'),
 			array('sim_id', 'numerical', 'integerOnly'=>true),
 			array('parent_code', 'length', 'max'=>5),
-			// The following rule is used by search().
-			// Please remove those attributes that should not be searched.
 			array('id, sim_id, parent_code', 'safe', 'on'=>'search'),
 		);
 	}
@@ -55,10 +51,7 @@ class SimulationCompletedParent extends CActiveRecord
 	 */
 	public function relations()
 	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
-		return array(
-		);
+		return array();
 	}
 
 	/**
@@ -67,8 +60,8 @@ class SimulationCompletedParent extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'sim_id' => 'Sim',
+			'id'          => 'ID',
+			'sim_id'      => 'Sim',
 			'parent_code' => 'Parent Code',
 		);
 	}
@@ -79,11 +72,7 @@ class SimulationCompletedParent extends CActiveRecord
 	 */
 	public function search()
 	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
-
 		$criteria=new CDbCriteria;
-
 		$criteria->compare('id',$this->id);
 		$criteria->compare('sim_id',$this->sim_id);
 		$criteria->compare('parent_code',$this->parent_code);

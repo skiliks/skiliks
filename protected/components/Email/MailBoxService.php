@@ -494,9 +494,9 @@ class MailBoxService
                 $attachment->insert();
 
                 // проверим тип документа
-                $fileTemplate = DocumentTemplate::model()->byId($row['file_id'])->find();
+                $fileTemplate = DocumentTemplate::model()->findByPk($row['file_id']);
                 if ($fileTemplate->type != 'start') {
-                    $file = MyDocument::model()->byId($fileId)->find();
+                    $file = MyDocument::model()->findByPk($fileId);
                     if ($file) {
                         $file->hidden = 1; // поскольку это аттач - спрячем его
                         $file->save();
