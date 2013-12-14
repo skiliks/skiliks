@@ -36,7 +36,7 @@ class AdminPagesController extends SiteBaseController {
 
     public function actionLiveSimulations() {
         $full_simulations = Simulation::model()->findAll([
-            'condition' => " `game_type`.`slug` = 'full' AND `t`.`start` > (NOW() - interval 3 hour) ",
+            'condition' => " `game_type`.`slug` = 'full' AND `t`.`start` > (NOW() - interval 3 HOUR) ",
             'with'=>array(
                 'user',
                 'invite',
@@ -47,7 +47,7 @@ class AdminPagesController extends SiteBaseController {
 
 
         $lite_simulations = Simulation::model()->findAll([
-            'condition' => " `game_type`.`slug` = 'lite' AND `t`.`start` > (NOW() - interval 35 hour) ",
+            'condition' => " `game_type`.`slug` = 'lite' AND `t`.`start` > (NOW() - interval 35 HOUR) ",
             'with'=>array(
                 'user',
                 'invite',
@@ -58,7 +58,7 @@ class AdminPagesController extends SiteBaseController {
 
 
         $tutorial_simulations = Simulation::model()->findAll([
-            'condition' => " `game_type`.`slug` = 'tutorial' AND `t`.`start` > (NOW() - interval 15 minute) ",
+            'condition' => " `game_type`.`slug` = 'tutorial' AND `t`.`start` > (NOW() - interval 15 MINUTE) ",
             'with'=>array(
                 'user',
                 'invite',
