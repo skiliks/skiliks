@@ -133,6 +133,13 @@
                 'visible' => true,
 
             ),
+
+            array(
+                'label' => 'Заблокированые пользователи',
+                'url'   => ['admin_area/AdminPages/UserBlockedAuthorizationList'],
+                'visible' => true,
+
+            ),
         ),
         'htmlOptions'=>array('class'=>'nav nav-list')
     )) ?>

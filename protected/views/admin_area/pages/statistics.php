@@ -44,8 +44,8 @@
        </td>
    </tr>
     <tr>
-        <td class="td-statistic statistic-crash-simulation">
-            <div>Crash simulations</div>
+        <td class="td-statistic user-blocked-authorization">
+            <div>User blocked with authorization</div>
             <div class="status"></div>
             <div class="author"></div>
         </td>
