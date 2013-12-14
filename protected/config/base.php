@@ -94,7 +94,7 @@ return CMap::mergeArray(
         'params' => array(
             // имя сервера, стоб понимать с какого сервера пришли письма про подозрительную активность
             // формат 'http://domain.com/'
-            'server_name'                   => 'http://skiliks.com/',
+            'server_name'                   => 'не задан',
 
             // просто подпись на сайте, вынесена в конфиг - чтоб было проще править
             'demoDuration'                  => 5, // min

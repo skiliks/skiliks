@@ -75,7 +75,7 @@ function runStat() {
     update_stat('.statistic-free-disk-space', '/admin_area/statistics/free-disk-space');
     update_stat('.statistic-order-count', '/admin_area/statistics/statistic-order-count');
     update_stat('.statistic-feedback-count', '/admin_area/statistics/statistic-feedback-count');
-    update_stat('.statistic-crash-simulation', '/admin_area/statistics/statistic-crash-simulation');
+    update_stat('.user-blocked-authorization', '/admin_area/statistics/user-blocked-authorization');
     update_stat('.statistic-mail', '/admin_area/statistics/statistic-mail');
 }
 $(document).ready(function(){

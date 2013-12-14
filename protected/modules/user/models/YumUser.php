@@ -16,7 +16,7 @@
  * @property integer $agree_with_terms
  * @property integer $is_admin
  * @property string $ip_address
- * @property string is_password_bruteforce_detected
+ * @property string $is_password_bruteforce_detected
  * @property string $authorization_after_bruteforce_key
  *
  * Relations
