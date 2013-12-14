@@ -1316,19 +1316,9 @@ class AdminPagesController extends SiteBaseController {
         echo json_encode($res);
     }
 
-    public function actionStatisticCrashSimulation()
+    public function actionStatisticUserBlockedAuthorization()
     {
-        $full = Scenario::model()->findByAttributes(['slug'=>Scenario::TYPE_FULL]);
-        $lite = Scenario::model()->findByAttributes(['slug'=>Scenario::TYPE_LITE]);
-        $full_crash = (int)Simulation::model()->count(" end is null and start <= :start and scenario_id = :scenario_id", [
-            'start'=>date('Y-m-d H:i:s', strtotime('-3 hours')),
-            'scenario_id'=>$full->id
-        ]);
-        $lite_crash = (int)Simulation::model()->count(" end is null and start <= :start and scenario_id = :scenario_id", [
-            'start'=>date('Y-m-d H:i:s', strtotime('-1 hours')),
-            'scenario_id'=>$lite->id
-        ]);
-        $total = $full_crash + $lite_crash;
+        $total = (int)YumUser::model()->countByAttributes(['is_password_bruteforce_detected'=>YumUser::IS_PASSWORD_BRUTEFORCE_DETECTED]);
         if($total !== 0) {
             $res['status'] = 'failure';
         } else {
@@ -2148,5 +2138,14 @@ class AdminPagesController extends SiteBaseController {
             'devPermissions'
                 => YumPermission::model()->findAllByAttributes(['action' => 1]),
         ]);
+    }
+
+    public function actionUserBlockedAuthorizationList() {
+
+        /* @var YumUser[] $users */
+        $users = YumUser::model()->findAllByAttributes(['is_password_bruteforce_detected'=>YumUser::IS_PASSWORD_BRUTEFORCE_DETECTED]);
+        $this->layout = '/admin_area/layouts/admin_main';
+
+        $this->render('//admin_area/pages/users_managament/blocked-authorization-list', ['users'=>$users]);
     }
 }
