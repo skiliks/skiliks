@@ -47,7 +47,7 @@ class AdminPagesController extends SiteBaseController {
 
 
         $lite_simulations = Simulation::model()->findAll([
-            'condition' => " `game_type`.`slug` = 'lite' AND `t`.`start` > (NOW() - interval 35 HOUR) ",
+            'condition' => " `game_type`.`slug` = 'lite' AND `t`.`start` > (NOW() - interval 35 MINUTE) ",
             'with'=>array(
                 'user',
                 'invite',
