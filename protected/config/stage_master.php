@@ -32,7 +32,8 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
         ),
     ),
     'params'=>array(
-        'frontendUrl'=>'http://master.skiliks.com/',
+        'frontendUrl' => 'http://master.skiliks.com/',
+        'server_name' => 'http://master.skiliks.com/',
         'public' => [],
         'sentry' => [
             'dsn' => $sentryDsn,
