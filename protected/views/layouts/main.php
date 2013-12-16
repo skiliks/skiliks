@@ -3,8 +3,8 @@
 $cs = Yii::app()->clientScript;
 $assetsUrl = $this->getAssetsUrl();
 $cs->scriptMap=array(
-    'jquery.js'=>$assetsUrl . '/js/jquery/jquery-1.9.1.min.js',
-    'jquery.min.js'=>$assetsUrl . '/js/jquery/jquery-1.9.1.min.js',
+    'jquery.js'=>$assetsUrl . '/js/jquery/jquery-1.10.2.js',
+    'jquery.min.js'=>$assetsUrl . '/js/jquery/jquery-1.10.2.js',
     'jquery.ba-bbq.js'=>$assetsUrl . '/js/jquery/jquery.ba-bbq.js',
 );
 $cs->registerCoreScript('jquery');
