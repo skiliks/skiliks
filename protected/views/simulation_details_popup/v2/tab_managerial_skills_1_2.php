@@ -18,7 +18,7 @@
                 <div class="popover-content"><div class="popup-content ">По всем текущим задачам постановка в план самой приоритетной задачи на самое раннее время, по сравнению с менее приоритетной, при условии, что у задачи нет фиксированного времени выполнения</div></div></div><span class="thelabel"><div><span class="list-counter">1.2 </span><a href="#" class="list-text">Правильное определение приоритетов задач при планировании</a></div></span><a class="questn show-popover show-popover-1 popover-margin3" href="#"></a></div>
 
             <div class="labelwrap"><div class="popover" style="display: block;"><div class="popover-triangle"></div>
-                <div class="popover-content"><div class="popup-content ">Всегда выполняется самая приоритетная задача из всех известных на данный момент</div></div></div><span class="thelabel"><div><span class="list-counter">1.3 </span><a href="#" class="list-text">Выполнение задач в соответствии с приоритетами</a></div></span><a class="questn show-popover show-popover-1 popover-margin3" href="#"></a></div>
+                <div class="popover-content"><div class="popup-content ">Всегда выполняется самая приоритетная задача из всех известных на данный момент</div></div></div><span class="thelabel"><div><span class="list-counter">1.3 </span><a href="#" class="list-text">Выполнение задач с учётом приоритетов</a></div></span><a class="questn show-popover show-popover-1 popover-margin3" href="#"></a></div>
 
             <div class="labelwrap"><span class="thelabel"><div><span class="list-counter">1.4 </span>
                 <a href="#" class="list-text">Прерывание при выполнении задач</a></div></span></div>
