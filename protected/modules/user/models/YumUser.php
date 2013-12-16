@@ -1080,12 +1080,12 @@ class YumUser extends YumActiveRecord
     private function sendBannedEmail() {
         $body = Yii::app()->controller->renderPartial('//global_partials/mails/ban', ['email' => $this->profile->email], true);
 
-        $mail = [
-            'from' => Yum::module('registration')->recoveryEmail,
-            'to' => $this->profile->email,
-            'subject' => 'Ваш аккаунт на skiliks.com заблокирован', //Yii::t('site', 'You requested a new password'),
-            'body' => $body,
-            'embeddedImages' => [
+        $mail = new SiteEmailOptions();
+        $mail->from = Yum::module('registration')->recoveryEmail;
+        $mail->to = $this->profile->email;
+        $mail->subject = 'Ваш аккаунт на skiliks.com заблокирован'; //Yii::t('site', 'You requested a new password'),
+        $mail->body = $body;
+        $mail->embeddedImages = [
                 [
                     'path'     => Yii::app()->basePath.'/assets/img/mailtopclean.png',
                     'cid'      => 'mail-top-clean',
@@ -1105,8 +1105,7 @@ class YumUser extends YumActiveRecord
                     'encoding' => 'base64',
                     'type'     => 'image/png',
                 ],
-            ],
-        ];
+            ];
 
         $sent = MailHelper::addMailToQueue($mail);
 

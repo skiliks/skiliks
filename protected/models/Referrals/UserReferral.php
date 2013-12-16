@@ -108,12 +108,12 @@ class UserReferral extends CActiveRecord
         ], true);
 
 
-        $mail = [
-            'from'        => Yum::module('registration')->registrationEmail,
-            'to'          => $this->referral_email,
-            'subject'     => 'Приглашение зарегистрироваться на skiliks.com',
-            'body'        => $body,
-            'embeddedImages' => [
+        $mail = new SiteEmailOptions();
+        $mail->from       = Yum::module('registration')->registrationEmail;
+        $mail->to          = $this->referral_email;
+        $mail->subject     = 'Приглашение зарегистрироваться на skiliks.com';
+        $mail->body        = $body;
+        $mail->embeddedImages = [
                 [
                     'path'     => Yii::app()->basePath.'/assets/img/mail-top.png',
                     'cid'      => 'mail-top',
@@ -151,8 +151,7 @@ class UserReferral extends CActiveRecord
                     'encoding' => 'base64',
                     'type'     => 'image/png',
                 ],
-            ],
-        ];
+            ];
 
         try {
             $sent = MailHelper::addMailToQueue($mail);

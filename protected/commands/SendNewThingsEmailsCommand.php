@@ -16,12 +16,12 @@ class SendNewThingsEmailsCommand extends CConsoleCommand
 
             $body = $this->renderFile($path, [], true);
 
-            $mail = [
-                'from'        => 'support@skiliks.com',
-                'to'          => $account->user->profile->email,
-                'subject'     => 'ВАЖНО! Изменения и возможности в новой версии skiliks.com',
-                'body'        => $body,
-                'embeddedImages' => [
+            $mail = new SiteEmailOptions();
+                $mail->from        = 'support@skiliks.com';
+                $mail->to          = $account->user->profile->email;
+                $mail->subject     = 'ВАЖНО! Изменения и возможности в новой версии skiliks.com';
+                $mail->body        = $body;
+                $mail->embeddedImages = [
                     [
                         'path'     => Yii::app()->basePath.'/assets/img/mail-top.png',
                         'cid'      => 'mail-top',
@@ -59,8 +59,7 @@ class SendNewThingsEmailsCommand extends CConsoleCommand
                         'encoding' => 'base64',
                         'type'     => 'image/png',
                     ],
-                ],
-            ];
+                ];
 
             try {
                 MailHelper::addMailToQueue($mail);

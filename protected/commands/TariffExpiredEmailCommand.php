@@ -36,13 +36,12 @@ class TariffExpiredEmailCommand extends CConsoleCommand {
                     'user' => $user
                 ], true);
 
-
-                $mail = [
-                    'from'        => 'support@skiliks.com',
-                    'to'          => $user->profile->email,
-                    'subject'     => 'Неиспользованные симуляции на skiliks.com',
-                    'body'        => $body,
-                    'embeddedImages' => [
+                $mail = new SiteEmailOptions();
+                $mail->from        = 'support@skiliks.com';
+                $mail->to          = $user->profile->email;
+                $mail->subject     = 'Неиспользованные симуляции на skiliks.com';
+                $mail->body        = $body;
+                $mail->embeddedImages = [
                         [
                             'path'     => Yii::app()->basePath.'/assets/img/mail-top.png',
                             'cid'      => 'mail-top',
@@ -80,8 +79,7 @@ class TariffExpiredEmailCommand extends CConsoleCommand {
                             'encoding' => 'base64',
                             'type'     => 'image/png',
                         ],
-                    ],
-                ];
+                    ];
 
                 try {
                     MailHelper::addMailToQueue($mail);

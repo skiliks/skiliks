@@ -7,26 +7,26 @@ class MailHelper
 {
     /**
      * Добавление письма в очередь
-     * @param array $email
+     * @param SiteEmailOptions $email
      * @return bool
      */
-    public static function addMailToQueue(array $email)
+    public static function addMailToQueue(SiteEmailOptions $email)
     {
         $queue = new EmailQueue();
-        $queue->sender_email = $email['from'];
-        $queue->recipients = $email['to'];
+        $queue->sender_email = $email->from;
+        $queue->recipients = $email->to;
         $queue->copies = '';
-        $queue->subject = $email['subject'];
-        $queue->body = $email['body'];
+        $queue->subject = $email->subject;
+        $queue->body = $email->body;
         $queue->created_at = (new DateTime('now'))->format("Y-m-d H:i:s");
         $queue->status = EmailQueue::STATUS_PENDING;
-        $queue->attachments = json_encode(empty($email['embeddedImages'])?[]:$email['embeddedImages']);
+        $queue->attachments = json_encode(empty($email->embeddedImages)?[]:$email->embeddedImages);
         return $queue->save();
     }
 
     /**
      * Добавление писем в очередь
-     * @param array $emails
+     * @param SiteEmailOptions[] $emails
      * @return bool
      */
     public static function addMailsToQueue(array $emails)
@@ -100,12 +100,12 @@ class MailHelper
                 'firstname' => $user->profile->firstname
             ], true);
 
-            $mail = array(
-                'from' => Yum::module('registration')->registrationEmail,
-                'to' => $personal_email,
-                'subject' => 'Обновление регистрации skiliks.com',
-                'body' => $body,
-                'embeddedImages' => [
+            $mail = new SiteEmailOptions();
+            $mail->from = Yum::module('registration')->registrationEmail;
+            $mail->to = $personal_email;
+            $mail->subject = 'Обновление регистрации skiliks.com';
+            $mail->body = $body;
+            $mail->embeddedImages = [
                 [
                     'path'     => Yii::app()->basePath.'/assets/img/mail-top.png',
                     'cid'      => 'mail-top',
@@ -143,8 +143,7 @@ class MailHelper
                     'encoding' => 'base64',
                     'type'     => 'image/png',
                 ],
-            ]
-            );
+            ];
             MailHelper::addMailToQueue($mail);
 
             $user->profile->email = strtolower($corporate_email);
@@ -194,12 +193,12 @@ class MailHelper
                     'invite' => $invite
                 ], true);
 
-                $mail = array(
-                    'from' => Yum::module('registration')->registrationEmail,
-                    'to' => 'support@skiliks.com',
-                    'subject' => 'Внимание! Подозрительная активность от аккаунта '.$invite->ownerUser->profile->email.' на '.Yii::app()->params['server_name'],
-                    'body' => $body,
-                    'embeddedImages' => [
+                $mail = new SiteEmailOptions();
+                $mail->from = Yum::module('registration')->registrationEmail;
+                $mail->to = 'support@skiliks.com';
+                $mail->subject = 'Внимание! Подозрительная активность от аккаунта '.$invite->ownerUser->profile->email.' на '.Yii::app()->params['server_name'];
+                $mail->body = $body;
+                $mail->embeddedImages = [
                         [
                             'path'     => Yii::app()->basePath.'/assets/img/mail-top.png',
                             'cid'      => 'mail-top',
@@ -237,8 +236,7 @@ class MailHelper
                             'encoding' => 'base64',
                             'type'     => 'image/png',
                         ],
-                    ]
-                );
+                    ];
                 MailHelper::addMailToQueue($mail);
 
             }

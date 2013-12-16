@@ -101,12 +101,11 @@ class CashPaymentMethod extends CFormModel {
                 'invoice' => $invoice, 'user' => $user, 'invoice_data' => json_decode($invoice->additional_data)
             ], true);
 
-            $mail = [
-                'from'        => Yum::module('registration')->registrationEmail,
-                'to'          => $bookerEmail,
-                'subject'     => 'New invoice #'.$invoice->id . " от " . $user->account_corporate->company_name ,
-                'body'        => $body,
-            ];
+            $mail = new SiteEmailOptions();
+            $mail->from       = Yum::module('registration')->registrationEmail;
+            $mail->to         = $bookerEmail;
+            $mail->subject    = 'New invoice #'.$invoice->id . " от " . $user->account_corporate->company_name;
+            $mail->body       = $body;
 
             try {
                 $sent = MailHelper::addMailToQueue($mail);
