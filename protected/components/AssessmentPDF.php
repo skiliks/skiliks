@@ -9,16 +9,18 @@ class AssessmentPDF {
 
     const BAR_POSITIVE = 'positive';
     const BAR_NEGATIVE = 'negative';
+
     /**
-     * @var TCPDF
+     * @var TCPDF $pdf
      */
-    public $pdf;
-    public $images_dir;
+    public $pdf = null;
     public $page_number = 1;
+
+    private $images_dir = null;
+
     public function __construct() {
         $this->pdf = Yii::createComponent('application.components.tcpdf.tcpdf',
             'P', 'mm', 'A4', true, 'UTF-8');
-        $this->images_dir = __DIR__.'/../system_data/tcpdf/images/';
 
         //Убрать отступы по краям
         $this->pdf->SetMargins(0,0,0, true);
@@ -467,4 +469,11 @@ class AssessmentPDF {
 
     }
 
+    /**
+     * @param string $path
+     */
+    public function setImagesDir($path)
+    {
+        $this->images_dir = __DIR__.'/../system_data/tcpdf/'.$path;
+    }
 }
