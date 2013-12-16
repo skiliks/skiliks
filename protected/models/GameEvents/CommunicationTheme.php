@@ -121,7 +121,7 @@ class CommunicationTheme extends CActiveRecord
     }
 
     /**
-     * @param $themes
+     * @param LogCommunicationThemeUsage $themes
      * @return bool
      */
     public function themeIsUsed($themes) {
