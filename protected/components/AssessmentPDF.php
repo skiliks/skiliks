@@ -15,38 +15,49 @@ class AssessmentPDF {
      * Скруглённые углы бара с левой стороны
      */
     const ROUNDED_LEFT = '0011';
+
     /**
      * Скруглённые углы бара с правой стороны
      */
     const ROUNDED_RIGHT = '1100';
+
     /**
      * Скруглённые углы бара с обох сторон
      */
     const ROUNDED_BOTH = '1111';
+
     /**
      * Без скруглённых углов
      */
     const ROUNDED_NONE = '0000';
 
+    /* ----------------------------- */
+
     /**
      * Бар по позитивной шкале
      */
     const BAR_POSITIVE = 'positive';
+
     /**
      * Бар по негативной шкале
      */
     const BAR_NEGATIVE = 'negative';
+
+    /* ----------------------------- */
+
     /**
      * Класс для генерации pdf
      * @var TCPDF
      * @link http://tcpdf.org
      */
-    public $pdf;
+    public $pdf = null;
+
     /**
      * Путь к jpg, png и eps файлам для pdf
      * @var string
      */
-    public $images_dir;
+    private $images_dir = null;
+
     /**
      * Номер страницы
      * @var int
@@ -60,7 +71,6 @@ class AssessmentPDF {
     public function __construct() {
         $this->pdf = Yii::createComponent('application.components.tcpdf.tcpdf',
             'P', 'mm', 'A4', true, 'UTF-8');
-        $this->images_dir = __DIR__.'/../system_data/tcpdf/images/';
 
         //Убрать отступы по краям
         $this->pdf->SetMargins(0,0,0, true);
@@ -587,4 +597,11 @@ class AssessmentPDF {
 
     }
 
+    /**
+     * @param string $path
+     */
+    public function setImagesDir($path)
+    {
+        $this->images_dir = __DIR__.'/../system_data/tcpdf/'.$path;
+    }
 }
