@@ -17,6 +17,10 @@
 class CashPaymentMethod extends CFormModel {
 
     public $name = "cash";
+    public $inn = null;
+    public $cpp = null;
+    public $account = null;
+    public $bic = null;
 
     public function rules()
     {
