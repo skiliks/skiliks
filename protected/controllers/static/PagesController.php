@@ -168,12 +168,12 @@ class PagesController extends SiteBaseController
                     'message'=>$model->message
                 ], true);
 
-                $mail = array(
-                    'from' => Yum::module('registration')->registrationEmail,
-                    'to' => 'help@skiliks.com',
-                    'subject' => 'Новый отзыв',
-                    'body' => $body,
-                    'embeddedImages' => [
+                $mail = new SiteEmailOptions();
+                $mail->from = Yum::module('registration')->registrationEmail;
+                $mail->to = 'help@skiliks.com';
+                $mail->subject = 'Новый отзыв';
+                $mail->body = $body;
+                $mail->embeddedImages = [
                         [
                             'path'     => Yii::app()->basePath.'/assets/img/mail-top.png',
                             'cid'      => 'mail-top',
@@ -211,8 +211,7 @@ class PagesController extends SiteBaseController
                             'encoding' => 'base64',
                             'type'     => 'image/png',
                         ],
-                    ]
-                );
+                    ];
                 MailHelper::addMailToQueue($mail);
                 Yii::app()->user->setFlash('success', 'Спасибо за ваш отзыв!');
             }

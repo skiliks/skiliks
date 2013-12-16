@@ -243,12 +243,12 @@ class Invoice extends CActiveRecord
         ]);
 
 
-        $mail = [
-            'from'        => Yum::module('registration')->registrationEmail,
-            'to'          => $this->user->profile->email,
-            'subject'     => 'Оплата на skiliks.com',
-            'body'        => $body,
-            'embeddedImages' => [
+        $mail = new SiteEmailOptions();
+        $mail->from       = Yum::module('registration')->registrationEmail;
+        $mail->to         = $this->user->profile->email;
+        $mail->subject    = 'Оплата на skiliks.com';
+        $mail->body       = $body;
+        $mail->embeddedImages = [
                 [
                     'path'     => Yii::app()->basePath.'/assets/img/mailtopclean.png',
                     'cid'      => 'mail-top-clean',
@@ -268,8 +268,7 @@ class Invoice extends CActiveRecord
                     'encoding' => 'base64',
                     'type'     => 'image/png',
                 ],
-            ],
-        ];
+            ];
 
         try {
             $sent = MailHelper::addMailToQueue($mail);

@@ -208,12 +208,12 @@ class UserService {
 
         $body = Yii::app()->getController()->renderPartial('//global_partials/mails/registration', ['link' => $activation_url], true);
 
-        $mail = array(
-            'from' => Yum::module('registration')->registrationEmail,
-            'to' => $user->profile->email,
-            'subject' => 'Активация на сайте skiliks.com',
-            'body' => $body,
-            'embeddedImages' => [
+        $mail = new SiteEmailOptions();
+        $mail->from = Yum::module('registration')->registrationEmail;
+        $mail->to = $user->profile->email;
+        $mail->subject = 'Активация на сайте skiliks.com';
+        $mail->body = $body;
+        $mail->embeddedImages = [
                 [
                     'path'     => Yii::app()->basePath.'/assets/img/mailtopangela.png',
                     'cid'      => 'mail-top-angela',
@@ -233,8 +233,7 @@ class UserService {
                     'encoding' => 'base64',
                     'type'     => 'image/png',
                 ],
-            ],
-        );
+            ];
         $sent = MailHelper::addMailToQueue($mail);
 
         return $sent;
@@ -442,12 +441,12 @@ class UserService {
             'invite' => $invite
         ]);
 
-        $mail = [
-            'from'        => Yum::module('registration')->registrationEmail,
-            'to'          => $invite->email,
-            'subject'     => 'Приглашение пройти симуляцию на Skiliks.com',
-            'body'        => $body,
-            'embeddedImages' => [
+        $mail = new SiteEmailOptions();
+        $mail->from       = Yum::module('registration')->registrationEmail;
+        $mail->to         = $invite->email;
+        $mail->subject    = 'Приглашение пройти симуляцию на Skiliks.com';
+        $mail->body       = $body;
+        $mail->embeddedImages = [
                 [
                     'path'     => Yii::app()->basePath.'/assets/img/mail-top.png',
                     'cid'      => 'mail-top',
@@ -485,8 +484,7 @@ class UserService {
                     'encoding' => 'base64',
                     'type'     => 'image/png',
                 ],
-            ],
-        ];
+            ];
 
         $invite->markAsSendToday();
         $invite->save();
@@ -774,12 +772,12 @@ class UserService {
                     'user' => $account->user
                 ]);
 
-                $mail = [
-                    'from'        => 'support@skiliks.com',
-                    'to'          => $account->user->profile->email,
-                    'subject'     => 'Истёк тарифный план',
-                    'body'        => $body,
-                    'embeddedImages' => [
+                $mail = new SiteEmailOptions();
+                $mail->from = 'support@skiliks.com';
+                $mail->to = $account->user->profile->email;
+                $mail->subject = 'Истёк тарифный план';
+                $mail->body = $body;
+                $mail->embeddedImages = [
                         [
                             'path'     => Yii::app()->basePath.'/assets/img/mail-top.png',
                             'cid'      => 'mail-top',
@@ -817,8 +815,7 @@ class UserService {
                             'encoding' => 'base64',
                             'type'     => 'image/png',
                         ],
-                    ],
-                ];
+                    ];
 
                 MailHelper::addMailToQueue($mail);
                 // send email for any account }
