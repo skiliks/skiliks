@@ -16,7 +16,11 @@
 
 class RobokassaPaymentMethod extends CFormModel {
 
-    public $name = "robokassa";
+    public $name                = "robokassa";
+    public $MerchantLogin       = null;
+    public $Description         = null;
+    public $sMerchantPass1      = null;
+    public $sMerchantPass2      = null;
     public $payment_method_view = "//static/payment/robokassa_payment_method";
 
     /**
