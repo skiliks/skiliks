@@ -78,6 +78,9 @@
 
     <div class="estmfooter">
         <a class="prev" href="#prev"><?php echo Yii::t('site', 'Back') ?></a>
+        <?php if($simulation->isFull()) : ?>
+            <a class="fullreport" href="/pdf/simulation-detail-pdf/<?= $simulation->id ?>/<?= $simulation->assessment_version ?>"><?php echo Yii::t('site', 'Полный отчет') ?></a>
+        <?php endif ?>
         <a class="next" href="#next"><?php echo Yii::t('site', 'Next') ?></a>
     </div>
 </div>

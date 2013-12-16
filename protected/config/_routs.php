@@ -179,7 +179,8 @@ return [
                 'statistics/CiTests' => 'statistics/statistics/CiTests',
                 'statistics/OrderCount' => 'statistics/statistics/OrderCount',
                 'statistics/FeedbackCount' => 'statistics/statistics/FeedbackCount',
-                'pdf/simulation-detail-pdf' => 'PDF/SimulationDetailPDF',
+
+                'pdf/simulation-detail-pdf/<sim_id:\w+>/<assessment_version:\w+>' => 'PDF/SimulationDetailPDF',
 
                 'logService/addInviteLog' => 'static/statistic/addInviteLog',
 

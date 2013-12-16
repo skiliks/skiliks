@@ -69,6 +69,9 @@ class Simulation extends CActiveRecord
     const STATUS_INTERRUPTED = 'interrupted';
     const STATUS_COMPLETE    = 'complete';
 
+    const ASSESSMENT_VERSION_1 = 'v1';
+    const ASSESSMENT_VERSION_2 = 'v2';
+
     public $id;
 
     //public $assessment_version;
