@@ -161,18 +161,6 @@ class MailBoxService
             $receivers[$key] = $row['receiver'];
 
         }
-//
-//        if ($order == 'subject') {
-//            array_multisort($subjects, $orderFlag, $list);
-//        }
-//
-//        if ($order == 'sender') {
-//            array_multisort($senders, $orderFlag, $list);
-//        }
-//
-//        if ($order == 'receiver') {
-//            array_multisort($receivers, $orderFlag, $list);
-//        }
 
         return array_values($list);
     }
