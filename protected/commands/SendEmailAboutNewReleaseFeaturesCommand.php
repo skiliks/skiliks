@@ -1,21 +1,23 @@
 <?php
 
-class SendCustomCommand extends CConsoleCommand
+class SendEmailAboutNewReleaseFeaturesCommand extends CConsoleCommand
 {
     public function actionIndex($email)
     {
         $emails = [];
-        if($email === 'all') {
+        $mode = $email;
+
+        if($mode === 'all' || $mode === 'test') {
             /* @var $profile YumProfile */
             foreach(YumProfile::model()->findAll() as $profile) {
                 $emails[$profile->email] = $profile->firstname;
             }
-        }elseif($email === 'all_corporate') {
+        }elseif($mode === 'all_corporate') {
             /* @var $account UserAccountCorporate */
             foreach(UserAccountCorporate::model()->findAll() as $account) {
                 $emails[$account->user->profile->email]=$account->user->profile->firstname;
             }
-        }elseif($email === 'all_personal'){
+        }elseif($mode === 'all_personal'){
             /* @var $account UserAccountPersonal */
             foreach(UserAccountPersonal::model()->findAll() as $account) {
                 $emails[$account->user->profile->email]=$account->user->profile->firstname;
@@ -36,6 +38,13 @@ class SendCustomCommand extends CConsoleCommand
                 $not_valid[] = $email;
                 continue;
             }
+
+            if ($mode === 'test') {
+                if (in_array($email, ['tony@skiliks.com', 'leah.levin@skiliks.com', 'masha@skiliks.com'])) {
+                    continue;
+                }
+            }
+
             $body = UserService::renderEmailPartial('custom_mail', [
                 'name' => $name
             ]);
