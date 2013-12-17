@@ -49,12 +49,12 @@ class SendEmailAboutNewReleaseFeaturesCommand extends CConsoleCommand
                 'name' => $name
             ]);
 
-            $mail = array(
-                'from' => Yum::module('registration')->registrationEmail,
-                'to' => $email,
-                'subject' => 'Новые возможности skiliks',
-                'body' => $body,
-                'embeddedImages' => [
+            $mail = new SiteEmailOptions();
+            $mail->from = Yum::module('registration')->registrationEmail;
+            $mail->to = $email;
+            $mail->subject = 'Новые возможности skiliks';
+            $mail->body = $body;
+            $mail->embeddedImages = [
                     [
                         'path'     => Yii::app()->basePath.'/assets/img/mailtopangela.png',
                         'cid'      => 'mail-top-angela',
@@ -74,8 +74,7 @@ class SendEmailAboutNewReleaseFeaturesCommand extends CConsoleCommand
                         'encoding' => 'base64',
                         'type'     => 'image/png',
                     ],
-                ],
-            );
+                ];
             $sent = MailHelper::addMailToQueue($mail);
             if($sent) {
                 $count_send++;
