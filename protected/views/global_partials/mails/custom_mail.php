@@ -74,7 +74,7 @@
                             Кроме того, мы повысили стабильность процесса тестирования, точность результатов,
                             улучшили работу настроек безопасности, сделали кабинет и симуляцию немного удобнее.<br/><br/>
                             Используйте skiliks с удовольствием и делитесь своими впечатлениями!<br/><br/>
-                            Пожалуйста, зайдите в ваш кабинет для запуска новой версии и отправки приглашений кандидатам.<br/><br/>
+                            Пожалуйста, <a href="<?= MailHelper::createUrlWithHostname("dashboard") ?>">зайдите</a> в ваш кабинет для запуска новой версии и отправки приглашений кандидатам.<br/><br/>
                             Спасибо, что вы с нами!</p>
                         <p style="margin:0 0 15px 0;text-align:justify;line-height:20px;"><strong style="color:#555545;font-family:Tahoma, Geneva, sans-serif;font-weight:bold;font-size:14px">Ваш skiliks</strong></p>
                         <p><a style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;" href="http://www.skiliks.com">www.skiliks.com</a></p></td>
