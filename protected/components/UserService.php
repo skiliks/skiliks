@@ -1018,16 +1018,15 @@ class UserService {
      */
     public static function sendNoticeEmailAfterMaxAuthAttempt(array $logs) {
 
-        $mails = [];
-        $body = self::renderEmailPartial('bruteforce_notice_for_support', ['logs'=>$logs]);
+        $mail1                 = new SiteEmailOptions();
+        $mail1->from           = Yum::module('registration')->recoveryEmail;
+        $mail1->to             = 'support@skiliks.com';
+        $mail1->subject        = 'Обнаружена попытка подобрать пароль на '.Yii::app()->params['server_name'];
+        $mail1->body           = self::renderEmailPartial('bruteforce_notice_for_support', ['logs'=>$logs]);
+        $mail1->embeddedImages = [];
 
-        $mails[] = [
-            'from' => Yum::module('registration')->recoveryEmail,
-            'to' => 'support@skiliks.com',
-            'subject' => 'Обнаружена попытка подобрать пароль на '.Yii::app()->params['server_name'], //Yii::t('site', 'You requested a new password'),
-            'body' => $body,
-            'embeddedImages' => [],
-        ];
+        $mails = [$mail1];
+
         /* @var $profile YumProfile */
         $profile = YumProfile::model()->findByAttributes(['email'=>$logs[0]->login]);
         if(null !== $profile) {
@@ -1047,12 +1046,13 @@ class UserService {
                 'user_id'=>$profile->user_id,
                 'key'=>$key
             ]);
-            $mails[] = [
-                'from' => Yum::module('registration')->recoveryEmail,
-                'to' => $profile->email,
-                'subject' => 'Обнаружена попытка подобрать пароль', //Yii::t('site', 'You requested a new password'),
-                'body' => $body,
-                'embeddedImages' => [
+
+            $mail2                 = new SiteEmailOptions();
+            $mail2->from           = Yum::module('registration')->recoveryEmail;
+            $mail2->to             = $profile->email;
+            $mail2->subject        = 'Обнаружена попытка подобрать пароль';
+            $mail2->body           = $body;
+            $mail2->embeddedImages = [
                 [
                     'path'     => Yii::app()->basePath.'/assets/img/mailtopclean.png',
                     'cid'      => 'mail-top-clean',
@@ -1072,8 +1072,9 @@ class UserService {
                     'encoding' => 'base64',
                     'type'     => 'image/png',
                 ],
-            ],
             ];
+
+            $mails[] = $mail2;
         }
 
         MailHelper::addMailsToQueue($mails);
@@ -1088,17 +1089,98 @@ class UserService {
     }
 
     /**
-     * Аунифицырует пользователя
+     * Аутентифицирует и авторизирует пользователя
+     *
      * @param YumUser $user
+     * @param bool | string $password
+     * @param integer $duration, seconds
+     * @param YumUserLogin $loginForm
+     *
+     * @return null|YumUserLogin|YumUser|bool
      */
-    public static function authenticate(YumUser $user) {
-        $identity = new YumUserIdentity($user->username, false);
+    public static function authenticate(YumUser $user, $password = false, $duration = 0, YumUserLogin $loginForm = null)
+    {
+        $withoutPassword = (false == $password);
 
-        $identity->authenticate(true);
+        // Почему-то, Yii не воспринимает значение $duration.
+        //
+        // Как, на мой взгляд, Yii рабоатет сейчас
+        // в принципе значение $duration не важно, если оно больше нуля
+        // сессия всегда будет жить то время, которое указано в конфиге (Yii::app()->getSession()->getTimeout())
+        //
+        // в случае, если 0 == $duration -- сессия не заносится в куки, но живёт getTimeout() секунд
+        // в случае, если 0 < $duration  -- сессия заносится в куки, но живёт, всё равно, getTimeout() секунд
+        //
+        // по сути, $duration -- это "булевый парамерт" ("0" или "не 0"), который дублирует 'allowAutoLogin' и 'cookieMode',
+        // но на програмном уровне в методе login()
+        if (null != $loginForm) {
+            $duration = ( true == $loginForm->rememberMe ) ? Yii::app()->getSession()->getTimeout() : 0;
+        }
 
-        Yii::app()->user->login($identity);
+        $identity = new YumUserIdentity($user->username, $password);
+        $identity->authenticate($withoutPassword);
+
+        switch($identity->errorCode) {
+            case YumUserIdentity::ERROR_EMAIL_INVALID:
+                throw new CHttpException(200, 'Неправильное имя пользователя или пароль.');
+            case YumUserIdentity::ERROR_STATUS_INACTIVE:
+                throw new CHttpException(200, 'Аккаунт неактивен.');
+            case YumUserIdentity::ERROR_STATUS_BANNED:
+                throw new CHttpException(200, 'Аккаунт заблокирован');
+            case YumUserIdentity::ERROR_STATUS_REMOVED:
+                throw new CHttpException(200, 'Аккаунт удалён.');
+            case YumUserIdentity::ERROR_PASSWORD_INVALID:
+                throw new CHttpException(200, 'Неправильное имя пользователя или пароль.');
+        }
+
+        if (null == $loginForm) {
+            Yii::app()->user->login($identity, $duration);
+            return;
+        } else {
+            switch($identity->errorCode) {
+                case YumUserIdentity::ERROR_NONE:
+                    $duration = $loginForm->rememberMe ?
+                        Yii::app()->getSession()->getTimeout()
+                        : 0;
+
+                    Yii::app()->user->login($identity,$duration);
+
+                    if($user->failedloginattempts > 0)
+                        Yum::setFlash(Yum::t(
+                            'Warning: there have been {count} failed login attempts', array(
+                            '{count}' => $user->failedloginattempts)));
+
+                    $user->failedloginattempts = 0;
+                    $user->save(false, array('failedloginattempts'));
+                    return $user;
+
+                    break;
+                case YumUserIdentity::ERROR_EMAIL_INVALID:
+                    $loginForm->addError("password", Yii::t('site', 'Wrong email or password'));
+                    $user->failedloginattempts += 1;
+                    $user->save(false, array('failedloginattempts'));
+                    break;
+                case YumUserIdentity::ERROR_STATUS_INACTIVE:
+                    $loginForm->addError("status",Yum::t('This account is not activated.'));
+                    break;
+                case YumUserIdentity::ERROR_STATUS_BANNED:
+                    $loginForm->addError("status",Yum::t('This account is blocked.'));
+                    break;
+                case YumUserIdentity::ERROR_STATUS_REMOVED:
+                    $loginForm->addError('status', Yum::t('Your account has been deleted.'));
+                    break;
+                case YumUserIdentity::ERROR_PASSWORD_INVALID:
+                    if(!$loginForm->hasErrors())
+                        $loginForm->addError("password", Yii::t('site', 'Wrong email or password'));
+                    $user->failedloginattempts += 1;
+                    $user->save(false, array('failedloginattempts'));
+                    return false;
+                    break;
+            }
+
+            return $loginForm;
+        }
     }
-
 }
 
 

@@ -56,18 +56,23 @@ return CMap::mergeArray(
                 'connectionID' => 'db',
                 'autoCreateCacheTable' => false
             ),
+            /** @link: http://www.yiiframework.com/doc/api/1.1/CWebUser */
+            'user' => array(
+                'class'           => 'application.modules.user.components.YumWebUser',
+
+                // whether to enable cookie-based login.
+                'allowAutoLogin'  => true,
+
+                // whether to automatically renew the identity cookie each time a page is requested.
+                'autoRenewCookie' => true,
+            ),
             'session' => array(
                 'class'                  => 'CDbHttpSession',
                 'autoCreateSessionTable' => false,
                 'connectionID'           => 'db',
                 'sessionName'            => 'sid',
                 'cookieMode'             => 'allow',
-                'timeout'                => 60*60*24*31, // 1 mouth
-            ),
-            'user' => array(
-                'class'          => 'application.modules.user.components.YumWebUser',
-                'allowAutoLogin' => true,
-                // 'loginUrl'    => array('//user/user/login'),
+                'timeout'                => 60*60*24*7, // 7 days
             ),
             'excel'=>array(
                 'class' => 'application.extensions.PHPExcel',

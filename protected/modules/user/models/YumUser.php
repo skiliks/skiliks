@@ -1035,9 +1035,18 @@ class YumUser extends YumActiveRecord
         }
     }
 
+    /**
+     * Newer user?
+     *
+     * @param $password
+     * @param int $duration
+     * @return bool|null|YumUser|YumUserLogin
+     */
     public function authenticate($password, $duration = 10000)
     {
-        $identity = new YumUserIdentity($this->username, $password);
+        throw new Exception('Мы не используем YumUser::authenticate');
+
+        /*$identity = new YumUserIdentity($this->username, $password);
         $identity->authenticate();
 
         switch($identity->errorCode) {
@@ -1051,9 +1060,9 @@ class YumUser extends YumActiveRecord
         throw new CHttpException(200, 'Аккаунт удалён.');
             case YumUserIdentity::ERROR_PASSWORD_INVALID:
         throw new CHttpException(200, 'Неправильное имя пользователя или пароль.');
-        }
+        }*/
 
-        Yii::app()->user->login($identity, $duration);
+        //Yii::app()->user->login($identity, $duration);
         //Yii::app()->session['uid'] = $this->id;
     }
 

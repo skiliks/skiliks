@@ -50,7 +50,7 @@ $assetsUrl = $this->getAssetsUrl();
 <?php if($user->is_password_bruteforce_detected === YumUser::IS_PASSWORD_BRUTEFORCE_DETECTED) : ?>
     &nbsp; &nbsp;
     <a class="btn btn-success" href="/admin_area/user-bruteforce/?user_id=<?= $user->id ?>&set=<?=YumUser::IS_NOT_PASSWORD_BRUTEFORCE?>">
-        Розблокировать авторизацию
+        Разблокировать авторизацию
     </a>
 <?php else : ?>
     &nbsp; &nbsp;

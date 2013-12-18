@@ -447,6 +447,9 @@ class UserAuthController extends YumController
      * be initially set to 1 (active - first Visit) so the administrator
      * can see, which accounts have been activated, but not yet logged in
      * (more than once)
+     *
+     * @parameter string $email
+     * @parameter string $key
      */
     public function actionActivation($email, $key) {
 
@@ -480,9 +483,10 @@ class UserAuthController extends YumController
 
         if($user instanceof YumUser) {
             if(Yum::module('registration')->loginAfterSuccessfulActivation) {
-                $login = new YumUserIdentity($user->username, false);
-                $login->authenticate(true);
-                Yii::app()->user->login($login);
+                UserService::authenticate($user);
+//                $login = new YumUserIdentity($user->username, false);
+//                $login->authenticate(true);
+//                Yii::app()->user->login($login, 60);
             }
 
             if ($user->isPersonal()) {
@@ -560,14 +564,19 @@ class UserAuthController extends YumController
         ]);
     }
 
-    public function actionRecovery($email = null, $key = null)
+    /**
+     * Восстановление пароля
+     *
+     * @param string $email
+     * @param string $key
+     */
+    public function actionRecovery($email, $key)
     {
         $recoveryForm = new YumPasswordRecoveryForm;
         $passwordForm = new YumUserChangePassword;
 
         $YumPasswordRecoveryForm = Yii::app()->request->getParam('YumPasswordRecoveryForm');
         $YumUserChangePassword = Yii::app()->request->getParam('YumUserChangePassword');
-
 
         if (null !== $email && null !== $key && null !== $YumUserChangePassword) {
             $profile = YumProfile::model()->findByAttributes(['email' => strtolower($email)]);
@@ -582,9 +591,10 @@ class UserAuthController extends YumController
 
                     Yii::app()->user->setFlash('success password-recovery-step-4', 'Новый пароль успешно сохранен');
                     if (Yum::module('registration')->loginAfterSuccessfulRecovery) {
-                        $login = new YumUserIdentity($user->username, false);
-                        $login->authenticate(true);
-                        Yii::app()->user->login($login);
+                          UserService::authenticate($user);
+//                        $login = new YumUserIdentity($user->username, false);
+//                        $login->authenticate(true);
+//                        Yii::app()->user->login($login, 60);
                     }
 
                     $this->redirect('/');
