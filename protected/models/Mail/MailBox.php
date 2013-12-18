@@ -16,6 +16,8 @@
  * @property string  $letter_type
  * @property string | NULL $coincidence_type, тип совпадения - смотри self::COINCIDENCE_xxx
  * @property string | NULL $coincidence_mail_code, MS1, MS2 etc.
+ * @property string  $theme_id
+ * @property string  $theme_prefix
  *
  * @property integer (bool) $readed, is readed
  * @property integer (bool) $plan, is planed
@@ -40,6 +42,7 @@
  * @property MailAttachment     $attachment
  * @property MailBox            $parentMail
  * @property MailFolder         $folder
+ * @property Theme              $theme
  *
  */
 class MailBox extends CActiveRecord
@@ -75,6 +78,21 @@ class MailBox extends CActiveRecord
         self::FOLDER_TRASH_ID  => self::FOLDER_TRASH_ALIAS,
         self::FOLDER_NOT_RECEIVED_EMAILS_ID => self::FOLDER_NOT_RECEIVED_ALIAS
     );
+
+    public $mailPrefix = [
+        'fwd' => 'Fwd: ',
+        'fwdfwd' => 'Fwd: Fwd: ',
+        'fwdre' => 'Fwd: Re: ',
+        'fwdrefwd' => 'Fwd: Re: Fwd: ',
+        'fwdrere' => 'Fwd: Re: Re: ',
+        'fwdrerere' => 'Fwd: Re: Re: Re: ',
+        're' => 'Re: ',
+        'refwd' => 'Re: Fwd: ',
+        'rere' => 'Re: Re: ',
+        'rerefwd' => 'Re: Re: Fwd: ',
+        'rerere' => 'Re: Re: Re: ',
+        'rererere' => 'Re:: Re: Re: Re: '
+    ];
 
     /** ------------------------------------------------------------------------------------------------------------ **/
 
@@ -237,6 +255,7 @@ class MailBox extends CActiveRecord
             'attachment'    => array(self::HAS_ONE, 'MailAttachment', 'mail_id'),
             'parentMail'    => array(self::BELONGS_TO, 'MailBox', 'message_id'),
             'folder'        => array(self::BELONGS_TO, 'MailFolder', 'group_id'),
+            'theme'         => [self::BELONGS_TO, 'Theme', 'theme_id']
         );
     }
 }

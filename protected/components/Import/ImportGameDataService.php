@@ -1099,7 +1099,7 @@ class ImportGameDataService
      * @throws Exception
      * @return array
      */
-    public function importCommunicationThemes()
+    public function importAllThemes()
     {
         $this->logStart();
 
@@ -1121,32 +1121,38 @@ class ImportGameDataService
             $characters[$characterItem->code] = $characterItem->id;
         }
 
-        $nullCharacter = new Character();
-        $charactersList[] = $nullCharacter;
-
-        $mailPrefixes = [];
-        foreach (MailPrefix::model()->findAll() as $prefix) {
-            $mailPrefixes[$prefix->code] = $prefix->title;
-        }
-
         $html = '';
-
+        $themes_unique = []; //Уникальные темы без повторения
         for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
-            $themeId = $this->getCellValue($sheet, 'Original_Theme_id', $i); // A
-            if (null === $themeId) {
+            $theme_usage = $this->getCellValue($sheet, 'Theme_usage', $i);
+            if(false === in_array($theme_usage, ['phone', 'mail_outbox'])) {
                 continue;
             }
+            $theme_code = $this->getCellValue($sheet, 'Original_Theme_id', $i); // A
+            if (null === $theme_code) {
+                continue;
+            }
+
+            $theme = $this->scenario->getTheme(['theme_code'=>$theme_code]);
+            if($theme === null) {
+                $theme = new Theme();
+                $theme->theme_code = $theme_code;
+            }
+            $theme->text = $this->getCellValue($sheet, 'Original_Theme_text', $i);
+            $theme->import_id = $this->import_id;
+            $theme->scenario_id = $this->scenario->id;
+            $theme->save(false);
+
             // Определение кода персонажа
             $characterCode = $this->getCellValue($sheet, 'To_code', $i); // A
             if ($characterCode === '' || $characterCode === '-' || NULL == $characterCode) {
                 $characterCode = null;
-                $characterId = null;
             } else {
                 $characterId = $characters[$characterCode];
                 assert($characterId);
             }
             // Определим тему письма
-            $subjectText = $this->getCellValue($sheet, 'Original_Theme_text', $i);
+            $subjectText =
             //$subjectText = StringTools::fixReAndFwd($subjectText);
             // Phone
             $themeUsage = $this->getCellValue($sheet, 'Theme_usage', $i);
@@ -1218,172 +1224,6 @@ class ImportGameDataService
 
             assert($communicationTheme->save());
             unset($communicationTheme);
-        }
-
-        foreach (CommunicationTheme::model()->findAllByAttributes(['import_id' => $this->import_id, 'scenario_id' => $this->scenario->primaryKey]) as $communicationTheme) {
-            if ($communicationTheme->mail) {
-                // add fwd for all themes without fwd {
-                foreach ($charactersList as $character) {
-                    if (false === isset($mailPrefixes[sprintf('fwd%s', $communicationTheme->mail_prefix)])) {
-                        throw new Exception('MailPrefix ' . 'fwd' . $communicationTheme->mail_prefix . ' not found.');
-                    }
-                    $goodTheme = $this->scenario->getCommunicationTheme([
-                        'code'         => $communicationTheme->code,
-                        'character_id' => $character->primaryKey,
-                        'mail_prefix'  => sprintf('fwd%s', $communicationTheme->mail_prefix),
-                    ]);
-                    if ($goodTheme !== null) {
-                        $goodTheme->import_id = $this->import_id;
-                        $goodTheme->scenario_id = $this->scenario->primaryKey;
-                        $goodTheme->save();
-                        continue;
-                    }
-
-                    $wrongTheme = new CommunicationTheme();
-                    $wrongTheme->mail = 1;
-                    $wrongTheme->mail_prefix = sprintf('fwd%s', $communicationTheme->mail_prefix);
-                    assert($wrongTheme->mail_prefix !== null);
-                    $wrongTheme->wr = 'W';
-                    $wrongTheme->code = $communicationTheme->code;
-                    $wrongTheme->text = $communicationTheme->text;
-                    $wrongTheme->constructor_number = 'B1';
-                    $wrongTheme->character_id = $character->primaryKey;
-                    $wrongTheme->import_id = $this->import_id;
-                    $wrongTheme->scenario_id = $this->scenario->primaryKey;
-                    $wrongTheme->theme_usage = CommunicationTheme::USAGE_OUTBOX;
-                    $wrongTheme->save();
-                }
-
-                // add fwd: for NULl character - server returns it when you press "write forward" and character already unknown
-                $wrongTheme = new CommunicationTheme();
-                $wrongTheme->mail = 1;
-                $wrongTheme->mail_prefix = sprintf('fwd%s', $communicationTheme->mail_prefix);
-                assert($wrongTheme->mail_prefix !== null);
-                $wrongTheme->wr = 'W';
-                $wrongTheme->code = $communicationTheme->code;
-                $wrongTheme->text = $communicationTheme->text;
-                $wrongTheme->constructor_number = 'B1';
-                $wrongTheme->character_id = NULL;
-                $wrongTheme->import_id = $this->import_id;
-                $wrongTheme->scenario_id = $this->scenario->primaryKey;
-                $wrongTheme->theme_usage = CommunicationTheme::USAGE_OUTBOX;
-                $wrongTheme->save();
-                // add fwd: for NULl character }
-
-                // add fwd for all themes without fwd }
-
-                // add re for all themes without fwd {
-                foreach ($charactersList as $character) {
-                    if (false === isset($mailPrefixes[sprintf('fwd%s', $communicationTheme->mail_prefix)])) {
-                        continue;
-                    }
-                    $goodTheme = $this->scenario->getCommunicationTheme([
-                        'code'         => $communicationTheme->code,
-                        'character_id' => $character->primaryKey,
-                        'mail_prefix'  => sprintf('re%s', $communicationTheme->mail_prefix),
-                    ]);
-                    if ($goodTheme !== null) {
-                        $goodTheme->import_id = $this->import_id;
-                        $goodTheme->scenario_id = $this->scenario->primaryKey;
-                        $goodTheme->save();
-                        continue;
-                    }
-
-
-                    $wrongTheme = new CommunicationTheme();
-                    $wrongTheme->mail = 1;
-                    $wrongTheme->mail_prefix = sprintf('re%s', $communicationTheme->mail_prefix);
-                    assert($wrongTheme->mail_prefix !== null);
-                    $wrongTheme->wr = 'W';
-                    $wrongTheme->code = $communicationTheme->code;
-                    $wrongTheme->text = $communicationTheme->text;
-                    $wrongTheme->constructor_number = 'B1';
-                    $wrongTheme->character_id = $character->primaryKey;
-                    $wrongTheme->import_id = $this->import_id;
-                    $wrongTheme->scenario_id = $this->scenario->primaryKey;
-                    $wrongTheme->theme_usage = CommunicationTheme::USAGE_OUTBOX;
-                    $wrongTheme->save();
-                }
-                // add re for all themes without fwd }
-            }
-
-            // add wrong forwards for each character, except 'R' {
-            foreach ($charactersList as $character) {
-                if (!MailPrefix::model()->findByPk(sprintf('fwd%s', $communicationTheme->mail_prefix))) {
-                    throw new Exception('MailPrefix ' . 'fwd' . $communicationTheme->mail_prefix . ' not found.');
-                }
-                $goodTheme = $this->scenario->getCommunicationTheme([
-                    'code'         => $communicationTheme->code,
-                    'character_id' => $character->primaryKey,
-                    'mail_prefix'  => sprintf('fwd%s', $communicationTheme->mail_prefix),
-                    'theme_usage'  => CommunicationTheme::USAGE_OUTBOX,
-                ]);
-                if ($goodTheme !== null) {
-                    $goodTheme->import_id = $this->import_id;
-                    $goodTheme->scenario_id = $this->scenario->primaryKey;
-                    $goodTheme->save();
-                    continue;
-                }
-
-                $wrongTheme = new CommunicationTheme();
-                $wrongTheme->mail = 1;
-                $wrongTheme->mail_prefix = sprintf('fwd%s', $communicationTheme->mail_prefix);
-                assert($wrongTheme->mail_prefix !== null);
-                $wrongTheme->wr = 'W';
-                $wrongTheme->code = $communicationTheme->code;
-                $wrongTheme->text = $communicationTheme->text;
-                $wrongTheme->constructor_number = 'B1';
-                $wrongTheme->character_id = $character->primaryKey;
-                $wrongTheme->import_id = $this->import_id;
-                $wrongTheme->scenario_id = $this->scenario->primaryKey;
-                $wrongTheme->theme_usage = CommunicationTheme::USAGE_OUTBOX;
-                $wrongTheme->save();
-            }
-            // add wrong forwards for each character, except 'R' }
-        }
-
-        $my_characters = $this->scenario->getCharacters([]);
-
-        foreach($my_characters as $my_character) {
-            /* @var $my_character Character */
-            $mail_count = (int)CommunicationTheme::model()->countByAttributes([
-                'character_id' => $my_character->id,
-                'mail'=> 1,
-                'scenario_id'=>$this->scenario->id,
-                'mail_prefix'=>null,
-                'import_id'=>$this->import_id
-            ]);
-
-            $phone_count = (int)CommunicationTheme::model()->countByAttributes([
-                'character_id' => $my_character->id,
-                'phone'=> 1,
-                'scenario_id'=>$this->scenario->id,
-                'import_id'=>$this->import_id
-            ]);
-
-            assert(is_int($mail_count));
-            assert(is_int($phone_count));
-
-            if($mail_count === 0){
-                $char = Character::model()->findByPk($my_character->id);
-                $char->has_mail_theme = 0;
-                $char->update();
-            }else{
-                $char = Character::model()->findByPk($my_character->id);
-                $char->has_mail_theme = 1;
-                $char->update();
-            }
-            unset($char);
-            if($phone_count === 0){
-                $char = Character::model()->findByPk($my_character->id);
-                $char->has_phone_theme = 0;
-                $char->update();
-            }else{
-                $char = Character::model()->findByPk($my_character->id);
-                $char->has_phone_theme = 1;
-                $char->update();
-            }
-            unset($char);
         }
         // remove all old, unused characterMailThemes after import {
         CommunicationTheme::model()->deleteAll('import_id<>:import_id AND scenario_id = :scenario_id', array('import_id' => $this->import_id, 'scenario_id' => $this->scenario->primaryKey));
@@ -3063,7 +2903,7 @@ class ImportGameDataService
         $result['my_documents'] = $this->importMyDocuments();
         $result['character_points'] = $this->importDialogPoints();
         $result['constructor'] = $this->importMailConstructor();
-        $result['email_subjects'] = $this->importCommunicationThemes();
+        $result['email_subjects'] = $this->importThemes();
         $result['emails'] = $this->importEmails();
         $result['mail_attaches'] = $this->importMailAttaches();
         $result['mail_events'] = $this->importMailEvents();
