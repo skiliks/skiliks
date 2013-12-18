@@ -144,20 +144,23 @@ class YumRegistrationController extends YumController {
 
 		// If everything is set properly, let the model handle the Validation
 		// and do the Activation
-		$status = YumUser::activate($email, $key);
+		$user = YumUser::activate($email, $key);
 
-		if($status instanceof YumUser) {
+		if($user instanceof YumUser) {
 			if(Yum::module('registration')->loginAfterSuccessfulActivation) {
-				$login = new YumUserIdentity($status->username, false); 
-				$login->authenticate(true);
-				Yii::app()->user->login($login);	
+
+                UserService::authenticate($user);
+
+//				$login = new YumUserIdentity($user->username, false);
+//				$login->authenticate(true);
+//				Yii::app()->user->login($login);
 			}
 
             $this->redirect('/dashboard');
 		}
 		else {}
 			$this->render(Yum::module('registration')->activationFailureView, array(
-						'error' => $status));
+						'error' => $user));
 	}
 
 	/**
@@ -183,9 +186,12 @@ class YumRegistrationController extends YumController {
 							$user->activationKey = YumEncrypt::encrypt(microtime() . $passwordform->password, $user->salt);
 							$user->save();
 							if(Yum::module('registration')->loginAfterSuccessfulRecovery) {
-								$login = new YumUserIdentity($user->username, false); 
-								$login->authenticate(true);
-								Yii::app()->user->login($login);
+
+                                UserService::authenticate($user);
+
+//								$login = new YumUserIdentity($user->username, false);
+//								$login->authenticate(true);
+//								Yii::app()->user->login($login);
 								$this->redirect(Yii::app()->homeUrl);
 							}
 							else {

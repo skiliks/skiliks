@@ -39,6 +39,8 @@ class YumUserLogin extends YumFormModel {
 
     public function beforeValidate() {
         $this->username = trim($this->username);
+        $this->rememberMe = (bool)$this->rememberMe;
+
         return true;
     }
 

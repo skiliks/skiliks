@@ -1990,11 +1990,10 @@ class AdminPagesController extends SiteBaseController {
         }
 
         // непосредственно "пере-аутентификация"
-        $identity = new YumUserIdentity($user->username, false);
-
-        $identity->authenticate(true);
-
-        Yii::app()->user->login($identity);
+        UserService::authenticate($user);
+//        $identity = new YumUserIdentity($user->username, false);
+//        $identity->authenticate(true);
+//        Yii::app()->user->login($identity);
 
         $this->redirect('/dashboard');
     }
