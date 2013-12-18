@@ -14,11 +14,14 @@
  * @property string  $code, 'M1', 'MS8' ...
  * @property string  $flag_to_switch, 'F12'
  * @property string  $import_id
+ * @property string  $theme_id
+ * @property string  $theme_prefix
  *
  * @property CommunicationTheme       $subject_obj
  * @property ActivityParent[]         $termination_parent_actions
  * @property MailAttachmentTemplate[] $attachments
  * @property Scenario                 $game_type
+ * @property Theme                    $theme
  *
  */
 class MailTemplate extends CActiveRecord implements IGameAction
@@ -83,7 +86,8 @@ class MailTemplate extends CActiveRecord implements IGameAction
             'attachments'                => [self::HAS_MANY, 'MailAttachmentTemplate', 'mail_id'],
             'game_type'                  => [self::BELONGS_TO, 'Scenario', 'scenario_id'],
             'sender'                     => [self::BELONGS_TO, 'Character', 'sender_id'],
-            'recipient'                  => [self::BELONGS_TO, 'Character', 'receiver_id']
+            'recipient'                  => [self::BELONGS_TO, 'Character', 'receiver_id'],
+            'theme'                      => [self::BELONGS_TO, 'Theme', 'theme_id']
         ];
     }
 }

@@ -46,6 +46,7 @@
  * @property ScenarioConfig $scenario_config
  *
  * @method Replica getReplica
+ * @method Theme getTheme
  * @method Activity getActivity
  * @method ActivityAction getActivityAction
  * @method ActivityParentAvailability getActivityParentAvailability
