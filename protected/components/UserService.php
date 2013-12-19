@@ -783,7 +783,8 @@ class UserService {
     }
 
     /**
-     * Отправляет письмо о том, что аккаунт скоро устареет, за 3 дня до даты истечения
+     * Отправляет письмо о том, что аккаунт скоро устареет, за 3 дня до даты истечения.
+     * Если у аккаунта 0 симуляций - письмо отправлять не надо.
      *
      * @return UserAccountCorporate[]
      */
@@ -811,6 +812,10 @@ class UserService {
             /* @var $tariff_plan TariffPlan */
             foreach( $tariff_plans as $tariff_plan ) {
                 $account = $tariff_plan->user->account_corporate;
+
+                if($account->getTotalAvailableInvitesLimit() == 0) {
+                    continue;
+                }
 
                 $expiredSoonAccounts[] = $account;
 
