@@ -567,10 +567,10 @@ class UserAuthController extends YumController
     /**
      * Восстановление пароля
      *
-     * @param string $email
-     * @param string $key
+     * @param string $email, null - значение по умолчанию необходимо
+     * @param string $key  , null - значение по умолчанию необходимо
      */
-    public function actionRecovery($email, $key)
+    public function actionRecovery($email = null, $key = null)
     {
         $recoveryForm = new YumPasswordRecoveryForm;
         $passwordForm = new YumUserChangePassword;

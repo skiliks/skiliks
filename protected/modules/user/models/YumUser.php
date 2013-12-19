@@ -1044,7 +1044,7 @@ class YumUser extends YumActiveRecord
      */
     public function authenticate($password, $duration = 10000)
     {
-        throw new Exception('Мы не используем YumUser::authenticate');
+        UserService::authenticate($this, $password, $duration);
 
         /*$identity = new YumUserIdentity($this->username, $password);
         $identity->authenticate();

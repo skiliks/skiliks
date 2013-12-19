@@ -81,10 +81,11 @@ return [
 
                 'static/break-simulations-for-self-to-self-invites' =>'static/site/breakSimulationsForSelfToSelfInvites',
 
-                'recovery'                  => 'static/userAuth/recovery',
-                'results'                   =>'static/userAuth/results',
-                'simulation/results'        =>'static/userAuth/results', // just to handle JS 'Sim stop'
-                'site/results'              =>'static/userAuth/results',
+                'recovery' => 'static/userAuth/recovery',
+
+                'results'                   => 'static/userAuth/results',
+                'simulation/results'        => 'static/userAuth/results', // just to handle JS 'Sim stop'
+                'site/results'              => 'static/userAuth/results',
 
                 'userAuth/<action:\w+>'     => 'static/userAuth/<action>',
                 'registration/<action:\w+>' => 'static/userAuth/<action>',
