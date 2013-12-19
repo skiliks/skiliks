@@ -161,6 +161,11 @@ define([] ,function() {
         letterType: undefined,
 
         /**
+         * Префикс для темы
+         */
+        mail_prefix:undefined,
+
+        /**
          * @method isSubjectValid
          * @returns {boolean}
          */

@@ -72,9 +72,9 @@ class MailBoxService
             $users[$senderId] = $senderId;
             $users[$receiverId] = $receiverId;
             /** @var $theme CommunicationTheme */
-            $theme = CommunicationTheme::model()->findByPk($message->subject_id);
 
-            $subject = $theme->getFormattedTheme();
+
+            $subject = $message->getFormattedTheme(); //$theme->getFormattedTheme();
 
             $readed = $message->readed;
             // Для черновиков и исходящих письма всегда прочитаны - fix issue 69
@@ -107,7 +107,8 @@ class MailBoxService
             $item = array(
                 'id'          => $message->id,
                 'subject'     => $subject,
-                'subjectId'   => $theme->id,
+                'theme_id'    => $message->theme_id,
+                'subjectId'   => $message->theme_id,
                 'text'        => $message->message ?: self::buildMessage($message->id),
                 'template'    => (NULL !== $message->template) ? $message->template->code : NULL,
                 'sentAt'      => GameTime::getDateTime($message->sent_at),
@@ -118,6 +119,7 @@ class MailBoxService
                 'attachments' => 0,
                 'folder'      => $folderId,
                 'letterType'  => ('' === $message->letter_type ? 'new' : $message->letter_type),
+                'mail_prefix' => $message->mail_prefix
             );
 
             if (!empty($messageId)) {
@@ -413,8 +415,8 @@ class MailBoxService
         // копируем само письмо
         $connection = Yii::app()->db;
         $sql = "insert into mail_box
-            (sim_id, template_id, group_id, sender_id, sent_at, receiver_id, message, subject_id, code, type, letter_type)
-            select :simId, id, group_id, sender_id, sent_at, receiver_id, message, subject_id, code, type, ''
+            (sim_id, template_id, group_id, sender_id, sent_at, receiver_id, message, subject_id, code, type, letter_type, theme_id, mail_prefix)
+            select :simId, id, group_id, sender_id, sent_at, receiver_id, message, subject_id, code, type, '', theme_id, mail_prefix
             from mail_template
             where mail_template.code = :code AND scenario_id = :scenario_id";
 
@@ -513,8 +515,8 @@ class MailBoxService
 
         $connection = Yii::app()->db;
         $sql = "insert into mail_box
-            (sim_id, template_id, group_id, sender_id, receiver_id, message, readed, subject_id, code, sent_at, type, letter_type)
-            select :simId, id, group_id, sender_id, receiver_id, message, 1, subject_id, code, sent_at, type, ''
+            (sim_id, template_id, group_id, sender_id, receiver_id, message, readed, subject_id, code, sent_at, type, letter_type, theme_id, mail_prefix)
+            select :simId, id, group_id, sender_id, receiver_id, message, 1, subject_id, code, sent_at, type, '', theme_id, mail_prefix
             from mail_template  where group_id IN (1,3) AND scenario_id=:scenario_id";
 
         $command = $connection->createCommand($sql);

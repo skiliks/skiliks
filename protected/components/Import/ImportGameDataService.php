@@ -901,6 +901,8 @@ class ImportGameDataService
             }
 
             $theme = $this->scenario->getTheme(['theme_code'=>$subject_id]);
+            var_dump('Theme_id: ', $theme->id);
+            var_dump('Code: ', $code);
             $emailTemplateEntity->group_id = $group;
             $emailTemplateEntity->sender_id = $fromId;
             $emailTemplateEntity->receiver_id = $toId;
@@ -915,7 +917,7 @@ class ImportGameDataService
             $emailTemplateEntity->scenario_id = $this->scenario->primaryKey;
             $emailTemplateEntity->flag_to_switch = (empty($flag))?null:$flag;
 
-            $emailTemplateEntity->save();
+            $emailTemplateEntity->save(false);
             $emailIds[] = $emailTemplateEntity->id;
 
             // учтем поинты (оценки, marks)
