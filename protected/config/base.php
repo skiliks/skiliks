@@ -151,25 +151,25 @@ return CMap::mergeArray(
             'emails' => [
                 'isDisplayStandardInvitationMailTopText' => true, // 'Вопросы относительно вакансии вы можете задать по адресу %s, куратор вакансии - %s.'
 
-                'inviteEmailTemplate'      => 'invite_default',
+                'inviteEmailTemplate'        => 'invite_default',
 
-                'tariffExpiredTemplate'    => 'tariff_expired',
+                'tariffExpiredSoonTemplate'  => 'tariff_expired_soon',
 
-                'tariffExpiredTemplateIfInvitesZero' => 'tariff_expired_if_invites_zero',
+                'tariffExpiredTodayTemplate' => 'tariff_expired_today',
 
-                'newInvoiceToBooker'       => '//global_partials/mails/new_invoice',
+                'newInvoiceToBooker'         => '//global_partials/mails/new_invoice',
 
-                'completeInvoiceUserEmail' => 'completeInvoiceUserEmail',
+                'completeInvoiceUserEmail'   => 'completeInvoiceUserEmail',
 
-                'referrerInviteEmail'      => '//global_partials/mails/referrerEmail',
+                'referrerInviteEmail'        => '//global_partials/mails/referrerEmail',
 
-                'noticeEmail'              => '//global_partials/mails/noticeEmail',
+                'noticeEmail'                => '//global_partials/mails/noticeEmail',
 
-                'newFeedback'              => '//global_partials/mails/newFeedback',
+                'newFeedback'                => '//global_partials/mails/newFeedback',
 
-                'ifSuspiciousActivity'     => '//global_partials/mails/ifSuspiciousActivity',
+                'ifSuspiciousActivity'       => '//global_partials/mails/ifSuspiciousActivity',
 
-                'newThingsInProject'       => 'newThingsInProject',
+                'newThingsInProject'         => 'newThingsInProject',
 
                 // Емейл бухгалтера
                 'bookerEmail' => 'invoice@skiliks.com',

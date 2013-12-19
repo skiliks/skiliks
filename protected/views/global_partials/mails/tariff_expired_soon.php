@@ -39,7 +39,11 @@
                                         Благодарим за использование skiliks!<br/><br/>
                                         Еще <?= $user->account_corporate->getTotalAvailableInvitesLimit() ?>
                                         <?= StringTools::lastLetter($user->account_corporate->getTotalAvailableInvitesLimit(), ["симуляция", "симуляции", "симуляций"]) ?>
-                                        ждут ваших действий. По истечении месяца нам будет жаль обнулять вас счет.<br/><br/>
+                                        ждут ваших действий. По истечении месяца
+                                        (<?= date('d', strtotime($user->account_corporate->getActiveTariffPlan()->finished_at)) ?>
+                                        <?= Yii::t('site',date('M', strtotime($user->account_corporate->getActiveTariffPlan()->finished_at))) ?>,
+                                        <?= date('Y', strtotime($user->account_corporate->getActiveTariffPlan()->finished_at)) ?>)
+                                        нам будет жаль обнулять ваш счет.<br/><br/>
                                         Пожалуйста, <a target="_blank" style="text-decoration:none;color:#147b99;font-family:Tahoma,
                                          Geneva, sans-serif;font-size:14px;" href="<?= 'http://www.skiliks.com/dashboard' ?>">
                                             зайдите

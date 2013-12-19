@@ -65,11 +65,37 @@
 
             ),
             array(
+                'label' => 'Рефералы',
+                'url'   => ['admin_area/AdminPages/ReferralsList'],
+                'visible' => true,
+
+            ),
+            array(
+                'label' => 'Лог авторизации',
+                'url'   => ['admin_area/AdminPages/SiteLogAuthorization'],
+                'visible' => true,
+
+            ),
+            array(
+                'label' => 'Список админов',
+                'url'   => ['admin_area/AdminPages/AdminsList'],
+                'visible' => true,
+
+            ),
+            array(
+                'label' => 'Заблокированые пользователи',
+                'url'   => ['admin_area/AdminPages/UserBlockedAuthorizationList'],
+                'visible' => true,
+
+            ),
+
+            array(
                 'label' => '--------------------------',
                 'url'   => ['#'],
                 'visible' => true,
 
             ),
+
             array(
                 'label' => 'Текущие симуляции',
                 'url'   => ['admin_area/AdminPages/LiveSimulations'],
@@ -94,12 +120,7 @@
                 'visible' => true,
 
             ),
-            array(
-                'label' => 'Рефералы',
-                'url'   => ['admin_area/AdminPages/ReferralsList'],
-                'visible' => true,
 
-            ),
             array(
                 'label' => 'Регистрации',
                 'url'   => ['admin_area/AdminPages/RegistrationList'],
@@ -114,29 +135,15 @@
             ),
 
             array(
+                'label' => '--------------------------',
+                'url'   => ['#'],
+                'visible' => true,
+
+            ),
+
+            array(
                 'label' => 'Выполнить Expire',
                 'url'   => ['admin_area/AdminPages/ExpireInvitesAndTariffPlans'],
-                'visible' => true,
-
-            ),
-
-            array(
-                'label' => 'Лог авторизации',
-                'url'   => ['admin_area/AdminPages/SiteLogAuthorization'],
-                'visible' => true,
-
-            ),
-
-            array(
-                'label' => 'Список админов',
-                'url'   => ['admin_area/AdminPages/AdminsList'],
-                'visible' => true,
-
-            ),
-
-            array(
-                'label' => 'Заблокированые пользователи',
-                'url'   => ['admin_area/AdminPages/UserBlockedAuthorizationList'],
                 'visible' => true,
 
             ),
