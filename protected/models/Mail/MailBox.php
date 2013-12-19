@@ -17,7 +17,7 @@
  * @property string | NULL $coincidence_type, тип совпадения - смотри self::COINCIDENCE_xxx
  * @property string | NULL $coincidence_mail_code, MS1, MS2 etc.
  * @property string  $theme_id
- * @property string  $theme_prefix
+ * @property string  $mail_prefix
  *
  * @property integer (bool) $readed, is readed
  * @property integer (bool) $plan, is planed
@@ -47,24 +47,72 @@
  */
 class MailBox extends CActiveRecord
 {
+    /**
+     *
+     */
     const COINCIDENCE_FULL   = 'full';
+    /**
+     *
+     */
     const COINCIDENCE_PART_1 = 'part1';
+    /**
+     *
+     */
     const COINCIDENCE_PART_2 = 'part2';
-    
+
+    /**
+     *
+     */
     const FOLDER_INBOX_ID  = 1;
+    /**
+     *
+     */
     const FOLDER_DRAFTS_ID = 2;
+    /**
+     *
+     */
     const FOLDER_OUTBOX_ID = 3;
+    /**
+     *
+     */
     const FOLDER_TRASH_ID  = 4;
+    /**
+     *
+     */
     const FOLDER_NOT_RECEIVED_EMAILS_ID  = 5;
 
+    /**
+     *
+     */
     const FOLDER_INBOX_ALIAS  = 'inbox';
+    /**
+     *
+     */
     const FOLDER_DRAFTS_ALIAS = 'drafts';
+    /**
+     *
+     */
     const FOLDER_OUTBOX_ALIAS = 'outbox';
+    /**
+     *
+     */
     const FOLDER_TRASH_ALIAS  = 'trash';
+    /**
+     *
+     */
     const FOLDER_NOT_RECEIVED_ALIAS  = 'not received';
 
+    /**
+     *
+     */
     const TYPE_FORWARD   = 'forward';
+    /**
+     *
+     */
     const TYPE_REPLY     = 'reply';
+    /**
+     *
+     */
     const TYPE_REPLY_ALL = 'replyAll';
 
     /**
@@ -79,6 +127,9 @@ class MailBox extends CActiveRecord
         self::FOLDER_NOT_RECEIVED_EMAILS_ID => self::FOLDER_NOT_RECEIVED_ALIAS
     );
 
+    /**
+     * @var array
+     */
     public $mailPrefix = [
         'fwd' => 'Fwd: ',
         'fwdfwd' => 'Fwd: Fwd: ',
@@ -257,6 +308,14 @@ class MailBox extends CActiveRecord
             'folder'        => array(self::BELONGS_TO, 'MailFolder', 'group_id'),
             'theme'         => [self::BELONGS_TO, 'Theme', 'theme_id']
         );
+    }
+
+    /**
+     * Возвращает отформатированую тему с очётом префиксов
+     * @return string
+     */
+    public function getFormattedTheme() {
+        return str_replace(['re', 'fwd'], ['Re: ', 'Fwd: '], $this->mail_prefix) . $this->theme->text;
     }
 }
 

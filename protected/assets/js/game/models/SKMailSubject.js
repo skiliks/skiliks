@@ -26,6 +26,9 @@ define([], function() {
         // @var string, 
         text: undefined,
 
+        // @var string,
+        theme_id: undefined,
+
         /**
          * @method
          * @returns {*}

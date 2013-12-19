@@ -413,6 +413,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                         subject.text               = emailData.subject;
                         subject.id                 = emailData.subjectId;
                         subject.characterSubjectId = emailData.subjectId;
+                        subject.mail_prefix        = emailData.mail_prefix;
 
                         var email               = new SKEmail();
                         email.folderAlias       = folderAlias;
