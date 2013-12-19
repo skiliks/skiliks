@@ -17,10 +17,16 @@
 
 <table class="table">
     <?php foreach ($devPermissions as $devPermission) : ?>
-        <tr><td>
-            <a href="/admin_area/user/<?= $devPermission->subordinate->id ?>/details">
-                <?= $devPermission->subordinate->profile->email?>
-            </a>
-        </td></tr>
+        <?php if (null == $devPermission->subordinate): ?>
+            <tr><td>
+                Subordinate is NULL.
+            </td></tr>
+        <?php else: ?>
+            <tr><td>
+                <a href="/admin_area/user/<?= $devPermission->subordinate->id ?>/details">
+                    <?= $devPermission->subordinate->profile->email?>
+                </a>
+            </td></tr>
+        <?php endif; ?>
     <?php endforeach ?>
 </table>
