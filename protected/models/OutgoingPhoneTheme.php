@@ -6,6 +6,7 @@
  * The followings are the available columns in table 'outgoing_phone_themes':
  * @property integer $id
  * @property integer $theme_id id темы
+ * @property string $phone_dialog_number
  * @property integer $character_to_id id Персонажа кому тема
  * @property string $wr Правильная(R), не правильная(W) и нейральная темы(N)
  * @property string $import_id

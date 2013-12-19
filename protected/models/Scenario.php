@@ -50,6 +50,10 @@
  * @method Activity getActivity
  * @method ActivityAction getActivityAction
  * @method ActivityParentAvailability getActivityParentAvailability
+ * @method OutgoingPhoneTheme getOutgoingPhoneTheme
+ * @method OutboxMailTheme getOutboxMailTheme
+ * @method MailConstructor getMailConstructor
+ *
  */
 class Scenario extends CActiveRecord
 {

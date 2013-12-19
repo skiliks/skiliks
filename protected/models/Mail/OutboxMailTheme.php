@@ -9,6 +9,7 @@
  * @property integer $character_to_id id персонажа кому направлена тема
  * @property integer $mail_constructor_id id конструктора письма для этой темы
  * @property string $import_id
+ * @property string $wr
  * @property integer $scenario_id
  *
  * The followings are the available model relations:
