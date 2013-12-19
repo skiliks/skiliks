@@ -15,7 +15,7 @@
  * @property string  $flag_to_switch, 'F12'
  * @property string  $import_id
  * @property string  $theme_id
- * @property string  $theme_prefix
+ * @property string  $mail_prefix
  *
  * @property CommunicationTheme       $subject_obj
  * @property ActivityParent[]         $termination_parent_actions
