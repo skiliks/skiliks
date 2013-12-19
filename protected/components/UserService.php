@@ -699,6 +699,14 @@ class UserService {
                 $account = $tariff_plan->user->account_corporate;
                 $initValue = $account->getTotalAvailableInvitesLimit();
                 UserService::logCorporateInviteMovementAdd('Тарифный план '.$account->tariff->label.' истёк. Количество доступных симуляция обнулено.', $account, $initValue);
+
+                // в $body нам нужен пользователь со старым тарифным планом.
+                $emailTemplate = Yii::app()->params['emails']['tariffExpiredTodayTemplate'];
+                $body = self::renderEmailPartial($emailTemplate, [
+                    'user' => $account->user
+                ]);
+
+                // процесс смены тарифного плана при истечении предыдущего {
                 $pending = $account->getPendingTariffPlan();
                 if(null === $pending) {
                     $tariff = Tariff::model()->findByAttributes(['slug'=>Tariff::SLUG_FREE]);
@@ -721,13 +729,9 @@ class UserService {
                 if(null !== $pending) {
                     continue;
                 }
+                // процесс смены тарифного плана при истечении предыдущего }
+
                 // send email for any account {
-                $emailTemplate = Yii::app()->params['emails']['tariffExpiredTodayTemplate'];
-
-                $body = self::renderEmailPartial($emailTemplate, [
-                    'user' => $account->user
-                ]);
-
                 $mail = [
                     'from'        => 'support@skiliks.com',
                     'to'          => $account->user->profile->email,
