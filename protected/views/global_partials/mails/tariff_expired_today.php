@@ -1,4 +1,5 @@
 <?php /** @var Invite $invite */ ?>
+<?php /** @var YumUser $user */ ?>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -32,18 +33,19 @@
 
                                     <img src="cid:mail-right-1" align="right" style="display:block;"/>
                                     <h1 style="color:#626250;font-family:Tahoma, Geneva, sans-serif;font-size:28px;margin:0 0 15px 0;padding:0;">
+                                        <?php /** var YumUser $user */ ?>
                                         Приветствуем, <?= $user->profile->firstname ?>!
                                     </h1>
 
                                     <p  style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
-                                        Благодарим за использование skiliks!<br/><br/>
-                                        Еще <?= $user->account_corporate->getTotalAvailableInvitesLimit() ?>
-                                        <?= StringTools::lastLetter($user->account_corporate->getTotalAvailableInvitesLimit(), ["симуляция", "симуляции", "симуляций"]) ?>
-                                        ждут ваших действий. По истечении месяца нам будет жаль обнулять вас счет.<br/><br/>
-                                        Пожалуйста, <a target="_blank" style="text-decoration:none;color:#147b99;font-family:Tahoma,
-                                         Geneva, sans-serif;font-size:14px;" href="<?= 'http://www.skiliks.com/dashboard' ?>">
-                                            зайдите
-                                        </a> в ваш кабинет для отправки приглашения на тест или прохождения симуляции.
+                                        Ваш тарифный план истёк.
+                                        Вы можете
+                                        <?php if ($user->getAccount()->getActiveTariffPlan()->tariff->isCanBeProlonged()): ?>
+                                            его
+                                            <a href="<?= MailHelper::createUrlWithHostname("profile/corporate/tariff") ?>">продлить</a>
+                                            или
+                                        <?php endif; ?>
+                                        <a href="<?= MailHelper::createUrlWithHostname('static/tariffs') ?>">оформить новый</a>.
                                     </p>
 
                                 </td>
