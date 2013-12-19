@@ -3,7 +3,14 @@
         <h2 class="title">Внимание!</h2>
         <ul class="list-ordered">
             <p class="font-xxlarge">
-                Вы выбрали тарифный план <span class="tariff_label">Lite</span> (<span class="tariff_limits">10</span> симуляций в месяц). Изменения вступят в силу с <span class="tariff_start">20.12.2013</span>. До <span class="tariff_end">20.12.2013</span> вам доступны имеющиеся симуляции = <span class="invite_limits">15</span></br>
+                Вы выбрали тарифный план <span class="tariff_label">Lite</span>
+                (<span class="tariff_limits">x<?php /* Заменяется потом с помощью JS */ ?></span> симуляций в месяц).<br/>
+                Изменения вступят в силу с <span class="tariff_start">20.12.2013<?php /* Заменяется потом с помощью JS */ ?><</span>.
+                <?php if(0 < $account->getTotalAvailableInvitesLimit()): ?>
+                    До <span class="tariff_start">х<?php /* Заменяется потом с помощью JS */ ?><</span>
+                    у вас остались доступные симуляции
+                    (<span class="invite_limits">x<?php /* Заменяется потом с помощью JS */ ?><</span>шт.).</br>
+                <?php endif; ?>
             </p>
         </ul>
         <div class="text-center">
@@ -12,3 +19,4 @@
         </div>
     </div>
 </div>
+

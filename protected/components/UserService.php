@@ -919,31 +919,55 @@ class UserService {
     public static function getActionOnPopup(UserAccountCorporate $account, $tariff_slug) {
         $pending = $account->getPendingTariffPlan();
         $result = ['type' => 'popup'];
+
         if(null !== $pending) {
+            /**
+             * Тарифного плана в очереди нет
+             */
             $result['tariff_label'] = $pending->tariff->label;
             $result['tariff_start'] = StaticSiteTools::formattedDateTimeWithRussianMonth((new DateTime($pending->started_at))->modify('+30 days'));
             $result['popup_class'] = 'tariff-already-booked-popup';
             return $result;
         }
+
         /* @var $tariff Tariff */
         $tariff = Tariff::model()->findByAttributes(['slug'=>$tariff_slug]);
         $active = $account->getActiveTariffPlan();
+
         if($active->tariff->slug === Tariff::SLUG_FREE) {
             return ['type'=>'link'];
         }
+
+        $finish_at = $account->getActiveTariffPlan()->finished_at;
+        $start_time = (new DateTime($finish_at))->format("Y-m-d H:i:s");
+
+
         $result['tariff_label'] = $tariff->label;
         $result['tariff_limits'] = $tariff->simulations_amount;
-        $finish_at = $account->getActiveTariffPlan()->finished_at;
         $result['tariff_start'] = StaticSiteTools::formattedDateTimeWithRussianMonth((new DateTime($finish_at)));
-        $start_time = (new DateTime($finish_at))->format("Y-m-d H:i:s");
         $result['tariff_end'] = StaticSiteTools::formattedDateTimeWithRussianMonth((new DateTime($start_time))->modify('+30 days'));
 
         if((int)$active->tariff->weight === (int)$tariff->weight) {
+            /**
+             * Продление ТП
+             */
             $result['popup_class'] = 'extend-tariff-popup';
         } elseif((int)$active->tariff->weight < (int)$tariff->weight) {
-            if((int)$account->invites_limit > 0) {
+            /**
+             * Смена на больший ТП
+             */
+            if((int)$account->getTotalAvailableInvitesLimit() > 0) {
+                /**
+                 * Если симуляции остались (будет предупреждение, что они сгорят)
+                 */
                 $result['popup_class'] = 'tariff-replace-now-popup';
-            }else{
+            } else {
+                /**
+                 * Если симуляций не осталось, надо проверить,
+                 * может есть отправленные (или в прогрессе) приглашения,
+                 * при смене ТП сегодня
+                 * -- завтра пользователь потеряет все отправленные или в прогрессе приглашения.
+                 */
 
                 $invites = (int)Invite::model()->count('tariff_plan_id = :tariff_plan_id and owner_id = :owner_id and owner_id = receiver_id and status = :in_progress',
                     [
@@ -962,16 +986,26 @@ class UserService {
                     ]
                 );
                 if( $invites > 0 ) {
+                    /**
+                     * Предупреждение, о вожможной утрате приглашений, надо показывать
+                     */
                     $result['popup_class'] = 'tariff-replace-if-zero-popup';
                     $result['invite_limits'] = $invites;
                 } else {
+                    /**
+                     * Тариф можно применять сразу - сегодня
+                     */
                     $result['popup_class'] = 'tariff-replace-now-popup';
                 }
             }
         } else {
-            $result['popup_class'] = 'downgrade-tariff-popup';
-            $result['invite_limits'] = $account->invites_limit;
+            /**
+             * Смена на меньший ТП
+             */
+            $result['popup_class']   = 'downgrade-tariff-popup';
+            $result['invite_limits'] = $account->getTotalAvailableInvitesLimit();
         }
+
         return $result;
     }
 
