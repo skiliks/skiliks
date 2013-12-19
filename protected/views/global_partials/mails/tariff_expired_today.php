@@ -33,11 +33,19 @@
 
                                     <img src="cid:mail-right-1" align="right" style="display:block;"/>
                                     <h1 style="color:#626250;font-family:Tahoma, Geneva, sans-serif;font-size:28px;margin:0 0 15px 0;padding:0;">
+                                        <?php /** var YumUser $user */ ?>
                                         Приветствуем, <?= $user->profile->firstname ?>!
                                     </h1>
 
                                     <p  style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
-                                        Ваш тарифный план истёк. Вы можете его <a href="<?= MailHelper::createUrlWithHostname("profile/corporate/tariff") ?>">продлить</a> или <a href="<?= MailHelper::createUrlWithHostname('static/tariffs') ?>">оформить новый</a>.
+                                        Ваш тарифный план истёк.
+                                        Вы можете
+                                        <?php if ($user->getAccount()->getActiveTariffPlan()->tariff->isCanBeProlonged()): ?>
+                                            его
+                                            <a href="<?= MailHelper::createUrlWithHostname("profile/corporate/tariff") ?>">продлить</a>
+                                            или
+                                        <?php endif; ?>
+                                        <a href="<?= MailHelper::createUrlWithHostname('static/tariffs') ?>">оформить новый</a>.
                                     </p>
 
                                 </td>

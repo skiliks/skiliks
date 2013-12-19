@@ -153,6 +153,19 @@ class Tariff extends CActiveRecord
         }
     }
 
+    /**
+     * Пользователь НЕ может продливать тарифные планы LITE и FREE LITE
+     *
+     * @return bool
+     */
+    public function isCanBeProlonged() {
+        if (self::SLUG_LITE_FREE == $this->slug || self::SLUG_FREE == $this->slug) {
+            return false;
+        }
+
+        return true;
+    }
+
     /* ----------------------------------------------------------------------------------------------------- */
 
 	/**
