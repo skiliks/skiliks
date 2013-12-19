@@ -929,8 +929,9 @@ class UserService {
              * Тарифного плана в очереди нет
              */
             $result['tariff_label'] = $pending->tariff->label;
-            $result['tariff_start'] = StaticSiteTools::formattedDateTimeWithRussianMonth((new DateTime($pending->started_at))->modify('+30 days'));
-            $result['popup_class'] = 'tariff-already-booked-popup';
+            $result['tariff_start'] = StaticSiteTools::formattedDateTimeWithRussianMonth((new DateTime($pending->started_at)));
+            $result['tariff_end']   = StaticSiteTools::formattedDateTimeWithRussianMonth((new DateTime($pending->started_at))->modify('+30 days'));
+            $result['popup_class']  = 'tariff-already-booked-popup';
             return $result;
         }
 
