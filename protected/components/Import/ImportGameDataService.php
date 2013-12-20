@@ -3,7 +3,7 @@
 /**
  * @author slavka
  * @property Scenario $scenario
- * @property mixed scenario_slug
+ * @property string scenario_slug
  */
 class ImportGameDataService
 {
@@ -1133,16 +1133,18 @@ class ImportGameDataService
 
             $theme_usage = $this->getCellValue($sheet, 'Theme_usage', $i); //phone , mail_outbox, mail_inbox, mail_
             //Импортируем только темы для телефона и исходящых писем
-            if(false === in_array($theme_usage, ['phone', 'mail_outbox', 'mail_outbox_old', 'mail_inbox'])) {
+            if (false === in_array($theme_usage, ['phone', 'mail_outbox', 'mail_outbox_old', 'mail_inbox'])) {
                 continue;
             }
             $theme_code = $this->getCellValue($sheet, 'Original_Theme_id', $i); // A
             if (null === $theme_code) {
                 continue;
             }
-            //Если такая тема уже есть то не добавляем её ещё раз
-            if(false === isset($themes_unique[$theme_code])) {
 
+            //Если такая тема уже есть то не добавляем её ещё раз
+            if (false === isset($themes_unique[$theme_code])) {
+
+                // Theme {
                 $theme = $this->scenario->getTheme(['theme_code'=>$theme_code]);
                 if($theme === null) {
                     $theme = new Theme();
@@ -1153,12 +1155,14 @@ class ImportGameDataService
                 $theme->scenario_id = $this->scenario->id;
                 $theme->save(false);
                 $themes_unique[$theme_code] = $theme->id;
+                // Theme }
             }
 
             $theme_id = $themes_unique[$theme_code];
-
             $character_code = $this->getCellValue($sheet, 'To_code', $i);
-            if('phone' === $theme_usage) {
+
+            // OutgoingPhoneTheme {
+            if ('phone' === $theme_usage) {
                 $character_id = $characters[$character_code];
                 $phone_theme = $this->scenario->getOutgoingPhoneTheme(['theme_id' => $theme_id, 'character_to_id' => $character_id]);
                 if(null === $phone_theme) {
@@ -1168,12 +1172,12 @@ class ImportGameDataService
                 }
                 // Phone dialogue number
                 $phone_dialog_number = $this->getCellValue($sheet, 'Phone dialogue number', $i);
-                if(empty($phone_dialog_number)){
+                if (empty($phone_dialog_number)) {
                     $phone_dialog_number = null;
                 }
                 // Phone W/R
                 $phone_wr = $this->getCellValue($sheet, 'Phone W/R', $i);
-                if(empty($phone_wr)) {
+                if (empty($phone_wr)) {
                     $phone_wr = null;
                 }
                 $phone_theme->wr = $phone_wr;
@@ -1182,8 +1186,10 @@ class ImportGameDataService
                 $phone_theme->scenario_id = $this->scenario->id;
                 $phone_theme->save(false);
             }
+            // OutgoingPhoneTheme }
 
-            if('mail_outbox' === $theme_usage) {
+            // OutboxMailTheme {
+            if ('mail_outbox' === $theme_usage) {
                 $character_id = $characters[$character_code];
                 $mail_theme = $this->scenario->getOutboxMailTheme(['theme_id' => $theme_id, 'character_to_id' => $character_id]);
                 if(null === $mail_theme){
@@ -1193,14 +1199,14 @@ class ImportGameDataService
                 }
                 // Mail constructor number
                 $mail_constructor_number = $this->getCellValue($sheet, 'Mail constructor number', $i);
-                if(empty($mail_constructor_number) || 'TXT' === $mail_constructor_number){
+                if (empty($mail_constructor_number) || 'TXT' === $mail_constructor_number) {
                     $mail_theme->mail_constructor_id = null;
                 } else {
                     $mail_theme->mail_constructor_id = $this->scenario->getMailConstructor(['code'=>$mail_constructor_number])->id;
                 }
                 // Mail W/R
                 $mail_wr = $this->getCellValue($sheet, 'Mail W/R', $i);
-                if(empty($mail_wr)) {
+                if (empty($mail_wr)) {
                     $mail_wr = null;
                 }
                 $mail_theme->wr = $mail_wr;
@@ -1208,7 +1214,7 @@ class ImportGameDataService
                 $mail_theme->scenario_id = $this->scenario->id;
                 $mail_theme->save(false);
             }
-
+            // OutboxMailTheme }
         }
         // remove all old, unused characterMailThemes after import {
         Theme::model()->deleteAll('import_id<>:import_id AND scenario_id = :scenario_id', array('import_id' => $this->import_id, 'scenario_id' => $this->scenario->primaryKey));

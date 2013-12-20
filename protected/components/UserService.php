@@ -546,7 +546,6 @@ class UserService {
         } else {
             throw new Exception("Bad data, must be array");
         }
-
     }
 
     /**
@@ -1316,6 +1315,58 @@ class UserService {
 
             return $loginForm;
         }
+    }
+
+    /**
+     * Добавляет в очередь писем письмо, в стандартном оформлении.
+     *
+     * @param SiteEmailOptions $emailOptions
+     * @param string $template
+     *
+     * @return EmailQueue
+     */
+    public static function addStandardEmailToQueue(SiteEmailOptions $emailOptions, $template)
+    {
+        /**
+         * Формируем HTML письма
+         */
+        $emailOptions->body = self::renderEmailPartial('standard_email_with_image', [
+            'title'    => $emailOptions->subject,
+            'template' => $emailOptions->template,
+            'h1'       => $emailOptions->h1,
+            'text1'    => $emailOptions->text1,
+            'text2'    => $emailOptions->text2,
+        ]);
+
+        /**
+         * В стандартном дизайне участвует всего три картинки.
+         */
+        $emailOptions->embeddedImages = [
+            [
+                'path'     => Yii::app()->basePath.'/assets/img/site/emails/top-left.png',
+                'cid'      => 'top-left',
+                'name'     => 'top-left',
+                'encoding' => 'base64',
+                'type'     => 'image/png',
+            ],[
+                'path'     => Yii::app()->basePath.'/assets/img/site/emails/bottom.png',
+                'cid'      => 'bottom',
+                'name'     => 'bottom',
+                'encoding' => 'base64',
+                'type'     => 'image/png',
+            ],[
+                'path'     => Yii::app()->basePath.'/assets/img/site/emails/'.$template.'.png',
+                'cid'      => $template,
+                'name'     => $template,
+                'encoding' => 'base64',
+                'type'     => 'image/png',
+            ]
+        ];
+
+        /**
+         * Добавляем письмо в лчетедь писем
+         */
+        return MailHelper::addMailToQueue($emailOptions);
     }
 }
 
