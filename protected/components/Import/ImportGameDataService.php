@@ -901,8 +901,8 @@ class ImportGameDataService
             }
 
             $theme = $this->scenario->getTheme(['theme_code'=>$subject_id]);
-            var_dump('Theme_id: ', $theme->id);
-            var_dump('Code: ', $code);
+            //var_dump('Theme_id: ', $theme->id);
+            //var_dump('Code: ', $code);
             $emailTemplateEntity->group_id = $group;
             $emailTemplateEntity->sender_id = $fromId;
             $emailTemplateEntity->receiver_id = $toId;
@@ -1167,9 +1167,9 @@ class ImportGameDataService
                     $phone_theme->character_to_id = $character_id;
                 }
                 // Phone dialogue number
-                $phone_dialog_number = $this->getCellValue($sheet, 'Phone dialogue number', $i);
-                if(empty($phone_dialog_number)){
-                    $phone_dialog_number = null;
+                $dialog_code = $this->getCellValue($sheet, 'Phone dialogue number', $i);
+                if(empty($dialog_code)){
+                    $dialog_code = null;
                 }
                 // Phone W/R
                 $phone_wr = $this->getCellValue($sheet, 'Phone W/R', $i);
@@ -1177,7 +1177,7 @@ class ImportGameDataService
                     $phone_wr = null;
                 }
                 $phone_theme->wr = $phone_wr;
-                $phone_theme->phone_dialog_number = $phone_dialog_number;
+                $phone_theme->dialog_code = $dialog_code;
                 $phone_theme->import_id = $this->import_id;
                 $phone_theme->scenario_id = $this->scenario->id;
                 $phone_theme->save(false);

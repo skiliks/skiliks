@@ -107,8 +107,7 @@ class MailBoxService
             $item = array(
                 'id'          => $message->id,
                 'subject'     => $subject,
-                'theme_id'    => $message->theme_id,
-                'subjectId'   => $message->theme_id,
+                'themeId'     => $message->theme_id,
                 'text'        => $message->message ?: self::buildMessage($message->id),
                 'template'    => (NULL !== $message->template) ? $message->template->code : NULL,
                 'sentAt'      => GameTime::getDateTime($message->sent_at),
@@ -119,7 +118,7 @@ class MailBoxService
                 'attachments' => 0,
                 'folder'      => $folderId,
                 'letterType'  => ('' === $message->letter_type ? 'new' : $message->letter_type),
-                'mail_prefix' => $message->mail_prefix
+                'mailPrefix' => $message->mail_prefix
             );
 
             if (!empty($messageId)) {
@@ -348,11 +347,19 @@ class MailBoxService
      */
     public static function getThemes(Simulation $simulation, $receivers, $parentSubjectId = null)
     {
+        $themes = [];
         if(empty($receivers)){
             return [];
         }
+        $theme_models = $simulation->game_type->getOutboxMailThemes([
+            'character_to_id' => explode(',', $receivers)[0]
+        ]);
+        /*  */
+        foreach ($theme_models as $model) {
+                $themes[(int)$model->theme_id] = $model->theme->text;
+        }
 
-        $receivers = explode(',', $receivers);
+        /*$receivers = explode(',', $receivers);
         if ($receivers[count($receivers) - 1] == ',') unset($receivers[count($receivers) - 1]);
         if ($receivers[count($receivers) - 1] == '') unset($receivers[count($receivers) - 1]);
 
@@ -383,14 +390,15 @@ class MailBoxService
         $themes_usage = LogCommunicationThemeUsage::model()->findAllByAttributes(['sim_id'=>$simulation->id]);
 
         foreach ($models as $theme) {
-            /* @var $theme CommunicationTheme */
             if(false === $theme->isBlockedByFlags($simulation) && false === $theme->themeIsUsed($themes_usage)) {
                 $themes[(int)$theme->id] = $theme->getFormattedTheme();
             }
-        }
+        }*/
 
         return $themes;
     }
+
+
 
     /**
      * Копирование сообщения из шаблонов писем в текущую симуляцию по коду
