@@ -241,7 +241,6 @@ parseUri.options = {
                     message: msg
                 }, options)
             );
-            console.warning(msg);
             return Raven;
         },
 
