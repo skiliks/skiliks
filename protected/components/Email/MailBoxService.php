@@ -717,40 +717,23 @@ class MailBoxService
      *
      * @return mixed array
      */
-    public static function getPhrases($characterThemeId, $forwardLetterCharacterThemesId, $simulation)
+    public static function getPhrases(Simulation $simulation, $themeId, $characterId, $mailPrefix)
     {
         $data = array();
         $message = '';
 
-        // for forwarded letters
-        if ((int)$characterThemeId == 0 && (int)$forwardLetterCharacterThemesId != 0) {
-            $characterThemeId = $forwardLetterCharacterThemesId;
-        }
+        $outbox_mail_theme = OutboxMailTheme::model()->findByAttributes(['character_to_id'=>$characterId, 'theme_id' => $themeId, 'mail_prefix' => $mailPrefix]);
 
-        if ((int)$characterThemeId == 0) {
-            $data = self::getMailPhrases($simulation);
-        }
+        if( null === $outbox_mail_theme ) {
+            if() {
 
-        $characterTheme = CommunicationTheme::model()->findByPk($characterThemeId);
-
-        if (NULL !== $characterTheme &&
-            'TXT' === $characterTheme->constructor_number
-        ) {
-            // MailTemplate indexed by MySQL id instead of out code, so $characterTheme->letter relation doesn`t work
-            $mailTemplate = $simulation->game_type->getMailTemplate(['code' => $characterTheme->letter_number]);
-            if (null === $mailTemplate) {
-                Yii::log('mailTemplate NULL for code '.$characterTheme->letter_number, CLogger::LEVEL_WARNING);
-                $message = '';
-            } else {
-                $message = $mailTemplate->message;
             }
         } else {
-            $data = self::getMailPhrases($simulation, $characterThemeId);
+
         }
 
         return array(
             'data' => $data,
-            'addData' => [], // addData deprecated
             'message' => $message,
         );
     }

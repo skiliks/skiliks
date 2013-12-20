@@ -60,12 +60,12 @@ class MailController extends SimulationBaseController
     public function actionGetPhrases()
     {
         $simulation = $this->getSimulationEntity();
-        $themeId = (int) Yii::app()->request->getParam('id', 0);
-        $forwardLetterCharacterThemesId = (int) Yii::app()->request->getParam('forwardLetterCharacterThemesId', 0);
-
+        $themeId = Yii::app()->request->getParam('themeId');
+        $characterId = Yii::app()->request->getParam('characterId');
+        $mailPrefix = Yii::app()->request->getParam('characterId');
         $result = array_merge(
             ['result' => self::STATUS_SUCCESS],
-            MailBoxService::getPhrases($themeId, $forwardLetterCharacterThemesId, $simulation)
+            MailBoxService::getPhrases($simulation, $themeId, $characterId, $mailPrefix)
         );
         $this->sendJSON($result);
     }
