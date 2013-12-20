@@ -10,6 +10,8 @@
  * @property integer $mail_constructor_id id конструктора письма для этой темы
  * @property string $import_id
  * @property string $wr
+ * @property string $mail_prefix
+ * @property string $mail_code
  * @property integer $scenario_id
  *
  * The followings are the available model relations:
