@@ -19,9 +19,6 @@ define([], function() {
         
         // @var integer
         parentMySqlId : undefined,
-        
-        // @var integer
-        characterSubjectId : undefined,
 
         // @var string, 
         text: undefined,
