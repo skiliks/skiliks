@@ -1,5 +1,4 @@
 <?php /** @var Invite $invite */ ?>
-<?php /** @var YumUser $user */ ?>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -37,7 +36,18 @@
                                     </h1>
 
                                     <p  style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
-                                        Ваш тарифный план истёк. Вы можете его <a href="<?= MailHelper::createUrlWithHostname("profile/corporate/tariff") ?>">продлить</a> или <a href="<?= MailHelper::createUrlWithHostname('static/tariffs') ?>">оформить новый</a>.
+                                        Благодарим за использование skiliks!<br/><br/>
+                                        Еще <?= $user->account_corporate->getTotalAvailableInvitesLimit() ?>
+                                        <?= StringTools::lastLetter($user->account_corporate->getTotalAvailableInvitesLimit(), ["симуляция", "симуляции", "симуляций"]) ?>
+                                        ждут ваших действий. По истечении месяца
+                                        (<?= date('d', strtotime($user->account_corporate->getActiveTariffPlan()->finished_at)) ?>
+                                        <?= Yii::t('site',date('M', strtotime($user->account_corporate->getActiveTariffPlan()->finished_at))) ?>,
+                                        <?= date('Y', strtotime($user->account_corporate->getActiveTariffPlan()->finished_at)) ?>)
+                                        нам будет жаль обнулять ваш счет.<br/><br/>
+                                        Пожалуйста, <a target="_blank" style="text-decoration:none;color:#147b99;font-family:Tahoma,
+                                         Geneva, sans-serif;font-size:14px;" href="<?= 'http://www.skiliks.com/dashboard' ?>">
+                                            зайдите
+                                        </a> в ваш кабинет для отправки приглашения на тест или прохождения симуляции.
                                     </p>
 
                                 </td>

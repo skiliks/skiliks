@@ -1,19 +1,24 @@
+<?php /** @var Invite $invite */ ?>
+<?php /** @var YumUser $user */ ?>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Ruseller Email Newsletter</title>
+    <title>Skiliks</title>
 </head>
 <body>
 
-<table width="880" border="0" cellpadding="0" cellspacing="0">
+<table width="870" border="0" cellpadding="0" cellspacing="0">
     <tr>
         <td>
-            <img src="cid:mail-top-angela" style="display:block;" />
+            <img src="cid:mail-top" style="display:block;" />
+        </td>
+        <td valign="top">
+            <img src="cid:mail-top-2" style="display:block;" />
         </td>
     </tr>
     <tr>
         <td valign="top">
-            <table cellpadding="0" cellspacing="0" width="880">
+            <table cellpadding="0" cellspacing="0">
                 <tr>
                     <td bgcolor="f2f2f2">
                         <table cellspacing="0" cellpadding="5"><tbody><tr><td></td></tr></tbody></table>
@@ -21,20 +26,40 @@
                     <td bgcolor="fdfbc6">
                         <table cellspacing="0" cellpadding="15"><tbody><tr><td></td></tr></tbody></table>
                     </td>
-                    <td alight="right">
-                        <table cellpadding="0" cellspacing="0" width="840" border="0">
+                    <td>
+                        <table cellpadding="0" cellspacing="0" width="800">
                             <tr>
-                                <td valign="top" bgcolor="fdfbc6" width="481">
+                                <td valign="top" bgcolor="fdfbc6">
+
+                                    <img src="cid:mail-right-1" align="right" style="display:block;"/>
                                     <h1 style="color:#626250;font-family:Tahoma, Geneva, sans-serif;font-size:28px;margin:0 0 15px 0;padding:0;">
-Благодарим вас за выбор skiliks!</h1>
-                                    <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">Пожалуйста, <a style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;" href="<?= $link ?>">активируйте</a> ваш аккаунт.</p>
+                                        <?php /** var YumUser $user */ ?>
+                                        Приветствуем, <?= $user->profile->firstname ?>!
+                                    </h1>
+
+                                    <p  style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
+                                        Ваш тарифный план истёк.
+                                        Вы можете
+                                        <?php if ($user->getAccount()->getActiveTariffPlan()->tariff->isCanBeProlonged()): ?>
+                                            его
+                                            <a href="<?= MailHelper::createUrlWithHostname("profile/corporate/tariff") ?>">продлить</a>
+                                            или
+                                        <?php endif; ?>
+                                        <a href="<?= MailHelper::createUrlWithHostname('static/tariffs') ?>">оформить новый</a>.
+                                    </p>
+
                                 </td>
-                                <td alight="right" width="335"><img src="cid:mail-bottom-angela" style="display:block;" /></td>
+                                <td bgcolor="f2f2f2" valign="top">
+                                    <img src="cid:mail-right-2" style="display:block;">
+                                </td>
                             </tr>
                         </table>
                     </td>
                 </tr>
             </table>
+        </td>
+        <td valign="top">
+            <img src="cid:mail-right-3" style="display:block;" />
         </td>
     </tr>
     <tr>
@@ -63,6 +88,9 @@
     <tr>
         <td>
             <img src="cid:mail-bottom" style="display:block;" />
+        </td>
+        <td>
+
         </td>
     </tr>
 </table>
