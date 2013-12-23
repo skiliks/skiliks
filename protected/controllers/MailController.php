@@ -60,12 +60,12 @@ class MailController extends SimulationBaseController
     public function actionGetPhrases()
     {
         $simulation = $this->getSimulationEntity();
-        $characterThemeId = (int) Yii::app()->request->getParam('id', 0);
-        $forwardLetterCharacterThemesId = (int) Yii::app()->request->getParam('forwardLetterCharacterThemesId', 0);
-
+        $themeId = Yii::app()->request->getParam('themeId');
+        $characterId = Yii::app()->request->getParam('characterId');
+        $mailPrefix = Yii::app()->request->getParam('mailPrefix');
         $result = array_merge(
             ['result' => self::STATUS_SUCCESS],
-            MailBoxService::getPhrases($characterThemeId, $forwardLetterCharacterThemesId, $simulation)
+            MailBoxService::getPhrases($simulation, $themeId, $characterId, $mailPrefix)
         );
         $this->sendJSON($result);
     }
@@ -93,7 +93,9 @@ class MailController extends SimulationBaseController
         $sendMailOptions->copies       = Yii::app()->request->getParam('copies', array());
         $sendMailOptions->phrases      = Yii::app()->request->getParam('phrases', array());
         $sendMailOptions->fileId       = (int)Yii::app()->request->getParam('fileId', 0);
-        $sendMailOptions->subject_id   = Yii::app()->request->getParam('subject', NULL);
+        $sendMailOptions->themeId   = Yii::app()->request->getParam('themeId', NULL);
+        $sendMailOptions->mailPrefix   = Yii::app()->request->getParam('mailPrefix', NULL);
+        $sendMailOptions->constructorCode = Yii::app()->request->getParam('constructorCode');
 
         $sendMailOptions->setLetterType(Yii::app()->request->getParam('letterType', NULL));
         
@@ -124,9 +126,11 @@ class MailController extends SimulationBaseController
         $sendMailOptions->copies     = Yii::app()->request->getParam('copies', array());
         $sendMailOptions->phrases    = Yii::app()->request->getParam('phrases', array());
         $sendMailOptions->fileId     = (int)Yii::app()->request->getParam('fileId', 0);
-        $sendMailOptions->subject_id = Yii::app()->request->getParam('subject', NULL);
         $sendMailOptions->id         = Yii::app()->request->getParam('id', NULL);
         $sendMailOptions->setLetterType(Yii::app()->request->getParam('letterType', NULL));
+        $sendMailOptions->themeId   = Yii::app()->request->getParam('themeId', NULL);
+        $sendMailOptions->mailPrefix   = Yii::app()->request->getParam('mailPrefix', NULL);
+        $sendMailOptions->constructorCode = Yii::app()->request->getParam('constructorCode');
 
         $email = MailBoxService::saveDraft($sendMailOptions);
 

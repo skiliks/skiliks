@@ -18,6 +18,7 @@
  * @property string | NULL $coincidence_mail_code, MS1, MS2 etc.
  * @property string  $theme_id
  * @property string  $mail_prefix
+ * @property string  $constructor_code
  *
  * @property integer (bool) $readed, is readed
  * @property integer (bool) $plan, is planed
@@ -316,6 +317,18 @@ class MailBox extends CActiveRecord
      */
     public function getFormattedTheme() {
         return str_replace(['re', 'fwd'], ['Re: ', 'Fwd: '], $this->mail_prefix) . $this->theme->text;
+    }
+
+    public function getMessageByReceiverAndTheme() {
+        return $this->
+            simulation->
+                game_type->
+                    getMailTemplate(
+                    [
+                        'receiver_id'=>$this->receiver_id,
+                        'theme_id'=>$this->theme_id,
+                        'mail_prefix'=> $this->mail_prefix
+                    ])->message;
     }
 }
 
