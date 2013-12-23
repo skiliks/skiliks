@@ -141,7 +141,7 @@ class MailBoxService
                 $item['reply'] = $reply->message;
             }
 
-            if ($folderId == MailBox::FOLDER_DRAFTS_ID && $theme->constructor_number !== 'TXT') {
+            if ($folderId == MailBox::FOLDER_DRAFTS_ID && $message->constructor_code !== 'TXT') {
                 $item['phrases'] = self::getMessagePhrases($message);
                 $item['phraseOrder'] = array_keys($item['phrases']);
             }
@@ -188,6 +188,7 @@ class MailBoxService
      */
     public static function getMessage($id)
     {
+        /* @var $email MailBox */
         $email = MailBox::model()->findByPk($id);
         if (null === $email) {
             return array();
@@ -249,7 +250,7 @@ class MailBoxService
             $message['reply'] = $reply->message;
         }
 
-        if ($email->group_id == MailBox::FOLDER_DRAFTS_ID && $themes->constructor_number !== 'TXT') {
+        if ($email->group_id == MailBox::FOLDER_DRAFTS_ID && $email->constructor_code !== 'TXT') {
             $message['phrases'] = self::getMessagePhrases($email);
             $message['phraseOrder'] = array_keys($message['phrases']);
         }
