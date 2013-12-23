@@ -1086,42 +1086,38 @@ class YumUser extends YumActiveRecord
         }
     }
 
-    private function sendBannedEmail() {
-        $body = Yii::app()->controller->renderPartial('//global_partials/mails/ban', ['email' => $this->profile->email], true);
+    /**
+     * Добавляет в очередь писем мипьмо пользователю ($this), что его аккаунт заблокирован
+     *
+     * @return bool
+     */
+    private function sendBannedEmail()
+    {
+        $mailOptions = new SiteEmailOptions();
+        $mailOptions->from = Yum::module('registration')->recoveryEmail;
+        $mailOptions->to = $this->profile->email;
+        $mailOptions->subject = 'Ваш аккаунт на ' . Yii::app()->params['server_domain_name'] . ' заблокирован';
+        $mailOptions->h1      = 'Добрый день!';
+        $mailOptions->text1   = '
+            <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
+                Наша служба безопасности обнаружила, что Вы зарегистрировали
+                корпоративный профиль с некорпоративым адресом электронной почты ' . $this->profile->email . '.
+            </p>
 
-        $mail = new SiteEmailOptions();
-        $mail->from = Yum::module('registration')->recoveryEmail;
-        $mail->to = $this->profile->email;
-        $mail->subject = 'Ваш аккаунт на skiliks.com заблокирован'; //Yii::t('site', 'You requested a new password'),
-        $mail->body = $body;
-        $mail->embeddedImages = [
-                [
-                    'path'     => Yii::app()->basePath.'/assets/img/mailtopclean.png',
-                    'cid'      => 'mail-top-clean',
-                    'name'     => 'mailtopclean',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],[
-                    'path'     => Yii::app()->basePath.'/assets/img/mailchair.png',
-                    'cid'      => 'mail-chair',
-                    'name'     => 'mailchair',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],[
-                    'path'     => Yii::app()->basePath.'/assets/img/mail-bottom.png',
-                    'cid'      => 'mail-bottom',
-                    'name'     => 'mailbottom',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],
-            ];
+            <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
+                Аккаунт связанный с данной почтой заблокирован. Все приглашения
+                отправленные в этом аккаунте являются недействительными.
+            </p>
 
-        $sent = MailHelper::addMailToQueue($mail);
+            <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
+                Используйте корпоративную почту.
+            </p>
+        ';
+
+        $sent = UserService::addStandardEmailToQueue($mailOptions, SiteEmailOptions::TEMPLATE_ANJELA);
 
         return $sent;
     }
-
-
 
     public function getStatusLabel()
     {

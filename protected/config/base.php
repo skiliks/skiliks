@@ -98,8 +98,8 @@ return CMap::mergeArray(
         // using Yii::app()->params['paramName']
         'params' => array(
             // имя сервера, стоб понимать с какого сервера пришли письма про подозрительную активность
-            // формат 'http://domain.com/'
-            'server_name'                   => 'не задан',
+            'server_name'        => 'не задан', // формат 'http://domain.com/'
+            'server_domain_name' => 'не задан', // формат 'domain.com'
 
             // просто подпись на сайте, вынесена в конфиг - чтоб было проще править
             'demoDuration'                  => 5, // min
@@ -156,25 +156,7 @@ return CMap::mergeArray(
             'emails' => [
                 'isDisplayStandardInvitationMailTopText' => true, // 'Вопросы относительно вакансии вы можете задать по адресу %s, куратор вакансии - %s.'
 
-                'inviteEmailTemplate'        => 'invite_default',
-
-                'tariffExpiredSoonTemplate'  => 'tariff_expired_soon',
-
-                'tariffExpiredTodayTemplate' => 'tariff_expired_today',
-
                 'newInvoiceToBooker'         => '//global_partials/mails/new_invoice',
-
-                'completeInvoiceUserEmail'   => 'completeInvoiceUserEmail',
-
-                'referrerInviteEmail'        => '//global_partials/mails/referrerEmail',
-
-                'noticeEmail'                => '//global_partials/mails/noticeEmail',
-
-                'newFeedback'                => '//global_partials/mails/newFeedback',
-
-                'ifSuspiciousActivity'       => '//global_partials/mails/ifSuspiciousActivity',
-
-                'newThingsInProject'         => 'newThingsInProject',
 
                 // Емейл бухгалтера
                 'bookerEmail' => 'invoice@skiliks.com',

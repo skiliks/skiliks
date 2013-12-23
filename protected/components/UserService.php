@@ -198,43 +198,29 @@ class UserService {
 
     public static function sendRegistrationEmail(YumUser $user)
     {
-
+        // "email" и "user_id" заносятся в сессию для авторизации --
+        // или они потом используются для авротизяции, после перезагрузки страницы?
         Yii::app()->session->add("email", $user->profile->email);
         Yii::app()->session->add("user_id", $user->id);
+
         if (!isset($user->profile->email)) {
             throw new CException(Yum::t('Email is not set when trying to send Registration Email'));
         }
-        $activation_url = $user->getActivationUrl();
 
-        $body = Yii::app()->getController()->renderPartial('//global_partials/mails/registration', ['link' => $activation_url], true);
+        $mailOptions          = new SiteEmailOptions();
+        $mailOptions->from    = Yum::module('registration')->registrationEmail;
+        $mailOptions->to      = $user->profile->email;
+        $mailOptions->subject = 'Активация на сайте skiliks.com';
 
-        $mail = new SiteEmailOptions();
-        $mail->from = Yum::module('registration')->registrationEmail;
-        $mail->to = $user->profile->email;
-        $mail->subject = 'Активация на сайте skiliks.com';
-        $mail->body = $body;
-        $mail->embeddedImages = [
-                [
-                    'path'     => Yii::app()->basePath.'/assets/img/mailtopangela.png',
-                    'cid'      => 'mail-top-angela',
-                    'name'     => 'mailtopangela',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],[
-                    'path'     => Yii::app()->basePath.'/assets/img/mailanglabtm.png',
-                    'cid'      => 'mail-bottom-angela',
-                    'name'     => 'mailbottomangela',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],[
-                    'path'     => Yii::app()->basePath.'/assets/img/mail-bottom.png',
-                    'cid'      => 'mail-bottom',
-                    'name'     => 'mailbottom',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],
-            ];
-        $sent = MailHelper::addMailToQueue($mail);
+        $mailOptions->h1      = 'Благодарим вас за выбор skiliks!';
+        $mailOptions->text1   = '
+            <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
+            Пожалуйста, <a style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;"
+            href="' . $user->getActivationUrl() .' ?>">
+            активируйте</a> ваш аккаунт.</p>
+        ';
+
+        $sent = UserService::addStandardEmailToQueue($mailOptions, SiteEmailOptions::TEMPLATE_ANJELA);
 
         return $sent;
     }
@@ -435,61 +421,52 @@ class UserService {
             throw new CException(Yum::t('Email is not set when trying to send invite email. Wrong invite object.'));
         }
 
-        $inviteEmailTemplate = Yii::app()->params['emails']['inviteEmailTemplate'];
+        $innerText = '';
 
-        $body = self::renderEmailPartial($inviteEmailTemplate, [
-            'invite' => $invite
-        ]);
+        if ($invite->receiverUser && !$invite->receiverUser->isActive()) {
+            $innerText .= 'Пожалуйста, <a href="' . $invite->receiverUser->getActivationUrl() . '">активируйте ваш аккаунт</a>,
+            выберите индивидуальный профиль, войдите в свой кабинет
+            и примите приглашение на тестирование для прохождения симуляции.';
+        } elseif ($invite->receiverUser && $invite->receiverUser->isPersonal()) {
+            $innerText .= 'Пожалуйста,
+            <a target="_blank" style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;"
+            href="' . Yii::app()->createAbsoluteUrl('/user/auth') . '">
+                зайдите
+            </a> в свой кабинет и примите приглашение на тестирование для прохождения симуляции.';
+        } elseif ($invite->receiverUser && $invite->receiverUser->isCorporate()) {
+            $innerText .= 'Пожалуйста,
+            <a target="_blank" style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;"
+            href="' . $invite->getInviteLink() . '">
+                создайте личный профиль
+            </a> или
+            <a target="_blank" style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;"
+            href="' . Yii::app()->createAbsoluteUrl('/dashboard') . '">войдите в личный кабинет</a>
+            и примите приглашение на тестирование для прохождения симуляции.';
+        } else {
+            $innerText .= 'Пожалуйста,
+            <a target="_blank" style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;"
+            href="' . $invite->getInviteLink() . '">зарегистрируйтесь</a>,
+            войдите в свой кабинет и примите приглашение на тестирование для прохождения симуляции.';
+        }
 
-        $mail = new SiteEmailOptions();
-        $mail->from       = Yum::module('registration')->registrationEmail;
-        $mail->to         = $invite->email;
-        $mail->subject    = 'Приглашение пройти симуляцию на Skiliks.com';
-        $mail->body       = $body;
-        $mail->embeddedImages = [
-                [
-                    'path'     => Yii::app()->basePath.'/assets/img/mail-top.png',
-                    'cid'      => 'mail-top',
-                    'name'     => 'mailtop',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],[
-                    'path'     => Yii::app()->basePath.'/assets/img/mail-top-2.png',
-                    'cid'      => 'mail-top-2',
-                    'name'     => 'mailtop2',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],[
-                    'path'     => Yii::app()->basePath.'/assets/img/mail-right-1.png',
-                    'cid'      => 'mail-right-1',
-                    'name'     => 'mailright1',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],[
-                    'path'     => Yii::app()->basePath.'/assets/img/mail-right-2.png',
-                    'cid'      => 'mail-right-2',
-                    'name'     => 'mailright2',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],[
-                    'path'     => Yii::app()->basePath.'/assets/img/mail-right-3.png',
-                    'cid'      => 'mail-right-3',
-                    'name'     => 'mailright3',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],[
-                    'path'     => Yii::app()->basePath.'/assets/img/mail-bottom.png',
-                    'cid'      => 'mail-bottom',
-                    'name'     => 'mailbottom',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],
-            ];
+        $mailOptions          = new SiteEmailOptions();
+        $mailOptions->from    = Yum::module('registration')->registrationEmail;
+        $mailOptions->to      = $invite->email;
+        $mailOptions->subject = 'Приглашение пройти симуляцию на ' . Yii::app()->params['server_domain_name'];
+        $mailOptions->h1      = $invite->getReceiverFirstName() . ', приветствуем вас!';
+        $mailOptions->text1   = '
+             <p  style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
+            '.$invite->message.
+            '</p>
+             <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">'
+            . $innerText .
+            '</p>';
 
         $invite->markAsSendToday();
         $invite->save();
 
-        $sent = MailHelper::addMailToQueue($mail);
+        $sent = UserService::addStandardEmailToQueue($mailOptions, SiteEmailOptions::TEMPLATE_ANJELA);
+
         return $sent;
     }
 
@@ -629,7 +606,7 @@ class UserService {
             }
 
             $invite->refresh(); // Important! Prevent caching
-            MailHelper::sendEmailIfSuspiciousActivity($invite);
+            MailHelper::sendEmailAboutActivityToStudySimulation($invite);
         }
 
         if (isset($invite) &&
@@ -775,53 +752,28 @@ class UserService {
                 // процесс смены тарифного плана при истечении предыдущего }
 
                 // send email for any account {
-                $mail = [
-                    'from'        => 'support@skiliks.com',
-                    'to'          => $account->user->profile->email,
-                    'subject'     => 'Истёк тарифный план',
-                    'body'        => $body,
-                    'embeddedImages' => [
-                        [
-                            'path'     => Yii::app()->basePath.'/assets/img/mail-top.png',
-                            'cid'      => 'mail-top',
-                            'name'     => 'mailtop',
-                            'encoding' => 'base64',
-                            'type'     => 'image/png',
-                        ],[
-                            'path'     => Yii::app()->basePath.'/assets/img/mail-top-2.png',
-                            'cid'      => 'mail-top-2',
-                            'name'     => 'mailtop2',
-                            'encoding' => 'base64',
-                            'type'     => 'image/png',
-                        ],[
-                            'path'     => Yii::app()->basePath.'/assets/img/mail-right-1.png',
-                            'cid'      => 'mail-right-1',
-                            'name'     => 'mailright1',
-                            'encoding' => 'base64',
-                            'type'     => 'image/png',
-                        ],[
-                            'path'     => Yii::app()->basePath.'/assets/img/mail-right-2.png',
-                            'cid'      => 'mail-right-2',
-                            'name'     => 'mailright2',
-                            'encoding' => 'base64',
-                            'type'     => 'image/png',
-                        ],[
-                            'path'     => Yii::app()->basePath.'/assets/img/mail-right-3.png',
-                            'cid'      => 'mail-right-3',
-                            'name'     => 'mailright3',
-                            'encoding' => 'base64',
-                            'type'     => 'image/png',
-                        ],[
-                            'path'     => Yii::app()->basePath.'/assets/img/mail-bottom.png',
-                            'cid'      => 'mail-bottom',
-                            'name'     => 'mailbottom',
-                            'encoding' => 'base64',
-                            'type'     => 'image/png',
-                        ],
-                    ],
-                ];
 
-                MailHelper::addMailToQueue($mail);
+                $linkToProlongTariff = '';
+                if ($account->user->getAccount()->getActiveTariffPlan()->tariff->isCanBeProlonged()){
+                    $linkToProlongTariff = 'его <a href="' . MailHelper::createUrlWithHostname("profile/corporate/tariff")
+                        . '">продлить</a> или';
+                }
+
+                $mailOptions          = new SiteEmailOptions();
+                $mailOptions->from    = 'support@skiliks.com';
+                $mailOptions->to      = $account->user->profile->email;
+                $mailOptions->subject = 'Истёк тарифный план на ' . Yii::app()->params['server_domain_name'];
+                $mailOptions->h1      = sprintf('Приветствуем, %s!', $account->user->getFormattedFirstName());
+                $mailOptions->text1   = '
+                    <p  style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
+                        Ваш тарифный план истёк.
+                        Вы можете ' . $linkToProlongTariff
+                        . ' <a href="' . MailHelper::createUrlWithHostname('static/tariffs')
+                        . '">оформить новый</a>.
+                    </p>
+                ';
+
+                UserService::addStandardEmailToQueue($mailOptions, SiteEmailOptions::TEMPLATE_ANJELA);
                 // send email for any account }
             }
         }
@@ -866,59 +818,35 @@ class UserService {
 
                 $expiredSoonAccounts[] = $account;
 
-                // send email for any account {
-                $emailTemplate = Yii::app()->params['emails']['tariffExpiredSoonTemplate'];
+                $mailOptions          = new SiteEmailOptions();
+                $mailOptions->from    = 'support@skiliks.com';
+                $mailOptions->to      = $account->user->profile->email;
+                $mailOptions->subject = 'Неиспользованные симуляции на skiliks.com';
 
-                $body = self::renderEmailPartial($emailTemplate, [
-                    'user' => $account->user
-                ]);
+                $mailOptions->h1      = sprintf('Приветствуем, %s!', $account->user->getFormattedFirstName());
+                $mailOptions->text1   = sprintf('
+                    <p  style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
+                        Благодарим за использование skiliks!
+                        <br/><br/>
+                        Еще %s %s<!-- симуляций --> ждут ваших действий.
+                        По истечении месяца (%s %s, %s) нам будет жаль обнулять ваш счет.
+                        <br/><br/>
+                        Пожалуйста, <a target="_blank" style="text-decoration:none;color:#147b99;font-family:Tahoma,
+                         Geneva, sans-serif;font-size:14px;" href="%s">
+                        зайдите </a>
+                        в ваш кабинет для отправки приглашения на тест или прохождения симуляции.
+                    </p> ',
+                    $account->getTotalAvailableInvitesLimit(),
+                    StringTools::lastLetter($account->getTotalAvailableInvitesLimit(), ["симуляция", "симуляции", "симуляций"]),
+                    // ---
+                    date('d', strtotime($account->getActiveTariffPlan()->finished_at)),
+                    Yii::t('site',date('M', strtotime($account->getActiveTariffPlan()->finished_at))),
+                    date('Y', strtotime($account->getActiveTariffPlan()->finished_at)),
+                    // ---
+                    Yii::app()->params['server_name'].'/dashboard'
+                );
 
-                $mail = new SiteEmailOptions();
-                $mail->from = 'support@skiliks.com';
-                $mail->to = $account->user->profile->email;
-                $mail->subject = 'Неиспользованные симуляции на skiliks.com';
-                $mail->body = $body;
-                $mail->embeddedImages = [
-                        [
-                            'path'     => Yii::app()->basePath.'/assets/img/mail-top.png',
-                            'cid'      => 'mail-top',
-                            'name'     => 'mailtop',
-                            'encoding' => 'base64',
-                            'type'     => 'image/png',
-                        ],[
-                            'path'     => Yii::app()->basePath.'/assets/img/mail-top-2.png',
-                            'cid'      => 'mail-top-2',
-                            'name'     => 'mailtop2',
-                            'encoding' => 'base64',
-                            'type'     => 'image/png',
-                        ],[
-                            'path'     => Yii::app()->basePath.'/assets/img/mail-right-1.png',
-                            'cid'      => 'mail-right-1',
-                            'name'     => 'mailright1',
-                            'encoding' => 'base64',
-                            'type'     => 'image/png',
-                        ],[
-                            'path'     => Yii::app()->basePath.'/assets/img/mail-right-2.png',
-                            'cid'      => 'mail-right-2',
-                            'name'     => 'mailright2',
-                            'encoding' => 'base64',
-                            'type'     => 'image/png',
-                        ],[
-                            'path'     => Yii::app()->basePath.'/assets/img/mail-right-3.png',
-                            'cid'      => 'mail-right-3',
-                            'name'     => 'mailright3',
-                            'encoding' => 'base64',
-                            'type'     => 'image/png',
-                        ],[
-                            'path'     => Yii::app()->basePath.'/assets/img/mail-bottom.png',
-                            'cid'      => 'mail-bottom',
-                            'name'     => 'mailbottom',
-                            'encoding' => 'base64',
-                            'type'     => 'image/png',
-                        ],
-                    ];
-
-                MailHelper::addMailToQueue($mail);
+                UserService::addStandardEmailToQueue($mailOptions, SiteEmailOptions::TEMPLATE_FIKUS);
             }
         }
 
@@ -1151,16 +1079,29 @@ class UserService {
      * Отправка предупреждения что человека возможно пытались взломать
      * @param array $logs
      */
-    public static function sendNoticeEmailAfterMaxAuthAttempt(array $logs) {
+    public static function sendNoticeEmailAfterMaxAuthAttempt(array $logs)
+    {
+        $mailOptions1                 = new SiteEmailOptions();
+        $mailOptions1->from           = Yum::module('registration')->recoveryEmail;
+        $mailOptions1->to             = 'support@skiliks.com';
+        $mailOptions1->subject        = 'Обнаружена попытка подобрать пароль на '.Yii::app()->params['server_domain_name'];
+        $mailOptions1->h1             = 'Внимание!';
+        $mailOptions1->text1          = 'Обнаружена попытка подобрать пароль к аккаунту пользователя '. $logs[0]->login .'. Лог подбора пароля:';
+        $mailOptions1->text2          = '<table border="1" cellpadding="5"><tr><th>Дата</th><th>IP</th><th>Пароль</th></tr>';
 
-        $mail1                 = new SiteEmailOptions();
-        $mail1->from           = Yum::module('registration')->recoveryEmail;
-        $mail1->to             = 'support@skiliks.com';
-        $mail1->subject        = 'Обнаружена попытка подобрать пароль на '.Yii::app()->params['server_name'];
-        $mail1->body           = self::renderEmailPartial('bruteforce_notice_for_support', ['logs'=>$logs]);
-        $mail1->embeddedImages = [];
+        foreach($logs as $log) {
+            $mailOptions1->text2 .= '<tr>
+                <td>'. $log->date .'</td>
+                <td>'. $log->ip .'</td>
+                <td>'. $log->password .'</td>
+            </tr>';
+        }
 
-        $mails = [$mail1];
+        $mailOptions1->text2 .= '</table>';
+
+        UserService::addStandardEmailToQueue($mailOptions1, SiteEmailOptions::TEMPLATE_JELEZNIJ);
+
+        // ############################################################################################
 
         /* @var $profile YumProfile */
         $profile = YumProfile::model()->findByAttributes(['email'=>$logs[0]->login]);
@@ -1170,49 +1111,33 @@ class UserService {
             $profile->user->authorization_after_bruteforce_key = $key;
             $profile->user->save(false);
 
-
             UserService::logAccountAction($profile->user, $_SERVER['REMOTE_ADDR'], 'Было '.Yii::app()->params['max_auth_failed_attempt'].'
             не удачных поппыток авторизации за сутки, пользователь был временно заблокирован');
 
-            $body = self::renderEmailPartial('bruteforce_notice_for_user', [
-                'email'=>$profile->email,
-                'date'=>$logs[count($logs)-1]->date,
-                'name'=>$profile->firstname,
-                'user_id'=>$profile->user_id,
-                'key'=>$key
-            ]);
+            $link = MailHelper::createUrlWithHostname("profile/restore-authorization/")
+                .'?user_id='.$profile->user_id.'&key='.$key;
 
-            $mail2                 = new SiteEmailOptions();
-            $mail2->from           = Yum::module('registration')->recoveryEmail;
-            $mail2->to             = $profile->email;
-            $mail2->subject        = 'Обнаружена попытка подобрать пароль';
-            $mail2->body           = $body;
-            $mail2->embeddedImages = [
-                [
-                    'path'     => Yii::app()->basePath.'/assets/img/mailtopclean.png',
-                    'cid'      => 'mail-top-clean',
-                    'name'     => 'mailtopclean',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],[
-                    'path'     => Yii::app()->basePath.'/assets/img/mailchair.png',
-                    'cid'      => 'mail-chair',
-                    'name'     => 'mailchair',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],[
-                    'path'     => Yii::app()->basePath.'/assets/img/mail-bottom.png',
-                    'cid'      => 'mail-bottom',
-                    'name'     => 'mailbottom',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],
-            ];
+            $mailOptions2           = new SiteEmailOptions();
+            $mailOptions2->from     = Yum::module('registration')->recoveryEmail;
+            $mailOptions2->to       = $profile->email;
+            $mailOptions2->subject  = 'Обнаружена попытка подобрать пароль';
+            $mailOptions2->h1       = 'Приветствуем, '. $profile->firstname . '!';
+            $mailOptions2->text1    = '
+                <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
+                    Служба безопасности skiliks заметила подозрительную активность с вашим аккаунтом
+                    '. $profile->email .'. Кто-то, возможно вы, пытался подобрать пароль к аккаунту
+                    '. $logs[count($logs)-1]->date .'.
+                    <br><br>
+                    Если это вы - перейдите по <a
+                    href="'. $link . '&type=' . YumUser::PASSWORD_BRUTEFORCE_IT_IS_ME . '">ссылке</a>
+                    <br><br>
+                    Если это НЕ вы - перейдите по <a
+                    href="'. $link . '&type=' . YumUser::PASSWORD_BRUTEFORCE_IT_IS_NOT_ME .'">ссылке</a><br>
+                </p>
+            ';
 
-            $mails[] = $mail2;
+            UserService::addStandardEmailToQueue($mailOptions2, SiteEmailOptions::TEMPLATE_JELEZNIJ);
         }
-
-        MailHelper::addMailsToQueue($mails);
     }
 
     /**
@@ -1332,7 +1257,7 @@ class UserService {
          */
         $emailOptions->body = self::renderEmailPartial('standard_email_with_image', [
             'title'    => $emailOptions->subject,
-            'template' => $emailOptions->template,
+            'template' => $template,
             'h1'       => $emailOptions->h1,
             'text1'    => $emailOptions->text1,
             'text2'    => $emailOptions->text2,

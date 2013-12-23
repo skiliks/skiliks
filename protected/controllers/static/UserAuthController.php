@@ -397,7 +397,7 @@ class UserAuthController extends YumController
         $mailOptions          = new SiteEmailOptions();
         $mailOptions->from    = Yum::module('registration')->recoveryEmail;
         $mailOptions->to      = $user->profile->email;
-        $mailOptions->subject = 'Восстановление пароля для сайта ' . Yii::app()->params['server_name'];
+        $mailOptions->subject = 'Восстановление пароля для сайта ' . Yii::app()->params['server_domain_name'];
         $mailOptions->h1      = sprintf('Приветствуем, %s!', $user->getFormattedFirstName());
         $mailOptions->text1   = '
             <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">

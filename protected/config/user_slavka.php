@@ -42,7 +42,7 @@ return CMap::mergeArray(
             ),
         ),
         'params' => array(
-            'server_name' => 'http://loc.skiliks.com/',
+            'server_domain_name' => 'loc.skiliks.com',
             'frontendUrl' => 'http://loc.skiliks.com/',
             'assetsDebug' => true,
             'runMigrationOn'        => 'production',

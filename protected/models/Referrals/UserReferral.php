@@ -89,76 +89,42 @@ class UserReferral extends CActiveRecord
         ));
     }
 
-    public function sendInviteReferralEmail($referral_text = false) {
+    /**
+     * Добавляет в очередь писем, приглпшение для регистрации рефералла
+     *
+     * @param string $referralEmailText
+     *
+     * @return EmailQueue
+     */
+    public function sendInviteReferralEmail($referralEmailText = null)
+    {
+        $referralEmailText = str_replace("\r\n", "<br/>", $referralEmailText);
 
-        $inviteEmailTemplate = Yii::app()->params['emails']['referrerInviteEmail'];
-        $referral_text = str_replace("\r\n", "<br/>", $referral_text);
-
-        if(strpos($referral_text, "ссылке") === false) {
-            $referral_text = $referral_text . '<br/><br/><a href="'.Yii::app()->controller->createAbsoluteUrl("/register-referral/".$this->uniqueid).'">
-                              Ссылка для регистрации реферала.</a>
-                            ';
+        if(strpos($referralEmailText, "ссылке") === false) {
+            $referralEmailText = $referralEmailText
+                . '<br/><br/><a href="'.Yii::app()->controller->createAbsoluteUrl("/register-referral/".$this->uniqueid).'">
+                  Ссылка для регистрации реферала.</a> ';
         } else {
-            $referral_text = str_replace("ссылке", '<a href="'.Yii::app()->controller->createAbsoluteUrl("/register-referral/".$this->uniqueid).'">
-                              ссылке</a>', $referral_text);
+            $referralEmailText = str_replace(
+                "ссылке",
+                '<a href="'.Yii::app()->controller->createAbsoluteUrl("/register-referral/".$this->uniqueid).'">ссылке</a>',
+                $referralEmailText
+            );
         }
 
-        $body = Yii::app()->controller->renderPartial($inviteEmailTemplate, [
-            'text' => $referral_text
-        ], true);
+        $mailOptions          = new SiteEmailOptions();
+        $mailOptions->from    = Yum::module('registration')->registrationEmail;
+        $mailOptions->to      = $this->referral_email;
+        $mailOptions->subject = 'Приглашение зарегистрироваться на ' . Yii::app()->params['server_domain_name'];
+        $mailOptions->h1      = 'Приветствуем Вас!';
+        $mailOptions->text1   = '
+            <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
+                ' . $referralEmailText .'
+            </p>
+        ';
 
+        $sent = UserService::addStandardEmailToQueue($mailOptions, SiteEmailOptions::TEMPLATE_FIKUS);
 
-        $mail = new SiteEmailOptions();
-        $mail->from       = Yum::module('registration')->registrationEmail;
-        $mail->to          = $this->referral_email;
-        $mail->subject     = 'Приглашение зарегистрироваться на skiliks.com';
-        $mail->body        = $body;
-        $mail->embeddedImages = [
-                [
-                    'path'     => Yii::app()->basePath.'/assets/img/mail-top.png',
-                    'cid'      => 'mail-top',
-                    'name'     => 'mailtop',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],[
-                    'path'     => Yii::app()->basePath.'/assets/img/mail-top-2.png',
-                    'cid'      => 'mail-top-2',
-                    'name'     => 'mailtop2',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],[
-                    'path'     => Yii::app()->basePath.'/assets/img/mail-right-1.png',
-                    'cid'      => 'mail-right-1',
-                    'name'     => 'mailright1',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],[
-                    'path'     => Yii::app()->basePath.'/assets/img/mail-right-2.png',
-                    'cid'      => 'mail-right-2',
-                    'name'     => 'mailright2',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],[
-                    'path'     => Yii::app()->basePath.'/assets/img/mail-right-3.png',
-                    'cid'      => 'mail-right-3',
-                    'name'     => 'mailright3',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],[
-                    'path'     => Yii::app()->basePath.'/assets/img/mail-bottom.png',
-                    'cid'      => 'mail-bottom',
-                    'name'     => 'mailbottom',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],
-            ];
-
-        try {
-            $sent = MailHelper::addMailToQueue($mail);
-        } catch (phpmailerException $e) {
-            // happens at my local PC only, Slavka
-            $sent = null;
-        }
         return $sent;
     }
 

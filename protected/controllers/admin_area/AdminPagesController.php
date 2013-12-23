@@ -1865,6 +1865,18 @@ class AdminPagesController extends SiteBaseController {
         if(null !== $id) {
             $email = EmailQueue::model()->findByPk($id);
 
+            $assetsUrl = $this->getAssetsUrl();
+
+            // подмена путей к картинкам на настоящие
+            $email->body = str_replace('cid:anjela',    $assetsUrl . '/img/site/emails/anjela.png',    $email->body);
+            $email->body = str_replace('cid:bottom',    $assetsUrl . '/img/site/emails/bottom.png',    $email->body);
+            $email->body = str_replace('cid:denejnaia', $assetsUrl . '/img/site/emails/denejnaia.png', $email->body);
+            $email->body = str_replace('cid:fikus',     $assetsUrl . '/img/site/emails/fikus.png',     $email->body);
+            $email->body = str_replace('cid:jeleznij',  $assetsUrl . '/img/site/emails/jeleznij.png',  $email->body);
+            $email->body = str_replace('cid:krutko',    $assetsUrl . '/img/site/emails/krutko.png',    $email->body);
+            $email->body = str_replace('cid:top-left',  $assetsUrl . '/img/site/emails/top-left.png',  $email->body);
+            $email->body = str_replace('cid:trudiakin', $assetsUrl . '/img/site/emails/trudiakin.png', $email->body);
+
             $this->layout = '/admin_area/layouts/admin_main';
             $this->render('/admin_area/pages/email_text', [
                 "email" => $email,
@@ -1939,16 +1951,6 @@ class AdminPagesController extends SiteBaseController {
         header('Content-type: application/vnd.ms-excel');
         header("Content-Disposition: attachment; filename=\"percentile.xlsx\"");
         $doc->save('php://output');
-    }
-
-    public function actionSendNotice() {
-        $user_id = Yii::app()->request->getParam('user_id');
-        $user = YumUser::model()->findByPk($user_id);
-        /* @var YumUser $user */
-        $before_email = $user->profile->email;
-        MailHelper::sendNoticeEmail($user);
-        $user->refresh();
-        echo "Before - ".$before_email.' and After - '.$user->profile->email;
     }
 
     public function actionUpdateInviteEmail() {

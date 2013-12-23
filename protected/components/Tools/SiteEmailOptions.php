@@ -9,7 +9,7 @@ class SiteEmailOptions {
     const TEMPLATE_FIKUS     = 'fikus';
     const TEMPLATE_ANJELA    = 'anjela';
     const TEMPLATE_DENEJNAIA = 'denejnaia';
-    const TEMPLATE_JELEZNIK  = 'jeleznij';
+    const TEMPLATE_JELEZNIJ  = 'jeleznij';
     const TEMPLATE_KRUTKO    = 'krutko';
     const TEMPLATE_TRUDIAKIN = 'trudiakin';
 

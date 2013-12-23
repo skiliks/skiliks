@@ -102,6 +102,8 @@
                         ">
                         <?= $text2 ?>
                     </p>
+                    <p style="margin:0 0 15px 0;text-align:justify;line-height:20px;"><strong style="color:#555545;font-family:Tahoma, Geneva, sans-serif;font-weight:bold;font-size:14px">Ваш skiliks</strong></p>
+                    <p><a style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;" href="http://www.skiliks.com">www.skiliks.com</a></p></td>
                 </td>
                 <td bgcolor="fdfbc6"></td>
                 <td bgcolor="f2f2f2"></td>
