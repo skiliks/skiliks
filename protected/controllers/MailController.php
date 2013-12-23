@@ -126,9 +126,11 @@ class MailController extends SimulationBaseController
         $sendMailOptions->copies     = Yii::app()->request->getParam('copies', array());
         $sendMailOptions->phrases    = Yii::app()->request->getParam('phrases', array());
         $sendMailOptions->fileId     = (int)Yii::app()->request->getParam('fileId', 0);
-        $sendMailOptions->subject_id = Yii::app()->request->getParam('subject', NULL);
         $sendMailOptions->id         = Yii::app()->request->getParam('id', NULL);
         $sendMailOptions->setLetterType(Yii::app()->request->getParam('letterType', NULL));
+        $sendMailOptions->themeId   = Yii::app()->request->getParam('themeId', NULL);
+        $sendMailOptions->mailPrefix   = Yii::app()->request->getParam('mailPrefix', NULL);
+        $sendMailOptions->constructorCode = Yii::app()->request->getParam('constructorCode');
 
         $email = MailBoxService::saveDraft($sendMailOptions);
 
