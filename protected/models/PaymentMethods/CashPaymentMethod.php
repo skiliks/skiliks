@@ -98,29 +98,90 @@ class CashPaymentMethod extends CFormModel {
 
     public function sendBookerEmail($invoice = null, $user = null) {
         if($user !== null && $invoice !== null) {
-            $inviteEmailTemplate = Yii::app()->params['emails']['newInvoiceToBooker'];
+
             $bookerEmail = Yii::app()->params['emails']['bookerEmail'];
+            $invoice_data = json_decode($invoice->additional_data);
 
-            $body = Yii::app()->controller->renderPartial($inviteEmailTemplate, [
-                'invoice' => $invoice, 'user' => $user, 'invoice_data' => json_decode($invoice->additional_data)
-            ], true);
+            $mailOptions          = new SiteEmailOptions();
+            $mailOptions->from    = Yum::module('registration')->registrationEmail;
+            $mailOptions->to      = $bookerEmail;
+            $mailOptions->subject = sprintf(
+                'New invoice # %s от %s (домен %s.)' ,
+                $invoice->id,
+                $user->account_corporate->company_name,
+                Yii::app()->params['server_domain_name']
+            );
+            $mailOptions->h1      = 'Поступил новый заказ.';
+            $mailOptions->text1   = '';
+            $mailOptions->text2   = '
+                <table cellspacing="20" border="1">
+                    <tr>
+                        <td>Номер заказа</td>
+                        <td>' . $invoice->id . '</td>
+                    </tr>
+                
+                    <tr>
+                        <td>Название тарифа</td>
+                        <td>' . $invoice->tariff->label. '</td>
+                    </tr>
+                
+                    <tr>
+                        <td>Количество месяцев</td>
+                        <td>' . $invoice->month_selected . '</td>
+                    </tr>
+                
+                    <tr>
+                        <td>Компания</td>
+                        <td>' . $user->account_corporate->ownership_type .' ' . $user->account_corporate->company_name . '</td>
+                    </tr>
+                
+                    <tr>
+                        <td>Имя</td>
+                        <td>' . $user->profile->lastname .' ' . $user->profile->firstname . '</td>
+                    </tr>
+                
+                    <tr>
+                        <td>E-mail</td>
+                        <td>' . $user->profile->email . '</td>
+                    </tr>
+                
+                    <tr>
+                        <td><br/><br/>Данные для оплаты:</td>
+                        <td></td>
+                    </tr>
+                
+                    <tr>
+                        <td>ИНН:</td>
+                        <td>' . $invoice_data->inn . '</td>
+                    </tr>
+                
+                    <tr>
+                        <td>КПП:</td>
+                        <td>' . $invoice_data->cpp . '</td>
+                    </tr>
+                
+                    <tr>
+                        <td>Расчетный счет:</td>
+                        <td>' . $invoice_data->account . '</td>
+                    </tr>
+                
+                    <tr>
+                        <td>БИК:</td>
+                        <td>' . $invoice_data->bic . '</td>
+                    </tr>
+                
+                    <tr>
+                        <td><br/><br/>Сумма, показанная для оплаты</td>
+                        <td>' . $invoice->amount . ' руб.</td>
+                    </tr>
+                
+                </table>
+            ';
 
-            $mail = new SiteEmailOptions();
-            $mail->from       = Yum::module('registration')->registrationEmail;
-            $mail->to         = $bookerEmail;
-            $mail->subject    = 'New invoice #'.$invoice->id . " от " . $user->account_corporate->company_name;
-            $mail->body       = $body;
+            $sent = UserService::addStandardEmailToQueue($mailOptions, SiteEmailOptions::TEMPLATE_DENEJNAIA);
 
-            try {
-                $sent = MailHelper::addMailToQueue($mail);
-                $invoice_log = new LogPayments();
-                $invoice_log->log($invoice, "Письмо об обновлении тарифного плана отправлено пользователю на " . $bookerEmail);
-            } catch (phpmailerException $e) {
-                // happens at my local PC only, Slavka
-                $sent = null;
-                $invoice_log = new LogPayments();
-                $invoice_log->log($invoice, "Письмо об обновлении тарифного плана НЕ отправлено пользователю на " . $bookerEmail . ". Причина: " . $e->getMessage());
-            }
+            $invoice_log = new LogPayments();
+            $invoice_log->log($invoice, "Письмо об обновлении тарифного плана отправлено пользователю на " . $bookerEmail);
 
             return $sent;
         }

@@ -164,7 +164,7 @@ class PagesController extends SiteBaseController
                 $mailOptions          = new SiteEmailOptions();
                 $mailOptions->from    = Yum::module('registration')->registrationEmail;
                 $mailOptions->to      = 'help@skiliks.com';
-                $mailOptions->subject = 'Новый отзыв с домена '.Yii::app()->params['server_name'];
+                $mailOptions->subject = 'Новый отзыв с домена '.Yii::app()->params['server_domain_name'];
                 $mailOptions->h1      = '';
                 $mailOptions->text1   = '
                     <h3 style="color:#626250;font-family:Tahoma, Geneva, sans-serif;font-size:28px;margin:0 0 15px 0;padding:0;">

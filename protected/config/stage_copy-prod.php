@@ -35,9 +35,10 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
         ),
     ),
     'params'=>array(
-        'server_name'    => 'http://copy-prod.skiliks.com/',
-        'frontendUrl'    => 'http://copy-prod.skiliks.com/',
-        'isBlockGhostLogin' => false,
+        'server_name'        => 'http://copy-prod.skiliks.com/',
+        'server_domain_name' => 'copy-prod.skiliks.com',
+        'frontendUrl'        => 'http://copy-prod.skiliks.com/',
+        'isBlockGhostLogin'  => false,
         'isUseStrictRulesForGhostLogin'=>false,
         'runMigrationOn' => 'live',
         'sentry' => [
