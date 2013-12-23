@@ -6,6 +6,9 @@
  */
 class SendMailOptions
 {
+    /**
+     *
+     */
     const REPLY_ALL_FRONTEND_SCREEN_ALIAS = 'SCREEN_WRITE_REPLY_ALL';
 
     /* @var Simulation $simulation */
@@ -26,13 +29,31 @@ class SendMailOptions
     /* @var integer $fileId */
     public $fileId  = NULL;
 
-    /* @var integer $subject_id */
-    public $subject_id = NULL;
+    /**
+     * Id темы с theme
+     * @var null
+     */
+    public $themeId = NULL;
+
+    /**
+     * Префикс письма, например re:, re:re: ...
+     * @var null
+     */
+    public $mailPrefix = NULL;
+
+    /**
+     * Код конструктора например B1, TXT ...
+     * @var null
+     */
+    public $constructorCode = NULL;
 
     /* @var integer $id */
     public $id         = NULL;
 
     /* var bool $is_reply_all, is this email created by press 'Reply all' */
+    /**
+     * @var bool
+     */
     public $is_reply_all = false;
 
     /* @var array of ??? */
@@ -47,6 +68,9 @@ class SendMailOptions
     /* @var array of ??? */
     private $recipients  = array();
 
+    /**
+     * @param Simulation $simulation
+     */
     public function __construct(Simulation $simulation)
     {
         $this->senderId = $simulation->game_type->getCharacter(['code' => Character::HERO_ID])->getPrimaryKey();

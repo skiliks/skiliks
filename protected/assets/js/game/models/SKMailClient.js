@@ -213,6 +213,9 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
             availablePhrases:[],
 
             // @var array of SKMailPhrase
+            activeConstructorCode: null,
+
+            // @var array of SKMailPhrase
             // this is ',', '.', ':' etc. - symbols for any phrases set
             availableAdditionalPhrases:[],
 
@@ -1272,7 +1275,10 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                             themeId:themeId
                         },
                         function (response) {
+
                             if (undefined !== response.data) {
+
+                                mailClient.activeConstructorCode = response.constructorCode;
                                 mailClient.setRegularAvailablePhrases(response.data);
 
                                 mailClient.setAdditionalAvailablePhrases(response.addData);
@@ -1426,7 +1432,6 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                     if (this.activeScreen == this.screenWriteForward) {
                         type = 'forward';
                     }
-
                     return {
                         id:         emailToSave.mySqlId,
                         copies:     emailToSave.getCopyToIdsString(),
@@ -1434,8 +1439,10 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                         messageId:  mailId,
                         phrases:    emailToSave.getPhrasesIdsString(),
                         receivers:  emailToSave.getRecipientIdsString(),
-                        subject:    emailToSave.subject.characterSubjectId,
-                        letterType: type
+                        themeId:    emailToSave.subject.themeId,
+                        letterType: type,
+                        mailPrefix: emailToSave.mailPrefix,
+                        constructorCode: this.activeConstructorCode
                     };
                 } catch(exception) {
                     if (window.Raven) {
