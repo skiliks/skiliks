@@ -440,7 +440,7 @@ class Scenario extends CActiveRecord
     }
 
     /**
-     * @param array of strings $array
+     * @param array $data strings
      *
      * @return array Meeting
      */
@@ -452,6 +452,25 @@ class Scenario extends CActiveRecord
         } else if ($data instanceof CDbCriteria) {
             $data->compare('scenario_id', $this->id);
             return Meeting::model()->findAll($data);
+        } else {
+            assert(false);
+            return [];
+        }
+    }
+
+    /**
+     * @param array $data
+     *
+     * @return OutboxMailTheme[]
+     */
+    public function getOutboxMailThemes($data)
+    {
+        if (is_array($data)) {
+            $data['scenario_id'] = $this->id;
+            return OutboxMailTheme::model()->findAllByAttributes($data);
+        } else if ($data instanceof CDbCriteria) {
+            $data->compare('scenario_id', $this->id);
+            return OutboxMailTheme::model()->findAll($data);
         } else {
             assert(false);
             return [];

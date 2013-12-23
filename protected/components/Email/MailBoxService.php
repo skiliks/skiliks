@@ -7,10 +7,25 @@
  */
 class MailBoxService
 {
+    /**
+     *
+     */
     const ACTION_NEW       = 'new';
+    /**
+     *
+     */
     const ACTION_REPLY     = 'reply';
+    /**
+     *
+     */
     const ACTION_REPLY_ALL = 'replyAll';
+    /**
+     *
+     */
     const ACTION_FORWARD   = 'forward';
+    /**
+     *
+     */
     const ACTION_EDIT      = 'edit';
 
     /**
@@ -107,8 +122,7 @@ class MailBoxService
             $item = array(
                 'id'          => $message->id,
                 'subject'     => $subject,
-                'theme_id'    => $message->theme_id,
-                'subjectId'   => $message->theme_id,
+                'themeId'     => $message->theme_id,
                 'text'        => $message->message ?: self::buildMessage($message->id),
                 'template'    => (NULL !== $message->template) ? $message->template->code : NULL,
                 'sentAt'      => GameTime::getDateTime($message->sent_at),
@@ -119,7 +133,7 @@ class MailBoxService
                 'attachments' => 0,
                 'folder'      => $folderId,
                 'letterType'  => ('' === $message->letter_type ? 'new' : $message->letter_type),
-                'mail_prefix' => $message->mail_prefix
+                'mailPrefix' => $message->mail_prefix
             );
 
             if (!empty($messageId)) {
@@ -127,7 +141,7 @@ class MailBoxService
                 $item['reply'] = $reply->message;
             }
 
-            if ($folderId == MailBox::FOLDER_DRAFTS_ID && $theme->constructor_number !== 'TXT') {
+            if ($folderId == MailBox::FOLDER_DRAFTS_ID && $message->constructor_code !== 'TXT') {
                 $item['phrases'] = self::getMessagePhrases($message);
                 $item['phraseOrder'] = array_keys($item['phrases']);
             }
@@ -174,6 +188,7 @@ class MailBoxService
      */
     public static function getMessage($id)
     {
+        /* @var $email MailBox */
         $email = MailBox::model()->findByPk($id);
         if (null === $email) {
             return array();
@@ -235,7 +250,7 @@ class MailBoxService
             $message['reply'] = $reply->message;
         }
 
-        if ($email->group_id == MailBox::FOLDER_DRAFTS_ID && $themes->constructor_number !== 'TXT') {
+        if ($email->group_id == MailBox::FOLDER_DRAFTS_ID && $email->constructor_code !== 'TXT') {
             $message['phrases'] = self::getMessagePhrases($email);
             $message['phraseOrder'] = array_keys($message['phrases']);
         }
@@ -243,32 +258,20 @@ class MailBoxService
         return $message;
     }
 
+
     /**
+     * Полчаем фразы для симуляции по конструктору
      * @param Simulation $simulation
-     * @param integer $id, CommunicationTheme.id
+     * @param null|MailConstructor $constructor
      * @return array
      */
-    public static function getMailPhrases(Simulation $simulation, $id = NULL)
+    public static function getMailPhrases(Simulation $simulation, $constructor = null)
     {
-        $phrases = [];
-
-        if (NULL !== $id) {
-            // получить код набора фраз
-            /** @var $communicationTheme CommunicationTheme */
-            $communicationTheme = CommunicationTheme::model()->findByPk($id);
-            // Если у нас прописан какой-то конструктор
-            if ($communicationTheme) {
-                $constructorNumber = $communicationTheme->constructor_number;
-                $constructor = $simulation->game_type->getMailConstructor(['code' => $constructorNumber]);
-            }
-        }
-
-        if (empty($constructor)) {
+        if (null === $constructor) {
             $constructor = $simulation->game_type->getMailConstructor(['code' => 'B1']);
         }
-        if ($constructor) {
-            $phrases = MailPhrase::model()->findAllByAttributes(['constructor_id' => $constructor->getPrimaryKey()]);
-        }
+
+        $phrases = MailPhrase::model()->findAllByAttributes(['constructor_id' => $constructor->getPrimaryKey()]);
 
         $list = [];
         foreach ($phrases as $model) {
@@ -331,11 +334,8 @@ class MailBoxService
     {
         /** @var $mail MailBox */
         $mail = MailBox::model()->findByPk($mailId);
-        $characterTheme = $mail->subject_obj;
-        if ($characterTheme && $characterTheme->constructor_number == 'TXT') {
-            // MailTemplate indexed by MySQL id insteda of out code, so $characterTheme->letter relation doesn`t work
-            $mailTemplate = $mail->simulation->game_type->getMailTemplate(['code' => $characterTheme->letter_number]);
-            return $mailTemplate->message;
+        if ($mail->constructor_code === 'TXT') {;
+            return $mail->getMessageByReceiverAndTheme();
         }
 
         $phrases = self::getMessagePhrases($mail);
@@ -348,11 +348,19 @@ class MailBoxService
      */
     public static function getThemes(Simulation $simulation, $receivers, $parentSubjectId = null)
     {
+        $themes = [];
         if(empty($receivers)){
             return [];
         }
+        $theme_models = $simulation->game_type->getOutboxMailThemes([
+            'character_to_id' => explode(',', $receivers)[0]
+        ]);
+        /*  */
+        foreach ($theme_models as $model) {
+                $themes[(int)$model->theme_id] = $model->theme->text;
+        }
 
-        $receivers = explode(',', $receivers);
+        /*$receivers = explode(',', $receivers);
         if ($receivers[count($receivers) - 1] == ',') unset($receivers[count($receivers) - 1]);
         if ($receivers[count($receivers) - 1] == '') unset($receivers[count($receivers) - 1]);
 
@@ -383,14 +391,15 @@ class MailBoxService
         $themes_usage = LogCommunicationThemeUsage::model()->findAllByAttributes(['sim_id'=>$simulation->id]);
 
         foreach ($models as $theme) {
-            /* @var $theme CommunicationTheme */
             if(false === $theme->isBlockedByFlags($simulation) && false === $theme->themeIsUsed($themes_usage)) {
                 $themes[(int)$theme->id] = $theme->getFormattedTheme();
             }
-        }
+        }*/
 
         return $themes;
     }
+
+
 
     /**
      * Копирование сообщения из шаблонов писем в текущую симуляцию по коду
@@ -602,6 +611,10 @@ class MailBoxService
         return SimulationBaseController::STATUS_SUCCESS;
     }
 
+    /**
+     * @param $simulation
+     * @return array
+     */
     public static function getFoldersUnreadCount($simulation)
     {
         $folders = [];
@@ -702,49 +715,45 @@ class MailBoxService
     }
 
     /**
-     * @todo: add some comments for this magic code
-     *
-     * @param integer $characterThemeId
-     * @param integer $forwardLetterCharacterThemesId
-     *
-     * @return mixed array
+     * Получаем список фраз или текст для письма
+     * @param Simulation $simulation
+     * @param $themeId
+     * @param $characterId
+     * @param $mailPrefix
+     * @return array
      */
-    public static function getPhrases($characterThemeId, $forwardLetterCharacterThemesId, $simulation)
+    public static function getPhrases(Simulation $simulation, $themeId, $characterId, $mailPrefix)
     {
-        $data = array();
+        $data = [];
         $message = '';
+        $constructorCode = 'B1';
 
-        // for forwarded letters
-        if ((int)$characterThemeId == 0 && (int)$forwardLetterCharacterThemesId != 0) {
-            $characterThemeId = $forwardLetterCharacterThemesId;
-        }
+        $outbox_mail_theme = OutboxMailTheme::model()->findByAttributes(['character_to_id'=>$characterId, 'theme_id' => $themeId, 'mail_prefix' => $mailPrefix]);
+        /* @var $outbox_mail_theme OutboxMailTheme */
+        if( null !== $outbox_mail_theme ) {
+            if($outbox_mail_theme->mailConstructor !== null && $outbox_mail_theme->mailConstructor->code === 'TXT') {
+                $mailTemplate = $simulation->game_type->getMailTemplate(['code' => $outbox_mail_theme->mail_code]);
+                if (null === $mailTemplate) {
+                    Yii::log('mailTemplate NULL for code '.$outbox_mail_theme->mail_code, CLogger::LEVEL_WARNING);
+                    $message = '';
+                } else {
+                    $message = $mailTemplate->message;
+                }
+                $constructorCode = 'TXT';
+            } else {
+                if(null !== $outbox_mail_theme->mailConstructor){ $constructorCode = $outbox_mail_theme->mailConstructor->code; }
+                $data = self::getMailPhrases($simulation, $outbox_mail_theme->mailConstructor);
+            }
 
-        if ((int)$characterThemeId == 0) {
+        } else {
             $data = self::getMailPhrases($simulation);
         }
 
-        $characterTheme = CommunicationTheme::model()->findByPk($characterThemeId);
-
-        if (NULL !== $characterTheme &&
-            'TXT' === $characterTheme->constructor_number
-        ) {
-            // MailTemplate indexed by MySQL id instead of out code, so $characterTheme->letter relation doesn`t work
-            $mailTemplate = $simulation->game_type->getMailTemplate(['code' => $characterTheme->letter_number]);
-            if (null === $mailTemplate) {
-                Yii::log('mailTemplate NULL for code '.$characterTheme->letter_number, CLogger::LEVEL_WARNING);
-                $message = '';
-            } else {
-                $message = $mailTemplate->message;
-            }
-        } else {
-            $data = self::getMailPhrases($simulation, $characterThemeId);
-        }
-
-        return array(
+        return [
+            'constructorCode' => $constructorCode,
             'data' => $data,
-            'addData' => [], // addData deprecated
             'message' => $message,
-        );
+        ];
     }
 
     /**
@@ -782,7 +791,9 @@ class MailBoxService
         }
         $sendEmail->group_id = $sendMailOptions->groupId;
         $sendEmail->sender_id = $sendMailOptions->senderId;
-        $sendEmail->subject_id = $sendMailOptions->subject_id;
+        $sendEmail->theme_id = $sendMailOptions->themeId;
+        $sendEmail->mail_prefix = $sendMailOptions->mailPrefix;
+        $sendEmail->constructor_code = $sendMailOptions->constructorCode;
         $sendEmail->receiver_id = $receiverId;
         $sendEmail->sent_at = GameTime::setTimeToday($sendMailOptions->simulation, $sendMailOptions->time); //TODO: Время, проверить
         $sendEmail->readed = 0;
@@ -877,6 +888,11 @@ class MailBoxService
      * @param int $folderId
      *
      * @return boolean
+     */
+    /**
+     * @param $email
+     * @param $folderId
+     * @return bool
      */
     public static function moveToFolder($email, $folderId)
     {
@@ -991,6 +1007,12 @@ class MailBoxService
         return $tasks;
     }
 
+    /**
+     * @param $simulation
+     * @param $email
+     * @param $mailTask
+     * @return null|Task
+     */
     public static function addMailTaskToPlanner($simulation, $email, $mailTask)
     {
         if (NULL === $email || NULL === $mailTask || '' == $mailTask->name) {
@@ -1227,6 +1249,10 @@ class MailBoxService
         }
     }
 
+    /**
+     * @param Simulation $simulation
+     * @param MailBox $mail
+     */
     public static function addToQueue(Simulation $simulation, MailBox $mail){
         // switch flag when receive email
         if (NULL !== $mail->template && NULL !== $mail->template->flag_to_switch) {

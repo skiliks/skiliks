@@ -374,13 +374,25 @@ class ImportGameDataService
             if ($phrase === null) {
                 $phrase = new MailPhrase();
             }
-            $phrase->code = 'SYS';
+            //$phrase->code = 'SYS'; что это за код???? как это работало? *_*
             $phrase->name = $sign;
             $phrase->import_id = $this->import_id;
             $phrase->constructor_id = $constructor->getPrimaryKey();
             $phrase->scenario_id = $this->scenario->primaryKey;
             $phrase->save();
         }
+
+        $constructor = MailConstructor::model()
+            ->findByAttributes(['code' => 'TXT',
+                'scenario_id' => $this->scenario->primaryKey]);
+
+        if ($constructor === null) {
+            $constructor = new MailConstructor();
+            $constructor->code = 'TXT';
+        }
+        $constructor->import_id = $this->import_id;
+        $constructor->scenario_id = $this->scenario->primaryKey;
+        $constructor->save();
 
         // delete old unused data {
         MailPhrase::model()->deleteAll(
@@ -901,8 +913,8 @@ class ImportGameDataService
             }
 
             $theme = $this->scenario->getTheme(['theme_code'=>$subject_id]);
-            var_dump('Theme_id: ', $theme->id);
-            var_dump('Code: ', $code);
+            //var_dump('Theme_id: ', $theme->id);
+            //var_dump('Code: ', $code);
             $emailTemplateEntity->group_id = $group;
             $emailTemplateEntity->sender_id = $fromId;
             $emailTemplateEntity->receiver_id = $toId;
@@ -1171,9 +1183,10 @@ class ImportGameDataService
                     $phone_theme->character_to_id = $character_id;
                 }
                 // Phone dialogue number
-                $phone_dialog_number = $this->getCellValue($sheet, 'Phone dialogue number', $i);
-                if (empty($phone_dialog_number)) {
-                    $phone_dialog_number = null;
+
+                $dialog_code = $this->getCellValue($sheet, 'Phone dialogue number', $i);
+                if(empty($dialog_code)){
+                    $dialog_code = null;
                 }
                 // Phone W/R
                 $phone_wr = $this->getCellValue($sheet, 'Phone W/R', $i);
@@ -1181,7 +1194,7 @@ class ImportGameDataService
                     $phone_wr = null;
                 }
                 $phone_theme->wr = $phone_wr;
-                $phone_theme->phone_dialog_number = $phone_dialog_number;
+                $phone_theme->dialog_code = $dialog_code;
                 $phone_theme->import_id = $this->import_id;
                 $phone_theme->scenario_id = $this->scenario->id;
                 $phone_theme->save(false);
@@ -1199,7 +1212,9 @@ class ImportGameDataService
                 }
                 // Mail constructor number
                 $mail_constructor_number = $this->getCellValue($sheet, 'Mail constructor number', $i);
-                if (empty($mail_constructor_number) || 'TXT' === $mail_constructor_number) {
+
+                if(empty($mail_constructor_number)){
+
                     $mail_theme->mail_constructor_id = null;
                 } else {
                     $mail_theme->mail_constructor_id = $this->scenario->getMailConstructor(['code'=>$mail_constructor_number])->id;
@@ -1209,6 +1224,16 @@ class ImportGameDataService
                 if (empty($mail_wr)) {
                     $mail_wr = null;
                 }
+                $mail_prefix = $this->getCellValue($sheet, 'Theme_prefix', $i);
+                if(empty($mail_prefix) || $mail_prefix === '-') {
+                    $mail_prefix = null;
+                }
+                $mail_code = $this->getCellValue($sheet, 'Mail letter number', $i);
+                if(empty($mail_code) || $mail_code === 'MS не найдено') {
+                    $mail_code = null;
+                }
+                $mail_theme->mail_code = $mail_code;
+                $mail_theme->mail_prefix = $mail_prefix;
                 $mail_theme->wr = $mail_wr;
                 $mail_theme->import_id = $this->import_id;
                 $mail_theme->scenario_id = $this->scenario->id;

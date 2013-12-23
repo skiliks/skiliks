@@ -1697,6 +1697,22 @@ define([
             },
 
             /**
+             * Возвращает id первого адремата письма в форме отправки нового письма
+             * @method
+             * @returns number
+             */
+            getCurrentEmailRecipientId: function () {
+                try {
+                   var characters = this.getCurrentEmailRecipientIds();
+                    return _.first(characters);
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
+            },
+
+            /**
              * @method
              * @returns {Array}
              */
@@ -1727,12 +1743,14 @@ define([
              */
             updateSubjectsList: function (forceAllowChangeSubject) {
                 try {
+                    //debugger;
                     var subjects_list = [];
 
                     for (var i in this.mailClient.availableSubjects) {
+                        console.log(this.mailClient.availableSubjects[i].themeId);
                         subjects_list.push({
                             text: this.mailClient.availableSubjects[i].text,
-                            value: parseInt(this.mailClient.availableSubjects[i].characterSubjectId)
+                            value: parseInt(this.mailClient.availableSubjects[i].themeId)
                         });
                     }
                     if(subjects_list.length === 0){
@@ -1746,32 +1764,15 @@ define([
 
                     var me = this;
 
-                    var g_forceAllowChangeSubject = forceAllowChangeSubject;
-
-                    if (true === g_forceAllowChangeSubject) {
-                        this.$("#MailClient_NewLetterSubject").ddslick({
-                            data: subjects_list,
-                            width: '100%',
-                            imagePosition: "left",
-                            onSelected: function () {
-                                if (true !== g_forceAllowChangeSubject) {
-                                    me.doUpdateMailPhrasesList();
-                                }
-                            }
-                        });
-                    } else {
-                        this.$("#MailClient_NewLetterSubject").ddslick({
+                    this.$("#MailClient_NewLetterSubject").ddslick({
                             data: subjects_list,
                             width: '100%',
                             selectText: "без темы.",
                             imagePosition: "left",
-                            onSelected: function () {
-                                if (true !== g_forceAllowChangeSubject) {
-                                    me.doUpdateMailPhrasesList();
-                                }
+                            onSelected: function (dataSelected) {
+                                me.doUpdateMailPhrasesList(dataSelected);
                             }
-                        });
-                    }
+                    });
 
                     if(subjects_list.length === 1 && this.mailClient.activeScreen !== 'SCREEN_WRITE_NEW_EMAIL') {
                         this.$("#MailClient_NewLetterSubject").ddslick('select', {'index':0 });
@@ -1800,7 +1801,7 @@ define([
                     var subjects_list = [];
                     subjects_list.push({
                         text: subject.getText(),
-                        value: subject.characterSubjectId,
+                        value: subject.themeId,
                         selected: true
                     });
 
@@ -1809,8 +1810,8 @@ define([
                         data: subjects_list,
                         width: '100%',
                         imagePosition: "left",
-                        onSelected: function () {
-                            me.doUpdateMailPhrasesList();
+                        onSelected: function (dataSelected) {
+                            me.doUpdateMailPhrasesList(dataSelected);
                         }
                     });
                     if(this.mailClient.activeScreen !== 'SCREEN_WRITE_NEW_EMAIL'){
@@ -1827,7 +1828,7 @@ define([
              * @method
              * @returns {*}
              */
-            getCurentEmailSubjectId: function () {
+            getCurrentEmailThemeId: function () {
                 try {
                     var selectedData = this.$("#MailClient_NewLetterSubject").data('ddslick').selectedData;
                     return selectedData ? selectedData.value : undefined;
@@ -2204,7 +2205,7 @@ define([
 
                     // subject
                     var subject = new SKMailSubject();
-                    subject.characterSubjectId = this.getCurentEmailSubjectId();
+                    subject.themeId = this.getCurrentEmailThemeId();
                     subject.text = this.getCurentEmailSubjectText();
                     emailToSave.subject = subject;
 
@@ -2342,8 +2343,11 @@ define([
             /**
              * @method
              */
-            doUpdateMailPhrasesList: function () {
+            doUpdateMailPhrasesList: function (dataSelected) {
                 try {
+                    //console.log(dataSelected);
+                    var themeId = dataSelected.selectedData.value;
+                    debugger;
                     var mailClientView = this;
                     var mailClient = this.mailClient;
 
@@ -2360,7 +2364,7 @@ define([
                                                 mailClient.activeEmail.phrases = [];
                                             }
 
-                                            mailClient.getAvailablePhrases(mailClientView.getCurentEmailSubjectId(), function () {
+                                            mailClient.getAvailablePhrases(mailClientView.getCurrentEmailRecipientId(), themeId, function () {
                                                 mailClientView.$('#mailEmulatorNewLetterText').html('');
                                                 mailClientView.$('#mailEmulatorNewLetterText li').remove();
 
@@ -2371,7 +2375,7 @@ define([
                                     {
                                         'value': 'Вернуться',
                                         'onclick': function () {
-                                            mailClientView.selectSubjectByValue(mailClient.newEmailSubjectId);
+                                            mailClientView.selectSubjectByValue(mailClient.newEmailThemeId);
                                             delete mailClient.message_window;
                                         }
                                     }
@@ -2380,12 +2384,12 @@ define([
                         }
                     } else {
                         // standard way
-                        mailClient.newEmailSubjectId = mailClientView.getCurentEmailSubjectId();
+                        mailClient.newEmailThemeId = themeId;
 
                         // all "fantastic" emails has TXT constructor - but this extra request return default B1,
                         // that is produce phrases render - it is wrong
                         if (false === mailClientView.isFantasticSend) {
-                            mailClient.getAvailablePhrases(mailClientView.getCurentEmailSubjectId(), function () {
+                            mailClient.getAvailablePhrases(mailClientView.getCurrentEmailRecipientId(), themeId, function () {
                                 mailClientView.$('#mailEmulatorNewLetterText').html('');
                             });
                         }
@@ -2419,8 +2423,8 @@ define([
                         data: ddData,
                         width: '100%',
                         defaultSelectedIndex:index,
-                        onSelected: function () {
-                            me.doUpdateMailPhrasesList();
+                        onSelected: function (dataSelected) {
+                            me.doUpdateMailPhrasesList(dataSelected);
                         }
                     });
                 } catch(exception) {
@@ -2512,7 +2516,7 @@ define([
                         var subject = new SKMailSubject();
                         subject.text = response.subject;
                         subject.mySqlId = response.subjectId;
-                        subject.characterSubjectId = response.subjectId;
+                        subject.themeId = response.themeId;
                         this.parentSubject = subject;
                         this.renderSingleSubject(subject);
 
@@ -2673,7 +2677,7 @@ define([
                         subject.text = response.subject;
                         subject.mySqlId = response.subjectId;
                         subject.parentMySqlId = response.parentSubjectId;
-                        subject.characterSubjectId = response.subjectId;
+                        subject.themeId = response.themeId;
 
                         this.renderSingleSubject(subject);
 
@@ -2712,7 +2716,7 @@ define([
                             },
                             afterAdd: function (tag) {
                                 SKApp.simulation.mailClient.reloadSubjects(me.getCurrentEmailRecipientIds(), subject, function(){
-                                    SKApp.simulation.mailClient.getAvailablePhrases(SKApp.simulation.mailClient.availableSubjects[0].characterSubjectId);
+                                    SKApp.simulation.mailClient.getAvailablePhrases(me.getCurrentEmailRecipientId(), SKApp.simulation.mailClient.availableSubjects[0].themeId, function(){ });
                                 });
 
                             },
