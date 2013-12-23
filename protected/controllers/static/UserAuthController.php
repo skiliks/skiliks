@@ -394,39 +394,20 @@ class UserAuthController extends YumController
             ])
         );
 
-        $body = $this->renderPartial('//global_partials/mails/recovery', [
-            'name' => $user->getFormattedFirstName(),
-            'link' => $recoveryUrl
-        ], true);
+        $mailOptions          = new SiteEmailOptions();
+        $mailOptions->from    = Yum::module('registration')->recoveryEmail;
+        $mailOptions->to      = $user->profile->email;
+        $mailOptions->subject = 'Восстановление пароля для сайта ' . Yii::app()->params['server_name'];
+        $mailOptions->h1      = sprintf('Приветствуем, %s!', $user->getFormattedFirstName());
+        $mailOptions->text1   = '
+            <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
+            Вы просили обновить данные вашего аккаунта.</p>
+            <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
+            Пожалуйста, зайдите в <a  style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva,
+            sans-serif;font-size:14px;" href="<?= '.$recoveryUrl.' ?>">ваш кабинет</a> для восстановления пароля и/или логина.</p>
+        ';
 
-        $mail = new SiteEmailOptions();
-        $mail->from = Yum::module('registration')->recoveryEmail;
-        $mail->to = $user->profile->email;
-        $mail->subject = 'Восстановление пароля к skiliks.com'; //Yii::t('site', 'You requested a new password'),
-        $mail->body = $body;
-        $mail->embeddedImages = [
-                [
-                    'path'     => Yii::app()->basePath.'/assets/img/mailtopclean.png',
-                    'cid'      => 'mail-top-clean',
-                    'name'     => 'mailtopclean',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],[
-                    'path'     => Yii::app()->basePath.'/assets/img/mailchair.png',
-                    'cid'      => 'mail-chair',
-                    'name'     => 'mailchair',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],[
-                    'path'     => Yii::app()->basePath.'/assets/img/mail-bottom.png',
-                    'cid'      => 'mail-bottom',
-                    'name'     => 'mailbottom',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],
-            ];
-
-        $sent = MailHelper::addMailToQueue($mail);
+        $sent = UserService::addStandardEmailToQueue($mailOptions, SiteEmailOptions::TEMPLATE_FIKUS);
 
         return $sent;
     }
