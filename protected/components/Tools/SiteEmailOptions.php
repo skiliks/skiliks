@@ -5,6 +5,14 @@
  */
 class SiteEmailOptions {
 
+    // Значения для $this->template
+    const TEMPLATE_FIKUS     = 'fikus';
+    const TEMPLATE_ANJELA    = 'anjela';
+    const TEMPLATE_DENEJNAIA = 'denejnaia';
+    const TEMPLATE_JELEZNIK  = 'jeleznij';
+    const TEMPLATE_KRUTKO    = 'krutko';
+    const TEMPLATE_TRUDIAKIN = 'trudiakin';
+
     /**
      * От кого
      * @var string

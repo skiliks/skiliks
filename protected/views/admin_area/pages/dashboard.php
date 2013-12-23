@@ -34,6 +34,15 @@
         <input name="email" /> <input class="btn" type='submit' value="Найти!">
     </form>
 
+    <br/><br/>
+
+    <form method="post" action="/debug/send">
+        <h4>Отправить набор стандартных писем по адресу:</h4>
+        Email: <input type="text" name="email" />
+        <input class="btn" type="submit" value="Send!">
+    </form>
+    <br/><br/>
+
     <!-- Analyzer: -->
     <!--
     <h4>Ссылки на анализатор сценария (не рабочие :) ):</h4>
