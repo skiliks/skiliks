@@ -546,7 +546,6 @@ class UserService {
         } else {
             throw new Exception("Bad data, must be array");
         }
-
     }
 
     /**
@@ -743,6 +742,14 @@ class UserService {
                 $account = $tariff_plan->user->account_corporate;
                 $initValue = $account->getTotalAvailableInvitesLimit();
                 UserService::logCorporateInviteMovementAdd('Тарифный план '.$account->tariff->label.' истёк. Количество доступных симуляция обнулено.', $account, $initValue);
+
+                // в $body нам нужен пользователь со старым тарифным планом.
+                $emailTemplate = Yii::app()->params['emails']['tariffExpiredTodayTemplate'];
+                $body = self::renderEmailPartial($emailTemplate, [
+                    'user' => $account->user
+                ]);
+
+                // процесс смены тарифного плана при истечении предыдущего {
                 $pending = $account->getPendingTariffPlan();
                 if(null === $pending) {
                     $tariff = Tariff::model()->findByAttributes(['slug'=>Tariff::SLUG_FREE]);
@@ -765,8 +772,102 @@ class UserService {
                 if(null !== $pending) {
                     continue;
                 }
+                // процесс смены тарифного плана при истечении предыдущего }
+
                 // send email for any account {
-                $emailTemplate = Yii::app()->params['emails']['tariffExpiredTemplateIfInvitesZero'];
+                $mail = [
+                    'from'        => 'support@skiliks.com',
+                    'to'          => $account->user->profile->email,
+                    'subject'     => 'Истёк тарифный план',
+                    'body'        => $body,
+                    'embeddedImages' => [
+                        [
+                            'path'     => Yii::app()->basePath.'/assets/img/mail-top.png',
+                            'cid'      => 'mail-top',
+                            'name'     => 'mailtop',
+                            'encoding' => 'base64',
+                            'type'     => 'image/png',
+                        ],[
+                            'path'     => Yii::app()->basePath.'/assets/img/mail-top-2.png',
+                            'cid'      => 'mail-top-2',
+                            'name'     => 'mailtop2',
+                            'encoding' => 'base64',
+                            'type'     => 'image/png',
+                        ],[
+                            'path'     => Yii::app()->basePath.'/assets/img/mail-right-1.png',
+                            'cid'      => 'mail-right-1',
+                            'name'     => 'mailright1',
+                            'encoding' => 'base64',
+                            'type'     => 'image/png',
+                        ],[
+                            'path'     => Yii::app()->basePath.'/assets/img/mail-right-2.png',
+                            'cid'      => 'mail-right-2',
+                            'name'     => 'mailright2',
+                            'encoding' => 'base64',
+                            'type'     => 'image/png',
+                        ],[
+                            'path'     => Yii::app()->basePath.'/assets/img/mail-right-3.png',
+                            'cid'      => 'mail-right-3',
+                            'name'     => 'mailright3',
+                            'encoding' => 'base64',
+                            'type'     => 'image/png',
+                        ],[
+                            'path'     => Yii::app()->basePath.'/assets/img/mail-bottom.png',
+                            'cid'      => 'mail-bottom',
+                            'name'     => 'mailbottom',
+                            'encoding' => 'base64',
+                            'type'     => 'image/png',
+                        ],
+                    ],
+                ];
+
+                MailHelper::addMailToQueue($mail);
+                // send email for any account }
+            }
+        }
+
+        return $expiredAccounts;
+    }
+
+    /**
+     * Отправляет письмо о том, что аккаунт скоро устареет, за 3 дня до даты истечения.
+     * Если у аккаунта 0 симуляций - письмо отправлять не надо.
+     *
+     * @return UserAccountCorporate[]
+     */
+    public static function tariffExpiredInTreeDays() {
+
+        $date = new DateTime();
+        $date->add(new DateInterval('P3D'));
+        $date_expire_from = $date->format('Y-m-d 00:00:00');
+        $date->add(new DateInterval('P1D'));
+        $date_expire_to = $date->format('Y-m-d 00:00:00');
+
+        /* @var $users UserAccountCorporate[] */
+        $tariff_plans = TariffPlan::model()->findAll(
+            ':from_date < finished_at AND finished_at <= :to_date AND status = :active ',
+            [
+                'from_date' => $date_expire_from,
+                'to_date'   => $date_expire_to,
+                'active'    => TariffPlan::STATUS_ACTIVE
+            ]
+        );
+
+        $expiredSoonAccounts = [];
+
+        if( null !== $tariff_plans ) {
+            /* @var $tariff_plan TariffPlan */
+            foreach( $tariff_plans as $tariff_plan ) {
+                $account = $tariff_plan->user->account_corporate;
+
+                if($account->getTotalAvailableInvitesLimit() == 0) {
+                    continue;
+                }
+
+                $expiredSoonAccounts[] = $account;
+
+                // send email for any account {
+                $emailTemplate = Yii::app()->params['emails']['tariffExpiredSoonTemplate'];
 
                 $body = self::renderEmailPartial($emailTemplate, [
                     'user' => $account->user
@@ -775,7 +876,7 @@ class UserService {
                 $mail = new SiteEmailOptions();
                 $mail->from = 'support@skiliks.com';
                 $mail->to = $account->user->profile->email;
-                $mail->subject = 'Истёк тарифный план';
+                $mail->subject = 'Неиспользованные симуляции на skiliks.com';
                 $mail->body = $body;
                 $mail->embeddedImages = [
                         [
@@ -818,11 +919,10 @@ class UserService {
                     ];
 
                 MailHelper::addMailToQueue($mail);
-                // send email for any account }
             }
         }
 
-        return $expiredAccounts;
+        return $expiredSoonAccounts;
     }
 
     /**
@@ -886,31 +986,56 @@ class UserService {
     public static function getActionOnPopup(UserAccountCorporate $account, $tariff_slug) {
         $pending = $account->getPendingTariffPlan();
         $result = ['type' => 'popup'];
+
         if(null !== $pending) {
+            /**
+             * Тарифного плана в очереди нет
+             */
             $result['tariff_label'] = $pending->tariff->label;
-            $result['tariff_start'] = StaticSiteTools::formattedDateTimeWithRussianMonth((new DateTime($pending->started_at))->modify('+30 days'));
-            $result['popup_class'] = 'tariff-already-booked-popup';
+            $result['tariff_start'] = StaticSiteTools::formattedDateTimeWithRussianMonth((new DateTime($pending->started_at)));
+            $result['tariff_end']   = StaticSiteTools::formattedDateTimeWithRussianMonth((new DateTime($pending->started_at))->modify('+30 days'));
+            $result['popup_class']  = 'tariff-already-booked-popup';
             return $result;
         }
+
         /* @var $tariff Tariff */
         $tariff = Tariff::model()->findByAttributes(['slug'=>$tariff_slug]);
         $active = $account->getActiveTariffPlan();
+
         if($active->tariff->slug === Tariff::SLUG_FREE) {
             return ['type'=>'link'];
         }
+
+        $finish_at = $account->getActiveTariffPlan()->finished_at;
+        $start_time = (new DateTime($finish_at))->format("Y-m-d H:i:s");
+
+
         $result['tariff_label'] = $tariff->label;
         $result['tariff_limits'] = $tariff->simulations_amount;
-        $finish_at = $account->getActiveTariffPlan()->finished_at;
         $result['tariff_start'] = StaticSiteTools::formattedDateTimeWithRussianMonth((new DateTime($finish_at)));
-        $start_time = (new DateTime($finish_at))->format("Y-m-d H:i:s");
         $result['tariff_end'] = StaticSiteTools::formattedDateTimeWithRussianMonth((new DateTime($start_time))->modify('+30 days'));
 
         if((int)$active->tariff->weight === (int)$tariff->weight) {
+            /**
+             * Продление ТП
+             */
             $result['popup_class'] = 'extend-tariff-popup';
         } elseif((int)$active->tariff->weight < (int)$tariff->weight) {
-            if((int)$account->invites_limit > 0) {
+            /**
+             * Смена на больший ТП
+             */
+            if((int)$account->getTotalAvailableInvitesLimit() > 0) {
+                /**
+                 * Если симуляции остались (будет предупреждение, что они сгорят)
+                 */
                 $result['popup_class'] = 'tariff-replace-now-popup';
-            }else{
+            } else {
+                /**
+                 * Если симуляций не осталось, надо проверить,
+                 * может есть отправленные (или в прогрессе) приглашения,
+                 * при смене ТП сегодня
+                 * -- завтра пользователь потеряет все отправленные или в прогрессе приглашения.
+                 */
 
                 $invites = (int)Invite::model()->count('tariff_plan_id = :tariff_plan_id and owner_id = :owner_id and owner_id = receiver_id and status = :in_progress',
                     [
@@ -929,16 +1054,26 @@ class UserService {
                     ]
                 );
                 if( $invites > 0 ) {
+                    /**
+                     * Предупреждение, о вожможной утрате приглашений, надо показывать
+                     */
                     $result['popup_class'] = 'tariff-replace-if-zero-popup';
                     $result['invite_limits'] = $invites;
                 } else {
+                    /**
+                     * Тариф можно применять сразу - сегодня
+                     */
                     $result['popup_class'] = 'tariff-replace-now-popup';
                 }
             }
         } else {
-            $result['popup_class'] = 'downgrade-tariff-popup';
-            $result['invite_limits'] = $account->invites_limit;
+            /**
+             * Смена на меньший ТП
+             */
+            $result['popup_class']   = 'downgrade-tariff-popup';
+            $result['invite_limits'] = $account->getTotalAvailableInvitesLimit();
         }
+
         return $result;
     }
 
@@ -1180,6 +1315,58 @@ class UserService {
 
             return $loginForm;
         }
+    }
+
+    /**
+     * Добавляет в очередь писем письмо, в стандартном оформлении.
+     *
+     * @param SiteEmailOptions $emailOptions
+     * @param string $template
+     *
+     * @return EmailQueue
+     */
+    public static function addStandardEmailToQueue(SiteEmailOptions $emailOptions, $template)
+    {
+        /**
+         * Формируем HTML письма
+         */
+        $emailOptions->body = self::renderEmailPartial('standard_email_with_image', [
+            'title'    => $emailOptions->subject,
+            'template' => $emailOptions->template,
+            'h1'       => $emailOptions->h1,
+            'text1'    => $emailOptions->text1,
+            'text2'    => $emailOptions->text2,
+        ]);
+
+        /**
+         * В стандартном дизайне участвует всего три картинки.
+         */
+        $emailOptions->embeddedImages = [
+            [
+                'path'     => Yii::app()->basePath.'/assets/img/site/emails/top-left.png',
+                'cid'      => 'top-left',
+                'name'     => 'top-left',
+                'encoding' => 'base64',
+                'type'     => 'image/png',
+            ],[
+                'path'     => Yii::app()->basePath.'/assets/img/site/emails/bottom.png',
+                'cid'      => 'bottom',
+                'name'     => 'bottom',
+                'encoding' => 'base64',
+                'type'     => 'image/png',
+            ],[
+                'path'     => Yii::app()->basePath.'/assets/img/site/emails/'.$template.'.png',
+                'cid'      => $template,
+                'name'     => $template,
+                'encoding' => 'base64',
+                'type'     => 'image/png',
+            ]
+        ];
+
+        /**
+         * Добавляем письмо в лчетедь писем
+         */
+        return MailHelper::addMailToQueue($emailOptions);
     }
 }
 

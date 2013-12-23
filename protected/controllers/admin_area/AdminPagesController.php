@@ -2040,12 +2040,16 @@ class AdminPagesController extends SiteBaseController {
     public function actionExpireInvitesAndTariffPlans() {
 
         $expiredInvites = InviteService::makeExpiredInvitesExpired();
-
         $expiredAccounts = UserService::tariffExpired();
+        $expiredSoonAccounts = UserService::tariffExpiredInTreeDays();
+
+
         $this->layout = '/admin_area/layouts/admin_main';
         $this->render('/admin_area/pages/expired-invites-and-tariff-plans', [
-            'expiredInvites'=>$expiredInvites,
-            'expiredAccounts'=>$expiredAccounts]);
+            'expiredInvites'      => $expiredInvites,
+            'expiredAccounts'     => $expiredAccounts,
+            'expiredSoonAccounts' => $expiredSoonAccounts,
+        ]);
     }
 
     public function actionChangeInviteExpireRule() {
