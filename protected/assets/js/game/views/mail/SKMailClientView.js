@@ -2347,7 +2347,7 @@ define([
                 try {
                     //console.log(dataSelected);
                     var themeId = dataSelected.selectedData.value;
-                    debugger;
+                    //debugger;
                     var mailClientView = this;
                     var mailClient = this.mailClient;
 
@@ -2674,9 +2674,9 @@ define([
                         }
 
                         var subject = new SKMailSubject();
-                        subject.text = response.subject;
-                        subject.mySqlId = response.subjectId;
-                        subject.parentMySqlId = response.parentSubjectId;
+                        subject.text = response.theme;
+                        subject.mySqlId = response.themeId;
+                        subject.parentMySqlId = response.parentThemeId;
                         subject.themeId = response.themeId;
 
                         this.renderSingleSubject(subject);
@@ -2834,6 +2834,8 @@ define([
                         if (undefined === response.result && undefined !== response.responseText) {
                             response = $.parseJSON(response.responseText);
                         }
+                        me.mailClient.activeConstructorCode = response.phrases.constructorCode;
+                        me.mailClient.activeMailPrefix = response.mailPrefix;
                         // so we get JSON from it }
                         if (false !== me.fillMessageWindow(response)) {
                             me.mailClient.setActiveScreen(me.mailClient.screenWriteReply);
@@ -2861,6 +2863,8 @@ define([
 
                     this.mailClient.getDataForReplyAllToActiveEmail(function (response) {
                         if (false !== me.fillMessageWindow(response)) {
+                            me.mailClient.activeConstructorCode = response.phrases.constructorCode;
+                            me.mailClient.activeMailPrefix = response.mailPrefix;
                             me.mailClient.setActiveScreen(me.mailClient.screenWriteReplyAll);
                             me.mailClient.setWindowsLog('mailNew');
                         }
@@ -2887,6 +2891,7 @@ define([
                     this.mailClient.getDataForForwardActiveEmail(function (response) {
                         // so we get JSON from it }
                         if (false !== me.doUpdateScreenFromForwardEmailData(response)) {
+                            me.mailClient.activeMailPrefix = response.mailPrefix;
                             me.mailClient.setActiveScreen(me.mailClient.screenWriteForward);
                             me.mailClient.setWindowsLog('mailNew');
                         }

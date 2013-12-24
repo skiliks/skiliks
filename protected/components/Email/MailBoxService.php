@@ -346,55 +346,29 @@ class MailBoxService
      * Получение списка тем
      * @param string $receivers
      */
-    public static function getThemes(Simulation $simulation, $receivers, $parentSubjectId = null)
+    public static function getThemes(Simulation $simulation, $receivers, $mailPrefix, $parentThemeId)
     {
         $themes = [];
         if(empty($receivers)){
             return [];
         }
-        $theme_models = $simulation->game_type->getOutboxMailThemes([
-            'character_to_id' => explode(',', $receivers)[0]
-        ]);
+        $condition = [
+            'character_to_id' => explode(',', $receivers)[0],
+            'mail_prefix' => $mailPrefix
+        ];
+        if(null !== $parentThemeId) {
+            $condition['theme_id']  = $parentThemeId;
+        }
+        $theme_models = $simulation->game_type->getOutboxMailThemes($condition);
         /*  */
         foreach ($theme_models as $model) {
                 $themes[(int)$model->theme_id] = $model->theme->text;
         }
 
-        /*$receivers = explode(',', $receivers);
-        if ($receivers[count($receivers) - 1] == ',') unset($receivers[count($receivers) - 1]);
-        if ($receivers[count($receivers) - 1] == '') unset($receivers[count($receivers) - 1]);
-
-        $themes = array();
-        // загрузка тем по одному персонажу
-        if ($parentSubjectId !== null) {
-            $parentSubject = CommunicationTheme::model()->findByPk($parentSubjectId);
-            
-            $models = [];            
-            $model = CommunicationTheme::model()->find(
-                'text = :text AND character_id = :character_id AND mail_prefix = :mail_prefix AND (theme_usage = :outbox)', [
-                'mail_prefix'  => $parentSubject->getPrefixForForward(), 
-                'text'         => $parentSubject->text,
-                'character_id' => $receivers[0],
-                'outbox'       => CommunicationTheme::USAGE_OUTBOX
-            ]);
-            if (NULL !== $model) {
-                $models[] = $model;
-            }
-        } else {
-            // this is NEW mail
-            $models = CommunicationTheme::model()->findAll(
-                'character_id = :character_id AND mail_prefix IS NULL AND mail = 1 AND theme_usage = :outbox ', [
-                'character_id' => $receivers[0],
-                'outbox'   => CommunicationTheme::USAGE_OUTBOX
-            ]);
+        if(count($theme_models) === 0 && $parentThemeId !== null) {
+            $theme = $simulation->game_type->getTheme(['id'=>$parentThemeId]);
+            $themes[(int)$theme->id] = $theme->getFormattedTheme($mailPrefix);
         }
-        $themes_usage = LogCommunicationThemeUsage::model()->findAllByAttributes(['sim_id'=>$simulation->id]);
-
-        foreach ($models as $theme) {
-            if(false === $theme->isBlockedByFlags($simulation) && false === $theme->themeIsUsed($themes_usage)) {
-                $themes[(int)$theme->id] = $theme->getFormattedTheme();
-            }
-        }*/
 
         return $themes;
     }
@@ -1100,7 +1074,7 @@ class MailBoxService
             $result['phrases']['previouseMessage'] = $message->message;
         } elseif ($action == self::ACTION_REPLY || $action == self::ACTION_REPLY_ALL) {
             $themePrefix = 're';
-            $result['phrases'] = self::getPhrases($message->simulation, $message->theme_id, $message->receiver_id, 're'.$message->mail_prefix);
+            $result['phrases'] = self::getPhrases($message->simulation, $message->theme_id, $message->receiver_id, $themePrefix.$message->mail_prefix);
             $result['phrases']['previouseMessage'] = $message->message;
         } elseif ($action == self::ACTION_EDIT) {
             //$condition['id'] = $message->subject_id;
@@ -1135,7 +1109,7 @@ class MailBoxService
         }
 
         // Edit draft {
-        /*if ($action == self::ACTION_EDIT) {
+        if ($action == self::ACTION_EDIT) {
             $result['id'] = $message->id;
 
             $characters = self::getCharacters($message->simulation);
@@ -1143,7 +1117,7 @@ class MailBoxService
             $result['receiver_id'] = $message->receiver_id;
 
             if ($message->message_id) {
-                $result['parentSubjectId'] = $message->parentMail->subject_id;
+                $result['parentThemeId'] = $message->theme_id;
             }
 
             $result['copiesIds'] = array_map(function(MailCopy $copy) use ($characters) {
@@ -1154,75 +1128,19 @@ class MailBoxService
             $result['copiesIds'] = implode(',', $result['copiesIds']);
             $result['copies'] = implode(',', $result['copies']);
 
-            $result['phrases']['previouseMessage'] = $message->message_id ? $message->parentMail->message : '';
+            $result['phrases']['previouseMessage'] = $message->message_id ? $message->message : '';
 
             if (null !== $message->attachment) {
                 $result['attachmentName']   = $message->attachment->myDocument->fileName;
                 $result['attachmentId']     = $message->attachment->file_id;
             }
-        }*/
+        }
+        $result['mailPrefix'] = $themePrefix.$message->mail_prefix;
         // Edit draft }
 
         return $result;
     }
 
-    /**
-     * @param Simulation $simulation
-     * @param MailBox $messageToForward
-     *
-     * @return mixed array
-     */
-    public static function getForwardMessageData($messageToForward)
-    {
-        if (NULL === $messageToForward) {
-            return null;
-        }
-
-        $characterThemeId = null;
-        // it is extremly important to find proper  Fwd: in database
-
-        $forwardSubject = CommunicationTheme::model()->findByAttributes([
-            'mail_prefix'  => $messageToForward->subject_obj->getPrefixForForward(),
-            'text'         => $messageToForward->subject_obj->text,
-            'character_id' => null,
-            'theme_usage'  => CommunicationTheme::USAGE_OUTBOX,
-        ]);
-
-        if (NULL === $forwardSubject) {
-            return array(
-                'result' => 0,
-                'error'  => 'Can`t find subject for forward email.'
-            );
-        }
-
-        $result = [
-            'parentSubjectId'   => $messageToForward->subject_obj->id,
-        ];
-
-        // загрузить фразы по старой теме
-        if (null !== $forwardSubject && 0 < $forwardSubject->id) {
-            if ($forwardSubject->constructor_number === 'TXT') {
-                $result['text'] = $forwardSubject->getMailTemplate()->message;
-            } else {
-                $result['phrases']['data'] = MailBoxService::getMailPhrases($messageToForward->simulation, $forwardSubject->id);
-                $result['subjectId'] = $forwardSubject->id;
-            }
-        }
-
-        if (!isset($result['phrases']) && !isset($result['text'])) {
-            $result['phrases']['data'] = MailBoxService::getMailPhrases($messageToForward->simulation);
-        } // берем дефолтные
-        $result['phrases']['addData'] = MailBoxService::getSigns($messageToForward->simulation);
-
-
-        $result['result']    = 1;
-        $result['subject']   = (null === $forwardSubject) ? null : $forwardSubject->getFormattedTheme();
-        $result['subjectId'] = (null === $forwardSubject) ? null : $forwardSubject->id;
-
-        $result['phrases']['previouseMessage'] = $messageToForward->message;
-
-        return $result;
-    }
 
     /**
      * @param Simulation $simulation

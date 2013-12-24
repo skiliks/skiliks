@@ -215,6 +215,8 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
             // @var array of SKMailPhrase
             activeConstructorCode: null,
 
+            activeMailPrefix: null,
+
             // @var array of SKMailPhrase
             // this is ',', '.', ':' etc. - symbols for any phrases set
             availableAdditionalPhrases:[],
@@ -1176,7 +1178,8 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                         'mail/getThemes',
                         {
                             receivers:recipientIds.join(','), // implode()
-                            parentSubjectId: subject !== undefined ? subject.parentMySqlId : undefined
+                            parentThemeId: subject !== undefined ? subject.parentMySqlId : undefined,
+                            mailPrefix:me.activeMailPrefix
                         },
                         function (response) {
                             if (undefined !== response.data) {
@@ -1272,7 +1275,8 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                         'mail/getPhrases',
                         {
                             characterId:characterId,
-                            themeId:themeId
+                            themeId:themeId,
+                            mailPrefix:mailClient.activeMailPrefix
                         },
                         function (response) {
 
@@ -1432,6 +1436,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                     if (this.activeScreen == this.screenWriteForward) {
                         type = 'forward';
                     }
+                    console.log();
                     return {
                         id:         emailToSave.mySqlId,
                         copies:     emailToSave.getCopyToIdsString(),
@@ -1441,7 +1446,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                         receivers:  emailToSave.getRecipientIdsString(),
                         themeId:    emailToSave.subject.themeId,
                         letterType: type,
-                        mailPrefix: emailToSave.mailPrefix,
+                        mailPrefix: this.activeMailPrefix,
                         constructorCode: this.activeConstructorCode
                     };
                 } catch(exception) {
