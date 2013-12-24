@@ -2499,7 +2499,7 @@ define([
                         me.mailClient.draftToEditEmailId = response.id;
                     }
 
-                    if (null === response.subjectId) {
+                    if (null === response.themeId) {
                         this.doRenderFolder(this.mailClient.aliasFolderInbox, false);
                         this.renderNullSubjectIdWarning('Вы не можете ответить на это письмо.');
                         return  false;
@@ -2514,8 +2514,8 @@ define([
                         this.renderWriteEmailScreen(icons);
 
                         var subject = new SKMailSubject();
-                        subject.text = response.subject;
-                        subject.mySqlId = response.subjectId;
+                        subject.text = response.theme;
+                        subject.mySqlId = response.themeId;
                         subject.themeId = response.themeId;
                         this.parentSubject = subject;
                         this.renderSingleSubject(subject);

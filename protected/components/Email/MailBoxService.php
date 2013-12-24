@@ -727,6 +727,7 @@ class MailBoxService
         $data = [];
         $message = '';
         $constructorCode = 'B1';
+        $addData = [];
 
         $outbox_mail_theme = OutboxMailTheme::model()->findByAttributes(['character_to_id'=>$characterId, 'theme_id' => $themeId, 'mail_prefix' => $mailPrefix]);
         /* @var $outbox_mail_theme OutboxMailTheme */
@@ -743,15 +744,18 @@ class MailBoxService
             } else {
                 if(null !== $outbox_mail_theme->mailConstructor){ $constructorCode = $outbox_mail_theme->mailConstructor->code; }
                 $data = self::getMailPhrases($simulation, $outbox_mail_theme->mailConstructor);
+                $addData = self::getSigns($simulation);
             }
 
         } else {
             $data = self::getMailPhrases($simulation);
+            $addData = self::getSigns($simulation);
         }
 
         return [
             'constructorCode' => $constructorCode,
             'data' => $data,
+            'addData'=>$addData,
             'message' => $message,
         ];
     }
@@ -920,15 +924,9 @@ class MailBoxService
      */
     public static function getPhrasesData($message, $characterThemeModel)
     {
-        // validation
-        if (NULL === $message) {
-            return array();
-        }
-
         // init default responce
         $result = array(
             'message'          => '',
-            'data'             => self::getMailPhrases($message->simulation),
             'previouseMessage' => $message->message,
             'addData'          => self::getSigns($message->simulation)
         );
@@ -1087,47 +1085,42 @@ class MailBoxService
      */
     public static function getMessageData(MailBox $message, $action)
     {
-        if (null === $message) {
-            throw new ErrorException('Replied email is empty');
-        }
-
-        $condition = [
+        /*$condition = [
             'text'         => $message->subject_obj->text,
             'theme_usage'  => CommunicationTheme::USAGE_OUTBOX
-        ];
-
-        if ($action == self::ACTION_FORWARD) {
-            $condition['mail_prefix'] = $message->subject_obj->getPrefixForForward();
-            $condition['character_id'] = null;
-        } elseif ($action == self::ACTION_REPLY || $action == self::ACTION_REPLY_ALL) {
-            $condition['mail_prefix'] = $message->subject_obj->getPrefixForReply();
-            $condition['character_id'] = $message->sender_id;
-        } elseif ($action == self::ACTION_EDIT) {
-            $condition['id'] = $message->subject_id;
-        }
-
-        $subject = CommunicationTheme::model()->findByAttributes($condition);
-
-        if (null === $subject) {
-            throw new ErrorException('Can`t find subject for reply email');
-        }
-
+        ];*/
         $result = [
             'result'      => 1,
-            'subjectId'   => $subject->id,
-            'subject'     => $subject->getFormattedTheme(),
-            'phrases'     => self::getPhrasesData($message, $subject)
+            'themeId'   => $message->theme_id,
         ];
+        $themePrefix = '';
+        if ($action == self::ACTION_FORWARD) {
+            $themePrefix = 'fwd';
+            $result['phrases'] = self::getPhrases($message->simulation, $message->theme_id, null, null);
+            $result['phrases']['previouseMessage'] = $message->message;
+        } elseif ($action == self::ACTION_REPLY || $action == self::ACTION_REPLY_ALL) {
+            $themePrefix = 're';
+            $result['phrases'] = self::getPhrases($message->simulation, $message->theme_id, $message->receiver_id, 're'.$message->mail_prefix);
+            $result['phrases']['previouseMessage'] = $message->message;
+        } elseif ($action == self::ACTION_EDIT) {
+            //$condition['id'] = $message->subject_id;
+        }
+        $result['theme'] = $message->getFormattedTheme($themePrefix);
+        //$subject = CommunicationTheme::model()->findByAttributes($condition);
+
+        //if (null === $subject) {
+        //    throw new ErrorException('Can`t find subject for reply email');
+        //}
 
         if ($action == self::ACTION_FORWARD) {
-            $result['parentSubjectId'] = $message->subject_obj->id;
+            $result['parentThemeId'] = $message->theme_id;
             if (null !== $message->attachment) {
                 $result['attachmentName']   = $message->attachment->myDocument->fileName;
                 $result['attachmentId']     = $message->attachment->file_id;
             }
             // TODO: Check is this required
-            if ($subject->constructor_number === 'TXT') {
-                $result['text'] = $subject->getMailTemplate()->message;
+            if ($result['phrases']['constructorCode'] === 'TXT') {
+                $result['text'] = $result['phrases']['message'];
             }
         }
 
@@ -1142,7 +1135,7 @@ class MailBoxService
         }
 
         // Edit draft {
-        if ($action == self::ACTION_EDIT) {
+        /*if ($action == self::ACTION_EDIT) {
             $result['id'] = $message->id;
 
             $characters = self::getCharacters($message->simulation);
@@ -1167,7 +1160,7 @@ class MailBoxService
                 $result['attachmentName']   = $message->attachment->myDocument->fileName;
                 $result['attachmentId']     = $message->attachment->file_id;
             }
-        }
+        }*/
         // Edit draft }
 
         return $result;
