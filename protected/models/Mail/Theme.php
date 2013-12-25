@@ -99,4 +99,8 @@ class Theme extends CActiveRecord
             'criteria'=>$criteria,
         ));
     }
+
+    public function getFormattedTheme($prefix='') {
+        return str_replace(['re', 'fwd'], ['Re: ', 'Fwd: '], $prefix) . $this->text;
+    }
 }

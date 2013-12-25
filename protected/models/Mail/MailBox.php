@@ -315,8 +315,8 @@ class MailBox extends CActiveRecord
      * Возвращает отформатированую тему с очётом префиксов
      * @return string
      */
-    public function getFormattedTheme() {
-        return str_replace(['re', 'fwd'], ['Re: ', 'Fwd: '], $this->mail_prefix) . $this->theme->text;
+    public function getFormattedTheme($prefix='') {
+        return str_replace(['re', 'fwd'], ['Re: ', 'Fwd: '], $prefix.$this->mail_prefix) . $this->theme->text;
     }
 
     public function getMessageByReceiverAndTheme() {
