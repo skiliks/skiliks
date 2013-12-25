@@ -53,6 +53,7 @@
  * @method OutgoingPhoneTheme getOutgoingPhoneTheme
  * @method OutboxMailTheme getOutboxMailTheme
  * @method MailConstructor getMailConstructor
+ * @method MailTemplate getMailTemplate
  *
  */
 class Scenario extends CActiveRecord
@@ -515,7 +516,7 @@ class Scenario extends CActiveRecord
     }
 
     /**
-     * @param array of strings $array
+     * @param array $array
      *
      * @return array MailTemplate
      */

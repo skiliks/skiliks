@@ -22,6 +22,8 @@
  */
 class OutboxMailTheme extends CActiveRecord
 {
+    const SLUG_RIGHT = 'R';
+    const SLUG_WRONG = 'W';
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.

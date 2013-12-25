@@ -60,10 +60,12 @@ class EmailCoincidenceAnalyzer
             return $result;
         }
 
-        foreach ($this->userEmail->simulation->game_type->getMailTemplates([
-                'receiver_id' => $this->userEmail->receiver_id,
-                'subject_id' => $this->userEmail->subject_id
-            ]) as $mailTemplate) {
+        $mailTemplates = $this->userEmail->simulation->game_type->getMailTemplates([
+            'receiver_id' => $this->userEmail->receiver_id,
+            'theme_id' => $this->userEmail->theme_id,
+            'mail_prefix' => $this->userEmail->mail_prefix
+        ]);
+        foreach ($mailTemplates as $mailTemplate) {
             if (!preg_match('/MS\d+/',$mailTemplate->code)) {
                 continue;
             }
@@ -96,27 +98,26 @@ class EmailCoincidenceAnalyzer
             $indexFull = $this->getMailCodeFullConsidence(
                 $mailRecipientId,
                 $mailCopyId, 
-                $mailTemplate->subject_id, 
+                $mailTemplate->theme_id,
+                $mailTemplate->mail_prefix,
                 $mailAttachId);
             
             $indexPart1 = $this->getMailCodePart1Considence(
                 $mailRecipientId,
-                $mailTemplate->subject_id, 
+                $mailTemplate->theme_id,
+                $mailTemplate->mail_prefix,
                 $mailAttachId);
             
             $indexPart2 = $this->getMailCodePart2Considence(
                 $mailTemplate->receiver_id,
-                $mailTemplate->subject_id, 
+                $mailTemplate->theme_id,
+                $mailTemplate->mail_prefix,
                 $mailAttachId);
             
            $this->emailTemplatesByCodeFull[$indexFull]   = $mailTemplate;
            $this->emailTemplatesByCodePart1[$indexPart1] = $mailTemplate;
            $this->emailTemplatesByCodePart2[$indexPart2] = $mailTemplate;
 
-
-            //
-           $themeService = new CommunicationThemeService();
-           $themeService->addToTheLogUsed($this->userEmail->simulation, $this->userEmail->subject_id);
 
            unset($mailRecipientId);
            unset($mailCopyId);
@@ -158,17 +159,20 @@ class EmailCoincidenceAnalyzer
         $indexFull = $this->getMailCodeFullConsidence(
             $mailRecipientId,
             $mailCopyId, 
-            $this->userEmail->subject_id, 
+            $this->userEmail->theme_id,
+            $this->userEmail->mail_prefix,
             $mailAttachId);
 
         $indexPart1 = $this->getMailCodePart1Considence(
             $mailRecipientId,
-            $this->userEmail->subject_id, 
+            $this->userEmail->theme_id,
+            $this->userEmail->mail_prefix,
             $mailAttachId);
 
         $indexPart2 = $this->getMailCodePart2Considence(
             $this->userEmail->receiver_id,
-            $this->userEmail->subject_id, 
+            $this->userEmail->theme_id,
+            $this->userEmail->mail_prefix,
             $mailAttachId);
 
         unset($mailRecipientId);
@@ -214,17 +218,18 @@ class EmailCoincidenceAnalyzer
      * 
      * @return string
      */
-    private function getMailCodeFullConsidence($recipientsIds, $copyCharacterIds, $subjectId, $attachmentIds)
+    private function getMailCodeFullConsidence($recipientsIds, $copyCharacterIds, $themeId, $mailPrefix, $attachmentIds)
     {
         sort($recipientsIds);
         sort($copyCharacterIds);
         sort($attachmentIds);
         
         return sprintf(
-            '%s_%s_%s_%s',
+            '%s_%s_%s_%s_%s',
             implode('-', $recipientsIds),
             implode('-', $copyCharacterIds),
-            $subjectId,
+            $themeId,
+            $mailPrefix,
             implode('-', $attachmentIds)
         );
     }
@@ -236,15 +241,16 @@ class EmailCoincidenceAnalyzer
      * 
      * @return string
      */
-    private function getMailCodePart1Considence($recipientsIds, $subjectId, $attachmentIds)
+    private function getMailCodePart1Considence($recipientsIds, $themeId, $mailPrefix, $attachmentIds)
     {
         sort($recipientsIds);
         sort($attachmentIds);
         
         return sprintf(
-            '%s_%s_%s',
+            '%s_%s_%s_%s',
             implode('-', $recipientsIds),
-            $subjectId,
+            $themeId,
+            $mailPrefix,
             implode('-', $attachmentIds)
         );
     }
@@ -256,14 +262,15 @@ class EmailCoincidenceAnalyzer
      * 
      * @return string
      */
-    private function getMailCodePart2Considence($firstRecipientId, $subjectId, $attachmentIds)
+    private function getMailCodePart2Considence($firstRecipientId, $themeId, $mailPrefix, $attachmentIds)
     {
         sort($attachmentIds);
         
         return sprintf(
-            '%s_%s_%s',
+            '%s_%s_%s_%s',
             $firstRecipientId,
-            $subjectId,
+            $themeId,
+            $mailPrefix,
             implode('-', $attachmentIds)
         );
     }
