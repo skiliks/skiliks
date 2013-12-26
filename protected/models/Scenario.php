@@ -53,6 +53,7 @@
  * @method OutgoingPhoneTheme getOutgoingPhoneTheme
  * @method OutboxMailTheme getOutboxMailTheme
  * @method MailConstructor getMailConstructor
+ * @method MailTemplate getMailTemplate
  *
  */
 class Scenario extends CActiveRecord
@@ -478,6 +479,25 @@ class Scenario extends CActiveRecord
     }
 
     /**
+     * @param array $data
+     *
+     * @return OutgoingPhoneTheme[]
+     */
+    public function getOutgoingPhoneThemes($data)
+    {
+        if (is_array($data)) {
+            $data['scenario_id'] = $this->id;
+            return OutgoingPhoneTheme::model()->findAllByAttributes($data);
+        } else if ($data instanceof CDbCriteria) {
+            $data->compare('scenario_id', $this->id);
+            return OutgoingPhoneTheme::model()->findAll($data);
+        } else {
+            assert(false);
+            return [];
+        }
+    }
+
+    /**
      * @param array of strings $array
      *
      * @return array ActivityParentAvailability
@@ -496,7 +516,7 @@ class Scenario extends CActiveRecord
     }
 
     /**
-     * @param array of strings $array
+     * @param array $array
      *
      * @return array MailTemplate
      */

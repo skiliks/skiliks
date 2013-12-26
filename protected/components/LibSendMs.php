@@ -59,41 +59,48 @@ class LibSendMs
      * @param Simulation $simulation
      * @return MailBox
      */
-    public static function sendNotMs($simulation)
+    public static function sendNotMs(Simulation $simulation)
     {
-        $randomSubjectForCharacter40 = $simulation->game_type->getCommunicationTheme([
-            'character_id' => $simulation->game_type->getCharacter(['fio'=>'Мягков Ю.'])->id
+        $theme = $simulation->game_type->getTheme(['code'=>'127']);
+        $character = $simulation->game_type->getCharacter(['fio'=>'Мягков Ю.']);
+        $OutboxMailTheme = $simulation->game_type->getOutboxMailTheme([
+            'character_to_id' => $character->id,
+            'theme_id' => $theme->id,
+            'mail_prefix' => null
         ]);
 
         $sendMailOptions = new SendMailOptions($simulation);
-        $sendMailOptions->setRecipientsArray('32'); // Неизвестная
+        $sendMailOptions->setRecipientsArray($character->id);
         $sendMailOptions->simulation = $simulation;
         $sendMailOptions->time       = '09:01';
         $sendMailOptions->copies     = '';
         $sendMailOptions->phrases    = '';
-        $sendMailOptions->subject_id = $randomSubjectForCharacter40->id;
+        $sendMailOptions->themeId = $theme->id;
         $sendMailOptions->messageId  = '';
+        $sendMailOptions->mailPrefix = $OutboxMailTheme->mail_prefix;
+        $sendMailOptions->constructorCode = $OutboxMailTheme->mailConstructor->code;
 
         return MailBoxService::sendMessagePro($sendMailOptions);
     }
 
+
     /**
-     * Sends MS
-     * @param $simulation Simulation
-     * @param string $messageCode
+     * Оьправка MS писем
+     * @param Simulation $simulation
+     * @param $messageCode
      * @param bool $isDraft
+     * @param string $letterType
+     * @param string $time
      * @return MailBox|null
      */
-    public static function sendMs($simulation, $messageCode, $isDraft = false, $letterType = '', $time = '9:01')
+    public static function sendMs(Simulation $simulation, $messageCode, $isDraft = false, $letterType = '', $time = '9:01')
     {
         $mailTemplate = $simulation->game_type->getMailTemplate(['code' => $messageCode]);
-        /** @var $subject CommunicationTheme */
-        $subject = $mailTemplate->subject_obj;
 
         $attachmentTemplates = $mailTemplate->attachments;
 
         // collect recipient ids string {
-        $recipientsString = $subject->character_id;
+        $recipientsString = $mailTemplate->receiver_id;
         $recipients = MailTemplateRecipient::model()->findAllByAttributes([
             'mail_id' => $mailTemplate->id
         ]);
@@ -129,9 +136,20 @@ class LibSendMs
             ]);
             $sendMailOptions->fileId     = $doc->primaryKey;
         }
-
-        $sendMailOptions->subject_id = $subject->id;
+        $outbox_theme = $simulation->game_type->getOutboxMailTheme([
+            'character_to_id' => $mailTemplate->receiver_id,
+            'theme_id' => $mailTemplate->theme_id,
+            'mail_prefix' => null
+        ]);
+        if(null === $outbox_theme || $outbox_theme->mailConstructor === null) {
+            $mailConstructor = 'B1';
+        }else{
+            $mailConstructor = $outbox_theme->mailConstructor->code;
+        }
+        $sendMailOptions->constructorCode = $mailConstructor;
+        $sendMailOptions->themeId = $mailTemplate->theme->id;
         $sendMailOptions->messageId  = '';
+        $sendMailOptions->mailPrefix = $mailTemplate->mail_prefix;
         if ($isDraft) {
             return MailBoxService::saveDraft($sendMailOptions);
         } else {
