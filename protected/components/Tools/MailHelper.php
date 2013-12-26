@@ -108,14 +108,22 @@ class MailHelper
      */
     public static function sendEmailAboutActivityToStudySimulation(Invite $invite) {
 
-        if($invite->owner_id === $invite->receiver_id && null !== $invite->receiverUser && false == $invite->receiverUser->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE && $invite->scenario->slug === Scenario::TYPE_FULL)) {
+        if($invite->owner_id === $invite->receiver_id
+            && null !== $invite->receiverUser
+            && false == $invite->receiverUser->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)
+            && $invite->scenario->slug === Scenario::TYPE_FULL) {
+
             $scenario = Scenario::model()->findByAttributes(['slug'=>Scenario::TYPE_FULL]);
-            $count = (int)Invite::model()->count("receiver_id = :user_id and owner_id = :user_id and scenario_id = :scenario_id and (status = :in_progress or status = :completed)", [
-                'user_id'=>$invite->owner_id,
+
+            $count = (int)Invite::model()->count(
+                "receiver_id = :user_id AND owner_id = :user_id AND scenario_id = :scenario_id "
+                ." AND (status = :in_progress OR status = :completed)", [
+                'user_id'     =>$invite->owner_id,
                 'in_progress' => Invite::STATUS_IN_PROGRESS,
-                'completed' => Invite::STATUS_COMPLETED,
-                'scenario_id'=>$scenario->id
+                'completed'   => Invite::STATUS_COMPLETED,
+                'scenario_id' =>$scenario->id
             ]);
+
             if($count >= 2) {
                 $mailOptions = new SiteEmailOptions();
                 $mailOptions->from = Yum::module('registration')->registrationEmail;
