@@ -159,7 +159,7 @@ class MailBox extends CActiveRecord
      */
     public function isRight()
     {
-        return CommunicationTheme::SLUG_RIGHT == $this->subject_obj->wr;
+        return CommunicationTheme::SLUG_RIGHT == $this->getWR();
     }
 
     /**
@@ -313,12 +313,17 @@ class MailBox extends CActiveRecord
 
     /**
      * Возвращает отформатированую тему с очётом префиксов
+     * @param string $prefix префикс например re,fwd, rere ...
      * @return string
      */
     public function getFormattedTheme($prefix='') {
         return str_replace(['re', 'fwd'], ['Re: ', 'Fwd: '], $prefix.$this->mail_prefix) . $this->theme->text;
     }
 
+    /**
+     * Возвращает текст письма по получител и теме(с префиксом)
+     * @return string
+     */
     public function getMessageByReceiverAndTheme() {
         return $this->
             simulation->
@@ -329,6 +334,23 @@ class MailBox extends CActiveRecord
                         'theme_id'=>$this->theme_id,
                         'mail_prefix'=> $this->mail_prefix
                     ])->message;
+    }
+
+    /**
+     * Возвращает W/R/N
+     * @return string
+     */
+    public function getWR() {
+        $outbox_theme = $this->simulation->game_type->getOutboxMailTheme([
+            'character_to_id' => $this->receiver_id,
+            'theme_id' => $this->theme_id,
+            'mail_prefix' => $this->mail_prefix
+        ]);
+
+        if(null === $outbox_theme){
+            return OutboxMailTheme::SLUG_WRONG;
+        }
+        return $outbox_theme->wr;
     }
 }
 

@@ -90,6 +90,23 @@ class MailTemplate extends CActiveRecord implements IGameAction
             'theme'                      => [self::BELONGS_TO, 'Theme', 'theme_id']
         ];
     }
+
+    /**
+     * Возвращает W/R/N
+     * @return string
+     */
+    public function getWR() {
+        $outbox_theme = $this->game_type->getOutboxMailTheme([
+            'character_to_id' => $this->receiver_id,
+            'theme_id' => $this->theme_id,
+            'mail_prefix' => $this->mail_prefix
+        ]);
+
+        if(null === $outbox_theme){
+            return OutboxMailTheme::SLUG_WRONG;
+        }
+        return $outbox_theme->wr;
+    }
 }
 
 
