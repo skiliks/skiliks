@@ -54,6 +54,8 @@
  * @method OutboxMailTheme getOutboxMailTheme
  * @method MailConstructor getMailConstructor
  * @method MailTemplate getMailTemplate
+ * @method FlagOutboxMailThemeDependence getFlagOutboxMailThemeDependence
+ * @method FlagOutgoingPhoneThemeDependence getFlagOutgoingPhoneThemeDependence
  *
  */
 class Scenario extends CActiveRecord
@@ -491,6 +493,44 @@ class Scenario extends CActiveRecord
         } else if ($data instanceof CDbCriteria) {
             $data->compare('scenario_id', $this->id);
             return OutgoingPhoneTheme::model()->findAll($data);
+        } else {
+            assert(false);
+            return [];
+        }
+    }
+
+    /**
+     * @param array $data
+     *
+     * @return FlagOutgoingPhoneThemeDependence[]
+     */
+    public function getFlagOutgoingPhoneThemeDependencies($data)
+    {
+        if (is_array($data)) {
+            $data['scenario_id'] = $this->id;
+            return FlagOutgoingPhoneThemeDependence::model()->findAllByAttributes($data);
+        } else if ($data instanceof CDbCriteria) {
+            $data->compare('scenario_id', $this->id);
+            return FlagOutgoingPhoneThemeDependence::model()->findAll($data);
+        } else {
+            assert(false);
+            return [];
+        }
+    }
+
+    /**
+     * @param array $data
+     *
+     * @return FlagOutboxMailThemeDependence[]
+     */
+    public function getFlagOutboxMailThemeDependencies($data)
+    {
+        if (is_array($data)) {
+            $data['scenario_id'] = $this->id;
+            return FlagOutboxMailThemeDependence::model()->findAllByAttributes($data);
+        } else if ($data instanceof CDbCriteria) {
+            $data->compare('scenario_id', $this->id);
+            return FlagOutboxMailThemeDependence::model()->findAll($data);
         } else {
             assert(false);
             return [];

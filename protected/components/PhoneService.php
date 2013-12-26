@@ -132,7 +132,9 @@ class PhoneService {
             }
         }*/
         foreach($themes as $theme) {
+            if(false === $theme->isBlockedByFlags($simulation) && false === $theme->themeIsUsed($simulation)) {
                 $list[] = ['themeId' => $theme->theme_id, 'themeTitle' => $theme->theme->text];
+            }
         }
         
         return $list;

@@ -743,13 +743,6 @@ class ImportGameDataService
         }
         // Get all mail_templates }
 
-        // Get all exist system mail_themes to avoid SQL queries againts each request {
-        $existsMailThemes = array();
-        foreach ($this->scenario->getCommunicationThemes([]) as $mailTheme) {
-            $existsMailThemes[$mailTheme->text] = $mailTheme;
-        }
-        // Get all mail_themes }
-
         $exists = array();
 
         $index = 0;
@@ -863,48 +856,6 @@ class ImportGameDataService
             if ($themePrefix === '-') {
                 $themePrefix = null;
             }
-            // themes update {
-            // for MSx
-            $subjectEntity = $this->scenario->getCommunicationTheme([
-                'code'         => $subject_id,
-                'character_id' => $toId,
-                'mail_prefix'  => $themePrefix,
-                'theme_usage'  => CommunicationTheme::USAGE_OUTBOX,
-            ]);
-
-            // for MSYx
-            if ($subjectEntity === null) {
-                $subjectEntity = $this->scenario->getCommunicationTheme([
-                    'code'         => $subject_id,
-                    'character_id' => $toId,
-                    'mail_prefix'  => $themePrefix,
-                    'theme_usage'  => CommunicationTheme::USAGE_OUTBOX_OLD,
-                ]);
-            }
-
-            // for Mx
-            if ($subjectEntity === null) {
-                $subjectEntity = $this->scenario->getCommunicationTheme([
-                    'code'         => $subject_id,
-                    'character_id' => $toId,
-                    'mail_prefix'  => $themePrefix,
-                    'theme_usage'  => CommunicationTheme::USAGE_INBOX,
-                ]);
-            }
-
-            if ($subjectEntity === null) {
-                $subjectEntity = $this->scenario->getCommunicationTheme([
-                    'code'         => $subject_id,
-                    'character_id' => null,
-                    'mail_prefix'  => $themePrefix,
-                ]);
-            }
-
-            if ($subjectEntity === null) {
-                throw new Exception('No subject for mail code ' . $code . ', theme id ' . $subject_id . ' prefix ' . $themePrefix);
-            }
-            $emailSubjectsIds[] = $subjectEntity->primaryKey;
-            // themes update }
 
             $emailTemplateEntity = $this->scenario->getMailTemplate(['code' => $code]);
             if ($emailTemplateEntity === null) {
@@ -920,7 +871,6 @@ class ImportGameDataService
             $emailTemplateEntity->receiver_id = $toId;
             $emailTemplateEntity->theme_id = $theme->id;
             $emailTemplateEntity->mail_prefix = $themePrefix;
-            $emailTemplateEntity->subject_id = $subjectEntity->id;
             $emailTemplateEntity->message = $message;
             $emailTemplateEntity->sent_at = $sendingDate . ' ' . $sendingTime;
             $emailTemplateEntity->type = $type;
@@ -1100,7 +1050,6 @@ class ImportGameDataService
             $counter['mark-1']
         );
         MailTemplate::model()->deleteAll('import_id<>:import_id AND scenario_id = :scenario_id', array('import_id' => $this->import_id, 'scenario_id' => $this->scenario->primaryKey));
-        //CommunicationTheme::model()->deleteAll('import_id<>:import_id AND scenario_id = :scenario_id', array('import_id' => $this->import_id, 'scenario_id' => $this->scenario->primaryKey));
 
         $this->logEnd();
 
@@ -3014,31 +2963,31 @@ class ImportGameDataService
         }
 
         /* Создание зависимости ком. тем от флагов для тем в почте */
-        $importedCommunicationTheme = 0;
+        $importedOutboxMailThemeDependence = 0;
         $importedFlagToRunOutboxMailRows = 0;
         for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
             if ('mail_outbox' != $this->getCellValue($sheet, 'Flag_run_type', $i)) {
                 continue;
             }
-            /* Создание зависимости тем от флагов для реплик в телефоне */
-            $communicationTheme = $this->scenario->getCommunicationTheme(['mail'=> 1, 'letter_number'=>$this->getCellValue($sheet, 'Run_code', $i)]);
-            if(null === $communicationTheme) {
+            /* Создание зависимости тем от флагов для реплик в почте */
+            $outboxMailTheme = $this->scenario->getOutboxMailTheme(['mail_code'=>$this->getCellValue($sheet, 'Run_code', $i)]);
+            if(null === $outboxMailTheme) {
                 continue;
             }
-            $flagCommunicationThemeDependence = $this->scenario->getFlagCommunicationThemeDependence(['communication_theme_id'=>$communicationTheme->id, 'flag_code' => $this->getCellValue($sheet, 'Flag_code', $i)]);
-            if(null === $flagCommunicationThemeDependence) {
-                $flagCommunicationThemeDependence = new FlagCommunicationThemeDependence();
-                $flagCommunicationThemeDependence->communication_theme_id = $communicationTheme->id;
-                $flagCommunicationThemeDependence->flag_code = $this->getCellValue($sheet, 'Flag_code', $i);
+            $flagOutboxMailThemeDependence = $this->scenario->getFlagOutboxMailThemeDependence(['outbox_mail_theme_id'=>$outboxMailTheme->id, 'flag_code' => $this->getCellValue($sheet, 'Flag_code', $i)]);
+            if(null === $flagOutboxMailThemeDependence) {
+                $flagOutboxMailThemeDependence = new FlagOutboxMailThemeDependence();
+                $flagOutboxMailThemeDependence->outbox_mail_theme_id = $outboxMailTheme->id;
+                $flagOutboxMailThemeDependence->flag_code = $this->getCellValue($sheet, 'Flag_code', $i);
             }
-            $flagCommunicationThemeDependence->value = $this->getCellValue($sheet, 'Flag_value_to_run', $i);
-            $flagCommunicationThemeDependence->scenario_id = $this->scenario->primaryKey;
-            $flagCommunicationThemeDependence->import_id = $this->import_id;
-            $flagCommunicationThemeDependence->save();
-            unset($communicationTheme);
-            unset($flagCommunicationThemeDependence);
+            $flagOutboxMailThemeDependence->value = $this->getCellValue($sheet, 'Flag_value_to_run', $i);
+            $flagOutboxMailThemeDependence->scenario_id = $this->scenario->primaryKey;
+            $flagOutboxMailThemeDependence->import_id = $this->import_id;
+            $flagOutboxMailThemeDependence->save();
+            unset($outboxMailTheme);
+            unset($flagOutboxMailThemeDependence);
             $importedFlagToRunOutboxMailRows++;
-            $importedCommunicationTheme++;
+            $importedOutboxMailThemeDependence++;
         }
 
 
@@ -3101,45 +3050,24 @@ class ImportGameDataService
             $flagBlockDialog->save();
 
             /* Создание зависимости тем от флагов для диалогов в телефоне */
-            $communicationTheme = $this->scenario->getCommunicationTheme(['phone'=> 1, 'phone_dialog_number'=>$this->getCellValue($sheet, 'Run_code', $i)]);
-            if(null === $communicationTheme) {
+            $outgoingPhoneTheme = $this->scenario->getOutgoingPhoneTheme(['dialog_code'=>$this->getCellValue($sheet, 'Run_code', $i)]);
+            if(null === $outgoingPhoneTheme) {
                 continue;
             }
-            $flagCommunicationThemeDependence = $this->scenario->getFlagCommunicationThemeDependence(['communication_theme_id'=>$communicationTheme->id, 'flag_code' => $this->getCellValue($sheet, 'Flag_code', $i)]);
-            if(null === $flagCommunicationThemeDependence) {
-                $flagCommunicationThemeDependence = new FlagCommunicationThemeDependence();
-                $flagCommunicationThemeDependence->communication_theme_id = $communicationTheme->id;
-                $flagCommunicationThemeDependence->flag_code = $this->getCellValue($sheet, 'Flag_code', $i);
+            $flagOutgoingPhoneThemeDependence = $this->scenario->getFlagOutgoingPhoneThemeDependence(['outgoing_phone_theme_id'=>$outgoingPhoneTheme->id, 'flag_code' => $this->getCellValue($sheet, 'Flag_code', $i)]);
+            if(null === $flagOutgoingPhoneThemeDependence) {
+                $flagOutgoingPhoneThemeDependence = new FlagOutgoingPhoneThemeDependence();
+                $flagOutgoingPhoneThemeDependence->outgoing_phone_theme_id = $outgoingPhoneTheme->id;
+                $flagOutgoingPhoneThemeDependence->flag_code = $this->getCellValue($sheet, 'Flag_code', $i);
             }
-            $flagCommunicationThemeDependence->value = $this->getCellValue($sheet, 'Flag_value_to_run', $i);
-            $flagCommunicationThemeDependence->scenario_id = $this->scenario->primaryKey;
-            $flagCommunicationThemeDependence->import_id = $this->import_id;
-            $flagCommunicationThemeDependence->save();
-            unset($flagCommunicationThemeDependence);
+            $flagOutgoingPhoneThemeDependence->value = $this->getCellValue($sheet, 'Flag_value_to_run', $i);
+            $flagOutgoingPhoneThemeDependence->scenario_id = $this->scenario->primaryKey;
+            $flagOutgoingPhoneThemeDependence->import_id = $this->import_id;
+            $flagOutgoingPhoneThemeDependence->save();
+            unset($flagOutgoingPhoneThemeDependence);
 
-            $importedCommunicationTheme++;
             $importedFlagBlockDialog++;
-            /*  */
-            $communicationTheme = $this->scenario->getCommunicationTheme(['mail'=> 1, 'text' => $communicationTheme->text, 'character_id' => $communicationTheme->character_id, 'mail_prefix'=>null]);
-            if(null === $communicationTheme) {
-                $this->logging("Mail fail " . $this->getCellValue($sheet, 'Run_code', $i));
-                continue;
-            }
 
-            $flagCommunicationThemeDependence = $this->scenario->getFlagCommunicationThemeDependence(['communication_theme_id'=>$communicationTheme->id, 'flag_code' => $this->getCellValue($sheet, 'Flag_code', $i)]);
-            if(null === $flagCommunicationThemeDependence) {
-                $flagCommunicationThemeDependence = new FlagCommunicationThemeDependence();
-                $flagCommunicationThemeDependence->communication_theme_id = $communicationTheme->id;
-                $flagCommunicationThemeDependence->flag_code = $this->getCellValue($sheet, 'Flag_code', $i);
-            }
-            $flagCommunicationThemeDependence->value = $this->getCellValue($sheet, 'Flag_value_to_run', $i);
-            $flagCommunicationThemeDependence->scenario_id = $this->scenario->primaryKey;
-            $flagCommunicationThemeDependence->import_id = $this->import_id;
-            $flagCommunicationThemeDependence->save();
-            unset($communicationTheme);
-            unset($flagCommunicationThemeDependence);
-            $importedFlagToRunOutboxMailRows++;
-            $importedCommunicationTheme++;
         }
         // for Dialogs }
 
@@ -3194,7 +3122,11 @@ class ImportGameDataService
             array('import_id' => $this->import_id, 'scenario_id' => $this->scenario->primaryKey)
         );
 
-        FlagCommunicationThemeDependence::model()->deleteAll(
+        FlagOutboxMailThemeDependence::model()->deleteAll(
+            'import_id<>:import_id AND scenario_id = :scenario_id',
+            array('import_id' => $this->import_id, 'scenario_id' => $this->scenario->primaryKey)
+        );
+        FlagOutgoingPhoneThemeDependence::model()->deleteAll(
             'import_id<>:import_id AND scenario_id = :scenario_id',
             array('import_id' => $this->import_id, 'scenario_id' => $this->scenario->primaryKey)
         );
@@ -3211,7 +3143,7 @@ class ImportGameDataService
             'imported_Flag_to_run_mail'          => $importedFlagToRunMailRows,
             'imported_Flag_block_replica'        => $importedFlagBlockReplica,
             'imported_Flag_block_dialog'         => $importedFlagBlockDialog,
-            'imported_Flag_communication_theme'  => $importedCommunicationTheme,
+            'imported_Flag_to_outbox_mail'       => $importedOutboxMailThemeDependence,
             'imported_Flag_allow_meeting'        => $importedFlagAllowMeeting,
             'errors'                             => false,
         ];

@@ -7,7 +7,6 @@
  * @property integer $group_id, mail_group.id
  * @property integer $sender_id, characters.id
  * @property integer $receiver_id, characters.id
- * @property integer $subject_id, communication_themes.id
  * @property string  $sent_at, datetime
  * @property string  $message
  * @property integer $sim_id, simulations.id
@@ -317,6 +316,8 @@ class MailBox extends CActiveRecord
      * @return string
      */
     public function getFormattedTheme($prefix='') {
+        $prefix = $prefix === null?'':$prefix;
+        $this->mail_prefix = $this->mail_prefix === null?'':$this->mail_prefix;
         return str_replace(['re', 'fwd'], ['Re: ', 'Fwd: '], $prefix.$this->mail_prefix) . $this->theme->text;
     }
 

@@ -106,4 +106,43 @@ class OutgoingPhoneTheme extends CActiveRecord
             'criteria'=>$criteria,
         ));
     }
+
+    /**
+     * Проверяет на блокировку тем для исходящых звонков
+     * @param Simulation $simulation
+     * @return bool
+     */
+    public function isBlockedByFlags(Simulation $simulation) {
+
+        $flagsDependence = $simulation->game_type->getFlagOutgoingPhoneThemeDependencies(['outgoing_phone_theme_id'=>$this->id]);
+        if(empty($flagsDependence)){
+            return false;
+        }
+        foreach($flagsDependence as $flagDependence) {
+            $flagSimulation = FlagsService::getFlag($simulation, $flagDependence->flag_code);
+            if($flagSimulation->value !== $flagDependence->value) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Проверяет был ли звонок по этой теме
+     * @param Simulation $simulation
+     * @return bool
+     */
+    public function themeIsUsed(Simulation $simulation) {
+        $call = PhoneCall::model()->findByAttributes([
+            'sim_id' => $simulation->id,
+            'theme_id' => $this->theme_id,
+            'to_id' => $this->character_to_id
+        ]);
+        //return null !== $call;
+        if(null === $call){
+            return false;
+        }else{
+            return true;
+        }
+    }
 }

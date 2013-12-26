@@ -111,4 +111,39 @@ class OutboxMailTheme extends CActiveRecord
             'criteria'=>$criteria,
         ));
     }
+
+    /**
+     * Проверяет на блокировку тем для написания письма
+     * @param Simulation $simulation
+     * @return bool
+     */
+    public function isBlockedByFlags(Simulation $simulation) {
+
+        $flagsDependence = $simulation->game_type->getFlagOutboxMailThemeDependencies(['outbox_mail_theme_id'=>$this->id]);
+        if(empty($flagsDependence)){
+            return false;
+        }
+        foreach($flagsDependence as $flagDependence) {
+            $flagSimulation = FlagsService::getFlag($simulation, $flagDependence->flag_code);
+            if($flagSimulation->value !== $flagDependence->value) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Проверяет было отправлено письмо или нет
+     * @param Simulation $simulation
+     * @return bool
+     */
+    public function themeIsUsed(Simulation $simulation) {
+        $mail = MailBox::model()->findByAttributes([
+            'sim_id' => $simulation->id,
+            'theme_id' => $this->theme_id,
+            'receiver_id' => $this->character_to_id,
+            'mail_prefix' => $this->mail_prefix
+        ]);
+        return null !== $mail;
+    }
 }

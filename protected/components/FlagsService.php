@@ -247,7 +247,7 @@ class FlagsService
      * Получить список флагов диалогов в рамках симуляции
      * @param $simulation
      * @param $flag_code
-     * @return array
+     * @return SimulationFlag
      */
     public static function getFlag($simulation, $flag_code)
     {

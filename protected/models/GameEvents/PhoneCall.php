@@ -9,6 +9,7 @@
  * @property integer $from_id character.id
  * @property integer $to_id character.id
  * @property integer $dialog_code, (dialog_id)
+ * @property integer $theme_id
  *
  * Call type:
  * 0 - in call
