@@ -22,13 +22,13 @@
                  * - так что всё на таблицах.
                  */
                 ?>
-                <td style="width: 10px;"><table cellspacing="0" cellpadding="0" width="10px"><tbody><tr><td></td></tr></tbody></table></td>
-                <td style="width: 30px;"><table cellspacing="0" cellpadding="0" width="30px"><tbody><tr><td></td></tr></tbody></table></td>
-                <td style="width: 490px;"><table cellspacing="0" cellpadding="0" width="470px"><tbody><tr><td></td></tr></tbody></table></td></td>
-                <td style="width: 270px;"><table cellspacing="0" cellpadding="0" width="270px"><tbody><tr><td></td></tr></tbody></table></td></td>
-                <td style="width: 30px;"><table cellspacing="0" cellpadding="0" width="30px"><tbody><tr><td></td></tr></tbody></table></td>
-                <td style="width: 10px;"><table cellspacing="0" cellpadding="0" width="10px"><tbody><tr><td></td></tr></tbody></table></td>
-                <td style="width: 60px;"><table cellspacing="0" cellpadding="0" width="60px"><tbody><tr><td></td></tr></tbody></table></td>
+                <td style="width: 10px;"><table border="0" cellspacing="0" cellpadding="0" width="10px"><tbody><tr><td></td></tr></tbody></table></td>
+                <td style="width: 30px;"><table border="0" cellspacing="0" cellpadding="0" width="30px"><tbody><tr><td></td></tr></tbody></table></td>
+                <td style="width: 490px;"><table border="0" cellspacing="0" cellpadding="0" width="470px"><tbody><tr><td></td></tr></tbody></table></td></td>
+                <td style="width: 270px;"><table border="0" cellspacing="0" cellpadding="0" width="270px"><tbody><tr><td></td></tr></tbody></table></td></td>
+                <td style="width: 30px;"><table border="0" cellspacing="0" cellpadding="0" width="30px"><tbody><tr><td></td></tr></tbody></table></td>
+                <td style="width: 10px;"><table border="0" cellspacing="0" cellpadding="0" width="10px"><tbody><tr><td></td></tr></tbody></table></td>
+                <td style="width: 60px;"><table border="0" cellspacing="0" cellpadding="0" width="60px"><tbody><tr><td></td></tr></tbody></table></td>
             </tr>
 
             <?php
@@ -46,7 +46,7 @@
                  * Также некоторые почтовые клиенты по умолчанию рисуют рамки у таблиц и картирок - мы обнуляем эти рамки.
                  */
                 ?>
-                <td colspan="4" rowspan="2" style=" width: 470px; vertical-align: top; height: 612px;"><img border="0px" src="cid:<?= $template ?>" style="border-color: #ff0000; display:block; height: 612px;" /></td>
+                <td colspan="4" rowspan="2" style=" width: 360px; vertical-align: top; height: 612px;"><img border="0px" src="cid:<?= $template ?>" style="border-color: #ff0000; display:block; height: 612px;" /></td>
             </tr>
 
             <?php
