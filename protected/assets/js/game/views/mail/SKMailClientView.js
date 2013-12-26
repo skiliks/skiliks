@@ -1743,7 +1743,6 @@ define([
              */
             updateSubjectsList: function (forceAllowChangeSubject) {
                 try {
-                    //debugger;
                     var subjects_list = [];
 
                     for (var i in this.mailClient.availableSubjects) {
@@ -2345,9 +2344,7 @@ define([
              */
             doUpdateMailPhrasesList: function (dataSelected) {
                 try {
-                    //console.log(dataSelected);
                     var themeId = dataSelected.selectedData.value;
-                    //debugger;
                     var mailClientView = this;
                     var mailClient = this.mailClient;
 

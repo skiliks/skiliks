@@ -74,7 +74,6 @@ class MailHelper
                 $mail->update();
             } else {
                 $result['fail']++;
-                echo $mail->recipients . "\n";
                 $mail->status = EmailQueue::STATUS_PENDING;
                 $mail->update();
             }

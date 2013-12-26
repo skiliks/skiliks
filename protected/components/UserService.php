@@ -1326,8 +1326,6 @@ class UserService {
              * Добавляем письмо в лчетедь писем
              */
             MailHelper::addMailToQueue($mailOptions);
-
-            echo $email. "<br/>";
         }
     }
 }
