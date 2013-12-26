@@ -56,7 +56,7 @@
  * @method MailTemplate getMailTemplate
  * @method FlagOutboxMailThemeDependence getFlagOutboxMailThemeDependence
  * @method FlagOutgoingPhoneThemeDependence getFlagOutgoingPhoneThemeDependence
- *
+ * @method MailAttachmentTemplate getMailAttachmentTemplate
  */
 class Scenario extends CActiveRecord
 {

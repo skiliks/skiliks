@@ -865,7 +865,7 @@ class ImportGameDataService
 
             $theme = $this->scenario->getTheme(['theme_code'=>$subject_id]);
             //var_dump('Theme_id: ', $theme->id);
-            //var_dump('Code: ', $code);
+            var_dump('Code: ', $code);
             $emailTemplateEntity->group_id = $group;
             $emailTemplateEntity->sender_id = $fromId;
             $emailTemplateEntity->receiver_id = $toId;
@@ -1456,18 +1456,19 @@ class ImportGameDataService
             $attache = $this->getCellValue($sheet, 'Attachment', $i);
 
             if ($attache == '' || $attache == '-') continue; // нет аттачей
-
+            var_dump($code);
             $mail = $this->scenario->getMailTemplate(['code' => $code]);
             $fileId = $documents[$attache];
 
             // todo: use scenario_id!
-            $attacheModel = MailAttachmentTemplate::model()->findAllByAttributes([
+            $attacheModel = $this->scenario->getMailAttachmentTemplate([
                 'mail_id' => $mail->id,
                 'file_id' => $fileId
             ]);
             if ($attacheModel === null) {
                 $attacheModel = new MailAttachmentTemplate();
             }
+            var_dump($mail->id);
             $attacheModel->mail_id = $mail->id;
             $attacheModel->file_id = $fileId;
             $attacheModel->import_id = $this->import_id;
