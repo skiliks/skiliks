@@ -915,7 +915,7 @@ define([
                 if (media_src !== null && media_type !== type) {
                     media_src = null;
                 }else{
-                    if($.browser['msie'] == true) {
+                    if($.browser['msie'] == true || $.browser['safari'] == true) {
                         if(type === 'wav'){
                             media_type = 'mp3';
                         }else if(type === 'webm'){
@@ -927,7 +927,7 @@ define([
             },
 
             getMediaFile : function(media_src, media_type) {
-                if(media_type === 'webm' && $.browser['msie']){
+                if(media_type === 'webm' && ($.browser['msie'] || $.browser['safari'])){
                     media_type = 'mp4';
                 }
                 if(media_type === 'wav' && $.browser['msie']){

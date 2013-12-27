@@ -16,7 +16,8 @@ try {
                 var minSupport = {
                     mozilla: 18,
                     chrome: 27,
-                    msie: 10
+                    msie: 10,
+                    safari: 6
                 };
 
                 /**

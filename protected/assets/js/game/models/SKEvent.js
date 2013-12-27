@@ -144,7 +144,7 @@ define([], function () {
 
         getPosterSrc: function (video_src) {
             try {
-                if($.browser['msie'] == true) {
+                if($.browser['msie'] == true || $.browser['safari']) {
                     return video_src.replaceAll('mp4', 'jpeg');
                 }else{
                     return video_src.replaceAll('webm', 'jpeg');

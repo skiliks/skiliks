@@ -44,6 +44,7 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
         'server_domain_name' => 'live.skiliks.com',
         'frontendUrl'        => 'http://live.skiliks.com/',
         'runMigrationOn'     => 'live',
+
         'sentry' => [
             'dsn' => $sentryDsn,
         ],
