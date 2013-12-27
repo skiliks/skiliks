@@ -19,7 +19,6 @@
  * @property ActivityParent[] $activityParents
  * @property Character[] $characters
  * @property CharactersPoint[] $charactersPoints
- * @property CommunicationTheme[] $communicationThemes
  * @property Dialog[] $dialogs
  * @property EventSample[] $eventSamples
  * @property Flag[] $flags
@@ -182,42 +181,6 @@ class Scenario extends CActiveRecord
         } else if ($data instanceof CDbCriteria) {
             $data->compare('scenario_id', $this->getPrimaryKey());
             return Character::model()->findAll($data);
-        } else {
-            assert(false);
-        }
-    }
-
-    /**
-     * @param array of strings | CDbCriteria $data
-     *
-     * @return array of CommunicationTheme
-     */
-    public function getCommunicationThemes($data)
-    {
-        if (is_array($data)) {
-            $data['scenario_id'] = $this->id;
-            return CommunicationTheme::model()->findAllByAttributes($data);
-        } else if ($data instanceof CDbCriteria) {
-            $data->compare('scenario_id', $this->getPrimaryKey());
-            return CommunicationTheme::model()->findAll($data);
-        } else {
-            assert(false);
-        }
-    }
-
-    /**
-     * @param array of strings | CDbCriteria $data
-     *
-     * @return array of FlagCommunicationThemeDependence
-     */
-    public function getFlagCommunicationThemeDependencies($data)
-    {
-        if (is_array($data)) {
-            $data['scenario_id'] = $this->id;
-            return FlagCommunicationThemeDependence::model()->findAllByAttributes($data);
-        } else if ($data instanceof CDbCriteria) {
-            $data->compare('scenario_id', $this->getPrimaryKey());
-            return CommunicationTheme::model()->findAll($data);
         } else {
             assert(false);
         }
@@ -720,7 +683,6 @@ class Scenario extends CActiveRecord
 			'activityParents' => array(self::HAS_MANY, 'ActivityParent', 'scenario_id'),
 			'characters' => array(self::HAS_MANY, 'Characters', 'scenario_id'),
 			'charactersPoints' => array(self::HAS_MANY, 'CharactersPoints', 'scenario_id'),
-			'communicationThemes' => array(self::HAS_MANY, 'CommunicationThemes', 'scenario_id'),
 			'dialogs' => array(self::HAS_MANY, 'Dialogs', 'scenario_id'),
 			'eventSamples' => array(self::HAS_MANY, 'EventSample', 'scenario_id'),
 			'flags' => array(self::HAS_MANY, 'Flag', 'scenario_id'),

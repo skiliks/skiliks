@@ -3,7 +3,6 @@
  * Class MailPhrase
  *
  * @property integer $id
- * @property integer $character_theme_id, mail_character-themes.id
  * @property integer $phrase_type // ???
  * @property integer $column_number
  * @property string  $name

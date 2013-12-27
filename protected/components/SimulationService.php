@@ -1089,7 +1089,6 @@ class SimulationService
         LogActivityActionAggregated::model()->deleteAllByAttributes(['sim_id' => $simId]);
         LogActivityActionAggregated214d::model()->deleteAllByAttributes(['sim_id' => $simId]);
         LogAssessment214g::model()->deleteAllByAttributes(['sim_id' => $simId]);
-        LogCommunicationThemeUsage::model()->deleteAllByAttributes(['sim_id' => $simId]);
         LogDialog::model()->deleteAllByAttributes(['sim_id' => $simId]);
         LogDocument::model()->deleteAllByAttributes(['sim_id' => $simId]);
         LogIncomingCallSoundSwitcher::model()->deleteAllByAttributes(['sim_id' => $simId]);

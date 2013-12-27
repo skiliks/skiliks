@@ -38,7 +38,6 @@
  *
  * @property MailTemplate       $template
  * @property Simulation         $simulation
- * @property CommunicationTheme $subject_obj
  * @property MailAttachment     $attachment
  * @property MailBox            $parentMail
  * @property MailFolder         $folder
@@ -158,7 +157,7 @@ class MailBox extends CActiveRecord
      */
     public function isRight()
     {
-        return CommunicationTheme::SLUG_RIGHT == $this->getWR();
+        return OutboxMailTheme::SLUG_RIGHT == $this->getWR();
     }
 
     /**
@@ -300,7 +299,6 @@ class MailBox extends CActiveRecord
      */
     public function relations() {
         return array(
-            'subject_obj' => array(self::BELONGS_TO, 'CommunicationTheme', 'subject_id'),
             'template'    => array(self::BELONGS_TO, 'MailTemplate', 'template_id'),
             'simulation'    => array(self::BELONGS_TO, 'Simulation', 'sim_id'),
             'attachment'    => array(self::HAS_ONE, 'MailAttachment', 'mail_id'),

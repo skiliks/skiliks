@@ -17,7 +17,6 @@
  * @property string  $theme_id
  * @property string  $mail_prefix
  *
- * @property CommunicationTheme       $subject_obj
  * @property ActivityParent[]         $termination_parent_actions
  * @property MailAttachmentTemplate[] $attachments
  * @property Scenario                 $game_type
@@ -48,14 +47,13 @@ class MailTemplate extends CActiveRecord implements IGameAction
      */
     public function getParent()
     {
-        $subject = $this->subject_obj;
-        if (! $subject->mail_prefix) {
+        if (! $this->mail_prefix) {
             return null;
         }
-        $newPrefix = preg_replace('/^(re|fwd)/', '', $subject->mail_prefix) ? : null;
-        $parentTheme = CommunicationTheme::model()->findByAttributes(['code' => $subject->code, 'mail_prefix' => $newPrefix]);
 
-        return $this->game_type->getMailTemplate(['subject_id' => $parentTheme->primaryKey]);
+        return $this->game_type->getMailTemplate(
+            ['receiver_id'=>$this->receiver_id, 'mail_prefix' => null, 'theme_id'=>$this->theme_id]
+        );
     }
 
     /** ------------------------------------------------------------------------------------------------------------ **/
@@ -82,7 +80,6 @@ class MailTemplate extends CActiveRecord implements IGameAction
     {
         return [
             'termination_parent_actions' => [self::HAS_MANY, 'ActivityParent', 'mail_id'],
-            'subject_obj'                => [self::BELONGS_TO, 'CommunicationTheme', 'subject_id'],
             'attachments'                => [self::HAS_MANY, 'MailAttachmentTemplate', 'mail_id'],
             'game_type'                  => [self::BELONGS_TO, 'Scenario', 'scenario_id'],
             'sender'                     => [self::BELONGS_TO, 'Character', 'sender_id'],
