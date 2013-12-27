@@ -727,13 +727,10 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         // prepare data {
         $sample = null;
 
-        $rightMsEmails = MailTemplate::model()
-            ->with('subject_obj')
-            ->findAll(sprintf(
-                " t.code LIKE 'MS%s' AND subject_obj.wr = 'R' AND t.scenario_id = %s",
-                '%',
-                $simulation->scenario_id
-            ));
+        $rightMsEmails = [];
+        foreach($simulation->game_type->getOutboxMailThemes(['wr'=>OutboxMailTheme::SLUG_RIGHT]) as $outboxMailTheme) {
+            $rightMsEmails[] = $simulation->game_type->getMailTemplate(['code' => $outboxMailTheme->mail_code]);
+        }
 
         $count = 0;
         foreach ($rightMsEmails as $rightMsEmail) {
@@ -769,13 +766,10 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
 
         // prepare data {
-        $rightMsEmails = MailTemplate::model()
-            ->with('subject_obj')
-            ->findAll(sprintf(
-                " t.code LIKE 'MS%s' AND subject_obj.wr = 'R' AND t.scenario_id = %s",
-                '%',
-                $simulation->scenario_id
-            ));
+        $rightMsEmails = [];
+        foreach($simulation->game_type->getOutboxMailThemes(['wr'=>OutboxMailTheme::SLUG_RIGHT]) as $outboxMailTheme) {
+            $rightMsEmails[] = $simulation->game_type->getMailTemplate(['code' => $outboxMailTheme->mail_code]);
+        }
 
         foreach ($rightMsEmails as $rightMsEmail) {
             if (0 < MailTemplateCopy::model()->count(sprintf('mail_id = %s ', $rightMsEmail->id))) {
@@ -827,13 +821,10 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         // prepare data {
         $sample = null;
 
-        $rightMsEmails = MailTemplate::model()
-            ->with('subject_obj')
-            ->findAll(sprintf(
-                " t.code LIKE 'MS%s' AND subject_obj.wr = 'R' AND t.scenario_id = %s",
-                '%',
-                $simulation->scenario_id
-            ));
+        $rightMsEmails = [];
+        foreach($simulation->game_type->getOutboxMailThemes(['wr'=>OutboxMailTheme::SLUG_RIGHT]) as $outboxMailTheme) {
+            $rightMsEmails[] = $simulation->game_type->getMailTemplate(['code' => $outboxMailTheme->mail_code]);
+        }
 
         $count = 0;
         foreach ($rightMsEmails as $rightMsEmail) {
@@ -879,13 +870,10 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         // prepare data {
         $sample = null;
 
-        $rightMsEmails = MailTemplate::model()
-            ->with('subject_obj')
-            ->findAll(sprintf(
-                " t.code LIKE 'MS%s' AND subject_obj.wr = 'R' AND t.scenario_id = %s",
-                '%',
-                $simulation->scenario_id
-            ));
+        $rightMsEmails = [];
+        foreach($simulation->game_type->getOutboxMailThemes(['wr'=>OutboxMailTheme::SLUG_RIGHT]) as $outboxMailTheme) {
+            $rightMsEmails[] = $simulation->game_type->getMailTemplate(['code' => $outboxMailTheme->mail_code]);
+        }
 
         $count = 0;
         foreach ($rightMsEmails as $rightMsEmail) {
@@ -1662,9 +1650,9 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         // email-1 {
         $mailM71 = MailBox::model()->findByAttributes(['sim_id' => $simulation->id, 'code' => 'M71']);
         $characterLudovkina = $simulation->game_type->getCharacter(['code' => 13]);
-        $subjectForCharacter13 = $simulation->game_type->getCommunicationTheme([
-            'character_id'  => $characterLudovkina->id,
-            'letter_number' => 'MS63',
+        $subjectForCharacter13 = $simulation->game_type->getOutboxMailTheme([
+            'character_to_id'  => $characterLudovkina->id,
+            'mail_code' => 'MS63',
         ]);
         $sendMailOptions = new SendMailOptions($simulation);
         $sendMailOptions->setRecipientsArray($characterSomebody->id); // Неизвестная
@@ -1673,7 +1661,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         $sendMailOptions->time       = '09:01';
         $sendMailOptions->copies     = '';
         $sendMailOptions->phrases    = '';
-        $sendMailOptions->subject_id = $subjectForCharacter13->id;
+        $sendMailOptions->themeId = $subjectForCharacter13->theme_id;
         $sendMailOptions->messageId  = $mailM71->id;
 
         MailBoxService::sendMessagePro($sendMailOptions);
@@ -1682,9 +1670,9 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         // email-2 {
         $mailM71 = MailBox::model()->findByAttributes(['sim_id' => $simulation->id, 'code' => 'M71']);
         $characterLudovkina = $simulation->game_type->getCharacter(['code' => 13]);
-        $subjectForCharacter13 = $simulation->game_type->getCommunicationTheme([
-            'character_id'  => $characterLudovkina->id,
-            'letter_number' => 'MS63',
+        $subjectForCharacter13 = $simulation->game_type->getOutboxMailTheme([
+            'character_to_id'  => $characterLudovkina->id,
+            'mail_code' => 'MS63',
         ]);
         $sendMailOptions = new SendMailOptions($simulation);
         $sendMailOptions->setRecipientsArray($characterSomebody->id); // Неизвестная
@@ -1693,7 +1681,8 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         $sendMailOptions->time       = '09:02';
         $sendMailOptions->copies     = '';
         $sendMailOptions->phrases    = '';
-        $sendMailOptions->subject_id = $subjectForCharacter13->id;
+        $sendMailOptions->themeId = $subjectForCharacter13->theme_id;
+        $sendMailOptions->mailPrefix = $subjectForCharacter13->mail_prefix;
         $sendMailOptions->messageId  = $mailM71->id;
 
         MailBoxService::sendMessagePro($sendMailOptions);
@@ -1702,8 +1691,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         // email-3 {
         $mailM47 = MailBox::model()->findByAttributes(['sim_id' => $simulation->id, 'code' => 'M47']);
         $characterWife = $simulation->game_type->getCharacter(['code' => 25]);
-        $subjectForCharacter25 = $simulation->game_type->getCommunicationTheme([
-            'character_id' => $characterWife->id,
+        $subjectForCharacter25 = $simulation->game_type->getTheme([
             'text'         => 'данные по рынку, срочно нужна помощь!',
         ]);
         $sendMailOptions = new SendMailOptions($simulation);
@@ -1713,7 +1701,8 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         $sendMailOptions->time       = '09:03';
         $sendMailOptions->copies     = '';
         $sendMailOptions->phrases    = '';
-        $sendMailOptions->subject_id = $subjectForCharacter25->id;
+        $sendMailOptions->themeId = $subjectForCharacter25->id;
+        $sendMailOptions->mailPrefix = null;
         $sendMailOptions->messageId  = $mailM47->id;
 
         MailBoxService::sendMessagePro($sendMailOptions);
