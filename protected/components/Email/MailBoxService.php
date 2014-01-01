@@ -86,8 +86,6 @@ class MailBoxService
             $messageId = $message->message_id;
             $users[$senderId] = $senderId;
             $users[$receiverId] = $receiverId;
-            /** @var $theme CommunicationTheme */
-
 
             $subject = $message->getFormattedTheme(); //$theme->getFormattedTheme();
 
@@ -180,84 +178,6 @@ class MailBoxService
 
         return array_values($list);
     }
-
-    /**
-     * Загрузка одиночного сообщения
-     * @param int $id
-     * @return array
-     */
-    public static function getMessage($id)
-    {
-        /* @var $email MailBox */
-        $email = MailBox::model()->findByPk($id);
-        if (null === $email) {
-            return array();
-        }
-
-        // mark Readed
-        $email->readed = 1;
-        $email->save();
-        $themes = CommunicationTheme::model()->findByPk($email->subject_id);
-        $subject = $themes->text;
-
-        $message = array(
-            'id' => $email->id,
-            'subject' => $subject,
-            'message' => $email->message,
-            'sentAt' => GameTime::getDateTime($email->sent_at),
-            'sender' => $email->sender_id,
-            'receiver' => $email->receiver_id,
-            'folder' => $email->group_id,
-            'letterType'  => $email->letter_type
-        );
-        $message_id = $email->message_id;
-
-        // Получим всех персонажей
-        $characters = self::getCharacters($email->simulation);
-
-        // загрузим ка получателей
-        $receivers = MailRecipient::model()->findAllByAttributes(['mail_id' => $id]);
-        $receiversCollection = array();
-
-        if (count($receivers) == 0)
-            $receiversCollection[] = $characters[$message['receiver']];
-
-        foreach ($receivers as $receiver) {
-            $receiversCollection[] = $characters[$receiver->receiver_id];
-        }
-        $message['receiver'] = implode(',', $receiversCollection);
-
-        // загрузим копии
-        $copies = MailCopy::model()->findAllByAttributes(['mail_id' => $id]);
-        $copiesCollection = array();
-        foreach ($copies as $copy) {
-            $copiesCollection[] = $characters[$copy->receiver_id];
-        }
-        $message['copies'] = implode(',', $copiesCollection);
-
-
-        $message['sender'] = $characters[$message['sender']];
-
-        // Собираем сообщение
-        if ($message['message'] == '') {
-            $message['message'] = self::buildMessage($email->id);
-        }
-
-        $message['attachments'] = MailAttachmentsService::get($email);
-
-        if (!empty($message_id)) {
-            $reply = MailBox::model()->findByPk($message_id);
-            $message['reply'] = $reply->message;
-        }
-
-        if ($email->group_id == MailBox::FOLDER_DRAFTS_ID && $email->constructor_code !== 'TXT') {
-            $message['phrases'] = self::getMessagePhrases($email);
-            $message['phraseOrder'] = array_keys($message['phrases']);
-        }
-
-        return $message;
-    }
-
 
     /**
      * Полчаем фразы для симуляции по конструктору
@@ -400,8 +320,8 @@ class MailBoxService
         // копируем само письмо
         $connection = Yii::app()->db;
         $sql = "insert into mail_box
-            (sim_id, template_id, group_id, sender_id, sent_at, receiver_id, message, subject_id, code, type, letter_type, theme_id, mail_prefix)
-            select :simId, id, group_id, sender_id, sent_at, receiver_id, message, subject_id, code, type, '', theme_id, mail_prefix
+            (sim_id, template_id, group_id, sender_id, sent_at, receiver_id, message, code, type, letter_type, theme_id, mail_prefix)
+            select :simId, id, group_id, sender_id, sent_at, receiver_id, message, code, type, '', theme_id, mail_prefix
             from mail_template
             where mail_template.code = :code AND scenario_id = :scenario_id";
 
@@ -500,8 +420,8 @@ class MailBoxService
 
         $connection = Yii::app()->db;
         $sql = "insert into mail_box
-            (sim_id, template_id, group_id, sender_id, receiver_id, message, readed, subject_id, code, sent_at, type, letter_type, theme_id, mail_prefix)
-            select :simId, id, group_id, sender_id, receiver_id, message, 1, subject_id, code, sent_at, type, '', theme_id, mail_prefix
+            (sim_id, template_id, group_id, sender_id, receiver_id, message, readed, code, sent_at, type, letter_type, theme_id, mail_prefix)
+            select :simId, id, group_id, sender_id, receiver_id, message, 1, code, sent_at, type, '', theme_id, mail_prefix
             from mail_template  where group_id IN (1,3) AND scenario_id=:scenario_id";
 
         $command = $connection->createCommand($sql);
@@ -893,38 +813,6 @@ class MailBoxService
     }
 
     /**
-     * @param Simulation $simulation
-     * @param MailBox $messageToReply
-     * @param CommunicationTheme $characterThemeModel
-     * @return type
-     */
-    public static function getPhrasesData($message, $characterThemeModel)
-    {
-        // init default responce
-        $result = array(
-            'message'          => '',
-            'previouseMessage' => $message->message,
-            'addData'          => self::getSigns($message->simulation)
-        );
-
-        if ($characterThemeModel) {
-            $characterThemeId = $characterThemeModel->id;
-            $mailTemplate = $characterThemeModel->getMailTemplate();
-            if ($characterThemeModel->constructor_number === 'TXT') {
-                $result['message'] = (NULL === $mailTemplate) ? '' : $mailTemplate->message;
-                $result['data']    = [];
-                $result['addData'] = [];
-            } else {
-                $result['data'] = self::getMailPhrases($message->simulation, $characterThemeId);
-            }
-        }
-        // get phrases }
-
-        return $result;
-    }
-
-
-    /**
      * @param MailBox $message
      * @return mixed array
      */
@@ -1039,21 +927,6 @@ class MailBoxService
     }
 
     /**
-     * @params CommunicationTheme $messageToReply
-     */
-    public static function getSubjectForRepryEmail($messageToReply)
-    {
-        $subjectEntity = CommunicationTheme::model()->findByAttributes([
-            'theme_usage'  => CommunicationTheme::USAGE_OUTBOX,
-            'character_id' => $messageToReply->sender_id,
-            'text'         => $messageToReply->subject_obj->text,
-            'mail_prefix'  => $messageToReply->subject_obj->getPrefixForReply()
-        ]); // lowercase is important for search!
-
-        return $subjectEntity;
-    }
-
-    /**
      * @param MailBox $message
      * @param string $action
      * @return array
@@ -1061,10 +934,6 @@ class MailBoxService
      */
     public static function getMessageData(MailBox $message, $action)
     {
-        /*$condition = [
-            'text'         => $message->subject_obj->text,
-            'theme_usage'  => CommunicationTheme::USAGE_OUTBOX
-        ];*/
         $result = [
             'result'      => 1,
             'themeId'   => $message->theme_id,
@@ -1082,11 +951,6 @@ class MailBoxService
             //$condition['id'] = $message->subject_id;
         }
         $result['theme'] = $message->getFormattedTheme($themePrefix);
-        //$subject = CommunicationTheme::model()->findByAttributes($condition);
-
-        //if (null === $subject) {
-        //    throw new ErrorException('Can`t find subject for reply email');
-        //}
 
         if ($action == self::ACTION_FORWARD) {
             $result['parentThemeId'] = $message->theme_id;

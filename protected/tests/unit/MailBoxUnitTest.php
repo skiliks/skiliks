@@ -522,7 +522,7 @@ class MailBoxUnitTest extends CDbTestCase
         $sendMailOptions->subject_id = $subject->id;
 
         $sentMessage = MailBoxService::sendMessagePro($sendMailOptions);
-        $foundMessage = MailBoxService::getMessage($sentMessage->id);
+        $foundMessage = UnitTestBaseTrait::getMessage($sentMessage->id);
 
         $sentMessage->refresh();
 
@@ -712,7 +712,7 @@ class MailBoxUnitTest extends CDbTestCase
         $sendMailOptions->setLetterType('new');
         $draft = MailBoxService::saveDraft($sendMailOptions);
 
-        $mail = MailBoxService::getMessage($email->id);
+        $mail = UnitTestBaseTrait::getMessage($email->id);
 
         $this->assertNotEmpty($mail);
 

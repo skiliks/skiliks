@@ -123,41 +123,10 @@ class FlagServiceUnitTest extends CDbTestCase
         $invite->scenario->slug = Scenario::TYPE_FULL;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 
-
-        // null prefix
-        $receiverId = Character::model()->findByAttributes([
-            'code' => '12',
-            'scenario_id'  => $simulation->scenario_id,
-        ])->primaryKey;
-
-        $msgParams = new SendMailOptions($simulation);
-        $msgParams->simulation = $simulation;
-        $msgParams->subject_id = CommunicationTheme::model()->findByAttributes([
-            'code'         => 55,
-            'character_id' => $receiverId,
-            'mail_prefix'  => null,
-            'scenario_id'  => $simulation->scenario_id,
-        ])->primaryKey; // 55?
-        $msgParams->setRecipientsArray($receiverId);
-        $msgParams->groupId = MailBox::FOLDER_OUTBOX_ID;
-        $msgParams->time = '11:00';
-        $msgParams->messageId = 0;
-        $msgParams->copies = '';
-        $msgParams->phrases = '';
-
-        $mail = MailBoxService::sendMessagePro($msgParams);
+        $mail = LibSendMs::sendMs($simulation, 'MS30');
         MailBoxService::updateMsCoincidence($mail->id, $simulation->id);
 
-        // RE: RE:
-        $msgParams->subject_id = CommunicationTheme::model()->findByAttributes([
-            'code'         => 55,
-            'character_id' => $receiverId,  // 55?
-            'mail_prefix'  => 'rere',
-            'theme_usage'  => CommunicationTheme::USAGE_OUTBOX,
-            'scenario_id'  => $simulation->scenario_id,
-        ])->primaryKey;
-
-        $mail = MailBoxService::sendMessagePro($msgParams);
+        $mail = LibSendMs::sendMs($simulation, 'MS30');
         MailBoxService::updateMsCoincidence($mail->id, $simulation->id);
 
         $flags = FlagsService::getFlagsState($simulation);
