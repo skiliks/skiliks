@@ -30,26 +30,7 @@ class MailBoxUnitTest extends CDbTestCase
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 
 
-        $character = $simulation->game_type->getCharacter(['code' => 9]);
-
-        $options = new SendMailOptions($simulation);
-        $options->phrases = '';
-        $options->copies = implode(',',[
-            $simulation->game_type->getCharacter(['code' => 2])->primaryKey,
-            $simulation->game_type->getCharacter(['code' => 11])->primaryKey,
-            $simulation->game_type->getCharacter(['code' => 12])->primaryKey,
-        ]);
-        $options->messageId = $simulation->game_type->getMailTemplate(['code' => 'MS40'])->primaryKey;
-        $options->subject_id = $simulation->game_type->getCommunicationTheme(['code' => 5, 'character_id' => $character->primaryKey, 'mail_prefix' => 're'])->primaryKey;
-        $options->setRecipientsArray($character->primaryKey);
-        $options->senderId = $simulation->game_type->getCharacter(['code' => Character::HERO_ID])->primaryKey;
-        $options->time = '11:00:00';
-        $options->setLetterType('new');
-        $options->groupId = MailBox::FOLDER_OUTBOX_ID;
-        $options->simulation = $simulation;
-
-        // send MS40
-        MailBoxService::sendMessagePro($options);
+        LibSendMs::sendMs($simulation, 'MS40');
 
         FlagsService::setFlag($simulation, 'F30', 1);
 

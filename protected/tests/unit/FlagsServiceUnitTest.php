@@ -123,11 +123,8 @@ class FlagServiceUnitTest extends CDbTestCase
         $invite->scenario->slug = Scenario::TYPE_FULL;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 
-        $mail = LibSendMs::sendMs($simulation, 'MS30');
-        MailBoxService::updateMsCoincidence($mail->id, $simulation->id);
-
-        $mail = LibSendMs::sendMs($simulation, 'MS30');
-        MailBoxService::updateMsCoincidence($mail->id, $simulation->id);
+        LibSendMs::sendMs($simulation, 'MS30');
+        LibSendMs::sendMs($simulation, 'MS32');
 
         $flags = FlagsService::getFlagsState($simulation);
 
