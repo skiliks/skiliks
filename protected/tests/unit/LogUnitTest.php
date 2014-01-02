@@ -24,14 +24,14 @@ class LogUnitTest extends CDbTestCase
         $invite->scenario->slug = Scenario::TYPE_FULL;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 
+        MailBoxService::copyMessageFromTemplateByCode($simulation, 'M1');
+
+        /** @var MailBox $M1_mail */
+        $M1_mail = MailBox::model()->findByAttributes(['sim_id' => $simulation->id, 'code' => 'M1']);
+
         $character = $simulation->game_type->getCharacter(['code' => 9]);
 
-        $subject_id = $simulation->game_type->getCommunicationTheme([
-            'code' => 5,
-            'character_id' => $character->primaryKey,
-            'mail_prefix' => 're',
-            'theme_usage' => CommunicationTheme::USAGE_OUTBOX
-        ])->primaryKey;
+        $theme_id = $M1_mail->theme_id;
 
         $copies = [
             $simulation->game_type->getCharacter(['code' => 2])->primaryKey,
@@ -43,7 +43,8 @@ class LogUnitTest extends CDbTestCase
         $options->phrases = '';
         $options->copies = implode(',', $copies);
         $options->messageId = $simulation->game_type->getMailTemplate(['code' => 'MS40'])->primaryKey;
-        $options->subject_id = $subject_id;
+        $options->themeId    = $theme_id;
+        $options->mailPrefix = 're';
         $options->setRecipientsArray($character->primaryKey);
         $options->senderId = $simulation->game_type->getCharacter(['code' => Character::HERO_ID])->getPrimaryKey();
         $options->time = '11:00:00';
@@ -61,7 +62,8 @@ class LogUnitTest extends CDbTestCase
         $sendMailOptions->copies     = null;
         $sendMailOptions->phrases    = null;
         $sendMailOptions->fileId     = 0;
-        $sendMailOptions->subject_id    = $subject_id;
+        $sendMailOptions->themeId    = $theme_id;
+        $sendMailOptions->mailPrefix = 're';
         $sendMailOptions->setLetterType('new');
 
         $draft_message = MailBoxService::saveDraft($sendMailOptions);
@@ -74,11 +76,9 @@ class LogUnitTest extends CDbTestCase
         $sendMailOptions->copies     = implode(',', $copies);
         $sendMailOptions->phrases    = null;
         $sendMailOptions->fileId     = 0;
-        $sendMailOptions->subject_id    = $simulation->game_type->getCommunicationTheme([
-            'code' => 6,
-            'character_id' => $character->primaryKey,
-            'theme_usage' => CommunicationTheme::USAGE_OUTBOX,
-            'mail_prefix' => 're'])->primaryKey;
+        $sendMailOptions->themeId = $M1_mail->theme_id;
+        $sendMailOptions->mailPrefix = 're';
+
         $sendMailOptions->setLetterType('new');
 
         $draft_message2 = MailBoxService::saveDraft($sendMailOptions);
@@ -91,10 +91,9 @@ class LogUnitTest extends CDbTestCase
         $sendMailOptions->copies     = implode(',', $copies);
         $sendMailOptions->phrases    = null;
         $sendMailOptions->fileId     = 0;
-        $sendMailOptions->subject_id    = $simulation->game_type->getCommunicationTheme([
-            'code' => 8,
-            'character_id' => $character->primaryKey,
-            'mail_prefix' => 'fwd'])->primaryKey;
+        $sendMailOptions->themeId = $M1_mail->theme_id;
+        $sendMailOptions->mailPrefix = 'fwd';
+
         $sendMailOptions->setLetterType('new');
 
         $draft_message3 = MailBoxService::saveDraft($sendMailOptions);
@@ -291,10 +290,14 @@ class LogUnitTest extends CDbTestCase
         $invite->scenario->slug = Scenario::TYPE_FULL;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 
+        /** @var MailTemplate $MS40 */
+        $MS40 = MailTemplate::model()->findByAttributes(['code' => 'MS40']);
+
+        /** @var MailTemplate $MS52 */
+        $MS52 = MailTemplate::model()->findByAttributes(['code' => 'MS52']);
 
         $character = $simulation->game_type->getCharacter(['code' => 9]);
 
-        $subject_id = $simulation->game_type->getCommunicationTheme(['code' => 5, 'character_id' => $character->primaryKey, 'mail_prefix' => 're'])->primaryKey;
         $copies = [
             $simulation->game_type->getCharacter(['code' => 2])->primaryKey,
             $simulation->game_type->getCharacter(['code' => 11])->primaryKey,
@@ -303,12 +306,13 @@ class LogUnitTest extends CDbTestCase
         $sendMailOptions = new SendMailOptions($simulation);
         $sendMailOptions->setRecipientsArray($character->primaryKey);
         $sendMailOptions->simulation = $simulation;
-        $sendMailOptions->messageId  = MailTemplate::model()->findByAttributes(['code' => 'MS40']);
+        $sendMailOptions->messageId  = $MS40->id;
         $sendMailOptions->time = '11:00:00';
         $sendMailOptions->copies     = null;
         $sendMailOptions->phrases    = null;
         $sendMailOptions->fileId     = 0;
-        $sendMailOptions->subject_id    = $subject_id;
+        $sendMailOptions->themeId = $MS40->id;
+        $sendMailOptions->mailPrefix = 're';
         $sendMailOptions->setLetterType('new');
         $draft_message = MailBoxService::saveDraft($sendMailOptions);
         
@@ -320,7 +324,8 @@ class LogUnitTest extends CDbTestCase
         $sendMailOptions->copies     = implode(',', $copies);
         $sendMailOptions->phrases    = null;
         $sendMailOptions->fileId     = 0;
-        $sendMailOptions->subject_id    = CommunicationTheme::model()->findByAttributes(['code' => 6, 'character_id' => $character->primaryKey, 'mail_prefix' => 'fwd'])->primaryKey;
+        $sendMailOptions->themeId    = $MS52->theme->theme_code;
+        $sendMailOptions->mailPrefix = 'fwd';
         $sendMailOptions->setLetterType('new');
         $draft_message2 = MailBoxService::saveDraft($sendMailOptions);
 
@@ -428,20 +433,18 @@ class LogUnitTest extends CDbTestCase
         $options->phrases = '';
         $options->copies = '';
 
-        $options->messageId = MailTemplate::model()->findByAttributes([
+        /** @var MailTemplate $M8 */
+        $M8 = MailTemplate::model()->findByAttributes([
             'scenario_id' => $simulation->scenario_id,
             'code'        => 'M8'
-        ])->id;
+        ]);
 
-        $options->subject_id = CommunicationTheme::model()->findByAttributes([
-            'code' => 12,
-            'character_id' => $krutko->id,
-            'theme_usage' => CommunicationTheme::USAGE_OUTBOX,
-            'scenario_id' => $simulation->scenario_id,
-        ])->id;
+        $options->messageId = $M8->id;
 
         $options->setRecipientsArray($krutko->id);
         $options->senderId = Character::HERO_ID;
+        $options->themeId  = $M8->theme->theme_code;
+        $options->mailPrefix = 'fwd'.$M8->mail_prefix;
         $options->time = '11:00:00';
         $options->setLetterType('new');
         $options->groupId = MailBox::FOLDER_OUTBOX_ID;
@@ -461,7 +464,7 @@ class LogUnitTest extends CDbTestCase
         ]);
 
         SimulationService::simulationStop($simulation);
-//        $logs = LogWindow::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
+
         $activity_actions = LogActivityAction::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
         $mail_logs = LogMail::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
 
@@ -487,8 +490,6 @@ class LogUnitTest extends CDbTestCase
      */
     public function testLogActivity()
     {
-        //$this->markTestSkipped();
-
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $invite = new Invite();
         $invite->scenario = new Scenario();
@@ -496,27 +497,16 @@ class LogUnitTest extends CDbTestCase
         $invite->scenario->slug = Scenario::TYPE_FULL;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 
+        $M8  = $simulation->game_type->getMailTemplate(['code' => 'M8']);
+        $M74 = $simulation->game_type->getMailTemplate(['code' => 'M74']);
 
-        $theme = CommunicationTheme::model()->findByAttributes([
-            'code' => 38,
-            'character_id' => Character::model()->findByAttributes([
-                'scenario_id' => $simulation->scenario_id,
-                'code' => 20,
-            ])->primaryKey,
-            'mail_prefix' => 're',
-            'theme_usage' => CommunicationTheme::USAGE_OUTBOX
-        ]);
-
+        // MS73 - send
         $options = new SendMailOptions($simulation);
         $options->phrases = '';
         $options->copies = '';
-
-        $options->messageId = MailTemplate::model()->findByAttributes([
-            'code' => 'M8',
-            'scenario_id' => $simulation->scenario_id,
-        ])->primaryKey;
-
-        $options->subject_id = $theme->primaryKey;
+        $options->mailPrefix = 're';
+        $options->themeId   = $M8->theme->theme_code;
+        $options->messageId = $M8->primaryKey;
 
         $options->setRecipientsArray(Character::model()->findByAttributes([
             'code' => 20,
@@ -531,6 +521,9 @@ class LogUnitTest extends CDbTestCase
 
         $message = MailBoxService::sendMessagePro($options);
 
+        // --------------
+
+        // MS73 - draft
         $sendMailOptions = new SendMailOptions($simulation);
 
         $sendMailOptions->setRecipientsArray(Character::model()->findByAttributes([
@@ -540,41 +533,43 @@ class LogUnitTest extends CDbTestCase
 
         $sendMailOptions->simulation = $simulation;
 
-        $sendMailOptions->messageId  = MailTemplate::model()->findByAttributes([
-            'code' => 'M74',
-            'scenario_id' => $simulation->scenario_id,
-        ]);
+        $sendMailOptions->messageId  = $M8->id;
 
         $sendMailOptions->time = '11:00:00';
         $sendMailOptions->copies     = null;
         $sendMailOptions->phrases    = null;
         $sendMailOptions->fileId     = 0;
-        $sendMailOptions->subject_id    = $theme->primaryKey;
+        $sendMailOptions->themeId    = $M8->theme->theme_code;
+        $sendMailOptions->mailPrefix = 're';
         $sendMailOptions->setLetterType('new');
 
         $draftMessage = MailBoxService::saveDraft($sendMailOptions);
 
+        // --------------
+
+        // MS64 - draft
         $sendMailOptions = new SendMailOptions($simulation);
 
         $sendMailOptions->setRecipientsArray(Character::model()->findByAttributes([
-            'code' => 20,
+            'code' => 23,
             'scenario_id' => $simulation->scenario_id,
         ])->primaryKey);
 
         $sendMailOptions->simulation = $simulation;
 
-        $sendMailOptions->messageId  = MailTemplate::model()->findByAttributes([
-            'code' => 'M74',
-            'scenario_id' => $simulation->scenario_id,
-        ]);
+        $sendMailOptions->messageId  = $M74->id;
 
         $sendMailOptions->time = '11:00:00';
         $sendMailOptions->copies     = null;
         $sendMailOptions->phrases    = null;
         $sendMailOptions->fileId     = 0;
-        $sendMailOptions->subject_id    = $theme->primaryKey;
+        $sendMailOptions->themeId    = $M74->id;
+        $sendMailOptions->mailPrefix = 're';
         $sendMailOptions->setLetterType('new');
         $draftMessage2 = MailBoxService::saveDraft($sendMailOptions);
+
+        // --------------
+
         EventsManager::processLogs($simulation, [
             [1, 1, 'activated', 32400, 'window_uid' => 1],
             [1, 1, 'deactivated', 32460, 'window_uid' => 1],
@@ -603,27 +598,20 @@ class LogUnitTest extends CDbTestCase
 
         SimulationService::simulationStop($simulation);
 
-//        $logs = LogWindow::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
         $activityActions = LogActivityAction::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
         $mailLogs = LogMail::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
 
         $this->assertEquals(count($mailLogs), 4);
-
         $this->assertEquals(count($activityActions), 10);
+
         array_map(function ($a) {$a->dump(); }, $activityActions);
         $this->assertEquals('TM73', $activityActions[2]->activityAction->activity->code);
         $this->assertEquals('A_already_used', $activityActions[6]->activityAction->activity->code);
         $this->assertEquals('A_already_used', $activityActions[8]->activityAction->activity->code);
-        $time = new DateTime('9:00:00');
-//        foreach ($logs as $log) {
-//            $logStartTime = new DateTime($log->start_time);
-//            $logEndTime = new DateTime($log->end_time);
-//            $this->assertGreaterThanOrEqual($logStartTime, $logEndTime);
-//            $this->assertEquals($time, $logStartTime); # checks that there are no time holes
-//            $time = $logEndTime;
-//            $this->assertRegExp('/\d{2}:\d{2}:\d{2}/', $log->end_time);
-//        }
 
+//        foreach ($mailLogs as $log) {
+//            echo ' - '.$log->mail->code . ' - '. $log->mail->theme->theme_code . "\n";
+//        }
     }
 
     /**

@@ -707,6 +707,7 @@ class Scenario extends CActiveRecord
 			'simulations' => array(self::HAS_MANY, 'Simulations', 'scenario_id'),
 			'tasks' => array(self::HAS_MANY, 'Tasks', 'scenario_id'),
             'scenario_config' => array(self::HAS_ONE, 'ScenarioConfig', 'scenario_id'),
+            'outboxMailTheme' => array(self::HAS_ONE, 'OutboxMailTheme', 'scenario_id'),
 		);
 	}
 

@@ -717,8 +717,10 @@ class LogHelper
         foreach ($logs as $log) {
 
             if (self::ACTION_OPEN == (string)$log[2] || self::ACTION_ACTIVATED == (string)$log[2]) {
-                if (UniversalLog::model()->countByAttributes(array('end_time' => '00:00:00', 'sim_id' => $simulation->id))) {
-                    throw(new CException('Previous window is still activated'));
+                /** @var UniversalLog $previousLog **/
+                $previousLog = UniversalLog::model()->findByAttributes(array('end_time' => '00:00:00', 'sim_id' => $simulation->id));
+                if (null !== $previousLog) {
+                    throw(new CException(sprintf('Previous window %s.%s is still activated', $previousLog->window->type, $previousLog->window->subtype)));
                 }
 
                 $universal_log = new UniversalLog(); //new UniversalLog();

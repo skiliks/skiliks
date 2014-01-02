@@ -364,39 +364,46 @@ class LogActivityActionUnitTest extends CDbTestCase
             $invite->scenario->slug = Scenario::TYPE_FULL;
             $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 
+//            $options = new SendMailOptions($simulation);
+//            $options->phrases = '';
+//            $options->copies = '';
+//
+//            $options->messageId = MailTemplate::model()->findByAttributes([
+//                'scenario_id' => $simulation->scenario_id,
+//                'code'        => 'MS55'
+//            ])->primaryKey;
+//
+//            $options->subject_id = CommunicationTheme::model()->findByAttributes([
+//                'scenario_id' => $simulation->scenario_id,
+//                'code' => 71,
+//            ])->primaryKey;
+//
+//            $options->setRecipientsArray(Character::model()->findByAttributes([
+//                'scenario_id' => $simulation->scenario_id,
+//                'code' => 39,
+//            ])->primaryKey);
+//
+//            $options->senderId = Character::model()->findByAttributes([
+//                'scenario_id' => $simulation->scenario_id,
+//                'code'=>Character::HERO_ID,
+//            ])->primaryKey;
+//
+//            $options->time = '11:00:00';
+//            $options->setLetterType('new');
+//            $options->groupId = MailBox::FOLDER_OUTBOX_ID;
+//            $options->simulation = $simulation;
+//
+//            $message1 = MailBoxService::sendMessagePro($options);
+//            $message2 = MailBoxService::sendMessagePro($options);
+//            $message3 = MailBoxService::sendMessagePro($options);
 
-            $options = new SendMailOptions($simulation);
-            $options->phrases = '';
-            $options->copies = '';
+            // activate mainScreen.MainScreen
+            EventsManager::processLogs($simulation, [[1, 1, 'activated', 32400, 'window_uid' => 1]]);
 
-            $options->messageId = MailTemplate::model()->findByAttributes([
-                'scenario_id' => $simulation->scenario_id,
-                'code'        => 'MS55'
-            ])->primaryKey;
-
-            $options->subject_id = CommunicationTheme::model()->findByAttributes([
-                'scenario_id' => $simulation->scenario_id,
-                'code' => 71,
-            ])->primaryKey;
-
-            $options->setRecipientsArray(Character::model()->findByAttributes([
-                'scenario_id' => $simulation->scenario_id,
-                'code' => 39,
-            ])->primaryKey);
-
-            $options->senderId = Character::model()->findByAttributes([
-                'scenario_id' => $simulation->scenario_id,
-                'code'=>Character::HERO_ID,
-            ])->primaryKey;
-
-            $options->time = '11:00:00';
-            $options->setLetterType('new');
-            $options->groupId = MailBox::FOLDER_OUTBOX_ID;
-            $options->simulation = $simulation;
-
-            $message1 = MailBoxService::sendMessagePro($options);
-            $message2 = MailBoxService::sendMessagePro($options);
-            $message3 = MailBoxService::sendMessagePro($options);
+            // Fatal error уже нет, но тест валится всё равно.
+            $message1 = LibSendMs::sendMsByCode($simulation, 'MS55', 32430);
+            $message2 = LibSendMs::sendMsByCode($simulation, 'MS55', 32460);
+            $message3 = LibSendMs::sendMsByCode($simulation, 'MS55', 32490);
 
             $firstDialog = Replica::model()->findByAttributes([
                 'excel_id' => 516,
@@ -409,9 +416,8 @@ class LogActivityActionUnitTest extends CDbTestCase
             ]);
 
             $logs = [
-                [1, 1, 'activated', 32400, 'window_uid' => 1],
-                [1, 1, 'deactivated', 32460, 'window_uid' => 1],
-                [10, 11, 'activated', 32460, 'window_uid' => 2],
+                [1, 1, 'deactivated', 32500, 'window_uid' => 1],
+                [10, 11, 'activated', 32500, 'window_uid' => 2],
                 [10, 11, 'deactivated', 32520, 'window_uid' => 2],
                 [10, 13, 'activated', 32520, 'window_uid' => 3], # Send mail
                 [10, 13, 'deactivated', 32580, 'window_uid' => 3, ['mailId' => $message1->primaryKey]],
@@ -423,8 +429,8 @@ class LogActivityActionUnitTest extends CDbTestCase
                 [10, 11, 'deactivated', 32760, 'window_uid' => 6],
                 [10, 13, 'activated', 32760, 'window_uid' => 7], # Send mail
                 [10, 13, 'deactivated', 32820, 'window_uid' => 7, ['mailId' => $message3->primaryKey]],
-                [20, 23, 'activated', 32820, ['dialogId' => $firstDialog->primaryKey], 'window_uid' => 8], # Send mail
-                [20, 23, 'deactivated', 32880, ['dialogId' => $firstDialog->primaryKey, 'lastDialogId' => $lastDialog->primaryKey], 'window_uid' => 8], # Send mail
+                [20, 23, 'activated', 32820, ['dialogId' => $firstDialog->primaryKey], 'window_uid' => 8],
+                [20, 23, 'deactivated', 32880, ['dialogId' => $firstDialog->primaryKey, 'lastDialogId' => $lastDialog->primaryKey], 'window_uid' => 8],
 
             ];
 

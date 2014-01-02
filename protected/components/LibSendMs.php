@@ -7,15 +7,17 @@ class LibSendMs
 
     /**
      * Отправляет MS в игре
+     *
      * @param Simulation $simulation
-     * @param string $msCode код исходящего письма
-     * @param null $time время отправки
-     * @param int $windowId тип окна
-     * @param int $subWindowId подтип окна
-     * @param null $windowUid уникльный id окна
-     * @param int $duration задержка
-     * @param bool $isDraft черновик
-     * @param string $letterType
+     * @param string     $msCode код исходящего письма
+     * @param null       $time время отправки
+     * @param int        $windowId тип окна
+     * @param int        $subWindowId подтип окна
+     * @param null       $windowUid уникльный id окна
+     * @param int        $duration задержка
+     * @param bool       $isDraft черновик
+     * @param string     $letterType
+     *
      * @return MailBox|null
      */
     public static function sendMsByCode(Simulation $simulation, $msCode,

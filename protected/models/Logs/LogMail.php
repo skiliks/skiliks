@@ -15,6 +15,7 @@
  *
  * @property Simulation $simulation
  * @property Window     $window_obj
+ * @property MailBox    $mail
  */
 class LogMail extends CActiveRecord
 {
