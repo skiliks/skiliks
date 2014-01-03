@@ -110,7 +110,7 @@ class MailBoxUnitTest extends CDbTestCase
         $invite->scenario->slug = Scenario::TYPE_FULL;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
         //
-        $bossSubjects = array_values(MailBoxService::getThemes($simulation, '6', NULL));
+        $bossSubjects = array_values(MailBoxService::getThemes($simulation, '6', null, null));
         // Check for no duplicates in theme list
         $this->assertEquals(count($bossSubjects), count(array_unique($bossSubjects)));
         // one recipient case :
@@ -121,29 +121,24 @@ class MailBoxUnitTest extends CDbTestCase
         FlagsService::setFlag($simulation, 'F42', 1);
         FlagsService::setFlag($simulation, 'F33', 1);
 
-        $subjects = MailBoxService::getThemes($simulation, $characterId, NULL);
-        $id = CommunicationTheme::getCharacterThemeId($characterId, 0);
+        $subjects = MailBoxService::getThemes($simulation, $characterId, null, null);
 
         $this->assertEquals(3, count($subjects));
         $this->assertTrue(in_array('Бюджет производства прошлого года', $subjects));
         $this->assertTrue(in_array('Бюджет производства 2014: коррективы', $subjects));
         $this->assertTrue(in_array('Новая тема', $subjects));
-        
-        $this->assertNull($id);
-        
+
         // several recipients case :
         $character1 = $scenario->getCharacter(['code' => '11'])->getPrimaryKey();
         $character2 = $scenario->getCharacter(['code' => '26'])->getPrimaryKey();
         $character3 = $scenario->getCharacter(['code' => '24'])->getPrimaryKey();
-        $subjects2 = MailBoxService::getThemes($simulation, join(',', [$character1, $character2, $character3]), NULL);
-        $id2 = CommunicationTheme::getCharacterThemeId('11', 0);
-        
+        $subjects2 = MailBoxService::getThemes($simulation, join(',', [$character1, $character2, $character3]), null, null);
+
         $this->assertEquals(count($subjects2), 3);
         $this->assertTrue(in_array('Бюджет производства прошлого года', $subjects2));
         $this->assertTrue(in_array('Бюджет производства 2014: коррективы', $subjects2));
         $this->assertTrue(in_array('Новая тема', $subjects2));
         
-        $this->assertNull($id2);
     }
 
     /**
