@@ -2056,7 +2056,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log_mail->window = 13;
         $log_mail->window_uid = '34';
         $log_mail->save();
-        //var_dump($mail['events'][0]['id']);
 
         // log 2 {
         $replica = $simulation->game_type->getReplica(['code' => 'T7.3']);
@@ -2117,7 +2116,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         // log 6 }
         unset($log);
         $pn = new PlanAnalyzer($simulation);
-        //var_dump($pn->logActivityActionsAggregatedGroupByParent);
         $log = $pn->logActivityActionsAggregatedGroupByParent[1];
         $this->assertEquals('14:10:55', $log['available']);
         $log = $pn->logActivityActionsAggregatedGroupByParent[2];
@@ -2174,7 +2172,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         // log 6 }
         unset($log);
         $pn = new PlanAnalyzer($simulation);
-        //var_dump($pn->logActivityActionsAggregatedGroupByParent);
         $log = $pn->logActivityActionsAggregatedGroupByParent[0];
         $this->assertEquals('11:45:00', $log['available']);
         $log = $pn->logActivityActionsAggregatedGroupByParent[1];

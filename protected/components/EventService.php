@@ -265,7 +265,7 @@ class EventService
                                 '<strong>from:</strong> %s, <strong>to:</strong> %s, <strong>subject:</strong> %s',
                                 $mail->sender->fio,
                                 $mail->recipient->fio,
-                                $mail->subject_obj->text.', ID #'.$event->id
+                                $mail->theme->getFormattedTheme().', ID #'.$event->id
                             );
                         }
                     }

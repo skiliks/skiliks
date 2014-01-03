@@ -119,8 +119,6 @@ class EmailCoincidenceAnalyzer
            $this->emailTemplatesByCodePart1[$indexPart1] = $mailTemplate;
            $this->emailTemplatesByCodePart2[$indexPart2] = $mailTemplate;
 
-           var_dump($indexFull);
-
            unset($mailRecipientId);
            unset($mailCopyId);
            unset($mailAttachId);

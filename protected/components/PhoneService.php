@@ -230,7 +230,15 @@ class PhoneService {
             $phoneCall->save();
         }
     }
-    
+
+    /**
+     * @param Simulation $simulation
+     * @param integer $themeId (Theme.id)
+     * @param varchar $characterCode
+     * @param varchar $time
+     *
+     * @return array
+     */
     public static function call(Simulation $simulation, $themeId, $characterCode, $time)
     {
         $character = $simulation->game_type->getCharacter(['code' => $characterCode]);

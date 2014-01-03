@@ -7,10 +7,7 @@ class PercentileCalculationCommand extends CConsoleCommand {
 
     public function actionIndex()
     {
-
         $simulations = Simulation::model()->getRealUsersSimulations();
-
-        var_dump(count($simulations));
 
         echo "Start\n";
 

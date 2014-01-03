@@ -280,6 +280,7 @@ class MailBoxService
             $condition['theme_id']  = $parentThemeId;
         }
         $outboxMailThemes = $simulation->game_type->getOutboxMailThemes($condition);
+
         /*  */
         foreach ($outboxMailThemes as $outboxMailTheme) {
             if(false === $outboxMailTheme->isBlockedByFlags($simulation) && false === $outboxMailTheme->themeIsUsed($simulation)) {

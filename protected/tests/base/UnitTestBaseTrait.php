@@ -113,4 +113,37 @@ trait UnitTestBaseTrait {
 
         return $message;
     }
+
+    /**
+     * Проверяет находится ли тема в списте тем, возвращённых PhoneService::getThemes()
+     *
+     * @param string[] $themes
+     * @param string $name
+     *
+     * @return bool
+     */
+    public function findPhoneThemeByName($themes, $name) {
+        foreach($themes as $theme){
+            if($theme['themeTitle'] === $name){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Проверяет находится ли тема в списте тем, возвращённых MailBoxService::getThemes()
+     *
+     * @param $themes
+     * @param $name
+     * @return bool
+     */
+    public function findMailThemeByName($themes, $name) {
+        foreach($themes as $theme){
+            if($theme === $name){
+                return true;
+            }
+        }
+        return false;
+    }
 }

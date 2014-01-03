@@ -2,24 +2,11 @@
 
 class ThemeUnitTest extends CDbTestCase
 {
-    public function findPhoneThemeByName($themes, $name) {
-        foreach($themes as $theme){
-            if($theme['themeTitle'] === $name){
-                return true;
-            }
-        }
-        return false;
-    }
+    use UnitTestBaseTrait;
 
-    public function findMailThemeByName($themes, $name) {
-        foreach($themes as $theme){
-            if($theme === $name){
-                return true;
-            }
-        }
-        return false;
-    }
-
+    /**
+     * Проверяет что после отправки MS тема этого письма недоступна для написания нового
+     */
     public function testMSNotUse()
     {
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
@@ -29,31 +16,26 @@ class ThemeUnitTest extends CDbTestCase
         $invite->scenario->slug = Scenario::TYPE_FULL;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 
-        $theme = $simulation->game_type->getCommunicationTheme(['letter_number'=>'MS10']);
-        FlagsService::setFlag($simulation, 'F45', 1);
+        // MS110
+        $theme = $simulation->game_type->getTheme(['text' => 'Изменение бюджета производства вне регламента']);
+        $boss  = $simulation->game_type->getCharacter(['fio' => 'Босс В.С.']);
+        FlagsService::setFlag($simulation, 'F33', 1);
 
-        $themes = MailBoxService::getThemes($simulation, $theme->character_id);
+        $themes = MailBoxService::getThemes($simulation, $boss->id, null, $theme->id);
 
-        $this->assertTrue($this->findMailThemeByName($themes, $theme->text));
+        $this->assertTrue(in_array($theme->text, $themes));
 
-        LibSendMs::sendMsByCode($simulation, 'MS10');
+        LibSendMs::sendMsByCode($simulation, 'MS110');
 
-        /* @var $theme CommunicationTheme */
-        $log_theme = LogCommunicationThemeUsage::model()->findByAttributes(['communication_theme_id'=>$theme->id, 'sim_id'=>$simulation->id]);
+        // А после отправки, такой темы не должно быть
+        $themes = MailBoxService::getThemes($simulation, $boss->id, null, $theme->id);
 
-        $this->assertNotNull($log_theme);
-
-        $themes = MailBoxService::getThemes($simulation, $theme->character_id);
-
-        $this->assertFalse($this->findMailThemeByName($themes, $theme->text));
-
-        $mail = LibSendMs::sendNotMs($simulation);
-
-        $log_theme = LogCommunicationThemeUsage::model()->findByAttributes(['communication_theme_id'=>$mail->subject_id, 'sim_id'=>$simulation->id]);
-
-        $this->assertNull($log_theme);
+        $this->assertFalse(in_array($theme->text, $themes));
     }
 
+    /**
+     * Проверяет что нельзя 2 раза позвонить одному и тому же человеку
+     */
     public function testPhoneUse()
     {
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
@@ -64,7 +46,7 @@ class ThemeUnitTest extends CDbTestCase
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 
         $character = $simulation->game_type->getCharacter(['fio'=>'Денежная Р.Р.']);
-        $theme = $simulation->game_type->getCommunicationTheme(['character_id'=>$character->id, 'phone_dialog_number'=>'E1.3.3.1', 'text'=>'Перенос сроков сдачи сводного бюджета']);
+        $theme = $simulation->game_type->getTheme(['text' => 'Перенос сроков сдачи сводного бюджета']);
 
         FlagsService::setFlag($simulation, 'F32', 1);
 
@@ -73,16 +55,8 @@ class ThemeUnitTest extends CDbTestCase
 
         PhoneService::call($simulation, $theme->id, $character->code, "10:00");
 
-        $log_theme = LogCommunicationThemeUsage::model()->findByAttributes(['communication_theme_id'=>$theme->id, 'sim_id'=>$simulation->id]);
-        $this->assertNotNull($log_theme);
-
         $themes = PhoneService::getThemes($character->code, $simulation);
         $this->assertFalse($this->findPhoneThemeByName($themes, $theme->text));
-
-        $theme = $simulation->game_type->getCommunicationTheme(['character_id'=>$character->id, 'phone_dialog_number'=>'AUTO', 'text'=>'Служебная записка о сервере. Срочно!']);
-
-        $log_theme = LogCommunicationThemeUsage::model()->findByAttributes(['communication_theme_id'=>$theme->id, 'sim_id'=>$simulation->id]);
-        $this->assertNull($log_theme);
     }
 
 }
