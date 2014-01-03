@@ -789,7 +789,7 @@ class MailBoxUnitTest extends CDbTestCase
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 
         $person = $simulation->game_type->getCharacter(['code' => 2]);
-        $theme = $simulation->game_type->getCommunicationTheme(['letter_number' => 'MS20']);
+        $OutboxMailTheme = $simulation->game_type->getOutboxMailTheme(['mail_code' => 'MS20', 'mail_prefix' => null]);
 
         $sendMailOptions = new SendMailOptions($simulation);
         $sendMailOptions->setRecipientsArray(implode(',', [$person->id]));
@@ -799,13 +799,14 @@ class MailBoxUnitTest extends CDbTestCase
         $sendMailOptions->copies       = [];
         $sendMailOptions->phrases      = [];
         $sendMailOptions->fileId       = 0;
-        $sendMailOptions->subject_id   = $theme->id;
+        $sendMailOptions->themeId      = $OutboxMailTheme->theme->id;
         $sendMailOptions->setLetterType('new');
 
         $message1 = MailBoxService::sendMessagePro($sendMailOptions);
 
         $person = $simulation->game_type->getCharacter(['code' => 11]);
-        $theme = $simulation->game_type->getCommunicationTheme(['letter_number' => 'MS28']);
+        $OutboxMailTheme = $simulation->game_type->getOutboxMailTheme(['mail_code' => 'MS28', 'mail_prefix' => null]);
+
         $docTemplate = $simulation->game_type->getDocumentTemplate(['code' => 'D8']);
         $document = MyDocument::model()->findByAttributes(['sim_id' => $simulation->id, 'template_id' => $docTemplate->id]);
 
@@ -817,7 +818,7 @@ class MailBoxUnitTest extends CDbTestCase
         $sendMailOptions->copies       = [];
         $sendMailOptions->phrases      = [];
         $sendMailOptions->fileId       = $document->id;
-        $sendMailOptions->subject_id   = $theme->id;
+        $sendMailOptions->themeId      = $OutboxMailTheme->theme->id;
         $sendMailOptions->setLetterType('new');
 
         $message2 = MailBoxService::saveDraft($sendMailOptions);
