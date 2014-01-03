@@ -695,9 +695,6 @@ class SeleniumTestHelper extends CWebTestCase
             $invite = Invite::model()->findByPk($invite_id);
             $invite->stacktrace .= $text;
             $invite->is_crashed = $isFailed;
-            if( false === $invite->save(false, ['stacktrace', 'is_crashed'])) {
-                //var_dump($invite->getErrors());
-            }
         } catch(Exception $e) {
             echo $e->getMessage();
         }

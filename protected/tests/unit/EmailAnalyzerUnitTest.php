@@ -1652,8 +1652,9 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         $characterLudovkina = $simulation->game_type->getCharacter(['code' => 13]);
         $subjectForCharacter13 = $simulation->game_type->getOutboxMailTheme([
             'character_to_id'  => $characterLudovkina->id,
-            'mail_code' => 'MS63',
+            'mail_code'        => 'MS63',
         ]);
+
         $sendMailOptions = new SendMailOptions($simulation);
         $sendMailOptions->setRecipientsArray($characterSomebody->id); // Неизвестная
         $sendMailOptions->groupId    = MailBox::FOLDER_DRAFTS_ID;
@@ -1661,7 +1662,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         $sendMailOptions->time       = '09:01';
         $sendMailOptions->copies     = '';
         $sendMailOptions->phrases    = '';
-        $sendMailOptions->themeId = $subjectForCharacter13->theme_id;
+        $sendMailOptions->themeId    = $subjectForCharacter13->theme_id;
         $sendMailOptions->messageId  = $mailM71->id;
 
         MailBoxService::sendMessagePro($sendMailOptions);
@@ -1707,9 +1708,6 @@ class EmailAnalyzerUnitTest extends CDbTestCase
 
         MailBoxService::sendMessagePro($sendMailOptions);
         // email-3 }
-
-//        var_dump($simulation->id);
-//        die;
 
         SimulationService::simulationStop($simulation);
     }

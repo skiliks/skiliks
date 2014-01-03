@@ -280,6 +280,7 @@ class MailBoxService
             $condition['theme_id']  = $parentThemeId;
         }
         $outboxMailThemes = $simulation->game_type->getOutboxMailThemes($condition);
+
         /*  */
         foreach ($outboxMailThemes as $outboxMailTheme) {
             if(false === $outboxMailTheme->isBlockedByFlags($simulation) && false === $outboxMailTheme->themeIsUsed($simulation)) {
@@ -618,15 +619,20 @@ class MailBoxService
      * @param $mailPrefix
      * @return array
      */
-    public static function getPhrases(Simulation $simulation, $themeId, $characterId, $mailPrefix)
+    public static function getPhrases(Simulation $simulation, $themeId, $characterToId, $mailPrefix = null)
     {
         $data = [];
         $message = '';
         $constructorCode = 'B1';
         $addData = [];
 
-        $outbox_mail_theme = OutboxMailTheme::model()->findByAttributes(['character_to_id'=>$characterId, 'theme_id' => $themeId, 'mail_prefix' => $mailPrefix]);
         /* @var $outbox_mail_theme OutboxMailTheme */
+        $outbox_mail_theme = OutboxMailTheme::model()->findByAttributes([
+            'character_to_id' => $characterToId,
+            'theme_id'        => $themeId,
+            'mail_prefix'     => $mailPrefix
+        ]);
+
         if( null !== $outbox_mail_theme ) {
             if($outbox_mail_theme->mailConstructor !== null && $outbox_mail_theme->mailConstructor->code === 'TXT') {
                 $mailTemplate = $simulation->game_type->getMailTemplate(['code' => $outbox_mail_theme->mail_code]);
@@ -650,9 +656,9 @@ class MailBoxService
 
         return [
             'constructorCode' => $constructorCode,
-            'data' => $data,
-            'addData'=>$addData,
-            'message' => $message,
+            'data'            => $data,
+            'addData'         => $addData,
+            'message'         => $message,
         ];
     }
 
@@ -689,9 +695,11 @@ class MailBoxService
             MailAttachment::model()->deleteAllByAttributes(['mail_id' => $sendMailOptions->id]);
             MailMessage::model()->deleteAllByAttributes(['mail_id'=>$sendEmail->id]);
         }
-        $sendEmail->group_id = $sendMailOptions->groupId;
-        $sendEmail->sender_id = $sendMailOptions->senderId;
-        $sendEmail->theme_id = $sendMailOptions->themeId;
+
+        $sendEmail->group_id    = $sendMailOptions->groupId;
+        $sendEmail->sender_id   = $sendMailOptions->senderId;
+        $sendEmail->theme_id    = $sendMailOptions->themeId;
+        $sendEmail->theme       = Theme::model()->findByPk($sendMailOptions->themeId);
         $sendEmail->mail_prefix = $sendMailOptions->mailPrefix;
         $sendEmail->constructor_code = $sendMailOptions->constructorCode;
         $sendEmail->receiver_id = $receiverId;
@@ -761,8 +769,6 @@ class MailBoxService
         $sendEmail->refresh();
 
         MailBoxService::updateMsCoincidence($sendEmail->id, $sendMailOptions->simulation->id);
-
-        $sendEmail->refresh();
 
         MailBoxService::updateRelatedEmailForByReplyToAttribute($sendEmail);
 

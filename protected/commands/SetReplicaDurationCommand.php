@@ -9,7 +9,6 @@ class SetReplicaDurationCommand extends CConsoleCommand {
         /* @var $replica Replica */
         foreach($replicas as $replica) {
             if((int)$replica->from_character->code !== Character::HERO_ID) {
-                var_dump($replica->from_character->code);
                 $replica->duration = $duration;
                 $replica->update();
             }

@@ -5,9 +5,9 @@
  *
  * The followings are the available columns in table 'outbox_mail_themes':
  * @property integer $id
- * @property integer $theme_id id  темы
- * @property integer $character_to_id id персонажа кому направлена тема
- * @property integer $mail_constructor_id id конструктора письма для этой темы
+ * @property integer $theme_id, id темы
+ * @property integer $character_to_id, id персонажа кому направлена тема
+ * @property integer $mail_constructor_id, id конструктора письма для этой темы
  * @property string  $import_id
  * @property string  $wr
  * @property string  $mail_prefix
@@ -15,10 +15,10 @@
  * @property integer $scenario_id
  *
  * The followings are the available model relations:
- * @property Character $characterTo
+ * @property Character       $characterTo
  * @property MailConstructor $mailConstructor
- * @property Scenario $scenario
- * @property Theme $theme
+ * @property Scenario        $scenario
+ * @property Theme           $theme
  */
 class OutboxMailTheme extends CActiveRecord
 {
@@ -68,10 +68,10 @@ class OutboxMailTheme extends CActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'characterTo' => array(self::BELONGS_TO, 'Character', 'character_to_id'),
+            'characterTo'     => array(self::BELONGS_TO, 'Character', 'character_to_id'),
             'mailConstructor' => array(self::BELONGS_TO, 'MailConstructor', 'mail_constructor_id'),
-            'scenario' => array(self::BELONGS_TO, 'Scenario', 'scenario_id'),
-            'theme' => array(self::BELONGS_TO, 'Theme', 'theme_id'),
+            'scenario'        => array(self::BELONGS_TO, 'Scenario', 'scenario_id'),
+            'theme'           => array(self::BELONGS_TO, 'Theme', 'theme_id'),
         );
     }
 

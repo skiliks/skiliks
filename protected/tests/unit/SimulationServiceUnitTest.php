@@ -81,8 +81,9 @@ class SimulationServiceUnitTest extends CDbTestCase
      * (оценивание обычным способом, лог писем пуст) 
      * оценка = максимальный_балл * (количество_правильных_проявления / количество_проявления_по_поведения_в_целом)
      */
-    public function testCalculateAgregatedPointsFor1122() 
+    public function testCalculateAggregatedPointsFor1122()
     {
+        // за 1122 сейчас нет баллов в сценарии, ни '1', ни '0'
         $this->markTestSkipped();
 
         // init simulation
@@ -771,13 +772,14 @@ class SimulationServiceUnitTest extends CDbTestCase
             $delta[$scaleType] = abs(round($details[$scaleType], 2) - round($aggregatedCalculated[$scaleType], 2));
         }
 
-        var_dump($delta); die;
-
         $this->assertEquals(10, array_sum($delta)); #personal, no matter
     }
 
     public function testStressRules()
     {
+        // в данный момент StressRules не оцениваются
+        $this->markTestSkipped();
+
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $invite = new Invite();
         $invite->scenario = new Scenario();
@@ -804,7 +806,7 @@ class SimulationServiceUnitTest extends CDbTestCase
 
         // Action for rule id 13
         FlagsService::setFlag($simulation, 'F38_3', 1);
-        $theme = $simulation->game_type->getCommunicationTheme(['phone_dialog_number' => 'T7.4']);
+        $theme = $simulation->game_type->getTheme(['text' => 'Задача отдела логистики: жду итоговый файл']);
         PhoneService::call($simulation, $theme->id, 3, '12:03');
         // end rule 13
 

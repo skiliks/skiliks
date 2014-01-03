@@ -62,9 +62,10 @@ class EmailCoincidenceAnalyzer
 
         $mailTemplates = $this->userEmail->simulation->game_type->getMailTemplates([
             'receiver_id' => $this->userEmail->receiver_id,
-            'theme_id' => $this->userEmail->theme_id,
+            'theme_id'    => $this->userEmail->theme_id,
             'mail_prefix' => $this->userEmail->mail_prefix
         ]);
+
         foreach ($mailTemplates as $mailTemplate) {
             if (!preg_match('/MS\d+/',$mailTemplate->code)) {
                 continue;
@@ -118,7 +119,6 @@ class EmailCoincidenceAnalyzer
            $this->emailTemplatesByCodePart1[$indexPart1] = $mailTemplate;
            $this->emailTemplatesByCodePart2[$indexPart2] = $mailTemplate;
 
-
            unset($mailRecipientId);
            unset($mailCopyId);
            unset($mailAttachId);
@@ -161,26 +161,28 @@ class EmailCoincidenceAnalyzer
             $mailCopyId, 
             $this->userEmail->theme_id,
             $this->userEmail->mail_prefix,
-            $mailAttachId);
+            $mailAttachId
+        );
 
         $indexPart1 = $this->getMailCodePart1Considence(
             $mailRecipientId,
             $this->userEmail->theme_id,
             $this->userEmail->mail_prefix,
-            $mailAttachId);
+            $mailAttachId
+        );
 
         $indexPart2 = $this->getMailCodePart2Considence(
             $this->userEmail->receiver_id,
             $this->userEmail->theme_id,
             $this->userEmail->mail_prefix,
-            $mailAttachId);
+            $mailAttachId
+        );
 
         unset($mailRecipientId);
         unset($mailCopyId);
         unset($mailAttachId);    
         
         // check
-
         if (isset($this->emailTemplatesByCodeFull[$indexFull])) {
             $result['full'] = $this->emailTemplatesByCodeFull[$indexFull]->code;
             $result['result_code'] = $this->emailTemplatesByCodeFull[$indexFull]->code;
@@ -200,7 +202,7 @@ class EmailCoincidenceAnalyzer
             $result['has_concidence'] = 1;
             $result['result_type'] = MailBox::COINCIDENCE_PART_2;
         }
-        
+
         return $result;
     }
     
