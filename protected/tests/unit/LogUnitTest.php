@@ -25,9 +25,11 @@ class LogUnitTest extends CDbTestCase
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 
         MailBoxService::copyMessageFromTemplateByCode($simulation, 'M1');
+        MailBoxService::copyMessageFromTemplateByCode($simulation, 'M2');
 
         /** @var MailBox $M1_mail */
         $M1_mail = MailBox::model()->findByAttributes(['sim_id' => $simulation->id, 'code' => 'M1']);
+        $M2_mail = MailBox::model()->findByAttributes(['sim_id' => $simulation->id, 'code' => 'M2']);
 
         $character = $simulation->game_type->getCharacter(['code' => 9]);
 
@@ -39,6 +41,7 @@ class LogUnitTest extends CDbTestCase
             $simulation->game_type->getCharacter(['code' => 12])->primaryKey,
         ];
 
+        // Это MS40 с полным совпадением
         $options = new SendMailOptions($simulation);
         $options->phrases = '';
         $options->copies = implode(',', $copies);
@@ -54,49 +57,51 @@ class LogUnitTest extends CDbTestCase
 
         $message = MailBoxService::sendMessagePro($options);
 
-        $sendMailOptions = new SendMailOptions($simulation);
-        $sendMailOptions->setRecipientsArray($character->primaryKey);
-        $sendMailOptions->simulation = $simulation;
-        $sendMailOptions->messageId  = $simulation->game_type->getMailTemplate(['code' => 'MS40']);
-        $sendMailOptions->time = '11:00:00';
-        $sendMailOptions->copies     = null;
-        $sendMailOptions->phrases    = null;
-        $sendMailOptions->fileId     = 0;
-        $sendMailOptions->themeId    = $theme_id;
-        $sendMailOptions->mailPrefix = 're';
-        $sendMailOptions->setLetterType('new');
+        $sendMailOptions1 = new SendMailOptions($simulation);
+        $sendMailOptions1->setRecipientsArray($character->primaryKey);
+        $sendMailOptions1->simulation = $simulation;
+        $sendMailOptions1->messageId  = $simulation->game_type->getMailTemplate(['code' => 'MS40']);
+        $sendMailOptions1->time = '11:00:00';
+        $sendMailOptions1->copies     = null;
+        $sendMailOptions1->phrases    = null;
+        $sendMailOptions1->fileId     = 0;
+        $sendMailOptions1->themeId    = $theme_id;
+        $sendMailOptions1->mailPrefix = 're';
+        $sendMailOptions1->setLetterType('new');
 
-        $draft_message = MailBoxService::saveDraft($sendMailOptions);
+        $draft_message = MailBoxService::saveDraft($sendMailOptions1);
 
-        $sendMailOptions = new SendMailOptions($simulation);
-        $sendMailOptions->setRecipientsArray($character->primaryKey);
-        $sendMailOptions->simulation = $simulation;
-        $sendMailOptions->messageId  = $simulation->game_type->getMailTemplate(['code' => 'MS52']);
-        $sendMailOptions->time = '11:00:00';
-        $sendMailOptions->copies     = implode(',', $copies);
-        $sendMailOptions->phrases    = null;
-        $sendMailOptions->fileId     = 0;
-        $sendMailOptions->themeId = $M1_mail->theme_id;
-        $sendMailOptions->mailPrefix = 're';
+        // Это MS52 с частичным совпадением -  part 1
+        $sendMailOptions2 = new SendMailOptions($simulation);
+        $sendMailOptions2->setRecipientsArray($character->primaryKey);
+        $sendMailOptions2->simulation = $simulation;
+        $sendMailOptions2->messageId  = $simulation->game_type->getMailTemplate(['code' => 'MS52']);
+        $sendMailOptions2->time       = '11:00:00';
+        $sendMailOptions2->copies     = implode(',', $copies);
+        $sendMailOptions2->phrases    = null;
+        $sendMailOptions2->fileId     = 0;
+        $sendMailOptions2->themeId    = $M2_mail->theme_id;
+        $sendMailOptions2->mailPrefix = 're';
 
-        $sendMailOptions->setLetterType('new');
+        $sendMailOptions2->setLetterType('new');
 
-        $draft_message2 = MailBoxService::saveDraft($sendMailOptions);
+        $draft_message2 = MailBoxService::saveDraft($sendMailOptions2);
 
-        $sendMailOptions = new SendMailOptions($simulation);
-        $sendMailOptions->setRecipientsArray($character->primaryKey);
-        $sendMailOptions->simulation = $simulation;
-        $sendMailOptions->messageId  = $simulation->game_type->getMailTemplate(['code' => 'MS52']);
-        $sendMailOptions->time = '11:00:00';
-        $sendMailOptions->copies     = implode(',', $copies);
-        $sendMailOptions->phrases    = null;
-        $sendMailOptions->fileId     = 0;
-        $sendMailOptions->themeId = $M1_mail->theme_id;
-        $sendMailOptions->mailPrefix = 'fwd';
+        // это не MS
+        $sendMailOptions3 = new SendMailOptions($simulation);
+        $sendMailOptions3->setRecipientsArray($character->primaryKey);
+        $sendMailOptions3->simulation = $simulation;
+        $sendMailOptions3->messageId  = $simulation->game_type->getMailTemplate(['code' => 'MS52']);
+        $sendMailOptions3->time = '11:00:00';
+        $sendMailOptions3->copies     = '';
+        $sendMailOptions3->phrases    = null;
+        $sendMailOptions3->fileId     = 0;
+        $sendMailOptions3->themeId = $M1_mail->theme_id;
+        $sendMailOptions3->mailPrefix = 'fwd';
 
-        $sendMailOptions->setLetterType('new');
+        $sendMailOptions3->setLetterType('new');
 
-        $draft_message3 = MailBoxService::saveDraft($sendMailOptions);
+        $draft_message3 = MailBoxService::saveDraft($sendMailOptions3);
 
         $logList = [];
 
@@ -141,18 +146,16 @@ class LogUnitTest extends CDbTestCase
 //                $log->mail->template_id,
 //                $log->full_coincidence ?: '(empty)'
 //            );
-//            /*$this->assertNotNull($log->end_time);*/
 //        }
+//        die;
+//        foreach ($activity_actions as $log) {
+//            echo $log->dump();
+//        }
+//        echo "\n";
 
         $this->assertEquals($mail_logs[0]->full_coincidence, 'MS40');
         $this->assertEquals($mail_logs[2]->part1_coincidence, 'MS52');
-        foreach ($activity_actions as $log) {
-            echo $log->dump();
-        }
         $this->assertEquals(count($activity_actions), 13);
-
-//        echo "\n";
-
 
         $this->assertEquals($activity_actions[2]->activityAction->activity->code, 'TM1');
         $this->assertEquals($activity_actions[8]->activityAction->activity->code, 'A_incorrect_sent');
@@ -166,7 +169,6 @@ class LogUnitTest extends CDbTestCase
 //            $time = $log_end_time;
 //            $this->assertRegExp('/\d{2}:\d{2}:\d{2}/', $log->end_time);
 //        }
-
     }
 
     /**
@@ -422,8 +424,6 @@ class LogUnitTest extends CDbTestCase
         $invite->scenario->slug = Scenario::TYPE_FULL;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 
-
-
         $krutko = Character::model()->findByAttributes([
             'scenario_id' => $simulation->scenario_id,
             'code' => 4,
@@ -486,7 +486,9 @@ class LogUnitTest extends CDbTestCase
     }
 
     /**
-     *
+     * Проверяет LegAction по которому можно написать много писем. (TM72)
+     * Если написано письмо, которое завершает LegAction (MS67)
+     * прочие письма будут засчитаны как (A_already_used) - MS128 в данном тесте
      */
     public function testLogActivity()
     {
@@ -497,76 +499,49 @@ class LogUnitTest extends CDbTestCase
         $invite->scenario->slug = Scenario::TYPE_FULL;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 
-        $M8  = $simulation->game_type->getMailTemplate(['code' => 'M8']);
-        $M74 = $simulation->game_type->getMailTemplate(['code' => 'M74']);
+        $M72 = $simulation->game_type->getMailTemplate(['code' => 'M72']); // ответом на него есть MS67
 
-        // MS73 - send
-        $options = new SendMailOptions($simulation);
-        $options->phrases = '';
-        $options->copies = '';
-        $options->mailPrefix = 're';
-        $options->themeId   = $M8->theme->theme_code;
-        $options->messageId = $M8->primaryKey;
+        // MS67 - send
+        /** @var SendMailOptions $options */
+        $sendMailOptions1 = new SendMailOptions($simulation);
+        $sendMailOptions1->setRecipientsArray(
+            $simulation->game_type->getCharacter(['code' => 3])->id
+        );
+        $sendMailOptions1->phrases    = '';
+        $sendMailOptions1->copies     = '';
+        $sendMailOptions1->mailPrefix = 'fwd'.$M72->mail_prefix;
+        $sendMailOptions1->themeId    = $M72->theme->id;
+        $sendMailOptions1->senderId   = Character::HERO_ID;
+        $sendMailOptions1->time       = '11:00:00';
+        $sendMailOptions1->messageId  = $M72->id;
+        $sendMailOptions1->groupId    = MailBox::FOLDER_OUTBOX_ID;
+        $sendMailOptions1->simulation = $simulation;
+        $sendMailOptions1->setLetterType('new');
 
-        $options->setRecipientsArray(Character::model()->findByAttributes([
-            'code' => 20,
-            'scenario_id' => $simulation->scenario_id,
-        ])->primaryKey);
+        $message = MailBoxService::sendMessagePro($sendMailOptions1);
 
-        $options->senderId = Character::HERO_ID;
-        $options->time = '11:00:00';
-        $options->setLetterType('new');
-        $options->groupId = MailBox::FOLDER_OUTBOX_ID;
-        $options->simulation = $simulation;
+        // Сохраняем повторно письмо
+        // MS128 - draft
+        $sendMailOptions2 = new SendMailOptions($simulation);
 
-        $message = MailBoxService::sendMessagePro($options);
+        $sendMailOptions2->setRecipientsArray(
+            $simulation->game_type->getCharacter(['code' => 4])->id
+        );
+        $sendMailOptions2->phrases    = '';
+        $sendMailOptions2->copies     = '';
+        $sendMailOptions2->mailPrefix = 'fwd'.$M72->mail_prefix;
+        $sendMailOptions2->themeId    = $M72->theme->id;
+        $sendMailOptions2->senderId   = Character::HERO_ID;
+        $sendMailOptions2->time       = '11:00:00';
+        $sendMailOptions2->messageId  = $M72->id;
+        $sendMailOptions2->groupId    = MailBox::FOLDER_OUTBOX_ID;
+        $sendMailOptions2->simulation = $simulation;
+        $sendMailOptions2->setLetterType('new');
 
-        // --------------
+        $draftMessage = MailBoxService::saveDraft($sendMailOptions2);
 
-        // MS73 - draft
-        $sendMailOptions = new SendMailOptions($simulation);
-
-        $sendMailOptions->setRecipientsArray(Character::model()->findByAttributes([
-            'code' => 20,
-            'scenario_id' => $simulation->scenario_id,
-        ])->primaryKey);
-
-        $sendMailOptions->simulation = $simulation;
-
-        $sendMailOptions->messageId  = $M8->id;
-
-        $sendMailOptions->time = '11:00:00';
-        $sendMailOptions->copies     = null;
-        $sendMailOptions->phrases    = null;
-        $sendMailOptions->fileId     = 0;
-        $sendMailOptions->themeId    = $M8->theme->theme_code;
-        $sendMailOptions->mailPrefix = 're';
-        $sendMailOptions->setLetterType('new');
-
-        $draftMessage = MailBoxService::saveDraft($sendMailOptions);
-
-        // --------------
-
-        // MS64 - draft
-        $sendMailOptions = new SendMailOptions($simulation);
-
-        $sendMailOptions->setRecipientsArray(Character::model()->findByAttributes([
-            'code' => 23,
-            'scenario_id' => $simulation->scenario_id,
-        ])->primaryKey);
-
-        $sendMailOptions->simulation = $simulation;
-
-        $sendMailOptions->messageId  = $M74->id;
-
-        $sendMailOptions->time = '11:00:00';
-        $sendMailOptions->copies     = null;
-        $sendMailOptions->phrases    = null;
-        $sendMailOptions->fileId     = 0;
-        $sendMailOptions->themeId    = $M74->id;
-        $sendMailOptions->mailPrefix = 're';
-        $sendMailOptions->setLetterType('new');
-        $draftMessage2 = MailBoxService::saveDraft($sendMailOptions);
+        // Сохраняем повторно письмо
+        $draftMessage2 = MailBoxService::saveDraft($sendMailOptions2);
 
         // --------------
 
@@ -575,22 +550,30 @@ class LogUnitTest extends CDbTestCase
             [1, 1, 'deactivated', 32460, 'window_uid' => 1],
             [10, 11, 'activated', 32460, 'window_uid' => 2],
             [10, 11, 'deactivated', 32520, 'window_uid' => 2],
-            [10, 13, 'activated', 32520, 'window_uid' => 3], # Send mail
+            [10, 13, 'activated', 32520, 'window_uid' => 3], # Send mail - MS32
             [10, 13, 'deactivated', 32580, 'window_uid' => 3, ['mailId' => $message->primaryKey]],
             [10, 11, 'activated', 32580, 'window_uid' => 4],
             [10, 11, 'deactivated', 32640, 'window_uid' => 4],
-            [10, 13, 'activated', 32640, 'window_uid' => 5], # Send draft
+
+            # Send draft - не важно, черновик не распознаётся, и не превратится в legAction
+            [10, 13, 'activated', 32640, 'window_uid' => 5],
+
             [10, 13, 'deactivated', 32700, 'window_uid' => 5, ['mailId' => $draftMessage->primaryKey]],
             [10, 11, 'activated', 32700, 'window_uid' => 6],
             [10, 11, 'deactivated', 32760, 'window_uid' => 6],
             [10, 13, 'activated', 32760, 'window_uid' => 7], # Send draft
             [10, 13, 'deactivated', 32820, 'window_uid' => 7, ['mailId' => $draftMessage2->primaryKey]],
         ]);
+
         MailBoxService::sendDraft($simulation, $draftMessage2);
+
         EventsManager::processLogs($simulation, [
             [10, 11, 'activated', 32820, 'window_uid' => 1],
             [10, 11, 'deactivated', 32880, 'window_uid' => 1],
-            [10, 13, 'activated', 32880, 'window_uid' => 2], # Send draft
+
+            # Send draft - не важно, черновик не распознаётся, и не превратится в legAction
+            [10, 13, 'activated', 32880, 'window_uid' => 2],
+
             [10, 13, 'deactivated', 32940, 'window_uid' => 2, ['mailId' => $draftMessage2->primaryKey]],
             [1, 1, 'activated', 32940, 'window_uid' => 3],
             [1, 1, 'deactivated', 33000, 'window_uid' => 3],
@@ -604,14 +587,18 @@ class LogUnitTest extends CDbTestCase
         $this->assertEquals(count($mailLogs), 4);
         $this->assertEquals(count($activityActions), 10);
 
-        array_map(function ($a) {$a->dump(); }, $activityActions);
-        $this->assertEquals('TM73', $activityActions[2]->activityAction->activity->code);
-        $this->assertEquals('A_already_used', $activityActions[6]->activityAction->activity->code);
-        $this->assertEquals('A_already_used', $activityActions[8]->activityAction->activity->code);
-
 //        foreach ($mailLogs as $log) {
 //            echo ' - '.$log->mail->code . ' - '. $log->mail->theme->theme_code . "\n";
 //        }
+//        echo "-------------------------------\n";
+//        foreach ($activityActions as $action) {
+//            echo ' - ' . $action->activityAction->activity->code . "\n";
+//        }
+
+        array_map(function ($a) {$a->dump(); }, $activityActions);
+        $this->assertEquals('TM72', $activityActions[2]->activityAction->activity->code);
+        $this->assertEquals('A_already_used', $activityActions[6]->activityAction->activity->code);
+        $this->assertEquals('A_already_used', $activityActions[8]->activityAction->activity->code);
     }
 
     /**

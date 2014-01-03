@@ -109,33 +109,36 @@ class MailBoxUnitTest extends CDbTestCase
         $invite->receiverUser = $user;
         $invite->scenario->slug = Scenario::TYPE_FULL;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
-        //
-        $bossSubjects = array_values(MailBoxService::getThemes($simulation, '6', '',  NULL));
-        // Check for no duplicates in theme list
-        $this->assertEquals(count($bossSubjects), count(array_unique($bossSubjects)));
-        // one recipient case :
-        /** @var $scenario Scenario */
-        $scenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_FULL]);
-        $characterId = $scenario->getCharacter(['code' => '11'])->getPrimaryKey();
 
         FlagsService::setFlag($simulation, 'F42', 1);
         FlagsService::setFlag($simulation, 'F33', 1);
 
-        $subjects = MailBoxService::getThemes($simulation, $characterId, '', NULL);
+
+
+        // 1. One recipient case {
+        $boss = $simulation->game_type->getCharacter(['code' => 6]);
+        $bossThemes = array_values(MailBoxService::getThemes($simulation, $boss->id, NULL,  NULL));
+
+        // Check for no duplicates in theme list
+        $this->assertEquals(count($bossThemes), count(array_unique($bossThemes)));
+
+        $subjects = MailBoxService::getThemes($simulation, $boss->id, NULL, NULL);
 
         $this->assertEquals(3, count($subjects));
         $this->assertTrue(in_array('Бюджет производства прошлого года', $subjects));
         $this->assertTrue(in_array('Бюджет производства 2014: коррективы', $subjects));
         $this->assertTrue(in_array('Новая тема', $subjects));
+        // 1. }
 
-        // several recipients case :
-        $character1 = $scenario->getCharacter(['code' => '11'])->getPrimaryKey();
-        $character2 = $scenario->getCharacter(['code' => '26'])->getPrimaryKey();
-        $character3 = $scenario->getCharacter(['code' => '24'])->getPrimaryKey();
+        // 2. + Several recipients case {
+        $character1 = $simulation->game_type->getCharacter(['code' => '11'])->getPrimaryKey(); // Бобр В.
+        $character2 = $simulation->game_type->getCharacter(['code' => '26'])->getPrimaryKey();
+        $character3 = $simulation->game_type->getCharacter(['code' => '24'])->getPrimaryKey();
+
         $subjects2 = MailBoxService::getThemes(
             $simulation,
             implode(',', [$character1, $character2, $character3]),
-            '',
+            NULL,
             NULL
         );
 
@@ -143,6 +146,7 @@ class MailBoxUnitTest extends CDbTestCase
         $this->assertTrue(in_array('Бюджет производства прошлого года', $subjects2));
         $this->assertTrue(in_array('Бюджет производства 2014: коррективы', $subjects2));
         $this->assertTrue(in_array('Новая тема', $subjects2));
+        // 2. }
     }
 
     /**

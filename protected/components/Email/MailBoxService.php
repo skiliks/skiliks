@@ -274,7 +274,7 @@ class MailBoxService
         }
         $condition = [
             'character_to_id' => explode(',', $receivers)[0],
-            'mail_prefix' => $mailPrefix === 'null'?null:$mailPrefix
+            'mail_prefix'     => ($mailPrefix === 'null') ? null : $mailPrefix
         ];
         if(null !== $parentThemeId) {
             $condition['theme_id']  = $parentThemeId;
