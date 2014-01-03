@@ -58,7 +58,7 @@ trait UnitTestBaseTrait {
 
         $message = array(
             'id' => $email->id,
-            'theme' => $email->theme->getFormattedTheme(),
+            'theme' => $email->getFormattedTheme(),
             'message' => $email->message,
             'sentAt' => GameTime::getDateTime($email->sent_at),
             'sender' => $email->sender_id,
@@ -69,7 +69,7 @@ trait UnitTestBaseTrait {
         $message_id = $email->message_id;
 
         // Получим всех персонажей
-        $characters = self::getCharacters($email->simulation);
+        $characters = MailBoxService::getCharacters($email->simulation);
 
         // загрузим ка получателей
         $receivers = MailRecipient::model()->findAllByAttributes(['mail_id' => $id]);
@@ -96,7 +96,7 @@ trait UnitTestBaseTrait {
 
         // Собираем сообщение
         if ($message['message'] == '') {
-            $message['message'] = self::buildMessage($email->id);
+            $message['message'] = MailBoxService::buildMessage($email->id);
         }
 
         $message['attachments'] = MailAttachmentsService::get($email);
@@ -107,7 +107,7 @@ trait UnitTestBaseTrait {
         }
 
         if ($email->group_id == MailBox::FOLDER_DRAFTS_ID && $email->constructor_code !== 'TXT') {
-            $message['phrases'] = self::getMessagePhrases($email);
+            $message['phrases'] = MailBoxService::getMessagePhrases($email);
             $message['phraseOrder'] = array_keys($message['phrases']);
         }
 

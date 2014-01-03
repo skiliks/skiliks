@@ -69,11 +69,17 @@ class SendMailOptions
     private $recipients  = array();
 
     /**
+     * По умолчанию письмо отправляется от имени главного героя в данном сценарии
+     *
      * @param Simulation $simulation
      */
     public function __construct(Simulation $simulation)
     {
-        $this->senderId = $simulation->game_type->getCharacter(['code' => Character::HERO_ID])->getPrimaryKey();
+        $this->simulation = $simulation;
+
+        $this->senderId = $simulation->game_type->getCharacter([
+            'code' => Character::HERO_ID
+        ])->getPrimaryKey();
     }
      
      /**

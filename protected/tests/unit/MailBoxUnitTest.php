@@ -110,7 +110,7 @@ class MailBoxUnitTest extends CDbTestCase
         $invite->scenario->slug = Scenario::TYPE_FULL;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
         //
-        $bossSubjects = array_values(MailBoxService::getThemes($simulation, '6', NULL));
+        $bossSubjects = array_values(MailBoxService::getThemes($simulation, '6', '',  NULL));
         // Check for no duplicates in theme list
         $this->assertEquals(count($bossSubjects), count(array_unique($bossSubjects)));
         // one recipient case :
@@ -121,29 +121,28 @@ class MailBoxUnitTest extends CDbTestCase
         FlagsService::setFlag($simulation, 'F42', 1);
         FlagsService::setFlag($simulation, 'F33', 1);
 
-        $subjects = MailBoxService::getThemes($simulation, $characterId, NULL);
-        $id = CommunicationTheme::getCharacterThemeId($characterId, 0);
+        $subjects = MailBoxService::getThemes($simulation, $characterId, '', NULL);
 
         $this->assertEquals(3, count($subjects));
         $this->assertTrue(in_array('Бюджет производства прошлого года', $subjects));
         $this->assertTrue(in_array('Бюджет производства 2014: коррективы', $subjects));
         $this->assertTrue(in_array('Новая тема', $subjects));
-        
-        $this->assertNull($id);
-        
+
         // several recipients case :
         $character1 = $scenario->getCharacter(['code' => '11'])->getPrimaryKey();
         $character2 = $scenario->getCharacter(['code' => '26'])->getPrimaryKey();
         $character3 = $scenario->getCharacter(['code' => '24'])->getPrimaryKey();
-        $subjects2 = MailBoxService::getThemes($simulation, join(',', [$character1, $character2, $character3]), NULL);
-        $id2 = CommunicationTheme::getCharacterThemeId('11', 0);
-        
+        $subjects2 = MailBoxService::getThemes(
+            $simulation,
+            implode(',', [$character1, $character2, $character3]),
+            '',
+            NULL
+        );
+
         $this->assertEquals(count($subjects2), 3);
         $this->assertTrue(in_array('Бюджет производства прошлого года', $subjects2));
         $this->assertTrue(in_array('Бюджет производства 2014: коррективы', $subjects2));
         $this->assertTrue(in_array('Новая тема', $subjects2));
-        
-        $this->assertNull($id2);
     }
 
     /**
@@ -172,7 +171,14 @@ class MailBoxUnitTest extends CDbTestCase
             Character::model()->findByAttributes(['code' => 12])->primaryKey,
         ]);
         $options->messageId = MailTemplate::model()->findByAttributes(['code' => 'MS40'])->primaryKey;
-        $options->subject_id = CommunicationTheme::model()->findByAttributes(['code' => 5, 'character_id' => $character->primaryKey, 'mail_prefix' => 're'])->primaryKey;
+
+        $options->themeId = OutboxMailTheme::model()->findByAttributes([
+            'scenario_id'     => $simulation->game_type->id,
+            'character_to_id' => $character->primaryKey,
+            'mail_prefix'     => 're'
+        ])->theme_id;
+
+        $options->mailPrefix = 're';
         $options->setRecipientsArray($character->primaryKey);
         $options->senderId = Character::HERO_ID;
         $options->time = '11:00:00';
@@ -183,23 +189,20 @@ class MailBoxUnitTest extends CDbTestCase
         EventsManager::startEvent($simulation, 'M31');
 
         MailBoxService::copyMessageFromTemplateByCode($simulation, 'M31');
-        
+
+        /** @var MailBox $messageToReply */
         $messageToReply = MailBox::model()->findByAttributes([
             'sim_id' => $simulation->id, 
             'code' => 'M31'
         ]);
 
-        $subjectEntity = MailBoxService::getSubjectForRepryEmail($messageToReply);
-        
-        $this->assertNotNull($subjectEntity);
-        
-        $this->assertEquals('Re: Re: Срочно жду бюджет логистики', $subjectEntity->getFormattedTheme());
+        $this->assertEquals('Re: Re: Срочно жду бюджет логистики', $messageToReply->getFormattedTheme('re'));
     }    
     
     /**
      * Проверяет темы для писем-перенаправлений:
-     * 1. Проверяет что дляписьма M8 из списка писем с темой "ххх",
-     *    тема форварда будет выглядеть как "Fwd: ххх"
+     *
+     * 1. Fwd для случайного письма
      *
      * 2. M61 - форвард для письма с одним Re:
      *
@@ -207,8 +210,6 @@ class MailBoxUnitTest extends CDbTestCase
      */
     public function testForward() 
     {
-        //$this->markTestSkipped();
-        
         // init simulation
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $invite = new Invite();
@@ -217,56 +218,65 @@ class MailBoxUnitTest extends CDbTestCase
         $invite->scenario->slug = Scenario::TYPE_FULL;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 
-
-        // random email case{
+        // 1. random email case {
+        /** @var MailBox $randomFirstEmail */
         $randomFirstEmail = MailBoxService::copyMessageFromTemplateByCode($simulation, 'M8');
-        $resultData = MailBoxService::getMessageData($randomFirstEmail, MailBox::TYPE_FORWARD);
+        $messageData = MailBoxService::getMessageData($randomFirstEmail, MailBox::TYPE_FORWARD);
 
-        $fwdSubject = CommunicationTheme::model()->findByAttributes([
-            'character_id' => null,
-            'theme_usage'  => CommunicationTheme::USAGE_OUTBOX,
-            'text'         => $randomFirstEmail->subject_obj->text,
-            'mail_prefix'  => 'fwd',
-            'scenario_id' => $simulation->scenario_id,
-        ]);
+        $mailOptions = new SendMailOptions($simulation);
+        $mailOptions->setRecipientsArray($randomFirstEmail->sender_id);
+        $mailOptions->themeId    = $randomFirstEmail->theme_id;
+        $mailOptions->mailPrefix = 'fwd'.$randomFirstEmail->mail_prefix;
+        $mailOptions->time       = '11:00';
+        $mailOptions->messageId  = $randomFirstEmail->id;
+        MailBoxService::sendMessagePro($mailOptions);
 
-        $this->assertEquals($resultData['subject'], 'Fwd: '.$randomFirstEmail->subject_obj->text, 'M8 subject tetx');
-        $this->assertEquals($resultData['parentSubjectId'], $randomFirstEmail->subject_obj->id, 'M8 parentSubjectId');
-        $this->assertEquals($resultData['subjectId'], $fwdSubject->id, 'M8 subjectId');
+        $this->assertEquals($messageData['theme'],         'Fwd: '.$randomFirstEmail->getFormattedTheme(), 'M8 theme text');
+        $this->assertEquals($messageData['parentThemeId'], $randomFirstEmail->theme->id, 'M8 parent theme Id');
+        $this->assertEquals($messageData['themeId'],       $randomFirstEmail->theme_id, 'M8 theme_id');
+        $this->assertEquals($messageData['mailPrefix'],    'fwd'.$randomFirstEmail->mail_prefix, 'M8 mailPrefix');
+        // 1. random email case }
 
-        $ITlead = Character::model()->findByAttributes([
-            'scenario_id' => $simulation->scenario_id,
-            'fio'         => 'Железный С.',
-        ]);
-
-        $fwdSubject = CommunicationTheme::model()->findAllByAttributes([
-            'character_id' => $ITlead->id,
-            'theme_usage'  => CommunicationTheme::USAGE_OUTBOX,
-            'text'         => $randomFirstEmail->subject_obj->text,
-            'mail_prefix'  => 'fwd',
-            'scenario_id' => $simulation->scenario_id,
-        ]);
-        $this->assertEquals(1, count($fwdSubject), 'M8 wrong recipient mail subject');
-        // random email case }
-
-        // case 2, M61 {      
+        // case 2, M61, форвард для письма с одним Re: {
+        /** @var MailBox $emailM61 */
         $emailM61 = MailBoxService::copyMessageFromTemplateByCode($simulation, 'M61');
-        $resultDataM61 = MailBoxService::getMessageData($emailM61, MailBox::TYPE_FORWARD);
+        $M61data = MailBoxService::getMessageData($emailM61, MailBox::TYPE_FORWARD);
 
-        $this->assertEquals($resultDataM61['subject'], 'Fwd: Re: '.$emailM61->subject_obj->text, 'M61');
-        $this->assertEquals($resultDataM61['parentSubjectId'], $emailM61->subject_obj->id, 'M61');
+        $mailOptions = new SendMailOptions($simulation);
+        $mailOptions->setRecipientsArray($emailM61->sender_id);
+        $mailOptions->themeId    = $emailM61->theme_id;
+        $mailOptions->mailPrefix = 'fwd'.$emailM61->mail_prefix;
+        $mailOptions->time       = '11:01';
+        $mailOptions->messageId  = $emailM61->id;
+        MailBoxService::sendMessagePro($mailOptions);
 
-        $subject = MailBoxService::getThemes($simulation, '18', $emailM61->subject_id);
+        $this->assertEquals(1, substr_count($M61data['theme'],'Re:'));
+
+        $this->assertEquals($M61data['theme'],         'Fwd: '.$emailM61->getFormattedTheme(), 'M8 theme text');
+        $this->assertEquals($M61data['parentThemeId'], $emailM61->theme->id, 'M8 parent theme Id');
+        $this->assertEquals($M61data['themeId'],       $emailM61->theme_id, 'M8 theme_id');
+        $this->assertEquals($M61data['mailPrefix'],    'fwd'.$emailM61->mail_prefix, 'M8 mailPrefix');
         // case 2, M61 }
 
-        // case 3, M62 {
+        // case 3, M62, форвард для письма с двумя Re: {
+        /** @var MailBox $emailM62 */
         $emailM62 = MailBoxService::copyMessageFromTemplateByCode($simulation, 'M62');
-        $resultDataM62 = MailBoxService::getMessageData($emailM62, MailBox::TYPE_FORWARD);
-        
-        $this->assertEquals($resultDataM62['subject'], 'Fwd: Re: Re: '.$emailM62->subject_obj->text, 'M62');
-        $this->assertEquals($resultDataM62['parentSubjectId'], $emailM62->subject_obj->id, 'M62');
-        
-        $subject = MailBoxService::getThemes($simulation, '18', $emailM62->subject_id);
+        $M62data = MailBoxService::getMessageData($emailM62, MailBox::TYPE_FORWARD);
+
+        $mailOptions = new SendMailOptions($simulation);
+        $mailOptions->setRecipientsArray($emailM62->sender_id);
+        $mailOptions->themeId    = $emailM62->theme_id;
+        $mailOptions->mailPrefix = 'fwd'.$emailM62->mail_prefix;
+        $mailOptions->time       = '11:02';
+        $mailOptions->messageId  = $emailM62->id;
+        MailBoxService::sendMessagePro($mailOptions);
+
+        $this->assertEquals(2, substr_count($M62data['theme'],'Re:'));
+
+        $this->assertEquals($M62data['theme'],         'Fwd: '.$emailM62->getFormattedTheme(), 'M8 theme text');
+        $this->assertEquals($M62data['parentThemeId'], $emailM62->theme->id, 'M8 parent theme Id');
+        $this->assertEquals($M62data['themeId'],       $emailM62->theme_id, 'M8 theme_id');
+        $this->assertEquals($M62data['mailPrefix'],    'fwd'.$emailM62->mail_prefix, 'M8 mailPrefix');
         // case 3, M62 }
     }
 
@@ -283,19 +293,29 @@ class MailBoxUnitTest extends CDbTestCase
         $invite->scenario->slug = Scenario::TYPE_FULL;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 
-        $ch = $simulation->game_type->getCharacter(['fio'=>'Денежная Р.Р.']);
-        $theme = $simulation->game_type->getCommunicationTheme(['character_id'=>$ch->id, 'text'=>'Сводный бюджет', 'letter_number'=>'MS35']);
-        $this->assertNotNull($theme);
-        $constructor = MailConstructor::model()->findByAttributes(['code' => 'R1', 'scenario_id' => $simulation->game_type->getPrimaryKey()]);
-        $mail_phrases = MailPhrase::model()->findAllByAttributes(['constructor_id' => $constructor->getPrimaryKey()]);
+        $Denejnaja = $simulation->game_type->getCharacter(['fio'=>'Денежная Р.Р.']);
+
+        /** @var OutboxMailTheme $theme */
+        $OutboxTheme = $simulation->game_type->getOutboxMailTheme([
+            'character_to_id'  => $Denejnaja->id,
+            'mail_prefix'      => null,
+            'mail_code'        => 'MS35'
+        ]);
+
+        $this->assertNotNull($OutboxTheme);
+
+        $mail_phrases = MailPhrase::model()->findAllByAttributes([
+            'constructor_id' => $OutboxTheme->mail_constructor_id
+        ]);
         $data= [];
         
         foreach($mail_phrases as $phrase){
             $data[$phrase->id] = ['name'=>$phrase->name, 'column_number'=>$phrase->column_number];
         }
         
-        $phrases = MailBoxService::getPhrases($theme->id, 0, $simulation);
+        $phrases = MailBoxService::getPhrases($simulation, $OutboxTheme->theme->id, $Denejnaja->id, null);
         $this->assertNotEmpty($data);
+
         $this->assertEquals($data, $phrases['data']);
         $this->assertEquals(count($data), count($phrases['data']));
 
@@ -335,8 +355,14 @@ class MailBoxUnitTest extends CDbTestCase
         $invite->scenario->slug = Scenario::TYPE_FULL;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 
-        $ch = $simulation->game_type->getCharacter(['fio'=>'Трутнев С.']);
-        $theme = $simulation->game_type->getCommunicationTheme(['character_id'=>$ch->id,'text'=>'форма по задаче от логистики, срочно!', 'letter_number'=>'MS42']);
+        $Trutnev = $simulation->game_type->getCharacter(['fio'=>'Трутнев С.']);
+
+        $OutboxMailTheme = $simulation->game_type->getOutboxMailTheme([
+            'character_to_id' => $Trutnev->id,
+            'mail_prefix'     => 'fwd',
+            'mail_code'       => 'MS42'
+        ]);
+
         $constructor = $simulation->game_type->getMailConstructor(['code' => 'R6']);
         $mail_phrases = MailPhrase::model()->findAllByAttributes(['constructor_id'=>$constructor->getPrimaryKey()]);
         $data= [];
@@ -345,7 +371,7 @@ class MailBoxUnitTest extends CDbTestCase
             $data[$phrase->id] = ['name'=>$phrase->name, 'column_number'=>$phrase->column_number];
         }
 
-        $phrases = MailBoxService::getPhrases(0, $theme->id, $simulation);
+        $phrases = MailBoxService::getPhrases($simulation, $OutboxMailTheme->theme->id, $Trutnev->id, 'fwd');
 
         $this->assertEquals($data, $phrases['data']);
         $this->assertEquals(count($data), count($phrases['data']));
@@ -407,21 +433,23 @@ class MailBoxUnitTest extends CDbTestCase
 
         // init MS emails:
         // MS27 {
-        $subject = $simulation->game_type->getCommunicationTheme(
-            ['text' => '!проблема с сервером!', 'letter_number' => 'MS27']
-        );
+        $Trutnev = $simulation->game_type->getCharacter(['code' =>'3']);
+
 
         $sendMailOptions = new SendMailOptions($simulation);
-        $sendMailOptions->setRecipientsArray($simulation->game_type->getCharacter(['code' =>'3'])->getPrimaryKey()); // Трутнев
+        $sendMailOptions->setRecipientsArray($Trutnev->id);
         $sendMailOptions->simulation = $simulation;
         $sendMailOptions->messageId  = $emailFromSysadmin->id;
         $sendMailOptions->time       = '09:01';
         $sendMailOptions->copies     = '';
         $sendMailOptions->phrases    = '';
-        $sendMailOptions->subject_id = $subject->id;
+        $sendMailOptions->mailPrefix = 'fwd';
+        $sendMailOptions->themeId   = $emailFromSysadmin->theme->id;
 
         $ms_27 = MailBoxService::sendMessagePro($sendMailOptions);
         // MS27 }
+
+        $ms_27->refresh();
 
         $this->assertEquals('MS27', $ms_27->code);
     }
@@ -441,26 +469,47 @@ class MailBoxUnitTest extends CDbTestCase
         $invite->scenario->slug = Scenario::TYPE_FULL;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 
-
         MailBoxService::copyMessageFromTemplateByCode($simulation, 'M75');
 
+        $mailHero = $simulation->game_type->getCharacter(['code' => Character::HERO_ID]);
 
+        /** @var MailBox $m75 */
         $m75 = MailBox::model()->findByAttributes([
             'sim_id' => $simulation->id,
             'code'   => 'M75'
         ]);
 
-        $subject = MailBoxService::getSubjectForRepryEmail($m75);
+        /** @var MailBox $MS60 */
+//        $mailOptions           = new SendMailOptions($simulation);
+//        $mailOptions->senderId = $mailHero->id;
+//        $mailOptions->themeId  = $m75->theme_id;
+//        $mailOptions->setRecipientsArray($m75->receiver_id);
+//        $mailOptions->mailPrefix = $m75->getFormattedTheme('re');
+//        $mailOptions->messageId  = $m75->id;
+//        $mailOptions->time       = '11:00';
+//
+//        $MS60 = MailBoxService::sendMessagePro($mailOptions);
+
+        /** @var OutboxMailTheme $outboxTheme */
+        $outboxTheme = OutboxMailTheme::model()->findByAttributes([
+            'scenario_id'     => $simulation->game_type->id,
+            'theme_id'        => $m75->theme_id,
+            'character_to_id' => $m75->sender_id,
+            'mail_prefix'     => 're'
+        ]);
 
         // check constructor
-        $this->assertEquals('R14', $subject->constructor_number);
+        $this->assertEquals('R14', $outboxTheme->mailConstructor->code);
 
         // check template
-        $this->assertEquals('MS60', $subject->letter_number);
+        $this->assertEquals('MS60', $outboxTheme->mail_code);
+
+        $data = MailBoxService::getPhrases($simulation, $m75->theme_id, $m75->sender_id, 're');
+        $this->assertEquals('R14', $data['constructorCode']);
     }
 
     /**
-     *
+     * Проверяет параметры случайно выбранного нового отправленного письма.
      */
     public function testGetMessage()
     {
@@ -486,12 +535,14 @@ class MailBoxUnitTest extends CDbTestCase
         $copies = $getRandomCharacters();
 
         $criteria = new CDbCriteria([
-            'limit' => 1,
-            'order' => 'rand()'
+            'limit'     => 1,
+            'order'     => 'rand()',
+            'condition' => ' mail_prefix is NULL ',
         ]);
 
-        // Some random subject
-        $subject = $simulation->game_type->getCommunicationTheme($criteria);
+        // Some random $OutboxMailTheme
+        /** @var OutboxMailTheme $OutboxMailTheme */
+        $OutboxMailTheme = $simulation->game_type->getOutboxMailTheme($criteria);
 
         $sendMailOptions = new SendMailOptions($simulation);
         $sendMailOptions->setRecipientsArray(implode(',', $recipients));
@@ -500,9 +551,10 @@ class MailBoxUnitTest extends CDbTestCase
         $sendMailOptions->time       = date('H:i', rand(32400, 64800));
         $sendMailOptions->copies     = implode(',', $copies);
         $sendMailOptions->phrases    = '';
-        $sendMailOptions->subject_id = $subject->id;
+        $sendMailOptions->themeId    = $OutboxMailTheme->theme->id;
 
         $sentMessage = MailBoxService::sendMessagePro($sendMailOptions);
+        $sentMessage->refresh();
         $foundMessage = UnitTestBaseTrait::getMessage($sentMessage->id);
 
         $sentMessage->refresh();
@@ -510,12 +562,13 @@ class MailBoxUnitTest extends CDbTestCase
         $this->assertEquals(1, $sentMessage->readed);
         $this->assertArrayHasKey('id', $foundMessage);
         $this->assertSame($sentMessage->id, $foundMessage['id']);
-        $this->assertSame($subject->text, $foundMessage['subject']);
+        $this->assertSame($OutboxMailTheme->theme->text, $foundMessage['theme']);
         $this->assertEquals(count($recipients), count(explode(',', $foundMessage['receiver'])));
     }
 
     /**
-     *
+     * В принципе дублирует testGetMessage() в этом же тесте
+     * Проверяет параметры случайно выбранного нового отправленного письма.
      */
     public function testSendMessagePro()
     {
@@ -541,28 +594,30 @@ class MailBoxUnitTest extends CDbTestCase
             return $toList($simulation->game_type->getCharacters(['code' => $codes]));
         };
 
-        $criteria = new CDbCriteria([
+        $baseCriteria = new CDbCriteria([
             'limit' => 1,
-            'order' => 'rand()'
+            'order' => 'rand()',
         ]);
-
 
         $recipients = $getRandomCharacters();
         $copies = $getRandomCharacters(0, 5);
 
-        $condition = clone $criteria;
-        $subject = $simulation->game_type->getCommunicationTheme($condition);
 
-        $condition = clone $criteria;
+        $OutboxMailTheme = $simulation->game_type->getOutboxMailTheme(new CDbCriteria([
+            'limit' => 1,
+            'order' => 'rand()',
+            'condition' => ' mail_prefix is NULL ',
+        ]));
+
+        $condition = clone $baseCriteria;
         $condition->addColumnCondition(['sim_id' => $simulation->id]);
-        $doc = MyDocument::model()->find($condition);
 
-        $condition = clone $criteria;
+        $condition = clone $baseCriteria;
         $condition->limit = rand(0, 50);
         $condition->addColumnCondition(['scenario_id' => $simulation->game_type->id]);
         $phrases = $toList(MailPhrase::model()->findAll($condition));
 
-        $condition = clone $criteria;
+        $condition = clone $baseCriteria;
         $condition->addColumnCondition(['sim_id' => $simulation->id]);
         $someEmail = MailBox::model()->find($condition);
 
@@ -574,15 +629,15 @@ class MailBoxUnitTest extends CDbTestCase
         $sendMailOptions->time       = date('H:i', rand(32400, 64800));
         $sendMailOptions->copies     = implode(',', $copies);
         $sendMailOptions->phrases    = '';
-        $sendMailOptions->subject_id = $subject->id;
-        $sendMailOptions->fileId = $doc->id;
-        $sendMailOptions->phrases = implode(',', $phrases);
+        $sendMailOptions->themeId    = $OutboxMailTheme->theme->id;
+        $sendMailOptions->themeId    = $OutboxMailTheme->theme->id;
+        $sendMailOptions->phrases    = implode(',', $phrases);
 
         $sentMessage = MailBoxService::sendMessagePro($sendMailOptions);
 
         $this->assertInstanceOf('MailBox', $sentMessage);
         $this->assertGreaterThan($someEmail->id, $sentMessage->id);
-        $this->assertSame($subject->id, $sentMessage->subject_id);
+        $this->assertSame($OutboxMailTheme->theme->id, $sentMessage->theme_id);
     }
 
     /**
@@ -615,7 +670,7 @@ class MailBoxUnitTest extends CDbTestCase
     }
 
     /**
-     *
+     * Проверяет что игра правильно перезаписывает данные письма при сохранениии черновиков
      */
     public function testUpdateMessage() {
 
@@ -626,6 +681,7 @@ class MailBoxUnitTest extends CDbTestCase
         $invite->scenario->slug = Scenario::TYPE_FULL;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 
+        // 1. Сохранить MS20 {
         $recipients = [];
         $recipients[] = $simulation->game_type->getCharacter(['fio'=>'Денежная Р.Р.'])->id;
         $recipients[] = $simulation->game_type->getCharacter(['fio'=>'Крутько М.'])->id;
@@ -633,10 +689,16 @@ class MailBoxUnitTest extends CDbTestCase
         $copies = [];
         $copies[] = $simulation->game_type->getCharacter(['fio'=>'Железный С.'])->id;
 
-        $subject = $simulation->game_type->getCommunicationTheme(['character_id'=>$recipients[0], 'mail'=>1, 'letter_number'=>"MS20"]);
+        /** @var OutboxMailTheme $OutboxMailTheme */
+        $OutboxMailTheme = $simulation->game_type->getOutboxMailTheme([
+            'character_to_id' => $recipients[0],
+            'mail_prefix'     => null,
+            'mail_code'       => 'MS20'
+        ]);
 
-        /* @var $subject CommunicationTheme */
-        $constructor = $simulation->game_type->getMailConstructor(['code' => $subject->constructor_number]);
+        $constructor = $simulation->game_type->getMailConstructor([
+            'code' => $OutboxMailTheme->mailConstructor->code
+        ]);
 
         $phrases = [];
         $phrases[] = $simulation->game_type->getMailPhrase(['constructor_id' => $constructor->id, 'name' => 'аналитический отдел'])->id;
@@ -652,25 +714,32 @@ class MailBoxUnitTest extends CDbTestCase
         $sendMailOptions->copies     = implode(',', $copies);
         $sendMailOptions->phrases    = implode(',', $phrases);
         $sendMailOptions->fileId     = $attach->id;
-        $sendMailOptions->subject_id = $subject->id;
+        $sendMailOptions->themeId    = $OutboxMailTheme->theme->id;
         $sendMailOptions->id         = null;
         $sendMailOptions->setLetterType('new');
 
         $email = MailBoxService::saveDraft($sendMailOptions);
 
         unset($recipients);
-        unset($subject);
+        unset($OutboxMailTheme);
         unset($phrases);
         unset($constructor);
         unset($sendMailOptions);
         unset($attach);
         $recipients = [];
+        // 1. MS20 }
+
+        // 2. Сохранить MS20 из п.1 как не MS. {
         $recipients[] = $simulation->game_type->getCharacter(['fio'=>'Босс В.С.'])->id;
 
-        $subject = $simulation->game_type->getCommunicationTheme(['character_id'=>$recipients[0], 'mail'=> 1, 'text'=>'Индексация ЗП']);
+        /** @var Theme $theme */
+        $theme = $simulation->game_type->getTheme([
+            'text' => 'Индексация ЗП',
+        ]);
 
-        /* @var $subject CommunicationTheme */
-        $constructor = $simulation->game_type->getMailConstructor(['code' => $subject->constructor_number]);
+        $constructor = $simulation->game_type->getMailConstructor([
+            'code' => 'B1'
+        ]);
         $phrases = [];
 
         $phrases[] = $simulation->game_type->getMailPhrase(['constructor_id'=>$constructor->id, 'name' => 'спасибо'])->id;
@@ -688,16 +757,17 @@ class MailBoxUnitTest extends CDbTestCase
         $sendMailOptions->copies     = implode(',', $copies);
         $sendMailOptions->phrases    = implode(',', $phrases);
         $sendMailOptions->fileId     = $attach->id;
-        $sendMailOptions->subject_id = $subject->id;
+        $sendMailOptions->themeId    = $theme->id;
         $sendMailOptions->id         = $email->id;
         $sendMailOptions->setLetterType('new');
         $draft = MailBoxService::saveDraft($sendMailOptions);
 
         $mail = UnitTestBaseTrait::getMessage($email->id);
+        // 2. Не MS. }
 
         $this->assertNotEmpty($mail);
 
-        $this->assertEquals('Индексация ЗП', $mail['subject']);
+        $this->assertEquals('Индексация ЗП', $mail['theme']);
         $this->assertEquals('спасибо сделаю хорошо', $mail['message']);
         $this->assertEquals($simulation->game_type->scenario_config->game_date_data.' 10:20', $mail['sentAt']);
         $this->assertEquals("Босс В.С. <boss@skiliks.com>", $mail['receiver']);
@@ -706,6 +776,7 @@ class MailBoxUnitTest extends CDbTestCase
         $this->assertEquals('Презентация_ ГД_2013_итог.pptx', $mail['attachments']['name']);
         $this->assertEquals($email->id, $mail['id']);
         $this->assertEquals($draft->id, $email->id);
+
     }
 
     public function testParentActivityCompletedOnSend()
