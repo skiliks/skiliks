@@ -113,16 +113,14 @@ class MailBoxUnitTest extends CDbTestCase
         FlagsService::setFlag($simulation, 'F42', 1);
         FlagsService::setFlag($simulation, 'F33', 1);
 
-
-
         // 1. One recipient case {
-        $boss = $simulation->game_type->getCharacter(['code' => 6]);
-        $bossThemes = array_values(MailBoxService::getThemes($simulation, $boss->id, NULL,  NULL));
+        $Bobr = $simulation->game_type->getCharacter(['code' => 11]); // Бобр В.
+        $BobrThemes = array_values(MailBoxService::getThemes($simulation, $Bobr->id, NULL,  NULL));
 
         // Check for no duplicates in theme list
-        $this->assertEquals(count($bossThemes), count(array_unique($bossThemes)));
+        $this->assertEquals(count($BobrThemes), count(array_unique($BobrThemes)));
 
-        $subjects = MailBoxService::getThemes($simulation, $boss->id, NULL, NULL);
+        $subjects = MailBoxService::getThemes($simulation, $Bobr->id, NULL, NULL);
 
         $this->assertEquals(3, count($subjects));
         $this->assertTrue(in_array('Бюджет производства прошлого года', $subjects));
@@ -131,7 +129,7 @@ class MailBoxUnitTest extends CDbTestCase
         // 1. }
 
         // 2. + Several recipients case {
-        $character1 = $simulation->game_type->getCharacter(['code' => '11'])->getPrimaryKey(); // Бобр В.
+        $character1 = $Bobr->id;
         $character2 = $simulation->game_type->getCharacter(['code' => '26'])->getPrimaryKey();
         $character3 = $simulation->game_type->getCharacter(['code' => '24'])->getPrimaryKey();
 
@@ -141,11 +139,11 @@ class MailBoxUnitTest extends CDbTestCase
             NULL,
             NULL
         );
-
         $this->assertEquals(count($subjects2), 3);
         $this->assertTrue(in_array('Бюджет производства прошлого года', $subjects2));
         $this->assertTrue(in_array('Бюджет производства 2014: коррективы', $subjects2));
         $this->assertTrue(in_array('Новая тема', $subjects2));
+
         // 2. }
     }
 
