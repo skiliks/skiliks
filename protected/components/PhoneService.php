@@ -153,7 +153,7 @@ class PhoneService {
         $simulation = Simulation::model()->findByPk($simId);
         $model->call_time   = $time;
         $model->call_type   = self::CALL_TYPE_OUTGOING;
-        $model->from_id     = $simulation->game_type->getCharacter(['code' => Character::HERO_ID])->primaryKey;
+        $model->from_id     = $simulation->game_type->getCharacter(['code' => Character::HERO_CODE])->primaryKey;
         $model->to_id       = $simulation->game_type->getCharacter(['code' => $characterCode])->primaryKey; // какому персонажу мы звоним
         $model->theme_id    = $themeId;
         $model->insert();

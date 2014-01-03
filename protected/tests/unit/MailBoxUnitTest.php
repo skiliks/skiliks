@@ -180,9 +180,11 @@ class MailBoxUnitTest extends CDbTestCase
             'mail_prefix'     => 're'
         ])->theme_id;
 
+        $hero = $simulation->game_type->getCharacter(['code' => Character::HERO_CODE]);
+
         $options->mailPrefix = 're';
         $options->setRecipientsArray($character->primaryKey);
-        $options->senderId = Character::HERO_ID;
+        $options->senderId = $hero->id;
         $options->time = '11:00:00';
         $options->setLetterType('new');
         $options->groupId = MailBox::FOLDER_OUTBOX_ID;
@@ -473,7 +475,7 @@ class MailBoxUnitTest extends CDbTestCase
 
         MailBoxService::copyMessageFromTemplateByCode($simulation, 'M75');
 
-        $mailHero = $simulation->game_type->getCharacter(['code' => Character::HERO_ID]);
+        $mailHero = $simulation->game_type->getCharacter(['code' => Character::HERO_CODE]);
 
         /** @var MailBox $m75 */
         $m75 = MailBox::model()->findByAttributes([

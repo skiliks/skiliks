@@ -77,7 +77,7 @@ class DialogServiceUnitTest extends PHPUnit_Framework_TestCase
     }
 
     public function testReplicaDurationZeroOrMore() {
-        $characters = Character::model()->findAllByAttributes(['code'=>Character::HERO_ID]);
+        $characters = Character::model()->findAllByAttributes(['code'=>Character::HERO_CODE]);
         foreach($characters as $character){
             $replica = Replica::model()->count("ch_to = :ch_to and scenario_id = :scenario_id and duration is null and dialog_subtype in(2,3,4)", [
                 'ch_to'=>$character->id,

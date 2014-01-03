@@ -8,7 +8,7 @@ class SetReplicaDurationCommand extends CConsoleCommand {
         $replicas = Replica::model()->findAllByAttributes(['scenario_id'=>$scenario->id]);
         /* @var $replica Replica */
         foreach($replicas as $replica) {
-            if((int)$replica->from_character->code !== Character::HERO_ID) {
+            if((int)$replica->from_character->code !== Character::HERO_CODE) {
                 $replica->duration = $duration;
                 $replica->update();
             }

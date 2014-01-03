@@ -782,7 +782,8 @@ class MailBoxService
     public static function saveDraft($sendMailOptions)
     {
         $sendMailOptions->groupId   = MailBox::FOLDER_DRAFTS_ID;
-        $sendMailOptions->senderId  = $sendMailOptions->simulation->game_type->getCharacter(['code' => Character::HERO_ID])->getPrimaryKey();
+        $sendMailOptions->senderId  = $sendMailOptions->simulation->game_type
+            ->getCharacter(['code' => Character::HERO_CODE])->getPrimaryKey();
 
         $message = self::sendMessagePro($sendMailOptions);
 
@@ -828,7 +829,7 @@ class MailBoxService
         $copies = array();
 
         $collection = MailRecipient::model()->findAllByAttributes(['mail_id' => $message->id]);
-        $hero = $message->simulation->game_type->getCharacter(['code' => Character::HERO_ID]);
+        $hero = $message->simulation->game_type->getCharacter(['code' => Character::HERO_CODE]);
 
         foreach ($collection as $model) {
             // exclude our hero from copies

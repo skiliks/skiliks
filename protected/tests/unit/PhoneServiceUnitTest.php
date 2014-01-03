@@ -5,7 +5,6 @@
  */
 class PhoneServiceUnitTest extends CDbTestCase
 {
-
     /**
      * Проверяет правильность имени персонажа при пропущеном звонке
      */
@@ -19,22 +18,21 @@ class PhoneServiceUnitTest extends CDbTestCase
         $invite->scenario->slug = Scenario::TYPE_FULL;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 
+        $heroId = $simulation->game_type->getCharacter(['code' => Character::HERO_CODE])->primaryKey;
 
         // init test data {
         $toCharacter = Character::model()->find([
             'condition' => 'id NOT IN (:id) AND scenario_id = '.$simulation->scenario_id,
-            'params' => [
-                'id' => $simulation->game_type->getCharacter(['code' => Character::HERO_ID])->primaryKey
-            ]
+            'params'    => ['id' => $heroId]
         ]);
 
         $time = '11:00:00';
 
-        $phoneCallHistoryRecord = new PhoneCall();
-        $phoneCallHistoryRecord->sim_id = $simulation->id;
+        $phoneCallHistoryRecord            = new PhoneCall();
+        $phoneCallHistoryRecord->sim_id    = $simulation->id;
         $phoneCallHistoryRecord->call_type = PhoneCall::MISSED_CALL;
-        $phoneCallHistoryRecord->from_id = $toCharacter->id;
-        $phoneCallHistoryRecord->to_id = Character::HERO_ID;
+        $phoneCallHistoryRecord->from_id   = $toCharacter->id;
+        $phoneCallHistoryRecord->to_id     = $heroId;
         $phoneCallHistoryRecord->call_time = $time;
         $phoneCallHistoryRecord->save();
         // init test data }

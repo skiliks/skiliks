@@ -23,7 +23,7 @@ class Character extends CActiveRecord
     const SEX_MALE   = 'M';
     const SEX_FEMALE = 'F';
 
-    const HERO_ID = 1;
+    const HERO_CODE = 1;
 
     /* -------------------------------------------------------------------------------------- */
 

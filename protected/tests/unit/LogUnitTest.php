@@ -49,7 +49,7 @@ class LogUnitTest extends CDbTestCase
         $options->themeId    = $theme_id;
         $options->mailPrefix = 're';
         $options->setRecipientsArray($character->primaryKey);
-        $options->senderId = $simulation->game_type->getCharacter(['code' => Character::HERO_ID])->getPrimaryKey();
+        $options->senderId = $simulation->game_type->getCharacter(['code' => Character::HERO_CODE])->getPrimaryKey();
         $options->time = '11:00:00';
         $options->setLetterType('new');
         $options->groupId = MailBox::FOLDER_OUTBOX_ID;
@@ -313,7 +313,7 @@ class LogUnitTest extends CDbTestCase
         $sendMailOptions->copies     = null;
         $sendMailOptions->phrases    = null;
         $sendMailOptions->fileId     = 0;
-        $sendMailOptions->themeId = $MS40->id;
+        $sendMailOptions->themeId    = $MS40->theme->id;
         $sendMailOptions->mailPrefix = 're';
         $sendMailOptions->setLetterType('new');
         $draft_message = MailBoxService::saveDraft($sendMailOptions);
@@ -326,7 +326,7 @@ class LogUnitTest extends CDbTestCase
         $sendMailOptions->copies     = implode(',', $copies);
         $sendMailOptions->phrases    = null;
         $sendMailOptions->fileId     = 0;
-        $sendMailOptions->themeId    = $MS52->theme->theme_code;
+        $sendMailOptions->themeId    = $MS52->theme->id;
         $sendMailOptions->mailPrefix = 'fwd';
         $sendMailOptions->setLetterType('new');
         $draft_message2 = MailBoxService::saveDraft($sendMailOptions);
@@ -415,8 +415,6 @@ class LogUnitTest extends CDbTestCase
      */
     public function testLogM8Forward()
     {
-        //$this->markTestSkipped();
-
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $invite = new Invite();
         $invite->scenario = new Scenario();
@@ -441,13 +439,15 @@ class LogUnitTest extends CDbTestCase
 
         $options->messageId = $M8->id;
 
+        $hero = $simulation->game_type->getCharacter(['code' => Character::HERO_CODE]);
+
         $options->setRecipientsArray($krutko->id);
-        $options->senderId = Character::HERO_ID;
-        $options->themeId  = $M8->theme->theme_code;
+        $options->senderId   = $hero->id;
+        $options->themeId    = $M8->theme->id;
         $options->mailPrefix = 'fwd'.$M8->mail_prefix;
-        $options->time = '11:00:00';
+        $options->time       = '11:00:00';
         $options->setLetterType('new');
-        $options->groupId = MailBox::FOLDER_OUTBOX_ID;
+        $options->groupId    = MailBox::FOLDER_OUTBOX_ID;
         $options->simulation = $simulation;
 
         $message = MailBoxService::sendMessagePro($options);
@@ -507,11 +507,14 @@ class LogUnitTest extends CDbTestCase
         $sendMailOptions1->setRecipientsArray(
             $simulation->game_type->getCharacter(['code' => 3])->id
         );
+
+        $hero = $simulation->game_type->getCharacter(['code' => Character::HERO_CODE]);
+
         $sendMailOptions1->phrases    = '';
         $sendMailOptions1->copies     = '';
         $sendMailOptions1->mailPrefix = 'fwd'.$M72->mail_prefix;
         $sendMailOptions1->themeId    = $M72->theme->id;
-        $sendMailOptions1->senderId   = Character::HERO_ID;
+        $sendMailOptions1->senderId   = $hero->id;
         $sendMailOptions1->time       = '11:00:00';
         $sendMailOptions1->messageId  = $M72->id;
         $sendMailOptions1->groupId    = MailBox::FOLDER_OUTBOX_ID;
@@ -531,7 +534,7 @@ class LogUnitTest extends CDbTestCase
         $sendMailOptions2->copies     = '';
         $sendMailOptions2->mailPrefix = 'fwd'.$M72->mail_prefix;
         $sendMailOptions2->themeId    = $M72->theme->id;
-        $sendMailOptions2->senderId   = Character::HERO_ID;
+        $sendMailOptions2->senderId   = $hero->id;
         $sendMailOptions2->time       = '11:00:00';
         $sendMailOptions2->messageId  = $M72->id;
         $sendMailOptions2->groupId    = MailBox::FOLDER_OUTBOX_ID;

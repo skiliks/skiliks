@@ -78,7 +78,7 @@ class SendMailOptions
         $this->simulation = $simulation;
 
         $this->senderId = $simulation->game_type->getCharacter([
-            'code' => Character::HERO_ID
+            'code' => Character::HERO_CODE
         ])->getPrimaryKey();
     }
      
