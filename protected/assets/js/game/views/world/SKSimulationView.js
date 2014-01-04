@@ -215,6 +215,11 @@ define([
 
                     this.$el.html(login_html).appendTo('body');
                     this.icon_view = new SKIconPanelView({'el': this.$('.main-screen-icons')});
+
+                    if (this.simulation.isDebug()) {
+                        this.debug_view = new SKDebugView({'el': this.$('.debug-panel')});
+                    }
+
                     var canvas = this.$('.canvas');
                     this.updateTime();
                     this.undelegateEvents();
