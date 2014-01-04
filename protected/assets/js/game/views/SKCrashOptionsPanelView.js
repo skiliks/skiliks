@@ -46,7 +46,6 @@ define([
                 }));
 
                 this.$el.css({
-                    //'zIndex': 60000, // topZIndex wokrs well
                     'top': '70px',
                     'position': 'absolute',
                     'width': '100%',

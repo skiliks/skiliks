@@ -67,11 +67,11 @@ define([
         renderPreventClickElement: function() {
             try {
                 this.preventOtherClicksElement =
-                    $('<div class="preventOtherClicks" style="position: absolute; background: none repeat scroll 0 0 transparent; z-index: 2001; height: 100%;;width:100%;"></div>');
+                    $('<div class="preventOtherClicks" style="position: absolute; background: none repeat scroll 0 0 transparent; z-index: 1200; height: 100%;;width:100%;"></div>');
 
                 if ($.browser['msie']) {
                     this.preventOtherClicksElement =
-                        $('<div class="preventOtherClicks" style="position: absolute; background-color: #000000; opacity: 0; z-index: 2001; height: 100%;;width:100%;"></div>');
+                        $('<div class="preventOtherClicks" style="position: absolute; background-color: #000000; opacity: 0; z-index: 1200; height: 100%;;width:100%;"></div>');
                 }
 
                 $('.canvas').prepend(this.preventOtherClicksElement);
@@ -111,7 +111,6 @@ define([
                 }));
 
                 this.$el.css({
-                    //'zIndex': 60000, // topZIndex wokrs well
                     'top': '70px',
                     'position': 'absolute',
                     'width': '100%',
@@ -119,8 +118,8 @@ define([
                 });
                 me.$el.topZIndex();
 
-                $('#messageSystemMessageDiv').css('z-index', 10000);
-                me.$el.css('z-index', 10001);
+                $('#messageSystemMessageDiv').css('z-index', 1210);
+                me.$el.css('z-index', 1210);
 
                 console.log('z-index 1: ', me.$el.css('z-index'));
 

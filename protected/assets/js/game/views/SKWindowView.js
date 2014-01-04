@@ -145,11 +145,11 @@ define(["text!game/jst/window.jst"],
                     me.remove();
                 });
                 this.listenTo(this.options.model_instance, 'change:zindex', function () {
-                    me.$el.css('zIndex', me.options.model_instance.get('zindex') * 20);
+                    me.$el.css('zIndex', me.options.model_instance.get('zindex') * 10);
                 });
 
                 me.resize();
-                me.$el.css('zIndex', me.options.model_instance.get('zindex') * 20);
+                me.$el.css('zIndex', me.options.model_instance.get('zindex') * 10);
                 me.renderWindow(me.$el);
 
                 this.resize();
