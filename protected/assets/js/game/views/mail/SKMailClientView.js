@@ -847,7 +847,6 @@ define([
                         // SKILIKS-4940 {
                         if ($.browser['mozilla'] == true) {
                             $('.folder-list').height($('#mail-window').height() - 315);
-                            console.log('delta: ', $('#mail-window').height() - 315, $('#mail-window').height());
                         }
                         // SKILIKS-4940 }
 
@@ -1746,7 +1745,6 @@ define([
                     var subjects_list = [];
 
                     for (var i in this.mailClient.availableSubjects) {
-                        console.log(this.mailClient.availableSubjects[i].themeId);
                         subjects_list.push({
                             text: this.mailClient.availableSubjects[i].text,
                             value: parseInt(this.mailClient.availableSubjects[i].themeId)

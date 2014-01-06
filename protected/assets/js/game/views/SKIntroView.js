@@ -126,52 +126,6 @@ define([
             this.$el.find('#skiliks_intro').trigger('ended');
         },
         resize: function() {
-//            console.log("Test cache");
-//            var intro = $('#skiliks_intro');
-//            var height = 800; //высота видео
-//            var width = 1280; //ширина видео
-//            var scale_height = $(window).height() / height; //коефициент маштабирования по высоте
-//            var scale_width = $(window).width() / width; //коефициент маштабирования по ширине
-//
-//            //очищаем маштабирование
-//            intro.css("margin-left", '');
-//            intro.css('height', '');
-//            intro.css('width', '');
-//
-//            //проверяем как маштабируеться высота по коефициенту ширины
-//            if(scale_height * width >= $(window).width()) {
-//                console.log('yes height');
-//
-//                //если высота больше высоты видео то меняем
-//                if($(window).height() > height){
-//                    intro.height($(window).height());
-//                }
-//
-//                //если ширина меньше ширины видео то маштабируем по ширине
-//                if($(window).width() < width) {
-//                    intro.css('margin-left', ($(window).width()-width)/2);
-//                }
-//                console.log('$(window).width()',$(window).width());
-//                return true;
-//            }
-//
-//            //проверяем как маштабируеться ширина по коефициенту высоты
-//            if(scale_width*height >= $(window).height()) {
-//
-//
-//                //если ширина больше ширины видео то меняем
-//                if($(window).width() > width) {
-//                    intro.width($(window).width());
-//                }
-//
-//                //если ширина меньше ширины видео то маштабируем по ширине
-//                if($(window).width() < width) {
-//                    intro.css('margin-left', ($(window).width()-width)/2);
-//                }
-//                console.log('yes width');
-//                return true;
-//            }
-
             var intro = $('#skiliks_intro');
             var minimalHeight = 800; // минимальная высота видео
 

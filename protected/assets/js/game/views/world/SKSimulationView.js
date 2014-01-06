@@ -549,7 +549,6 @@ define([
                     _.each(enabled ? offMethods : onMethods, function(methodName) {
                         var context = enabled ? document : canvas;
                         if (typeof context[methodName] === 'function') {
-                            console.log('doToggleFullscreen:', methodName);
                             context[methodName]();
                         }
                     });

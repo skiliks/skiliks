@@ -121,8 +121,6 @@ define([
                 $('#messageSystemMessageDiv').css('z-index', 1210);
                 me.$el.css('z-index', 1210);
 
-                console.log('z-index 1: ', me.$el.css('z-index'));
-
                 if ($('.windows-container').length) {
                     $('.windows-container').prepend(this.$el);
                 } else {

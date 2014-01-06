@@ -206,7 +206,6 @@ define([
                 var duration = parseInt(task_el.attr('data-task-duration'), 10);
                 var prev_cell = task_el.parents('td');
                 prev_cell.height(Math.ceil(duration / 15) * 11);
-                console.log('cell height: ', duration, (Math.ceil(duration / 15) * 11), (duration / 15));
                 prev_cell.find('.day-plan-td-slot')
                     .hide();
                 prev_cell
@@ -278,7 +277,6 @@ define([
          * @param model
          */
         addDayPlanTask:function (model) {
-            console.log('3');
             try {
                 var me = this;
                 var duration = parseInt(model.get('duration'), 10);

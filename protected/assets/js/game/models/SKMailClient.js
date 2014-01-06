@@ -1436,7 +1436,6 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                     if (this.activeScreen == this.screenWriteForward) {
                         type = 'forward';
                     }
-                    console.log();
                     return {
                         id:         emailToSave.mySqlId,
                         copies:     emailToSave.getCopyToIdsString(),

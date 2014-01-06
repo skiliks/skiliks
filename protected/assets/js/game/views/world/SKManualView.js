@@ -67,7 +67,6 @@ define(
                         $.fn.tooltip.noConflict();
                     }
 
-                    console.log('this.$el; ', this.$el);
                     this.$el.tooltip({
                         tooltipClass: 'person-info-tooltip',
                         position: {
