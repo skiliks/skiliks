@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This is the model class for table "day_plan_log".
  *
@@ -20,16 +19,12 @@
  */
 class DayPlanLog extends CActiveRecord
 {
-    const TODAY = 1;
-
-    const TOMORROW = 2;
-
+    const TODAY          = 1;
+    const TOMORROW       = 2;
     const AFTER_VACATION = 3;
-
-    const TODO = 4;
+    const TODO           = 4;
 
     const ON_11_00 = 1;
-
     const ON_18_00 = 2;
 
 	/**

@@ -86,7 +86,8 @@ class UserAuthController extends YumController
      */
     public function actionRegisterByLink($code)
     {
-        $invite = Invite::model()->findByCode($code);
+        $invite = Invite::model()->findByAttributes([ 'code' => $code ]);
+
         if (empty($invite)) {
             Yii::app()->user->setFlash('error', 'Код приглашения неверный.');
             $this->redirect('/');
@@ -393,40 +394,20 @@ class UserAuthController extends YumController
             ])
         );
 
-        $body = $this->renderPartial('//global_partials/mails/recovery', [
-            'name' => $user->getFormattedFirstName(),
-            'link' => $recoveryUrl
-        ], true);
+        $mailOptions          = new SiteEmailOptions();
+        $mailOptions->from    = Yum::module('registration')->recoveryEmail;
+        $mailOptions->to      = $user->profile->email;
+        $mailOptions->subject = 'Восстановление пароля для сайта ' . Yii::app()->params['server_domain_name'];
+        $mailOptions->h1      = sprintf('Приветствуем, %s!', $user->getFormattedFirstName());
+        $mailOptions->text1   = '
+            <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
+            Вы просили обновить данные вашего аккаунта.</p>
+            <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
+            Пожалуйста, зайдите в <a  style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva,
+            sans-serif;font-size:14px;" href="<?= '.$recoveryUrl.' ?>">ваш кабинет</a> для восстановления пароля и/или логина.</p>
+        ';
 
-        $mail = [
-            'from' => Yum::module('registration')->recoveryEmail,
-            'to' => $user->profile->email,
-            'subject' => 'Восстановление пароля к skiliks.com', //Yii::t('site', 'You requested a new password'),
-            'body' => $body,
-            'embeddedImages' => [
-                [
-                    'path'     => Yii::app()->basePath.'/assets/img/mailtopclean.png',
-                    'cid'      => 'mail-top-clean',
-                    'name'     => 'mailtopclean',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],[
-                    'path'     => Yii::app()->basePath.'/assets/img/mailchair.png',
-                    'cid'      => 'mail-chair',
-                    'name'     => 'mailchair',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],[
-                    'path'     => Yii::app()->basePath.'/assets/img/mail-bottom.png',
-                    'cid'      => 'mail-bottom',
-                    'name'     => 'mailbottom',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],
-            ],
-        ];
-
-        $sent = MailHelper::addMailToQueue($mail);
+        $sent = UserService::addStandardEmailToQueue($mailOptions, SiteEmailOptions::TEMPLATE_FIKUS);
 
         return $sent;
     }
@@ -447,6 +428,9 @@ class UserAuthController extends YumController
      * be initially set to 1 (active - first Visit) so the administrator
      * can see, which accounts have been activated, but not yet logged in
      * (more than once)
+     *
+     * @parameter string $email
+     * @parameter string $key
      */
     public function actionActivation($email, $key) {
 
@@ -480,9 +464,10 @@ class UserAuthController extends YumController
 
         if($user instanceof YumUser) {
             if(Yum::module('registration')->loginAfterSuccessfulActivation) {
-                $login = new YumUserIdentity($user->username, false);
-                $login->authenticate(true);
-                Yii::app()->user->login($login);
+                UserService::authenticate($user);
+//                $login = new YumUserIdentity($user->username, false);
+//                $login->authenticate(true);
+//                Yii::app()->user->login($login, 60);
             }
 
             if ($user->isPersonal()) {
@@ -560,6 +545,12 @@ class UserAuthController extends YumController
         ]);
     }
 
+    /**
+     * Восстановление пароля
+     *
+     * @param string $email, null - значение по умолчанию необходимо
+     * @param string $key  , null - значение по умолчанию необходимо
+     */
     public function actionRecovery($email = null, $key = null)
     {
         $recoveryForm = new YumPasswordRecoveryForm;
@@ -567,7 +558,6 @@ class UserAuthController extends YumController
 
         $YumPasswordRecoveryForm = Yii::app()->request->getParam('YumPasswordRecoveryForm');
         $YumUserChangePassword = Yii::app()->request->getParam('YumUserChangePassword');
-
 
         if (null !== $email && null !== $key && null !== $YumUserChangePassword) {
             $profile = YumProfile::model()->findByAttributes(['email' => strtolower($email)]);
@@ -582,9 +572,10 @@ class UserAuthController extends YumController
 
                     Yii::app()->user->setFlash('success password-recovery-step-4', 'Новый пароль успешно сохранен');
                     if (Yum::module('registration')->loginAfterSuccessfulRecovery) {
-                        $login = new YumUserIdentity($user->username, false);
-                        $login->authenticate(true);
-                        Yii::app()->user->login($login);
+                          UserService::authenticate($user);
+//                        $login = new YumUserIdentity($user->username, false);
+//                        $login->authenticate(true);
+//                        Yii::app()->user->login($login, 60);
                     }
 
                     $this->redirect('/');

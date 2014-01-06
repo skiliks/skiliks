@@ -81,35 +81,33 @@ class PerformanceRuleUnitTest extends CDbTestCase {
         $invite->scenario->slug = Scenario::TYPE_FULL;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 
-
         $this->addExcelPoints($simulation);
 
-        $res = SimulationExcelPoint::model()->findAllByAttributes(['sim_id'=>$simulation->id]);
+        $ms36 = $simulation->game_type->getMailTemplate(['code'=>"MS36"]);
 
-        $ms = $simulation->game_type->getMailTemplate(['code'=>"MS36"]);
-
-        $mail_box = new MailBox();
-        $mail_box->group_id = 1;
-        $mail_box->receiver_id = 1;
-        $mail_box->sender_id = 1;
-        $mail_box->subject_id = 10;
-        $mail_box->sim_id = $simulation->id;
-        $mail_box->template_id = $ms->id;
-        $mail_box->code = 'MS36';
-        $mail_box->coincidence_mail_code = 'full';
-        $mail_box->coincidence_type = 'MS36';
-        $mail_box->letter_type = '';
+        $mail_box                        = new MailBox();
+        $mail_box->group_id              = MailBox::FOLDER_INBOX_ID;
+        $mail_box->receiver_id           = $ms36->receiver_id;
+        $mail_box->sender_id             = $ms36->sender_id;
+        $mail_box->theme_id              = $ms36->theme->id;
+        $mail_box->theme                 = $ms36->theme;
+        $mail_box->sim_id                = $simulation->id;
+        $mail_box->template_id           = $ms36->id;
+        $mail_box->code                  = 'MS36';
+        $mail_box->coincidence_mail_code = 'MS36';
+        $mail_box->coincidence_type      = 'full';
+        $mail_box->letter_type           = '';
         $mail_box->save();
 
-        $log_mail = new LogMail();
-        $log_mail->mail_id = $mail_box->id;
-        $log_mail->sim_id = $simulation->id;
-        $log_mail->mail_task_id = null;
+        $log_mail                   = new LogMail();
+        $log_mail->mail_id          = $mail_box->id;
+        $log_mail->sim_id           = $simulation->id;
+        $log_mail->mail_task_id     = null;
         $log_mail->full_coincidence = "MS36";
-        $log_mail->start_time = '11:00:20';
-        $log_mail->end_time = '11:20:30';
-        $log_mail->window = 13;
-        $log_mail->window_uid = '34';
+        $log_mail->start_time       = '11:00:20';
+        $log_mail->end_time         = '11:20:30';
+        $log_mail->window           = 13;
+        $log_mail->window_uid       = '34';
         $log_mail->save();
 
         SimulationService::setFinishedPerformanceRules($simulation);

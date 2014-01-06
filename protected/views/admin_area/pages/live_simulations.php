@@ -27,10 +27,15 @@
             </tr>
 
         <?php $allSimulation = [$full_simulations, $lite_simulations, $tutorial_simulations]; ?>
+        <?php $keys = [0 => 'Full', 1 =>  'Lite', 2 =>  'Tutorials']; ?>
 
         <?php $i = 0 ?>
+        <?php $j = 0 ?>
 
-        <?php foreach($allSimulation as $simulations) : ?>
+        <?php foreach($allSimulation as $key =>  $simulations) : ?>
+            <br/><br/>
+            <tr><td colspan="<?= count($titles) ?>"><h5> <?= $keys[$j] ?>: </h5></td></tr>
+            <?php $j++; ?>
             <?php foreach($simulations as $simulation) : ?>
                 <?php $i++; ?>
                 <tr>
@@ -112,6 +117,7 @@
                 <?php endif ?>
 
             <?php endforeach; ?>
+            <tr><td colspan="<?= count($titles) ?>" style="background-color: #ddd;"></td></tr>
         <?php endforeach; ?>
 
         </table>

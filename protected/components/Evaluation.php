@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Class Evaluation
+ */
 class Evaluation {
 
     /**
@@ -7,10 +10,18 @@ class Evaluation {
      */
     public $simulation;
 
+    /**
+     * @param $simulation
+     */
     public function __construct($simulation) {
         $this->simulation = $simulation;
     }
 
+    /**
+     * Расчет общего менеджерского рейтинга
+     * и сохранение его в базу
+     * @throws DomainException
+     */
     public function checkOverallManagerRating()
     {
         $value = 0;
@@ -43,6 +54,9 @@ class Evaluation {
         $overall->save();
     }
 
+    /**
+     * Расчет менеджерский навыков по областям
+     */
     public function checkManagerialSkills()
     {
         $followPriorities = $this->simulation->game_type->getLearningArea(['code' => 1]);
@@ -92,6 +106,9 @@ class Evaluation {
         $result->save();
     }
 
+    /**
+     * Расчет продуктивности
+     */
     public function checkManagerialProductivity()
     {
         $value = 0;
@@ -118,6 +135,9 @@ class Evaluation {
         $result->save();
     }
 
+    /**
+     * Рачет эфективности использования времени
+     */
     public function checkTimeManagementEffectiveness()
     {
         $timeManagementEfficiency = TimeManagementAggregated::model()->findByAttributes([
@@ -133,6 +153,9 @@ class Evaluation {
         $result->save();
     }
 
+    /**
+     * Запуск расчета оценок
+     */
     public function run()
     {
         $this->checkManagerialSkills();

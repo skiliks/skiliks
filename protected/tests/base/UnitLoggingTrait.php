@@ -13,7 +13,15 @@ trait UnitLoggingTrait {
 
     private function appendDialog(&$logs, $code, $resultExcelId, $time = 60, $windowType = 24)
     {
-        $replica = Replica::model()->getFirstReplica($code);
+        $replica = Replica::model()->find(
+            [
+                'condition'  => ' step_number = 1 AND code = :code',
+                'params' => [
+                    'code' => $code
+                ],
+                'order'      => 'replica_number'
+            ]
+        );
         $resultReplica = Replica::model()->findByAttributes(['excel_id' => $resultExcelId]);
         $logs[] = [20, $windowType, 'activated', $this->time, 'window_uid' => $this->windowUid, ['dialogId' => $replica->primaryKey, 'lastDialogId' => $resultReplica->primaryKey]];
         $this->time += $time;

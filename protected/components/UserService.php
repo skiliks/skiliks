@@ -1,10 +1,22 @@
 <?php
 
+/**
+ * Class UserService
+ */
 class UserService {
 
+    /**
+     *
+     */
     const CAN_START_SIMULATION_IN_DEV_MODE = 'start_dev_mode';
+    /**
+     *
+     */
     const CAN_START_FULL_SIMULATION = 'run_full_simulation';
 
+    /**
+     * @var array
+     */
     public static $developersEmails = [
         "'r.kilimov@gmail.com'",
         "'andrey@kostenko.name'",
@@ -43,7 +55,12 @@ class UserService {
         
         return $modes;
     }
-    
+
+    /**
+     * Заносит email в базу подписчиков
+     * @param $email
+     * @return array данные для фронтэнда 1 успешно, 0 нет
+     */
     public static function addUserSubscription($email)
     {
         $response = ['result'  => 0];
@@ -52,7 +69,7 @@ class UserService {
                 $response['message'] =  "Enter your email address";
         }elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $response['message'] =  "Email entered incorrectly";
-        } elseif (EmailsSub::model()->findByEmail($email)) {
+        } elseif (EmailsSub::model()->findByAttributes(['email' => $email])) {
             $response['message'] =  "Email - ${email} has been already added before!";
         } else {
             $subscription = new EmailsSub();
@@ -66,6 +83,11 @@ class UserService {
         return $response;
     }
 
+    /**
+     * Проверка по базе что email корпоративный
+     * @param string $email
+     * @return bool
+     */
     public static function isCorporateEmail($email)
     {
         $domain = substr($email, strpos($email, '@') + 1);
@@ -176,48 +198,40 @@ class UserService {
 
     public static function sendRegistrationEmail(YumUser $user)
     {
-
+        // "email" и "user_id" заносятся в сессию для авторизации --
+        // или они потом используются для авротизяции, после перезагрузки страницы?
         Yii::app()->session->add("email", $user->profile->email);
         Yii::app()->session->add("user_id", $user->id);
+
         if (!isset($user->profile->email)) {
             throw new CException(Yum::t('Email is not set when trying to send Registration Email'));
         }
-        $activation_url = $user->getActivationUrl();
 
-        $body = Yii::app()->getController()->renderPartial('//global_partials/mails/registration', ['link' => $activation_url], true);
+        $mailOptions          = new SiteEmailOptions();
+        $mailOptions->from    = Yum::module('registration')->registrationEmail;
+        $mailOptions->to      = $user->profile->email;
+        $mailOptions->subject = 'Активация на сайте skiliks.com';
 
-        $mail = array(
-            'from' => Yum::module('registration')->registrationEmail,
-            'to' => $user->profile->email,
-            'subject' => 'Активация на сайте skiliks.com',
-            'body' => $body,
-            'embeddedImages' => [
-                [
-                    'path'     => Yii::app()->basePath.'/assets/img/mailtopangela.png',
-                    'cid'      => 'mail-top-angela',
-                    'name'     => 'mailtopangela',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],[
-                    'path'     => Yii::app()->basePath.'/assets/img/mailanglabtm.png',
-                    'cid'      => 'mail-bottom-angela',
-                    'name'     => 'mailbottomangela',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],[
-                    'path'     => Yii::app()->basePath.'/assets/img/mail-bottom.png',
-                    'cid'      => 'mail-bottom',
-                    'name'     => 'mailbottom',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],
-            ],
-        );
-        $sent = MailHelper::addMailToQueue($mail);
+        $mailOptions->h1      = 'Благодарим вас за выбор skiliks!';
+        $mailOptions->text1   = '
+            <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
+            Пожалуйста, <a style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;"
+            href="' . $user->getActivationUrl() .' ?>">
+            активируйте</a> ваш аккаунт.</p>
+        ';
+
+        $sent = UserService::addStandardEmailToQueue($mailOptions, SiteEmailOptions::TEMPLATE_ANJELA);
 
         return $sent;
     }
 
+    /**
+     * Создает копоративного пользователя
+     * @param YumUser $user
+     * @param YumProfile $profile
+     * @param UserAccountCorporate $account_corporate
+     * @return bool
+     */
     public static function createCorporateAccount(YumUser &$user, YumProfile &$profile, UserAccountCorporate &$account_corporate) {
 
         $isValidUserAndProfile = self::createUserAndProfile($user, $profile);
@@ -250,6 +264,13 @@ class UserService {
         return false;
     }
 
+    /**
+     * Создает персонального пользователя
+     * @param YumUser $user
+     * @param YumProfile $profile
+     * @param UserAccountPersonal $account_personal
+     * @return bool
+     */
     public static function createPersonalAccount(YumUser &$user, YumProfile &$profile, UserAccountPersonal &$account_personal) {
         $isValidUserAndProfile = self::createUserAndProfile($user, $profile);
         $isValidPersonal = $account_personal->validate(['professional_status_id']);
@@ -271,6 +292,12 @@ class UserService {
         return false;
     }
 
+    /**
+     * Создает профиль
+     * @param YumUser $user
+     * @param YumProfile $profile
+     * @return bool
+     */
     public static function createUserAndProfile(YumUser &$user, YumProfile &$profile) {
         $user->setUserNameFromEmail($profile->email);
         $user->createtime = time();
@@ -394,62 +421,52 @@ class UserService {
             throw new CException(Yum::t('Email is not set when trying to send invite email. Wrong invite object.'));
         }
 
-        $inviteEmailTemplate = Yii::app()->params['emails']['inviteEmailTemplate'];
+        $innerText = '';
 
-        $body = self::renderEmailPartial($inviteEmailTemplate, [
-            'invite' => $invite
-        ]);
+        if ($invite->receiverUser && !$invite->receiverUser->isActive()) {
+            $innerText .= 'Пожалуйста, <a href="' . $invite->receiverUser->getActivationUrl() . '">активируйте ваш аккаунт</a>,
+            выберите индивидуальный профиль, войдите в свой кабинет
+            и примите приглашение на тестирование для прохождения симуляции.';
+        } elseif ($invite->receiverUser && $invite->receiverUser->isPersonal()) {
+            $innerText .= 'Пожалуйста,
+            <a target="_blank" style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;"
+            href="' . Yii::app()->createAbsoluteUrl('/user/auth') . '">
+                зайдите
+            </a> в свой кабинет и примите приглашение на тестирование для прохождения симуляции.';
+        } elseif ($invite->receiverUser && $invite->receiverUser->isCorporate()) {
+            $innerText .= 'Пожалуйста,
+            <a target="_blank" style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;"
+            href="' . $invite->getInviteLink() . '">
+                создайте личный профиль
+            </a> или
+            <a target="_blank" style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;"
+            href="' . Yii::app()->createAbsoluteUrl('/dashboard') . '">войдите в личный кабинет</a>
+            и примите приглашение на тестирование для прохождения симуляции.';
+        } else {
+            $innerText .= 'Пожалуйста,
+            <a target="_blank" style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;"
+            href="' . $invite->getInviteLink() . '">зарегистрируйтесь</a>,
+            войдите в свой кабинет и примите приглашение на тестирование для прохождения симуляции.';
+        }
 
-        $mail = [
-            'from'        => Yum::module('registration')->registrationEmail,
-            'to'          => $invite->email,
-            'subject'     => 'Приглашение пройти симуляцию на Skiliks.com',
-            'body'        => $body,
-            'embeddedImages' => [
-                [
-                    'path'     => Yii::app()->basePath.'/assets/img/mail-top.png',
-                    'cid'      => 'mail-top',
-                    'name'     => 'mailtop',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],[
-                    'path'     => Yii::app()->basePath.'/assets/img/mail-top-2.png',
-                    'cid'      => 'mail-top-2',
-                    'name'     => 'mailtop2',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],[
-                    'path'     => Yii::app()->basePath.'/assets/img/mail-right-1.png',
-                    'cid'      => 'mail-right-1',
-                    'name'     => 'mailright1',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],[
-                    'path'     => Yii::app()->basePath.'/assets/img/mail-right-2.png',
-                    'cid'      => 'mail-right-2',
-                    'name'     => 'mailright2',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],[
-                    'path'     => Yii::app()->basePath.'/assets/img/mail-right-3.png',
-                    'cid'      => 'mail-right-3',
-                    'name'     => 'mailright3',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],[
-                    'path'     => Yii::app()->basePath.'/assets/img/mail-bottom.png',
-                    'cid'      => 'mail-bottom',
-                    'name'     => 'mailbottom',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],
-            ],
-        ];
+        $mailOptions          = new SiteEmailOptions();
+        $mailOptions->from    = Yum::module('registration')->registrationEmail;
+        $mailOptions->to      = $invite->email;
+        $mailOptions->subject = 'Приглашение пройти симуляцию на ' . Yii::app()->params['server_domain_name'];
+        $mailOptions->h1      = $invite->getReceiverFirstName() . ', приветствуем вас!';
+        $mailOptions->text1   = '
+             <p  style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
+            '.$invite->message.
+            '</p>
+             <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">'
+            . $innerText .
+            '</p>';
 
         $invite->markAsSendToday();
         $invite->save();
 
-        $sent = MailHelper::addMailToQueue($mail);
+        $sent = UserService::addStandardEmailToQueue($mailOptions, SiteEmailOptions::TEMPLATE_ANJELA);
+
         return $sent;
     }
 
@@ -482,18 +499,16 @@ class UserService {
 
     }
 
+
     /**
      * Скопирован с Yii.
-     * Делает то же что и renderPartial, но путь $_viewFile_ уточнён "/global_partials/mails/".
-     *
-     * @param $_partial_
-     * @param null $_data_
-     *
-     * @return string
-     *
+     * Делает то же что и renderPartial, но путь $_viewFile_ уточнён "/global_partials/mails/"
+     * @param string $_partial_ название шаблона
+     * @param array $_data_ данные
+     * @return string данные шаблона
      * @throws Exception
      */
-    public static function renderEmailPartial($_partial_ ,$_data_ = null)
+    public static function renderEmailPartial($_partial_ ,$_data_ = [])
     {
         $_viewFile_ = __DIR__.'/../views/global_partials/mails/'.$_partial_.'.php';
         if(!file_exists($_viewFile_)) {
@@ -508,14 +523,14 @@ class UserService {
         } else {
             throw new Exception("Bad data, must be array");
         }
-
     }
 
     /**
+     * Возвращает не использованые инвайты сама себе
      * @param YumUser $user
      * @param Scenario $scenario
      *
-     * @return array
+     * @return Invite[]
      */
     public static function getSelfToSelfInvite(YumUser $user, Scenario $scenario) {
         // check and add trial full version {
@@ -591,7 +606,7 @@ class UserService {
             }
 
             $invite->refresh(); // Important! Prevent caching
-            MailHelper::sendEmailIfSuspiciousActivity($invite);
+            MailHelper::sendEmailAboutActivityToStudySimulation($invite);
         }
 
         if (isset($invite) &&
@@ -681,6 +696,11 @@ class UserService {
         ]);
     }
 
+    /**
+     * Запускает устаревание тарифных планов
+     *
+     * @return array
+     */
     public static function tariffExpired() {
 
         /* @var $users UserAccountCorporate[] */
@@ -699,6 +719,8 @@ class UserService {
                 $account = $tariff_plan->user->account_corporate;
                 $initValue = $account->getTotalAvailableInvitesLimit();
                 UserService::logCorporateInviteMovementAdd('Тарифный план '.$account->tariff->label.' истёк. Количество доступных симуляция обнулено.', $account, $initValue);
+
+                // процесс смены тарифного плана при истечении предыдущего {
                 $pending = $account->getPendingTariffPlan();
                 if(null === $pending) {
                     $tariff = Tariff::model()->findByAttributes(['slug'=>Tariff::SLUG_FREE]);
@@ -721,60 +743,31 @@ class UserService {
                 if(null !== $pending) {
                     continue;
                 }
+                // процесс смены тарифного плана при истечении предыдущего }
+
                 // send email for any account {
-                $emailTemplate = Yii::app()->params['emails']['tariffExpiredTemplateIfInvitesZero'];
 
-                $body = self::renderEmailPartial($emailTemplate, [
-                    'user' => $account->user
-                ]);
+                $linkToProlongTariff = '';
+                if ($account->user->getAccount()->getActiveTariffPlan()->tariff->isCanBeProlonged()){
+                    $linkToProlongTariff = 'его <a href="' . MailHelper::createUrlWithHostname("profile/corporate/tariff")
+                        . '">продлить</a> или';
+                }
 
-                $mail = [
-                    'from'        => 'support@skiliks.com',
-                    'to'          => $account->user->profile->email,
-                    'subject'     => 'Истёк тарифный план',
-                    'body'        => $body,
-                    'embeddedImages' => [
-                        [
-                            'path'     => Yii::app()->basePath.'/assets/img/mail-top.png',
-                            'cid'      => 'mail-top',
-                            'name'     => 'mailtop',
-                            'encoding' => 'base64',
-                            'type'     => 'image/png',
-                        ],[
-                            'path'     => Yii::app()->basePath.'/assets/img/mail-top-2.png',
-                            'cid'      => 'mail-top-2',
-                            'name'     => 'mailtop2',
-                            'encoding' => 'base64',
-                            'type'     => 'image/png',
-                        ],[
-                            'path'     => Yii::app()->basePath.'/assets/img/mail-right-1.png',
-                            'cid'      => 'mail-right-1',
-                            'name'     => 'mailright1',
-                            'encoding' => 'base64',
-                            'type'     => 'image/png',
-                        ],[
-                            'path'     => Yii::app()->basePath.'/assets/img/mail-right-2.png',
-                            'cid'      => 'mail-right-2',
-                            'name'     => 'mailright2',
-                            'encoding' => 'base64',
-                            'type'     => 'image/png',
-                        ],[
-                            'path'     => Yii::app()->basePath.'/assets/img/mail-right-3.png',
-                            'cid'      => 'mail-right-3',
-                            'name'     => 'mailright3',
-                            'encoding' => 'base64',
-                            'type'     => 'image/png',
-                        ],[
-                            'path'     => Yii::app()->basePath.'/assets/img/mail-bottom.png',
-                            'cid'      => 'mail-bottom',
-                            'name'     => 'mailbottom',
-                            'encoding' => 'base64',
-                            'type'     => 'image/png',
-                        ],
-                    ],
-                ];
+                $mailOptions          = new SiteEmailOptions();
+                $mailOptions->from    = 'support@skiliks.com';
+                $mailOptions->to      = $account->user->profile->email;
+                $mailOptions->subject = 'Истёк тарифный план на ' . Yii::app()->params['server_domain_name'];
+                $mailOptions->h1      = sprintf('Приветствуем, %s!', $account->user->getFormattedFirstName());
+                $mailOptions->text1   = '
+                    <p  style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
+                        Ваш тарифный план истёк.
+                        Вы можете ' . $linkToProlongTariff
+                        . ' <a href="' . MailHelper::createUrlWithHostname('static/tariffs')
+                        . '">оформить новый</a>.
+                    </p>
+                ';
 
-                MailHelper::addMailToQueue($mail);
+                UserService::addStandardEmailToQueue($mailOptions, SiteEmailOptions::TEMPLATE_ANJELA);
                 // send email for any account }
             }
         }
@@ -782,6 +775,86 @@ class UserService {
         return $expiredAccounts;
     }
 
+    /**
+     * Отправляет письмо о том, что аккаунт скоро устареет, за 3 дня до даты истечения.
+     * Если у аккаунта 0 симуляций - письмо отправлять не надо.
+     *
+     * @return UserAccountCorporate[]
+     */
+    public static function tariffExpiredInTreeDays() {
+
+        $date = new DateTime();
+        $date->add(new DateInterval('P3D'));
+        $date_expire_from = $date->format('Y-m-d 00:00:00');
+        $date->add(new DateInterval('P1D'));
+        $date_expire_to = $date->format('Y-m-d 00:00:00');
+
+        /* @var $users UserAccountCorporate[] */
+        $tariff_plans = TariffPlan::model()->findAll(
+            ':from_date < finished_at AND finished_at <= :to_date AND status = :active ',
+            [
+                'from_date' => $date_expire_from,
+                'to_date'   => $date_expire_to,
+                'active'    => TariffPlan::STATUS_ACTIVE
+            ]
+        );
+
+        $expiredSoonAccounts = [];
+
+        if( null !== $tariff_plans ) {
+            /* @var $tariff_plan TariffPlan */
+            foreach( $tariff_plans as $tariff_plan ) {
+                $account = $tariff_plan->user->account_corporate;
+
+                if($account->getTotalAvailableInvitesLimit() == 0) {
+                    continue;
+                }
+
+                $expiredSoonAccounts[] = $account;
+
+                $mailOptions          = new SiteEmailOptions();
+                $mailOptions->from    = 'support@skiliks.com';
+                $mailOptions->to      = $account->user->profile->email;
+                $mailOptions->subject = 'Неиспользованные симуляции на skiliks.com';
+
+                $mailOptions->h1      = sprintf('Приветствуем, %s!', $account->user->getFormattedFirstName());
+                $mailOptions->text1   = sprintf('
+                    <p  style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
+                        Благодарим за использование skiliks!
+                        <br/><br/>
+                        Еще %s %s<!-- симуляций --> ждут ваших действий.
+                        По истечении месяца (%s %s, %s) нам будет жаль обнулять ваш счет.
+                        <br/><br/>
+                        Пожалуйста, <a target="_blank" style="text-decoration:none;color:#147b99;font-family:Tahoma,
+                         Geneva, sans-serif;font-size:14px;" href="%s">
+                        зайдите </a>
+                        в ваш кабинет для отправки приглашения на тест или прохождения симуляции.
+                    </p> ',
+                    $account->getTotalAvailableInvitesLimit(),
+                    StringTools::lastLetter($account->getTotalAvailableInvitesLimit(), ["симуляция", "симуляции", "симуляций"]),
+                    // ---
+                    date('d', strtotime($account->getActiveTariffPlan()->finished_at)),
+                    Yii::t('site',date('M', strtotime($account->getActiveTariffPlan()->finished_at))),
+                    date('Y', strtotime($account->getActiveTariffPlan()->finished_at)),
+                    // ---
+                    Yii::app()->params['server_name'].'/dashboard'
+                );
+
+                UserService::addStandardEmailToQueue($mailOptions, SiteEmailOptions::TEMPLATE_FIKUS);
+            }
+        }
+
+        return $expiredSoonAccounts;
+    }
+
+    /**
+     * Создает реферрала
+     * @param YumUser $user
+     * @param YumProfile $profile
+     * @param UserAccountCorporate $account_corporate
+     * @param UserReferral $userReferralRecord
+     * @return bool
+     */
     public static function createReferral(YumUser &$user, YumProfile &$profile, UserAccountCorporate &$account_corporate, UserReferral &$userReferralRecord) {
         $profile->email = strtolower($userReferralRecord->referral_email);
         if(self::createCorporateAccount($user, $profile, $account_corporate)) {
@@ -796,6 +869,12 @@ class UserService {
         return false;
     }
 
+    /**
+     * Сохраняет реферала в базе
+     * @param YumUser $user
+     * @param UserReferral $referral
+     * @return bool
+     */
     public static function addReferralUser( YumUser $user, UserReferral &$referral ) {
         $referral->referrer_id    = $user->id;
         $referral->invited_at     = date("Y-m-d H:i:s");
@@ -806,6 +885,7 @@ class UserService {
     }
 
     /**
+     * Создает фейковый заказ для тестов
      * @param Tariff $tariff
      * @param UserAccountCorporate $account
      * @return Invoice
@@ -819,34 +899,74 @@ class UserService {
         return $invoice;
     }
 
+    /**
+     * Определяет какой попап показать и какие данные передать
+     * @param UserAccountCorporate $account
+     * @param string $tariff_slug слаг тарифа
+     * @return array
+     */
     public static function getActionOnPopup(UserAccountCorporate $account, $tariff_slug) {
         $pending = $account->getPendingTariffPlan();
         $result = ['type' => 'popup'];
+
         if(null !== $pending) {
+            /**
+             * Тарифного плана в очереди нет
+             */
             $result['tariff_label'] = $pending->tariff->label;
-            $result['tariff_start'] = (new DateTime($pending->started_at))->modify('+30 days')->format("d.m.Y");
-            $result['popup_class'] = 'tariff-already-booked-popup';
+            $result['tariff_start'] = StaticSiteTools::formattedDateTimeWithRussianMonth((new DateTime($pending->started_at)));
+            $result['tariff_end']   = StaticSiteTools::formattedDateTimeWithRussianMonth((new DateTime($pending->started_at))->modify('+30 days'));
+            $result['popup_class']  = 'tariff-already-booked-popup';
             return $result;
         }
+
         /* @var $tariff Tariff */
         $tariff = Tariff::model()->findByAttributes(['slug'=>$tariff_slug]);
         $active = $account->getActiveTariffPlan();
+
         if($active->tariff->slug === Tariff::SLUG_FREE) {
             return ['type'=>'link'];
         }
+
+        $finish_at = $account->getActiveTariffPlan()->finished_at;
+        $start_time = (new DateTime($finish_at))->format("Y-m-d H:i:s");
+
+
         $result['tariff_label'] = $tariff->label;
         $result['tariff_limits'] = $tariff->simulations_amount;
-        $finish_at = $account->getActiveTariffPlan()->finished_at;
-        $result['tariff_start'] = (new DateTime($finish_at))->modify('+30 days')->format("d.m.Y");
-        $result['tariff_end'] = (new DateTime($result['tariff_start']))->modify('+30 days')->format("d.m.Y");
+        $result['tariff_start'] = StaticSiteTools::formattedDateTimeWithRussianMonth((new DateTime($finish_at)));
+        $result['tariff_end'] = StaticSiteTools::formattedDateTimeWithRussianMonth((new DateTime($start_time))->modify('+30 days'));
 
         if((int)$active->tariff->weight === (int)$tariff->weight) {
+            /**
+             * Продление ТП
+             */
             $result['popup_class'] = 'extend-tariff-popup';
         } elseif((int)$active->tariff->weight < (int)$tariff->weight) {
-            if((int)$account->invites_limit > 0) {
+            /**
+             * Смена на больший ТП
+             */
+            if((int)$account->getTotalAvailableInvitesLimit() > 0) {
+                /**
+                 * Если симуляции остались (будет предупреждение, что они сгорят)
+                 */
                 $result['popup_class'] = 'tariff-replace-now-popup';
-            }else{
-                $invites = (int)Invite::model()->count('tariff_plan_id = :tariff_plan_id and owner_id = :owner_id and (status = :pending or status = :accepted or status = :in_progress)',
+            } else {
+                /**
+                 * Если симуляций не осталось, надо проверить,
+                 * может есть отправленные (или в прогрессе) приглашения,
+                 * при смене ТП сегодня
+                 * -- завтра пользователь потеряет все отправленные или в прогрессе приглашения.
+                 */
+
+                $invites = (int)Invite::model()->count('tariff_plan_id = :tariff_plan_id and owner_id = :owner_id and owner_id = receiver_id and status = :in_progress',
+                    [
+                        'tariff_plan_id' => $active->id,
+                        'owner_id' => $account->user_id,
+                        'in_progress'=>Invite::STATUS_IN_PROGRESS
+                    ]
+                );
+                $invites += (int)Invite::model()->count('tariff_plan_id = :tariff_plan_id and owner_id = :owner_id and (owner_id != receiver_id or receiver_id is null) and (status = :pending or status = :accepted or status = :in_progress)',
                     [
                         'tariff_plan_id' => $active->id,
                         'owner_id' => $account->user_id,
@@ -856,16 +976,26 @@ class UserService {
                     ]
                 );
                 if( $invites > 0 ) {
+                    /**
+                     * Предупреждение, о вожможной утрате приглашений, надо показывать
+                     */
                     $result['popup_class'] = 'tariff-replace-if-zero-popup';
                     $result['invite_limits'] = $invites;
                 } else {
+                    /**
+                     * Тариф можно применять сразу - сегодня
+                     */
                     $result['popup_class'] = 'tariff-replace-now-popup';
                 }
             }
         } else {
-            $result['popup_class'] = 'downgrade-tariff-popup';
-            $result['invite_limits'] = $account->invites_limit;
+            /**
+             * Смена на меньший ТП
+             */
+            $result['popup_class']   = 'downgrade-tariff-popup';
+            $result['invite_limits'] = $account->getTotalAvailableInvitesLimit();
         }
+
         return $result;
     }
 
@@ -880,6 +1010,14 @@ class UserService {
 
     }
 
+    /**
+     * Пишет лог авторизации
+     * @param string $login Логин
+     * @param string $password Пароль
+     * @param int $is_success успешно или нет
+     * @param int $user_id
+     * @param string $type_auth админка или сайт
+     */
     public static function addAuthorizationLog($login, $password, $is_success, $user_id, $type_auth) {
 
         $log = new SiteLogAuthorization();
@@ -893,8 +1031,303 @@ class UserService {
         $log->type_auth = $type_auth;
         $log->login = $login;
         $log->save(false);
+
+        if($is_success === SiteLogAuthorization::FAIL_AUTH) {
+            $fail_try = (int)SiteLogAuthorization::model()->count("login = :login and is_success = :is_success and date >= :date",
+                [
+                    'login'=>$login,
+                    'is_success'=>SiteLogAuthorization::FAIL_AUTH,
+                    'date'=>(new DateTime())->modify('-1 day')->format("Y-m-d H:i:s")
+                ]
+            );
+
+            if($fail_try === Yii::app()->params['max_auth_failed_attempt']) {
+                $logs = SiteLogAuthorization::model()->findAll("login = :login and is_success = :is_success and date >= :date order by id desc limit 5",
+                    [
+                        'login'=>$login,
+                        'is_success'=>SiteLogAuthorization::FAIL_AUTH,
+                        'date'=>(new DateTime())->modify('-1 day')->format("Y-m-d H:i:s")
+                    ]
+                );
+                self::sendNoticeEmailAfterMaxAuthAttempt($logs);
+            }
+        }
     }
 
+    /**
+     * Логирует действия пользователя в аккаунте
+     * @param YumUser $user
+     * @param $ip
+     * @param $message
+     */
+    public static function logAccountAction(YumUser $user, $ip, $message) {
+        $log = new SiteLogAccountAction();
+        $log->user_id = $user->id;
+        $log->date = (new DateTime())->format('Y-m-d H:i:s');
+        $log->ip = $ip;
+        $log->message = $message;
+        $log->save(false);
+    }
+
+    /**
+     * Отправка предупреждения что человека возможно пытались взломать
+     * @param array $logs
+     */
+    public static function sendNoticeEmailAfterMaxAuthAttempt(array $logs)
+    {
+        $mailOptions1                 = new SiteEmailOptions();
+        $mailOptions1->from           = Yum::module('registration')->recoveryEmail;
+        $mailOptions1->to             = 'support@skiliks.com';
+        $mailOptions1->subject        = 'Обнаружена попытка подобрать пароль на '.Yii::app()->params['server_domain_name'];
+        $mailOptions1->h1             = 'Внимание!';
+        $mailOptions1->text1          = 'Обнаружена попытка подобрать пароль к аккаунту пользователя '. $logs[0]->login .'. Лог подбора пароля:';
+        $mailOptions1->text2          = '<table border="1" cellpadding="5"><tr><th>Дата</th><th>IP</th><th>Пароль</th></tr>';
+
+        foreach($logs as $log) {
+            $mailOptions1->text2 .= '<tr>
+                <td>'. $log->date .'</td>
+                <td>'. $log->ip .'</td>
+                <td>'. $log->password .'</td>
+            </tr>';
+        }
+
+        $mailOptions1->text2 .= '</table>';
+
+        UserService::addStandardEmailToQueue($mailOptions1, SiteEmailOptions::TEMPLATE_JELEZNIJ);
+
+        // ############################################################################################
+
+        /* @var $profile YumProfile */
+        $profile = YumProfile::model()->findByAttributes(['email'=>$logs[0]->login]);
+        if(null !== $profile) {
+            $key = self::generateUniqueHash();
+            $profile->user->is_password_bruteforce_detected = YumUser::IS_PASSWORD_BRUTEFORCE_DETECTED;
+            $profile->user->authorization_after_bruteforce_key = $key;
+            $profile->user->save(false);
+
+            UserService::logAccountAction($profile->user, $_SERVER['REMOTE_ADDR'], 'Было '.Yii::app()->params['max_auth_failed_attempt'].'
+            не удачных поппыток авторизации за сутки, пользователь был временно заблокирован');
+
+            $link = MailHelper::createUrlWithHostname("profile/restore-authorization/")
+                .'?user_id='.$profile->user_id.'&key='.$key;
+
+            $mailOptions2           = new SiteEmailOptions();
+            $mailOptions2->from     = Yum::module('registration')->recoveryEmail;
+            $mailOptions2->to       = $profile->email;
+            $mailOptions2->subject  = 'Обнаружена попытка подобрать пароль';
+            $mailOptions2->h1       = 'Приветствуем, '. $profile->firstname . '!';
+            $mailOptions2->text1    = '
+                <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
+                    Служба безопасности skiliks заметила подозрительную активность с вашим аккаунтом
+                    '. $profile->email .'. Кто-то, возможно вы, пытался подобрать пароль к аккаунту
+                    '. $logs[count($logs)-1]->date .'.
+                    <br><br>
+                    Если это вы - перейдите по <a
+                    href="'. $link . '&type=' . YumUser::PASSWORD_BRUTEFORCE_IT_IS_ME . '">ссылке</a>
+                    <br><br>
+                    Если это НЕ вы - перейдите по <a
+                    href="'. $link . '&type=' . YumUser::PASSWORD_BRUTEFORCE_IT_IS_NOT_ME .'">ссылке</a><br>
+                </p>
+            ';
+
+            UserService::addStandardEmailToQueue($mailOptions2, SiteEmailOptions::TEMPLATE_JELEZNIJ);
+        }
+    }
+
+    /**
+     * Создает уникальный хэш
+     * @return string
+     */
+    public static function generateUniqueHash() {
+        return md5(uniqid('skiliks', true).rand(11111,99999).time());
+    }
+
+    /**
+     * Аутентифицирует и авторизирует пользователя
+     *
+     * @param YumUser $user
+     * @param bool | string $password
+     * @param integer $duration, seconds
+     * @param YumUserLogin $loginForm
+     *
+     * @return null|YumUserLogin|YumUser|bool
+     */
+    public static function authenticate(YumUser $user, $password = false, $duration = 0, YumUserLogin $loginForm = null)
+    {
+        $withoutPassword = (false == $password);
+
+        // Почему-то, Yii не воспринимает значение $duration.
+        //
+        // Как, на мой взгляд, Yii рабоатет сейчас
+        // в принципе значение $duration не важно, если оно больше нуля
+        // сессия всегда будет жить то время, которое указано в конфиге (Yii::app()->getSession()->getTimeout())
+        //
+        // в случае, если 0 == $duration -- сессия не заносится в куки, но живёт getTimeout() секунд
+        // в случае, если 0 < $duration  -- сессия заносится в куки, но живёт, всё равно, getTimeout() секунд
+        //
+        // по сути, $duration -- это "булевый парамерт" ("0" или "не 0"), который дублирует 'allowAutoLogin' и 'cookieMode',
+        // но на програмном уровне в методе login()
+        if (null != $loginForm) {
+            $duration = ( true == $loginForm->rememberMe ) ? Yii::app()->getSession()->getTimeout() : 0;
+        }
+
+        $identity = new YumUserIdentity($user->username, $password);
+        $identity->authenticate($withoutPassword);
+
+        switch($identity->errorCode) {
+            case YumUserIdentity::ERROR_EMAIL_INVALID:
+                throw new CHttpException(200, 'Неправильное имя пользователя или пароль.');
+            case YumUserIdentity::ERROR_STATUS_INACTIVE:
+                throw new CHttpException(200, 'Аккаунт неактивен.');
+            case YumUserIdentity::ERROR_STATUS_BANNED:
+                throw new CHttpException(200, 'Аккаунт заблокирован');
+            case YumUserIdentity::ERROR_STATUS_REMOVED:
+                throw new CHttpException(200, 'Аккаунт удалён.');
+            case YumUserIdentity::ERROR_PASSWORD_INVALID:
+                throw new CHttpException(200, 'Неправильное имя пользователя или пароль.');
+        }
+
+        if (null == $loginForm) {
+            Yii::app()->user->login($identity, $duration);
+            return;
+        } else {
+            switch($identity->errorCode) {
+                case YumUserIdentity::ERROR_NONE:
+                    $duration = $loginForm->rememberMe ?
+                        Yii::app()->getSession()->getTimeout()
+                        : 0;
+
+                    Yii::app()->user->login($identity,$duration);
+
+                    if($user->failedloginattempts > 0)
+                        Yum::setFlash(Yum::t(
+                            'Warning: there have been {count} failed login attempts', array(
+                            '{count}' => $user->failedloginattempts)));
+
+                    $user->failedloginattempts = 0;
+                    $user->save(false, array('failedloginattempts'));
+                    return $user;
+
+                    break;
+                case YumUserIdentity::ERROR_EMAIL_INVALID:
+                    $loginForm->addError("password", Yii::t('site', 'Wrong email or password'));
+                    $user->failedloginattempts += 1;
+                    $user->save(false, array('failedloginattempts'));
+                    break;
+                case YumUserIdentity::ERROR_STATUS_INACTIVE:
+                    $loginForm->addError("status",Yum::t('This account is not activated.'));
+                    break;
+                case YumUserIdentity::ERROR_STATUS_BANNED:
+                    $loginForm->addError("status",Yum::t('This account is blocked.'));
+                    break;
+                case YumUserIdentity::ERROR_STATUS_REMOVED:
+                    $loginForm->addError('status', Yum::t('Your account has been deleted.'));
+                    break;
+                case YumUserIdentity::ERROR_PASSWORD_INVALID:
+                    if(!$loginForm->hasErrors())
+                        $loginForm->addError("password", Yii::t('site', 'Wrong email or password'));
+                    $user->failedloginattempts += 1;
+                    $user->save(false, array('failedloginattempts'));
+                    return false;
+                    break;
+            }
+
+            return $loginForm;
+        }
+    }
+
+    /**
+     * Добавляет в очередь писем письмо, в стандартном оформлении.
+     *
+     * @param SiteEmailOptions $emailOptions
+     * @param string $template
+     *
+     * @return EmailQueue
+     */
+    public static function addStandardEmailToQueue(SiteEmailOptions $emailOptions, $template)
+    {
+        /**
+         * Формируем HTML письма
+         */
+        $emailOptions->body = self::renderEmailPartial('standard_email_with_image', [
+            'title'    => $emailOptions->subject,
+            'template' => $template,
+            'h1'       => $emailOptions->h1,
+            'text1'    => $emailOptions->text1,
+            'text2'    => $emailOptions->text2,
+        ]);
+
+        /**
+         * В стандартном дизайне участвует всего три картинки.
+         */
+        $emailOptions->embeddedImages = [
+            [
+                'path'     => Yii::app()->basePath.'/assets/img/site/emails/top-left.png',
+                'cid'      => 'top-left',
+                'name'     => 'top-left',
+                'encoding' => 'base64',
+                'type'     => 'image/png',
+            ],[
+                'path'     => Yii::app()->basePath.'/assets/img/site/emails/bottom.png',
+                'cid'      => 'bottom',
+                'name'     => 'bottom',
+                'encoding' => 'base64',
+                'type'     => 'image/png',
+            ],[
+                'path'     => Yii::app()->basePath.'/assets/img/site/emails/'.$template.'.png',
+                'cid'      => $template,
+                'name'     => $template,
+                'encoding' => 'base64',
+                'type'     => 'image/png',
+            ]
+        ];
+
+        /**
+         * Добавляем письмо в лчетедь писем
+         */
+        return MailHelper::addMailToQueue($emailOptions);
+    }
+
+
+    /**
+     * Ставит в очередь на отправку письма-поздравления с новым годом 2014.
+     *
+     * @param string[] $emails
+     */
+    public static function sendNyGreetings($emails)
+    {
+        foreach($emails as $email) {
+            $mailOptions           = new SiteEmailOptions();
+            $mailOptions->from     = 'support@skiliks.com';
+            $mailOptions->to       = $email;
+            $mailOptions->subject  = 'Новогоднее поздравление и подарок';
+
+            /**
+             * Формируем HTML письма
+             */
+            $mailOptions->body = UserService::renderEmailPartial('new-year', [
+                'title' => $mailOptions->subject,
+            ]);
+
+            /**
+             * В стандартном дизайне участвует всего три картинки.
+             */
+            $mailOptions->embeddedImages = [
+                [
+                    'path'     => Yii::app()->basePath.'/assets/img/site/emails/ny/skiliks_ny.jpg',
+                    'cid'      => 'skiliks_ny',
+                    'name'     => 'skiliks_ny',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ]
+            ];
+
+            /**
+             * Добавляем письмо в лчетедь писем
+             */
+            MailHelper::addMailToQueue($mailOptions);
+        }
+    }
 }
 
 

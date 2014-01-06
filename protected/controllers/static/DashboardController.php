@@ -45,7 +45,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             // check and add trial lite version }
 
         $vacancies = [];
-        $vacancyList = Vacancy::model()->byUser($this->user->id)->findAll();
+        $vacancyList = Vacancy::model()->findAllByAttributes(['user_id' => $this->user->id]);
         foreach ($vacancyList as $vacancy) {
             $vacancies[$vacancy->id] = Yii::t('site', $vacancy->label);
         }
@@ -256,16 +256,19 @@ class DashboardController extends SiteBaseController implements AccountPageContr
 
         if((int)$invite->status === Invite::STATUS_PENDING) {
 
-            $status = $invite->status;
-            $initValue = $user->account_corporate->getTotalAvailableInvitesLimit();
+            if($user->account_corporate->getActiveTariffPlan()->id === $invite->tariff_plan_id){
 
-            $user->account_corporate->increaseLimit($invite);
+                $status = $invite->status;
+                $initValue = $user->account_corporate->getTotalAvailableInvitesLimit();
 
-            UserService::logCorporateInviteMovementAdd(
-                'Ивайт удален пользователем в статусе '.Invite::getStatusNameByCode($status),
-                $this->user->getAccount(),
-                $initValue
-            );
+                $user->account_corporate->increaseLimit($invite);
+
+                UserService::logCorporateInviteMovementAdd(
+                    'Ивайт удален пользователем в статусе '.Invite::getStatusNameByCode($status),
+                    $this->user->getAccount(),
+                    $initValue
+                );
+            }
         }
 
         $invite->deleteInvite();

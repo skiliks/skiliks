@@ -40,13 +40,9 @@ class AssessmentGroup extends CActiveRecord
 	 */
 	public function rules()
 	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
 		return array(
 			array('name', 'length', 'max'=>255),
 			array('import_id', 'length', 'max'=>14),
-			// The following rule is used by search().
-			// Please remove those attributes that should not be searched.
 			array('id, name, import_id', 'safe', 'on'=>'search'),
 		);
 	}
@@ -56,11 +52,7 @@ class AssessmentGroup extends CActiveRecord
 	 */
 	public function relations()
 	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
-		return array(
-			//'heroBehaviours' => array(self::HAS_MANY, 'HeroBehaviour', 'group_id'),
-		);
+		return array();
 	}
 
 	/**
@@ -69,8 +61,8 @@ class AssessmentGroup extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'name' => 'Name',
+			'id'        => 'ID',
+			'name'      => 'Name',
 			'import_id' => 'Import',
 		);
 	}
@@ -81,11 +73,7 @@ class AssessmentGroup extends CActiveRecord
 	 */
 	public function search()
 	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
-
 		$criteria=new CDbCriteria;
-
 		$criteria->compare('id',$this->id);
 		$criteria->compare('name',$this->name);
 		$criteria->compare('import_id',$this->import_id);

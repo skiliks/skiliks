@@ -16,17 +16,17 @@ $lang = Yii::app()->getLanguage();
                 <label class="tarifname"><div class="label_div"><?php echo $tariff->label ?></div></label>
             <div class="price <?= $lang ?>">
                 <p>
-                    <?php if (floor($tariff->getPrice() / 1000)): ?>
-                        <span><?php echo floor($tariff->getPrice() / 1000) ?></span>
+                    <?php if (floor($tariff->getPrice(Yii::app()->getLanguage()) / 1000)): ?>
+                        <span><?php echo floor($tariff->getPrice(Yii::app()->getLanguage()) / 1000) ?></span>
                     <?php endif ?>
-                    <?php echo $tariff->getPrice() % 1000 ?>
+                    <?php echo $tariff->getPrice(Yii::app()->getLanguage()) % 1000 ?>
                 </p>
             </div>
             <div class="tarifwrap <?= $lang ?>">
 
-                <?php if($tariff->getSaveAmount() != 0.00) : ?>
+                <?php if($tariff->getSaveAmount(Yii::app()->getLanguage()) != 0.00) : ?>
                     <div class="brightblock">
-                        <?php echo $tariff->getFormattedSafeAmount(Yii::t('site', 'Save ')) ?>
+                        <?php echo $tariff->getFormattedSafeAmount(Yii::app()->getLanguage(), Yii::t('site', 'Save ')) ?>
                     </div>
                 <?php endif; ?>
 
@@ -61,7 +61,8 @@ $lang = Yii::app()->getLanguage();
 
     <p class="text-left text16 additional-text">
         <?php if ($lang == 'ru'): ?>
-        <sup>*</sup> Первый месяц использования
+        <sup>*</sup> Первый месяц использования <br/>
+        <sup>**</sup> Симуляции по выбранному тарифу активны в течение месяца. По истечении месяца неиспользованные симуляции сгорают.
         <?php endif; ?>
     </p>
     <?php if($user->isAuth() && $user->isCorporate()) : ?>

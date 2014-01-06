@@ -232,7 +232,7 @@ define([
          * @returns {*}
          */
         showDayPlanSlot:function (task_el) {
-            try {
+             try {
                 var duration = parseInt(task_el.attr('data-task-duration'), 10);
                 var prev_cell = task_el.parents('td');
                 prev_cell.height(11);
@@ -293,12 +293,10 @@ define([
 
                 // add title attribute to HTMl with full code
                 drop_td.attr('title', drop_td.find('.title').text());
-                //drop_td.attr('title', model.get('title'));
 
                 var max_height = Math.ceil(duration / 15) * 10;
                 setTimeout(function () {
                     me.overflowText(drop_td.find('.title'), max_height, drop_td.find('.title'));
-                    //me.overflowText(model.get('title'), max_height, model.get('title'));
                 }, 0);
                 var todo_el = drop_td.find('.day-plan-todo-task');
 
@@ -309,7 +307,11 @@ define([
                 var currentRow = drop_td.parents('tr');
                 for (var i = 0; i < duration - 15; i += 15) {
                     currentRow = currentRow.next();
-                    currentRow.find('.planner-book-timetable-event-fl, .planner-book-timetable-afterv-fl').hide();
+
+                    // в Safari 6/7 привоит к неправильному расчёту высоты ячейки в которуюдобавлена задача
+                    if (true != $.browser['safari']) {
+                        currentRow.find('.planner-book-timetable-event-fl, .planner-book-timetable-afterv-fl').hide();
+                    }
                 }
 
                 // Updating draggable element list
@@ -329,10 +331,10 @@ define([
          */
         calculateTaskHeigth: function(duration) {
         	if (duration > 30){
-        		return duration / 15 * 11;
+        		return Math.ceil(duration) / 15 * 11;
         	}
             else{
-            	return (duration / 15 * 11) - 2;
+            	return (Math.ceil(duration) / 15 * 11) - 2;
             }
         },
 
@@ -407,11 +409,7 @@ define([
                         me.$('td.planner-book-timetable-event-fl').removeClass('drop-hover');
 
                         // go last tr under dragged task {
-
                         var currentRow = $(this).parents('tr');
-
-    //                    var index = Math.round((ui.offset.top - $(this).find('table').offset().top) / 12);
-    //                    var currentRow = $(event.target).find('tr:eq(' + index + ')');
 
                         var duration = parseInt(ui.draggable.attr('data-task-duration'), 10);
                         for (var i = 0; i < duration; i += 15) {

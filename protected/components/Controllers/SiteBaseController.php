@@ -1,13 +1,21 @@
 <?php
 
+/**
+ * Базовый контроллер для страниц сайта
+ */
 class SiteBaseController extends CController {
 
     /**
      * @var $user YumUser
      */
     public $user;
+    /**
+     * Нужно удалить это
+     * @var bool
+     */
     public $is_test = false;
     /**
+     * ОбЪект запроса
      * @var CHttpRequest
      */
     public $request;
@@ -18,6 +26,7 @@ class SiteBaseController extends CController {
     public $app;
 
     /**
+     * Определение языка, задание параметров некоторых сайта
      * @param CAction $action
      * @return bool
      */
@@ -61,6 +70,10 @@ class SiteBaseController extends CController {
         return true;
     }
 
+    /**
+     * Возвращает путь к ассертам
+     * @return string
+     */
     public function getAssetsUrl()
     {
         if(Yii::app()->params['disableAssets']) {
@@ -77,6 +90,7 @@ class SiteBaseController extends CController {
     }
 
     /**
+     * Проверка на то что пользователь авторизирован и получение объекта YumUser
      * Is user authenticated
      */
     public function checkUser()
@@ -89,6 +103,7 @@ class SiteBaseController extends CController {
     }
 
     /**
+     * Проверка что человек авторизирован как разработчик
      * Is user authenticated and has DEV rights
      */
     public function checkUserDeveloper()
@@ -107,6 +122,7 @@ class SiteBaseController extends CController {
     }
 
     /**
+     * Перенаправление на нужную страницу аккаунта
      * Base user verification
      */
     public function accountPagesBase()
@@ -140,6 +156,7 @@ class SiteBaseController extends CController {
     }
 
     /**
+     * Отправка  json
      * @method void send JSON Writes JSON to output
      */
     protected function sendJSON($data, $status = 200)
@@ -148,7 +165,7 @@ class SiteBaseController extends CController {
     }
 
     /**
-     *
+     * Отправка ответа от сервера
      * @param integer $status, 2xx, 3xx, 4xx, 5xx
      * @param string $body
      * @param string $content_type
@@ -169,10 +186,21 @@ class SiteBaseController extends CController {
         Yii::app()->end();
     }
 
+    /**
+     * Получение ответа от фронтенда
+     * @param $name
+     * @param null $defaultValue
+     * @return mixed|null
+     */
     public function getParam($name, $defaultValue = null) {
         return Yii::app()->request->getParam($name, $defaultValue);
     }
 
+    /**
+     * Получение конфига по имени
+     * @param $name
+     * @return mixed
+     */
     public function getConfig($name) {
         return Yii::app()->params[$name];
     }

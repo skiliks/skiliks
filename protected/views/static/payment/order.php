@@ -16,8 +16,8 @@
             <div class="period">1 Месяц</div>
 
             <div class="item-price">
-                <?= $tariff->getFormattedPrice() ?>
-                <span><?= $tariff->getFormattedCyName() ?></span>
+                <?= $tariff->getFormattedPrice(Yii::app()->getLanguage()) ?>
+                <span><?= $tariff->getFormattedCurrencyName(Yii::app()->getLanguage()) ?></span>
             </div>
         </div>
 
@@ -25,7 +25,7 @@
             <div class="row">
                 <label>Текущий тарифный план</label>
                 <div class="value"><?= strtolower($account->getTariffLabel()) ?>
-                    <small class="tarifprice"><?= $account->tariff->getFormattedPrice() ?> р. в месяц</small><small class="tarifprice">
+                    <small class="tarifprice"><?= $account->tariff->getFormattedPrice(Yii::app()->getLanguage()) ?> р. в месяц</small><small class="tarifprice">
                         Срок окончания - <?= date('d.m.Y', strtotime($account->tariff_expired_at)) ?>
                     </small>
                 </div>

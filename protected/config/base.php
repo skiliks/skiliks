@@ -56,18 +56,23 @@ return CMap::mergeArray(
                 'connectionID' => 'db',
                 'autoCreateCacheTable' => false
             ),
+            /** @link: http://www.yiiframework.com/doc/api/1.1/CWebUser */
+            'user' => array(
+                'class'           => 'application.modules.user.components.YumWebUser',
+
+                // whether to enable cookie-based login.
+                'allowAutoLogin'  => true,
+
+                // whether to automatically renew the identity cookie each time a page is requested.
+                'autoRenewCookie' => true,
+            ),
             'session' => array(
                 'class'                  => 'CDbHttpSession',
                 'autoCreateSessionTable' => false,
                 'connectionID'           => 'db',
                 'sessionName'            => 'sid',
                 'cookieMode'             => 'allow',
-                'timeout'                => 60*60*24*31, // 1 mouth
-            ),
-            'user' => array(
-                'class'          => 'application.modules.user.components.YumWebUser',
-                'allowAutoLogin' => true,
-                // 'loginUrl'    => array('//user/user/login'),
+                'timeout'                => 60*60*24*7, // 7 days
             ),
             'excel'=>array(
                 'class' => 'application.extensions.PHPExcel',
@@ -93,7 +98,8 @@ return CMap::mergeArray(
         // using Yii::app()->params['paramName']
         'params' => array(
             // имя сервера, стоб понимать с какого сервера пришли письма про подозрительную активность
-            'server_name'                   => 'не указан',
+            'server_name'        => 'не задан', // формат 'http://domain.com/'
+            'server_domain_name' => 'не задан', // формат 'domain.com'
 
             // просто подпись на сайте, вынесена в конфиг - чтоб было проще править
             'demoDuration'                  => 5, // min
@@ -117,6 +123,7 @@ return CMap::mergeArray(
             'vacancyLinkInProfileMaxLength' => 50,
 
             // используется для селениум-теcтов
+            // формат 'http://domain.com:port/'
             'frontendUrl'                   => 'http://skiliks:8080/',
 
             // удалять результаты симуляции если селениум-тест успешно прошел false = не удалять
@@ -142,29 +149,14 @@ return CMap::mergeArray(
             // http://siteheart.com/ru/doc/sso
             'SiteHeartSecretKey'                 => 'qaDECE9Mk7',
 
+            // CSS класс который доавляется во все BODY на сайте
+            'css-theme' => 'theme-new-year',
+
             // ???
             'emails' => [
                 'isDisplayStandardInvitationMailTopText' => true, // 'Вопросы относительно вакансии вы можете задать по адресу %s, куратор вакансии - %s.'
 
-                'inviteEmailTemplate'      => 'invite_default',
-
-                'tariffExpiredTemplate'    => 'tariff_expired',
-
-                'tariffExpiredTemplateIfInvitesZero' => 'tariff_expired_if_invites_zero',
-
-                'newInvoiceToBooker'       => '//global_partials/mails/new_invoice',
-
-                'completeInvoiceUserEmail' => 'completeInvoiceUserEmail',
-
-                'referrerInviteEmail'      => '//global_partials/mails/referrerEmail',
-
-                'noticeEmail'              => '//global_partials/mails/noticeEmail',
-
-                'newFeedback'              => '//global_partials/mails/newFeedback',
-
-                'ifSuspiciousActivity'     => '//global_partials/mails/ifSuspiciousActivity',
-
-                'newThingsInProject'       => 'newThingsInProject',
+                'newInvoiceToBooker'         => '//global_partials/mails/new_invoice',
 
                 // Емейл бухгалтера
                 'bookerEmail' => 'invoice@skiliks.com',
@@ -212,9 +204,6 @@ return CMap::mergeArray(
 
             // This part will be sent to JS
             'public' => [
-
-                'isSkipOsCheck'=>false, //Проверка ОС перед стартом игры
-
                 'runMigrationOn'                     => 'nobody', //production - skiliks.com, live - live.skiliks.com, loc - loc.skiliks.com
 
                 // Позволено ли игроку пропустить интро видео
@@ -227,9 +216,9 @@ return CMap::mergeArray(
                 'skiliksDeveloperModeSpeedFactor'    => 8,
 
                 // Адрес хранилища видео и звуков
-                'storageURL'                         => 'http://storage.dev.skiliks.com/',
+                'storageURL'                         => 'http://storage.skiliks.com/',
 
-                // Показывать ли 500 ошибки с сирвера в виде сообщений в игре
+                // Показывать ли 500 ошибки с сервера в виде сообщений в игре
                 'isDisplayServer500errors'           => false,
 
                 'isUseStrictAssertsWhenSimStop'      => false,
@@ -243,6 +232,10 @@ return CMap::mergeArray(
                 'useSentryForJsLog'                  => false,
 
                 'isSkipBrowserCheck'                 => false,
+
+                'isSkipSpeedTest'                    => false,
+
+                'isSkipOsCheck'                      => false, //Проверка ОС перед стартом игры
 
                 // позволяет отобразить это JS только на продакшене
                 'isIncludeGoogleAnalyticsJavaScript' => false,
@@ -309,17 +302,18 @@ return CMap::mergeArray(
             ),
             'robokassa' => [
                 'url'            => 'http://test.robokassa.ru/Index.aspx',
-                'MrchLogin'      => 'skiliks_dev',
-                'Desc'           => 'Оплата согласно...',
+                'MerchantLogin'  => 'skiliks_dev',
+                'Description'    => 'Оплата согласно...',
                 'sMerchantPass1' => 'dcZz6P318a',
                 'sMerchantPass2' => 'S358oP0ikj'
             ],
-            'assessment_engine_version' => 'v2' //версия оценки(используеться в выводе попапа с оценкой)
+            'assessment_engine_version' => 'v2', //версия оценки(используеться в выводе попапа с оценкой)
+            'max_auth_failed_attempt' => 5, //Максимальное число попыток авторизации
     //            Test robokassa
     //            [
     //                'url'            => 'http://test.robokassa.ru/Index.aspx',
-    //                'MrchLogin'      => 'skiliks_dev',
-    //                'Desc'           => 'Оплата согласно...',
+    //                'MerchantLogin'  => 'skiliks_dev',
+    //                'Description'    => 'Оплата согласно...',
     //                'sMerchantPass1' => 'dcZz6P318a',
     //                'sMerchantPass2' => 'S358oP0ikj'
     //            ]

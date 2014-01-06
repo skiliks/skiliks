@@ -105,7 +105,7 @@ return [
         'group_1_3' => "//tr[@class='learning-goal-code-group-1_3 ']/td[4]",
         //Выполнение задач в соответствии с приоритетами
         'group_1_4' => "//tr[@class='learning-goal-code-group-1_4 ']/td[4]",
-        //Завершение начатых задач
+        //Прерывание при выполнении задач
         'group_1_5' => "//tr[@class='learning-goal-code-group-1_5 ']/td[4]",
         //Использование делегирования для управления объемом
         'group_2_1' => "//tr[@class='learning-goal-code-group-2_1 ']/td[4]",

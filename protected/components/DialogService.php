@@ -49,7 +49,7 @@ class DialogService
                 $simId,
                 $time,
                 $currentReplica->to_character,
-                $simulation->game_type->getCharacter(['code' => Character::HERO_ID]),
+                $simulation->game_type->getCharacter(['code' => Character::HERO_CODE]),
                 $currentReplica->dialog_subtype,
                 $currentReplica->step_number,
                 $currentReplica->replica_number,

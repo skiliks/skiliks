@@ -161,23 +161,28 @@ define([] ,function() {
         letterType: undefined,
 
         /**
+         * Префикс для темы
+         */
+        mail_prefix:undefined,
+
+        /**
          * @method isSubjectValid
          * @returns {boolean}
          */
         isSubjectValid: function() {
             try {
                 // keep not strong compartion in non strong way!
-                if (undefined === this.subject) { console.log('this.subject is undefined!') };
-                if (undefined === this.subject.characterSubjectId) { console.log('this.subject.characterSubjectId is undefined!') };
-                if (0 === this.subject.characterSubjectId) { console.log('this.subject.characterSubjectId = 0 !') };
-                if ('0' === this.subject.characterSubjectId) { console.log('this.subject.characterSubjectId is "0"!') };
-                if ('' === this.subject.text) { console.log('this.subject.text is empty text!') };
-                if (undefined === this.subject.text) { console.log('this.subject.text is undefined!') };
+                if (undefined === this.subject) { console.log('this.subject is undefined!') }
+                if (undefined === this.subject.themeId) { console.log('this.subject.themeId is undefined!') }
+                if (0 === this.subject.themeId) { console.log('this.subject.themeId = 0 !') }
+                if ('0' === this.subject.themeId) { console.log('this.subject.themeId is "0"!') }
+                if ('' === this.subject.text) { console.log('this.subject.text is empty text!') }
+                if (undefined === this.subject.text) { console.log('this.subject.text is undefined!') }
 
                 return (undefined !== this.subject &&
-                    undefined !== this.subject.characterSubjectId &&
-                    '0' !== this.subject.characterSubjectId &&
-                    0 !== this.subject.characterSubjectId &&
+                    undefined !== this.subject.themeId &&
+                    '0' !== this.subject.themeId &&
+                    0 !== this.subject.themeId &&
                     '' !== this.subject.text &&
                     undefined !== this.subject.text );
             } catch(exception) {

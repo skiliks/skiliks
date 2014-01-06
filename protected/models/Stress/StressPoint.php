@@ -92,12 +92,4 @@ class StressPoint extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
-
-    public function bySimId($simId)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "sim_id = '{$simId}'"
-        ));
-        return $this;
-    }
 }

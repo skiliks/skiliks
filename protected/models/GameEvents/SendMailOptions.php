@@ -1,40 +1,85 @@
 <?php
-
 /**
- * @author slavka
+ * @property Simulation $simulation
+ * @property integer $senderId
+ * @property integer $groupId
  */
 class SendMailOptions
 {
-    public $simulation = NULL;
-    public $senderId;
-
-    public $groupId    = MailBox::FOLDER_OUTBOX_ID;
     /**
-     * @var MailTemplate $messageId
+     *
      */
-    public $messageId  = NULL;
-    public $time       = NULL;
-    public $fileId     = NULL;
-    public $subject_id = NULL;
-
-    public $id         = NULL;
-
-    // is this email created by press 'Reply all'
-    public $is_reply_all = false;
-
-    public $copies     = array();
-    public $phrases    = array();
-     
-    private $letterType = NULL;
-     
-    private $recipients  = array();
-
     const REPLY_ALL_FRONTEND_SCREEN_ALIAS = 'SCREEN_WRITE_REPLY_ALL';
 
+    /* @var Simulation $simulation */
+    public $simulation = NULL;
+
+    /* @var integer */
+    public $senderId;
+
+    /* @var integer */
+    public $groupId    = MailBox::FOLDER_OUTBOX_ID;
+
+    /* @var MailTemplate $messageId */
+    public $messageId  = NULL;
+
+    /* @var string $time */
+    public $time       = NULL;
+
+    /* @var integer $fileId */
+    public $fileId  = NULL;
+
+    /**
+     * Id темы с theme
+     * @var null
+     */
+    public $themeId = NULL;
+
+    /**
+     * Префикс письма, например re:, re:re: ...
+     * @var null
+     */
+    public $mailPrefix = NULL;
+
+    /**
+     * Код конструктора например B1, TXT ...
+     * @var null
+     */
+    public $constructorCode = NULL;
+
+    /* @var integer $id */
+    public $id         = NULL;
+
+    /* var bool $is_reply_all, is this email created by press 'Reply all' */
+    /**
+     * @var bool
+     */
+    public $is_reply_all = false;
+
+    /* @var array of ??? */
+    public $copies     = array();
+
+    /* @var array of ??? */
+    public $phrases    = array();
+
+    /* @var string $time */
+    private $letterType = NULL;
+
+    /* @var array of ??? */
+    private $recipients  = array();
+
+    /**
+     * По умолчанию письмо отправляется от имени главного героя в данном сценарии
+     *
+     * @param Simulation $simulation
+     */
     public function __construct(Simulation $simulation)
     {
-        $this->senderId = $simulation->game_type->getCharacter(['code' => Character::HERO_ID])->getPrimaryKey();
+        $this->simulation = $simulation;
 
+        $this->senderId = $simulation->game_type->getCharacter([
+            'code' => Character::HERO_CODE
+        ])->getPrimaryKey();
     }
      
      /**

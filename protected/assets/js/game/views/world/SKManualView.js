@@ -87,8 +87,8 @@ define(
                             return content.find('.tooltip[data-tooltip="' + tooltipId + '"]').html();
                         }
                     });
-                    if(SKApp.isTutorial() && !SKApp.simulation.manual_is_first_closed){
-                        this.$el.css('zIndex', 50000);
+                    if(SKApp.isTutorial() && !SKApp.simulation.manual_is_first_closed) {
+                        this.$el.css('zIndex', 1001); // у DIV-затемнения индекс 1000
                     }
                 } catch(exception) {
                     if (window.Raven) {

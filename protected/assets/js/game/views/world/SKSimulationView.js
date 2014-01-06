@@ -48,12 +48,10 @@ define([
             },
 
             'events':          {
-                'click .btn-simulation-stop':      'doSimulationStop',
-                // TODO: move to SKDebugView
-                'click .btn-toggle-dialods-sound': 'doToggleDialogSound',
-                'click .pause-control, .paused-screen .resume, .finish > a': 'doTogglePause',
-                'click .fullscreen': 'doToggleFullscreen',
-                'click .start': 'doStartFullSimulation'
+                'click .btn-simulation-stop': 'doSimulationStop',
+                'click .fullscreen':          'doToggleFullscreen',
+                'click .start':               'doStartFullSimulation',
+                'click .pause-control, .paused-screen .resume, .finish > a': 'doTogglePause'
             },
             'window_views':    {
                 'mainScreen/manual':       SKManualView,
@@ -217,10 +215,11 @@ define([
 
                     this.$el.html(login_html).appendTo('body');
                     this.icon_view = new SKIconPanelView({'el': this.$('.main-screen-icons')});
+
                     if (this.simulation.isDebug()) {
                         this.debug_view = new SKDebugView({'el': this.$('.debug-panel')});
-                        this.doToggleDialogSound();
                     }
+
                     var canvas = this.$('.canvas');
                     this.updateTime();
                     this.undelegateEvents();
@@ -358,27 +357,6 @@ define([
                 try {
                     window.scrollTo(0, 0);
                     SKApp.simulation.onFinishTime();
-                } catch(exception) {
-                    if (window.Raven) {
-                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
-                    }
-                }
-            },
-
-            /**
-             * @method
-             */
-            doToggleDialogSound: function () {
-                try {
-                    if (SKApp.simulation.config.isMuteVideo === false) {
-                        SKApp.simulation.config.isMuteVideo = true;
-                        this.$('.btn-toggle-dialods-sound i').removeClass('icon-volume-up');
-                        this.$('.btn-toggle-dialods-sound i').addClass('icon-volume-off');
-                    } else {
-                        SKApp.simulation.config.isMuteVideo = false;
-                        this.$('.btn-toggle-dialods-sound i').addClass('icon-volume-up');
-                        this.$('.btn-toggle-dialods-sound i').removeClass('icon-volume-off');
-                    }
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -555,10 +533,15 @@ define([
                 this.$('.time').toggleClass('paused', !run);
             },
 
-            doToggleFullscreen: function(e) {
+            /**
+             * @link http://www.sitepoint.com/html5-full-screen-api/
+             *
+             * @param event
+             */
+            doToggleFullscreen: function(event) {
                 try {
-                    e.preventDefault();
-                    var enabled = $(e.target).hasClass('enabled'),
+                    event.preventDefault();
+                    var enabled = $(event.target).hasClass('enabled'),
                         canvas = $('body')[0],
                         onMethods = ['requestFullscreen', 'mozRequestFullScreen', 'webkitRequestFullscreen'],
                         offMethods = ['cancelFullscreen', 'mozCancelFullScreen', 'webkitCancelFullScreen'];

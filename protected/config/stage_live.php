@@ -33,13 +33,18 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
                 ),
             ),
         ),
+        'session' => array(
+            'timeout'                => 60*5, // 5 минут
+        ),
     ),
     'params'=>array(
         'isBlockGhostLogin' => false,
         'isUseStrictRulesForGhostLogin'=>false,
-        'server_name'    => 'http://live.skiliks.com/',
-        'frontendUrl'    => 'http://live.skiliks.com/',
-        'runMigrationOn' => 'live',
+        'server_name'        => 'http://live.skiliks.com/',
+        'server_domain_name' => 'live.skiliks.com',
+        'frontendUrl'        => 'http://live.skiliks.com/',
+        'runMigrationOn'     => 'live',
+
         'sentry' => [
             'dsn' => $sentryDsn,
         ],

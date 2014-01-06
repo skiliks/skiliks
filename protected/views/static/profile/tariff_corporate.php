@@ -14,7 +14,7 @@
                 <div class="value">
                     <?php echo $user->getAccount()->getTariffLabel() ?>
                     <br/>
-                    <small class="tarifprice"><?php echo $user->getAccount()->tariff->getFormattedPrice() ?> руб. </small>
+                    <small class="tarifprice"><?php echo $user->getAccount()->tariff->getFormattedPrice(Yii::app()->getLanguage()) ?> руб. </small>
                 </div>
             <?php endif ?>
 

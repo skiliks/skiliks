@@ -18,8 +18,10 @@ class PagesController extends SiteBaseController
     {
         /* @var $user YumUser */
         $this->render('home', [
-            'assetsUrl'      => $this->getAssetsUrl(),
-            'userSubscribed' => false,
+            'assetsUrl'          => $this->getAssetsUrl(),
+            'userSubscribed'     => false,
+            'httpUserAgent'      => $_SERVER['HTTP_USER_AGENT'],
+            'isSkipBrowserCheck' => (int)Yii::app()->params['public']['isSkipBrowserCheck'],
         ]);
     }
 
@@ -56,9 +58,9 @@ class PagesController extends SiteBaseController
     /**
      *
      */
-    public function actionOldBrowser()
+    public function actionSystemMismatch()
     {
-        $this->render('oldBrowser', [
+        $this->render('system-mismatch', [
             'assetsUrl'      => $this->getAssetsUrl(),
             'userSubscribed' => true,
         ]);
@@ -146,72 +148,47 @@ class PagesController extends SiteBaseController
         $user = Yii::app()->user->data();
 
         if (Yii::app()->request->getParam('Feedback')) {
-            $model = new Feedback();
-            $model->addition = (new DateTime())->format("Y-m-d H:i:s");
-            $model->attributes = Yii::app()->request->getParam('Feedback');
-            if ($user->profile && $user->profile->email && empty($model->email)) {
-                $model->email = strtolower($user->profile->email);
+            $feedback = new Feedback();
+            $feedback->addition = (new DateTime())->format("Y-m-d H:i:s");
+            $feedback->attributes = Yii::app()->request->getParam('Feedback');
+            if ($user->profile && $user->profile->email && empty($feedback->email)) {
+                $feedback->email = strtolower($user->profile->email);
             }
 
-            $errors = CActiveForm::validate($model, null, false);
+            $errors = CActiveForm::validate($feedback, null, false);
             if (Yii::app()->request->getParam('ajax') === 'feedback-form') {
                 echo $errors;
-            } elseif (!$model->hasErrors()) {
-                $model->save();
-                $inviteEmailTemplate = Yii::app()->params['emails']['newFeedback'];
+            } elseif (false === $feedback->hasErrors()) {
+                $feedback->save();
 
-                $body = (new CController("DebugController"))->renderPartial($inviteEmailTemplate, [
-                    'email' => strtolower($model->email),
-                    'theme' => $model->theme,
-                    'message'=>$model->message
-                ], true);
+                $mailOptions          = new SiteEmailOptions();
+                $mailOptions->from    = Yum::module('registration')->registrationEmail;
+                $mailOptions->to      = 'help@skiliks.com';
+                $mailOptions->subject = 'Новый отзыв с домена '.Yii::app()->params['server_domain_name'];
+                $mailOptions->h1      = '';
+                $mailOptions->text1   = '
+                    <h3 style="color:#626250;font-family:Tahoma, Geneva, sans-serif;font-size:28px;margin:0 0 15px 0;padding:0;">
+                        Email:
+                    </h3>
+                    <p  style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
+                        ' . strtolower($feedback->email) . '
+                    </p>
+                    <h3 style="color:#626250;font-family:Tahoma, Geneva, sans-serif;font-size:28px;margin:0 0 15px 0;padding:0;">
+                        Тема:
+                    </h3>
+                    <p  style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
+                        ' . $feedback->theme . '
+                    </p>
+                    <h3 style="color:#626250;font-family:Tahoma, Geneva, sans-serif;font-size:28px;margin:0 0 15px 0;padding:0;">
+                        Сообщение:
+                    </h3>
+                    <p  style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
+                        ' . $feedback->message . '
+                    </p>
+                ';
 
-                $mail = array(
-                    'from' => Yum::module('registration')->registrationEmail,
-                    'to' => 'help@skiliks.com',
-                    'subject' => 'Новый отзыв',
-                    'body' => $body,
-                    'embeddedImages' => [
-                        [
-                            'path'     => Yii::app()->basePath.'/assets/img/mail-top.png',
-                            'cid'      => 'mail-top',
-                            'name'     => 'mailtop',
-                            'encoding' => 'base64',
-                            'type'     => 'image/png',
-                        ],[
-                            'path'     => Yii::app()->basePath.'/assets/img/mail-top-2.png',
-                            'cid'      => 'mail-top-2',
-                            'name'     => 'mailtop2',
-                            'encoding' => 'base64',
-                            'type'     => 'image/png',
-                        ],[
-                            'path'     => Yii::app()->basePath.'/assets/img/mail-right-1.png',
-                            'cid'      => 'mail-right-1',
-                            'name'     => 'mailright1',
-                            'encoding' => 'base64',
-                            'type'     => 'image/png',
-                        ],[
-                            'path'     => Yii::app()->basePath.'/assets/img/mail-right-2.png',
-                            'cid'      => 'mail-right-2',
-                            'name'     => 'mailright2',
-                            'encoding' => 'base64',
-                            'type'     => 'image/png',
-                        ],[
-                            'path'     => Yii::app()->basePath.'/assets/img/mail-right-3.png',
-                            'cid'      => 'mail-right-3',
-                            'name'     => 'mailright3',
-                            'encoding' => 'base64',
-                            'type'     => 'image/png',
-                        ],[
-                            'path'     => Yii::app()->basePath.'/assets/img/mail-bottom.png',
-                            'cid'      => 'mail-bottom',
-                            'name'     => 'mailbottom',
-                            'encoding' => 'base64',
-                            'type'     => 'image/png',
-                        ],
-                    ]
-                );
-                MailHelper::addMailToQueue($mail);
+                UserService::addStandardEmailToQueue($mailOptions, SiteEmailOptions::TEMPLATE_ANJELA);
+
                 Yii::app()->user->setFlash('success', 'Спасибо за ваш отзыв!');
             }
         }
@@ -241,7 +218,7 @@ class PagesController extends SiteBaseController
         $passwordForm2->validate();
 
         $vacancies = [];
-        $vacancyList = Vacancy::model()->byUser(Yii::app()->user->id)->findAll();
+        $vacancyList = Vacancy::model()->findAllByAttributes(['user_id' => Yii::app()->user->id]);
         foreach ($vacancyList as $vacancy) {
             $vacancies[$vacancy->id] = Yii::t('site', $vacancy->label);
         }

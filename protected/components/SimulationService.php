@@ -8,11 +8,12 @@ use application\components\Logging\LogTableList as LogTableList;
 class SimulationService
 {
     /**
+     * Сохранение оценок по почтовику
      * Save results of "work with emails"
      *
-     * @param integer $simId
+     * @param Simulation $simulation
      */
-    public static function saveEmailsAnalyze($simulation)
+    public static function saveEmailsAnalyze(Simulation $simulation)
     {
         // init emails in analyzer
         $emailAnalyzer = new EmailAnalyzer($simulation);
@@ -168,8 +169,9 @@ class SimulationService
     }
 
     /**
+     * Возвращает HeroBehavour в агрегированом виде
      * @param integer $simId
-     * @return array of BehaviourCounter
+     * @return array of HeroBehavour
      */
     public static function getAggregatedPoints($simId)
     {
@@ -200,6 +202,7 @@ class SimulationService
     }
 
     /**
+     * Схраняет Агрегиированные оценки для симуляции
      * @param integer $simId
      */
     public static function saveAggregatedPoints($simId)
@@ -235,9 +238,10 @@ class SimulationService
     }
 
     /**
+     *
      * @param integer $simId
      */
-    public static function copyMailInboxOutboxScoreToAssessmentAggregated($simId)
+    public static function copyScoreToAssessmentAggregated($simId)
     {
         // add mail inbox/outbox points
         foreach (AssessmentCalculation::model()->findAllByAttributes(['sim_id' => $simId]) as $emailBehaviour) {
@@ -309,11 +313,12 @@ class SimulationService
                     /** @var Replica $replica */
                     $replica = Replica::model()->findByPk($condition->replica_id);
 
-                    $satisfies = LogDialog::model()
-                        ->bySimulationId($simulation->id)
-                        ->byLastReplicaId($replica->excel_id)
-                        ->exists();
-
+                    $satisfies = LogDialog::model()->exists(
+                        ' sim_id = :sim_id AND last_id = :last_id ',
+                        [
+                            'sim_id'  => $simulation->id,
+                            'last_id' => $replica->excel_id
+                        ]);
                 } elseif ($condition->mail_id) {
                     /** @var MailBox $mail */
                     $mail = MailBox::model()->findByAttributes([
@@ -322,10 +327,12 @@ class SimulationService
                     ]);
 
                     $satisfies = $mail ?
-                        LogMail::model()
-                            ->bySimId($simulation->id)
-                            ->byMailBoxId($mail->id)
-                            ->exists() :
+                        LogMail::model()->exists(
+                            ' sim_id = :sim_id AND mail_id = :mail_id ',
+                            [
+                                'sim_id'  => $simulation->id,
+                                'mail_id' => $mail->id
+                            ]) :
                         false;
                 } elseif ($condition->excel_formula_id) {
 
@@ -358,6 +365,9 @@ class SimulationService
         }
     }
 
+    /**
+     * @param Simulation $simulation
+     */
     public static function calculatePerformanceRate(Simulation $simulation)
     {
         $is40or41ruleUsed = false;
@@ -438,11 +448,13 @@ class SimulationService
                 ]);
 
                 $satisfies = $mail ?
-                    LogMail::model()
-                        ->bySimId($simulation->id)
-                        ->byMailBoxId($mail->id)
-                        ->exists() :
-                    false;
+                    LogMail::model()->exists(
+                        ' sim_id = :sim_id AND mail_id = :mail_id ',
+                        [
+                            'sim_id'  => $simulation->id,
+                            'mail_id' => $mail->id
+                        ]
+                    ) : false;
             }
 
             if (!empty($satisfies)) {
@@ -464,12 +476,13 @@ class SimulationService
     public static function initEventTriggers($simulation)
     {
         $events = EventSample::model()
-            ->byNotDocumentCode()
-            ->byNotPlanTaskCode()
-            ->byNotSentTodayEmailCode()
-            ->byNotSentYesterdayEmailCode()
-            ->byNotTerminatorCode()
-            ->findAllByAttributes(['scenario_id' => $simulation->game_type->getPrimaryKey()]);
+            ->findAll(
+                "code NOT LIKE 'D%' AND code NOT LIKE 'P%' AND code NOT LIKE 'MS%' AND code NOT LIKE 'MY%'".
+                " AND code != 'T' AND scenario_id = :scenario_id ",
+                [
+                    'scenario_id' => $simulation->game_type->getPrimaryKey()
+                ]
+            );
 
         if (count($events) > 0) {
             $sql = [];
@@ -732,7 +745,7 @@ class SimulationService
 
                 // @todo: this is trick
                 // write all mail outbox/inbox scores to AssessmentAggregate directly
-                SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
+                SimulationService::copyScoreToAssessmentAggregated($simulation->id);
 
                 $learningGoalAnalyzer = new LearningGoalAnalyzer($simulation);
                 $learningGoalAnalyzer->run();
@@ -799,9 +812,10 @@ class SimulationService
     }
 
     /**
+     * Пауза симуляции
      * @param Simulation $simulation
      */
-    public static function pause($simulation)
+    public static function pause(Simulation $simulation)
     {
         if (empty($simulation->paused)) {
             $simulation->paused = GameTime::setNowDateTime();
@@ -809,18 +823,24 @@ class SimulationService
         }
     }
 
+
     /**
-     * @param Simulation $simulation
+     * Обновлении симуляции
+     * @param $simulation
+     * @param $skipped
      */
-    public static function update($simulation, $skipped)
+    public static function update(Simulation $simulation, $skipped)
     {
         $simulation->skipped = $simulation->skipped + $skipped;
         $simulation->paused = null;
         $simulation->save();
     }
 
+
     /**
-     * @param Simulation $simulation
+     * Обновлении времени после паузы
+     * @param $simulation
+     * @param bool $ignoreTimeShift
      */
     public static function resume($simulation, $ignoreTimeShift = false)
     {
@@ -864,6 +884,7 @@ class SimulationService
     }
 
     /**
+     * Расчет AssessmentAggregated 7141
      * @param $simulation
      */
     public static function stressResistance($simulation) {
@@ -896,7 +917,8 @@ class SimulationService
     }
 
     /**
-     * @param $simId
+     * Пересчет оценки
+     * @param $simId ид симуляции
      * @param $email
      * @throws Exception
      */
@@ -918,8 +940,8 @@ class SimulationService
         }
 
         LogActivityAction::model()->deleteAllByAttributes(['sim_id' => $simId]);
-        LogActivityActionAgregated::model()->deleteAllByAttributes(['sim_id' => $simId]);
-        LogActivityActionAgregated214d::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        LogActivityActionAggregated::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        LogActivityActionAggregated214d::model()->deleteAllByAttributes(['sim_id' => $simId]);
         TimeManagementAggregated::model()->deleteAllByAttributes(['sim_id' => $simId]);
         AssessmentCalculation::model()->deleteAllByAttributes(['sim_id' => $simId]);
         DayPlanLog::model()->deleteAllByAttributes(['sim_id' => $simId, 'snapshot_time' => DayPlanLog::ON_18_00]);
@@ -1014,6 +1036,7 @@ class SimulationService
      *
      * @param YumUser $user
      * @param Simulation $simulation
+     * @param int $simId
      * @return bool
      */
     public static function removeSimulationData($user, $simulation, $simId = null)
@@ -1063,10 +1086,9 @@ class SimulationService
         TimeManagementAggregated::model()->deleteAllByAttributes(['sim_id' => $simId]);
 
         LogActivityAction::model()->deleteAllByAttributes(['sim_id' => $simId]);
-        LogActivityActionAgregated::model()->deleteAllByAttributes(['sim_id' => $simId]);
-        LogActivityActionAgregated214d::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        LogActivityActionAggregated::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        LogActivityActionAggregated214d::model()->deleteAllByAttributes(['sim_id' => $simId]);
         LogAssessment214g::model()->deleteAllByAttributes(['sim_id' => $simId]);
-        LogCommunicationThemeUsage::model()->deleteAllByAttributes(['sim_id' => $simId]);
         LogDialog::model()->deleteAllByAttributes(['sim_id' => $simId]);
         LogDocument::model()->deleteAllByAttributes(['sim_id' => $simId]);
         LogIncomingCallSoundSwitcher::model()->deleteAllByAttributes(['sim_id' => $simId]);
@@ -1087,6 +1109,11 @@ class SimulationService
         $simulation->delete();
     }
 
+    /**
+     * Сохранение логов для Антона
+     * @param array $simulations
+     * @return bool
+     */
     public static function saveLogsAsExcelReport1($simulations = array()) {
         if(!empty($simulations)) {
             $logTableList = new LogTableList();
@@ -1101,6 +1128,12 @@ class SimulationService
         }
     }
 
+    /**
+     * Сохранение аналитического файла
+     * @param array $simulations
+     * @param array $account
+     * @return null|string
+     */
     public static function saveLogsAsExcelReport2($simulations = array(), $account = null) {
         if(!empty($simulations)) {
             $logTableList = new LogTableList();
@@ -1120,12 +1153,27 @@ class SimulationService
             $excelWriter->save($path);
             return $path;
         }
+
+        // симуляций нет
+        return null;
     }
 
+    /**
+     * Путь к аналитическому файлу
+     * @param $user_id
+     * @param $assessment_version
+     * @return string
+     */
     public static function createPathForAnalyticsFile($user_id, $assessment_version) {
         return __DIR__.'/../system_data/analytic_files_2/'.$user_id.'_'.$assessment_version.'.xlsx';
     }
 
+    /**
+     * Сохранение файла с оценками(аналитический)
+     * @param UserAccountCorporate $account
+     * @param $assessment_version
+     * @return null|string
+     */
     public static function saveLogsAsExcelReport2ForCorporateUser(UserAccountCorporate $account, $assessment_version) {
         $invites = Invite::model()->findAllByAttributes(['owner_id'=>$account->user_id]);
         $simulations = [];
@@ -1140,7 +1188,6 @@ class SimulationService
             if($isCompleted && $isFull && $isValidAssessmentVersion) {
                 $simulations[] = $invite->simulation;
             }
-
         }
 
         return self::saveLogsAsExcelReport2($simulations, $account);

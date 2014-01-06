@@ -37,6 +37,9 @@ class UserAccountCorporate extends CActiveRecord
 
     const EXPIRE_INVITE_RULE_BY_TARIFF = 'by_tariff';
 
+    /**
+     * @return string
+     */
     public function getTariffLabel()
     {
         return (null === $this->tariff) ? 'Не задан' : $this->tariff->getFormattedLabel();
@@ -82,10 +85,7 @@ class UserAccountCorporate extends CActiveRecord
                     $this->id
                 ));
             }
-
         }
-
-
     }
 
     /**
@@ -102,6 +102,295 @@ class UserAccountCorporate extends CActiveRecord
             $this->ownership_type,
             $this->company_name
         );
+    }
+
+
+    /**
+     * @param $attribute, attribute name
+     */
+    public function isCorporateEmail($attribute)
+    {
+        // для тестировщиков, мы вообще не проверяем емейл на корпоративность
+        if (isset(Yii::app()->request->cookies['anshydjcyfhbxnfybjcbsgcusb27djxhds9dshbc7ubwbcd7034n9'])) {
+            return;
+        }
+
+        if(false == UserService::isCorporateEmail($this->$attribute)) {
+            $this->addError($attribute, Yii::t('site', 'Type your corporate e-mail'));
+        }
+    }
+
+    /**
+     * @param $attribute
+     */
+    public function isNotPersonalEmail($attribute)
+    {
+        $userPersonal = YumProfile::model()->findByAttributes(["email" => $this->$attribute]);
+        if($userPersonal !== null && $userPersonal->user_id !== $this->user_id) {
+            $this->addError($attribute, Yii::t('site', 'Email is already taken'));
+        }
+    }
+
+    /**
+     * invite STATUS_PENDING - return invite
+     * invite STATUS_ACCEPTED - invite spent
+     * invite STATUS_COMPLETED - invite spent
+     * invite STATUS_DECLINED - invite already returned while decline
+     * invite STATUS_EXPIRED - invite already returned while mark expired
+     * invite STATUS_STARTED - invite spent
+     *
+     * @param Invite $invite
+     */
+    public function increaseLimit($invite)
+    {
+        $this->invites_limit++;
+        $this->save(false, ['invites_limit']);
+    }
+
+    /**
+     * @return bool
+     */
+    public function decreaseLimit()
+    {
+        $initValue = $this->getTotalAvailableInvitesLimit();
+
+        if($this->invites_limit > 0) {
+            $this->invites_limit--;
+            $this->save(false, ['invites_limit']);
+        }
+        elseif($this->referrals_invite_limit > 0) {
+            $this->referrals_invite_limit--;
+            $this->save(false, ['referrals_invite_limit']);
+        }
+        else {
+            Yii::log("User doesn't have invites but tried to decrease it");
+            return false;
+        }
+    }
+
+    /**
+     * @param null $referrer_email
+     */
+    public function addReferralInvite($referrer_email = null) {
+
+        $initValue = $this->getTotalAvailableInvitesLimit();
+        $this->referrals_invite_limit++;
+        $this->save(false, ['referrals_invite_limit']);
+
+        UserService::logCorporateInviteMovementAdd(
+            'Регистрация реферала ' . $referrer_email,
+            $this,
+            $initValue
+        );
+
+        $this->save();
+    }
+
+    /**
+     * Returns all user invites limit
+     * @return int
+     */
+    public function getTotalAvailableInvitesLimit() {
+        return $this->invites_limit + $this->referrals_invite_limit;
+    }
+
+    /**
+     * banning corporate user and saves it
+     */
+    public function banUser() {
+        $this->disableUserInviteLimit();
+        $this->expireUserTariff();
+        $this->disableUserInvites();
+        $this->save();
+    }
+
+    /**
+     * Disable user invites and if there are Simulation in progress it's interrupt it
+     */
+    private function disableUserInvites() {
+        $invites = $this->getAllUserInvites();
+
+        foreach($invites as $invite) {
+
+            if($invite->status === Invite::STATUS_IN_PROGRESS) {
+                $invite->simulation->interruptSimulation();
+            }
+
+            $invite->deleteInvite();
+        }
+    }
+
+    /**
+     * Returns all current user invites
+     * @return array|CActiveRecord|mixed|null
+     */
+    private function getAllUserInvites() {
+        return Invite::model()->findAllByAttributes(['owner_id'=>$this->user_id]);
+    }
+
+    /**
+     * Setting user invite limit to zero, and logging the corporate invite moves
+     */
+    private function disableUserInviteLimit() {
+
+        $initValue = $this->getTotalAvailableInvitesLimit();
+
+        // Getting user email, that provides deleting the invites
+        $providerEmail = Yii::app()->user->data()->profile->email;
+
+        $this->invites_limit = 0;
+        $this->referrals_invite_limit = 0;
+
+        UserService::logCorporateInviteMovementAdd(
+            sprintf("Аккаунт заблокирован пользователем-админом %s", $providerEmail),
+            $this,
+            $initValue
+        );
+    }
+
+    /**
+     * Setting user tariff expired yesterday
+     */
+    private function expireUserTariff() {
+        $date = new DateTime();
+        $date->add(DateInterval::createFromDateString('yesterday'));
+        $this->tariff_expired_at = $date->format('Y-m-d H:i:s');
+    }
+
+    /**
+     * @param $count
+     */
+    public function addSimulations($count) {
+        $this->invites_limit = $this->invites_limit + $count;
+        $this->save(false);
+    }
+
+    /**
+     * @param $value, integer, can be positive and negative
+     * @param null $admin
+     */
+    public function changeInviteLimits($value, $admin=null) {
+
+        $initValue = $this->getTotalAvailableInvitesLimit();
+        if($value > 0) {
+            $this->invites_limit += $value;
+        } elseif($value < 0) {
+            if($this->invites_limit >= -$value) {
+                $this->invites_limit += $value;
+            }else{
+                $diff = $value + $this->invites_limit;
+                $this->invites_limit = 0;
+                if($this->referrals_invite_limit < -$diff){
+                    $this->referrals_invite_limit = 0;
+                }else{
+                    $this->referrals_invite_limit += $diff;
+                }
+            }
+
+        }
+        $this->save(false);
+        if(null !== $admin){
+            UserService::logCorporateInviteMovementAdd(
+                sprintf('Количество доступных симуляций установлено в %s в админ области, из них за рефераллов %s. '.
+                ' Админ %s (емейл текущего авторизованного в админке пользователя).', $this->invites_limit, $this->referrals_invite_limit, $admin->profile->email),
+                $this,
+                $initValue
+            );
+        }
+
+        Yii::app()->user->setFlash('success', sprintf(
+            'Количество доступных симуляций для "%s %s" установнено %s.',
+            $this->user->profile->firstname,
+            $this->user->profile->lastname,
+            $this->invites_limit
+        ));
+
+    }
+
+    /**
+     * @return null|Tariff
+     */
+    public function getActiveTariff() {
+
+        $tariff_plan = $this->getActiveTariffPlan();
+
+        if(null !== $tariff_plan){
+            /* @var $tariff_plan TariffPlan */
+            return $tariff_plan->tariff;
+        }else{
+            return null;
+        }
+    }
+
+    /**
+     * @return TariffPlan
+     */
+    public function getActiveTariffPlan() {
+
+        return TariffPlan::model()->findByAttributes(['user_id'=>$this->user_id, 'status' => TariffPlan::STATUS_ACTIVE]);
+
+    }
+
+    /**
+     * @return null|Tariff
+     */
+    public function getPendingTariff() {
+
+        $tariff_plan = $this->getPendingTariffPlan();
+
+        if(null !== $tariff_plan){
+            /* @var $tariff_plan TariffPlan */
+            return $tariff_plan->tariff;
+        }else{
+            return null;
+        }
+    }
+
+    /**
+     * @return null|TariffPlan
+     */
+    public function getPendingTariffPlan() {
+        return TariffPlan::model()->findByAttributes(['user_id'=>$this->user_id, 'status' => TariffPlan::STATUS_PENDING]);
+    }
+
+    /**
+     * @return null|TariffPlan
+     */
+    public function hasPendingTariffPlan() {
+        $tariff_plan = TariffPlan::model()->findByAttributes(['user_id'=>$this->user_id, 'status' => TariffPlan::STATUS_PENDING]);
+        return null !== $tariff_plan;
+    }
+
+    /**
+     * @param Tariff $tariff
+     */
+    public function addPendingTariff(Tariff $tariff) {
+        $active_tariff = TariffPlan::model()->findByAttributes(['user_id'=>$this->user_id, 'status'=>TariffPlan::STATUS_ACTIVE]);
+        /* @var $active_tariff TariffPlan */
+        $tariff_plan = new TariffPlan();
+        $tariff_plan->user_id = $this->user_id;
+        $tariff_plan->tariff_id = $tariff->id;
+        $tariff_plan->started_at = $active_tariff->finished_at;
+        $tariff_plan->finished_at = (new DateTime($active_tariff->finished_at))->modify('+30 days')->format("Y-m-d H:i:s");
+        $tariff_plan->status = TariffPlan::STATUS_PENDING;
+        $tariff_plan->save(false);
+    }
+
+    /**
+     * @param Invoice $invoice
+     * @param TariffPlan $tariff_plan
+     */
+    public function setInvoiceOnTariffPlan(Invoice $invoice, TariffPlan $tariff_plan) {
+        $tariff_plan->invoice_id = $invoice->id;
+        $tariff_plan->save(false);
+    }
+
+    /**
+     * @return TariffPlan[]
+     */
+    public function getAllTariffPlans() {
+
+        return TariffPlan::model()->findAllByAttributes(['user_id'=>$this->user_id]);
     }
 
     /* ----------------------------------------------------------------------------------------------------- */
@@ -190,304 +479,4 @@ class UserAccountCorporate extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
-
-    /**
-     * @param $attribute, attribute name
-     */
-    public function isCorporateEmail($attribute)
-    {
-        // для тестировщиков, мы вообще не проверяем емейл на корпоративность
-        if (isset(Yii::app()->request->cookies['anshydjcyfhbxnfybjcbsgcusb27djxhds9dshbc7ubwbcd7034n9'])) {
-            return;
-        }
-
-        if(false == UserService::isCorporateEmail($this->$attribute)) {
-            $this->addError($attribute, Yii::t('site', 'Type your corporate e-mail'));
-        }
-    }
-
-    public function isNotPersonalEmail($attribute)
-    {
-        $userPersonal = YumProfile::model()->findByAttributes(["email" => $this->$attribute]);
-        if($userPersonal !== null && $userPersonal->user_id !== $this->user_id) {
-            $this->addError($attribute, Yii::t('site', 'Email is already taken'));
-        }
-    }
-
-    /**
-     * invite STATUS_PENDING - return invite
-     * invite STATUS_ACCEPTED - invite spent
-     * invite STATUS_COMPLETED - invite spent
-     * invite STATUS_DECLINED - invite already returned while decline
-     * invite STATUS_EXPIRED - invite already returned while mark expired
-     * invite STATUS_STARTED - invite spent
-     *
-     * @param Invite $invite
-     */
-    public function increaseLimit($invite)
-    {
-
-           // $initValue = $this->getTotalAvailableInvitesLimit();
-
-            $this->invites_limit++;
-            $this->save(false, ['invites_limit']);
-
-            // TODO уточнить у славы!
-//            UserService::logCorporateInviteMovementAdd(
-//                'Увеличен лимит ',
-//                $this->user->getAccount(),
-//                $initValue
-//            );
-    }
-
-    public function decreaseLimit()
-    {
-
-        $initValue = $this->getTotalAvailableInvitesLimit();
-
-        if($this->invites_limit > 0) {
-            $this->invites_limit--;
-            $this->save(false, ['invites_limit']);
-        }
-        elseif($this->referrals_invite_limit > 0) {
-            $this->referrals_invite_limit--;
-            $this->save(false, ['referrals_invite_limit']);
-        }
-        else {
-            Yii::log("User doesn't have invites but tried to decrease it");
-            return false;
-        }
-
-//        UserService::logCorporateInviteMovementAdd(
-//            'increaseLimit',
-//            $this->user->getAccount(),
-//            $initValue
-//        );
-    }
-
-
-    public function addReferralInvite($referrer_email = null) {
-
-        $initValue = $this->getTotalAvailableInvitesLimit();
-        $this->referrals_invite_limit++;
-        $this->save(false, ['referrals_invite_limit']);
-
-        UserService::logCorporateInviteMovementAdd(
-            'Регистрация реферала ' . $referrer_email,
-            $this,
-            $initValue
-        );
-
-        $this->save();
-    }
-
-    /**
-     * Returns all user invites limit
-     * @return int
-     */
-
-    public function getTotalAvailableInvitesLimit() {
-        return $this->invites_limit + $this->referrals_invite_limit;
-    }
-
-    /**
-     * banning corporate user and saves it
-     */
-
-    public function banUser() {
-        $this->disableUserInviteLimit();
-        $this->expireUserTariff();
-        $this->disableUserInvites();
-        $this->save();
-    }
-
-    /**
-     * Disable user invites and if there are Simulation in progress it's interrupt it
-     */
-
-    private function disableUserInvites() {
-        $invites = $this->getAllUserInvites();
-
-        foreach($invites as $invite) {
-
-            if($invite->status === Invite::STATUS_IN_PROGRESS) {
-                $invite->simulation->interruptSimulation();
-            }
-
-            $invite->deleteInvite();
-        }
-    }
-
-    /**
-     * Returns all current user invites
-     * @return array|CActiveRecord|mixed|null
-     */
-
-    private function getAllUserInvites() {
-        return Invite::model()->findAllByAttributes(['owner_id'=>$this->user_id]);
-    }
-
-    /**
-     * Setting user invite limit to zero, and logging the corporate invite moves
-     */
-    private function disableUserInviteLimit() {
-
-        $initValue = $this->getTotalAvailableInvitesLimit();
-
-        // Getting user email, that provides deleting the invites
-        $providerEmail = Yii::app()->user->data()->profile->email;
-
-        $this->invites_limit = 0;
-        $this->referrals_invite_limit = 0;
-
-        UserService::logCorporateInviteMovementAdd(sprintf("Аккаунт заблокирован пользователем-админом %s", $providerEmail),
-            $this, $initValue);
-
-    }
-
-    /**
-     * Setting user tariff expired yesterday
-     */
-    private function expireUserTariff() {
-        $date = new DateTime();
-        $date->add(DateInterval::createFromDateString('yesterday'));
-        $this->tariff_expired_at = $date->format('Y-m-d H:i:s');
-    }
-
-    /**
-     * @param $count
-     */
-    public function addSimulations($count) {
-        $this->invites_limit = $this->invites_limit + $count;
-        $this->save(false);
-    }
-
-    /**
-     * @param $value, integer, can be positive and negative
-     * @param null $admin
-     */
-    public function changeInviteLimits($value, $admin=null) {
-
-        $initValue = $this->getTotalAvailableInvitesLimit();
-        if($value > 0) {
-            $this->invites_limit += $value;
-        } elseif($value < 0) {
-            if($this->invites_limit >= -$value) {
-                $this->invites_limit += $value;
-            }else{
-                $diff = $value + $this->invites_limit;
-                $this->invites_limit = 0;
-                if($this->referrals_invite_limit < -$diff){
-                    $this->referrals_invite_limit = 0;
-                }else{
-                    $this->referrals_invite_limit += $diff;
-                }
-            }
-
-        }
-        $this->save(false);
-        if(null !== $admin){
-            UserService::logCorporateInviteMovementAdd(
-                sprintf('Количество доступных симуляций установлено в %s в админ области, из них за рефераллов %s. '.
-                    ' Админ %s (емейл текущего авторизованного в админке пользователя).', $this->invites_limit, $this->referrals_invite_limit, $admin->profile->email),
-                $this,
-                $initValue
-            );
-        }
-
-        Yii::app()->user->setFlash('success', sprintf(
-            'Количество доступных симуляций для "%s %s" установнено %s.',
-            $this->user->profile->firstname,
-            $this->user->profile->lastname,
-            $this->invites_limit
-        ));
-
-    }
-
-    /**
-     * @return null|Tariff
-     */
-    public function getActiveTariff() {
-
-        $tariff_plan = $this->getActiveTariffPlan();
-
-        if(null !== $tariff_plan){
-            /* @var $tariff_plan TariffPlan */
-            return $tariff_plan->tariff;
-        }else{
-            return null;
-        }
-    }
-
-    /**
-     * @return TariffPlan
-     */
-    public function getActiveTariffPlan() {
-
-        return TariffPlan::model()->findByAttributes(['user_id'=>$this->user_id, 'status' => TariffPlan::STATUS_ACTIVE]);
-
-    }
-
-
-    /**
-     * @return null|Tariff
-     */
-    public function getPendingTariff() {
-
-        $tariff_plan = $this->getPendingTariffPlan();
-
-        if(null !== $tariff_plan){
-            /* @var $tariff_plan TariffPlan */
-            return $tariff_plan->tariff;
-        }else{
-            return null;
-        }
-    }
-
-    /**
-     * @return null|TariffPlan
-     */
-    public function getPendingTariffPlan() {
-
-        return TariffPlan::model()->findByAttributes(['user_id'=>$this->user_id, 'status' => TariffPlan::STATUS_PENDING]);
-
-    }
-
-    /**
-     * @return null|TariffPlan
-     */
-    public function hasPendingTariffPlan() {
-
-        $tariff_plan = TariffPlan::model()->findByAttributes(['user_id'=>$this->user_id, 'status' => TariffPlan::STATUS_PENDING]);
-
-        return null !== $tariff_plan;
-
-    }
-
-    public function addPendingTariff(Tariff $tariff) {
-        $active_tariff = TariffPlan::model()->findByAttributes(['user_id'=>$this->user_id, 'status'=>TariffPlan::STATUS_ACTIVE]);
-        /* @var $active_tariff TariffPlan */
-        $tariff_plan = new TariffPlan();
-        $tariff_plan->user_id = $this->user_id;
-        $tariff_plan->tariff_id = $tariff->id;
-        $tariff_plan->started_at = $active_tariff->finished_at;
-        $tariff_plan->finished_at = (new DateTime($active_tariff->finished_at))->modify('+30 days')->format("Y-m-d H:i:s");
-        $tariff_plan->status = TariffPlan::STATUS_PENDING;
-        $tariff_plan->save(false);
-    }
-
-    public function setInvoiceOnTariffPlan(Invoice $invoice, TariffPlan $tariff_plan) {
-        $tariff_plan->invoice_id = $invoice->id;
-        $tariff_plan->save(false);
-    }
-
-    /**
-     * @return TariffPlan[]
-     */
-    public function getAllTariffPlans() {
-
-        return TariffPlan::model()->findAllByAttributes(['user_id'=>$this->user_id]);
-
-    }
-
 }

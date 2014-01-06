@@ -61,7 +61,7 @@ Object.extend(document, {
         background:'#FFFFFF',
         top:'25%',        // Top location
         left:'25%',       // Left location
-        winZindex: 10001,
+        winZindex: 1003,
         borderWidth:10,   // Width of the surrounding transparent border
         borderColor:'#000', // Color of the surrounding transparent border
         titleTextColor: '#777',
@@ -78,7 +78,7 @@ Object.extend(document, {
         modal:true, // Same as dim
         dimColor:'#fff', // color of the dimming surface
         dimOpacity:0.8, // opacity of the dimming surface
-        dimZindex: 10000,
+        dimZindex: 1002,
         dynamic: true, // Update the window dynamically while dragging
         contentPadding: '8',
         closeTo:false,
@@ -810,7 +810,7 @@ Protoplus.ui = {
 
         var createInnerList = function(cont, itemConf){
 
-            var container = new Element('div', { className: 'context-menu-all' }).setStyle('z-index:1000000');
+            var container = new Element('div', { className: 'context-menu-all' }).setStyle('z-index:3000');
             var backPanel = new Element('div', { className: 'context-menu-back' }).setOpacity(0.98);
             var context   = new Element('div', { className: 'context-menu' });
             container.insert(backPanel).insert(context);
@@ -865,7 +865,7 @@ Protoplus.ui = {
                     if(element.options.onStart){ element.options.onStart(); }
                     var menuItems = element.menuItems;
 
-                    var container = new Element('div', { className: 'context-menu-all' }).setStyle('z-index:1000000');
+                    var container = new Element('div', { className: 'context-menu-all' }).setStyle('z-index:3000');
                     var backPanel = new Element('div', { className: 'context-menu-back' }).setOpacity(0.98);
                     var context   = new Element('div', { className: 'context-menu' });
 
@@ -2357,7 +2357,7 @@ Protoplus.ui = {
             H.insert(Hslide.update('<br>')).insert(Hmodel);
 
             // Set Styles
-            plugin.setStyle({position:'absolute', top:(top+height)+'px', left:left+'px', zIndex:'10000000'});
+            plugin.setStyle({position:'absolute', top:(top+height)+'px', left:left+'px', zIndex:'3000'});
             SVslide.setStyle('top:-4px; left:-4px;');
             Hslide.setStyle('top:0px; left:-8px;');
             complete.setStyle('float:right;margin-top:8px;').addClassName(options.buttonClass);

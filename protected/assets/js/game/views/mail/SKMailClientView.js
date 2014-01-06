@@ -843,6 +843,13 @@ define([
                         mailClientView.$('#' + folderId + ' .ml-header > *').click(function() {
                             $table.find('th:eq(' + $(this).index() + ')').click();
                         });
+
+                        // SKILIKS-4940 {
+                        if ($.browser['mozilla'] == true) {
+                            $('.folder-list').height($('#mail-window').height() - 315);
+                        }
+                        // SKILIKS-4940 }
+
                         setTimeout(function () {
                             var list = mailClientView.$('#' + folderId + ' .ml-list');
                             if (!list.hasClass('mCustomScrollbar')) {
@@ -1689,6 +1696,22 @@ define([
             },
 
             /**
+             * Возвращает id первого адремата письма в форме отправки нового письма
+             * @method
+             * @returns number
+             */
+            getCurrentEmailRecipientId: function () {
+                try {
+                   var characters = this.getCurrentEmailRecipientIds();
+                    return _.first(characters);
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
+            },
+
+            /**
              * @method
              * @returns {Array}
              */
@@ -1724,7 +1747,7 @@ define([
                     for (var i in this.mailClient.availableSubjects) {
                         subjects_list.push({
                             text: this.mailClient.availableSubjects[i].text,
-                            value: parseInt(this.mailClient.availableSubjects[i].characterSubjectId)
+                            value: parseInt(this.mailClient.availableSubjects[i].themeId)
                         });
                     }
                     if(subjects_list.length === 0){
@@ -1738,32 +1761,15 @@ define([
 
                     var me = this;
 
-                    var g_forceAllowChangeSubject = forceAllowChangeSubject;
-
-                    if (true === g_forceAllowChangeSubject) {
-                        this.$("#MailClient_NewLetterSubject").ddslick({
-                            data: subjects_list,
-                            width: '100%',
-                            imagePosition: "left",
-                            onSelected: function () {
-                                if (true !== g_forceAllowChangeSubject) {
-                                    me.doUpdateMailPhrasesList();
-                                }
-                            }
-                        });
-                    } else {
-                        this.$("#MailClient_NewLetterSubject").ddslick({
+                    this.$("#MailClient_NewLetterSubject").ddslick({
                             data: subjects_list,
                             width: '100%',
                             selectText: "без темы.",
                             imagePosition: "left",
-                            onSelected: function () {
-                                if (true !== g_forceAllowChangeSubject) {
-                                    me.doUpdateMailPhrasesList();
-                                }
+                            onSelected: function (dataSelected) {
+                                me.doUpdateMailPhrasesList(dataSelected);
                             }
-                        });
-                    }
+                    });
 
                     if(subjects_list.length === 1 && this.mailClient.activeScreen !== 'SCREEN_WRITE_NEW_EMAIL') {
                         this.$("#MailClient_NewLetterSubject").ddslick('select', {'index':0 });
@@ -1792,7 +1798,7 @@ define([
                     var subjects_list = [];
                     subjects_list.push({
                         text: subject.getText(),
-                        value: subject.characterSubjectId,
+                        value: subject.themeId,
                         selected: true
                     });
 
@@ -1801,8 +1807,8 @@ define([
                         data: subjects_list,
                         width: '100%',
                         imagePosition: "left",
-                        onSelected: function () {
-                            me.doUpdateMailPhrasesList();
+                        onSelected: function (dataSelected) {
+                            me.doUpdateMailPhrasesList(dataSelected);
                         }
                     });
                     if(this.mailClient.activeScreen !== 'SCREEN_WRITE_NEW_EMAIL'){
@@ -1819,7 +1825,7 @@ define([
              * @method
              * @returns {*}
              */
-            getCurentEmailSubjectId: function () {
+            getCurrentEmailThemeId: function () {
                 try {
                     var selectedData = this.$("#MailClient_NewLetterSubject").data('ddslick').selectedData;
                     return selectedData ? selectedData.value : undefined;
@@ -2196,7 +2202,7 @@ define([
 
                     // subject
                     var subject = new SKMailSubject();
-                    subject.characterSubjectId = this.getCurentEmailSubjectId();
+                    subject.themeId = this.getCurrentEmailThemeId();
                     subject.text = this.getCurentEmailSubjectText();
                     emailToSave.subject = subject;
 
@@ -2334,8 +2340,9 @@ define([
             /**
              * @method
              */
-            doUpdateMailPhrasesList: function () {
+            doUpdateMailPhrasesList: function (dataSelected) {
                 try {
+                    var themeId = dataSelected.selectedData.value;
                     var mailClientView = this;
                     var mailClient = this.mailClient;
 
@@ -2352,7 +2359,7 @@ define([
                                                 mailClient.activeEmail.phrases = [];
                                             }
 
-                                            mailClient.getAvailablePhrases(mailClientView.getCurentEmailSubjectId(), function () {
+                                            mailClient.getAvailablePhrases(mailClientView.getCurrentEmailRecipientId(), themeId, function () {
                                                 mailClientView.$('#mailEmulatorNewLetterText').html('');
                                                 mailClientView.$('#mailEmulatorNewLetterText li').remove();
 
@@ -2363,7 +2370,7 @@ define([
                                     {
                                         'value': 'Вернуться',
                                         'onclick': function () {
-                                            mailClientView.selectSubjectByValue(mailClient.newEmailSubjectId);
+                                            mailClientView.selectSubjectByValue(mailClient.newEmailThemeId);
                                             delete mailClient.message_window;
                                         }
                                     }
@@ -2372,12 +2379,12 @@ define([
                         }
                     } else {
                         // standard way
-                        mailClient.newEmailSubjectId = mailClientView.getCurentEmailSubjectId();
+                        mailClient.newEmailThemeId = themeId;
 
                         // all "fantastic" emails has TXT constructor - but this extra request return default B1,
                         // that is produce phrases render - it is wrong
                         if (false === mailClientView.isFantasticSend) {
-                            mailClient.getAvailablePhrases(mailClientView.getCurentEmailSubjectId(), function () {
+                            mailClient.getAvailablePhrases(mailClientView.getCurrentEmailRecipientId(), themeId, function () {
                                 mailClientView.$('#mailEmulatorNewLetterText').html('');
                             });
                         }
@@ -2411,8 +2418,8 @@ define([
                         data: ddData,
                         width: '100%',
                         defaultSelectedIndex:index,
-                        onSelected: function () {
-                            me.doUpdateMailPhrasesList();
+                        onSelected: function (dataSelected) {
+                            me.doUpdateMailPhrasesList(dataSelected);
                         }
                     });
                 } catch(exception) {
@@ -2487,7 +2494,7 @@ define([
                         me.mailClient.draftToEditEmailId = response.id;
                     }
 
-                    if (null === response.subjectId) {
+                    if (null === response.themeId) {
                         this.doRenderFolder(this.mailClient.aliasFolderInbox, false);
                         this.renderNullSubjectIdWarning('Вы не можете ответить на это письмо.');
                         return  false;
@@ -2502,9 +2509,9 @@ define([
                         this.renderWriteEmailScreen(icons);
 
                         var subject = new SKMailSubject();
-                        subject.text = response.subject;
-                        subject.mySqlId = response.subjectId;
-                        subject.characterSubjectId = response.subjectId;
+                        subject.text = response.theme;
+                        subject.mySqlId = response.themeId;
+                        subject.themeId = response.themeId;
                         this.parentSubject = subject;
                         this.renderSingleSubject(subject);
 
@@ -2662,10 +2669,10 @@ define([
                         }
 
                         var subject = new SKMailSubject();
-                        subject.text = response.subject;
-                        subject.mySqlId = response.subjectId;
-                        subject.parentMySqlId = response.parentSubjectId;
-                        subject.characterSubjectId = response.subjectId;
+                        subject.text = response.theme;
+                        subject.mySqlId = response.themeId;
+                        subject.parentMySqlId = response.parentThemeId;
+                        subject.themeId = response.themeId;
 
                         this.renderSingleSubject(subject);
 
@@ -2704,7 +2711,7 @@ define([
                             },
                             afterAdd: function (tag) {
                                 SKApp.simulation.mailClient.reloadSubjects(me.getCurrentEmailRecipientIds(), subject, function(){
-                                    SKApp.simulation.mailClient.getAvailablePhrases(SKApp.simulation.mailClient.availableSubjects[0].characterSubjectId);
+                                    SKApp.simulation.mailClient.getAvailablePhrases(me.getCurrentEmailRecipientId(), SKApp.simulation.mailClient.availableSubjects[0].themeId, function(){ });
                                 });
 
                             },
@@ -2822,6 +2829,8 @@ define([
                         if (undefined === response.result && undefined !== response.responseText) {
                             response = $.parseJSON(response.responseText);
                         }
+                        me.mailClient.activeConstructorCode = response.phrases.constructorCode;
+                        me.mailClient.activeMailPrefix = response.mailPrefix;
                         // so we get JSON from it }
                         if (false !== me.fillMessageWindow(response)) {
                             me.mailClient.setActiveScreen(me.mailClient.screenWriteReply);
@@ -2849,6 +2858,8 @@ define([
 
                     this.mailClient.getDataForReplyAllToActiveEmail(function (response) {
                         if (false !== me.fillMessageWindow(response)) {
+                            me.mailClient.activeConstructorCode = response.phrases.constructorCode;
+                            me.mailClient.activeMailPrefix = response.mailPrefix;
                             me.mailClient.setActiveScreen(me.mailClient.screenWriteReplyAll);
                             me.mailClient.setWindowsLog('mailNew');
                         }
@@ -2875,6 +2886,7 @@ define([
                     this.mailClient.getDataForForwardActiveEmail(function (response) {
                         // so we get JSON from it }
                         if (false !== me.doUpdateScreenFromForwardEmailData(response)) {
+                            me.mailClient.activeMailPrefix = response.mailPrefix;
                             me.mailClient.setActiveScreen(me.mailClient.screenWriteForward);
                             me.mailClient.setWindowsLog('mailNew');
                         }

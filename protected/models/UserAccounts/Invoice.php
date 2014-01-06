@@ -233,46 +233,26 @@ class Invoice extends CActiveRecord
         return true;
     }
 
-    public function sendCompleteEmailToUser() {
-
-        $inviteEmailTemplate = Yii::app()->params['emails']['completeInvoiceUserEmail'];
-
-        // TODO Remake email to send referrer invites
-        $body = UserService::renderEmailPartial($inviteEmailTemplate, [
-            'invoice' => $this, 'user' => $this->user, 'user_invites' => $this->user->getAccount()->invites_limit
-        ]);
-
-
-        $mail = [
-            'from'        => Yum::module('registration')->registrationEmail,
-            'to'          => $this->user->profile->email,
-            'subject'     => 'Оплата на skiliks.com',
-            'body'        => $body,
-            'embeddedImages' => [
-                [
-                    'path'     => Yii::app()->basePath.'/assets/img/mailtopclean.png',
-                    'cid'      => 'mail-top-clean',
-                    'name'     => 'mailtopclean',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],[
-                    'path'     => Yii::app()->basePath.'/assets/img/mailchair.png',
-                    'cid'      => 'mail-chair',
-                    'name'     => 'mailchair',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],[
-                    'path'     => Yii::app()->basePath.'/assets/img/mail-bottom.png',
-                    'cid'      => 'mail-bottom',
-                    'name'     => 'mailbottom',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],
-            ],
-        ];
+    /**
+     * Ставит в очередь писем письмо пользователю, о том что данный заказ оплачен.
+     *
+     * @return EmailQueue|null
+     */
+    public function sendCompleteEmailToUser()
+    {
+        $mailOptions          = new SiteEmailOptions();
+        $mailOptions->from    = Yum::module('registration')->registrationEmail;
+        $mailOptions->to      = $this->user->profile->email;
+        $mailOptions->subject = 'Оплата на ' . Yii::app()->params['server_domain_name'];
+        $mailOptions->h1      = sprintf('Приветствуем, %s!', $this->user->profile->firstname);
+        $mailOptions->text1   = '
+            Благодарим вас за оплату работы skiliks!<br/>
+            Вы выбрали тариф  '. $this->tariff->label .', на вашем счету '
+            . $this->user->getAccount()->invites_limit . ' симуляций.<br/>
+        ';
 
         try {
-            $sent = MailHelper::addMailToQueue($mail);
+            $sent = UserService::addStandardEmailToQueue($mailOptions, SiteEmailOptions::TEMPLATE_FIKUS);
             $invoice_log = new LogPayments();
             $invoice_log->log($this, "Письмо об обновлении тарифного плана отправлено пользователю на " . $this->user->profile->email);
         } catch (phpmailerException $e) {

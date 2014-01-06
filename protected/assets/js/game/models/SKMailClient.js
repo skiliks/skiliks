@@ -213,6 +213,11 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
             availablePhrases:[],
 
             // @var array of SKMailPhrase
+            activeConstructorCode: null,
+
+            activeMailPrefix: null,
+
+            // @var array of SKMailPhrase
             // this is ',', '.', ':' etc. - symbols for any phrases set
             availableAdditionalPhrases:[],
 
@@ -223,7 +228,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
             newEmailAttachment:undefined,
 
             // @var array of SKMailSubject
-            newEmailSubjectId:undefined,
+            newEmailThemeId:undefined,
 
             // @var undefined | SKEmail
             lastNotSavedEmail:undefined,
@@ -411,8 +416,8 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                     _.forEach(emailsData, function(emailData) {
                         var subject                = new SKMailSubject();
                         subject.text               = emailData.subject;
-                        subject.id                 = emailData.subjectId;
-                        subject.characterSubjectId = emailData.subjectId;
+                        subject.themeId            = emailData.themeId;
+                        subject.mailPrefix         = emailData.mailPrefix;
 
                         var email               = new SKEmail();
                         email.folderAlias       = folderAlias;
@@ -1173,7 +1178,8 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                         'mail/getThemes',
                         {
                             receivers:recipientIds.join(','), // implode()
-                            parentSubjectId: subject !== undefined ? subject.parentMySqlId : undefined
+                            parentThemeId: subject !== undefined ? subject.parentMySqlId : undefined,
+                            mailPrefix:me.activeMailPrefix
                         },
                         function (response) {
                             if (undefined !== response.data) {
@@ -1186,15 +1192,14 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                                 }
                                 // clean up phrases }
 
-                                for (var i in response.data) {
-                                    var string = response.data[i];
+                                $.each(response.data, function(themeId, text) {
 
                                     var subject = new SKMailSubject();
-                                    subject.characterSubjectId = i;
-                                    subject.text = response.data[i];
+                                    subject.themeId = themeId;
+                                    subject.text = text;
 
                                     SKApp.simulation.mailClient.availableSubjects.push(subject);
-                                }
+                                });
                                 if(typeof callback == 'function'){
                                     callback();
                                 }
@@ -1259,19 +1264,25 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
              * Receives and updates phrase list and message for email
              *
              * @method
-             * @param subjectId
+             * @param characterId
+             * @param themeId
              * @param callback
              */
-            getAvailablePhrases:function (subjectId, callback) {
+            getAvailablePhrases:function (characterId, themeId, callback) {
                 try {
                     var mailClient = this;
                     SKApp.server.api(
                         'mail/getPhrases',
                         {
-                            id:subjectId
+                            characterId:characterId,
+                            themeId:themeId,
+                            mailPrefix:mailClient.activeMailPrefix
                         },
                         function (response) {
+
                             if (undefined !== response.data) {
+
+                                mailClient.activeConstructorCode = response.constructorCode;
                                 mailClient.setRegularAvailablePhrases(response.data);
 
                                 mailClient.setAdditionalAvailablePhrases(response.addData);
@@ -1425,7 +1436,6 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                     if (this.activeScreen == this.screenWriteForward) {
                         type = 'forward';
                     }
-
                     return {
                         id:         emailToSave.mySqlId,
                         copies:     emailToSave.getCopyToIdsString(),
@@ -1433,8 +1443,10 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                         messageId:  mailId,
                         phrases:    emailToSave.getPhrasesIdsString(),
                         receivers:  emailToSave.getRecipientIdsString(),
-                        subject:    emailToSave.subject.characterSubjectId,
-                        letterType: type
+                        themeId:    emailToSave.subject.themeId,
+                        letterType: type,
+                        mailPrefix: this.activeMailPrefix,
+                        constructorCode: this.activeConstructorCode
                     };
                 } catch(exception) {
                     if (window.Raven) {

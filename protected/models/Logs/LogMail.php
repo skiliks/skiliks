@@ -1,123 +1,34 @@
 <?php
 /**
- * @property integer id
- * @property integer sim_id
- * @property integer mail_id
- * @property integer window
- * @property datetime start_time
- * @property datetime end_time
- * @property Simulation simulation
- * @property Window window_obj
+ * @property integer  $id
+ * @property integer  $sim_id
+ * @property integer  $mail_id
+ * @property integer  $window
+ * @property integer  $mail_task_id
+ * @property datetime $start_time
+ * @property datetime $end_time
+ * @property string   $full_coincidence  , '-' or mail_template.code
+ * @property string   $part1_coincidence , '-' or mail_template.code
+ * @property string   $part2_coincidence , '-' or mail_template.code
+ * @property string   $window_uid        , md5, windows unique ID - currently used to determine several mail new windows
+ * @property bool     $is_coincidence
+ *
+ * @property Simulation $simulation
+ * @property Window     $window_obj
+ * @property MailBox    $mail
  */
 class LogMail extends CActiveRecord
 {
-    public $id;
-    
-    public $sim_id;
-    
-    public $mail_id;
-    
-    public $window;
-    
-    public $start_time;
-    
-    public $end_time;
-    
-    public $mail_task_id;
-    
-    /**
-     * @var string, '-' or mail_template.code
-     */
-    public $full_coincidence;
-    
-    /**
-     * @var string, '-' or mail_template.code
-     */
-    public $part1_coincidence;
-    
-    /**
-     * @var string, '-' or mail_template.code
-     */    
-    public $part2_coincidence;
-    
-    /**
-     * @var bool
-     */
-    public $is_coincidence;
-
-    /**
-     * windows unique ID - currently used to determine several mail new windows
-     * @var string, md5
-     */
-    public $window_uid;
-    
-    /** ------------------------------------------------------------------------------------------------------------ **/
-    
-    /**
-     *
-     * @param string $className
-     * @return LogMail
-     */
-    public static function model($className=__CLASS__)
-    {
-        return parent::model($className);
-    }
-
-    public function dump() {
-        return $this . "\n";
-    }
-
     public function __toString()
     {
         return sprintf("%s %s %s", $this->start_time, $this->end_time, $this->full_coincidence ?: '—');
     }
-    
-    public function bySimId($simId)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "sim_id = {$simId}"
-        ));
-        return $this;
-    }
-    
-    public function orderByWindow($sort = 'ACS')
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'order' => "window $sort"
-        ));
-        return $this;
-    }    
-    
-    public function orderById($sort = 'ACS')
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'order' => "id $sort"
-        ));
-        return $this;
-    }    
-    
-    public function byMailBoxId($mailId)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "mail_id = {$mailId}"
-        ));
-        return $this;
-    }
-    
-    public function byEndTimeGreaterThen($date)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "end_time > '{$date}'"
-        ));
-        return $this;
-    }
-    
-    public function byMailTaskId($mailTaskId)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "mail_task_id = {$mailTaskId}"
-        ));
-        return $this;
+
+    /**
+     * @return string
+     */
+    public function dump() {
+        return $this . "\n";
     }
 
     protected function afterSave()
@@ -154,26 +65,16 @@ class LogMail extends CActiveRecord
         parent::afterSave();
     }
 
-    public function relations()
-    {
-        return array(
-            'mail'       => array(self::BELONGS_TO, 'MailBox', 'mail_id'),
-            'simulation' => array(self::BELONGS_TO, 'Simulation', 'sim_id'),
-            'window_obj' => array(self::BELONGS_TO, 'Window', 'window'),
-        );
-    }
-
+    /** ------------------------------------------------------------------------------------------------------------ **/
+    
     /**
-     * @deprecated SQL injection
-     * @param $v
+     *
+     * @param string $className
      * @return LogMail
      */
-    public function byWindow($v)
+    public static function model($className=__CLASS__)
     {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "window = {$v}"
-        ));
-        return $this;
+        return parent::model($className);
     }
 
     /**
@@ -182,5 +83,17 @@ class LogMail extends CActiveRecord
     public function tableName()
     {
         return 'log_mail';
+    }
+
+    /**
+     * @return array
+     */
+    public function relations()
+    {
+        return array(
+            'mail'       => array(self::BELONGS_TO, 'MailBox', 'mail_id'),
+            'simulation' => array(self::BELONGS_TO, 'Simulation', 'sim_id'),
+            'window_obj' => array(self::BELONGS_TO, 'Window', 'window'),
+        );
     }
 }

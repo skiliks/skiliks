@@ -175,7 +175,7 @@ class EmailAnalyzer
         /**
          * Add readedAt, plannedAt, repliedAt
          */
-        $temp_log_mail = LogMail::model()->bySimId($this->simId)->findAll();
+        $temp_log_mail = LogMail::model()->findAllByAttributes(['sim_id' => $this->simId]);
 
         foreach ($temp_log_mail as $logMailLine) {
             $mailId = $logMailLine->mail_id;
@@ -442,10 +442,7 @@ class EmailAnalyzer
     }
 
     /**
-     * 3326
-     *
-     * @param integer $delta
-     *
+     * Расчет повидения 3326
      * @return mixed array
      */
     public function check_3326()
@@ -456,15 +453,12 @@ class EmailAnalyzer
 
         $limitToGetPoints  = $configs['limitToGetPoints'];
 
-        $criteria = new CDbCriteria();
-        $criteria->compare('wr', 'R');
-        $criteria->addCondition('letter_number like "MS%"');
-        $rightMsNumber = count($this->simulation->game_type->getCommunicationThemes($criteria));
+        $rightMsNumber = OutboxMailTheme::model()->count("scenario_id = :scenario_id and wr = 'R'", ['scenario_id'=>$this->simulation->scenario_id]);
 
         // gather statistic  {
         $userRightEmailsArray = []; // email with same MSxx must be counted once only
         $userWrongEmails = 0;
-        $debug_wrong = [];
+        //$debug_wrong = [];
         foreach ($this->userOutboxEmails as $emailData) {
             // @todo: remove trick
             // ignore MSY letters
@@ -473,15 +467,13 @@ class EmailAnalyzer
             }
 
             if($emailData->email->isMS()){
-                if ('R' == $emailData->email->subject_obj->wr) {
+                if (OutboxMailTheme::SLUG_RIGHT === $emailData->email->getWR()) {
                     $userRightEmailsArray[$emailData->email->code] = 'something';
                 }
-                if ('W' == $emailData->email->subject_obj->wr) {
-                    $debug_wrong[] = $emailData->email->subject_obj->text;
+                if (OutboxMailTheme::SLUG_WRONG === $emailData->email->getWR()) {
                     $userWrongEmails++;
                 }
-            }else{
-                $debug_wrong[] = $emailData->email->subject_obj->text;
+            } else {
                 $userWrongEmails++;
             }
         }
@@ -620,7 +612,7 @@ class EmailAnalyzer
             );
 
         foreach ($rightMss as $key => $value) {
-            if ($value->subject_obj->wr != CommunicationTheme::SLUG_RIGHT) {
+            if ($value->getWR() != OutboxMailTheme::SLUG_RIGHT) {
                 unset($value[$key]);
             }
         }
@@ -744,7 +736,7 @@ class EmailAnalyzer
      */
     private function isMailTaskHasRightAction($mailTemplateId)
     {
-        $taskWays = MailTask::model()->byMailId($mailTemplateId)->byWrongRight('R')->findAll();
+        $taskWays = MailTask::model()->findAllByAttributes(['mail_id' => $mailTemplateId, 'wr' => 'R']);
        
         return (0 < count($taskWays) && null !== $taskWays);
     }

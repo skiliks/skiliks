@@ -124,13 +124,16 @@ class PhoneService {
     public static function getThemes($code, Simulation $simulation) {
 
         $character = $simulation->game_type->getCharacter(['code' => $code]);
-        $themes = $simulation->game_type->getCommunicationThemes(['character_id' => $character->primaryKey, 'phone' => 1]);
-        $themes_usage = LogCommunicationThemeUsage::model()->findAllByAttributes(['sim_id'=>$simulation->id]);
+        $themes = $simulation->game_type->getOutgoingPhoneThemes(['character_to_id'=>$character->id]);
         $list = array();
-        foreach($themes as $theme) {
-            /* @var $theme CommunicationTheme */
+        /*foreach($themes as $theme) {
             if(false === $theme->isBlockedByFlags($simulation) && false === $theme->themeIsUsed($themes_usage)) {
                 $list[] = ['themeId' => $theme->id, 'themeTitle' => $theme->text];
+            }
+        }*/
+        foreach($themes as $theme) {
+            if(false === $theme->isBlockedByFlags($simulation) && false === $theme->themeIsUsed($simulation)) {
+                $list[] = ['themeId' => $theme->theme_id, 'themeTitle' => $theme->theme->text];
             }
         }
         
@@ -150,7 +153,7 @@ class PhoneService {
         $simulation = Simulation::model()->findByPk($simId);
         $model->call_time   = $time;
         $model->call_type   = self::CALL_TYPE_OUTGOING;
-        $model->from_id     = $simulation->game_type->getCharacter(['code' => Character::HERO_ID])->primaryKey;
+        $model->from_id     = $simulation->game_type->getCharacter(['code' => Character::HERO_CODE])->primaryKey;
         $model->to_id       = $simulation->game_type->getCharacter(['code' => $characterCode])->primaryKey; // какому персонажу мы звоним
         $model->theme_id    = $themeId;
         $model->insert();
@@ -158,7 +161,7 @@ class PhoneService {
     
     public static function registerMissed($simId, $dialogId, $time) {
         
-        $dialog = Replica::model()->byId($dialogId)->find();
+        $dialog = Replica::model()->findByPk($dialogId);
         if (!$dialog) throw new Exception("Не могу определить диалог для id {$dialogId}");
         
         $model = new PhoneCall();
@@ -227,21 +230,24 @@ class PhoneService {
             $phoneCall->save();
         }
     }
-    
+
+    /**
+     * @param Simulation $simulation
+     * @param integer $themeId (Theme.id)
+     * @param varchar $characterCode
+     * @param varchar $time
+     *
+     * @return array
+     */
     public static function call(Simulation $simulation, $themeId, $characterCode, $time)
     {
-        /** @var $communicationTheme CommunicationTheme */
         $character = $simulation->game_type->getCharacter(['code' => $characterCode]);
 
-        $communicationTheme = $simulation->game_type->getCommunicationTheme([
-            'character_id' => $character->primaryKey,
-            'id' => $themeId,
-            'phone' => 1
+        $theme = $simulation->game_type->getOutgoingPhoneTheme([
+            'character_to_id' => $character->id,
+            'theme_id' => $themeId
         ]);
-
-        if ($communicationTheme) {
-            $eventCode = $communicationTheme->phone_dialog_number;
-            if ($eventCode == '' || $eventCode == 'AUTO') {
+        if ($theme->dialog_code === '' || $theme->dialog_code === 'AUTO') {
 
                 // выдаем автоответчик
                 $data = array();
@@ -276,7 +282,7 @@ class PhoneService {
                 // сгенерируем событие
 
                 // проверим а позволяют ли флаги нам запускать реплику
-                if (false == FlagsService::isAllowToStartDialog($simulation, $eventCode)) {
+                if (false == FlagsService::isAllowToStartDialog($simulation, $theme->dialog_code)) {
                     // событие не проходит по флагам -  не пускаем его
                     return [
                         'result' => 1,
@@ -293,11 +299,7 @@ class PhoneService {
                     ];
 
                 } else {
-                    //Логируем комм. темы
-                    $themeService = new CommunicationThemeService();
-                    $themeService->addToTheLogUsed($simulation, $themeId);
-
-                    $data = self::getReplicaByCode($eventCode, $simulation);
+                    $data = self::getReplicaByCode($theme->dialog_code, $simulation);
                     PhoneService::registerOutgoing($simulation->id, $characterCode, $time, $themeId);
                     return [
                         'result' => 1,
@@ -312,7 +314,6 @@ class PhoneService {
                 }
 
             }
-        }
     }
 
     public static function getReplicaByCode($eventCode, Simulation $simulation) {

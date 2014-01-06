@@ -16,6 +16,8 @@
  * @property integer $agree_with_terms
  * @property integer $is_admin
  * @property string $ip_address
+ * @property string $is_password_bruteforce_detected
+ * @property string $authorization_after_bruteforce_key
  *
  * Relations
  * @property YumProfile $profile
@@ -45,6 +47,14 @@ class YumUser extends YumActiveRecord
     const AGREEMENT_MADE = 'yes';
 
     const IS_ADMIN = '1';
+
+    const IS_PASSWORD_BRUTEFORCE_DETECTED = '1';
+
+    const IS_NOT_PASSWORD_BRUTEFORCE = '0';
+
+    const PASSWORD_BRUTEFORCE_IT_IS_ME = 'it_is_me';
+
+    const PASSWORD_BRUTEFORCE_IT_IS_NOT_ME = 'it_is_not_me';
 
     public $username;
     public $password;
@@ -844,13 +854,6 @@ class YumUser extends YumActiveRecord
         ) {
 
             if ($user = $profile->user) {
-                //var_dump($user->status);
-
-//                if ($user->status != self::STATUS_INACTIVE)
-//                    return -1;
-
-                //die('3');
-                //var_dump($user->activationKey, $key); die;
                 if ($user->activationKey == $key) {
                     $user->activationKey = $user->generateActivationKey(true);
                     $user->status = self::STATUS_ACTIVE;
@@ -1025,9 +1028,18 @@ class YumUser extends YumActiveRecord
         }
     }
 
+    /**
+     * Newer user?
+     *
+     * @param $password
+     * @param int $duration
+     * @return bool|null|YumUser|YumUserLogin
+     */
     public function authenticate($password, $duration = 10000)
     {
-        $identity = new YumUserIdentity($this->username, $password);
+        UserService::authenticate($this, $password, $duration);
+
+        /*$identity = new YumUserIdentity($this->username, $password);
         $identity->authenticate();
 
         switch($identity->errorCode) {
@@ -1041,9 +1053,9 @@ class YumUser extends YumActiveRecord
         throw new CHttpException(200, 'Аккаунт удалён.');
             case YumUserIdentity::ERROR_PASSWORD_INVALID:
         throw new CHttpException(200, 'Неправильное имя пользователя или пароль.');
-        }
+        }*/
 
-        Yii::app()->user->login($identity, $duration);
+        //Yii::app()->user->login($identity, $duration);
         //Yii::app()->session['uid'] = $this->id;
     }
 
@@ -1067,43 +1079,38 @@ class YumUser extends YumActiveRecord
         }
     }
 
-    private function sendBannedEmail() {
-        $body = Yii::app()->controller->renderPartial('//global_partials/mails/ban', ['email' => $this->profile->email], true);
+    /**
+     * Добавляет в очередь писем мипьмо пользователю ($this), что его аккаунт заблокирован
+     *
+     * @return bool
+     */
+    private function sendBannedEmail()
+    {
+        $mailOptions = new SiteEmailOptions();
+        $mailOptions->from = Yum::module('registration')->recoveryEmail;
+        $mailOptions->to = $this->profile->email;
+        $mailOptions->subject = 'Ваш аккаунт на ' . Yii::app()->params['server_domain_name'] . ' заблокирован';
+        $mailOptions->h1      = 'Добрый день!';
+        $mailOptions->text1   = '
+            <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
+                Наша служба безопасности обнаружила, что Вы зарегистрировали
+                корпоративный профиль с некорпоративым адресом электронной почты ' . $this->profile->email . '.
+            </p>
 
-        $mail = [
-            'from' => Yum::module('registration')->recoveryEmail,
-            'to' => $this->profile->email,
-            'subject' => 'Ваш аккаунт на skiliks.com заблокирован', //Yii::t('site', 'You requested a new password'),
-            'body' => $body,
-            'embeddedImages' => [
-                [
-                    'path'     => Yii::app()->basePath.'/assets/img/mailtopclean.png',
-                    'cid'      => 'mail-top-clean',
-                    'name'     => 'mailtopclean',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],[
-                    'path'     => Yii::app()->basePath.'/assets/img/mailchair.png',
-                    'cid'      => 'mail-chair',
-                    'name'     => 'mailchair',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],[
-                    'path'     => Yii::app()->basePath.'/assets/img/mail-bottom.png',
-                    'cid'      => 'mail-bottom',
-                    'name'     => 'mailbottom',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],
-            ],
-        ];
+            <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
+                Аккаунт связанный с данной почтой заблокирован. Все приглашения
+                отправленные в этом аккаунте являются недействительными.
+            </p>
 
-        $sent = MailHelper::addMailToQueue($mail);
+            <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
+                Используйте корпоративную почту.
+            </p>
+        ';
+
+        $sent = UserService::addStandardEmailToQueue($mailOptions, SiteEmailOptions::TEMPLATE_ANJELA);
 
         return $sent;
     }
-
-
 
     public function getStatusLabel()
     {
@@ -1121,5 +1128,9 @@ class YumUser extends YumActiveRecord
                 return 'удалён';
                 break;
         }
+    }
+
+    public function getPasswordChangeUrl() {
+        return ($this->isCorporate())?'/profile/corporate/password':'/profile/personal/password';
     }
 }

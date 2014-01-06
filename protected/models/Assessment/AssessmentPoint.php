@@ -47,13 +47,9 @@ class AssessmentPoint extends CActiveRecord
 	 */
 	public function rules()
 	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
 		return array(
 			array('sim_id', 'required'),
 			array('sim_id, point_id, dialog_id, task_id, mail_id,value', 'numerical', 'integerOnly'=>true),
-			// The following rule is used by search().
-			// Please remove those attributes that should not be searched.
 			array('id, sim_id, point_id, dialog_id, task_id, mail_id,value', 'safe', 'on'=>'search'),
 		);
 	}
@@ -63,8 +59,6 @@ class AssessmentPoint extends CActiveRecord
 	 */
 	public function relations()
 	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
 		return array(
 			'replica' => array(self::BELONGS_TO, 'Replica', 'dialog_id'),
 			'mail' => array(self::BELONGS_TO, 'MailTemplate', 'mail_id'),
@@ -80,13 +74,13 @@ class AssessmentPoint extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'sim_id' => 'Simulation',
-			'point_id' => 'Point',
+			'id'        => 'ID',
+			'sim_id'    => 'Simulation',
+			'point_id'  => 'Point',
 			'dialog_id' => 'Replica',
-			'task_id' => 'Task',
-			'mail_id' => 'Mail',
-			'value' => 'Value',
+			'task_id'   => 'Task',
+			'mail_id'   => 'Mail',
+			'value'     => 'Value',
 		);
 	}
 
@@ -96,11 +90,7 @@ class AssessmentPoint extends CActiveRecord
 	 */
 	public function search()
 	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
-
 		$criteria=new CDbCriteria;
-
 		$criteria->compare('id',$this->id);
 		$criteria->compare('sim_id',$this->sim_id);
 		$criteria->compare('point_id',$this->point_id);

@@ -39,13 +39,9 @@ class LogMeeting extends CActiveRecord
 	 */
 	public function rules()
 	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
 		return array(
 			array('sim_id, meeting_id, start_time', 'required'),
 			array('sim_id, meeting_id', 'numerical', 'integerOnly'=>true),
-			// The following rule is used by search().
-			// Please remove those attributes that should not be searched.
 			array('id, sim_id, meeting_id, start_time, end_time', 'safe', 'on'=>'search'),
 		);
 	}
@@ -55,8 +51,6 @@ class LogMeeting extends CActiveRecord
 	 */
 	public function relations()
 	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
 		return array(
 			'meeting' => array(self::BELONGS_TO, 'Meeting', 'meeting_id'),
 			'simulation' => array(self::BELONGS_TO, 'Simulation', 'sim_id'),
@@ -78,14 +72,10 @@ class LogMeeting extends CActiveRecord
 	}
 
 	/**
-	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
 	public function search()
 	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
-
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);

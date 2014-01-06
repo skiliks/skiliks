@@ -49,7 +49,7 @@ return [
 
                 'logout'                  => 'static/userAuth/logout',
 
-                'system-mismatch' => 'static/pages/oldBrowser',
+                'system-mismatch' => 'static/pages/systemMismatch',
 
                 'profile/without-account' => 'static/site/runSimulationOrChooseAccount',
 
@@ -73,6 +73,7 @@ return [
                 'registration/account-type/added'                => 'static/userAuth/accountTypeSavesSuccessfully',
                 'simulationIsStarted'                            => 'static/site/IsStarted',
                 'watchVideo'                                     => 'static/site/watchVideo',
+                'watchVideo/<_lang:\w+>'                         => 'static/site/watchVideo',
                 'userStartSecondSimulation'                      => 'static/site/UserStartSecondSimulation',
                 'userRejectStartSecondSimulation'                => 'static/site/UserRejectStartSecondSimulation',
                 'logout/registration'                            =>'static/userAuth/LogoutAndRegistration',
@@ -80,10 +81,11 @@ return [
 
                 'static/break-simulations-for-self-to-self-invites' =>'static/site/breakSimulationsForSelfToSelfInvites',
 
-                'recovery'                  => 'static/userAuth/recovery',
-                'results'                   =>'static/userAuth/results',
-                'simulation/results'        =>'static/userAuth/results', // just to handle JS 'Sim stop'
-                'site/results'              =>'static/userAuth/results',
+                'recovery' => 'static/userAuth/recovery',
+
+                'results'                   => 'static/userAuth/results',
+                'simulation/results'        => 'static/userAuth/results', // just to handle JS 'Sim stop'
+                'site/results'              => 'static/userAuth/results',
 
                 'userAuth/<action:\w+>'     => 'static/userAuth/<action>',
                 'registration/<action:\w+>' => 'static/userAuth/<action>',
@@ -131,6 +133,7 @@ return [
                 'profile/corporate/vacancies/'  => 'static/profile/corporateVacancies',
                 'profile/corporate/tariff/'  => 'static/profile/corporateTariff',
                 'profile/corporate/payment-method/'  => 'static/profile/corporatePaymentMethod',
+                'profile/restore-authorization/'  => 'static/profile/RestoreAuthorization',
 
                 'vacancy/add'                     => 'static/profile/vacancyAdd',
 
@@ -178,6 +181,8 @@ return [
                 'statistics/OrderCount' => 'statistics/statistics/OrderCount',
                 'statistics/FeedbackCount' => 'statistics/statistics/FeedbackCount',
 
+                'pdf/simulation-detail-pdf/<sim_id:\w+>/<assessment_version:\w+>' => 'PDF/SimulationDetailPDF',
+
                 'logService/addInviteLog' => 'static/statistic/addInviteLog',
 
                 'admin_area'                   => 'admin_area/AdminPages/Dashboard',
@@ -206,15 +211,18 @@ return [
                 'admin_area/invoiceComment'    => 'admin_area/AdminPages/CommentInvoice',
                 'admin_area/getInvoiceLog'     => 'admin_area/AdminPages/GetInvoiceLog',
                 'admin_area/referrals'         => 'admin_area/AdminPages/ReferralsList',
-                'admin_area/not-corporate-emails' => 'admin_area/AdminPages/NotCorporateEmails',
+                'admin_area/not-corporate-emails'  => 'admin_area/AdminPages/NotCorporateEmails',
                 'admin_area/RegistrationList'      => 'admin_area/AdminPages/RegistrationList',
                 'admin_area/set-invite-expired-at' => 'admin_area/AdminPages/SetInviteExpiredAt',
                 'admin_area/expired-invites-and-tariff-plans' => 'admin_area/AdminPages/ExpireInvitesAndTariffPlans',
-                'admin_area/change-invite-expire-rule' => 'admin_area/AdminPages/ChangeInviteExpireRule',
-                'admin_area/list-tariff-plan' => 'admin_area/AdminPages/ListTariffPlan',
-                'admin_area/update-tariff-plan' => 'admin_area/AdminPages/UpdateTariffPlan',
-                'admin_area/change_security_risk' => 'admin_area/AdminPages/ChangeSecurityRisk',
-                'admin_area/site-log-authorization' => 'admin_area/AdminPages/SiteLogAuthorization',
+                'admin_area/change-invite-expire-rule'        => 'admin_area/AdminPages/ChangeInviteExpireRule',
+                'admin_area/list-tariff-plan'        => 'admin_area/AdminPages/ListTariffPlan',
+                'admin_area/update-tariff-plan'      => 'admin_area/AdminPages/UpdateTariffPlan',
+                'admin_area/change_security_risk'    => 'admin_area/AdminPages/ChangeSecurityRisk',
+                'admin_area/site-log-authorization'  => 'admin_area/AdminPages/SiteLogAuthorization',
+                'admin_area/site-log-account-action' => 'admin_area/AdminPages/SiteLogAccountAction',
+                'admin_area/user-bruteforce'         => 'admin_area/AdminPages/UserBruteforce',
+                'admin_area/admins-list'             => 'admin_area/AdminPages/AdminsList',
 
                 'admin_area/simulations/rating/csv'                       => 'admin_area/AdminPages/SimulationsRatingCsv',
                 'admin_area/simulations/rating'                           => 'admin_area/AdminPages/SimulationsRating',
@@ -224,7 +232,9 @@ return [
                 'admin_area/statistics/testAuth'                          => 'admin_area/AdminPages/TestAuth',
                 'admin_area/statistics/statistic-order-count'             => 'admin_area/AdminPages/StatisticOrderCount',
                 'admin_area/statistics/statistic-feedback-count'          => 'admin_area/AdminPages/StatisticFeedbackCount',
-                'admin_area/statistics/statistic-crash-simulation'        => 'admin_area/AdminPages/StatisticCrashSimulation',
+                'admin_area/statistics/user-blocked-authorization'        => 'admin_area/AdminPages/StatisticUserBlockedAuthorization',
+                'admin_area/users_managament/blocked-authorization-list'  => 'admin_area/AdminPages/UserBlockedAuthorizationList',
+
                 'admin_area/statistics/statistic-mail'                    => 'admin_area/AdminPages/StatisticMail',
                 'admin_area/statistics/free-disk-space'                   => 'admin_area/AdminPages/StatisticFreeDiskSpace',
                 'admin_area/invite/<inviteId:\w+>/switch-can-be-reloaded' => 'admin_area/AdminPages/InviteSwitchCanBeReloaded',

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This is the model class for table "assessment_calculation".
  *
@@ -42,14 +41,10 @@ class AssessmentCalculation extends CActiveRecord
 	 */
 	public function rules()
 	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
 		return array(
 			array('sim_id, point_id', 'required'),
 			array('sim_id, point_id', 'numerical', 'integerOnly'=>true),
 			array('value', 'numerical'),
-			// The following rule is used by search().
-			// Please remove those attributes that should not be searched.
 			array('id, sim_id, point_id, value', 'safe', 'on'=>'search'),
 		);
 	}
@@ -59,8 +54,6 @@ class AssessmentCalculation extends CActiveRecord
 	 */
 	public function relations()
 	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
 		return array(
 			'sim' => array(self::BELONGS_TO, 'Simulation', 'sim_id'),
 			'point' => array(self::BELONGS_TO, 'HeroBehaviour', 'point_id'),
@@ -73,10 +66,10 @@ class AssessmentCalculation extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'sim_id' => 'Sim',
+			'id'       => 'ID',
+			'sim_id'   => 'Sim',
 			'point_id' => 'Point',
-			'value' => 'Value'
+			'value'    => 'Value'
 		);
 	}
 
@@ -86,11 +79,7 @@ class AssessmentCalculation extends CActiveRecord
 	 */
 	public function search()
 	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
-
 		$criteria=new CDbCriteria;
-
 		$criteria->compare('id',$this->id);
 		$criteria->compare('sim_id',$this->sim_id);
 		$criteria->compare('point_id',$this->point_id);

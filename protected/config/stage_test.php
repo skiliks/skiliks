@@ -34,13 +34,14 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
         ),
     ),
     'params'=>array(
-        'server_name' => 'http://test.skiliks.com/',
+        'server_domain_name' => 'test.skiliks.com',
         'frontendUrl' => 'http://test.skiliks.com/',
         'sentry' => [
             'dsn' => $sentryDsn,
         ],
         'public' => [
-            'isSkipOsCheck' => true, //Проверка ОС перед стартом игры
+            'isSkipOsCheck'        => true, //Проверка ОС перед стартом игры
+            'isSkipBrowserCheck'   => true,
             'isDisplaySupportChat' => false,
         ]
     )

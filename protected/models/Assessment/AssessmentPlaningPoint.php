@@ -46,14 +46,10 @@ class AssessmentPlaningPoint extends CActiveRecord
 	 */
 	public function rules()
 	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
 		return array(
 			array('sim_id, hero_behaviour_id, value', 'required'),
 			array('sim_id, hero_behaviour_id, task_id, type_scale', 'numerical', 'integerOnly'=>true),
 			array('value', 'length', 'max'=>6),
-			// The following rule is used by search().
-			// Please remove those attributes that should not be searched.
 			array('id, sim_id, hero_behaviour_id, task_id, type_scale, value', 'safe', 'on'=>'search'),
 		);
 	}
@@ -63,8 +59,6 @@ class AssessmentPlaningPoint extends CActiveRecord
 	 */
 	public function relations()
 	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
 		return array(
 			'task' => array(self::BELONGS_TO, 'Task', 'task_id'),
 			'heroBehaviour' => array(self::BELONGS_TO, 'HeroBehaviour', 'hero_behaviour_id'),
@@ -78,12 +72,12 @@ class AssessmentPlaningPoint extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'sim_id' => 'Sim',
+			'id'                => 'ID',
+			'sim_id'            => 'Sim',
 			'hero_behaviour_id' => 'Hero Behaviour',
-			'task_id' => 'Task',
-			'type_scale' => 'Type Scale',
-			'value' => 'Value',
+			'task_id'           => 'Task',
+			'type_scale'        => 'Type Scale',
+			'value'             => 'Value',
 		);
 	}
 
@@ -93,11 +87,7 @@ class AssessmentPlaningPoint extends CActiveRecord
 	 */
 	public function search()
 	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
-
 		$criteria=new CDbCriteria;
-
 		$criteria->compare('id',$this->id);
 		$criteria->compare('sim_id',$this->sim_id);
 		$criteria->compare('hero_behaviour_id',$this->hero_behaviour_id);

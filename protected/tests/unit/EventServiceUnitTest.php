@@ -22,7 +22,13 @@ class EventServiceUnitTest extends PHPUnit_Framework_TestCase
         foreach ($events as $e) {
             EventService::addByCode($e['code'], $simulation, $e['time']);
             $event = $simulation->game_type->getEventSample(['code' => $e['code']]);
-            $event = EventTrigger::model()->bySimIdAndEventId($simulation->id, $event->id)->find();
+            $event = EventTrigger::model()->find(
+                "sim_id = :sim_id AND event_id = :event_id",
+                [
+                    'sim_id'   => $simulation->id,
+                    'event_id' => $event->id,
+                ]
+            );
             $this->assertEquals($e['standard_time'], $event->trigger_time);
         }
 
@@ -39,20 +45,27 @@ class EventServiceUnitTest extends PHPUnit_Framework_TestCase
         $invite->receiverUser = $user;
         $invite->scenario->slug = Scenario::TYPE_FULL;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
+
         $eventManager = new EventsManager();
         EventService::addByCode('E1', $simulation, '09:41');
         EventService::addByCode('E9', $simulation, '09:42');
         EventService::addByCode('E8', $simulation, '09:43');
         EventService::addByCode('M2', $simulation, '09:44');
         EventService::addByCode('E2', $simulation, '09:45');
+
+        // почему первое событие это письмо?
         $stateResult = $eventManager->getState($simulation, []);
         $this->assertEquals($stateResult['events'][0]['eventType'], 'M');
+
         $stateResult = $eventManager->getState($simulation, []);
         $this->assertEquals($stateResult['events'][0]['data'][0]['code'], 'E1');
+
         $stateResult = $eventManager->getState($simulation, []);
         $this->assertEquals('E9', $stateResult['events'][0]['data'][0]['code']);
+
         $stateResult = $eventManager->getState($simulation, []);
         $this->assertEquals('E8', $stateResult['events'][0]['data'][0]['code']);
+
         $stateResult = $eventManager->getState($simulation, []);
         $this->assertEquals('E2', $stateResult['events'][0]['data'][0]['code']);
     }
@@ -89,7 +102,7 @@ class EventServiceUnitTest extends PHPUnit_Framework_TestCase
             print_r($result);
             $result = EventService::processLinkedEntities($MS29Replica->next_event_code, $simulation, true);
             $this->assertArrayHasKey('fantastic', $result);
-            $this->assertEquals(MailTemplate::model()->findByAttributes(['code' => 'MS29', 'scenario_id' => $simulation->scenario_id])->subject_id, $result['mailFields']['subjectId']);
+            $this->assertEquals(MailTemplate::model()->findByAttributes(['code' => 'MS29', 'scenario_id' => $simulation->scenario_id])->theme_id, $result['mailFields']['themeId']);
             $this->assertEquals('MS', $result['eventType']);
             $result = EventService::processLinkedEntities('M11', $simulation);
             $this->assertEquals($result['eventType'], 'M');

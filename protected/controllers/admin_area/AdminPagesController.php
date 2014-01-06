@@ -35,10 +35,8 @@ class AdminPagesController extends SiteBaseController {
     }
 
     public function actionLiveSimulations() {
-        $condition = " `t`.`start` > (NOW() - interval 4 hour) ";
-
         $full_simulations = Simulation::model()->findAll([
-            'condition' => " `game_type`.`slug` = 'full' AND `t`.`start` > (NOW() - interval 4 hour) ",
+            'condition' => " `game_type`.`slug` = 'full' AND `t`.`start` > (NOW() - interval 3 HOUR) ",
             'with'=>array(
                 'user',
                 'invite',
@@ -49,7 +47,7 @@ class AdminPagesController extends SiteBaseController {
 
 
         $lite_simulations = Simulation::model()->findAll([
-            'condition' => " `game_type`.`slug` = 'lite' AND `t`.`start` > (NOW() - interval 1 hour) ",
+            'condition' => " `game_type`.`slug` = 'lite' AND `t`.`start` > (NOW() - interval 35 MINUTE) ",
             'with'=>array(
                 'user',
                 'invite',
@@ -60,7 +58,7 @@ class AdminPagesController extends SiteBaseController {
 
 
         $tutorial_simulations = Simulation::model()->findAll([
-            'condition' => " `game_type`.`slug` = 'tutorial' AND `t`.`start` > (NOW() - interval 30 minute) ",
+            'condition' => " `game_type`.`slug` = 'tutorial' AND `t`.`start` > (NOW() - interval 15 MINUTE) ",
             'with'=>array(
                 'user',
                 'invite',
@@ -191,65 +189,65 @@ class AdminPagesController extends SiteBaseController {
 
             $receiverEmailForFiltration = trim(Yii::app()->request->getParam('receiver-email-for-filtration', null));
             $ownerEmailForFiltration = trim(Yii::app()->request->getParam('owner_email_for_filtration', null));
-            $invite_id = trim(Yii::app()->request->getParam('invite_id', null));
+            $invite_id = trim(Yii::app()->request->getParam('invite_id'));
             $exceptDevelopersFiltration = (bool)trim(Yii::app()->request->getParam('except-developers', true));
-            $simulationScenario = Yii::app()->request->getParam('filter_scenario_id', true);
-            $isInviteCrashed = Yii::app()->request->getParam('is_invite_crashed', true);
+            $simulationScenario = Yii::app()->request->getParam('filter_scenario_id');
+            $isInviteCrashed = Yii::app()->request->getParam('is_invite_crashed');
 
             // remaking email form
-            if ($isReloadRequest) {
+            //if ($isReloadRequest) {
                 if (null !== $receiverEmailForFiltration) {
                     $filter_form['filter_email'] = $receiverEmailForFiltration;
                 }
                 else {
                     $filter_form['filter_email'] = "";
                 }
-            }
+            //}
 
-            if ($isReloadRequest) {
+            //if ($isReloadRequest) {
                 if (null !== $ownerEmailForFiltration) {
                     $filter_form['owner_email'] = $ownerEmailForFiltration;
                 }
                 else {
                     $filter_form['owner_email'] = "";
                 }
-            }
+            //}
 
-            if ($isReloadRequest) {
+            //if ($isReloadRequest) {
                 if (null !== $exceptDevelopersFiltration) {
                     $filter_form['exceptDevelopersFiltration'] = $exceptDevelopersFiltration;
                 }
                 else {
                     $filter_form['exceptDevelopersFiltration'] = "";
                 }
-            }
+            //}
 
-            if ($isReloadRequest) {
+            //if ($isReloadRequest) {
                 if (null !== $simulationScenario) {
                     $filter_form['filter_scenario_id'] = $simulationScenario;
                 }
                 else {
                     $filter_form['filter_scenario_id'] = "";
                 }
-            }
+            //}
 
-            if ($isReloadRequest) {
+            //if ($isReloadRequest && null == $invite_id) {
                 if (null !== $invite_id) {
                     $filter_form['invite_id'] = $invite_id;
                 }
                 else {
-                    $filter_form['invite_id'] = "";
+                   $filter_form['invite_id'] = "";
                 }
-            }
+            //}
 
-            if ($isReloadRequest) {
+            //if ($isReloadRequest) {
                 if (null !== $isInviteCrashed) {
                     $filter_form['is_invite_crashed'] = $isInviteCrashed;
                 }
                 else {
-                    $filter_form['is_invite_crashed'] = "";
+                   $filter_form['is_invite_crashed'] = "";
                 }
-            }
+            //}
 
             Yii::app()->session['admin_filter_form'] = $filter_form;
 
@@ -1318,19 +1316,9 @@ class AdminPagesController extends SiteBaseController {
         echo json_encode($res);
     }
 
-    public function actionStatisticCrashSimulation()
+    public function actionStatisticUserBlockedAuthorization()
     {
-        $full = Scenario::model()->findByAttributes(['slug'=>Scenario::TYPE_FULL]);
-        $lite = Scenario::model()->findByAttributes(['slug'=>Scenario::TYPE_LITE]);
-        $full_crash = (int)Simulation::model()->count(" end is null and start <= :start and scenario_id = :scenario_id", [
-            'start'=>date('Y-m-d H:i:s', strtotime('-3 hours')),
-            'scenario_id'=>$full->id
-        ]);
-        $lite_crash = (int)Simulation::model()->count(" end is null and start <= :start and scenario_id = :scenario_id", [
-            'start'=>date('Y-m-d H:i:s', strtotime('-1 hours')),
-            'scenario_id'=>$lite->id
-        ]);
-        $total = $full_crash + $lite_crash;
+        $total = (int)YumUser::model()->countByAttributes(['is_password_bruteforce_detected'=>YumUser::IS_PASSWORD_BRUTEFORCE_DETECTED]);
         if($total !== 0) {
             $res['status'] = 'failure';
         } else {
@@ -1420,6 +1408,7 @@ class AdminPagesController extends SiteBaseController {
 
     public function actionUserDetailsByEmail() {
         $email = Yii::app()->request->getParam('email');
+        $email = trim($email);
         $profile = YumProfile::model()->findByAttributes(['email' => urldecode($email)]);
 
         if (null === $profile) {
@@ -1640,7 +1629,7 @@ class AdminPagesController extends SiteBaseController {
 
     public function actionRegistrationList() {
         // getting registration by day
-        $userCounter = new countRegisteredUsers();
+        $userCounter = new СountRegisteredUsers();
         $userCounter->getAllUserForDays();
         $userCounter->getNonActiveUsersForDays();
 
@@ -1664,7 +1653,7 @@ class AdminPagesController extends SiteBaseController {
         }
 
         // getting registration by month
-        $userCounter = new countRegisteredUsers();
+        $userCounter = new СountRegisteredUsers();
         $userCounter->getAllUserForMonths();
         $userCounter->getNonActiveUsersForMonths();
 
@@ -1686,7 +1675,7 @@ class AdminPagesController extends SiteBaseController {
         }
 
         // getting registration by year
-        $userCounter = new countRegisteredUsers();
+        $userCounter = new СountRegisteredUsers();
         $userCounter->getAllUserForYears();
         $userCounter->getNonActiveUserForYears();
 
@@ -1874,7 +1863,20 @@ class AdminPagesController extends SiteBaseController {
 
     public function actionEmailText($id = null) {
         if(null !== $id) {
-            $email = EmailQueue::model()->findByPk($id);
+                    $email = EmailQueue::model()->findByPk($id);
+
+            $assetsUrl = $this->getAssetsUrl();
+
+            // подмена путей к картинкам на настоящие
+            $email->body = str_replace('cid:anjela',     $assetsUrl . '/img/site/emails/anjela.png',        $email->body);
+            $email->body = str_replace('cid:bottom',     $assetsUrl . '/img/site/emails/bottom.png',        $email->body);
+            $email->body = str_replace('cid:denejnaia',  $assetsUrl . '/img/site/emails/denejnaia.png',     $email->body);
+            $email->body = str_replace('cid:fikus',      $assetsUrl . '/img/site/emails/fikus.png',         $email->body);
+            $email->body = str_replace('cid:jeleznij',   $assetsUrl . '/img/site/emails/jeleznij.png',      $email->body);
+            $email->body = str_replace('cid:krutko',     $assetsUrl . '/img/site/emails/krutko.png',        $email->body);
+            $email->body = str_replace('cid:top-left',   $assetsUrl . '/img/site/emails/top-left.png',      $email->body);
+            $email->body = str_replace('cid:trudiakin',  $assetsUrl . '/img/site/emails/trudiakin.png',     $email->body);
+            $email->body = str_replace('cid:skiliks_ny', $assetsUrl . '/img/site/emails/ny/skiliks_ny.jpg', $email->body);
 
             $this->layout = '/admin_area/layouts/admin_main';
             $this->render('/admin_area/pages/email_text', [
@@ -1931,6 +1933,7 @@ class AdminPagesController extends SiteBaseController {
         $worksheet->setCellValueByColumnAndRow(5, 1, "Время конца симуляции");
         $worksheet->setCellValueByColumnAndRow(6, 1, "Сценарий: статус");
         $worksheet->setCellValueByColumnAndRow(7, 1, "Оценка звёзды");
+        $worksheet->setCellValueByColumnAndRow(7, 1, "Оценка звёзды");
         $worksheet->setCellValueByColumnAndRow(8, 1, "Процентиль");
 
         $i = 3;
@@ -1950,16 +1953,6 @@ class AdminPagesController extends SiteBaseController {
         header('Content-type: application/vnd.ms-excel');
         header("Content-Disposition: attachment; filename=\"percentile.xlsx\"");
         $doc->save('php://output');
-    }
-
-    public function actionSendNotice() {
-        $user_id = Yii::app()->request->getParam('user_id');
-        $user = YumUser::model()->findByPk($user_id);
-        /* @var YumUser $user */
-        $before_email = $user->profile->email;
-        MailHelper::sendNoticeEmail($user);
-        $user->refresh();
-        echo "Before - ".$before_email.' and After - '.$user->profile->email;
     }
 
     public function actionUpdateInviteEmail() {
@@ -2001,11 +1994,10 @@ class AdminPagesController extends SiteBaseController {
         }
 
         // непосредственно "пере-аутентификация"
-        $identity = new YumUserIdentity($user->username, false);
-
-        $identity->authenticate(true);
-
-        Yii::app()->user->login($identity);
+        UserService::authenticate($user);
+//        $identity = new YumUserIdentity($user->username, false);
+//        $identity->authenticate(true);
+//        Yii::app()->user->login($identity);
 
         $this->redirect('/dashboard');
     }
@@ -2052,12 +2044,16 @@ class AdminPagesController extends SiteBaseController {
     public function actionExpireInvitesAndTariffPlans() {
 
         $expiredInvites = InviteService::makeExpiredInvitesExpired();
-
         $expiredAccounts = UserService::tariffExpired();
+        $expiredSoonAccounts = UserService::tariffExpiredInTreeDays();
+
+
         $this->layout = '/admin_area/layouts/admin_main';
         $this->render('/admin_area/pages/expired-invites-and-tariff-plans', [
-            'expiredInvites'=>$expiredInvites,
-            'expiredAccounts'=>$expiredAccounts]);
+            'expiredInvites'      => $expiredInvites,
+            'expiredAccounts'     => $expiredAccounts,
+            'expiredSoonAccounts' => $expiredSoonAccounts,
+        ]);
     }
 
     public function actionChangeInviteExpireRule() {
@@ -2113,5 +2109,50 @@ class AdminPagesController extends SiteBaseController {
 
         $this->layout = '/admin_area/layouts/admin_main';
         $this->render('/admin_area/pages/site_log_authorization', ['dataProvider' => $dataProvider]);
+    }
+
+    public function actionSiteLogAccountAction() {
+
+        //$dataProvider = SiteLogAuthorization::model()->searchSiteLogs();
+        $user_id = Yii::app()->request->getParam('user_id');
+        $dataProvider = SiteLogAccountAction::model()->searchSiteLogs($user_id);
+
+        $this->layout = '/admin_area/layouts/admin_main';
+        $this->render('/admin_area/pages/site_log_account_action', ['dataProvider' => $dataProvider]);
+    }
+
+    public function actionUserBruteForce() {
+
+        //$dataProvider = SiteLogAuthorization::model()->searchSiteLogs();
+        $user_id = Yii::app()->request->getParam('user_id');
+        $set = Yii::app()->request->getParam('set');
+        /* @var $user YumUser */
+        $user = YumUser::model()->findByPk($user_id);
+        $user->is_password_bruteforce_detected = $set;
+        $user->save(false);
+
+        $this->redirect(Yii::app()->request->urlReferrer);
+    }
+
+    public function actionAdminsList()
+    {
+        $this->layout = '/admin_area/layouts/admin_main';
+        $this->render('//admin_area/pages/users_managament/admins_list', [
+            'admins'
+                => YumUser::model()->findAllByAttributes(['is_admin' => 1]),
+
+            // 1 - action "start_dev_mode"
+            'devPermissions'
+                => YumPermission::model()->findAllByAttributes(['action' => 1]),
+        ]);
+    }
+
+    public function actionUserBlockedAuthorizationList() {
+
+        /* @var YumUser[] $users */
+        $users = YumUser::model()->findAllByAttributes(['is_password_bruteforce_detected'=>YumUser::IS_PASSWORD_BRUTEFORCE_DETECTED]);
+        $this->layout = '/admin_area/layouts/admin_main';
+
+        $this->render('//admin_area/pages/users_managament/blocked-authorization-list', ['users'=>$users]);
     }
 }

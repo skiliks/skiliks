@@ -40,7 +40,7 @@ class ActivityAggregatedTable extends LogTable
     }
 
     /**
-     * @param \LogActivityActionAgregated $row
+     * @param \LogActivityActionAggregated $row
      * @return array
      */
     protected function getRow($row)
@@ -62,7 +62,7 @@ class ActivityAggregatedTable extends LogTable
             $row->start_time,
             $row->end_time,
             $diff,
-            ($row->keep_last_category_after_60_sec === \LogActivityActionAgregated214d::KEEP_LAST_CATEGORY_YES)?'yes':'no',
+            ($row->keep_last_category_after_60_sec === \LogActivityActionAggregated214d::KEEP_LAST_CATEGORY_YES)?'yes':'no',
             $dialogType
         ];
     }

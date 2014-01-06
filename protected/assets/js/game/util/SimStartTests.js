@@ -16,7 +16,8 @@ try {
                 var minSupport = {
                     mozilla: 18,
                     chrome: 27,
-                    msie: 10
+                    msie: 10,
+                    safari: 6
                 };
 
                 /**
@@ -58,6 +59,10 @@ try {
                     return true;
                 }
 
+                if (cfg.isSkipSpeedTest) {
+                    return true;
+                }
+
                 $.ajax({
                     url: '/index.php/logService/addInviteLog',
                     data: {
@@ -71,7 +76,7 @@ try {
                     async: false
                 });
 
-                if(processorTestResult.average > 0) {
+                if(processorTestResult.average > 1) {
                     updateImageLoaderBar('Проверка текущего быстродействия... OK!', 0.90, true);
                     return true;
                 }

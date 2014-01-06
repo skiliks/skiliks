@@ -3,8 +3,8 @@
 $cs = Yii::app()->clientScript;
 $assetsUrl = $this->getAssetsUrl();
 $cs->scriptMap=array(
-    'jquery.js'=>$assetsUrl . '/js/jquery/jquery-1.9.1.min.js',
-    'jquery.min.js'=>$assetsUrl . '/js/jquery/jquery-1.9.1.min.js',
+    'jquery.js'=>$assetsUrl . '/js/jquery/jquery-1.10.2.js',
+    'jquery.min.js'=>$assetsUrl . '/js/jquery/jquery-1.10.2.js',
     'jquery.ba-bbq.js'=>$assetsUrl . '/js/jquery/jquery.ba-bbq.js',
 );
 $cs->registerCoreScript('jquery');
@@ -68,9 +68,14 @@ if(preg_match('/(?i)Firefox/',$_SERVER['HTTP_USER_AGENT']))
 			<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
     </head>
-    
+
     <body class="<?php echo StaticSiteTools::getBodyClass(Yii::app()->request) ?>">
-		<div class="<?php echo StaticSiteTools::getContainerClass(Yii::app()->request) ?>" id="top">
+
+    <script type="text/javascript">
+        var assetsUrl = '<?= $assetsUrl ?>';
+    </script>
+
+        <div class="<?php echo StaticSiteTools::getContainerClass(Yii::app()->request) ?>" id="top">
 			
 			<!--header SC -->
 			<header>

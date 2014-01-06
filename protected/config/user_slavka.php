@@ -42,6 +42,7 @@ return CMap::mergeArray(
             ),
         ),
         'params' => array(
+            'server_domain_name' => 'loc.skiliks.com',
             'frontendUrl' => 'http://loc.skiliks.com/',
             'assetsDebug' => true,
             'runMigrationOn'        => 'production',
@@ -50,6 +51,9 @@ return CMap::mergeArray(
             ],
             'public' => [
                 'useSentryForJsLog'    => true,
+                'isSkipBrowserCheck'   => true,
+                'isSkipSpeedTest'      => false,
+                'isSkipOsCheck'        => true,
             ]
         )
     )
