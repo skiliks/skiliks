@@ -189,7 +189,7 @@ class SeleniumTestHelper extends CWebTestCase
         $this->waitForElementPresent($theme);
         $this->mouseOver($theme);
         $this->click($theme);
-        $this->logTestResult("call phone to ". $whom. "by theme: ". $theme. "\n");
+        //$this->logTestResult("call phone to ". $whom. "by theme: ". $theme. "\n");
     }
 
     /**
@@ -199,7 +199,7 @@ class SeleniumTestHelper extends CWebTestCase
     {
         $this->optimal_click(Yii::app()->params['test_mappings']['icons_active']['phone']);
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
-        $this->logTestResult("reply call when active\n");
+        //$this->logTestResult("reply call when active\n");
     }
 
     /**
@@ -391,6 +391,7 @@ class SeleniumTestHelper extends CWebTestCase
         $this->waitForVisible($address);
         $this->mouseOver($address);
         $this->optimal_click($address);
+        sleep(2);
         //$this->logTestResult("add recipient ". $address. " to mail\n");
     }
 
