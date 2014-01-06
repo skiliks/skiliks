@@ -12,8 +12,6 @@
  * @param string  $skype
  * @param string  $phone
  * @param string  $import_id
- * @param string  $has_mail_theme
- * @param string  $has_phone_theme
  * @param string  $sex, 'M' - male, 'F' - female, '-' - undefined
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
