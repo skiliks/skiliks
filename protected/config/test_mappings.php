@@ -306,4 +306,12 @@ return [
         'input_area_for_reason' => "css=#DeclineExplanation_description",
         'error_msg_for_reason' => "xpath=//*[@id='form-decline-explanation']/div[1]/div/div"
     ],
+
+    'user_auth' =>
+    [
+        'email' => "css=#YumUserLogin_username",
+        'password'=>"css=#YumUserLogin_password",
+        'login' => "css=.row.submit>input",
+        'remember_me' => "css=.niceCheck"
+    ],
 ];
