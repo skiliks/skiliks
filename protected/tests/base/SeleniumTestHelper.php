@@ -391,6 +391,7 @@ class SeleniumTestHelper extends CWebTestCase
         $this->waitForVisible($address);
         $this->mouseOver($address);
         $this->optimal_click($address);
+        sleep(2);
         //$this->logTestResult("add recipient ". $address. " to mail\n");
     }
 
