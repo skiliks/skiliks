@@ -67,8 +67,8 @@ class SeleniumTestHelper extends CWebTestCase
         }
 
         $this->getEval('var window = this.browserbot.getUserWindow(); window.$(window).off("beforeunload")');
-        $this->invite_id = $this->getInviteId();
-        $this->logTestResult("start ". $testName. "\n", true, $this->invite_id);
+        //$this->invite_id = $this->getInviteId();
+        //$this->logTestResult("start ". $testName. "\n", true, $this->invite_id);
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['clear_queue']);
     }
 
@@ -78,8 +78,8 @@ class SeleniumTestHelper extends CWebTestCase
     protected function simulation_stop()
     {
         $this->optimal_click("css=.btn.btn-simulation-stop");
-        $inv_id = $this->invite_id;
-        $this->logTestResult("simStop. Test is successful\n", false, $inv_id);
+        //$inv_id = $this->invite_id;
+        //$this->logTestResult("simStop. Test is successful\n", false, $inv_id);
         $this->simulation_delete(Yii::app()->params['deleteSeleniumResults']);
     }
 
@@ -93,7 +93,7 @@ class SeleniumTestHelper extends CWebTestCase
      */
     protected function simulation_showLogs()
     {
-        $inv_id = $this->invite_id;
+        //$inv_id = $this->invite_id;
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
         for ($second = 0; ; $second++) {
             if ($second >= 900) $this->fail("!!! FAIL: not found button 'Go' to the results!!!");
@@ -111,8 +111,8 @@ class SeleniumTestHelper extends CWebTestCase
             usleep(100000);
         }
         $this->waitForVisible("id=simulation-points");
-        $this->logTestResult("simStop and showLogs. Test is successful\n", false, $inv_id);
-        $this->simulation_delete(Yii::app()->params['deleteSeleniumResults']);
+        //$this->logTestResult("simStop and showLogs. Test is successful\n", false, $inv_id);
+        //$this->simulation_delete(Yii::app()->params['deleteSeleniumResults']);
     }
 
     /**
@@ -170,7 +170,7 @@ class SeleniumTestHelper extends CWebTestCase
             } catch (Exception $e) {}
             usleep(100000);
         }
-        $this->logTestResult("run event ". $event ." \n", true, $this->invite_id);
+        //$this->logTestResult("run event ". $event ." \n", true, $this->invite_id);
     }
 
     /**
@@ -245,7 +245,7 @@ class SeleniumTestHelper extends CWebTestCase
                 $this->optimal_click(Yii::app()->params['test_mappings']['mail']['popup_unsave']);
             }
         }
-        $this->logTestResult("write email when mail icon status is unidentified\n", true, $this->invite_id);
+        //$this->logTestResult("write email when mail icon status is unidentified\n", true, $this->invite_id);
     }
 
     /**
@@ -371,7 +371,7 @@ class SeleniumTestHelper extends CWebTestCase
                 $same_number=true;
             }
         }
-        $this->logTestResult("test incoming counter\n", true, $this->invite_id);
+        //$this->logTestResult("test incoming counter\n", true, $this->invite_id);
         return $same_number;
     }
 
@@ -422,7 +422,7 @@ class SeleniumTestHelper extends CWebTestCase
         $event .= '.1';
         $this->run_event($event, Yii::app()->params['test_mappings']['icons_active']['phone'], 'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['no_reply']);
-        $this->logTestResult("delete from event queue ". $event. "\n", true, $this->invite_id);
+        //$this->logTestResult("delete from event queue ". $event. "\n", true, $this->invite_id);
     }
 
     //*****************************************************
