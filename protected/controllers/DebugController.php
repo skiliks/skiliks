@@ -11,20 +11,30 @@ class DebugController extends SiteBaseController
     public function actionSend()
     {
         $email_to = Yii::app()->request->getParam('email', 'slavka@skiliks.com');
+        //$email_to = Yii::app()->request->getParam('email', 'gty1991@gmail.com');
 
-        foreach (['anjela', 'denejnaia', 'fikus', 'jeleznij', 'krutko', 'trudiakin'] as $template) {
+        $text = '<br/>Text 2. <br/>2lkj lk jlk jl k klj<br/>3l kjl jlk jl<br/>4j ljlk <br/>5jlkj <br/>6lj lj ljl jl jl<br/>7 jl kj lkj<br/>8 kj lj lkj lj<br/>9 lkj lkjl kjl jl <br/>10jl jlkj<br/>11 l jlkj l<br/>12jl kjl jlkj ljl11<br/>13 jlj ljl jl jl jl jlj ljlj lkj lkj lkj lkj lkj lkj lkj ljl jl kjl kjl kj'
+            .'Text 2. lkj      lk jlk jl koookljl kjl jlk jlj ljlk jlkj lj lj ljl jl jl jl kj lkj kj lj lkj lj lkj lkjl kjl jl jl jlkj l jlkj ljl kjl jlkj ljl jlj ljl jl jl jl jlj ljlj lkj lkj lkj lkj lkj lkj lkj ljl jl kjl kjl kj'
+            .'Text 2. lkj lk jlk jl k kljl kjl jlk jlj ljlk jlkj lj lj ljl jl jl jl kj lkj kj lj lkj lj lkj lkjl kjl jl jl jlkj l jlkj ljl kjl jlkj ljl jlj ljl jl jl jl jlj ljlj lkj lkj lkj lkj lkj lkj lkj ljl jl kjl kjl kj'
+            .'Text 2. lkj lk jlk jl k kljl kjl jlk jlj ljlk jlkj lj lj ljl jl jl jl kj lkj kj lj lkj lj lkj lkjl kjl jl jl jlkj l jlkj ljl kjl jlkj ljl jlj ljl jl jl jl jlj ljlj lkj lkj lkj lkj lkj lkj lkj ljl jl kjl kjl kj'
+            .'Text 2. lkj lk jlk jl k kljl kjl jlk jlj ljlk jlkj lj lj ljl jl jl jl kj lkj kj lj lkj lj lkj lkjl kjl jl jl jlkj l jlkj ljl kjl jlkj ljl jlj ljl jl jl jl jlj ljlj lkj lkj lkj lkj lkj lkj lkj ljl jl kjl kjl kj'
+            .'Text 2. lkj lk jlk jl k kljl kjl jlk jlj ljlk jlkj lj lj ljl jl jl jl kj lkj kj lj lkj lj lkj lkjl kjl jl jl jlkj l jlkj ljl kjl jlkj ljl jlj ljl jl jl jl jlj ljlj lkj lkj lkj lkj lkj lkj lkj ljl jl kjl kjl kj';
+
+
+        foreach (['anjela'/*, 'denejnaia', 'fikus', 'jeleznij', 'krutko', 'trudiakin'*/] as $template) {
 
             $mailOptions           = new SiteEmailOptions();
             $mailOptions->from     = 'support@skiliks.com';
             $mailOptions->to       = $email_to;
-            $mailOptions->subject  = 'New emails markup test. 12.2 - '.$template;
+            $mailOptions->subject  = 'New emails markup test. 12.2 - '.$template.' - '.date('H:i:s');
             $mailOptions->template = $template;
-            $mailOptions->text1    = 'Text 1. j lkj lkj lkj lkj lkj lkj lkj ljl jl kjl kjl kj lkj lk jlk jl k kljl kjl jlk jlj ljlk jlkj lj lj ljl jl jl jl kj lkj lk jlk jl k kljl kjl jlk jlj ljlk jlkj lj lj ljl jl jl jl kj';
-            $mailOptions->text2    = 'Text 2. lkj lk jlk jl k kljl kjl jlk jlj ljlk jlkj lj lj ljl jl jl jl kj lkj kj lj lkj lj lkj lkjl kjl jl jl jlkj l jlkj ljl kjl jlkj ljl jlj ljl jl jl jl jlj ljlj lkj lkj lkj lkj lkj lkj lkj ljl jl kjl kjl kj';
+            $mailOptions->setText($text);
 
             UserService::addStandardEmailToQueue($mailOptions, $template);
 
-            $result = MailHelper::sendMailFromQueue();
+            echo 'done';
+
+            $result = MailHelper::sendMailFromQueue(1);
             echo "Done - {$result['done']}\r\n";
             echo "Fail - {$result['fail']}\r\n";
         }

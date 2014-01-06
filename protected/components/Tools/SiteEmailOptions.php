@@ -73,4 +73,93 @@ class SiteEmailOptions {
      * @var string
      */
     public $text2 = '';
+
+    /**
+     * Разбивает строку $text на 2 и заносит в $this->text1, $this->text2 так,
+     * чтобы большой text1 не рвал вёрстку письма
+     *
+     * @param string $text
+     */
+    public function setText($text)
+    {
+        $rowLength = 85; // количество букв, число найдено просто подбором
+
+        $text = str_replace('<br>', '<br/>', $text);
+
+        // точка в которой текст будет делиться между $this->text1 и $this->text2
+        $delimiter = 0;
+
+        /* счётчик строк. С его помощью мы проверяем, что верхний текст по высоте помещается в вёрстку */
+        /* предел 14 строк */
+        $rowCounter = 0;
+
+        /* $p1, $p2 - position1, position2 */
+        $p2 = 0;
+
+        $n = substr_count($text, '<br/>');
+
+        for ($i = 0; $i < $n + 1; $i++) {
+            $p1 = $p2;
+            $p2 = strpos($text, '<br/>', $p1);
+
+            if ($p2 < 1 && 0 < $i) {
+                $p2 = strlen($text);
+            } else {
+                $p2 += 5;
+            }
+
+            $rowCounter += ceil(($p2 - $p1)/$rowLength);
+
+            // в верхний блок помещается до 14 строк
+            if ($rowCounter < 14) {
+                $delimiter = $p2;
+                // считаем дальше
+            } else {
+                $previousRowCounter = $rowCounter - ceil(($p2 - $p1)/$rowLength);
+                $extraCharacters = $p2 - $p1 - (14 - $previousRowCounter)*$rowLength;
+                $delimiter = $p2 - $extraCharacters;
+
+                // верхний блок ($this->text1) уже заполнен
+                break;
+            }
+        }
+
+        $this->text1 = substr($text, 0, $delimiter);
+        $this->text2 = substr($text, $delimiter);
+
+        // добавляем знак переноса, если он нужен:
+        // 1. text2 не пустой
+        // 2. в конце text1 и в начале text2 нет пробела или знаков припинания
+        if (
+            '' < $this->text2
+            && $this->text1[strlen($this->text1) - 1] !== ' '
+            && $this->text1[strlen($this->text1) - 1] !== ','
+            && $this->text1[strlen($this->text1) - 1] !== '.'
+            && $this->text1[strlen($this->text1) - 1] !== '!'
+            && $this->text1[strlen($this->text1) - 1] !== '?'
+            && $this->text1[strlen($this->text1) - 1] !== ':'
+            && $this->text1[strlen($this->text1) - 1] !== '-'
+            && $this->text1[strlen($this->text1) - 1] !== '—'
+            && $this->text1[strlen($this->text1) - 1] !== '>'
+            && $this->text1[strlen($this->text1) - 1] !== '"'
+            && $this->text1[strlen($this->text1) - 1] !== "'"
+            && $this->text1[strlen($this->text1) - 1] !== '«'
+            && $this->text1[strlen($this->text1) - 1] !== '»'
+            && $this->text2[0] !== ' '
+            && $this->text2[0] !== ','
+            && $this->text2[0] !== '.'
+            && $this->text2[0] !== '!'
+            && $this->text2[0] !== '?'
+            && $this->text2[0] !== ':'
+            && $this->text2[0] !== '-'
+            && $this->text2[0] !== '—'
+            && $this->text2[0] !== '<'
+            && $this->text2[0] !== '"'
+            && $this->text2[0] !== "'"
+            && $this->text2[0] !== '«'
+            && $this->text2[0] !== '»'
+        ) {
+            $this->text1 .= ' -';
+        }
+    }
 }
