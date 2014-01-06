@@ -40,11 +40,16 @@ class MailHelper
 
     /**
      * Отправка писем с очереди
+     *
+     * @parameter integer $limit, количество писем, которое будет отправлено за один проход
+     * цифра заивсит от частоты крона, у нас крон на отправку писем выполняется каждую минуту
+     * - и 10 писем, это оптимальный вариант
+     *
      * @return array
      */
-    public static function sendMailFromQueue()
+    public static function sendMailFromQueue($limit = 10)
     {
-        $mails = EmailQueue::model()->findAll("status = :status order by id desc limit 10", ['status' => EmailQueue::STATUS_PENDING]);
+        $mails = EmailQueue::model()->findAll(' status = :status order by id desc limit ' . $limit, ['status' => EmailQueue::STATUS_PENDING]);
 
         /* @var $mail EmailQueue */
         $result = ['done'=>0, 'fail'=>0];

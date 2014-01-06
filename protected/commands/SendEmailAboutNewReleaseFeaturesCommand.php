@@ -88,30 +88,6 @@ class SendEmailAboutNewReleaseFeaturesCommand extends CConsoleCommand
 
             $sent = UserService::addStandardEmailToQueue($mailOptions, SiteEmailOptions::TEMPLATE_ANJELA);
 
-//            $mail->body = $body;
-//            $mail->embeddedImages = [
-//                    [
-//                        'path'     => Yii::app()->basePath.'/assets/img/mailtopangela.png',
-//                        'cid'      => 'mail-top-angela',
-//                        'name'     => 'mailtopangela',
-//                        'encoding' => 'base64',
-//                        'type'     => 'image/png',
-//                    ],[
-//                        'path'     => Yii::app()->basePath.'/assets/img/mailanglabtm.png',
-//                        'cid'      => 'mail-bottom-angela',
-//                        'name'     => 'mailbottomangela',
-//                        'encoding' => 'base64',
-//                        'type'     => 'image/png',
-//                    ],[
-//                        'path'     => Yii::app()->basePath.'/assets/img/mail-bottom.png',
-//                        'cid'      => 'mail-bottom',
-//                        'name'     => 'mailbottom',
-//                        'encoding' => 'base64',
-//                        'type'     => 'image/png',
-//                    ],
-//                ];
-
-//            $sent = MailHelper::addMailToQueue($mail);
             if($sent) {
                 $count_send++;
             }else{

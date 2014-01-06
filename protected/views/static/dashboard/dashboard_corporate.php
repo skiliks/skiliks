@@ -102,7 +102,7 @@
                         <?php if (empty($invite->receiverUser)): ?>
                             <p class="font-green-dark">
                                 <a target="_blank" href="<?= $this->createAbsoluteUrl('static/pages/product') ?>">"Базовый менеджмент"</a>
-                                - это деловая симуляция, позволяющая оценить менеджерские навыки в форме увлекательной игры</p>
+                                - это деловая симуляция, позволяющая оценить менеджерские навыки в форме увлекательной игры.</p>
                         <?php endif; ?>
                     <?php endif; ?>
 
