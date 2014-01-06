@@ -223,28 +223,32 @@ class MailBoxUnitTest extends CDbTestCase
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 
         // 1. random email case {
-        /** @var MailBox $randomFirstEmail */
-        $randomFirstEmail = MailBoxService::copyMessageFromTemplateByCode($simulation, 'M8');
-        $messageData = MailBoxService::getMessageData($randomFirstEmail, MailBox::TYPE_FORWARD);
+        /** @var MailBox $m8 */
+        $m8 = MailBoxService::copyMessageFromTemplateByCode($simulation, 'M8');
+        $messageData = MailBoxService::getMessageData($m8, MailBoxService::ACTION_FORWARD);
 
         $mailOptions = new SendMailOptions($simulation);
-        $mailOptions->setRecipientsArray($randomFirstEmail->sender_id);
-        $mailOptions->themeId    = $randomFirstEmail->theme_id;
-        $mailOptions->mailPrefix = 'fwd'.$randomFirstEmail->mail_prefix;
+        $mailOptions->setRecipientsArray($m8->sender_id);
+        $mailOptions->themeId    = $m8->theme_id;
+        $mailOptions->mailPrefix = 'fwd'.$m8->mail_prefix;
         $mailOptions->time       = '11:00';
-        $mailOptions->messageId  = $randomFirstEmail->id;
-        MailBoxService::sendMessagePro($mailOptions);
+        $mailOptions->messageId  = $m8->id;
+        $m8_fwd = MailBoxService::sendMessagePro($mailOptions);
+        $fwdMessageData = MailBoxService::getMessageData($m8_fwd, MailBoxService::ACTION_EDIT);
 
-        $this->assertEquals($messageData['theme'],         'Fwd: '.$randomFirstEmail->getFormattedTheme(), 'M8 theme text');
-        $this->assertEquals($messageData['parentThemeId'], $randomFirstEmail->theme->id, 'M8 parent theme Id');
-        $this->assertEquals($messageData['themeId'],       $randomFirstEmail->theme_id, 'M8 theme_id');
-        $this->assertEquals($messageData['mailPrefix'],    'fwd'.$randomFirstEmail->mail_prefix, 'M8 mailPrefix');
+        $this->assertEquals($messageData['theme'],         'Fwd: '.$m8->getFormattedTheme(), 'M8 fwd theme text');
+        $this->assertEquals($messageData['parentThemeId'], $m8->theme->id, 'M8 fwd parent theme Id');
+        $this->assertEquals($messageData['themeId'],       $m8->theme_id, 'M8 fwd theme_id');
+        $this->assertEquals($messageData['mailPrefix'],    'fwd'.$m8->mail_prefix, 'M8 fwd mailPrefix');
+
+        $this->assertEquals($fwdMessageData['phrases']['previouseMessage'],
+            $m8->message, 'M8 fwd previouseMessage');
         // 1. random email case }
 
         // case 2, M61, форвард для письма с одним Re: {
         /** @var MailBox $emailM61 */
         $emailM61 = MailBoxService::copyMessageFromTemplateByCode($simulation, 'M61');
-        $M61data = MailBoxService::getMessageData($emailM61, MailBox::TYPE_FORWARD);
+        $M61data = MailBoxService::getMessageData($emailM61, MailBoxService::ACTION_FORWARD);
 
         $mailOptions = new SendMailOptions($simulation);
         $mailOptions->setRecipientsArray($emailM61->sender_id);
@@ -265,7 +269,7 @@ class MailBoxUnitTest extends CDbTestCase
         // case 3, M62, форвард для письма с двумя Re: {
         /** @var MailBox $emailM62 */
         $emailM62 = MailBoxService::copyMessageFromTemplateByCode($simulation, 'M62');
-        $M62data = MailBoxService::getMessageData($emailM62, MailBox::TYPE_FORWARD);
+        $M62data = MailBoxService::getMessageData($emailM62, MailBoxService::ACTION_FORWARD);
 
         $mailOptions = new SendMailOptions($simulation);
         $mailOptions->setRecipientsArray($emailM62->sender_id);

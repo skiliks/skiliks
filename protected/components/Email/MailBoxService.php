@@ -954,8 +954,6 @@ class MailBoxService
             $themePrefix = 're';
             $result['phrases'] = self::getPhrases($message->simulation, $message->theme_id, $message->receiver_id, $themePrefix.$message->mail_prefix);
             $result['phrases']['previouseMessage'] = $message->message;
-        } elseif ($action == self::ACTION_EDIT) {
-            //$condition['id'] = $message->subject_id;
         }
         $result['theme'] = $message->getFormattedTheme($themePrefix);
 
@@ -993,15 +991,19 @@ class MailBoxService
                 $result['parentThemeId'] = $message->theme_id;
             }
 
-            $result['copiesIds'] = array_map(function(MailCopy $copy) use ($characters) {
-                return $copy->receiver_id;
-            }, MailCopy::model()->findByAttributes(['mail_id' => $message->id]));
+            $result['copiesIds'] = array_map(
+                function(MailCopy $copy) use ($characters) {
+                    return $copy->receiver_id;
+                },
+                MailCopy::model()->findAllByAttributes(['mail_id' => $message->id])
+            );
+
             $result['copies'] = self::getCharacters($message->simulation, $result['copiesIds']);
 
             $result['copiesIds'] = implode(',', $result['copiesIds']);
             $result['copies'] = implode(',', $result['copies']);
 
-            $result['phrases']['previouseMessage'] = $message->message_id ? $message->message : '';
+            $result['phrases']['previouseMessage'] = (null !== $message->parentMail) ? $message->parentMail->message : '';
 
             if (null !== $message->attachment) {
                 $result['attachmentName']   = $message->attachment->myDocument->fileName;

@@ -895,6 +895,15 @@ define([
                                         mailClientView.mailClient.iconsForEditDraftDraftScreenArray,
                                         true
                                     );
+
+                                    // делаем тему выбранной
+                                    mailClientView.selectSubjectByValue(email.subject.themeId);
+
+                                    // обновляем список фраз
+                                    mailClientView.doUpdateMailPhrasesList(
+                                        {'selectedData':{'value': email.subject.themeId}}
+                                    );
+
                                     mailClientView.mailClient.setActiveScreen(mailClientView.mailClient.screenWriteNewCustomEmail);
                                     mailClientView.mailClient.setWindowsLog('mailNew', email.mySqlId);
                                 }
@@ -902,18 +911,36 @@ define([
                                 if (email.isForward()) {
                                     mailClientView.doUpdateScreenFromForwardEmailData(response, email);
                                     mailClientView.fillMessageWindow(response, mailClientView.mailClient.iconsForEditDraftDraftScreenArray, true);
+
+                                    // обновляем список фраз
+                                    mailClientView.doUpdateMailPhrasesList(
+                                        {'selectedData':{'value': email.subject.themeId}}
+                                    );
+
                                     mailClientView.mailClient.setActiveScreen(mailClientView.mailClient.screenWriteForward);
                                     mailClientView.mailClient.setWindowsLog('mailNew', email.mySqlId);
                                 }
 
                                 if (email.isReply()) {
                                     mailClientView.fillMessageWindow(response, mailClientView.mailClient.iconsForEditDraftDraftScreenArray);
+
+                                    // обновляем список фраз
+                                    mailClientView.doUpdateMailPhrasesList(
+                                        {'selectedData':{'value': email.subject.themeId}}
+                                    );
+
                                     mailClientView.mailClient.setActiveScreen(mailClientView.mailClient.screenWriteReply);
                                     mailClientView.mailClient.setWindowsLog('mailNew', email.mySqlId);
                                 }
 
                                 if (email.isReplyAll()) {
                                     mailClientView.fillMessageWindow(response, mailClientView.mailClient.iconsForEditDraftDraftScreenArray);
+
+                                    // обновляем список фраз
+                                    mailClientView.doUpdateMailPhrasesList(
+                                        {'selectedData':{'value': email.subject.themeId}}
+                                    );
+
                                     mailClientView.mailClient.setActiveScreen(mailClientView.mailClient.screenWriteReplyAll);
                                     mailClientView.mailClient.setWindowsLog('mailNew', email.mySqlId);
                                 }
@@ -1937,9 +1964,6 @@ define([
                     }
 
                     this.renderTXT();
-
-
-                    // this.delegateEvents();
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -2409,9 +2433,11 @@ define([
                             index = i;
                         }
                     });
+
                     if(index === null){
                         return;
                     }
+
                     var ddData = this.$("#MailClient_NewLetterSubject").data('ddslick').settings.data;
                     this.$("#MailClient_NewLetterSubject").ddslick('destroy');
                     this.$("#MailClient_NewLetterSubject").ddslick({
@@ -2592,7 +2618,8 @@ define([
                     }
 
                     // add phrases {
-                    if (null === response.phrases.message || '' === response.phrases.message || undefined === response.phrases.message) {
+                    if (null === response.phrases.message || '' === response.phrases.message
+                        || undefined === response.phrases.message || 'undefined' == typeof response.phrases.message) {
                         SKApp.simulation.mailClient
                             .setRegularAvailablePhrases(response.phrases.data);
 

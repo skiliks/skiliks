@@ -1398,7 +1398,8 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
             },
 
             /**
-             * What is it?
+             * Метод создаёт JSON для отправки сереру комманд
+             * сохранить и отправить письмо
              *
              * @method
              * @param emailToSave
@@ -1428,6 +1429,9 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                     if (this.activeScreen == this.screenWriteForward) {
                         type = 'forward';
                     }
+
+                    var mailPrefix = (null === this.activeMailPrefix) ? '' : this.activeMailPrefix;
+
                     return {
                         id:         emailToSave.mySqlId,
                         copies:     emailToSave.getCopyToIdsString(),
@@ -1437,7 +1441,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                         receivers:  emailToSave.getRecipientIdsString(),
                         themeId:    emailToSave.subject.themeId,
                         letterType: type,
-                        mailPrefix: this.activeMailPrefix,
+                        mailPrefix: mailPrefix,
                         constructorCode: this.activeConstructorCode
                     };
                 } catch(exception) {

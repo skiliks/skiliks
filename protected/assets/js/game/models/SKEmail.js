@@ -45,7 +45,7 @@ define([] ,function() {
 
         /**
          * @property subject
-         * @type SkMAilSubject
+         * @type SKMailSubject
          * @default undefined
          */
         subject: undefined,
