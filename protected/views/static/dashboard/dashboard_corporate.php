@@ -118,15 +118,11 @@
                             Пожалуйста, <a target="_blank" href="<?= $this->createAbsoluteUrl('/registration') ?>">создайте личный профиль</a> или
                             <a href="<?= $this->createAbsoluteUrl('/dashboard') ?>">войдите в личный кабинет</a> и примите приглашение на тестирование для прохождения симуляции.
                         <?php else: ?>
-                            Пожалуйста, <a target="_blank" href="<?= $this->createAbsoluteUrl('/registration') ?>">зарегистрируйтесь</a> или <a href="<?= $this->createAbsoluteUrl('/user/auth') ?>">войдите</a> в свой кабинет и примите приглашение на тестирование для прохождения симуляции.
+                            Пожалуйста, <a target="_blank" href="<?= $this->createAbsoluteUrl('/registration') ?>">зарегистрируйтесь</a> и примите приглашение на тестирование для прохождения симуляции.
                         <?php endif; ?>
                     </p>
                     <p class="font-green-dark">Ваш skiliks</p>
                 </div>
-
-                <?php // echo $form->labelEx($invite, 'signature'); ?>
-                <?php // echo $form->textField($invite, 'signature'); ?>
-                <?php // echo $form->error($invite, 'signature'); ?>
 
                 <div class="inline-block">
                     <?php echo $form->checkBox($invite, 'is_display_simulation_results', ['class'=>'inline-radio-button']); ?>
@@ -152,8 +148,7 @@
                             my: "left top",
                             at: "left top",
                             of: $('#corporate-invitations-list-box')
-                        },
-                        open: function( event, ui ) { /*Cufon.refresh();*/ }
+                        }
                     });
 
                     $( ".message_window").parent().addClass('nice-border cabmessage');
