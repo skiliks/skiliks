@@ -58,5 +58,4 @@ class ThemeUnitTest extends CDbTestCase
         $themes = PhoneService::getThemes($character->code, $simulation);
         $this->assertFalse($this->findPhoneThemeByName($themes, $theme->text));
     }
-
 }

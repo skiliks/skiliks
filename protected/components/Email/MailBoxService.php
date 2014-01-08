@@ -254,7 +254,8 @@ class MailBoxService
     {
         /** @var $mail MailBox */
         $mail = MailBox::model()->findByPk($mailId);
-        if ($mail->constructor_code === 'TXT') {;
+        if ($mail->constructor_code === 'TXT') {
+            // письма ещё не распознано - а текст нужен
             return $mail->getMessageByReceiverAndTheme();
         }
 
@@ -619,7 +620,7 @@ class MailBoxService
      * @param $mailPrefix
      * @return array
      */
-    public static function getPhrases(Simulation $simulation, $themeId, $characterToId, $mailPrefix = null)
+    public static function getPhrases(Simulation $simulation, $themeId, $characterToId, $mailPrefix = NULL)
     {
         $data = [];
         $message = '';
@@ -627,7 +628,7 @@ class MailBoxService
         $addData = [];
 
         /* @var $outbox_mail_theme OutboxMailTheme */
-        $outbox_mail_theme = OutboxMailTheme::model()->findByAttributes([
+        $outbox_mail_theme = $simulation->game_type->getOutboxMailTheme([
             'character_to_id' => $characterToId,
             'theme_id'        => $themeId,
             'mail_prefix'     => $mailPrefix
@@ -678,7 +679,7 @@ class MailBoxService
             $repliedEmail->update();
         }
 
-        assert($sendMailOptions->messageId !== null); // wtf ? ну а хули, пусть будет
+        assert($sendMailOptions->messageId !== null);
 
         $letterType = $sendMailOptions->getLetterType();
 

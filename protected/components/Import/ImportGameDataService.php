@@ -703,7 +703,6 @@ class ImportGameDataService
 
         $this->columnNoByName = [];
         $this->setColumnNumbersByNames($sheet, 2);
-        // load sheet }
 
         $counter = array(
             'all'        => 0,
@@ -1151,13 +1150,27 @@ class ImportGameDataService
 
             // OutboxMailTheme {
             if ('mail_outbox' === $theme_usage) {
+
                 $character_id = $characters[$character_code];
-                $mail_theme = $this->scenario->getOutboxMailTheme(['theme_id' => $theme_id, 'character_to_id' => $character_id]);
+
+                $mail_prefix = $this->getCellValue($sheet, 'Theme_prefix', $i);
+                if(empty($mail_prefix) || $mail_prefix === '-') {
+                    $mail_prefix = null;
+                }
+
+                $mail_theme = $this->scenario->getOutboxMailTheme([
+                    'theme_id'        => $theme_id,
+                    'character_to_id' => $character_id,
+                    'mail_prefix'     => $mail_prefix,
+                ]);
+
                 if(null === $mail_theme){
                     $mail_theme = new OutboxMailTheme();
-                    $mail_theme->theme_id = $theme_id;
+                    $mail_theme->theme_id        = $theme_id;
                     $mail_theme->character_to_id = $character_id;
+                    $mail_theme->mail_prefix     = $mail_prefix;
                 }
+
                 // Mail constructor number
                 $mail_constructor_number = $this->getCellValue($sheet, 'Mail constructor number', $i);
 
@@ -1172,18 +1185,14 @@ class ImportGameDataService
                 if (empty($mail_wr)) {
                     $mail_wr = null;
                 }
-                $mail_prefix = $this->getCellValue($sheet, 'Theme_prefix', $i);
-                if(empty($mail_prefix) || $mail_prefix === '-') {
-                    $mail_prefix = null;
-                }
+
                 $mail_code = $this->getCellValue($sheet, 'Mail letter number', $i);
                 if(empty($mail_code) || $mail_code === 'MS не найдено') {
                     $mail_code = null;
                 }
-                $mail_theme->mail_code = $mail_code;
-                $mail_theme->mail_prefix = $mail_prefix;
-                $mail_theme->wr = $mail_wr;
-                $mail_theme->import_id = $this->import_id;
+                $mail_theme->mail_code   = $mail_code;
+                $mail_theme->wr          = $mail_wr;
+                $mail_theme->import_id   = $this->import_id;
                 $mail_theme->scenario_id = $this->scenario->id;
                 $mail_theme->save(false);
             }
