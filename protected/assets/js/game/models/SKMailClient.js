@@ -215,7 +215,11 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
             // @var array of SKMailPhrase
             activeConstructorCode: null,
 
+            // @var string
             activeMailPrefix: null,
+
+            // @var integer
+            activeParentEmailMyQslId: null,
 
             // @var array of SKMailPhrase
             // this is ',', '.', ':' etc. - symbols for any phrases set
@@ -1418,6 +1422,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
             combineMailDataByEmailObject:function (emailToSave) {
                 try {
                     var mailId = '';
+                    var me = this;
                     if (this.activeScreen === this.screenWriteForward ||
                         this.activeScreen === this.screenWriteReply ||
                         this.activeScreen === this.screenWriteReplyAll) {
@@ -1446,7 +1451,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                         id:         emailToSave.mySqlId,
                         copies:     emailToSave.getCopyToIdsString(),
                         fileId:     emailToSave.getAttachmentId(),
-                        messageId:  mailId,
+                        messageId:  me.activeParentEmailMyQslId,
                         phrases:    emailToSave.getPhrasesIdsString(),
                         receivers:  emailToSave.getRecipientIdsString(),
                         themeId:    emailToSave.subject.themeId,

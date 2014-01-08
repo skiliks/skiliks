@@ -1496,6 +1496,11 @@ define([
                     this.mailClient.setActiveScreen(this.mailClient.screenWriteNewCustomEmail);
                     this.mailClient.newEmailUsedPhrases = [];
                     this.mailClient.availableSubjects = [];
+                    this.mailClient.activeMailPrefix = null;
+
+                    // родитель есть только у RE и FWD
+                    this.mailClient.activeParentEmailMyQslId = null;
+
                     var mailClientView = this;
 
                     // get template
@@ -2350,7 +2355,6 @@ define([
                             });
                             // add attachments list }
 
-                            //mailClientView.delegateEvents();
                             mailClientView.trigger('attachment:load_completed');
                         });
                     }
@@ -2856,9 +2860,11 @@ define([
                         if (undefined === response.result && undefined !== response.responseText) {
                             response = $.parseJSON(response.responseText);
                         }
-                        me.mailClient.activeConstructorCode = response.phrases.constructorCode;
-                        me.mailClient.activeMailPrefix = response.mailPrefix;
+                        me.mailClient.activeConstructorCode    = response.phrases.constructorCode;
+                        me.mailClient.activeMailPrefix         = response.mailPrefix;
+                        me.mailClient.activeParentEmailMyQslId = response.messageId;
                         // so we get JSON from it }
+
                         if (false !== me.fillMessageWindow(response)) {
                             me.mailClient.setActiveScreen(me.mailClient.screenWriteReply);
                             me.mailClient.setWindowsLog('mailNew');
@@ -2885,8 +2891,9 @@ define([
 
                     this.mailClient.getDataForReplyAllToActiveEmail(function (response) {
                         if (false !== me.fillMessageWindow(response)) {
-                            me.mailClient.activeConstructorCode = response.phrases.constructorCode;
-                            me.mailClient.activeMailPrefix = response.mailPrefix;
+                            me.mailClient.activeConstructorCode    = response.phrases.constructorCode;
+                            me.mailClient.activeMailPrefix         = response.mailPrefix;
+                            me.mailClient.activeParentEmailMyQslId = response.messageId;
                             me.mailClient.setActiveScreen(me.mailClient.screenWriteReplyAll);
                             me.mailClient.setWindowsLog('mailNew');
                         }
@@ -2913,7 +2920,8 @@ define([
                     this.mailClient.getDataForForwardActiveEmail(function (response) {
                         // so we get JSON from it }
                         if (false !== me.doUpdateScreenFromForwardEmailData(response)) {
-                            me.mailClient.activeMailPrefix = response.mailPrefix;
+                            me.mailClient.activeMailPrefix         = response.mailPrefix;
+                            me.mailClient.activeParentEmailMyQslId = response.messageId;
                             me.mailClient.setActiveScreen(me.mailClient.screenWriteForward);
                             me.mailClient.setWindowsLog('mailNew');
                         }

@@ -940,29 +940,29 @@ class MailBoxService
      * @return array
      * @throws ErrorException
      */
-    public static function getMessageData(MailBox $message, $action)
+    public static function getMessageData(MailBox $email, $action)
     {
         $result = [
             'result'      => 1,
-            'themeId'   => $message->theme_id,
+            'themeId'   => $email->theme_id,
         ];
         $themePrefix = '';
         if ($action == self::ACTION_FORWARD) {
             $themePrefix = 'fwd';
-            $result['phrases'] = self::getPhrases($message->simulation, $message->theme_id, null, null);
-            $result['phrases']['previouseMessage'] = $message->message;
+            $result['phrases'] = self::getPhrases($email->simulation, $email->theme_id, null, null);
+            $result['phrases']['previouseMessage'] = $email->message;
         } elseif ($action == self::ACTION_REPLY || $action == self::ACTION_REPLY_ALL) {
             $themePrefix = 're';
-            $result['phrases'] = self::getPhrases($message->simulation, $message->theme_id, $message->receiver_id, $themePrefix.$message->mail_prefix);
-            $result['phrases']['previouseMessage'] = $message->message;
+            $result['phrases'] = self::getPhrases($email->simulation, $email->theme_id, $email->receiver_id, $themePrefix.$email->mail_prefix);
+            $result['phrases']['previouseMessage'] = $email->message;
         }
-        $result['theme'] = $message->getFormattedTheme($themePrefix);
+        $result['theme'] = $email->getFormattedTheme($themePrefix);
 
         if ($action == self::ACTION_FORWARD) {
-            $result['parentThemeId'] = $message->theme_id;
-            if (null !== $message->attachment) {
-                $result['attachmentName']   = $message->attachment->myDocument->fileName;
-                $result['attachmentId']     = $message->attachment->file_id;
+            $result['parentThemeId'] = $email->theme_id;
+            if (null !== $email->attachment) {
+                $result['attachmentName']   = $email->attachment->myDocument->fileName;
+                $result['attachmentId']     = $email->attachment->file_id;
             }
             // TODO: Check is this required
             if ($result['phrases']['constructorCode'] === 'TXT') {
@@ -971,47 +971,54 @@ class MailBoxService
         }
 
         if ($action == self::ACTION_REPLY || $action == self::ACTION_REPLY_ALL) {
-            $characters = self::getCharacters($message->simulation);
-            $result['receiver'] = $characters[$message->sender_id];
-            $result['receiver_id'] = $message->sender_id;
+            $characters = self::getCharacters($email->simulation);
+            $result['receiver'] = $characters[$email->sender_id];
+            $result['receiver_id'] = $email->sender_id;
         }
 
         if ($action == self::ACTION_REPLY_ALL) {
-            list($result['copiesIds'], $result['copies']) = self::getCopiesArray($message);
+            list($result['copiesIds'], $result['copies']) = self::getCopiesArray($email);
         }
 
         // Edit draft {
         if ($action == self::ACTION_EDIT) {
-            $result['id'] = $message->id;
+            $result['id'] = $email->id;
 
-            $characters = self::getCharacters($message->simulation);
-            $result['receiver'] = $characters[$message->receiver_id];
-            $result['receiver_id'] = $message->receiver_id;
+            $characters = self::getCharacters($email->simulation);
+            $result['receiver'] = $characters[$email->receiver_id];
+            $result['receiver_id'] = $email->receiver_id;
 
-            if ($message->message_id) {
-                $result['parentThemeId'] = $message->theme_id;
+            if ($email->message_id) {
+                $result['parentThemeId'] = $email->theme_id;
             }
 
             $result['copiesIds'] = array_map(
                 function(MailCopy $copy) use ($characters) {
                     return $copy->receiver_id;
                 },
-                MailCopy::model()->findAllByAttributes(['mail_id' => $message->id])
+                MailCopy::model()->findAllByAttributes(['mail_id' => $email->id])
             );
 
-            $result['copies'] = self::getCharacters($message->simulation, $result['copiesIds']);
+            $result['copies'] = self::getCharacters($email->simulation, $result['copiesIds']);
 
             $result['copiesIds'] = implode(',', $result['copiesIds']);
             $result['copies'] = implode(',', $result['copies']);
 
-            $result['phrases']['previouseMessage'] = (null !== $message->parentMail) ? $message->parentMail->message : '';
+            $result['phrases']['previouseMessage'] = (null !== $email->parentMail) ? $email->parentMail->message : '';
 
-            if (null !== $message->attachment) {
-                $result['attachmentName']   = $message->attachment->myDocument->fileName;
-                $result['attachmentId']     = $message->attachment->file_id;
+            if (null !== $email->attachment) {
+                $result['attachmentName']   = $email->attachment->myDocument->fileName;
+                $result['attachmentId']     = $email->attachment->file_id;
             }
+
+            $result['messageId']  = (null === $email->parentMail) ? null : $email->parentMail->id;
+        } else {
+            // мы отвечаем на текущее письмо
+            // и текущее письма становится Предыдущим письмом
+            $result['messageId']  = $email->id;
         }
-        $result['mailPrefix'] = $themePrefix.$message->mail_prefix;
+
+        $result['mailPrefix'] = $themePrefix.$email->mail_prefix;
         // Edit draft }
 
         return $result;
