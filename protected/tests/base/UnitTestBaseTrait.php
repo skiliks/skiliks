@@ -28,14 +28,16 @@ trait UnitTestBaseTrait {
     /**
      * init standard invite and simulation
      * useful for 95% of tests
+     *
+     * @param string $scenarioSlug
      */
-    private function standardSimulationStart()
+    private function standardSimulationStart($scenarioSlug = Scenario::TYPE_FULL)
     {
         $this->initTestUserAsd();
         $this->invite = new Invite();
         $this->invite->scenario = new Scenario();
         $this->invite->receiverUser = $this->user;
-        $this->invite->scenario->slug = Scenario::TYPE_FULL;
+        $this->invite->scenario->slug = $scenarioSlug;
         $this->simulation = SimulationService::simulationStart($this->invite, Simulation::MODE_DEVELOPER_LABEL);
     }
 

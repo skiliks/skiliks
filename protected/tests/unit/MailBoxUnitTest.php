@@ -487,17 +487,6 @@ class MailBoxUnitTest extends CDbTestCase
             'code'   => 'M75'
         ]);
 
-        /** @var MailBox $MS60 */
-//        $mailOptions           = new SendMailOptions($simulation);
-//        $mailOptions->senderId = $mailHero->id;
-//        $mailOptions->themeId  = $m75->theme_id;
-//        $mailOptions->setRecipientsArray($m75->receiver_id);
-//        $mailOptions->mailPrefix = $m75->getFormattedTheme('re');
-//        $mailOptions->messageId  = $m75->id;
-//        $mailOptions->time       = '11:00';
-//
-//        $MS60 = MailBoxService::sendMessagePro($mailOptions);
-
         /** @var OutboxMailTheme $outboxTheme */
         $outboxTheme = OutboxMailTheme::model()->findByAttributes([
             'scenario_id'     => $simulation->game_type->id,
@@ -925,6 +914,47 @@ class MailBoxUnitTest extends CDbTestCase
                 $this->assertEquals($mail_id, $assessmentPoint->mail_id);
             }
         }
+    }
+
+    /**
+     * Проверяет, что для LITE версии нельзя никому написать письмо
+     */
+    public function testMailCharactersToListForLiteSim()
+    {
+        $this->standardSimulationStart(Scenario::TYPE_LITE);
+
+        $list = SimulationService::getCharactersList($this->simulation);
+
+        $isFail = false;
+
+        foreach ($list as $character) {
+            if (1 == $character['has_mail_theme']) {
+                var_dump($character);
+                $isFail = ture;
+            }
+        }
+
+        $this->assertFalse($isFail, 'В lite версии не должно быть адресатов, при написании нового письма.');
+    }
+
+    /**
+     * Проверяет, что для FULL версии есть 23 доступные адресата
+     */
+    public function testMailCharactersToListForFullSim()
+    {
+        $this->standardSimulationStart();
+
+        $list = SimulationService::getCharactersList($this->simulation);
+
+        $count = 0;
+
+        foreach ($list as $character) {
+            if (1 == $character['has_mail_theme']) {
+                $count++;
+            }
+        }
+
+        $this->assertEquals(23, $count);
     }
 }
 

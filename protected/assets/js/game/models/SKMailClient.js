@@ -1088,7 +1088,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 try {
                     var list = [];
                     for (var i in this.defaultRecipients) {
-                        if(this.activeScreen === 'SCREEN_WRITE_NEW_EMAIL'){
+                        if(this.activeScreen === 'SCREEN_WRITE_NEW_EMAIL') {
                             if ('' !== this.defaultRecipients[i].get('fio')
                                 && '' !== this.defaultRecipients[i].get('email')
                                 && parseInt(this.defaultRecipients[i].get('has_mail_theme')) === 1) {

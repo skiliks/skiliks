@@ -284,7 +284,8 @@ class MailBoxService
 
         /*  */
         foreach ($outboxMailThemes as $outboxMailTheme) {
-            if(false === $outboxMailTheme->isBlockedByFlags($simulation) && false === $outboxMailTheme->themeIsUsed($simulation)) {
+            if(false === $outboxMailTheme->isBlockedByFlags($simulation)
+                && false === $outboxMailTheme->themeIsUsed($simulation)) {
                 $themes[(int)$outboxMailTheme->theme_id] = $outboxMailTheme->theme->text;
             }
         }

@@ -1192,4 +1192,46 @@ class SimulationService
 
         return self::saveLogsAsExcelReport2($simulations, $account);
     }
+
+    /**
+     * Возвращает список всех персонажей игры
+     * с характеристиками необходимыми для:
+     * - написания писем
+     * - построения списка контактов для исходящих звонков
+     * - подписывания писем
+     * - полписывания истории в телефоне
+     *
+     * @param Simulation $simulation
+     *
+     * @return string[]
+     */
+    public static function getCharactersList(Simulation $simulation)
+    {
+        $characters = $simulation->game_type->getCharacters([]);
+
+        $list = [];
+
+        foreach ($characters as $character) {
+            $characterData = $character->getAttributes([
+                'id', 'title', 'fio', 'email', 'code', 'phone',
+            ]);
+
+            // этот метод вызывается 1 раз за игру, поэтому проще поместить запросы в базк сюда,
+            // чем наращивать колонки в БД
+
+            if (Scenario::TYPE_FULL == $simulation->game_type->slug) {
+                $characterData['has_mail_theme'] = (int) (0 < OutboxMailTheme::model()->countByAttributes([
+                    'character_to_id' => $characterData['id'],
+                    'scenario_id'     => $simulation->game_type->id,
+                ]));
+            } else {
+                $characterData['has_mail_theme'] = 0;
+            }
+
+
+            $list[] = $characterData;
+        }
+
+        return $list;
+    }
 }
