@@ -277,6 +277,7 @@ class MailBoxService
             'character_to_id' => explode(',', $receivers)[0],
             'mail_prefix'     => ($mailPrefix === 'null') ? null : $mailPrefix
         ];
+
         if(null !== $parentThemeId) {
             $condition['theme_id']  = $parentThemeId;
         }
@@ -286,13 +287,15 @@ class MailBoxService
         foreach ($outboxMailThemes as $outboxMailTheme) {
             if(false === $outboxMailTheme->isBlockedByFlags($simulation)
                 && false === $outboxMailTheme->themeIsUsed($simulation)) {
-                $themes[(int)$outboxMailTheme->theme_id] = $outboxMailTheme->theme->text;
+                $themes[(int)$outboxMailTheme->theme_id]
+                    = $outboxMailTheme->theme->getFormattedTheme($mailPrefix);
             }
         }
 
         if(count($outboxMailThemes) === 0 && $parentThemeId !== null) {
             $theme = $simulation->game_type->getTheme(['id'=>$parentThemeId]);
             $themes[(int)$theme->id] = $theme->getFormattedTheme($mailPrefix);
+
         }
 
         return $themes;
