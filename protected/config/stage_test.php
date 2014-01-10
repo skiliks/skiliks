@@ -34,7 +34,8 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
         ),
     ),
     'params'=>array(
-        'server_domain_name' => 'test.skiliks.com',
+        'server_name'        => 'http://test.skiliks.com/', // формат 'http://domain.com/'
+        'server_domain_name' => 'test.skiliks.com', // формат 'domain.com'
         'frontendUrl' => 'http://test.skiliks.com/',
         'sentry' => [
             'dsn' => $sentryDsn,
