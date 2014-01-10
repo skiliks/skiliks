@@ -938,7 +938,7 @@ class MailBoxUnitTest extends CDbTestCase
     }
 
     /**
-     * Проверяет, что для FULL версии есть 23 доступные адресата
+     * Проверяет, что для FULL версии есть 22 доступные адресата
      */
     public function testMailCharactersToListForFullSim()
     {
@@ -954,7 +954,7 @@ class MailBoxUnitTest extends CDbTestCase
             }
         }
 
-        $this->assertEquals(23, $count);
+        $this->assertEquals(22, $count);
     }
 }
 
