@@ -1221,7 +1221,10 @@ class SimulationService
             // чем наращивать колонки в БД
 
             if (Scenario::TYPE_FULL == $simulation->game_type->slug) {
+                // has_mail_theme отвечает за список людей при написании НОВОГО письма
+                // любые re и fwd нам тут не нужны
                 $characterData['has_mail_theme'] = (int) (0 < OutboxMailTheme::model()->countByAttributes([
+                    'mail_prefix'     => null,
                     'character_to_id' => $characterData['id'],
                     'scenario_id'     => $simulation->game_type->id,
                 ]));
