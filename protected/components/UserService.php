@@ -397,7 +397,8 @@ class UserService {
                 return true;
                 //$this->redirect('/dashboard');
             } elseif ($user->getAccount()->getTotalAvailableInvitesLimit() < 1 ) {
-                Yii::app()->user->setFlash('error', Yii::t('site', 'У вас закончились приглашения'));
+                //Yii::app()->user->setFlash('error', Yii::t('site', 'У вас закончились приглашения'));
+                throw new RedirectException("Нужно перехватить это исключение и отредиректить");
             } else {
                 Yii::app()->user->setFlash('error', Yii::t('site', 'Приглашение уже отправлено'));
             }

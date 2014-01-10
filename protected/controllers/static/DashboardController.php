@@ -107,7 +107,13 @@ class DashboardController extends SiteBaseController implements AccountPageContr
 
             $profile = YumProfile::model()->findByAttributes(['email' => strtolower($invite->email)]);
             $invite->setAttributes($this->getParam('Invite'));
-            $is_send = UserService::sendInvite($this->user, $profile, $invite, $this->getParam('Invite')['is_display_simulation_results']);
+            $is_send = false;
+            try {
+                $is_send = UserService::sendInvite($this->user, $profile, $invite, $this->getParam('Invite')['is_display_simulation_results']);
+            } catch (RedirectException $e) {
+                Yii::app()->user->setFlash('error', Yii::t('site', 'У вас закончились приглашения'));
+                $this->redirect("profile/corporate/tariff");
+            }
             if(true === $is_send){
                 $this->redirect('/dashboard');
             }elseif(false === $is_send) {
