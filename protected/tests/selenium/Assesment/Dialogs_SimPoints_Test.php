@@ -260,7 +260,7 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
         sleep(2);
     }
 
-    тест6
+    //тест6
     public function test_Dialogs_for_SK1792()
     {
         //$this->markTestIncomplete();
