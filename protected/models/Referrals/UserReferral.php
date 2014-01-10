@@ -24,7 +24,7 @@ class UserReferral extends CActiveRecord
     const STATUS_APPROVED = 'approved';
     const STATUS_REJECTED = 'rejected';
 
-    const REJECT_SAME_EMAIL_TEXT = "Пользователь зарегистрировался по другому приглашению.";
+    const REJECT_SAME_EMAIL_TEXT = "Пользователь зарегистрировался по другому приглашению";
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.

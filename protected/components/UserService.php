@@ -397,9 +397,10 @@ class UserService {
                 return true;
                 //$this->redirect('/dashboard');
             } elseif ($user->getAccount()->getTotalAvailableInvitesLimit() < 1 ) {
-                Yii::app()->user->setFlash('error', Yii::t('site', 'Беспплатный тарифный план использован. Пожалуйста, <a class="feedback">свяжитесь с нами</a>>, чтобы приобрести пакет симуляций'));
+                //Yii::app()->user->setFlash('error', Yii::t('site', 'У вас закончились приглашения'));
+                throw new RedirectException("Нужно перехватить это исключение и отредиректить");
             } else {
-                Yii::app()->user->setFlash('error', Yii::t('site', 'Неизвестная ошибка.<br/>Приглашение не отправлено.'));
+                Yii::app()->user->setFlash('error', Yii::t('site', 'Приглашение уже отправлено'));
             }
         }
         return $validPrevalidate;

@@ -498,7 +498,7 @@ class ProfileController extends SiteBaseController implements AccountPageControl
             'vacancy_id' => $vacancy->id,
         ]);
         if (0 < $counter) {
-            Yii::app()->user->setFlash('error', 'Вы не можете удалить позицию с которой уже связаны приглашения.');
+            Yii::app()->user->setFlash('error', 'Вы не можете удалить позицию с которой уже связаны приглашения');
             $this->redirect($this->createUrl('profile/corporate/vacancies/' ));
         }
 
@@ -736,7 +736,7 @@ class ProfileController extends SiteBaseController implements AccountPageControl
 
             if ($path1 == null && $path2 == null) {
                 Yii::app()->user->setFlash('error',
-                    'У вас нет пройденных симуляций, чтобы сгенерировать на их основе анатический файл');
+                    'У вас нет пройденных симуляций, чтобы сгенерировать на их основе аналитический файл');
                 $this->redirect('/dashboard');
             } else {
 
@@ -848,7 +848,7 @@ class ProfileController extends SiteBaseController implements AccountPageControl
                             UserService::logAccountAction($user, $this->request->getUserHostAddress(), 'Была попытка подобрать пароль к аккаунту пользователя пользователя. По словам пользователя, это не он.');
                             $user->is_password_bruteforce_detected = YumUser::IS_NOT_PASSWORD_BRUTEFORCE;
                             $user->save(false);
-                            Yii::app()->user->setFlash('error', 'Смените, пожалуйста, свой пароль, если он простой.');
+                            Yii::app()->user->setFlash('error', 'Смените, пожалуйста, свой пароль, если он простой');
                             $this->redirect($user->getPasswordChangeUrl());
                         } else {
                             /**
