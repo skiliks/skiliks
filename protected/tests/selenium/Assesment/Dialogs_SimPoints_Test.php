@@ -10,7 +10,7 @@
  */
 class Dialogs_SimPoints_Test extends SeleniumTestHelper
 {
-    тест1
+    //тест1
     public function test_Dialogs_for_SK1390()
     {
         //$this->markTestIncomplete();
