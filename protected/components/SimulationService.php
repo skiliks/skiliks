@@ -669,6 +669,7 @@ class SimulationService
             if (null !== $simulation->invite && $simulation->isTutorial() === false) {
                 $invite_status = $simulation->invite->status;
                 $simulation->invite->status = Invite::STATUS_COMPLETED;
+                $simulation->invite->updated_at = (new DateTime('now', new DateTimeZone('Europe/Moscow')))->format("Y-m-d H:i:s");
                 $simulation->invite->save(false);
                 InviteService::logAboutInviteStatus($simulation->invite, "При завершении симуляции статус инвайта изменился с ".Invite::getStatusNameByCode($invite_status)." на ".Invite::getStatusNameByCode($simulation->invite->status));
             }
