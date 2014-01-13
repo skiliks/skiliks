@@ -769,7 +769,8 @@ class UserService {
                         Ваш тарифный план истёк.
                         Вы можете ' . $linkToProlongTariff
                         . ' <a href="' . MailHelper::createUrlWithHostname('static/tariffs')
-                        . '">оформить новый</a>.
+                        . '" style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva,
+                        sans-serif;font-size:14px;">оформить новый</a>.
                     </p>
                 ';
 
@@ -1129,10 +1130,12 @@ class UserService {
                     '. $logs[count($logs)-1]->date .'.
                     <br><br>
                     Если это вы - перейдите по <a
-                    href="'. $link . '&type=' . YumUser::PASSWORD_BRUTEFORCE_IT_IS_ME . '">ссылке</a>
+                    href="'. $link . '&type=' . YumUser::PASSWORD_BRUTEFORCE_IT_IS_ME . '" style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva,
+            sans-serif;font-size:14px;">ссылке</a>
                     <br><br>
                     Если это НЕ вы - перейдите по <a
-                    href="'. $link . '&type=' . YumUser::PASSWORD_BRUTEFORCE_IT_IS_NOT_ME .'">ссылке</a><br>
+                    href="'. $link . '&type=' . YumUser::PASSWORD_BRUTEFORCE_IT_IS_NOT_ME .'" style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva,
+            sans-serif;font-size:14px;">ссылке</a><br>
                 </p>
             ';
 
