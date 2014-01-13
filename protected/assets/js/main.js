@@ -838,6 +838,13 @@ var fixLogotypes = function() {
             var popoverStatus =  $(this).find('.popover-status');
             popoverStatus.addClass("active");
             popoverStatus.css("margin-top", - popoverStatus.height()/2 - 4);
+            if($(window).width() < 1140)
+            {
+                console.log("left");
+                popoverStatus.css("margin-left", -52);
+            }else{
+                popoverStatus.css("margin-left", '');
+            }
             $(this).find('.popover-triangle').css("top", (popoverStatus.height() - 16)/2);
         });
 
