@@ -20,7 +20,7 @@ Yum::renderFlash();
     <?php echo CHtml::beginForm(array('//user/auth/login'));  ?>
     <?php if(isset($_GET['action'])) echo CHtml::hiddenField('returnUrl', urldecode($_GET['action']));?>
 
-    <div class="nice-border">
+    <div class="nice-border <?= $model->hasErrors()?'has-errors':'' ?>">
         <div class="row">
             <!--
             <?php

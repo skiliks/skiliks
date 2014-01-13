@@ -4950,6 +4950,9 @@ body.action-controller-corporateReferrals-static-profile .popup-before-start-sim
 .action-controller-login-auth .enter_form .nice-border {
     background-color: #D1E8EA;
 }
+.action-controller-login-auth .enter_form .nice-border.has-errors {
+    padding-top: 12px;
+}
 
 .sign-in-box #yum-login-global-errors {
     color: #fff;
