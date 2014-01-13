@@ -64,6 +64,15 @@ class YumUserLogin extends YumFormModel {
                     $this->addError('username', Yum::t('Неправильный логин или пароль'));
                     return false;
                 }
+                $existProfile = YumProfile::model()->findByAttributes([
+                    'email' => strtolower($this->username)
+                ]);
+
+                if ($existProfile !== NULL && !$existProfile->user->isActive()) {
+                    $this->addError('username', Yii::t('site',  'Email already exists, but not activated.')
+                    . CHtml::link(Yii::t('site','Send activation again'),'/activation/resend/' . $existProfile->id));
+                    return false;
+                }
                 if(YumEncrypt::encrypt($this->password, $this->user->salt) === $this->user->password){
                     return true;
                 }else{
