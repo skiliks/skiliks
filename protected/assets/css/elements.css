@@ -99,8 +99,20 @@
     font:20px ProximaNova-Bold;
     height:46px;
 }
-.action-controller-login-auth .errorMessage.YumUserLogin_username {top:-15px;left:3px;}
-.action-controller-login-auth .errorMessage.YumUserLogin_password {top:-15px;left:236px;}
+.action-controller-login-auth .errorMessage.YumUserLogin_username {
+    top:-15px;
+    left:3px;
+}
+.errorMessage.YumUserLogin_username {
+    padding-top: 10px;
+}
+.action-controller-login-auth .errorMessage.YumUserLogin_password {
+    top:-15px;
+    left:236px;
+}
+.errorMessage.YumUserLogin_password{
+    padding-top: 10px;
+}
 .action-controller-login-auth .niceCheck{
     background: url("../img/checkbox.png") no-repeat 0 0;
     cursor: pointer;
