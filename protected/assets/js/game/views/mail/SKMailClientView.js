@@ -3029,6 +3029,7 @@ define([
                     var me = this;
                     me.isFantasticSend = true;
                         me.renderWriteCustomNewEmailScreen(undefined, undefined, undefined, function() {
+                            me.mailClient.activeMailPrefix = email.mailPrefix;
                             me.fillMessageWindow(email);
                             var cursor = me.make('div', {'class': 'cursor'});
                             me.$el.append(cursor);
