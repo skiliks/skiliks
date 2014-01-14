@@ -129,6 +129,34 @@ class SiteEmailOptions {
             }
         }
 
+        $paragraphPairs = [];
+        if (0 < substr_count($text, '</p>')) {
+            $offset = 0;
+            while (false != strpos($text, '</p>', $offset)) {
+                $start = strpos($text, '<p', $offset);
+                $end   = strpos($text, '>',  $offset);
+
+                $paragraphPairs[] = [
+                    'start'  => $start,
+                    'end'    => $end,
+                ];
+
+                $offset = $end + 1;
+            }
+
+            $offset = 0;
+            while (false != strpos($text, '</p>', $offset)) {
+                $start = strpos($text, '</p>', $offset);
+
+                $paragraphPairs[] = [
+                    'start'  => $start,
+                    'end'    => $start + 4,
+                ];
+
+                $offset = $start + 4;
+            }
+        }
+
         for ($i = 0; $i < $n + 1; $i++) {
             $p1 = $p2;
             $p2 = strpos($text, '<br/>', $p1);
@@ -144,6 +172,15 @@ class SiteEmailOptions {
                 foreach ($linkPairs as $link) {
                     if ($p1 <= $link['start'] && $link['middle'] <= $p2 ) {
                         $totalLinksHtmlCodeLength += $link['middle'] - $link['start'];
+                    }
+
+                }
+            }
+
+            if (0 < count($paragraphPairs)) {
+                foreach ($paragraphPairs as $tag) {
+                    if ($p1 <= $tag['start'] && $tag['end'] <= $p2 ) {
+                        $totalLinksHtmlCodeLength += $tag['end'] - $tag['start'];
                     }
 
                 }
@@ -176,9 +213,8 @@ class SiteEmailOptions {
         $this->text1 = substr($text, 0, $delimiter);
         $this->text2 = substr($text, $delimiter);
 
-        // добавляем знак переноса, если он нужен:
-        // 1. text2 не пустой
-        // 2. в конце text1 и в начале text2 нет пробела или знаков припинания
+        // Смещаем $delimiter до последнего пробела в $this->text1,
+        // если $delimiter оказался в середине слова
         if (
             '' < $this->text2
             && $this->text1[strlen($this->text1) - 1] !== ' '
@@ -208,7 +244,12 @@ class SiteEmailOptions {
             && $this->text2[0] !== '«'
             && $this->text2[0] !== '»'
         ) {
-            $this->text1 .= ' -';
+            $lastSpaceInText1 = strrpos($this->text1, ' ');
+
+            $delimiter = $lastSpaceInText1;
+
+            $this->text1 = substr($text, 0, $delimiter);
+            $this->text2 = substr($text, $delimiter);
         }
     }
 }
