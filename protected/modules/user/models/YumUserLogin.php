@@ -69,7 +69,7 @@ class YumUserLogin extends YumFormModel {
                 ]);
 
                 if ($existProfile !== NULL && !$existProfile->user->isActive()) {
-                    $this->addError('username', Yii::t('site',  'Email already exists, but not activated.')
+                    $this->addError('not_activated', Yii::t('site',  'Email already exists, but not activated.')
                     . CHtml::link(Yii::t('site','Send activation again'),'/activation/resend/' . $existProfile->id));
                     return false;
                 }
