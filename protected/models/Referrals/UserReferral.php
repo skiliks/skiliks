@@ -342,7 +342,7 @@ class UserReferral extends CActiveRecord
         if($referrerDomain == substr($this->referral_email, strpos($this->referral_email, "@"))) {
                 $validationError = 'Вы сами являетесь сотрудником компании '. $referrerDomain . '.' . '
                 <a data-selected="Тарифы и оплата" class="feedback-close-other" href="#">Свяжитесь с нами</a>,
-                если вы приглашаете разных корпоративных пользователей в одной компании.';
+                если вы приглашаете разных корпоративных пользователей в одной компании';
         }
 
         // если нет ошибок - записываем апрув и добавляем "вечную" симмуляцию
