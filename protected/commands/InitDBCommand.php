@@ -87,7 +87,7 @@ class InitDBCommand extends CConsoleCommand
     {
         $username = Yii::app()->db->username;
         $password = Yii::app()->db->password;
-        $dsn = Yii::app()->db->connectionString;
+        $dsn = "mysql:host=db2.skiliks.com;dbname=$database";
         $connection=new CDbConnection($dsn,$username,$password);
         $escCommand = str_replace("\"", "\\\"", $command);
         $connection->createCommand($escCommand)->execute();
