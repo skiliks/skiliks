@@ -58,7 +58,7 @@ class UserAuthController extends YumController
                 $user_password = $user->password;
                 if(UserService::createReferral($user, $profile, $account_corporate, $userReferralRecord)) {
                     $user->authenticate($user_password);
-                    Yii::app()->user->setFlash('success', 'Вы успешно зарегистрированы!');
+                    Yii::app()->user->setFlash('success', 'Вы успешно зарегистрированы');
                     $this->redirect('/dashboard');
                 }
             }
