@@ -35,7 +35,7 @@ class InitDBCommand extends CConsoleCommand
 
         echo "\n Run base SQL.";
         $filePath = realpath(__DIR__ . '/../../db.sql');
-        $this->mysql(file_get_contents($filePath));
+        $this->mysql(file_get_contents($filePath), $database);
 
         //$this->runInstallUserManagement();
 
@@ -85,8 +85,7 @@ class InitDBCommand extends CConsoleCommand
 
     private function mysql($command, $database = null)
     {
-        $user = Yii::app()->db->username;
-        $password = Yii::app()->db->password;
+        Yii::app()->db->createCommand("USE `${database}`")->execute();
         $escCommand = str_replace("\"", "\\\"", $command);
         Yii::app()->db->createCommand($escCommand)->execute();
     }
