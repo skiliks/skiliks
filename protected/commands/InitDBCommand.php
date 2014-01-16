@@ -85,7 +85,7 @@ class InitDBCommand extends CConsoleCommand
 
     private function mysql($command, $database = null)
     {
-        Yii::app()->db->createCommand("USE `${database}`")->execute();
+        Yii::app()->db->createCommand("USE `${database}`")->query();
         $escCommand = str_replace("\"", "\\\"", $command);
         Yii::app()->db->createCommand($escCommand)->execute();
     }
