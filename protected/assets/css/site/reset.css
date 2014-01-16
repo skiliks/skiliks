@@ -1,0 +1,58 @@
+
+/* CSS styles just to reset any non standard browser defaults */
+
+html {
+    font-family: sans-serif;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+}
+
+body {
+    font-family: "ProximaNova-Regular", sans-serif;
+    font-size: 14px; /* 1em  for 1280+ */
+    line-height: 1.428571429;
+}
+
+body,h1, h2, h3, h4, h5, h6, b, strong, small, img, table, a, p, div, span, ul, li,
+article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section, summary {
+    margin: 0;
+    padding: 0;
+}
+
+@media screen and (max-width: 1279px) {
+    body {
+        font-size: 10px; /* 1em for 1280- */
+    }
+}
+
+article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section, summary {
+    display: block;
+}
+
+ul, li, ol, a, span {
+    display: inline-block;
+}
+
+b, strong {
+    font-family: "ProximaNova-Bold", sans-serif;
+    font-weight: bold;
+}
+
+small {
+    font-size: 80%;
+}
+
+img {
+    border: 0;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+a {
+    background: transparent;
+    color: #428290;
+    text-decoration: none;
+}

@@ -86,12 +86,12 @@ if(preg_match('/(?i)Firefox/',$_SERVER['HTTP_USER_AGENT']))
                 </h1>
 
                 <nav id="account-links">
-                    <?php $this->renderPartial('//global_partials/_account_links', [
-                        'isDisplayAccountLinks' => true
-                    ]) ?>
+                    <?php $this->renderPartial('//global_partials/_static_pages_links') ?>
                 </nav>
 				<nav id="static-page-links">
-                    <?php $this->renderPartial('//global_partials/_static_pages_links') ?>
+                    <?php $this->renderPartial('//global_partials/_account_links',[
+                        'isDisplayAccountLinks' => true
+                    ]) ?>
 				</nav>
 
                 <br/>
@@ -205,7 +205,7 @@ if(preg_match('/(?i)Firefox/',$_SERVER['HTTP_USER_AGENT']))
                         <a href="/registration" class="bigbtnsubmt freeacess"><?php echo Yii::t('site', 'Start using it now for free') ?></a>
                     <?php endif ?>
                 <nav id="footer-menu">
-                    <?php $this->renderPartial('//global_partials/_account_links', [
+                    <?php $this->renderPartial('//global_partials/_static_pages_links', [
                         'isDisplayAccountLinks' => false,
                         'disableDemo' => true
                     ]) ?>
