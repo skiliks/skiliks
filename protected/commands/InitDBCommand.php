@@ -85,9 +85,12 @@ class InitDBCommand extends CConsoleCommand
 
     private function mysql($command, $database = null)
     {
-        Yii::app()->db->createCommand("USE `$database`")->execute();
+        $username = Yii::app()->db->username;
+        $password = Yii::app()->db->password;
+        $dsn = Yii::app()->db->connectionString;
+        $connection=new CDbConnection($dsn,$username,$password);
         $escCommand = str_replace("\"", "\\\"", $command);
-        Yii::app()->db->createCommand($escCommand)->execute();
+        $connection->createCommand($escCommand)->execute();
     }
 
     private function runMigrationTool()
