@@ -35,7 +35,7 @@ class InitDBCommand extends CConsoleCommand
 
         echo "\n Run base SQL.";
         $filePath = realpath(__DIR__ . '/../../db.sql');
-        $this->mysql("source ". $filePath, $database.' --default-character-set=UTF8');
+        $this->mysql_import("$database < ". $filePath);
 
         //$this->runInstallUserManagement();
 
@@ -83,19 +83,26 @@ class InitDBCommand extends CConsoleCommand
         $runner->run($args);
     }
 
-    private function mysql($command, $database = null)
+    private function mysql($command)
     {
         $user = Yii::app()->db->username;
         $password = Yii::app()->db->password;
+        $connectionString = Yii::app()->db->connectionString;
+        $host = str_replace('mysql:host=', '', explode(';', $connectionString)[0]);
         $escCommand = str_replace("\"", "\\\"", $command);
-        $mysqlCmd = "mysql -u $user -e \"$escCommand\"";
-                if ($password) {
-                    $mysqlCmd .= " -p$password";
-                }
-        if ($database !== null) {
-                    $mysqlCmd .= " -D$database";
-           }
-        echo $mysqlCmd;
+        $mysqlCmd = "mysql -h$host -u $user -p$password -e \"$escCommand\"  --default-character-set=UTF8";
+        echo $mysqlCmd."\n";
+        shell_exec($mysqlCmd);
+    }
+
+    private function mysql_import($command)
+    {
+        $user = Yii::app()->db->username;
+        $password = Yii::app()->db->password;
+        $connectionString = Yii::app()->db->connectionString;
+        $host = str_replace('mysql:host=', '', explode(';', $connectionString)[0]);
+        $mysqlCmd = "mysql -h$host -u $user -p$password $command --default-character-set=UTF8";
+        echo $mysqlCmd."\n";
         shell_exec($mysqlCmd);
     }
 
