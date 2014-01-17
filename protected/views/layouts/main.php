@@ -86,12 +86,12 @@ if(preg_match('/(?i)Firefox/',$_SERVER['HTTP_USER_AGENT']))
                 </h1>
 
                 <nav id="account-links">
-                    <?php $this->renderPartial('//global_partials/_static_pages_links') ?>
-                </nav>
-				<nav id="static-page-links">
-                    <?php $this->renderPartial('//global_partials/_account_links',[
+                    <?php $this->renderPartial('//global_partials/_static_pages_links',[
                         'isDisplayAccountLinks' => true
                     ]) ?>
+                </nav>
+				<nav id="static-page-links">
+                    <?php $this->renderPartial('//global_partials/_account_links') ?>
 				</nav>
 
                 <br/>

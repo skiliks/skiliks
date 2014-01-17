@@ -25,6 +25,7 @@ $cs->registerCssFile($assetsUrl . '/js/jquery/jquery-ui.css');
 
 $cs->registerCssFile($assetsUrl . "/css/site/reset.css");
 $cs->registerCssFile($assetsUrl . "/css/site/grid.css");
+$cs->registerCssFile($assetsUrl . "/css/site/social-networks.css");
 $cs->registerCssFile($assetsUrl . "/css/site/styles_size_dependent.css");
 $cs->registerCssFile($assetsUrl . "/css/site/styles_size_independent.css");
 
@@ -56,9 +57,7 @@ $cs->registerCssFile($assetsUrl . "/css/site/styles_size_independent.css");
 <header class="main-content">
     <!-- ACCOUNTS LINKS -->
     <nav class="full-column inline-list pull-content-right account-links">
-        <?php $this->renderPartial('//global_partials/_account_links', [
-            'isDisplayAccountLinks' => true
-        ]) ?>
+        <?php $this->renderPartial('//global_partials/_account_links') ?>
     </nav>
 
     <!-- SITE PAGES NAVIGATION -->
@@ -66,7 +65,9 @@ $cs->registerCssFile($assetsUrl . "/css/site/styles_size_independent.css");
         <a href="/" class="inline-block pull-left">
             <img src="<?php echo $assetsUrl?>/img/site/logotypes/logo-head.png" alt="Skiliks"/>
         </a>
-        <?php $this->renderPartial('//global_partials/_static_pages_links') ?>
+        <?php $this->renderPartial('//global_partials/_static_pages_links', [
+            'isDisplayAccountLinks' => true
+        ]) ?>
     </nav>
 </header>
 
@@ -94,7 +95,7 @@ $cs->registerCssFile($assetsUrl . "/css/site/styles_size_independent.css");
         </a>
         <?php $this->renderPartial('//global_partials/_static_pages_links', [
             'isDisplayAccountLinks' => false,
-            'disableDemo' => true
+            'disableDemo'           => true
         ]) ?>
     </nav>
 
@@ -108,10 +109,6 @@ $cs->registerCssFile($assetsUrl . "/css/site/styles_size_independent.css");
         <?php endif; ?>
     </div>
 </footer>
-
-<script type="text/javascript">
-    alert('444');
-</script>
 
 <!-- FOOTER } -->
 

@@ -39,7 +39,6 @@ header {
 /* --- */
 
 section.main-content {
-    border: 1px solid #ff0000;
     min-height: 570px; /* 1080px - 130px (header) - 380px (footer) */
     position: relative;
 }

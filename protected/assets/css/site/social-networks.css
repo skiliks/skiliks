@@ -1,0 +1,89 @@
+
+.social-networks-share-links {
+    height: 52px;
+    vertical-align: middle;
+}
+
+@media screen and (max-width: 1279px) {
+    .social-networks-share-links {
+        height: 43px;
+    }
+}
+
+/* --- */
+
+.share-buttons-box {
+    margin-right: 270px;
+    height: 34px;
+    vertical-align: middle;
+}
+
+@media screen and (max-width: 1279px) {
+    .share-buttons-box {
+        margin-right: 222px;
+    }
+}
+
+/* --- */
+
+.social-networks-share-links label {
+    color: #fff;
+    font-weight: bold;
+}
+
+.share-buttons-box label {
+    padding-bottom: 10px;
+}
+
+.share-button {
+
+    margin-left: 10px
+}
+
+.share-button a {
+    background: url("../../img/site/social-networks/social-networks-icons.png") no-repeat;
+    cursor: pointer;
+    height: 33px;
+    width: 34px;
+
+}
+
+.vk-share-button a {
+    background-position: 0 0;
+}
+
+.vk-share-button a:hover {
+    background-position: 0 -39px;
+}
+
+.facebook-share-button a {
+    background-position: -42px 0;
+}
+
+.facebook-share-button a:hover {
+    background-position: -42px -39px;
+}
+
+.twitter-share-button a {
+    background-position: -82px 0;
+}
+
+.twitter-share-button a:hover {
+    background-position: -82px -39px;
+}
+
+.google-share-button a {
+    background-position: -125px 0;
+}
+
+.google-share-button a:hover {
+    background-position: -125px -39px;
+}
+
+.linkedIn-share-button a {
+    background-position: -166px 0;
+}
+
+.linkedIn-share-button a:hover {
+    background-position: -166px -39px;
+}
