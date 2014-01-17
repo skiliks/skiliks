@@ -55,13 +55,13 @@ header nav ul li.menu-item .icon-profile-corporate {
 /* --- */
 
 .social-networks-share-links {
-    height: 120px;
+    height: 52px;
     vertical-align: middle;
 }
 
 @media screen and (max-width: 1279px) {
     .social-networks-share-links {
-        height: 99px;
+        height: 43px;
     }
 }
 
@@ -70,16 +70,28 @@ header nav ul li.menu-item .icon-profile-corporate {
 .copyright-box {
     color: #ffffff;
     font-size: 0.9em;
-    height: 20px;
+    height: 27px;
 }
 
 @media screen and (max-width: 1279px) {
     .copyright-box {
-        height: 17px;
+        height: 23px;
     }
 }
 
 /* --- */
+
+.copyright-box span {
+    height: 27px;
+    line-height: 27px;
+}
+
+@media screen and (max-width: 1279px) {
+    .copyright-box span {
+        height: 23px;
+        line-height: 23px;
+    }
+}
 
 .copyright {
     margin-left: 240px; /* $('.help-email-link').width() */
@@ -120,61 +132,73 @@ header nav ul li.menu-item .icon-profile-corporate {
 
 header nav.account-links {
     font-size: 0.85em;
-    height: 35px;
-    padding-top: 10px;
+    height: 50px;
 }
 
 @media screen and (max-width: 1279px) {
     header nav.account-links {
-        height: 37px;
+        height: 41px;
+    }
+}
+
+/* --- */
+
+
+header nav.account-links ul {
+    margin-top: 10px;
+}
+
+@media screen and (max-width: 1279px) {
+    header nav.account-links ul {
+        margin-top: 8px;
     }
 }
 
 /* --- */
 
 header nav.static-page-links {
-    height: 90px;
+    height: 80px;
 }
 
 @media screen and (max-width: 1279px) {
     header nav.static-page-links {
-        height: 74px;
+        height: 66px;
     }
 }
 
 /* --- */
 
 header nav.static-page-links ul {
-    margin-top: 20px;
+    margin-top: 24px;
 }
 
 @media screen and (max-width: 1279px) {
     header nav.static-page-links ul {
-        margin-top: 16px;
+        margin-top: 20px;
     }
 }
 
 /* --- */
 
 footer nav.static-page-links {
-    height: 96px;
+    height: 116px;
 }
 
 @media screen and (max-width: 1279px) {
     footer nav.static-page-links {
-        height: 76px;
+        height: 95px;
     }
 }
 
 /* --- */
 
 .footer-clear-fix {
-    height: 100px;
+    height: 153px;
 }
 
 @media screen and (max-width: 1279px) {
     .footer-clear-fix {
-        height: 82px;
+        height: 126px;
     }
 }
 
@@ -195,12 +219,12 @@ footer nav.static-page-links {
 /* --- */
 
 .link-to-top {
-    padding-top: 90px;
+    padding-top: 20px;
 }
 
 @media screen and (max-width: 1279px) {
     .link-to-top {
-        padding-top: 74px;
+        padding-top: 16px;
     }
 }
 
@@ -215,7 +239,30 @@ footer nav.static-page-links {
 @media screen and (max-width: 1279px) {
     .share-buttons-box {
         margin-right: 222px;
-        height: 28px;
+    }
+}
+
+/* --- */
+
+footer .footer-logo {
+    margin-top: 34px;
+}
+
+@media screen and (max-width: 1279px) {
+    footer .footer-logo {
+        margin-top: 28px;
+    }
+}
+
+/* --- */
+
+footer .static-page-links ul {
+    margin-top: 44px;
+}
+
+@media screen and (max-width: 1279px) {
+    footer .static-page-links ul {
+        margin-top: 36px;
     }
 }
 

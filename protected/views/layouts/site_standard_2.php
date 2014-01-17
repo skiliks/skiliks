@@ -89,7 +89,7 @@ $cs->registerCssFile($assetsUrl . "/css/site/styles_size_independent.css");
 
     <!-- SITE PAGES NAVIGATION -->
     <nav class="full-column inline-list pull-content-right static-page-links">
-        <a href="/" class="inline-block pull-left" class="logo-footer-link">
+        <a href="/" class="inline-block pull-left logo-footer-link footer-logo">
             <img src="<?php echo $assetsUrl?>/img/site/logotypes/logo-footer.png" alt="Skiliks"/>
         </a>
         <?php $this->renderPartial('//global_partials/_static_pages_links', [
