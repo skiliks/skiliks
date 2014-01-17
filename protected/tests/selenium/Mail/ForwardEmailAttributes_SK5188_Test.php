@@ -34,7 +34,7 @@ class ForwardEmailAttributes_SK5188_Test extends SeleniumTestHelper
         $this->waitForTextPresent('Fwd: форма по задаче от логистики, срочно!');
         $this->waitForTextPresent('Форма выгрузки данных для логистов_чистая.xls');
         $this->addRecipient(Yii::app()->params['test_mappings']['mail_contacts']['trutnev']);
-        
+
         $this->simulation_stop();
     }
 }
