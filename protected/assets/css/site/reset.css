@@ -1,6 +1,10 @@
 
 /* CSS styles just to reset any non standard browser defaults */
 
+@font-face {font-family: 'ProximaNova-Regular';src: url('../../fonts/24F05C_4_0.eot');src: url('../../fonts/24F05C_4_0.eot?#iefix') format('embedded-opentype'),url('../../fonts/24F05C_4_0.woff') format('woff'),url('../../fonts/24F05C_4_0.ttf') format('truetype');}
+@font-face {font-family: 'ProximaNova-Bold';src: url('../../fonts/24F05C_5_0.eot');src: url('../../fonts/24F05C_5_0.eot?#iefix') format('embedded-opentype'),url('../../fonts/24F05C_5_0.woff') format('woff'),url('../../fonts/24F05C_5_0.ttf') format('truetype');}
+@font-face {font-family: 'SegoePrint';src: url('../../fonts/25D0FC_0_0.eot');src: url('../../fonts/25D0FC_0_0.eot?#iefix') format('embedded-opentype'),url('../../fonts/25D0FC_0_0.woff') format('woff'),url('../../fonts/25D0FC_0_0.ttf') format('truetype');}
+
 html {
     font-family: sans-serif;
     -webkit-text-size-adjust: 100%;
@@ -13,16 +17,44 @@ body {
     line-height: 1.428571429;
 }
 
-body,h1, h2, h3, h4, h5, h6, b, strong, small, img, table, a, p, div, span, ul, li,
-article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section, summary {
-    margin: 0;
-    padding: 0;
-}
-
 @media screen and (max-width: 1279px) {
     body {
         font-size: 10px; /* 1em for 1280- */
     }
+}
+
+h1 {
+    font: 2.7em "ProximaNova-Bold";
+}
+
+h2 {
+    font: 2.3em "ProximaNova-Bold";
+}
+
+h3 {
+    font: 2.0em "ProximaNova-Bold";
+}
+
+h4 {
+    font: 1.7em "ProximaNova-Bold";
+}
+
+h5 {
+    font: 1.4em "ProximaNova-Bold";
+}
+
+h6 {
+    font: 1.1em "ProximaNova-Bold";
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #ffffff;
+}
+
+body,h1, h2, h3, h4, h5, h6, b, strong, small, img, table, a, p, div, span, ul, li,
+article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section, summary {
+    margin: 0;
+    padding: 0;
 }
 
 article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section, summary {

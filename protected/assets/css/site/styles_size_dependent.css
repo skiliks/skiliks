@@ -54,19 +54,6 @@ header nav ul li.menu-item .icon-profile-corporate {
 
 /* --- */
 
-.social-networks-share-links {
-    height: 52px;
-    vertical-align: middle;
-}
-
-@media screen and (max-width: 1279px) {
-    .social-networks-share-links {
-        height: 43px;
-    }
-}
-
-/* --- */
-
 .copyright-box {
     color: #ffffff;
     font-size: 0.9em;
@@ -107,9 +94,17 @@ header nav ul li.menu-item .icon-profile-corporate {
 
 .icon-blue-arrow {
     background-image: url("../../img/site/buttons/icon-blue-arrow-small.png");
-    background-position: 7px center;
     background-repeat: no-repeat;
+}
+
+.icon-arrow-padding-condensed {
+    background-position: 7px center;
     padding-left: 31px !important;
+}
+
+.icon-arrow-padding-standard {
+    background-position: 20px center;
+    padding-left: 48px !important;
 }
 
 .icon-blue-arrow:hover {
@@ -230,20 +225,6 @@ footer nav.static-page-links {
 
 /* --- */
 
-.share-buttons-box {
-    margin-right: 270px;
-    height: 34px;
-    vertical-align: middle;
-}
-
-@media screen and (max-width: 1279px) {
-    .share-buttons-box {
-        margin-right: 222px;
-    }
-}
-
-/* --- */
-
 footer .footer-logo {
     margin-top: 34px;
 }
@@ -268,33 +249,10 @@ footer .static-page-links ul {
 
 /* --- */
 
-.share-buttons-box label {
-    padding-bottom: 10px;
-}
-
-.share-button {
-    background: url("../../img/site/social-networks/social-networks-icons.png") no-repeat scroll -100% -100% rgba(0, 0, 0, 0);
-    height: 34px;
-    margin-left: 10px;
-    width: 34px;
-}
-
-.vk-share-button {
-    background-position: 0 0;
-}
-
-.facebook-share-button {
-    background-position: -42px 0;
-}
-
-.twitter-share-button {
-    background-position: -82px 0;
-}
-
-.google-share-button {
-    background-position: -125px 0;
-}
-
-.linkedIn-share-button {
-    background-position: -166px 0;
+.button-standard {
+    border: none;
+    border-radius: 4px;
+    font-size: 1.3em;
+    font-weight: bold;
+    padding: 13px 20px 13px 66px;
 }

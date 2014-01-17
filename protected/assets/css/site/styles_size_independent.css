@@ -44,10 +44,22 @@ header .icon-profile-personal {
 }
 
 header nav ul li.menu-item .log-out-link-separator {
-    border-left: 1px solid #146672;
+    border-left: 1px solid #d6e9eb;
     border-radius: 0;
     height: 20px;
     margin: 0 -7px -5px 0;
     padding: 0;
     width: 0;
 }
+
+/* --- */
+
+.blue-button {
+    background-color: #146672;
+}
+
+.blue-button:hover {
+    background-color: #BD2929;
+}
+
+/* --- */
