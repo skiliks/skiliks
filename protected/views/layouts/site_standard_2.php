@@ -110,7 +110,7 @@ $cs->registerCssFile($assetsUrl . "/css/site/styles_size_independent.css");
 </footer>
 
 <script type="text/javascript">
-    alert('222');
+    alert('333');
 </script>
 
 <!-- FOOTER } -->
