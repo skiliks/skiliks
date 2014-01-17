@@ -313,11 +313,15 @@ class MailBox extends CActiveRecord
      * @param string $prefix префикс например 're', 'fwd', 'rere' ...
      * @return string
      */
-    public function getFormattedTheme($prefix='') {
+    public function getFormattedTheme($prefix = '') {
         $prefix = ($prefix === null ? '' : $prefix);
-        $this->mail_prefix = $this->mail_prefix === null ? '' : $this->mail_prefix;
+        $this->mail_prefix = ($this->mail_prefix === null) ? '' : $this->mail_prefix;
 
-        return str_replace(['re', 'fwd'], ['Re: ', 'Fwd: '], $prefix.$this->mail_prefix) . $this->theme->text;
+        return str_replace(
+            ['re', 'fwd'],
+            ['Re: ', 'Fwd: '],
+            $prefix . $this->mail_prefix
+        ) . $this->theme->text;
     }
 
     /**
@@ -325,15 +329,13 @@ class MailBox extends CActiveRecord
      * @return string
      */
     public function getMessageByReceiverAndTheme() {
-        return $this->
-            simulation->
-                game_type->
-                    getMailTemplate(
-                    [
-                        'receiver_id'=>$this->receiver_id,
-                        'theme_id'=>$this->theme_id,
-                        'mail_prefix'=> $this->mail_prefix
-                    ])->message;
+        return $this->simulation->game_type->
+            getMailTemplate(
+            [
+                'receiver_id' => $this->receiver_id,
+                'theme_id'    => $this->theme_id,
+                'mail_prefix' => $this->mail_prefix
+            ])->message;
     }
 
     /**
@@ -343,8 +345,8 @@ class MailBox extends CActiveRecord
     public function getWR() {
         $outbox_theme = $this->simulation->game_type->getOutboxMailTheme([
             'character_to_id' => $this->receiver_id,
-            'theme_id' => $this->theme_id,
-            'mail_prefix' => $this->mail_prefix
+            'theme_id'        => $this->theme_id,
+            'mail_prefix'     => $this->mail_prefix
         ]);
 
         if(null === $outbox_theme){

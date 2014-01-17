@@ -136,9 +136,15 @@ class OutboxMailTheme extends CActiveRecord
     /**
      * Проверяет было отправлено письмо или нет
      * @param Simulation $simulation
+     *
      * @return bool
      */
     public function themeIsUsed(Simulation $simulation) {
+
+        if (Theme::NEW_THEME_LABEL == $this->theme->text) {
+            return false;
+        }
+
         $mail = MailBox::model()->findByAttributes([
             'sim_id' => $simulation->id,
             'theme_id' => $this->theme_id,

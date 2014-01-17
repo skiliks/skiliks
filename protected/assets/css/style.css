@@ -4107,7 +4107,7 @@ body.action-controller-corporateReferrals-static-profile .popup-before-start-sim
         padding: 6px 4px 6px 6px;
     }
     #simulations-counter-box strong {
-        font-size: 14px;
+        font-size: 13px;
     }
     .brightblock {
         font-size: 15px;
@@ -4949,6 +4949,9 @@ body.action-controller-corporateReferrals-static-profile .popup-before-start-sim
 
 .action-controller-login-auth .enter_form .nice-border {
     background-color: #D1E8EA;
+}
+.action-controller-login-auth .enter_form .nice-border.has-errors {
+    padding-top: 12px;
 }
 
 .sign-in-box #yum-login-global-errors {

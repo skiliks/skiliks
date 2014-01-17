@@ -215,7 +215,11 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
             // @var array of SKMailPhrase
             activeConstructorCode: null,
 
+            // @var string
             activeMailPrefix: null,
+
+            // @var integer
+            activeParentEmailMyQslId: null,
 
             // @var array of SKMailPhrase
             // this is ',', '.', ':' etc. - symbols for any phrases set
@@ -1075,6 +1079,8 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
             },
 
             /**
+             * При написании нового письма вскрывать всех, у кого нет осмысленных тем.
+             * И без них адрессатов 2 десятка - тяжело ориентироваться.
              * @method
              * @returns {Array}
              */
@@ -1082,9 +1088,17 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 try {
                     var list = [];
                     for (var i in this.defaultRecipients) {
-                        // non strict "!=" is important!
-                        if ('' !== this.defaultRecipients[i].get('fio') && '' !== this.defaultRecipients[i].get('email')) {
-                            list.push(this.defaultRecipients[i].getFormatedForMailToName());
+                        if(this.activeScreen === 'SCREEN_WRITE_NEW_EMAIL') {
+                            if ('' !== this.defaultRecipients[i].get('fio')
+                                && '' !== this.defaultRecipients[i].get('email')
+                                && parseInt(this.defaultRecipients[i].get('has_mail_theme')) === 1) {
+                                list.push(this.defaultRecipients[i].getFormatedForMailToName());
+                            }
+                        } else {
+                            if ('' !== this.defaultRecipients[i].get('fio')
+                                && '' !== this.defaultRecipients[i].get('email')) {
+                                list.push(this.defaultRecipients[i].getFormatedForMailToName());
+                            }
                         }
                     }
 
@@ -1398,7 +1412,8 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
             },
 
             /**
-             * What is it?
+             * Метод создаёт JSON для отправки сереру комманд
+             * сохранить и отправить письмо
              *
              * @method
              * @param emailToSave
@@ -1407,6 +1422,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
             combineMailDataByEmailObject:function (emailToSave) {
                 try {
                     var mailId = '';
+                    var me = this;
                     if (this.activeScreen === this.screenWriteForward ||
                         this.activeScreen === this.screenWriteReply ||
                         this.activeScreen === this.screenWriteReplyAll) {
@@ -1428,16 +1444,19 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                     if (this.activeScreen == this.screenWriteForward) {
                         type = 'forward';
                     }
+
+                    var mailPrefix = (null === this.activeMailPrefix) ? '' : this.activeMailPrefix;
+
                     return {
                         id:         emailToSave.mySqlId,
                         copies:     emailToSave.getCopyToIdsString(),
                         fileId:     emailToSave.getAttachmentId(),
-                        messageId:  mailId,
+                        messageId:  me.activeParentEmailMyQslId,
                         phrases:    emailToSave.getPhrasesIdsString(),
                         receivers:  emailToSave.getRecipientIdsString(),
                         themeId:    emailToSave.subject.themeId,
                         letterType: type,
-                        mailPrefix: this.activeMailPrefix,
+                        mailPrefix: mailPrefix,
                         constructorCode: this.activeConstructorCode
                     };
                 } catch(exception) {

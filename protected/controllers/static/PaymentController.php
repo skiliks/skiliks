@@ -286,7 +286,7 @@ class PaymentController extends SiteBaseController
         }
 
         Yii::app()->user->setFlash('error', sprintf(
-            'Оплата прошла успешно, спасибо!'
+            'Оплата прошла успешно, спасибо'
         ));
         $this->redirect('/dashboard');
     }
@@ -310,7 +310,7 @@ class PaymentController extends SiteBaseController
         if(null != $invoice) {
 
             Yii::app()->user->setFlash('error', sprintf(
-                'Извините, оплата прошла неуспешно.'
+                'Извините, оплата прошла неуспешно'
             ));
             $this->redirect('/static/tariffs');
         }

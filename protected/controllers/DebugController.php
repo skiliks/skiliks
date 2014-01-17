@@ -39,5 +39,11 @@ class DebugController extends SiteBaseController
             echo "Fail - {$result['fail']}\r\n";
         }
     }
+
+    public function actionStandard() {
+        $this->layout = '//layouts/site_standard_2';
+
+        $this->render('//static/site/error404', []);
+    }
 }
 

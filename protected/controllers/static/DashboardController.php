@@ -107,7 +107,13 @@ class DashboardController extends SiteBaseController implements AccountPageContr
 
             $profile = YumProfile::model()->findByAttributes(['email' => strtolower($invite->email)]);
             $invite->setAttributes($this->getParam('Invite'));
-            $is_send = UserService::sendInvite($this->user, $profile, $invite, $this->getParam('Invite')['is_display_simulation_results']);
+            $is_send = false;
+            try {
+                $is_send = UserService::sendInvite($this->user, $profile, $invite, $this->getParam('Invite')['is_display_simulation_results']);
+            } catch (RedirectException $e) {
+                Yii::app()->user->setFlash('error', Yii::t('site', 'У вас закончились приглашения'));
+                $this->redirect("profile/corporate/tariff");
+            }
             if(true === $is_send){
                 $this->redirect('/dashboard');
             }elseif(false === $is_send) {
@@ -227,7 +233,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         // owner only can delete his invite
         if ($user->id !== $invite->owner_id) {
             Yii::app()->user->setFlash('success', sprintf(
-                "Нельзя удалить чужое приглашение!"
+                "Нельзя удалить чужое приглашение"
             ));
             $this->redirect(Yii::app()->request->urlReferrer);
         }
@@ -235,21 +241,21 @@ class DashboardController extends SiteBaseController implements AccountPageContr
 
         if ($invite->isAccepted()) {
             Yii::app()->user->setFlash('success', sprintf(
-                "Нельзя удалить приглашение которое находится в статусе 'Подтверждено'."
+                "Нельзя удалить приглашение которое находится в статусе 'Подтверждено'"
             ));
             $this->redirect(Yii::app()->request->urlReferrer);
         }
 
         if ($invite->isStarted()) {
             Yii::app()->user->setFlash('success', sprintf(
-                "Нельзя удалить приглашение которое находится в статусе 'Начато'."
+                "Нельзя удалить приглашение которое находится в статусе 'Начато'"
             ));
             $this->redirect(Yii::app()->request->urlReferrer);
         }
 
         if ($invite->isCompleted()) {
             Yii::app()->user->setFlash('success', sprintf(
-                "Нельзя удалить приглашение которое находится в статусе 'Готово'."
+                "Нельзя удалить приглашение которое находится в статусе 'Готово'"
             ));
             $this->redirect(Yii::app()->request->urlReferrer);
         }
@@ -300,7 +306,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
 
         if (Invite::STATUS_PENDING !== (int)$invite->status) {
             Yii::app()->user->setFlash('success', sprintf(
-                nl2br("Только приглашение \n со статусом \"%s\" можно отправить ещё раз."),
+                nl2br("Только приглашение \n со статусом \"%s\" можно отправить ещё раз"),
                 Yii::t('site', Invite::$statusText[Invite::STATUS_PENDING])
             ));
             $this->redirect(Yii::app()->request->urlReferrer);
@@ -311,7 +317,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         // you can`t delete other (corporate) user invite
         if ($user->id !== $invite->owner_id) {
             Yii::app()->user->setFlash('success', sprintf(
-                "Нельзя продлить чужое приглашение!"
+                "Нельзя продлить чужое приглашение"
             ));
             $this->redirect('/');
         }
@@ -395,7 +401,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         if (Yii::app()->user->data()->id !== $invite->receiver_id &&
             Yii::app()->user->data()->id !== $invite->owner_id) {
 
-            Yii::app()->user->setFlash('success', 'Вы не можете удалить чужое приглашение.');
+            Yii::app()->user->setFlash('success', 'Вы не можете удалить чужое приглашение');
             $this->redirect('/dashboard');
         }
 

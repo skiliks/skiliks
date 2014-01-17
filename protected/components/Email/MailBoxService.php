@@ -254,7 +254,8 @@ class MailBoxService
     {
         /** @var $mail MailBox */
         $mail = MailBox::model()->findByPk($mailId);
-        if ($mail->constructor_code === 'TXT') {;
+        if ($mail->constructor_code === 'TXT') {
+            // письма ещё не распознано - а текст нужен
             return $mail->getMessageByReceiverAndTheme();
         }
 
@@ -276,6 +277,7 @@ class MailBoxService
             'character_to_id' => explode(',', $receivers)[0],
             'mail_prefix'     => ($mailPrefix === 'null') ? null : $mailPrefix
         ];
+
         if(null !== $parentThemeId) {
             $condition['theme_id']  = $parentThemeId;
         }
@@ -283,14 +285,17 @@ class MailBoxService
 
         /*  */
         foreach ($outboxMailThemes as $outboxMailTheme) {
-            if(false === $outboxMailTheme->isBlockedByFlags($simulation) && false === $outboxMailTheme->themeIsUsed($simulation)) {
-                $themes[(int)$outboxMailTheme->theme_id] = $outboxMailTheme->theme->text;
+            if(false === $outboxMailTheme->isBlockedByFlags($simulation)
+                && false === $outboxMailTheme->themeIsUsed($simulation)) {
+                $themes[(int)$outboxMailTheme->theme_id]
+                    = $outboxMailTheme->theme->getFormattedTheme($mailPrefix);
             }
         }
 
         if(count($outboxMailThemes) === 0 && $parentThemeId !== null) {
             $theme = $simulation->game_type->getTheme(['id'=>$parentThemeId]);
             $themes[(int)$theme->id] = $theme->getFormattedTheme($mailPrefix);
+
         }
 
         return $themes;
@@ -619,7 +624,7 @@ class MailBoxService
      * @param $mailPrefix
      * @return array
      */
-    public static function getPhrases(Simulation $simulation, $themeId, $characterToId, $mailPrefix = null)
+    public static function getPhrases(Simulation $simulation, $themeId, $characterToId, $mailPrefix = NULL)
     {
         $data = [];
         $message = '';
@@ -627,7 +632,7 @@ class MailBoxService
         $addData = [];
 
         /* @var $outbox_mail_theme OutboxMailTheme */
-        $outbox_mail_theme = OutboxMailTheme::model()->findByAttributes([
+        $outbox_mail_theme = $simulation->game_type->getOutboxMailTheme([
             'character_to_id' => $characterToId,
             'theme_id'        => $themeId,
             'mail_prefix'     => $mailPrefix
@@ -678,7 +683,7 @@ class MailBoxService
             $repliedEmail->update();
         }
 
-        assert($sendMailOptions->messageId !== null); // wtf ? ну а хули, пусть будет
+        assert($sendMailOptions->messageId !== null);
 
         $letterType = $sendMailOptions->getLetterType();
 
@@ -939,31 +944,29 @@ class MailBoxService
      * @return array
      * @throws ErrorException
      */
-    public static function getMessageData(MailBox $message, $action)
+    public static function getMessageData(MailBox $email, $action)
     {
         $result = [
             'result'      => 1,
-            'themeId'   => $message->theme_id,
+            'themeId'   => $email->theme_id,
         ];
         $themePrefix = '';
         if ($action == self::ACTION_FORWARD) {
             $themePrefix = 'fwd';
-            $result['phrases'] = self::getPhrases($message->simulation, $message->theme_id, null, null);
-            $result['phrases']['previouseMessage'] = $message->message;
+            $result['phrases'] = self::getPhrases($email->simulation, $email->theme_id, null, null);
+            $result['phrases']['previouseMessage'] = $email->message;
         } elseif ($action == self::ACTION_REPLY || $action == self::ACTION_REPLY_ALL) {
             $themePrefix = 're';
-            $result['phrases'] = self::getPhrases($message->simulation, $message->theme_id, $message->receiver_id, $themePrefix.$message->mail_prefix);
-            $result['phrases']['previouseMessage'] = $message->message;
-        } elseif ($action == self::ACTION_EDIT) {
-            //$condition['id'] = $message->subject_id;
+            $result['phrases'] = self::getPhrases($email->simulation, $email->theme_id, $email->receiver_id, $themePrefix.$email->mail_prefix);
+            $result['phrases']['previouseMessage'] = $email->message;
         }
-        $result['theme'] = $message->getFormattedTheme($themePrefix);
+        $result['theme'] = $email->getFormattedTheme($themePrefix);
 
         if ($action == self::ACTION_FORWARD) {
-            $result['parentThemeId'] = $message->theme_id;
-            if (null !== $message->attachment) {
-                $result['attachmentName']   = $message->attachment->myDocument->fileName;
-                $result['attachmentId']     = $message->attachment->file_id;
+            $result['parentThemeId'] = $email->theme_id;
+            if (null !== $email->attachment) {
+                $result['attachmentName']   = $email->attachment->myDocument->fileName;
+                $result['attachmentId']     = $email->attachment->file_id;
             }
             // TODO: Check is this required
             if ($result['phrases']['constructorCode'] === 'TXT') {
@@ -972,43 +975,54 @@ class MailBoxService
         }
 
         if ($action == self::ACTION_REPLY || $action == self::ACTION_REPLY_ALL) {
-            $characters = self::getCharacters($message->simulation);
-            $result['receiver'] = $characters[$message->sender_id];
-            $result['receiver_id'] = $message->sender_id;
+            $characters = self::getCharacters($email->simulation);
+            $result['receiver'] = $characters[$email->sender_id];
+            $result['receiver_id'] = $email->sender_id;
         }
 
         if ($action == self::ACTION_REPLY_ALL) {
-            list($result['copiesIds'], $result['copies']) = self::getCopiesArray($message);
+            list($result['copiesIds'], $result['copies']) = self::getCopiesArray($email);
         }
 
         // Edit draft {
         if ($action == self::ACTION_EDIT) {
-            $result['id'] = $message->id;
+            $result['id'] = $email->id;
 
-            $characters = self::getCharacters($message->simulation);
-            $result['receiver'] = $characters[$message->receiver_id];
-            $result['receiver_id'] = $message->receiver_id;
+            $characters = self::getCharacters($email->simulation);
+            $result['receiver'] = $characters[$email->receiver_id];
+            $result['receiver_id'] = $email->receiver_id;
 
-            if ($message->message_id) {
-                $result['parentThemeId'] = $message->theme_id;
+            if ($email->message_id) {
+                $result['parentThemeId'] = $email->theme_id;
             }
 
-            $result['copiesIds'] = array_map(function(MailCopy $copy) use ($characters) {
-                return $copy->receiver_id;
-            }, MailCopy::model()->findByAttributes(['mail_id' => $message->id]));
-            $result['copies'] = self::getCharacters($message->simulation, $result['copiesIds']);
+            $result['copiesIds'] = array_map(
+                function(MailCopy $copy) use ($characters) {
+                    return $copy->receiver_id;
+                },
+                MailCopy::model()->findAllByAttributes(['mail_id' => $email->id])
+            );
+
+            $result['copies'] = self::getCharacters($email->simulation, $result['copiesIds']);
 
             $result['copiesIds'] = implode(',', $result['copiesIds']);
             $result['copies'] = implode(',', $result['copies']);
 
-            $result['phrases']['previouseMessage'] = $message->message_id ? $message->message : '';
+            $result['phrases']['previouseMessage'] = (null !== $email->parentMail) ? $email->parentMail->message : '';
 
-            if (null !== $message->attachment) {
-                $result['attachmentName']   = $message->attachment->myDocument->fileName;
-                $result['attachmentId']     = $message->attachment->file_id;
+            if (null !== $email->attachment) {
+                $result['attachmentName']   = $email->attachment->myDocument->fileName;
+                $result['attachmentId']     = $email->attachment->file_id;
             }
+
+            $result['messageId']  = (null === $email->parentMail) ? null : $email->parentMail->id;
+        } else {
+            // мы отвечаем на текущее письмо
+            // и текущее письма становится Предыдущим письмом
+            $result['messageId']  = $email->id;
         }
-        $result['mailPrefix'] = $themePrefix.$message->mail_prefix;
+
+        $result['mailPrefix'] = $themePrefix.$email->mail_prefix;
         // Edit draft }
 
         return $result;

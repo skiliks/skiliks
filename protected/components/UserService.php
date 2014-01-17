@@ -397,9 +397,10 @@ class UserService {
                 return true;
                 //$this->redirect('/dashboard');
             } elseif ($user->getAccount()->getTotalAvailableInvitesLimit() < 1 ) {
-                Yii::app()->user->setFlash('error', Yii::t('site', 'Беспплатный тарифный план использован. Пожалуйста, <a class="feedback">свяжитесь с нами</a>>, чтобы приобрести пакет симуляций'));
+                //Yii::app()->user->setFlash('error', Yii::t('site', 'У вас закончились приглашения'));
+                throw new RedirectException("Нужно перехватить это исключение и отредиректить");
             } else {
-                Yii::app()->user->setFlash('error', Yii::t('site', 'Неизвестная ошибка.<br/>Приглашение не отправлено.'));
+                Yii::app()->user->setFlash('error', Yii::t('site', 'Приглашение уже отправлено'));
             }
         }
         return $validPrevalidate;
@@ -455,12 +456,12 @@ class UserService {
         $mailOptions->subject = 'Приглашение пройти симуляцию на ' . Yii::app()->params['server_domain_name'];
         $mailOptions->h1      = $invite->getReceiverFirstName() . ', приветствуем вас!';
         $mailOptions->setText('
-            <p  style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
+            <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
                 Компания '. $invite->ownerUser->account_corporate->company_name .' предлагает вам пройти тест "Базовый менеджмент".<br/>
-                <a target="_blank" href="' . Yii::app()->createAbsoluteUrl('static/pages/product') .'">"Базовый менеджмент"</a>
+                <a target="_blank" style="text-decoration: none;" href="' . Yii::app()->createAbsoluteUrl('static/pages/product') .'">"Базовый менеджмент"</a>
                 - это деловая симуляция, позволяющая оценить менеджерские навыки в форме увлекательной игры.<br/>
             </p>
-             <p  style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
+             <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
             '.$invite->message.
             '</p>
              <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">'
@@ -768,7 +769,8 @@ class UserService {
                         Ваш тарифный план истёк.
                         Вы можете ' . $linkToProlongTariff
                         . ' <a href="' . MailHelper::createUrlWithHostname('static/tariffs')
-                        . '">оформить новый</a>.
+                        . '" style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva,
+                        sans-serif;font-size:14px;">оформить новый</a>.
                     </p>
                 ';
 
@@ -1128,10 +1130,12 @@ class UserService {
                     '. $logs[count($logs)-1]->date .'.
                     <br><br>
                     Если это вы - перейдите по <a
-                    href="'. $link . '&type=' . YumUser::PASSWORD_BRUTEFORCE_IT_IS_ME . '">ссылке</a>
+                    href="'. $link . '&type=' . YumUser::PASSWORD_BRUTEFORCE_IT_IS_ME . '" style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva,
+            sans-serif;font-size:14px;">ссылке</a>
                     <br><br>
                     Если это НЕ вы - перейдите по <a
-                    href="'. $link . '&type=' . YumUser::PASSWORD_BRUTEFORCE_IT_IS_NOT_ME .'">ссылке</a><br>
+                    href="'. $link . '&type=' . YumUser::PASSWORD_BRUTEFORCE_IT_IS_NOT_ME .'" style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva,
+            sans-serif;font-size:14px;">ссылке</a><br>
                 </p>
             ';
 

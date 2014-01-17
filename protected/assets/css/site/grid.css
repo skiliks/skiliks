@@ -1,0 +1,144 @@
+
+/* CSS styles to define geometric grid system on page for all screen resolutions */
+/* Currently 1280+ and 1280- */
+
+html {
+    height: 100%;
+    min-height: 600px;
+    position: relative;
+}
+
+/* --- */
+
+body {
+    background-image: url('../../img/site/general-style/bg-top.jpg');
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-color: #77B3BD;
+    height: 100%;
+}
+
+@media screen and (max-width: 1279px) {
+    body {
+
+    }
+}
+
+/* --- */
+
+header {
+    height: 131px;
+}
+
+@media screen and (max-width: 1279px) {
+    header {
+        height: 108px;
+    }
+}
+
+/* --- */
+
+section.main-content {
+    border: 1px solid #ff0000;
+    min-height: 570px; /* 1080px - 130px (header) - 380px (footer) */
+    position: relative;
+}
+
+@media screen and (max-width: 1279px) {
+    section.main-content {
+
+    }
+}
+
+/* --- */
+
+footer.main-content {
+    background-image: url('../../img/site/general-style/site-footer.png');
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 381px;
+    left: 0;
+    margin-top: -200px;
+    position: relative;
+    width: 100%;
+}
+
+@media screen and (max-width: 1279px) {
+    footer.main-content {
+        height: 308px;
+    }
+}
+
+/* --- */
+
+.full-column {
+    margin: 0 auto;
+    min-width: 1146px;
+    width: 1146px;
+}
+
+@media screen and (max-width: 1279px) {
+    .full-column {
+        min-width: 948px;
+        width: 948px;
+    }
+}
+
+/* --- */
+
+.inline-list li {
+    display: inline-block;
+}
+
+.inline-block {
+    display: inline-block;
+}
+
+/* --- */
+
+.pull-content-right {
+    text-align: right;
+}
+
+.pull-content-left {
+    text-align: left;
+}
+
+.pull-content-center {
+    text-align: center;
+}
+
+/* --- */
+
+.pull-right {
+    float: right;
+}
+
+.pull-left {
+    float: left;
+}
+
+/* --- */
+
+.inline-block {
+    display: inline-block;
+}
+
+/* --- */
+
+.text-smallest {
+    font-size: 0.8em;
+}
+
+@media screen and (max-width: 1279px) {
+    .text-smallest {
+        font-size: 0.8em;
+    }
+}
+
+/* --- */
+
+.text-white {
+    color: #ffffff;
+}

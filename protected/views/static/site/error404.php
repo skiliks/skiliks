@@ -1,4 +1,4 @@
-<div id="error404-message">
+<div id="error404-message" style="background-color: #00ff00;">
     <br/>
     <br/>
     <br/>
@@ -9,6 +9,5 @@
     <br/>
     <br/>
     <a href="/" class="bigbtnsubmt"><?php echo Yii::t('site','Back to homepage');?></a>
-    <br/>
     <br/>
 </div>

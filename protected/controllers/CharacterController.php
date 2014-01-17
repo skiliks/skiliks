@@ -10,15 +10,7 @@ class CharacterController extends SimulationBaseController
 	{
         $simulation = $this->getSimulationEntity();
 
-        $characters = $simulation->game_type->getCharacters([]);
-        $data['data'] = array_map(
-            function (Character $character) {
-                return $character->getAttributes([
-                    'id', 'title', 'fio', 'email', 'code', 'phone',
-                ]);
-            },
-        $characters);
-
+        $data['data'] = SimulationService::getCharactersList($simulation);
         $data['result'] = self::STATUS_SUCCESS;
 
         $this->sendJSON($data);

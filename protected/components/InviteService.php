@@ -65,7 +65,7 @@ class InviteService {
             strtolower($user->profile->email) !== strtolower($declineExplanation->invite->email) &&
             null !== $declineExplanation->invite->receiver_id) {
 
-            Yii::app()->user->setFlash('success', 'Вы не можете удалить чужое приглашение.');
+            Yii::app()->user->setFlash('success', 'Вы не можете удалить чужое приглашение');
             return '/dashboard';
         }
 

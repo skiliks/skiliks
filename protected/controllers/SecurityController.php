@@ -4,195 +4,6 @@
  */
 class SecurityController extends SiteBaseController {
 
-    public function actionIndex()
-    {
-        $sim_id = Yii::app()->request->getParam('sim_id');
-        $simulation = Simulation::model()->findByPk($sim_id);
-
-        TimeManagementAggregatedDebug::model()->deleteAllByAttributes(['sim_id'=>$simulation->id]);
-
-        $tma = new TimeManagementAnalyzerDebug($simulation);
-        $tma->calculateAndSaveAssessments();
-        $assessment_debug = TimeManagementAggregatedDebug::model()->findByAttributes([
-            'sim_id' => $simulation->id,
-            'slug'=>'1st_priority_phone_calls'
-        ]);
-
-        $assessment = TimeManagementAggregated::model()->findByAttributes([
-            'sim_id' => $simulation->id,
-            'slug'=>'1st_priority_phone_calls'
-        ]);
-
-        echo 'sim_id = '.$simulation->id.'1st_priority_phone_calls debug - '.$assessment_debug->value.' real - '.$assessment->value;
-    }
-
-    public function actionStyleCss()
-    {
-        $k[17] = 0;
-        if(empty($k[20])) {
-            echo "lol";
-        }
-    }
-
-    public function actionStyleForPopupCss()
-    {
-        $this->layout = false;
-        $this->render('style_for_popup_css');
-    }
-
-    public function actionStyleGrid()
-    {
-        $this->layout = false;
-        $this->render('style_grid');
-    }
-
-    public function actionStyleGridResults()
-    {
-        $this->layout = false;
-        $this->render('style_grid_results');
-    }
-
-    public function actionStyleBlocks()
-    {
-        $this->layout = false;
-        $this->render('style_blocks');
-    }
-
-    public function actionStyleEmpty1280()
-    {
-        $this->layout = false;
-        $this->render('style_empty_1280');
-    }
-
-    public function actionStyleEmpty1024()
-    {
-        $this->layout = false;
-        $this->render('style_empty_1024');
-    }
-
-    public function actionXxx()
-    {
-//        $simulation = Simulation::model()->findByPk(900);
-//
-//        $ccb = new CheckConsolidatedBudget($simulation->id);
-//        $ccb->calcPoints();
-//        die;
-
-
-//        $doc = new MyDocument();
-//        $doc->fileName = 'Сводный бюджет_2014_план.xls';
-//        $doc->sim_id = 714;
-//        $doc->template_id = 20;
-//        $doc->save(false);
-//        $doc->refresh();
-//
-//        // var MyDocument $doc
-//        $scData = $doc->getSheetList();
-//
-//        $filePath = tempnam('/tmp', 'excel_');
-//
-//        ScXlsConverter::sc2xls($scData, $filePath);
-//
-//        if (file_exists($filePath)) {
-//            $xls = file_get_contents($filePath);
-//        } else {
-//            throw new Exception("Файл не найден");
-//        }
-//
-//        $filename = $doc->sim_id . '_' . $doc->template->fileName;
-//        header('Content-Type:   application/vnd.ms-excel; charset=utf-8');
-//        header('Content-Disposition: attachment; filename="' . $filename . '"');
-//        echo $xls;
-
-//        echo '<pre>';
-
-        $scDoc = file_get_contents('http://loc.skiliks.com/6025_svodnyj_byudzhet_2014_plan');
-        $scDoc = str_replace('СУММ', 'SUM', $scDoc);
-
-        $excel = ScXlsConverter::sc2xls(json_decode($scDoc, true));
-
-        PHPExcel_Calculation::getInstance()->clearCalculationCache();
-
-        $worksheetNames = Yii::app()->params['analizer']['excel']['consolidatedBudget']['worksheetNames'];
-
-        $whConsolidated = $excel->getSheetByName($worksheetNames['consolidated']);
-
-
-//
-//
-//        $xlsFile =  new \PHPExcel();
-//        $xlsFile->removeSheetByIndex(0);
-//        $xlsFile->addSheet($whConsolidated);
-//
-//        $n10 = $whConsolidated->getCell('N10')->getCalculatedValue();
-//        $n10 = $whConsolidated->getCell('N10')->getValue();
-
-
-//        $whConsolidated->getCell('N10')->setValue('=SUM(продажи!B6:продажи!D6)');
-//        // PHPExcel_Calculation::getInstance()->clearCalculationCache();
-//
-//        echo '</pre>';
-
-//        $xlsFile =  new \PHPExcel();
-//        $xlsFile->removeSheetByIndex(0);
-//        $xlsFile->addSheet($whConsolidated);
-
-//        $filePath = tempnam('/tmp', 'excel_');
-//        ScXlsConverter::sc2xls(json_decode($scDoc, true), $filePath);
-//
-//        if (file_exists($filePath)) {
-//            $xls = file_get_contents($filePath);
-//        } else {
-//            throw new Exception("Файл не найден");
-//        }
-//
-//        $filename = 'D1.xlsx';
-//        header('Content-Type:   application/vnd.ms-excel; charset=utf-8');
-//        header('Content-Disposition: attachment; filename="' . $filename . '"');
-//        echo $xls;
-    }
-    // PAYMENT CONTROLLER METHODS
-
-    public function actionDoCashPayment() {
-
-        /** var YumUser $user */
-        $user = Yii::app()->user->data();
-
-        if (!Yii::app()->request->getIsAjaxRequest() || !$user->isAuth() || !$user->isCorporate()) {
-            echo 'false';
-            Yii::app()->end();
-        }
-
-        $account = $user->account_corporate;
-
-
-        $paymentMethod = new CashPaymentMethod();
-
-        $account->inn                 = $paymentMethod->inn     = Yii::app()->request->getParam('inn');
-        $account->cpp                 = $paymentMethod->cpp     = Yii::app()->request->getParam('cpp');
-        $account->bank_account_number = $paymentMethod->account = Yii::app()->request->getParam('account');
-        $account->bic                 = $paymentMethod->bic     = Yii::app()->request->getParam('bic');
-
-        $errors = CActiveForm::validate($paymentMethod);
-
-        if ($errors) {
-            echo $errors;
-        } elseif (!$account->hasErrors()) {
-            $account->save();
-
-            echo sprintf(
-                Yii::t('site', 'Thanks for your order, Invoice was sent to %s. Plan will be available upon receipt of payment'),
-                $user->profile->email
-            );
-        }
-    }
-
-    public function actionYyy()
-    {
-
-    }
-
-
     /**
      * Список доверенных IP
      *
@@ -205,6 +16,7 @@ class SecurityController extends SiteBaseController {
         '62.205.135.161',   // Teamcity
         '188.32.209.89', // Таня
         '86.62.110.225', // Лея
+        '218.32.56.5', // www.freesitestatus.com/monitored-by-user-slavka
     ];
 
     /**
@@ -218,10 +30,29 @@ class SecurityController extends SiteBaseController {
     {
         $file = '';
 
-        //for ($i = 41; $i < 53; $i++) {
-        $file .= file_get_contents(__DIR__.'/access.log');
-        //}
-        $file = htmlspecialchars($file);
+        // чтоб с сервака забирать
+
+//        $file_0 = file_get_contents(__DIR__.'/../access-logs/access.log');
+//        $file_1 = file_get_contents(__DIR__.'/../access-logs/access.log.1');
+//
+//        $file_2 = '';
+//
+//        for ($i = 2; $i < 10; $i++) { // 37
+//            $z = gzopen(__DIR__.'/../access-logs/access.log.'.$i.'.gz','r') or die("can't open: $php_errormsg");
+//            while ($line = gzgets($z,1024)) {
+//                $file_2 .= $line;
+//            }
+//
+//            $file_2 .= $i."\n";
+//        }
+//
+//        $file = $file_0."\n".$file_1."\n".$file_2;
+
+        // --------------------------
+
+        $file = file_get_contents(__DIR__.'/../access-logs/access2.log');
+
+        // $file = htmlspecialchars($file);
 
         return $file;
     }
@@ -243,6 +74,8 @@ class SecurityController extends SiteBaseController {
         '194.226.108.22' /* 200+ */,
         '46.39.37.145' /* 100+ */,
 
+        '144.76.56.104' /* это IP продакшена */,
+
         '150.70.97.99','150.70.97.115','150.70.173.56','150.70.75.32','150.70.173.57', '150.70.97.98',
         '150.70.75.38','150.70.172.111','150.70.173.46','150.70.173.49','150.70.172.104', '150.70.97.124',
         '150.70.64.211','150.70.64.214','150.70.173.45','150.70.97.120','150.70.97.96', '150.70.173.43',
@@ -263,7 +96,9 @@ class SecurityController extends SiteBaseController {
         '211.155.95.122' /* 10 */,'77.120.96.66' /* 4 */,'152.104.210.52'/* 5 */ ,'95.7.38.93' /* 4 */,'162.243.72.5' /* 4 */,'203.128.84.186',
         '5.61.39.55' /* 2 */,'95.211.223.32' /* 2 */,'94.102.49.37' /* 3 */,'80.86.84.72','176.31.13.28','',
         '91.121.98.48' /* 6 */,'91.210.189.145' /* 3 */,'133.242.12.230'/* 5 */,'46.164.129.180' /* 5 */,'66.249.73.235','85.214.104.62',
-        '72.167.113.216' /* 5 */,'118.175.36.34' /* 3 */,'','','','','',
+        '72.167.113.216' /* 5 */,'118.175.36.34' /* 3 */,'27.97.100.234' /*13*/,'66.249.66.222'/*1*/,'195.3.146.93'/*2*/,'24.133.78.224'/*5*/,'94.102.51.155'/*10*/,
+        '46.163.71.99'/*1*/,'178.77.71.185'/*4*/,'77.222.56.204'/*1*/,'122.164.52.86'/*2*/,'195.3.146.93'/*2*/,'194.28.71.96'/*1*/,'109.120.163.60'/*1*/,
+        '216.55.166.67'/*8*/,'','','','','','',
         '','','','','','','',
         // '93.75.179.229', // он знает /admin_area
         /*'77.47.204.138' Таня? */
@@ -292,8 +127,14 @@ class SecurityController extends SiteBaseController {
 
         $ip = $lineArr[0];
 
+
+
+        if (in_array($line, ['2', '3', '4','5','6','7','8','9','10',11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,34,33,35,36])) {
+            return null;
+        }
+
         if (false == isset($lineArr[3])) {
-            echo $line;
+            echo 'Not log string! => '.$line;
             die;
         }
 
@@ -532,11 +373,38 @@ class SecurityController extends SiteBaseController {
         } elseif ('"Yandex.Disk' == $lineArr[13] && '"-"' == $lineArr[15]) {
             $userAgent = $lineArr[13]. ' '.$lineArr[14];
 
+        } elseif ('/emails/new-year-2014/kakprivestidelavporyadok.mp3.zip' == $lineArr[8]) {
+            $userAgent = $lineArr[12]. ' '.$lineArr[13];
+            $log->isTrusted = true;
+
         }  elseif ('"(DreamPassport/3.0;' == $lineArr[13] && '"-"' == $lineArr[15]) {
+            $userAgent = $lineArr[13]. ' '.$lineArr[14];
+
+            // !!!
+
+        } elseif (-1 < strstr($lineArr[13], 'Slurp') && '' == $lineArr[17]) {
+            $userAgent = $lineArr[13]. ' '.$lineArr[14]. ' '.$lineArr[15]. ' '.$lineArr[16];
+
+        } elseif (-1 < strstr($lineArr[13], 'NING') && '' == $lineArr[17]) {
+            $userAgent = $lineArr[13]. ' '.$lineArr[14]. ' '.$lineArr[15]. ' '.$lineArr[16];
+
+        } elseif (-1 < strstr($lineArr[13], 'Yahoo') && '' == $lineArr[17]) {
+            $userAgent = $lineArr[13]. ' '.$lineArr[14]. ' '.$lineArr[15]. ' '.$lineArr[16];
+
+        } elseif (-1 < strstr($lineArr[13], 'Mozilla') && isset($lineArr[42]) && '' == $lineArr[42]) {
+            $userAgent = '';
+            for ($c = 13; $c < 42; $c++) {
+                $userAgent .= $lineArr[$c];
+            }
+
+        }  elseif (-1 < strstr($lineArr[13], 'Googlebot') && '"-"' == $lineArr[15]) {
             $userAgent = $lineArr[13]. ' '.$lineArr[14];
 
         } elseif (-1 < strstr($lineArr[13], 'Mozilla') && '"-"' == $lineArr[15]) {
             $userAgent = $lineArr[13]. ' '.$lineArr[14];
+
+        } elseif (-1 < strstr($lineArr[13], 'Mozilla') && '' == $lineArr[19]) {
+            $userAgent = $lineArr[13]. ' '.$lineArr[14]. ' '.$lineArr[15]. ' '.$lineArr[16]. ' '.$lineArr[17]. ' '.$lineArr[18];
 
         } elseif (-1 < strstr($lineArr[13], 'Mozila') && ('"-"' == $lineArr[16] || '0.000--' == $lineArr[17] )) {
             $userAgent = $lineArr[13]. ' '.$lineArr[14]. ' '.$lineArr[16];
@@ -575,6 +443,10 @@ class SecurityController extends SiteBaseController {
         } elseif ('href=\x22http://www.alexaboostup.com\x22&gt;Alexa' == $lineArr[14]) {
             $userAgent = $lineArr[13]. ' '.$lineArr[14]. ' '.$lineArr[15];
 
+        } elseif ('"Wget/1.13.4' == $lineArr[13]) {
+            $userAgent = $lineArr[13]. ' '.$lineArr[14];
+            $log->isHacker = true;
+
         } else {
             if ('' == $lineArr[20] /*|| false == isset($lineArr[14]) || false == isset($lineArr[15])
                 || false == isset($lineArr[16]) || false == isset($lineArr[17]) || false == isset($lineArr[18])
@@ -598,17 +470,10 @@ class SecurityController extends SiteBaseController {
             $log->isTrusted = true;
         }
 
-        if ('GET 304' == $log->response) {
+        if (in_array($log->response, ['GET 304', 'GET 303', 'GET 302'])) {
             $log->isTrusted = true;
         }
 
-        if ('GET 303' == $log->response) {
-            $log->isTrusted = true;
-        }
-
-        if ('GET 302' == $log->response) {
-            $log->isTrusted = true;
-        }
 
         if ('POST 302' == $log->response && '/dashboard' == $log->request) {
             $log->isTrusted = true;
@@ -681,23 +546,12 @@ class SecurityController extends SiteBaseController {
             $log->isTrusted = true;
         }
 
+        if ($this->isHackerRequest($log)) {
+            $log->isHackAction = true;
+            $log->isHacker = true;
+        }
         if (in_array($log->ip, self::$hackerIps)) {
             $log->isHacker = true;
-        }
-
-        if (-1 < strstr($log->request, '144.76.56.104')) {
-            $log->isHacker = true;
-        }
-
-        if ($log->isHacker
-            && -1 < strstr($log->line, 'admin')) {
-            $log->isHackAction = true;
-        }
-
-        if ('/cgi-bin/php' == substr($lineArr[8], 0, 12)) {
-            $log->comment .= '>> HACKER!  ';
-            $log->isHacker = true;
-            $log->isHackAction = true;
         }
 
         return $log;
@@ -716,6 +570,7 @@ class SecurityController extends SiteBaseController {
 
         header("Content-Type:text/plain");
         header("Content-Disposition: attachment; filename=access.log");
+
         echo $this->getLogs();
     }
 
@@ -849,7 +704,12 @@ class SecurityController extends SiteBaseController {
 
             $lineObj = $this->parseLogLine($line);
 
+            if (null == $lineObj) {
+                continue;
+            }
+
             if ($lineObj->isHackAction) {
+
                 $attacks[] = sprintf(
                         '%15s %15s %15s %50s %90s',
                         $lineObj->date,
@@ -939,6 +799,10 @@ class SecurityController extends SiteBaseController {
             }
 
             $lineObj = $this->parseLogLine($line);
+
+            if (null == $lineObj) {
+                continue;
+            }
 
             if ($lineObj->isHackAction
                 || $lineObj->isHacker
@@ -1049,6 +913,10 @@ class SecurityController extends SiteBaseController {
 
             $lineObj = $this->parseLogLine($line);
 
+            if (null == $lineObj) {
+                continue;
+            }
+
             if ($this->isHackAdminkaRequest($lineObj, $lineObj->ip)) {
                 $index = $lineObj->ip.' '.$lineObj->userAgent;
 
@@ -1103,10 +971,38 @@ class SecurityController extends SiteBaseController {
      * @return bool
      */
     public function isHackerRequest($line) {
-        if ((-1 < strstr($line->request, 'user/auth ')
+        if (
+                (-1 < strstr($line->request, 'user/auth ')
                 || -1 < strstr($line->request, 'setup')
-                || -1 < strstr($line->request, 'cgi')
-            ) && false == in_array($line->ip, self::$allowedIps)) {
+                || -1 < strstr($line->request, '/phpmyadmin')
+                || -1 < strstr($line->request, '/webmail/')
+                || -1 < strstr($line->request, '//mail/')
+                || -1 < strstr($line->request, '//mail.php/')
+                || -1 < strstr($line->request, '/wordpress')
+                || -1 < strstr($line->request, '/joomla')
+                || -1 < strstr($line->request, '/joomla')
+                || -1 < strstr($line->request, '/drupal')
+                || -1 < strstr($line->request, '/blog')
+                || -1 < strstr($line->request, '/install.php')
+                || -1 < strstr($line->request, 'LICENSE_AFL.txt')
+                || -1 < strstr($line->request, '.html')
+                || -1 < strstr($line->request, '/catmin/')
+                || -1 < strstr($line->request, 'wwwroot')
+                || -1 < strstr($line->request, '\x01')
+                || -1 < strstr($line->request, '\x02')
+                || -1 < strstr($line->request, '\x03')
+                || -1 < strstr($line->request, '.rar')
+                || -1 < strstr($line->request, '.zip')
+                || '/downloader' == $line->request
+                || '/mage' == $line->request
+                || '/wp' == $line->request
+                || -1 < strstr($line->request, '/news.php')
+                || -1 < strstr($line->request, '/do.php')
+                || -1 < strstr($line->request, '/pma')
+                || -1 < strstr($line->request, '/forum')
+                || -1 < strstr($line->request, 'cgi-bin')
+            )
+            && false == in_array($line->ip, self::$allowedIps)) {
             return true;
         }
 
@@ -1149,7 +1045,7 @@ class SecurityController extends SiteBaseController {
 
             $lineObj = $this->parseLogLine($line);
 
-            if ($this->isHackerRequest($lineObj)) {
+            if ($lineObj->isHacker) {
                 echo sprintf(
                         '%15s %15s %15s %100s   %90s',
                         $lineObj->date,
@@ -1201,7 +1097,7 @@ class SecurityController extends SiteBaseController {
 
             $lineObj = $this->parseLogLine($line);
 
-            if ($this->isHackerRequest($lineObj)) {
+            if ($lineObj->isHacker) {
 
                 $index = $lineObj->ip.' '.$lineObj->userAgent.' '.$lineObj->response;
 
@@ -1263,6 +1159,10 @@ class SecurityController extends SiteBaseController {
             }
 
             $lineObj = $this->parseLogLine($line);
+
+            if (null === $lineObj) {
+                continue;
+            }
 
             if (in_array($lineObj->ip, self::$allowedIps)) {
                 continue;
@@ -1373,13 +1273,6 @@ class SecurityController extends SiteBaseController {
 
     public function actionLogAnalyzer()
     {
-//        if ('jdndsuiqw12009c3mv-NCALA023-4NLDL2-nCDp--23LKLCK-23=2-r=-2' != $_POST['dsinvoejgdb']) {
-//            Yii::log('Somebody try to use debug controller!', 'warning');
-//            Yii::app()->end();
-//        }
-
-//        $targetIp = $_POST['ip'];
-
         $targetIp = '194.44.36.154';
 
         $file_0 = file_get_contents(__DIR__.'/access.log');
@@ -1410,56 +1303,7 @@ class SecurityController extends SiteBaseController {
                 continue;
             }
 
-//            if (-1 = strpos($line, ' 404')) {
-//                    continue;
-//             }
-//                $line = str_replace(
-//                    [
-//                        'www.skiliks.com 144.76.56.104 GET',
-//                        '- - ',
-//                        'HTTP/1.1 404',
-//                        'skiliks.com 144.76.56.104 GET',
-//                        'skiliks.com 144.76.56.104'
-//                    ],
-//                    '',
-//                    $line
-//                );
-//                if (-1 < strpos($line, '19/Nov/2013:17:22:02')) {
-//                    continue;
-//                }
-//                if (-1 < strpos($line, '19/Nov/2013:08:49:00')) {
-//                    continue;
-//                }
-//                if (-1 < strpos($line, 'http://vk.com/dev/Share')) {
-//                    continue;
-//                }
-//                if (-1 < strpos($line, '62.205.135.161')) {
-//                    continue;
-//                }
-//                if (-1 < strpos($line, '195.132.196.206')) {
-//                    continue;
-//                }
-//                if (-1 < strpos($line, '199.217.113.218')) {
-//                    continue;
-//                }
-//                if (-1 < strpos($line, 'apple-touch-icon')) {
-//                    continue;
-//                }
-
-            // $first = substr($line, 0,3);
-            //$first = substr($line, 0, 13);
-            //echo $first . '<br/>';
-
-
-
-//                    if (-1 < strpos($line, '.ogg')) {
-//                        continue;
-//                    }
-
             $lineArr = explode(' ', $line);
-
-//            print_r($lineArr);
-//            die;
 
             $ip = $lineArr[0];
 
@@ -1568,5 +1412,4 @@ class SecurityController extends SiteBaseController {
 
         echo '</pre> <br/> That is all.';
     }
-
-} 
+}

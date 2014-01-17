@@ -58,7 +58,7 @@ class UserAuthController extends YumController
                 $user_password = $user->password;
                 if(UserService::createReferral($user, $profile, $account_corporate, $userReferralRecord)) {
                     $user->authenticate($user_password);
-                    Yii::app()->user->setFlash('success', 'Вы успешно зарегистрированы!');
+                    Yii::app()->user->setFlash('success', 'Вы успешно зарегистрированы');
                     $this->redirect('/dashboard');
                 }
             }
@@ -404,7 +404,7 @@ class UserAuthController extends YumController
             Вы просили обновить данные вашего аккаунта.</p>
             <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
             Пожалуйста, зайдите в <a  style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva,
-            sans-serif;font-size:14px;" href="<?= '.$recoveryUrl.' ?>">ваш кабинет</a> для восстановления пароля и/или логина.</p>
+            sans-serif;font-size:14px;" href="'.$recoveryUrl.'">ваш кабинет</a> для восстановления пароля и/или логина.</p>
         ';
 
         $sent = UserService::addStandardEmailToQueue($mailOptions, SiteEmailOptions::TEMPLATE_FIKUS);

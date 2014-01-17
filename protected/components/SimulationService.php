@@ -669,6 +669,7 @@ class SimulationService
             if (null !== $simulation->invite && $simulation->isTutorial() === false) {
                 $invite_status = $simulation->invite->status;
                 $simulation->invite->status = Invite::STATUS_COMPLETED;
+                $simulation->invite->updated_at = (new DateTime('now', new DateTimeZone('Europe/Moscow')))->format("Y-m-d H:i:s");
                 $simulation->invite->save(false);
                 InviteService::logAboutInviteStatus($simulation->invite, "При завершении симуляции статус инвайта изменился с ".Invite::getStatusNameByCode($invite_status)." на ".Invite::getStatusNameByCode($simulation->invite->status));
             }
@@ -1191,5 +1192,50 @@ class SimulationService
         }
 
         return self::saveLogsAsExcelReport2($simulations, $account);
+    }
+
+    /**
+     * Возвращает список всех персонажей игры
+     * с характеристиками необходимыми для:
+     * - написания писем
+     * - построения списка контактов для исходящих звонков
+     * - подписывания писем
+     * - полписывания истории в телефоне
+     *
+     * @param Simulation $simulation
+     *
+     * @return string[]
+     */
+    public static function getCharactersList(Simulation $simulation)
+    {
+        $characters = $simulation->game_type->getCharacters([]);
+
+        $list = [];
+
+        foreach ($characters as $character) {
+            $characterData = $character->getAttributes([
+                'id', 'title', 'fio', 'email', 'code', 'phone',
+            ]);
+
+            // этот метод вызывается 1 раз за игру, поэтому проще поместить запросы в базк сюда,
+            // чем наращивать колонки в БД
+
+            if (Scenario::TYPE_FULL == $simulation->game_type->slug) {
+                // has_mail_theme отвечает за список людей при написании НОВОГО письма
+                // любые re и fwd нам тут не нужны
+                $characterData['has_mail_theme'] = (int) (0 < OutboxMailTheme::model()->countByAttributes([
+                    'mail_prefix'     => null,
+                    'character_to_id' => $characterData['id'],
+                    'scenario_id'     => $simulation->game_type->id,
+                ]));
+            } else {
+                $characterData['has_mail_theme'] = 0;
+            }
+
+
+            $list[] = $characterData;
+        }
+
+        return $list;
     }
 }

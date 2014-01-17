@@ -391,7 +391,7 @@ class YumAuthController extends YumController {
                     }
                 }
                 UserService::addAuthorizationLog($_POST['YumUserLogin']['username'], null, SiteLogAuthorization::SUCCESS_AUTH, $success->id, SiteLogAuthorization::USER_AREA);
-				$this->redirectUser($success);
+                $this->redirect('/dashboard');
 			} else {
                 UserService::addAuthorizationLog($_POST['YumUserLogin']['username'], $_POST['YumUserLogin']['password'], SiteLogAuthorization::FAIL_AUTH, null, SiteLogAuthorization::USER_AREA);
                 if ($t & UserModule::LOGIN_BY_EMAIL) {

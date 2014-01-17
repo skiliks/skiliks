@@ -183,9 +183,11 @@ class EventService
                 $parentTemplate = $mailTemplate->getParent();
                 $data['mailFields'] = [
                     'receiver_id'  => $mailTemplate->receiver_id,
-                    'themeId'    => $mailTemplate->theme_id,
-                    'attachmentId' =>  $attachmentId,
-                    'theme'      => $mailTemplate->theme->text,
+                    'themeId'      => $mailTemplate->theme_id,
+                    'attachmentId' => $attachmentId,
+                    'mailPrefix'   => $mailTemplate->mail_prefix,
+                    'theme'        => $mailTemplate->theme->text,
+                    'parent_code'  => $parentTemplate->code,
                     'phrases'      => [
                         'message'          => $mailTemplate->message,
                         'previouseMessage' => $parentTemplate ? $parentTemplate->message : ''

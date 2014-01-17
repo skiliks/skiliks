@@ -1,0 +1,53 @@
+nav ul li.menu-item span {
+    color: #ffffff;
+}
+
+nav ul li.menu-item {
+    list-style-type: none;
+}
+
+.static-page-links li a {
+    background-color: rgba(20, 102, 114, 0.4);
+}
+
+.static-page-links li a.active,
+.static-page-links li a:hover {
+    background-color: #146672;
+}
+
+.account-links li a:hover {
+    background-color: #146672;
+}
+
+.help-email-link {
+    float: right;
+}
+
+header .icon-profile-corporate {
+    background: url("../../img/site/general-style/icon-profile-corporate.png") no-repeat;
+}
+
+header .icon-profile-personal {
+    background: url("../../img/site/general-style/icon-profile-personal.png") no-repeat;
+}
+
+
+.log-out-link:before {
+    border-left: 1px solid #3A838D;
+    content: "";
+    display: block;
+    height: 17px;
+    left: -5px;
+    position: absolute;
+    top: 7px;
+    width: 1px;
+}
+
+header nav ul li.menu-item .log-out-link-separator {
+    border-left: 1px solid #146672;
+    border-radius: 0;
+    height: 20px;
+    margin: 0 -7px -5px 0;
+    padding: 0;
+    width: 0;
+}

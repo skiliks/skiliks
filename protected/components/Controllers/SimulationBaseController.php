@@ -205,7 +205,7 @@ class SimulationBaseController extends CController {
             }
         } elseif (Yii::app()->params['simulationIdStorage'] == 'session') {
             $simId = Yii::app()->session['simulation'];
-        }else{
+        } else {
             throw new Exception('$simId not found');
         }
 
@@ -216,5 +216,26 @@ class SimulationBaseController extends CController {
         } else {
             throw new Exception("Simulation with id {$simId} doesn`t exists in db");
         }
+    }
+
+    /**
+     * Из-за взаимодействия с JS 'mailPrefix' может придти пустой, но NOT NULL.
+     * Нам в PHP нужет непустой или NULL $mailPrefix.
+     *
+     * @return string|null
+     */
+    public function getValidMailPrefixFromRequest()
+    {
+        $mailPrefix = Yii::app()->request->getParam('mailPrefix');
+
+        if ('null' == $mailPrefix
+            || 'NULL' == $mailPrefix
+            || 'Null' == $mailPrefix
+            || 'undefined' == $mailPrefix
+            || '' == $mailPrefix) {
+            $mailPrefix = NULL;
+        }
+
+        return $mailPrefix;
     }
 }

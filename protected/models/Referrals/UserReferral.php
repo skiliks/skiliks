@@ -24,7 +24,7 @@ class UserReferral extends CActiveRecord
     const STATUS_APPROVED = 'approved';
     const STATUS_REJECTED = 'rejected';
 
-    const REJECT_SAME_EMAIL_TEXT = "Пользователь зарегистрировался по другому приглашению.";
+    const REJECT_SAME_EMAIL_TEXT = "Пользователь зарегистрировался по другому приглашению";
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
@@ -102,12 +102,14 @@ class UserReferral extends CActiveRecord
 
         if(strpos($referralEmailText, "ссылке") === false) {
             $referralEmailText = $referralEmailText
-                . '<br/><br/><a href="'.Yii::app()->controller->createAbsoluteUrl("/register-referral/".$this->uniqueid).'">
+                . '<br/><br/><a href="'.Yii::app()->controller->createAbsoluteUrl("/register-referral/".$this->uniqueid).'" style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva,
+            sans-serif;font-size:14px;">
                   Ссылка для регистрации реферала.</a> ';
         } else {
             $referralEmailText = str_replace(
                 "ссылке",
-                '<a href="'.Yii::app()->controller->createAbsoluteUrl("/register-referral/".$this->uniqueid).'">ссылке</a>',
+                '<a href="'.Yii::app()->controller->createAbsoluteUrl("/register-referral/".$this->uniqueid).'" style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva,
+            sans-serif;font-size:14px;">ссылке</a>',
                 $referralEmailText
             );
         }
@@ -340,7 +342,7 @@ class UserReferral extends CActiveRecord
         if($referrerDomain == substr($this->referral_email, strpos($this->referral_email, "@"))) {
                 $validationError = 'Вы сами являетесь сотрудником компании '. $referrerDomain . '.' . '
                 <a data-selected="Тарифы и оплата" class="feedback-close-other" href="#">Свяжитесь с нами</a>,
-                если вы приглашаете разных корпоративных пользователей в одной компании.';
+                если вы приглашаете разных корпоративных пользователей в одной компании';
         }
 
         // если нет ошибок - записываем апрув и добавляем "вечную" симмуляцию

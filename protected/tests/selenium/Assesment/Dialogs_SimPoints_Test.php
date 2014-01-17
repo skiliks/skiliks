@@ -193,16 +193,24 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
         sleep(10);
         if (true===$this->isElementPresent("xpath=//*[@id='messageSystemMessageDiv']/div"))
         {
-            $this->optimal_click("xpath=(//*[contains(text(),'Не сохранять')])");
-            $this->optimal_click(Yii::app()->params['test_mappings']['icons']['close']);
+            if (true===$this->isElementPresent("xpath=(//*[contains(text(),'Ок')])")) {
+                $this->optimal_click("xpath=(//*[contains(text(),'Ок')])");
+            } else {
+                $this->optimal_click("xpath=(//*[contains(text(),'Не сохранять')])");
+                $this->optimal_click(Yii::app()->params['test_mappings']['icons']['close']);
+            }
         }
         $this->run_event('E1.3.2',"xpath=(//*[contains(text(),'У меня тут методика где-то была по сводному бюджету')])", 'click');
         //а тут идет отправка MS23
         sleep(10);
         if (true===$this->isElementPresent("xpath=//*[@id='messageSystemMessageDiv']/div"))
         {
-            $this->optimal_click("xpath=(//*[contains(text(),'Не сохранять')])");
-            $this->optimal_click(Yii::app()->params['test_mappings']['icons']['close']);
+            if (true===$this->isElementPresent("xpath=(//*[contains(text(),'Ок')])")) {
+                $this->optimal_click("xpath=(//*[contains(text(),'Ок')])");;
+            } else {
+                $this->optimal_click("xpath=(//*[contains(text(),'Не сохранять')])");
+                $this->optimal_click(Yii::app()->params['test_mappings']['icons']['close']);
+            }
         }
         sleep(10);
         $this->run_event('E1.3.3',"xpath=(//*[contains(text(),'Как твои дела?')])", 'click');
@@ -226,8 +234,12 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
         sleep(10);
         if (true===$this->isElementPresent("xpath=//*[@id='messageSystemMessageDiv']/div"))
         {
-            $this->optimal_click("xpath=(//*[contains(text(),'Не сохранять')])");
-            $this->optimal_click(Yii::app()->params['test_mappings']['icons']['close']);
+            if (true===$this->isElementPresent("xpath=(//*[contains(text(),'Ок')])")) {
+                $this->optimal_click("xpath=(//*[contains(text(),'Ок')])");
+                $this->optimal_click(Yii::app()->params['test_mappings']['icons']['close']);
+            } else {
+                $this->optimal_click("xpath=(//*[contains(text(),'Не сохранять')])");
+            }
         }
         $this->run_event('E11',"xpath=(//*[contains(text(),'Раиса Романовна, файл готовил не я, а Трутнев')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),'попрошу Трутнева поправить ошибку  в ближайшее время и переслать вам файл')])");
@@ -241,7 +253,10 @@ class Dialogs_SimPoints_Test extends SeleniumTestHelper
         $this->run_event('MS54');
         sleep(5);
         $this->simulation_showLogs();
-        $this->checkSimPoints('0','-32');
+
+        // я пересчитал баллы по сценарию вручную - получил 31 балл в негативной шкале
+        $this->checkSimPoints('0','-31');
+        //$this->checkSimPoints('0','-32');
         sleep(2);
     }
 

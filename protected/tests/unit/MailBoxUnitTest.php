@@ -223,28 +223,32 @@ class MailBoxUnitTest extends CDbTestCase
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 
         // 1. random email case {
-        /** @var MailBox $randomFirstEmail */
-        $randomFirstEmail = MailBoxService::copyMessageFromTemplateByCode($simulation, 'M8');
-        $messageData = MailBoxService::getMessageData($randomFirstEmail, MailBox::TYPE_FORWARD);
+        /** @var MailBox $m8 */
+        $m8 = MailBoxService::copyMessageFromTemplateByCode($simulation, 'M8');
+        $messageData = MailBoxService::getMessageData($m8, MailBoxService::ACTION_FORWARD);
 
         $mailOptions = new SendMailOptions($simulation);
-        $mailOptions->setRecipientsArray($randomFirstEmail->sender_id);
-        $mailOptions->themeId    = $randomFirstEmail->theme_id;
-        $mailOptions->mailPrefix = 'fwd'.$randomFirstEmail->mail_prefix;
+        $mailOptions->setRecipientsArray($m8->sender_id);
+        $mailOptions->themeId    = $m8->theme_id;
+        $mailOptions->mailPrefix = 'fwd'.$m8->mail_prefix;
         $mailOptions->time       = '11:00';
-        $mailOptions->messageId  = $randomFirstEmail->id;
-        MailBoxService::sendMessagePro($mailOptions);
+        $mailOptions->messageId  = $m8->id;
+        $m8_fwd = MailBoxService::sendMessagePro($mailOptions);
+        $fwdMessageData = MailBoxService::getMessageData($m8_fwd, MailBoxService::ACTION_EDIT);
 
-        $this->assertEquals($messageData['theme'],         'Fwd: '.$randomFirstEmail->getFormattedTheme(), 'M8 theme text');
-        $this->assertEquals($messageData['parentThemeId'], $randomFirstEmail->theme->id, 'M8 parent theme Id');
-        $this->assertEquals($messageData['themeId'],       $randomFirstEmail->theme_id, 'M8 theme_id');
-        $this->assertEquals($messageData['mailPrefix'],    'fwd'.$randomFirstEmail->mail_prefix, 'M8 mailPrefix');
+        $this->assertEquals($messageData['theme'],         'Fwd: '.$m8->getFormattedTheme(), 'M8 fwd theme text');
+        $this->assertEquals($messageData['parentThemeId'], $m8->theme->id, 'M8 fwd parent theme Id');
+        $this->assertEquals($messageData['themeId'],       $m8->theme_id, 'M8 fwd theme_id');
+        $this->assertEquals($messageData['mailPrefix'],    'fwd'.$m8->mail_prefix, 'M8 fwd mailPrefix');
+
+        $this->assertEquals($fwdMessageData['phrases']['previouseMessage'],
+            $m8->message, 'M8 fwd previouseMessage');
         // 1. random email case }
 
         // case 2, M61, форвард для письма с одним Re: {
         /** @var MailBox $emailM61 */
         $emailM61 = MailBoxService::copyMessageFromTemplateByCode($simulation, 'M61');
-        $M61data = MailBoxService::getMessageData($emailM61, MailBox::TYPE_FORWARD);
+        $M61data = MailBoxService::getMessageData($emailM61, MailBoxService::ACTION_FORWARD);
 
         $mailOptions = new SendMailOptions($simulation);
         $mailOptions->setRecipientsArray($emailM61->sender_id);
@@ -265,7 +269,7 @@ class MailBoxUnitTest extends CDbTestCase
         // case 3, M62, форвард для письма с двумя Re: {
         /** @var MailBox $emailM62 */
         $emailM62 = MailBoxService::copyMessageFromTemplateByCode($simulation, 'M62');
-        $M62data = MailBoxService::getMessageData($emailM62, MailBox::TYPE_FORWARD);
+        $M62data = MailBoxService::getMessageData($emailM62, MailBoxService::ACTION_FORWARD);
 
         $mailOptions = new SendMailOptions($simulation);
         $mailOptions->setRecipientsArray($emailM62->sender_id);
@@ -482,17 +486,6 @@ class MailBoxUnitTest extends CDbTestCase
             'sim_id' => $simulation->id,
             'code'   => 'M75'
         ]);
-
-        /** @var MailBox $MS60 */
-//        $mailOptions           = new SendMailOptions($simulation);
-//        $mailOptions->senderId = $mailHero->id;
-//        $mailOptions->themeId  = $m75->theme_id;
-//        $mailOptions->setRecipientsArray($m75->receiver_id);
-//        $mailOptions->mailPrefix = $m75->getFormattedTheme('re');
-//        $mailOptions->messageId  = $m75->id;
-//        $mailOptions->time       = '11:00';
-//
-//        $MS60 = MailBoxService::sendMessagePro($mailOptions);
 
         /** @var OutboxMailTheme $outboxTheme */
         $outboxTheme = OutboxMailTheme::model()->findByAttributes([
@@ -921,6 +914,70 @@ class MailBoxUnitTest extends CDbTestCase
                 $this->assertEquals($mail_id, $assessmentPoint->mail_id);
             }
         }
+    }
+
+    /**
+     * Проверяет, что для LITE версии нельзя никому написать письмо
+     */
+    public function testMailCharactersToListForLiteSim()
+    {
+        $this->standardSimulationStart(Scenario::TYPE_LITE);
+
+        $list = SimulationService::getCharactersList($this->simulation);
+
+        $isFail = false;
+
+        foreach ($list as $character) {
+            if (1 == $character['has_mail_theme']) {
+                var_dump($character);
+                $isFail = ture;
+            }
+        }
+
+        $this->assertFalse($isFail, 'В lite версии не должно быть адресатов, при написании нового письма.');
+    }
+
+    /**
+     * Проверяет, что для FULL версии есть 22 доступные адресата
+     *
+        1. Адвокатов Ю. (Юрист)
+            Блеск А. (Консультант)
+            Бобр В. (Нач.произв-ва)
+            Босс В.С. (Ген.директор)
+            Все аналитики (Все аналитики)
+            Горбатюк Е.Д. (ГД Луч)
+            Денежная Р.Р. (Дир.финансы)
+            Доброхотов И. (Клиент)
+            Долгова Н.Т. (Ассистент ГД)
+        10. Железный С. (Нач.отдела ИТ)
+            Каменский В.П. (Исп.дир.рег. Д)
+            Крутько М. (Вед.аналитик)
+            Лошадкин М. (Аналитик)
+            Людовкина С. (Нач.HR отдел)
+            Мягков Ю. (Спец.отд. ИТ)
+            Петрашевич И. (Спец.отд.рекл.)
+            Разумный О. (Дир.развитие)
+            Скоробей А.М. (Дир.продажи)
+            Точных А. (Нач.сл.аудита)
+        20. Трудякин Е. (Нач. логистики)
+            Трутнев С. (Аналитик)
+            Хозин В. (Нач.АХО)
+     */
+    public function testMailCharactersToListForFullSim()
+    {
+        $this->standardSimulationStart();
+
+        $list = SimulationService::getCharactersList($this->simulation);
+
+        $count = 0;
+
+        foreach ($list as $character) {
+            if (1 == $character['has_mail_theme']) {
+                $count++;
+            }
+        }
+
+        $this->assertEquals(22, $count);
     }
 }
 
