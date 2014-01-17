@@ -94,7 +94,8 @@ class InitDBCommand extends CConsoleCommand
                 }
         if ($database !== null) {
                     $mysqlCmd .= " -D$database";
-                }
+           }
+        echo $mysqlCmd;
         shell_exec($mysqlCmd);
     }
 
