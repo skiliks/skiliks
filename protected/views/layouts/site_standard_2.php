@@ -109,6 +109,10 @@ $cs->registerCssFile($assetsUrl . "/css/site/styles_size_independent.css");
     </div>
 </footer>
 
+<script type="text/javascript">
+    alert('111');
+</script>
+
 <!-- FOOTER } -->
 
 <?php // $this->renderPartial('//global_partials/_feedback', []) ?>
