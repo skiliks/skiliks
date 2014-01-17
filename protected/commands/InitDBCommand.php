@@ -35,7 +35,7 @@ class InitDBCommand extends CConsoleCommand
 
         echo "\n Run base SQL.";
         $filePath = realpath(__DIR__ . '/../../db.sql');
-        $this->mysql(file_get_contents($filePath), $database);
+        $this->mysql("source ". $filePath, $database.' --default-character-set=UTF8');
 
         //$this->runInstallUserManagement();
 
@@ -85,12 +85,17 @@ class InitDBCommand extends CConsoleCommand
 
     private function mysql($command, $database = null)
     {
-        $username = Yii::app()->db->username;
+        $user = Yii::app()->db->username;
         $password = Yii::app()->db->password;
-        $dsn = "mysql:host=db2.skiliks.com;dbname=$database";
-        $connection=new CDbConnection($dsn,$username,$password);
         $escCommand = str_replace("\"", "\\\"", $command);
-        $connection->createCommand($escCommand)->execute();
+        $mysqlCmd = "mysql -u $user -e \"$escCommand\"";
+                if ($password) {
+                    $mysqlCmd .= " -p$password";
+                }
+        if ($database !== null) {
+                    $mysqlCmd .= " -D$database";
+                }
+        shell_exec($mysqlCmd);
     }
 
     private function runMigrationTool()
