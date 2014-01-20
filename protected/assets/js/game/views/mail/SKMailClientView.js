@@ -1167,7 +1167,7 @@ define([
 
                     this.$('#' + id).html(emailPreviewTemplate);
 
-                    this.renderPreviousMessage(email.previouseEmailText);
+                    this.renderPreviousMessage(email.previousEmailText);
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -2594,7 +2594,7 @@ define([
                     }
 
                     this.mailClient.messageForNewEmail = response.phrases.message;
-                    this.renderPreviousMessage(response.phrases.previouseMessage);
+                    this.renderPreviousMessage(response.phrases.previousMessage);
 
                     this.renderTXT();
 
@@ -2707,7 +2707,7 @@ define([
 
                         this.renderSingleSubject(subject);
 
-                        this.renderPreviousMessage(response.phrases.previouseMessage);
+                        this.renderPreviousMessage(response.phrases.previousMessage);
                         var me = this;
 
                         var assignedRecipient = [];
@@ -3050,6 +3050,9 @@ define([
                                     }, 1000);
                                 });
                         });
+                    debugger; // избавляет от слишкой быстрого закрытия окна
+                    // без debugger; - окно почты закрывается преждевременно и пявляется
+                    // оконко с ошибкой "Добавте адресата".
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);

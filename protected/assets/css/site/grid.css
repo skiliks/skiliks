@@ -11,16 +11,24 @@ html {
 /* --- */
 
 body {
-    background-image: url('../../img/site/general-style/bg-top.jpg');
-    background-position: center top;
-    background-repeat: no-repeat;
-    background-color: #77B3BD;
     height: 100%;
 }
 
 @media screen and (max-width: 1279px) {
     body {
 
+    }
+}
+
+/* --- */
+
+h1 {
+    height: 80px;
+}
+
+@media screen and (max-width: 1279px) {
+    h1 {
+        height: 66px;
     }
 }
 
@@ -71,14 +79,14 @@ footer.main-content {
 
 /* --- */
 
-.full-column {
+.column-full {
     margin: 0 auto;
     min-width: 1146px;
     width: 1146px;
 }
 
 @media screen and (max-width: 1279px) {
-    .full-column {
+    .column-full {
         min-width: 948px;
         width: 948px;
     }
@@ -118,10 +126,44 @@ footer.main-content {
     float: left;
 }
 
+.pull-center {
+    margin: 0 auto;
+}
+
 /* --- */
 
 .inline-block {
     display: inline-block;
+}
+
+/* --- */
+
+h1 {
+    font: 2.7em "ProximaNova-Bold";
+}
+
+h2 {
+    font: 2.3em "ProximaNova-Bold";
+}
+
+h3 {
+    font: 2.0em "ProximaNova-Bold";
+}
+
+h4 {
+    font: 1.7em "ProximaNova-Bold";
+}
+
+h5 {
+    font: 1.4em "ProximaNova-Bold";
+}
+
+h6 {
+    font: 1.1em "ProximaNova-Bold";
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #ffffff;
 }
 
 /* --- */
@@ -141,3 +183,10 @@ footer.main-content {
 .text-white {
     color: #ffffff;
 }
+
+/* --- */
+
+.column-1-2 {
+    width: 49.5%
+}
+
