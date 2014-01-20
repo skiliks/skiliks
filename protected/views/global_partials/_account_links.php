@@ -10,7 +10,7 @@ $iconForProfile = '';
 $iconForProfile = (!Yii::app()->user->isGuest && $user->isCorporate())
     ? 'icon-profile-corporate'
     : 'icon-profile-personal';
-$profileName = $visibleName?StringTools::getMaxLength(Yii::app()->params['userNameInHeaderMaxLength'], $user->profile->firstname):'';
+$profileName = $visibleName ? StringTools::getMaxLength(Yii::app()->params['userNameInHeaderMaxLength'], $user->profile->firstname) : '';
 
 $this->widget('zii.widgets.CMenu', array(
     'activeCssClass' => 'active',
@@ -25,7 +25,7 @@ $this->widget('zii.widgets.CMenu', array(
         [
             'label'       => Yii::t('site', 'Additional simulations'),
             'url'         => '/invite/referrals',
-            'linkOptions' => ['class' => 'additional-simulations'],
+            'linkOptions' => ['class' => ' icon-gift icon-padding-condensed '],
             'visible'     => !$isGuest && 'ru' == Yii::app()->getLanguage() && $user->isCorporate() && (Yii::app()->controller->id == "static/dashboard" || Yii::app()->controller->id == "static/profile"),
         ],
         [

@@ -1,0 +1,168 @@
+
+.controller-static-dashboard h2 {
+    font-size: 1.78em;
+}
+
+.controller-static-dashboard .page-title-box {
+    margin: 0 0 40px 0;
+}
+
+.controller-static-dashboard #invite-form label {
+    display: inline-block;
+    padding-right: 6px;
+    width: 60px;
+}
+
+#Invite_firstname {
+    width: 106px;
+}
+
+#Invite_lastname {
+    margin-left: 4px;
+    width: 120px;
+}
+
+#Invite_email {
+    width: 245px;
+}
+
+#invite-form .sbHolder,
+#invite-form select {
+    width: 228px;
+}
+
+.invite-people-box {
+    height: 243px;
+}
+
+.row {
+    padding: 15px 0 0;
+}
+
+.button-add-vacancy {
+    background: url("../../img/site/1280/buttons/plus.png") no-repeat scroll 50% 50% #DDDDDD;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-block;
+    font-family: "ProximaNova-Bold";
+    font-size: 18px;
+    font-weight: bold;
+    height: 22px;
+    line-height: 22px;
+    padding: 0 6px;
+    position: relative;
+    text-align: center;
+    top: 5px;
+    width: 10px;
+}
+
+#invite-form .button-white {
+    margin-left: 71px;
+}
+
+/* --- */
+
+.simulations-counter-box {
+    height: 68px;
+}
+
+.counter {
+    height: 30px;
+}
+
+.counter strong {
+    color: #3D4041;
+    font-family: "ProximaNova-Bold";
+    font-size: 1.21em;
+    font-weight: normal;
+    margin-right: 20px;
+}
+
+.counter .label {
+    color: #fff;
+    font-family: "ProximaNova-Bold";
+    font-size: 1.21em;
+    font-weight: normal;
+}
+
+/* --- */
+
+.corporate-invitations-list-box table {
+    width: 100%;
+}
+
+.corporate-invitations-list-box .column-2-3-condensed {
+    margin-bottom: 100px;
+}
+
+.table-head {
+    background-color: #146672;
+    border-radius: 5px 5px 0 0;
+    height: 5px;
+    font-size: 0px;
+    line-height: 0px;
+    width: 100%;
+}
+
+.grid-view .summary {
+    margin: 0px !important;
+}
+
+/* --- redefine /framework/zii/widgets/assets/gridview/styles.css { */
+
+.skiliks .grid-view {
+    padding: 0;
+}
+
+.skiliks .grid-view table.items,
+.skiliks .grid-view table.items tr,
+.skiliks .grid-view table.items th,
+.skiliks .grid-view table.items td {
+    border: 0;
+}
+
+.skiliks .grid-view table.items,
+.skiliks .grid-view table.items th {
+    background: none;
+}
+
+.skiliks .grid-view table.items th {
+    background-color: #146672;
+    border-bottom: 1px solid #0E4750;
+}
+
+.skiliks .grid-view table.items tr td {
+    text-align: left;
+    font-weight: bold;
+    height: 40px;
+}
+
+.skiliks .grid-view table.items tr,
+.skiliks .grid-view table.items tr.even,
+.skiliks .grid-view table.items tr.even td,
+.skiliks .grid-view table.items tr:hover {
+    background-color: #FEFEEC;
+}
+
+.skiliks .grid-view table.items tr.odd,
+.skiliks .grid-view table.items tr.odd td {
+    background-color: #FDFBC6;
+}
+
+/* стрелки сортировки */
+
+.skiliks .grid-view .items th a {
+    background: url("../../img/arrow-down.png") no-repeat scroll 0 50% rgba(0, 0, 0, 0);
+    color: #ffffff;
+    width: 100%;
+    padding-left: 12px;
+    text-align: left;
+}
+
+.skiliks .grid-view table.items th a.desc {
+    background: url("../../img/arrow-up.png")   no-repeat scroll 0 50% rgba(0, 0, 0, 0) !important;
+}
+
+/* --- */
+
+/* } redefine /framework/zii/widgets/assets/gridview/styles.css --- */

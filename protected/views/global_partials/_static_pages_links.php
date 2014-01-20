@@ -24,7 +24,7 @@ $this->widget('zii.widgets.CMenu', array(
     'encodeLabel'    => false,
     'activeCssClass' => 'active',
     'activateItems'  => true,
-    'itemCssClass'   => 'menu-item',
+    'itemCssClass'   => 'menu-item label',
     'htmlOptions' => [
         'class' => 'inline-block'
     ],

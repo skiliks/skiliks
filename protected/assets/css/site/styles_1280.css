@@ -1,0 +1,114 @@
+
+/* any CSS styles for all screen resolutions */
+/* Currently 1280+ (Х) and 1280- (Х * 0,82) */
+
+a {
+    color: #ffffff;
+}
+
+/* ссылки меню в хедере и футере */
+nav ul li.menu-item span,
+nav ul li.menu-item a {
+    display: inline-block;
+    margin: 0 0 0 10px;
+    padding-top: 5px;
+    padding-bottom: 3px;
+}
+
+header nav ul li.menu-item .profile-icon {
+    padding-left: 41px;
+}
+
+header nav ul li.menu-item .icon-profile-corporate {
+    background-position: 10px 3px;
+}
+
+.copyright-box {
+    color: #ffffff;
+    font-size: 0.9em;
+    height: 27px;
+}
+
+.copyright-box span {
+    height: 27px;
+    line-height: 27px;
+}
+
+.copyright {
+    margin-left: 240px; /* $('.help-email-link').width() */
+}
+
+.icon-blue-arrow {
+    background-image: url("../../img/site/1280/buttons/icon-blue-arrow.png");
+    background-repeat: no-repeat;
+}
+
+.icon-gift {
+    background-image: url("../../img/site/1280/buttons/icon-gift.png");
+    background-repeat: no-repeat;
+}
+
+.icon-padding-condensed {
+    background-position: 7px center;
+    padding-left: 31px !important;
+}
+
+.icon-padding-standard {
+    background-position: 20px center;
+    padding-left: 48px !important;
+}
+
+.icon-blue-arrow:hover {
+    background-image: url("../../img/site/1280/buttons/icon-gray-arrow.png");
+}
+
+header nav.account-links {
+    height: 50px;
+}
+
+header nav.account-links ul {
+    margin-top: 10px;
+}
+
+header nav.static-page-links {
+    height: 80px;
+    font-size: 1.28em;
+}
+
+header nav.static-page-links ul {
+    margin-top: 24px;
+}
+
+footer nav.static-page-links {
+    height: 116px;
+}
+
+.footer-clear-fix {
+    height: 153px;
+}
+
+.logo-footer-link {
+    height: 46px;
+    width:  175px;
+}
+
+.link-to-top {
+    padding-top: 20px;
+}
+
+footer .footer-logo {
+    margin-top: 34px;
+}
+
+footer .static-page-links ul {
+    margin-top: 44px;
+}
+
+.button-standard {
+    border: none;
+    border-radius: 4px;
+    font-size: 1.3em;
+    font-weight: bold;
+    padding: 13px 20px 13px 66px;
+}
+

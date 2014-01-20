@@ -19,7 +19,7 @@ body {
 
 @media screen and (max-width: 1279px) {
     body {
-        font-size: 10px; /* 1em for 1280- */
+        font-size: 12px; /* 1em for 1280- */
     }
 }
 
@@ -37,7 +37,7 @@ ul, li, ol, a, span {
     display: inline-block;
 }
 
-b, strong {
+b, strong, .bold {
     font-family: "ProximaNova-Bold", sans-serif;
     font-weight: bold;
 }
@@ -59,4 +59,8 @@ a {
     background: transparent;
     color: #428290;
     text-decoration: none;
+}
+
+span.required {
+    display: none;
 }

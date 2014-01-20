@@ -1,4 +1,5 @@
-<div class="form invite-people-form sideform darkblueplacehld">
+<!--form invite-people-form sideform darkblueplacehld -->
+<div class="">
 
     <h2>Отправить приглашение</h2>
 
@@ -28,11 +29,18 @@
         <?php echo $form->labelEx($invite, 'vacancy_id'); ?>
         <?php echo $form->dropDownList($invite, 'vacancy_id', $vacancies); ?>
         <?php echo $form->error($invite, 'vacancy_id'); ?>
-        <span id="corporate-dashboard-add-vacancy"></span>
+
+        <span class="action-add-vacancy button-add-vacancy"></span>
     </div>
 
-    <div class="row buttons">
-        <?php echo CHtml::submitButton('Отправить', ['name' => 'prevalidate']); ?>
+    <div class="row">
+        <?php echo CHtml::submitButton(
+            'Отправить',
+            [
+                'name' => 'prevalidate',
+                'class' => 'button-white label icon-arrow-blue'
+            ]);
+        ?>
     </div>
 
     <?php $this->endWidget(); ?>

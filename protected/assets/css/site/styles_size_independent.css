@@ -1,6 +1,6 @@
 
 body {
-    background-image: url('../../img/site/general-style/bg-top.jpg');
+    background-image: url('../../img/site/1280/general-style/bg-top.jpg');
     background-position: center top;
     background-repeat: no-repeat;
     background-color: #77B3BD;
@@ -32,11 +32,11 @@ nav ul li.menu-item {
 }
 
 header .icon-profile-corporate {
-    background: url("../../img/site/general-style/icon-profile-corporate.png") no-repeat;
+    background: url("../../img/site/1280/general-style/icon-profile-corporate.png") no-repeat;
 }
 
 header .icon-profile-personal {
-    background: url("../../img/site/general-style/icon-profile-personal.png") no-repeat;
+    background: url("../../img/site/1280/general-style/icon-profile-personal.png") no-repeat;
 }
 
 

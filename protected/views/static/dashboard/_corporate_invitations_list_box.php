@@ -32,14 +32,22 @@ $this->widget('zii.widgets.grid.CGridView', [
             'header' => Yii::t('site', 'Status'),
             'name' => 'status',
             'value' => function(Invite $data){
-                return '<span class="invite-status-tooltip-toggle link-in-table">'
+                return '
+                    <!-- invite-status-tooltip-toggle link-in-table -->
+                    <span class="hide">'
                     . Yii::t("site", $data->getStatusText())
-                    . '<div class="popover-status invite-status-tooltip">
-                          <div class="popover-triangle"></div>
-                          <div class="popover-content">
-                              <div class="popup-content">'
-                                  . $data->getStatusDescription()
-                              . '</div>
+                    . '<!-- popover-status invite-status-tooltip -->'
+                    . '<div class="">
+                        <!-- popover-triangle -->
+                        <div class="popover-triangle"></div>
+
+                        <!-- popover-content -->
+                        <div class="">
+
+                            <!-- popup-content -->
+                            <div class="">'
+                               . $data->getStatusDescription()
+                            . '</div>
                           </div>
                       </div> </span>';
                 },
@@ -53,8 +61,8 @@ $this->widget('zii.widgets.grid.CGridView', [
         ],
 
         ['header' => 'Рейтинг <span class="change-simulation-result-render percentile-hover-toggle-span '.$scoreName.'"></span>', 'value' => $scoreRender, 'type' => 'raw'],
-        ['header' => '', 'value' => '"<a class=\"inviteaction\" href=\"/dashboard/invite/remove/$data->id\">Удалить</a>"', 'type' => 'html'],
-        ['header' => '', 'value' => '"<a class=\"inviteaction\" href=\"/dashboard/invite/resend/$data->id\">Отправить ещё раз</a>"' , 'type' => 'html'],
+        ['header' => '', 'value' => '"<a class=\"inviteaction\" href=\"/dashboard/invite/remove/$data->id\">Удалить</a>"', 'type' => 'html', 'htmlOptions' => ['class' => 'hide']],
+        ['header' => '', 'value' => '"<a class=\"inviteaction\" href=\"/dashboard/invite/resend/$data->id\">Отправить ещё раз</a>"' , 'type' => 'html', 'htmlOptions' => ['class' => 'hide']],
     ]
 ]);
 ?>

@@ -161,6 +161,13 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         $is_display_tariff_expire_pop_up = $this->user->getAccount()->is_display_tariff_expire_pop_up;
         $is_display_user_referral_popup  = $this->user->getAccount()->is_display_referrals_popup;
 
+        $this->layout = 'site_standard_2';
+
+        $assetsUrl = $this->getAssetsUrl();
+        $clientScripts = Yii::app()->getClientScript();
+        $clientScripts->registerCssFile($assetsUrl.'/css/site/_page-dashboard.css');
+
+
         $this->render('dashboard_corporate', [
             'invite'              => $invite,
             'inviteToEdit'        => $inviteToEdit,

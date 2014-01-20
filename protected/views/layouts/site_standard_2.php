@@ -26,8 +26,9 @@ $cs->registerCssFile($assetsUrl . '/js/jquery/jquery-ui.css');
 $cs->registerCssFile($assetsUrl . "/css/site/reset.css");
 $cs->registerCssFile($assetsUrl . "/css/site/grid.css");
 $cs->registerCssFile($assetsUrl . "/css/site/social-networks.css");
-$cs->registerCssFile($assetsUrl . "/css/site/styles_size_dependent.css");
 $cs->registerCssFile($assetsUrl . "/css/site/styles_size_independent.css");
+$cs->registerCssFile($assetsUrl . "/css/site/styles_1280.css");
+$cs->registerCssFile($assetsUrl . "/css/site/styles_1024.css");
 
 ?>
 
@@ -50,7 +51,7 @@ $cs->registerCssFile($assetsUrl . "/css/site/styles_size_independent.css");
     <![endif]-->
 </head>
 
-<body class="<?php echo StaticSiteTools::getBodyClass(Yii::app()->request) ?>">
+<body class="skiliks <?php echo StaticSiteTools::getBodyClass(Yii::app()->request) ?>">
 
 <!-- HEADER { -->
 
@@ -63,7 +64,7 @@ $cs->registerCssFile($assetsUrl . "/css/site/styles_size_independent.css");
     <!-- SITE PAGES NAVIGATION -->
     <nav class="column-full inline-list pull-content-right static-page-links">
         <a href="/" class="inline-block pull-left">
-            <img src="<?php echo $assetsUrl?>/img/site/logotypes/logo-head.png" alt="Skiliks"/>
+            <img src="<?php echo $assetsUrl?>/img/site/1280/logotypes/logo-head.png" alt="Skiliks"/>
         </a>
         <?php $this->renderPartial('//global_partials/_static_pages_links', [
             'isDisplayAccountLinks' => true
@@ -85,13 +86,13 @@ $cs->registerCssFile($assetsUrl . "/css/site/styles_size_independent.css");
     <!-- SOCIAL SHARE -->
     <div class="social-networks-share-links column-full pull-content-right">
         <?php $this->renderPartial('//global_partials/social_networks_share_links', ['force' => true]) ?>
-        <a href="#top" class="inline-block text-smallest link-to-top"><?php echo Yii::t('site', 'Back to top') ?></a>
+        <a href="#top" class="inline-block link-to-top"><?php echo Yii::t('site', 'Back to top') ?></a>
     </div>
 
     <!-- SITE PAGES NAVIGATION -->
     <nav class="column-full inline-list pull-content-right static-page-links">
         <a href="/" class="inline-block pull-left logo-footer-link footer-logo">
-            <img src="<?php echo $assetsUrl?>/img/site/logotypes/logo-footer.png" alt="Skiliks"/>
+            <img src="<?php echo $assetsUrl?>/img/site/1280/logotypes/logo-footer.png" alt="Skiliks"/>
         </a>
         <?php $this->renderPartial('//global_partials/_static_pages_links', [
             'isDisplayAccountLinks' => false,
