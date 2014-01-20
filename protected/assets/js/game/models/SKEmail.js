@@ -37,11 +37,11 @@ define([] ,function() {
         text: undefined,
 
         /**
-         * @property previouseEmailText
+         * @property previousEmailText
          * @type string, 'M1', 'MS2'
          * @default undefined
          */
-        previouseEmailText: undefined,
+        previousEmailText: undefined,
 
         /**
          * @property subject

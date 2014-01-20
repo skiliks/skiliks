@@ -454,7 +454,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                         }
 
                         if (undefined !== emailData.reply) {
-                            email.previouseEmailText = emailData.reply;
+                            email.previousEmailText = emailData.reply;
                         }
 
                         me.folders[folderAlias].emails.push(email);

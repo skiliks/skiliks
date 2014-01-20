@@ -180,6 +180,7 @@ class EventService
                 } else {
                     $attachmentId = null;
                 }
+
                 $parentTemplate = $mailTemplate->getParent();
                 $data['mailFields'] = [
                     'receiver_id'  => $mailTemplate->receiver_id,
@@ -187,10 +188,10 @@ class EventService
                     'attachmentId' => $attachmentId,
                     'mailPrefix'   => $mailTemplate->mail_prefix,
                     'theme'        => $mailTemplate->theme->text,
-                    'parent_code'  => $parentTemplate->code,
+                    'parent_code'  => (null != $parentTemplate) ? $parentTemplate->code : '',
                     'phrases'      => [
                         'message'          => $mailTemplate->message,
-                        'previouseMessage' => $parentTemplate ? $parentTemplate->message : ''
+                        'previousMessage' => (null != $parentTemplate) ? $parentTemplate->message : ''
                     ]
                 ];
             }
