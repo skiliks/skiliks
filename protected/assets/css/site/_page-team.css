@@ -3,7 +3,10 @@ body.action-controller-team-static-pages {
     /*background-image: none;*/
     background-image: url("../../img/site/1280/team/bg-team.png");
     background-color: #e8f7f7;
-    background-size: cover;
+
+    /* @todo: сделать длинее нижний фон с предметами */
+    /* тогда можно будет задать 100% auto */
+    background-size: 120% auto;
 }
 
 body.action-controller-team-static-pages header {
