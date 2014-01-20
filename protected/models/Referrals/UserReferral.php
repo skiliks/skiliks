@@ -333,7 +333,7 @@ class UserReferral extends CActiveRecord
                 $validationError = 'Вам уже начислена 1 симуляция за приглашение пользователя из
                 <span class="domainName">' . $oldReferralDomain. '</span>. <a data-selected="Тарифы и
                 оплата" class="feedback-close-other" href="#">Свяжитесь с нами</a>,
-                если вы приглашаете разных корпоративных пользователей в одной компании.';
+                если вы приглашаете разных корпоративных пользователей в одной компании';
                 break;
             }
         }
