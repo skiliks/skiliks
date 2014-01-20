@@ -30,6 +30,13 @@ class PagesController extends SiteBaseController
      */
     public function actionTeam()
     {
+        $assetsUrl = $this->getAssetsUrl();
+
+        $clientScripts = Yii::app()->getClientScript();
+        $clientScripts->registerCssFile($assetsUrl.'/css/site/page-team.css');
+
+        $this->layout = '//layouts/site_standard_2';
+
         $this->render('team');
     }
 

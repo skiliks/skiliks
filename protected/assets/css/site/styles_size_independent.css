@@ -1,3 +1,11 @@
+
+body {
+    background-image: url('../../img/site/general-style/bg-top.jpg');
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-color: #77B3BD;
+}
+
 nav ul li.menu-item span {
     color: #ffffff;
 }

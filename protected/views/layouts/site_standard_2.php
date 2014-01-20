@@ -56,12 +56,12 @@ $cs->registerCssFile($assetsUrl . "/css/site/styles_size_independent.css");
 
 <header class="main-content">
     <!-- ACCOUNTS LINKS -->
-    <nav class="full-column inline-list pull-content-right account-links">
+    <nav class="column-full inline-list pull-content-right account-links">
         <?php $this->renderPartial('//global_partials/_account_links') ?>
     </nav>
 
     <!-- SITE PAGES NAVIGATION -->
-    <nav class="full-column inline-list pull-content-right static-page-links">
+    <nav class="column-full inline-list pull-content-right static-page-links">
         <a href="/" class="inline-block pull-left">
             <img src="<?php echo $assetsUrl?>/img/site/logotypes/logo-head.png" alt="Skiliks"/>
         </a>
@@ -73,23 +73,23 @@ $cs->registerCssFile($assetsUrl . "/css/site/styles_size_independent.css");
 
 <!-- HEADER } -->
 
-<section class="main-content full-column">
+<section class="main-content column-full">
     <?php echo $content; ?>
 </section>
 
 <!-- FOOTER { -->
 
 <footer class="main-content">
-    <div class="footer-clear-fix full-column"></div>
+    <div class="footer-clear-fix column-full"></div>
 
     <!-- SOCIAL SHARE -->
-    <div class="social-networks-share-links full-column pull-content-right">
+    <div class="social-networks-share-links column-full pull-content-right">
         <?php $this->renderPartial('//global_partials/social_networks_share_links', ['force' => true]) ?>
         <a href="#top" class="inline-block text-smallest link-to-top"><?php echo Yii::t('site', 'Back to top') ?></a>
     </div>
 
     <!-- SITE PAGES NAVIGATION -->
-    <nav class="full-column inline-list pull-content-right static-page-links">
+    <nav class="column-full inline-list pull-content-right static-page-links">
         <a href="/" class="inline-block pull-left logo-footer-link footer-logo">
             <img src="<?php echo $assetsUrl?>/img/site/logotypes/logo-footer.png" alt="Skiliks"/>
         </a>
@@ -100,7 +100,7 @@ $cs->registerCssFile($assetsUrl . "/css/site/styles_size_independent.css");
     </nav>
 
     <!-- COPYRIGHT -->
-    <div class="copyright-box full-column pull-content-center">
+    <div class="copyright-box column-full pull-content-center">
         <span class="copyright">Copyright - Skiliks  - 2013</span>
         <?php if ('ru' == Yii::app()->getlanguage()): ?>
             <span  class="help-email-link">

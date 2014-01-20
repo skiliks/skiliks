@@ -66,7 +66,7 @@ class SiteController extends SiteBaseController
     public function actionError404()
     {
         $this->layout = '//layouts/site_standard_2';
-        
+
         $error = Yii::app()->errorHandler->error;
 
         if( $error )
