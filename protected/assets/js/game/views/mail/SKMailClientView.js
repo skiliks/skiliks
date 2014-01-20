@@ -3050,6 +3050,9 @@ define([
                                     }, 1000);
                                 });
                         });
+                    debugger; // избавляет от слишкой быстрого закрытия окна
+                    // без debugger; - окно почты закрывается преждевременно и пявляется
+                    // оконко с ошибкой "Добавте адресата".
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
