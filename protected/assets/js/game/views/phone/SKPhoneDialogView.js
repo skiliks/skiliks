@@ -125,7 +125,7 @@ define([
                     if (SKApp.simulation.isDebug() && 0 == my_replicas.length) {
                         duration = 5000;
                     }
-
+                    console.log('duration', duration);
                     setTimeout(function(){
                         if (my_replicas.length === 0) {
                             event.selectReplica(remote_replica.id, function () {
