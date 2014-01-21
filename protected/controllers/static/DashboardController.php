@@ -163,10 +163,8 @@ class DashboardController extends SiteBaseController implements AccountPageContr
 
         $this->layout = 'site_standard_2';
 
-        $assetsUrl = $this->getAssetsUrl();
-        $clientScripts = Yii::app()->getClientScript();
-        $clientScripts->registerCssFile($assetsUrl.'/css/site/_page-dashboard.css');
-
+        $this->addSiteCss('_page-dashboard.css');
+        $this->addSiteJs('_page-dashboard.js');
 
         $this->render('dashboard_corporate', [
             'invite'              => $invite,

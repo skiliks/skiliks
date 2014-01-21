@@ -1,4 +1,9 @@
 
+.controller-static-dashboard aside {
+    margin-left: 7px;
+    margin-right: 14px; /* число найдено подбором */
+}
+
 .controller-static-dashboard h2 {
     font-size: 1.78em;
 }
@@ -12,6 +17,14 @@
     padding-right: 6px;
     width: 60px;
 }
+
+.clearfix {
+   height: 100px;
+}
+
+/* --- */
+
+/* Форма отправки приглашений */
 
 #Invite_firstname {
     width: 106px;
@@ -91,7 +104,7 @@
     width: 100%;
 }
 
-.corporate-invitations-list-box .column-2-3-condensed {
+.corporate-invitations-list-box{
     margin-bottom: 100px;
 }
 
@@ -101,6 +114,16 @@
     height: 5px;
     font-size: 0px;
     line-height: 0px;
+    width: 100%;
+}
+
+.table-footer {
+    background-color: #FEFEEC;
+    border-radius: 0 0 5px 5px;
+    height: 5px;
+    font-size: 0px;
+    line-height: 0px;
+    margin-top: -5px;
     width: 100%;
 }
 
@@ -149,6 +172,10 @@
     background-color: #FDFBC6;
 }
 
+.skiliks .grid-view table.items td {
+    font-size: 1em;
+}
+
 /* стрелки сортировки */
 
 .skiliks .grid-view .items th a {
@@ -163,6 +190,159 @@
     background: url("../../img/arrow-up.png")   no-repeat scroll 0 50% rgba(0, 0, 0, 0) !important;
 }
 
-/* --- */
+/* pager: */
+
+.pager-place {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.skiliks ul.yiiPager .first,
+.skiliks ul.yiiPager .last {
+    display: none;
+}
+
+.skiliks ul.yiiPager .previous a,
+.skiliks ul.yiiPager .next a {
+    background-color:  #6CAAB3;
+    border: none;
+    margin-left: 15px;
+    margin-right: 15px;
+    padding: 7px 10px;
+}
+
+.skiliks ul.yiiPager .previous a:hover,
+.skiliks ul.yiiPager .next a:hover {
+    background-color:  #146672;
+}
+
+.skiliks ul.yiiPager a:visited,
+.skiliks ul.yiiPager .hidden a,
+.skiliks ul.yiiPager .page a:link,
+.skiliks ul.yiiPager .next a:visited,
+.skiliks ul.yiiPager .next a:link,
+.skiliks ul.yiiPager a:link {
+    color: #FFFFFF;
+    font: 14px "ProximaNova-Bold";
+}
+
+.skiliks ul.yiiPager .page a,
+.skiliks ul.yiiPager .page a:link,
+.skiliks ul.yiiPager .page a:visited {
+    border: medium none;
+    margin: 0 4px;
+    padding: 0;
+    text-decoration: none;
+}
+
+.skiliks ul.yiiPager .selected a,
+.skiliks ul.yiiPager .selected a:link,
+.skiliks ul.yiiPager .selected a:visited {
+    color: #146672;
+    background-color: transparent;
+}
+
+.skiliks ul.yiiPager li,
+.skiliks ul.yiiPager li a {
+    display: inline-block;
+}
 
 /* } redefine /framework/zii/widgets/assets/gridview/styles.css --- */
+
+/* шестерёнка */
+
+.table-menu-switcher {
+    background: url("../../img/site/1280/buttons/icon-gear.png") no-repeat left top;
+    position: relative;
+    height: 22px;
+    width: 22px;
+    z-index: 4;
+}
+
+.selected-sk .table-menu-switcher {
+    background-position: right top;
+    z-index: 6;
+}
+
+.table-menu {
+    background: linear-gradient(to bottom, #A5A385 0%, #8A896C 100%) repeat;
+    border: 1px solid #717059;
+    border-radius: 0 7px 7px;
+    display: none;
+    margin: -6px 0 0;
+    padding: 15px 20px 10px 22px;
+    position: absolute;
+    z-index: 5;
+}
+
+.table-menu a {
+    display: block;
+    font-family: "ProximaNova-Regular";
+    font-weight: normal;
+    padding: 0 0 10px 6px;
+    text-decoration: none;
+}
+
+.table-menu a:hover {
+    color: #000;
+}
+
+.corporate-invitations-table {
+    margin-bottom: 15px;
+}
+/* --- *
+
+/* смешение подсказки о статусе прглашения */
+.controller-static-dashboard .inner-popover {
+    left: 810px;
+}
+
+/* --- */
+
+.percentile-hover-toggle-span {
+    cursor: pointer;
+    display: inline-block;
+    height: 14px;
+    margin-left: 10px;
+    position: relative;
+    /*top: 14px;*/
+    width: 35px;
+}
+
+.percentile-selected {
+    background: url("../../img/site/1280/dashboard/percentile-selected.png") no-repeat;
+}
+
+.stars-selected {
+    background: url("../../img/site/1280/dashboard/stars-selected.png") no-repeat;
+}
+
+.assessment-results-type-switcher {
+    height: 14px;
+    margin-left: 10px;
+    width: 35px;
+}
+
+/* --- */
+
+i.icon {
+    background-size: 18px 17px;
+    height: 17px;
+    margin-top: 6px;
+    width: 18px;
+}
+
+i.icon-excel {
+    background-image: url("../../img/documents/xls.png");
+}
+
+i.icon-doc {
+    background-image: url("../../img/documents/doc.png");
+}
+
+.link-with-background label{
+    height: 20px;
+    line-height: 1em;
+    margin-left: 4px;
+    vertical-align: middle;
+}

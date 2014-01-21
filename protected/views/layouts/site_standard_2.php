@@ -19,7 +19,7 @@ $cs->registerScriptFile($assetsUrl . '/js/niceCheckbox.js');
 $cs->registerScriptFile($assetsUrl . '/js/d3-master/d3.v3.js');
 $cs->registerScriptFile($assetsUrl . '/js/charts.js');
 
-$cs->registerScriptFile($assetsUrl . '/js/main.js');
+$cs->registerScriptFile($assetsUrl . '/js/site/common.js');
 
 $cs->registerCssFile($assetsUrl . '/js/jquery/jquery-ui.css');
 
@@ -29,6 +29,7 @@ $cs->registerCssFile($assetsUrl . "/css/site/social-networks.css");
 $cs->registerCssFile($assetsUrl . "/css/site/styles_size_independent.css");
 $cs->registerCssFile($assetsUrl . "/css/site/styles_1280.css");
 $cs->registerCssFile($assetsUrl . "/css/site/styles_1024.css");
+
 
 ?>
 
@@ -77,13 +78,14 @@ $cs->registerCssFile($assetsUrl . "/css/site/styles_1024.css");
     <!-- HEADER } -->
 
     <section class="main-content column-full mark-up-block">
+        <label class="mark-up-label">#Content</label>
         <?php echo $content; ?>
     </section>
 
     <!-- FOOTER { -->
 
     <footer class="main-content mark-up-block">
-        <label class="mark-up-label">Footer</label>
+        <label class="mark-up-label">#Footer</label>
         <div class="footer-clear-fix column-full"></div>
 
         <!-- SOCIAL SHARE -->

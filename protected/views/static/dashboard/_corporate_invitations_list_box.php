@@ -1,82 +1,87 @@
-<?php
-$scoreName = ($user->profile->assessment_results_render_type == "standard") ? "percentile-toggle-off" : "percentile-toggle-on";
+<section class="partial">
+    <label class="partial-label"><?= __FILE__ ?></label>
 
-$scoreRender = function(Invite $invite) {
-    return $this->renderPartial('//global_partials/_simulation_stars', [
-        'simulation'     => $invite->simulation,
-        'isDisplayTitle' => false,
-        'isDisplayArrow' => false,
-        'isDisplayScaleIfSimulationNull' => false,
-    ],false);
-};
+    <?php
+    $scoreName = ($user->profile->assessment_results_render_type == "standard")
+        ? "stars-selected" : "percentile-selected";
 
-$this->widget('zii.widgets.grid.CGridView', [
-    'dataProvider' => Invite::model()->searchCorporateInvites(
-        Yii::app()->user->data()->id
-    ),
-    'summaryText' => '',
-    'emptyText' => '',
-    'nullDisplay' => '',
-    'pager' => [
-        'header'        => false,
-        'firstPageLabel' => '<< начало',
-        'prevPageLabel' => 'Назад',
-        'nextPageLabel' => 'Вперед',
-        'lastPageLabel' => 'конец >>',
-    ],
-    'columns' => [
-        ['header' => ''                           , 'value' => '', 'type' => 'html'],
-        ['header' => Yii::t('site', 'Full name')  , 'name' => 'name'        , 'value' => '$data->firstname." ".$data->lastname'],
-        ['header' => Yii::t('site', 'Position')   , 'name' => 'vacancy_id'  , 'value' => '(Yii::t("site", $data->getVacancyLabel()) !== null) ? Yii::t("site", $data->getVacancyLabel()) : "-"', 'type' => 'raw'],
-        [
-            'header' => Yii::t('site', 'Status'),
-            'name' => 'status',
-            'value' => function(Invite $data){
-                return '
-                    <!-- invite-status-tooltip-toggle link-in-table -->
-                    <span class="hide">'
-                    . Yii::t("site", $data->getStatusText())
-                    . '<!-- popover-status invite-status-tooltip -->'
-                    . '<div class="">
-                        <!-- popover-triangle -->
-                        <div class="popover-triangle"></div>
+    $scoreRender = function(Invite $invite) {
+        return $this->renderPartial('//global_partials/_simulation_stars', [
+            'simulation'     => $invite->simulation,
+            'isDisplayTitle' => false,
+            'isDisplayArrow' => false,
+            'isDisplayScaleIfSimulationNull' => false,
+        ],false);
+    };
 
-                        <!-- popover-content -->
-                        <div class="">
-
-                            <!-- popup-content -->
-                            <div class="">'
-                               . $data->getStatusDescription()
-                            . '</div>
-                          </div>
-                      </div> </span>';
-                },
-            'type' => 'raw'
+    $this->widget('zii.widgets.grid.CGridView', [
+        'dataProvider' => Invite::model()->searchCorporateInvites(
+            Yii::app()->user->data()->id
+        ),
+        'summaryText' => '',
+        'emptyText'   => '',
+        'nullDisplay' => '',
+        'pager' => [
+            'header'         => false,
+            'firstPageLabel' => '',
+            'prevPageLabel'  => 'Назад',
+            'nextPageLabel'  => 'Вперед',
+            'lastPageLabel'  => '',
         ],
-        [
-            'header' => Yii::t('site', 'Date'),
-            'name' => 'sent_time'   ,
-            'value' => function (Invite $data) { return $data->getUpdatedTime()->format("j/m/y");},
-            'type' => 'raw'
-        ],
+        'columns' => [
+            ['header' => ''                           , 'value' => '', 'type' => 'html'],
+            ['header' => Yii::t('site', 'Full name')  , 'name' => 'name'        , 'value' => '$data->firstname." ".$data->lastname'],
+            ['header' => Yii::t('site', 'Position')   , 'name' => 'vacancy_id'  , 'value' => '(Yii::t("site", $data->getVacancyLabel()) !== null) ? Yii::t("site", $data->getVacancyLabel()) : "-"', 'type' => 'raw'],
+            [
+                'header' => Yii::t('site', 'Status'),
+                'name' => 'status',
+                'value' => function(Invite $data){
+                    return '
+                        <!-- action-display-invite-status link-in-table -->
+                        <span class="action-display-popover inter-active table-link">'
+                        . Yii::t("site", $data->getStatusText())
+                        . '<!--  invite-status-tooltip -->'
+                        . '<div class="hide inner-popover background-sky">
+                            <div class="popover-triangle"></div>
 
-        ['header' => 'Рейтинг <span class="change-simulation-result-render percentile-hover-toggle-span '.$scoreName.'"></span>', 'value' => $scoreRender, 'type' => 'raw'],
-        ['header' => '', 'value' => '"<a class=\"inviteaction\" href=\"/dashboard/invite/remove/$data->id\">Удалить</a>"', 'type' => 'html', 'htmlOptions' => ['class' => 'hide']],
-        ['header' => '', 'value' => '"<a class=\"inviteaction\" href=\"/dashboard/invite/resend/$data->id\">Отправить ещё раз</a>"' , 'type' => 'html', 'htmlOptions' => ['class' => 'hide']],
-    ]
-]);
-?>
+                            <!--  -->
+                            <div class="popover-wrapper">
 
-<?
+                                <!-- popover-content -->
+                                <div class="popover-content">'
+                                   . $data->getStatusDescription()
+                                . '</div>
+                              </div>
+                          </div> </span>';
+                    },
+                'type' => 'raw'
+            ],
+            [
+                'header' => Yii::t('site', 'Date'),
+                'name' => 'sent_time'   ,
+                'value' => function (Invite $data) { return $data->getUpdatedTime()->format("j/m/y");},
+                'type' => 'raw'
+            ],
 
-?>
-<?php // edit invite pop-up form { ?>
-    <?php //PHP: ?>
-        <?php $this->renderPartial('_edit-invite-pop-up-form', [
-            'invite'    => $inviteToEdit,
-            'vacancies' => $vacancies,
-        ]) ?>
+            ['header' => 'Рейтинг <span class="action-switch-assessment-results-render-type assessment-results-type-switcher inter-active '.$scoreName.'"></span>', 'value' => $scoreRender, 'type' => 'raw'],
+            ['header' => '', 'value' => '"<a class=\"inviteaction\" href=\"/dashboard/invite/remove/$data->id\">Удалить</a>"', 'type' => 'html', 'htmlOptions' => ['class' => 'hide']],
+            ['header' => '', 'value' => '"<a class=\"inviteaction\" href=\"/dashboard/invite/resend/$data->id\">Отправить ещё раз</a>"' , 'type' => 'html', 'htmlOptions' => ['class' => 'hide']],
+        ]
+    ]);
+    ?>
 
-    <?php // java-script: ?>
-<?php // edit invite pop-up form } ?>
-<div class="popover popover-div-on-hover"><div class="popover-triangle"></div><div class="popover-content"><div class="popup-content">Переключение между относительным и абсолютным рейтингом.</div></div></div>
+    <?php // edit invite pop-up form { ?>
+            <?php $this->renderPartial('_edit-invite-pop-up-form', [
+                'invite'    => $inviteToEdit,
+                'vacancies' => $vacancies,
+            ]) ?>
+    <?php // edit invite pop-up form } ?>
+
+    <div class="popover popover-div-on-hover hide">
+        <div class="popover-triangle"></div>
+        <div class="popover-content"><div class="popup-content">
+                Переключение между относительным и абсолютным рейтингом.
+            </div>
+        </div>
+    </div>
+</section>

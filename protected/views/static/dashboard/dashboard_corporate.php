@@ -5,20 +5,21 @@
         <h1 class="inline-block pull-left reset-line-height"><?php echo Yii::t('site', 'Work dashboard') ?>
         </h1>
 
-        <!-- start-full-simulation start-full-simulation-btn light-btn -->
-        <a href="#" data-href="/simulation/promo/full/<?= $notUsedFullSimulationInvite->id ?>"
-           class="button-white label icon-arrow-blue">
-            Начать симуляцию (2 часа)
-        </a>
-
         <!-- start-lite-simulation-btn light-btn -->
-        <a href="#" data-href="/simulation/promo/lite/<?= $notUsedLiteSimulationInvite->id ?>"
-           class="button-white label icon-arrow-blue">
-            Пройти демо (<?= Yii::app()->params['demoDuration'] ?> мин)</a>
+        <span data-href="/simulation/promo/lite/<?= $notUsedLiteSimulationInvite->id ?>"
+           class="button-white inter-active label icon-arrow-blue action-start-lite-simulation">
+            Пройти демо (<?= Yii::app()->params['demoDuration'] ?> мин)</span>
+
+        <!-- start-full-simulation start-full-simulation-btn light-btn -->
+        <span data-href="/simulation/promo/full/<?= $notUsedFullSimulationInvite->id ?>"
+              class="button-white inter-active label icon-arrow-blue action-start-full-simulation">
+            Начать симуляцию (2 часа)
+        </span>
     </section>
 
     <!-- LEFT SIDE -->
-    <aside class="column-1-3 pull-content-left inline-block vertical-align-top">
+    <aside class="column-1-3 pull-content-left inline-block vertical-align-top mark-up-block">
+        <label class="mark-up-label">#FDashboard-aside</label>
         <!-- #invite-people-box nice-border backgroud-rich-blue sideblock-->
         <div class="invite-people-box nice-border background-dark-blue column-1-3-condensed box-standard">
             <?php $this->renderPartial('_invite_people_box', [
@@ -40,7 +41,7 @@
         <!-- sidefeedback light-btn feedback -->
         <br/>
         <div>
-            <span class="action-feedback button-white label icon-arrow-blue">
+            <span class="action-feedback inter-active button-white label icon-arrow-blue">
                 Обратная связь
             </span>
         </div>
@@ -48,10 +49,12 @@
 
     <!-- TABLE -->
     <!-- .narrow-contnt -->
-    <section class="corporate-invitations-list-box column-2-3 pull-content-right inline-block vertical-align-top">
+    <section class="corporate-invitations-list-box column-2-3-condensed
+        pull-content-right inline-block vertical-align-top mark-up-block">
 
+        <label class="mark-up-label">#Dashboard-column-2-3</label>
         <!-- #corporate-invitations-list-box transparent-boder wideblock -->
-        <div class="nice-border reset-padding column-2-3-condensed">
+        <div class="nice-border reset-padding corporate-invitations-table">
 
             <!-- corporate-invitations-list-box -->
             <!-- hack for taking position -->
@@ -63,22 +66,30 @@
                 'vacancies'       => $vacancies,
                 'user'            => $user,
             ]) ?>
+
+            <div class="table-footer"></div>
         </div>
 
-        <a class="link-to-loading pull-left link-regular additional-dashboard-link"
+        <a class="action-load-file pull-left label link-with-background"
         href="/profile/save-analytic-file-2?version=v1">
-            <i class="excel-icon"></i>
-            <div>Результаты</div>
+            <i class="icon icon-excel"></i>
+            <label>Результаты</label>
         </a>
 
-        <a class="link-to-loading pull-right link-regular additional-dashboard-link"
+        <!-- link-to-loading -->
+        <a class="action-load-file label link-with-background"
            href="<?= $this->getAssetsUrl() ?>/instructions/Assessment_key_file.pdf">
-            <i class="doc-icon"></i>
-            <div>Инструкция по оценке</div>
+            <i class="icon icon-doc"></i>
+            <label>Инструкция по оценке</label>
         </a>
+
+        <div class="pager-place"></div>
+
     </section>
 </section>
 
+<div class="clearfix column-full"></div>
+<!-- ------------------------------------------------------------------------------------- -->
 <!-- HIDDEN CONTENT { -->
 
 <section>

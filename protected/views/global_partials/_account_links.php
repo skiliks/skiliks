@@ -27,7 +27,7 @@
                 [
                     'label'       => Yii::t('site', 'Additional simulations'),
                     'url'         => '/invite/referrals',
-                    'linkOptions' => ['class' => ' icon-gift icon-padding-condensed '],
+                    'linkOptions' => ['class' => ' icon-gift icon-padding-condensed label '],
                     'visible'     => !$isGuest && 'ru' == Yii::app()->getLanguage() && $user->isCorporate() && (Yii::app()->controller->id == "static/dashboard" || Yii::app()->controller->id == "static/profile"),
                 ],
                 [
@@ -44,17 +44,19 @@
                 [
                     'label'   => Yii::t('site','Help'),
                     'url'     => '/help/general',
+                    'linkOptions' => ['class' => ' label '],
                     'visible' => 'ru' == Yii::app()->getLanguage(),
                 ],
                 [
                     'label'       => Yii::t('site', 'Регистрация'),
                     'url'         => ['/registration'],
+                    'linkOptions' => ['class' => ' label '],
                     'visible'     => $isGuest && 'ru' == Yii::app()->getLanguage(),
                 ],
                 [
                     'label'       => Yii::t('site', 'Sign in'),
                     'url'         => ['/user/auth'],
-                    'linkOptions' => ['class' => 'sign-in-link'],
+                    'linkOptions' => ['class' => 'sign-in-link label'],
                     'visible'     => $isGuest && 'ru' == Yii::app()->getLanguage(),
                 ],
                 [
@@ -65,7 +67,7 @@
                 [
                     'label'       => Yii::t('site', 'Log out'),
                     'url'         => ['/static/userAuth/logout'],
-                    'linkOptions' => ['class' => 'log-out-link'],
+                    'linkOptions' => ['class' => 'log-out-link label'],
                     'visible'     => !$isGuest,
                 ],
             ]

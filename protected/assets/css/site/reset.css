@@ -24,17 +24,18 @@ body {
 }
 
 body,h1, h2, h3, h4, h5, h6, b, strong, small, img, table, a, p, div, span, ul, li,
-label,
-article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section, summary {
+label, article, aside, details, figcaption, figure, footer, header, hgroup,
+main, nav, section, summary {
     margin: 0;
     padding: 0;
 }
 
-article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section, summary {
+article, aside, details, figcaption, figure, footer, header, hgroup, main, nav,
+section, summary {
     display: block;
 }
 
-ul, li, ol, a, span {
+ul, li, ol, a, span, i, label {
     display: inline-block;
 }
 
@@ -108,6 +109,7 @@ span.required {
 }
 
 .develop-mode .mark-up-label {
+    float: left;
     background-color: #00ff00;
     color:  #00ff00;
 }

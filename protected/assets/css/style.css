@@ -464,7 +464,7 @@ i.excel-icon {
     width: 18px;
 }
 
-i.doc-icon {
+iicon.doc-icon {
     background: url('../img/documents/doc.png');
     background-size: 18px, 18px;
     display: inline-block;
@@ -5920,13 +5920,6 @@ ul.default li:hover {
     cursor: pointer;
 }
 
-/*#corporate-invitations-list-box #yw0_c0 {
-    background-image: none;
-    padding-right: 0;
+.partial-label {
+    display: none;
 }
-
-#corporate-invitations-list-box thead,
-#corporate-invitations-list-box thead tr,
-#corporate-invitations-list-box .grid-view .items tr:last-child {
-    background-color: #146672;
-}*/

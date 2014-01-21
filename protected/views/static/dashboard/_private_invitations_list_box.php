@@ -92,10 +92,9 @@
 <script type="text/javascript">
     $(function(){
         // setup sub-menu switcher behaviour
-        $('.invites-smallmenu-switcher').click(function(){
-            $(this).next().toggle();
-            /*Cufon.refresh();*/
-        });
+//        $('.invites-smallmenu-switcher').click(function(){
+//            $(this).next().toggle();
+//        });
 
         // decline dialog {
         $.ajax({
