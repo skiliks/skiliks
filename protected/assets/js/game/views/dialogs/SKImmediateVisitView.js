@@ -136,6 +136,9 @@ define([
                             duration = 5000;
                         }
 
+                        console.log('duration');
+                        console.log(duration);
+
                         setTimeout(function(){
                             me.$('video').css('zIndex', 0);
                             if (my_replicas.length === 0) {
