@@ -59,9 +59,13 @@ define([
 
             // 45 - магическое число. Установленное просто замером,
             // в вёрстке плана поле для задачи именно на столько уже самой колонки дня
-            $('.planner-book-timetable-event-fl').width(
-                $('.planner-book-today-head').width() - 45
-            );
+            if( true !== $.browser['safari'] ) {
+                $('.planner-book-timetable-event-fl').width(
+                    $('.planner-book-today-head').width() - 45
+                );
+            }else{
+                $('.planner-book-timetable-event-fl').css('width', '100%');
+            }
             // IE10-fix }
 
             // что-то случилось с шириной колонкой '.planner-book-head',
