@@ -54,7 +54,12 @@ class StaticSiteTools
             $results .= " inner";
         }
 
-        $results .= ' ' . Yii::app()->params['css-theme'];
+        // CSS класс "режим разработки" - активирует подстветку структуры вёрстки страницы"
+        if (null !== $request->getParam('dev')) {
+            $results .= ' develop-mode ';
+        }
+
+        $results .= ' ' . $request->getParam('css-theme');
 
         $results .= ' language-' . Yii::app()->language;
 
