@@ -116,7 +116,7 @@ define([
 
                 window_el.html(callInHtml);
 
-                    var duration = (null === remote_replica) ?
+                    var duration = (SKApp.simulation.isDebug() || null === remote_replica) ?
                         0 : parseInt(remote_replica.duration, 0)*1000;
 
                     // Для дев режима, последняя реплика в диалоге, если нет вариантов ответа - сразу исчезает.
