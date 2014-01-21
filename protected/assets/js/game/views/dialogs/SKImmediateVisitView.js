@@ -135,7 +135,9 @@ define([
                         if (SKApp.simulation.isDebug() && 0 == my_replicas.length) {
                             duration = 5000;
                         }
-                        console.log('SKImmediateVisitView::duration',duration);
+
+                        console.log('duration');
+                        console.log(duration);
 
                         setTimeout(function(){
                             me.$('video').css('zIndex', 0);
