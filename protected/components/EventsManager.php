@@ -286,7 +286,7 @@ class EventsManager {
             
             $result['flagsState'] = FlagsService::getFlagsStateForJs($simulation);
             $result['eventsQueue'] = EventService::getEventsQueueForJs($simulation, $eventsQueueDepth);
-
+            $result['serverInfo'] = self::getServerInfoForDev($simulation);
             return $result;
         } catch (CHttpException $exc) {
             return [
@@ -296,6 +296,7 @@ class EventsManager {
                 'serverTime'       => $gameTime,
                 'flagsState'       => FlagsService::getFlagsStateForJs($simulation),
                 'eventsQueue'      => EventService::getEventsQueueForJs($simulation, $eventsQueueDepth),
+                'serverInfo'       => self::getServerInfoForDev($simulation)
             ];
         }
 

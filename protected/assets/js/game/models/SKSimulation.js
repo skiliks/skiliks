@@ -412,6 +412,7 @@ define([
                         if (undefined !== data && null !== data && undefined !== data.flagsState && undefined !== data.serverTime) {
                             me.updateFlagsForDev(data.flagsState, data.serverTime);
                             me.updateEventsListTableForDev(data.eventsQueue);
+                            me.updateServerInfoForDev(data.serverInfo);
                         }
 
                         if (null !== data && data.result === 1 && data.events !== undefined) {
@@ -463,6 +464,10 @@ define([
 
                         if ('undefined' !== typeof data.inviteId) {
                             me.inviteId = data.inviteId;
+                        }
+
+                        if ('undefined' !== typeof data.serverInfo) {
+                            me.serverInfo = data.serverInfo;
                         }
 
                         me.start_time = new Date();
@@ -771,8 +776,20 @@ define([
             updateEventsListTableForDev:function (eventsQueue) {
                 try {
                     if (this.isDebug()) {
-                        var flagStateView = new SKFlagStateView();
                         window.AppView.frame.debug_view.doUpdateEventsList(eventsQueue);
+                    }
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
+            },
+
+            updateServerInfoForDev : function (serverInfo) {
+                try {
+                    if (this.isDebug()) {
+                        $('#server-info-ip-code').text(serverInfo.ip_code);
+                        $('#server-info-ip-db').text(serverInfo.ip_db);
                     }
                 } catch(exception) {
                     if (window.Raven) {
