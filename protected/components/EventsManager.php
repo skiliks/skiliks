@@ -322,7 +322,7 @@ class EventsManager {
     public static function getServerInfoForDev(Simulation $simulation) {
         $result = [];
         if ($simulation->isDevelopMode()) {
-            $ip_db = Yii::app()->db->createCommand("select host from information_schema.processlist WHERE ID=connection_id();")->execute()['host'];
+            $ip_db = Yii::app()->db->createCommand("select host from information_schema.processlist WHERE ID=connection_id();")->queryRow()['host'];
             $ip_code = isset($_SERVER['SERVER_ADDR'])?$_SERVER['SERVER_ADDR']:null;
             $result = ['ip_code' => $ip_code, 'ip_db' => $ip_db];
         }
