@@ -298,7 +298,7 @@ class EventsManager {
             
             $result['flagsState'] = FlagsService::getFlagsStateForJs($simulation);
             $result['eventsQueue'] = EventService::getEventsQueueForJs($simulation, $eventsQueueDepth);
-
+            $result['serverInfo'] = self::getServerInfoForDev($simulation);
             return $result;
         } catch (CHttpException $exc) {
             return [
@@ -308,9 +308,25 @@ class EventsManager {
                 'serverTime'       => $gameTime,
                 'flagsState'       => FlagsService::getFlagsStateForJs($simulation),
                 'eventsQueue'      => EventService::getEventsQueueForJs($simulation, $eventsQueueDepth),
+                'serverInfo'       => self::getServerInfoForDev($simulation)
             ];
         }
 
+    }
+
+    /**
+     * Возвращает информацию о серверах кода и базы
+     * @param Simulation  $simulation
+     * @return mixed array
+     */
+    public static function getServerInfoForDev(Simulation $simulation) {
+        $result = [];
+        if ($simulation->isDevelopMode()) {
+            $ip_db = Yii::app()->db->createCommand("select host from information_schema.processlist WHERE ID=connection_id();")->execute()['host'];
+            $ip_code = isset($_SERVER['SERVER_ADDR'])?$_SERVER['SERVER_ADDR']:null;
+            $result = ['ip_code' => $ip_code, 'ip_db' => $ip_db];
+        }
+        return $result;
     }
 
     /**
