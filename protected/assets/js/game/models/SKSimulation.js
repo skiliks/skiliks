@@ -450,6 +450,7 @@ define([
                         screen_resolution: window.screen.width+'x'+window.screen.height,
                         window_resolution: window.screen.availWidth+'x'+window.screen.availHeight
                     }, function (data) {
+                        console.log('start simulation');
                         SKApp.server.requests_timeout = SKApp.get("frontendAjaxTimeout");
                         var nowDate = new Date(),
                             win;
@@ -471,6 +472,7 @@ define([
                         }
 
                         me.start_time = new Date();
+                        console.log('me.start_time', me.start_time);
                         localStorage.setItem('lastGetState', nowDate.getTime());
 
                         me.window = new SKWindow({name:'mainScreen', subname:'mainScreen'});
@@ -487,6 +489,7 @@ define([
 
                         me.getNewEvents();
                         me._startTimer();
+                        console.log('this.getGameTime()', this.getGameTime());
                         me.trigger('start');
 
                         if (data.result === 0) {
