@@ -319,6 +319,8 @@ define([
                 try {
                     var me = this;
                     var current_time_string = me.paused_time || new Date();
+                    console.log('me.paused_time',me.paused_time);
+
                     var game_start_time = me.timeStringToMinutes(this.get('app').get('start')) * 60;
                     return game_start_time + (me.start_time ?
                         Math.floor(
