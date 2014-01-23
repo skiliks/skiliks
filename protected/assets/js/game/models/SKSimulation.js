@@ -609,6 +609,12 @@ define([
                             if (typeof callback === 'function') {
                                 callback();
                             }
+                        }else if( me.start_time === undefined ) {
+                            me.trigger('pause:stop');
+
+                            if (typeof callback === 'function') {
+                                callback();
+                            }
                         }
                 } catch(exception) {
                     if (window.Raven) {
