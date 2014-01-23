@@ -489,7 +489,7 @@ define([
 
                         me.getNewEvents();
                         me._startTimer();
-                        console.log('this.getGameTime()', this.getGameTime());
+                        console.log('this.getGameTime()', me.getGameTime());
                         me.trigger('start');
 
                         if (data.result === 0) {
