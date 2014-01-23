@@ -573,7 +573,9 @@ define([
                     var me = this;
 
                     me._stopTimer();
-                    me.paused_time = new Date();
+                    if(me.start_time !== undefined){
+                        me.paused_time = new Date();
+                    }
                     me.trigger('pause:start');
                     me.is_paused = true;
                     if (typeof callback === 'function') {
