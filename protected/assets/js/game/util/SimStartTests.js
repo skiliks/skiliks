@@ -146,9 +146,9 @@ try {
                     error: callback
                 });
 
-                if (new Date() - start > 8000) {
+                //if (new Date() - start > 8000) {
                     callback();
-                }
+                //}
 
                 updateImageLoaderBar('Запуск симуляции...', 0.95, true);
                 return true;
