@@ -29,6 +29,7 @@
         <mkdir dir="./protected/system_data/analytic_files_2" mode="777" />
         <mkdir dir="./protected/views/static/applicationcache" mode="777" />
         <exec command="r.js -o protected/assets/js/build.js" />
+        <exec command="./yiic createlistofpreloadedfiles" />
         <if>
             <equals arg1="${stage}" arg2="devel"/>
             <then>
@@ -48,7 +49,6 @@
             </else>
 
         </if>
-        <exec command="./yiic createlistofpreloadedfiles" />
         <!--chmod file="./protected/views/static/applicationcache/preload_images.php" mode="777" /-->
     </target>
     <target name="prepare_test">

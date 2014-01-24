@@ -79,7 +79,8 @@ class SimulationController extends SimulationBaseController
                 'simId'         => $simulation->id,
                 'inviteId'      => $simulation->invite->id,
                 'scenarioName'  => $scenarioName,
-                'scenarioLabel' => $scenarioConfigLabelText
+                'scenarioLabel' => $scenarioConfigLabelText,
+                'serverInfo'    => EventsManager::getServerInfoForDev($simulation)
             )
         );
     }

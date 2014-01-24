@@ -42,7 +42,10 @@ define([
                 'click #plannerBookQuarterPlan':                                     'doPlannerBookQuarterPlan',
                 'click #plannerBookDayPlan':                                         'doPlannerBookDayPlan',
                 'click .save-day-plan':                                              'doSaveTomorrowPlan',
-                'webkitTransitionEnd .plan-todo':                                    'doTransitionEnd',
+                'webkitTransitionEnd .plan-todo':                                    'doTransitionEnd', //transitionend msTransitionEnd oTransitionEnd
+                'transitionend .plan-todo':                                          'doTransitionEnd',
+                'msTransitionEnd .plan-todo':                                        'doTransitionEnd',
+                'oTransitionEnd .plan-todo':                                         'doTransitionEnd',
                 'mouseout .planner-book-timetable-event-fl .day-plan-todo-task.day-plan-task-active':'hideHint',
                 'mouseout .planner-book-timetable-afterv-fl .day-plan-todo-task.day-plan-task-active':'hideHint'
 
@@ -881,6 +884,7 @@ define([
                 this.$('.planner-book-afterv-table').mCustomScrollbar("update");
                 this.$('.planner-book-timetable').mCustomScrollbar("update");
                 this.$('.plan-todo-wrap').mCustomScrollbar("update");
+                console.log('doTransitionEnd');
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);
