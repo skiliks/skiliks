@@ -1690,12 +1690,21 @@ class AdminPagesController extends SiteBaseController {
         $registrationsByYear[$day]['totalNonActivePersonals'] = isset($userCounter->totalNonActivePersonals[$day]) ? $userCounter->totalNonActivePersonals[$day] : 0;
         $registrationsByYear[$day]['totalNonActiveCorporate'] = isset($userCounter->totalNonActiveCorporate[$day]) ? $userCounter->totalNonActiveCorporate[$day] : 0;
 
+        $registrationsByYearOld = [];
+        $day--;
+        $registrationsByYearOld[$day]['period'] = $day;
+        $registrationsByYearOld[$day]['totalRegistrations'] = isset($userCounter->totalRegistrations[$day]) ? $userCounter->totalRegistrations[$day] : 0;
+        $registrationsByYearOld[$day]['totalPersonals'] = isset($userCounter->totalPersonals[$day]) ? $userCounter->totalPersonals[$day] : 0;
+        $registrationsByYearOld[$day]['totalCorporate'] = isset($userCounter->totalCorporate[$day]) ? $userCounter->totalCorporate[$day] : 0;
+        $registrationsByYearOld[$day]['totalNonActivePersonals'] = isset($userCounter->totalNonActivePersonals[$day]) ? $userCounter->totalNonActivePersonals[$day] : 0;
+        $registrationsByYearOld[$day]['totalNonActiveCorporate'] = isset($userCounter->totalNonActiveCorporate[$day]) ? $userCounter->totalNonActiveCorporate[$day] : 0;
         $this->layout = '//admin_area/layouts/admin_main';
         $this->render('/admin_area/pages/registrationCounterList',
             [
                 'registrationsByDay'     => $registrationsByDay,
                 'registrationsByMonth'   => $registrationsMonth,
                 'registrationsByYear'    => $registrationsByYear,
+                'registrationsByYearOld'    => $registrationsByYearOld,
             ]
         );
     }
