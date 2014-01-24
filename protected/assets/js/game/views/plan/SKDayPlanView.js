@@ -884,7 +884,7 @@ define([
                 this.$('.planner-book-afterv-table').mCustomScrollbar("update");
                 this.$('.planner-book-timetable').mCustomScrollbar("update");
                 this.$('.plan-todo-wrap').mCustomScrollbar("update");
-                console.log('doTransitionEnd');
+
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);

@@ -13,6 +13,7 @@
         origFn = SocialCalc.Formula.CalculateFunction;
 
     SocialCalc.Formula.CalculateFunction = function(fname, operand, sheet) {
+        //console.log("SocialCalc.Formula.CalculateFunction Dima");
         if (fnMap[fname]) {
             fname = fnMap[fname];
         }
