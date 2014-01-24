@@ -319,7 +319,6 @@ define([
                 try {
                     var me = this;
                     var current_time_string = me.paused_time || new Date();
-                    console.log('me.paused_time',me.paused_time);
 
                     var game_start_time = me.timeStringToMinutes(this.get('app').get('start')) * 60;
                     return game_start_time + (me.start_time ?
@@ -452,7 +451,6 @@ define([
                         screen_resolution: window.screen.width+'x'+window.screen.height,
                         window_resolution: window.screen.availWidth+'x'+window.screen.availHeight
                     }, function (data) {
-                        console.log('start simulation');
                         SKApp.server.requests_timeout = SKApp.get("frontendAjaxTimeout");
                         var nowDate = new Date(),
                             win;
@@ -474,14 +472,13 @@ define([
                         }
 
                         me.start_time = new Date();
-                        console.log('me.start_time', me.start_time);
                         localStorage.setItem('lastGetState', nowDate.getTime());
 
                         me.window = new SKWindow({name:'mainScreen', subname:'mainScreen'});
                         me.window.set('name', 'mainScreen');
                         me.window.set('subname', 'mainScreen');
                         win = me.window;
-                        console.log('win 1 : ', win, ' , ', me.window, ' , ', me.window.id);
+                        //console.log('win 1 : ', win, ' , ', me.window, ' , ', me.window.id);
                         win.open();
 
                         me.todo_tasks.fetch();
@@ -491,7 +488,6 @@ define([
 
                         me.getNewEvents();
                         me._startTimer();
-                        console.log('this.getGameTime()', me.getGameTime());
                         me.trigger('start');
 
                         if (data.result === 0) {

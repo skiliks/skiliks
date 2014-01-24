@@ -122,11 +122,11 @@ define([
                     // Для дев режима, последняя реплика в диалоге, если нет вариантов ответа - сразу исчезает.
                     // Из-за этого тесты которые проверяют отображение реплик валятся
                     // 5 сек задержки должно хватать, но если не хватит можно увеличить
-                    console.log('duration defore', duration);
+
                     if (SKApp.simulation.isDebug() && 0 == my_replicas.length) {
                         duration = 5000;
                     }
-                    console.log('duration after', duration);
+
                     setTimeout(function(){
                         if (my_replicas.length === 0) {
                             event.selectReplica(remote_replica.id, function () {

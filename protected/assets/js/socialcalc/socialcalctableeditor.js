@@ -6080,6 +6080,8 @@ SocialCalc.KeyboardFocus = function() {
 
 SocialCalc.ProcessKeyDown = function(e) {
 
+   //console.log('SocialCalc.ProcessKeyDown', e);
+   //debugger;
    var kt = SocialCalc.keyboardTables;
    kt.didProcessKey = false; // always start false
    kt.statusFromProcessKey = false;
