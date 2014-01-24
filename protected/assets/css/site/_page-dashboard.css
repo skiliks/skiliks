@@ -65,7 +65,7 @@
     padding: 0 6px;
     position: relative;
     text-align: center;
-    top: 5px;
+    top: 7px;
     width: 10px;
 }
 
@@ -110,8 +110,8 @@
 
 .table-head {
     background-color: #146672;
-    border-radius: 5px 5px 0 0;
-    height: 5px;
+    border-radius: 8px 8px 0 0;
+    height: 8px;
     font-size: 0px;
     line-height: 0px;
     width: 100%;
@@ -119,8 +119,8 @@
 
 .table-footer {
     background-color: #FEFEEC;
-    border-radius: 0 0 5px 5px;
-    height: 5px;
+    border-radius: 0 0 8px 8px;
+    height: 8px;
     font-size: 0px;
     line-height: 0px;
     margin-top: -5px;
@@ -173,11 +173,39 @@
 }
 
 .skiliks .grid-view table.items td {
-    font-size: 1em;
+    font-size: 0.9em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Имя */
+.skiliks .grid-view tr td:nth-child(2) {
+    max-width: 300px;
+}
+
+/* Позиция */
+.skiliks .grid-view tr td:nth-child(3) {
+    max-width: 200px;
+}
+
+/* Статус */
+.skiliks .grid-view tr td:nth-child(4) {
+    width: 70px;
+}
+
+/* Дата */
+.skiliks .grid-view tr td:nth-child(5) {
+    width: 80px;
+}
+
+/* Рейтинг */
+.skiliks .grid-view tr td:nth-child(6) {
+    max-width: 150px;
 }
 
 /* стрелки сортировки */
 
+.skiliks .grid-view table.items th a.desc,
 .skiliks .grid-view .items th a {
     background: url("../../img/arrow-down.png") no-repeat scroll 0 50% rgba(0, 0, 0, 0);
     color: #ffffff;
@@ -186,7 +214,7 @@
     text-align: left;
 }
 
-.skiliks .grid-view table.items th a.desc {
+.skiliks .grid-view table.items th a.asc {
     background: url("../../img/arrow-up.png")   no-repeat scroll 0 50% rgba(0, 0, 0, 0) !important;
 }
 
@@ -346,3 +374,41 @@ i.icon-doc {
     margin-left: 4px;
     vertical-align: middle;
 }
+
+.ui-dialog form label {
+    font-weight: bold;
+    width: 240px;
+}
+
+.ui-dialog form input[type="text"] {
+    width: 390px;
+}
+
+.ui-dialog form .sbHolder {
+    margin-left: 4px;
+    position: absolute;
+}
+
+.ui-dialog form .sbHolder,
+.ui-dialog form .sbOptions {
+    width: 396px;
+}
+
+.ui-dialog form .row {
+    height: 26px;
+}
+
+.ui-dialog form .error-place {
+    padding-left: 122px;
+}
+
+#invite-form .error-place {
+    padding-left: 70px;
+}
+
+#invite-form .error .error-place .errorMessage,
+#invite-form .error .error-place {
+    height: 16px;
+    margin-top: -16px; /* this.margin-top === this.height*/
+}
+

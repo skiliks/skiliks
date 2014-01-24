@@ -79,22 +79,22 @@ $(document).ready(function () {
     });
 
     // 4) попап перед стартом лайт симуляции в кабинетах
-    $('.action-start-lite-simulation').click(function(event) {
-        event.preventDefault('.action-start-lite-simulation');
-        console.log(".start-lite-simulation-btn");
+    $('.action-open-lite-simulation-popup').click(function(event) {
+
         // get URL for lite simulation
         var href = $(this).attr('data-href');
 
-        $(".lite-simulation-info-popup").dialog({
+        // popup-before-start-sim lite-simulation-info-dialog
+        $(".locator-lite-simulation-info-popup").dialog({
             closeOnEscape: true,
-            dialogClass: 'popup-before-start-sim lite-simulation-info-dialog',
+            dialogClass: 'background-sky popup-information',
             minHeight: 220,
             modal: true,
             resizable: false,
-            width:881,
+            width: getDialogWindowWidth(),
             draggable: false,
             open: function( event, ui ) {
-                $('.start-lite-simulation-now').click(function() {
+                $('.action-start-lite-simulation-now').click(function() {
                     location.assign(href);
                 });
             }
@@ -106,4 +106,191 @@ $(document).ready(function () {
     $('.pager-place').html($('.grid-view .pager').html());
     $('.grid-view .pager').html('');
 
+    // 6)
+    $('.action-open-full-simulation-popup').click(function(event){
+
+        // @todo: change to locator-invite-accept-form
+        $('#invite-accept-form').dialog('close');
+
+        var href = $(this).attr('data-href');
+        event.preventDefault();
+        // удлиннить окно чтоб футер был ниже нижнего края попапа
+        $('.content').css('margin-bottom', '80px');
+
+        // преверяем есть ли не завершенная фулл симуляцая самому-себе
+        $.ajax({
+            url: '/simulationIsStarted',
+            dataType:  "json",
+            data: {
+                invite_id: getInviteId(href)
+            },
+            success:function(data) {
+                var dataGlobal = data;
+                if (0 < parseInt(data.count_self_to_self_invites_in_progress)) {
+                    // незавершенные симуляции есть
+                    // popup-before-start-sim
+                    var warningPopup = $(".locator-exists-self-to-self-simulation-warning-popup");
+                    warningPopup.dialog({
+                        closeOnEscape: true,
+                        dialogClass: 'background-sky popup-information',
+                        minHeight: 220,
+                        modal: true,
+                        resizable: false,
+                        width: getDialogWindowWidth(),
+                        open: function( event, ui ) {
+                            // пользователь выбирает не прерывать текущую симуляцию
+                            $('.action-close-popup').click(function(){
+                                warningPopup.dialog('close');
+                            });
+
+                            // пользователь выбирает начать новую симуляцию,
+                            // не смотря на наличие незавершенных
+                            $('.action-start-full-simulation').click(function(){
+                                // закрыть текущий попап
+                                warningPopup.dialog('close');
+
+                                // запрос на удаление всех незавершенных фулл симуляций самому-себе
+                                $.ajax({ url: '/static/break-simulations-for-self-to-self-invites'});
+
+                                // отображаем свтупительный попап
+                                displaySimulationInfoPopUp(href, dataGlobal);
+                            });
+                        }
+                    });
+                } else {
+                    // незавершенных симуляций нет
+                    displaySimulationInfoPopUp(href, dataGlobal);
+                }
+            }
+        });
+
+        // hack {
+        $('.popup-before-start-sim').css('top', '50px');
+        $(window).scrollTop('body');
+        // hack }
+
+        return false;
+    });
+
+    // 7)
+    var pre_simulation_popup = $(".locator-full-simulation-info-popup");
+
+    // popup-before-start-sim
+    pre_simulation_popup.dialog({
+        closeOnEscape: true,
+        autoOpen : false,
+        dialogClass: 'background-sky popup-information',
+        minHeight: 220,
+        modal: true,
+        resizable: false,
+        width: getDialogWindowWidth()
+    });
+    console.log('pre_simulation_popup: ', pre_simulation_popup);
+
+    function infoPopup_aboutFullSimulation(href) {
+        console.log('infoPopup_aboutFullSimulation', pre_simulation_popup);
+        pre_simulation_popup.dialog('open');
+        $('.locator-next-step').attr('data-href', href);
+    }
+
+    // 8)
+    function displaySimulationInfoPopUp (href, data) {
+        // в случае если пользователь выбрал начать новую симуляцию,
+        // не смотря на наличие незавершенных сам-себе
+        // то предупреждение будет дублирующим,
+        // а если он пытает начать фулл симуляцию по приглашению от работодателя второй раз,
+        // то предупреждение нужно
+        console.log(data);
+        console.log(data.user_try_start_simulation_twice);
+        console.log(0 == parseInt(data.count_self_to_self_invites_in_progress));
+        if(data.user_try_start_simulation_twice &&
+            0 == parseInt(data.count_self_to_self_invites_in_progress)) {
+            // предупреждение о попытке повторного начала симуляции
+            console.log(".pre-start-popup");
+            $(".pre-start-popup").dialog({
+                closeOnEscape: true,
+                dialogClass: 'popup-before-start-sim',
+                minHeight: 220,
+                modal: true,
+                resizable: false,
+                width: getDialogWindowWidth(),
+                open: function( event, ui ) {
+                    $('.start-full-simulation-next').attr('data-href', href);
+                }
+            });
+        } else {
+            // информация про ключевые моменты в сценарии фулл симуляции
+            // что я? где я? сотрудники, цели.
+            infoPopup_aboutFullSimulation(href);
+        }
+    }
+
+    // 9)
+    $('.action-start-full-simulation-now').click(function(event){
+        var href = $(this).attr('data-href');
+        location.assign(href);
+    });
+
+    // 10)
+    $('.action-add-vacancy').click(function(event) {
+        event.preventDefault();
+        $(".locator-form-vacancy").dialog({
+            dialogClass: 'background-image-lamp popup-form',
+            closeOnEscape: true,
+            minHeight: 350,
+            modal: true,
+            resizable: false,
+            draggable: false,
+            title: '',
+            width: getDashboardDialogWindowWidth(),
+            position: {
+                my: "left top",
+                at: "left top",
+                of: $('.locator-corporate-invitations-list-box')
+            },
+            open: function () {
+                // This is fix render for IE10
+                // z-index правильный, но затемнение отрысовывается над попапом!
+                // $(window).trigger('resize');
+            }
+        });
+
+        $(".form-vacancy").dialog('open');
+    });
+
+    // 11)
+    window.addVacancyValidation = function addVacancyValidation(form, data, hasError) {
+        console.log(form, data, hasError);
+        if (!hasError) {
+            window.location.href = form.attr('data-url');
+        }
+        return false;
+    };
+
+    // 12) показать попап второго шага Отправки приглашения
+    if ($( ".message_window" )) {
+
+        $( ".message_window" ).dialog({
+            dialogClass: 'background-image-book',
+            modal: true,
+            resizable: false,
+            draggable: false,
+            width: getDashboardDialogWindowWidth(),
+            height: 500,
+            position: {
+                my: "left top",
+                at: "left top",
+                of: $('.locator-corporate-invitations-list-box')
+            }
+        });
+
+        // $( ".message_window").parent().addClass('nice-border cabmessage');
+        $( ".message_window").dialog('open', $("#corporate-invitations-list-box").show());
+    }
+
 });
+
+
+
+
+

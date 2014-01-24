@@ -2,10 +2,6 @@
 /* any CSS styles for all screen resolutions */
 /* Currently 1280+ (Х) and 1280- (Х * 0,82) */
 
-a {
-    color: #ffffff;
-}
-
 /* ссылки меню в хедере и футере */
 nav ul li.menu-item span,
 nav ul li.menu-item a {
@@ -52,13 +48,31 @@ header nav ul li.menu-item .icon-profile-corporate {
     padding-left: 31px !important;
 }
 
-.icon-padding-standard {
-    background-position: 20px center;
-    padding-left: 48px !important;
+.button-standard.icon-padding-standard {
+    background-position: 16px center;
+    padding-left: 48px;
 }
 
 .icon-blue-arrow:hover {
     background-image: url("../../img/site/1280/buttons/icon-gray-arrow.png");
+}
+
+.icon-circle-with-blue-arrow {
+    background-image: url("../../img/site/1280/buttons/icon-blue-arrow.png");
+    background-repeat: no-repeat;
+    /*background-position: 6px center;*/
+    /*padding-left: 25px;*/
+}
+
+.icon-circle-with-blue-arrow:hover {
+    background-image: url("../../img/site/1280/buttons/icon-gray-arrow.png");
+}
+
+.icon-circle-with-blue-arrow-big {
+    background-image: url("../../img/site/1280/buttons/icon-with-arrow-big.png");
+    background-repeat: no-repeat;
+    background-position: 6px center;
+    padding-left: 25px;
 }
 
 header nav.account-links {
@@ -106,8 +120,121 @@ footer .static-page-links ul {
 .button-standard {
     border: none;
     border-radius: 4px;
+    color: #fff;
     font-size: 1.3em;
     font-weight: bold;
-    padding: 13px 20px 13px 66px;
+    padding: 20px;
+}
+
+input.button-standard {
+    height: auto;
+}
+
+.button-standard:hover {
+    background-color: #BD2929;
+}
+
+/* popover */
+
+.inner-popover {
+    border-radius: 7px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    color: #000000;
+    cursor: auto;
+    font-weight: normal;
+    line-height: 1;
+    left: 0px;
+    width: 210px;
+    position: absolute;
+    transition: opacity 0.25s linear 0s;
+}
+
+.inner-popover.active {
+    opacity: 1;
+    z-index: 5;
+}
+
+.popover-triangle {
+    background: url("../../img/tooltip-blue-arrow.png") no-repeat right center;
+    /*border: 0 none;*/
+    float: left;
+    font-size: 0;
+    height: 16px;
+    left: -16px;
+    line-height: 0;
+    position: absolute;
+    top: 21px;
+    width: 16px;
+}
+
+.popover-wrapper {
+    padding: 0;
+    min-width: 200px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    text-align: center;
+}
+
+.popover-content {
+    font-family: "ProximaNova-Regular";
+    font-size: 1em;
+    line-height: 15px;
+    padding: 15px 5px;
+    text-align: center;
+    width: 200px;
+    max-width: 240px;
+}
+
+/* ratings: */
+
+.rating-percentile-container {
+    background-position: -15px 0px;  /* чтоб небыло видно голубой стрелки на .button-white */
+    height: 18px;
+    width: 118px;
+    padding: 6px;
+}
+
+.rating-percentile-container label {
+    float: right;
+    font-size: 1.1em;
+    line-height: 1.35em;
+}
+
+.rating-percentile-indicator {
+    background: url("../../img/percentil_men_big.png") no-repeat 0 -18px;
+    height: 18px;
+    width: 74px;
+}
+
+.rating-percentile-indicator-level {
+    background: url("../../img/percentil_men_big.png") no-repeat 0 0;
+    height: 18px;
+}
+
+/* -- */
+
+.rating-stars-container {
+    height: 14px;
+    width: 118px;
+    padding: 6px;
+}
+
+.rating-stars-container label {
+    float: right;
+    line-height: 1.32em;
+}
+
+.rating-stars-indicator {
+    background-image: url("../../img/ratestars2.png");
+    background-repeat: no-repeat;
+    height: 14px;
+    width: 85px;
+}
+
+.rating-stars-indicator-level {
+    background-image: url("../../img/ratestars2.png");
+    background-position: 0 -14px;
+    background-repeat: no-repeat;
+    height: 14px;
 }
 

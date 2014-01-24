@@ -4,27 +4,54 @@
 $cs = Yii::app()->clientScript;
 $assetsUrl = $this->getAssetsUrl();
 
-$cs->registerScriptFile($assetsUrl . '/js/jquery/jquery-1.10.2.js');
-$cs->registerScriptFile($assetsUrl . "/js/jquery/jquery.browser.js");
-$cs->registerScriptFile($assetsUrl . '/js/jquery/jquery-migrate-1.1.1.min.js');
-$cs->registerScriptFile($assetsUrl . '/js/jquery.selectbox-0.2.js');
-$cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.jeditable.js');
-$cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.cookies.js');
-$cs->registerScriptFile($assetsUrl . '/js/jquery/jquery-ui-1.8.24.custom.js', CClientScript::POS_BEGIN);
-$cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.tablesorter.js', CClientScript::POS_BEGIN);
+//$cs->registerScriptFile($assetsUrl . '/js/jquery/jquery-1.10.2.js');
+//$cs->registerScriptFile($assetsUrl . "/js/jquery/jquery.browser.js");
+//$cs->registerScriptFile($assetsUrl . '/js/jquery/jquery-migrate-1.1.1.min.js');
+//$cs->registerScriptFile($assetsUrl . '/js/jquery.selectbox-0.2.js');
+//$cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.jeditable.js');
+//$cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.cookies.js');
+//$cs->registerScriptFile($assetsUrl . '/js/jquery/jquery-ui-1.8.24.custom.js', CClientScript::POS_BEGIN);
+//$cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.tablesorter.js', CClientScript::POS_BEGIN);
 
+//$cs->registerScriptFile($assetsUrl . '/js/site/jquery/jquery.tablesorter.js', CClientScript::POS_BEGIN);
+
+//$cs->registerScriptFile($assetsUrl . '/js/niceCheckbox.js');
+//$cs->registerScriptFile($assetsUrl . '/js/d3-master/d3.v3.js');
+//$cs->registerScriptFile($assetsUrl . '/js/charts.js');
+
+$cs->scriptMap=array(
+    'jquery.js'        => $assetsUrl . '/js/site/jquery/jquery-1.10.2.js',
+    'jquery-min.js'    => false,
+    'jquery.ba-bbq.js' => false, /* не обновляется с 2010 года! @link http://benalman.com/code/projects/jquery-bbq/docs/files/jquery-ba-bbq-js.html */
+    'jquery.yiilistview.js' => false
+);
+
+// если не регистрировать jQuery как CoreScript - то Yii AJAX формы не работают
+// @link: http://stackoverflow.com/questions/14502018/using-yiis-ajax-validation-without-autoload-jquery
+$cs->registerCoreScript('jquery');
 $cs->registerCoreScript('jquery.yiiactiveform.js');
+//$cs->registerScriptFile($assetsUrl . '/js/site/jquery/jquery-1.10.2.js');
 
-$cs->registerScriptFile($assetsUrl . '/js/niceCheckbox.js');
-$cs->registerScriptFile($assetsUrl . '/js/d3-master/d3.v3.js');
-$cs->registerScriptFile($assetsUrl . '/js/charts.js');
+/* fix:
+ 1. jquery .live() issue, @link: http://stackoverflow.com/questions/15573645/typeerror-live-is-not-a-function */
+$cs->registerScriptFile($assetsUrl . '/js/site/jquery/plugins/jquery-migrate-1.1.1.min.js');
+
+/* .dialog() */
+$cs->registerScriptFile($assetsUrl . '/js/site/jquery/plugins/jquery-ui-1.8.24.custom.js', CClientScript::POS_BEGIN);
+
+$cs->registerScriptFile($assetsUrl . "/js/site/jquery/plugins/jquery.browser.js");
+
+
+$cs->registerScriptFile($assetsUrl . '/js/site/jquery/plugins/jquery.selectbox-0.2.js');
 
 $cs->registerScriptFile($assetsUrl . '/js/site/common.js');
 
+/* .dialog() */
 $cs->registerCssFile($assetsUrl . '/js/jquery/jquery-ui.css');
 
 $cs->registerCssFile($assetsUrl . "/css/site/reset.css");
 $cs->registerCssFile($assetsUrl . "/css/site/grid.css");
+$cs->registerCssFile($assetsUrl . "/css/site/sb-holder.css");
 $cs->registerCssFile($assetsUrl . "/css/site/social-networks.css");
 $cs->registerCssFile($assetsUrl . "/css/site/styles_size_independent.css");
 $cs->registerCssFile($assetsUrl . "/css/site/styles_1280.css");
@@ -117,6 +144,7 @@ $cs->registerCssFile($assetsUrl . "/css/site/styles_1024.css");
 
     <?php // $this->renderPartial('//global_partials/_feedback', []) ?>
     <?php // $this->renderPartial('//global_partials/_google_analytics') ?>
+    <?php $this->renderPartial('//global_partials/_before_start_lite_simulation_popup', []) ?>
 </section>
 </body>
 </html>

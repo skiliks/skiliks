@@ -2,79 +2,6 @@
 /* CSS styles to define geometric grid system on page for all screen resolutions */
 /* Currently 1280+ and 1280- */
 
-html {
-    height: 100%;
-    min-height: 600px;
-    position: relative;
-}
-
-/* --- */
-
-body {
-    height: 100%;
-}
-
-@media screen and (max-width: 1279px) {
-    body {
-
-    }
-}
-
-/* --- */
-
-h1 {
-    height: 1em;
-}
-
-/* --- */
-
-header {
-    height: 131px;
-    min-width: 1024px;
-}
-
-@media screen and (max-width: 1279px) {
-    header {
-        height: 108px;
-    }
-}
-
-/* --- */
-
-section.main-content {
-    min-height: 570px; /* 1080px - 130px (header) - 380px (footer) */
-    position: relative;
-}
-
-@media screen and (max-width: 1279px) {
-    section.main-content {
-
-    }
-}
-
-/* --- */
-
-footer.main-content {
-    background-image: url('../../img/site/1280/general-style/site-footer.png');
-    background-position: center top;
-    background-repeat: no-repeat;
-    background-size: cover;
-    height: 381px;
-    left: 0;
-    margin-top: -200px;
-    position: relative;
-    min-width: 1024px;
-    width: 100%;
-}
-
-@media screen and (max-width: 1279px) {
-    footer.main-content {
-        height: 308px;
-    }
-}
-
-/* --- */
-
 .column-full {
     margin: 0 auto;
     min-width: 1146px;
@@ -128,47 +55,12 @@ footer.main-content {
 
 /* --- */
 
-.inline-block {
-    display: inline-block;
-}
-
-/* --- */
-
-h1 {
-    font: 2.7em "ProximaNova-Bold";
-    line-height: 1em; /* это значит line-height === font-size (не 1em!) */
-}
-
-h2 {
-    font: 2.3em "ProximaNova-Bold";
-    line-height: 1em;
-}
-
-h3 {
-    font: 2.0em/2.0em "ProximaNova-Bold";
-}
-
-h4 {
-    font: 1.7em "ProximaNova-Bold";
-    line-height: 1em;
-}
-
-h5 {
-    font: 1.4em "ProximaNova-Bold";
-    line-height: 1em;
-}
-
-h6 {
-    font: 1.1em "ProximaNova-Bold";
-    line-height: 1em;
-}
-
-h1, h2, h3, h4, h5, h6 {
-    color: #ffffff;
-}
-
 .hide {
     display: none;
+}
+
+.regular-list {
+    /*list-style: disc outside none;*/
 }
 
 /* --- */
@@ -202,23 +94,23 @@ h1, h2, h3, h4, h5, h6 {
 /* --- */
 
 .column-1-2 {
-    width: 49.5%
+    width: 49.5%;
 }
 
 .column-1-3 {
-    width: 33.0%
+    width: 33.0%;
 }
 
 .column-2-3 {
-    width: 66.0%
+    width: 66.0%;
 }
 
 .column-1-4 {
-    width: 24.5%
+    width: 24.5%;
 }
 
 .column-3-4 {
-    width: 74.5%
+    width: 74.5%;
 }
 
 /* --- */
@@ -261,6 +153,7 @@ h1, h2, h3, h4, h5, h6 {
     vertical-align: top;
 }
 
+.skiliks .ui-dialog,
 .nice-border {
     border-radius: 8px;
     box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
@@ -291,24 +184,15 @@ h1, h2, h3, h4, h5, h6 {
     background-color: #fefeec;
 }
 
+.background-dark-blue .errorMessage {
+    color: #ffffff;
+}
+
 .label,
 .static-page-links .label a {
     border-radius: 3px;
     padding-left: 10px;
     padding-right: 10px;
-}
-
-input {
-    background: none repeat scroll 0 0 #FFFFFF;
-    border: 1px solid #3E5259;
-    border-radius: 5px;
-    box-shadow: 10px 4px 10px rgba(0, 0, 0, 0.1) inset;
-    color: #146672;
-    height: 26px;
-    line-height: 26px;
-    font-size: 1em;
-    line-height: 1em;
-    padding: 2px 4px;
 }
 
 /* --- */
@@ -350,108 +234,3 @@ input {
     vertical-align: middle;
 }
 
-/* popover */
-
-.inner-popover {
-    border-radius: 7px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
-    color: #000000;
-    cursor: auto;
-    font-weight: normal;
-    line-height: 1;
-    left: 0px;
-    width: 210px;
-    position: absolute;
-    transition: opacity 0.25s linear 0s;
-}
-
-.inner-popover.active {
-    opacity: 1;
-    z-index: 5;
-}
-
-.popover-triangle {
-    background: url("../../img/tooltip-blue-arrow.png") no-repeat right center;
-    /*border: 0 none;*/
-    float: left;
-    font-size: 0;
-    height: 16px;
-    left: -16px;
-    line-height: 0;
-    position: absolute;
-    top: 21px;
-    width: 16px;
-}
-
-.popover-wrapper {
-    padding: 0;
-    min-width: 200px;
-    overflow-x: hidden;
-    overflow-y: auto;
-    text-align: center;
-}
-
-.popover-content {
-    font-family: "ProximaNova-Regular";
-    font-size: 1em;
-    line-height: 15px;
-    padding: 15px 5px;
-    text-align: center;
-    width: 200px;
-    max-width: 240px;
-}
-
-/* ratings: */
-
-.rating-percentile-container {
-    background-position: -15px 0px;  /* чтоб небыло видно голубой стрелки на .button-white */
-    height: 18px;
-    width: 118px;
-    padding: 6px;
-}
-
-.rating-percentile-container label {
-    float: right;
-    font-size: 1.1em;
-    line-height: 1.35em;
-}
-
-.rating-percentile-indicator {
-    background: url("../../img/percentil_men_big.png") no-repeat 0 -18px;
-    height: 18px;
-    width: 74px;
-}
-
-.rating-percentile-indicator-level {
-    background: url("../../img/percentil_men_big.png") no-repeat 0 0;
-    height: 18px;
-}
-
-/* -- */
-
-.rating-stars-container {
-    height: 14px;
-    width: 118px;
-    padding: 6px;
-}
-
-.rating-stars-container label {
-    float: right;
-    line-height: 1.32em;
-}
-
-.rating-stars-indicator {
-    background-image: url("../../img/ratestars2.png");
-    background-repeat: no-repeat;
-    height: 14px;
-    width: 85px;
-}
-
-.rating-stars-indicator-level {
-    background-image: url("../../img/ratestars2.png");
-    background-position: 0 -14px;
-    background-repeat: no-repeat;
-    height: 14px;
-}
-
-/* --- */

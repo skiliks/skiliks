@@ -1,8 +1,8 @@
-<div class="exists-self-to-self-simulation-warning-popup" style="display: none;">
-    <div class="more-side-pads list-ordered">
-        <h2 class="title">Внимание!</h2>
+<div class="locator-exists-self-to-self-simulation-warning-popup hide">
+    <div>
+        <h1 class="pull-content-center">Внимание!</h1>
 
-        <p class="font-xxlarge">
+        <p>
             Вероятно, у вас запущена симуляция в соседней вкладке браузера
             или вы закрыли вкладку браузера с работающей симуляцией. <br/><br/>
 
@@ -12,9 +12,18 @@
             Если вы не желаете прерывать текущую симуляцию, то нажмите кнопку "Вернуться".<br/><br/>
         </p>
 
-        <div class="text-center">
-            <a href="#" data-href="#" class="bigbtnsubmt back-button">Вернуться</a>
-            <a href="#" data-href="#" class="bigbtnsubmt go-ahead-button">Прервать текущую и начать новую</a>
+        <div class="pull-content-center">
+            <!-- back-button -->
+            <span data-href="#"
+               class="label background-dark-blue icon-circle-with-blue-arrow-big inter-active
+               button-standard icon-padding-standard action-close-popup">
+                Вернуться</span>
+
+            <!-- go-ahead-button -->
+            <span data-href="#"
+               class="label background-dark-blue icon-circle-with-blue-arrow-big inter-active
+               button-standard icon-padding-standard action-start-full-simulation">
+                Прервать текущую и начать новую</span>
         </div>
     </div>
 </div>

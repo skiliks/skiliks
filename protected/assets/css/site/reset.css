@@ -23,6 +23,79 @@ body {
     }
 }
 
+html {
+    height: 100%;
+    min-height: 600px;
+    position: relative;
+}
+
+/* --- */
+
+body {
+    height: 100%;
+}
+
+@media screen and (max-width: 1279px) {
+    body {
+
+    }
+}
+
+/* --- */
+
+h1 {
+    min-height: 1em;
+}
+
+/* --- */
+
+header {
+    height: 131px;
+    min-width: 1024px;
+}
+
+@media screen and (max-width: 1279px) {
+    header {
+        height: 108px;
+    }
+}
+
+/* --- */
+
+section.main-content {
+    min-height: 570px; /* 1080px - 130px (header) - 380px (footer) */
+    position: relative;
+}
+
+@media screen and (max-width: 1279px) {
+    section.main-content {
+
+    }
+}
+
+/* --- */
+
+footer.main-content {
+    background-image: url('../../img/site/1280/general-style/site-footer.png');
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 381px;
+    left: 0;
+    margin-top: -200px;
+    position: relative;
+    min-width: 1024px;
+    width: 100%;
+}
+
+@media screen and (max-width: 1279px) {
+    footer.main-content {
+        height: 308px;
+    }
+}
+
+/* --- */
+
 body,h1, h2, h3, h4, h5, h6, b, strong, small, img, table, a, p, div, span, ul, li,
 label, article, aside, details, figcaption, figure, footer, header, hgroup,
 main, nav, section, summary {
@@ -35,7 +108,59 @@ section, summary {
     display: block;
 }
 
-ul, li, ol, a, span, i, label {
+/* --- */
+
+
+h1 {
+    font: 2.7em "ProximaNova-Bold";
+    line-height: 1em; /* это значит line-height === font-size (не 1em!) */
+}
+
+h2 {
+    font: 2.3em "ProximaNova-Bold";
+    line-height: 1em;
+}
+
+h3 {
+    font: 2.0em "ProximaNova-Bold";
+    line-height: 1em;
+}
+
+h4 {
+    font: 1.7em "ProximaNova-Bold";
+    line-height: 1em;
+}
+
+h5 {
+    font: 1.4em "ProximaNova-Bold";
+    line-height: 1em;
+}
+
+h6 {
+    font: 1.1em "ProximaNova-Bold";
+    line-height: 1em;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #ffffff;
+}
+
+.background-sky h1,
+.background-sky h2,
+.background-sky h3,
+.background-sky h4,
+.background-sky h5,
+.background-sky h6 {
+    color: #3D4041;
+}
+
+/* --- */
+
+li {
+    display: list-item;
+}
+
+ul, ol, a, span, i, label {
     display: inline-block;
 }
 
@@ -59,7 +184,7 @@ table {
 
 a {
     background: transparent;
-    color: #428290;
+    color: #ffffff;
     text-decoration: none;
 }
 
@@ -67,7 +192,150 @@ span.required {
     display: none;
 }
 
+input {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #3E5259;
+    border-radius: 5px;
+    box-shadow: 10px 4px 10px rgba(0, 0, 0, 0.1) inset;
+    color: #146672;
+    height: 26px;
+    line-height: 26px;
+    font-size: 1em;
+    line-height: 1em;
+    padding: 2px 4px;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/* RESET .ui-dialog                               */
+/* Standard pop-up                                */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+.skiliks .ui-dialog {
+    background-image: none;
+    border: 0;
+    font-size: 1.28em;
+    line-height: 1.2em; /* работает как line-height = font-size*1.2 */
+    margin: 0;
+    overflow: visible;
+    padding: 0;
+    position: relative;
+}
+
+.skiliks .ui-dialog li {
+    margin-left: 16px;
+}
+
+.skiliks .ui-dialog ul {
+    margin-top: -20px; /* чтоб компенсировать отступ от .skiliks .ui-dialog p */
+}
+
+.skiliks .ui-dialog p {
+    margin-bottom: 20px;
+}
+
+.skiliks .ui-dialog .button-standard {
+    font-size: 1em; /* тут шрифи меряется уже относительно .skiliks .ui-dialog */
+}
+
+.skiliks .ui-dialog .ui-dialog-titlebar-close,
+.skiliks .ui-dialog .ui-dialog-titlebar-close:focus,
+.skiliks .ui-dialog .ui-dialog-content {
+    margin: 0;
+    padding: 0;
+}
+
+.skiliks .popup-information .ui-dialog-content {
+    padding: 40px 110px;
+    position: static;
+}
+
+.skiliks .popup-form .ui-dialog-content {
+    padding: 35px;
+}
+
+.skiliks .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick {
+    background: url("../../img/site/1280/popups/close-modal.png") no-repeat 0 0;
+    display: block;
+    height: 27px;
+    margin: -33px 0 0 10px;
+    width: 27px;
+}
+
+.skiliks .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick:hover {
+    background-position: 0 -27px;
+    border: none;
+}
+
+.skiliks .ui-state-hover {
+    background: none;
+    border: none;
+}
+
+.skiliks .ui-dialog-titlebar {
+    background: none;
+    border: 0;
+    font-size: 0;
+    line-height: 0;
+    margin: 0;
+    padding: 0;
+    height: 0px;
+}
+
+input,
+.skiliks .ui-widget input {
+    font-family: 'ProximaNova-Regular';
+}
+
+.skiliks .ui-widget-overlay {
+    background-image: none;
+    background-color: rgba(0, 0, 0, 0.55);
+    opacity: 1;
+}
+
+.skiliks .ui-widget-content {
+    background-image: none;
+    position: static;
+}
+
+.skiliks .ui-widget-content .background-dark-blue {
+    color: #fff;
+}
+
+.skiliks .ui-widget {
+    font-family: ProximaNova-Regular;
+}
+
+.skiliks .ui-dialog.background-image-lamp,
+.background-image-lamp {
+    font-size: 1em;
+    background: url('../../img/site/1280/popups/lamp.png') repeat left top;
+    background-color: #9BC8CE;
+}
+
+.skiliks .ui-dialog.background-image-book,
+.background-image-lamp {
+    font-size: 1em;
+    background: url('../../img/site/1280/popups/book.png') repeat left top;
+    background-color: #9BC8CE;
+}
+
+/* --- */
+
+.background-image-lamp h3,
+.background-image-lamp label {
+    color: #0E4750;
+}
+
+.skiliks .ui-dialog.background-image-lamp .button-standard {
+    font-size: 1.28em;
+    margin-top: 35px;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 /* специальная маркировка для облегчения анализа структуры страницы */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 .mark-up-label,
 .partial-label,
@@ -82,7 +350,6 @@ span.required {
 }
 
 /* в левом верхнем углу находится красный или салатовый квадрат. */
-/* Для прашиала и просто крупного блока в вёрстке соответственно. */
 .develop-mode .mark-up-label,
 .develop-mode .partial-label {
     background-color: #ffAAAA;
@@ -118,4 +385,31 @@ span.required {
     border: 1px solid #00ff00;
 }
 
-/* --- */
+/* Form errors */
+
+.error-place .errorMessage,
+form .error-place {
+    display: none;
+}
+
+.error .error-place .errorMessage,
+.error .error-place {
+    display: block;
+    height: 14px;
+    margin-top: -14px; /* this.margin-top === this.height*/
+}
+
+.error .error-place .errorMessage {
+    display: inline-block;
+}
+
+.error select,
+.error textarea,
+.error input,
+.error .sbHolder {
+    border : 1px solid #bd2929;
+}
+
+.error .errorMessage {
+    color: #bd2929;
+}

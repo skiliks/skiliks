@@ -33,11 +33,42 @@ $(document).ready(function () {
             hideAllPopovers();
         }
     });
-
-    function hideAllPopovers() {
-        $(".action-display-popover").removeClass("active");
-        $(".inner-popover").removeClass("active");
-        $(".inner-popover").hide();
-    }
     // action-display-popover }
+
+    // 2) Стализация выпадающих списков
+    // @link http://www.bulgaria-web-developers.com/projects/javascript/selectbox/
+    $("select").selectbox();
 });
+
+// 1)
+function hideAllPopovers() {
+    $(".action-display-popover").removeClass("active");
+    $(".inner-popover").removeClass("active");
+    $(".inner-popover").hide();
+}
+
+
+// 2) Определяет ширину
+function getDialogWindowWidth() {
+    if ($(document).width() < 1281) {
+        return  940;
+    } else {
+        return  1146;
+    }
+}
+
+// 2.1) Определяет ширину
+function getDashboardDialogWindowWidth() {
+    if ($(document).width() < 1281) {
+        return 576;
+    } else {
+        return 719;
+    }
+}
+
+// 3)
+function getInviteId(url){
+    return parseInt(url.replace('/simulation/promo/full/', ''), 0);
+}
+
+

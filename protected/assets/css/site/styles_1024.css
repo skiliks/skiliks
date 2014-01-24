@@ -34,13 +34,8 @@
     }
 
     .icon-circle-with-blue-arrow {
-        background-image: url("../../img/site/1024/buttons/icon-blue-arrow.png");
         background-position: 6px center;
         padding-left: 25px;
-    }
-
-    .icon-circle-with-blue-arrow:hover {
-        background-image: url("../../img/site/1024/buttons/icon-gray-arrow.png");
     }
 
     header nav.account-links {

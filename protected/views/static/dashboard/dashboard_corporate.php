@@ -7,19 +7,21 @@
 
         <!-- start-lite-simulation-btn light-btn -->
         <span data-href="/simulation/promo/lite/<?= $notUsedLiteSimulationInvite->id ?>"
-           class="button-white inter-active label icon-arrow-blue action-start-lite-simulation">
+           class="button-white inter-active label icon-arrow-blue
+           action-open-lite-simulation-popup">
             Пройти демо (<?= Yii::app()->params['demoDuration'] ?> мин)</span>
 
         <!-- start-full-simulation start-full-simulation-btn light-btn -->
         <span data-href="/simulation/promo/full/<?= $notUsedFullSimulationInvite->id ?>"
-              class="button-white inter-active label icon-arrow-blue action-start-full-simulation">
+              class="button-white inter-active label icon-arrow-blue
+              action-open-full-simulation-popup">
             Начать симуляцию (2 часа)
         </span>
     </section>
 
     <!-- LEFT SIDE -->
     <aside class="column-1-3 pull-content-left inline-block vertical-align-top mark-up-block">
-        <label class="mark-up-label">#FDashboard-aside</label>
+        <label class="mark-up-label">#Dashboard-aside</label>
         <!-- #invite-people-box nice-border backgroud-rich-blue sideblock-->
         <div class="invite-people-box nice-border background-dark-blue column-1-3-condensed box-standard">
             <?php $this->renderPartial('_invite_people_box', [
@@ -49,7 +51,9 @@
 
     <!-- TABLE -->
     <!-- .narrow-contnt -->
-    <section class="corporate-invitations-list-box column-2-3-condensed
+    <section class="
+        locator-corporate-invitations-list-box
+        corporate-invitations-list-box column-2-3-condensed
         pull-content-right inline-block vertical-align-top mark-up-block">
 
         <label class="mark-up-label">#Dashboard-column-2-3</label>
@@ -88,7 +92,6 @@
     </section>
 </section>
 
-<div class="clearfix column-full"></div>
 <!-- ------------------------------------------------------------------------------------- -->
 <!-- HIDDEN CONTENT { -->
 
@@ -104,22 +107,12 @@
     <?php endif; ?>
 
     <?php $this->renderPartial('partials/exists-self-to-self-simulation-warning-popup', []) ?>
-    <?php $this->renderPartial('partials/pre-start-popup', []) ?>
-
-    <div id="start-trial-full-scenario-pop-up" style="display: none;">
-        <div>
-            После начала симуляции количество доступных вам приглашений уменшиться на одно.
-        </div>
-
-        <a href="" class="light-btn start-trial-full-scenario-agree">Я согласен</a>
-        <a href="" class="light-btn start-trial-full-scenario-disagree">Отменить</a>
-    </div>
-
+    <?php // $this->renderPartial('partials/pre-start-popup', []) ?>
 
     <script>
-        $(document).ready(function() {
-            $("#corporate-invitations-list-box").show();
-        });
+//        $(document).ready(function() {
+//            $("#corporate-invitations-list-box").show();
+//        });
     </script>
 
     <?php if (true === $validPrevalidate): ?>
@@ -169,34 +162,18 @@
                 <?php echo $form->labelEx($invite, 'is_display_simulation_results', ['class'=>'inline-radio-button-label']); ?>
             </div>
             <div style="clear:both;"></div>
-            <div class="row buttons no-margin-left">
-                <?php echo CHtml::submitButton('Отправить', ['name' => 'send']); ?>
+            <div class="pull-content-center">
+                <?php echo CHtml::submitButton('Отправить', [
+                    'name'  => 'send',
+                    'class' => 'label background-dark-blue icon-circle-with-blue-arrow-big button-standard icon-padding-standard',
+                ]); ?>
             </div>
 
             <?php $this->endWidget(); ?>
         </div>
-        <script>
-            // @link: http://jqueryui.com/dialog/
-            $(document).ready(function() {
-                $( ".message_window" ).dialog({
-                    modal: true,
-                    resizable: false,
-                    draggable: false,
-                    width: 590,
-                    height: 500,
-                    position: {
-                        my: "left top",
-                        at: "left top",
-                        of: $('#corporate-invitations-list-box')
-                    }
-                });
-
-                $( ".message_window").parent().addClass('nice-border cabmessage');
-                $( ".message_window").dialog('open', $("#corporate-invitations-list-box").show());
-            });
-        </script>
     <?php endif; ?>
 </section>
 <!-- } hidden content -->
 
+<div class="clearfix column-full"></div>
 

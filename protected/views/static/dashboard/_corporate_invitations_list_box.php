@@ -59,7 +59,12 @@
             [
                 'header' => Yii::t('site', 'Date'),
                 'name' => 'sent_time'   ,
-                'value' => function (Invite $data) { return $data->getUpdatedTime()->format("j/m/y");},
+                'value' => function (Invite $data) { return sprintf(
+                        '%s/%s/%s',
+                        $data->getUpdatedTime()->format("j"),
+                        Yii::t('site', $data->getUpdatedTime()->format("M")),
+                        $data->getUpdatedTime()->format("o")
+                    );},
                 'type' => 'raw'
             ],
 
