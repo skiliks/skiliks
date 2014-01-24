@@ -15,9 +15,17 @@ class Feedback extends CActiveRecord
 {
     public static function getFeedbackSubjects()
     {
-        $arr = ['Product features', 'Registration and authorization', 'Corporate dashboard',
-            'Private dashboard', 'Simulation workflow', 'Assessment results', 'Help', 'Pricing and plans',
-            'Other'];
+        $arr = [
+            'Product features',
+            'Registration and authorization',
+            'Corporate dashboard',
+            'Private dashboard',
+            'Simulation workflow',
+            'Assessment results',
+            'Help',
+            'Pricing and plans',
+            'Other'
+        ];
 
         $results = [];
 

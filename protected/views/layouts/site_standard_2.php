@@ -142,7 +142,7 @@ $cs->registerCssFile($assetsUrl . "/css/site/styles_1024.css");
 
     <!-- FOOTER } -->
 
-    <?php // $this->renderPartial('//global_partials/_feedback', []) ?>
+    <?php $this->renderPartial('//global_partials/_feedback', []) ?>
     <?php // $this->renderPartial('//global_partials/_google_analytics') ?>
     <?php $this->renderPartial('//global_partials/_before_start_lite_simulation_popup', []) ?>
 </section>

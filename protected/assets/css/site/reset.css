@@ -192,6 +192,7 @@ span.required {
     display: none;
 }
 
+textarea,
 input {
     background: none repeat scroll 0 0 #FFFFFF;
     border: 1px solid #3E5259;
@@ -205,6 +206,11 @@ input {
     padding: 2px 4px;
 }
 
+textarea {
+    min-height: 78px; /* 26*3 */
+    line-height: 1.3em;
+}
+
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 /* RESET .ui-dialog                               */
 /* Standard pop-up                                */
@@ -213,12 +219,16 @@ input {
 .skiliks .ui-dialog {
     background-image: none;
     border: 0;
-    font-size: 1.28em;
+    font-size: 1em;
     line-height: 1.2em; /* работает как line-height = font-size*1.2 */
     margin: 0;
     overflow: visible;
     padding: 0;
     position: relative;
+}
+
+.skiliks .ui-dialog.popup-information {
+
 }
 
 .skiliks .ui-dialog li {
@@ -234,7 +244,7 @@ input {
 }
 
 .skiliks .ui-dialog .button-standard {
-    font-size: 1em; /* тут шрифи меряется уже относительно .skiliks .ui-dialog */
+    font-size: 1.3em; /* тут шрифи меряется уже относительно .skiliks .ui-dialog */
 }
 
 .skiliks .ui-dialog .ui-dialog-titlebar-close,
@@ -251,6 +261,10 @@ input {
 
 .skiliks .popup-form .ui-dialog-content {
     padding: 35px;
+}
+
+.skiliks .popup-form .ui-dialog-content {
+    padding: 20px 35px 35px 20px; /* 15 0 0 15 даёт .nice-border, в сумме по 35px с каждой стороны */
 }
 
 .skiliks .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick {
@@ -282,8 +296,10 @@ input {
 }
 
 input,
-.skiliks .ui-widget input {
+.skiliks .ui-widget input,
+.skiliks .ui-widget textarea {
     font-family: 'ProximaNova-Regular';
+    font-size: 1em;
 }
 
 .skiliks .ui-widget-overlay {
@@ -303,32 +319,44 @@ input,
 
 .skiliks .ui-widget {
     font-family: ProximaNova-Regular;
+    font-size: 1em;
 }
 
 .skiliks .ui-dialog.background-image-lamp,
 .background-image-lamp {
-    font-size: 1em;
     background: url('../../img/site/1280/popups/lamp.png') repeat left top;
-    background-color: #9BC8CE;
+}
+
+.skiliks .ui-dialog.background-image-two-lamps,
+.background-image-two-lamps {
+    background: url('../../img/site/1280/popups/two-lamps.png') repeat left top;
 }
 
 .skiliks .ui-dialog.background-image-book,
-.background-image-lamp {
-    font-size: 1em;
+.background-image-book {
     background: url('../../img/site/1280/popups/book.png') repeat left top;
+}
+
+.skiliks .ui-dialog.background-image-lamp,
+.background-image-lamp,
+.skiliks .ui-dialog.background-image-two-lamps,
+.background-image-two-lamps,
+.skiliks .ui-dialog.background-image-book,
+.background-image-book {
+    font-size: 1em;
     background-color: #9BC8CE;
 }
 
 /* --- */
 
-.background-image-lamp h3,
-.background-image-lamp label {
+.popup-form h3,
+.popup-form label {
     color: #0E4750;
 }
 
+.skiliks .ui-dialog.background-image-book .button-standard,
 .skiliks .ui-dialog.background-image-lamp .button-standard {
     font-size: 1.28em;
-    margin-top: 35px;
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
@@ -412,4 +440,8 @@ form .error-place {
 
 .error .errorMessage {
     color: #bd2929;
+}
+
+.error input.button-standard {
+    border : 1px solid #3E5259;
 }

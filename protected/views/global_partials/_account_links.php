@@ -67,7 +67,7 @@
                 [
                     'label'       => Yii::t('site', 'Log out'),
                     'url'         => ['/static/userAuth/logout'],
-                    'linkOptions' => ['class' => 'log-out-link label'],
+                    'linkOptions' => ['class' => 'log-out-link label locator-log-out-link'],
                     'visible'     => !$isGuest,
                 ],
             ]

@@ -38,6 +38,30 @@ $(document).ready(function () {
     // 2) Стализация выпадающих списков
     // @link http://www.bulgaria-web-developers.com/projects/javascript/selectbox/
     $("select").selectbox();
+
+    // 3) feedback
+    $('.action-feedback').on('click', function (e) {
+        console.log('action feedback',$('.locator-feedback-dialog'));
+        var selected = $(this).attr('data-selected');
+        $('.locator-feedback-dialog').dialog({
+            width: getDashboardDialogWindowWidth(),
+            height: 400,
+            dialogClass: 'popup-form background-image-two-lamps',
+            modal: true,
+            resizable: false,
+            draggable: false,
+            open: function( event, ui ) {
+                if(selected !== undefined) {
+//                    $('#feedback-form').find('.sbOptions').find('li').each(function(index, element){
+//                        var a = $(element).find('a');
+//                        if(a.attr('rel') === selected){
+//                            a.click();
+//                        }
+//                    });
+                }
+            }
+        });
+    });
 });
 
 // 1)
@@ -48,12 +72,22 @@ function hideAllPopovers() {
 }
 
 
-// 2) Определяет ширину
-function getDialogWindowWidth() {
+/**
+ * 2) Определяет ширину попапа не весь экран
+ * @param number padding, если у попапа нестандартные отступы,
+ * то и ширину надо делать меньше/больше
+ *
+ * @returns {number}
+ */
+function getDialogWindowWidth(padding) {
+    if (undefined == padding) {
+        padding = 0;
+    };
+
     if ($(document).width() < 1281) {
         return  940;
     } else {
-        return  1146;
+        return  1115 - padding;
     }
 }
 
@@ -71,4 +105,13 @@ function getInviteId(url){
     return parseInt(url.replace('/simulation/promo/full/', ''), 0);
 }
 
-
+// 4) Feedback Submit AJAX validation
+window.feedbackSubmit = function feedbackSubmit(form, data, hasError) {
+    if (!hasError) {
+        $.post(form.attr('action'), form.serialize(), function (res) {
+            // Do stuff with your response data!
+            location.reload();
+        });
+    }
+    return false;
+};

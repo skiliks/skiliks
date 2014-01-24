@@ -814,7 +814,7 @@ class Invite extends CActiveRecord
         return new CActiveDataProvider($this, [
             'criteria' => $criteria,
             'sort' => [
-                'defaultOrder' => 'sent_time',
+                'defaultOrder' => 'sent_time DESC',
                 'sortVar' => 'sort',
                 'attributes' => [
                     'name' => [
@@ -875,7 +875,7 @@ class Invite extends CActiveRecord
 		return new CActiveDataProvider($this, [
 			'criteria' => $criteria,
             'sort' => [
-                'defaultOrder' => 'sent_time',
+                'defaultOrder' => 'sent_time DESC',
                 'sortVar' => 'sort',
                 'attributes' => [
                     'name' => [
@@ -941,7 +941,7 @@ class Invite extends CActiveRecord
         return new CActiveDataProvider($this, [
             'criteria' => $criteria,
             'sort' => [
-                'defaultOrder' => 'sent_time',
+                'defaultOrder' => 'sent_time DESC',
                 'sortVar' => 'sort',
                 'attributes' => [
                     'name' => [

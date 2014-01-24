@@ -256,30 +256,7 @@ var fixLogotypes = function() {
                 $(this).parent().addClass('subisopen');
             }
         });
-        $('a.feedback').on('click', function (e) {
-            var selected = $(this).attr('data-selected');
-            $('#feedback-dialog').dialog({
-                width: 706,
-                dialogClass: 'popup-primary popup-site feedbackwrap',
-                modal: true,
-                resizable: false,
-                draggable: false,
-                open: function( event, ui ) {
-                    if(selected !== undefined) {
-                        $('#feedback-form').find('.sbOptions').find('li').each(function(index, element){
-                            var a = $(element).find('a');
-                            if(a.attr('rel') === selected){
-                                a.click();
-                            }
-                        });
-                    }
 
-                    //Cufon.refresh();
-                }
-            });
-
-            e.stopPropagation();
-        });
 
         window.feedbackSubmit = function feedbackSubmit(form, data, hasError) {
             if (!hasError) {

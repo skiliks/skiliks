@@ -237,7 +237,7 @@ $(document).ready(function () {
         $(".locator-form-vacancy").dialog({
             dialogClass: 'background-image-lamp popup-form',
             closeOnEscape: true,
-            minHeight: 350,
+            minHeight: 300,
             modal: true,
             resizable: false,
             draggable: false,
@@ -268,24 +268,24 @@ $(document).ready(function () {
     };
 
     // 12) показать попап второго шага Отправки приглашения
-    if ($( ".message_window" )) {
+    if ($(".locator-form-invite-step-2")) {
 
-        $( ".message_window" ).dialog({
-            dialogClass: 'background-image-book',
+        $(".locator-form-invite-step-2").dialog({
+            dialogClass: 'background-image-book popup-form',
             modal: true,
             resizable: false,
             draggable: false,
             width: getDashboardDialogWindowWidth(),
-            height: 500,
+            height: 530,
             position: {
-                my: "left top",
-                at: "left top",
-                of: $('.locator-corporate-invitations-list-box')
+                my: "right top",
+                at: "right bottom",
+                of: $('.action-open-full-simulation-popup')
             }
         });
 
-        // $( ".message_window").parent().addClass('nice-border cabmessage');
-        $( ".message_window").dialog('open', $("#corporate-invitations-list-box").show());
+        $( ".locator-form-invite-step-2").
+            dialog('open');
     }
 
 });

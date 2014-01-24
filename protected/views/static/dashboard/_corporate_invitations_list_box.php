@@ -75,13 +75,6 @@
     ]);
     ?>
 
-    <?php // edit invite pop-up form { ?>
-            <?php $this->renderPartial('_edit-invite-pop-up-form', [
-                'invite'    => $inviteToEdit,
-                'vacancies' => $vacancies,
-            ]) ?>
-    <?php // edit invite pop-up form } ?>
-
     <div class="popover popover-div-on-hover hide">
         <div class="popover-triangle"></div>
         <div class="popover-content"><div class="popup-content">

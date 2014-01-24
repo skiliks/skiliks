@@ -23,7 +23,7 @@
     }
 </style>
 
-<div class="page nice-border backgroud-light-blue">
+<div class="page nice-border border-radius-standard backgroud-light-blue">
 
 </div>
 

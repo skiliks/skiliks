@@ -93,6 +93,10 @@
 
 /* --- */
 
+.column-1-1 {
+    width: 100%;
+}
+
 .column-1-2 {
     width: 49.5%;
 }
@@ -145,6 +149,10 @@
     text-decoration: none;
 }
 
+.page-title-box .button-white {
+    margin-right: 8px; /* это толщина .nice-border */
+}
+
 .icon-arrow-blue {
     padding-left: 20px !important;
 }
@@ -155,12 +163,16 @@
 
 .skiliks .ui-dialog,
 .nice-border {
-    border-radius: 8px;
     box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
     padding: 15px 0 0 15px;
 }
 
-.box-standard {
+.skiliks .ui-dialog,
+.border-radius-standard {
+    border-radius: 8px;
+}
+
+.box-bottom-standard {
     margin-bottom: 30px;
 }
 
@@ -171,6 +183,10 @@
 
 .background-blue {
     background-color: #51C1D2;
+}
+
+.background-light-blue {
+    background-color: #DBEAED;
 }
 
 .background-sky {
@@ -234,3 +250,13 @@
     vertical-align: middle;
 }
 
+input.inputs-wide-height {
+    height: 48px;
+    vertical-align: top;
+}
+
+.popup-information p,
+.popup-information li {
+    font-size: 1.3em;
+    line-height: 1em;
+}

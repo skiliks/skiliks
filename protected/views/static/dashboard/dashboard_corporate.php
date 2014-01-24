@@ -23,7 +23,7 @@
     <aside class="column-1-3 pull-content-left inline-block vertical-align-top mark-up-block">
         <label class="mark-up-label">#Dashboard-aside</label>
         <!-- #invite-people-box nice-border backgroud-rich-blue sideblock-->
-        <div class="invite-people-box nice-border background-dark-blue column-1-3-condensed box-standard">
+        <div class="invite-people-box nice-border border-radius-standard background-dark-blue column-1-3-condensed box-bottom-standard border-radius-standard">
             <?php $this->renderPartial('_invite_people_box', [
                 'invite'    => $invite,
                 'vacancies' => $vacancies,
@@ -35,7 +35,7 @@
         </div>
 
         <!-- #simulations-counter-box nice-border backgroud-light-blue -->
-        <div class="simulations-counter-box background-sky nice-border column-1-3-condensed">
+        <div class="simulations-counter-box background-sky border-radius-standard nice-border column-1-3-condensed">
             <?php $this->renderPartial('_simulations_counter_box', []) ?>
         </div>
 
@@ -58,7 +58,7 @@
 
         <label class="mark-up-label">#Dashboard-column-2-3</label>
         <!-- #corporate-invitations-list-box transparent-boder wideblock -->
-        <div class="nice-border reset-padding corporate-invitations-table">
+        <div class="nice-border border-radius-standard reset-padding corporate-invitations-table">
 
             <!-- corporate-invitations-list-box -->
             <!-- hack for taking position -->
@@ -116,61 +116,10 @@
     </script>
 
     <?php if (true === $validPrevalidate): ?>
-        <div class="form form-invite-message message_window" style="display:none;" title="Сообщение">
-
-            <?php $form = $this->beginWidget('CActiveForm', array(
-                'id' => 'send-invite-message-form',
-            )); ?>
-
-            <?php echo $form->hiddenField($invite, 'firstname'); ?>
-            <?php echo $form->hiddenField($invite, 'lastname'); ?>
-            <?php echo $form->hiddenField($invite, 'email'); ?>
-            <?php echo $form->hiddenField($invite, 'vacancy_id'); ?>
-
-            <div class="block-form">
-                <p><?php echo $form->textField($invite, 'fullname'); ?></p>
-
-                <?php if (Yii::app()->params['emails']['isDisplayStandardInvitationMailTopText']): ?>
-                    <p class="font-green-dark">Компания <?= $invite->ownerUser->account_corporate->company_name ?> предлагает вам пройти тест "Базовый менеджмент".</p>
-                    <?php if (empty($invite->receiverUser)): ?>
-                        <p class="font-green-dark">
-                            <a target="_blank" href="<?= $this->createAbsoluteUrl('static/pages/product') ?>">"Базовый менеджмент"</a>
-                            - это деловая симуляция, позволяющая оценить менеджерские навыки в форме увлекательной игры.</p>
-                    <?php endif; ?>
-                <?php endif; ?>
-
-                <p><?php echo $form->textArea($invite, 'message', ['rows' => 20, 'cols' => 60]); ?><?php echo $form->error($invite, 'message'); ?></p>
-                <p class="font-green-dark">
-                    <?php if ($invite->receiverUser && !$invite->receiverUser->isActive()): ?>
-                        Пожалуйста, <a target="_blank" href="<?=$invite->receiverUser->getActivationUrl()?>">активируйте ваш аккаунт</a>,
-                        выберите индивидуальный профиль, ввойдите в свой кабинет
-                        и примите приглашение на тестирование для прохождения симуляции.
-                    <?php elseif ($invite->receiverUser && $invite->receiverUser->isPersonal()): ?>
-                        Пожалуйста, <a target="_blank" href="<?= $this->createAbsoluteUrl('/dashboard') ?>">зайдите</a> в свой кабинет и примите приглашение на тестирование для прохождения симуляции.
-                    <?php elseif ($invite->receiverUser && $invite->receiverUser->isCorporate()): ?>
-                        Пожалуйста, <a target="_blank" href="<?= $this->createAbsoluteUrl('/registration') ?>">создайте личный профиль</a> или
-                        <a href="<?= $this->createAbsoluteUrl('/dashboard') ?>">войдите в личный кабинет</a> и примите приглашение на тестирование для прохождения симуляции.
-                    <?php else: ?>
-                        Пожалуйста, <a target="_blank" href="<?= $this->createAbsoluteUrl('/registration') ?>">зарегистрируйтесь</a> и примите приглашение на тестирование для прохождения симуляции.
-                    <?php endif; ?>
-                </p>
-                <p class="font-green-dark">Ваш skiliks</p>
-            </div>
-
-            <div class="inline-block">
-                <?php echo $form->checkBox($invite, 'is_display_simulation_results', ['class'=>'inline-radio-button']); ?>
-                <?php echo $form->labelEx($invite, 'is_display_simulation_results', ['class'=>'inline-radio-button-label']); ?>
-            </div>
-            <div style="clear:both;"></div>
-            <div class="pull-content-center">
-                <?php echo CHtml::submitButton('Отправить', [
-                    'name'  => 'send',
-                    'class' => 'label background-dark-blue icon-circle-with-blue-arrow-big button-standard icon-padding-standard',
-                ]); ?>
-            </div>
-
-            <?php $this->endWidget(); ?>
-        </div>
+        <?php // отправить приглашения шаг 2 ?>
+        <?php $this->renderPartial('partials/_invite_people_popup', [
+            'invite' => $invite,
+        ]) ?>
     <?php endif; ?>
 </section>
 <!-- } hidden content -->
