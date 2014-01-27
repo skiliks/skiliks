@@ -4,11 +4,11 @@
         <!--form invite-people-form sideform darkblueplacehld -->
         <div class="">
 
-            <h2>Отправить приглашение</h2>
-
             <?php $form = $this->beginWidget('CActiveForm', array(
                 'id' => 'invite-form'
             )); ?>
+
+            <h2>Отправить приглашение</h2>
 
             <span class="form-global-errors">
                 <?= $form->error($invite, 'invitations'); // You has no available invites! ?>

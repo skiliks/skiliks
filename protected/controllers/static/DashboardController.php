@@ -208,6 +208,11 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             unset(Yii::app()->request->cookies['display_result_for_simulation_id']);
         }
 
+        $this->layout = 'site_standard_2';
+
+        $this->addSiteCss('_page-dashboard.css');
+        $this->addSiteJs('_page-dashboard.js');
+
         $this->render('dashboard_personal', [
             'simulation' => $simulation,
             'display_results_for' => $simulationToDisplayResults,
@@ -492,6 +497,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         $this->sendJSON([
             'isValid' => $isValid,
             'html'    => $html,
+            'errors'  => json_encode($declineExplanation->getErrors()),
          ]);
     }
 

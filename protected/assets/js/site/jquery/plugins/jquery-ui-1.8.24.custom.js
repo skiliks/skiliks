@@ -6234,7 +6234,28 @@ $.widget("ui.dialog", {
 
 	_init: function() {
 		if ( this.options.autoOpen ) {
-			this.open();
+            this.open();
+            /* skiliks: */
+
+            winHeigth = $(window).height();
+            dialogHeight = this.element.parent().height();
+
+            /* 100 px сверху и 100 px снизу */
+            if (winHeigth < dialogHeight + 200) {
+                this.element.parent().css('position', 'absolute');
+                this.element.parent().css('top', '50px');
+                clearfixHeight = $('.clearfix').height();
+
+                /* 100 px сверху и 100 px снизу */
+                $('.clearfix').css('height', clearfixHeight + (dialogHeight - winHeigth) + 200 );
+            } else {
+                this.element.parent().css('position', 'fixed');
+                this.element.parent().css('top', (winHeigth - dialogHeight)/2 + 'px' );
+            }
+
+            console.log('win height: ', $(window).height());
+            console.log('this.element height: ', this.element.parent().height());
+            console.log(this);
 		}
 	},
 
@@ -6255,6 +6276,9 @@ $.widget("ui.dialog", {
 		if (self.originalTitle) {
 			self.element.attr('title', self.originalTitle);
 		}
+
+        /* skiliks */
+        $('.clearfix').css('height', '100px');
 
 		return self;
 	},

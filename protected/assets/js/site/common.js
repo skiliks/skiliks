@@ -44,21 +44,16 @@ $(document).ready(function () {
         console.log('action feedback',$('.locator-feedback-dialog'));
         var selected = $(this).attr('data-selected');
         $('.locator-feedback-dialog').dialog({
+            // autoOpen : true,
             width: getDashboardDialogWindowWidth(),
             height: 400,
             dialogClass: 'popup-form background-image-two-lamps',
             modal: true,
             resizable: false,
             draggable: false,
-            open: function( event, ui ) {
-                if(selected !== undefined) {
-//                    $('#feedback-form').find('.sbOptions').find('li').each(function(index, element){
-//                        var a = $(element).find('a');
-//                        if(a.attr('rel') === selected){
-//                            a.click();
-//                        }
-//                    });
-                }
+            open: function() {
+//                $('.popup-form').css('position', 'fixed');
+//                $('.popup-form').css('top', '70px');
             }
         });
     });

@@ -94,7 +94,8 @@ $cs->registerCssFile($assetsUrl . "/css/site/styles_1024.css");
         <!-- SITE PAGES NAVIGATION -->
         <nav class="column-full inline-list pull-content-right static-page-links">
             <a href="/" class="inline-block pull-left">
-                <img src="<?php echo $assetsUrl?>/img/site/1280/logotypes/logo-head.png" alt="Skiliks"/>
+                <img class="locator-logo-head"
+                     src="<?php echo $assetsUrl?>/img/site/1280/logotypes/logo-head.png" alt="Skiliks"/>
             </a>
             <?php $this->renderPartial('//global_partials/_static_pages_links', [
                 'isDisplayAccountLinks' => true

@@ -8,33 +8,35 @@ $(document).ready(function () {
     // 2) меню с шестерёнкой
 
     // 2.1.) append pop-up sub-menu {
-    if (2 < $('.items tr').length || '' != $('.items tr:eq(1) td:eq(3)').text()) { //fix for empty list
-        $('.items tr').each(function(){
-            $(this).find('td:eq(0)').html(
-                '<span class="table-menu-switcher inter-active action-switch-menu"></span>' +
-                    '<div class="table-menu" >' +
-                    '</div><span class="topline"></span>'
+    if ($('body').hasClass('action-controller-corporate-static-dashboard')) {
+        if (2 < $('.items tr').length || '' != $('.items tr:eq(1) td:eq(3)').text()) { //fix for empty list
+            $('.items tr').each(function(){
+                $(this).find('td:eq(0)').html(
+                    '<span class="table-menu-switcher inter-active action-switch-menu"></span>' +
+                        '<div class="table-menu" >' +
+                        '</div><span class="topline"></span>'
+                );
+            });
+        }
+        // append pop-up sub-menu }
+
+        // 2.2) Наполняем меню ссылками из последних двух колонок таблицы
+        $('.table-menu-switcher').each(function(){
+            // move links from last 3 TD to pop-up sub-menu
+            $(this).next().append(
+                $(this).parent().parent().find('td:eq(6)').html()
+                    + $(this).parent().parent().find('td:eq(7)').html()
             );
+
+            // remove last 3 TD
+            $(this).parent().parent().find('td:eq(7)').remove();
+            $(this).parent().parent().find('td:eq(6)').remove();
+
+            // make links (now they in pop-up sub-menu) visible
+            $('.items td a').show();
+
         });
     }
-    // append pop-up sub-menu }
-
-    // 2.2) Наполняем меню ссылками из последних двух колонок таблицы
-    $('.table-menu-switcher').each(function(){
-        // move links from last 3 TD to pop-up sub-menu
-        $(this).next().append(
-            $(this).parent().parent().find('td:eq(6)').html()
-                + $(this).parent().parent().find('td:eq(7)').html()
-        );
-
-        // remove last 3 TD
-        $(this).parent().parent().find('td:eq(7)').remove();
-        $(this).parent().parent().find('td:eq(6)').remove();
-
-        // make links (now they in pop-up sub-menu) visible
-        $('.items td a').show();
-
-    });
 
     // 2.3) setup sub-menu switcher behaviour
     $('.action-switch-menu').click(function(){
@@ -94,6 +96,8 @@ $(document).ready(function () {
             width: getDialogWindowWidth(),
             draggable: false,
             open: function( event, ui ) {
+//                $('.popup-information').css('position', 'fixed');
+//                $('.popup-information').css('top', '70px');
                 $('.action-start-lite-simulation-now').click(function() {
                     location.assign(href);
                 });
@@ -106,73 +110,92 @@ $(document).ready(function () {
     $('.pager-place').html($('.grid-view .pager').html());
     $('.grid-view .pager').html('');
 
-    // 6)
-    $('.action-open-full-simulation-popup').click(function(event){
+    // 6) initActionOpenFullSimulationPopUp
+    function initActionOpenFullSimulationPopUp() {
+        $('.action-open-full-simulation-popup').click(function(event){
 
-        // @todo: change to locator-invite-accept-form
-        $('#invite-accept-form').dialog('close');
+            $('.locator-invite-accept-popup').dialog('close');
 
-        var href = $(this).attr('data-href');
-        event.preventDefault();
-        // удлиннить окно чтоб футер был ниже нижнего края попапа
-        $('.content').css('margin-bottom', '80px');
+            var href = $(this).attr('data-href');
+            event.preventDefault();
+            // удлиннить окно чтоб футер был ниже нижнего края попапа
+            $('.content').css('margin-bottom', '80px');
 
-        // преверяем есть ли не завершенная фулл симуляцая самому-себе
-        $.ajax({
-            url: '/simulationIsStarted',
-            dataType:  "json",
-            data: {
-                invite_id: getInviteId(href)
-            },
-            success:function(data) {
-                var dataGlobal = data;
-                if (0 < parseInt(data.count_self_to_self_invites_in_progress)) {
-                    // незавершенные симуляции есть
-                    // popup-before-start-sim
-                    var warningPopup = $(".locator-exists-self-to-self-simulation-warning-popup");
-                    warningPopup.dialog({
-                        closeOnEscape: true,
-                        dialogClass: 'background-sky popup-information',
-                        minHeight: 220,
-                        modal: true,
-                        resizable: false,
-                        width: getDialogWindowWidth(),
-                        open: function( event, ui ) {
-                            // пользователь выбирает не прерывать текущую симуляцию
-                            $('.action-close-popup').click(function(){
-                                warningPopup.dialog('close');
-                            });
-
-                            // пользователь выбирает начать новую симуляцию,
-                            // не смотря на наличие незавершенных
-                            $('.action-start-full-simulation').click(function(){
-                                // закрыть текущий попап
-                                warningPopup.dialog('close');
-
-                                // запрос на удаление всех незавершенных фулл симуляций самому-себе
-                                $.ajax({ url: '/static/break-simulations-for-self-to-self-invites'});
-
-                                // отображаем свтупительный попап
-                                displaySimulationInfoPopUp(href, dataGlobal);
-                            });
-                        }
-                    });
-                } else {
-                    // незавершенных симуляций нет
-                    displaySimulationInfoPopUp(href, dataGlobal);
+            // преверяем есть ли не завершенная фулл симуляцая самому-себе
+            $.ajax({
+                url: '/simulationIsStarted',
+                dataType:  "json",
+                data: {
+                    invite_id: getInviteId(href)
+                },
+                success:function(data) {
+                    var dataGlobal = data;
+                    if (0 < parseInt(data.count_self_to_self_invites_in_progress)) {
+                        // незавершенные симуляции есть
+                        console.log('initWarningAboutSimulationInProgress');
+                        initWarningAboutSimulationInProgress(href, dataGlobal);
+                    } else {
+                        // незавершенных симуляций нет
+                        console.log('displaySimulationInfoPopUp');
+                        displaySimulationInfoPopUp(href, dataGlobal);
+                    }
                 }
+            });
+
+            // hack {
+            $('.popup-before-start-sim').css('top', '50px');
+            $(window).scrollTop('body');
+            // hack }
+
+            return false;
+        });
+    }
+
+    initActionOpenFullSimulationPopUp();
+
+    function initWarningAboutSimulationInProgress(href, dataGlobal) {
+        var href = href;
+        var dataGlobal = dataGlobal;
+        var warningPopup = $(".locator-exists-simulation-in-progress-warning-popup");
+        warningPopup.dialog({
+            closeOnEscape: true,
+            dialogClass: 'background-sky popup-information',
+            minHeight: 220,
+            modal: true,
+            resizable: false,
+            width: getDialogWindowWidth(),
+            open: function( event, ui ) {
+                // пользователь выбирает не прерывать текущую симуляцию
+                $('.action-close-popup').click(function() {
+                    warningPopup.dialog('close');
+                });
+
+                // пользователь выбирает начать новую симуляцию,
+                // не смотря на наличие незавершенных
+                $('.action-start-full-simulation').click(function(){
+                    // закрыть текущий попап
+                    warningPopup.dialog('close');
+
+                    // запрос на удаление всех незавершенных фулл симуляций самому-себе
+                    $.ajax({ url: '/static/break-simulations-for-self-to-self-invites'});
+
+                    // отображаем вступительный попап {
+
+                    // закрываем предупреждение
+                    warningPopup.dialog('close');
+
+                    // переключаем флаг-предупреждения
+                    // теперь должно быдет открыться окно с информацией об игре
+                    dataGlobal.user_try_start_simulation_twice = false;
+
+                    displaySimulationInfoPopUp(href, dataGlobal);
+                    // отображаем вступительный попап }
+                });
             }
         });
+    }
 
-        // hack {
-        $('.popup-before-start-sim').css('top', '50px');
-        $(window).scrollTop('body');
-        // hack }
-
-        return false;
-    });
-
-    // 7)
+    // 7) popup-before-start-sim
     var pre_simulation_popup = $(".locator-full-simulation-info-popup");
 
     // popup-before-start-sim
@@ -185,7 +208,6 @@ $(document).ready(function () {
         resizable: false,
         width: getDialogWindowWidth()
     });
-    console.log('pre_simulation_popup: ', pre_simulation_popup);
 
     function infoPopup_aboutFullSimulation(href) {
         console.log('infoPopup_aboutFullSimulation', pre_simulation_popup);
@@ -200,27 +222,26 @@ $(document).ready(function () {
         // то предупреждение будет дублирующим,
         // а если он пытает начать фулл симуляцию по приглашению от работодателя второй раз,
         // то предупреждение нужно
-        console.log(data);
-        console.log(data.user_try_start_simulation_twice);
-        console.log(0 == parseInt(data.count_self_to_self_invites_in_progress));
         if(data.user_try_start_simulation_twice &&
             0 == parseInt(data.count_self_to_self_invites_in_progress)) {
             // предупреждение о попытке повторного начала симуляции
-            console.log(".pre-start-popup");
-            $(".pre-start-popup").dialog({
-                closeOnEscape: true,
-                dialogClass: 'popup-before-start-sim',
-                minHeight: 220,
-                modal: true,
-                resizable: false,
-                width: getDialogWindowWidth(),
-                open: function( event, ui ) {
-                    $('.start-full-simulation-next').attr('data-href', href);
-                }
-            });
+            console.log("initWarningAboutSimulationInProgress");
+            initWarningAboutSimulationInProgress(href, data);
+//            $(".pre-start-popup").dialog({
+//                closeOnEscape: true,
+//                dialogClass: 'popup-before-start-sim',
+//                minHeight: 220,
+//                modal: true,
+//                resizable: false,
+//                width: getDialogWindowWidth(),
+//                open: function( event, ui ) {
+//                    $('.start-full-simulation-next').attr('data-href', href);
+//                }
+//            });
         } else {
             // информация про ключевые моменты в сценарии фулл симуляции
             // что я? где я? сотрудники, цели.
+            console.log('infoPopup_aboutFullSimulation');
             infoPopup_aboutFullSimulation(href);
         }
     }
@@ -288,6 +309,117 @@ $(document).ready(function () {
             dialog('open');
     }
 
+    // 13)
+    $('.action-accept-invite').click(function(e) {
+
+        // У пользователя. вероятно будет несколько непринятых приглашений
+        // а попап у нас один.
+        // Чтоб передать в попап данные какое именно приглашение пользователь принимает,
+        // используем переменную buttonAccept - это ссылка на кнопку
+        // у кнопки уже имеются атрибуты data-link-start-now и data-link-start-later
+        var buttonAccept = $(this);
+
+        // accept-invite-warning-popup full-simulation-info-popup margin-top-popup
+        $('.locator-invite-accept-popup').dialog({
+            dialogClass: 'popup-information background-sky locator-invite-accept-popup',
+            modal:       true,
+            autoOpen:    true,
+            resizable:   false,
+            draggable:   false,
+            width:       getDialogWindowWidth(),
+            height:   950,
+            position: {
+                my: "left top",
+                at: "left top",
+                of: $(".action-feedback")
+            },
+            open: function( event, ui ) {
+                $(this).find('.locator-start-later').attr(
+                    'href',
+                    buttonAccept.attr('data-link-start-later')
+                );
+
+                $(this).find('.locator-start-now').attr(
+                    'data-href',
+                    buttonAccept.attr('data-link-start-now')
+                );
+            },
+            close: function() {
+                // странный баг - только для этого, длинного, окна
+                // каждый раз открывается на одно окно больше: 1,2,3 ...
+                $('.locator-invite-accept-popup').dialog("destroy");
+            }
+        });
+
+        // выходящий за размеры окна попап создаёт пустоту равную его высоте под футером
+        // + липнет к верхнему краю окна и не реагирует на top (если position: relative)
+        // если position: absolute - то с футером всё ок и попапом можно управлять
+        // $('.locator-invite-accept-popup').css('position', 'absolute');
+        $('.locator-invite-accept-popup').css('margin-top', '50px');
+        // $('.clearfix').css('height', '800px');
+        // $(window).scrollTop('.narrow-contnt');
+
+        // hack }
+
+        return false;
+    });
+
+    // 14) decline-invite form
+    $.ajax({
+        url: '/dashboard/decline-invite/validation',
+        type: 'POST',
+        success: function(data) {
+            $('.locator-invite-decline-box').hide();
+            $('.locator-invite-decline-box').html(data.html);
+
+            // 14.1 ) добавление HTML кода формы
+            $('.action-decline-invite').click(function(event){
+                $('.locator-invite-decline-box').dialog({
+                    dialogClass: 'popup-form background-middle-dark-blue background-image-book-2',
+                    modal:       true,
+                    autoOpen:    true,
+                    resizable:   false,
+                    draggable:   false,
+                    width:       getDashboardDialogWindowWidth(),
+                    height:   370,
+                    position: {
+                        my: 'left top',
+                        at: 'left top',
+                        of: $('.locator-corporate-invitations-list-box')
+                    },
+                    open: function( event, ui ) {
+                        $('.action-close-popup').click(function() {
+                            $('.locator-invite-decline-box').dialog('close');
+                        });
+                    }
+                });
+            });
+
+            // 14.2 ) Обработка события "Да, я подтверждаю отказ от приглашения"
+            $('.action-confirm-decline').click(function(event){
+                var formData = $('#form-decline-explanation').serializeArray();
+
+                $.ajax({
+                    url: '/dashboard/decline-invite/validation',
+                    data: formData,
+                    type: 'POST',
+                    success: function(responce) {
+                        if (true === responce.isValid) {
+                            $('#form-decline-explanation').submit();
+                        } else {
+                            $('.locator-box-for-validation-response').html(responce.html);
+                            $('#form-decline-explanation .locator-form-fields').html(
+                                $('.locator-box-for-validation-response .locator-form-fields').html()
+                            );
+                        }
+                    }
+                });
+            });
+        }
+    });
+
+    // hint :)
+    // $('.action-accept-invite').click();
 });
 
 

@@ -209,6 +209,7 @@ input {
 textarea {
     min-height: 78px; /* 26*3 */
     line-height: 1.3em;
+    padding: 12px;
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
@@ -306,6 +307,7 @@ input,
     background-image: none;
     background-color: rgba(0, 0, 0, 0.55);
     opacity: 1;
+    position: fixed;
 }
 
 .skiliks .ui-widget-content {
@@ -324,17 +326,30 @@ input,
 
 .skiliks .ui-dialog.background-image-lamp,
 .background-image-lamp {
-    background: url('../../img/site/1280/popups/lamp.png') repeat left top;
+    background-image: url('../../img/site/1280/popups/lamp.png');
+    background-repeat: repeat;
+    background-position: left top;
 }
 
 .skiliks .ui-dialog.background-image-two-lamps,
 .background-image-two-lamps {
-    background: url('../../img/site/1280/popups/two-lamps.png') repeat left top;
+    background-image: url('../../img/site/1280/popups/two-lamps.png');
+    background-repeat: repeat;
+    background-position: left top;
 }
 
 .skiliks .ui-dialog.background-image-book,
 .background-image-book {
-    background: url('../../img/site/1280/popups/book.png') repeat left top;
+    background-image: url('../../img/site/1280/popups/book.png');
+    background-repeat: repeat;
+    background-position: left top;
+}
+
+.skiliks .ui-dialog.background-image-book-2,
+.background-image-book-2 {
+    background-image: url('../../img/site/1280/popups/book-2.png');
+    background-repeat: repeat;
+    background-position: left top;
 }
 
 .skiliks .ui-dialog.background-image-lamp,

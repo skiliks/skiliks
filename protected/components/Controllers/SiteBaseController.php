@@ -232,4 +232,19 @@ class SiteBaseController extends CController {
     public function addSiteJs($path) {
         $this->clientScripts->registerScriptFile($this->assetsUrl.'/js/site/'.$path);
     }
+
+    /**
+     * Позволяет кратко добавить CSS стиль 'error' или ''
+     * в зависимости от того имеет ли поле $fieldName ошибку валидации.
+     * Используется в местах где автодобавление класса не работае само-собой
+     *
+     * @param CActiveForm $form
+     * @param mixed $model, object
+     * @param string $fieldName
+     *
+     * @return string
+     */
+    public function hasErrors($form, $model, $fieldName) {
+        return (null == $form->error($model, $fieldName)) ? '' : 'error';
+    }
 }

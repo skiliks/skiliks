@@ -4,7 +4,7 @@
     margin-right: 14px; /* число найдено подбором */
 }
 
-.controller-static-dashboard h2 {
+.controller-static-dashboard #invite-form h2 {
     font-size: 1.78em;
 }
 
@@ -123,7 +123,7 @@
     height: 8px;
     font-size: 0px;
     line-height: 0px;
-    margin-top: -5px;
+    margin-top: 0px;
     width: 100%;
 }
 
@@ -156,8 +156,9 @@
 
 .skiliks .grid-view table.items tr td {
     text-align: left;
-    font-weight: bold;
+    /*font-weight: bold;*/ /* ну некрасиво */
     height: 40px;
+    padding-left: 8px;
 }
 
 .skiliks .grid-view table.items tr,
@@ -178,40 +179,77 @@
     text-overflow: ellipsis;
 }
 
-/* Имя */
-.skiliks .grid-view tr td:nth-child(2) {
-    max-width: 300px;
+/* Corporate Dashboard - Имя */
+.action-controller-corporate-static-dashboard .grid-view tr td:nth-child(2) {
+    max-width: 250px;
 }
 
-/* Позиция */
-.skiliks .grid-view tr td:nth-child(3) {
+/* Corporate Dashboard - Позиция */
+.action-controller-corporate-static-dashboard .grid-view tr td:nth-child(3) {
     max-width: 200px;
 }
 
-/* Статус */
-.skiliks .grid-view tr td:nth-child(4) {
-    width: 70px;
+/* Corporate Dashboard - Статус */
+.action-controller-corporate-static-dashboard .grid-view tr td:nth-child(4) {
+    width: 90px;
 }
 
-/* Дата */
-.skiliks .grid-view tr td:nth-child(5) {
+/* Corporate Dashboard - Дата */
+.action-controller-corporate-static-dashboard .grid-view tr td:nth-child(5) {
     width: 80px;
 }
 
-/* Рейтинг */
-.skiliks .grid-view tr td:nth-child(6) {
+/* Corporate Dashboard - Рейтинг */
+.action-controller-corporate-static-dashboard .grid-view tr td:nth-child(6) {
     max-width: 150px;
+}
+
+/* Personal Dashboard - Компания */
+.action-controller-personal-static-dashboard .grid-view tr td:nth-child(1) {
+    width: 140px;
+}
+
+/* Personal Dashboard - Позиция */
+.action-controller-personal-static-dashboard .grid-view tr td:nth-child(2) {
+    width: 150px;
+}
+
+/* Personal Dashboard - Оценка (Официальное название сценария) */
+.action-controller-personal-static-dashboard .grid-view tr td:nth-child(3) {
+    width: 150px;
+}
+
+/* Personal Dashboard - Дата */
+.action-controller-personal-static-dashboard .grid-view tr td:nth-child(4) {
+    width: 80px;
+}
+
+/* Personal Dashboard - Статус */
+.action-controller-personal-static-dashboard .grid-view tr td:nth-child(5) {
+    width: 200px;
+}
+
+.action-controller-personal-static-dashboard .grid-view tr td:nth-child(5) section {
+    display: inline-block;
 }
 
 /* стрелки сортировки */
 
 .skiliks .grid-view table.items th a.desc,
+.skiliks .grid-view .items th a,
+.skiliks .grid-view .items th {
+    color: #ffffff;
+    text-align: left;
+}
+
+.skiliks .grid-view table.items th a.desc,
+.skiliks .grid-view .items th a {
+    padding-left: 12px;
+}
+
+.skiliks .grid-view table.items th a.desc,
 .skiliks .grid-view .items th a {
     background: url("../../img/arrow-down.png") no-repeat scroll 0 50% rgba(0, 0, 0, 0);
-    color: #ffffff;
-    width: 100%;
-    padding-left: 12px;
-    text-align: left;
 }
 
 .skiliks .grid-view table.items th a.asc {
@@ -315,7 +353,7 @@
     color: #000;
 }
 
-.corporate-invitations-table {
+.invitations-table {
     margin-bottom: 15px;
 }
 /* --- *
@@ -349,6 +387,11 @@
     height: 14px;
     margin-left: 10px;
     width: 35px;
+}
+
+.action-controller-personal-static-dashboard .assessment-results-type-switcher {
+    margin-top: 10px;
+    padding-left: 15px;
 }
 
 /* --- */
@@ -393,7 +436,7 @@ i.icon-doc {
     width: 396px;
 }
 
-.ui-dialog form .row {
+.row-26 {
     height: 26px;
 }
 
@@ -460,4 +503,79 @@ i.icon-doc {
 
 .ui-dialog form#send-invite-message-form .row {
     height: auto;
+}
+
+/* ----- personal ----- */
+
+.action-controller-personal-static-dashboard h3 {
+    margin-top: 6px;
+    margin-left: 98px;
+}
+
+.unstandard-decline {
+    margin-left: 8px;
+}
+
+.skills-box {
+    padding-bottom: 20px;
+}
+
+.skills-box-stars label.skills-title {
+    margin-right: 20px;
+}
+
+.controller-static-dashboard .skills-box-stars .skills-title,
+.controller-static-dashboard .skills-box-stars .icon-21x21-empty {
+    height: 26px;
+    line-height: 28px;
+    margin-left: 5px;
+}
+
+.controller-static-dashboard .skills-box-percentile .skills-title,
+.controller-static-dashboard .skills-box-percentile .icon-21x21-empty {
+    height: 32px;
+    line-height: 34px;
+    margin-left: 5px;
+}
+
+.controller-static-dashboard .skills-title {
+    vertical-align: top;
+}
+
+.controller-static-dashboard .icon-21x21-empty {
+    vertical-align: middle;
+}
+
+.invite-accept-popup .unstandard-list-number {
+    font-family: ProximaNova-Bold;
+    font-size: 2em;
+    height: 37px;
+    width: 37px;
+}
+
+.invite-accept-popup .unstandard-list-description {
+    height: 37px;
+    width: 840px;
+}
+
+.unstandard-simulation-requirements label {
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.unstandard-simulation-requirements .column-1-4 {
+    width: 194px;
+    vertical-align: top;
+    padding-right: 30px;
+}
+
+.unstandard-simulation-requirements .column-1-4:last-child {
+    padding-right: 0px;
+}
+
+.unstandard-list-description-text {
+    font-size: 1.3em;
+    line-height: 1.2em;
 }

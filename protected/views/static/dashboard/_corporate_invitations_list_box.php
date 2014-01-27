@@ -37,17 +37,11 @@
                 'name' => 'status',
                 'value' => function(Invite $data){
                     return '
-                        <!-- action-display-invite-status link-in-table -->
                         <span class="action-display-popover inter-active table-link">'
                         . Yii::t("site", $data->getStatusText())
-                        . '<!--  invite-status-tooltip -->'
                         . '<div class="hide inner-popover background-sky">
                             <div class="popover-triangle"></div>
-
-                            <!--  -->
                             <div class="popover-wrapper">
-
-                                <!-- popover-content -->
                                 <div class="popover-content">'
                                    . $data->getStatusDescription()
                                 . '</div>
@@ -58,14 +52,9 @@
             ],
             [
                 'header' => Yii::t('site', 'Date'),
-                'name' => 'sent_time'   ,
-                'value' => function (Invite $data) { return sprintf(
-                        '%s/%s/%s',
-                        $data->getUpdatedTime()->format("j"),
-                        Yii::t('site', $data->getUpdatedTime()->format("M")),
-                        $data->getUpdatedTime()->format("o")
-                    );},
-                'type' => 'raw'
+                'name'   => 'sent_time'   ,
+                'value'  => '$data->getDateForDashboard()',
+                'type'   => 'raw'
             ],
 
             ['header' => 'Рейтинг <span class="action-switch-assessment-results-render-type assessment-results-type-switcher inter-active '.$scoreName.'"></span>', 'value' => $scoreRender, 'type' => 'raw'],

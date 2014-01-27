@@ -35,7 +35,7 @@
                 [
                     'label'   => Yii::t('site', 'Home'),
                     'url'     => ['/static/pages/index'],
-                    'visible' => $isGuest || false === $isDisplayAccountLinks
+                    'visible' => $isGuest || false === $isDisplayAccountLinks,
                 ],
 
                 [

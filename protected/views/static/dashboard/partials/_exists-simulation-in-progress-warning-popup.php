@@ -1,4 +1,5 @@
-<div class="locator-exists-self-to-self-simulation-warning-popup hide">
+<!-- exists-self-to-self-simulation-warning-popup -->
+<div class="locator-exists-simulation-in-progress-warning-popup hide">
     <div>
         <h1 class="pull-content-center">Внимание!</h1>
 

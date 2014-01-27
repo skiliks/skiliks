@@ -38,6 +38,9 @@
 .pull-content-center {
     text-align: center;
 }
+.pull-content-justify {
+    text-align: justify;
+}
 
 /* --- */
 
@@ -133,6 +136,10 @@
     padding: 0 !important;
 }
 
+.reset-margin {
+    margin: 0 !important;
+}
+
 /* --- */
 
 .button-white {
@@ -179,6 +186,11 @@
 .background-dark-blue {
     background-color: #146672;
     color: white;
+}
+
+.static-page-links li a,
+.background-middle-dark-blue {
+    background-color: #5798a2;
 }
 
 .background-blue {
@@ -259,4 +271,13 @@ input.inputs-wide-height {
 .popup-information li {
     font-size: 1.3em;
     line-height: 1em;
+}
+
+.icon-21x21-empty {
+    height: 21px;
+    width: 21px;
+}
+
+.popup-information .bottom-margin-standard {
+    margin-bottom: 20px;
 }

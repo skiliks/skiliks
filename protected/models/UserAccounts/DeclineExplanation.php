@@ -47,7 +47,8 @@ class DeclineExplanation extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('reason_id, description', 'required', 'message' => 'Необходимо заполнить поле Причина отказа'),
+			array('reason_id', 'required', 'message' => 'Необходимо указать причину отказа'),
+			array('description', 'validateIsDescriptionPresent'),
 			array('invite_id, vacancy_label, reason_id', 'numerical', 'integerOnly'=>true),
 			array('invite_recipient_id, invite_owner_id', 'length', 'max'=>10),
 			array('created_at', 'safe'),
@@ -56,6 +57,17 @@ class DeclineExplanation extends CActiveRecord
 			array('id, invite_id, invite_recipient_id, invite_owner_id, vacancy_label, reason_id, description, created_at', 'safe', 'on'=>'search'),
 		);
 	}
+
+    /**
+     * Добавляет сообщение об ощибке, если причина отказа "Другое"
+     * и поле для еткста пустое
+     */
+    public function validateIsDescriptionPresent() {
+        // "4" - это "Другое"
+        if ($this->reason_id == 4 && empty($this->description)) {
+            $this->addError('description', 'Опишите, пожалуйста, причину отказа');
+        }
+    }
 
 	/**
 	 * @return array relational rules.
