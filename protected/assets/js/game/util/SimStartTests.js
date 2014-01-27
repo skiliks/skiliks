@@ -20,6 +20,13 @@ try {
                     safari: 6
                 };
 
+                var maxSupport = {
+                    mozilla: 26,
+                    chrome: 31,
+                    msie: 11,
+                    safari: 7
+                };
+
                 /**
                  * Также есть проверка в SiteController->actionSimulation().
                  * Она нужна -- потому что в IE8, текущая JS проверка валится.
@@ -34,6 +41,12 @@ try {
                     if (minSupport.hasOwnProperty(name)) {
                         if ($.browser[name]) {
                             if (parseFloat($.browser.version) >= minSupport[name] && this.isAllowOS(cfg.isSkipOsCheck, ['Windows', 'MacOS'])) {
+                                if(parseFloat($.browser.version) > maxSupport[name]) {
+                                    if(confirm("Похоже, вы используете бета версию браузера или нестандартную его сборку. Мы не можем гарантировать 100% работоспособность приложения. Если вы продолжите, вы берёте ответственность за, возможное, зависание приложения на себя") === false){
+                                        location.href = '/dashboard';
+                                        return false;
+                                    }
+                                }
                                 updateImageLoaderBar('Проверка совместимости браузера... OK!', 0.85, true);
                                 return true;
                             } else {
