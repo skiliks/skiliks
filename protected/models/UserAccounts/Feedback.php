@@ -80,12 +80,12 @@ class Feedback extends CActiveRecord
 			array('email', 'required', 'message' => Yii::t('site', 'Email is required')),
 			array('theme', 'length', 'max'=>200),
 			array('email', 'length', 'max'=>50),
-            array('message', 'length', 'max'=>1500),
 			array('email', 'email', 'message' => Yii::t('site', 'Wrong email')),
 			array('message', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, theme, message, email', 'safe', 'on'=>'search'),
+            array('message', 'length', 'max'=>1500),
 		);
 	}
 
