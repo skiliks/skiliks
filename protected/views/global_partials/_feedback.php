@@ -37,7 +37,8 @@
         </span>
         <?php echo $form->textArea($model, 'message', [
             'cols'  => '40',
-            'rows'  => '6'
+            'rows'  => '6',
+            'maxlength' => 1500
         ]); ?>
     </div>
 

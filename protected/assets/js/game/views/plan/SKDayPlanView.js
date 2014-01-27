@@ -218,13 +218,14 @@ define([
                 prev_cell
                     .attr('rowspan', duration/15);
                 prev_cell.find('.day-plan-todo-task').height(Math.ceil(duration / 15) * 11);
-                var prevRow = task_el.parents('tr');
-                for (var j = 0; j < duration - 15; j += 15) {
+                /* Решение бага 2 задачи SKILIKS-5253 */
+                //var prevRow = task_el.parents('tr');
+                /*for (var j = 0; j < duration - 15; j += 15) {
                     prevRow = prevRow.next();
                     prevRow
                         .find('.planner-book-timetable-event-fl, .planner-book-timetable-afterv-fl')
                         .hide();
-                }
+                }*/
                 return task_el;
             } catch(exception) {
                 if (window.Raven) {

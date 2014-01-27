@@ -3,7 +3,7 @@
 /**
  * Class CountRegisteredUsers
  */
-class CountRegisteredUsers {
+class СountRegisteredUsers {
 
     /**
      * @var

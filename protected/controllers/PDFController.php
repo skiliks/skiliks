@@ -24,7 +24,7 @@ class PDFController extends SiteBaseController {
             $data = json_decode($simulation->getAssessmentDetails(), true);
 
             $pdf = new AssessmentPDF();
-            $pdf->
+
             $username = $simulation->user->profile->firstname.' '.$simulation->user->profile->lastname;
 
             $pdf->setImagesDir('simulation_details_'.$assessmentVersion.'/images/');
