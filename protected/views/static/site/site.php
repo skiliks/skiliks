@@ -151,6 +151,12 @@ $cs->compileLess($assetsUrl . '/less/documents.less',  $assetsUrl . '/compiled_c
         </script>
     <?php endif ?>
 
+    <?php if(preg_match('/(?i)Safari/',$_SERVER['HTTP_USER_AGENT'])): ?>
+        <script type="text/javascript">
+            preLoadImages.push("<?= $assetsUrl . '/css/safari_simulation.css'; ?>");
+        </script>
+    <?php endif ?>
+
 <?php // файлы которые надо будет предзагрузить } ?>
     <style>
         #loading-cup {
