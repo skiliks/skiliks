@@ -431,6 +431,9 @@ class UserAccountCorporate extends CActiveRecord
             array('inn, cpp, bank_account_number, bic, preference_payment_method', 'safe'),
             array('default_invitation_mail_text, is_display_referrals_popup, is_display_tariff_expire_pop_up', 'safe'),
 			array('user_id, industry_id', 'safe', 'on'=>'search'),
+            array('ownership_type', 'length', 'max' => 50),
+            array('company_name', 'length', 'max' => 50),
+            array('company_description', 'length', 'max' => 250),
 		);
 	}
 
