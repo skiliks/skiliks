@@ -57,18 +57,25 @@
                 'type'   => 'raw'
             ],
 
-            ['header' => 'Рейтинг <span class="action-switch-assessment-results-render-type assessment-results-type-switcher inter-active '.$scoreName.'"></span>', 'value' => $scoreRender, 'type' => 'raw'],
+            ['header' => 'Рейтинг <span class="
+                action-switch-assessment-results-render-type
+                action-display-assessment-results-type-hint
+                locator-assessment-results-type-switcher
+                assessment-results-type-switcher inter-active '.$scoreName.'"
+                ></span>', 'value' => $scoreRender, 'type' => 'raw'],
             ['header' => '', 'value' => '"<a class=\"inviteaction\" href=\"/dashboard/invite/remove/$data->id\">Удалить</a>"', 'type' => 'html', 'htmlOptions' => ['class' => 'hide']],
             ['header' => '', 'value' => '"<a class=\"inviteaction\" href=\"/dashboard/invite/resend/$data->id\">Отправить ещё раз</a>"' , 'type' => 'html', 'htmlOptions' => ['class' => 'hide']],
         ]
     ]);
     ?>
+</section>
 
-    <div class="popover popover-div-on-hover hide">
-        <div class="popover-triangle"></div>
-        <div class="popover-content"><div class="popup-content">
-                Переключение между относительным и абсолютным рейтингом.
-            </div>
+
+<div class="hint-assessment-results-type-switcher inner-popover background-yellow hide locator-hint-assessment-results-type-switcher">
+    <div class="popover-triangle-upper"></div>
+    <div class="popover-wrapper">
+        <div class="popover-content">
+            Переключение между относительным и абсолютным рейтингом.
         </div>
     </div>
-</section>
+</div>

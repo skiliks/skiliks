@@ -418,8 +418,19 @@ $(document).ready(function () {
         }
     });
 
-    // hint :)
-    // $('.action-accept-invite').click();
+    // 15 )
+    $(".action-display-assessment-results-type-hint").hover(
+        function() {
+            setTimeout(function(){
+                if($(".locator-assessment-results-type-switcher" + ":hover").length > 0) {
+                    $(".locator-hint-assessment-results-type-switcher").removeClass("hide");
+                }
+            }, 2000);
+        },
+        function() {
+            $(".locator-hint-assessment-results-type-switcher").addClass("hide");
+        }
+    );
 });
 
 

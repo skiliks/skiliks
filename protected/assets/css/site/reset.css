@@ -17,63 +17,29 @@ body {
     line-height: 1.428571429;
 }
 
-@media screen and (max-width: 1279px) {
-    body {
-        font-size: 12px; /* 1em for 1280- */
-    }
-}
-
 html {
     height: 100%;
     min-height: 600px;
     position: relative;
 }
 
-/* --- */
-
 body {
     height: 100%;
 }
 
-@media screen and (max-width: 1279px) {
-    body {
-
-    }
-}
-
-/* --- */
-
 h1 {
     min-height: 1em;
 }
-
-/* --- */
-
 header {
     height: 131px;
     min-width: 1024px;
 }
 
-@media screen and (max-width: 1279px) {
-    header {
-        height: 108px;
-    }
-}
-
-/* --- */
 
 section.main-content {
     min-height: 570px; /* 1080px - 130px (header) - 380px (footer) */
     position: relative;
 }
-
-@media screen and (max-width: 1279px) {
-    section.main-content {
-
-    }
-}
-
-/* --- */
 
 footer.main-content {
     background-image: url('../../img/site/1280/general-style/site-footer.png');
@@ -88,14 +54,6 @@ footer.main-content {
     width: 100%;
 }
 
-@media screen and (max-width: 1279px) {
-    footer.main-content {
-        height: 308px;
-    }
-}
-
-/* --- */
-
 body,h1, h2, h3, h4, h5, h6, b, strong, small, img, table, a, p, div, span, ul, li,
 label, article, aside, details, figcaption, figure, footer, header, hgroup,
 main, nav, section, summary {
@@ -109,7 +67,6 @@ section, summary {
 }
 
 /* --- */
-
 
 h1 {
     font: 2.7em "ProximaNova-Bold";
@@ -328,7 +285,7 @@ input,
 .background-image-lamp {
     background-image: url('../../img/site/1280/popups/lamp.png');
     background-repeat: repeat;
-    background-position: left top;
+    background-position: right top;
 }
 
 .skiliks .ui-dialog.background-image-two-lamps,

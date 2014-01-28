@@ -2,7 +2,7 @@
     nav ul li.menu-item span,
     nav ul li.menu-item a {
         border-radius: 2px;
-        margin: 0 0 0 7px;
+        margin: 0 0 0 0px;
         padding: 4px 7px;
     }
 
@@ -77,5 +77,19 @@
 
     footer .static-page-links ul {
         margin-top: 36px;
+    }
+
+    /* --- */
+
+    .ui-dialog.popup-form textarea {
+        height: 110px;
+        width: 478px;
+    }
+
+    .ui-dialog #feedback-form #Feedback_email {
+        margin-right: 16px;
+        padding-left: 16px;
+        padding-right: 16px;
+        width: 309px;
     }
 }

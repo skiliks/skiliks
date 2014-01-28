@@ -31,7 +31,7 @@
         <?php echo $form->dropDownList($model, 'theme', $themes, []); ?>
     </div>
 
-    <div class="">
+    <div class="row unstandard-message-row">
         <span class="error-place">
             <?php echo $form->error($model, 'message'); ?>
         </span>

@@ -164,6 +164,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         $this->layout = 'site_standard_2';
 
         $this->addSiteCss('_page-dashboard.css');
+        $this->addSiteCss('_page-dashboard-1024.css');
         $this->addSiteJs('_page-dashboard.js');
 
         $this->render('dashboard_corporate', [
@@ -186,7 +187,6 @@ class DashboardController extends SiteBaseController implements AccountPageContr
      */
     public function actionPersonal()
     {
-
         $this->checkUser();
         // check and add trial lite version {
         $liteScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_LITE]);
@@ -211,6 +211,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         $this->layout = 'site_standard_2';
 
         $this->addSiteCss('_page-dashboard.css');
+        $this->addSiteCss('_page-dashboard-1024.css');
         $this->addSiteJs('_page-dashboard.js');
 
         $this->render('dashboard_personal', [

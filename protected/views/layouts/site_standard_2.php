@@ -50,12 +50,14 @@ $cs->registerScriptFile($assetsUrl . '/js/site/common.js');
 $cs->registerCssFile($assetsUrl . '/js/jquery/jquery-ui.css');
 
 $cs->registerCssFile($assetsUrl . "/css/site/reset.css");
+$cs->registerCssFile($assetsUrl . "/css/site/reset-1024.css");
 $cs->registerCssFile($assetsUrl . "/css/site/grid.css");
+$cs->registerCssFile($assetsUrl . "/css/site/grid-1024.css");
 $cs->registerCssFile($assetsUrl . "/css/site/sb-holder.css");
 $cs->registerCssFile($assetsUrl . "/css/site/social-networks.css");
 $cs->registerCssFile($assetsUrl . "/css/site/styles_size_independent.css");
-$cs->registerCssFile($assetsUrl . "/css/site/styles_1280.css");
-$cs->registerCssFile($assetsUrl . "/css/site/styles_1024.css");
+$cs->registerCssFile($assetsUrl . "/css/site/styles-1280.css");
+$cs->registerCssFile($assetsUrl . "/css/site/styles-1024.css");
 
 
 ?>

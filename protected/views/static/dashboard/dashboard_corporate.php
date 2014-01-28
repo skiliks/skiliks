@@ -108,6 +108,6 @@
 </section>
 <!-- } hidden content -->
 
-<?php // margin-bottom 150px ?>
+<?php // margin-bottom 200px ?>
 <div class="clearfix column-full"></div>
 

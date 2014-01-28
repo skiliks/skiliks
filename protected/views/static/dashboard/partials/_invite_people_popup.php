@@ -16,7 +16,7 @@
         <div class="border-radius-standard background-light-blue unstandard-box-with-blue-border">
 
             <!-- Имя приглашенного -->
-            <p class="row">
+            <p class="">
                 <span class="error-place">
                     <?= $form->error($invite, 'fullname'); ?>
                 </span>
@@ -33,7 +33,7 @@
             <?php endif; ?>
 
             <!-- TEXTAREA -->
-            <p class="row">
+            <p class="">
                 <span class="error-place">
                     <?= $form->error($invite, 'message'); ?>
                 </span>

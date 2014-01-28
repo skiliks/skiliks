@@ -158,7 +158,6 @@ input.button-standard {
 
 .popover-triangle {
     background: url("../../img/tooltip-blue-arrow.png") no-repeat right center;
-    /*border: 0 none;*/
     float: left;
     font-size: 0;
     height: 16px;
@@ -167,6 +166,19 @@ input.button-standard {
     position: absolute;
     top: 21px;
     width: 16px;
+}
+
+.popover-triangle-upper {
+    border-color: rgba(0, 0, 0, 0) rgba(0, 0, 0, 0) #FDFBC6;
+    border-style: solid;
+    border-width: 8px;
+    float: left;
+    font-size: 0;
+    left: 107px;
+    line-height: 0;
+    position: absolute;
+    top: -16px;
+    width: 0;
 }
 
 .popover-wrapper {
@@ -242,7 +254,7 @@ input.button-standard {
 
 .ui-dialog.popup-form textarea {
     height: 110px;
-    width: 614px;
+    width: 606px;
 }
 
 /* feedback */
@@ -264,5 +276,9 @@ input.button-standard {
     padding-left: 20px;
     padding-right: 20px;
     width: 418px
+}
+
+.unstandard-message-row {
+    margin-top: 20px;
 }
 

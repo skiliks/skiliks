@@ -19,7 +19,7 @@
 }
 
 .clearfix {
-   height: 100px;
+   height: 200px;
 }
 
 /* --- */
@@ -71,6 +71,11 @@
 
 #invite-form .button-white {
     margin-left: 71px;
+}
+
+.action-controller-corporate-static-dashboard .button-white.rating-percentile-container {
+    margin-left : 0;
+    margin-right: 8px;
 }
 
 /* --- */
@@ -358,9 +363,9 @@
 }
 /* --- *
 
-/* смешение подсказки о статусе прглашения */
+/* смещение подсказки о статусе прглашения */
 .controller-static-dashboard .inner-popover {
-    left: 810px;
+    left: 910px;
 }
 
 /* --- */
@@ -478,7 +483,10 @@ i.icon-doc {
 #send-invite-message-form textarea {
     border: 0;
     box-shadow: none;
-    width: 632px;
+}
+
+#send-invite-message-form input[type='text'] {
+    width: 624px;
 }
 
 .skiliks .ui-dialog #send-invite-message-form a {
@@ -517,6 +525,7 @@ i.icon-doc {
 }
 
 .skills-box {
+    margin-top: 20px;
     padding-bottom: 20px;
 }
 
@@ -578,4 +587,20 @@ i.icon-doc {
 .unstandard-list-description-text {
     font-size: 1.3em;
     line-height: 1.2em;
+}
+
+.action-controller-corporate-static-dashboard .table-footer {
+    margin-top: -5px;
+}
+
+.hint-assessment-results-type-switcher {
+    font-size: 0.8em; /* обрасть находится внутри блока 1.2 em */
+    margin-left: 49px;
+    top: 106px;
+}
+
+.action-controller-personal-static-dashboard .hint-assessment-results-type-switcher {
+    font-size: 1em;
+    margin-left: -692px;
+    top: 118px;
 }

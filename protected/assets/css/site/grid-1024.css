@@ -1,0 +1,34 @@
+@media screen and (max-width: 1279px) {
+    .column-full {
+        min-width: 948px;
+        width: 948px;
+    }
+
+    .column-1-3-condensed {
+        width: 275px;
+    }
+
+    .column-2-3-condensed {
+        width: 600px;
+    }
+
+    input.inputs-wide-height {
+        height: 38px;
+    }
+
+    .label,
+    .static-page-links .label a {
+        padding-left: 6px;
+        padding-right: 6px;
+    }
+
+    .menu-item.label {
+        margin-left: 2px;
+        margin-right: 8px;
+    }
+
+    .button-white {
+        line-height: 2.5em;
+        margin-left: 0px;
+    }
+}
