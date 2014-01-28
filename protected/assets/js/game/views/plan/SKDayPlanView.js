@@ -548,6 +548,7 @@ define([
                 });
                 this.setupDraggable();
                 this.$('.plan-todo-wrap').mCustomScrollbar("update");
+                //console.log('updateTodos');
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -667,9 +668,14 @@ define([
                         me.$('.plan-todo-wrap').mCustomScrollbar("scrollTo", ".day-plan-todo-task[data-task-id="+previousToActive+"]");
                     }
                 }, 0);
-
                 this.setupDroppable();
                 Hyphenator.run();
+                //Нужно для того чтоб решить задачу SKILIKS-5253
+                if($.browser['safari']){
+                    setTimeout(function(){
+                        $('.plan-todo-wrap div.mCustomScrollBox.mCS-light').css('position', 'absolute');
+                    }, 1000);
+                }
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);
