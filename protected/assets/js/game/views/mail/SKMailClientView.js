@@ -1935,6 +1935,7 @@ define([
                         });
                     });
                     mainPhrasesHtml += "</table>";
+                    //debugger;
                     if (phrases.length) {
                         this.$("#mailEmulatorNewLetterTextVariants").html(mainPhrasesHtml);
                         // this.$("#mailEmulatorNewLetterTextVariantsAdd").html(additionalPhrasesHtml);
@@ -2497,7 +2498,7 @@ define([
                     } else {
                         this.$('.mail-tags-bl').show();
                         this.$('.mail-text-wrap').height(
-                            this.$('.mail-view.new').height() - this.$('.mail-view-header').outerHeight() - this.$('.mail-tags-bl').outerHeight() - 30
+                            this.$('.mail-view.new').height() - this.$('.mail-view-header').outerHeight() - this.$('.mail-tags-bl').outerHeight()
                         );
                     }
                 } catch(exception) {
@@ -3050,9 +3051,6 @@ define([
                                     }, 1000);
                                 });
                         });
-                    debugger; // избавляет от слишкой быстрого закрытия окна
-                    // без debugger; - окно почты закрывается преждевременно и пявляется
-                    // оконко с ошибкой "Добавте адресата".
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);

@@ -1,0 +1,606 @@
+
+.controller-static-dashboard aside {
+    margin-left: 7px;
+    margin-right: 14px; /* число найдено подбором */
+}
+
+.controller-static-dashboard #invite-form h2 {
+    font-size: 1.78em;
+}
+
+.controller-static-dashboard .page-title-box {
+    margin: 0 0 40px 0;
+}
+
+.controller-static-dashboard #invite-form label {
+    display: inline-block;
+    padding-right: 6px;
+    width: 60px;
+}
+
+.clearfix {
+   height: 200px;
+}
+
+/* --- */
+
+/* Форма отправки приглашений */
+
+#Invite_firstname {
+    width: 106px;
+}
+
+#Invite_lastname {
+    margin-left: 4px;
+    width: 120px;
+}
+
+#Invite_email {
+    width: 245px;
+}
+
+#invite-form .sbHolder,
+#invite-form select {
+    width: 228px;
+}
+
+.invite-people-box {
+    height: 243px;
+}
+
+.row {
+    padding: 15px 0 0;
+}
+
+.button-add-vacancy {
+    background: url("../../img/site/1280/buttons/plus.png") no-repeat scroll 50% 50% #DDDDDD;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-block;
+    font-family: "ProximaNova-Bold";
+    font-size: 18px;
+    font-weight: bold;
+    height: 22px;
+    line-height: 22px;
+    padding: 0 6px;
+    position: relative;
+    text-align: center;
+    top: 7px;
+    width: 10px;
+}
+
+#invite-form .button-white {
+    margin-left: 71px;
+}
+
+.action-controller-corporate-static-dashboard .button-white.rating-percentile-container {
+    margin-left : 0;
+    margin-right: 8px;
+}
+
+/* --- */
+
+.simulations-counter-box {
+    height: 68px;
+}
+
+.counter {
+    height: 30px;
+}
+
+.counter strong {
+    color: #3D4041;
+    font-family: "ProximaNova-Bold";
+    font-size: 1.21em;
+    font-weight: normal;
+    margin-right: 20px;
+}
+
+.counter .label {
+    color: #fff;
+    font-family: "ProximaNova-Bold";
+    font-size: 1.21em;
+    font-weight: normal;
+}
+
+/* --- */
+
+.corporate-invitations-list-box table {
+    width: 100%;
+}
+
+.corporate-invitations-list-box{
+    margin-bottom: 100px;
+}
+
+.table-head {
+    background-color: #146672;
+    border-radius: 8px 8px 0 0;
+    height: 8px;
+    font-size: 0px;
+    line-height: 0px;
+    width: 100%;
+}
+
+.table-footer {
+    background-color: #FEFEEC;
+    border-radius: 0 0 8px 8px;
+    height: 8px;
+    font-size: 0px;
+    line-height: 0px;
+    margin-top: 0px;
+    width: 100%;
+}
+
+.grid-view .summary {
+    margin: 0px !important;
+}
+
+/* --- redefine /framework/zii/widgets/assets/gridview/styles.css { */
+
+.skiliks .grid-view {
+    padding: 0;
+}
+
+.skiliks .grid-view table.items,
+.skiliks .grid-view table.items tr,
+.skiliks .grid-view table.items th,
+.skiliks .grid-view table.items td {
+    border: 0;
+}
+
+.skiliks .grid-view table.items,
+.skiliks .grid-view table.items th {
+    background: none;
+}
+
+.skiliks .grid-view table.items th {
+    background-color: #146672;
+    border-bottom: 1px solid #0E4750;
+}
+
+.skiliks .grid-view table.items tr td {
+    text-align: left;
+    /*font-weight: bold;*/ /* ну некрасиво */
+    height: 40px;
+    padding-left: 8px;
+}
+
+.skiliks .grid-view table.items tr,
+.skiliks .grid-view table.items tr.even,
+.skiliks .grid-view table.items tr.even td,
+.skiliks .grid-view table.items tr:hover {
+    background-color: #FEFEEC;
+}
+
+.skiliks .grid-view table.items tr.odd,
+.skiliks .grid-view table.items tr.odd td {
+    background-color: #FDFBC6;
+}
+
+.skiliks .grid-view table.items td {
+    font-size: 0.9em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Corporate Dashboard - Имя */
+.action-controller-corporate-static-dashboard .grid-view tr td:nth-child(2) {
+    max-width: 250px;
+}
+
+/* Corporate Dashboard - Позиция */
+.action-controller-corporate-static-dashboard .grid-view tr td:nth-child(3) {
+    max-width: 200px;
+}
+
+/* Corporate Dashboard - Статус */
+.action-controller-corporate-static-dashboard .grid-view tr td:nth-child(4) {
+    width: 90px;
+}
+
+/* Corporate Dashboard - Дата */
+.action-controller-corporate-static-dashboard .grid-view tr td:nth-child(5) {
+    width: 80px;
+}
+
+/* Corporate Dashboard - Рейтинг */
+.action-controller-corporate-static-dashboard .grid-view tr td:nth-child(6) {
+    max-width: 150px;
+}
+
+/* Personal Dashboard - Компания */
+.action-controller-personal-static-dashboard .grid-view tr td:nth-child(1) {
+    width: 140px;
+}
+
+/* Personal Dashboard - Позиция */
+.action-controller-personal-static-dashboard .grid-view tr td:nth-child(2) {
+    width: 150px;
+}
+
+/* Personal Dashboard - Оценка (Официальное название сценария) */
+.action-controller-personal-static-dashboard .grid-view tr td:nth-child(3) {
+    width: 150px;
+}
+
+/* Personal Dashboard - Дата */
+.action-controller-personal-static-dashboard .grid-view tr td:nth-child(4) {
+    width: 80px;
+}
+
+/* Personal Dashboard - Статус */
+.action-controller-personal-static-dashboard .grid-view tr td:nth-child(5) {
+    width: 200px;
+}
+
+.action-controller-personal-static-dashboard .grid-view tr td:nth-child(5) section {
+    display: inline-block;
+}
+
+/* стрелки сортировки */
+
+.skiliks .grid-view table.items th a.desc,
+.skiliks .grid-view .items th a,
+.skiliks .grid-view .items th {
+    color: #ffffff;
+    text-align: left;
+}
+
+.skiliks .grid-view table.items th a.desc,
+.skiliks .grid-view .items th a {
+    padding-left: 12px;
+}
+
+.skiliks .grid-view table.items th a.desc,
+.skiliks .grid-view .items th a {
+    background: url("../../img/arrow-down.png") no-repeat scroll 0 50% rgba(0, 0, 0, 0);
+}
+
+.skiliks .grid-view table.items th a.asc {
+    background: url("../../img/arrow-up.png")   no-repeat scroll 0 50% rgba(0, 0, 0, 0) !important;
+}
+
+/* pager: */
+
+.pager-place {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.skiliks ul.yiiPager .first,
+.skiliks ul.yiiPager .last {
+    display: none;
+}
+
+.skiliks ul.yiiPager .previous a,
+.skiliks ul.yiiPager .next a {
+    background-color:  #6CAAB3;
+    border: none;
+    margin-left: 15px;
+    margin-right: 15px;
+    padding: 7px 10px;
+}
+
+.skiliks ul.yiiPager .previous a:hover,
+.skiliks ul.yiiPager .next a:hover {
+    background-color:  #146672;
+}
+
+.skiliks ul.yiiPager a:visited,
+.skiliks ul.yiiPager .hidden a,
+.skiliks ul.yiiPager .page a:link,
+.skiliks ul.yiiPager .next a:visited,
+.skiliks ul.yiiPager .next a:link,
+.skiliks ul.yiiPager a:link {
+    color: #FFFFFF;
+    font: 14px "ProximaNova-Bold";
+}
+
+.skiliks ul.yiiPager .page a,
+.skiliks ul.yiiPager .page a:link,
+.skiliks ul.yiiPager .page a:visited {
+    border: medium none;
+    margin: 0 4px;
+    padding: 0;
+    text-decoration: none;
+}
+
+.skiliks ul.yiiPager .selected a,
+.skiliks ul.yiiPager .selected a:link,
+.skiliks ul.yiiPager .selected a:visited {
+    color: #146672;
+    background-color: transparent;
+}
+
+.skiliks ul.yiiPager li,
+.skiliks ul.yiiPager li a {
+    display: inline-block;
+}
+
+/* } redefine /framework/zii/widgets/assets/gridview/styles.css --- */
+
+/* шестерёнка */
+
+.table-menu-switcher {
+    background: url("../../img/site/1280/buttons/icon-gear.png") no-repeat left top;
+    position: relative;
+    height: 22px;
+    width: 22px;
+    z-index: 4;
+}
+
+.selected-sk .table-menu-switcher {
+    background-position: right top;
+    z-index: 6;
+}
+
+.table-menu {
+    background: linear-gradient(to bottom, #A5A385 0%, #8A896C 100%) repeat;
+    border: 1px solid #717059;
+    border-radius: 0 7px 7px;
+    display: none;
+    margin: -7px 0 0;
+    padding: 15px 20px 10px 22px;
+    position: absolute;
+    z-index: 5;
+}
+
+.table-menu a {
+    display: block;
+    font-family: "ProximaNova-Regular";
+    font-weight: normal;
+    padding: 0 0 10px 6px;
+    text-decoration: none;
+}
+
+.table-menu a:hover {
+    color: #000;
+}
+
+.invitations-table {
+    margin-bottom: 15px;
+}
+/* --- *
+
+/* смещение подсказки о статусе прглашения */
+.controller-static-dashboard .inner-popover {
+    left: 910px;
+}
+
+/* --- */
+
+.percentile-hover-toggle-span {
+    cursor: pointer;
+    display: inline-block;
+    height: 14px;
+    margin-left: 10px;
+    position: relative;
+    /*top: 14px;*/
+    width: 35px;
+}
+
+.percentile-selected {
+    background: url("../../img/site/1280/dashboard/percentile-selected.png") no-repeat;
+}
+
+.stars-selected {
+    background: url("../../img/site/1280/dashboard/stars-selected.png") no-repeat;
+}
+
+.assessment-results-type-switcher {
+    height: 14px;
+    margin-left: 10px;
+    width: 35px;
+}
+
+.action-controller-personal-static-dashboard .assessment-results-type-switcher {
+    margin-top: 10px;
+    padding-left: 15px;
+}
+
+/* --- */
+
+i.icon {
+    background-size: 18px 17px;
+    height: 17px;
+    margin-top: 6px;
+    width: 18px;
+}
+
+i.icon-excel {
+    background-image: url("../../img/documents/xls.png");
+}
+
+i.icon-doc {
+    background-image: url("../../img/documents/doc.png");
+}
+
+.link-with-background label{
+    height: 20px;
+    line-height: 1em;
+    margin-left: 4px;
+    vertical-align: middle;
+}
+
+.ui-dialog form label {
+    font-weight: bold;
+    width: 240px;
+}
+
+.ui-dialog form input[type="text"] {
+    width: 390px;
+}
+
+.ui-dialog form .sbHolder {
+    position: absolute;
+}
+
+.ui-dialog form .sbHolder,
+.ui-dialog form .sbOptions {
+    width: 396px;
+}
+
+.row-26 {
+    height: 26px;
+}
+
+.ui-dialog form#add-vacancy-form .error-place {
+    padding-left: 122px;
+}
+
+#invite-form .error-place {
+    padding-left: 70px;
+}
+
+#invite-form .error .error-place .errorMessage,
+#invite-form .error .error-place {
+    height: 16px;
+    margin-top: -16px; /* this.margin-top === this.height*/
+}
+
+.unstandard-box-with-blue-border {
+    border: 1px solid #374F52;
+    margin-top: 15px;
+    padding: 20px 10px 0px 10px;
+}
+
+/* --- */
+
+.ui-dialog form#add-vacancy-form .sbHolder {
+    margin-left: 4px;
+}
+
+#add-vacancy-form .button-standard {
+    margin-top: 35px;
+}
+
+#send-invite-message-form h3 {
+    margin-top: -20px;
+}
+
+#send-invite-message-form input[type='text'],
+#send-invite-message-form textarea {
+    border: 0;
+    box-shadow: none;
+}
+
+#send-invite-message-form input[type='text'] {
+    width: 624px;
+}
+
+.skiliks .ui-dialog #send-invite-message-form a {
+    color: #2d7b91;
+}
+
+.skiliks .ui-dialog #send-invite-message-form p {
+    color: #0e4750;
+    margin-bottom: 15px;
+}
+
+.ui-dialog form#send-invite-message-form label {
+    margin-top: 10px;
+    margin-bottom: 22px;
+    width: 400px;
+}
+
+#Invite_is_display_simulation_results {
+    margin-bottom: 4px;
+    vertical-align: middle;
+}
+
+.ui-dialog form#send-invite-message-form .row {
+    height: auto;
+}
+
+/* ----- personal ----- */
+
+.action-controller-personal-static-dashboard h3 {
+    margin-top: 6px;
+    margin-left: 98px;
+}
+
+.unstandard-decline {
+    margin-left: 8px;
+}
+
+.skills-box {
+    margin-top: 20px;
+    padding-bottom: 20px;
+}
+
+.skills-box-stars label.skills-title {
+    margin-right: 20px;
+}
+
+.controller-static-dashboard .skills-box-stars .skills-title,
+.controller-static-dashboard .skills-box-stars .icon-21x21-empty {
+    height: 26px;
+    line-height: 28px;
+    margin-left: 5px;
+}
+
+.controller-static-dashboard .skills-box-percentile .skills-title,
+.controller-static-dashboard .skills-box-percentile .icon-21x21-empty {
+    height: 32px;
+    line-height: 34px;
+    margin-left: 5px;
+}
+
+.controller-static-dashboard .skills-title {
+    vertical-align: top;
+}
+
+.controller-static-dashboard .icon-21x21-empty {
+    vertical-align: middle;
+}
+
+.invite-accept-popup .unstandard-list-number {
+    font-family: ProximaNova-Bold;
+    font-size: 2em;
+    height: 37px;
+    width: 37px;
+}
+
+.invite-accept-popup .unstandard-list-description {
+    height: 37px;
+    width: 840px;
+}
+
+.unstandard-simulation-requirements label {
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.unstandard-simulation-requirements .column-1-4 {
+    width: 194px;
+    vertical-align: top;
+    padding-right: 30px;
+}
+
+.unstandard-simulation-requirements .column-1-4:last-child {
+    padding-right: 0px;
+}
+
+.unstandard-list-description-text {
+    font-size: 1.3em;
+    line-height: 1.2em;
+}
+
+.action-controller-corporate-static-dashboard .table-footer {
+    margin-top: -5px;
+}
+
+.hint-assessment-results-type-switcher {
+    font-size: 0.8em; /* обрасть находится внутри блока 1.2 em */
+    margin-left: 49px;
+    top: 106px;
+}
+
+.action-controller-personal-static-dashboard .hint-assessment-results-type-switcher {
+    font-size: 1em;
+    margin-left: -692px;
+    top: 118px;
+}

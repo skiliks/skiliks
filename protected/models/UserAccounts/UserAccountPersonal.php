@@ -146,16 +146,19 @@ class UserAccountPersonal extends CActiveRecord
      */
     public function validBirthday($attribute, $params) {
         $date = explode('-', $this->attributes[$attribute]);
-        if(checkdate((int)$date[1], (int)$date[2], (int)$date[0])){
-            if(strtotime($this->attributes[$attribute]) >= strtotime('1910-01-01') && strtotime($this->attributes[$attribute]) <= strtotime('2010-01-01')) {
+
+        if(isset($date[1]) && isset($date[2]) && isset($date[3])
+            && checkdate((int)$date[1], (int)$date[2], (int)$date[0])){
+            if (strtotime($this->attributes[$attribute]) >= strtotime('1910-01-01')
+                && strtotime($this->attributes[$attribute]) <= strtotime('2010-01-01')) {
                 return true;
-            }else{
+            } else {
                 $this->birthday = null;
                 $this->addError('birthday[day]', Yii::t('site', 'Incorrect birthday'));
                 $this->addError('birthday[month]', Yii::t('site', 'Incorrect birthday'));
                 $this->addError('birthday[year]', Yii::t('site', 'Incorrect birthday'));
             }
-        }else{
+        } else {
             $this->birthday = null;
             $this->addError('birthday[day]', Yii::t('site', 'Incorrect birthday'));
             $this->addError('birthday[month]', Yii::t('site', 'Incorrect birthday'));

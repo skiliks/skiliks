@@ -94,9 +94,11 @@ class UserServiceUnitTest extends CDbTestCase
         $this->assertNotNull($assert_profile_corporate);
         $this->assertNotNull($assert_profile_corporate->user);
 
-        /* var UserAccountCorporate $assert_account_corporate */
+        /* @var UserAccountCorporate $assert_account_corporate */
         $assert_account_corporate = UserAccountCorporate::model()->findByAttributes(['user_id'=>$assert_profile_corporate->user_id]);
         $this->assertNotNull($assert_account_corporate);
+
+        $this->assertEquals($assert_account_corporate->expire_invite_rule, UserAccountCorporate::EXPIRE_INVITE_RULE_BY_TARIFF);
 
         //Проверяем что в аккаунт добавлено 3 симуляции
         /* @var $assert_account_corporate UserAccountCorporate */

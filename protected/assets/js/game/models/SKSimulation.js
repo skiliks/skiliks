@@ -319,6 +319,7 @@ define([
                 try {
                     var me = this;
                     var current_time_string = me.paused_time || new Date();
+
                     var game_start_time = me.timeStringToMinutes(this.get('app').get('start')) * 60;
                     return game_start_time + (me.start_time ?
                         Math.floor(
@@ -412,6 +413,7 @@ define([
                         if (undefined !== data && null !== data && undefined !== data.flagsState && undefined !== data.serverTime) {
                             me.updateFlagsForDev(data.flagsState, data.serverTime);
                             me.updateEventsListTableForDev(data.eventsQueue);
+                            me.updateServerInfoForDev(data.serverInfo);
                         }
 
                         if (null !== data && data.result === 1 && data.events !== undefined) {
@@ -465,6 +467,10 @@ define([
                             me.inviteId = data.inviteId;
                         }
 
+                        if ('undefined' !== typeof data.serverInfo) {
+                            me.serverInfo = data.serverInfo;
+                        }
+
                         me.start_time = new Date();
                         localStorage.setItem('lastGetState', nowDate.getTime());
 
@@ -472,7 +478,7 @@ define([
                         me.window.set('name', 'mainScreen');
                         me.window.set('subname', 'mainScreen');
                         win = me.window;
-                        console.log('win 1 : ', win, ' , ', me.window, ' , ', me.window.id);
+                        //console.log('win 1 : ', win, ' , ', me.window, ' , ', me.window.id);
                         win.open();
 
                         me.todo_tasks.fetch();
@@ -563,7 +569,9 @@ define([
                     var me = this;
 
                     me._stopTimer();
-                    me.paused_time = new Date();
+                    if(me.start_time !== undefined){
+                        me.paused_time = new Date();
+                    }
                     me.trigger('pause:start');
                     me.is_paused = true;
                     if (typeof callback === 'function') {
@@ -592,6 +600,12 @@ define([
                             me._startTimer();
                             me.skipped_seconds -= (new Date() - me.paused_time) / 1000;
                             delete me.paused_time;
+                            me.trigger('pause:stop');
+
+                            if (typeof callback === 'function') {
+                                callback();
+                            }
+                        }else if( me.start_time === undefined ) {
                             me.trigger('pause:stop');
 
                             if (typeof callback === 'function') {
@@ -771,8 +785,20 @@ define([
             updateEventsListTableForDev:function (eventsQueue) {
                 try {
                     if (this.isDebug()) {
-                        var flagStateView = new SKFlagStateView();
                         window.AppView.frame.debug_view.doUpdateEventsList(eventsQueue);
+                    }
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
+            },
+
+            updateServerInfoForDev : function (serverInfo) {
+                try {
+                    if (this.isDebug()) {
+                        $('#server-info-ip-code').text(serverInfo.ip_code);
+                        $('#server-info-ip-db').text(serverInfo.ip_db);
                     }
                 } catch(exception) {
                     if (window.Raven) {

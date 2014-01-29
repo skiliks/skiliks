@@ -37,7 +37,8 @@ define(["text!game/jst/simulation/debug.jst"], function (debug_template) {
             try {
                 this.$el.html(_.template(debug_template, {
                     simId:    SKApp.simulation.id,
-                    inviteId: SKApp.simulation.inviteId
+                    inviteId: SKApp.simulation.inviteId,
+                    serverInfo : SKApp.simulation.serverInfo
                 }));
             } catch(exception) {
                 if (window.Raven) {

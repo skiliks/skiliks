@@ -235,6 +235,7 @@ class YumProfile extends YumActiveRecord
 
         $rules[] = array('firstname', 'length', 'max' => 50);
         $rules[] = array('lastname',  'length', 'max' => 50);
+        $rules[] = array('email',  'length', 'max' => 50);
 
 		return $rules;
 	}

@@ -3439,6 +3439,8 @@ SocialCalc.RecalcLoadedSheet = function(document_name, sheetname, str, recalcnee
 //
 
 SocialCalc.RecalcTimerRoutine = function() {
+   //Это место где будет запущен пересчёт на листах
+   //console.log('RecalcTimerRoutine');
 
    var eresult, cell, coord, err, status;
    var starttime = new Date();
@@ -3446,19 +3448,21 @@ SocialCalc.RecalcTimerRoutine = function() {
    var scf = SocialCalc.Formula;
    if (!scf) {
       return "Need SocialCalc.Formula";
-      }
+   }
    var scri = SocialCalc.RecalcInfo;
+   //console.log('scri.currentState', scri.currentState);
+   //console.log('scri.state.orders', scri.state.order);
    var sheet = scri.sheet;
    if (!sheet) {
       return;
-      }
+   }
    var recalcdata = sheet.recalcdata;
 
    var do_statuscallback = function(status, arg) { // routine to do callback if required
       if (sheet.statuscallback) {
          sheet.statuscallback(recalcdata, status, arg, sheet.statuscallbackparams);
-         }
       }
+   }
 
    SocialCalc.RecalcClearTimeout();
 
@@ -3470,13 +3474,15 @@ SocialCalc.RecalcTimerRoutine = function() {
       for (coord in sheet.cells) { // get list of cells to check for order
          if (!coord) continue;
          recalcdata.celllist.push(coord);
-         }
+      }
 
       recalcdata.calclist = {}; // start with empty list
       scri.currentState = scri.state.order; // drop through to determining recalc order
-      }
+   }
 
    if (scri.currentState == scri.state.order) {
+      //Попадает сюда при редактировании ячейки когда нет пересчета
+      //console.log('scri.currentState == scri.state.order');
       while (recalcdata.celllistitem < recalcdata.celllist.length) { // check all the cells to see if they should be on the list
          coord = recalcdata.celllist[recalcdata.celllistitem++];
          err = SocialCalc.RecalcCheckCell(sheet, coord);
@@ -3484,8 +3490,8 @@ SocialCalc.RecalcTimerRoutine = function() {
             do_statuscallback("calcorder", {coord: coord, total: recalcdata.celllist.length, count: recalcdata.celllistitem});
             SocialCalc.RecalcSetTimeout();
             return;
-            }
          }
+      }
 
       do_statuscallback("calccheckdone", recalcdata.calclistlength);
 
@@ -3493,9 +3499,10 @@ SocialCalc.RecalcTimerRoutine = function() {
       scri.currentState = scri.state.calc; // loop through cells on next timer call
       SocialCalc.RecalcSetTimeout();
       return;
-      }
+   }
 
    if (scri.currentState == scri.state.start_wait) { // starting to wait for something
+      //console.log('scri.currentState == scri.state.start_wait');
       scri.currentState = scri.state.done_wait; // finished on next timer call
       if (scri.LoadSheet) {
          status = scri.LoadSheet(scf.SheetCache.waitingForLoading);
@@ -3505,23 +3512,26 @@ SocialCalc.RecalcTimerRoutine = function() {
          }
       SocialCalc.RecalcLoadedSheet(null, null, "", false);
       return;
-      }
+   }
 
    if (scri.currentState == scri.state.done_wait) {
+      //console.log('scri.currentState == scri.state.done_wait');
       scri.currentState = scri.state.calc; // loop through cells on next timer call
       SocialCalc.RecalcSetTimeout();
       return;
-      }
+   }
 
    // otherwise should be scri.state.calc
 
    if (scri.currentState != scri.state.calc) {
       alert("Recalc state error: "+scri.currentState+". Error in SocialCalc code.");
-      }
+   }
 
    coord = sheet.recalcdata.nextcalc;
    while (coord) {
       cell = sheet.cells[coord];
+     //Запуск самого пересчета
+      //console.log('eresult = scf.evaluate_parsed_formula(cell.parseinfo, sheet, false);');
       eresult = scf.evaluate_parsed_formula(cell.parseinfo, sheet, false);
       if (scf.SheetCache.waitingForLoading) { // wait until restarted
          recalcdata.nextcalc = coord; // start with this cell again
@@ -3530,7 +3540,7 @@ SocialCalc.RecalcTimerRoutine = function() {
          scri.currentState = scri.state.start_wait; // start load on next timer call
          SocialCalc.RecalcSetTimeout();
          return;
-         }
+      }
 
       if (scf.RemoteFunctionInfo.waitingForServer) { // wait until restarted
          recalcdata.nextcalc = coord; // start with this cell again

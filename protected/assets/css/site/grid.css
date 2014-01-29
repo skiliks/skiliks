@@ -2,94 +2,10 @@
 /* CSS styles to define geometric grid system on page for all screen resolutions */
 /* Currently 1280+ and 1280- */
 
-html {
-    height: 100%;
-    min-height: 600px;
-    position: relative;
-}
-
-/* --- */
-
-body {
-    height: 100%;
-}
-
-@media screen and (max-width: 1279px) {
-    body {
-
-    }
-}
-
-/* --- */
-
-h1 {
-    height: 80px;
-}
-
-@media screen and (max-width: 1279px) {
-    h1 {
-        height: 66px;
-    }
-}
-
-/* --- */
-
-header {
-    height: 131px;
-}
-
-@media screen and (max-width: 1279px) {
-    header {
-        height: 108px;
-    }
-}
-
-/* --- */
-
-section.main-content {
-    min-height: 570px; /* 1080px - 130px (header) - 380px (footer) */
-    position: relative;
-}
-
-@media screen and (max-width: 1279px) {
-    section.main-content {
-
-    }
-}
-
-/* --- */
-
-footer.main-content {
-    background-image: url('../../img/site/general-style/site-footer.png');
-    background-position: center top;
-    background-repeat: no-repeat;
-    background-size: cover;
-    height: 381px;
-    left: 0;
-    margin-top: -200px;
-    position: relative;
-    width: 100%;
-}
-
-@media screen and (max-width: 1279px) {
-    footer.main-content {
-        height: 308px;
-    }
-}
-
-/* --- */
-
 .column-full {
     margin: 0 auto;
     min-width: 1146px;
     width: 1146px;
-}
-
-@media screen and (max-width: 1279px) {
-    .column-full {
-        min-width: 948px;
-        width: 948px;
-    }
 }
 
 /* --- */
@@ -115,6 +31,9 @@ footer.main-content {
 .pull-content-center {
     text-align: center;
 }
+.pull-content-justify {
+    text-align: justify;
+}
 
 /* --- */
 
@@ -132,50 +51,12 @@ footer.main-content {
 
 /* --- */
 
-.inline-block {
-    display: inline-block;
+.hide {
+    display: none;
 }
 
-/* --- */
-
-h1 {
-    font: 2.7em "ProximaNova-Bold";
-}
-
-h2 {
-    font: 2.3em "ProximaNova-Bold";
-}
-
-h3 {
-    font: 2.0em "ProximaNova-Bold";
-}
-
-h4 {
-    font: 1.7em "ProximaNova-Bold";
-}
-
-h5 {
-    font: 1.4em "ProximaNova-Bold";
-}
-
-h6 {
-    font: 1.1em "ProximaNova-Bold";
-}
-
-h1, h2, h3, h4, h5, h6 {
-    color: #ffffff;
-}
-
-/* --- */
-
-.text-smallest {
-    font-size: 0.8em;
-}
-
-@media screen and (max-width: 1279px) {
-    .text-smallest {
-        font-size: 0.8em;
-    }
+.regular-list {
+    /*list-style: disc outside none;*/
 }
 
 /* --- */
@@ -184,9 +65,228 @@ h1, h2, h3, h4, h5, h6 {
     color: #ffffff;
 }
 
-/* --- */
-
-.column-1-2 {
-    width: 49.5%
+.table-link {
+    color: #428290;
+    font-family: 'ProximaNova-Bold';
+    font-weight: normal;
 }
 
+.inter-active {
+    cursor: pointer;
+}
+
+/* --- */
+
+.ProximaNova-Regular {
+    font-family: ProximaNova-Regular;
+    font-weight: normal;
+}
+
+.ProximaNova-Bold {
+    font-family: ProximaNova-Bold;
+    font-weight: normal;
+}
+
+/* --- */
+
+.column-1-1 {
+    width: 100%;
+}
+
+.column-1-2 {
+    width: 49.5%;
+}
+
+.column-1-3 {
+    width: 33.0%;
+}
+
+.column-2-3 {
+    width: 66.0%;
+}
+
+.column-1-4 {
+    width: 24.5%;
+}
+
+.column-3-4 {
+    width: 74.5%;
+}
+
+/* --- */
+
+.column-1-3-condensed {
+    width: 342px;
+}
+
+.column-2-3-condensed {
+    width: 734px;
+}
+
+/* --- */
+
+.reset-padding {
+    padding: 0 !important;
+}
+
+.reset-margin {
+    margin: 0 !important;
+}
+
+/* --- */
+
+.button-white {
+    background: url("../../img/site/1280/buttons/button-white-background.png") no-repeat 0 0;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.23);
+    border: none;
+    color: #3C3C32;
+    display: inline-block;
+    font-family: "ProximaNova-Bold";
+    font-size: 1em;
+    line-height: 2.3em;
+    height: 30px;
+    margin-left: 15px;
+    text-decoration: none;
+}
+
+.page-title-box .button-white {
+    margin-right: 8px; /* это толщина .nice-border */
+}
+
+.icon-arrow-blue {
+    padding-left: 20px !important;
+}
+
+.vertical-align-top {
+    vertical-align: top;
+}
+
+.skiliks .ui-dialog,
+.nice-border {
+    box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
+    padding: 15px 0 0 15px;
+}
+
+.skiliks .ui-dialog,
+.border-radius-standard {
+    border-radius: 8px;
+}
+
+.box-bottom-standard {
+    margin-bottom: 30px;
+}
+
+.background-dark-blue {
+    background-color: #146672;
+    color: white;
+}
+
+.static-page-links li a {
+    background-color: rgba(20, 102, 114, 0.4);
+}
+
+.background-middle-dark-blue {
+    background-color: #5798a2;
+}
+
+.background-blue {
+    background-color: #51C1D2;
+}
+
+.background-light-blue {
+    background-color: #DBEAED;
+}
+
+.background-sky {
+    background-color: #f0fdff;
+}
+
+.background-white {
+    background-color: #fff;
+}
+
+.background-yellow {
+    background-color: #FDFBC6;
+}
+
+.background-light-yellow {
+    background-color: #fefeec;
+}
+
+.background-dark-blue .errorMessage {
+    color: #ffffff;
+}
+
+.label,
+.static-page-links .label a {
+    border-radius: 3px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.menu-item.label {
+    padding-left: 0px;
+    padding-right: 0px;
+    margin-left: 2px;
+    margin-right: 8px;
+}
+
+/* --- */
+
+.sbSelector:link,
+.sbSelector:visited,
+.sbSelector:hover {
+    color: #FFFFFF;
+    outline: medium none;
+    text-decoration: none;
+}
+
+.sbSelector {
+    display: block;
+    height: 22px;
+    left: 0;
+    line-height: 22px;
+    outline: medium none;
+    overflow: hidden;
+    position: absolute;
+    text-indent: 5px;
+    top: 0;
+    width: 100%;
+}
+
+.sbHolder {
+    width: 200px;
+}
+
+.sbHolder {
+    background: -moz-linear-gradient(center top , #54C4D4, #2EA6B7) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border: 1px solid #0D5159;
+    border-radius: 5px;
+    color: #FFFFFF;
+    display: inline-block;
+    font: 0.9em 'ProximaNova-Regular';
+    height: 23px;
+    position: relative;
+    vertical-align: middle;
+}
+
+input.inputs-wide-height {
+    height: 48px;
+    vertical-align: top;
+}
+
+.popup-information p,
+.popup-information li,
+.flash-data {
+    font-size: 1.3em;
+    line-height: 1em;
+}
+
+.icon-21x21-empty {
+    height: 21px;
+    width: 21px;
+}
+
+.popup-information .bottom-margin-standard {
+    margin-bottom: 20px;
+}

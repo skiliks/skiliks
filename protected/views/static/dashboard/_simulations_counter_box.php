@@ -1,9 +1,13 @@
-<div class="invites-limit <?php echo (Yii::app()->user->data()->countInvitesToGive() < 10) ? 'small-invites-limit' : ''; ?>">
-    <strong>Осталось симуляций</strong> <span class="brightblock"><?php echo Yii::app()->user->data()->getAccount()->getTotalAvailableInvitesLimit()?></span>
+<div class="counter">
+    <strong>Осталось симуляций</strong>
+    <span class="label background-blue">
+        <?php echo Yii::app()->user->data()->getAccount()->getTotalAvailableInvitesLimit()?>
+    </span>
 </div>
-<div><strong>Тарифный план</strong>
-    <a class="brightblock">
+
+<div class="counter">
+    <strong>Тарифный план</strong>
+    <span class="label background-blue">
         <?php echo Yii::app()->user->data()->getAccount()->getTariffLabel() ?>
-    </a>
+    </span>
 </div>
-<!--a href="/profile/corporate/tariff" class="greenbtn">Управление подпиской</a-->

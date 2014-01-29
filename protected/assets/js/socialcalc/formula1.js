@@ -599,6 +599,7 @@ SocialCalc.Formula.ConvertInfixToPolish = function(parseinfo) {
 //
 
 SocialCalc.Formula.EvaluatePolish = function(parseinfo, revpolish, sheet, allowrangereturn) {
+   //console.log('Formula.EvaluatePolish');
    var scf = SocialCalc.Formula;
    var scc = SocialCalc.Constants;
    var tokentype = scf.TokenType;
@@ -622,7 +623,7 @@ SocialCalc.Formula.EvaluatePolish = function(parseinfo, revpolish, sheet, allowr
    if (!parseinfo.length || (! (revpolish instanceof Array))) {
       return ({value: "", type: "e#VALUE!", error: (typeof revpolish == "string" ? revpolish : "")});
       }
-
+   //console.log('for Polish');
    for (i=0; i<revpolish.length; i++) {
       rii = revpolish[i];
       if (rii == function_start) { // Remember the start of a function argument list
@@ -633,20 +634,24 @@ SocialCalc.Formula.EvaluatePolish = function(parseinfo, revpolish, sheet, allowr
       prii = parseinfo[rii];
       ttype = prii.type;
       ttext = prii.text;
-
+      //console.log('I am run');
       if (ttype == tokentype.num) {
+         //console.log('ttype == tokentype.num');
          PushOperand("n", ttext-0);
          }
 
       else if (ttype == tokentype.coord) {
+         //console.log('ttype == tokentype.coord');
          PushOperand("coord", ttext);
          }
 
       else if (ttype == tokentype.string) {
+         //console.log('ttype == tokentype.string');
          PushOperand("t", ttext);
          }
 
       else if (ttype == tokentype.op) {
+         //console.log('else if (ttype == tokentype.op)');
          if (operand.length <= 0) { // Nothing on the stack...
             return missingOperandError;
             break; // done
@@ -824,11 +829,13 @@ SocialCalc.Formula.EvaluatePolish = function(parseinfo, revpolish, sheet, allowr
       // function or name
 
       else if (ttype == tokentype.name) {
+         //console.log('scf.CalculateFunction(ttext, operand, sheet)');
          errortext = scf.CalculateFunction(ttext, operand, sheet);
          if (errortext) break;
          }
 
       else {
+         //console.log('errortext = scc.s_InternalError+"Unknown token "+ttype+" ("+ttext+")');
          errortext = scc.s_InternalError+"Unknown token "+ttype+" ("+ttext+"). ";
          break;
          }
@@ -1380,6 +1387,7 @@ SocialCalc.Formula.LookupName = function(sheet, name) {
          sheet.checknamecirc[name] = true;
 
          parseinfo = SocialCalc.Formula.ParseFormulaIntoTokens(value.value.substring(1));
+         //console.log('value = SocialCalc.Formula.evaluate_parsed_formula(parseinfo, sheet, 1);');
          value = SocialCalc.Formula.evaluate_parsed_formula(parseinfo, sheet, 1); // parse formula, allowing range return
 
          delete sheet.checknamecirc[name]; // done with us
@@ -1567,6 +1575,10 @@ SocialCalc.Formula.DecodeRangeParts = function(sheetdata, range) {
 */
 
 SocialCalc.Formula.CalculateFunction = function(fname, operand, sheet) {
+   /*console.log('CalculateFunction');
+   console.log('fname', fname);
+   console.log('operand', operand);
+   console.log('sheet', sheet);*/
 
    var fobj, foperand, ffunc, argnum, ttext;
    var scf = SocialCalc.Formula;

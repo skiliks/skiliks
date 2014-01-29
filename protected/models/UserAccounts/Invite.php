@@ -557,10 +557,14 @@ class Invite extends CActiveRecord
     {
         if (in_array($this->status, [self::STATUS_PENDING])) {
             return sprintf(
-                '<a class=\'blue-btn accept-invite\' data-accept-link=\'' .sprintf('/simulation/promo/%s/%s',
-                    $this->scenario->slug,
-                    $this->id) . '\' href=\'/dashboard/accept-invite/%s\'>%s</a>',
-                $this->id,
+                '<span class="button-white inter-active label icon-arrow-blue reset-margin
+                    action-accept-invite"
+                    data-link-start-now="/simulation/promo/%s/%s"
+                    data-link-start-later="/dashboard/accept-invite/%s"
+                    >%s</span>',
+                $this->scenario->slug, /* data-link-start */
+                $this->id,  /* data-link-start */
+                $this->id, /* data-link-accept */
                 Yii::t('site', 'Принять')
             );
         }
@@ -577,7 +581,8 @@ class Invite extends CActiveRecord
     {
         if (in_array($this->status, [self::STATUS_PENDING])) {
             return sprintf(
-                '<a class=\'decline-link\' title=\'%1$s\' href=\'/dashboard/decline-invite/%1$s\'>%2$s</a>',
+                '<span class=\'table-link unstandard-decline action-decline-invite inter-active\'
+                    data-href=\'/dashboard/decline-invite/%s\'>%s</a>',
                 $this->id,
                 Yii::t('site', 'Отклонить')
             );
@@ -617,6 +622,18 @@ class Invite extends CActiveRecord
                 '/registration/by-link/' . $this->code);
     }
 
+    /**
+     * @return string
+     */
+    public function getDateForDashboard() {
+        return sprintf(
+            '%s/%s/%s',
+            $this->getUpdatedTime()->format("j"),
+            Yii::t('site', $this->getUpdatedTime()->format("M")),
+            $this->getUpdatedTime()->format("o")
+        );
+    }
+
     /* ------------------------------------------------------------------------------------------------------------ */
 
 	/**
@@ -652,8 +669,8 @@ class Invite extends CActiveRecord
             array('email', 'checkSendYourself'),
             array('vacancy_id', 'required', 'message' => Yii::t('site', 'Vacancy is required')),
 			array('owner_id, receiver_id, vacancy_id, status', 'length', 'max'=>10),
-			array('firstname, lastname', 'length', 'max'=>100),
-			array('email, signature', 'length', 'max'=>255),
+			array('firstname, lastname', 'length', 'max'=>50),
+			array('email, signature', 'length', 'max'=>50),
 			array('code', 'length', 'max'=>50),
             array('email', 'email', 'message' => Yii::t('site', 'Wrong email')),
             array('owner_id, email', 'uniqueEmail', 'message' => "Приглашение уже отправлено"),
@@ -814,7 +831,7 @@ class Invite extends CActiveRecord
         return new CActiveDataProvider($this, [
             'criteria' => $criteria,
             'sort' => [
-                'defaultOrder' => 'sent_time',
+                'defaultOrder' => 'sent_time DESC',
                 'sortVar' => 'sort',
                 'attributes' => [
                     'name' => [
@@ -875,7 +892,7 @@ class Invite extends CActiveRecord
 		return new CActiveDataProvider($this, [
 			'criteria' => $criteria,
             'sort' => [
-                'defaultOrder' => 'sent_time',
+                'defaultOrder' => 'sent_time DESC',
                 'sortVar' => 'sort',
                 'attributes' => [
                     'name' => [
@@ -941,7 +958,7 @@ class Invite extends CActiveRecord
         return new CActiveDataProvider($this, [
             'criteria' => $criteria,
             'sort' => [
-                'defaultOrder' => 'sent_time',
+                'defaultOrder' => 'sent_time DESC',
                 'sortVar' => 'sort',
                 'attributes' => [
                     'name' => [

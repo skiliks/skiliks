@@ -42,7 +42,10 @@ define([
                 'click #plannerBookQuarterPlan':                                     'doPlannerBookQuarterPlan',
                 'click #plannerBookDayPlan':                                         'doPlannerBookDayPlan',
                 'click .save-day-plan':                                              'doSaveTomorrowPlan',
-                'webkitTransitionEnd .plan-todo':                                    'doTransitionEnd',
+                'webkitTransitionEnd .plan-todo':                                    'doTransitionEnd', //transitionend msTransitionEnd oTransitionEnd
+                'transitionend .plan-todo':                                          'doTransitionEnd',
+                'msTransitionEnd .plan-todo':                                        'doTransitionEnd',
+                'oTransitionEnd .plan-todo':                                         'doTransitionEnd',
                 'mouseout .planner-book-timetable-event-fl .day-plan-todo-task.day-plan-task-active':'hideHint',
                 'mouseout .planner-book-timetable-afterv-fl .day-plan-todo-task.day-plan-task-active':'hideHint'
 
@@ -59,9 +62,13 @@ define([
 
             // 45 - магическое число. Установленное просто замером,
             // в вёрстке плана поле для задачи именно на столько уже самой колонки дня
-            $('.planner-book-timetable-event-fl').width(
-                $('.planner-book-today-head').width() - 45
-            );
+            if( true !== $.browser['safari'] ) {
+                $('.planner-book-timetable-event-fl').width(
+                    $('.planner-book-today-head').width() - 45
+                );
+            }else{
+                $('.planner-book-timetable-event-fl').css('width', '100%');
+            }
             // IE10-fix }
 
             // что-то случилось с шириной колонкой '.planner-book-head',
@@ -211,13 +218,14 @@ define([
                 prev_cell
                     .attr('rowspan', duration/15);
                 prev_cell.find('.day-plan-todo-task').height(Math.ceil(duration / 15) * 11);
-                var prevRow = task_el.parents('tr');
-                for (var j = 0; j < duration - 15; j += 15) {
+                /* Решение бага 2 задачи SKILIKS-5253 */
+                //var prevRow = task_el.parents('tr');
+                /*for (var j = 0; j < duration - 15; j += 15) {
                     prevRow = prevRow.next();
                     prevRow
                         .find('.planner-book-timetable-event-fl, .planner-book-timetable-afterv-fl')
                         .hide();
-                }
+                }*/
                 return task_el;
             } catch(exception) {
                 if (window.Raven) {
@@ -540,6 +548,7 @@ define([
                 });
                 this.setupDraggable();
                 this.$('.plan-todo-wrap').mCustomScrollbar("update");
+                //console.log('updateTodos');
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -659,9 +668,14 @@ define([
                         me.$('.plan-todo-wrap').mCustomScrollbar("scrollTo", ".day-plan-todo-task[data-task-id="+previousToActive+"]");
                     }
                 }, 0);
-
                 this.setupDroppable();
                 Hyphenator.run();
+                //Нужно для того чтоб решить задачу SKILIKS-5253
+                if($.browser['safari']){
+                    setTimeout(function(){
+                        $('.plan-todo-wrap div.mCustomScrollBox.mCS-light').css('position', 'absolute');
+                    }, 1000);
+                }
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -877,6 +891,7 @@ define([
                 this.$('.planner-book-afterv-table').mCustomScrollbar("update");
                 this.$('.planner-book-timetable').mCustomScrollbar("update");
                 this.$('.plan-todo-wrap').mCustomScrollbar("update");
+
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);

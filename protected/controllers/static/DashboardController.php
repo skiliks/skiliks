@@ -161,6 +161,12 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         $is_display_tariff_expire_pop_up = $this->user->getAccount()->is_display_tariff_expire_pop_up;
         $is_display_user_referral_popup  = $this->user->getAccount()->is_display_referrals_popup;
 
+        $this->layout = 'site_standard_2';
+
+        $this->addSiteCss('_page-dashboard.css');
+        $this->addSiteCss('_page-dashboard-1024.css');
+        $this->addSiteJs('_page-dashboard.js');
+
         $this->render('dashboard_corporate', [
             'invite'              => $invite,
             'inviteToEdit'        => $inviteToEdit,
@@ -181,7 +187,6 @@ class DashboardController extends SiteBaseController implements AccountPageContr
      */
     public function actionPersonal()
     {
-
         $this->checkUser();
         // check and add trial lite version {
         $liteScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_LITE]);
@@ -202,6 +207,12 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             );
             unset(Yii::app()->request->cookies['display_result_for_simulation_id']);
         }
+
+        $this->layout = 'site_standard_2';
+
+        $this->addSiteCss('_page-dashboard.css');
+        $this->addSiteCss('_page-dashboard-1024.css');
+        $this->addSiteJs('_page-dashboard.js');
 
         $this->render('dashboard_personal', [
             'simulation' => $simulation,
@@ -487,6 +498,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         $this->sendJSON([
             'isValid' => $isValid,
             'html'    => $html,
+            'errors'  => json_encode($declineExplanation->getErrors()),
          ]);
     }
 

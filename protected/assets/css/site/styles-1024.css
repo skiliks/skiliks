@@ -1,0 +1,95 @@
+@media screen and (max-width: 1279px) {
+    nav ul li.menu-item span,
+    nav ul li.menu-item a {
+        border-radius: 2px;
+        margin: 0 0 0 0px;
+        padding: 4px 7px;
+    }
+
+    header nav ul li.menu-item .profile-icon {
+        padding-left: 34px;
+    }
+
+    header nav ul li.menu-item .icon-profile-personal,
+    header nav ul li.menu-item .icon-profile-corporate {
+        background-position: 8px 3px;
+        background-size: 13px auto;
+    }
+
+    .copyright-box {
+        height: 23px;
+    }
+
+    .copyright-box span {
+        height: 23px;
+        line-height: 23px;
+    }
+
+    .share-buttons-box {
+        margin-right: 222px;
+    }
+
+    .copyright {
+        margin-left: 197px;
+    }
+
+    .icon-circle-with-blue-arrow {
+        background-position: 6px center;
+        padding-left: 25px;
+    }
+
+    header nav.account-links {
+        height: 41px;
+    }
+
+    header nav.account-links ul {
+        margin-top: 8px;
+    }
+
+    header nav.static-page-links {
+        height: 66px;
+    }
+
+    header nav.static-page-links ul {
+        margin-top: 20px;
+    }
+
+    footer nav.static-page-links {
+        height: 95px;
+    }
+
+    .footer-clear-fix {
+        height: 126px;
+    }
+
+    .logo-footer-link {
+        height: 38px;
+        width:  144px;
+    }
+
+    .link-to-top {
+        padding-top: 16px;
+    }
+
+    footer .footer-logo {
+        margin-top: 28px;
+    }
+
+    footer .static-page-links ul {
+        margin-top: 36px;
+    }
+
+    /* --- */
+
+    .ui-dialog.popup-form textarea {
+        height: 110px;
+        width: 478px;
+    }
+
+    .ui-dialog #feedback-form #Feedback_email {
+        margin-right: 16px;
+        padding-left: 16px;
+        padding-right: 16px;
+        width: 309px;
+    }
+}

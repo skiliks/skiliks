@@ -15,6 +15,7 @@ class SecurityController extends SiteBaseController {
         '195.69.87.166',   // Киев - Андрей домашний
         '62.205.135.161',   // Teamcity
         '188.32.209.89', // Таня
+        '77.47.204.138', // Таня
         '86.62.110.225', // Лея
         '218.32.56.5', // www.freesitestatus.com/monitored-by-user-slavka
     ];
@@ -50,7 +51,7 @@ class SecurityController extends SiteBaseController {
 
         // --------------------------
 
-        $file = file_get_contents(__DIR__.'/../access-logs/access2.log');
+        $file = file_get_contents(__DIR__.'/../access-logs/access.log');
 
         // $file = htmlspecialchars($file);
 

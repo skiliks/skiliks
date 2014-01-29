@@ -10,21 +10,11 @@
     }
 }
 
-/* --- */
-
 .share-buttons-box {
     margin-right: 270px;
     height: 34px;
     vertical-align: middle;
 }
-
-@media screen and (max-width: 1279px) {
-    .share-buttons-box {
-        margin-right: 222px;
-    }
-}
-
-/* --- */
 
 .social-networks-share-links label {
     color: #fff;
@@ -41,7 +31,7 @@
 }
 
 .share-button a {
-    background: url("../../img/site/social-networks/social-networks-icons.png") no-repeat;
+    background: url("../../img/site/1280/social-networks/social-networks-icons.png") no-repeat;
     cursor: pointer;
     height: 33px;
     width: 34px;

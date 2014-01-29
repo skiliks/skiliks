@@ -26,7 +26,17 @@ class SiteBaseController extends CController {
     public $app;
 
     /**
-     * Определение языка, задание параметров некоторых сайта
+     * @var string
+     */
+    public $assetsUrl;
+
+    /**
+     * @var CClientScript
+     */
+    public $clientScripts;
+
+    /**
+     * Определение языка, задание некоторых параметров сайта
      * @param CAction $action
      * @return bool
      */
@@ -66,6 +76,9 @@ class SiteBaseController extends CController {
             $cookie->expire = time() + 86400 * 365;
             Yii::app()->request->cookies['_lang'] = $cookie;
         }
+
+        $this->assetsUrl = $this->getAssetsUrl();
+        $this->clientScripts = Yii::app()->getClientScript();
 
         return true;
     }
@@ -203,5 +216,35 @@ class SiteBaseController extends CController {
      */
     public function getConfig($name) {
         return Yii::app()->params[$name];
+    }
+
+    /**
+     * Добавляет CSS в список файлов подгружаемых со страницей
+     * @param string $path, like '_page-dashboard.css'
+     */
+    public function addSiteCss($path) {
+        $this->clientScripts->registerCssFile($this->assetsUrl.'/css/site/'.$path);
+    }
+
+    /**
+     * @param string $path, like '_page-dashboard.js'
+     */
+    public function addSiteJs($path) {
+        $this->clientScripts->registerScriptFile($this->assetsUrl.'/js/site/'.$path);
+    }
+
+    /**
+     * Позволяет кратко добавить CSS стиль 'error' или ''
+     * в зависимости от того имеет ли поле $fieldName ошибку валидации.
+     * Используется в местах где автодобавление класса не работае само-собой
+     *
+     * @param CActiveForm $form
+     * @param mixed $model, object
+     * @param string $fieldName
+     *
+     * @return string
+     */
+    public function hasErrors($form, $model, $fieldName) {
+        return (null == $form->error($model, $fieldName)) ? '' : 'error';
     }
 }

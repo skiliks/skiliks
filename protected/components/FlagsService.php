@@ -64,9 +64,9 @@ class FlagsService
      */
     public static function getFlagsStateForJs(Simulation $simulation) {
         $result = [];
-        $stack = SimulationFlagQueue::model()->findAllByAttributes(['sim_id' => $simulation->id]);
         // display flags for developers only ! :) no chanses for cheatting
         if ($simulation->isDevelopMode()) {
+            $stack = SimulationFlagQueue::model()->findAllByAttributes(['sim_id' => $simulation->id]);
             foreach (SimulationFlag::model()->findAllByAttributes(['sim_id' => $simulation->id]) as $flag) {
                 $result[$flag->flag]['value'] = $flag->value;
                 $result[$flag->flag]['name'] = $flag->flagObj->description;

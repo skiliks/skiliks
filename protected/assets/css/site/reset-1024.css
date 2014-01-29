@@ -1,0 +1,24 @@
+@media screen and (max-width: 1279px) {
+    body {
+        font-size: 12px; /* 1em for 1280- */
+    }
+
+    header {
+        height: 118px;
+    }
+
+    footer.main-content {
+        height: 308px;
+    }
+
+    textarea, input {
+        box-shadow: 8px 4px 8px rgba(0, 0, 0, 0.1) inset;
+        height: 21px;
+    }
+
+    section.main-content {
+        /* странно почему секция с контентом сдвинута влево при 1024 */
+        /* ... ну, приходится компенсировать сдвиг: */
+        padding-left: 8px;
+    }
+}
