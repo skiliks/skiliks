@@ -498,7 +498,7 @@ class ProfileController extends SiteBaseController implements AccountPageControl
             'vacancy_id' => $vacancy->id,
         ]);
         if (0 < $counter) {
-            Yii::app()->user->setFlash('error', 'Вы не можете удалить позицию с которой уже связаны приглашения');
+            Yii::app()->user->setFlash('error', 'Вы не можете удалить позицию, с которой уже связаны приглашения');
             $this->redirect($this->createUrl('profile/corporate/vacancies/' ));
         }
 

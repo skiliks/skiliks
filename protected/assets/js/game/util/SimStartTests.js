@@ -27,6 +27,13 @@ try {
                     safari: 7
                 };
 
+                var maxSupportTitle = {
+                    mozilla: "Mozilla Firefox "+maxSupport['mozilla'],
+                    chrome: "Google Chrome "+maxSupport['chrome'],
+                    msie: "Internet Explorer "+maxSupport['msie'],
+                    safari: "Safari "+maxSupport['safari']
+                };
+
                 /**
                  * Также есть проверка в SiteController->actionSimulation().
                  * Она нужна -- потому что в IE8, текущая JS проверка валится.
@@ -42,7 +49,7 @@ try {
                         if ($.browser[name]) {
                             if (parseFloat($.browser.version) >= minSupport[name] && this.isAllowOS(cfg.isSkipOsCheck, ['Windows', 'MacOS'])) {
                                 if(parseFloat($.browser.version) > maxSupport[name]) {
-                                    if(confirm("Похоже, вы используете бета версию браузера или нестандартную его сборку. Мы не можем гарантировать 100% работоспособность приложения. Если вы продолжите, вы берёте ответственность за, возможное, зависание приложения на себя") === false){
+                                    if(confirm("Похоже, вы используете бета-версию браузера. Симуляция может работать нестабильно. Рекомендуем использовать "+maxSupportTitle[name]) === false){
                                         location.href = '/dashboard';
                                         return false;
                                     }
