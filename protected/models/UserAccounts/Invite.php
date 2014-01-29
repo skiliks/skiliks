@@ -427,7 +427,10 @@ class Invite extends CActiveRecord
             return false;
         }
         /* @var $account UserAccountCorporate */
-        if($account->getActiveTariffPlan()->id === $this->tariff_plan_id) {
+        $is_current_tariff_plan = $account->getActiveTariffPlan()->id === $this->tariff_plan_id;
+        $is_paid_tariff_plan = $account->getActiveTariffPlan()->tariff->slug !== Tariff::SLUG_FREE && $account->getActiveTariffPlan()->tariff->slug !== Tariff::SLUG_LITE_FREE;
+        if($is_current_tariff_plan || $is_paid_tariff_plan) {
+
             $account->invites_limit++;
             $account->save(false);
         }

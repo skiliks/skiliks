@@ -77,7 +77,7 @@ class UserServiceUnitTest extends CDbTestCase
             'referall-unit-text2@kiliks.com']);
         //Создаем корпоративного пользователя для тестов
         $user_corporate  = new YumUser('registration');
-        $user_corporate->setAttributes(['password'=>'123123', 'password_again'=>'123123', 'agree_with_terms'=>'yes']);
+        $user_corporate->setAttributes(['password'=>'Skiliks123123', 'password_again'=>'Skiliks123123', 'agree_with_terms'=>'yes']);
         $profile_corporate  = new YumProfile('registration_corporate');
         $profile_corporate->setAttributes(['firstname'=>'Алексей', 'lastname'=>'Сафронов', 'email'=>'test-corporate-phpunit-account@skiliks.com']);
         $account_corporate = new UserAccountCorporate('corporate');
@@ -106,7 +106,7 @@ class UserServiceUnitTest extends CDbTestCase
 
         //Создаем персонального пользователя
         $user_personal  = new YumUser('registration');
-        $user_personal->setAttributes(['password'=>'123123', 'password_again'=>'123123', 'agree_with_terms'=>'yes']);
+        $user_personal->setAttributes(['password'=>'Skiliks123123', 'password_again'=>'Skiliks123123', 'agree_with_terms'=>'yes']);
         $profile_personal  = new YumProfile('registration');
         $profile_personal->setAttributes(['firstname'=>'Альфред', 'lastname'=>'Хичкок', 'email'=>'test-private-phpunit-account@skiliks.com']);
         $account_personal = new UserAccountPersonal('personal');
@@ -271,7 +271,7 @@ class UserServiceUnitTest extends CDbTestCase
         $this->assertTrue($result);
 
         $user_referral  = new YumUser('registration');
-        $user_referral->setAttributes(['password'=>'123123', 'password_again'=>'123123', 'agree_with_terms'=>'yes']);
+        $user_referral->setAttributes(['password'=>'Skiliks123123', 'password_again'=>'Skiliks123123', 'agree_with_terms'=>'yes']);
         $profile_referral  = new YumProfile('registration_corporate');
         $profile_referral->setAttributes(['firstname'=>'Августин', 'lastname'=>'Пупанов']);
         $account_referral = new UserAccountCorporate('corporate');
@@ -294,7 +294,7 @@ class UserServiceUnitTest extends CDbTestCase
         $this->assertTrue($result);
 
         $user_referral2  = new YumUser('registration');
-        $user_referral2->setAttributes(['password'=>'123123', 'password_again'=>'123123', 'agree_with_terms'=>'yes']);
+        $user_referral2->setAttributes(['password'=>'Skiliks123123', 'password_again'=>'Skiliks123123', 'agree_with_terms'=>'yes']);
         $profile_referral2  = new YumProfile('registration_corporate');
         $profile_referral2->setAttributes(['firstname'=>'Августин', 'lastname'=>'Пупанов']);
         $account_referral2 = new UserAccountCorporate('corporate');
@@ -335,10 +335,10 @@ class UserServiceUnitTest extends CDbTestCase
         $this->assertEquals($invite2->status, Invite::STATUS_EXPIRED);
 
         $assert_account_corporate->refresh();
-        $this->assertEquals($assert_account_corporate->invites_limit, $tariff->simulations_amount);
+        $this->assertEquals($assert_account_corporate->invites_limit, $tariff->simulations_amount + 1 );//Возвращена симуляция 1 за то что человек заплатил за тариф
 
         // и +1 рефералл
-        $this->assertEquals($assert_account_corporate->getTotalAvailableInvitesLimit(), $tariff->simulations_amount + 1);
+        $this->assertEquals($assert_account_corporate->getTotalAvailableInvitesLimit(), $tariff->simulations_amount + 1 + 1);
 
         $this->assertEquals($assert_account_corporate->getActiveTariff()->slug, Tariff::SLUG_LITE);
         //Тест 3.1. Проверить, что при устаревании тарифного плана, после LiteFree у человека будет Free.
@@ -366,7 +366,7 @@ class UserServiceUnitTest extends CDbTestCase
             'test-corporate-phpunit-account@skiliks.com']);
         //Создаем корпоративного пользователя для тестов
         $user_corporate  = new YumUser('registration');
-        $user_corporate->setAttributes(['password'=>'123123', 'password_again'=>'123123', 'agree_with_terms'=>'yes']);
+        $user_corporate->setAttributes(['password'=>'Skiliks123123', 'password_again'=>'Skiliks123123', 'agree_with_terms'=>'yes']);
         $profile_corporate  = new YumProfile('registration_corporate');
         $profile_corporate->setAttributes(['firstname'=>'Алексей', 'lastname'=>'Сафронов', 'email'=>'test-corporate-phpunit-account@skiliks.com']);
         $account_corporate = new UserAccountCorporate('corporate');
