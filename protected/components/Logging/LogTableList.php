@@ -192,9 +192,21 @@ namespace application\components\Logging {
 
         public function saveLogsAsExcelReport2()
         {
-            $companyName = $this->simulation->invite->ownerUser->getAccount()->ownership_type.
-                ' '.$this->simulation->invite->ownerUser->getAccount()->company_name;
-            $name = $this->simulation->invite->lastname . " " . $this->simulation->invite->firstname;
+            //echo 'start sim_id = '.$this->simulation->id."\r\n";
+            if($this->simulation->invite === null || $this->simulation->invite->ownerUser === null || $this->simulation->invite->ownerUser->getAccount() === null){
+                $companyName = 'getAccount() return null or user or invite not define, very bad';
+            }elseif($this->simulation->invite->ownerUser->getAccount() instanceof \UserAccountPersonal){
+                $companyName = 'user account is personal';
+            }else{
+                $companyName =  $this->simulation->invite->ownerUser->getAccount()->ownership_type.
+                    ' '.$this->simulation->invite->ownerUser->getAccount()->company_name;
+            }
+            if($this->simulation->invite !== null) {
+                $name = $this->simulation->invite->lastname . " " . $this->simulation->invite->firstname;
+
+            }else{
+                $name = 'invite not found';
+            }
             $simulation_id = $this->simulation->id;
 
             if(!$this->xls_file) {
