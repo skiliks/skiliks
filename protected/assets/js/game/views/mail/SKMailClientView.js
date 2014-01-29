@@ -1935,7 +1935,7 @@ define([
                         });
                     });
                     mainPhrasesHtml += "</table>";
-                    debugger;
+                    //debugger;
                     if (phrases.length) {
                         this.$("#mailEmulatorNewLetterTextVariants").html(mainPhrasesHtml);
                         // this.$("#mailEmulatorNewLetterTextVariantsAdd").html(additionalPhrasesHtml);
