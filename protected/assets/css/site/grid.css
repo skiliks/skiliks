@@ -276,7 +276,8 @@ input.inputs-wide-height {
 }
 
 .popup-information p,
-.popup-information li {
+.popup-information li,
+.flash-data {
     font-size: 1.3em;
     line-height: 1em;
 }
