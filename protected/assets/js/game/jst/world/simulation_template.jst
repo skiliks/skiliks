@@ -21,7 +21,7 @@
     </ul>
     <ul class="top-right-icons">
         <@ if(!$.browser['msie']){ @>
-            <@ if($.browser['safari'] && parseFloat($.browser.version) >= 7){ @>
+            <@ if(!$.browser['safari'] || ($.browser['safari'] && parseFloat($.browser.version) >= 7)){ @>
                 <li><a class="fullscreen"></a></li>
             <@ } @>
         <@ } @>
