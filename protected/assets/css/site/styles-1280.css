@@ -282,3 +282,24 @@ input.button-standard {
     margin-top: 20px;
 }
 
+/* --- */
+
+.link-recovery {
+    float: right;
+    padding-right: 21px;
+}
+
+#YumUserLogin_username,
+#YumUserLogin_password,
+#YumPasswordRecoveryForm_email {
+    width: 256px;
+}
+
+.unstandard-password-recovery,
+.unstandard-registration-link {
+    padding-right: 15px;
+}
+
+.flash-password-recovery {
+    margin: 75px 0 0;
+}

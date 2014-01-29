@@ -56,7 +56,7 @@
                 [
                     'label'       => Yii::t('site', 'Sign in'),
                     'url'         => ['/user/auth'],
-                    'linkOptions' => ['class' => 'sign-in-link label'],
+                    'linkOptions' => ['class' => 'action-sign-in locator-button-sign-in label'],
                     'visible'     => $isGuest && 'ru' == Yii::app()->getLanguage(),
                 ],
                 [

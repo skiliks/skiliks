@@ -80,6 +80,74 @@ $(document).ready(function () {
     // autoOpen переписан нами, и теперь центритует dialog по высоте
     // а флеш-сообщения надо по высоте тавнять с низом header
     $('.locator-flash').dialog('open');
+
+    // 5) ign-in
+    $('.action-sign-in').click(function(event){
+        event.preventDefault(event);
+
+        var dialog = $(".locator-box-sign-in");
+
+        dialog.dialog({
+            autoOpen: false,
+            closeOnEscape: true,
+            dialogClass: 'popup-auth background-dark-blue',
+            minHeight: 220,
+            modal: true,
+            position: {
+                my: "right top",
+                at: "right bottom",
+                of: $('.locator-button-sign-in')
+            },
+            resizable: false,
+            width: getDialogAuthWindowWidth()
+        });
+
+         dialog.dialog("open");
+
+        return false;
+    });
+
+    // 6) Восстановление пароля
+    $('.action-password-recovery').click(function(event){
+        $(".locator-box-sign-in").dialog("close");
+
+        var dialog = $(".locator-password-recovery");
+
+        dialog.dialog({
+            autoOpen: false,
+            closeOnEscape: true,
+            dialogClass: 'popup-auth background-dark-blue',
+            minHeight: 220,
+            modal: true,
+            position: {
+                my: "right top",
+                at: "right bottom",
+                of: $('.locator-button-sign-in')
+            },
+            resizable: false,
+            width: getDialogAuthWindowWidth()
+        });
+
+        dialog.dialog("open");
+    });
+
+    // 7)
+    $('.locator-password-recovery-success').dialog({
+        autoOpen: false,
+        closeOnEscape: true,
+        dialogClass: 'popup-auth background-dark-blue',
+        minHeight: 220,
+        modal: true,
+        position: {
+            my: "right top",
+            at: "right bottom",
+            of: $('.locator-button-sign-in')
+        },
+        resizable: false,
+        width: getDialogAuthWindowWidth()
+    });
+
+    $('.locator-password-recovery-success').dialog("open");
 });
 
 // 1)
@@ -109,12 +177,21 @@ function getDialogWindowWidth(padding) {
     }
 }
 
-// 2.1) Определяет ширину
+// 2.1) Определяет ширину стандартные "2/3 ширины сайта"
 function getDialogWindowWidth_2of3() {
     if ($(document).width() < 1281) {
         return 576;
     } else {
         return 719;
+    }
+}
+
+// 2.2) Определяет ширину для окон автиризации и аоввтановления пароля
+function getDialogAuthWindowWidth() {
+    if ($(document).width() < 1281) {
+        return 283;
+    } else {
+        return 283;
     }
 }
 
@@ -131,5 +208,23 @@ window.feedbackSubmit = function feedbackSubmit(form, data, hasError) {
             location.reload();
         });
     }
+    return false;
+};
+
+// 5) authentication Validation
+window.authenticateValidation = function authenticateValidation(form, data, hasError) {
+    if (!hasError && 'undefined' == typeof data.YumUserLogin_form) {
+        location.href = '/dashboard';
+    }
+
+    return false;
+};
+
+// 6)
+window.passwordRecoverySubmit = function passwordRecoverySubmit(form, data, hasError) {
+    if (!hasError) {
+        location.reload();
+    }
+
     return false;
 };

@@ -16,6 +16,8 @@ class PagesController extends SiteBaseController
 
     public function actionIndex()
     {
+        $this->layout = 'site_standard_2';
+
         /* @var $user YumUser */
         $this->render('home', [
             'assetsUrl'          => $this->getAssetsUrl(),

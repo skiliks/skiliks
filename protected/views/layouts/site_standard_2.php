@@ -154,5 +154,7 @@ $cs->registerCssFile($assetsUrl . "/css/site/styles-1024.css");
     'isDisplayAccountLinks' => true
 ]) ?>
 
+<?php $this->renderPartial('//global_partials/_sing_in') ?>
+
 </body>
 </html>

@@ -2,11 +2,14 @@
 
 $cs = Yii::app()->clientScript;
 $assetsUrl = $this->getAssetsUrl();
+
 $cs->scriptMap=array(
-    'jquery.js'=>$assetsUrl . '/js/jquery/jquery-1.10.2.js',
-    'jquery.min.js'=>$assetsUrl . '/js/jquery/jquery-1.10.2.js',
-    'jquery.ba-bbq.js'=>$assetsUrl . '/js/jquery/jquery.ba-bbq.js',
+    'jquery.js'        => $assetsUrl . '/js/site/jquery/jquery-1.10.2.js',
+    'jquery-min.js'    => false,
+    'jquery.ba-bbq.js' => false, /* не обновляется с 2010 года! @link http://benalman.com/code/projects/jquery-bbq/docs/files/jquery-ba-bbq-js.html */
+    'jquery.yiilistview.js' => false
 );
+
 $cs->registerCoreScript('jquery');
 $cs->registerScriptFile($assetsUrl . "/js/jquery/jquery.browser.js");
 $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery-migrate-1.1.1.min.js');

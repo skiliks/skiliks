@@ -135,6 +135,7 @@
 
 /* --- */
 
+.skiliks .ui-widget input.button-white,
 .button-white {
     background: url("../../img/site/1280/buttons/button-white-background.png") no-repeat 0 0;
     box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.23);
@@ -147,6 +148,12 @@
     height: 30px;
     margin-left: 15px;
     text-decoration: none;
+}
+
+.skiliks .ui-widget input.button-white:hover,
+.button-white:hover {
+    background-position: 0 -30px;
+    color: #ffffff;
 }
 
 .page-title-box .button-white {
@@ -178,6 +185,13 @@
 
 .background-dark-blue {
     background-color: #146672;
+}
+
+.background-dark-blue,
+.background-dark-blue a,
+.background-dark-blue div,
+.background-dark-blue span,
+.background-dark-blue label {
     color: white;
 }
 
@@ -287,6 +301,24 @@ input.inputs-wide-height {
     width: 21px;
 }
 
-.popup-information .bottom-margin-standard {
+.bottom-margin-standard {
     margin-bottom: 20px;
+}
+
+/* --- */
+
+.row {
+    padding: 15px 0 0;
+}
+
+.row-26 {
+    height: 26px;
+}
+
+.row-13 {
+    height: 13px;
+}
+
+.popup-auth .ui-widget-content {
+    padding: 6px 21px 21px 6px; /* 15+6 21 21 15+6 */
 }

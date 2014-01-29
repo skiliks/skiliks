@@ -5923,3 +5923,7 @@ ul.default li:hover {
 .partial-label {
     display: none;
 }
+
+.hide {
+    display: none;
+}

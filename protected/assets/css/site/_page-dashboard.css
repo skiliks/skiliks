@@ -48,10 +48,6 @@
     height: 243px;
 }
 
-.row {
-    padding: 15px 0 0;
-}
-
 .button-add-vacancy {
     background: url("../../img/site/1280/buttons/plus.png") no-repeat scroll 50% 50% #DDDDDD;
     border-radius: 4px;
@@ -439,10 +435,6 @@ i.icon-doc {
 .ui-dialog form .sbHolder,
 .ui-dialog form .sbOptions {
     width: 396px;
-}
-
-.row-26 {
-    height: 26px;
 }
 
 .ui-dialog form#add-vacancy-form .error-place {

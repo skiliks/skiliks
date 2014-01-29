@@ -603,15 +603,18 @@ class UserAuthController extends YumController
         }
 
         if (null !== $YumPasswordRecoveryForm) {
-            $recoveryForm->attributes = $YumPasswordRecoveryForm;
-            if(isset($_POST['ajax']) && $_POST['ajax']==='password-recovery-form')
+               $recoveryForm->attributes = $YumPasswordRecoveryForm;
+            if(isset($_POST['ajax']) && $_POST['ajax'] === 'password-recovery-form')
             {
-                echo CActiveForm::validate($recoveryForm);
-                Yii::app()->end();
+                $errors = json_decode(CActiveForm::validate($recoveryForm));
+
+                if (0 < count($errors)) {
+                    echo json_encode($errors);
+                    Yii::app()->end();
+                }
             }
 
             if ($recoveryForm->validate() && $recoveryForm->user instanceof YumUser && $recoveryForm->user->status > 0) {
-
                 $user = $recoveryForm->user;
 
                 if($recoveryForm->user->isBanned()) {
@@ -623,7 +626,7 @@ class UserAuthController extends YumController
                 $result = $this->sendPasswordRecoveryEmail($user);
 
                 if ($result) {
-                    Yii::app()->user->setFlash('recovery-popup', 'На ваш email выслана инструкция по смене пароля.');
+                    Yii::app()->user->setFlash('password-recovery', 'На ваш email выслана инструкция по смене пароля.');
                     if (!Yii::app()->request->getIsAjaxRequest()) {
                         $this->redirect('/');
                     } else {
