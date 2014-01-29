@@ -189,7 +189,6 @@ class SeleniumTestHelper extends CWebTestCase
         $this->waitForElementPresent($theme);
         $this->mouseOver($theme);
         $this->click($theme);
-        //$this->logTestResult("call phone to ". $whom. "by theme: ". $theme. "\n");
     }
 
     /**
@@ -199,7 +198,6 @@ class SeleniumTestHelper extends CWebTestCase
     {
         $this->optimal_click(Yii::app()->params['test_mappings']['icons_active']['phone']);
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
-        //$this->logTestResult("reply call when active\n");
     }
 
     /**
@@ -209,7 +207,6 @@ class SeleniumTestHelper extends CWebTestCase
     {
         $this->optimal_click(Yii::app()->params['test_mappings']['icons_active']['phone']);
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['no_reply']);
-        //$this->logTestResult("no reply call when active\n");
     }
 
     /**
@@ -219,7 +216,6 @@ class SeleniumTestHelper extends CWebTestCase
     {
         $this->optimal_click(Yii::app()->params['test_mappings']['icons_active']['mail']);
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['to_whom']);
-        //$this->logTestResult("start write email when active\n");
     }
 
     /**
@@ -245,7 +241,7 @@ class SeleniumTestHelper extends CWebTestCase
                 $this->optimal_click(Yii::app()->params['test_mappings']['mail']['popup_unsave']);
             }
         }
-        //$this->logTestResult("write email when mail icon status is unidentified\n", true, $this->invite_id);
+        $this->logTestResult("write email when mail icon status is unidentified\n", true, $this->invite_id);
     }
 
     /**
@@ -290,7 +286,6 @@ class SeleniumTestHelper extends CWebTestCase
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], $time_array[0]);
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], $time_array[1]);
         $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
-        //$this->logTestResult("transfer time at ". $differ. " minutes\n");
         return $time_array;
     }
 
@@ -322,7 +317,6 @@ class SeleniumTestHelper extends CWebTestCase
             }
             usleep(100000);
         }
-        //$this->logTestResult("verify flag ". $num_flag. " \n");
         return $was_changed;
     }
 
@@ -371,7 +365,6 @@ class SeleniumTestHelper extends CWebTestCase
                 $same_number=true;
             }
         }
-        //$this->logTestResult("test incoming counter\n", true, $this->invite_id);
         return $same_number;
     }
 
@@ -380,7 +373,6 @@ class SeleniumTestHelper extends CWebTestCase
     {
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
         $this->optimal_click("xpath=(//*[contains(text(),'новое письмо')])");
-        //$this->logTestResult("write email\n");
     }
 
     // метод добавления получателя к письму
@@ -392,7 +384,6 @@ class SeleniumTestHelper extends CWebTestCase
         $this->mouseOver($address);
         $this->optimal_click($address);
         sleep(2);
-        //$this->logTestResult("add recipient ". $address. " to mail\n");
     }
 
     // метод добавления темы к письму
@@ -401,7 +392,6 @@ class SeleniumTestHelper extends CWebTestCase
         $this->waitForVisible("xpath=//*[@id='MailClient_NewLetterSubject']/div/a");
         $this->click("xpath=//*[@id='MailClient_NewLetterSubject']/div/a");
         $this->click($theme);
-        //$this->logTestResult("add theme ". $theme. " to mail\n");
     }
 
     // метод добавления атача к письму
@@ -411,7 +401,6 @@ class SeleniumTestHelper extends CWebTestCase
         $this->waitForVisible("xpath=(//*[contains(text(), '$filename')])");
         $this->mouseOver("xpath=(//*[contains(text(), '$filename')])");
         $this->click("xpath=(//*[contains(text(), '$filename')])");
-        //$this->logTestResult("add attachment ". $filename. " to mail\n");
     }
 
     // метод для очистки не нужных событий из очереди событий
@@ -423,7 +412,7 @@ class SeleniumTestHelper extends CWebTestCase
         $event .= '.1';
         $this->run_event($event, Yii::app()->params['test_mappings']['icons_active']['phone'], 'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['no_reply']);
-        //$this->logTestResult("delete from event queue ". $event. "\n", true, $this->invite_id);
+        $this->logTestResult("delete from event queue ". $event. "\n", true, $this->invite_id);
     }
 
     //*****************************************************
