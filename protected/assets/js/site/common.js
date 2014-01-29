@@ -57,6 +57,29 @@ $(document).ready(function () {
             }
         });
     });
+
+    // 4) flash messages
+    $('.locator-flash').dialog({
+        autoOpen: false,
+        closeOnEscape: true,
+        dialogClass: "background-sky popup-form pull-content-center",
+        minHeight: 50,
+        modal: true,
+        resizable: false,
+        width: getDialogWindowWidth_2of3(),
+        position: {
+            my: 'center top',
+            at: 'center bottom',
+            of: $('header.main-content')
+        },
+        open: function() {
+            $('.locator-flash').removeClass('hide');
+        }
+    });
+
+    // autoOpen переписан нами, и теперь центритует dialog по высоте
+    // а флеш-сообщения надо по высоте тавнять с низом header
+    $('.locator-flash').dialog('open');
 });
 
 // 1)
@@ -87,7 +110,7 @@ function getDialogWindowWidth(padding) {
 }
 
 // 2.1) Определяет ширину
-function getDashboardDialogWindowWidth() {
+function getDialogWindowWidth_2of3() {
     if ($(document).width() < 1281) {
         return 576;
     } else {

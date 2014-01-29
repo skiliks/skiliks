@@ -6092,6 +6092,7 @@ $.widget("ui.dialog", {
 		minHeight: 150,
 		minWidth: 150,
 		modal: false,
+        isSkiliks: false,
 		position: {
 			my: 'center',
 			at: 'center',

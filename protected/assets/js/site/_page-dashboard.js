@@ -263,7 +263,7 @@ $(document).ready(function () {
             resizable: false,
             draggable: false,
             title: '',
-            width: getDashboardDialogWindowWidth(),
+            width: getDialogWindowWidth_2of3(),
             position: {
                 my: "left top",
                 at: "left top",
@@ -296,7 +296,7 @@ $(document).ready(function () {
             modal: true,
             resizable: false,
             draggable: false,
-            width: getDashboardDialogWindowWidth(),
+            width: getDialogWindowWidth_2of3(),
             height: 530,
             position: {
                 my: "right top",
@@ -380,7 +380,7 @@ $(document).ready(function () {
                     autoOpen:    true,
                     resizable:   false,
                     draggable:   false,
-                    width:       getDashboardDialogWindowWidth(),
+                    width:       getDialogWindowWidth_2of3(),
                     height:   370,
                     position: {
                         my: 'left top',

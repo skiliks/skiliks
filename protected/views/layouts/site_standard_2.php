@@ -149,5 +149,10 @@ $cs->registerCssFile($assetsUrl . "/css/site/styles-1024.css");
     <?php // $this->renderPartial('//global_partials/_google_analytics') ?>
     <?php $this->renderPartial('//global_partials/_before_start_lite_simulation_popup', []) ?>
 </section>
+
+<?php $this->renderPartial('//global_partials/_flash_messages', [
+    'isDisplayAccountLinks' => true
+]) ?>
+
 </body>
 </html>
