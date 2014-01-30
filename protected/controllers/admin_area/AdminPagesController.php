@@ -1771,12 +1771,7 @@ class AdminPagesController extends SiteBaseController {
 
         // applying filters
         // sender_email {
-        if (isset($formFilters['sender_email'])) {
-            $filterSenderEmail = $formFilters['sender_email'];
-        } else {
-            $filterSenderEmail = Yii::app()->request->getParam('sender_email', null);
-            $formFilters['sender_email'] = $filterSenderEmail;
-        }
+        $filterSenderEmail = Yii::app()->request->getParam('sender_email', null);
 
         if($filterSenderEmail !== null) {
             $filterSenderEmail = trim($filterSenderEmail);
@@ -1784,13 +1779,7 @@ class AdminPagesController extends SiteBaseController {
         }
         // sender_email }
 
-        // recipients {
-        if (isset($formFilters['recipients'])) {
-            $filterRecipients = $formFilters['recipients'];
-        } else {
-            $filterRecipients = Yii::app()->request->getParam('recipients', null);
-            $formFilters['recipients'] = $filterRecipients;
-        }
+        $filterRecipients = Yii::app()->request->getParam('recipients', null);
 
         if($filterRecipients !== null) {
             $filterRecipients = trim($filterRecipients);
