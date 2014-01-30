@@ -1409,7 +1409,7 @@ class AdminPagesController extends SiteBaseController {
     public function actionUserDetailsByEmail() {
         $email = Yii::app()->request->getParam('email');
         $email = trim($email);
-        $profile = YumProfile::model()->findByAttributes(['email' => urldecode($email)]);
+        $profile = YumProfile::model()->findByAttributes(['email' => $email]);
 
         if (null === $profile) {
             Yii::app()->user->setFlash('error', sprintf('Не найден пользователь с email "%s".' ,$email));
