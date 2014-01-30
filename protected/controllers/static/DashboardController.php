@@ -103,6 +103,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         }
 
         // handle send invitation {
+        //Отправка Инвайта
         if (null !== Yii::app()->request->getParam('send')) {
 
             $profile = YumProfile::model()->findByAttributes(['email' => strtolower($invite->email)]);
