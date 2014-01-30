@@ -223,7 +223,7 @@ return [
         'enter' => "name=yt0"
     ],
 
-    'site_register' =>
+    'site_register' => /// ничего еще не меняла из локаторов
     [
         'free_access1' => "xpath=//*[@id='top']/div[2]/section[1]/a",
         'free_access2' => "xpath=//*[@id='top']/div[4]/footer/a",
@@ -239,7 +239,7 @@ return [
         'close_terms' => 'css=.ui-icon.ui-icon-closethick'
     ],
 
-    'personal' =>
+    'personal' => /// ничего еще не меняла из локаторов
     [
         'dashboard' => "xpath=//*[@id='yw2']/li[1]/a",
         'my_profile' => "xpath=//*[@id='yw2']/li[2]/a",
@@ -255,7 +255,7 @@ return [
         'decline_invite' => "css=.decline-link"
     ],
 
-    'corporate' =>
+    'corporate' => /// ничего еще не меняла из локаторов
     [
         'username' => "css=.top-profile.top-profile-corp",
         'startLite' => "css=.start-lite-simulation-btn.light-btn",
@@ -269,14 +269,14 @@ return [
         'invites_limit' => "xpath=//div/section/aside/div[2]/div/span"
     ],
 
-    'popup_send_invite' =>
+    'popup_send_invite' =>  /// ничего еще не меняла из локаторов
     [
         'fullName' => "css=#Invite_fullname",
         'send' => "css=input[name='send']",
         //TODO: Дополнить маппинги для тексовых полей, чекбокса, скролов и т.д.
     ],
 
-    'register_by_link' =>
+    'register_by_link' =>  /// ничего еще не меняла из локаторов
     [
         'enter_for_registered' => "css=.text-right>a",
         'invite_name' => "css=#YumProfile_firstname",
@@ -309,9 +309,9 @@ return [
 
     'user_auth' =>
     [
-        'email' => "css=#YumUserLogin_username",
-        'password'=>"css=#YumUserLogin_password",
-        'login' => "css=.row.submit>input",
+        'email' => "xpath=//*[@class='enter_form']//..//*[@id='YumUserLogin_username']",
+        'password'=>"xpath=//*[@class='enter_form']//..//*[@id='YumUserLogin_password']",
+        'login' => "xpath=//*[@class='enter_form']//..//*[@name='yt0']",
         'remember_me' => "css=.niceCheck"
     ],
 ];
