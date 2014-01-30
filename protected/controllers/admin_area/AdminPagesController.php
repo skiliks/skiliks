@@ -1936,14 +1936,14 @@ class AdminPagesController extends SiteBaseController {
 
         $i = 3;
         foreach ($assessments as $assessment) {
-            $worksheet->setCellValueByColumnAndRow(1, $i, $assessment->sim->invite->id );
+            $worksheet->setCellValueByColumnAndRow(1, $i, isset($assessment->sim->invite)?$assessment->sim->invite->id:"Нет инвайта" );
             $worksheet->setCellValueByColumnAndRow(2, $i, $assessment->sim->id );
             $worksheet->setCellValueByColumnAndRow(3, $i, $assessment->sim->user->profile->email );
             $worksheet->setCellValueByColumnAndRow(4, $i, $assessment->sim->start );
             $worksheet->setCellValueByColumnAndRow(5, $i, $assessment->sim->end );
             $worksheet->setCellValueByColumnAndRow(6, $i, $assessment->sim->status );
-            $worksheet->setCellValueByColumnAndRow(7, $i, $assessment->sim->invite->getOverall() );
-            $worksheet->setCellValueByColumnAndRow(8, $i, $assessment->sim->invite->getPercentile() );
+            $worksheet->setCellValueByColumnAndRow(7, $i, $assessment->sim->getOverall() );
+            $worksheet->setCellValueByColumnAndRow(8, $i, $assessment->sim->getPercentile() );
             $i++;
         }
 
