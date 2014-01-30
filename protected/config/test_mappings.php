@@ -208,19 +208,19 @@ return [
     ],
 
     'site' => [
-        'logIn' => "css=.sign-in-link",
-        'logOut' => "css=.log-out-link",
-        'notRegDemo'=>"css=.start-lite-simulation-btn.main-menu-demo",
-        'recovery' => "css=.link-recovery",
+        'logIn' => "css=.action-sign-in",
+        'logOut' => "css=.locator-log-out-link",
+        'notRegDemo'=>"css=.start-lite-simulation-btn",
+        'recovery' => "css=.action-password-recovery",
         'recovery_email' => "css=#YumPasswordRecoveryForm_email",
-        'recovery_button' => "css=.row.buttons>input",
-        'change_pass' => "css=#YumUserChangePassword_password",
-        'verify_pass' => "css=#YumUserChangePassword_verifyPassword",
-        'save_new_pass' => "xpath=//*[@id='change-password-form']/div[3]/input",
-        'logo_img' => "xpath=//*[@id='top']/header/h1/a/img",
+        'recovery_button' => "name=yt1",
+        'change_pass' => "css=#YumUserChangePassword_password",  // not yet
+        'verify_pass' => "css=#YumUserChangePassword_verifyPassword", // not yet
+        'save_new_pass' => "xpath=//*[@id='change-password-form']/div[3]/input", // not yet
+        'logo_img' => "css=.locator-logo-head",
         'username' => "css=#YumUserLogin_username",
         'userpass' => "css=#YumUserLogin_password",
-        'enter' => "css=.submit>input"
+        'enter' => "name=yt0"
     ],
 
     'site_register' =>
