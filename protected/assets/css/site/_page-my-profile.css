@@ -57,9 +57,9 @@
     margin-top: 15px;
 }
 
-.sbSelector,
-.sbHolder {
-    font-size: 0.84em;
+.controller-static-profile .column-2-3-wide .sbSelector,
+.controller-static-profile .column-2-3-wide .sbHolder {
+    font-size: 0.9em;
 }
 
 #add-vacancy-form .sbSelector,
