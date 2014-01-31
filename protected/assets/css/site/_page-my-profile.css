@@ -57,10 +57,16 @@
     margin-top: 15px;
 }
 
+.sbSelector,
+.sbHolder {
+    font-size: 0.84em;
+}
+
 #add-vacancy-form .sbSelector,
 #add-vacancy-form .sbHolder {
     width: 452px;
 }
+
 #add-vacancy-form input[type="text"] {
     width: 445px;
 }
