@@ -3,8 +3,9 @@
     <h1 class="bottom-margin-standard"><?php echo Yii::t('site', 'Profile') ?></h1>
 </section>
 
-<section class="pull-content-left nice-border reset-padding
-    border-radius-standard background-transparent-20 unstandard-content-box-height">
+<section class="pull-content-left nice-border reset-padding  overflow-hidden
+    border-radius-standard background-transparent-20
+    locator-content-box">
 
     <!--div class="transparent-boder profilewrap"-->
     <aside class="column-1-3 inline-block background-yellow border-radius-standard vertical-align-top">
@@ -22,7 +23,7 @@
                 'emptyText' => '',
                 'hideHeader'    => true,
                 'htmlOptions' => [
-                    'class' => 'light-list-table'
+                    'class' => 'light-list-table locator-light-list-table'
                 ],
                 'pager' => [
                     'header'        => false,

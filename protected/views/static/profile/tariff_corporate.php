@@ -4,7 +4,7 @@
 </section>
 
 <section class="pull-content-left nice-border reset-padding
-    border-radius-standard background-transparent-20 unstandard-content-box-height">
+    border-radius-standard background-transparent-20">
 
     <!--div class="transparent-boder profilewrap"-->
     <aside class="column-1-3 inline-block background-yellow border-radius-standard vertical-align-top">

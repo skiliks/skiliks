@@ -45,8 +45,4 @@
     #add-vacancy-form input[type="text"] {
         width: 367px;
     }
-
-    #add-vacancy-form .button-standard {
-        margin-left: -34px;
-    }
 }

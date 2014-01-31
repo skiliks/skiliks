@@ -39,7 +39,7 @@
             </div>
 
             <div class="row">
-                <?php echo $form->labelEx($account, 'company_description'); ?>
+                <?php echo $form->labelEx($account, 'company_description', ['class' => 'vertical-align-top']); ?>
                 <?php echo $form->textArea($account, 'company_description', ['rows' => 5, 'cols' => 41]); ?>
                 <?php echo $form->error($account, 'company_description'); ?>
             </div>

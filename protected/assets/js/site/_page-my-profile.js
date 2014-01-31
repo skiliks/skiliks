@@ -4,9 +4,22 @@ $(document).ready(function () {
     $('.action-show-add-vacancy-form').click(function(){
         if ($('.locator-add-vacancy-form').hasClass('hide')) {
             $('.locator-add-vacancy-form').removeClass('hide');
-            $('.unstandard-content-box-height').css('height', '500px')
+
+            // к блоку контента применено overflow:hidden
+            // но из-за него не будет видно выыпадающего списка
+            $('.locator-content-box').removeClass('overflow-hidden');
+
+            // если убираем overflow:hidden
+            // то надо задавать высоту вручную
+            $('.locator-content-box').css(
+                'height',
+                $('.locator-light-list-table').height() + 355 + 'px'
+            );
+
         } else {
+            // возвращаем удалённые классы
             $('.locator-add-vacancy-form').addClass('hide');
+            $('.locator-content-box').addClass('overflow-hidden');
         }
     });
 

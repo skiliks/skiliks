@@ -53,7 +53,7 @@
 /* --- */
 
 #add-vacancy-form .button-standard {
-    margin-left: -50px;
+    float: left;
     margin-top: 15px;
 }
 
@@ -69,10 +69,6 @@
 
 #add-vacancy-form input[type="text"] {
     width: 445px;
-}
-
-.unstandard-content-box-height {
-    height: 300px;
 }
 
 .data strong,
