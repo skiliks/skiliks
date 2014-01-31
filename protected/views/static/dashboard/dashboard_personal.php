@@ -42,7 +42,7 @@
 
     <section class="
         locator-corporate-invitations-list-box
-        corporate-invitations-list-box column-2-3-condensed
+        corporate-invitations-list-box column-2-3-wide
         pull-content-right inline-block vertical-align-top mark-up-block">
 
         <label class="mark-up-label">#Dashboard-column-2-3</label>
@@ -57,7 +57,7 @@
             <div class="table-footer"></div>
         </div>
 
-        <div class="pager-place"></div>
+        <div class="pager-place locator-pager-place"></div>
 
         <?php $this->renderPartial('partials/accept-invite-warning-popup', []) ?>
 

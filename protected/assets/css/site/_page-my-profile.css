@@ -1,0 +1,122 @@
+.profile-menu {
+    width: 100%;
+}
+
+.profile-menu li {
+    background: url("../../img/menutopbg.png") repeat-x 0 49px;
+    list-style-type: none;
+}
+
+.profile-menu li:last-child {
+    background-image: none;
+}
+
+.profile-menu li a {
+    background: url("../../img/menuarrows.png") no-repeat 354px -65px;
+    color: #555742;
+    font-size: 1.3em;
+    padding: 12px 20px 12px 12px;
+    width: 100%;
+}
+
+.profile-menu li.active a,
+.profile-menu li a:hover {
+    background-position: 354px 17px;
+    color: #245057;
+}
+
+.profile-menu li.active {
+    background-color: #ffffff;
+}
+
+.profile-right-side {
+    padding: 30px;
+}
+
+.controller-static-profile .column-2-3-wide {
+    width: 699px;
+    font-size: 1.2em;
+}
+
+.controller-static-profile .column-2-3-wide .button-white {
+    font-size: 0.8em;
+}
+
+.controller-static-profile .column-2-3-wide .button-standard {
+    font-size: 1.06em;
+}
+
+.profile-right-side label {
+    width: 240px;
+}
+
+/* --- */
+
+#add-vacancy-form .button-standard {
+    margin-left: -50px;
+    margin-top: 15px;
+}
+
+#add-vacancy-form .sbSelector,
+#add-vacancy-form .sbHolder {
+    width: 452px;
+}
+#add-vacancy-form input[type="text"] {
+    width: 445px;
+}
+
+.unstandard-content-box-height {
+    height: 300px;
+}
+
+.data strong,
+.data small {
+    display: block;
+}
+
+.data strong {
+    color: #245057;
+    font-size: 1.42em;
+    font-weight: normal;
+}
+
+.data small {
+    color: #959595;
+    font-family: "ProximaNova-Regular";
+    font-size: 0.8em;
+}
+
+.action-controller-corporateTariff-static-profile label {
+    padding-top: 5px;
+}
+
+.action-controller-corporateTariff-static-profile small {
+    margin-top: -10px
+}
+
+.unstandard-second-column {
+    width: 150px;
+}
+
+.contrast-table {
+    font-size: 0.9em;
+}
+
+.contrast-table th a {
+    font-size: 0.8em;
+}
+
+.action-controller-corporateReferrals-static-profile .column-2-3-wide {
+    padding-bottom: 0;
+}
+
+.action-controller-corporateReferrals-static-profile .table-footer,
+.contrast-table table {
+    margin-left: -30px;
+    width: 759px;
+}
+
+.contrast-table table.items tr th:nth-child(1),
+.contrast-table table.items tr td:nth-child(1) {
+    padding-left: 30px;
+}

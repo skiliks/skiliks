@@ -119,6 +119,12 @@ class ProfileController extends SiteBaseController implements AccountPageControl
             $positions[$position->id] = $position->label;
         }
 
+        $this->layout = 'site_standard_2';
+
+        $this->addSiteCss('_page-my-profile.css');
+        $this->addSiteCss('_page-my-profile-1024.css');
+        $this->addSiteJs('_page-my-profile.js');
+
         $this->render('personal_data_corporate', [
             'profile'   => $profile,
             'account'   => $account,
@@ -131,8 +137,6 @@ class ProfileController extends SiteBaseController implements AccountPageControl
      */
     public function actionPassword()
     {
-
-
         $this->getBaseViewPath = 'Password';
 
         $this->accountPagesBase();
@@ -167,7 +171,14 @@ class ProfileController extends SiteBaseController implements AccountPageControl
                 //$this->redirect();
             }
         }
+
         $profile = YumProfile::model()->findByAttributes(['user_id'=>$this->user->id]);
+
+        $this->layout = 'site_standard_2';
+
+        $this->addSiteCss('_page-my-profile.css');
+        $this->addSiteCss('_page-my-profile-1024.css');
+        $this->addSiteJs('_page-my-profile.js');
 
         $this->render('password_corporate', [
             'passwordForm' => $passwordForm,
@@ -266,6 +277,12 @@ class ProfileController extends SiteBaseController implements AccountPageControl
             $sizes[$size->id] = $size->label;
         }
 
+        $this->layout = 'site_standard_2';
+
+        $this->addSiteCss('_page-my-profile.css');
+        $this->addSiteCss('_page-my-profile-1024.css');
+        $this->addSiteJs('_page-my-profile.js');
+
         $this->render('company_info_corporate', [
             'account' => $account,
             'industries' => $industries,
@@ -301,6 +318,7 @@ class ProfileController extends SiteBaseController implements AccountPageControl
         if(!$this->user->isCorporate()){
             $this->redirect('/dashboard');
         }
+
         $vacancy = new Vacancy();
 
         if (null !== Yii::app()->request->getParam('id')) {
@@ -309,13 +327,15 @@ class ProfileController extends SiteBaseController implements AccountPageControl
                 $vacancy = new Vacancy();
             }
         }
+
         $specializations = StaticSiteTools::formatValuesArrayLite(
-                'ProfessionalSpecialization',
-                'id',
-                'label',
-                "",
-                'Выберите специализацию'
-            );
+            'ProfessionalSpecialization',
+            'id',
+            'label',
+            "",
+            'Выберите специализацию'
+        );
+
         $positionLevels = StaticSiteTools::formatValuesArrayLite(
             'PositionLevel',
             'slug',
@@ -323,6 +343,12 @@ class ProfileController extends SiteBaseController implements AccountPageControl
             '',
             'Выберите уровень позиции'
         );
+
+        $this->layout = 'site_standard_2';
+
+        $this->addSiteCss('_page-my-profile.css');
+        $this->addSiteCss('_page-my-profile-1024.css');
+        $this->addSiteJs('_page-my-profile.js');
 
         $this->render('vacancies_corporate', [
             'vacancy'         => $vacancy,
@@ -397,10 +423,20 @@ class ProfileController extends SiteBaseController implements AccountPageControl
             $this->redirect('/dashboard');
         }
 
+        $this->layout = 'site_standard_2';
+
+        $this->addSiteCss('_page-my-profile.css');
+        $this->addSiteCss('_page-my-profile-1024.css');
+        $this->addSiteJs('_page-my-profile.js');
+
         $this->render('tariff_corporate', ['user'=>$this->user]);
     }
 
-    public function actionCorporateReferrals() {
+    /**
+     *
+     */
+    public function actionCorporateReferrals()
+    {
         $this->checkUser();
 
         if(!$this->user->isCorporate()){
@@ -410,30 +446,40 @@ class ProfileController extends SiteBaseController implements AccountPageControl
         $dataProvider = UserReferral::model()->searchUserReferrals($this->user->id);
 
         $totalReferrals = UserReferral::model()->countUserReferrals($this->user->id);
-        $this->render('referrals_corporate', ["totalReferrals"=>$totalReferrals, 'dataProvider' => $dataProvider]);
+
+        $this->layout = 'site_standard_2';
+
+        $this->addSiteCss('_page-my-profile.css');
+        $this->addSiteCss('_page-my-profile-1024.css');
+        $this->addSiteJs('_page-my-profile.js');
+
+        $this->render('referrals_corporate', [
+            "totalReferrals" => $totalReferrals,
+            'dataProvider'   => $dataProvider
+        ]);
     }
 
     /**
      *
      */
-    public function actionPaymentMethod()
-    {
-        $this->getBaseViewPath = 'PaymentMethod';
-        
-        $this->accountPagesBase();
-    }
+//    public function actionPaymentMethod()
+//    {
+//        $this->getBaseViewPath = 'PaymentMethod';
+//
+//        $this->accountPagesBase();
+//    }
 
     /**
      *
      */
-    public function actionCorporatePaymentMethod()
-    {
-        $this->checkUser();
-        if(!$this->user->isCorporate()){
-            $this->redirect('/dashboard');
-        }
-        $this->render('payment_method_corporate', []);
-    }
+//    public function actionCorporatePaymentMethod()
+//    {
+//        $this->checkUser();
+//        if(!$this->user->isCorporate()){
+//            $this->redirect('/dashboard');
+//        }
+//        $this->render('payment_method_corporate', []);
+//    }
 
     /* ---------------- */
 

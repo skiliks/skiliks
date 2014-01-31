@@ -148,6 +148,24 @@ $(document).ready(function () {
     });
 
     $('.locator-password-recovery-success').dialog("open");
+
+    // 8) код для стандартного переключателя hide/unhide
+    $('.action-toggle-hide').click(function(){
+        if ($(this).hasClass('hide')) {
+            $(this).removeClass('hide');
+        } else {
+            $(this).addClass('hide');
+        }
+    });
+
+    // 9 )
+    window.addVacancyValidation = function addVacancyValidation(form, data, hasError) {
+        console.log(form, data, hasError);
+        if (!hasError) {
+            window.location.href = form.attr('data-url');
+        }
+        return false;
+    };
 });
 
 // 1)

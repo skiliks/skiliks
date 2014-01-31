@@ -5,6 +5,9 @@
         'emptyText'   => '',
         'nullDisplay' => '',
         'ajaxUpdate'  => false,
+        'htmlOptions' => [
+            'class' => 'contrast-table',
+        ],
         'pager' => [
             'header'         => false,
             'firstPageLabel' => '<< начало',
@@ -13,8 +16,8 @@
             'lastPageLabel'  => 'конец >>',
     ],
         'columns' => [
-            ['header' => 'E-mail'            , 'name' => 'referral_email', 'value' => '$data->referral_email'],
-            ['header' => 'Дата'         , 'name' => 'invited_at'    , 'value' => '$data->invited_at'    ],
+            ['header' => 'E-mail' , 'name' => 'referral_email', 'value' => '$data->referral_email'],
+            ['header' => 'Дата'   , 'name' => 'invited_at'    , 'value' => '$data->invited_at'    ],
             ['header' => 'Статус' ,
              'name'   => 'status' ,
              'value' => function($data) {
@@ -24,10 +27,12 @@
                      '<img src="'.$assetsUrl.'/img/referral-bonus.png" style="margin-left: 20px; margin-top:-4px;" />';
                  }
                  elseif($data->isRejected()) {
-                     return '<a class="showDialogRejected" data-reject-reason=\''. $data->reject_reason . '\'" href="#">Не начислено</a>';
+                     // showDialogRejected
+                     return '<a class="inter-active table-link action-show-status" data-status="'. $data->reject_reason . '" href="#">Не начислено</a>';
                  }
                  elseif($data->isPending()) {
-                     return '<a class="showDialogPending" href="#">В ожидании</a>';
+                     // showDialogPending
+                     return '<a class="inter-active table-link action-show-status" data-status="Пользователь ' . $data->referral_email . ' ещё не зарегистрировался на www.skiliks.com" href="#">В ожидании</a>';
                  }
             },
              'type' => 'raw'
