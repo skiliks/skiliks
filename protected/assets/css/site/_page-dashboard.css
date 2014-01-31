@@ -307,11 +307,11 @@ i.icon {
 }
 
 i.icon-excel {
-    background-image: url("../../img/documents/xls.png");
+    background-image: url("../../img/site/1280/buttons/icon-xls.png");
 }
 
 i.icon-doc {
-    background-image: url("../../img/documents/doc.png");
+    background-image: url("../../img/site/1280/buttons/icon-doc.png");
 }
 
 .link-with-background label{

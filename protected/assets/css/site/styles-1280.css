@@ -157,7 +157,7 @@ input.button-standard {
 }
 
 .popover-triangle {
-    background: url("../../img/tooltip-blue-arrow.png") no-repeat right center;
+    background: url("../../img/site/1280/general-style/tooltip-blue-arrow.png") no-repeat right center;
     float: left;
     font-size: 0;
     height: 16px;
@@ -215,13 +215,13 @@ input.button-standard {
 }
 
 .rating-percentile-indicator {
-    background: url("../../img/percentil_men_big.png") no-repeat 0 -18px;
+    background: url("../../img/site/1280/assessment/percentil.png") no-repeat 0 -18px;
     height: 18px;
     width: 74px;
 }
 
 .rating-percentile-indicator-level {
-    background: url("../../img/percentil_men_big.png") no-repeat 0 0;
+    background: url("../../img/site/1280/assessment/percentil.png") no-repeat 0 0;
     height: 18px;
 }
 
@@ -239,14 +239,14 @@ input.button-standard {
 }
 
 .rating-stars-indicator {
-    background-image: url("../../img/ratestars2.png");
+    background-image: url("../../img/site/1280/assessment/stars.png");
     background-repeat: no-repeat;
     height: 14px;
     width: 85px;
 }
 
 .rating-stars-indicator-level {
-    background-image: url("../../img/ratestars2.png");
+    background-image: url("../../img/site/1280/assessment/stars.png");
     background-position: 0 -14px;
     background-repeat: no-repeat;
     height: 14px;

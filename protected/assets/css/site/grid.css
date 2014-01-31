@@ -462,11 +462,11 @@ input.inputs-wide-height {
 
 .contrast-table table.items th a.desc,
 .contrast-table .items th a {
-    background: url("../../img/arrow-down.png") no-repeat scroll 0 50% rgba(0, 0, 0, 0);
+    background: url("../../img/site/1280/buttons/arrow-down.png") no-repeat scroll 0 50% rgba(0, 0, 0, 0);
 }
 
 .contrast-table table.items th a.asc {
-    background: url("../../img/arrow-up.png")   no-repeat scroll 0 50% rgba(0, 0, 0, 0) !important;
+    background: url("../../img/site/1280/buttons/arrow-up.png")   no-repeat scroll 0 50% rgba(0, 0, 0, 0) !important;
 }
 
 .contrast-table .summary {
