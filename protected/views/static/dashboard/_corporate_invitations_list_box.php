@@ -21,6 +21,9 @@
         'summaryText' => '',
         'emptyText'   => '',
         'nullDisplay' => '',
+        'htmlOptions' => [
+            'class' => 'contrast-table locator-contrast-table'
+        ],
         'pager' => [
             'header'         => false,
             'firstPageLabel' => '',

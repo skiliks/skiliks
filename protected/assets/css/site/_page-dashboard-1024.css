@@ -1,12 +1,12 @@
 @media screen and (max-width: 1279px) {
     /* Corporate Dashboard - Имя */
-    .action-controller-corporate-static-dashboard .grid-view tr td:nth-child(2) {
+    .action-controller-corporate-static-dashboard .contrast-table tr td:nth-child(2) {
         max-width: 120px;
         min-width: 100px;
     }
 
     /* Corporate Dashboard - Позиция */
-    .action-controller-corporate-static-dashboard .grid-view tr td:nth-child(3) {
+    .action-controller-corporate-static-dashboard .contrast-table tr td:nth-child(3) {
         max-width: 120px;
         min-width: 100px;
     }
@@ -60,11 +60,6 @@
 
     #invite-form .button-white {
         margin-left: 60px;
-    }
-
-    .skiliks .grid-view table.items th,
-    .skiliks .grid-view table.items th a {
-        line-height: 1.1em;
     }
 
     .controller-static-dashboard .inner-popover {

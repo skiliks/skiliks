@@ -1,66 +1,90 @@
-<?php /* @var $user YumUser */ ?>
-<h2 class="thetitle"><?php echo Yii::t('site', 'Profile') ?></h2>
 
-<div class="transparent-boder profilewrap">
-<?php $this->renderPartial('_menu_corporate', ['active' => ['tariff' => true]]) ?>
+<section class="page-title-box column-full pull-content-left ">
+    <h1 class="bottom-margin-standard"><?php echo Yii::t('site', 'Profile') ?></h1>
+</section>
 
-    <div class="form profileform tarifform">
-        <div class="row">
+<section class="pull-content-left nice-border reset-padding
+    border-radius-standard background-transparent-20">
+
+    <!--div class="transparent-boder profilewrap"-->
+    <aside class="column-1-3 inline-block background-yellow border-radius-standard vertical-align-top">
+        <?php $this->renderPartial('_menu_corporate', ['active' => ['tariff' => true]]) ?>
+    </aside>
+
+    <section class="column-2-3-wide inline-block border-radius-standard background-F3FFFF
+         pull-right pull-content-left vertical-align-top profile-right-side">
+
+        <div class="data">
             <?php if (null === $user->getAccount()->tariff) : ?>
-                <label>Тарифный план</label>
-                <div class="value">не выбран</div>
+                <label class="vertical-align-top">Тарифный план</label>
+                <span class="unstandard-second-column">
+                    <strong>не выбран</strong>
+                </span>
             <?php else : ?>
-                <label>Выбран тарифный план</label>
-                <div class="value">
-                    <?php echo $user->getAccount()->getTariffLabel() ?>
-                    <br/>
-                    <small class="tarifprice"><?php echo $user->getAccount()->tariff->getFormattedPrice(Yii::app()->getLanguage()) ?> руб. </small>
-                </div>
+                <label class="vertical-align-top">Выбран тарифный план</label>
+                <span class="unstandard-second-column">
+                    <strong>
+                        <?php echo $user->getAccount()->getTariffLabel() ?>
+                    </strong>
+                    <small>
+                        <?php echo $user->getAccount()->tariff->getFormattedPrice(Yii::app()->getLanguage()) ?> руб.
+                    </small>
+                </span>
             <?php endif ?>
 
             <?php if($user->account_corporate->getActiveTariff()->isDisplayOnTariffsPage()) : ?>
-                <div class="action">
-                    <a class="light-btn make-order-button" href="/static/tariffs">Сменить</a>
-                </div>
+                <a class="button-white inter-active label icon-arrow-blue vertical-align-top" href="/static/tariffs">
+                    Сменить
+                </a>
             <?php endif ?>
         </div>
 
-        <div class="row rowpad30">
-            <label>Действителен до</label>
-            <div class="value">
-                <?php if (null === $user->getAccount()->tariff) : ?>
-                    не указано
-                <?php else : ?>
-                    <?php echo date('d.m.Y', strtotime($user->getAccount()->tariff_expired_at)) ?>
-                <?php endif ?>
-            </div>
+        <div class="data row">
+            <label class="vertical-align-top">Действителен до</label>
+            <span class="unstandard-second-column">
+                <strong>
+                    <?php if (null === $user->getAccount()->tariff) : ?>
+                        не указано
+                    <?php else : ?>
+                        <?php echo date('d', strtotime($user->getAccount()->tariff_expired_at)) ?>
+                        <?php echo Yii::t('site', date('M', strtotime($user->getAccount()->tariff_expired_at))) ?>.
+                        <?php echo date('Y', strtotime($user->getAccount()->tariff_expired_at)) ?>
+                    <?php endif ?>
+                </strong>
+            </span>
+
             <?php if($user->account_corporate->getActiveTariff()->isDisplayOnTariffsPage()) : ?>
-                <div class="action">
-                    <a class="light-btn make-order-button" href="/payment/order/<?= $user->getAccount()->tariff->slug ?>">Продлить</a>
-                </div>
+                 <a class="button-white inter-active label icon-arrow-blue vertical-align-top" href="/payment/order/<?= $user->getAccount()->tariff->slug ?>">
+                     Продлить
+                 </a>
             <?php else : ?>
-                <div class="action">
-                    <a class="light-btn make-order-button" href="/static/tariffs">Сменить</a>
-                </div>
+                <a class="button-white inter-active label icon-arrow-blue vertical-align-top" href="/static/tariffs">
+                    Сменить
+                </a>
             <?php endif ?>
         </div>
 
-        <div class="row">
-            <label>Доступно симуляций</label>
-            <div class="value">
-                <span class="simulations-counter"><?php echo $user->getAccount()->getTotalAvailableInvitesLimit() ?></span><br/>
-                <small class="expire-date">
+        <div class="data row">
+            <label class="vertical-align-top">Доступно симуляций</label>
+            <span class="unstandard-second-column">
+                <strong>
+                    <?php echo $user->getAccount()->getTotalAvailableInvitesLimit() ?>
+                </strong>
+                <small>
 
                     <?php if (null === $user->getAccount()->tariff) : ?>
                         Без ограничения по времени
                     <?php else : ?>
                         До <?php echo date('d', strtotime($user->getAccount()->tariff_expired_at)), " ",
-                            Yii::t('site', date('M', strtotime($user->getAccount()->tariff_expired_at))), " ",
-                            date('Y', strtotime($user->getAccount()->tariff_expired_at));
+                        Yii::t('site', date('M', strtotime($user->getAccount()->tariff_expired_at))), " ",
+                        date('Y', strtotime($user->getAccount()->tariff_expired_at));
                         ?>
                     <?php endif ?>
                 </small>
-            </div>
+            </span>
         </div>
-    </div>
-</div>
+
+    </section>
+</section>
+
+<div class="clearfix column-full"></div>

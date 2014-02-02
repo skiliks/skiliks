@@ -8,7 +8,7 @@
         width: 275px;
     }
 
-    .column-2-3-condensed {
+    .column-2-3-wide {
         width: 600px;
     }
 
@@ -30,5 +30,18 @@
     .button-white {
         line-height: 2.5em;
         margin-left: 0px;
+    }
+
+    /* --- contrast-table --- */
+
+    .contrast-table table.items th,
+    .contrast-table table.items th a {
+        line-height: 1.1em;
+    }
+
+    /* --- */
+
+    .page-title-box {
+        margin: 0 0 32px;
     }
 }

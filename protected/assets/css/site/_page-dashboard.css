@@ -8,18 +8,10 @@
     font-size: 1.78em;
 }
 
-.controller-static-dashboard .page-title-box {
-    margin: 0 0 40px 0;
-}
-
 .controller-static-dashboard #invite-form label {
     display: inline-block;
     padding-right: 6px;
     width: 60px;
-}
-
-.clearfix {
-   height: 200px;
 }
 
 /* --- */
@@ -109,153 +101,63 @@
     margin-bottom: 100px;
 }
 
-.table-head {
-    background-color: #146672;
-    border-radius: 8px 8px 0 0;
-    height: 8px;
-    font-size: 0px;
-    line-height: 0px;
-    width: 100%;
-}
-
-.table-footer {
-    background-color: #FEFEEC;
-    border-radius: 0 0 8px 8px;
-    height: 8px;
-    font-size: 0px;
-    line-height: 0px;
-    margin-top: 0px;
-    width: 100%;
-}
-
-.grid-view .summary {
-    margin: 0px !important;
-}
-
 /* --- redefine /framework/zii/widgets/assets/gridview/styles.css { */
 
-.skiliks .grid-view {
-    padding: 0;
-}
-
-.skiliks .grid-view table.items,
-.skiliks .grid-view table.items tr,
-.skiliks .grid-view table.items th,
-.skiliks .grid-view table.items td {
-    border: 0;
-}
-
-.skiliks .grid-view table.items,
-.skiliks .grid-view table.items th {
-    background: none;
-}
-
-.skiliks .grid-view table.items th {
-    background-color: #146672;
-    border-bottom: 1px solid #0E4750;
-}
-
-.skiliks .grid-view table.items tr td {
-    text-align: left;
-    /*font-weight: bold;*/ /* ну некрасиво */
-    height: 40px;
-    padding-left: 8px;
-}
-
-.skiliks .grid-view table.items tr,
-.skiliks .grid-view table.items tr.even,
-.skiliks .grid-view table.items tr.even td,
-.skiliks .grid-view table.items tr:hover {
-    background-color: #FEFEEC;
-}
-
-.skiliks .grid-view table.items tr.odd,
-.skiliks .grid-view table.items tr.odd td {
-    background-color: #FDFBC6;
-}
-
-.skiliks .grid-view table.items td {
-    font-size: 0.9em;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
 /* Corporate Dashboard - Имя */
-.action-controller-corporate-static-dashboard .grid-view tr td:nth-child(2) {
+.action-controller-corporate-static-dashboard .contrast-table tr td:nth-child(2) {
     max-width: 250px;
 }
 
 /* Corporate Dashboard - Позиция */
-.action-controller-corporate-static-dashboard .grid-view tr td:nth-child(3) {
+.action-controller-corporate-static-dashboard .contrast-table tr td:nth-child(3) {
     max-width: 200px;
 }
 
 /* Corporate Dashboard - Статус */
-.action-controller-corporate-static-dashboard .grid-view tr td:nth-child(4) {
+.action-controller-corporate-static-dashboard .contrast-table tr td:nth-child(4) {
     width: 90px;
 }
 
 /* Corporate Dashboard - Дата */
-.action-controller-corporate-static-dashboard .grid-view tr td:nth-child(5) {
+.action-controller-corporate-static-dashboard .contrast-table tr td:nth-child(5) {
     width: 80px;
 }
 
 /* Corporate Dashboard - Рейтинг */
-.action-controller-corporate-static-dashboard .grid-view tr td:nth-child(6) {
+.action-controller-corporate-static-dashboard .contrast-table tr td:nth-child(6) {
     max-width: 150px;
 }
 
 /* Personal Dashboard - Компания */
-.action-controller-personal-static-dashboard .grid-view tr td:nth-child(1) {
+.action-controller-personal-static-dashboard .contrast-table tr td:nth-child(1) {
     width: 140px;
 }
 
 /* Personal Dashboard - Позиция */
-.action-controller-personal-static-dashboard .grid-view tr td:nth-child(2) {
+.action-controller-personal-static-dashboard .contrast-table tr td:nth-child(2) {
     width: 150px;
 }
 
 /* Personal Dashboard - Оценка (Официальное название сценария) */
-.action-controller-personal-static-dashboard .grid-view tr td:nth-child(3) {
+.action-controller-personal-static-dashboard .contrast-table tr td:nth-child(3) {
     width: 150px;
 }
 
 /* Personal Dashboard - Дата */
-.action-controller-personal-static-dashboard .grid-view tr td:nth-child(4) {
+.action-controller-personal-static-dashboard .contrast-table tr td:nth-child(4) {
     width: 80px;
 }
 
 /* Personal Dashboard - Статус */
-.action-controller-personal-static-dashboard .grid-view tr td:nth-child(5) {
+.action-controller-personal-static-dashboard .contrast-table tr td:nth-child(5) {
     width: 200px;
 }
 
-.action-controller-personal-static-dashboard .grid-view tr td:nth-child(5) section {
+.action-controller-personal-static-dashboard .contrast-table tr td:nth-child(5) section {
     display: inline-block;
 }
 
 /* стрелки сортировки */
-
-.skiliks .grid-view table.items th a.desc,
-.skiliks .grid-view .items th a,
-.skiliks .grid-view .items th {
-    color: #ffffff;
-    text-align: left;
-}
-
-.skiliks .grid-view table.items th a.desc,
-.skiliks .grid-view .items th a {
-    padding-left: 12px;
-}
-
-.skiliks .grid-view table.items th a.desc,
-.skiliks .grid-view .items th a {
-    background: url("../../img/arrow-down.png") no-repeat scroll 0 50% rgba(0, 0, 0, 0);
-}
-
-.skiliks .grid-view table.items th a.asc {
-    background: url("../../img/arrow-up.png")   no-repeat scroll 0 50% rgba(0, 0, 0, 0) !important;
-}
 
 /* pager: */
 
@@ -405,11 +307,11 @@ i.icon {
 }
 
 i.icon-excel {
-    background-image: url("../../img/documents/xls.png");
+    background-image: url("../../img/site/1280/buttons/icon-xls.png");
 }
 
 i.icon-doc {
-    background-image: url("../../img/documents/doc.png");
+    background-image: url("../../img/site/1280/buttons/icon-doc.png");
 }
 
 .link-with-background label{

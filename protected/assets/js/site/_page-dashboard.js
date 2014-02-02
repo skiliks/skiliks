@@ -107,8 +107,8 @@ $(document).ready(function () {
     });
 
     // 5) перемещаем .pager в нужное место
-    $('.pager-place').html($('.grid-view .pager').html());
-    $('.grid-view .pager').html('');
+    $('.locator-pager-place').html($('.locator-contrast-table .pager').html());
+    $('.locator-contrast-table .pager').html('');
 
     // 6) initActionOpenFullSimulationPopUp
     function initActionOpenFullSimulationPopUp() {
@@ -279,14 +279,7 @@ $(document).ready(function () {
         $(".form-vacancy").dialog('open');
     });
 
-    // 11)
-    window.addVacancyValidation = function addVacancyValidation(form, data, hasError) {
-        console.log(form, data, hasError);
-        if (!hasError) {
-            window.location.href = form.attr('data-url');
-        }
-        return false;
-    };
+    // 11) переместил в common.js
 
     // 12) показать попап второго шага Отправки приглашения
     if ($(".locator-form-invite-step-2")) {

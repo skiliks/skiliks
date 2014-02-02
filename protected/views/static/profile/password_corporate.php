@@ -1,52 +1,53 @@
+<section class="page-title-box column-full pull-content-left ">
+    <h1 class="bottom-margin-standard"><?php echo Yii::t('site', 'Profile') ?></h1>
+</section>
 
-<h2 class="thetitle"><?php echo Yii::t('site', 'Profile') ?></h2>
+<section class="pull-content-left nice-border reset-padding
+    border-radius-standard background-transparent-20">
 
-<div class="transparent-boder profilewrap">
+    <aside class="column-1-3 inline-block background-yellow border-radius-standard vertical-align-top">
+        <?php $this->renderPartial('_menu_corporate', ['active' => ['password' => true]]) ?>
+    </aside>
 
-<?php $this->renderPartial('_menu_corporate', ['active' => ['password' => true]]) ?>
+    <section class="column-2-3-wide inline-block border-radius-standard background-F3FFFF
+         pull-right pull-content-left vertical-align-top profile-right-side">
+        <div class="">
 
-    <div class="form profileform radiusthree">
+            <?php $form = $this->beginWidget('CActiveForm', array(
+                'id' => 'account-corporate-password-form'
+            )); ?>
 
-        <?php $form = $this->beginWidget('CActiveForm', array(
-            'id' => 'account-corporate-password-form'
-        )); ?>
+            <div class="row">
+                <p class="text16"><?php if($is_done) { echo Yii::t('site', 'Ваш новый пароль сохранён'); }else{ echo Yii::t('site', 'Вы можете изменить пароль'); } ?></p>
+            </div>
 
-        <div class="row">
-            <p class="text16"><?php if($is_done) { echo Yii::t('site', 'Ваш новый пароль сохранён'); }else{ echo Yii::t('site', 'Вы можете изменить пароль'); } ?></p>
+            <div class="row">
+                <?php echo $form->labelEx($passwordForm, 'currentPassword'); ?>
+                <?php echo $form->passwordField($passwordForm, 'currentPassword'); ?><?php echo $form->error($passwordForm, 'currentPassword'); ?>
+            </div>
+
+            <div class="row">
+                <?php echo $form->labelEx($passwordForm, 'password'); ?>
+                <?php echo $form->passwordField($passwordForm, 'password'); ?><?php echo $form->error($passwordForm, 'password'); ?>
+            </div>
+
+            <div class="row">
+                <?php echo $form->labelEx($passwordForm, 'verifyPassword'); ?>
+                <?php echo $form->passwordField($passwordForm, 'verifyPassword'); ?><?php echo $form->error($passwordForm, 'verifyPassword'); ?>
+            </div>
+            <?php if($is_done) { ?>
+                <div class="done-password-change"></div>
+            <?php }else{ ?>
+                <div class="row buttons">
+                    <?php echo CHtml::submitButton(Yii::t('site', 'Сохранить изменения'), [
+                        'name'  => 'save',
+                        'class' => 'label background-dark-blue icon-circle-with-blue-arrow-big button-standard icon-padding-standard',
+                    ]); ?>
+                </div>
+            <?php } ?>
+
+            <?php $this->endWidget(); ?>
         </div>
+    </section>
+</section>
 
-        <div class="row">
-            <?php echo $form->labelEx($passwordForm, 'currentPassword'); ?>
-            <?php echo $form->passwordField($passwordForm, 'currentPassword'); ?><?php echo $form->error($passwordForm, 'currentPassword'); ?>
-        </div>
-
-        <div class="row">
-            <?php echo $form->labelEx($passwordForm, 'password'); ?>
-            <?php echo $form->passwordField($passwordForm, 'password'); ?><?php echo $form->error($passwordForm, 'password'); ?>
-        </div>
-
-        <div class="row">
-            <?php echo $form->labelEx($passwordForm, 'verifyPassword'); ?>
-            <?php echo $form->passwordField($passwordForm, 'verifyPassword'); ?><?php echo $form->error($passwordForm, 'verifyPassword'); ?>
-        </div>
-        <?php if($is_done) { ?>
-            <div class="done-password-change"></div>
-        <?php }else{ ?>
-        <div class="row buttons">
-            <?php echo CHtml::submitButton(Yii::t('site', 'Сохранить изменения'), ['name' => 'save']); ?>
-        </div>
-        <?php } ?>
-
-        <?php $this->endWidget(); ?>
-    </div>
-</div>
-<script>
-    $(document).ready(function(){
-        var errors = $(".errorMessage");
-        for (var i=0; i < errors.length;i++) {
-            var inp = $(errors[i]).prev("input.error");
-            $(inp).css({"border":"2px solid #bd2929"});
-            $(errors[i]).addClass($(inp).attr("id"));
-        }
-    });
-</script>
