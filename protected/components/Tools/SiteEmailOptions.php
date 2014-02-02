@@ -255,7 +255,7 @@ class SiteEmailOptions {
 
     public function setCustomText($message) {
 
-        $length_max = 850;
+        $length_max = 800;
         $length = mb_strlen($message, 'UTF-8');
         if($length <= $length_max) {
             $this->text1 = $message;
