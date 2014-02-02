@@ -1037,35 +1037,6 @@ class Simulation extends CActiveRecord
         }
     }
 
-    /**
-     * @return array|mixed|null
-     */
-    public function getOverall() {
-        $assessment = AssessmentOverall::model()->findByAttributes([
-            'sim_id'=>$this->id,
-            'assessment_category_code' => AssessmentCategory::OVERALL
-        ]);
-        if(null === $assessment){
-            return null;
-        }else{
-            return $assessment->value;
-        }
-    }
-
-    /**
-     * @return array|mixed|null
-     */
-    public function getPercentile() {
-        $assessment = AssessmentOverall::model()->findByAttributes([
-            'sim_id' => $this->id,
-            'assessment_category_code' => AssessmentCategory::PERCENTILE
-        ]);
-        if(null === $assessment){
-            return null;
-        }else{
-            return $assessment->value;
-        }
-    }
 }
 
 

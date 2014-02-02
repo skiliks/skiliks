@@ -41,6 +41,7 @@ $cs->registerScriptFile($assetsUrl . '/js/site/jquery/plugins/jquery-ui-1.8.24.c
 
 $cs->registerScriptFile($assetsUrl . "/js/site/jquery/plugins/jquery.browser.js");
 
+$cs->registerScriptFile($assetsUrl . '/js/site/jquery/plugins/jquery.textchange.js');
 
 $cs->registerScriptFile($assetsUrl . '/js/site/jquery/plugins/jquery.selectbox-0.2.js');
 

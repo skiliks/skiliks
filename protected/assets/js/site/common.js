@@ -166,6 +166,19 @@ $(document).ready(function () {
         }
         return false;
     };
+    $("#Invite_firstname").val(localStorage.Invite_firstname?localStorage.Invite_firstname:'');
+    $("#Invite_lastname").val(localStorage.Invite_lastname?localStorage.Invite_lastname:'');
+    $("#Invite_email").val(localStorage.Invite_email?localStorage.Invite_email:'');
+
+    $("#Invite_firstname").bind('textchange', function(e) {
+        localStorage.Invite_firstname = $(this).val();
+    });
+    $("#Invite_lastname").bind('textchange', function(e) {
+        localStorage.Invite_lastname = $(this).val();
+    });
+    $("#Invite_email").bind('textchange', function(e) {
+        localStorage.Invite_email = $(this).val();
+    });
 });
 
 // 1)

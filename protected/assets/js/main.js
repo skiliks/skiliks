@@ -852,7 +852,7 @@ var fixLogotypes = function() {
             }, 30*1000);
 
             window.location.href = url;
-        })
+        });
 
     });
 })(jQuery);
