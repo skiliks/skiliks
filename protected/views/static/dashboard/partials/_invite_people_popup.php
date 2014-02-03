@@ -73,6 +73,7 @@
         <div class="pull-content-center">
             <?php echo CHtml::submitButton('Отправить', [
                 'name'  => 'send',
+                'id' => 'Invite_send',
                 'class' => 'label background-dark-blue icon-circle-with-blue-arrow-big button-standard icon-padding-standard',
             ]); ?>
         </div>

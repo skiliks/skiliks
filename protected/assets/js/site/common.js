@@ -179,6 +179,13 @@ $(document).ready(function () {
     $("#Invite_email").bind('textchange', function(e) {
         localStorage.Invite_email = $(this).val();
     });
+    $("#Invite_send").bind('click', function() {
+        localStorage.Invite_firstname = "";
+        localStorage.Invite_lastname = "";
+        localStorage.Invite_email = "";
+
+        return true;
+    });
 });
 
 // 1)
