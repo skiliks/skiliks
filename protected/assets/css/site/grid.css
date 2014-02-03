@@ -237,6 +237,11 @@
 
 .background-yellow {
     background-color: #FDFBC6;
+
+}
+
+.background-yellow div {
+    color: #3C3C32;
 }
 
 .background-light-yellow {

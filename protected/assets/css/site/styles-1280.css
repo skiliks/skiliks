@@ -146,7 +146,7 @@ input.button-standard {
     font-weight: normal;
     line-height: 1;
     left: 0px;
-    width: 210px;
+    width: 220px;
     position: absolute;
     transition: opacity 0.25s linear 0s;
 }
@@ -193,7 +193,7 @@ input.button-standard {
     font-family: "ProximaNova-Regular";
     font-size: 1em;
     line-height: 15px;
-    padding: 15px 5px;
+    padding: 15px 10px;
     text-align: center;
     width: 200px;
     max-width: 240px;
