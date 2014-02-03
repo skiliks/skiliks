@@ -45,4 +45,16 @@
     #add-vacancy-form input[type="text"] {
         width: 367px;
     }
+
+    .skiliks.controller-static-profile .sbHolder {
+        width: 375px;
+    }
+
+    .unstandard-error-firstname {
+        width: 187px;
+    }
+
+    .controller-static-profile .error-place {
+        padding-left: 200px;
+    }
 }

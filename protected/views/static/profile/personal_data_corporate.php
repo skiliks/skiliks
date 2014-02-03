@@ -34,10 +34,19 @@
                 'id' => 'account-corporate-personal-form'
             )); ?>
 
-            <div class="row">
+            <div class="row <?= $this->hasErrors($form, $profile, 'firstname') ?> <?= $this->hasErrors($form, $profile, 'lastname') ?>">
+                <span class="error-place">
+                    <?php // нет смысла делать клпсс такому не стандартному элементу ?>
+                    <span class="unstandard-error-firstname">
+                        <?php echo $form->error($profile, 'firstname'); ?>
+                    </span>
+                    <span class="unstandard-error-firstname">
+                        <?php echo $form->error($profile, 'lastname'); ?>
+                    </span>
+                </span>
                 <?php echo $form->labelEx($profile, 'Имя'); ?>
-                <?php echo $form->textField($profile, 'firstname', ['id' => 'profile_firstname']); ?><?php echo $form->error($profile, 'firstname'); ?>
-                <?php echo $form->textField($profile, 'lastname', ['id' => 'profile_lastname']); ?><?php echo $form->error($profile, 'lastname'); ?>
+                <?php echo $form->textField($profile, 'firstname', ['id' => 'profile_firstname']); ?>
+                <?php echo $form->textField($profile, 'lastname', ['id' => 'profile_lastname']); ?>
             </div>
 
             <div class="row">
@@ -46,8 +55,11 @@
             </div>
 
             <div class="row cposwrap">
-                <?php echo $form->labelEx($account     , 'Должность'); ?>
-                <?php echo $form->dropDownList($account, 'position_id', $positions); ?><?php echo $form->error($account       , 'position_id'); ?>
+                <?php echo $form->labelEx($account , 'Должность'); ?>
+                <span class="error-place">
+                    <?php echo $form->error($account , 'position_id'); ?>
+                </span>
+                <?php echo $form->dropDownList($account, 'position_id', $positions); ?>
             </div>
 
             <div class="row buttons">

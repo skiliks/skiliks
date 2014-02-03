@@ -406,8 +406,9 @@ form .error-place {
 .error select,
 .error textarea,
 .error input,
-.error .sbHolder {
+.skiliks .error .sbHolder {
     border : 1px solid #bd2929;
+    /*background-color: #FFF3E5;*/
 }
 
 .error .errorMessage {

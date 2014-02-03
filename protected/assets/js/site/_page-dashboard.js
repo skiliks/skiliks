@@ -265,14 +265,10 @@ $(document).ready(function () {
             title: '',
             width: getDialogWindowWidth_2of3(),
             position: {
+                use: true,
                 my: "left top",
                 at: "left top",
                 of: $('.locator-corporate-invitations-list-box')
-            },
-            open: function () {
-                // This is fix render for IE10
-                // z-index правильный, но затемнение отрысовывается над попапом!
-                // $(window).trigger('resize');
             }
         });
 

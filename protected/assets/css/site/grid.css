@@ -263,15 +263,15 @@
 
 /* --- */
 
-.sbSelector:link,
-.sbSelector:visited,
-.sbSelector:hover {
+.skiliks .sbSelector:link,
+.skiliks .sbSelector:visited,
+.skiliks .sbSelector:hover {
     color: #FFFFFF;
     outline: medium none;
     text-decoration: none;
 }
 
-.sbSelector {
+.skiliks .sbSelector {
     display: block;
     height: 22px;
     left: 0;
@@ -281,14 +281,14 @@
     position: absolute;
     text-indent: 5px;
     top: 0;
-    width: 100%;
+    width: 90%;
 }
 
-.sbHolder {
+.skiliks .sbHolder {
     width: 200px;
 }
 
-.sbHolder {
+.skiliks .sbHolder {
     background: -moz-linear-gradient(center top , #54C4D4, #2EA6B7) repeat scroll 0 0 rgba(0, 0, 0, 0);
     border: 1px solid #0D5159;
     border-radius: 5px;
@@ -498,3 +498,7 @@ input.inputs-wide-height {
 }
 
 /* --- */
+
+.error-place {
+    padding-left: 0px;
+}

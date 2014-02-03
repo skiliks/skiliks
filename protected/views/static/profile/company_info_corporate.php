@@ -2,7 +2,7 @@
     <h1 class="bottom-margin-standard"><?php echo Yii::t('site', 'Profile') ?></h1>
 </section>
 
-<section class="pull-content-left nice-border reset-padding
+<section class="pull-content-left nice-border reset-padding company-info-height
     border-radius-standard background-transparent-20">
 
     <!--div class="transparent-boder profilewrap"-->
@@ -11,7 +11,7 @@
     </aside>
 
     <section class="column-2-3-wide inline-block border-radius-standard background-F3FFFF
-         pull-right pull-content-left vertical-align-top profile-right-side overflow-hidden">
+         pull-right pull-content-left vertical-align-top profile-right-side">
         <div class="">
 
             <?php $form = $this->beginWidget('CActiveForm', array(
@@ -56,3 +56,4 @@
     </section>
 </section>
 
+<div class="clearfix"></div>

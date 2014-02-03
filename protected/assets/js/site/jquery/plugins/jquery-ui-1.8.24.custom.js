@@ -6094,6 +6094,7 @@ $.widget("ui.dialog", {
 		modal: false,
         isSkiliks: false,
 		position: {
+            use: false,
 			my: 'center',
 			at: 'center',
 			collision: 'fit',
@@ -6251,12 +6252,23 @@ $.widget("ui.dialog", {
                 $('.clearfix').css('height', clearfixHeight + (dialogHeight - winHeigth) + 200 );
             } else {
                 this.element.parent().css('position', 'fixed');
-                this.element.parent().css('top', (winHeigth - dialogHeight)/2 + 'px' );
-            }
 
-            console.log('win height: ', $(window).height());
-            console.log('this.element height: ', this.element.parent().height());
-            console.log(this);
+                if (this.options.position.use) {
+                    var element = $(this.options.position.of);
+
+                    if ('right bottom' == this.options.position.at) {
+                        // 18px - высота от верхнего края div с диалоговым окном (без учёта бордера)
+                        // до верхнего края кнопки закрыть
+                        var top = element.offset().top + element.height() + 18;
+                        this.element.parent().css('top', top + 'px' );
+                    } else if ('left top' == this.options.position.at) {
+                        var top = element.offset().top + 18;
+                        this.element.parent().css('top', top + 'px' );
+                    }
+                } else {
+                    this.element.parent().css('top', (winHeigth - dialogHeight)/2 + 'px' );
+                }
+            }
 		}
 	},
 

@@ -88,12 +88,13 @@ $(document).ready(function () {
         var dialog = $(".locator-box-sign-in");
 
         dialog.dialog({
-            autoOpen: false,
+            /*autoOpen: false,*/
             closeOnEscape: true,
             dialogClass: 'popup-auth background-dark-blue',
             minHeight: 220,
             modal: true,
             position: {
+                use: true,
                 my: "right top",
                 at: "right bottom",
                 of: $('.locator-button-sign-in')
@@ -114,12 +115,13 @@ $(document).ready(function () {
         var dialog = $(".locator-password-recovery");
 
         dialog.dialog({
-            autoOpen: false,
+            /*autoOpen: false,*/
             closeOnEscape: true,
             dialogClass: 'popup-auth background-dark-blue',
             minHeight: 220,
             modal: true,
             position: {
+                use: true,
                 my: "right top",
                 at: "right bottom",
                 of: $('.locator-button-sign-in')
@@ -133,12 +135,13 @@ $(document).ready(function () {
 
     // 7)
     $('.locator-password-recovery-success').dialog({
-        autoOpen: false,
+        /*autoOpen: false,*/
         closeOnEscape: true,
         dialogClass: 'popup-auth background-dark-blue',
         minHeight: 220,
         modal: true,
         position: {
+            use: true,
             my: "right top",
             at: "right bottom",
             of: $('.locator-button-sign-in')

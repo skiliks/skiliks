@@ -21,19 +21,28 @@
                 <p class="text16"><?php if($is_done) { echo Yii::t('site', 'Ваш новый пароль сохранён'); }else{ echo Yii::t('site', 'Вы можете изменить пароль'); } ?></p>
             </div>
 
-            <div class="row">
+            <div class="row <?= $this->hasErrors($form, $passwordForm, 'currentPassword') ?>">
+                <span class="error-place">
+                    <?php echo $form->error($passwordForm, 'currentPassword'); ?>
+                </span>
                 <?php echo $form->labelEx($passwordForm, 'currentPassword'); ?>
-                <?php echo $form->passwordField($passwordForm, 'currentPassword'); ?><?php echo $form->error($passwordForm, 'currentPassword'); ?>
+                <?php echo $form->passwordField($passwordForm, 'currentPassword'); ?>
             </div>
 
-            <div class="row">
+            <div class="row <?= $this->hasErrors($form, $passwordForm, 'password') ?>">
+                <span class="error-place">
+                    <?php echo $form->error($passwordForm, 'password'); ?>
+                </span>
                 <?php echo $form->labelEx($passwordForm, 'password'); ?>
-                <?php echo $form->passwordField($passwordForm, 'password'); ?><?php echo $form->error($passwordForm, 'password'); ?>
+                <?php echo $form->passwordField($passwordForm, 'password'); ?>
             </div>
 
-            <div class="row">
+            <div class="row <?= $this->hasErrors($form, $passwordForm, 'verifyPassword') ?>">
+                <span class="error-place">
+                    <?php echo $form->error($passwordForm, 'verifyPassword'); ?>
+                </span>
                 <?php echo $form->labelEx($passwordForm, 'verifyPassword'); ?>
-                <?php echo $form->passwordField($passwordForm, 'verifyPassword'); ?><?php echo $form->error($passwordForm, 'verifyPassword'); ?>
+                <?php echo $form->passwordField($passwordForm, 'verifyPassword'); ?>
             </div>
             <?php if($is_done) { ?>
                 <div class="done-password-change"></div>

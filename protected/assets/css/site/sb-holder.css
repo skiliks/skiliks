@@ -154,9 +154,9 @@
         /*width: 110px;*/
     }
     .sbToggle{
-        background-image:url("../../img/site/1024/sb-holder/bg-select-toggle.png");
-        height: 17px;
-        width: 13px;
+        /*background-image:url("../../img/site/1024/sb-holder/bg-select-toggle.png");*/
+        /*height: 17px;*/
+        /*width: 13px;*/
     }
     .sbToggleOpen{
         background: url("../../img/site/1024/sb-holder/bg-select-toggle.png") no-repeat 0 -17px;

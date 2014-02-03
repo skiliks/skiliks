@@ -46,6 +46,10 @@
     font-size: 1.06em;
 }
 
+.controller-static-profile .error-place {
+    font-size: 0.8em;
+}
+
 .profile-right-side label {
     width: 240px;
 }
@@ -69,6 +73,10 @@
 
 #add-vacancy-form input[type="text"] {
     width: 445px;
+}
+
+.skiliks.controller-static-profile .sbHolder {
+    width: 450px;
 }
 
 .data strong,
@@ -121,4 +129,17 @@
 .contrast-table table.items tr th:nth-child(1),
 .contrast-table table.items tr td:nth-child(1) {
     padding-left: 30px;
+}
+
+.company-info-height {
+    height: 372px;
+}
+
+.unstandard-error-firstname {
+    display: inline-block;
+    width: 224px;
+}
+
+.controller-static-profile  .error-place {
+    padding-left: 246px;
 }
