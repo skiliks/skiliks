@@ -9,6 +9,8 @@
         action-display-assessment-results-type-hint
         locator-assessment-results-type-switcher
         assessment-results-type-switcher inter-active <?= $scoreName ?>"></span>
+
+    <div class="bottom-margin-standard"></div>
 </div>
 
 <div class="hint-assessment-results-type-switcher inner-popover background-yellow hide locator-hint-assessment-results-type-switcher">
