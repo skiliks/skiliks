@@ -1968,7 +1968,7 @@ define([
                             }
                         });
                     }
-
+                    this.setupDroppable();
                     this.renderTXT();
                 } catch(exception) {
                     if (window.Raven) {
@@ -2165,25 +2165,82 @@ define([
                 return undefined;
             },
 
-            /**
-             * @method
-             * @return integer | empty string
-             */
-            getCurrentEmailAttachmentFileId: function () {
+            setupDroppable:function () {
                 try {
-                    var file = this.getCurrentEmailAttachment();
+                    var me = this;
+                    $("#mailEmulatorNewLetterTextVariants .phrase-item").draggable({
+                        helper: 'clone',
+                        drag:function (event, ui) {
+                        },
+                        start:function (event, ui) {
+                        },
+                        stop:function (event, ui) {
+                        }
 
-                    if (undefined === file) {
-                        return '';
-                    } else {
-                        return file.fileMySqlId;
-                    }
+                    });
+
+                    $("#mailEmulatorNewLetterText .phrase-item").draggable({
+                        helper: 'clone',
+                        drag:function (event, ui) {
+                        },
+                        start:function (event, ui) {
+                        },
+                        stop:function (event, ui) {
+                        }
+
+                    });
+                    $(".mail-text-wrap").droppable({
+                        drop:function (event, ui) {
+                            //console.log('drop');
+                            //console.log($(ui.helper).parent().data('id'));
+                            var phrase_id = $(ui.helper).parent().data('id');
+                            if(phrase_id !== undefined){
+                                var phrase = me.mailClient.getAvailablePhraseByMySqlId(phrase_id);
+                                var phraseToAdd = new SKMailPhrase(); // generate unique uid
+                                phraseToAdd.mySqlId = phrase.mySqlId;
+                                phraseToAdd.text = phrase.text;
+                                phraseToAdd.columnNumber = phrase.columnNumber;
+                                // simplest way to clone small object in js }
+
+                                // ADD:
+
+                                me.mailClient.newEmailUsedPhrases.push(phraseToAdd);
+
+                                // render updated state
+                                me.renderAddPhraseToEmail(phraseToAdd);
+                            }
+
+                        }
+                    });
+                    $(".mail-tags-bl").droppable({
+                        drop:function (event, ui) {
+                            //console.log('drop');
+                            //console.log($(ui.helper).data('uid'));
+                            var phrase_uid = $(ui.helper).data('uid');
+                            if(phrase_uid !== undefined) {
+                                var phrase = me.mailClient.getUsedPhraseByUid(phrase_uid);
+
+                                me.removePhraseFromEmail(phrase);
+
+                                var phrases = me.mailClient.newEmailUsedPhrases;
+                                for (var i in phrases) {
+                                    // keep '==' not strict!
+                                    if (phrases[i].uid == phrase.uid) {
+                                        phrases.splice(i, 1);
+                                    }
+                                }
+                            }
+
+                        }
+                    });
+
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
                     }
                 }
             },
+
 
             /**
              * @method
