@@ -21,6 +21,8 @@
         padding: 24px;
     }
 
+    #YumProfile_firstname,
+    #YumProfile_lastname,
     #profile_firstname ,
     #profile_lastname,
     #UserAccountCorporate_ownership_type,
@@ -56,5 +58,13 @@
 
     .controller-static-profile .error-place {
         padding-left: 200px;
+    }
+
+    .unstandart-triple-input input {
+        width: 113px;
+    }
+
+    #UserAccountPersonal_location {
+        width: 366px;
     }
 }

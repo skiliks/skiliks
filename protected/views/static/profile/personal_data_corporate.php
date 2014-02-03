@@ -1,19 +1,3 @@
-<style>
-    <?php /*
-    .editable {
-        cursor: pointer;
-    }
-    .editable:after {
-        content: "";
-        display: inline-block;
-        width: 13px;
-        height: 16px;
-        margin-left: 10px;
-        background: url(<?= $assetsUrl; ?>/img/icon-pen.png) no-repeat;
-    }
- */ ?>
-</style>
-
 <section class="page-title-box column-full pull-content-left ">
     <h1 class="bottom-margin-standard"><?php echo Yii::t('site', 'Profile') ?></h1>
 </section>
@@ -36,7 +20,6 @@
 
             <div class="row <?= $this->hasErrors($form, $profile, 'firstname') ?> <?= $this->hasErrors($form, $profile, 'lastname') ?>">
                 <span class="error-place">
-                    <?php // нет смысла делать клпсс такому не стандартному элементу ?>
                     <span class="unstandard-error-firstname">
                         <?php echo $form->error($profile, 'firstname'); ?>
                     </span>
@@ -73,14 +56,3 @@
         </div>
     </section>
 </section>
-
-    <script>
-//        $(document).ready(function(){
-//            var errors = $(".errorMessage");
-//            for (var i=0; i < errors.length;i++) {
-//                var inp = $(errors[i]).prev("input.error");
-//                $(inp).css({"border":"2px solid #bd2929"});
-//                $(errors[i]).addClass($(inp).attr("id"));
-//            }
-//        });
-    </script>

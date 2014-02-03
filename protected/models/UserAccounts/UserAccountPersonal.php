@@ -56,7 +56,7 @@ class UserAccountPersonal extends CActiveRecord
 		return array(
 			array('location'                 , 'length'   , 'max'=>255),
             array('industry_id', 'numerical', 'integerOnly'=>true),
-			array('birthday'                 , 'date'   , 'format'=>'yyyy-M-d'),
+			array('birthday'                 , 'date'   , 'format'=>'yyyy-M-d', 'message' => 'Неправильный формат поля Дата рождения'),
             array('birthday', 'validBirthday', 'type' => 'date', 'message' => '{attribute}: is not a date!', 'dateFormat' => 'yyyy-MM-dd'),
             array('user_id'     , 'required', 'on' => ['personal', 'insert']),
             array('professional_status_id' , 'numerical', 'integerOnly'=>true, 'on' => ['personal', 'insert']),

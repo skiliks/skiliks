@@ -62,6 +62,9 @@
         ),
         'summaryText' => '',
         'emptyText' => '',
+        'htmlOptions' => [
+            'class' => 'contrast-table locator-contrast-table'
+        ],
         'pager' => [
             'header'        => false,
             'firstPageLabel' => '<< начало',

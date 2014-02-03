@@ -143,3 +143,15 @@
 .controller-static-profile  .error-place {
     padding-left: 246px;
 }
+
+.unstandard-personal-data-height {
+    height: 412px;
+}
+
+.unstandart-triple-input input {
+    width: 139px;
+}
+
+#UserAccountPersonal_location {
+    width: 445px;
+}

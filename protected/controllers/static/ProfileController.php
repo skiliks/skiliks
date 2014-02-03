@@ -69,6 +69,11 @@ class ProfileController extends SiteBaseController implements AccountPageControl
             $industries[$industry->id] = $industry->label;
         }
 
+        $this->layout = 'site_standard_2';
+
+        $this->addSiteCss('_page-my-profile.css');
+        $this->addSiteCss('_page-my-profile-1024.css');
+        $this->addSiteJs('_page-my-profile.js');
 
         $this->render('personal_data_personal', [
             'account' => $account,
@@ -215,7 +220,15 @@ class ProfileController extends SiteBaseController implements AccountPageControl
                 $is_done = true;
             }
         }
+
         $profile = YumProfile::model()->findByAttributes(['user_id'=>$this->user->id]);
+
+        $this->layout = 'site_standard_2';
+
+        $this->addSiteCss('_page-my-profile.css');
+        $this->addSiteCss('_page-my-profile-1024.css');
+        $this->addSiteJs('_page-my-profile.js');
+
         $this->render('password_personal', [
             'passwordForm' => $passwordForm,
             'is_done' => $is_done,
