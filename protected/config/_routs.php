@@ -263,7 +263,7 @@ return [
 
                 'admin_area/corporate-account/<id:\w+>/invite-limit-logs' => 'admin_area/AdminPages/CorporateAccountInviteLimitLogs',
                 'admin_area/site-user/<userId:\w+>/update-password'           => 'admin_area/AdminPages/UpdatePassword',
-
+                'debug/cluster-data' => 'Debug/ClusterData',
                 'gii'=>'gii',
                 'gii/<controller:\w+>'=>'gii/<controller>',
                 'gii/<controller:\w+>/<action:\w+>'=>'gii/<controller>/<action>',
