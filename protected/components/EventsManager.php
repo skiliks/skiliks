@@ -302,6 +302,19 @@ class EventsManager {
     }
 
     /**
+     * Возвращает информацию о серверах кода и базы
+     * @param Simulation  $simulation
+     * @return mixed array
+     */
+    public static function getServerInfoForDev(Simulation $simulation) {
+        $result = [];
+        if ($simulation->isDevelopMode()) {
+            $result = UserService::getServerInfo();
+        }
+        return $result;
+    }
+
+    /**
      * Extracted logging-related code
      *
      * @param $simulation Simulation

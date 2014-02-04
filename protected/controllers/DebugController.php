@@ -1576,5 +1576,12 @@ class DebugController extends SiteBaseController
         var_dump($data);
         echo '</pre>';
     }
+
+    public function actionClusterData() {
+        $this->layout = null;
+        $result = UserService::getServerInfo();
+        echo "IP code: ".$result['ip_code']."\r\n <br>";
+        echo "IP db: ".$result['ip_db'];
+    }
 }
 

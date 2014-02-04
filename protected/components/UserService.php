@@ -1145,6 +1145,56 @@ class UserService {
         Yii::app()->user->login($identity);
     }
 
+    /**
+     * Ставит в очередь на отправку письма-поздравления с новым годом 2014.
+     *
+     * @param string[] $emails
+     */
+    public static function sendNyGreetings($emails)
+    {
+        foreach($emails as $email) {
+            $mailOptions           = new SiteEmailOptions();
+            $mailOptions->from     = 'support@skiliks.com';
+            $mailOptions->to       = $email;
+            $mailOptions->subject  = 'Новогоднее поздравление и подарок';
+
+            /**
+             * Формируем HTML письма
+             */
+            $mailOptions->body = UserService::renderEmailPartial('new-year', [
+                'title' => $mailOptions->subject,
+            ]);
+
+            /**
+             * В стандартном дизайне участвует всего три картинки.
+             */
+            $mailOptions->embeddedImages = [
+                [
+                    'path'     => Yii::app()->basePath.'/assets/img/site/emails/ny/skiliks_ny.jpg',
+                    'cid'      => 'skiliks_ny',
+                    'name'     => 'skiliks_ny',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ]
+            ];
+
+            /**
+             * Добавляем письмо в лчетедь писем
+             */
+            MailHelper::addMailToQueue($mailOptions);
+        }
+    }
+
+    /**
+     * Возвращает информацию о серверах кода и базы
+     * @return mixed array
+     */
+    public static function getServerInfo() {
+        $ip_db = Yii::app()->db->createCommand("select host from information_schema.processlist WHERE ID=connection_id();")->queryRow()['host'];
+        $ip_code = isset($_SERVER['SERVER_ADDR'])?$_SERVER['SERVER_ADDR']:null;
+
+        return ['ip_code' => $ip_code, 'ip_db' => $ip_db];
+    }
 }
 
 
