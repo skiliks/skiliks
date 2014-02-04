@@ -17,7 +17,7 @@
             <div class="row <?= ($form->error($invite, 'firstname') || $form->error($invite, 'lastname')) ? 'error' : ''; ?>">
                 <span class="error-place">
                     <?php /* нет смысла делать класс ради одного такого случая */ ?>
-                    <span style="display: inline-block; width: 120px;">
+                    <span class="unstandard-firstname-error">
                         <?= $form->error($invite, 'firstname'); ?>
                     </span>
                     <?= $form->error($invite, 'lastname'); ?>
@@ -36,7 +36,7 @@
                 <?= $form->textField($invite, 'email', ['placeholder' => Yii::t('site','Enter Email address')]); ?>
             </div>
 
-            <div class="row wide <?= (0 == count($vacancies) ? 'no-border' : '') ?> <?= ($form->error($invite, 'vacancy_id')) ? 'error' : ''; ?>v">
+            <div class="row unstandard-position-error wide <?= (0 == count($vacancies) ? 'no-border' : '') ?> <?= ($form->error($invite, 'vacancy_id')) ? 'error' : ''; ?>">
                 <span class="error-place">
                     <?= $form->error($invite, 'vacancy_id'); ?>
                 </span>

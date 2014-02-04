@@ -349,8 +349,8 @@ i.icon-doc {
 
 #invite-form .error .error-place .errorMessage,
 #invite-form .error .error-place {
-    height: 16px;
-    margin-top: -16px; /* this.margin-top === this.height*/
+    height: 18px;
+    margin-top: -16px; /* this.margin-top + 2px === this.height, 2px - отступ под текстом об ошибке */
 }
 
 .unstandard-box-with-blue-border {
@@ -497,4 +497,17 @@ i.icon-doc {
     font-size: 1em;
     margin-left: -692px;
     top: 118px;
+}
+
+.unstandard-firstname-error {
+    display: inline-block;
+    width: 120px;
+}
+#invite-form .unstandard-position-error {
+    padding-top: 11px;
+}
+
+#invite-form .unstandard-position-error .error-place {
+    height: 11px;
+    margin-top: -11px;
 }

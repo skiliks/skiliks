@@ -73,4 +73,16 @@
     .action-controller-personal-static-dashboard .hint-assessment-results-type-switcher {
         margin-left: -596px;
     }
+
+    #invite-form .error-place {
+        padding-left: 59px;
+    }
+
+    .unstandard-firstname-error {
+        width: 94px;
+    }
+
+    .invite-people-box {
+        height: 225px;
+    }
 }

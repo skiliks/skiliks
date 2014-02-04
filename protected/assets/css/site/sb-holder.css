@@ -89,8 +89,8 @@
     padding: 0;
     position: absolute;
     top: 30px;
-    width: 100%;
-    z-index:1;
+    width: auto;
+    z-index: 5;
     overflow-y: auto;
 }
 
@@ -159,7 +159,7 @@
         /*width: 13px;*/
     }
     .sbToggleOpen{
-        background: url("../../img/site/1024/sb-holder/bg-select-toggle.png") no-repeat 0 -17px;
+        /*background: url("../../img/site/1024/sb-holder/bg-select-toggle.png") no-repeat 0 -17px;*/
     }
 
     .empty-select .sbToggle {
