@@ -44,4 +44,16 @@
     .page-title-box {
         margin: 0 0 32px;
     }
+
+    .row-32 {
+        height: 27px;
+    }
+
+    .row-26 {
+        height: 23px;
+    }
+
+    .row-13 {
+        height: 11px;
+    }
 }

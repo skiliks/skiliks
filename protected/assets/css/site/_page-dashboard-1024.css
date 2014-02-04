@@ -90,4 +90,8 @@
     .invite-people-box {
         height: 225px;
     }
+
+    .ui-dialog form#add-vacancy-form .error-place {
+        padding-left: 204px;
+    }
 }

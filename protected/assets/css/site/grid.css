@@ -332,6 +332,10 @@ input.inputs-wide-height {
     padding: 15px 0 0;
 }
 
+.row-32 {
+    height: 32px;
+}
+
 .row-26 {
     height: 26px;
 }

@@ -25,7 +25,7 @@
             <?= CHtml::hiddenField('id', $vacancy->id) ?>
         <?php endif ?>
 
-            <div class="row shortSelector row-selects">
+            <div class="row row-26 shortSelector row-selects">
                 <span class="error-place">
                     <?= $form->error($vacancy       , 'professional_occupation_id'); ?>
                 </span>
@@ -43,7 +43,7 @@
                 ); ?>
             </div>
 
-            <div class="row row-selects">
+            <div class="row row-26 row-selects">
                 <span class="error-place">
                     <?= $form->error($vacancy       , 'position_level_slug'); ?>
                 </span>
@@ -51,7 +51,7 @@
                 <?= $form->dropDownList($vacancy, 'position_level_slug', $positionLevels); ?>
             </div>
 
-            <div class="row row-selects">
+            <div class="row row-26 row-selects">
                 <span class="error-place">
                     <?= $form->error($vacancy       , 'professional_specialization_id'); ?>
                 </span>
@@ -59,7 +59,7 @@
                 <?= $form->dropDownList($vacancy, 'professional_specialization_id', $specializations); ?>
             </div>
 
-            <div class="row row-inputs">
+            <div class="row row-32 row-inputs">
                 <span class="error-place">
                     <?= $form->error($vacancy       , 'label'); ?>
                 </span>
@@ -67,7 +67,7 @@
                 <?= $form->textField($vacancy, 'label'); ?>
             </div>
 
-            <div class="row">
+            <div class="row row-26">
                 <span class="error-place">
                     <?= $form->error($vacancy    , 'link'); ?>
                 </span>

@@ -224,7 +224,7 @@ function getDialogWindowWidth(padding) {
 // 2.1) Определяет ширину стандартные "2/3 ширины сайта"
 function getDialogWindowWidth_2of3() {
     if ($(document).width() < 1281) {
-        return 576;
+        return 585;
     } else {
         return 719;
     }

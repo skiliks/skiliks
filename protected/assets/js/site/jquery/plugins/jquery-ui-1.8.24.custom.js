@@ -6256,13 +6256,20 @@ $.widget("ui.dialog", {
                 if (this.options.position.use) {
                     var element = $(this.options.position.of);
 
+                    // 'right bottom' - возможно надо будет для sing-in окошек отдельную консттанту ввести,
+                    // вместо 'right bottom'
                     if ('right bottom' == this.options.position.at) {
                         // 18px - высота от верхнего края div с диалоговым окном (без учёта бордера)
                         // до верхнего края кнопки закрыть
-                        var top = element.offset().top + element.height() + 18;
+                        var top = element.offset().top + element.height() + 16;
                         this.element.parent().css('top', top + 'px' );
+                        this.element.parent().css(
+                            'left',
+                            (parseInt(this.element.parent().css('left')) - 16) + 'px'
+                        );
+
                     } else if ('left top' == this.options.position.at) {
-                        var top = element.offset().top + 18;
+                        var top = element.offset().top;
                         this.element.parent().css('top', top + 'px' );
                     }
                 } else {
