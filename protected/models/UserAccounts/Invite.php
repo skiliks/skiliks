@@ -681,7 +681,7 @@ class Invite extends CActiveRecord
 			array('simulation_id, scenario_id, tutorial_scenario_id, tutorial_displayed_at', 'safe'),
 			array('tutorial_finished_at, can_be_reloaded, is_display_simulation_results', 'safe'),
 			array('stacktrace, is_crashed, expired_at', 'safe'),
-			array('fullname', 'length', 'max' => 50, 'allowEmpty' => true),
+			array('fullname', 'length', 'max' => 101, 'allowEmpty' => true), /* firstname+ lastname + 1 */
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, owner_id, receiver_id, firstname, lastname, email, message, signature, code, vacancy_id, status, sent_time', 'safe', 'on'=>'search'),

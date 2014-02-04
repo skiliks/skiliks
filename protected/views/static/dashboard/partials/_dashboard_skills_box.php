@@ -4,7 +4,7 @@
     <?php $scoreName = ($user->profile->assessment_results_render_type == "standard")
         ? "stars-selected" : "percentile-selected"; ?>
 
-    <!-- Переключение между относительным и абсолютным рейтингом. -->
+    <!-- Переключение между относительным и абсолютным рейтингом -->
     <span class="action-switch-assessment-results-render-type
         action-display-assessment-results-type-hint
         locator-assessment-results-type-switcher

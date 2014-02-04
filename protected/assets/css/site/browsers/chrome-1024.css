@@ -2,4 +2,8 @@
     .button-add-vacancy {
         top: 8px;
     }
+
+    .assessment-results-type-switcher {
+        padding-bottom: 1px;
+    }
 }

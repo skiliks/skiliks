@@ -13,7 +13,7 @@ $(document).ready(function () {
             $('.items tr').each(function(){
                 $(this).find('td:eq(0)').html(
                     '<span class="table-menu-switcher inter-active action-switch-menu"></span>' +
-                        '<div class="table-menu" >' +
+                        '<div class="table-menu locator-table-menu action-close-table-menu" >' +
                         '</div><span class="topline"></span>'
                 );
             });
@@ -44,7 +44,7 @@ $(document).ready(function () {
         var isVisible = $(this).next().is(":visible");
 
         // click must close all other open "small-menu"
-        $('tr.selected-sk .invites-smallmenu-item').hide();
+        $('.locator-table-menu').hide();
         $('tr.selected-sk').removeClass('selected-sk');
 
         // after removeClass('selected-sk') and hide(), function this.toggle() will always shown element,
@@ -59,7 +59,7 @@ $(document).ready(function () {
     });
 
     // 2.4) если кликнуть не по ссылке а по фону меню --оно закроется
-    $('.table-menu').click(function(){
+    $('.action-close-table-menu').click(function(){
         $(this).hide();
         $(this).parent().parent().removeClass('selected-sk');
     });

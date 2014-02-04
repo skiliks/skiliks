@@ -390,7 +390,7 @@ input.inputs-wide-height {
 }
 
 .table-footer {
-    background-color: #FEFEEC;
+    background-color: #FDFBC6;
     border-radius: 0 0 8px 8px;
     height: 8px;
     font-size: 0px;
@@ -438,12 +438,12 @@ input.inputs-wide-height {
 .contrast-table table.items tr.even,
 .contrast-table table.items tr.even td,
 .contrast-table table.items tr:hover {
-    background-color: #FEFEEC;
+    background-color: #FDFBC6;
 }
 
 .contrast-table table.items tr.odd,
 .contrast-table table.items tr.odd td {
-    background-color: #FDFBC6;
+    background-color: #FEFEEC;
 }
 
 .light-list-table table.items td,
@@ -457,6 +457,8 @@ input.inputs-wide-height {
 .contrast-table .items th a,
 .contrast-table .items th {
     color: #ffffff;
+    font-family: 'ProximaNova-Bold';
+    font-weight: normal;
     text-align: left;
 }
 

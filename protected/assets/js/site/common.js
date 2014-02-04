@@ -16,16 +16,19 @@ $(document).ready(function () {
         popover.removeClass("hide");
         popover.show();
 
-        // значение "-2" найдено экспериментально
+        // значение "-8" найдено экспериментально
+        // если отнять 8, то подсказка выравнивается по высоте
         popover.css("margin-top", - popover.height()/2 - 8);
 
         if($(window).width() < 1140) {
-            popover.css("margin-left", -52);
+            popover.css("margin-left", -40);
         } else {
             popover.css("margin-left", 0);
         }
 
-        $(this).find('.inner-popover-triangle').css("top", (popover.height() - 16)/2);
+        var top = ((popover.height() - 16)/2);
+        console.log('top: ', top, popover);
+        popover.find('.locator-popover-triangle-left').css("top", top  + 'px');
     });
 
     $(document).click(function(e) {

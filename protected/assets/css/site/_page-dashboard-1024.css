@@ -74,6 +74,11 @@
         margin-left: -596px;
     }
 
+    .assessment-results-type-switcher {
+        margin-top: -2px;
+        padding-bottom: 1px;
+    }
+
     #invite-form .error-place {
         padding-left: 59px;
     }

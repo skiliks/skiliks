@@ -43,7 +43,7 @@
                         <span class="action-display-popover inter-active table-link">'
                         . Yii::t("site", $data->getStatusText())
                         . '<div class="hide inner-popover background-sky">
-                            <div class="popover-triangle"></div>
+                            <div class="popover-triangle locator-popover-triangle-left"></div>
                             <div class="popover-wrapper">
                                 <div class="popover-content">'
                                    . $data->getStatusDescription()
@@ -78,7 +78,7 @@
     <div class="popover-triangle-upper"></div>
     <div class="popover-wrapper">
         <div class="popover-content">
-            Переключение между относительным и абсолютным рейтингом.
+            Переключение между относительным и абсолютным рейтингом
         </div>
     </div>
 </div>
