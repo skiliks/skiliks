@@ -45,5 +45,12 @@ class DebugController extends SiteBaseController
 
         $this->render('//static/site/error404', []);
     }
+
+    public function actionClusterData() {
+        $this->layout = null;
+        $result = UserService::getServerInfo();
+        echo "IP code: ".$result['ip_code']."\r\n <br>";
+        echo "IP db: ".$result['ip_db'];
+    }
 }
 

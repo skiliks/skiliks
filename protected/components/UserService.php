@@ -1342,6 +1342,17 @@ class UserService {
             MailHelper::addMailToQueue($mailOptions);
         }
     }
+
+    /**
+     * Возвращает информацию о серверах кода и базы
+     * @return mixed array
+     */
+    public static function getServerInfo() {
+        $ip_db = Yii::app()->db->createCommand("select host from information_schema.processlist WHERE ID=connection_id();")->queryRow()['host'];
+        $ip_code = isset($_SERVER['SERVER_ADDR'])?$_SERVER['SERVER_ADDR']:null;
+
+        return ['ip_code' => $ip_code, 'ip_db' => $ip_db];
+    }
 }
 
 
