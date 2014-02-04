@@ -66,6 +66,16 @@ class AnalyticalFileGenerator {
     public function addRow(){
         $this->row_number++;
         $this->column_number = 0;
+        if($this->row_number === 1) {
+            $this->setBoldFirstRow();
+            $this->addColumn('Наименование Компании', 24);
+            $this->addColumn('ФИО', 24);
+            $this->addColumn('ID симуляции', 14);
+        } else {
+            $this->addColumn('');
+            $this->addColumn('Смирнова Марина');
+            $this->addColumn('9606');
+        }
     }
 
     /**
@@ -126,75 +136,74 @@ class AnalyticalFileGenerator {
         $this->addSheet("Итоговый рейтинг");
 
         $this->addRow();
-        $this->setBoldFirstRow();
 
-        $this->addColumn('Наименование Компании', 24);
-        $this->addColumn('ФИО', 24);
-        $this->addColumn('ID симуляции', 14);
         $this->addColumn('Тип оценки', 40);
         $this->addColumn('Оценка', 14);
         $this->setBorderBold();
-
+        ////////////////////////////////////////////////////
         $this->addRow();
-        $this->addColumn('');
-        $this->addColumn('Смирнова Марина');
-        $this->addColumn('9606');
         $this->addColumn('Управленческие навыки');
         $this->addColumn('26,91%');
 
         $this->addRow();
-        $this->addColumn('');
-        $this->addColumn('Смирнова Марина');
-        $this->addColumn('9606');
         $this->addColumn('Результативность');
         $this->addColumn('26,91%');
 
         $this->addRow();
-        $this->addColumn('');
-        $this->addColumn('Смирнова Марина');
-        $this->addColumn('9606');
         $this->addColumn('Эффективность использования времени');
         $this->addColumn('26,91%');
 
         $this->addRow();
-        $this->addColumn('');
-        $this->addColumn('Смирнова Марина');
-        $this->addColumn('9606');
         $this->addColumn('Итоговый рейтинг');
         $this->addColumn('26,91%');
 
         $this->addRow();
-        $this->addColumn('');
-        $this->addColumn('Смирнова Марина');
-        $this->addColumn('9606');
         $this->addColumn('Процентиль');
         $this->addColumn('26,91%');
-
+        /////////////////////////////////////////////////////
         $this->setBorderBold();
 
 
         $this->addSheet("Управленческие навыки");
 
         $this->addRow();
-        $this->setBoldFirstRow();
-        $this->addColumn('Наименование Компании', 24);
-        $this->addColumn('ФИО', 24);
-        $this->addColumn('ID симуляции', 14);
+
         $this->addColumn('Группа навыков', 42);
         $this->addColumn('Навык', 50);
         $this->addColumn('Шкала оценки', 14);
         $this->addColumn('Навык, оценка (0-100%)', 18);
 
         $this->setBorderBold();
+        ////////////////////////////////////////////////
+        $this->addRow();
+        $this->addColumn('1. Управление задачами с учётом приоритетов');
+        $this->addColumn('1.1 Использование планирования в течение дня');
+        $this->addColumn('negative');
+        $this->addColumn('0%');
 
+        $this->addRow();
+        $this->addColumn('1. Управление задачами с учётом приоритетов');
+        $this->addColumn('1.1 Использование планирования в течение дня');
+        $this->addColumn('positive');
+        $this->addColumn('0%');
 
+        $this->addRow();
+        $this->addColumn('1. Управление задачами с учётом приоритетов');
+        $this->addColumn('1.2 Правильное определение приоритетов задач при планировании');
+        $this->addColumn('positive');
+        $this->addColumn('0%');
+
+        $this->addRow();
+        $this->addColumn('1. Управление задачами с учётом приоритетов');
+        $this->addColumn('1.2 Правильное определение приоритетов задач при планировании');
+        $this->addColumn('negative');
+        $this->addColumn('0%');
+
+        ////////////////////////////////////////////////
+        $this->setBorderBold();
         $this->addSheet("Результативность");
 
         $this->addRow();
-        $this->setBoldFirstRow();
-        $this->addColumn('Наименование Компании', 24);
-        $this->addColumn('ФИО', 24);
-        $this->addColumn('ID симуляции', 14);
         $this->addColumn('Группа задач', 20);
         $this->addColumn('Результативность, оценка (0-100%)', 20);
 
@@ -204,15 +213,12 @@ class AnalyticalFileGenerator {
         $this->addSheet("Эффект. использования времени");
 
         $this->addRow();
-        $this->setBoldFirstRow();
-        $this->addColumn('Наименование Компании', 24);
-        $this->addColumn('ФИО', 24);
-        $this->addColumn('ID симуляции', 14);
         $this->addColumn('Группа параметров', 55);
         $this->addColumn('Парамерт', 45);
         $this->addColumn('Эффективность использования времени, оценка', 14);
-
         $this->setBorderBold();
+        ////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////
 
         $this->save();
 
