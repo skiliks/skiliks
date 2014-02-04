@@ -22,9 +22,9 @@
     $themes = Feedback::getFeedbackSubjects();
     ?>
 
-    <h3 class="feedback-dialog-title pull-content-center"><?= Yii::t('site', 'Please contact us') ?></h3>
+    <h3 class="feedback-dialog-title pull-content-center"><?= Yii::t('site', 'Please, contact us') ?></h3>
 
-    <div class="row">
+    <div class="row row-26 margin-bottom-standard">
         <span class="error-place">
             <?php echo $form->error($model, 'theme'); ?>
         </span>
@@ -36,9 +36,10 @@
             <?php echo $form->error($model, 'message'); ?>
         </span>
         <?php echo $form->textArea($model, 'message', [
-            'cols'  => '40',
-            'rows'  => '6',
-            'maxlength' => 1500
+            'cols'      => '40',
+            'rows'      => '6',
+            'maxlength' => 1500,
+            'resize'    => 'none',
         ]); ?>
     </div>
 

@@ -404,7 +404,7 @@ return array(
     'positive' => 'Положительная',
     'negative' => 'Отрицательная',
     'personal' => 'Персональная',
-    'Please contact us' => 'Пожалуйста свяжитесь с нами',
+    'Please, contact us' => 'Пожалуйста, свяжитесь с нами',
 
     'Thanks for your order, Invoice was sent to %s. Plan will be available upon receipt of payment' => 'Спасибо за ваш заказ, на %s отправлен счет. Тарифный план будет доступен после получения оплаты',
     'Accept terms of conditions' => 'Вы должны согласиться с условиями',

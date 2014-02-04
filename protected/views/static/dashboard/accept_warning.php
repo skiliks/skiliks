@@ -21,7 +21,7 @@
             имеющимися документами, а также интерфейсом игры.</span>
     </div>
 
-    <div class="row bottom-margin-standard">
+    <div class="row margin-bottom-standard">
         <span class="unstandard-list-number pull-left">4.</span>
         <span class="unstandard-list-description unstandard-list-description-text">Не прибегайте к чужой помощи для прохождения симуляции.
             Это не поможет и сформирует вам соответствующую репутацию у работодателя.</span>
@@ -29,7 +29,7 @@
 
     <br/>
 
-    <h1 class="pull-content-center bottom-margin-standard">
+    <h1 class="pull-content-center margin-bottom-standard">
         <?= Yii::t('site', 'Preparation for the simulation') ?>
     </h1>
 
@@ -73,7 +73,7 @@
 
     </div>
 
-    <div class="row pull-content-center bottom-margin-standard">
+    <div class="row pull-content-center margin-bottom-standard">
         <!-- bigbtnsubmt accept-requirements  -->
         <a class='label background-dark-blue icon-circle-with-blue-arrow-big
                button-standard icon-padding-standard locator-start-later'>

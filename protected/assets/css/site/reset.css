@@ -416,5 +416,5 @@ form .error-place {
 }
 
 .error input.button-standard {
-    border : 1px solid #3E5259;
+    border : 0 none;
 }

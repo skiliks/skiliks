@@ -51,7 +51,7 @@
             <a class="pull-right unstandard-registration-link" href="/registration"><?php echo Yii::t('site', 'Registration') ?></a>
         </div>
 
-        <div class="row bottom-margin-standard">
+        <div class="row margin-bottom-standard">
             <?php echo CHtml::submitButton( Yii::t('site', 'Sign in'), [
                 'class' => 'button-white inter-active label icon-arrow-blue reset-margin'
             ]); ?>

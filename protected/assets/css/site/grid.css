@@ -306,7 +306,7 @@
 }
 
 input.inputs-wide-height {
-    height: 48px;
+    height: 40px; /* 48px; */
     vertical-align: top;
 }
 
@@ -322,7 +322,7 @@ input.inputs-wide-height {
     width: 21px;
 }
 
-.bottom-margin-standard {
+.margin-bottom-standard {
     margin-bottom: 20px;
 }
 

@@ -1,6 +1,6 @@
 
 <section class="page-title-box column-full pull-content-left ">
-    <h1 class="bottom-margin-standard"><?php echo Yii::t('site', 'Profile') ?></h1>
+    <h1 class="margin-bottom-standard"><?php echo Yii::t('site', 'Profile') ?></h1>
 </section>
 
 <section class="pull-content-left nice-border reset-padding  overflow-hidden
@@ -15,7 +15,7 @@
     <section class="column-2-3-wide inline-block border-radius-standard background-F3FFFF
          pull-right pull-content-left vertical-align-top profile-right-side">
 
-        <div class="vacancy-list bottom-margin-standard">
+        <div class="vacancy-list margin-bottom-standard">
             <?php
             $this->widget('zii.widgets.grid.CGridView', [
                 'dataProvider' => Vacancy::model()->search(Yii::app()->user->data()->id),

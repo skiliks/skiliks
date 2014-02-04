@@ -6242,14 +6242,14 @@ $.widget("ui.dialog", {
             winHeigth = $(window).height();
             dialogHeight = this.element.parent().height();
 
-            /* 100 px сверху и 100 px снизу */
-            if (winHeigth < dialogHeight + 200) {
+            /* 55 px сверху и 55 px снизу */
+            if (winHeigth < dialogHeight + 110) {
                 this.element.parent().css('position', 'absolute');
                 this.element.parent().css('top', '50px');
                 clearfixHeight = $('.clearfix').height();
 
                 /* 100 px сверху и 100 px снизу */
-                $('.clearfix').css('height', clearfixHeight + (dialogHeight - winHeigth) + 200 );
+                $('.clearfix').css('height', clearfixHeight + (dialogHeight - winHeigth) + 110 );
             } else {
                 this.element.parent().css('position', 'fixed');
 

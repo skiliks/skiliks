@@ -266,7 +266,6 @@ input.button-standard {
 
 .ui-dialog #feedback-form textarea {
     font-size: 1.3em;
-    margin-top: 28px;
     margin-bottom: 15px;
     padding: 20px;
 }
@@ -277,6 +276,13 @@ input.button-standard {
     padding-left: 20px;
     padding-right: 20px;
     width: 418px
+}
+
+.ui-dialog #feedback-form #Feedback_message {
+    max-height: 110px;
+    min-height: 110px;
+    max-width: 610px;
+    min-width: 610px;
 }
 
 .unstandard-message-row {

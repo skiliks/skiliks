@@ -1,5 +1,5 @@
 <section class="page-title-box column-full pull-content-left ">
-    <h1 class="bottom-margin-standard"><?php echo Yii::t('site', 'Profile') ?></h1>
+    <h1 class="margin-bottom-standard"><?php echo Yii::t('site', 'Profile') ?></h1>
 </section>
 
 <section class="pull-content-left nice-border reset-padding unstandard-personal-dat-height

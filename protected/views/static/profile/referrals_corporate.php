@@ -1,7 +1,7 @@
 
 
 <section class="page-title-box column-full pull-content-left ">
-    <h1 class="bottom-margin-standard">
+    <h1 class="margin-bottom-standard">
         <?php echo Yii::t('site', 'Profile') ?>
     </h1>
 </section>

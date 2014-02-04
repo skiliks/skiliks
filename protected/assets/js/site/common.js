@@ -48,7 +48,7 @@ $(document).ready(function () {
         var selected = $(this).attr('data-selected');
         $('.locator-feedback-dialog').dialog({
             // autoOpen : true,
-            width: getDashboardDialogWindowWidth(),
+            width: getDialogWindowWidth_2of3(),
             height: 400,
             dialogClass: 'popup-form background-image-two-lamps',
             modal: true,
