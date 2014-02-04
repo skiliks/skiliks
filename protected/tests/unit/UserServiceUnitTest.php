@@ -487,4 +487,9 @@ class UserServiceUnitTest extends CDbTestCase
         $this->assertFalse(UserService::isAllowOrderTariff($tariff, $account));
 
     }
+
+    public function testDemo(){
+        $file = new AnalyticalFileGenerator();
+        $file->run();
+    }
 }
