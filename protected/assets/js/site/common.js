@@ -192,6 +192,15 @@ $(document).ready(function () {
 
         return true;
     });
+
+    // 10)
+    window.addEventListener('resize', function(event){
+        if (1600 < window.width()) {
+            $('body').css('background-size', window.width() + 'px auto ');
+        } else {
+            $('body').css('background-size', ' 1600px auto ');
+        }
+    });
 });
 
 // 1)
