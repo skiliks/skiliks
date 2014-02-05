@@ -547,45 +547,57 @@ class AnalyticalFileGenerator {
             $this->setInfoBySimulation($simulation);
             $this->addRow();
             $this->addColumn('1. Управление задачами с учётом приоритетов');
-            $this->addColumn('1.1 Использование планирования в течение дня');
+            $this->addColumn('1.1 Определение приоритетов');
             $this->addColumn('negative');
             $this->addColumnRight(round($data['management'][1]['1_1']['-'], 2).'%');
 
             $this->addRow();
             $this->addColumn('1. Управление задачами с учётом приоритетов');
-            $this->addColumn('1.1 Использование планирования в течение дня');
+            $this->addColumn('1.1 Определение приоритетов');
             $this->addColumn('positive');
             $this->addColumnRight(round($data['management'][1]['1_1']['+'], 2).'%');
 
             $this->addRow();
             $this->addColumn('1. Управление задачами с учётом приоритетов');
-            $this->addColumn('1.2 Правильное определение приоритетов задач при планировании');
+            $this->addColumn('1.2 Использование планирования в течение дня');
             $this->addColumn('positive');
             $this->addColumnRight(round($data['management'][1]['1_2']['+'], 2).'%');
 
             $this->addRow();
             $this->addColumn('1. Управление задачами с учётом приоритетов');
-            $this->addColumn('1.2 Правильное определение приоритетов задач при планировании');
+            $this->addColumn('1.2 Использование планирования в течение дня');
             $this->addColumn('negative');
             $this->addColumnRight(round($data['management'][1]['1_2']['-'], 2).'%');
 
             $this->addRow();
             $this->addColumn('1. Управление задачами с учётом приоритетов');
-            $this->addColumn('1.3 Выполнение задач в соответствии с приоритетами');
+            $this->addColumn('1.3 Правильное определение приоритетов задач при планировании');
             $this->addColumn('positive');
             $this->addColumnRight(round($data['management'][1]['1_3']['+'], 2).'%');
 
             $this->addRow();
             $this->addColumn('1. Управление задачами с учётом приоритетов');
-            $this->addColumn('1.3 Выполнение задач в соответствии с приоритетами');
+            $this->addColumn('1.3 Правильное определение приоритетов задач при планировании');
             $this->addColumn('negative');
             $this->addColumnRight(round($data['management'][1]['1_3']['-'], 2).'%');
 
             $this->addRow();
             $this->addColumn('1. Управление задачами с учётом приоритетов');
-            $this->addColumn('1.4 Прерывание при выполнении задач');
+            $this->addColumn('1.4 Выполнение задач в соответствии с приоритетами');
+            $this->addColumn('negative');
+            $this->addColumnRight(round($data['management'][1]['1_4']['+'], 2).'%');
+
+            $this->addRow();
+            $this->addColumn('1. Управление задачами с учётом приоритетов');
+            $this->addColumn('1.4 Выполнение задач в соответствии с приоритетами');
             $this->addColumn('negative');
             $this->addColumnRight(round($data['management'][1]['1_4']['-'], 2).'%');
+
+            $this->addRow();
+            $this->addColumn('1. Управление задачами с учётом приоритетов');
+            $this->addColumn('1.5 Завершение начатых задач');
+            $this->addColumn('negative');
+            $this->addColumnRight(round($data['management'][1]['1_5']['-'], 2).'%');
 
             $this->addRow();
             $this->addColumn('1. Управление задачами с учётом приоритетов');
