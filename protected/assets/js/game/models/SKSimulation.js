@@ -787,10 +787,10 @@ define([
 
             updateServerInfoForDev : function (serverInfo) {
                 try {
-                    if (this.isDebug()) {
+                    //if (this.isDebug()) {
                         $('#server-info-ip-code').text(serverInfo.ip_code);
                         $('#server-info-ip-db').text(serverInfo.ip_db);
-                    }
+                    //}
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
