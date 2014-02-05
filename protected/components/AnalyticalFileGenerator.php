@@ -150,9 +150,8 @@ class AnalyticalFileGenerator {
     /**
      *
      */
-    public function save() {
+    public function save($assessment_version) {
 
-        $assessment_version = 'v1';
         $excelWriter = new PHPExcel_Writer_Excel2007($this->document);
         $path = SimulationService::createPathForAnalyticsFile('custom', $assessment_version);
         $excelWriter->save($path);
@@ -486,7 +485,7 @@ class AnalyticalFileGenerator {
             $this->setBorderBold();
         }
         ////////////////////////////////////////////////////
-        $this->save();
+        $this->save('v2');
 
     }
 
@@ -524,7 +523,20 @@ class AnalyticalFileGenerator {
 
             $this->addRow();
             $this->addColumn('Процентиль');
-            $this->addColumnRight(round($data['percentile']['total'], 2).'%');
+            if(isset($data['percentile'])) {
+                $this->addColumnRight(round($data['percentile']['total'], 2).'%');
+            } else {
+                /* @var $assessmentRecord AssessmentOverall */
+                $assessmentRecord = AssessmentOverall::model()->findByAttributes([
+                    'assessment_category_code' => AssessmentCategory::PERCENTILE,
+                    'sim_id'                   => $simulation->id
+                ]);
+                if( null !== $assessmentRecord ) {
+                    $this->addColumnRight(round($assessmentRecord->value, 2).'%');
+                }else{
+                    $this->addColumnRight('--');
+                }
+            }
             /////////////////////////////////////////////////////
             $this->setBorderBold();
         }
@@ -809,7 +821,7 @@ class AnalyticalFileGenerator {
             $this->setBorderBold();
         }
         ////////////////////////////////////////////////////
-        $this->save();
+        $this->save('v1');
 
     }
 

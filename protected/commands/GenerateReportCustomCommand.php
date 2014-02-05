@@ -26,7 +26,7 @@ class GenerateReportCustomCommand extends CConsoleCommand
             $categories_percentile[$category->sim_id] = $category->value;
         }
         foreach($simulations as $simulation) {
-            if(count($data_simulations) > 1 ) break;
+            //if(count($data_simulations) > 1 ) break;
 
             if(isset($categories_percentile[$simulation->id]) && $categories_percentile[$simulation->id] != 0 && empty($simulation->results_popup_cache) === false) {
 
