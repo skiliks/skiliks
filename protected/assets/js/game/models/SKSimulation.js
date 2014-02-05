@@ -412,6 +412,9 @@ define([
                         if (undefined !== data && null !== data && undefined !== data.flagsState && undefined !== data.serverTime) {
                             me.updateFlagsForDev(data.flagsState, data.serverTime);
                             me.updateEventsListTableForDev(data.eventsQueue);
+                        }
+
+                        if (undefined !== data && null !== data) {
                             me.updateServerInfoForDev(data.serverInfo);
                         }
 
