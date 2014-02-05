@@ -414,7 +414,10 @@ define([
                             me.updateEventsListTableForDev(data.eventsQueue);
                         }
 
+                        console.log(data.serverInfo);
+
                         if (undefined !== data && null !== data) {
+                            console.log('1');
                             me.updateServerInfoForDev(data.serverInfo);
                         }
 
@@ -791,6 +794,7 @@ define([
             updateServerInfoForDev : function (serverInfo) {
                 try {
                     //if (this.isDebug()) {
+                        console.log('2');
                         $('#server-info-ip-code').text(serverInfo.ip_code);
                         $('#server-info-ip-db').text(serverInfo.ip_db);
                     //}
