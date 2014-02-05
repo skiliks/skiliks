@@ -15,6 +15,7 @@ define([
         getNewEvents: function (cb) {
             try {
                 this.windowLog.getAndClear();
+                var me = this;
 
                 SKApp.server.apiQueue('events/getState', {
                     logs:             [],
