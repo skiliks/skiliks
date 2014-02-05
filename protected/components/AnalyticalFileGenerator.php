@@ -414,72 +414,72 @@ class AnalyticalFileGenerator {
             $this->addRow();
             $this->addColumn('1. Распределение времени, %');
             $this->addColumn('Продуктивное время (выполнение приоритетных задач)');
-            $this->addColumnRight('0%');
+            $this->addColumnRight(round($data['time']['time_spend_for_1st_priority_activities'], 2).'%');
 
             $this->addRow();
             $this->addColumn('1. Распределение времени, %');
             $this->addColumn('Непродуктивное время (иные действия, не связанные с приоритетами)');
-            $this->addColumnRight('0%');
+            $this->addColumnRight(round($data['time']['time_spend_for_non_priority_activities'], 2).'%');
 
             $this->addRow();
             $this->addColumn('1. Распределение времени, %');
             $this->addColumn('Время ожидания и бездействия');
-            $this->addColumnRight('0%');
+            $this->addColumnRight(round($data['time']['time_spend_for_inactivity'], 2).'%');
 
             $this->addRow();
             $this->addColumn('2. Сверхурочное время (минуты)');
             $this->addColumn('Сверхурочное время');
-            $this->addColumnRight('0');
+            $this->addColumnRight(round($data['time']['workday_overhead_duration'], 2));
 
             $this->addRow();
             $this->addColumn('1.1 Продуктивное время (выполнение приоритетных задач, минуты)');
             $this->addColumn('Работа с документами');
-            $this->addColumnRight('0');
+            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_DOCUMENTS],2));
 
             $this->addRow();
             $this->addColumn('1.1 Продуктивное время (выполнение приоритетных задач, минуты)');
             $this->addColumn('Встречи');
-            $this->addColumnRight('0');
+            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_MEETINGS],2));
 
             $this->addRow();
             $this->addColumn('1.1 Продуктивное время (выполнение приоритетных задач, минуты)');
             $this->addColumn('Звонки');
-            $this->addColumnRight('0');
+            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_PHONE_CALLS],2));
 
             $this->addRow();
             $this->addColumn('1.1 Продуктивное время (выполнение приоритетных задач, минуты)');
             $this->addColumn('Работа с почтой');
-            $this->addColumnRight('0');
+            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_MAIL],2));
 
             $this->addRow();
             $this->addColumn('1.1 Продуктивное время (выполнение приоритетных задач, минуты)');
             $this->addColumn('Планирование');
-            $this->addColumnRight('0');
+            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_PLANING],2));
             ////
             $this->addRow();
             $this->addColumn('1.2 Непродуктивное время (иные действия, не связанные с приоритетами)');
             $this->addColumn('Работа с документами');
-            $this->addColumnRight('0');
+            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_DOCUMENTS],2));
 
             $this->addRow();
             $this->addColumn('1.2 Непродуктивное время (иные действия, не связанные с приоритетами)');
             $this->addColumn('Встречи');
-            $this->addColumnRight('0');
+            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_MEETINGS],2));
 
             $this->addRow();
             $this->addColumn('1.2 Непродуктивное время (иные действия, не связанные с приоритетами)');
             $this->addColumn('Звонки');
-            $this->addColumnRight('0');
+            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_PHONE_CALLS],2));
 
             $this->addRow();
             $this->addColumn('1.2 Непродуктивное время (иные действия, не связанные с приоритетами)');
             $this->addColumn('Работа с почтой');
-            $this->addColumnRight('0');
+            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_MAIL],2));
 
             $this->addRow();
             $this->addColumn('1.2 Непродуктивное время (иные действия, не связанные с приоритетами)');
             $this->addColumn('Планирование');
-            $this->addColumnRight('0');
+            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_PLANING],2));
         }
         ////////////////////////////////////////////////////
         $this->setBorderBold();
