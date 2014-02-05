@@ -26,7 +26,7 @@ class GenerateReportCustomCommand extends CConsoleCommand
             $categories_percentile[$category->sim_id] = $category->value;
         }
         foreach($simulations as $simulation) {
-            if(count($data_simulations) > 0 ) break;
+            if(count($data_simulations) > 1 ) break;
 
             if(isset($categories_percentile[$simulation->id]) && $categories_percentile[$simulation->id] != 0 && empty($simulation->results_popup_cache) === false) {
 
@@ -42,7 +42,8 @@ class GenerateReportCustomCommand extends CConsoleCommand
         echo "Calc ".count($data_simulations)." \r\n";
         if(!empty($data_simulations)) {
             $generator = new AnalyticalFileGenerator();
-            $generator->run($data_simulations);
+
+            $generator->{"runAssessment_".$assessment_version}($data_simulations);
         }
         echo "Done ".count($data_simulations)." \r\n";
     }
