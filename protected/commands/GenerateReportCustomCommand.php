@@ -14,7 +14,7 @@ class GenerateReportCustomCommand extends CConsoleCommand
     {
 
 
-        $assessment_version = 'v1';
+        $assessment_version = 'v2';
         $scenario = Scenario::model()->findByAttributes(['slug'=>Scenario::TYPE_FULL]);
         /* @var Simulation[] $simulations */
         $simulations = Simulation::model()->findAll("scenario_id = {$scenario->id} and assessment_version = '{$assessment_version}' and end is not null");
@@ -26,9 +26,10 @@ class GenerateReportCustomCommand extends CConsoleCommand
             $categories_percentile[$category->sim_id] = $category->value;
         }
         foreach($simulations as $simulation) {
-            //if(count($data_simulations) > 5 ) break;
+            if(count($data_simulations) > 0 ) break;
 
-            if(isset($categories_percentile[$simulation->id]) && $categories_percentile[$simulation->id] != 0) {
+            if(isset($categories_percentile[$simulation->id]) && $categories_percentile[$simulation->id] != 0 && empty($simulation->results_popup_cache) === false) {
+
                 $data_simulations[$simulation->id] = $simulation;
 
             }
@@ -40,17 +41,8 @@ class GenerateReportCustomCommand extends CConsoleCommand
         }
         echo "Calc ".count($data_simulations)." \r\n";
         if(!empty($data_simulations)) {
-            $logTableList = new LogTableList();
-            foreach($data_simulations as $data_simulation) {
-                $logTableList->setSimulation($data_simulation);
-                $logTableList->saveLogsAsExcelReport2();
-            }
-            $excelWriter = $logTableList->returnXlsFile();
-
-            $path = SimulationService::createPathForAnalyticsFile('custom', $assessment_version);
-
-            $excelWriter->save($path);
-
+            $generator = new AnalyticalFileGenerator();
+            $generator->run($data_simulations);
         }
         echo "Done ".count($data_simulations)." \r\n";
     }
