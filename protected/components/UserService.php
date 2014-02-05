@@ -1200,7 +1200,7 @@ class UserService {
             $domain_code = ' code2.skiliks.com';
         }
 
-        return ['ip_code' => $ip_code, 'ip_db' => $ip_db];
+        return ['ip_code' => $ip_code . $domain_code, 'ip_db' => $ip_db];
     }
 }
 
