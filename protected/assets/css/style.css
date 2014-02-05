@@ -131,7 +131,7 @@ body.inner-registration {
 @media screen and (max-width: 1146px){
     .action-controller-comingSoonSuccess-static-pages .container,
     .action-controller-index-static-pages .container{
-		background:url("../img/home-page-bg/bg-heroes-min-ny.png") no-repeat center 2px;
+		background:url("../img/home-page-bg/bg-heroes-min.png") no-repeat center 2px;
 	}
 }
 input, select, button, textarea {
