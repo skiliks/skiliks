@@ -354,12 +354,80 @@ class AnalyticalFileGenerator {
 
         $this->addRow();
         $this->addColumn('Группа параметров', 55);
-        $this->addColumn('Парамерт', 45);
+        $this->addColumn('Параметр', 45);
         $this->addColumn('Эффективность использования времени, оценка', 14);
-        $this->setBorderBold();
         ////////////////////////////////////////////////////
-        ////////////////////////////////////////////////////
+        $this->addRow();
+        $this->addColumn('1. Распределение времени, %');
+        $this->addColumn('Продуктивное время (выполнение приоритетных задач)');
+        $this->addColumn('0%');
 
+        $this->addRow();
+        $this->addColumn('1. Распределение времени, %');
+        $this->addColumn('Непродуктивное время (иные действия, не связанные с приоритетами)');
+        $this->addColumn('0%');
+
+        $this->addRow();
+        $this->addColumn('1. Распределение времени, %');
+        $this->addColumn('Время ожидания и бездействия');
+        $this->addColumn('0%');
+
+        $this->addRow();
+        $this->addColumn('2. Сверхурочное время (минуты)');
+        $this->addColumn('Сверхурочное время');
+        $this->addColumn('0');
+
+        $this->addRow();
+        $this->addColumn('1.1 Продуктивное время (выполнение приоритетных задач, минуты)');
+        $this->addColumn('Работа с документами');
+        $this->addColumn('0');
+
+        $this->addRow();
+        $this->addColumn('1.1 Продуктивное время (выполнение приоритетных задач, минуты)');
+        $this->addColumn('Встречи');
+        $this->addColumn('0');
+
+        $this->addRow();
+        $this->addColumn('1.1 Продуктивное время (выполнение приоритетных задач, минуты)');
+        $this->addColumn('Звонки');
+        $this->addColumn('0');
+
+        $this->addRow();
+        $this->addColumn('1.1 Продуктивное время (выполнение приоритетных задач, минуты)');
+        $this->addColumn('Работа с почтой');
+        $this->addColumn('0');
+
+        $this->addRow();
+        $this->addColumn('1.1 Продуктивное время (выполнение приоритетных задач, минуты)');
+        $this->addColumn('Планирование');
+        $this->addColumn('0');
+        ////
+        $this->addRow();
+        $this->addColumn('1.2 Непродуктивное время (иные действия, не связанные с приоритетами)');
+        $this->addColumn('Работа с документами');
+        $this->addColumn('0');
+
+        $this->addRow();
+        $this->addColumn('1.2 Непродуктивное время (иные действия, не связанные с приоритетами)');
+        $this->addColumn('Встречи');
+        $this->addColumn('0');
+
+        $this->addRow();
+        $this->addColumn('1.2 Непродуктивное время (иные действия, не связанные с приоритетами)');
+        $this->addColumn('Звонки');
+        $this->addColumn('0');
+
+        $this->addRow();
+        $this->addColumn('1.2 Непродуктивное время (иные действия, не связанные с приоритетами)');
+        $this->addColumn('Работа с почтой');
+        $this->addColumn('0');
+
+        $this->addRow();
+        $this->addColumn('1.2 Непродуктивное время (иные действия, не связанные с приоритетами)');
+        $this->addColumn('Планирование');
+        $this->addColumn('0');
+        ////////////////////////////////////////////////////
+        $this->setBorderBold();
         $this->save();
 
     }
