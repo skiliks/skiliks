@@ -122,11 +122,6 @@ body.inner-registration {
 	background:url("../img/home-page-bg/bg-heroes.png") no-repeat center 12px;
 }
 
-.theme-new-year.action-controller-comingSoonSuccess-static-pages .container,
-.theme-new-year.action-controller-index-static-pages .container{
-    background:url("../img/home-page-bg/bg-heroes-ny.png") no-repeat center 12px;
-}
-
 .inner-registration .container{
 	/*
     min-height: auto;
@@ -136,10 +131,6 @@ body.inner-registration {
 @media screen and (max-width: 1146px){
     .action-controller-comingSoonSuccess-static-pages .container,
     .action-controller-index-static-pages .container{
-		background:url("../img/home-page-bg/bg-heroes-min-ny.png") no-repeat center 2px;
-	}
-    .theme-new-year.action-controller-comingSoonSuccess-static-pages .container,
-    .theme-new-year.action-controller-index-static-pages .container{
 		background:url("../img/home-page-bg/bg-heroes-min-ny.png") no-repeat center 2px;
 	}
 }
