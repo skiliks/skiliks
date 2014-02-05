@@ -54,10 +54,21 @@ class AnalyticalFileGenerator {
         $sheet->getStyleByColumnAndRow($this->column_number, $this->row_number)
             ->getBorders()->getOutline()->setBorderStyle(\PHPExcel_Style_Border::BORDER_THIN);
         if($width !== null){
-            $sheet->getColumnDimensionByColumn($this->column_number)
-                ->setWidth($width);
+            $sheet->getColumnDimensionByColumn($this->column_number)->setWidth($width);
+            $sheet->getStyleByColumnAndRow($this->column_number, $sheet->getHighestRow())
+                ->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
         }
         $this->column_number++;
+        return $sheet;
+    }
+
+
+    public function addColumnRight($text, $width = null) {
+        $sheet = $this->addColumn($text, $width);
+        $sheet->getStyleByColumnAndRow($this->column_number-1, $sheet->getHighestRow())->getFill()
+            ->applyFromArray(array('type' => \PHPExcel_Style_Fill::FILL_SOLID,
+                'startcolor' => array('rgb' => 'FFFF99')
+            ));
     }
 
     /**
@@ -143,23 +154,23 @@ class AnalyticalFileGenerator {
         ////////////////////////////////////////////////////
         $this->addRow();
         $this->addColumn('Управленческие навыки');
-        $this->addColumn('26,91%');
+        $this->addColumnRight('26,91%');
 
         $this->addRow();
         $this->addColumn('Результативность');
-        $this->addColumn('26,91%');
+        $this->addColumnRight('26,91%');
 
         $this->addRow();
         $this->addColumn('Эффективность использования времени');
-        $this->addColumn('26,91%');
+        $this->addColumnRight('26,91%');
 
         $this->addRow();
         $this->addColumn('Итоговый рейтинг');
-        $this->addColumn('26,91%');
+        $this->addColumnRight('26,91%');
 
         $this->addRow();
         $this->addColumn('Процентиль');
-        $this->addColumn('26,91%');
+        $this->addColumnRight('26,91%');
         /////////////////////////////////////////////////////
         $this->setBorderBold();
 
@@ -179,151 +190,151 @@ class AnalyticalFileGenerator {
         $this->addColumn('1. Управление задачами с учётом приоритетов');
         $this->addColumn('1.1 Использование планирования в течение дня');
         $this->addColumn('negative');
-        $this->addColumn('0%');
+        $this->addColumnRight('0%');
 
         $this->addRow();
         $this->addColumn('1. Управление задачами с учётом приоритетов');
         $this->addColumn('1.1 Использование планирования в течение дня');
         $this->addColumn('positive');
-        $this->addColumn('0%');
+        $this->addColumnRight('0%');
 
         $this->addRow();
         $this->addColumn('1. Управление задачами с учётом приоритетов');
         $this->addColumn('1.2 Правильное определение приоритетов задач при планировании');
         $this->addColumn('positive');
-        $this->addColumn('0%');
+        $this->addColumnRight('0%');
 
         $this->addRow();
         $this->addColumn('1. Управление задачами с учётом приоритетов');
         $this->addColumn('1.2 Правильное определение приоритетов задач при планировании');
         $this->addColumn('negative');
-        $this->addColumn('0%');
+        $this->addColumnRight('0%');
 
         $this->addRow();
         $this->addColumn('1. Управление задачами с учётом приоритетов');
         $this->addColumn('1.3 Выполнение задач в соответствии с приоритетами');
         $this->addColumn('positive');
-        $this->addColumn('0%');
+        $this->addColumnRight('0%');
 
         $this->addRow();
         $this->addColumn('1. Управление задачами с учётом приоритетов');
         $this->addColumn('1.3 Выполнение задач в соответствии с приоритетами');
         $this->addColumn('negative');
-        $this->addColumn('0%');
+        $this->addColumnRight('0%');
 
         $this->addRow();
         $this->addColumn('1. Управление задачами с учётом приоритетов');
         $this->addColumn('1.4 Прерывание при выполнении задач');
         $this->addColumn('positive');
-        $this->addColumn('0%');
+        $this->addColumnRight('0%');
 
         $this->addRow();
         $this->addColumn('1. Управление задачами с учётом приоритетов');
         $this->addColumn('1.4 Прерывание при выполнении задач');
         $this->addColumn('negative');
-        $this->addColumn('0%');
+        $this->addColumnRight('0%');
 
         $this->addRow();
         $this->addColumn('1. Управление задачами с учётом приоритетов');
         $this->addColumn('ИТОГО');
         $this->addColumn('combined');
-        $this->addColumn('0%');
+        $this->addColumnRight('0%');
 
         $this->addRow();
         $this->addColumn('2. Управление людьми');
         $this->addColumn('2.1 Использование делегирования для управления объемом задач');
         $this->addColumn('positive');
-        $this->addColumn('0%');
+        $this->addColumnRight('0%');
 
         $this->addRow();
         $this->addColumn('2. Управление людьми');
         $this->addColumn('2.1 Использование делегирования для управления объемом задач');
         $this->addColumn('negative');
-        $this->addColumn('0%');
+        $this->addColumnRight('0%');
 
         $this->addRow();
         $this->addColumn('2. Управление людьми');
         $this->addColumn('2.2 Управление ресурсами различной квалификации');
         $this->addColumn('positive');
-        $this->addColumn('0%');
+        $this->addColumnRight('0%');
 
         $this->addRow();
         $this->addColumn('2. Управление людьми');
         $this->addColumn('2.2 Управление ресурсами различной квалификации');
         $this->addColumn('negative');
-        $this->addColumn('0%');
+        $this->addColumnRight('0%');
 
         $this->addRow();
         $this->addColumn('2. Управление людьми');
         $this->addColumn('2.3 Использование обратной связи');
         $this->addColumn('positive');
-        $this->addColumn('0%');
+        $this->addColumnRight('0%');
 
         $this->addRow();
         $this->addColumn('2. Управление людьми');
         $this->addColumn('2.3 Использование обратной связи');
         $this->addColumn('negative');
-        $this->addColumn('0%');
+        $this->addColumnRight('0%');
 
         $this->addRow();
         $this->addColumn('2. Управление людьми');
         $this->addColumn('ИТОГО');
         $this->addColumn('combined');
-        $this->addColumn('0%');
+        $this->addColumnRight('0%');
 
         $this->addRow();
         $this->addColumn('3. Управление коммуникациями');
         $this->addColumn('3.1 Оптимальное использование каналов коммуникации');
         $this->addColumn('positive');
-        $this->addColumn('0%');
+        $this->addColumnRight('0%');
 
         $this->addRow();
         $this->addColumn('3. Управление коммуникациями');
         $this->addColumn('3.1 Оптимальное использование каналов коммуникации');
         $this->addColumn('negative');
-        $this->addColumn('0%');
+        $this->addColumnRight('0%');
 
         $this->addRow();
         $this->addColumn('3. Управление коммуникациями');
         $this->addColumn('3.2 Эффективная работа с почтой');
         $this->addColumn('positive');
-        $this->addColumn('0%');
+        $this->addColumnRight('0%');
 
         $this->addRow();
         $this->addColumn('3. Управление коммуникациями');
         $this->addColumn('3.2 Эффективная работа с почтой');
         $this->addColumn('negative');
-        $this->addColumn('0%');
+        $this->addColumnRight('0%');
 
         $this->addRow();
         $this->addColumn('3. Управление коммуникациями');
         $this->addColumn('3.3 Эффективная работа со звонками');
         $this->addColumn('positive');
-        $this->addColumn('0%');
+        $this->addColumnRight('0%');
 
         $this->addRow();
         $this->addColumn('3. Управление коммуникациями');
         $this->addColumn('3.3 Эффективная работа со звонками');
         $this->addColumn('negative');
-        $this->addColumn('0%');
+        $this->addColumnRight('0%');
 
         $this->addRow();
         $this->addColumn('3. Управление коммуникациями');
         $this->addColumn('3.4 Эффективное управление встречами');
         $this->addColumn('positive');
-        $this->addColumn('0%');
+        $this->addColumnRight('0%');
 
         $this->addRow();
         $this->addColumn('3. Управление коммуникациями');
         $this->addColumn('3.4 Эффективное управление встречами');
         $this->addColumn('negative');
-        $this->addColumn('0%');
+        $this->addColumnRight('0%');
 
         $this->addRow();
         $this->addColumn('3. Управление коммуникациями');
         $this->addColumn('ИТОГО');
         $this->addColumn('combined');
-        $this->addColumn('0%');
+        $this->addColumnRight('0%');
 
         ////////////////////////////////////////////////
         $this->setBorderBold();
@@ -335,19 +346,19 @@ class AnalyticalFileGenerator {
         ///////////////////////////////////////////////////////////
         $this->addRow();
         $this->addColumn('Срочно');
-        $this->addColumn('0%');
+        $this->addColumnRight('0%');
 
         $this->addRow();
         $this->addColumn('Высокий приоритет');
-        $this->addColumn('0%');
+        $this->addColumnRight('0%');
 
         $this->addRow();
         $this->addColumn('Средний приоритет');
-        $this->addColumn('0%');
+        $this->addColumnRight('0%');
 
         $this->addRow();
         $this->addColumn('Двухминутные задачи');
-        $this->addColumn('0%');
+        $this->addColumnRight('0%');
         //////////////////////////////////////////////////////////
         $this->setBorderBold();
         $this->addSheet("Эффект. использования времени");
@@ -360,72 +371,72 @@ class AnalyticalFileGenerator {
         $this->addRow();
         $this->addColumn('1. Распределение времени, %');
         $this->addColumn('Продуктивное время (выполнение приоритетных задач)');
-        $this->addColumn('0%');
+        $this->addColumnRight('0%');
 
         $this->addRow();
         $this->addColumn('1. Распределение времени, %');
         $this->addColumn('Непродуктивное время (иные действия, не связанные с приоритетами)');
-        $this->addColumn('0%');
+        $this->addColumnRight('0%');
 
         $this->addRow();
         $this->addColumn('1. Распределение времени, %');
         $this->addColumn('Время ожидания и бездействия');
-        $this->addColumn('0%');
+        $this->addColumnRight('0%');
 
         $this->addRow();
         $this->addColumn('2. Сверхурочное время (минуты)');
         $this->addColumn('Сверхурочное время');
-        $this->addColumn('0');
+        $this->addColumnRight('0');
 
         $this->addRow();
         $this->addColumn('1.1 Продуктивное время (выполнение приоритетных задач, минуты)');
         $this->addColumn('Работа с документами');
-        $this->addColumn('0');
+        $this->addColumnRight('0');
 
         $this->addRow();
         $this->addColumn('1.1 Продуктивное время (выполнение приоритетных задач, минуты)');
         $this->addColumn('Встречи');
-        $this->addColumn('0');
+        $this->addColumnRight('0');
 
         $this->addRow();
         $this->addColumn('1.1 Продуктивное время (выполнение приоритетных задач, минуты)');
         $this->addColumn('Звонки');
-        $this->addColumn('0');
+        $this->addColumnRight('0');
 
         $this->addRow();
         $this->addColumn('1.1 Продуктивное время (выполнение приоритетных задач, минуты)');
         $this->addColumn('Работа с почтой');
-        $this->addColumn('0');
+        $this->addColumnRight('0');
 
         $this->addRow();
         $this->addColumn('1.1 Продуктивное время (выполнение приоритетных задач, минуты)');
         $this->addColumn('Планирование');
-        $this->addColumn('0');
+        $this->addColumnRight('0');
         ////
         $this->addRow();
         $this->addColumn('1.2 Непродуктивное время (иные действия, не связанные с приоритетами)');
         $this->addColumn('Работа с документами');
-        $this->addColumn('0');
+        $this->addColumnRight('0');
 
         $this->addRow();
         $this->addColumn('1.2 Непродуктивное время (иные действия, не связанные с приоритетами)');
         $this->addColumn('Встречи');
-        $this->addColumn('0');
+        $this->addColumnRight('0');
 
         $this->addRow();
         $this->addColumn('1.2 Непродуктивное время (иные действия, не связанные с приоритетами)');
         $this->addColumn('Звонки');
-        $this->addColumn('0');
+        $this->addColumnRight('0');
 
         $this->addRow();
         $this->addColumn('1.2 Непродуктивное время (иные действия, не связанные с приоритетами)');
         $this->addColumn('Работа с почтой');
-        $this->addColumn('0');
+        $this->addColumnRight('0');
 
         $this->addRow();
         $this->addColumn('1.2 Непродуктивное время (иные действия, не связанные с приоритетами)');
         $this->addColumn('Планирование');
-        $this->addColumn('0');
+        $this->addColumnRight('0');
         ////////////////////////////////////////////////////
         $this->setBorderBold();
         $this->save();
