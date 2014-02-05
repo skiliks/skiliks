@@ -1192,6 +1192,13 @@ class UserService {
     public static function getServerInfo() {
         $ip_db = Yii::app()->db->createCommand("select host from information_schema.processlist WHERE ID=connection_id();")->queryRow()['host'];
         $ip_code = isset($_SERVER['SERVER_ADDR'])?$_SERVER['SERVER_ADDR']:null;
+        $domain_code = null;
+
+        if ('148.251.19.163' == $ip_code) {
+            $domain_code = ' code3.skiliks.com';
+        } elseif ('148.251.19.164' == $ip_code) {
+            $domain_code = ' code2.skiliks.com';
+        }
 
         return ['ip_code' => $ip_code, 'ip_db' => $ip_db];
     }
