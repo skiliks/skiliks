@@ -74,7 +74,8 @@
 </section>
 
 
-<div class="hint-assessment-results-type-switcher inner-popover background-yellow hide locator-hint-assessment-results-type-switcher">
+<div class="hint-assessment-results-type-switcher inner-popover background-yellow hide
+    locator-hint-assessment-results-type-switcher us-hint-assessment-type">
     <div class="popover-triangle-upper"></div>
     <div class="popover-wrapper">
         <div class="popover-content">

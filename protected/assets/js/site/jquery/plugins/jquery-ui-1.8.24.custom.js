@@ -6398,6 +6398,10 @@ $.widget("ui.dialog", {
 		uiDialog.show(options.show);
 		self.moveToTop(true);
 
+        // skiliks: fix for IE
+        // соходу окно открывается под своим же overlay
+        $(window).resize()
+
 		// prevent tabbing out of modal dialogs
 		if ( options.modal ) {
 			uiDialog.bind( "keydown.ui-dialog", function( event ) {

@@ -50,7 +50,7 @@
 
         <!-- vacancy-add-form-switcher -->
         <span class="action-vacancy-add-form-display action-toggle-hide
-            button-white inter-active label icon-arrow-blue reset-margin
+            button-white button-white-hover inter-active label icon-arrow-blue reset-margin
             action-show-add-vacancy-form
             <?php echo ($isHideForm) ? '' : 'hide' ?>">
             Добавить

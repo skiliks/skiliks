@@ -27,7 +27,7 @@
                 case Invite::STATUS_IN_PROGRESS :
                     // start-full-simulation start-full-simulation-button table-link
                     return sprintf(
-                        '<span class=" button-white inter-active label icon-arrow-blue reset-margin
+                        '<span class=" button-white button-white-hover inter-active label icon-arrow-blue reset-margin
                             action-open-full-simulation-popup"
                             data-href="/simulation/promo/%s/%s"
                             >Начать</span>',

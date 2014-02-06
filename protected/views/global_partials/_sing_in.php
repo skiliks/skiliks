@@ -53,7 +53,7 @@
 
         <div class="row margin-bottom-standard">
             <?php echo CHtml::submitButton( Yii::t('site', 'Sign in'), [
-                'class' => 'button-white inter-active label icon-arrow-blue reset-margin'
+                'class' => 'button-white button-white-hover inter-active label icon-arrow-blue reset-margin'
             ]); ?>
         </div>
 
@@ -87,7 +87,7 @@
 
         <div class="row">
             <?php echo CHtml::submitButton(Yii::t('site', 'Восстановить'),[
-                'class' => 'button-white inter-active label icon-arrow-blue reset-margin'
+                'class' => 'button-white button-white-hover inter-active label icon-arrow-blue reset-margin'
             ]); ?>
         </div>
 

@@ -136,7 +136,7 @@
 /* Corporate Dashboard - Рейтинг */
 .action-controller-corporate-static-dashboard .contrast-table tr th:nth-child(6),
 .action-controller-corporate-static-dashboard .contrast-table tr td:nth-child(6) {
-    max-width: 150px;
+    width: 150px;
 }
 
 /* Personal Dashboard - Компания */
@@ -524,4 +524,8 @@ i.icon-doc {
 #invite-form .unstandard-position-error .error-place {
     height: 11px;
     margin-top: -11px;
+}
+
+.us-hint-assessment-type {
+    font-size: 0.9em;
 }

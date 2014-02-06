@@ -150,8 +150,8 @@
     text-decoration: none;
 }
 
-.skiliks .ui-widget input.button-white:hover,
-.button-white:hover {
+.skiliks .ui-widget input.button-white-hover:hover,
+.button-white-hover:hover {
     background-position: 0 -30px;
     color: #ffffff;
 }

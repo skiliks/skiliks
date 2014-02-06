@@ -9,7 +9,7 @@
         <h3 class="inline-block pull-left reset-line-height">Полученные приглашения</h3>
 
         <span data-href="/simulation/promo/lite/<?= $notUsedLiteSimulationInvite->id ?>"
-              class="button-white inter-active label icon-arrow-blue
+              class="button-white button-white-hover inter-active label icon-arrow-blue
            action-open-lite-simulation-popup">
             Пройти демо (<?= Yii::app()->params['demoDuration'] ?> мин)</span>
 
@@ -32,7 +32,7 @@
 
         <!-- FEED BACK -->
         <div>
-            <span class="action-feedback inter-active button-white label icon-arrow-blue reset-margin">
+            <span class="action-feedback inter-active button-white button-white-hover label icon-arrow-blue reset-margin">
                 Обратная связь
             </span>
         </div>

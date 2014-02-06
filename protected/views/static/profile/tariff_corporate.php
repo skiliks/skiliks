@@ -33,7 +33,7 @@
             <?php endif ?>
 
             <?php if($user->account_corporate->getActiveTariff()->isDisplayOnTariffsPage()) : ?>
-                <a class="button-white inter-active label icon-arrow-blue vertical-align-top" href="/static/tariffs">
+                <a class="button-white button-white-hover inter-active label icon-arrow-blue vertical-align-top" href="/static/tariffs">
                     Сменить
                 </a>
             <?php endif ?>
@@ -54,11 +54,11 @@
             </span>
 
             <?php if($user->account_corporate->getActiveTariff()->isDisplayOnTariffsPage()) : ?>
-                 <a class="button-white inter-active label icon-arrow-blue vertical-align-top" href="/payment/order/<?= $user->getAccount()->tariff->slug ?>">
+                 <a class="button-white button-white-hover inter-active label icon-arrow-blue vertical-align-top" href="/payment/order/<?= $user->getAccount()->tariff->slug ?>">
                      Продлить
                  </a>
             <?php else : ?>
-                <a class="button-white inter-active label icon-arrow-blue vertical-align-top" href="/static/tariffs">
+                <a class="button-white button-white-hover inter-active label icon-arrow-blue vertical-align-top" href="/static/tariffs">
                     Сменить
                 </a>
             <?php endif ?>

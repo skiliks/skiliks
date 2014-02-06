@@ -51,7 +51,7 @@
                     'Отправить',
                     [
                         'name' => 'prevalidate',
-                        'class' => 'button-white inter-active label icon-arrow-blue'
+                        'class' => 'button-white button-white-hover inter-active label icon-arrow-blue'
                     ]);
                 ?>
             </div>

@@ -21,7 +21,7 @@ $(document).ready(function () {
         popover.css("margin-top", - popover.height()/2 - 8);
 
         if($(window).width() < 1140) {
-            popover.css("margin-left", -40);
+            popover.css("margin-left", -22);
         } else {
             popover.css("margin-left", 0);
         }
@@ -195,8 +195,8 @@ $(document).ready(function () {
 
     // 10)
     window.addEventListener('resize', function(event){
-        if (1600 < window.width()) {
-            $('body').css('background-size', window.width() + 'px auto ');
+        if (1600 < $(window).width()) {
+            $('body').css('background-size', $(window).width() + 'px auto ');
         } else {
             $('body').css('background-size', ' 1600px auto ');
         }
