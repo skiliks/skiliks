@@ -1,8 +1,4 @@
 <?php
-use application\components\Logging\LogTableList as LogTableList;
-/**
- * Created by Vladimir Boyko Skilix.
- */
 
 /**
  *
@@ -14,7 +10,7 @@ class GenerateReportCustomCommand extends CConsoleCommand
     {
 
 
-        $assessment_version = 'v2';
+        $assessment_version = 'v1';
         $scenario = Scenario::model()->findByAttributes(['slug'=>Scenario::TYPE_FULL]);
         /* @var Simulation[] $simulations */
         $simulations = Simulation::model()->findAll("scenario_id = {$scenario->id} and assessment_version = '{$assessment_version}' and end is not null");
@@ -26,7 +22,7 @@ class GenerateReportCustomCommand extends CConsoleCommand
             $categories_percentile[$category->sim_id] = $category->value;
         }
         foreach($simulations as $simulation) {
-            //if(count($data_simulations) > 1 ) break;
+            //if(count($data_simulations) > 5 ) break;
 
             if(isset($categories_percentile[$simulation->id]) && $categories_percentile[$simulation->id] != 0 && empty($simulation->results_popup_cache) === false) {
 

@@ -68,7 +68,7 @@ class AnalyticalFileGenerator {
             $sheet->getStyleByColumnAndRow($this->column_number, $sheet->getHighestRow())
                 ->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
         }
-        if((is_float(mb_substr($text, 0, mb_strlen($text) - 1)) || is_numeric(mb_substr($text, 0, mb_strlen($text) - 1))) && mb_substr($text, mb_strlen($text) - 1, mb_strlen($text)) === '%') {
+        if((is_float(mb_substr($text, 0, mb_strlen($text, 'UTF-8') - 1, 'UTF-8')) || is_numeric(mb_substr($text, 0, mb_strlen($text, 'UTF-8') - 1))) && mb_substr($text, mb_strlen($text, 'UTF-8') - 1, mb_strlen($text, 'UTF-8'), 'UTF-8') === '%') {
             $sheet->getStyleByColumnAndRow($this->column_number, $sheet->getHighestRow())
                 ->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
             $sheet->getStyleByColumnAndRow($this->column_number, $sheet->getHighestRow())
@@ -81,6 +81,7 @@ class AnalyticalFileGenerator {
 
 
     public function addColumnRight($text, $width = null) {
+        $text = str_replace('.', ',', $text);
         $sheet = $this->addColumn($text, $width);
         $sheet->getStyleByColumnAndRow($this->column_number-1, $sheet->getHighestRow())->getFill()
             ->applyFromArray(array('type' => \PHPExcel_Style_Fill::FILL_SOLID,
@@ -456,7 +457,7 @@ class AnalyticalFileGenerator {
             $this->addRow();
             $this->addColumn('1.1 Продуктивное время (выполнение приоритетных задач, минуты)');
             $this->addColumn('Планирование');
-            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_PLANING],2));
+            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_PLANING], 2));
             ////
             $this->addRow();
             $this->addColumn('1.2 Непродуктивное время (иные действия, не связанные с приоритетами)');
@@ -557,11 +558,6 @@ class AnalyticalFileGenerator {
             $data = json_decode($simulation->getAssessmentDetails(), true);
 
             $this->setInfoBySimulation($simulation);
-            $this->addRow();
-            $this->addColumn('1. Управление задачами с учётом приоритетов');
-            $this->addColumn('1.1 Определение приоритетов');
-            $this->addColumn('negative');
-            $this->addColumnRight(round($data['management'][1]['1_1']['-'], 2).'%');
 
             $this->addRow();
             $this->addColumn('1. Управление задачами с учётом приоритетов');
@@ -596,7 +592,7 @@ class AnalyticalFileGenerator {
             $this->addRow();
             $this->addColumn('1. Управление задачами с учётом приоритетов');
             $this->addColumn('1.4 Выполнение задач в соответствии с приоритетами');
-            $this->addColumn('negative');
+            $this->addColumn('positive');
             $this->addColumnRight(round($data['management'][1]['1_4']['+'], 2).'%');
 
             $this->addRow();
