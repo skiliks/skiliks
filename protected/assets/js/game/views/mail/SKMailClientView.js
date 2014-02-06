@@ -2193,6 +2193,21 @@ define([
                         drop:function (event, ui) {
                             //console.log('drop');
                             //console.log($(ui.helper).parent().data('id'));
+                            if(me.$('#MailClient_RecipientsList .tagItem').length === 0 || me.$('#MailClient_NewLetterSubject .dd-selected').text() === 'без темы.'){
+                                me.message_window_phrase = new SKDialogView({
+                                    'message':'Для написания нового письма выберите тему и адресата.',
+                                    'buttons':[
+                                        {
+                                            'value':'Ок',
+                                            'onclick':function () {
+                                                me.message_window_phrase.remove();
+                                                delete me.message_window_phrase;
+                                            }
+                                        }
+                                    ]
+                                });
+                                return false;
+                            }
                             var phrase_id = $(ui.helper).parent().data('id');
                             if(phrase_id !== undefined){
                                 var phrase = me.mailClient.getAvailablePhraseByMySqlId(phrase_id);

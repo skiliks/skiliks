@@ -1,8 +1,4 @@
 <?php
-use application\components\Logging\LogTableList as LogTableList;
-/**
- * Created by Vladimir Boyko Skilix.
- */
 
 /**
  *
@@ -28,7 +24,8 @@ class GenerateReportCustomCommand extends CConsoleCommand
         foreach($simulations as $simulation) {
             //if(count($data_simulations) > 5 ) break;
 
-            if(isset($categories_percentile[$simulation->id]) && $categories_percentile[$simulation->id] != 0) {
+            if(isset($categories_percentile[$simulation->id]) && $categories_percentile[$simulation->id] != 0 && empty($simulation->results_popup_cache) === false) {
+
                 $data_simulations[$simulation->id] = $simulation;
 
             }
@@ -40,17 +37,9 @@ class GenerateReportCustomCommand extends CConsoleCommand
         }
         echo "Calc ".count($data_simulations)." \r\n";
         if(!empty($data_simulations)) {
-            $logTableList = new LogTableList();
-            foreach($data_simulations as $data_simulation) {
-                $logTableList->setSimulation($data_simulation);
-                $logTableList->saveLogsAsExcelReport2();
-            }
-            $excelWriter = $logTableList->returnXlsFile();
+            $generator = new AnalyticalFileGenerator();
 
-            $path = SimulationService::createPathForAnalyticsFile('custom', $assessment_version);
-
-            $excelWriter->save($path);
-
+            $generator->{"runAssessment_".$assessment_version}($data_simulations);
         }
         echo "Done ".count($data_simulations)." \r\n";
     }

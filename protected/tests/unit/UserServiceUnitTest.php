@@ -490,6 +490,6 @@ class UserServiceUnitTest extends CDbTestCase
 
     public function testDemo(){
         $file = new AnalyticalFileGenerator();
-        $file->run();
+        $file->run(array());
     }
 }

@@ -482,4 +482,22 @@ class UserAccountCorporate extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+
+    public function getNumberOfPaidOrders() {
+        return Invoice::model()->count("user_id = {$this->user_id} and paid_at is not null");
+    }
+
+    public function getNumberOfInvitationsSent() {
+        return Invite::model()->count("owner_id = {$this->user_id}");
+    }
+
+    public function getNumberOfFullSimulationsForSelf() {
+        $scenario = Scenario::model()->findByAttributes(['slug'=>Scenario::TYPE_FULL]);
+        return Invite::model()->count("scenario_id = {$scenario->id} and owner_id = {$this->user_id} and owner_id = receiver_id and status = ".Invite::STATUS_COMPLETED);
+    }
+
+    public function getNumberOfFullSimulationsForPeople() {
+        $scenario = Scenario::model()->findByAttributes(['slug'=>Scenario::TYPE_FULL]);
+        return Invite::model()->count("scenario_id = {$scenario->id} and owner_id = {$this->user_id} and owner_id != receiver_id and status = ".Invite::STATUS_COMPLETED);
+    }
 }
