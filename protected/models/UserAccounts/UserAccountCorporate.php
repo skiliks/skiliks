@@ -22,7 +22,10 @@
  * @property integer $is_display_referrals_popup
  * @property integer $is_display_tariff_expire_pop_up
  * @property string $expire_invite_rule
- *
+ * @property string $site
+ * @property string $description_for_sales
+ * @property string $contacts_for_sales
+ * @property string $status_for_sales
  * The followings are the available model relations:
  * @property YumUser $user
  * @property Industry $industry

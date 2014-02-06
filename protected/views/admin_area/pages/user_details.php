@@ -301,3 +301,29 @@ $assetsUrl = $this->getAssetsUrl();
     </tr>
 
 </table>
+<?php if ($user->isCorporate()) : ?>
+    <form class="form" method="post">
+    <table class="table">
+        <tr>
+            <td>Сайт</td>
+            <td>Описание для продаж</td>
+        </tr>
+        <tr>
+            <td><textarea name="site" style="width: 90%;"><?= $user->account_corporate->site ?></textarea></td>
+            <td><textarea name="description_for_sales" style="width: 90%;"><?= $user->account_corporate->description_for_sales ?></textarea></td>
+        </tr>
+        <tr>
+            <td>Телефоны для продаж</td>
+            <td>Статус для продаж</td>
+        </tr>
+        <tr>
+            <td><textarea name="contacts_for_sales" style="width: 90%;"><?= $user->account_corporate->contacts_for_sales ?></textarea></td>
+            <td><textarea name="status_for_sales" style="width: 90%;"><?= $user->account_corporate->status_for_sales ?></textarea></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><button type="submit" name="save_form" value="true" class="btn btn-success">Сохранить</button></td>
+        </tr>
+    </table>
+    </form>
+<?php endif ?>

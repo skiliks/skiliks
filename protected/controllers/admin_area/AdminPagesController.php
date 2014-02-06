@@ -1421,6 +1421,7 @@ class AdminPagesController extends SiteBaseController {
 
     public function actionUserDetails($userId)
     {
+        /* @var $user YumUser */
         $user = YumUser::model()->findByPk($userId);
 
         if (null === $user) {
@@ -1439,6 +1440,14 @@ class AdminPagesController extends SiteBaseController {
             if($isSwitchTariffExpiredPopup !== null) {
                 $user->account_corporate->is_display_tariff_expire_pop_up = !$user->account_corporate->is_display_tariff_expire_pop_up;
                 $user->account_corporate->save();
+            }
+
+            if($this->getParam('save_form') === 'true'){
+                $user->account_corporate->site = $this->getParam('site');
+                $user->account_corporate->description_for_sales = $this->getParam('description_for_sales');
+                $user->account_corporate->contacts_for_sales = $this->getParam('contacts_for_sales');
+                $user->account_corporate->status_for_sales = $this->getParam('status_for_sales');
+                $user->account_corporate->save(false);
             }
         }
 
