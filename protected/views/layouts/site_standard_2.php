@@ -66,6 +66,12 @@ if(preg_match('/(?i)Chrome/',$_SERVER['HTTP_USER_AGENT']))
     $cs->registerCssFile($assetsUrl . "/css/site/browsers/chrome-1024.css");
 }
 
+if(preg_match('/(?i)Firefox/',$_SERVER['HTTP_USER_AGENT']))
+{
+    $cs->registerCssFile($assetsUrl . "/css/site/browsers/firefox-1280.css");
+    $cs->registerCssFile($assetsUrl . "/css/site/browsers/firefox-1024.css");
+}
+
 ?>
 
 <!DOCTYPE html>

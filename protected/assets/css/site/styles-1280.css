@@ -210,9 +210,14 @@ input.button-standard {
 }
 
 .rating-percentile-container label {
+    color: #000;
     float: right;
     font-size: 1.1em;
     line-height: 1.35em;
+}
+
+.skills-box {
+    font-size: 0.9em; /* в таблице приглашенй тоже font-size для букв уменьшен */
 }
 
 .rating-percentile-indicator {

@@ -13,7 +13,8 @@
     <div class="row-13"></div>
 </div>
 
-<div class="hint-assessment-results-type-switcher inner-popover background-yellow hide locator-hint-assessment-results-type-switcher">
+<div class="hint-assessment-results-type-switcher inner-popover background-yellow hide
+    locator-hint-assessment-results-type-switcher">
     <div class="popover-triangle-upper"></div>
     <div class="popover-wrapper">
         <div class="popover-content">

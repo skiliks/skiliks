@@ -410,8 +410,12 @@ $(document).ready(function () {
     // 15 )
     $(".action-display-assessment-results-type-hint").hover(
         function() {
-            setTimeout(function(){
+            setTimeout(function() {
                 if($(".locator-assessment-results-type-switcher" + ":hover").length > 0) {
+                    // есть баг:
+                    // или я не могу найти какой код применяет .hide() к этому элементу
+                    // или это браузер делает свою оптимизацию и назначает style="display: none;"
+                    $(".locator-hint-assessment-results-type-switcher").removeAttr('style');
                     $(".locator-hint-assessment-results-type-switcher").removeClass("hide");
                 }
             }, 2000);

@@ -94,4 +94,9 @@
     .ui-dialog form#add-vacancy-form .error-place {
         padding-left: 204px;
     }
+
+    nav ul li.menu-item span.not-started-simulations {
+        padding-top: 0px;
+        width: 6px;
+    }
 }
