@@ -15,6 +15,19 @@ define([
         getNewEvents: function (cb) {
             try {
                 this.windowLog.getAndClear();
+                var me = this;
+
+                SKApp.server.apiQueue('events/getState', {
+                    logs:             [],
+                    timeString:       this.getGameMinutes(),
+                    eventsQueueDepth: $("#events-queue-depth").val()
+                }, function (data) {
+                    if (undefined !== data && null !== data && undefined !== data.serverInfo && null !== data.serverInfo) {
+                        console.log('1: '), data.serverInfo;
+                        me.updateServerInfoForDev(data.serverInfo);
+                    }
+                });
+
                 if (cb) {
                     cb();
                 }

@@ -321,9 +321,9 @@ class EventsManager {
      */
     public static function getServerInfoForDev(Simulation $simulation) {
         $result = [];
-        if ($simulation->isDevelopMode()) {
+        //if ($simulation->isDevelopMode()) {
             $result = UserService::getServerInfo();
-        }
+        //}
         return $result;
     }
 

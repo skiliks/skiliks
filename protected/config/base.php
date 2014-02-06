@@ -150,7 +150,7 @@ return CMap::mergeArray(
             'SiteHeartSecretKey'                 => 'qaDECE9Mk7',
 
             // CSS класс который доавляется во все BODY на сайте
-            'css-theme' => 'theme-new-year',
+            'css-theme' => '',
 
             // ???
             'emails' => [

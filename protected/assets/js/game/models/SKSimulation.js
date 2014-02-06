@@ -416,6 +416,13 @@ define([
                             me.updateServerInfoForDev(data.serverInfo);
                         }
 
+                        console.log(data);
+
+                        if (undefined !== data && null !== data && undefined !== data.serverInfo && null !== data.serverInfo) {
+                            console.log('1: '), data.serverInfo;
+                            me.updateServerInfoForDev(data.serverInfo);
+                        }
+
                         if (null !== data && data.result === 1 && data.events !== undefined) {
                             me.parseNewEvents(data.events, 'events/getState');
                         }
@@ -796,10 +803,10 @@ define([
 
             updateServerInfoForDev : function (serverInfo) {
                 try {
-                    if (this.isDebug()) {
+                    //if (this.isDebug()) {
                         $('#server-info-ip-code').text(serverInfo.ip_code);
                         $('#server-info-ip-db').text(serverInfo.ip_db);
-                    }
+                    //}
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
