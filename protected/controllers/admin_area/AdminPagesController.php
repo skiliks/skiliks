@@ -1898,7 +1898,7 @@ class AdminPagesController extends SiteBaseController {
             '',
             AssessmentCategory::PERCENTILE
         );
-
+        /* @var $assessments AssessmentOverall[] */
         $assessments = AssessmentOverall::model()->with('sim', 'sim.user', 'sim.user.profile') ->findAll([
             'condition' => $condition,
             'order'     => ' t.value DESC '
@@ -1906,7 +1906,9 @@ class AdminPagesController extends SiteBaseController {
 
         $simulations = [];
         foreach ($assessments as $assessment) {
-            $simulations[] = $assessment->sim;
+            if($assessment->sim->invite !== null) {
+                $simulations[] = $assessment->sim;
+            }
         }
 
         $this->layout = '/admin_area/layouts/admin_main';
