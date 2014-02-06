@@ -7,6 +7,10 @@
     'Тип компании',
     'Название компании',
     'Количество приглашений',
+    'Количество оплаченных заказов',
+    'Количество отправленных приглашений',
+    'Количество пройденных полных симуляций "сам-себе"',
+    'Количество пройденных полных симуляций "для людей"',
     'Тарифный план',
     'Дата регистрации',
     'Дата последнего посещения',
@@ -69,6 +73,10 @@
                 <td><?=$account->ownership_type ?></td>
                 <td>"<?= $account->company_name ?>"</td>
                 <td style="text-align: center;"><?= $account->invites_limit ?></td>
+                <td style="text-align: center;"><?= $account->getNumberOfPaidOrders() ?></td>
+                <td style="text-align: center;"><?= $account->getNumberOfInvitationsSent() ?></td>
+                <td style="text-align: center;"><?= $account->getNumberOfFullSimulationsForSelf() ?></td>
+                <td style="text-align: center;"><?= $account->getNumberOfFullSimulationsForPeople() ?></td>
                 <td style="width: 150px;">
                     <?= $account->getActiveTariffPlan()->tariff->label ?>
                 </td>
