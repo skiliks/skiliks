@@ -321,6 +321,14 @@ $assetsUrl = $this->getAssetsUrl();
             <td><textarea name="status_for_sales" style="width: 90%;"><?= $user->account_corporate->status_for_sales ?></textarea></td>
         </tr>
         <tr>
+            <td>Название компании</td>
+            <td>Отрасль компании</td>
+        </tr>
+        <tr>
+            <td><textarea name="company_name_for_sales" style="width: 90%;"><?= $user->account_corporate->company_name_for_sales ?></textarea></td>
+            <td><textarea name="industry_for_sales" style="width: 90%;"><?= $user->account_corporate->industry_for_sales ?></textarea></td>
+        </tr>
+        <tr>
             <td></td>
             <td><button type="submit" name="save_form" value="true" class="btn btn-success">Сохранить</button></td>
         </tr>

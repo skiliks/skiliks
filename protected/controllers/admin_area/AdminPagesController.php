@@ -1443,6 +1443,9 @@ class AdminPagesController extends SiteBaseController {
             }
 
             if($this->getParam('save_form') === 'true'){
+
+                $user->account_corporate->industry_for_sales = $this->getParam('industry_for_sales');
+                $user->account_corporate->company_name_for_sales = $this->getParam('company_name_for_sales');
                 $user->account_corporate->site = $this->getParam('site');
                 $user->account_corporate->description_for_sales = $this->getParam('description_for_sales');
                 $user->account_corporate->contacts_for_sales = $this->getParam('contacts_for_sales');
