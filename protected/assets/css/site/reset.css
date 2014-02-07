@@ -150,7 +150,8 @@ span.required {
 }
 
 textarea,
-input[type='text'] {
+input[type='text'],
+input[type='password'] {
     background: none repeat scroll 0 0 #FFFFFF;
     border: 1px solid #3E5259;
     border-radius: 5px;
@@ -160,6 +161,13 @@ input[type='text'] {
     line-height: 26px;
     font-size: 1em;
     line-height: 1em;
+    padding: 2px 4px;
+}
+
+input[type='checkbox'] {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #3E5259;
+    border-radius: 5px;
     padding: 2px 4px;
 }
 
@@ -406,6 +414,8 @@ form .error-place {
 .error select,
 .error textarea,
 .error input[type='text'],
+.error input[type='password'],
+.error input[type='checkbox'],
 .skiliks .error .sbHolder {
     border : 1px solid #bd2929;
     /*background-color: #FFF3E5;*/
