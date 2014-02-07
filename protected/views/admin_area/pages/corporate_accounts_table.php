@@ -14,6 +14,7 @@
     'Тарифный план',
     'Дата регистрации',
     'Дата последнего посещения',
+    'Истечение последнего не нулевого тарифа'
 ] ?>
 <div class="row fix-top">
     <h2>Корпоративные аккаунты</h2>
@@ -85,6 +86,9 @@
                 </td>
                 <td>
                     <?= date('Y-m-d H:i:s', $account->user->lastvisit) ?>
+                </td>
+                <td>
+                    <?= $account->getLastTariffPlanNonFree()->finished_at ?>
                 </td>
             </tr>
         <?php endforeach ?>
