@@ -493,7 +493,7 @@ class UserAccountCorporate extends CActiveRecord
     }
 
     public function getNumberOfInvitationsSent() {
-        return Invite::model()->count("owner_id = {$this->user_id} and owner_id != receiver_id");
+        return Invite::model()->count("owner_id = {$this->user_id} and (owner_id != receiver_id or receiver_id is null) and status != ".Invite::STATUS_DELETED);
     }
 
     public function getNumberOfFullSimulationsForSelf() {
@@ -504,5 +504,10 @@ class UserAccountCorporate extends CActiveRecord
     public function getNumberOfFullSimulationsForPeople() {
         $scenario = Scenario::model()->findByAttributes(['slug'=>Scenario::TYPE_FULL]);
         return Invite::model()->count("scenario_id = {$scenario->id} and owner_id = {$this->user_id} and owner_id != receiver_id and status = ".Invite::STATUS_COMPLETED);
+    }
+
+    public function getLastTariffPlanNonFree() {
+        $free = Tariff::model()->findByAttributes(['slug'=>Tariff::SLUG_FREE]);
+        return TariffPlan::model()->find("user_id = {$this->user_id} and tariff_id != {$free->id} order by id desc");
     }
 }
