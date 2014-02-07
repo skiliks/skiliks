@@ -101,4 +101,9 @@
         max-width: 488px;
         min-width: 488px;
     }
+
+    nav ul li.menu-item span.not-started-simulations {
+        padding-top: 0px;
+        width: 6px;
+    }
 }

@@ -424,6 +424,13 @@ $(document).ready(function () {
             $(".locator-hint-assessment-results-type-switcher").addClass("hide");
         }
     );
+
+    // 16) В выпадающем списке вакансий выбирает ту - которая была только что додавлена
+    // в контроллере где происходит добавлени вакансии провтавляется куки 'recently_added_vacancy_id'
+    if (null !== $.cookie('recently_added_vacancy_id')) {
+        $('#Invite_vacancy_id option[value=' + $.cookie('recently_added_vacancy_id') + ']').attr('selected', 'selected');
+        $.cookie('recently_added_vacancy_id', null);
+    }
 });
 
 

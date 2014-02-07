@@ -315,3 +315,20 @@ input.button-standard {
 .flash-password-recovery {
     margin: 75px 0 0;
 }
+
+nav ul li.menu-item span.not-started-simulations {
+    background-color: #CF1919;
+    border-radius: 4px;
+    font-family: ProximaNova-Bold;
+    font-size: 0.67em;
+    height: 20px;
+    left: 5px;
+    line-height: 20px;
+    margin-right: -12px;
+    padding-top: 2px;
+    padding-bottom: 0;
+    position: relative;
+    text-align: center;
+    top: -10px;
+    width: 21px;
+}

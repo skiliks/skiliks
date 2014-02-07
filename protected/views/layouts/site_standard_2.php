@@ -40,9 +40,8 @@ $cs->registerScriptFile($assetsUrl . '/js/site/jquery/plugins/jquery-migrate-1.1
 $cs->registerScriptFile($assetsUrl . '/js/site/jquery/plugins/jquery-ui-1.8.24.custom.js', CClientScript::POS_BEGIN);
 
 $cs->registerScriptFile($assetsUrl . "/js/site/jquery/plugins/jquery.browser.js");
-
+$cs->registerScriptFile($assetsUrl . "/js/site/jquery/plugins/jquery.cookies.js");
 $cs->registerScriptFile($assetsUrl . '/js/site/jquery/plugins/jquery.textchange.js');
-
 $cs->registerScriptFile($assetsUrl . '/js/site/jquery/plugins/jquery.selectbox-0.2.js');
 
 $cs->registerScriptFile($assetsUrl . '/js/site/common.js');
