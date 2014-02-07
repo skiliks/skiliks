@@ -37,7 +37,7 @@
                             <span class="rating-stars-indicator-level" style="width: <?php echo $simulation->getCategoryAssessment(); ?>%">
                             </span>
                         </span>
-                        <label class="ProximaNova-Bold"><?= $simulation->getCategoryAssessment() ?>%</label>
+                        <label class="selenium-stars-value"><?= $simulation->getCategoryAssessment() ?>%</label>
                     </span>
 
                     <?php if ($isDisplayArrow) : ?>
@@ -67,7 +67,7 @@
                             <span class="rating-percentile-indicator-level" style="width:<?= round($simulation->invite->getPercentile()) ?>%;"></span>
                         </span>
 
-                        <label class="ProximaNova-Bold">P<?=round($simulation->invite->getPercentile())  ?></label>
+                        <label class="selenium-percentile-value">P<?=round($simulation->invite->getPercentile())  ?></label>
                     </span>
 
                     <?php if ($isDisplayArrow) : ?>
