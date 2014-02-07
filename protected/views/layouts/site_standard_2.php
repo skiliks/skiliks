@@ -71,7 +71,7 @@ if(preg_match('/(?i)Firefox/',$_SERVER['HTTP_USER_AGENT']))
     $cs->registerCssFile($assetsUrl . "/css/site/browsers/firefox-1024.css");
 }
 
-if(preg_match('/(?i)Explorer/',$_SERVER['HTTP_USER_AGENT']))
+if(preg_match('/(?i)MSIE/',$_SERVER['HTTP_USER_AGENT']))
 {
     $cs->registerCssFile($assetsUrl . "/css/site/browsers/firefox-1280.css");
     $cs->registerCssFile($assetsUrl . "/css/site/browsers/firefox-1024.css");
