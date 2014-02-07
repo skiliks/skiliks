@@ -491,7 +491,7 @@ class UserAccountCorporate extends CActiveRecord
     }
 
     public function getNumberOfInvitationsSent() {
-        return Invite::model()->count("owner_id = {$this->user_id}");
+        return Invite::model()->count("owner_id = {$this->user_id} and owner_id != receiver_id");
     }
 
     public function getNumberOfFullSimulationsForSelf() {
