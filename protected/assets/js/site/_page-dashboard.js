@@ -288,14 +288,14 @@ $(document).ready(function () {
             width: getDialogWindowWidth_2of3(),
             height: 530,
             position: {
+                use: true,
                 my: "right top",
-                at: "right bottom",
-                of: $('.action-open-full-simulation-popup')
+                at: "right top",
+                of: $('.locator-corporate-invitations-list-box')
             }
         });
 
-        $( ".locator-form-invite-step-2").
-            dialog('open');
+        $( ".locator-form-invite-step-2").dialog('open');
     }
 
     // 13)

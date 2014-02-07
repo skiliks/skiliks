@@ -47,7 +47,10 @@
         <span class="error-place">
             <?php echo $form->error($model, 'email'); ?>
         </span>
-        <?php echo $form->textField($model, 'email', ['class' => 'inputs-wide-height']); ?>
+        <?php echo $form->textField($model, 'email', [
+            'class'       => 'inputs-wide-height',
+            'placeholder' => 'Введите ваш email',
+        ]); ?>
         <?php echo CHtml::submitButton(Yii::t('site', 'Send'), [
             'class' => 'label background-dark-blue icon-circle-with-blue-arrow-big button-standard icon-padding-standard',
             'name'  => 'submit'

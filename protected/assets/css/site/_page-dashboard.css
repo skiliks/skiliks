@@ -547,3 +547,12 @@ i.icon-doc {
 .skiliks .contrast-table .button-white {
     margin-left: 0px;
 }
+
+#Invite_message {
+    width: 605px;
+    min-width: 605px;
+    max-width: 605px;
+    height: 85px;
+    min-height: 85px;
+    max-height: 85px;
+}

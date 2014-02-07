@@ -150,7 +150,7 @@ span.required {
 }
 
 textarea,
-input {
+input[type='text'] {
     background: none repeat scroll 0 0 #FFFFFF;
     border: 1px solid #3E5259;
     border-radius: 5px;
@@ -405,7 +405,7 @@ form .error-place {
 
 .error select,
 .error textarea,
-.error input,
+.error input[type='text'],
 .skiliks .error .sbHolder {
     border : 1px solid #bd2929;
     /*background-color: #FFF3E5;*/

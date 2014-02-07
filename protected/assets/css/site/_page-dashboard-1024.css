@@ -142,4 +142,10 @@
     .action-controller-personal-static-dashboard h3 {
         margin-left: 81px;
     }
+
+    #Invite_message {
+        width: 475px;
+        min-width: 475px;
+        max-width: 475px;
+    }
 }

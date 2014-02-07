@@ -6268,7 +6268,8 @@ $.widget("ui.dialog", {
                             (parseInt(this.element.parent().css('left')) - 16) + 'px'
                         );
 
-                    } else if ('left top' == this.options.position.at) {
+                    } else if ('left top' == this.options.position.at
+                        || 'right top' == this.options.position.at) {
                         var top = element.offset().top;
                         this.element.parent().css('top', top + 'px' );
                     }
