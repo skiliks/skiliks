@@ -110,15 +110,15 @@
 /* Corporate Dashboard - Имя */
 .action-controller-corporate-static-dashboard .contrast-table tr th:nth-child(2),
 .action-controller-corporate-static-dashboard .contrast-table tr td:nth-child(2) {
-    width: 180px;
-    max-width: 180px; /* for text-overflow: ellipsis; */
+    width: 190px;
+    max-width: 190px; /* for text-overflow: ellipsis; */
 }
 
 /* Corporate Dashboard - Позиция */
 .action-controller-corporate-static-dashboard .contrast-table tr th:nth-child(3),
 .action-controller-corporate-static-dashboard .contrast-table tr td:nth-child(3) {
-    width: 180px;
-    max-width: 180px; /* for text-overflow: ellipsis; */
+    width: 170px;
+    max-width: 170px; /* for text-overflow: ellipsis; */
 }
 
 /* Corporate Dashboard - Статус */
@@ -139,11 +139,7 @@
     width: 150px;
 }
 
-/* Personal Dashboard - Компания */
-.action-controller-personal-static-dashboard .contrast-table tr td:nth-child(1) {
-    width: 140px;
-    max-width: 140px; /* for text-overflow: ellipsis; */
-}
+/* --- */
 
 /* Personal Dashboard - Компания */
 .action-controller-personal-static-dashboard .contrast-table tr th:nth-child(1) {
@@ -152,20 +148,20 @@
 
 /* Personal Dashboard - Компания */
 .action-controller-personal-static-dashboard .contrast-table tr td:nth-child(1) {
-    width: 150px;
-    max-width: 140px; /* for text-overflow: ellipsis; */
+    width: 180px;
+    max-width: 180px; /* for text-overflow: ellipsis; */
 }
 
 /* Personal Dashboard - Позиция */
 .action-controller-personal-static-dashboard .contrast-table tr td:nth-child(2) {
-    width: 150px;
-    max-width: 150px; /* for text-overflow: ellipsis; */
+    width: 140px;
+    max-width: 140px; /* for text-overflow: ellipsis; */
 }
 
 /* Personal Dashboard - Оценка (Официальное название сценария) */
 .action-controller-personal-static-dashboard .contrast-table tr td:nth-child(3) {
-    width: 150px;
-    max-width: 150px; /* for text-overflow: ellipsis; */
+    width: 110px;
+    max-width: 110px; /* for text-overflow: ellipsis; */
 }
 
 /* Personal Dashboard - Дата */
