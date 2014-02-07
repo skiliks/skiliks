@@ -26,6 +26,8 @@
  * @property string $description_for_sales
  * @property string $contacts_for_sales
  * @property string $status_for_sales
+ * @property string $company_name_for_sales
+ * @property string $industry_for_sales
  * The followings are the available model relations:
  * @property YumUser $user
  * @property Industry $industry
