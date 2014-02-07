@@ -157,7 +157,7 @@
 }
 
 .page-title-box .button-white {
-    margin-right: 8px; /* это толщина .nice-border */
+    margin-right: 12px;
 }
 
 .icon-arrow-blue {
@@ -512,4 +512,8 @@ input.inputs-wide-height {
 
 .error-place {
     padding-left: 0px;
+}
+
+.accept-invite-button-width {
+    width: 50px; /* с отступами суммарно 75px выходит */
 }

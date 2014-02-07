@@ -6,4 +6,8 @@
     .assessment-results-type-switcher {
         padding-bottom: 1px;
     }
+
+    .button-white {
+        line-height: 2.7em;
+    }
 }

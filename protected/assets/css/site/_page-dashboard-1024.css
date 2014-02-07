@@ -13,18 +13,31 @@
 
     /* Personal Dashboard - Компания */
     .action-controller-personal-static-dashboard .contrast-table tr td:nth-child(1) {
-        width: 150px;
-        min-width: 150px; /* for text-overflow: ellipsis; */
-        max-width: 150px; /* for text-overflow: ellipsis; */
+        width: 140px;
+        min-width: 140px; /* for text-overflow: ellipsis; */
+        max-width: 140px; /* for text-overflow: ellipsis; */
     }
 
     /* Personal Dashboard - Позиция */
     .action-controller-personal-static-dashboard .contrast-table tr td:nth-child(2) {
-        width: 120px;
-        min-width: 120px; /* for text-overflow: ellipsis; */
-        max-width: 120px; /* for text-overflow: ellipsis; */
+        width: 110px;
+        min-width: 110px; /* for text-overflow: ellipsis; */
+        max-width: 110px; /* for text-overflow: ellipsis; */
     }
 
+    /* Personal Dashboard - Дата */
+    .action-controller-personal-static-dashboard .contrast-table tr td:nth-child(4) {
+        width: 60px;
+        max-width: 60px;
+        min-width: 60px;
+    }
+
+    /* Personal Dashboard - Дата */
+    .action-controller-personal-static-dashboard .contrast-table tr td:nth-child(5) {
+        width: 150px;
+        max-width: 150px;
+        min-width: 150px;
+    }
 
     #send-invite-message-form input[type="text"] {
         width: 614px;
@@ -107,5 +120,26 @@
 
     .ui-dialog form#add-vacancy-form .error-place {
         padding-left: 204px;
+    }
+
+    .controller-static-dashboard .skills-box .skills-title {
+        width: 70px;
+        line-height: 1.2em;
+    }
+
+    .controller-static-dashboard .skills-box-percentile .skills-title {
+        width: 90px;
+    }
+
+    .controller-static-dashboard .skills-box .icon-circle-with-blue-arrow {
+        padding-left: 15px;
+    }
+
+    .controller-static-dashboard .skills-box .icon-21x21-empty {
+        vertical-align: top;
+    }
+
+    .action-controller-personal-static-dashboard h3 {
+        margin-left: 81px;
     }
 }

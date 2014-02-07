@@ -167,13 +167,15 @@
 /* Personal Dashboard - Дата */
 .action-controller-personal-static-dashboard .contrast-table tr td:nth-child(4) {
     width: 80px;
+    max-width: 80px;
+    min-width: 80px;
 }
 
 /* Personal Dashboard - Статус */
 .action-controller-personal-static-dashboard .contrast-table tr td:nth-child(5) {
     width: 200px;
     max-width: 200px;
-    min-width: 150px;
+    min-width: 200px;
 }
 
 .action-controller-personal-static-dashboard .contrast-table tr td:nth-child(5) section {
@@ -437,7 +439,7 @@ i.icon-doc {
 
 .action-controller-personal-static-dashboard h3 {
     margin-top: 6px;
-    margin-left: 98px;
+    margin-left: 102px;
 }
 
 .unstandard-decline {
@@ -540,4 +542,8 @@ i.icon-doc {
 
 .us-hint-assessment-type {
     font-size: 0.9em;
+}
+
+.skiliks .contrast-table .button-white {
+    margin-left: 0px;
 }

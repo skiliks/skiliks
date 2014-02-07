@@ -93,6 +93,11 @@ header nav.static-page-links ul {
     margin-top: 24px;
 }
 
+header nav.account-links ul,
+header nav.static-page-links ul {
+    margin-right: -8px;
+}
+
 footer nav.static-page-links {
     height: 116px;
 }

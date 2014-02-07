@@ -32,6 +32,10 @@
         margin-left: 0px;
     }
 
+    .contrast-table .button-white {
+        font-size: 1.15em;
+    }
+
     /* --- contrast-table --- */
 
     .contrast-table table.items th,
