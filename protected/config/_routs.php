@@ -226,6 +226,7 @@ return [
 
                 'admin_area/simulations/rating/csv'                       => 'admin_area/AdminPages/SimulationsRatingCsv',
                 'admin_area/simulations/rating'                           => 'admin_area/AdminPages/SimulationsRating',
+                'admin_area/export-all-corporate-account-xlsx'            => 'admin_area/AdminPages/ExportAllCorporateUserXLSX',
                 'admin_area/email/<id:\w+>/text'                          => 'admin_area/AdminPages/EmailText',
                 'admin_area/import-scenario/<slug:\w+>/<logImportId:\w+>' => 'admin_area/AdminPages/StartImport',
                 'admin_area/import-log/<id:\w+>/get-text'                 => 'admin_area/AdminPages/GetImportLog',
