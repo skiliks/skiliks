@@ -56,7 +56,7 @@ class InviteService {
     public static function declineInvite(YumUser $user, DeclineExplanation $declineExplanation) {
 
         if (null === $declineExplanation->invite) {
-            Yii::app()->user->setFlash('success', 'Выбранного к отмене приглашения не существует.');
+            Yii::app()->user->setFlash('success', 'Выбранного к отмене приглашения не существует');
             return '/dashboard';
         }
 
