@@ -18,7 +18,7 @@
         <div class="widthblock"><h2><a href="#time-management">Эффективность использования времени<span class="signmore"></span></a></h2></div>
     </div><!-- /estmtileswrap -->
 </div>
-<div class="clearfix maincharts">
+<div class="clearfix-simulation-results maincharts">
     <div class="gauge-charts">
 
     </div>

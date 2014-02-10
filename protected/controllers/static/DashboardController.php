@@ -166,7 +166,11 @@ class DashboardController extends SiteBaseController implements AccountPageContr
 
         $this->addSiteCss('_page-dashboard.css');
         $this->addSiteCss('_page-dashboard-1024.css');
+        $this->addSiteCss('_simulation_details.css');
+
         $this->addSiteJs('_page-dashboard.js');
+        $this->addSiteJs('libs/d3.v3.js');
+        $this->addSiteJs('libs/charts.js');
 
         $this->render('dashboard_corporate', [
             'invite'              => $invite,
@@ -213,7 +217,11 @@ class DashboardController extends SiteBaseController implements AccountPageContr
 
         $this->addSiteCss('_page-dashboard.css');
         $this->addSiteCss('_page-dashboard-1024.css');
+        $this->addSiteCss('_simulation_details.css');
+
         $this->addSiteJs('_page-dashboard.js');
+        $this->addSiteJs('libs/d3.v3.js');
+        $this->addSiteJs('libs/charts.js');
 
         $this->render('dashboard_personal', [
             'simulation' => $simulation,
@@ -516,7 +524,6 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             if ($user->id !== $simulation->invite->owner_id &&
                 $user->id !== $simulation->invite->receiver_id) {
                 //echo 'Вы не можете просматривать результаты чужих симуляций.';
-
                 Yii::app()->end(); // кошерное die;
             }
         }

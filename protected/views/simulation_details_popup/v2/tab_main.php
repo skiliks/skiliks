@@ -6,7 +6,7 @@
             </span>
             <div class="percentil_text">P0</div>
     </div>
-    <div class="clear: both"></div>
+    <div style="clear: both"></div>
     <div class="estmtresults">
         <div class="overall">
             <span class="allratebg"><span class="allrating" style="width:30%"></span></span> <span class="blockvalue"><span class="value"></span>%</span>
@@ -18,7 +18,7 @@
         <div class="widthblock"><h2><a href="#time-management">Эффективность использования времени<span class="signmore"></span></a></h2></div>
     </div><!-- /estmtileswrap -->
 </div>
-<div class="clearfix maincharts">
+<div class="clearfix-simulation-results maincharts">
     <div class="gauge-charts">
 
     </div>

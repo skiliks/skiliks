@@ -226,13 +226,13 @@ input.button-standard {
 }
 
 .rating-percentile-indicator {
-    background: url("../../img/site/1280/assessment/percentil.png") no-repeat 0 -18px;
+    background: url("../../img/site/1280/assessment/percentile.png") no-repeat 0 -18px;
     height: 18px;
     width: 74px;
 }
 
 .rating-percentile-indicator-level {
-    background: url("../../img/site/1280/assessment/percentil.png") no-repeat 0 0;
+    background: url("../../img/site/1280/assessment/percentile.png") no-repeat 0 0;
     height: 18px;
 }
 

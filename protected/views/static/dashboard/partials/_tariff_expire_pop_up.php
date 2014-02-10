@@ -6,7 +6,7 @@
 </div>
 <script>
     $(document).ready(function() {
-        $('#tariff-expired-popup').dialog({
+        /*$('#tariff-expired-popup').dialog({
             dialogClass: 'accept-invite-warning-popup full-simulation-info-popup show-popup-top tariff-expired-popup',
             modal:       false,
             autoOpen:    true,
@@ -31,7 +31,7 @@
             close: function() {
                 $.post('/dashboard/dontShowTariffExpirePopup');
             }
-        });
+        });*/
     })
 </script>
 

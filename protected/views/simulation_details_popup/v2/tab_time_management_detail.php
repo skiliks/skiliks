@@ -4,7 +4,7 @@
         <h2 class="resulttitele">Продуктивное время <small>(выполнение приоритетных задач, минуты)</small></h2>
         <div class="testtime"><strong>20</strong>%</div>
 
-        <div class="clearfix">
+        <div class="clearfix-simulation-results">
             <div class="labels">
                 <p class="labelwrap"><span class="thelabel">Работа с документами</span></p>
                 <p class="labelwrap"><span class="thelabel">Встречи</span></p>
@@ -21,7 +21,7 @@
         <h2 class="resulttitele">Непродуктивное время <small>(иные действия, не связанные с приоритетами, минуты)</small></h2>
         <div class="testtime"><strong>20</strong>%</div>
 
-        <div class="clearfix">
+        <div class="clearfix-simulation-results">
             <div class="labels">
                 <p class="labelwrap"><span class="thelabel">Работа с документами</span></p>
                 <p class="labelwrap"><span class="thelabel">Встречи</span></p>

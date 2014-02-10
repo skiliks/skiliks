@@ -5,9 +5,9 @@
 
 
     <p class="barstitle resultlabeltitle">Уровень выполнения задач</p>
-    <div class="clearfix">
+    <div class="clearfix-simulation-results">
         <div class="labels">
-            <div class="row"><div class="popover" style="display: block;"><div class="popover-triangle"></div>
+            <div class="row"><div class="popover hide"><div class="popover-triangle"></div>
                     <div class="popover-content"><div class="popup-content ">
                             Выполнение форс-мажорных задач, отложить которые невозможно.
                         </div></div></div>
@@ -15,7 +15,7 @@
                 <a href="#" class="questn show-popover show-popover-2" style="margin:0;"></a>
             </div>
 
-            <div class="row"><div class="popover" style="display: block;"><div class="popover-triangle"></div>
+            <div class="row"><div class="popover hide"><div class="popover-triangle"></div>
                     <div class="popover-content"><div class="popup-content ">
                             Выполнение задач, значимых для компании в целом или для подразделения, которые должны быть обязательно сделаны сегодня.
                         </div></div></div>
@@ -23,7 +23,7 @@
                 <a href="#" class="questn show-popover show-popover-2" style="margin:0;"></a>
             </div>
 
-            <div class="row"><div class="popover" style="display: block;"><div class="popover-triangle"></div>
+            <div class="row"><div class="popover hide"><div class="popover-triangle"></div>
                     <div class="popover-content"><div class="popup-content ">
                             Выполнение задач, значимых для компании в целом или для подразделения, со сроком исполнения в ближайшие дни.
                         </div></div></div>
@@ -31,7 +31,7 @@
                 <a href="#" class="questn show-popover show-popover-2" style="margin:0;"></a>
             </div>
 
-            <div class="row"><div class="popover" style="display: block;"><div class="popover-triangle"></div>
+            <div class="row"><div class="popover hide"><div class="popover-triangle"></div>
                     <div class="popover-content"><div class="popup-content ">
                             Задачи, выполнение которых занимает не более 2 минут.
                         </div></div></div>

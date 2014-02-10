@@ -45,6 +45,7 @@ $cs->registerScriptFile($assetsUrl . '/js/site/jquery/plugins/jquery.textchange.
 $cs->registerScriptFile($assetsUrl . '/js/site/jquery/plugins/jquery.selectbox-0.2.js');
 
 $cs->registerScriptFile($assetsUrl . '/js/site/common.js');
+$cs->registerScriptFile($assetsUrl . '/js/site/_simulation-details-popup.js');
 
 /* .dialog() */
 $cs->registerCssFile($assetsUrl . '/js/jquery/jquery-ui.css');

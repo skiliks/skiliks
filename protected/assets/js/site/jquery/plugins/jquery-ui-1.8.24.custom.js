@@ -807,6 +807,11 @@ $.fn.position = function( options ) {
 		targetHeight,
 		basePosition;
 
+    if (undefined == targetElem) {
+        console.log('Can`t find element: ', options.of);
+        return;
+    }
+
 	if ( targetElem.nodeType === 9 ) {
 		targetWidth = target.width();
 		targetHeight = target.height();
@@ -6238,45 +6243,6 @@ $.widget("ui.dialog", {
 		if ( this.options.autoOpen ) {
             this.open();
             /* skiliks: */
-
-            winHeigth = $(window).height();
-            dialogHeight = this.element.parent().height();
-
-            /* 55 px сверху и 55 px снизу */
-            if (winHeigth < dialogHeight + 110) {
-                this.element.parent().css('position', 'absolute');
-                this.element.parent().css('top', '50px');
-                clearfixHeight = $('.clearfix').height();
-
-                /* 100 px сверху и 100 px снизу */
-                $('.clearfix').css('height', clearfixHeight + (dialogHeight - winHeigth) + 110 );
-            } else {
-                this.element.parent().css('position', 'fixed');
-
-                if (this.options.position.use) {
-                    var element = $(this.options.position.of);
-
-                    // 'right bottom' - возможно надо будет для sing-in окошек отдельную консттанту ввести,
-                    // вместо 'right bottom'
-                    if ('right bottom' == this.options.position.at) {
-                        // 18px - высота от верхнего края div с диалоговым окном (без учёта бордера)
-                        // до верхнего края кнопки закрыть
-                        var top = element.offset().top + element.height() + 16;
-                        this.element.parent().css('top', top + 'px' );
-                        this.element.parent().css(
-                            'left',
-                            (parseInt(this.element.parent().css('left')) - 16) + 'px'
-                        );
-
-                    } else if ('left top' == this.options.position.at
-                        || 'right top' == this.options.position.at) {
-                        var top = element.offset().top;
-                        this.element.parent().css('top', top + 'px' );
-                    }
-                } else {
-                    this.element.parent().css('top', (winHeigth - dialogHeight)/2 + 'px' );
-                }
-            }
 		}
 	},
 
@@ -6432,6 +6398,52 @@ $.widget("ui.dialog", {
 
 		self._isOpen = true;
 		self._trigger('open');
+
+        /* skiliks { */
+
+        winHeigth = $(window).height();
+        dialogHeight = this.element.parent().height();
+
+        console.log('1', winHeigth, dialogHeight);
+        /* 55 px сверху и 55 px снизу */
+        if (winHeigth < dialogHeight + 110) {
+            console.log('2');
+            this.element.parent().css('position', 'absolute');
+            this.element.parent().css('top', '50px');
+            clearfixHeight = $('.clearfix').height();
+
+            /* 100 px сверху и 100 px снизу */
+            $('.clearfix').css('height', clearfixHeight + (dialogHeight - winHeigth) + 110 );
+        } else {
+            console.log('3');
+            this.element.parent().css('position', 'fixed');
+
+            if (this.options.position.use) {
+                var element = $(this.options.position.of);
+
+                // 'right bottom' - возможно надо будет для sing-in окошек отдельную консттанту ввести,
+                // вместо 'right bottom'
+                if ('right bottom' == this.options.position.at) {
+                    // 18px - высота от верхнего края div с диалоговым окном (без учёта бордера)
+                    // до верхнего края кнопки закрыть
+                    var top = element.offset().top + element.height() + 16;
+                    this.element.parent().css('top', top + 'px' );
+                    this.element.parent().css(
+                        'left',
+                        (parseInt(this.element.parent().css('left')) - 16) + 'px'
+                    );
+
+                } else if ('left top' == this.options.position.at
+                    || 'right top' == this.options.position.at) {
+                    var top = element.offset().top;
+                    this.element.parent().css('top', top + 'px' );
+                }
+            } else {
+                this.element.parent().css('top', (winHeigth - dialogHeight)/2 + 'px' );
+            }
+        }
+
+        /* } skiliks */
 
 		return self;
 	},

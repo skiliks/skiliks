@@ -10,7 +10,7 @@
     <h1><?php echo $user->profile->firstname ?> <?php echo $user->profile->lastname ?></h1>
 <?php elseif(null === $simulation->invite) : ?>
     <?php // это хак для просмотра результатов lite симуляций,
-          //в случае одновременного запуска нескольких lite симуляций по одному и туме же инвайту  ?>
+    //в случае одновременного запуска нескольких lite симуляций по одному и туме же инвайту  ?>
     <h1><?php echo $user->profile->firstname ?> <?php echo $user->profile->lastname ?></h1>
 <?php else : ?>
     <h1><?php echo $simulation->invite->firstname ?> <?php echo $simulation->invite->lastname ?></h1>

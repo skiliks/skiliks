@@ -62,6 +62,7 @@ return [
                 'simulation/demo'         => 'static/site/demo',
                 'simulation/legacy/<mode:\w+>/<type:\w+>/<invite_id:\d+>' => 'static/pages/legacyAndTerms',
 
+                'simulation/<id:\w+>/details'                      => 'static/dashboard/simulationDetails',
                 'simulation/<mode:\w+>/<type:\w+>/<invite_id:\d+>' => 'static/site/simulation',
                 'simulation/<mode:\w+>/<type:\w+>'                 => 'static/site/simulation',
                 'promo/<mode:\w+>/<type:\w+>'                      => 'static/dashboard/index',
@@ -118,7 +119,6 @@ return [
                 'dashboard/inviteReferrals' => 'static/dashboard/inviteReferrals',
                 'dashboard/sendReferralEmail' => 'static/dashboard/sendReferralEmail',
                 'dashboard/personal'  => 'static/dashboard/personal',
-                'dashboard/simulationdetails/<id:\w+>' => 'static/dashboard/simulationDetails',
                 'dashboard/dontShowInviteReferralsPopup' => 'static/dashboard/dontShowInviteReferralsPopup',
                 'dashboard/dontShowTariffExpirePopup' => 'static/dashboard/dontShowTariffExpirePopup',
                 'dashboard/switchAssessmentResultsRenderType' => 'static/dashboard/SwitchAssessmentResultsRenderType',

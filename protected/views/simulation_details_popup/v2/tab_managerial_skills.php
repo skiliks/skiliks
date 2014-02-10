@@ -1,13 +1,13 @@
 <div class="extrasidepads managerialmain">
     <div class="textcener"><h2 class="total totalwithresult">Управленческие навыки <span class="value blockvalue managerial-skills"></span></h2></div>
-    <div class="clearfix">
+    <div class="clearfix-simulation-results">
         <div class="labeltitles">
             <h3>По группам навыков</h3>
         </div>
         <p class="barstitle mangrlresultstitle">Уровень владения навыком</p>
     </div>
 
-    <div class="clearfix mangrlresults">
+    <div class="clearfix-simulation-results mangrlresults">
         <div class="labels high-labels">
             <div class="labelwrap"><span class="thelabel"><div><span class="list-counter">1.</span><a href="#managerial-skills-1-2" class="list-text">Управление задачами с учётом приоритетов</a><a href="#managerial-skills-1-2" class="signmore"></a></div></span></div>
             <div class="labelwrap"><span class="thelabel"><div><span class="list-counter">2.</span><a href="#managerial-skills-3-4" class="list-text">Управление людьми</a><a href="#managerial-skills-3-4" class="signmore"></a></div></span></div>

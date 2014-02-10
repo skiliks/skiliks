@@ -102,6 +102,12 @@ h1, h2, h3, h4, h5, h6 {
     color: #ffffff;
 }
 
+.background-sky-blue h1,
+.background-sky-blue h2,
+.background-sky-blue h3,
+.background-sky-blue h4,
+.background-sky-blue h5,
+.background-sky-blue h6,
 .background-sky h1,
 .background-sky h2,
 .background-sky h3,
@@ -201,7 +207,7 @@ textarea {
     margin-left: 16px;
 }
 
-.skiliks .ui-dialog ul {
+.skiliks .ui-dialog ul.after-p {
     margin-top: -20px; /* чтоб компенсировать отступ от .skiliks .ui-dialog p */
 }
 

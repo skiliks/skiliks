@@ -27,11 +27,10 @@
 
                     <?php
                         $displayResultsClass = '';
-                        // view-simulation-details-pop-up
-                        if (null !== $simulation->end) { $displayResultsClass = 'action-display-simulation-details-pop-up'; }
+                        if (null !== $simulation->end) { $displayResultsClass = 'action-show-simulation-details-popup inter-active'; }
                     ?>
 
-                    <span data-simulation='/dashboard/simulationdetails/<?= $simulation->id ?>'
+                    <span data-simulation='/simulation/<?= $simulation->id ?>/details'
                         class="rating-stars-container <?= $starsContainerCss ?> <?= $displayResultsClass ?>">
                         <span class="rating-stars-indicator">
                             <span class="rating-stars-indicator-level" style="width: <?php echo $simulation->getCategoryAssessment(); ?>%">
@@ -43,8 +42,8 @@
                     <?php if ($isDisplayArrow) : ?>
                         <!-- link-go view-simulation-details-pop-up -->
                         <span href="#"
-                           data-simulation="/dashboard/simulationdetails/<?php echo $simulation->id; ?>"
-                           class="action-display-simulation-details-popup icon-circle-with-blue-arrow icon-21x21-empty">
+                           data-simulation="simulation/<?php echo $simulation->id; ?>/details"
+                           class="action-show-simulation-details-popup  inter-active icon-circle-with-blue-arrow icon-21x21-empty">
                         </span>
                     <?php endif ?>
                 <?php endif; ?>
@@ -59,10 +58,10 @@
                     <?php
                         $displayResultsClass = '';
                         // view-simulation-details-pop-up
-                        if (null !== $simulation->end) { $displayResultsClass = 'action-display-simulation-details-pop-up'; }
+                        if (null !== $simulation->end) { $displayResultsClass = 'action-show-simulation-details-popup  inter-active'; }
                     ?>
 
-                    <span data-simulation="/dashboard/simulationdetails/<?= $simulation->id ?>" class="button-white label rating-percentile-container <?= $displayResultsClass ?>">
+                    <span data-simulation="/simulation/<?= $simulation->id ?>/details" class="button-white label rating-percentile-container <?= $displayResultsClass ?>">
                         <span class="rating-percentile-indicator">
                             <span class="rating-percentile-indicator-level" style="width:<?= round($simulation->invite->getPercentile()) ?>%;"></span>
                         </span>

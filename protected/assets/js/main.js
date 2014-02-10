@@ -34,7 +34,7 @@ var fixLogotypes = function() {
 
         // render simulation details pop-up {
         $('.dashboard').append($('<div id="simulation-details-pop-up"></div>'));
-        var simulation_popup = $('#simulation-details-pop-up');
+        var simulation_popup = $('locator-simulation-details-popup');
 
         simulation_popup.dialog({
             dialogClass: 'simulation-result-popup',
