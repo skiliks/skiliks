@@ -363,6 +363,7 @@ $(document).ready(function () {
 
             // 14.1 ) добавление HTML кода формы
             $('.action-decline-invite').click(function(event){
+                var me = this;
                 $('.locator-invite-decline-box').dialog({
                     dialogClass: 'popup-form background-middle-dark-blue background-image-book-2',
                     modal:       true,
@@ -377,6 +378,8 @@ $(document).ready(function () {
                         of: $('.locator-corporate-invitations-list-box')
                     },
                     open: function( event, ui ) {
+
+                        $('#DeclineExplanation_invite_id').val($(me).data('invite-id'));
                         $('.action-close-popup').click(function() {
                             $('.locator-invite-decline-box').dialog('close');
                         });

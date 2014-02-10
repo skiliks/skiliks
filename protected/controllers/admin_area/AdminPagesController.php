@@ -2167,4 +2167,9 @@ class AdminPagesController extends SiteBaseController {
 
         $this->render('//admin_area/pages/users_managament/blocked-authorization-list', ['users'=>$users]);
     }
+
+    public function actionExportAllCorporateUserXLSX() {
+        $export = new CorporateAccountExport();
+        $export->export();
+    }
 }

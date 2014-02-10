@@ -18,7 +18,10 @@
 ] ?>
 <div class="row fix-top">
     <h2>Корпоративные аккаунты</h2>
-
+    <a class="btn btn-info" style="float: right; margin-right: 100px;" href="/admin_area/export-all-corporate-account-xlsx">
+        <i class="icon icon-download-alt icon-white"></i>
+        Скачать список корпоративных аккаунтов (xlsx)
+    </a>
     <?php $this->widget('CLinkPager',array(
         'header'         => '',
         'pages'          => $pager,

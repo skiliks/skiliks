@@ -585,7 +585,8 @@ class Invite extends CActiveRecord
         if (in_array($this->status, [self::STATUS_PENDING])) {
             return sprintf(
                 '<span class=\'table-link unstandard-decline action-decline-invite inter-active\'
-                    data-href=\'/dashboard/decline-invite/%s\'>%s</a>',
+                    data-href=\'/dashboard/decline-invite/%s\' data-invite-id="%s">%s</a>',
+                $this->id,
                 $this->id,
                 Yii::t('site', 'Отклонить')
             );

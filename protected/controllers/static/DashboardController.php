@@ -414,7 +414,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         $invite = Invite::model()->findByPk($id);
 
         if (null === $invite) {
-            Yii::app()->user->setFlash('success', 'Выбранного к отмене приглашения не существует.');
+            Yii::app()->user->setFlash('success', 'Выбранного к отмене приглашения не существует');
             $this->redirect('/dashboard');
         }
 

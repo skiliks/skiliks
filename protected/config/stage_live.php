@@ -34,7 +34,7 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
             ),
         ),
         'session' => array(
-            'timeout'                => 60*5, // 5 минут
+            'timeout'                => 60*60*24*7, // 7дней
         ),
     ),
     'params'=>array(

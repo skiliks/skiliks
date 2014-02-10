@@ -263,8 +263,9 @@ class SiteEmailOptions {
         } else {
             $text1 = mb_substr($message, 0, $length_max, 'UTF-8');
             $text2 = mb_substr($message, $length_max, $length - $length_max, 'UTF-8');
-            if(mb_substr($message, $length_max-1, 1, 'UTF-8') === " " || mb_substr($message, $length_max + 1, 1, 'UTF-8') === " "){
-                $this->text1 = mb_substr($message, 0, $length_max, 'UTF-8');
+            if(mb_substr($message, $length_max, 1, 'UTF-8') === " "){
+                $this->text1 = $text1;
+                $this->text2 = $text2;
             } else {
                 $pos = mb_strrpos($text1, " ", 0, "UTF-8");
                 $this->text1 = mb_substr($message, 0, $pos, 'UTF-8');

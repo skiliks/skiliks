@@ -510,4 +510,32 @@ class UserAccountCorporate extends CActiveRecord
         $free = Tariff::model()->findByAttributes(['slug'=>Tariff::SLUG_FREE]);
         return TariffPlan::model()->find("user_id = {$this->user_id} and tariff_id != {$free->id} order by id desc");
     }
+
+    public function getStatusForSales() {
+        if($this->user->status == YumUser::STATUS_INACTIVE) {
+            return 'Неактивен';
+        }
+        $scenario = Scenario::model()->findByAttributes(['slug'=>Scenario::TYPE_FULL]);
+        $count = Invite::model()->count("scenario_id = {$scenario->id} and owner_id = {$this->user_id} and status = ".Invite::STATUS_COMPLETED);
+        if($count === 0) {
+            return 'Нет пройденных Full';
+        }
+        $paid = Invoice::model()->count("user_id = {$this->user_id} and paid_at is not null");
+        if($count >= 1 && $paid === 0){
+            return 'Бесплатный';
+        }
+        if($paid >= 1) {
+            return 'Платный';
+        }
+
+        if(false !== strpos($this->user->profile->email, '@skiliks.com')) {
+            return 'Разработчик';
+        }
+
+        if($this->user->status == YumUser::STATUS_BANNED) {
+            return 'Забанен';
+        }
+
+        return '';
+    }
 }
