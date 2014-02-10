@@ -512,15 +512,16 @@ class UserAccountCorporate extends CActiveRecord
     }
 
     public function getStatusForSales() {
+
         if($this->user->status == YumUser::STATUS_INACTIVE) {
             return 'Неактивен';
         }
         $scenario = Scenario::model()->findByAttributes(['slug'=>Scenario::TYPE_FULL]);
-        $count = Invite::model()->count("scenario_id = {$scenario->id} and owner_id = {$this->user_id} and status = ".Invite::STATUS_COMPLETED);
+        $count = (int)Invite::model()->count("scenario_id = {$scenario->id} and owner_id = {$this->user_id} and status = ".Invite::STATUS_COMPLETED);
         if($count === 0) {
             return 'Нет пройденных Full';
         }
-        $paid = Invoice::model()->count("user_id = {$this->user_id} and paid_at is not null");
+        $paid = (int)Invoice::model()->count("user_id = {$this->user_id} and paid_at is not null");
         if($count >= 1 && $paid === 0){
             return 'Бесплатный';
         }
