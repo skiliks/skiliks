@@ -269,7 +269,7 @@ class SiteEmailOptions {
             } else {
                 $pos = mb_strrpos($text1, " ", 0, "UTF-8");
                 $this->text1 = mb_substr($message, 0, $pos, 'UTF-8');
-                $this->text2 = mb_substr($message, $pos, $length_max - mb_strlen($this->text1, 'UTF-8'), 'UTF-8');//.$text2;
+                $this->text2 = /*mb_substr($message, $pos, $length_max - mb_strlen($this->text1, 'UTF-8'), 'UTF-8');.*/$text2;
             }
             //$this->text1 = mb_substr($message, 0, $length_max, 'UTF-8');
             //$this->text2 = mb_substr($message, $length_max, $length - $length_max, 'UTF-8');
