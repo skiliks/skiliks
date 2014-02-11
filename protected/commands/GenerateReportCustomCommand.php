@@ -6,11 +6,9 @@
  */
 class GenerateReportCustomCommand extends CConsoleCommand
 {
-    public function actionIndex() // 7 days
+    public function actionIndex($assessment_version) // 7 days
     {
 
-
-        $assessment_version = 'v1';
         $scenario = Scenario::model()->findByAttributes(['slug'=>Scenario::TYPE_FULL]);
         /* @var Simulation[] $simulations */
         $simulations = Simulation::model()->findAll("scenario_id = {$scenario->id} and assessment_version = '{$assessment_version}' and end is not null");
