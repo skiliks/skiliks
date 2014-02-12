@@ -60,6 +60,11 @@ class InviteService {
             return '/dashboard';
         }
 
+        if ((int)$declineExplanation->invite->status === Invite::STATUS_DELETED) {
+            Yii::app()->user->setFlash('success', 'Выбранного к отмене приглашения не существует');
+            return '/dashboard';
+        }
+
         if ($user->id !== $declineExplanation->invite->receiver_id &&
             $user->id !== $declineExplanation->invite->owner_id &&
             strtolower($user->profile->email) !== strtolower($declineExplanation->invite->email) &&
