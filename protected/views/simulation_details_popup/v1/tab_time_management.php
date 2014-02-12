@@ -1,7 +1,9 @@
-<div class="textcener"><h2 class="total totalwithresult">Эффективность использования времени <span class="value blockvalue time-total">0%</span></h2></div>
+<div class="pull-content-center"><h2 class="total totalwithresult">Эффективность использования времени <span class="value blockvalue time-total">0%</span></h2></div>
 <div class="extrasidepads">
     <div class="timeblock">
-        <h2 class="resulttitele"><a href="#time-management-detail">Распределение времени <span class="signmore"></span></a></h2>
+        <h4 class="resulttitele"><a href="#time-management-detail">
+            Распределение времени
+        <span class="signmore"></span></a></h4>
 
         <div class="time-distribution"></div>
 
@@ -16,7 +18,7 @@
     </div>
     <div class="blockseprt"></div>
     <div class="timeblock">
-        <h2 class="resulttitele">Сверхурочное время (минуты)</h2>
+        <h4 class="resulttitele">Сверхурочное время (минуты)</h4>
         <div class="over-time"></div>
     </div>
 </div>

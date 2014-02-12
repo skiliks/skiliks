@@ -1,8 +1,7 @@
 <?php /** @var Simulation $simulation */ ?>
 
 <div class="section">
-    <div class="textcener"><h2 class="total totalwithresult">Результативность <span class="value blockvalue productivity-total"></span></h2></div>
-
+    <div class="pull-content-center"><h2 class="total totalwithresult">Результативность <span class="value blockvalue productivity-total"></span></h2></div>
 
     <p class="barstitle resultlabeltitle">Уровень выполнения задач</p>
     <div class="clearfix-simulation-results">
@@ -11,7 +10,7 @@
                     <div class="popover-content"><div class="popup-content hide">
                             Выполнение форс-мажорных задач, отложить которые невозможно.
                         </div></div></div>
-                <h3 class="resulttitele smallerfont">Срочно</h3>
+                <h4 class="resulttitele smallerfont">Срочно</h4>
                 <a href="#" class="questn show-popover show-popover-2" style="margin:0;"></a>
             </div>
 
@@ -19,7 +18,7 @@
                     <div class="popover-content"><div class="popup-content hide">
                             Выполнение задач, значимых для компании в целом или для подразделения, которые должны быть обязательно сделаны сегодня.
                         </div></div></div>
-                <h3 class="resulttitele smallerfont">Высокий приоритет</h3>
+                <h4 class="resulttitele smallerfont">Высокий приоритет</h4>
                 <a href="#" class="questn show-popover show-popover-2" style="margin:0;"></a>
             </div>
 
@@ -27,7 +26,7 @@
                     <div class="popover-content"><div class="popup-content hide">
                             Выполнение задач, значимых для компании в целом или для подразделения, со сроком исполнения в ближайшие дни.
                         </div></div></div>
-                <h3 class="resulttitele smallerfont">Средний приоритет</h3>
+                <h4 class="resulttitele smallerfont">Средний приоритет</h4>
                 <a href="#" class="questn show-popover show-popover-2" style="margin:0;"></a>
             </div>
 
@@ -35,7 +34,7 @@
                     <div class="popover-content"><div class="popup-content hide">
                             Задачи, выполнение которых занимает не более 2 минут.
                         </div></div></div>
-                <h3 class="resulttitele smallerfont">Двухминутные задачи</h3>
+                <h4 class="resulttitele smallerfont">Двухминутные задачи</h4>
                 <a href="#" class="questn show-popover show-popover-2" style="margin:0;"></a>
             </div>
         </div>

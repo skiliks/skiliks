@@ -1,5 +1,5 @@
 <div class="extrasidepads">
-    <div class="textcener"><h2 class="total">Управленческие навыки</h2></div>
+    <div class="pull-content-center"><h2 class="total">Управленческие навыки</h2></div>
     <h3 class="resulttitele resulttitelevalue"><span class="valuetitle taskManagement"></span>2. Управление людьми</h3>
 
     <div class="twobarstitles resultlabeltitle">

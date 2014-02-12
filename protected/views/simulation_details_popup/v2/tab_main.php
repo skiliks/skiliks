@@ -1,21 +1,41 @@
-<div class="textcener"><h2 class="total">Итоговый рейтинг менеджера</h2></div>
+<div class="pull-content-center">
+    <h1 class="total">Итоговый рейтинг менеджера</h1>
+</div>
 <div class="allsummry">
     <div class="overall percentil_overall_container">
-            <span class="percentil_base">
-                <span class="percentil_overall tab_main_popup" style="width:0;"></span>
-            </span>
-            <div class="percentil_text">P0</div>
+        <span class="percentil_base">
+            <span class="percentil_overall tab_main_popup" style="width:0;"></span>
+        </span>
+        <div class="percentil_text">P0</div>
     </div>
-    <div style="clear: both"></div>
+    <div class="clear: both"></div>
     <div class="estmtresults">
         <div class="overall">
             <span class="allratebg"><span class="allrating" style="width:30%"></span></span> <span class="blockvalue"><span class="value"></span>%</span>
         </div>
     </div><!-- /estmtresults -->
     <div class="estmtileswrap">
-        <div class="widthblock"><h2><a href="#managerial-skills">Управленческие навыки<span class="signmore"></span></a></h2></div>
-        <div class="widthblock widthshort"><h2><a href="#productivity">Результативность<span class="signmore"></span></h2></a></div>
-        <div class="widthblock"><h2><a href="#time-management">Эффективность использования времени<span class="signmore"></span></a></h2></div>
+        <div class="widthblock">
+            <h4 class="pull-content-center"><a href="#managerial-skills">
+                    Управленческие навыки
+                    <span class="signmore"></span>
+                </a></h4>
+        </div>
+
+        <div class="widthblock widthshort">
+            <h4 class="pull-content-center"><a href="#productivity">
+                    Результативность
+                    <span class="signmore"></span>
+            </h4></a>
+        </div>
+
+        <div class="widthblock">
+            <h4 class="pull-content-center"><a href="#time-management">
+                    Эффективность использования времени
+                    <span class="signmore"></span>
+                </a></h4>
+        </div>
+
     </div><!-- /estmtileswrap -->
 </div>
 <div class="clearfix-simulation-results maincharts">
@@ -25,9 +45,9 @@
 </div>
 
 <div class="levellabels">
-    <h3>Уровень владения навыками </h3>
-    <h3>Уровень достижения результатов: количество и значимость выполненных задач</h3>
-    <h3>Время, затраченное на выполнение задач</h3>
+    <h6 class="pull-content-center">Уровень владения навыками </h6>
+    <h6 class="pull-content-center">Уровень достижения результатов: количество и значимость выполненных задач</h6>
+    <h6 class="pull-content-center">Время, затраченное на выполнение задач</h6>
 </div>
 <div class="rateslist">
     <div class="widthblock in-mark"><h3>ОЦЕНИВАЕМЫЕ НАВЫКИ</h3>

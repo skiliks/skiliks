@@ -248,6 +248,24 @@ function getDialogAuthWindowWidth() {
     }
 }
 
+// 2.4) Определяет ширину для окон автиризации и аоввтановления пароля
+function getDialogSimulationDetailsPopupWidth() {
+    if ($(document).width() < 1281) {
+        return 822;
+    } else {
+        return 1003;
+    }
+}
+
+// 2.5) Определяет ширину для окон автиризации и аоввтановления пароля
+function getDialogSimulationDetailsPopupHeight() {
+    if ($(document).width() < 1281) {
+        return 766;
+    } else {
+        return 935;
+    }
+}
+
 // 3)
 function getInviteId(url){
     return parseInt(url.replace('/simulation/promo/full/', ''), 0);

@@ -1,4 +1,4 @@
-<div class="textcener"><h2 class="total totalwithresult">Эффективность использования времени (детализация)<span class="value blockvalue time-total">0%</span></h2></div>
+<div class="pull-content-center"><h2 class="total totalwithresult">Эффективность использования времени (детализация)<span class="value blockvalue time-total">0%</span></h2></div>
 <div class="extrasidepads timedetail">
     <div class="timeblock good">
         <h2 class="resulttitele">Продуктивное время <small>(выполнение приоритетных задач, минуты)</small></h2>

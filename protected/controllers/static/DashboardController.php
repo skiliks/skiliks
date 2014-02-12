@@ -167,6 +167,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         $this->addSiteCss('_page-dashboard.css');
         $this->addSiteCss('_page-dashboard-1024.css');
         $this->addSiteCss('_simulation_details.css');
+        $this->addSiteCss('_simulation_details-1024.css');
 
         $this->addSiteJs('_page-dashboard.js');
         $this->addSiteJs('libs/d3.v3.js');
@@ -218,6 +219,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         $this->addSiteCss('_page-dashboard.css');
         $this->addSiteCss('_page-dashboard-1024.css');
         $this->addSiteCss('_simulation_details.css');
+        $this->addSiteCss('_simulation_details-1024.css');
 
         $this->addSiteJs('_page-dashboard.js');
         $this->addSiteJs('libs/d3.v3.js');

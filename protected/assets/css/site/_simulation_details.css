@@ -1,103 +1,102 @@
 .skiliks .ui-dialog.simulation-result-popup {
-    background: #e8f7f7;
-    border: none;
-    box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
     padding: 20px 10px 26px;
-    overflow: visible;
-    width: 980px;
 }
 
+/* забобратсья! крестик "закрыть" должет быть на месте сам собой */
 .skiliks .ui-dialog.simulation-result-popup .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick {
-    margin-top: -37px;
-    margin-left: 18px;
-}
-
-.margin-top-popup {
-    top:50px !important;
+    margin-top: -35px;
+    margin-left: 17px;
 }
 
 #simulation-details-pop-up {
     overflow: hidden;
 }
+
 .simulation-details {
-    height: 831px !important;
     overflow: visible;
     padding-bottom: 30px;
 }
+
 .action-controller-personal-static-dashboard #simulation-details-pop-up,
 .action-controller-corporate-static-dashboard #simulation-details-pop-up,
 .action-controller-corporate-static-dashboard #simulation-details-pop-up,
 .action-corporate #simulation-details-pop-up,
 .action-registration #simulation-details-pop-up {
-    /*padding: 10px;*/
-    padding: 0px;
+    padding: 0;
 }
+
 #simulation-details-pop-up h1, #simulation-details-pop-up h2  {
     color: #3d4041;
 }
+
 #simulation-details-pop-up h1 {
-    padding: 0px 10px 6px 3px;
-    font: 34px 'ProximaNova-Bold'; /*30 */
+    padding: 0 10px 6px 3px;
 }
+
 #simulation-details-pop-up .ui-widget-content {
-    background: #e8f7f7;
+    background-color: #e8f7f7;
     border:none;
     margin-top: 50px;
-    padding: 0px;
+    padding: 0;
 }
+
 .simulation-details .navigation {
     background: none;
     border: none;
     float:right;
     margin-bottom: 26px;
-    padding: 0px;
+    padding: 0;
     text-align: right;
 }
+
 #tab-main {
     clear:both;
 }
+
 .simulation-details .navigation li {
     float: left;
     margin-left:10px;
     list-style-type: none;
     outline: none;
 }
+
 .simulation-details .navigationli:focus {
     outline: none;
 }
+
 .simulation-details .navigation li:first-child {
-    margin-right: 0px;
+    margin-right: 0;
 }
+
 .simulation-details .navigation a {
-    background: #7eb2b9;
+    background-color: #7eb2b9;
     background-image: none;
     border:none;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
     border-radius: 3px;
 }
+
 .simulation-details .navigation a.active {
     background:#3c818b;
 }
-.simulation-details .navigation a, .simulation-details .navigation a:visited {
+
+.simulation-details .navigation a,
+.simulation-details .navigation a:visited {
     background-image: none;
     display: block;
-    font: 13px "ProximaNova-Regular"; /* 14 */
     line-height: 28px;
-    padding:0px 10px; /*8px 10px */
+    padding: 0 10px;
 }
+
 .simulation-details .navigation a, .simulation-details .navigation a:visited, .simulation-details .navigation a:focus {
     color: #fff;
     outline: none;
     text-decoration: none;
 }
-.simulation-details .ui-tabs-selected, .simulation-details .ui-state-active {
-    background: #4d8d96 !important;
-    outline: none;
-}
+
 .action-controller-personal-static-dashboard #simulation-details-pop-up {
-    padding: 0px;
+    padding: 0;
 }
+
 .chart-gauge {
     float: left;
 }
@@ -106,30 +105,21 @@
     margin-top: 15px;
 }
 
-.gauge-charts:after, #simulation-details-tabs:after, .page:after,
-.simulation-details .navigation:after, .clearfix-simulation-results:after, .navigatnwrap:after, .legendvalue:after,
-.twocharts:after, .twobarstitles:after, .estmfooter:after {
+.gauge-charts:after,
+.page:after,
+.simulation-details .navigation:after,
+.clearfix-simulation-results:after,
+.navigatnwrap:after,
+.legendvalue:after,
+.twocharts:after,
+.twobarstitles:after,
+.estmfooter:after {
     content: "";
     display: block;
     height: 0;
     clear: both;
 }
-.ratepercnt {
-    background: #bedadc;
-    color:#146672;
-    display: inline-block;
-    -moz-border-radius: 90px / 45px;
-    -webkit-border-radius: 90px / 45px;
-    border-radius: 90px / 45px;
-    font: 16px "ProximaNova-Regular"; /* 18 */
-    height: 26px;
-    line-height: 26px;
-    padding: 0px 4px;
-    min-width: 40px;
-}
-.product .ratepercnt {
-    font-family:"ProximaNova-Bold";
-}
+
 .product .maincharts {
     margin-top: -34px;
 }
@@ -140,20 +130,20 @@
     margin-top: 2px;
 }
 
-.ratepercnt, .overall .ratepercnt {
-    text-align: center;
-}
 .allratebg {
     background: url("../../img/site/1280/assessment/stars-big.png") no-repeat left top;
 }
+
 .allratebg, .allrating {
     display: inline-block;
     height: 24px;
     width: 135px;
 }
+
 .allrating {
     background: url("../../img/site/1280/assessment/stars-big.png") no-repeat left bottom;
 }
+
 .overall {
     text-align: center;
     vertical-align: top;
@@ -169,7 +159,7 @@
     height: 18px;
     background-image: url(../../img/site/1280/assessment/percentile.png);
     display: inline-block;
-    background-position: 0px -18px;
+    background-position: 0 -18px;
     background-attachment: scroll;
     background-clip: border-box;
     background-color: rgba(0, 0, 0, 0);
@@ -183,7 +173,7 @@
 }
 
 .percentil_overall {
-    background-position: 0px 0px;
+    background-position: 0 0;
     float: left;
 }
 
@@ -240,243 +230,243 @@
 .estmtresults {
     height:130px;
 }
+
 .allsummry {
     background: url("../../img/site/1280/assessment/results-distribution-lines.png") no-repeat center 79px;
+    margin-top: 30px;
 }
+
 .allseprtwrap {
     position: relative;
 }
-.allseprtwrap .ratepercnt {
-    position: absolute;
-    top: 24px;
-}
+
 .uprnavprcnt {
     left:236px;
 }
+
 .resultprcnt {
     left:464px;
 }
+
 .timeprcnt {
     left:692px;
 }
+
 .estmtileswrap {
     margin-top: 8px;
 }
+
 .product-estmtileswrap {
     margin-top: 55px;
 }
-.rateslist {
-    width:918px;
-}
-.estmtileswrap h2, .estmtileswrap h2 a, .product .estmtileswrap h2 {
-    font:24px 'ProximaNova-Bold';
-    font-weight: normal !important;
-    line-height: 90%;
+
+.estmtileswrap h4 a {
+    color: #3D4041;
     text-decoration: none;
 }
+
 .estmtileswrap h2 {
     margin: 0 auto;
 }
-.estmtileswrap .widthblock, .rateslist .widthblock {
+
+.estmtileswrap .widthblock,
+.rateslist .widthblock {
     vertical-align: top;
-    width:350px;
+    margin-right: 5px;
+    margin-left: 5px;
+    width: 316px;
+    min-width: 316px;
 }
-.estmtileswrap .widthshort, .rateslist .widthshort {
+
+.estmtileswrap .widthblock {
+    height: 67px;
+}
+
+.widthblock:first-child {
+    margin-left: 10px;
+}
+
+.estmtileswrap .widthblock:first-child,
+.estmtileswrap .widthblock:last-child {
+    width: 276px;
+    min-width: 276px;
+
+    /* Надо укоротить площадь под надписи. */
+    /* А то кружок со стрелкой переносится на следующую строку. */
+    padding: 0 20px;
+}
+
+.estmtileswrap .widthshort,
+.rateslist .widthshort {
     width:264px;
 }
-.product .bluelist, .product .rateslist h3  {
-    /*margin-left: 20px;*/
-}
+
 .estmtileswrap h2, .estmtileswrap h2 a, .estmtileswrap h2 a:visited {
     color: #3d4041;
 }
-.estmtileswrap h2, .simulation-result-popup .levellabels h3, .product .levellabels h3  {
+
+.estmtileswrap h2,
+.simulation-result-popup .levellabels h3,
+.product .levellabels h3  {
     color:#3d4041;
     line-height: 90%;
-    font-weight: normal !important;
     text-align:center;
 }
+
+.simulation-result-popup .levellabels h3 {
+    margin-top: 15px;
+}
+
 .product .estmtileswrap h2, .product h2, .product h2 a, .product h2 a:visited, .product h3, .product .levellabels h3 {
     color: #fff;
 }
+
 .product .estmtileswrap h2, .product .estmtileswrap h2 a {
     font-size: 24px;
     margin-bottom: 10px;
     margin-left: 3px;
 }
+
 .product .lastwidthblock h2, .product .lastwidthblock h3 {
     margin-left:20px;
 }
+
 .simulation-details .estmtileswrap .widthblock:nth-child(2) h2 {
     padding-bottom: 21px;
 }
-.simulation-result-popup h3 {
-    color:#3d4041;
-    font-family: "ProximaNova-Bold";
-    font-weight: normal;
-}
-.levellabels h3 {
-    display:table-cell;
-    font:16px "ProximaNova-Bold"; /* 18 */
-    padding:10px 12px 0 23px;
-    width: 268px;
-}
-.levellabels h3:first-child {
-    /*padding-left: 9px;
-    width: 282px;*/
-}
-.widthblock {
-    display: table-cell;
-    margin:0px;
-    padding: 0px;
-    width:308px;
-}
-.widthshort {
-    width:236px;
-}
-.product .widthblock {
+
+.levellabels h6 {
+    display: inline-block;
+    min-height: 40px;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 15px;
+    vertical-align: top;
     width: 316px;
 }
-.product-gauge-charts .chart-gauge {
-    margin:20px 38px 0px;
-    width: 240px;
+
+.levellabels h6:first-child {
+    margin-left: 10px;
 }
-.product-gauge-charts .chart-gauge .pointer {
-    left: 25px;
+
+.widthblock {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    width: 308px;
+}
+
+.widthshort {
+    width: 236px;
+}
+
+.product .widthblock {
+    width: 316px;
 }
 
 .gauge-charts, .levellabels {
     margin: 0 auto;
     overflow: visible;
-    width: 888px;
 }
+
 .product .levellabels {
     width:auto;
 }
-.product-gauge-charts {
-    /*float: left;
-    width: 711px;*/
-}
-.product-gauge-charts .chart-gauge .chart-value {
-    color: #fff;
-    font-size: 14px;
-}
+
 .maincharts .bullet-charts, .maincharts .product-bullet-charts {
     float: right;
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
     width: 250px;
 }
-.maincharts .static-bullet-charts {
-    float: right;
-    margin: 0px;
-    margin-top: 40px;
-    padding: 0px;
-}
-.static-bullet-charts {
-    background:url("../img/skillsdefault.png") no-repeat 0px 0px;
-    background-size: contain;
-    height: 94px;
-    width:220px;
-}
-.simulation-details .static-bullet-charts {
-    margin-right: 30px;
-}
+
 .maincharts .product-bullet-charts {
     width: 237px;
 }
-.maincharts .bullet-charts .chart-value, .product-bullet-charts .chart-value {
-    display: none !important;
-}
-.maincharts .chart-bullet.small {
-    width: 220px !important;
-    margin: 20px 0;
-}
-.product-bullet-charts .chart-bullet.small {
-    margin-left: 30px;
-    width:200px !important;
-}
+
 .rateslist {
     margin: 16px auto 20px;
 }
+
 .rateslist h3 {
-    font-size: 17px; /* 18 */
+    font-size: 17px;
     line-height: 105%;
     margin-bottom: 14px;
     text-transform: uppercase;
-}
-.rateslist .widthblock:nth-child(3) h3, .rateslist .widthblock:nth-child(3) ul{
-    margin-left: 10px;
-}
-.rateslist .widthblock:nth-child(2) h3, .rateslist .widthblock:nth-child(2) ul {
-    margin-left: 40px;
+    text-align: center;
 }
 
-.rateslist .widthblock:nth-child(2) h3.in-mark, .rateslist .widthblock:nth-child(2) ul.in-mark {
-    margin-left: -10px;
-}
 .numlist {
     margin-left: 20px;
-    padding-left:0px;
+    padding-left: 0;
+    margin-top: 0;
 }
+
 .rateslist .numlist {
     width:254px;
 }
+
+.numlist a {
+    display: block;
+}
+
 .nobultslist li {
     list-style-type: none;
 }
+
 .bluelist li {
     line-height: 120%;
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
     padding-bottom: 7px;
 }
-.bluelist li, .bluelist a, .bluelist a:visited {
+
+.bluelist li,
+.bluelist a,
+.bluelist a:visited {
     color: #2d7b91;
-    font-family:"ProximaNova-Regular";
-    font-size: 14px;
-    /*font-size: 1em;*/
+    font-family: "ProximaNova-Regular";
     text-decoration: none;
 }
+
 .product .bluelist li {
-    background:url("../img/bullit.png") no-repeat 0px 5px;
     list-style-type: none;
     padding-bottom: 10px;
     padding-left: 12px;
 }
+
 .product .bluelist li, .product .bluelist a {
     color: #fff;
     font-size: 1.043em;
     line-height: 110%;
 }
+
 .product .bluelist a {
     min-height: 18px;
 }
+
 .product .bluelist li:last-child {
-    padding-bottom: 0px;
+    padding-bottom: 0;
 }
+
 .product .bluelist li:last-child li:last-child {
     padding-bottom: 8px;
 }
-.product .bluelist .subisopen {
-    background:#5b9fa8 url("../img/bullit.png") no-repeat 0px 5px;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
-    padding-top: 3px;
-    margin-bottom: 4px;
-}
+
 .product .bluelist ul {
     display: none;
 }
+
 .product .bluelist .subisopen ul {
     display: block;
 }
+
 .product .hassubmenu>a {
     background:url("../../img/site/1280/buttons/plus-minus.png") no-repeat right 2px;
     display:block;
     padding-right: 26px;
 }
+
 .product .subisopen>a {
     background-position: right -76px;
 }
@@ -485,33 +475,27 @@
     margin-top: 8px;
 }
 
-.product .subisopen li a, .product .productsubmenu a {
-    font-size: 0.85em !important;
-}
-
-.resulttitele, .resulttitele a, .resulttitele a:visited {
+.resulttitele,
+.resulttitele a,
+.resulttitele a:visited {
     color:#3d4041;
-    font:24px 'ProximaNova-Bold';
     font-weight: normal;
     text-decoration: none;
 }
 
 .resulttitele.smallerfont {
-    font-size: 20px;
     padding-top: 5px;
     vertical-align: top;
 }
 
 .resulttitelevalue {
-    margin-top: -20px;
+    margin-top: -10px;
 }
 
-.resulttitelevalue+.resultlabeltitle {
-    margin-top: -17px;
-}
 .mangrlresults+.resulttitele {
-    margin-top: 0px;
+    margin-top: 0;
 }
+
 .labels {
     float: left;
     margin-top: -3px;
@@ -528,94 +512,105 @@
 }
 
 .labels .row {
-    height:30px;
-    margin-top: 27px;
+    height: 30px;
+    margin-top: 25px;
 }
 
 .labels .row:first-child {
-    margin-top: 7px;
+    margin-top: 5px;
 }
+
 .bars .chart-bar:first-child  {
-    margin-top: 0px;
+    margin-top: 0;
 }
+
 .labels .resulttitele {
     display: inline-block;
 }
+
 .labels a, .labels li, .labels p, .labels div {
     font-family: "ProximaNova-Regular";
 }
+
 .barswrap {
     background: #ddf0f0;
     float: right;
     padding: 16px;
     width: 647px;
-    -webkit-border-radius: 8px;
-    -moz-border-radius: 8px;
+    /*-webkit-border-radius: 8px;*/
+    /*-moz-border-radius: 8px;*/
     border-radius: 8px;
 }
+
 .bars .chart-bar {
-    margin: 40px 0px 0px 0px;
+    margin: 40px 0 0 0;
 }
-#managerial-skills .otherskills .chartbar {
+
+.managerial-skills .otherskills .chartbar {
     width: 300px;
 }
+
 .barstitle {
     color:#3d4041;
-    font:16px 'ProximaNova-Bold';
+    font: 1.2em 'ProximaNova-Bold';
     margin-bottom: 10px;
 }
+
 .resultlabeltitle {
     padding-left: 318px;
 }
-.total {
-    font:38px 'ProximaNova-Bold';/* font-size: 41px; */
-    /*font-weight: normal;
-    font-weight: bold;*/
-    line-height: 120%;
-    margin-bottom: 20px;
-}
-.product .total {
-    margin-top:60px;
-}
+
 .totalwithresult {
     padding-left: 52px;
     position: relative;
 }
-#managerial-skills .totalwithresult,
+
+.managerial-skills .totalwithresult,
 #time-management .totalwithresult {
     padding-left: 57px;
 }
-/*#productivity .totalwithresult {
+
+#productivity .totalwithresult {
     padding-right: 5px;
 }
-#time-management .totalwithresult {
+
+.time-management .totalwithresult {
    padding-right: 2px;
-}*/
+}
+
 .blockvalue {
     background: #146672;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
+    /*-webkit-border-radius: 3px;*/
+    /*-moz-border-radius: 3px;*/
     border-radius: 3px;
     color: #fff;
     display: inline-block;
     height: 28px;
     line-height: 28px;
     margin-left: 4px;
-    padding: 0px 10px;
+    padding: 0 10px;
     position: relative;
     top:-5px;
 }
-.blockvalue, .blockvalue .value {
-    font: 16px/28px "ProximaNova-Regular";
+
+.blockvalue {
+    font-family: ProximaNova-Regular;
+    font-size: 0.5em;
 }
-.blockvalue.managerial-skills, .blockvalue.productivity-total, .blockvalue.time-total {
+
+.blockvalue.managerial-skills,
+.blockvalue.productivity-total,
+.blockvalue.time-total {
     height: 29px;
     line-height: 29px;
     top: -5px;
 }
-.allsummry .value {
-    /*padding-top: 4px;*/
+
+/* парвая страница, значение абсолютного рейтинга */
+.estmtresults .blockvalue {
+    font-size: 1em;
 }
+
 .legendwrap {
     background: #e0f1f1;
     -webkit-border-radius: 8px;
@@ -624,74 +619,76 @@
     margin-top: 20px; /* 30 */
     padding: 10px;
 }
+
 .lessmargintop {
     margin-top: 16px;
 }
+
 .legend {
     background: #fff;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
+    /*-webkit-border-radius: 3px;*/
+    /*-moz-border-radius: 3px;*/
     border-radius: 3px;
     padding: 10px 20px 20px;
 }
+
 .managerialmain .legend, #productivity .legend {
     min-height: 70px;
     padding-bottom: 10px;
 }
+
 .legendcolor {
     display: inline-block;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
+    /*-webkit-border-radius: 3px;*/
+    /*-moz-border-radius: 3px;*/
     border-radius: 3px;
     float:left;
     height: 28px;
     margin-right: 10px;
     width: 28px;
 }
+
 .legendtitle {
     display: table-cell;
-    font:16px "ProximaNova-Regular";
     height: 28px;
     line-height:108%;
     vertical-align: middle;
 }
+
 .colormax {
     background: #b5d4d7;
 }
+
 .colordone {
     background: #146672;
 }
+
 .colorwarn {
     background: #e11a1a;
 }
+
 .resultslegend, .legendmargin {
     margin-left: 290px;
 }
+
 .legendvalue {
     margin-top: 8px;
 }
+
 .legendvalue:first-child {
-    margin-top: 0px;
+    margin-top: 0;
 }
+
 .resultslegend .legendvalue {
     display: inline-block;
-    margin-top: 0px;
+    margin-top: 0;
     width: 340px;
 }
+
 .resultslegend .shortlegend {
     width: 240px;
 }
-.textcener {
-    text-align: center;
-}
-.smalltitle, .smalltitle a {
-    color:#3d4041;
-    font:16px "ProximaNova-Regular";
-    text-decoration: none;
-}
-.smalltitle a, .smalltitle a:visited {
-    color:#3d4041;
-}
+
 .questn {
     background: url(../../img/site/1280/buttons/icon-question.png) no-repeat left bottom;
     display: inline-block;
@@ -699,31 +696,24 @@
     float: right;
     width: 31px;
 }
-#personal-qualities .questn {
-    /*padding: 3px 0px 2px 0px;*/
-}
-.questn:visited, .smalltitle .questn, .smalltitle .questn:visited {
-    color: #fff !important;
-}
+
 .signmore {
     background: url(../../img/site/1280/assessment/icon-circle-with-arow.png) no-repeat right top;
-    display: inline-block;
     height: 21px;
     padding-left: 10px;
-    margin-bottom: -4px;
+    vertical-align: middle;
     width: 21px;
 }
-.managerialmain .signmore  {
-    display: table-cell;
-    margin-bottom: 0px;
+
+.widthblock h4 .signmore {
+    float: none;
+    vertical-align: middle;
 }
-.personalbars * {
-    font-family: "ProximaNova-Regular" !important;
+
+#managerialmain {
+    display: inline-block;
 }
-.chart-bullet.short, .shortindvalue {
-    width: 60px;
-    float: left;
-}
+
 .shortchartdesc {
     float: left;
     position: relative;
@@ -731,47 +721,24 @@
     margin-left: 10px;
     font-size: 15px;
 }
-.personallabels {
-    float: left;
-    width: 360px;
-}
-.barswrap.personalbars {
-    padding-bottom: 20px;
-}
-.personalbars {
-    float:right;
-    padding-left: 44px;
-    width: 540px;
-}
-.personallabels .smalltitle {
-    height: 27px;
-    margin-top: 41px;
-    text-align: right;
-}
-.personallabels .smalltitle:first-child {
-   /*margin-top: 41px;*/
-}
-.personalbars .chart-bullet.small {
-    width: 498px;
-    margin: 50px 0px;
-}
-.personalbars .chart-bullet.small:first-child {
-    margin-top: 30px;
-}
+
 .sections > div {
     display: none;
 }
+
 .sections > div.active {
     display: block;
 }
+
 .estmfooter {
-    bottom: 0px;
-    padding: 0px 10px 0px 10px;
+    bottom: 0;
+    padding: 0 10px 0 10px;
     margin: 0 0 20px;
     position: absolute;
     width: 960px;
     text-align: center;
 }
+
 .estmfooter .prev {
     float: left;
 }
@@ -779,58 +746,53 @@
 .estmfooter .next {
     float: right;
 }
+
 .estmfooter a {
     display: inline-block;
-    font-size: 14px;
     line-height: 30px;
-    padding: 0px 10px;
+    padding: 0 10px;
     text-decoration: none;
 }
+
 .estmfooter a, .estmfooter a:hover, .estmfooter a:visited, .estmfooter a:link {
     color:#fff;
     outline: none;
 }
+
 .estmfooter .prev, .estmfooter .fullreport, .estmfooter .next {
     background: #66a3ab;
 }
+
 .estmfooter .prev:hover, .estmfooter .fullreport:hover, .estmfooter .next:hover {
     background: #146672;
 }
 
 .extrasidepads, .section {
-    padding: 0px 0px 0px 10px;
+    padding: 0 0 0 10px;
 }
+
 .timeblock {
     background: #e8f7f7;
     border-radius: 8px 8px 8px 8px;
-    border:10px solid #c2dddf;
+    border: 10px solid #c2dddf;
     display: table-cell;
     padding: 20px;
     width:415px;
 }
+
 .timeblock .resulttitele {
     margin-bottom:44px;
 }
+
 .timedetail .timeblock  .resulttitele {
-    margin-bottom:0px;
+    margin-bottom: 0;
 }
+
 .blockseprt {
     display: table-cell;
     width: 10px;
 }
-.extrahourswrap {
-    padding-left: 57px;
-}
-.extrahours {
-    background:url("../../img/site/1280/assessment/overwork.png") no-repeat;
-    color: #fff;
-    height: 300px;
-    display: table-cell;
-    font: 65px "ProximaNova-Regular";
-    text-align: center;
-    vertical-align: middle;
-    width: 300px;
-}
+
 .time-distribution, .over-time {
     width: 300px;
     margin: 0 auto;
@@ -842,175 +804,132 @@
     position:relative;
     width:351px;
 }
+
 .tziferblat {
     overflow:hidden;
 }
+
 .timepart {
     border-style: solid;
-    width: 0px;
-    height: 0px;
+    width: 0;
+    height: 0;
     position:absolute;
 }
+
 .timeinactv {
     border-width: 170px 50px 0 50px;
     border-color: #91bac0 transparent transparent transparent;
     left:90px;
     top:10px;
-    -moz-transform: rotate(-15deg);
-    -ms-transform: rotate(-15deg);
-    -webkit-transform: rotate(-15deg);
-    -o-transform: rotate(-15deg);
+    /*-moz-transform: rotate(-15deg);*/
+    /*-ms-transform: rotate(-15deg);*/
+    /*-webkit-transform: rotate(-15deg);*/
+    /*-o-transform: rotate(-15deg);*/
     transform: rotate(-15deg);
 }
+
 .timeactv {
     border-width: 170px 210px 0 210px;
     border-color: #146672 transparent transparent transparent;
-    right:-88px;
-    top:40px;
-    -moz-transform: rotate(52deg);
-    -ms-transform: rotate(52deg);
-    -webkit-transform: rotate(52deg);
-    -o-transform: rotate(52deg);
+    right: -88px;
+    top: 40px;
+    /*-moz-transform: rotate(52deg);*/
+    /*-ms-transform: rotate(52deg);*/
+    /*-webkit-transform: rotate(52deg);*/
+    /*-o-transform: rotate(52deg);*/
     transform: rotate(52deg);
 }
+
 .timepart.timecritical {
     border-width: 190px 0 190px 190px;
     border-color: transparent transparent transparent #e11a1a ;
-    left:0px;
+    left: 0;
     bottom:-83px;
-    -ms-transform: rotate(-45deg);
-    -o-transform: rotate(-45deg);
-    -moz-transform: rotate(-45deg);
-    -webkit-transform: rotate(-45deg);
+    /*-ms-transform: rotate(-45deg);*/
+    /*-o-transform: rotate(-45deg);*/
+    /*-moz-transform: rotate(-45deg);*/
+    /*-webkit-transform: rotate(-45deg);*/
     transform: rotate(-45deg);
 }
+
 .timecritical:after {
     content: "";
     border-style: solid;
-    width: 0px;
-    height: 0px;
+    width: 0;
+    height: 0;
     position:absolute;
-    top:-2px;
-    left:-178px;
+    top: -2px;
+    left: -178px;
     border-width: 0 170px 200px 170px;
     border-color: transparent transparent #e11a1a transparent;
-    -ms-transform: rotate(5deg);
-    -o-transform: rotate(5deg);
-    -moz-transform: rotate(5deg);
-    -webkit-transform: rotate(5deg);
+    /*-ms-transform: rotate(5deg);*/
+    /*-o-transform: rotate(5deg);*/
+    /*-moz-transform: rotate(5deg);*/
+    /*-webkit-transform: rotate(5deg);*/
     transform: rotate(5deg);
 }
+
 .timecritical:before {
     content: "";
     border-style: solid;
-    width: 0px;
-    height: 0px;
+    width: 0;
+    height: 0;
     position:absolute;
     top:-198px;
     left:-124px;
     border-width: 108px 0 108px 200px;
     border-color: transparent transparent transparent #e11a1a;
-    -ms-transform: rotate(74deg);
-    -o-transform: rotate(74deg);
-    -moz-transform: rotate(74deg);
-    -webkit-transform: rotate(74deg);
+    /*-ms-transform: rotate(74deg);*/
+    /*-o-transform: rotate(74deg);*/
+    /*-moz-transform: rotate(74deg);*/
+    /*-webkit-transform: rotate(74deg);*/
     transform: rotate(74deg);
 }
-.timeimage {
-    background:url("../img/timewrap.png") no-repeat left top;
-    height:351px;
-    position:absolute;
-    width:351px;
-}
-.timevalue {
-    color:#fff;
-    font: 24px "ProximaNova-Regular";
-    position:absolute;
-}
+
 .inactvalue {
     left:130px;
     top:60px;
 }
+
 .actvalue {
     right:90px;
     top:120px;
 }
+
 .criticalvalue {
     left:100px;
     top:190px;
 }
-.timediagr:hover .helpbuble {
-    /*display:block;*/
-}
+
 .timeblock .chart-bar {
     margin-top: 18px;
 }
+
 .timeblock .chart-bar:first-child {
-    margin-top: 0px;
-}
-.helpbuble {
-    background:#fdfbc6;
-    -moz-border-radius:3px;
-    -webkit-border-radius:3px;
-    border-radius: 3px;
-    box-shadow: -1px 1px 3px rgba(0,0,0,0.5);
-    color:#3d4041;
-    display:none;
-    font: 12px "ProximaNova-Regular";
-    padding:20px 15px;
-    position:absolute;
-    width:160px;
-}
-.helpbuble:after {
-    content: '';
-    position: absolute;
-    border-style: solid;
-    border-width: 10px 8px 0 8px;
-    border-color: #fdfbc6 transparent transparent transparent;
+    margin-top: 0;
 }
 
-.timediagr .helpbuble {
-    right:-100px;
-    top:60px;
-}
-.timediagr .helpbuble:after, .chartproblem .helpbuble:after {
-    margin-top: -8px;
-    top:50%;
-    left:-10px;
-    border-width: 8px 10px 8px 0;
-    border-color: transparent #fdfbc6 transparent transparent;
-}
-.thelabel .helpbuble:after {
-    border-width: 0 8px 10px 8px;
-    border-color: transparent transparent #fdfbc6 transparent;
-    top:-10px;
-    left:50%;
-    margin-left:-8px;
-}
-.inactvbuble {
-    left:30px;
-    top:0px;
-}
-.inactvbuble:after {
-    bottom:-10px;
-    left:90px;
-}
 .mangrlresults .chartbar, .emptychart {
     margin-bottom: 18px;
 }
+
 .mangrlresults .chartbar, .mangrlresults .chartproblem {
     margin-bottom: 18px;
 }
+
 .managerialmain .chartbar, .managerialmain .chartproblem {
     margin-bottom: 40px;
 }
+
 .mangrlresults .chartbar:last-child, .mangrlresults .twocharts:last-child > *,
 .barswrap .emptychart:last-child {
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
+
 .mangrlresults .labels {
-    padding-left: 0px;
+    padding-left: 0;
 }
+
 .mangrlresults .labels a {
     color: #3d4041;
     font-size: 12px;
@@ -1030,8 +949,9 @@
 .display-ib {
     display: inline-block;
 }
+
 .mangrlresults .labelwrap:first-child .list-text  {
-    width:205px;
+    width: 176px; /* строка длиннаяб и хоть слово переновится - есть справа пустое прозрачное место. Укоротим его. */
 }
 
 .list-counter,
@@ -1058,142 +978,138 @@
     padding-top:3px;
     vertical-align: top;
 }
+
 .managerialmain {
     min-width:14px;
 }
+
 .labeltitles {
     float: left;
     width: 300px;
 }
-.labeltitles h3 {
-    color:#3d4041;
-    font: 26px "ProximaNova-Bold";
-    margin-bottom: 7px;
-}
-.labeltitles h4 {
-    color:#3d4041;
-    font: 21px "ProximaNova-Bold";
-}
+
 .toplabelmargin {
     margin-top: 18px;
 }
+
 .mangrlresultstitle {
     float: left;
     margin-left:20px;
     margin-bottom: 20px;
     padding-top: 11px;
 }
+
 .labelwrap {
     margin-top:18px; /* 11 */
 }
+
 .labels .labelwrap:first-child {
     margin-top:15px;
 }
+
 .high-labels .labelwrap, .high-labels .labelwrap:first-child {
     margin-top:11px;
 }
+
 .timedetail .labelwrap {
     margin-top:18px;
     margin-bottom: 18px;
 }
+
 .timedetail .labels p:first-child {
     margin-top:14px;
 }
+
 .thelabel {
     display: inline-block;
     height: 30px;
     font-size: 13px;
-    max-width: 247px;
+    max-width: 300px;
     position: relative;
     vertical-align: top;
 }
-@media screen and (max-width: 1146px){
-    .mangrlresults .labels a {
-        max-width:186px;
-    }
-    .thelabel {
-        max-width: 210px;
-    }
-}
+
 .high-labels .thelabel {
     height: 59px;
     vertical-align: top;
 }
+
 .labelhack {
     padding-top:5px;
 }
+
 .mangrlresults .labels p:first-child {
     margin-top:12px;
 }
+
 .managerialmain .mangrlresults .labels p:first-child {
     margin-top:8px;
 }
+
 .mangrlresults ol li {
     list-style-type: decimal;
 }
+
 .labels1 {
     counter-reset: list1;
 }
+
 .labels1 li:before {
     counter-increment: list1;
     content: "1." counter(list1);
 }
+
 .valuetitle {
     background: #ffffff;
-    -webkit-border-radius: 40px;
-    -moz-border-radius:40px;
+    /*-webkit-border-radius: 40px;*/
+    /*-moz-border-radius:40px;*/
     border-radius:40px;
     box-shadow: 0 1px 2px rgba(0,0,0,0.2);
     color: #146672;
     display: inline-block;
-    font: 21px "ProximaNova-Bold";
     font-weight: normal;
     height: 72px;
-    line-height: 70px;
+    line-height: 77px;
     margin-right: 16px;
     text-align: center;
     width: 72px;
 }
+
 .twocharts .chartbar {
     float: left;
     width: 372px;
 }
+
 .twocharts .chartproblem {
     float: right;
     margin-left: 20px;
     width:250px;
 }
-div.percentil_text_product {
+
+.iv.percentil_text_product {
     float:right;
     margin-right: 10px;
     font-weight: bold;
     margin-top:2px;
 }
-.chartproblem .chart-value, .bad .chart-bar .chart-value {
-    background: #e11a1a !important;
+
+.chartproblem .chart-value,
+.bad .chart-bar .chart-value {
+    background: #e11a1a;
 }
-.chartproblem .helpbuble {
-    margin-left: 220px;
-    margin-top: -24px;
-}
-.thelabel .helpbuble {
-    margin-top: 10px;
-}
-.thelabel .helpbuble, .chartproblem .helpbuble {
-    display: none !important;
-}
-.thelabel:hover .helpbuble, .chartproblem:hover .helpbuble {
-    /*display: block !important;*/
-}
+
 .twobarstitle {
     margin-top: -10px;
 }
+
 .twobarstitles .barstitle {
     display: inline-block;
 }
+
 .twobarstitles .barstitle:first-child {
     width: 385px;
 }
+
 .timedetail .resulttitele {
     float: left;
     font-size:22px;
@@ -1201,9 +1117,10 @@ div.percentil_text_product {
     padding-top: 10px;
     width: 345px;
 }
+
 .timedetail .testtime {
     float: right;
-    margin: 0px;
+    margin: 0;
     margin-right: -14px;
     padding-top: 29px;
 }
@@ -1211,521 +1128,47 @@ div.percentil_text_product {
 .timedetail .testtime strong {
     font-size: 30px;
 }
+
 .resulttitele  small {
     display:block;
     color: #3d4041;
-    font: 18px 'ProximaNova-Bold';
+    font: 0.8em 'ProximaNova-Bold';
     margin-bottom: 10px;
 }
+
 .timedetail .labels {
     width: 115px;
 }
+
 .timedetail .timebars {
     width:255px;
 }
+
 .timedetail .thelabel {
     color: #3d4041;
-    font: 14px "ProximaNova-Bold";
+    font-family: "ProximaNova-Bold";
     line-height: 90%;
 }
-.emptychart, .emptychart .chart-value {
-    border-radius: 5px 0px 0px 5px;
-}
 
-.product h3.product_h3_margin_left {
-    padding-left: 27px;
-}
-
-#dashboard-skills-box > .percentil_overall_container {
-    float:left;
-    display: inline;
-    margin-top: 5px;
-    margin-right: 7px;
-}
-
-.link-go-percentile {
-    margin-left: 10px;
-    margin-top: 8px;
-}
-
-@media screen and (max-width: 1146px){
-    .allsummry {
-        background-position: center 77px;
-        background-size: 65%;
-    }
-    .allseprtwrap .ratepercnt {
-        top:18px;
-    }
-    .uprnavprcnt {
-        left: 180px;
-    }
-    .resultprcnt {
-        left: 366px;
-    }
-    .timeprcnt {
-        left: 548px;
-    }
-    .blockvalue, .blockvalue .value {
-        font-size: 13px;
-    }
-    .blockvalue {
-        height: 24px;
-        line-height: 24px;
-        top:-3px;
-    }
-    .simulation-result-popup {
-        padding-bottom: 18px;
-    }
-    .simulation-details .navigation {
-        margin-bottom: 16px;
-    }
-    #simulation-details-pop-up h1 {
-        font-size: 27px;
-        margin-top: -6px;
-    }
-    .signmore {
-        /*margin-left: 6px;*/
-        padding-left: 6px;
-    }
-    .mangrlresults .labelwrap:first-child .list-text {
-        width: 175px;
-    }
-    .simulation-details .navigation {
-        margin-bottom: 18px;
-    }
-    .levellabels {
-        width:705px;
-    }
-    .levellabels h3 {
-        padding: 5px 5px 0px;
-        /*width:235px;*/
-    }
-    .levellabels h3:first-child {
-        /*padding-left: 4px;
-        width: 228px;*/
-    }
-    .labels .row {
-        height:24px;
-        margin-top: 40px;
-    }
-    .labels .row:first-child {
-        margin-top: 8px;
-    }
-    .rateslist .numlist {
-        width:180px;
-    }
-    .timedetail .labels p:first-child {
-        margin-top: 22px;
-    }
-    .timedetail .labelwrap {
-        margin-top: 13px;
-    }
-    .legend {
-        padding: 8px 20px 16px;
-    }
-    .legendvalue {
-        margin-top: 2px;
-    }
-    .mangrlresults .chartbar, .mangrlresults .chartproblem {
-        margin-bottom: 14px;
-    }
-    .extrasidepads, .section {
-        padding: 0;
-    }
-    .labels {
-       margin-top: 6px;
-        width: 244px;
-    }
-    .labelwrap {
-        margin-top:14px;
-    }
-    .high-labels .thelabel {
-        height:38px;
-    }
-    .mangrlresults .display-ib {
-        width: 175px;
-    }
-    .sections > div#main {
-        margin-left: -24px;
-        padding-left: 60px;
-    }
-    .managerialmain .chartbar, .managerialmain .chartproblem {
-        margin-bottom: 25px;
-    }
-    .barswrap {
-        width: 495px;
-    }
-    .barstitle {
-        font-size: 13px;
-    }
-    .twobarstitles .barstitle:first-child {
-        width: 286px;
-    }
-    .twocharts .chartbar {
-        width: 285px;
-    }
-    .twocharts .chartproblem {
-        margin-left:16px;
-        width: 194px;
-    }
-    .mangrlresults .labels a, .thelabel {
-        font-size: 9px;
-    }
-    .list-counter, .list-text {
-        font-size: 9px;
-    }
-    .thelabel {
-        height:24px;
-        line-height: 110%;
-    }
-    .resultslegend, .legendmargin {
-        margin-left: 248px;
-    }
-    .simulation-result-popup .total {
-        font-size: 30px;
-    }
-    .estmtileswrap, .rateslist {
-        /*width:732px;*/
-    }
-    .estmtileswrap .widthblock, .rateslist .widthblock {
-        vertical-align: top;
-        width:255px;
-    }
-    .estmtileswrap .widthshort, .rateslist .widthshort {
-        width:204px;
-    }
-    .ratepercnt, .product .ratepercnt {
-        font-size: 13px;
-    }
-    .resulttitelevalue {
-        margin-top:-30px;
-    }
-    .resultlabeltitle {
-        padding-left: 274px;
-    }
-    .product-gauge-charts .chart-gauge {
-        margin: 15px 32px 0px;
-    }
-    .product .widthblock {
-        width:255px;
-    }
-    .rateslist .widthblock:nth-child(1) h3, .rateslist .widthblock:nth-child(1) ol{
-        margin-left: 10px;
-    }
-    .rateslist .widthblock:nth-child(2) h3, .rateslist .widthblock:nth-child(2) ul {
-        margin-left: 40px;
-    }
-    .rateslist .widthblock:nth-child(3) h3, .rateslist .widthblock:nth-child(3) ul{
-        margin-left: 20px;
-    }
-    .rateslist .widthblock:nth-child(3) h3.in-mark, .rateslist .widthblock:nth-child(3) ul.in-mark{
-        margin-left: 20px;
-    }
-    div.percentil_text_product, div.percentil_text {
-        font-size: 13px;
-        margin-right: 12px;
-        margin-top:3px;
-    }
-    .percentil_dashboard_container {
-        width:110px;
-        background-position: top left;
-        background-size: 110px 30px;
-        height:18px;
-    }
-
-    .percentil_base, .percentil_overall {
-        background-position: 0px -18px;
-        background-size: 68px 36px;
-    }
-
-    .percentil_overall {
-        background-position: 0px 0px;
-    }
-
-    #dashboard-skills-box .percentil_overall {
-        background-position: 0px 0px;
-        background-size: 48px 24px;
-        height: 12px;
-    }
-
-    #dashboard-skills-box .percentil_base {
-        float:left;
-        display: inline;
-        width: 50px;
-        background-position: 0px -12px;
-        background-size: 48px 24px;
-        height: 12px;
-    }
-
-    #dashboard-skills-box .link-go-percentile {
-        margin-left: 10px;
-        margin-top: 10px;
-    }
-
-    #dashboard-skills-box .percentile_dashboard_value {
-        display: block;
-        float: right;
-        margin-right: 10px;
-        margin-top: 0px;
-    }
-
-    #dashboard-skills-box .percentil_dashboard_container {
-        width:100px;
-        background-position: top left;
-        background-size: 100px 27px;
-        height:16px;
-        margin-right: 0;
-    }
-
-}
-
-/*
-.controller-static-dashboard {
-    overflow: hidden !important;
-}
-.simulation-result-popup {
-    position: fixed;
-    overflow-x: auto !important;
-    overflow-y: scroll !important;
-    top: 0px;
-    z-index: 100000;
-}*/
-/****************************************************/
-.page {
-    /*margin: 100px 0 0;
-    padding: 20px;
-    min-height: 600px;*/
-}
-
-/*
-.page > * {
-    margin: 20px 0;
-}
-
-.chart-gauge.inline {
-    float: left;
-    margin: 10px -7px;
-}
-
-.chart-bullet.small {
-    width: 300px;
-    margin: 40px 50px;
-}*/
-/*.gauge-charts, */
-/*.bar-charts {
-    margin: 40px 0;
-    padding: 10px;
-}
-.chart-gauge.inline {
-    margin: 30px 0;
-}
-.chart-bar {
-    margin: 20px 0;
-}
-
-
-
-    .bar {
-        clear: both;
-    }
-*/
-
-
-.bar-charts {
-    /*display: none !important;*/
-}
-/* *********************************** ACCEPT WARNING POPUP *********************************** */
-.accept-invite-warning-popup, .popup-before-start-sim {
-    padding-left: 40px;
-    padding-right: 40px;
-}
-
-.accept-invite-warning-popup .title, .popup-before-start-sim .title {
-    color: #3d4041;
-    text-align: center;
-    font-family: "ProximaNova-Bold";
-    font-size: 44px;
-    font-weight: normal;
-    line-height: 100%;
-    margin-bottom: 20px;
-}
-.accept-invite-warning-popup h4 {
-    font-family: "ProximaNova-Bold";
-    font-size: 18px;
-    font-weight: normal;
-    margin:20px 0px 8px;
-    text-align: center;
-}
-.grid-cell {
-    display: table-cell;
-}
-.accept-invite-warning-popup .list-ordered {
-    margin-bottom: 20px;
-    margin-left: 4px;
-}
-.list-ordered {
-    font-family: "ProximaNova-Regular";
-    font-size: 18px;
-    list-style:none;
-}
-.list-ordered li {
-    margin-bottom: 22px;
-}
-.list-ordered strong {
-    font-family: ProximaNova-Bold;
-    font-size: 24px;
-    padding-right: 16px;
-}
-.list-ordered .grid-cell {
-    vertical-align: middle;
-}
-.list-ordered p {
-    line-height: 120%;
-}
-.font-large {
-    font-size: 16px;
-}
-.font-xxlarge {
-    font-size: 18px;
-}
-.line-xheight {
-    line-height: 150%;
-}
-.accept-invite-warning-popup .container-4 {
-    margin-top: 10px;
-}
-.container-4:after {
-    visibility: hidden;
-    display: block;
-    font-size: 0;
-    content: " ";
-    clear: both;
-    height: 0;
-}
-.grid1 {
-    float:left;
-}
-.accept-invite-warning-popup .grid1 {
-    padding-right: 16px;
-    width: 200px;
-}
-.accept-invite-warning-popup .container-4 .grid1:last-child {
-    padding-right: 0px;
-}
-.popup-icons {
-   background-repeat: no-repeat;
-   background-position: 0px 0px;
-   height: 94px;
-   margin: 0 auto;
-   width: 94px;
-}
-.icon-inet {
-    background-image: url("../img/icon-inet.png");
-}
-.icon-browser {
-    background-image: url("../img/browser.png");
-}
-.icon-progs {
-    background-image: url("../img/otherprogrms.png");
-}
-.icon-demo {
-    background-image: url("../img/game-demo.png");
-}
-.popup-before-start-sim h3 {
-    font-size: 24px;
-}
-.popup-before-start-sim .more-side-pads {
-    padding-left: 60px;
-    padding-right: 60px;
-}
-.popup-before-start-sim .bigbtnsubmt, .accept-invite-warning-popup .bigbtnsubmt {
-    background: #146672 url("../img/icon-circlarow-hover.png") no-repeat 17px 50%;
-    font:20px/64px "ProximaNova-Bold";
-    height: 64px;
-    margin-top: 10px;
-    outline: none;
-    padding-left: 51px;
-}
-.popup-before-start-sim .bigbtnsubmt:hover, .accept-invite-warning-popup .bigbtnsubmt:hover {
-    background-color: #bd2929;
-}
-.popup-before-start-sim .ui-widget-header {
-    background: none;
-    border: 0;
-}
-@media screen and (max-width: 1146px){
-
-    .accept-invite-warning-popup, .popup-before-start-sim {
-        padding-left: 25px;
-        padding-right: 25px;
-        width:725px !important;
-    }
-
-    .accept-invite-warning-popup .title, .popup-before-start-sim .title {
-        font-size: 34px;
-        margin-bottom: 15px;
-    }
-    .accept-invite-warning-popup h4 {
-        font-size: 14px;
-        margin:15px 0px 5px;
-    }
-    .accept-invite-warning-popup .list-ordered {
-        margin-bottom: 40px;
-        margin-left: 2px;
-    }
-    .list-ordered, .font-xxlarge {
-        font-family: "ProximaNova-Regular";
-        font-size: 14px;
-    }
-    .list-ordered li {
-        margin-bottom: 16px;
-    }
-    .list-ordered strong {
-        font-size: 19px;
-        padding-right: 12px;
-    }
-    .font-large {
-        font-size: 13px;
-    }
-    .accept-invite-warning-popup .grid1 {
-        padding-right: 10px;
-        width: 160px;
-    }
-    .popup-icons {
-        background-size: 75px;
-        height: 75px;
-        width: 75px;
-    }
-
-    .popup-before-start-sim h3 {
-        font-size: 19px;
-    }
-    .popup-before-start-sim .more-side-pads {
-        padding-left: 50px;
-        padding-right: 50px;
-    }
-    .popup-before-start-sim .bigbtnsubmt, .accept-invite-warning-popup .bigbtnsubmt {
-        background: #146672 url("../img/icon-circlarow-hover.png") no-repeat 17px 50%;
-        font:16px/50px "ProximaNova-Bold";
-        height: 50px;
-        margin-top: 7px;
-        padding-left: 51px;
-    }
-}
-/* *********************************** /ACCEPT WARNING POPUP *********************************** */
-
-.scenario-lite .ratepercnt {
-    display: none;
+.emptychart,
+.emptychart .chart-value {
+    border-radius: 5px 0 0 5px;
 }
 
 .chart-gauge {
-    position: relative;
-    width: 240px; /* 305px */
-    height: 120px; /*  135px */ /*  140px */
-    margin: 0px 28px;
-    overflow: visible;
     background: url(../../img/site/1280/assessment/gauge.png) no-repeat center bottom;
+    position: relative;
+    width: 240px;
+    height: 120px;
+    margin: 0 7px;
+    overflow: visible;
+    width: 316px;
 }
+
+.chart-gauge:first-child {
+    margin-left: 10px;
+}
+
 .chart-gauge:after {
     content: '';
     position: absolute;
@@ -1737,25 +1180,27 @@ div.percentil_text_product {
     margin-left: -17px;
     background: url(../../img/site/1280/assessment/bullet.png) no-repeat;
 }
+
 .chart-gauge .pointer {
     position: absolute;
     z-index: 1;
     width: 105px;
     height: 20px;
     bottom: 2px;
-    left: 27px;
+    left: 63px;
     background: url(../../img/site/1280/assessment/arrow.png) no-repeat;
 
-    -webkit-transform-origin: 92px 11px; /* 98px 11px; */
-    -moz-transform-origin: 92px 11px;
-    -ms-transform-origin: 92px 11px;
+    /*-webkit-transform-origin: 92px 11px;*/
+    /*-moz-transform-origin: 92px 11px;*/
+    /*-ms-transform-origin: 92px 11px;*/
     transform-origin: 92px 11px;
 }
+
 .chart-gauge .chart-value {
     color:#3d4041;
     position: absolute;
-    font:17px "ProximaNova-Regular";
     left: 0;
+    margin-left: 35px;
     bottom: 0;
     z-index: 1000;
 }
@@ -1766,22 +1211,22 @@ div.percentil_text_product {
     border-radius: 5px;
     background-color: #b5d4d7;
 }
+
 .chart-bar.max-hidden {
     background: transparent;
 }
-.chart-bar .chart-value, .chartbar .chart-value, .emptychart .chart-value {
+
+.chart-bar .chart-value,
+.chartbar .chart-value,
+.emptychart .chart-value {
     display: block;
     overflow: hidden;
-    /*padding-right: 10px;*/
     width: 0;
     height: 30px;
-    /*padding-right: 5px;*/
     background-color: #146672;
     text-align: center;
     color: white;
-    /*font-weight: bold;*/
-    font:18px "ProximaNova-Regular";
-    line-height: 30px;
+    line-height: 1.8em;
 
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -1793,72 +1238,13 @@ div.percentil_text_product {
     -ms-user-select: none;
     user-select: none;
 }
+
+.chart-value {
+    font-size: 1.2em;
+}
+
 .chart-bar.redbar .chart-value{
     background-color: #e11a1a;
-}
-
-.chart-bullet {
-    position: relative;
-    height: 18px;
-    border-radius: 6px;
-    border-top: 1px solid #39656b;
-    background-color: #bcbcbc;
-}
-.chart-bullet.valued {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -ms-box-sizing: border-box;
-    box-sizing: border-box;
-}
-.chart-bullet.valued:before, .chart-bullet.valued:after {
-    content: '0%';
-    position: absolute;
-    font-size: 15px;
-    /*font-weight: bold;*/
-    color: #3d4041;
-    left: -30px;
-    width: 30px;
-    text-align: center;
-}
-.chart-bullet.valued:after {
-    content: '100%';
-    left: auto;
-    width: 50px;
-    right: -50px;
-    top: 0;
-}
-.chart-bullet .bar, .bar, .shortIndicator .bar {
-    display: block;
-    height: 100%;
-    width: 0;
-    border-radius: 6px;
-
-    background: -webkit-linear-gradient(top, #127988, #164651);
-    background: -moz-linear-gradient(top, #127988, #164651);
-    background: -ms-linear-gradient(top, #127988, #164651);
-    background: linear-gradient(top, #127988, #164651);
-}
-.chart-bullet .bullet, .bullet {
-    content: '';
-    position: absolute;
-    left: -17px;
-    top: -6px;
-    width: 34px;
-    height: 34px;
-    background: url(../../img/site/1280/assessment/bullet.png) no-repeat;
-}
-.chart-bullet .chart-value {
-    position: absolute;
-    display: none;
-    top: -27px;
-    width: 34px;
-    color: #3d4041;
-    font-size: 22px;
-    /*font-weight: bold;*/
-    text-align: center;
-}
-.chart-bullet.valued .chart-value {
-    display: block;
 }
 
 .chart-pie {
@@ -1867,10 +1253,12 @@ div.percentil_text_product {
     width: 300px;
     height: 300px;
 }
+
 .chart-pie.scaled {
     background: url(../../img/site/1280/assessment/pie-scale.png) no-repeat 50% 60%,
     url(../../img/site/1280/assessment/pie-simple.png) no-repeat 50% 50%;
 }
+
 .chart-pie:after {
     content: '';
     position: absolute;
@@ -1880,25 +1268,37 @@ div.percentil_text_product {
     bottom: 0;
     background: url(../../img/site/1280/assessment/pie-glance.png) no-repeat 50% 25%;
 }
+
 .testtime {
     background: url("../../img/site/1280/assessment/clock-small.png") no-repeat;
     color: #146672;
     float: right;
     font-family: "ProximaNova-Bold";
-    height: 56px; /* height: 82px; */
-    margin:-54px 20px 0px 0px;
+    height: 56px;
+    margin:-54px 20px 0 0;
     padding: 17px 4px 10px 8px;
     text-align: center;
     width:70px;
 }
+
 .testtime strong {
     color: #146672;
     font: 2.6em "ProximaNova-Bold";
     line-height: 90%;
-    margin-left: 0px; /* 5 */
+    margin-left: 0;
     overflow: hidden;
+}
+
+#managerial-skills .list-text,
+#managerial-skills .list-counter {
+    display: inline-block;
 }
 
 #managerial-skills-3-4 .list-text {
     width: 225px;
+}
+
+#time-management .extrasidepads,
+#time-management-detail .extrasidepads {
+    margin-top: 20px;
 }

@@ -9,7 +9,7 @@ $(document).ready(function () {
     simulation_popup.dialog({
         dialogClass: 'background-sky-blue simulation-result-popup',
         modal:       true,
-        width:       1003,
+        width:       getDialogSimulationDetailsPopupWidth(),
         height:      935,
         autoOpen:    false,
         resizable:   false

@@ -1,5 +1,5 @@
 <div class="page">
-    <div class="textcener"><h2 class="total">Личностные характеристики</h2></div>
+    <div class="pull-content-center"><h2 class="total">Личностные характеристики</h2></div>
 
     <div class="personallabels">
         <div class="smalltitle">Ориентация на результат<a href="#" class="questn"></a></div>
