@@ -13,6 +13,7 @@
  * @property string $right_direction
  * @property double $right
  * @property string $text
+ * @property string $import_id
  *
  * The followings are the available model relations:
  * @property Scenario $scenario

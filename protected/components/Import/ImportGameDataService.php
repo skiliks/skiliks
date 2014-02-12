@@ -2880,6 +2880,96 @@ class ImportGameDataService
         );
     }
 
+    public function importParagraphsAndPockets()
+    {
+        //return;
+        $this->logStart();
+
+        // load sheet {
+        $excel = $this->getExcel();
+        $sheet = $excel->getSheetByName('Paragraphs');
+        if (!$sheet) {
+            $this->logEnd('WARNING: no sheet');
+            return ['error' => 'no sheet'];
+        }
+        // load sheet }
+
+        $this->setColumnNumbersByNames($sheet);
+
+        $items = 0;
+
+        for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
+            $paragraph = $this->scenario->getParagraph(['alias'=>$this->getCellValue($sheet, 'alias', $i)]);
+            if (null === $paragraph) {
+                $paragraph = new Paragraph();
+                $paragraph->alias = $this->getCellValue($sheet, 'alias', $i);
+            }
+            $paragraph->label = $this->getCellValue($sheet, 'label', $i);
+            $paragraph->value_1 = $this->getCellValue($sheet, 'value_1', $i);
+            $paragraph->value_2 = $this->getCellValue($sheet, 'value_2', $i);
+            $paragraph->value_3 = $this->getCellValue($sheet, 'value_3', $i);
+            $paragraph->method = $this->getCellValue($sheet, 'method', $i);
+            $paragraph->scenario_id = $this->scenario->primaryKey;
+            $paragraph->import_id = $this->import_id;
+            $paragraph->save(false);
+            $items++;
+        }
+
+        $sheet = $excel->getSheetByName('Pockets');
+        if (!$sheet) {
+            $this->logEnd('WARNING: no sheet');
+            return ['error' => 'no sheet'];
+        }
+        // load sheet }
+
+        $this->setColumnNumbersByNames($sheet);
+
+        for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
+            $paragraph = $this->scenario->getParagraphPocket([
+                'paragraph_alias'=>$this->getCellValue($sheet, 'paragraph_alias', $i),
+                'behaviour_alias'=>$this->getCellValue($sheet, 'behaviour_alias', $i),
+                'left_direction'=>$this->getCellValue($sheet, 'left_direction', $i),
+                'left'=>$this->getCellValue($sheet, 'left', $i),
+                'right_direction'=>$this->getCellValue($sheet, 'right_direction', $i),
+                'right'=>$this->getCellValue($sheet, 'right', $i),
+            ]);
+            if (null === $paragraph) {
+                $paragraph = new ParagraphPocket();
+                $paragraph->paragraph_alias = $this->getCellValue($sheet, 'paragraph_alias', $i);
+                $paragraph->behaviour_alias = $this->getCellValue($sheet, 'behaviour_alias', $i);
+                $paragraph->left_direction = $this->getCellValue($sheet, 'left_direction', $i);
+                $paragraph->left = $this->getCellValue($sheet, 'left', $i);
+                $paragraph->right_direction = $this->getCellValue($sheet, 'right_direction', $i);
+                $paragraph->right = $this->getCellValue($sheet, 'right', $i);
+            }
+            $paragraph->text = $this->getCellValue($sheet, 'text', $i);
+            $paragraph->scenario_id = $this->scenario->primaryKey;
+            $paragraph->import_id = $this->import_id;
+            $paragraph->save(false);
+            $items++;
+        }
+
+        // update scenario object TIME options }
+
+        // delete old unused data {
+        Paragraph::model()->deleteAll(
+            'import_id <> :import_id AND scenario_id = :scenario_id',
+            array('import_id' => $this->import_id, 'scenario_id' => $this->scenario->primaryKey)
+        );
+        ParagraphPocket::model()->deleteAll(
+            'import_id <> :import_id AND scenario_id = :scenario_id',
+            array('import_id' => $this->import_id, 'scenario_id' => $this->scenario->primaryKey)
+        );
+        // delete old unused data }
+
+        $this->logEnd();
+
+        return array(
+            'items' => $items,
+            'errors'    => false,
+        );
+    }
+
     /**
      * @param $result
      * @return mixed
@@ -2916,6 +3006,8 @@ class ImportGameDataService
         $result['weights'] = $this->importWeights();
         $result['activity_parent_availability'] = $this->importActivityParentAvailability();
         $result['flag_time_switch'] = $this->importFlagTimeSwitch();
+        $result['paragraphs_and_pockets'] = $this->importParagraphsAndPockets();
+
         return $result;
     }
 
