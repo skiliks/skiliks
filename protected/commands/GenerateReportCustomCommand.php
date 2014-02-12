@@ -6,10 +6,8 @@
  */
 class GenerateReportCustomCommand extends CConsoleCommand
 {
-    public function actionIndex($version = 'v2')
+    public function actionIndex($assessment_version = 'v2')
     {
-        $assessment_version = $version;
-
         $scenario = Scenario::model()->findByAttributes(['slug'=>Scenario::TYPE_FULL]);
 
         /* @var Simulation[] $simulations */

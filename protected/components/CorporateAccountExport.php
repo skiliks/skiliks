@@ -150,8 +150,8 @@ class CorporateAccountExport {
             $this->addColumn($account->description_for_sales);
             $this->addColumn($account->invites_limit);
             $this->addColumn($account->getActiveTariffPlan()->tariff->label);
-            $this->addColumn(date('Y-m-d H:i:s', $account->user->createtime));
-            $this->addColumn($account->getLastTariffPlanNonFree()->finished_at);
+            $this->addColumn(date('d.m.Y', $account->user->createtime));
+            $this->addColumn(date('d.m.Y', strtotime($account->getLastTariffPlanNonFree()->finished_at)));
             $this->addColumn($account->getNumberOfPaidOrders());
             $this->addColumn($account->getNumberOfInvitationsSent());
             $this->addColumn($account->getNumberOfFullSimulationsForSelf());
