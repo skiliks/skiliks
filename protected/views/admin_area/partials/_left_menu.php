@@ -37,7 +37,7 @@
                 'visible' => true,
 
             ], [
-                'label' => 'Корпоративные аккаунты',
+                'label' => '<i class="icon-briefcase"></i>Корпоративные аккаунты',
                 'url'   => ['admin_area/AdminPages/CorporateAccountList'],
                 'visible' => true,
 
