@@ -176,25 +176,31 @@
 
     .estmtileswrap .widthblock,
     .rateslist .widthblock {
-        width: 255px;
-        min-width: 255px;
+        width: 260px;
+        min-width: 260px;
         padding: 0;
     }
 
     .rateslist .widthblock {
         width: 260px;
         min-width: 260px;
+        max-width: 260px;
     }
 
     /* переопределяем параметры из вёрстки под 1280 */
     .estmtileswrap .widthblock:first-child,
     .estmtileswrap .widthblock:last-child {
-        width: 233px;
-        min-width: 233px;
+        width: 230px;
+        min-width: 230px;
+        max-width: 230px;
 
         /* Надо укоротить площадь под надписи. */
         /* А то кружок со стрелкой переносится на следующую строку. */
         padding: 0 15px;
+    }
+
+    .simulation-result-popup .levellabels h6 {
+        width: 260px;
     }
 
     .chart-gauge:first-child {
@@ -273,7 +279,7 @@
     .levellabels {
         margin: 0 auto;
         overflow: visible;
-        width: 823px;
+        width: 843px;
     }
 
     .chart-gauge .pointer {
@@ -319,7 +325,7 @@
     .maincharts .product-bullet-charts,
     .maincharts .bullet-charts {
         height: 106px;
-        width: 228px;
+        width: 226px;
     }
 
     .chart-gauge {
@@ -401,10 +407,6 @@
 
     .estmfooter a {
         line-height: 26px;
-    }
-
-    .simulation-result-popup .levellabels h6 {
-        width: 257px;
     }
 
     #managerial-skills-3-4 .list-text {
