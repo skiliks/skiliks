@@ -13,6 +13,7 @@
  * @property string $value_2
  * @property string $value_3
  * @property string $method
+ * @property string $import_id
  *
  * The followings are the available model relations:
  * @property Scenario $scenario
