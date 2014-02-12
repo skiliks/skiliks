@@ -110,36 +110,44 @@ define([
                         },
                         timeout: parseInt(me.requests_timeout),
                         success:  function (data, textStatus, jqXHR) {
-                            if( data.uniqueId !== undefined ) {
 
-                                if( url !== me.api_root + me.connectPath ) {
-                                    var models = SKApp.server.requests_queue.where({uniqueId:data.uniqueId});
-                                    if(false === $.isEmptyObject(models)) {
-                                        SKApp.server.requests_queue.remove(_.first(models));
-                                    } else {
-                                        if (!window.testMode) {
-                                            throw new Error("Not found model by - " + data.uniqueId);
+                            if(typeof data.redirect === 'string') {
+                                $(window).off('beforeunload');
+                                location.assign('/dashboard');
+                            } else {
+                                if( data.uniqueId !== undefined ) {
+
+                                    if( url !== me.api_root + me.connectPath ) {
+                                        var models = SKApp.server.requests_queue.where({uniqueId:data.uniqueId});
+                                        if(false === $.isEmptyObject(models)) {
+                                            SKApp.server.requests_queue.remove(_.first(models));
+                                        } else {
+                                            if (!window.testMode) {
+                                                throw new Error("Not found model by - " + data.uniqueId);
+                                            }
                                         }
                                     }
-                                }
-                                if(undefined !== callback){
-                                    if(data.simulation_status !== 'interrupted'){
-                                        //if(me.last_200_request.push(data.uniqueId)) //me.last_200_request.push(data.uniqueId);
-                                        if(me.isRunCallBack(data.uniqueId)) {
-                                            callback(data, textStatus, jqXHR);
+                                    if(undefined !== callback){
+
+                                        if(data.simulation_status !== 'interrupted'){
+                                            //if(me.last_200_request.push(data.uniqueId)) //me.last_200_request.push(data.uniqueId);
+                                            if(me.isRunCallBack(data.uniqueId)) {
+                                                callback(data, textStatus, jqXHR);
+                                            }
+                                        }else{
+                                            $(window).off('beforeunload');
+                                            location.assign('/simulation/exit');
                                         }
-                                    }else{
-                                        $(window).off('beforeunload');
-                                        location.assign('/simulation/exit');
+                                    } else {
+                                        if(data.simulation_status == 'interrupted') {
+                                            $(window).off('beforeunload');
+                                            location.assign('/simulation/exit');
+                                        }
                                     }
                                 } else {
-                                    if(data.simulation_status == 'interrupted') {
-                                        location.assign('/simulation/exit');
+                                    if (!window.testMode) {
+                                        throw new Error("uniqueId is not found");
                                     }
-                                }
-                            } else {
-                                if (!window.testMode) {
-                                    throw new Error("uniqueId is not found");
                                 }
                             }
                         },
