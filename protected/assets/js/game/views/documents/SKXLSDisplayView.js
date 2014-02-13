@@ -69,7 +69,7 @@ define([
                     css_id: doc.getCssId(),
                     sheets: doc.get('sheets')
                 }) );
-                me.$('#'+doc.getCssId()).find('.table-container').css('min-height', me.$('#'+doc.getCssId()).height());
+                me.$('#'+doc.getCssId()).find('.table-container').css('min-height', me.$('#'+doc.getCssId()).height()-26);
                 console.log(me.$('#'+doc.getCssId()).height());
                 SocialCalc.Constants.defaultImagePrefix = SKApp.get('assetsUrl') + '/img/excel/sc-';
                 me.sheets = [];
@@ -194,6 +194,7 @@ define([
             try {
                 window.SKWindowView.prototype.onResize.call(this);
                 var me = this;
+                me.$('.table-container').css('min-height', '');
                 me.resizeActiveTab(true);
             } catch(exception) {
                 if (window.Raven) {
