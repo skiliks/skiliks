@@ -3213,21 +3213,32 @@ define([
                     }
                 }
             },
-            onResize : function() {
+
+            onResize: function() {
                 window.SKWindowView.prototype.onResize.apply(this);
                 this.$('.mail-text-wrap').height(
                     this.$('.mail-view.new').height() - this.$('.mail-view-header').outerHeight() - this.$('.mail-tags-bl').outerHeight()
                 );
             },
-            setActiveEmail:function (email) {
-                //this.mailClient.setActiveEmail(email);
+
+            /**
+             * @param SKEmail email
+             */
+            setActiveEmail: function (email) {
                 var email_data = this.$('#MailClient_IncomeFolder_List tr[data-email-id="'+email.mySqlId+'"]');
+
+                // защита от несуществующего email
+                if (null == $(email_data).data()) {
+                    return;
+                }
+
                 this.doGetEmailDetails(
                     $(email_data).data().emailId,
                     this.mailClient.getActiveFolder().alias
                 );
             },
-            onWindowClose:function() {
+
+            onWindowClose: function() {
                 this.mailClient.activeEmail = undefined;
             }
         });
