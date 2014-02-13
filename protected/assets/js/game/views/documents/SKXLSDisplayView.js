@@ -194,6 +194,7 @@ define([
             try {
                 window.SKWindowView.prototype.onResize.call(this);
                 var me = this;
+                me.$('.table-container').css('min-height', '');
                 me.resizeActiveTab(true);
             } catch(exception) {
                 if (window.Raven) {
