@@ -69,7 +69,7 @@ define([
                     css_id: doc.getCssId(),
                     sheets: doc.get('sheets')
                 }) );
-                me.$('#'+doc.getCssId()).find('.table-container').css('min-height', '300px');
+                me.$('#'+doc.getCssId()).find('.table-container').css('min-height', me.$('#'+doc.getCssId()).height());
                 console.log(me.$('#'+doc.getCssId()).height());
                 SocialCalc.Constants.defaultImagePrefix = SKApp.get('assetsUrl') + '/img/excel/sc-';
                 me.sheets = [];
