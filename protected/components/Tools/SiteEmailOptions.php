@@ -101,117 +101,55 @@ class SiteEmailOptions {
         $delimiter = 0;
 
         /* счётчик строк. С его помощью мы проверяем, что верхний текст по высоте помещается в вёрстку */
-        /* предел 14 строк */
+        /* предел $maxRows строк */
+        $maxRows = 8;
         $rowCounter = 0;
 
         /* $p1, $p2 - position1, position2 */
         $p2 = 0;
 
-        $n = substr_count($text, '<br/>');
+        $n = mb_substr_count($text, '<br/>', 'UTF-8');
 
-        // массив позиций начала и конца ссылок
-        // чтоб $delimiter не рвал ссылки
-        $linkPairs = [];
-        if (0 < substr_count($text, '</a>')) {
-            $offset = 0;
-            // @link: http://ua2.php.net/manual/en/function.strpos.php
-            while (false != strpos($text, '</a>', $offset)) {
-
-                $start = strpos($text, '<a', $offset);
-
-                $linkPairs[] = [
-                    'start'  => $start,
-                    'middle' => strpos($text, '">', $start),
-                    'end'    => strpos($text, '</a>', $start) + 4
-                ];
-
-                $offset = strpos($text, '</a>', $offset) + 4;
-            }
-        }
-
-        $paragraphPairs = [];
-        if (0 < substr_count($text, '</p>')) {
-            $offset = 0;
-            while (false != strpos($text, '</p>', $offset)) {
-                $start = strpos($text, '<p', $offset);
-                $end   = strpos($text, '>',  $offset);
-
-                $paragraphPairs[] = [
-                    'start'  => $start,
-                    'end'    => $end,
-                ];
-
-                $offset = $end + 1;
-            }
-
-            $offset = 0;
-            while (false != strpos($text, '</p>', $offset)) {
-                $start = strpos($text, '</p>', $offset);
-
-                $paragraphPairs[] = [
-                    'start'  => $start,
-                    'end'    => $start + 4,
-                ];
-
-                $offset = $start + 4;
-            }
-        }
-
-        for ($i = 0; $i < $n + 1; $i++) {
-            $p1 = $p2;
-            $p2 = strpos($text, '<br/>', $p1);
-
-            if ($p2 < 1 && 0 < $i) {
-                $p2 = strlen($text);
+        // весь текст написан в одну строку
+        if (0 == $n) {
+            if (mb_strlen($text, 'UTF-8') < $rowLength * $maxRows) {
+                // тест короче чем верхняя область
+                $delimiter = mb_strlen($text, 'UTF-8');
             } else {
-                $p2 += 5;
+                // тест длиннее чем верхняя область
+                $delimiter = $rowLength * $maxRows;
             }
+        } else {
+            // текст имеет несколько строк
+            for ($i = 0; $i < $n + 1; $i++) {
+                $p1 = $p2;
+                $p2 = mb_strpos($text, '<br/>', $p1, 'UTF-8');
 
-            // учет длинны HTML кода ссылок
-            if (0 < count($linkPairs)) {
-                foreach ($linkPairs as $link) {
-                    if ($p1 <= $link['start'] && $link['middle'] <= $p2 ) {
-                        $totalLinksHtmlCodeLength += $link['middle'] - $link['start'];
-                    }
-
+                if ($p2 < 1 && 0 < $i) {
+                    $p2 = mb_strlen($text, 'UTF-8');
+                } else {
+                    $p2 += 5;
                 }
-            }
 
-            if (0 < count($paragraphPairs)) {
-                foreach ($paragraphPairs as $tag) {
-                    if ($p1 <= $tag['start'] && $tag['end'] <= $p2 ) {
-                        $totalLinksHtmlCodeLength += $tag['end'] - $tag['start'];
-                    }
+                $rowCounter += ceil(($p2 - $p1)/$rowLength);
 
-                }
-            }
+                // в верхний блок помещается до 14 строк
+                if ($rowCounter < $maxRows) {
+                    $delimiter = $p2;
+                    // считаем дальше
+                } else {
+                    $previousRowCounter = $rowCounter - ceil(($p2 - $p1)/$rowLength);
+                    $extraCharacters = $p2 - $p1 - (8 - $previousRowCounter)*$rowLength;
+                    $delimiter = $p2 - $extraCharacters;
 
-            $rowCounter += ceil(($p2 - $p1 - $totalLinksHtmlCodeLength)/$rowLength);
-
-            // в верхний блок помещается до 14 строк
-            if ($rowCounter < 14) {
-                $delimiter = $p2;
-                // считаем дальше
-            } else {
-                $previousRowCounter = $rowCounter - ceil(($p2 - $p1)/$rowLength);
-                $extraCharacters = $p2 - $p1 - (14 - $previousRowCounter)*$rowLength;
-                $delimiter = $p2 - $extraCharacters;
-
-                // верхний блок ($this->text1) уже заполнен
-                break;
-            }
-        }
-
-        if (0 < count($linkPairs)) {
-            foreach ($linkPairs as $link) {
-                if ($link['start'] < $delimiter && $delimiter < $link['end'] ) {
-                    $delimiter = $link['end'];
+                    // верхний блок ($this->text1) уже заполнен
+                    break;
                 }
             }
         }
 
-        $this->text1 = substr($text, 0, $delimiter);
-        $this->text2 = substr($text, $delimiter);
+        $this->text1 = mb_substr($text, 0, $delimiter, 'UTF-8');
+        $this->text2 = mb_substr($text, $delimiter, null, 'UTF-8');
 
         // Смещаем $delimiter до последнего пробела в $this->text1,
         // если $delimiter оказался в середине слова
@@ -253,6 +191,12 @@ class SiteEmailOptions {
         }
     }
 
+    /**
+     * Альтернативный вариант setText().
+     * На данный момент недоработан.
+     *
+     * @param string $text
+     */
     public function setCustomText($message) {
 
         $length_max = 690;

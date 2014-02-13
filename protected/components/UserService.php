@@ -455,7 +455,7 @@ class UserService {
         $mailOptions->to      = $invite->email;
         $mailOptions->subject = 'Приглашение пройти симуляцию на ' . Yii::app()->params['server_domain_name'];
         $mailOptions->h1      = $invite->getReceiverFirstName() . ', приветствуем вас!';
-        $mailOptions->setCustomText($invite->message);
+        $mailOptions->setText($invite->message);
         $mailOptions->text1 = '
             <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
                 Компания '. $invite->ownerUser->account_corporate->company_name .' предлагает вам пройти тест "Базовый менеджмент".<br/>
