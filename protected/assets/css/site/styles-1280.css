@@ -337,3 +337,13 @@ nav ul li.menu-item span.not-started-simulations {
     top: -10px;
     width: 21px;
 }
+
+.error .error-place.us-error-place-sing-in,
+.error .error-place.us-error-place-sing-in .errorMessage {
+    margin-top: 0;
+}
+
+/* тут совсем неочевидная ссылка - выделим её подчёркиванием */
+#YumUserLogin_not_activate_em_ a {
+    text-decoration: underline;
+}

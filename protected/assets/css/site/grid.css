@@ -71,8 +71,13 @@
     font-weight: normal;
 }
 
-.inter-active {
+.inter-active,
+.inter-active-with-hover {
     cursor: pointer;
+}
+
+.inter-active-with-hover:hover {
+    text-decoration: underline;
 }
 
 /* --- */
@@ -334,6 +339,10 @@ input.inputs-wide-height {
 
 .row {
     padding: 15px 0 0;
+}
+
+.row-42 {
+    height: 42px;
 }
 
 .row-32 {

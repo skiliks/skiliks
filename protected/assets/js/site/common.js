@@ -284,6 +284,34 @@ window.feedbackSubmit = function feedbackSubmit(form, data, hasError) {
 
 // 5) authentication Validation
 window.authenticateValidation = function authenticateValidation(form, data, hasError) {
+
+    console.log(form, data, hasError);
+
+    // аккаунт не активирован
+    if (undefined != data.YumUserLogin_not_activated) {
+        hasError = true;
+        $('#YumUserLogin_not_activate_em_').html(data.YumUserLogin_not_activated);
+        $('#YumUserLogin_not_activate_em_').parent().parent().addClass('error');
+        $('#YumUserLogin_not_activate_em_').parent().parent().removeClass('hide');
+        $('#YumUserLogin_not_activate_em_').show();
+    } else {
+        $('#YumUserLogin_not_activate_em_').parent().parent().removeClass('error');
+        $('#YumUserLogin_not_activate_em_').parent().parent().addClass('hide');
+    }
+
+    // аккаунт забанен
+    if (undefined != data.YumUserLogin_form) {
+        hasError = true;
+        $('#YumUserLogin_not_activate_em_').html(data.YumUserLogin_form);
+        $('#YumUserLogin_not_activate_em_').parent().parent().addClass('error');
+        $('#YumUserLogin_not_activate_em_').parent().css('vertical-align', 'middle');
+        $('#YumUserLogin_not_activate_em_').parent().parent().removeClass('hide');
+        $('#YumUserLogin_not_activate_em_').show();
+    } else {
+        $('#YumUserLogin_not_activate_em_').parent().parent().removeClass('error');
+        $('#YumUserLogin_not_activate_em_').parent().parent().addClass('hide');
+    }
+
     if (!hasError && 'undefined' == typeof data.YumUserLogin_form) {
         location.href = '/dashboard';
     }

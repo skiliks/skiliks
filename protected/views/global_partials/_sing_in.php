@@ -14,13 +14,13 @@
         )
     ]); ?>
 
-        <?php $loginForm = new YumUserLogin; ?>
+        <?php $loginForm = new YumUserLogin(); ?>
 
         <?= CHtml::hiddenField("returnUrl", '/dashboard') ?>
         <?= CHtml::hiddenField("ajax", 'login-form') ?>
 
         <div class="row row-13">
-            <span class="action-password-recovery pull-right inter-active unstandard-password-recovery">
+            <span class="action-password-recovery pull-right inter-active-with-hover unstandard-password-recovery">
                 <?php echo Yii::t('site', 'Forgot your password?') ?>
             </span>
         </div>
@@ -39,6 +39,13 @@
             <?php echo $loginWidget->passwordField($loginForm, "password", ['placeholder' => Yii::t('site', 'Enter password')]) ?>
         </div>
 
+        <?php /* ошибка:Ваш аккаунт заблокирован */ ?>
+        <div class="row-42 hide">
+            <span class="error-place us-error-place-sing-in">
+                <?php echo $loginWidget->error($loginForm, 'not_activate'); ?>
+            </span>
+        </div>
+
         <?php // for "your email not activated" message { ?>
         <div class="row">
             <?php echo CHtml::error($loginForm, 'form') ?>
@@ -48,7 +55,7 @@
         <div class="row-13">
             <input type="checkbox" name="YumUserLogin[rememberMe]" class="reset-margin vertical-align-top"/>
             <label class="vertical-align-top"><?php echo Yii::t('site', 'Remember me') ?></label>
-            <a class="pull-right unstandard-registration-link" href="/registration"><?php echo Yii::t('site', 'Registration') ?></a>
+            <a class="pull-right unstandard-registration-link inter-active-with-hover" href="/registration"><?php echo Yii::t('site', 'Registration') ?></a>
         </div>
 
         <div class="row margin-bottom-standard">
