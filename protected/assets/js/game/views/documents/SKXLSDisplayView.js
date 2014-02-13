@@ -64,11 +64,13 @@ define([
                 me.windowObject = windowObject;
                 var doc = this.options.model_instance.get('document');
                 var spreadsheet;
+
                 el.html( _.template(document_xls_template, {
                     css_id: doc.getCssId(),
                     sheets: doc.get('sheets')
                 }) );
-
+                me.$('#'+doc.getCssId()).find('.table-container').css('min-height', me.$('#'+doc.getCssId()).height());
+                console.log(me.$('#'+doc.getCssId()).height());
                 SocialCalc.Constants.defaultImagePrefix = SKApp.get('assetsUrl') + '/img/excel/sc-';
                 me.sheets = [];
                 this.block();

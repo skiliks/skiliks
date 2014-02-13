@@ -2897,22 +2897,24 @@ class ImportGameDataService
         $this->setColumnNumbersByNames($sheet);
 
         $items = 0;
-
+        $order_number = 1;
         for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
             $paragraph = $this->scenario->getParagraph(['alias'=>$this->getCellValue($sheet, 'alias', $i)]);
             if (null === $paragraph) {
                 $paragraph = new Paragraph();
                 $paragraph->alias = $this->getCellValue($sheet, 'alias', $i);
             }
-            $paragraph->label = $this->getCellValue($sheet, 'label', $i);
-            $paragraph->value_1 = $this->getCellValue($sheet, 'value_1', $i);
-            $paragraph->value_2 = $this->getCellValue($sheet, 'value_2', $i);
-            $paragraph->value_3 = $this->getCellValue($sheet, 'value_3', $i);
-            $paragraph->method = $this->getCellValue($sheet, 'method', $i);
+            $paragraph->order_number = $order_number;
+            $paragraph->label = trim($this->getCellValue($sheet, 'label', $i));
+            $paragraph->value_1 = trim($this->getCellValue($sheet, 'value_1', $i));
+            $paragraph->value_2 = trim($this->getCellValue($sheet, 'value_2', $i));
+            $paragraph->value_3 = trim($this->getCellValue($sheet, 'value_3', $i));
+            $paragraph->method = trim($this->getCellValue($sheet, 'method', $i));
             $paragraph->scenario_id = $this->scenario->primaryKey;
             $paragraph->import_id = $this->import_id;
             $paragraph->save(false);
             $items++;
+            $order_number++;
         }
 
         $sheet = $excel->getSheetByName('Pockets');
@@ -2935,14 +2937,14 @@ class ImportGameDataService
             ]);
             if (null === $paragraph) {
                 $paragraph = new ParagraphPocket();
-                $paragraph->paragraph_alias = $this->getCellValue($sheet, 'paragraph_alias', $i);
-                $paragraph->behaviour_alias = $this->getCellValue($sheet, 'behaviour_alias', $i);
-                $paragraph->left_direction = $this->getCellValue($sheet, 'left_direction', $i);
-                $paragraph->left = $this->getCellValue($sheet, 'left', $i);
-                $paragraph->right_direction = $this->getCellValue($sheet, 'right_direction', $i);
-                $paragraph->right = $this->getCellValue($sheet, 'right', $i);
+                $paragraph->paragraph_alias = trim($this->getCellValue($sheet, 'paragraph_alias', $i));
+                $paragraph->behaviour_alias = trim($this->getCellValue($sheet, 'behaviour_alias', $i));
+                $paragraph->left_direction = trim($this->getCellValue($sheet, 'left_direction', $i));
+                $paragraph->left = trim($this->getCellValue($sheet, 'left', $i));
+                $paragraph->right_direction = trim($this->getCellValue($sheet, 'right_direction', $i));
+                $paragraph->right = trim($this->getCellValue($sheet, 'right', $i));
             }
-            $paragraph->text = $this->getCellValue($sheet, 'text', $i);
+            $paragraph->text = trim($this->getCellValue($sheet, 'text', $i));
             $paragraph->scenario_id = $this->scenario->primaryKey;
             $paragraph->import_id = $this->import_id;
             $paragraph->save(false);
