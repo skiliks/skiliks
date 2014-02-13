@@ -13,7 +13,7 @@ class ActivityActionAnalyzer {
     /**
      * @var
      */
-    public $universal_log;
+    public $universal_log = [];
     /**
      * @var
      */
