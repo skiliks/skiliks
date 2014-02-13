@@ -20,7 +20,8 @@
         <?= CHtml::hiddenField("ajax", 'login-form') ?>
 
         <div class="row row-13">
-            <span class="action-password-recovery pull-right inter-active-with-hover unstandard-password-recovery">
+            <span class="action-password-recovery pull-right inter-active-with-hover
+                unstandard-password-recovery">
                 <?php echo Yii::t('site', 'Forgot your password?') ?>
             </span>
         </div>
@@ -29,14 +30,18 @@
             <span class="error-place">
                 <?php echo $loginWidget->error($loginForm, 'username'); ?>
             </span>
-            <?php echo $loginWidget->textField($loginForm, "username", ['placeholder' => Yii::t('site', 'Enter login')]) ?>
+            <?php echo $loginWidget->textField($loginForm, "username", [
+                'placeholder' => Yii::t('site', 'Enter login')
+            ]) ?>
         </div>
 
         <div class="row">
             <span class="error-place">
                 <?php echo $loginWidget->error($loginForm, 'password'); ?>
             </span>
-            <?php echo $loginWidget->passwordField($loginForm, "password", ['placeholder' => Yii::t('site', 'Enter password')]) ?>
+            <?php echo $loginWidget->passwordField($loginForm, "password", [
+                'placeholder' => Yii::t('site', 'Enter password')
+            ]) ?>
         </div>
 
         <?php /* ошибка:Ваш аккаунт заблокирован */ ?>
@@ -79,6 +84,8 @@
             'enableAjaxValidation' => true,
             'clientOptions'        => array(
                   'validateOnSubmit' => true, // Required to perform AJAX validation on form submit
+                'validateOnChange'   => false,
+                  'validateOnType'   => false,
                   'afterValidate'    => 'js:passwordRecoverySubmit', // Your JS function to submit form
             )
         )); ?>
@@ -89,7 +96,9 @@
             <span class="error-place">
                 <?php echo $form->error($recoveryForm, 'email'); ?>
             </span>
-            <?php echo $form->textField($recoveryForm, 'email', ['placeholder'=>Yii::t("site", "Enter email")]); ?>
+            <?php echo $form->textField($recoveryForm, 'email', [
+                'placeholder'=>Yii::t("site", "Enter email")]);
+            ?>
         </div>
 
         <div class="row">

@@ -84,7 +84,7 @@ $(document).ready(function () {
     // а флеш-сообщения надо по высоте тавнять с низом header
     $('.locator-flash').dialog('open');
 
-    // 5) ign-in
+    // 5) sign-in
     $('.action-sign-in').click(function(event){
         event.preventDefault(event);
 
@@ -103,7 +103,11 @@ $(document).ready(function () {
                 of: $('.locator-button-sign-in')
             },
             resizable: false,
-            width: getDialogAuthWindowWidth()
+            width: getDialogAuthWindowWidth(),
+            open: function() {
+                // из-за фокуса на данный input не видно текста placeholder
+                $('#YumUserLogin_username').blur();
+            }
         });
 
          dialog.dialog("open");
@@ -130,7 +134,11 @@ $(document).ready(function () {
                 of: $('.locator-button-sign-in')
             },
             resizable: false,
-            width: getDialogAuthWindowWidth()
+            width: getDialogAuthWindowWidth(),
+            open: function() {
+                // из-за фокуса на данный input не видно текста placeholder
+                $('#YumPasswordRecoveryForm_email').blur();
+            }
         });
 
         dialog.dialog("open");
