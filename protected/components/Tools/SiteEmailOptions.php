@@ -149,7 +149,7 @@ class SiteEmailOptions {
         }
 
         $this->text1 = mb_substr($text, 0, $delimiter, 'UTF-8');
-        $this->text2 = mb_substr($text, $delimiter, null, 'UTF-8');
+        $this->text2 = mb_substr($text, $delimiter, mb_strlen($text, 'UTF-8') +1 , 'UTF-8');
 
         // Смещаем $delimiter до последнего пробела в $this->text1,
         // если $delimiter оказался в середине слова
