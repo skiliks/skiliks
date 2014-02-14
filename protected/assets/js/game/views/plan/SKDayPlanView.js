@@ -540,6 +540,7 @@ define([
         updateTodos:function () {
             try {
                 var me = this;
+
                 this.$('.dayPlanTodoNum').html('(' + SKApp.simulation.todo_tasks.length + ')');
                 me.$('.plan-todo-wrap .plan-todo-inner').html('');
                 SKApp.simulation.todo_tasks.each(function (model) {
@@ -547,8 +548,14 @@ define([
                     me.$('.plan-todo-wrap .plan-todo-inner').prepend(todo_task);
                 });
                 this.setupDraggable();
-                this.$('.plan-todo-wrap').mCustomScrollbar("update");
-                //console.log('updateTodos');
+
+
+                me.$('.plan-todo-wrap .plan-todo-inner').mCustomScrollbar({autoDraggerLength:false, updateOnContentResize:true});
+                this.$('.plan-todo-wrap .plan-todo-inner').mCustomScrollbar("update");
+                console.log("update");
+                me.$('.plan-todo-wrap div.mCustomScrollBox.mCS-light').height(
+                    me.$('.plan-todo-right').height() - 70
+                );
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -630,10 +637,10 @@ define([
                     }
                     var previousToActive = $(".day-plan-task-active").prev().attr("data-task-id");
                     if(previousToActive != undefined) {
-                        me.$('.plan-todo-wrap').mCustomScrollbar("scrollTo", ".day-plan-todo-task[data-task-id="+previousToActive+"]");
+                        me.$('.plan-todo-wrap .plan-todo-inner').mCustomScrollbar("scrollTo", ".day-plan-todo-task[data-task-id="+previousToActive+"]");
                     }
                     else {
-                        me.$('.plan-todo-wrap').mCustomScrollbar("scrollTo", "top");
+                        me.$('.plan-todo-wrap .plan-todo-inner').mCustomScrollbar("scrollTo", "top");
                     }
                 });
 
@@ -661,12 +668,16 @@ define([
                 setTimeout(function () {
                     me.disableOldSlots();
                     me.$('.planner-book-timetable,.planner-book-afterv-table').mCustomScrollbar({autoDraggerLength:false, updateOnContentResize: true});
-                    me.$('.plan-todo-wrap').mCustomScrollbar({autoDraggerLength:false, updateOnContentResize:true});
-                    me.$('.plan-todo-wrap').mCustomScrollbar("update");
+                    //me.$('.plan-todo-wrap .plan-todo-inner').mCustomScrollbar({autoDraggerLength:false, updateOnContentResize:true});
+                    me.$('.plan-todo-wrap .plan-todo-inner').mCustomScrollbar("update");
                     var previousToActive = $(".day-plan-task-active").prev().attr("data-task-id");
                     if(previousToActive != undefined) {
-                        me.$('.plan-todo-wrap').mCustomScrollbar("scrollTo", ".day-plan-todo-task[data-task-id="+previousToActive+"]");
+                        me.$('.plan-todo-wrap .plan-todo-inner').mCustomScrollbar("scrollTo", ".day-plan-todo-task[data-task-id="+previousToActive+"]");
                     }
+                    /*me.$('.plan-todo-wrap div.mCustomScrollBox.mCS-light').height(
+                        me.$('.plan-todo-right').height() - 70
+                    );*/
+                    console.log("update");
                 }, 0);
                 this.setupDroppable();
                 Hyphenator.run();
@@ -723,7 +734,8 @@ define([
          */
         doSetTask:function (e) {
             try {
-                this.$('.plan-todo-wrap').mCustomScrollbar("update");
+                this.$('.plan-todo-wrap .plan-todo-inner').mCustomScrollbar("update");
+                console.log("update");
                 var me = this;
                 var task_id = $(e.currentTarget).attr('data-task-id');
                 var task = SKApp.simulation.todo_tasks.get(task_id);
@@ -757,7 +769,7 @@ define([
          */
         doUnSetTask:function (e) {
             try {
-                this.$('.plan-todo-wrap').mCustomScrollbar("update");
+                this.$('.plan-todo-wrap .plan-todo-inner').mCustomScrollbar("update");
                 var task_id = $(e.currentTarget).attr('data-task-id');
                 var task = SKApp.simulation.dayplan_tasks.get(task_id);
                 if(parseInt(task.get("type"),10) !== 1) {
@@ -888,9 +900,14 @@ define([
 
         doTransitionEnd:function() {
             try {
+                this.$('.plan-todo-wrap div.mCustomScrollBox.mCS-light').height(
+                    this.$('.plan-todo-right').height() - 70
+                );
                 this.$('.planner-book-afterv-table').mCustomScrollbar("update");
                 this.$('.planner-book-timetable').mCustomScrollbar("update");
-                this.$('.plan-todo-wrap').mCustomScrollbar("update");
+                this.$('.plan-todo-wrap .plan-todo-inner').mCustomScrollbar("update");
+
+                console.log("update");
 
             } catch(exception) {
                 if (window.Raven) {
@@ -937,6 +954,10 @@ define([
 
         onResize: function() {
             try {
+                this.$('.plan-todo-wrap .plan-todo-inner').mCustomScrollbar("update");
+                this.$('.plan-todo-wrap div.mCustomScrollBox.mCS-light').height(
+                    this.$('.plan-todo-right').height() - 70
+                );
                 window.SKWindowView.prototype.onResize.call(this);
                 this.fixQuarterPlanMarkUp();
                 this.fixDayPlanMarkUp();
