@@ -49,7 +49,7 @@
                 ],
                 [
                     'label'       => Yii::t('site', 'Регистрация'),
-                    'url'         => ['/registration'],
+                    'url'         => ['/registration/single-account'],
                     'linkOptions' => ['class' => ' label '],
                     'visible'     => $isGuest && 'ru' == Yii::app()->getLanguage(),
                 ],

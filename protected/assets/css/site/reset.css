@@ -102,6 +102,18 @@ h1, h2, h3, h4, h5, h6 {
     color: #ffffff;
 }
 
+.background-yellow h1,
+.background-yellow h2,
+.background-yellow h3,
+.background-yellow h4,
+.background-yellow h5,
+.background-yellow h6,
+.background-white h1,
+.background-white h2,
+.background-white h3,
+.background-white h4,
+.background-white h5,
+.background-white h6,
 .background-sky-blue h1,
 .background-sky-blue h2,
 .background-sky-blue h3,
@@ -267,8 +279,10 @@ textarea {
     height: 0px;
 }
 
+button,
 input,
 .skiliks .ui-widget input,
+.skiliks .ui-widget button,
 .skiliks .ui-widget textarea {
     font-family: 'ProximaNova-Regular';
     font-size: 1em;

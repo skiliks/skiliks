@@ -60,7 +60,12 @@
         <div class="row-13">
             <input type="checkbox" name="YumUserLogin[rememberMe]" class="reset-margin vertical-align-top"/>
             <label class="vertical-align-top"><?php echo Yii::t('site', 'Remember me') ?></label>
-            <a class="pull-right unstandard-registration-link inter-active-with-hover" href="/registration"><?php echo Yii::t('site', 'Registration') ?></a>
+
+            <!-- Регистрация -->
+            <a class="pull-right unstandard-registration-link inter-active-with-hover"
+                href="/registration/single-account">
+                <?php echo Yii::t('site', 'Registration') ?>
+            </a>
         </div>
 
         <div class="row margin-bottom-standard">

@@ -72,11 +72,17 @@
 }
 
 .inter-active,
+.inter-active-blue,
 .inter-active-with-hover {
     cursor: pointer;
 }
 
 .inter-active-with-hover:hover {
+    text-decoration: underline;
+}
+
+.inter-active-blue {
+    color: #287FC3;
     text-decoration: underline;
 }
 
@@ -246,7 +252,6 @@
 
 .background-yellow {
     background-color: #FDFBC6;
-
 }
 
 .background-yellow div {
@@ -259,6 +264,14 @@
 
 .background-dark-blue .errorMessage {
     color: #ffffff;
+}
+
+.skiliks .padding-left-18 {
+    padding-left: 18px;
+}
+
+.skiliks .margin-left-18 {
+    margin-left: 18px;
 }
 
 .label,
@@ -329,6 +342,10 @@ input.inputs-wide-height {
 .icon-21x21-empty {
     height: 21px;
     width: 21px;
+}
+
+.margin-bottom-half-standard {
+    margin-bottom: 10px;
 }
 
 .margin-bottom-standard {

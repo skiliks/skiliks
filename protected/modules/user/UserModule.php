@@ -165,7 +165,7 @@ class UserModule extends CWebModule {
 
 	public $usernameRequirements=array(
 		'minLen'=>3,
-		'maxLen'=>30,
+		'maxLen'=>200,
 		'match' => '/^[A-Za-z0-9_-]+$/u',
 		'dontMatchMessage' => 'Incorrect symbol\'s. (A-z0-9)',
 	);

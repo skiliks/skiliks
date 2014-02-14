@@ -247,7 +247,7 @@ function getDialogWindowWidth_2of3() {
     }
 }
 
-// 2.2) Определяет ширину для окон автиризации и аоввтановления пароля
+// 2.2) Определяет ширину окон автиризации и автовостановления пароля
 function getDialogAuthWindowWidth() {
     if ($(document).width() < 1281) {
         return 283;
@@ -256,7 +256,7 @@ function getDialogAuthWindowWidth() {
     }
 }
 
-// 2.4) Определяет ширину для окон автиризации и аоввтановления пароля
+// 2.4) Определяет ширину попапа с оценкой за симуляцию
 function getDialogSimulationDetailsPopupWidth() {
     if ($(document).width() < 1281) {
         return 822;
@@ -265,7 +265,7 @@ function getDialogSimulationDetailsPopupWidth() {
     }
 }
 
-// 2.5) Определяет ширину для окон автиризации и аоввтановления пароля
+// 2.5) Определяет высоту попапа с оценкой за симуляцию
 function getDialogSimulationDetailsPopupHeight() {
     if ($(document).width() < 1281) {
         return 766;

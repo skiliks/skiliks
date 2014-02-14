@@ -90,27 +90,27 @@ class UserAuthController extends YumController
 
         if (empty($invite)) {
             Yii::app()->user->setFlash('error', 'Код приглашения неверный.');
-            $this->redirect('/');
+            //$this->redirect('/');
         }
 
         if((int)$invite->status === Invite::STATUS_EXPIRED){
             Yii::app()->user->setFlash('error', 'Истёк срок ожидания ответа на приглашение');
-            $this->redirect('/');
+            //$this->redirect('/');
         }
 
         if((int)$invite->status === Invite::STATUS_DECLINED){
             //Yii::app()->user->setFlash('error', 'Приглашение уже отклонено.'); TODO:Проблемный попап
-            $this->redirect('/');
+            //$this->redirect('/');
         }
 
         if((int)$invite->status !== Invite::STATUS_PENDING){
             //Yii::app()->user->setFlash('error', 'Пользователь по данному приглашению уже зарегистрирован.');
-            $this->redirect('/dashboard');
+            //$this->redirect('/dashboard');
         }
 
         if ($invite->receiverUser || YumProfile::model()->findByAttributes(['email' => strtolower($invite->email)])) {
             Yii::app()->user->setFlash('error', 'Пользователь по данному приглашению уже зарегистрирован');
-            $this->redirect('/');
+            //$this->redirect('/');
         }
 
         Yii::app()->user->logout();
@@ -211,12 +211,123 @@ class UserAuthController extends YumController
     }
 
     /**
+     * @param string $code
+     */
+    public function actionRegistrationSingleAccount()
+    {
+        Yii::app()->user->logout();
+        sleep(0.5); // for safety
+
+        $this->user = new YumUser('registration');
+
+        $profile = new YumProfile('registration');
+
+        $account = new UserAccountPersonal();
+        $error = null;
+
+        $YumUser     = Yii::app()->request->getParam('YumUser');
+        $YumProfile  = Yii::app()->request->getParam('YumProfile');
+        $UserAccount = Yii::app()->request->getParam('UserAccountPersonal');
+
+        // if(null !== $YumUser && null !== $YumProfile && null !== $UserAccount)
+        if(Yii::app()->request->isPostRequest)
+        {
+            $this->user->attributes = $YumUser;
+            $profile->attributes = $YumProfile;
+            if(!empty($YumProfile['email'])) {
+                $profile->email = strtolower($YumProfile['email']);
+            }
+            $account->attributes = $UserAccount;
+
+            // Protect from "Wrong username" message - we need "Wrong email", from Profile form
+            if (null == $this->user->username) {
+                $username = $YumProfile['email'] . date('Ymdhis') . rand(1000,9999);
+                $username = preg_replace("/[^A-Za-z0-9 ]/", '', $username);
+                $username = substr($username, 0, 200);
+                $this->user->username = $username;
+            }
+
+            $userValid = $this->user->validate();
+            $profileValid = $profile->validate();
+
+            if ($userValid && $profileValid) {
+                $result = $this->user->register($this->user->username, $this->user->password, $profile);
+
+                if (false !== $result) {
+                    $account->user_id = $this->user->id;
+                    $account->save(false);
+
+                    $action = YumAction::model()->findByAttributes(['title' => UserService::CAN_START_FULL_SIMULATION]);
+
+                    $permission = new YumPermission();
+                    $permission->principal_id = $this->user->id;
+                    $permission->subordinate_id = $this->user->id;
+                    $permission->action = $action->id;
+                    $permission->type = 'user';
+                    $permission->template = 1; // magic const
+                    $permission->save(false);
+
+                    UserService::assignAllNotAssignedUserInvites($this->user);
+
+                    Yii::app()->session["user_id"] = $this->user->id;
+
+                    $this->redirect(['afterRegistration']);
+                } else {
+                    $this->user->password = '';
+                    $this->user->password_again = '';
+
+                    Yii::app()->user->setFlash(
+                        'error',
+                        'Ошибки регистрации. Обратитесь в <a href="/contacts">службу поддержки</a>.'
+                    );
+                    $this->redirect('/');
+                }
+            }
+        }
+
+        $industries = ['' => 'Выберите область деятельности'];
+        foreach (Industry::model()->findAll() as $industry) {
+            $industries[$industry->id] = Yii::t('site', $industry->label);
+        }
+
+        $statuses = ['' => 'Выберите статус'];
+        foreach (ProfessionalStatus::model()->findAll() as $status) {
+            $statuses[$status->id] = Yii::t('site', $status->label);
+        }
+
+        $this->layout = 'site_standard_2';
+
+        $this->addSiteCss('pages/_page-registration.css');
+        $this->addSiteCss('pages/_page-registration-1024.css');
+
+        $this->addSiteJs('_page-registration.js');
+        $this->addSiteJs('_terms-and-agreements.js');
+
+        $this->render(
+            'registration_single_account',
+            [
+                'user'       => $this->user,
+                'profile'    => $profile,
+                'account'    => $account,
+                'industries' => $industries,
+                'statuses'   => $statuses,
+                'error'      => $error
+            ]
+        );
+    }
+
+    /**
      * User registration step 1 - handle form
      */
     public function actionAfterRegistration()
     {
         $user_id = Yii::app()->session->get("user_id");
         $profile = YumProfile::model()->findByAttributes(['user_id' => $user_id]);
+
+        $this->layout = 'site_standard_2';
+
+        $this->addSiteCss('pages/_page-registration.css');
+        $this->addSiteCss('pages/_page-registration-1024.css');
 
         $this->render('afterRegistration', [
             'isGuest' => Yii::app()->user->isGuest,

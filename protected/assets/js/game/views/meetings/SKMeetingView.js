@@ -1,9 +1,9 @@
 /* global define, $, _, SKApp, AppView */
 
 /**
- * @class SKMeetingView
- * @augments Backbone.View
- */
+* @class SKMeetingView
+* @augments Backbone.View
+*/
 var SKMeetingView;
 
 define([

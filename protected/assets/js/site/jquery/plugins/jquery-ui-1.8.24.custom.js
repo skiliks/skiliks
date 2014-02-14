@@ -6116,7 +6116,8 @@ $.widget("ui.dialog", {
 		stack: true,
 		title: '',
 		width: 300,
-		zIndex: 1000
+		zIndex: 50,
+
 	},
 
 	_create: function() {
