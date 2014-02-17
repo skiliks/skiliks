@@ -2661,8 +2661,8 @@ define([
                             autocomplete: true
                         });
 
-                        this.$('#MailClient_CopiesList').focus();
-                        this.$('#MailClient_CopiesList').blur();
+                        //this.$('#MailClient_CopiesList').focus();
+                        //this.$('#MailClient_CopiesList').blur();
 
                     }
 
