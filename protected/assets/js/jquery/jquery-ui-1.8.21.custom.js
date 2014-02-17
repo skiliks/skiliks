@@ -2544,7 +2544,6 @@
         },
         pending: 0,
         _create: function () {
-            debugger;
             var b = this,
                 c = this.element[0].ownerDocument,
                 d;
