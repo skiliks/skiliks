@@ -1620,7 +1620,7 @@ define([
                                 mailClientView.$("#mailEmulatorNewLetterText").html('');
                                 SKApp.simulation.mailClient.reloadSubjects(mailClientView.getCurrentEmailRecipientIds());
                             }
-
+                            $("#MailClient_RecipientsList").blur();
                         },
                         onDelete: function (tag) {
                             mailClientView.currentRecipients = $("#MailClient_RecipientsList li.tagItem").map(function() {
@@ -2661,8 +2661,8 @@ define([
                             autocomplete: true
                         });
 
-                        this.$('#MailClient_CopiesList').focus();
-                        this.$('#MailClient_CopiesList').blur();
+                        //this.$('#MailClient_CopiesList').focus();
+                        //this.$('#MailClient_CopiesList').blur();
 
                     }
 
@@ -2817,7 +2817,7 @@ define([
                                 SKApp.simulation.mailClient.reloadSubjects(me.getCurrentEmailRecipientIds(), subject, function(){
                                     SKApp.simulation.mailClient.getAvailablePhrases(me.getCurrentEmailRecipientId(), SKApp.simulation.mailClient.availableSubjects[0].themeId, function(){ });
                                 });
-
+                                $("#MailClient_RecipientsList").blur();
                             },
                             onDelete: function (tag) {
                                 var el = this;
