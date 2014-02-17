@@ -18,10 +18,10 @@ $(document).ready(function(){
                     resizable:   false,
                     draggable: false,
                     open: function() {
-                        $("html").css("overflow-y", "hidden");
+                        $("body").css("overflow-y", "hidden");
                     },
                     close: function () {
-                        $("html").css("overflow-y", "visible");
+                        $("body").css("overflow-y", "visible");
                     }
                 });
 
