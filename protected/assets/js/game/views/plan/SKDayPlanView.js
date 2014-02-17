@@ -546,6 +546,7 @@ define([
                     var todo_task = $(_.template(todo_task_template, {task:model, type:'todo'}));
                     me.$('.plan-todo-wrap .plan-todo-inner').prepend(todo_task);
                 });
+                me.$('.plan-todo-wrap .plan-todo-inner').append('<div style="height: 60px;"></div>');
                 this.setupDraggable();
                 this.$('.plan-todo-wrap').mCustomScrollbar("update");
                 //console.log('updateTodos');
