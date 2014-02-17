@@ -1620,7 +1620,6 @@ define([
                                 mailClientView.$("#mailEmulatorNewLetterText").html('');
                                 SKApp.simulation.mailClient.reloadSubjects(mailClientView.getCurrentEmailRecipientIds());
                             }
-                            $(".tagInputField").val(" ");
                         },
                         onDelete: function (tag) {
                             mailClientView.currentRecipients = $("#MailClient_RecipientsList li.tagItem").map(function() {
