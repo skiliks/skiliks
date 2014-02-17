@@ -1620,7 +1620,7 @@ define([
                                 mailClientView.$("#mailEmulatorNewLetterText").html('');
                                 SKApp.simulation.mailClient.reloadSubjects(mailClientView.getCurrentEmailRecipientIds());
                             }
-                            $("#MailClient_RecipientsList").blur();
+                            $('#mail-window .header-inner').click();
                         },
                         onDelete: function (tag) {
                             mailClientView.currentRecipients = $("#MailClient_RecipientsList li.tagItem").map(function() {
@@ -2817,7 +2817,7 @@ define([
                                 SKApp.simulation.mailClient.reloadSubjects(me.getCurrentEmailRecipientIds(), subject, function(){
                                     SKApp.simulation.mailClient.getAvailablePhrases(me.getCurrentEmailRecipientId(), SKApp.simulation.mailClient.availableSubjects[0].themeId, function(){ });
                                 });
-                                $("#MailClient_RecipientsList").blur();
+                                $('#mail-window .header-inner').click();
                             },
                             onDelete: function (tag) {
                                 var el = this;
