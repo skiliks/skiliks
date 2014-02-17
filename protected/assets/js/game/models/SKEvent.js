@@ -142,8 +142,16 @@ define([], function () {
             }
         },
 
+        /**
+         * Возвращает картинку для <video poster="xxx">
+         * @param string|undefined video_src
+         * @returns string|null
+         */
         getPosterSrc: function (video_src) {
             try {
+                if ('undefined' == typeof video_src) {
+                    return null;
+                }
                 if($.browser['msie'] == true || $.browser['safari']) {
                     return video_src.replaceAll('mp4', 'jpeg');
                 }else{
