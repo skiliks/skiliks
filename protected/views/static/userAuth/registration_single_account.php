@@ -26,14 +26,16 @@
                     <span class="error-place">
                         <?= $form->error($profile, 'email'); ?>
                     </span>
-                    <?php echo $form->labelEx($profile, 'Емейл', ['class' => 'padding-left-18']); ?>
-                    <?php echo $form->textField($profile, 'email', ['placeholder' => 'Емейл']); ?>
+                    <?php echo $form->labelEx($profile, 'Email', ['class' => 'padding-left-18']); ?>
+                    <?php echo $form->textField($profile, 'email', ['placeholder' => 'Email']); ?>
                 </div>
 
                 <div class="row <?= $this->hasErrors($form, $profile, 'firstname') ?>
                     <?= $this->hasErrors($form, $profile, 'lastname') ?>">
                     <span class="error-place">
-                        <?= $form->error($profile, 'firstname'); ?>
+                        <span class="inline-error-first">
+                            <?= $form->error($profile, 'firstname'); ?>
+                        </span>
                         <?= $form->error($profile, 'lastname'); ?>
                     </span>
                     <?php echo $form->labelEx($profile, 'Имя', ['class' => 'padding-left-18']); ?>

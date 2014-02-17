@@ -40,6 +40,8 @@ $(document).ready(function(){
                 // $('#terms-pop-up').css("min-height","374px");
 
                 $("#terms-pop-up").scrollTop($("#terms-pop-up h1.total").scrollTop());
+
+                $(window).resize();
             }
         });
         return false;

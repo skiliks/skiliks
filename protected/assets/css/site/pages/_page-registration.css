@@ -67,9 +67,20 @@ input[type="checkbox"] {
     padding-bottom: 15px;
 }
 
+.error .error-place {
+    padding-left: 171px;
+}
+
 /* надо разобраться почему тут и в персональном рабочем кабинете */
 /* , при одинаковой ширине, - фактическая ширина разная */
 
 .skiliks .column-2-3-wide {
     width: 719px;
+}
+
+.inline-error-first {
+    width: 220px;
+}
+.skiliks .error .error-place {
+    height: 16px;
 }
