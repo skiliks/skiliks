@@ -6,4 +6,8 @@
     header nav.account-links ul {
         margin-right: 15px;
     }
+
+    .action-controller-registrationSingleAccount-static-userAuth .inline-error-first {
+        width: 177px;
+    }
 }
