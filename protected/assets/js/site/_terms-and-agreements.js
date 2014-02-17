@@ -18,10 +18,20 @@ $(document).ready(function(){
                     resizable:   false,
                     draggable: false,
                     open: function() {
+                        // блокируем скролл страницы
+                        $("html").css("overflow-y", "hidden");
+
+                        // блокируем скролл страницы: "body" + resize() нуны для safari
                         $("body").css("overflow-y", "hidden");
+                        $(window).resize();
                     },
                     close: function () {
+                        // блокируем скролл страницы
+                        $("html").css("overflow-y", "visible");
+
+                        // блокируем скролл страницы: "body" + resize() нуны для safari
                         $("body").css("overflow-y", "visible");
+                        $(window).resize();
                     }
                 });
 
