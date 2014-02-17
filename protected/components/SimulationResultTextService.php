@@ -1,11 +1,28 @@
 <?php
 
+/**
+ * Класс генерации Гороскопа
+ */
 class SimulationResultTextService {
 
+    /**
+     * Карманы
+     * @var array
+     */
     public static $pockets = [];
 
+    /**
+     * Результат генерации(текста гороскопа)
+     * @var array
+     */
     public static $recommendations = [];
 
+    /**
+     * Метод генерирует Гороскоп
+     * @param Simulation $simulation
+     * @return array
+     * @throws Exception
+     */
     public static function generate(Simulation $simulation) {
         foreach(ParagraphPocket::model()->findAll() as $pocket) {
             /* @var $pocket ParagraphPocket */
@@ -36,6 +53,14 @@ class SimulationResultTextService {
         return self::$recommendations;
     }
 
+    /**
+     * Ищет текст по значению $behaviour_alias_1 для повидения $alias по карману
+     * @param $behaviour_alias_1
+     * @param $alias
+     * @param $assessment
+     * @return string
+     * @throws Exception
+     */
     public static function SinglePocket($behaviour_alias_1, $alias, $assessment) {
         $value_1 = self::getValueInAssessment($behaviour_alias_1, $assessment);
 
@@ -53,6 +78,16 @@ class SimulationResultTextService {
 
     }
 
+    /**
+     * Ищет текст по значению $behaviour_alias_2(негативное) для повидения $alias по карману
+     * или для позитивноего и негативного
+     * @param $behaviour_alias_1
+     * @param $behaviour_alias_2
+     * @param $alias
+     * @param $assessment
+     * @return string
+     * @throws Exception
+     */
     public static function TwoPocketsWithOneNegative($behaviour_alias_1, $behaviour_alias_2, $alias, $assessment) {
         $value_2 = self::getValueInAssessment($behaviour_alias_2, $assessment);
 
@@ -62,11 +97,12 @@ class SimulationResultTextService {
             $left_direction = trim($pocket->left_direction);
             $right_direction = trim($pocket->right_direction);
             if(self::$left_direction($pocket->left, $value_2) && self::$right_direction($pocket->right, $value_2)){
+                //Если человек мало сделал ошибок(первый карман) то получает positive
                 if($pocket_num === 0) {
                     return self::SinglePocket($behaviour_alias_1, $alias, $assessment);
-                } elseif($pocket_num === (count($pockets_2) - 1)) {
+                } elseif($pocket_num === (count($pockets_2) - 1)) { //Если много(последний карман) то negative
                     return $pocket->text;
-                } else {
+                } else { //Среднее, positive и negative
                     return self::SinglePocket($behaviour_alias_1, $alias, $assessment).' '.$pocket->text;
                 }
             }
@@ -74,10 +110,20 @@ class SimulationResultTextService {
         throw new Exception("Карман не найден");
     }
 
+    /**
+     * Метод для расчета 1.4-1.5
+     * @return string
+     */
     public static function TreePocketsWithTwoNegative() {
         return 'TreePocketsWithTwoNegative';
     }
 
+    /**
+     * Берет значение оценки с попапа по alias
+     * @param $value
+     * @param $assessment
+     * @return mixed
+     */
     public static function getValueInAssessment($value, $assessment) {
         $array_parts = explode('[', $value);
         foreach($array_parts as $part) {
@@ -88,14 +134,32 @@ class SimulationResultTextService {
         return $assessment;
     }
 
+    /**
+     * Больше равно
+     * @param $direction
+     * @param $value
+     * @return bool
+     */
     public static function greater_equal($direction, $value) {
         return $direction <= $value;
     }
 
+    /**
+     * Меньше
+     * @param $direction
+     * @param $value
+     * @return bool
+     */
     public static function less($direction, $value) {
         return $direction > $value;
     }
 
+    /**
+     * Меньше равно
+     * @param $direction
+     * @param $value
+     * @return bool
+     */
     public static function less_equal($direction, $value) {
         return $direction >= $value;
     }
