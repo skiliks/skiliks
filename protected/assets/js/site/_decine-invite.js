@@ -17,7 +17,7 @@ $(document).ready(function(){
                     resizable:   false,
                     draggable:   false,
                     width:       getDialogWindowWidth_2of3(),
-                    height:   370,
+                    height:      373,
                     position: {
                         my: 'left top',
                         at: 'left top',

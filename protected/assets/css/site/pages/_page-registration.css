@@ -67,7 +67,8 @@ input[type="checkbox"] {
     padding-bottom: 15px;
 }
 
-.error .error-place {
+.us-registration-window .error .error-place {
+    height: 16px;
     padding-left: 171px;
 }
 
@@ -81,6 +82,4 @@ input[type="checkbox"] {
 .inline-error-first {
     width: 163px;
 }
-.skiliks .error .error-place {
-    height: 16px;
-}
+
