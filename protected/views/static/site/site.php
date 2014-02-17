@@ -101,7 +101,7 @@ $cs->compileLess($assetsUrl . '/less/documents.less',  $assetsUrl . '/compiled_c
 <script type="text/javascript" src="<?= $assetsUrl . '/js/jquery/jquery.tablesorter.js' ?>"></script>
 
 <?php // We need both!!! // 10 000 раз WTF! ?>
-<script type="text/javascript" src="<?= $assetsUrl . '/js/jquery/jquery-ui-1.8.21.custom.min.js' ?>"></script>
+<script type="text/javascript" src="<?= $assetsUrl . '/js/jquery/jquery-ui-1.8.21.custom.js' ?>"></script>
 <script type="text/javascript" src="<?= $assetsUrl . '/js/jquery/jquery-ui-1.10.3.custom.min.js'  ?>"></script>
 
 <?php // system processor speed test ?>
