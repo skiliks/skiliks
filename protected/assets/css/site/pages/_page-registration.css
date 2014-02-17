@@ -10,10 +10,15 @@
     border-radius: 8px 8px 0 0;
 }
 
+.us-registration-by-link-body,
 .us-registration-body {
     background-image: url('../../../img/site/1280/registration/cactus.png');
     background-repeat: no-repeat;
     background-position: 520px 60px; /* x, y */
+}
+
+.us-registration-by-link-body {
+    background-position: 530px 10px;
 }
 
 .us-registration-window label {
@@ -60,4 +65,11 @@ input[type="checkbox"] {
 .us-error-place.error .error-place {
     padding-top: 30px;
     padding-bottom: 15px;
+}
+
+/* надо разобраться почему тут и в персональном рабочем кабинете */
+/* , при одинаковой ширине, - фактическая ширина разная */
+
+.skiliks .column-2-3-wide {
+    width: 719px;
 }

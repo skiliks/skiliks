@@ -19,7 +19,7 @@
             <div class="pull-content-left">
 
                 <?php $form = $this->beginWidget('CActiveForm', array(
-                    'id' => 'registration-by-link-form'
+                    'id' => 'registration-form'
                 )); ?>
 
                 <div class="row <?= $this->hasErrors($form, $profile, 'email') ?>">
@@ -33,7 +33,7 @@
                 <div class="row <?= $this->hasErrors($form, $profile, 'firstname') ?>
                     <?= $this->hasErrors($form, $profile, 'lastname') ?>">
                     <span class="error-place">
-                        <?= $form->error($this->user, 'firstname'); ?>
+                        <?= $form->error($profile, 'firstname'); ?>
                         <?= $form->error($profile, 'lastname'); ?>
                     </span>
                     <?php echo $form->labelEx($profile, 'Имя', ['class' => 'padding-left-18']); ?>
@@ -41,7 +41,7 @@
                     <?php echo $form->textField($profile, 'lastname', ['placeholder' => 'Фамилия', 'class' => 'margin-left-18']); ?>
                 </div>
 
-                <div class="row">
+                <div class="row <?= $this->hasErrors($form, $user, 'password') ?>">
                     <span class="error-place">
                         <?php echo $form->error($user, 'password'); ?>
                     </span>

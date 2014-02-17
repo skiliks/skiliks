@@ -247,7 +247,16 @@ function getDialogWindowWidth_2of3() {
     }
 }
 
-// 2.2) Определяет ширину окон автиризации и автовостановления пароля
+// 2.2) Определяет ширину стандартные "2/3 ширины сайта"
+function getDialogWindowWidth_2of3_wide() {
+    if ($(document).width() < 1281) {
+        return 601;
+    } else {
+        return 735;
+    }
+}
+
+// 2.3) Определяет ширину окон автиризации и автовостановления пароля
 function getDialogAuthWindowWidth() {
     if ($(document).width() < 1281) {
         return 283;

@@ -243,10 +243,12 @@ textarea {
     position: static;
 }
 
+.skiliks .popup-form-wide .ui-dialog-content,
 .skiliks .popup-form .ui-dialog-content {
     padding: 35px;
 }
 
+.skiliks .popup-form-wide .ui-dialog-content,
 .skiliks .popup-form .ui-dialog-content {
     padding: 20px 35px 35px 20px; /* 15 0 0 15 даёт .nice-border, в сумме по 35px с каждой стороны */
 }
@@ -350,13 +352,20 @@ input,
 /* --- */
 
 .popup-form h3,
-.popup-form label {
+.popup-form-wide h3,
+.popup-form label,
+.popup-form-wide label {
     color: #0E4750;
 }
 
 .skiliks .ui-dialog.background-image-book .button-standard,
 .skiliks .ui-dialog.background-image-lamp .button-standard {
     font-size: 1.28em;
+}
+
+.ui-dialog form label {
+    font-family: 'ProximaNova-Bold';
+    font-weight: normal;
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */

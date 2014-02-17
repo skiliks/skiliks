@@ -88,6 +88,10 @@
         width: 478px;
     }
 
+    .ui-dialog.popup-form-wide textarea {
+        width: 515px;
+    }
+
     .ui-dialog #feedback-form #Feedback_email {
         margin-right: 16px;
         padding-left: 16px;

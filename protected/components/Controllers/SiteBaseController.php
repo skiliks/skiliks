@@ -143,7 +143,7 @@ class SiteBaseController extends CController {
         $user = Yii::app()->user;
         if (null === $user->id) {
             //Yii::app()->user->setFlash('error', 'Авторизируйтесь.');
-            $this->redirect('/registration');
+            $this->redirect('/registration/single-account');
         }
 
         /**
@@ -152,7 +152,7 @@ class SiteBaseController extends CController {
         $user = $user->data();  //YumWebUser -> YumUser
 
         if (null === Yii::app()->user->data()->getAccount()) {
-            $this->redirect('/registration');
+            $this->redirect('/registration/single-account');
         }
 
         if ($user->isCorporate()) {

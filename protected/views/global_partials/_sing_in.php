@@ -62,10 +62,12 @@
             <label class="vertical-align-top"><?php echo Yii::t('site', 'Remember me') ?></label>
 
             <!-- Регистрация -->
-            <a class="pull-right unstandard-registration-link inter-active-with-hover"
-                href="/registration/single-account">
-                <?php echo Yii::t('site', 'Registration') ?>
-            </a>
+            <?php if (false == StaticSiteTools::isRegisterByLinkPage(Yii::app()->request->getPathInfo())) : ?>
+                <a class="pull-right unstandard-registration-link inter-active-with-hover"
+                    href="/registration/single-account">
+                    <?php echo Yii::t('site', 'Registration') ?>
+                </a>
+            <?php endif ?>
         </div>
 
         <div class="row margin-bottom-standard">

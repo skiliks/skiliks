@@ -90,27 +90,27 @@ class UserAuthController extends YumController
 
         if (empty($invite)) {
             Yii::app()->user->setFlash('error', 'Код приглашения неверный.');
-            //$this->redirect('/');
+            $this->redirect('/');
         }
 
         if((int)$invite->status === Invite::STATUS_EXPIRED){
             Yii::app()->user->setFlash('error', 'Истёк срок ожидания ответа на приглашение');
-            //$this->redirect('/');
+            $this->redirect('/');
         }
 
         if((int)$invite->status === Invite::STATUS_DECLINED){
-            //Yii::app()->user->setFlash('error', 'Приглашение уже отклонено.'); TODO:Проблемный попап
-            //$this->redirect('/');
+            Yii::app()->user->setFlash('error', 'Приглашение уже отклонено.'); // TODO:Проблемный попап
+            $this->redirect('/');
         }
 
         if((int)$invite->status !== Invite::STATUS_PENDING){
-            //Yii::app()->user->setFlash('error', 'Пользователь по данному приглашению уже зарегистрирован.');
-            //$this->redirect('/dashboard');
+            Yii::app()->user->setFlash('error', 'Пользователь по данному приглашению уже зарегистрирован.');
+            $this->redirect('/dashboard');
         }
 
         if ($invite->receiverUser || YumProfile::model()->findByAttributes(['email' => strtolower($invite->email)])) {
             Yii::app()->user->setFlash('error', 'Пользователь по данному приглашению уже зарегистрирован');
-            //$this->redirect('/');
+            $this->redirect('/');
         }
 
         Yii::app()->user->logout();
@@ -129,8 +129,8 @@ class UserAuthController extends YumController
         $YumProfile  = Yii::app()->request->getParam('YumProfile');
         $UserAccount = Yii::app()->request->getParam('UserAccountPersonal');
 
-        if(null !== $YumUser && null !== $YumProfile && null !== $UserAccount)
-        {
+        //if(null !== $YumUser && null !== $YumProfile && null !== $UserAccount) {
+        if(Yii::app()->request->isPostRequest) {
             $this->user->attributes = $YumUser;
             $profile->attributes = $YumProfile;
             if(!empty($YumProfile['email'])) {
@@ -196,6 +196,15 @@ class UserAuthController extends YumController
             $statuses[$status->id] = Yii::t('site', $status->label);
         }
 
+        $this->layout = 'site_standard_2';
+
+        $this->addSiteCss('pages/_page-registration.css');
+        $this->addSiteCss('pages/_page-registration-1024.css');
+
+        $this->addSiteJs('_page-registration.js');
+        $this->addSiteJs('_terms-and-agreements.js');
+        $this->addSiteJs('_decine-invite.js');
+
         $this->render(
             'registration_by_link',
             [
@@ -229,9 +238,8 @@ class UserAuthController extends YumController
         $YumProfile  = Yii::app()->request->getParam('YumProfile');
         $UserAccount = Yii::app()->request->getParam('UserAccountPersonal');
 
-        // if(null !== $YumUser && null !== $YumProfile && null !== $UserAccount)
-        if(Yii::app()->request->isPostRequest)
-        {
+        // if(null !== $YumUser && null !== $YumProfile && null !== $UserAccount) {
+        if(Yii::app()->request->isPostRequest) {
             $this->user->attributes = $YumUser;
             $profile->attributes = $YumProfile;
             if(!empty($YumProfile['email'])) {

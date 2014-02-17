@@ -21,4 +21,8 @@
         /* ... ну, приходится компенсировать сдвиг: */
         padding-left: 8px;
     }
+
+    .skiliks .ui-dialog.background-image-book-2, .background-image-book-2 {
+        background-position: -125px 0;
+    }
 }

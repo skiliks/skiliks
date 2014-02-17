@@ -268,6 +268,11 @@ input.button-standard {
     width: 606px;
 }
 
+.ui-dialog.popup-form-wide textarea {
+    height: 90px;
+    width: 655px;
+}
+
 /* feedback */
 
 .ui-dialog #feedback-form h3 {

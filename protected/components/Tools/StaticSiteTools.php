@@ -444,4 +444,15 @@ class StaticSiteTools
         $month = Yii::t('site', $datetime->format("M"));
         return $day.' '.$month.' '.$year;
     }
+
+    /**
+     * Проверяет является ли URL в $path путём к странице registration/by-link/
+     *
+     * @param string $path
+     * @return bool
+     */
+    public static function isRegisterByLinkPage($path)
+    {
+        return 0 < strpos($path, 'by-link');
+    }
 }

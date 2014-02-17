@@ -6,6 +6,7 @@
         $user = Yii::app()->user->data();
         $isGuest = Yii::app()->user->isGuest;
         $isActivated = $user ? $user->isActive():false;
+        $isRegisterByLinkPage = StaticSiteTools::isRegisterByLinkPage(Yii::app()->request->getPathInfo());
 
         $visibleName = (!Yii::app()->user->isGuest && $user->isCorporate() || $user->isPersonal())?true:false;
         $iconForProfile = '';
@@ -48,10 +49,12 @@
                     'visible' => 'ru' == Yii::app()->getLanguage(),
                 ],
                 [
+                    // Ссылка на регистрацию не нужна на странице регистрации по ссылке
+                    // Такое же условие естьт и в блоке Вход
                     'label'       => Yii::t('site', 'Регистрация'),
                     'url'         => ['/registration/single-account'],
                     'linkOptions' => ['class' => ' label '],
-                    'visible'     => $isGuest && 'ru' == Yii::app()->getLanguage(),
+                    'visible'     => $isGuest && 'ru' == Yii::app()->getLanguage() && false == $isRegisterByLinkPage,
                 ],
                 [
                     'label'       => Yii::t('site', 'Sign in'),
