@@ -270,7 +270,13 @@ return array(
     'Next' => 'Вперед',
     'Previous' => 'Назад',
     'Full report' => 'Полный отчет',
-    'Free updates' => 'Бесплатные обновления',
+
+    /* надписи на английском и русском не соответствуют */
+    'Free updates' => '+ Диагностика управленческого потенциала компании',
+
+    '50% discount for all tariffs till March 31' => 'До 31 марта скидка 50% на все тарифы',
+    'Full price (without discount)' => 'Цена указана без учёт скидки',
+    '50% discount price' => 'Цена указана с учётом скидки 50%',
 
     'Free full assessment of skills' => 'Полная оценка навыков бесплатно',
     'Skills comparison with others' => 'Сравнение навыков с другими',

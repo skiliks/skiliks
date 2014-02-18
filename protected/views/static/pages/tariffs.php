@@ -1,4 +1,6 @@
-<h2 class="thetitle text-center"><?= Yii::t('site', 'Pricing & Plans Monthly Rates') ?></h2>
+<h2 class="thetitle text-center">
+    <?= Yii::t('site', '50% discount for all tariffs till March 31') ?>
+</h2>
 <?php
 /* @var $tariffs  Tariff[] */
 /* @var $tariff  Tariff */
@@ -10,9 +12,9 @@ $lang = Yii::app()->getLanguage();
     <?php if($tariff->isDisplayOnTariffsPage()): ?>
     <div class="nice-border onetariff tariff-<?=$tariff->slug?>">
         <div class="tariff-box radiusthree">
-            <?php if($tariff->slug == "lite") : ?>
+            <?php /*if($tariff->slug == "lite") : ?>
                 <span class="show-free-tariff-img"></span>
-            <? endif; ?>
+            <? endif;*/ ?>
                 <label class="tarifname"><div class="label_div"><?php echo $tariff->label ?></div></label>
             <div class="price <?= $lang ?>">
                 <p>
@@ -36,7 +38,17 @@ $lang = Yii::app()->getLanguage();
 
                 <div class="benefits">
                     <?php foreach (explode(', ', $tariff->benefits) as $benefit) : ?>
-                        <p><?php echo Yii::t('site', $benefit)?></p>
+                        <p>
+                            <?php // у LIte и Starter показывать не надо но только на русском ?>
+                            <?php if ('ru' == $lang
+                                && Tariff::SLUG_LITE != $tariff->slug
+                                && Tariff::SLUG_STARTER != $tariff->slug ) : ?>
+                                <?php echo Yii::t('site', $benefit)?>
+                            <?php endif ?>
+                            <?php if ('en' == $lang ) : ?>
+                                <?php echo Yii::t('site', $benefit)?>
+                            <?php endif ?>
+                        </p>
                     <?php endforeach ?>
                 </div>
 
@@ -60,11 +72,9 @@ $lang = Yii::app()->getLanguage();
 <?php endforeach ?>
 
     <p class="text-left text16 additional-text">
-        <?php if ($lang == 'ru'): ?>
-        <sup>*</sup> Первый месяц использования <br/>
-        <sup>**</sup> Симуляции по выбранному тарифу активны в течение месяца. По истечении месяца неиспользованные симуляции сгорают.
-        <?php endif; ?>
+        <!--sup>*</sup> <?= Yii::t('site', 'Full price (without discount)') ?><br/-->
     </p>
+
     <?php if($user->isAuth() && $user->isCorporate()) : ?>
         <?php $this->renderPartial('//static/dashboard/partials/tariff-already-booked-popup', ['account'=>$user->account_corporate]) ?>
         <?php $this->renderPartial('//static/dashboard/partials/extend-tariff-popup', ['account'=>$user->account_corporate]) ?>
@@ -72,9 +82,11 @@ $lang = Yii::app()->getLanguage();
         <?php $this->renderPartial('//static/dashboard/partials/downgrade-tariff-popup', ['account'=>$user->account_corporate]) ?>
         <?php $this->renderPartial('//static/dashboard/partials/tariff-replace-if-zero-popup', ['account'=>$user->account_corporate]) ?>
     <?php endif ?>
-    <div class="contwrap"><a class="light-btn feedback"><?= Yii::t('site', 'Send feedback') ?></a>
-    <span class="social_networks">
-        <?php $this->renderPartial('//global_partials/addthis', ['force' => true]) ?>
-    </span>
+
+    <div class="contwrap">
+        <a class="light-btn feedback"><?= Yii::t('site', 'Send feedback') ?></a>
+        <span class="social_networks">
+            <?php $this->renderPartial('//global_partials/addthis', ['force' => true]) ?>
+        </span>
     </div>
 </div>
