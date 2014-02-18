@@ -198,9 +198,6 @@ class Invoice extends CActiveRecord
                     $account->setInvoiceOnTariffPlan($this, $account->getActiveTariffPlan());
                 }
             }
-            // Setting referral invites
-            $account->referrals_invite_limit =
-                UserReferral::model()->countUserRegisteredReferrals($this->user->id);
 
             $this->paid_at = date('Y-m-d H:i:s');
 

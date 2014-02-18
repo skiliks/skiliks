@@ -181,8 +181,8 @@ define([
                 try {
                     var phones = SKApp.simulation.window_set.where({subname: "phoneMain"});
                     if(phones.length !== 0){
-                        phones[0].setOnTop();
-                        phones[0].close();
+                        _.first(phones).setOnTop();
+                        _.first(phones).close();
                         this.runPhoneTalkStart(event.cid);
                         return;
                     }
@@ -235,10 +235,11 @@ define([
              */
             onVisitEvent: function (event) {
                 try {
+                    $('#choose-meeting-box .btn-cl.win-close').click();
                     var phones = SKApp.simulation.window_set.where({subname: "phoneMain"});
                     if(phones.length !== 0) {
-                        phones[0].setOnTop();
-                        phones[0].close();
+                        _.first(phones).setOnTop();
+                        _.first(phones).close();
                         //this.runPhoneTalkStart(event.cid);
                     }
                     var me = this;

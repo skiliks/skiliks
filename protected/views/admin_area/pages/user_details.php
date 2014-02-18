@@ -187,7 +187,7 @@ $assetsUrl = $this->getAssetsUrl();
             </td>
             <td>Количество доступных приглашений</td>
             <td>
-                <?= $user->getAccount()->invites_limit.' / '.$user->getAccount()->referrals_invite_limit.'(за рефералов)' ?>
+                <?= $user->getAccount()->invites_limit ?>
             </td>
         <?php endif; ?>
     </tr>

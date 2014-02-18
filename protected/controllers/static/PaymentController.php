@@ -339,8 +339,8 @@ class PaymentController extends SiteBaseController
 
                     $initValue = $invoice->user->getAccount()->getTotalAvailableInvitesLimit();
 
-                    UserService::logCorporateInviteMovementAdd(sprintf("Принята оплата по счёт-фактуре номер %s, на тарифный план %s. Количество доступных симуляций установлено в %s из них за рефераллов %s.",
-                        $invoice->id, $invoice->tariff->label, $initValue, $invoice->user->getAccount()->referrals_invite_limit), $invoice->user->getAccount(), 0);
+                    UserService::logCorporateInviteMovementAdd(sprintf("Принята оплата по счёт-фактуре номер %s, на тарифный план %s. Количество доступных симуляций установлено в %s.",
+                        $invoice->id, $invoice->tariff->label, $initValue), $invoice->user->getAccount(), 0);
                 }
                 else throw new Exception("Invoice is not complete");
             }

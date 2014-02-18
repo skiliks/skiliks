@@ -22,6 +22,10 @@ class SimulationController extends SimulationBaseController
         /* @var $invite Invite */
         $invite = Invite::model()->findByPk($invite_id);
         if(null !== $invite) {
+            if((int)$invite->status === Invite::STATUS_PENDING){
+                $invite->status = Invite::STATUS_ACCEPTED;
+                $invite->save(false);
+            }
             if(false === in_array((int)$invite->status, [Invite::STATUS_IN_PROGRESS,Invite::STATUS_ACCEPTED ])){
                 Yii::app()->user->setFlash('error', "Статус вашего приглашения ".Invite::$statusTextRus[(int)$invite->status].", а начать симуляцию можно только в статусах 'принято' или 'в процессе'");
                 $this->sendJSON(['redirect' => '/dashboard']);
