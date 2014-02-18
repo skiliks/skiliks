@@ -22,7 +22,7 @@ return array(
     'There was an error sending recovery email' => 'Произошла ошибка при отправке email по восстановлению пароля. Пожалуйста повторите запрос',
     'Thank you! See you soon!' => 'Спасибо! До скорого!',
     '2-hours game' => '2 часовая игра',
-    'A tool to assess candidates and newcomers' => 'Отличный инструмент для оценки кандидатов и новых сотрудников',
+    'A tool to assess candidates and employees' => 'Отличный инструмент для оценки кандидатов<br/> и сотрудников',
     'Back to top' => 'Наверх',
     'Based on best working practices' => 'Основан на лучшей управленческой практике',
     'Based on mathematical methods not just feelings' => 'Использует математические методы анализа<br />поведения, а не субъективные ощущения ',

@@ -12,7 +12,7 @@
                 <li><?php echo Yii::t('site', 'Simulation aimed at testing manager’s skills') ?></li>
                 <li><?php echo Yii::t('site', '2-hours game') ?></li>
                 <li><?php echo Yii::t('site', 'Live tasks and decision-making situations') ?></li>
-                <li><?php echo Yii::t('site', 'A tool to assess candidates and newcomers') ?></li>
+                <li><?php echo Yii::t('site', 'A tool to assess candidates and employees') ?></li>
             </ul>
             <?php if ('ru' == Yii::app()->getlanguage()): ?>
 
