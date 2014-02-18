@@ -24,12 +24,6 @@
         </a>
     </li>
 
-    <li class="<?php if (isset($active['tariff'])){ echo 'active'; } ?>">
-        <a href="/profile/corporate/tariff">
-            Тариф
-        </a>
-    </li>
-
     <li class="<?php if (isset($active['referrals'])){ echo 'active'; } ?>">
         <a href="/profile/corporate/referrals">
             Бонусы

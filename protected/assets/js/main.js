@@ -456,60 +456,6 @@ var fixLogotypes = function() {
 //                infoPopup_aboutFullSimulation(href);
 //            }
 //        }
-
-        $('.subscribe-ti-tariff').click(function(event) {
-            //event.preventDefault();
-            var me = this;
-            if($(this).hasClass('go-to-link')) {
-                console.log('переход');
-                return true;
-            }
-            var slug = $(me).find('a').attr('data-tariff-slug');
-            $.ajax({
-                url: "/dashboard/change-tariff",
-                data:{tariff_slug:slug},
-                success: function (data) {
-                    if(data.type === 'link') {
-                        location.assign("/payment/order/"+slug);
-                    }else if(data.type === 'popup') {
-                        $("."+data.popup_class).dialog({
-                            closeOnEscape: true,
-                            dialogClass: 'popup-before-start-sim',
-                            minHeight: 220,
-                            modal: true,
-                            resizable: false,
-                            draggable:false,
-                            width:881,
-                            open: function( event, ui ) { //invite_limits
-                                $("."+data.popup_class).find('.tariff_label').text(data.tariff_label);
-                                $("."+data.popup_class).find('.tariff_limits').text(data.tariff_limits);
-                                $("."+data.popup_class).find('.tariff_start').text(data.tariff_start);
-                                $("."+data.popup_class).find('.tariff_end').text(data.tariff_end);
-                                $("."+data.popup_class).find('.tariff-link').attr('href', "/payment/order/"+slug);
-                                $("."+data.popup_class).find('.invite_limits').text(data.invite_limits);
-                                //Cufon.refresh();
-                            }
-                        });
-                    } else {
-                        throw new Error("Не верный тип действия");
-                    }
-                }
-            });
-            //extend-tariff-popup
-            //tariff-already-booked-popup
-            //tariff-replace-now-popup
-
-            return false;
-        });
-
-        $('.subscribe-ti-tariff-close').click(function(event) {
-            //event.preventDefault();
-            var data_class = $(this).attr('data-class');
-            console.log(data_class)
-            $("."+data_class).dialog('close');
-            return false;
-        });
-
         $('.start-full-simulation-passed').click(function(event){
             event.preventDefault();
             var href = $(this).attr('data-href');

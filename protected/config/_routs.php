@@ -132,7 +132,6 @@ return [
                 'profile/personal/password/'  => 'static/profile/personalPassword',
                 'profile/corporate/company-info/' => 'static/profile/corporateCompanyInfo',
                 'profile/corporate/vacancies/'  => 'static/profile/corporateVacancies',
-                'profile/corporate/tariff/'  => 'static/profile/corporateTariff',
                 'profile/corporate/payment-method/'  => 'static/profile/corporatePaymentMethod',
                 'profile/restore-authorization/'  => 'static/profile/RestoreAuthorization',
 
@@ -168,7 +167,6 @@ return [
 
                 'dashboard/decline-invite/validation' => 'static/dashboard/validateDeclineExplanation',
                 'dashboard/send-invite'               => 'static/dashboard/sendInviteEmail',
-                'dashboard/change-tariff'             => 'static/dashboard/ChangeTariff',
                 'dashboard/accept-invite/<id:\w+>'  => 'static/dashboard/acceptInvite',
                 'dashboard/decline-invite/<id:\w+>' => 'static/dashboard/declineInvite',
 
