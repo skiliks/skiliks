@@ -173,6 +173,11 @@ define([
                                                 'modal': true,
                                                 'buttons': []
                                             });
+
+                                            // SKILIKS-5449
+                                            // Сообщения про пропажу интернета не видно под сообщением
+                                            // про расчёт итогов симуляции
+                                            me.error_dialog.$el.css('z-index', 1220);
                                         }
                                         $('.time').addClass('paused');
                                         SKApp.simulation.startPause();
