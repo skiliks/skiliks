@@ -45,9 +45,9 @@ $isPersonal = $account_type === 'personal';
         <h1>Корпоративный<br>профиль</h1>
         <p class="p-chose-account-type ">(Вы - работодатель)</p>
         <ul class="registration-corporate-benefits">
-            <li class=""><?php echo Yii::t('site', '3 симуляции бесплатно (Полная версия)') ?></li>
-            <li class=""><?php echo Yii::t('site', 'Пакет симуляций для оценки кандидатов и сотрудников') ?></li>
-            <li class=""><?php echo Yii::t('site', 'Удобный инструмент для прогресса оценки') ?></li>
+            <li>Пакет симуляций для диагностики навыков</li>
+            <li>Удобный инструмент для прогресса навыков</li>
+            <li>Диагностика управленческого потенциала компании (от 20 менеджеров)</li>
         </ul>
         <div class="row">
             <?php echo $form->error($accountCorporate, 'industry_id', ["class" => "errorMessage general_error registration-industry-error"]); ?>

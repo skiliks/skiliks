@@ -202,7 +202,9 @@ if(preg_match('/(?i)Firefox/',$_SERVER['HTTP_USER_AGENT']))
                     <?php endif; ?>
                     <?php $route = Yii::app()->getController()->getRoute(); ?>
                     <?php if (($route == 'static/pages/index' || $route == 'static/pages/homeNew') && 'ru' == Yii::app()->getlanguage()): ?>
-                        <a href="/registration" class="bigbtnsubmt freeacess"><?php echo Yii::t('site', 'Start using it now for free') ?></a>
+                        <a href="/registration" class="bigbtnsubmt freeacess">
+                            <?php echo Yii::t('site', 'Register now') ?>
+                        </a>
                     <?php endif ?>
                 <nav id="footer-menu">
                     <?php $this->renderPartial('//global_partials/_account_links', [

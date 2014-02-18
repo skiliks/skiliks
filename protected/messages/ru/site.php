@@ -21,7 +21,7 @@
 return array(
     'There was an error sending recovery email' => 'Произошла ошибка при отправке email по восстановлению пароля. Пожалуйста повторите запрос',
     'Thank you! See you soon!' => 'Спасибо! До скорого!',
-    '2-3-hours game' => '2-3 часовая игра',
+    '2-hours game' => '2 часовая игра',
     'A tool to assess candidates and newcomers' => 'Отличный инструмент для оценки кандидатов и новых сотрудников',
     'Back to top' => 'Наверх',
     'Based on best working practices' => 'Основан на лучшей управленческой практике',
@@ -29,6 +29,7 @@ return array(
     'Can be used by an unlimited number of applicants in any part of the world' => 'Позволяет тестировать любое количество людей в любой точке мира ',
     'Coming soon' => 'Скоро запуск',
     'Start using it now for free' => 'Получить 3 симуляции бесплатно',
+    'Register now' => 'Зарегистрироваться сейчас',
     'Back to homepage' => 'Вернуться на главную',
     'Easy' => 'Простой',
     'Email - {email} has been already added before!' => 'Адрес - {email} уже был добавлен!',
@@ -47,7 +48,8 @@ return array(
     'Please enter a valid email address' => 'Пожалуйста, введите валидный емейл',
     'Results can be obtained and used immediately' => 'Моментально предоставляет готовые для использования результаты оценки',
     'Saves your time' => 'Экономит время',
-    'Simulation aimed at testing basic manager’s skills' => 'Деловая симуляция, позволяющая оценить базовые менеджерские навыки',
+    'Simulation aimed at testing basic manager’s skills'
+        => 'Деловая симуляция, позволяющая оценить ключевые управленческие навыки',
     'Easy &amp; reliable way to discover your people management skills!' => 'Простой и надежный способ проверить навыки менеджеров!',
     'Uses real work environment, tasks and decision<br />making situations' => 'Максимально приближен к реальному деловому окружению, задачам и ситуациям',
 

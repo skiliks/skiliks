@@ -165,7 +165,9 @@ $cs->registerCssFile($assetsUrl . "/css/static.css");
                 <a href="#top" class="to-top font-small"><?php echo Yii::t('site', 'Back to top') ?></a>
                 <?php $route = Yii::app()->getController()->getRoute(); ?>
                 <?php if (($route == 'static/pages/index' || $route == 'static/pages/homeNew') && 'ru' == Yii::app()->getlanguage()): ?>
-                    <a href="/registration" class="btn btn-white btn-arrow-small access-footer"><?php echo Yii::t('site', 'Start using it now for free') ?></a>
+                    <a href="/registration" class="btn btn-white btn-arrow-small access-footer">
+                        <?php echo Yii::t('site', 'Register now') ?>
+                    </a>
                 <?php endif ?>
                 <div class="social_networks">
                     <div class="addthis_toolbox addthis_default_style addthis_32x32_style" addthis:url="http://player.vimeo.com/video/61279471" addthis:title="Skiliks - game the skills" addthis:description="Простой и надежный способ проверить навыки менеджеров: деловая онлайн симуляция, имитирующая реальный рабочий день с типичными управленческими задачами и ситуациями принятия решений">

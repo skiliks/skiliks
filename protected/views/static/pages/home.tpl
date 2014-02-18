@@ -192,14 +192,14 @@
         </div>
         <ul>
             <li>{Yii::t('site', 'Simulation aimed at testing basic manager’s skills')}</li>
-            <li>{Yii::t('site', '2-3-hours game')}</li>
+            <li>{Yii::t('site', '2-hours game')}</li>
             <li>{Yii::t('site', 'Live tasks and decision-making situations')}</li>
             <li>{Yii::t('site', 'A tool to assess candidates and newcomers')}</li>
         </ul>
 
         {if ('ru' == Yii::app()->getlanguage()) }
 
-            <a href="/registration" class="bigbtnsubmt freeacess">{Yii::t('site', 'Start using it now for free')}</a>
+            <a href="/registration" class="bigbtnsubmt freeacess">{Yii::t('site', 'Register now')}</a>
 
         {elseif ('en' == Yii::app()->getlanguage()) }
                 <!-- FORM { -->

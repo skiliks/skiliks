@@ -10,13 +10,15 @@
         <div class="grid1">
             <ul class="list-light unstyled font-large home-list-box">
                 <li><?php echo Yii::t('site', 'Simulation aimed at testing manager’s skills') ?></li>
-                <li><?php echo Yii::t('site', '2-3-hours game') ?></li>
+                <li><?php echo Yii::t('site', '2-hours game') ?></li>
                 <li><?php echo Yii::t('site', 'Live tasks and decision-making situations') ?></li>
                 <li><?php echo Yii::t('site', 'A tool to assess candidates and newcomers') ?></li>
             </ul>
             <?php if ('ru' == Yii::app()->getlanguage()): ?>
 
-                <a href="/registration" class="btn btn-large btn-green"><?php echo Yii::t('site', 'Start using it now for free') ?></a>
+                <a href="/registration" class="btn btn-large btn-green">
+                    <?php echo Yii::t('site', 'Register now') ?>1
+                </a>
 
             <?php elseif ('en' == Yii::app()->getlanguage()): ?>
                 <!-- FORM { -->

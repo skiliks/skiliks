@@ -8,7 +8,7 @@
 					
 					<ul>
 						<li>{Yii::t('site', 'Simulation aimed at testing manager’s skills')}</li>
-						<li>{Yii::t('site', '2-3-hours game')}</li>
+						<li>{Yii::t('site', '2-hours game')}</li>
 						<li>{Yii::t('site', 'Live tasks and decision-making situations')}</li>
 						<li>{Yii::t('site', 'A tool to assess candidates and newcomers')}</li>
 					</ul>
