@@ -120,7 +120,7 @@ class Invoice extends CActiveRecord
             $this->tariff      = $tariff;
             $this->user_id     = $user->id;
             $this->tariff_id   = $tariff->id;
-            $this->amount      = $tariff->price * $months;
+            $this->amount      = ($tariff->price * $months) / 2;
             $this->month_selected = $months;
             $this->save();
             $invoice_log = new LogPayments();

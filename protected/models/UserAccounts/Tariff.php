@@ -72,6 +72,32 @@ class Tariff extends CActiveRecord
         return $price;
     }
 
+    /**
+     * Временный метод - отдаёт цену с 50% скидкой
+     * @param bool $withCurrency
+     * @return string
+     */
+    public function getFormattedHalfPrice($withCurrency = false)
+    {
+        $lang = Yii::app()->getLanguage();
+        $currency = $lang == 'ru' ? 'RUB' : 'USD';
+        $price = StaticSiteTools::getI18nCurrency($this->getPrice()/2, $currency, $lang, '#,##0');
+
+        if (preg_match('/^(\d{1,3})((?:\d{3})*)(\.\d+)/', $price, $match)) {
+            $price = $match[1] . preg_replace('/\d{3}/', ' $1', $match[2]) . $match[3];
+        }
+
+        if ($withCurrency) {
+            if ($lang == 'ru') {
+                $price .= ' р';
+            } else {
+                $price = '$' . $price;
+            }
+        }
+
+        return $price;
+    }
+
     public function getFormattedCyName()
     {
         $lang = Yii::app()->getLanguage();

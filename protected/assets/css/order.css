@@ -23,6 +23,7 @@
 }
 .order-status {
     float: left;
+    margin-top: -10px;
 }
 .order-item {
     background:#fdfcc6 url("../img/your-order.gif") no-repeat center -9px;
@@ -85,7 +86,7 @@
 }
 .order-status label, .order-status .value {
     display:table-cell;
-    padding-bottom: 36px;
+    padding-bottom: 10px;
     padding-right: 18px;
     vertical-align: top;
 }

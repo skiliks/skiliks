@@ -16,7 +16,7 @@
             <div class="period">1 Месяц</div>
 
             <div class="item-price">
-                <?= $tariff->getFormattedPrice() ?>
+                <?= $tariff->getFormattedHalfPrice() ?>
                 <span><?= $tariff->getFormattedCyName() ?></span>
             </div>
         </div>
@@ -35,21 +35,21 @@
                 <div class="value">
                     <select id="month-selected" id="month-selected">
                         <option value="1">1</option>
-<!--                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
-                        <option value="10">10</option>
-                        <option value="11">11</option>
-                        <option value="12">12</option>
-                        -->
                     </select>
                 </div>
             </div>
+            <div class="row">
+                <label>Полная стоимость</label>
+                <div class="value">
+                    <?= $tariff->getFormattedPrice() ?>
+                    <span><?= $tariff->getFormattedCyName() ?></span>
+                </div>
+            </div>
+            <div class="row">
+                <label>Скидка</label>
+                <div class="value">50%</div>
+            </div>
+
         </div>
     </div>
 
