@@ -249,19 +249,11 @@ class UserServiceUnitTest extends CDbTestCase
         $assert_account_corporate->refresh();
         $this->assertEquals($assert_account_corporate->invites_limit, 8);
 
-        //Задаем 4 инвайта за рефералов и снимаем 10, проверяем что осталось только 2 за рефералов
-        $assert_account_corporate->referrals_invite_limit = 4;
-        $assert_account_corporate->save(false);
-        $assert_account_corporate->changeInviteLimits(-10);
-        $assert_account_corporate->refresh();
-        $this->assertEquals($assert_account_corporate->invites_limit, 0);
-        $this->assertEquals($assert_account_corporate->referrals_invite_limit, 2);
 
         //Списываем 4 и проверяем что у нас 0 на обоих счетах
         $assert_account_corporate->changeInviteLimits(-4);
         $assert_account_corporate->refresh();
-        $this->assertEquals($assert_account_corporate->invites_limit, 0);
-        $this->assertEquals($assert_account_corporate->referrals_invite_limit, 0);
+        $this->assertEquals($assert_account_corporate->invites_limit, 4);
 
 
         //Создаем приглашение для реферала и регистрируем его
@@ -284,8 +276,6 @@ class UserServiceUnitTest extends CDbTestCase
 
         $assert_account_corporate->refresh();
 
-        //Пооверяем что корпоративному добавился инвайт за реферала
-        $this->assertEquals($assert_account_corporate->referrals_invite_limit, 1);
 
         //Сздаем второго реферала с таким же доменом
         $referral2 = new UserReferral();
@@ -307,14 +297,11 @@ class UserServiceUnitTest extends CDbTestCase
 
         $assert_account_corporate->refresh();
 
-        //Проверяем что у нас не добавилось лишних преглашений
-        $this->assertEquals($assert_account_corporate->referrals_invite_limit, 1);
-
         //Добавляем на основной счет инвайты и проверяем что все правильно
         $assert_account_corporate->changeInviteLimits(5);
 
         $assert_account_corporate->refresh();
-        $this->assertEquals($assert_account_corporate->invites_limit, 5);
+        $this->assertEquals($assert_account_corporate->invites_limit, 9);
 
         /* @var $my_invite Invite */
 
@@ -337,9 +324,6 @@ class UserServiceUnitTest extends CDbTestCase
         $assert_account_corporate->refresh();
         $this->assertEquals($assert_account_corporate->invites_limit, $tariff->simulations_amount + 1 );//Возвращена симуляция 1 за то что человек заплатил за тариф
 
-        // и +1 рефералл
-        $this->assertEquals($assert_account_corporate->getTotalAvailableInvitesLimit(), $tariff->simulations_amount + 1 + 1);
-
         $this->assertEquals($assert_account_corporate->getActiveTariff()->slug, Tariff::SLUG_LITE);
         //Тест 3.1. Проверить, что при устаревании тарифного плана, после LiteFree у человека будет Free.
         $active_plan = $assert_account_corporate->getActiveTariffPlan();
@@ -353,11 +337,6 @@ class UserServiceUnitTest extends CDbTestCase
 
         $this->assertEquals($assert_account_corporate->invites_limit, $active_plan->tariff->simulations_amount);
 
-        // и +1 рефералл
-        $this->assertEquals(
-            $assert_account_corporate->getTotalAvailableInvitesLimit(),
-            $active_plan->tariff->simulations_amount +1
-        );
     }
 
     public function testPaymentSystem() {

@@ -844,8 +844,8 @@ class AdminPagesController extends SiteBaseController {
             $invoice->completeInvoice($user->profile->email);
 
             UserService::logCorporateInviteMovementAdd(sprintf(
-                    "Принята оплата по счёт-фактуре номер %s, на тарифный план %s. Количество доступных симуляций установлено в %s из них за рефераллов %s. Админ %s.",
-                    $invoice->id, $invoice->tariff->label, $invoice->tariff->simulations_amount, $invoice->user->getAccount()->referrals_invite_limit, $admin->profile->email
+                    "Принята оплата по счёт-фактуре номер %s, на тарифный план %s. Количество доступных симуляций установлено в %s . Админ %s.",
+                    $invoice->id, $invoice->tariff->label, $invoice->tariff->simulations_amount, $admin->profile->email
                 ),  $invoice->user->getAccount(), $initValue);
 
             echo json_encode(["return" => true, "paidAt" => $invoice->paid_at]);
@@ -1498,12 +1498,10 @@ class AdminPagesController extends SiteBaseController {
 
         $admin = Yii::app()->user->data();
 
-        $user->getAccount()->referrals_invite_limit;
-
         UserService::logCorporateInviteMovementAdd(
-            sprintf('Тарифный план для %s сменён на %s из админ области. Количество доступных симуляций установлено в %s из них за рефераллов %s. Админ %s.',
+            sprintf('Тарифный план для %s сменён на %s из админ области. Количество доступных симуляций установлено в %s. Админ %s.',
                 $user->profile->email, $tariff->label, $user->getAccount()->invites_limit,
-                $user->getAccount()->referrals_invite_limit, $admin->profile->email
+          $admin->profile->email
             ),
             $user->getAccount(),
             $user->getAccount()->getTotalAvailableInvitesLimit()

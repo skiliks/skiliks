@@ -35,8 +35,8 @@ class SetTariffCommand extends CConsoleCommand
         $result = $account->save(false);
 
         UserService::logCorporateInviteMovementAdd(
-            sprintf('Тарифный план сменён на %s консольной командой. Количество доступных симуляций установлено в Х из них за рефераллов Х.',
-                $tariff->label, $account->getTotalAvailableInvitesLimit(), $account->referrals_invite_limit),
+            sprintf('Тарифный план сменён на %s консольной командой. Количество доступных симуляций установлено в Х.',
+                $tariff->label, $account->getTotalAvailableInvitesLimit()),
             $account,
             $initValue
         );

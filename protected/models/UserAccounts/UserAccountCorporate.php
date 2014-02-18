@@ -157,15 +157,9 @@ class UserAccountCorporate extends CActiveRecord
      */
     public function decreaseLimit()
     {
-        $initValue = $this->getTotalAvailableInvitesLimit();
-
         if($this->invites_limit > 0) {
             $this->invites_limit--;
             $this->save(false, ['invites_limit']);
-        }
-        elseif($this->referrals_invite_limit > 0) {
-            $this->referrals_invite_limit--;
-            $this->save(false, ['referrals_invite_limit']);
         }
         else {
             Yii::log("User doesn't have invites but tried to decrease it");
@@ -179,9 +173,6 @@ class UserAccountCorporate extends CActiveRecord
     public function addReferralInvite($referrer_email = null) {
 
         $initValue = $this->getTotalAvailableInvitesLimit();
-        $this->referrals_invite_limit++;
-        $this->save(false, ['referrals_invite_limit']);
-
         UserService::logCorporateInviteMovementAdd(
             'Регистрация реферала ' . $referrer_email,
             $this,
@@ -196,7 +187,7 @@ class UserAccountCorporate extends CActiveRecord
      * @return int
      */
     public function getTotalAvailableInvitesLimit() {
-        return $this->invites_limit + $this->referrals_invite_limit;
+        return $this->invites_limit;
     }
 
     /**
@@ -244,7 +235,6 @@ class UserAccountCorporate extends CActiveRecord
         $providerEmail = Yii::app()->user->data()->profile->email;
 
         $this->invites_limit = 0;
-        $this->referrals_invite_limit = 0;
 
         UserService::logCorporateInviteMovementAdd(
             sprintf("Аккаунт заблокирован пользователем-админом %s", $providerEmail),
@@ -277,27 +267,16 @@ class UserAccountCorporate extends CActiveRecord
     public function changeInviteLimits($value, $admin=null) {
 
         $initValue = $this->getTotalAvailableInvitesLimit();
-        if($value > 0) {
-            $this->invites_limit += $value;
-        } elseif($value < 0) {
-            if($this->invites_limit >= -$value) {
-                $this->invites_limit += $value;
-            }else{
-                $diff = $value + $this->invites_limit;
-                $this->invites_limit = 0;
-                if($this->referrals_invite_limit < -$diff){
-                    $this->referrals_invite_limit = 0;
-                }else{
-                    $this->referrals_invite_limit += $diff;
-                }
-            }
-
+        $this->invites_limit += $value;
+        if($this->invites_limit < 0){
+            $this->invites_limit = 0;
         }
+
         $this->save(false);
         if(null !== $admin){
             UserService::logCorporateInviteMovementAdd(
-                sprintf('Количество доступных симуляций установлено в %s в админ области, из них за рефераллов %s. '.
-                ' Админ %s (емейл текущего авторизованного в админке пользователя).', $this->invites_limit, $this->referrals_invite_limit, $admin->profile->email),
+                sprintf('Количество доступных симуляций установлено в %s в админ области. '.
+                ' Админ %s (емейл текущего авторизованного в админке пользователя).', $this->invites_limit, $admin->profile->email),
                 $this,
                 $initValue
             );
@@ -432,7 +411,7 @@ class UserAccountCorporate extends CActiveRecord
 			array('user_id'     , 'length'   , 'max'=>10, 'on' => ['registration', 'corporate']),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-            array('ownership_type, company_name, invites_limit, referrals_invite_limit, tariff_expired_at', 'safe'),
+            array('ownership_type, company_name, invites_limit, tariff_expired_at', 'safe'),
             array('inn, cpp, bank_account_number, bic, preference_payment_method', 'safe'),
             array('default_invitation_mail_text, is_display_referrals_popup, is_display_tariff_expire_pop_up', 'safe'),
 			array('user_id, industry_id', 'safe', 'on'=>'search'),
