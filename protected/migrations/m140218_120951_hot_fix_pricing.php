@@ -14,7 +14,7 @@ class m140218_120951_hot_fix_pricing extends CDbMigration
 
         $this->update(
             'tariff',
-            ['price' => '34900', 'price_usd' => '390',
+            ['price' => '34900', 'price_usd' => '990',
                 'simulations_amount' => '10', 'safe_amount_usd' => '300',
                 'safe_amount' => '5000', 'benefits' => ''],
             " slug = 'starter' "
@@ -22,7 +22,7 @@ class m140218_120951_hot_fix_pricing extends CDbMigration
 
         $this->update(
             'tariff',
-            ['price' => '64900', 'price_usd' => '390',
+            ['price' => '64900', 'price_usd' => '1790',
                 'safe_amount' => '14000', 'safe_amount_usd' => '800',
                 'simulations_amount' => '20',
                 ],
@@ -31,7 +31,7 @@ class m140218_120951_hot_fix_pricing extends CDbMigration
 
         $this->update(
             'tariff',
-            ['price' => '149900', 'price_usd' => '390',
+            ['price' => '149900', 'price_usd' => '3990',
                 'safe_amount' => '48000', 'safe_amount_usd' => '2500',
                 'simulations_amount' => '50',
                 ],
