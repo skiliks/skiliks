@@ -79,11 +79,6 @@ $assetsUrl = $this->getAssetsUrl();
         Логи списания/зачисления симуляций
     </a>
     &nbsp; &nbsp;
-    <a class="btn btn-info" href="/admin_area/list-tariff-plan?user_id=<?= $user->id ?>">
-        <strong>$</strong>
-        Тарифные планы
-    </a>
-    &nbsp; &nbsp;
     <a class="btn btn-info" href="/admin_area/invites?page=1&owner_email_for_filtration=<?= urlencode($user->profile->email) ?>&invite_statuses[0]=on&invite_statuses[1]=on&invite_statuses[5]=on&invite_statuses[2]=on&invite_statuses[4]=on&invite_statuses[3]=on&invite_status[]=on&filter_scenario_id=&is_invite_crashed=">
             <i class="icon icon-arrow-up icon-white"></i>
             Приглашения от меня
@@ -193,10 +188,6 @@ $assetsUrl = $this->getAssetsUrl();
     </tr>
     <tr>
         <?php if ($user->isCorporate()) : ?>
-            <td>Тариф истекает</td>
-            <td>
-                <?= $user->getAccount()->getActiveTariffPlan()->finished_at ?>
-            </td>
             <td>
                 Добавить симуляции в аккаунт
                 <br/>
@@ -291,13 +282,8 @@ $assetsUrl = $this->getAssetsUrl();
     <tr>
         <td>IP Address</td>
         <td><?= ($user->ip_address !== null) ? $user->ip_address : "-"; ?></td>
-        <?php if ($user->isCorporate()) : ?>
-        <td>Tariff Plan id</td>
-        <td><?= $user->account_corporate->getActiveTariffPlan()->id ?></td>
-        <?php else: ?>
         <td></td>
         <td></td>
-        <?php endif ?>
     </tr>
 
 </table>
