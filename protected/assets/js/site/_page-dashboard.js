@@ -96,14 +96,20 @@ $(document).ready(function () {
             width: getDialogWindowWidth(),
             draggable: false,
             open: function( event, ui ) {
-//                $('.popup-information').css('position', 'fixed');
-//                $('.popup-information').css('top', '70px');
                 $('.action-start-lite-simulation-now').click(function() {
                     location.assign(href);
                 });
             }
         });
         return false;
+    });
+
+    // смена ширины при изменении размеров окна браузера
+    // выравнивание при изменении размеров окна браузера
+    $(window).on('resize', function() {
+        console.log('11');
+        $('.locator-lite-simulation-info-popup').dialog("option", "width", getDialogWindowWidth());
+        $('.locator-lite-simulation-info-popup').dialog("option", "position", "center");
     });
 
     // 5) перемещаем .pager в нужное место
@@ -272,6 +278,18 @@ $(document).ready(function () {
             }
         });
 
+        // смена ширины при изменении размеров окна браузера
+        // выравнивание при изменении размеров окна браузера
+        $(window).on('resize', function() {
+            $('.locator-form-vacancy').dialog("option", "width", getDialogWindowWidth_2of3());
+            $('.locator-form-vacancy').dialog("option", "position", {
+                use: true,
+                my: "right top",
+                at: "right top",
+                of: $('.locator-corporate-invitations-list-box')
+            });
+        });
+
         $(".form-vacancy").dialog('open');
     });
 
@@ -293,6 +311,18 @@ $(document).ready(function () {
                 at: "right top",
                 of: $('.locator-corporate-invitations-list-box')
             }
+        });
+
+        // смена ширины при изменении размеров окна браузера
+        // выравнивание при изменении размеров окна браузера
+        $(window).on('resize', function() {
+            $('.locator-form-invite-step-2').dialog("option", "width", getDialogWindowWidth_2of3());
+            $('.locator-form-invite-step-2').dialog("option", "position", {
+                use: true,
+                my: "right top",
+                at: "right top",
+                of: $('.locator-corporate-invitations-list-box')
+            });
         });
 
         $( ".locator-form-invite-step-2").dialog('open');
@@ -343,10 +373,7 @@ $(document).ready(function () {
         // выходящий за размеры окна попап создаёт пустоту равную его высоте под футером
         // + липнет к верхнему краю окна и не реагирует на top (если position: relative)
         // если position: absolute - то с футером всё ок и попапом можно управлять
-        // $('.locator-invite-accept-popup').css('position', 'absolute');
         $('.locator-invite-accept-popup').css('margin-top', '50px');
-        // $('.clearfix').css('height', '800px');
-        // $(window).scrollTop('.narrow-contnt');
 
         // hack }
 

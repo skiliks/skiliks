@@ -38,7 +38,7 @@ $(document).ready(function(){
                 // смена ширины при изменении размеров окна браузера
                 // смена высоты при изменении размеров окна браузера
                 // центрирование при изменении размеров окна браузера
-                $(window).resize(function() {
+                $(window).on('resize', function() {
                     var dHeight = $(window).height() * 0.85;
                     $('#terms-pop-up').dialog("option", "height", dHeight);
                     $('#terms-pop-up').dialog("option", "width", getDialogWindowWidth());
@@ -51,6 +51,9 @@ $(document).ready(function(){
 
                 $("#terms-pop-up").scrollTop($("#terms-pop-up h1.total").scrollTop());
 
+                // по сути костыль: при высоте окна браузера 500рх и меньше - попап залазит выше верхнего края окна
+                // но после пересчёта $(window).resize() всё ок.
+                // может контент недогржается и высота неправильно измеряется?
                 $(window).resize();
             }
         });
