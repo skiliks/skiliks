@@ -996,6 +996,8 @@ class UserService {
                      */
                     $result['popup_class'] = 'tariff-replace-if-zero-popup';
                     $result['invite_limits'] = $invites;
+                } elseif (Tariff::SLUG_LITE_FREE == $active->tariff->slug) {
+                    $result['type'] = 'link';
                 } else {
                     /**
                      * Тариф можно применять сразу - сегодня

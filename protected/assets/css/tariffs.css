@@ -228,13 +228,13 @@ body  .onetariff  {
 
 @media screen and (max-width: 1146px) {
 
-    .tariff-lite .tarifwrap.en {
-        padding-top: 31px;
+    .tariff-lite .tarifwrap {
+        padding-top: 35px;
     }
 
-    .tariff-lite .tarifwrap.ru {
-        top: 5px;
-    }
+    /*.tariff-lite .tarifwrap.ru {*/
+        /*top: 5px;*/
+    /*}*/
 
     /*.show-free-tariff-img {*/
         /*position: relative;*/
