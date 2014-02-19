@@ -235,6 +235,7 @@ return array(
     'Statistic' => 'Статистика',
     'Notifications' => 'Уведомления',
     'Simulations' => 'Симуляции',
+    'Simulation'  => 'Симуляция',
 
     'Main' => 'Главная',
     'Productivity' => 'Результативность',

@@ -140,9 +140,17 @@ class Tariff extends CActiveRecord
         if (null == $this->simulations_amount) {
             return '0 ' . Yii::t('site', 'simulations') . $postfix;
         } else {
+            /* подпись, единицы изменения - "симуляции" */
+            $unit = (1 == $this->simulations_amount) ? 'simulation' : 'simulations';
+            $unit =Yii::t('site', $unit);
+
+            if (3 == $this->simulations_amount) {
+                $unit = str_replace('симуляций', 'симуляции', $unit);
+            }
+
             return sprintf('%d %s%s',
                 $this->simulations_amount,
-                Yii::t('site', 1 == $this->simulations_amount ? 'simulation' : 'simulations'),
+                $unit,
                 $postfix
             );
         }
