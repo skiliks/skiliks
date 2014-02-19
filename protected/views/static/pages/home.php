@@ -1,6 +1,6 @@
 <script type="text/javascript">
-    window.httpUserAgent = '{$httpUserAgent}';
-    window.isSkipBrowserCheck = '{$isSkipBrowserCheck}';
+    window.httpUserAgent = '<?= $httpUserAgent ?>';
+    window.isSkipBrowserCheck = '<?= $isSkipBrowserCheck ?>';
 
     var displaySystemMismatch = function() {
         if (1 == window.isSkipBrowserCheck) {
@@ -119,29 +119,29 @@
 
 <!--features-->
     <section class="features">
-        <h2>{Yii::t('site', 'Easy &amp; reliable way to discover your people management skills!')}</h2>
+        <h1><?= Yii::t('site', 'Easy &amp; reliable way to discover your people management skills!') ?></h1>
         <div class="iframe-video-wrap">
             <div class="iframe-video">
-                <iframe src="http://player.vimeo.com/video/{Yii::t('site', '61258856')}" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+                <iframe src="http://player.vimeo.com/video/<?= Yii::t('site', '61258856')?>" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
             </div>
         </div>
         <div class="videosocwrap clearfix">
             <div class="video" style="cursor: pointer;">
-                <span class="video-caption">{Yii::t('site', 'Watch the video to learn more')}</span>
+                <span class="video-caption"><?= Yii::t('site', 'Watch the video to learn more')?></span>
             </div>
             <div class="social_networks smallicons">
-                <span>{Yii::t('site', 'Share video')}:</span>
+                <span><?= Yii::t('site', 'Share video')?>:</span>
                 <div class="addthis_toolbox addthis_default_style addthis_32x32_style"
-                     addthis:url="http://player.vimeo.com/video/{Yii::t('site', '61258856')}?title=0&amp;byline=0&amp;portrait=0&amp;color=24bdd3"
+                     addthis:url="http://player.vimeo.com/video/<?= Yii::t('site', '61258856')?>?title=0&amp;byline=0&amp;portrait=0&amp;color=24bdd3"
                      addthis:title="Skiliks - game the skills"
-                     addthis:description="{Yii::t('site', 'www.skiliks.com - online simulation aimed at testing management skills')}">
+                     addthis:description="<?= Yii::t('site', 'www.skiliks.com - online simulation aimed at testing management skills')?>">
 
                     <a class="new_social_buttons vk_share_button" title="VK" onclick="
                             window.open(
                             'http://vk.com/share.php?'
-                            + 'description={Yii::t('site', 'www.skiliks.com - online simulation aimed at testing management skills')}'
-                            + '&url=' + encodeURIComponent('{Yii::app()->request->hostInfo}'
-                            +'/watchVideo/' + '{Yii::app()->language}'),
+                            + 'description=<?= Yii::t('site', 'www.skiliks.com - online simulation aimed at testing management skills')?>'
+                            + '&url=' + encodeURIComponent('<?= Yii::app()->request->hostInfo?>'
+                            +'/watchVideo/' + '<?= Yii::app()->language?>'),
                             'vk-share-dialog',
                             'width=626, height=436');
                             return false;" href="#" target="_blank">
@@ -150,8 +150,8 @@
                     <a class="new_social_buttons facebook_share_button" title="Facebook" onclick="
                         window.open(
                         'https://www.facebook.com/sharer/sharer.php?u='
-                            + encodeURIComponent('{Yii::app()->request->hostInfo}'
-                            +'/watchVideo/' + '{Yii::app()->language}'),
+                            + encodeURIComponent('<?= Yii::app()->request->hostInfo?>'
+                            +'/watchVideo/' + '<?= Yii::app()->language?>'),
                         'facebook-share-dialog',
                         'width=626,height=436');
                         return false;" href="#" target="_blank">
@@ -161,8 +161,8 @@
                     <a class="new_social_buttons twitter_share_button" title="Twitter" onclick="
                         window.open(
                         'https://twitter.com/share?url='
-                            + encodeURIComponent('{Yii::app()->request->hostInfo}'
-                            + '/watchVideo/' + '{Yii::app()->language}'),
+                            + encodeURIComponent('<?= Yii::app()->request->hostInfo?>'
+                            + '/watchVideo/' + '<?= Yii::app()->language?>'),
                         'twitter-share-dialog',
                         'width=626,height=436');
                         return false;" href="#" target="_blank">
@@ -171,8 +171,8 @@
                     <a class="new_social_buttons google_share_button" title="Google" onclick="
                         window.open(
                         'https://plus.google.com/share?url='
-                            + encodeURIComponent('{Yii::app()->request->hostInfo}'
-                            + '/watchVideo/' + '{Yii::app()->language}'),
+                            + encodeURIComponent('<?= Yii::app()->request->hostInfo?>'
+                            + '/watchVideo/' + '<?= Yii::app()->language?>'),
                         'google-share-dialog',
                         'width=626,height=436');
                         return false;" href="#" target="_blank">
@@ -181,8 +181,8 @@
                     <a class="new_social_buttons linkedin_share_button" title="Linkedin" onclick="
                         window.open(
                         'https://www.linkedin.com/cws/share?url='
-                            + encodeURIComponent('{Yii::app()->request->hostInfo}'
-                            + '/watchVideo/' + '{Yii::app()->language}'),
+                            + encodeURIComponent('<?= Yii::app()->request->hostInfo?>'
+                            + '/watchVideo/' + '<?= Yii::app()->language?>'),
                         'linkedin-share-dialog',
                         'width=626,height=436');
                         return false;" href="#" target="_blank">
@@ -191,30 +191,30 @@
             </div>
         </div>
         <ul>
-            <li>{Yii::t('site', 'Simulation aimed at testing basic manager’s skills')}</li>
-            <li>{Yii::t('site', '2-3-hours game')}</li>
-            <li>{Yii::t('site', 'Live tasks and decision-making situations')}</li>
-            <li>{Yii::t('site', 'A tool to assess candidates and newcomers')}</li>
+            <li><?= Yii::t('site', 'Simulation aimed at testing basic manager’s skills')?></li>
+            <li><?= Yii::t('site', '2-3-hours game')?></li>
+            <li><?= Yii::t('site', 'Live tasks and decision-making situations')?></li>
+            <li><?= Yii::t('site', 'A tool to assess candidates and newcomers')?></li>
         </ul>
 
-        {if ('ru' == Yii::app()->getlanguage()) }
+        <?php if ('ru' == Yii::app()->getlanguage()): ?>
 
-            <a href="/registration" class="bigbtnsubmt freeacess">{Yii::t('site', 'Start using it now for free')}</a>
+            <a href="/registration" class="bigbtnsubmt freeacess"><?= Yii::t('site', 'Start using it now for free') ?></a>
 
-        {elseif ('en' == Yii::app()->getlanguage()) }
+        <?php elseif ('en' == Yii::app()->getlanguage()) ?>
                 <!-- FORM { -->
                 <div id="notify-form">
                 <form action="static/pages/addUserSubscription" id="subscribe-form">
                     <div>
                         <input type="text"
                                id = "user-email-value"
-                               placeholder="{Yii::t('site', 'Enter your email address')}"
+                               placeholder="<?= Yii::t('site', 'Enter your email address') ?>"
                                />
                         <p id="user-email-error-box" class="errorMessage" style="display: none; top:-17px; left:2px; white-space: nowrap;">
-                            {Yii::t('site', 'Please enter a valid email address')}
+                        <?php Yii::t('site', 'Please enter a valid email address') ?>
                         </p>
                     </div>
-                    <div><input type="submit" value="{Yii::t('site', 'Notify me')}" /></div>
+                    <div><input type="submit" value="<?= Yii::t('site', 'Notify me') ?>" /></div>
                 </form>
                 </div>
             <!-- FORM } -->
