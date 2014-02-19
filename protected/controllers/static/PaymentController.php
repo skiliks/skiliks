@@ -206,7 +206,7 @@ class PaymentController extends SiteBaseController
 
 
             $tariffType = Yii::app()->request->getParam('tariff-label');
-            $months = Yii::app()->request->getParam('cash-month-selected');
+            $months = 1; //Yii::app()->request->getParam('cash-month-selected');
 
             if( !isset($months) || $months === null || (int)$months == 0) {
                 throw new Exception("Invoice has to be created for at least one month");

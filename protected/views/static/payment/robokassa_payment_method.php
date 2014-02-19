@@ -9,7 +9,8 @@
 </form>
 <script>
     function proceedRobokassaPayment() {
-        $.getJSON( "/payment/getRobokassaForm", {tariffType : "<?=$tariff->label ?>", monthSelected : $("#month-selected").val()})
+        //$.getJSON( "/payment/getRobokassaForm", {tariffType : "<?=$tariff->label ?>", monthSelected : $("#month-selected").val()})
+        $.getJSON( "/payment/getRobokassaForm", {tariffType : "<?=$tariff->label ?>", monthSelected : 1})
             .done(function( json ) {
                 if(json.invoice_id == null) {
                     alert("В процессе обработки возникла ошибка. Пожалуйста, свяжитесь с администрацией сайта.");

@@ -50,7 +50,7 @@ class UserAccountCorporate extends CActiveRecord
     {
         $this->tariff_id = $tariff->id;
         $this->tariff_activated_at = (new DateTime())->format("Y-m-d H:i:s");
-        $this->tariff_expired_at = (new DateTime())->modify('+30 days')->format("Y-m-d H:i:s");
+        $this->tariff_expired_at = '2014-12-01 23:59:59';//(new DateTime())->modify('+30 days')->format("Y-m-d H:i:s");
         $this->invites_limit = $tariff->simulations_amount;
         if($tariff->slug === Tariff::SLUG_FREE) {
             $this->is_display_tariff_expire_pop_up = 1;
@@ -349,9 +349,9 @@ class UserAccountCorporate extends CActiveRecord
      * Setting user tariff expired yesterday
      */
     private function expireUserTariff() {
-        $date = new DateTime();
-        $date->add(DateInterval::createFromDateString('yesterday'));
-        $this->tariff_expired_at = $date->format('Y-m-d H:i:s');
+        //$date = new DateTime();
+        //$date->add(DateInterval::createFromDateString('yesterday'));
+        $this->tariff_expired_at = '2014-12-01 23:59:59';//$date->format('Y-m-d H:i:s');
     }
 
     /**

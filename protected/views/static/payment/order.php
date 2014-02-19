@@ -13,7 +13,7 @@
             <h3>Ваш заказ</h3>
 
             <label class="tariff-name"><?= $tariff->label ?></label>
-            <div class="period">1 Месяц</div>
+            <!--div class="period">1 Месяц</div-->
 
             <div class="item-price">
                 <?= $tariff->getFormattedHalfPrice() ?>
@@ -25,19 +25,19 @@
             <div class="row">
                 <label>Текущий тарифный план</label>
                 <div class="value"><?= strtolower($account->getTariffLabel()) ?>
-                    <small class="tarifprice"><?= $account->tariff->getFormattedPrice() ?> р. в месяц</small><small class="tarifprice">
-                        Срок окончания - <?= date('d.m.Y', strtotime($account->tariff_expired_at)) ?>
+                    <small class="tarifprice"><?= $account->tariff->getFormattedPrice() ?> р. <!-- в месяц --></small><small class="tarifprice">
+                        <!-- Срок окончания - <?= date('d.m.Y', strtotime($account->tariff_expired_at)) ?> -->
                     </small>
                 </div>
             </div>
-            <div class="row">
-                <label>Выбрано количество месяцев</label>
+            <!--div class="row">
+                <label>Выбр ано колич ество мес яцев</label>
                 <div class="value">
                     <select id="month-selected" id="month-selected">
                         <option value="1">1</option>
                     </select>
                 </div>
-            </div>
+            </div-->
             <div class="row">
                 <label>Полная стоимость</label>
                 <div class="value">
@@ -161,7 +161,8 @@
                 return false;
             }
             else {
-                $("#cash-month-selected").val($("#month-selected").val());
+                $("#cash-month-selected").val(1);
+                //$("#cash-month-selected").val($("#month-selected").val());
                 $("#payment-form").submit();
             }
         });
