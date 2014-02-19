@@ -5,7 +5,6 @@ $titles = [
     'ID инвайта',
     'Sim. ID',
     'Дата создания',
-    'Дата окончание',
     'Email работодателя',
     'Email соискателя',
     'Сценарий',
@@ -205,7 +204,6 @@ $titles = [
             <!-- IDs } -->
 
             <td> <?= (null !== $invite->sent_time) ? $invite->sent_time : '-'; ?></td>
-            <td> <?= (null !== $invite->expired_at) ? $invite->expired_at : '-'; ?></td>
 
             <!-- users { -->
             <td style="width: 150px;">

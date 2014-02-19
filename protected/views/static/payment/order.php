@@ -2,7 +2,6 @@
 /**
  * @var UserAccountCorporate $account
  * @var Invoice $invoice
- * @var Tariff $tariff
  */
 ?>
 <h2 class="thetitle"><?= Yii::t('site', 'Оформление заказа') ?></h2>
@@ -11,42 +10,18 @@
     <div class="order-header">
         <div class="order-item">
             <h3>Ваш заказ</h3>
-
-            <label class="tariff-name"><?= $tariff->label ?></label>
             <div class="period">1 Месяц</div>
 
             <div class="item-price">
-                <?= $tariff->getFormattedPrice(Yii::app()->getLanguage()) ?>
-                <span><?= $tariff->getFormattedCurrencyName(Yii::app()->getLanguage()) ?></span>
             </div>
         </div>
 
         <div class="order-status">
             <div class="row">
-                <label>Текущий тарифный план</label>
-                <div class="value"><?= strtolower($account->getTariffLabel()) ?>
-                    <small class="tarifprice"><?= $account->tariff->getFormattedPrice(Yii::app()->getLanguage()) ?> р. в месяц</small><small class="tarifprice">
-                        Срок окончания - <?= date('d.m.Y', strtotime($account->tariff_expired_at)) ?>
-                    </small>
-                </div>
-            </div>
-            <div class="row">
                 <label>Выбрано количество месяцев</label>
                 <div class="value">
                     <select id="month-selected" id="month-selected">
                         <option value="1">1</option>
-<!--                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
-                        <option value="10">10</option>
-                        <option value="11">11</option>
-                        <option value="12">12</option>
-                        -->
                     </select>
                 </div>
             </div>
@@ -89,7 +64,6 @@
                 </div>
 
                 <input type="hidden" name="cash-month-selected" id="cash-month-selected" value="1" />
-                <input type="hidden" name="tariff-label" id="tariff-label" value="<?=$tariff->label ?>" />
 
                 <div class="row">
                     <?= $form->labelEx($paymentMethodCash, 'ИНН') ?>
@@ -151,7 +125,7 @@
 
         <?php $this->endWidget(); ?>
     </div>
-    <?php $this->renderPartial($paymentMethodRobokassa->payment_method_view, ["robokassa" => $paymentMethodRobokassa, "tariff" => $tariff]); ?>
+    <?php $this->renderPartial($paymentMethodRobokassa->payment_method_view, ["robokassa" => $paymentMethodRobokassa]); ?>
 
     <script>
         $("input[type='submit']").click(function(e) {

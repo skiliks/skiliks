@@ -24,11 +24,9 @@
  * @property string $tutorial_displayed_at
  * @property string $tutorial_finished_at
  * @property integer $can_be_reloaded
- * @property integer $tariff_plan_id
  * @property boolean $is_display_simulation_results
  * @property string $stacktrace
  * @property bolean $is_crashed
- * @property string $expired_at
  *
  * The followings are the available model relations:
  * @property YumUser $ownerUser
@@ -118,26 +116,6 @@ class Invite extends CActiveRecord
 
         return (null !== $this->receiverUser && $this->receiverUser->isActive() && $this->receiverUser->getAccountType() !== null)
                ? $this->receiverUser->profile->firstname : $this->firstname;
-    }
-
-    /**
-     * Устанавливает дату до которой приглашение пожет быть принято согластно конфигу
-     */
-    public function setExpiredAt($days = null)
-    {
-        if (null === $days) {
-            $days = Yii::app()->params['inviteExpired'];
-        }
-        $account = UserAccountCorporate::model()->findByAttributes(['user_id'=>$this->owner_id]);
-        /* @var $account UserAccountCorporate */
-        if($account->expire_invite_rule === UserAccountCorporate::EXPIRE_INVITE_RULE_BY_TARIFF) {
-
-            $this->expired_at = (new DateTime($account->getActiveTariffPlan()->finished_at))->modify('+'.$days.' days')->format("Y-m-d H:i:s");
-
-        } else {
-
-            $this->expired_at = (new DateTime())->modify('+'.$days.' days')->format("Y-m-d H:i:s");
-        }
     }
 
     /**
@@ -349,10 +327,8 @@ class Invite extends CActiveRecord
         $invite->status      = Invite::STATUS_ACCEPTED;
         $invite->sent_time   = date("Y-m-d H:i:s");
         if($scenario->isFull()) {
-            $invite->setExpiredAt();
             $invite->tutorial_scenario_id = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_TUTORIAL])->id;
             $invite->is_display_simulation_results = 1;
-            $invite->setTariffPlan();
         }
         $invite->updated_at = (new DateTime('now', new DateTimeZone('Europe/Moscow')))->format("Y-m-d H:i:s");
         $invite->email = strtolower($user->profile->email);
@@ -427,13 +403,8 @@ class Invite extends CActiveRecord
             return false;
         }
         /* @var $account UserAccountCorporate */
-        $is_current_tariff_plan = $account->getActiveTariffPlan()->id === $this->tariff_plan_id;
-        $is_paid_tariff_plan = $account->getActiveTariffPlan()->tariff->slug !== Tariff::SLUG_FREE && $account->getActiveTariffPlan()->tariff->slug !== Tariff::SLUG_LITE_FREE;
-        if($is_current_tariff_plan || $is_paid_tariff_plan) {
-
-            $account->invites_limit++;
-            $account->save(false);
-        }
+       $account->invites_limit++;
+       $account->save(false);
 
         return true;
     }
@@ -520,14 +491,6 @@ class Invite extends CActiveRecord
             return "не задано";
         }
         return self::$statusTextRus[$code];
-    }
-
-    /**
-     * задаёт тарифный план (ТП), в рамках которого приглашение будет активно,
-     * равным текущему ТП аккаунта создателя этого приглашения
-     */
-    public function setTariffPlan() {
-        $this->tariff_plan_id = $this->ownerUser->account_corporate->getActiveTariffPlan()->id;
     }
 
     /* ------------------------------------------------------------------------------------------------------------ */
@@ -681,7 +644,7 @@ class Invite extends CActiveRecord
 			array('message, signature, status, sent_time, updated_at', 'safe'),
 			array('simulation_id, scenario_id, tutorial_scenario_id, tutorial_displayed_at', 'safe'),
 			array('tutorial_finished_at, can_be_reloaded, is_display_simulation_results', 'safe'),
-			array('stacktrace, is_crashed, expired_at', 'safe'),
+			array('stacktrace, is_crashed', 'safe'),
 			array('fullname', 'length', 'max' => 101, 'allowEmpty' => true), /* firstname+ lastname + 1 */
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.

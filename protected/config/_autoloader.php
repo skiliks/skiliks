@@ -49,7 +49,6 @@ return [
         'application.models.Documents.*',
         'application.models.GameEvents.*',
         'application.models.Interfaces.*',
-        'application.models.Referrals.*',
 
         /* Modules */
         'application.modules.user.models.*',

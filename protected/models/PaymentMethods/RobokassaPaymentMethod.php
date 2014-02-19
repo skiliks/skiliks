@@ -51,7 +51,6 @@ class RobokassaPaymentMethod extends CFormModel {
     }
 
     /**
-     * @param $tariff
      * @return string
      */
     private function getDescription() {
@@ -72,7 +71,6 @@ class RobokassaPaymentMethod extends CFormModel {
 
     /**
      * @param Invoice $invoice
-     * @param $tariff
      * @return array
      */
     public function generateJsonBackData(Invoice $invoice) {
@@ -80,7 +78,7 @@ class RobokassaPaymentMethod extends CFormModel {
             "login"          => $this->MerchantLogin,
             "invoice_id"     => $invoice->id,
             "invoice_amount" => $invoice->amount,
-            "description"    => $this->getDescription($tariff),
+            "description"    => $this->getDescription(),
             "key"            => $this->get_form_key($invoice)
         ];
 

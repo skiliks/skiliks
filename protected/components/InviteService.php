@@ -102,42 +102,4 @@ class InviteService {
         }
         return null;
     }
-
-    /**
-     * Метод выбирает все устаревшие приглашения, по которым небыло апросов к серверу за последний час,
-     * и меняет их статус на Expired
-     *
-     * @return array
-     */
-    public static function makeExpiredInvitesExpired() {
-        $fullScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_FULL]);
-
-        /** @var $invites Invite[] */
-        $invites = Invite::model()->findAll(
-            sprintf("status IN (%s, %s, %s) AND '%s' >= expired_at AND (owner_id != receiver_id OR receiver_id is NULL) AND scenario_id = %s",
-                Invite::STATUS_PENDING,
-                Invite::STATUS_ACCEPTED,
-                Invite::STATUS_IN_PROGRESS,
-                date("Y-m-d H:i:s"),
-                $fullScenario->id
-            ));
-
-        $expiredInvites = [];
-
-        foreach($invites as $invite){
-
-            $initValue = $invite->ownerUser->getAccount()->getTotalAvailableInvitesLimit();
-
-            if ($invite->inviteExpired()) {
-                $invite->ownerUser->getAccount()->refresh();
-
-                $expiredInvites[] = $invite;
-
-                UserService::logCorporateInviteMovementAdd(sprintf("Приглашения номер %s для %s устарело. В аккаунт возвращена одна симуляция.",
-                    $invite->id, $invite->email),  $invite->ownerUser->getAccount(), $initValue);
-            }
-        }
-
-        return $expiredInvites;
-    }
 }

@@ -283,28 +283,6 @@ var fixLogotypes = function() {
             }
             return false;
         };
-
-        window.inviteFriend = function inviteFriend(form, data, hasError) {
-            $(".sendReferralInviteSubmitButton").val("Отправить");
-            if (!hasError) {
-                window.location.href = "/dashboard";
-            }
-            else {
-                var k = data.ReferralsInviteForm_emails;
-                $("#ReferralsInviteForm_emails_em_").css("position", "static");
-                $("#ReferralsInviteForm_emails_em_").html("<ul></ul>");
-                for (var i in k) {
-                    $("#ReferralsInviteForm_emails_em_ ul").append("<li>"+k[i]+"</li>");
-                }
-            }
-            return false;
-        }
-
-        window.changeInviteReferralSubmitButton = function changeInviteReferralSubmitButton() {
-            $(".sendReferralInviteSubmitButton").val("Идёт проверка данных");
-            return true;
-        }
-
         // Ajax Validation }
 
         // delete vacancy {

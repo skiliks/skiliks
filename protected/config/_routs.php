@@ -104,7 +104,6 @@ return [
 
                 'dashboard/'          => 'static/dashboard/index',
                 'dashboard/corporate' => 'static/dashboard/corporate',
-                'dashboard/inviteReferrals' => 'static/dashboard/inviteReferrals',
                 'dashboard/personal'  => 'static/dashboard/personal',
                 'dashboard/switchAssessmentResultsRenderType' => 'static/dashboard/SwitchAssessmentResultsRenderType',
 
@@ -191,11 +190,8 @@ return [
                 'admin_area/disableInvoice'    => 'admin_area/AdminPages/DisableInvoice',
                 'admin_area/invoiceComment'    => 'admin_area/AdminPages/CommentInvoice',
                 'admin_area/getInvoiceLog'     => 'admin_area/AdminPages/GetInvoiceLog',
-                'admin_area/referrals'         => 'admin_area/AdminPages/ReferralsList',
                 'admin_area/not-corporate-emails'  => 'admin_area/AdminPages/NotCorporateEmails',
                 'admin_area/RegistrationList'      => 'admin_area/AdminPages/RegistrationList',
-                'admin_area/set-invite-expired-at' => 'admin_area/AdminPages/SetInviteExpiredAt',
-                'admin_area/change-invite-expire-rule'        => 'admin_area/AdminPages/ChangeInviteExpireRule',
                 'admin_area/update-tariff-plan'      => 'admin_area/AdminPages/UpdateTariffPlan',
                 'admin_area/change_security_risk'    => 'admin_area/AdminPages/ChangeSecurityRisk',
                 'admin_area/site-log-authorization'  => 'admin_area/AdminPages/SiteLogAuthorization',
@@ -234,7 +230,6 @@ return [
                 'admin_area/AdminPages/SubscribersList'           => 'admin_area/AdminPages/SubscribersList',
                 'admin_area/user/<userId:\w+>/details'            => 'admin_area/AdminPages/UserDetails',
                 'admin_area/user/by-email'                => 'admin_area/AdminPages/UserDetailsByEmail',
-                'admin_area/user-referrals/<userId:\d+>'          => 'admin_area/AdminPages/UserReferrals',
                 'admin_area/login/ghost/<userId:\d+>'             => 'admin_area/AdminPages/GhostLogin',
 
                 'admin_area/user/<userId:\w+>/set-invites-limit/<value:[\w\-]+>' => 'admin_area/AdminPages/UserAddRemoveInvitations',

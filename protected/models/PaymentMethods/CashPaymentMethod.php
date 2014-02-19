@@ -121,10 +121,7 @@ class CashPaymentMethod extends CFormModel {
                     </tr>
                 
                     <tr>
-                        <td>Название тарифа</td>
-                        <td>' . $invoice->tariff->label. '</td>
-                    </tr>
-                
+
                     <tr>
                         <td>Количество месяцев</td>
                         <td>' . $invoice->month_selected . '</td>

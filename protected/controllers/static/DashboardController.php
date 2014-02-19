@@ -56,8 +56,6 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         if (null !== Yii::app()->request->getParam('prevalidate')) {
             $invite->attributes = Yii::app()->request->getParam('Invite');
             $invite->owner_id = $this->user->id;
-            $invite->setExpiredAt();
-
             // show result to user by default have to be false
             $invite->is_display_simulation_results = false;
             $invite->email = strtolower(trim($invite->email));

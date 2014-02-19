@@ -57,11 +57,6 @@
                 'visible' => true,
 
             ], [
-                'label' => 'Рефералы',
-                'url'   => ['admin_area/AdminPages/ReferralsList'],
-                'visible' => true,
-
-            ], [
                 'label' => 'Лог авторизации',
                 'url'   => ['admin_area/AdminPages/SiteLogAuthorization'],
                 'visible' => true,

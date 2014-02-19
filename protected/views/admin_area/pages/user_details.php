@@ -68,12 +68,6 @@ $assetsUrl = $this->getAssetsUrl();
 </a>
 
 <?php if($user->isCorporate()) : ?>
-    &nbsp; &nbsp;
-    <a class="btn btn-info"
-       href="<?= $this->createAbsoluteUrl('admin_area/AdminPages/UserReferrals', ['userId' => $user->id]) ?>">
-        <i class="icon icon-gift icon-white"></i>&nbsp;
-        Рефераллы</a>
-    &nbsp; &nbsp;
     <a class="btn btn-info" href="/admin_area/corporate-account/<?= $user->id ?>/invite-limit-logs">
         <i class="icon icon-list icon-white"></i>
         Логи списания/зачисления симуляций
@@ -154,32 +148,6 @@ $assetsUrl = $this->getAssetsUrl();
     </tr>
     <tr>
         <?php if ($user->isCorporate()) : ?>
-            <td>Текущий тарифный план</td>
-            <td>
-                <?= $user->getAccount()->getActiveTariff()->label ?>
-
-                &nbsp;&nbsp;
-
-                <div class="btn-group">
-                    <a class=" btn btn-success dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="icon icon-refresh icon-white"></i>
-                        Сменить на:
-                        <span class="caret"></span>
-                    </a>
-                    <ul class="dropdown-menu pull-right">
-                        <?php foreach (Tariff::$tarifs as $tariff): ?>
-                            <?php if (strtolower($user->getAccount()->tariff->label) == strtolower($tariff)) {
-                                continue;
-                            } ?>
-                            <li>
-                                <a href="/admin_area/user/<?= $user->id ?>/set-tariff/<?= $tariff ?>">
-                                    <?= ucfirst(Yii::t('site', $tariff)); ?>
-                                </a>
-                            </li>
-                        <?php endforeach ?>
-                    </ul>
-                </div>
-            </td>
             <td>Количество доступных приглашений</td>
             <td>
                 <?= $user->getAccount()->invites_limit ?>
@@ -204,81 +172,11 @@ $assetsUrl = $this->getAssetsUrl();
         <?php endif; ?>
     </tr>
     <tr>
-        <td>Показывать попап что тарифный план истёк </td>
-        <td>
-            <?php if ($user->isCorporate() && $user->getAccount()->is_display_tariff_expire_pop_up) : ?>
-                <i class="icon icon-eye-open"></i> Да
-            <?php else : ?>
-                <i class="icon icon-eye-close"></i> Нет
-            <?php endif ?>
-            <form action="/admin_area/user/<?= $user->id ?>/details/"
-                  method="post" style="display: inline-block;">
-
-                <button class="btn btn-success" name="switchTariffExpiredPopup" type="submit">
-                    <i class="icon icon-refresh icon-white"></i> Сменить
-                </button>
-            </form>
-        </td>
         <td> Вид оценки</td>
         <td>
             <?= $user->profile->assessment_results_render_type ?>
         </td>
     </tr>
-
-        <?php if ($user->isCorporate()) : ?>
-            <tr>
-                <td>Показывать попап рефералов </td>
-                <td>
-                    <?php if ($user->account_corporate->is_display_referrals_popup) : ?>
-                        <i class="icon icon-eye-open"></i> Да
-                    <?php else : ?>
-                        <i class="icon icon-eye-close"></i> Нет
-                    <?php endif ?>
-                        <form action="/admin_area/user/<?= $user->id ?>/details/"
-                              method="post" style="display: inline-block;">
-
-                            <button class="btn btn-success" name="switchReferralInfoPopup" type="submit">
-                                <i class="icon icon-refresh icon-white"></i> Сменить
-                            </button>
-                        </form>
-
-                </td>
-                <?php if ($user->isCorporate()) : ?>
-                    <td>Правило для срока годности приглашения</td>
-                    <td>
-                        <?= $user->getAccount()->expire_invite_rule ?>
-
-                        &nbsp;&nbsp;
-
-                        <div class="btn-group">
-                            <a class=" btn btn-success dropdown-toggle" data-toggle="dropdown" href="#">
-                                <i class="icon icon-refresh icon-white"></i>
-                                Сменить на:
-                                <span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu pull-right">
-                                <?php if($user->getAccount()->expire_invite_rule === 'standard') : ?>
-                                    <li>
-                                        <a href="/admin_area/change-invite-expire-rule/?user_id=<?= $user->id ?>&rule=by_tariff">
-                                            By Tariff
-                                        </a>
-                                    </li>
-                                <?php else : ?>
-                                    <li>
-                                        <a href="/admin_area/change-invite-expire-rule/?user_id=<?= $user->id ?>&rule=standard">
-                                            Standard
-                                        </a>
-                                    </li>
-                                <?php endif ?>
-                            </ul>
-                        </div>
-                    </td>
-                <?php else : ?>
-                    <td></td>
-                    <td></td>
-                <?php endif ?>
-            </tr>
-        <?php endif ?>
     <tr>
         <td>IP Address</td>
         <td><?= ($user->ip_address !== null) ? $user->ip_address : "-"; ?></td>

@@ -818,12 +818,6 @@ class AdminPagesController extends SiteBaseController {
         ]);
     }
 
-    public function actionReferralsList() {
-        $dataProvider = UserReferral::model()->searchReferrals();
-        $this->layout = '/admin_area/layouts/admin_main';
-        $this->render('/admin_area/pages/referrals_list', ['dataProvider' => $dataProvider]);
-    }
-
     public function actionCompleteInvoice() {
         $invoiceId = Yii::app()->request->getParam('invoice_id');
 
@@ -1682,17 +1676,6 @@ class AdminPagesController extends SiteBaseController {
         }
     }
 
-    public function actionUserReferrals($userId = false) {
-        if($userId) {
-            $user = YumUser::model()->findByPk($userId);
-            $totalReferrals = UserReferral::model()->countUserReferrals($user->id);
-            $this->layout = '/admin_area/layouts/admin_main';
-            $dataProvider = UserReferral::model()->searchUserReferrals($user->id);
-            $this->render('/admin_area/pages/user_referrals_list', ['totalRefers'=>$totalReferrals, 'user'=>$user,
-                    'dataProvider' => $dataProvider]);
-        }
-    }
-
     public function actionEmailQueue()
     {
         $formFilters = Yii::app()->session['admin_email_queue_filter_form'];
@@ -1968,32 +1951,6 @@ class AdminPagesController extends SiteBaseController {
 
         $this->layout = '/admin_area/layouts/admin_main';
         $this->render('/admin_area/pages/not_corporate_emails', ['dataProvider' => $dataProvider, 'email'=>$email]);
-    }
-
-    public function actionSetInviteExpiredAt() {
-
-            $expired_at = $this->getParam('expired_at');
-            $invite_id = $this->getParam('invite_id');
-            if($expired_at !== null && $invite_id !== null){
-                /* @var $invite Invite */
-                $invite = Invite::model()->findByPk($invite_id);
-                $invite->expired_at = $expired_at;
-                $invite->save(false);
-            }
-        $this->redirect($this->request->urlReferrer);
-    }
-
-    public function actionChangeInviteExpireRule() {
-
-        $rule = $this->getParam('rule');
-        $user_id = $this->getParam('user_id');
-        if($rule !== null && $user_id !== null){
-            /* @var $user YumUser */
-            $user = YumUser::model()->findByPk($user_id);
-            $user->account_corporate->expire_invite_rule = $rule;
-            $user->account_corporate->save(false);
-        }
-        $this->redirect($this->request->urlReferrer);
     }
 
     public function actionChangeSecurityRisk() {

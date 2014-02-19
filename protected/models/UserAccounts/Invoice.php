@@ -6,7 +6,6 @@
  * The followings are the available columns in table 'invoice':
  * @property integer $id
  * @property string $user_id
- * @property integer $tariff_id
  * @property string $amount
  * @property string $create_date
  * @property string $paid_at
@@ -16,7 +15,6 @@
  * @property integer $month_selected
  *
  * The followings are the available model relations:
- * @property Tariff $tariff
  * @property YumUser $user
  */
 class Invoice extends CActiveRecord
@@ -40,10 +38,6 @@ class Invoice extends CActiveRecord
         return 'invoice';
     }
 
-    public function getStatuses() {
-        return [self::STATUS_PENDING, self::STATUS_PAID, self::STATUS_EXPIRED, self::STATUS_REJECTED];
-    }
-
     /**
      * @return array validation rules for model attributes.
      */
@@ -52,9 +46,9 @@ class Invoice extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('user_id, tariff_id', 'required'),
+            array('user_id', 'required'),
             //array('user_id', 'checkHavingInvites'),
-            array('user_id, tariff_id', 'safe', 'on'=>'search'),
+            array('user_id', 'safe', 'on'=>'search'),
         );
     }
 
@@ -66,15 +60,8 @@ class Invoice extends CActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'tariff' => array(self::BELONGS_TO, 'Tariff', 'tariff_id'),
             'user' => array(self::BELONGS_TO, 'YumUser', 'user_id'),
         );
-    }
-
-    public function checkHavingInvites() {
-        if($this->user->getInvitesLeft() > 0 && $this->id === null) {
-            $this->addError('inn', Yii::t('site', 'You have invites left'));
-        }
     }
 
      /**
@@ -90,7 +77,6 @@ class Invoice extends CActiveRecord
 
         $criteria->compare('id',$this->id);
         $criteria->compare('user_id',$this->user_id,true);
-        $criteria->compare('tariff_id',$this->tariff_id);
         $criteria->compare('amount',$this->amount,true);
         $criteria->compare('created_at',$this->created_at,true);
         $criteria->compare('payment_system',$this->payment_system,true);
@@ -103,16 +89,8 @@ class Invoice extends CActiveRecord
 
 
     /**
-     *
-     * @param int $user_id
-     * @param int $tariff_id
-     * @param int $amount
-     *
-     * @return int|bool new invoice id or false
-     *
      * Method need for creating an invoice and storing it do db
      */
-
     public function createInvoice($user = null, $months = null) {
         if($user !== null) {
             $this->created_at = date('Y-m-d H:i:s');
@@ -122,7 +100,7 @@ class Invoice extends CActiveRecord
             $this->month_selected = $months;
             $this->save();
             $invoice_log = new LogPayments();
-            $invoice_log->log($this, "Заказ тарифа ".$this->tariff->label." на ".$this->month_selected." месяц(ев), создан для ".$user->profile->email.".");
+            $invoice_log->log($this, "Заказ");
             return $this->id;
         }
         else return false;
@@ -179,23 +157,7 @@ class Invoice extends CActiveRecord
     public function completeInvoice($isAdmin = null) {
         if(!$this->isComplete()) {
 
-            //$date->add(new DateInterval('P'.$this->month_selected.'M')); N month
-            // Setting tariff invites
             $account = $this->user->account_corporate;
-            /* @var $tariff Tariff */
-            $tariff = Tariff::model()->findByAttributes(['id'=>$this->tariff_id]);
-            if(0 === (int)$account->invites_limit) {
-                $account->setTariff($tariff, true);
-                $account->setInvoiceOnTariffPlan($this, $account->getActiveTariffPlan());
-            } else {
-                if($account->getActiveTariff()->weight >= $tariff->weight) {
-                    $account->addPendingTariff($tariff);
-                    $account->setInvoiceOnTariffPlan($this, $account->getPendingTariffPlan());
-                } else {
-                    $account->setTariff($tariff, true);
-                    $account->setInvoiceOnTariffPlan($this, $account->getActiveTariffPlan());
-                }
-            }
 
             $this->paid_at = date('Y-m-d H:i:s');
 
@@ -241,8 +203,7 @@ class Invoice extends CActiveRecord
         $mailOptions->subject = 'Оплата на ' . Yii::app()->params['server_domain_name'];
         $mailOptions->h1      = sprintf('Приветствуем, %s!', $this->user->profile->firstname);
         $mailOptions->text1   = '
-            Благодарим вас за оплату работы skiliks!<br/>
-            Вы выбрали тариф  '. $this->tariff->label .', на вашем счету '
+            Благодарим вас за оплату работы skiliks!<br/>, на вашем счету '
             . $this->user->getAccount()->invites_limit . ' симуляций.<br/>
         ';
 

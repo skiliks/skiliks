@@ -5,22 +5,16 @@
  *
  * The followings are the available columns in table 'user_account_corporate':
  * @property string $user_id
- * @property string $tariff_id
  * @property integer $industry_id
  * @property string $ownership_type
  * @property string $company_name
  * @property integer $invites_limit
- * @property integer $referrals_invite_limit
- * @property string $tariff_activated_at
- * @property string $tariff_expired_at
  * @property string $inn
  * @property string $cpp
  * @property string $bank_account_number
  * @property string $bic
  * @property string $preference_payment_method
  * @property string $default_invitation_mail_text
- * @property integer $is_display_referrals_popup
- * @property integer $is_display_tariff_expire_pop_up
  * @property string $expire_invite_rule
  * @property string $site
  * @property string $description_for_sales
@@ -31,67 +25,11 @@
  * The followings are the available model relations:
  * @property YumUser $user
  * @property Industry $industry
- * @property Tariff tariff
  */
 class UserAccountCorporate extends CActiveRecord
 {
     const PAYMENT_METHOD_INVOICE = "invoice";
     const PAYMENT_METHOD_CARD = "card";
-
-    const EXPIRE_INVITE_RULE_STANDARD = 'standard';
-
-    const EXPIRE_INVITE_RULE_BY_TARIFF = 'by_tariff';
-
-    /**
-     * @return string
-     */
-    public function getTariffLabel()
-    {
-        return (null === $this->tariff) ? 'Не задан' : $this->tariff->getFormattedLabel();
-    }
-
-    /**
-     * @param Tariff $tariff
-     * @param bool $isSave
-     */
-    public function setTariff(Tariff $tariff, $isSave = false)
-    {
-        $this->tariff_id = $tariff->id;
-        $this->tariff_activated_at = (new DateTime())->format("Y-m-d H:i:s");
-        $this->tariff_expired_at = (new DateTime())->modify('+30 days')->format("Y-m-d H:i:s");
-        $this->invites_limit = $tariff->simulations_amount;
-        if($tariff->slug === Tariff::SLUG_FREE) {
-            $this->is_display_tariff_expire_pop_up = 1;
-        } else {
-            $this->is_display_tariff_expire_pop_up = 0;
-        }
-
-        $tariff_plan = TariffPlan::model()->findByAttributes(['user_id'=>$this->user_id, 'status'=>TariffPlan::STATUS_ACTIVE]);
-        if(null !== $tariff_plan) {
-            /* @var $tariff_plan TariffPlan */
-            $tariff_plan->status = TariffPlan::STATUS_EXPIRED;
-            $tariff_plan->save(false);
-        }
-
-        $tariff_plan = new TariffPlan();
-        $tariff_plan->user_id = $this->user_id;
-        $tariff_plan->tariff_id = $this->tariff_id;
-        $tariff_plan->started_at = $this->tariff_activated_at;
-        $tariff_plan->finished_at = $this->tariff_expired_at;
-        $tariff_plan->status = TariffPlan::STATUS_ACTIVE;
-        $tariff_plan->save(false);
-
-        if ($isSave) {
-
-            if(false === $this->save(false)){
-                throw new Exception(sprintf(
-                    "Tariff #%s for account #%s was not set. ",
-                    $tariff->id,
-                    $this->id
-                ));
-            }
-        }
-    }
 
     /**
      * @return string
@@ -195,7 +133,6 @@ class UserAccountCorporate extends CActiveRecord
      */
     public function banUser() {
         $this->disableUserInviteLimit();
-        $this->expireUserTariff();
         $this->disableUserInvites();
         $this->save();
     }
@@ -244,15 +181,6 @@ class UserAccountCorporate extends CActiveRecord
     }
 
     /**
-     * Setting user tariff expired yesterday
-     */
-    private function expireUserTariff() {
-        $date = new DateTime();
-        $date->add(DateInterval::createFromDateString('yesterday'));
-        $this->tariff_expired_at = $date->format('Y-m-d H:i:s');
-    }
-
-    /**
      * @param $count
      */
     public function addSimulations($count) {
@@ -291,92 +219,6 @@ class UserAccountCorporate extends CActiveRecord
 
     }
 
-    /**
-     * @return null|Tariff
-     */
-    public function getActiveTariff() {
-
-        $tariff_plan = $this->getActiveTariffPlan();
-
-        if(null !== $tariff_plan){
-            /* @var $tariff_plan TariffPlan */
-            return $tariff_plan->tariff;
-        }else{
-            return null;
-        }
-    }
-
-    /**
-     * @return TariffPlan
-     */
-    public function getActiveTariffPlan() {
-
-        return TariffPlan::model()->findByAttributes(['user_id'=>$this->user_id, 'status' => TariffPlan::STATUS_ACTIVE]);
-
-    }
-
-    /**
-     * @return null|Tariff
-     */
-    public function getPendingTariff() {
-
-        $tariff_plan = $this->getPendingTariffPlan();
-
-        if(null !== $tariff_plan){
-            /* @var $tariff_plan TariffPlan */
-            return $tariff_plan->tariff;
-        }else{
-            return null;
-        }
-    }
-
-    /**
-     * @return null|TariffPlan
-     */
-    public function getPendingTariffPlan() {
-        return TariffPlan::model()->findByAttributes(['user_id'=>$this->user_id, 'status' => TariffPlan::STATUS_PENDING]);
-    }
-
-    /**
-     * @return null|TariffPlan
-     */
-    public function hasPendingTariffPlan() {
-        $tariff_plan = TariffPlan::model()->findByAttributes(['user_id'=>$this->user_id, 'status' => TariffPlan::STATUS_PENDING]);
-        return null !== $tariff_plan;
-    }
-
-    /**
-     * @param Tariff $tariff
-     */
-    public function addPendingTariff(Tariff $tariff) {
-        $active_tariff = TariffPlan::model()->findByAttributes(['user_id'=>$this->user_id, 'status'=>TariffPlan::STATUS_ACTIVE]);
-        /* @var $active_tariff TariffPlan */
-        $tariff_plan = new TariffPlan();
-        $tariff_plan->user_id = $this->user_id;
-        $tariff_plan->tariff_id = $tariff->id;
-        $tariff_plan->started_at = $active_tariff->finished_at;
-        $tariff_plan->finished_at = (new DateTime($active_tariff->finished_at))->modify('+30 days')->format("Y-m-d H:i:s");
-        $tariff_plan->status = TariffPlan::STATUS_PENDING;
-        $tariff_plan->save(false);
-    }
-
-    /**
-     * @param Invoice $invoice
-     * @param TariffPlan $tariff_plan
-     */
-    public function setInvoiceOnTariffPlan(Invoice $invoice, TariffPlan $tariff_plan) {
-        $tariff_plan->invoice_id = $invoice->id;
-        $tariff_plan->save(false);
-    }
-
-    /**
-     * @return TariffPlan[]
-     */
-    public function getAllTariffPlans() {
-
-        return TariffPlan::model()->findAllByAttributes(['user_id'=>$this->user_id]);
-    }
-
     /* ----------------------------------------------------------------------------------------------------- */
 
 	/**
@@ -411,9 +253,9 @@ class UserAccountCorporate extends CActiveRecord
 			array('user_id'     , 'length'   , 'max'=>10, 'on' => ['registration', 'corporate']),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-            array('ownership_type, company_name, invites_limit, tariff_expired_at', 'safe'),
+            array('ownership_type, company_name, invites_limit', 'safe'),
             array('inn, cpp, bank_account_number, bic, preference_payment_method', 'safe'),
-            array('default_invitation_mail_text, is_display_referrals_popup, is_display_tariff_expire_pop_up', 'safe'),
+            array('default_invitation_mail_text', 'safe'),
 			array('user_id, industry_id', 'safe', 'on'=>'search'),
             array('ownership_type', 'length', 'max' => 50),
             array('company_name', 'length', 'max' => 50),
@@ -430,8 +272,7 @@ class UserAccountCorporate extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'user'     => array(self::BELONGS_TO, 'YumUser' , 'user_id'),
-			'industry' => array(self::BELONGS_TO, 'Industry', 'industry_id'),
-			'tariff' => array(self::BELONGS_TO, 'Tariff', 'tariff_id'),
+			'industry' => array(self::BELONGS_TO, 'Industry', 'industry_id')
 		);
 	}
 
@@ -483,11 +324,6 @@ class UserAccountCorporate extends CActiveRecord
     public function getNumberOfFullSimulationsForPeople() {
         $scenario = Scenario::model()->findByAttributes(['slug'=>Scenario::TYPE_FULL]);
         return Invite::model()->count("scenario_id = {$scenario->id} and owner_id = {$this->user_id} and owner_id != receiver_id and status = ".Invite::STATUS_COMPLETED);
-    }
-
-    public function getLastTariffPlanNonFree() {
-        $free = Tariff::model()->findByAttributes(['slug'=>Tariff::SLUG_FREE]);
-        return TariffPlan::model()->find("user_id = {$this->user_id} and tariff_id != {$free->id} order by id desc");
     }
 
     public function getStatusForSales() {

@@ -357,21 +357,7 @@ class UserService {
                 $invite->message = preg_replace('/(\n\r)/', '<br>', $invite->message);
                 $invite->message = preg_replace('/\\n|\\r/', '<br>', $invite->message);
                 $invite->is_display_simulation_results = (int) !$is_display_results;
-                $invite->setExpiredAt();
                 $invite->save(false);
-
-                // check is display pop up about referral`s model {
-                $userInvitesCount = Invite::model()->countByAttributes([
-                    'owner_id'    => $user->id,
-                    'scenario_id' => $invite->scenario_id,
-                ]);
-
-                $countOfInvitesToShowPopup = Yii::app()->params['countOfInvitesToShowReferralPopup'];
-                if($userInvitesCount == $countOfInvitesToShowPopup) {
-                    $user->getAccount()->is_display_referrals_popup = 1;
-                    $user->getAccount()->save();
-                }
-                // check is display pop up about referral`s model }
 
                 InviteService::logAboutInviteStatus($invite, sprintf(
                     'Приглашение для %s создано в корпоративном кабинете пользователя %s.',
@@ -694,43 +680,6 @@ class UserService {
             'inviteId'      => (null === $invite_id) ? 'null' : $invite_id,
             'scenarioLabel' => $scenarioConfigLabelText
         ]);
-    }
-
-    /**
-     * Создает реферрала
-     * @param YumUser $user
-     * @param YumProfile $profile
-     * @param UserAccountCorporate $account_corporate
-     * @param UserReferral $userReferralRecord
-     * @return bool
-     */
-    public static function createReferral(YumUser &$user, YumProfile &$profile, UserAccountCorporate &$account_corporate, UserReferral &$userReferralRecord) {
-        $profile->email = strtolower($userReferralRecord->referral_email);
-        if(self::createCorporateAccount($user, $profile, $account_corporate)) {
-            $userReferralRecord->referral_id = $user->id;
-            $userReferralRecord->approveReferral();
-            $userReferralRecord->rejectAllWithSameEmail();
-            $userReferralRecord->save(false);
-            YumUser::activate($profile->email, $user->activationKey);
-            //$user->authenticate($user_password);
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Сохраняет реферала в базе
-     * @param YumUser $user
-     * @param UserReferral $referral
-     * @return bool
-     */
-    public static function addReferralUser( YumUser $user, UserReferral &$referral ) {
-        $referral->referrer_id    = $user->id;
-        $referral->invited_at     = date("Y-m-d H:i:s");
-        $referral->status         = "pending";
-        $referral->save(false);
-        $referral->uniqueid    = md5($referral->id . time());
-        return $referral->save(false);
     }
 
     /**
