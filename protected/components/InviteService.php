@@ -87,7 +87,6 @@ class InviteService {
         $declineExplanation->invite_owner_id = $declineExplanation->invite->owner_id;
         $declineExplanation->vacancy_label = $declineExplanation->invite->getVacancyLabel();
         $declineExplanation->created_at = date('Y-m-d H:i:s');
-        $declineExplanation->save();
 
         $invite_status = $declineExplanation->invite->status;
         $declineExplanation->invite->status = Invite::STATUS_DECLINED;

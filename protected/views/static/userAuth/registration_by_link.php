@@ -84,7 +84,10 @@
                     ]); ?>
 
                     <!-- decline-link -->
-                    <a class="action-decline-invite padding-left-18 inter-active-blue">Отказаться от приглашения</a>
+                    <a class="action-decline-invite padding-left-18 inter-active-blue"
+                       data-invite-id="<?= $invite->id ?>">
+                        Отказаться от приглашения
+                    </a>
                 </div>
 
                 <br/>

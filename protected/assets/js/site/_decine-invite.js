@@ -10,6 +10,8 @@ $(document).ready(function(){
             // 14.1 ) добавление HTML кода формы
             $('.action-decline-invite').click(function(event){
                 var me = this;
+                window.declineInviteId = $(this).attr('data-invite-id');
+
                 $('.locator-invite-decline-box').dialog({
                     dialogClass: 'popup-form-wide background-middle-dark-blue background-image-book-2',
                     modal:       true,
@@ -43,6 +45,8 @@ $(document).ready(function(){
                     type: 'POST',
                     success: function(responce) {
                         if (true === responce.isValid) {
+                            $('#form-decline-explanation')
+                                .attr('action', '/dashboard/decline-invite/' + window.declineInviteId);
                             $('#form-decline-explanation').submit();
                         } else {
                             $('.locator-box-for-validation-response').html(responce.html);
