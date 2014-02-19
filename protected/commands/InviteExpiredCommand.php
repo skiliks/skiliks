@@ -25,16 +25,5 @@ class InviteExpiredCommand extends CConsoleCommand
             echo "Приглашение #".$expiredInvite->id." устарело. \n";
         }
         // Invites }
-
-        // Accounts {
-        $expiredAccounts = UserService::tariffExpired();
-
-        if (0 == count($expiredAccounts)) {
-            echo "Ни один аккаунт не устарел.\n";
-        }
-        foreach ($expiredAccounts as $expiredAccount) {
-            echo "Аккаунт пользователя ".$expiredAccount->user->profile->email." устарел. \n";
-        }
-        // Accounts }
     }
 }
