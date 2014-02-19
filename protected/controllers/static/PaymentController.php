@@ -16,10 +16,10 @@ class PaymentController extends SiteBaseController
             $this->redirect('/');
         }
 
-        if(!in_array($this->request->urlReferrer, [$this->request->hostInfo.'/static/tariffs', $this->request->hostInfo.'/profile/corporate/tariff']))
+        if(!in_array($this->request->urlReferrer, [$this->request->hostInfo.'/static/tariffs']))
         {
 
-            Yii::app()->user->setFlash('error', 'Вы должны переходить на страницу "Оформление заказа" только через страницы <a href="/static/tariffs">"Цены и Тарифы"</a> и <a href="/profile/corporate/tariff">"Тарифы"</a> в "Мой профиль"');
+            Yii::app()->user->setFlash('error', 'Вы должны переходить на страницу "Оформление заказа" только через страницы <a href="/static/tariffs">"Цены и Тарифы"</a>');
 
             $this->redirect('/static/tariffs');
         }
@@ -125,17 +125,17 @@ class PaymentController extends SiteBaseController
         if($user->isCorporate()) {
             // prevent cheating
             if($user->getAccount()->tariff_id == $tariff->id) {
-                $this->redirect('/profile/corporate/tariff');
+                $this->redirect('/static/tariffs');
             }
 
             // update account tariff
             $user->getAccount()->setTariff($tariff, true);
 
             if($user->getAccount()->tariff_id == $tariff->id) {
-                $this->redirect('/profile/corporate/tariff');
+                $this->redirect('/static/tariffs');
             }
 
-            $this->redirect("/profile/corporate/tariff");
+            $this->redirect("/static/tariffs");
         }
 
         // other undefined errors

@@ -2051,21 +2051,6 @@ class AdminPagesController extends SiteBaseController {
         $this->redirect($this->request->urlReferrer);
     }
 
-    public function actionExpireInvitesAndTariffPlans() {
-
-        $expiredInvites = InviteService::makeExpiredInvitesExpired();
-        $expiredAccounts = UserService::tariffExpired();
-        $expiredSoonAccounts = UserService::tariffExpiredInTreeDays();
-
-
-        $this->layout = '/admin_area/layouts/admin_main';
-        $this->render('/admin_area/pages/expired-invites-and-tariff-plans', [
-            'expiredInvites'      => $expiredInvites,
-            'expiredAccounts'     => $expiredAccounts,
-            'expiredSoonAccounts' => $expiredSoonAccounts,
-        ]);
-    }
-
     public function actionChangeInviteExpireRule() {
 
         $rule = $this->getParam('rule');
@@ -2076,27 +2061,6 @@ class AdminPagesController extends SiteBaseController {
             $user->account_corporate->expire_invite_rule = $rule;
             $user->account_corporate->save(false);
         }
-        $this->redirect($this->request->urlReferrer);
-    }
-
-    public function actionListTariffPlan() {
-        $user = YumUser::model()->findByPk($this->getParam('user_id'));
-        $this->layout = '/admin_area/layouts/admin_main';
-        $this->render('/admin_area/pages/list-tariff-plan', ['user'=>$user]);
-    }
-
-    public function actionUpdateTariffPlan() {
-        if(null !== $this->getParam('finished_at') &&
-           null !== $this->getParam('started_at') &&
-           null !== $this->getParam('tariff_plan_id')
-          ) {
-
-            $tariff_plan = TariffPlan::model()->findByPk($this->getParam('tariff_plan_id'));
-            $tariff_plan->started_at = $this->getParam('started_at');
-            $tariff_plan->finished_at = $this->getParam('finished_at');
-            $tariff_plan->save(false);
-        }
-
         $this->redirect($this->request->urlReferrer);
     }
 

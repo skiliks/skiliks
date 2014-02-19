@@ -663,13 +663,6 @@ class UserService {
             return $result->setRedirect('/dashboard');
         }
 
-        if (isset($invite) && Scenario::TYPE_TUTORIAL == $type
-            && $user->isCorporate() && (int)$user->account_corporate->getTotalAvailableInvitesLimit() == 0
-        ) {
-            Yii::app()->user->setFlash('error', 'У вас закончились приглашения');
-            return $result->setRedirect('/profile/corporate/tariff');
-        }
-
         $config = array_merge(
             Yii::app()->params['public'],
             [
@@ -759,7 +752,7 @@ class UserService {
 
                 $linkToProlongTariff = '';
                 if ($account->user->getAccount()->getActiveTariffPlan()->tariff->isCanBeProlonged()){
-                    $linkToProlongTariff = 'его <a href="' . MailHelper::createUrlWithHostname("profile/corporate/tariff")
+                    $linkToProlongTariff = 'его <a href="' . MailHelper::createUrlWithHostname("static/tariffs")
                         . '">продлить</a> или';
                 }
 

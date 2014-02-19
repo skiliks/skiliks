@@ -108,10 +108,6 @@
                 'label' => '--------------------------',
                 'url'   => ['#'],
                 'visible' => true,
-            ], [
-                'label' => 'Выполнить Expire',
-                'url'   => ['admin_area/AdminPages/ExpireInvitesAndTariffPlans'],
-                'visible' => true,
             ],
         ],
     )) ?>

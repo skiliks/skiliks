@@ -113,7 +113,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
                 $is_send = UserService::sendInvite($this->user, $profile, $invite, $this->getParam('Invite')['is_display_simulation_results']);
             } catch (RedirectException $e) {
                 Yii::app()->user->setFlash('error', Yii::t('site', 'У вас закончились приглашения'));
-                $this->redirect("profile/corporate/tariff");
+                $this->redirect("static/tariffs");
             }
             if(true === $is_send){
                 $this->redirect('/dashboard');
@@ -641,12 +641,4 @@ class DashboardController extends SiteBaseController implements AccountPageContr
 
         Yii::app()->end();
     }
-
-    public function actionChangeTariff() {
-
-        $this->checkUser();
-        $result = UserService::getActionOnPopup($this->user->account_corporate, $this->getParam('tariff_slug'));
-        $this->sendJSON($result);
-    }
-
 }

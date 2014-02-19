@@ -132,7 +132,6 @@ return [
                 'profile/personal/password/'  => 'static/profile/personalPassword',
                 'profile/corporate/company-info/' => 'static/profile/corporateCompanyInfo',
                 'profile/corporate/vacancies/'  => 'static/profile/corporateVacancies',
-                'profile/corporate/tariff/'  => 'static/profile/corporateTariff',
                 'profile/corporate/payment-method/'  => 'static/profile/corporatePaymentMethod',
                 'profile/restore-authorization/'  => 'static/profile/RestoreAuthorization',
 
@@ -168,7 +167,6 @@ return [
 
                 'dashboard/decline-invite/validation' => 'static/dashboard/validateDeclineExplanation',
                 'dashboard/send-invite'               => 'static/dashboard/sendInviteEmail',
-                'dashboard/change-tariff'             => 'static/dashboard/ChangeTariff',
                 'dashboard/accept-invite/<id:\w+>'  => 'static/dashboard/acceptInvite',
                 'dashboard/decline-invite/<id:\w+>' => 'static/dashboard/declineInvite',
 
@@ -215,9 +213,7 @@ return [
                 'admin_area/not-corporate-emails'  => 'admin_area/AdminPages/NotCorporateEmails',
                 'admin_area/RegistrationList'      => 'admin_area/AdminPages/RegistrationList',
                 'admin_area/set-invite-expired-at' => 'admin_area/AdminPages/SetInviteExpiredAt',
-                'admin_area/expired-invites-and-tariff-plans' => 'admin_area/AdminPages/ExpireInvitesAndTariffPlans',
                 'admin_area/change-invite-expire-rule'        => 'admin_area/AdminPages/ChangeInviteExpireRule',
-                'admin_area/list-tariff-plan'        => 'admin_area/AdminPages/ListTariffPlan',
                 'admin_area/update-tariff-plan'      => 'admin_area/AdminPages/UpdateTariffPlan',
                 'admin_area/change_security_risk'    => 'admin_area/AdminPages/ChangeSecurityRisk',
                 'admin_area/site-log-authorization'  => 'admin_area/AdminPages/SiteLogAuthorization',
