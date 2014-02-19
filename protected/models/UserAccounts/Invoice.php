@@ -113,14 +113,12 @@ class Invoice extends CActiveRecord
      * Method need for creating an invoice and storing it do db
      */
 
-    public function createInvoice($user = null, Tariff $tariff = null, $months = null) {
-        if($user !== null && $tariff !== null) {
+    public function createInvoice($user = null, $months = null) {
+        if($user !== null) {
             $this->created_at = date('Y-m-d H:i:s');
             $this->user        = $user;
-            $this->tariff      = $tariff;
             $this->user_id     = $user->id;
-            $this->tariff_id   = $tariff->id;
-            $this->amount      = $tariff->price * $months;
+            $this->amount      = 10 * $months;
             $this->month_selected = $months;
             $this->save();
             $invoice_log = new LogPayments();

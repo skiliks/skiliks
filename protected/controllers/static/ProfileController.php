@@ -418,43 +418,6 @@ class ProfileController extends SiteBaseController implements AccountPageControl
     /**
      *
      */
-    public function actionTariff()
-    {
-        $this->getBaseViewPath = 'Tariff';
-
-        $this->accountPagesBase();
-    }
-
-    /**
-     *
-     */
-    public function actionCorporateReferrals()
-    {
-        $this->checkUser();
-
-        if(!$this->user->isCorporate()){
-            $this->redirect('/dashboard');
-        }
-
-        $dataProvider = UserReferral::model()->searchUserReferrals($this->user->id);
-
-        $totalReferrals = UserReferral::model()->countUserReferrals($this->user->id);
-
-        $this->layout = 'site_standard_2';
-
-        $this->addSiteCss('_page-my-profile.css');
-        $this->addSiteCss('_page-my-profile-1024.css');
-        $this->addSiteJs('_page-my-profile.js');
-
-        $this->render('referrals_corporate', [
-            "totalReferrals" => $totalReferrals,
-            'dataProvider'   => $dataProvider
-        ]);
-    }
-
-    /**
-     *
-     */
 //    public function actionPaymentMethod()
 //    {
 //        $this->getBaseViewPath = 'PaymentMethod';

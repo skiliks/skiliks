@@ -54,22 +54,20 @@ class RobokassaPaymentMethod extends CFormModel {
      * @param $tariff
      * @return string
      */
-    private function getDescription($tariff) {
+    private function getDescription() {
         if($this->Description === null) {
-            return "Продление тарифного" . $tariff->slug . "(" . $tariff->simulations_amount . ")";
+            return "Заказа симуляций";
         }
         else return $this->Description;
     }
 
     /**
-     * @param $tariff
      * @param $user
      * @param $invoice
      */
-    public function setDescription($tariff, $user, $invoice) {
-        $this->Description = "Продление тарифного плана ".$tariff->slug." для компании ".$user->account_corporate->ownership_type .
-           " " .$user->account_corporate->company_name." на ".$invoice->month_selected ." " .
-           StringTools::lastLetter($invoice->month_selected, ["месяц", "месяца", "месяцев"]) .".";
+    public function setDescription($user, $invoice) {
+        $this->Description = "Продление тарифного плана  для компании ".$user->account_corporate->ownership_type .
+           " " .$user->account_corporate->company_name;
     }
 
     /**
@@ -77,7 +75,7 @@ class RobokassaPaymentMethod extends CFormModel {
      * @param $tariff
      * @return array
      */
-    public function generateJsonBackData(Invoice $invoice, $tariff) {
+    public function generateJsonBackData(Invoice $invoice) {
         $return_data = [
             "login"          => $this->MerchantLogin,
             "invoice_id"     => $invoice->id,

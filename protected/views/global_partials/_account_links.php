@@ -26,12 +26,6 @@
                     'visible' => StaticSiteTools::isLangSwitcherUrlVisible(Yii::app()->request, Yii::app()->controller),
                 ],
                 [
-                    'label'       => Yii::t('site', 'Additional simulations'),
-                    'url'         => '/invite/referrals',
-                    'linkOptions' => ['class' => ' icon-gift icon-padding-condensed label '],
-                    'visible'     => !$isGuest && 'ru' == Yii::app()->getLanguage() && $user->isCorporate() && (Yii::app()->controller->id == "static/dashboard" || Yii::app()->controller->id == "static/profile"),
-                ],
-                [
                     'label'       => Yii::t('site', 'My office'),
                     'url'         => '',
                     'linkOptions' => ['class' => 'link-block'],

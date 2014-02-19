@@ -24,12 +24,6 @@
         </a>
     </li>
 
-    <li class="<?php if (isset($active['referrals'])){ echo 'active'; } ?>">
-        <a href="/profile/corporate/referrals">
-            Бонусы
-        </a>
-    </li>
-
     <!--
     <li class="mnotactive <?php if (isset($active['payment-method'])){ echo 'active'; }?>">
         <a href="/profile/corporate/payment-method">
