@@ -201,7 +201,7 @@
 
             <a href="/registration" class="bigbtnsubmt freeacess"><?= Yii::t('site', 'Start using it now for free') ?></a>
 
-        <?php elseif ('en' == Yii::app()->getlanguage()) ?>
+        <?php elseif ('en' == Yii::app()->getlanguage()): ?>
                 <!-- FORM { -->
                 <div id="notify-form">
                 <form action="static/pages/addUserSubscription" id="subscribe-form">
@@ -218,7 +218,7 @@
                 </form>
                 </div>
             <!-- FORM } -->
-        {/if}
+        <?php endif ?>
 
     </section>
     <!--features end-->
@@ -226,22 +226,22 @@
     <!--main article-->
     <section class="main-article">
         <article>
-            <h3>{Yii::t('site', 'Easy')}</h3>
+            <h3><?= Yii::t('site', 'Easy')?></h3>
             <ul>
-                <li>{Yii::t('site', 'Saves your time')}</li>
-                <li>{Yii::t('site', 'Can be used by an unlimited number of applicants in any part of the world')}</li>
-                <li>{Yii::t('site', 'No hard-, soft- or any-ware required! ! Just make sure you are online')}</li>
-                <li>{Yii::t('site', 'Results can be obtained and used immediately')}</li>
+                <li><?= Yii::t('site', 'Saves your time')?></li>
+                <li><?= Yii::t('site', 'Can be used by an unlimited number of applicants in any part of the world')?></li>
+                <li><?= Yii::t('site', 'No hard-, soft- or any-ware required! ! Just make sure you are online')?></li>
+                <li><?= Yii::t('site', 'Results can be obtained and used immediately')?></li>
             </ul>
         </article>
 
         <article>
-            <h3>{Yii::t('site', 'Reliable')}</h3>
+            <h3><?= Yii::t('site', 'Reliable')?></h3>
             <ul>
-                <li>{Yii::t('site', 'Focused on key practical skills')}</li>
-                <li>{Yii::t('site', 'Based on best working practices')}</li>
-                <li>{Yii::t('site', 'Uses real work environment, tasks and decision<br />making situations')}</li>
-                <li>{Yii::t('site', 'Based on mathematical methods not just feelings')}</li>
+                <li><?= Yii::t('site', 'Focused on key practical skills')?></li>
+                <li><?= Yii::t('site', 'Based on best working practices')?></li>
+                <li><?= Yii::t('site', 'Uses real work environment, tasks and decision<br />making situations')?></li>
+                <li><?= Yii::t('site', 'Based on mathematical methods not just feelings')?></li>
             </ul>
         </article>
     </section>
