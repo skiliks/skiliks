@@ -129,8 +129,8 @@ class UserAuthController extends YumController
         $YumProfile  = Yii::app()->request->getParam('YumProfile');
         $UserAccount = Yii::app()->request->getParam('UserAccountPersonal');
 
-        //if(null !== $YumUser && null !== $YumProfile && null !== $UserAccount) {
         if(Yii::app()->request->isPostRequest) {
+
             $this->user->attributes = $YumUser;
             $profile->attributes = $YumProfile;
             if(!empty($YumProfile['email'])) {
@@ -143,7 +143,10 @@ class UserAuthController extends YumController
 
             // Protect from "Wrong username" message - we need "Wrong email", from Profile form
             if (null == $this->user->username) {
-                $this->user->username = 'DefaultName';
+                $username = $invite->email . date('Ymdhis') . rand(1000,9999);
+                $username = preg_replace("/[^A-Za-z0-9 ]/", '', $username);
+                $username = substr($username, 0, 199);
+                $this->user->username = $username;
             }
 
             $userValid = $this->user->validate();
@@ -153,6 +156,8 @@ class UserAuthController extends YumController
             if ($userValid && $profileValid && $accountValid) {
                 $result = $this->user->register($this->user->username, $this->user->password, $profile);
 
+
+
                 if (false !== $result) {
                     $account->user_id = $this->user->id;
                     $account->save(false);
@@ -160,8 +165,8 @@ class UserAuthController extends YumController
                     $invite->receiver_id = $this->user->id;
                     $invite->save();
 
-                    YumUser::activate($profile->email, $this->user->activationKey);
-                    $this->user->authenticate($YumUser['password']);
+                    //YumUser::activate($profile->email, $this->user->activationKey);
+                    // $this->user->authenticate($YumUser['password']);
 
                     $action = YumAction::model()->findByAttributes(['title' => UserService::CAN_START_FULL_SIMULATION]);
 
@@ -173,9 +178,9 @@ class UserAuthController extends YumController
                     $permission->template = 1; // magic const
                     $permission->save(false);
 
-                    UserService::assignAllNotAssignedUserInvites(Yii::app()->user->data());
+                    UserService::assignAllNotAssignedUserInvites($this->user);
 
-                    $this->redirect('/dashboard');
+                    $this->redirect(['afterRegistration']);
                 } else {
                     $this->user->password = '';
                     $this->user->password_again = '';
@@ -251,7 +256,7 @@ class UserAuthController extends YumController
             if (null == $this->user->username) {
                 $username = $YumProfile['email'] . date('Ymdhis') . rand(1000,9999);
                 $username = preg_replace("/[^A-Za-z0-9 ]/", '', $username);
-                $username = substr($username, 0, 200);
+                $username = substr($username, 0, 199);
                 $this->user->username = $username;
             }
 

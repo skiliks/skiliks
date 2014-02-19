@@ -948,6 +948,7 @@ class YumUser extends YumActiveRecord
 
         if ($this->validate() && $profile->validate(['email'])) {
             $this->save();
+
             $profile->user_id = $this->id;
             $profile->save(false);
             $this->profile = $profile;
