@@ -126,9 +126,7 @@ class CorporateAccountExport {
         $this->addColumn('Описание от пользователя (description)', 25);
         $this->addColumn('Описание от скиликса (description_for_sales)', 25);
         $this->addColumn('Количество приглашений в аккаунте', 25);
-        $this->addColumn('Тарифный план', 25);
         $this->addColumn('Дата регистрации', 25);
-        $this->addColumn('Дата истечения тарифного плана', 25);
         $this->addColumn('Кол-во проплат', 25);
         $this->addColumn('Кол-во отправленных приглашений', 30);
         $this->addColumn('Кол-во пройденных симуляций сам-себе', 30);
@@ -149,9 +147,7 @@ class CorporateAccountExport {
             $this->addColumn($account->company_description);
             $this->addColumn($account->description_for_sales);
             $this->addColumn($account->invites_limit);
-            $this->addColumn($account->getActiveTariffPlan()->tariff->label);
             $this->addColumn(date('d.m.Y', $account->user->createtime));
-            $this->addColumn(date('d.m.Y', strtotime($account->getLastTariffPlanNonFree()->finished_at)));
             $this->addColumn($account->getNumberOfPaidOrders());
             $this->addColumn($account->getNumberOfInvitationsSent());
             $this->addColumn($account->getNumberOfFullSimulationsForSelf());

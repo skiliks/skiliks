@@ -329,7 +329,6 @@ class UserServiceUnitTest extends CDbTestCase
         $active_plan = $assert_account_corporate->getActiveTariffPlan();
         $active_plan->finished_at = (new DateTime())->format("Y-m-d H:i:s");
         $active_plan->save(false);
-        UserService::tariffExpired();
         $assert_account_corporate->refresh();
 
         $active_plan = $assert_account_corporate->getActiveTariffPlan();
@@ -376,8 +375,6 @@ class UserServiceUnitTest extends CDbTestCase
         $active_tariff_plan->finished_at = (new DateTime())->format("Y-m-d H:i:s");
         $active_tariff_plan->save(false);
 
-        UserService::tariffExpired();
-
         $after_plan = $account->getActiveTariffPlan();
         //Тест 3. Проверить, что при устаревании тарифного плана, после Free у человека будет Free.
         $this->assertNotEquals($before_tariff_plan_id, $after_plan->id);
@@ -385,17 +382,6 @@ class UserServiceUnitTest extends CDbTestCase
         $this->assertEquals(0, $account->getTotalAvailableInvitesLimit());
 
         // ---
-        //Тест 2. Проверить с Free тарифного плана нельзя перейти на LiteFree.
-        //2.1. На уровне попапа
-        //2.2. Если использовать setTariff()
-        $tariff = Tariff::model()->findByAttributes(['slug'=>Tariff::SLUG_LITE_FREE]);
-        $this->assertFalse(UserService::isAllowOrderTariff($tariff, $account));
-
-        // проверка ссылки для попапа
-        //Тест 1. Проверить с Free тарифного плана можно перейти на больший.
-        //1.1. На уровне попапа
-        $action = UserService::getActionOnPopup($account, Tariff::SLUG_LITE);
-        $this->assertEquals(['type'=>'link'], $action);
 
         $tariff = Tariff::model()->findByAttributes(['slug'=>Tariff::SLUG_LITE]);
         $invoice = UserService::createFakeInvoiceForUnitTest($tariff, $account);
@@ -456,14 +442,6 @@ class UserServiceUnitTest extends CDbTestCase
         $pending_tariff = $account->getPendingTariffPlan();
 
         $this->assertEquals(Tariff::SLUG_STARTER, $pending_tariff->tariff->slug);
-
-        // ---
-
-        $action = UserService::getActionOnPopup($account, Tariff::SLUG_STARTER);
-
-        $this->assertEquals('tariff-already-booked-popup', $action['popup_class']);
-        //Тест 4. Проверить что LiteFree тарифный план нельзя продлить.
-        $this->assertFalse(UserService::isAllowOrderTariff($tariff, $account));
 
     }
 

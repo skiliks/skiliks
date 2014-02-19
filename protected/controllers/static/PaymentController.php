@@ -33,11 +33,6 @@ class PaymentController extends SiteBaseController
             $this->redirect('/');
         }
 
-        if ( UserService::isAllowOrderTariff($tariff, $user->account_corporate) === false ) {
-            Yii::app()->user->setFlash('error', sprintf(self::SYSTEM_ERROR));
-            $this->redirect('/');
-        }
-
         $this->render('order', [
             'account' => $user->account_corporate,
             'tariff' => $tariff,

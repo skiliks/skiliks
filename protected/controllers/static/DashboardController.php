@@ -158,10 +158,6 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             unset(Yii::app()->request->cookies['display_result_for_simulation_id']);
         }
 
-        // Getting popup properties
-        $is_display_tariff_expire_pop_up = $this->user->getAccount()->is_display_tariff_expire_pop_up;
-        $is_display_user_referral_popup  = $this->user->getAccount()->is_display_referrals_popup;
-
         $this->layout = 'site_standard_2';
 
         $this->addSiteCss('_page-dashboard.css');
@@ -182,8 +178,6 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             'display_results_for' => $simulationToDisplayResults,
             'notUsedLiteSimulationInvite' => $notUsedLiteSimulations[0],
             'notUsedFullSimulationInvite' => $notUsedFullSimulations[0],
-            'show_user_referral_popup' =>  $is_display_user_referral_popup,
-            'is_display_tariff_expire_pop_up' => $is_display_tariff_expire_pop_up,
             'user'                => $this->user
         ]);
     }
@@ -285,8 +279,6 @@ class DashboardController extends SiteBaseController implements AccountPageContr
 
         if((int)$invite->status === Invite::STATUS_PENDING) {
 
-            if($user->account_corporate->getActiveTariffPlan()->id === $invite->tariff_plan_id){
-
                 $status = $invite->status;
                 $initValue = $user->account_corporate->getTotalAvailableInvitesLimit();
 
@@ -297,7 +289,6 @@ class DashboardController extends SiteBaseController implements AccountPageContr
                     $this->user->getAccount(),
                     $initValue
                 );
-            }
         }
 
         $invite->deleteInvite();

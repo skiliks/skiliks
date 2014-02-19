@@ -92,21 +92,10 @@ return [
                 'userAuth/<action:\w+>'     => 'static/userAuth/<action>',
                 'registration/<action:\w+>' => 'static/userAuth/<action>',
 
-                'dashboard-new'                      => 'static/dashboard/corporateNew',
-                'profile-corporate-tariff-new'       => 'static/profile/corporateTariffNew',
-                'profile-corporate-company-info-new' => 'static/profile/corporateCompanyInfoNew',
-                'profile-corporate-user-info-new'    => 'static/profile/corporatePersonalDataNew',
-                'profile-corporate-password-new'     => 'static/profile/corporatePasswordNew',
-                'profile-corporate-vacancies-new'    => 'static/profile/corporateVacanciesNew',
                 'help/general'                       => 'static/help/general',
                 'help/corporate'                     => 'static/help/corporate',
                 'help/personal'                      => 'static/help/personal',
                 'form-errors-standard'               => 'static/pages/formErrorsStandard',
-                'product-new'                        => 'static/pages/productNew',
-                'team-new'                           => 'static/pages/teamNew',
-                'home-new'                           => 'static/pages/homeNew',
-                'old-browser-new'                    => 'static/pages/oldBrowserNew',
-                'static/tariffs-new'                 => 'static/pages/tariffsNew',
                 'order-new/<tariffType:\w+>'         => 'static/payment/orderNew',
                 'payment/doCashPayment'              => 'static/payment/doCashPayment',
                 'payment/getRobokassaForm'           => 'static/payment/getRobokassaForm',
@@ -255,7 +244,6 @@ return [
                 'admin_area/user-referrals/<userId:\d+>'          => 'admin_area/AdminPages/UserReferrals',
                 'admin_area/login/ghost/<userId:\d+>'             => 'admin_area/AdminPages/GhostLogin',
 
-                'admin_area/user/<userId:\w+>/set-tariff/<label:\w+>'        => 'admin_area/AdminPages/UserSetTariff',
                 'admin_area/user/<userId:\w+>/set-invites-limit/<value:[\w\-]+>' => 'admin_area/AdminPages/UserAddRemoveInvitations',
 
 

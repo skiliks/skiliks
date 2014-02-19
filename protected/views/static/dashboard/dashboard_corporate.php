@@ -89,14 +89,6 @@
 <section>
     <?php $this->renderPartial('partials/accept-invite-warning-popup', []) ?>
 
-    <?php if($show_user_referral_popup) : ?>
-        <?php $this->renderPartial('partials/_referrals-popup', []) ?>
-    <?php endif; ?>
-
-    <?php if($is_display_tariff_expire_pop_up) : ?>
-        <?php $this->renderPartial('partials/_tariff_expire_pop_up', ["hasOtherPopup" => $show_user_referral_popup, 'user' => $user]) ?>
-    <?php endif; ?>
-
     <?php $this->renderPartial('partials/_exists-simulation-in-progress-warning-popup', []) ?>
 
     <?php if (true === $validPrevalidate): ?>

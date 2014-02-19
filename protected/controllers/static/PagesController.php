@@ -58,9 +58,7 @@ class PagesController extends SiteBaseController
             Yii::app()->setLanguage("ru");
         }
 
-        $this->render('tariffs', [
-            'tariffs' => Tariff::model()->findAll('',['order' => 'order ASD']), 'user' => $this->user
-        ]);
+        $this->render('tariffs');
     }
 
     /**
@@ -238,62 +236,6 @@ class PagesController extends SiteBaseController
             'vacancies'     => $vacancies,
             'passwordForm'  => $passwordForm,
             'passwordForm2' => $passwordForm2,
-        ]);
-    }
-
-    /**
-     *
-     */
-    public function actionProductNew()
-    {
-        $this->layout = 'site_standard';
-        $this->render('//new/product');
-    }
-
-
-    /**
-     *
-     */
-    public function actionTeamNew()
-    {
-        $this->layout = 'site_standard';
-        $this->render('//new/team');
-    }
-
-    /**
-     *
-     */
-    public function actionOldBrowserNew()
-    {
-        $this->layout = 'site_standard';
-        $this->render('//new/oldBrowser', [
-            'assetsUrl'      => $this->getAssetsUrl(),
-            'userSubscribed' => true,
-        ]);
-    }
-
-    public function actionHomeNew()
-    {
-        $this->layout = 'site_standard';
-        /* @var $user YumUser */
-        $this->render('//new/home', [
-            'assetsUrl'      => $this->getAssetsUrl(),
-            'userSubscribed' => false,
-        ]);
-    }
-
-    /**
-     *
-     */
-    public function actionTariffsNew()
-    {
-        $user = Yii::app()->user;
-        $user = $user->data();
-
-        $this->layout = 'site_standard';
-
-        $this->render('//new/tariffs', [
-            'tariffs' => Tariff::model()->findAll('',['order' => 'order ASD']), 'user' => $user
         ]);
     }
 
