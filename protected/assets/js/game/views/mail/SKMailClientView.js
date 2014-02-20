@@ -3100,22 +3100,47 @@ define([
                     }
                 }
             },
+            
             onResize : function() {
-                window.SKWindowView.prototype.onResize.apply(this);
-                this.$('.mail-text-wrap').height(
-                    this.$('.mail-view.new').height() - this.$('.mail-view-header').outerHeight() - this.$('.mail-tags-bl').outerHeight()
-                );
+                try {
+                    window.SKWindowView.prototype.onResize.apply(this);
+                    this.$('.mail-text-wrap').height(
+                        this.$('.mail-view.new').height() - this.$('.mail-view-header').outerHeight() - this.$('.mail-tags-bl').outerHeight()
+                    );
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
+
             setActiveEmail:function (email) {
-                //this.mailClient.setActiveEmail(email);
-                var email_data = this.$('#MailClient_IncomeFolder_List tr[data-email-id="'+email.mySqlId+'"]');
-                this.doGetEmailDetails(
-                    $(email_data).data().emailId,
-                    this.mailClient.getActiveFolder().alias
-                );
+                try {
+                    //this.mailClient.setActiveEmail(email);
+                    var email_data = this.$('#MailClient_IncomeFolder_List tr[data-email-id="'+email.mySqlId+'"]');
+
+                    if (null == $(email_data).data() || 'undefined' == typeof $(email_data).data()) {
+                        return null;
+                    }
+                    this.doGetEmailDetails(
+                        $(email_data).data().emailId,
+                        this.mailClient.getActiveFolder().alias
+                    );
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
+
             onWindowClose:function() {
-                this.mailClient.activeEmail = undefined;
+                try {
+                    this.mailClient.activeEmail = undefined;
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             }
         });
 
