@@ -4,10 +4,3 @@
         <?php echo Yii::app()->user->data()->getAccount()->getTotalAvailableInvitesLimit()?>
     </span>
 </div>
-
-<div class="counter">
-    <strong>Тарифный план</strong>
-    <span class="label background-blue selenium-tariff-name">
-        <?php echo Yii::app()->user->data()->getAccount()->getTariffLabel() ?>
-    </span>
-</div>

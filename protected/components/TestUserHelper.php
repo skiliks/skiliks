@@ -79,15 +79,6 @@ class TestUserHelper
             if(false === $accountCorporate->save(false)){
                 throw new Exception(" Fail ");
             }
-            // set Lite tariff by default
-            $tariff = Tariff::model()->findByAttributes(['slug' => Tariff::SLUG_LITE]);
-
-            // update account tariff
-            $accountCorporate->setTariff($tariff, false);
-
-            if(false === $accountCorporate->save(false)){
-                throw new Exception(" Fail ");
-            }
         }
     }
 

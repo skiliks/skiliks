@@ -120,10 +120,6 @@
 
             <!-- order id    -->
             <td><?=$model->id?></td>
-
-            <!-- tariff  -->
-            <td><span class="label"><?=(empty($model->tariff->label))?'Не найден':$model->tariff->label?></span></td>
-
             <td>
                 <?=(empty($model->created_at)?'---- -- -- --':$model->created_at)?>
             </td>
@@ -157,17 +153,8 @@
             </td>
 
             <td>
-                <?php if(!$model->isComplete()) : ?>
-                    <a class="btn btn-success complete-invoice" data-invoice-id="<?=$model->id?>"
-                       data-tariff="<?=$model->tariff->label?>"  data-months="<?=$model->month_selected ?>"  data-user-email="<?=$model->user->profile->email?>">Подтвердить</a>
-                    <a class="btn btn-warning disable-invoice" style="display:none;" data-invoice-id="<?=$model->id?>"
-                       data-tariff="<?=$model->tariff->label?>"  data-months="<?=$model->month_selected ?>"  data-user-email="<?=$model->user->profile->email?>">Откатить</a>
-                <?php else : ?>
-                    <a class="btn btn-success complete-invoice" style="display:none;" data-invoice-id="<?=$model->id?>"
-                       data-tariff="<?=$model->tariff->label?>"  data-months="<?=$model->month_selected ?>"  data-user-email="<?=$model->user->profile->email?>">Подтвердить</a>
-                    <a class="btn btn-warning disable-invoice" data-invoice-id="<?=$model->id?>"
-                       data-tariff="<?=$model->tariff->label?>"  data-months="<?=$model->month_selected ?>"  data-user-email="<?=$model->user->profile->email?>">Откатить</a>
-                <?php endif; ?>
+                    <a class="btn btn-success complete-invoice" data-invoice-id="<?=$model->id?>"  data-months="<?=$model->month_selected ?>"  data-user-email="<?=$model->user->profile->email?>">Подтвердить</a>
+                    <a class="btn btn-warning disable-invoice" style="display:none;" data-invoice-id="<?=$model->id?>"  data-months="<?=$model->month_selected ?>"  data-user-email="<?=$model->user->profile->email?>">Откатить</a>
             </td>
         </tr>
         <?php endforeach ?>

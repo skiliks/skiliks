@@ -56,8 +56,6 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         if (null !== Yii::app()->request->getParam('prevalidate')) {
             $invite->attributes = Yii::app()->request->getParam('Invite');
             $invite->owner_id = $this->user->id;
-            $invite->setExpiredAt();
-
             // show result to user by default have to be false
             $invite->is_display_simulation_results = false;
             $invite->email = strtolower(trim($invite->email));
@@ -158,10 +156,6 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             unset(Yii::app()->request->cookies['display_result_for_simulation_id']);
         }
 
-        // Getting popup properties
-        $is_display_tariff_expire_pop_up = $this->user->getAccount()->is_display_tariff_expire_pop_up;
-        $is_display_user_referral_popup  = $this->user->getAccount()->is_display_referrals_popup;
-
         $this->layout = 'site_standard_2';
 
         $this->addSiteCss('_page-dashboard.css');
@@ -182,8 +176,6 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             'display_results_for' => $simulationToDisplayResults,
             'notUsedLiteSimulationInvite' => $notUsedLiteSimulations[0],
             'notUsedFullSimulationInvite' => $notUsedFullSimulations[0],
-            'show_user_referral_popup' =>  $is_display_user_referral_popup,
-            'is_display_tariff_expire_pop_up' => $is_display_tariff_expire_pop_up,
             'user'                => $this->user
         ]);
     }
@@ -285,8 +277,6 @@ class DashboardController extends SiteBaseController implements AccountPageContr
 
         if((int)$invite->status === Invite::STATUS_PENDING) {
 
-            if($user->account_corporate->getActiveTariffPlan()->id === $invite->tariff_plan_id){
-
                 $status = $invite->status;
                 $initValue = $user->account_corporate->getTotalAvailableInvitesLimit();
 
@@ -297,7 +287,6 @@ class DashboardController extends SiteBaseController implements AccountPageContr
                     $this->user->getAccount(),
                     $initValue
                 );
-            }
         }
 
         $invite->deleteInvite();
@@ -546,91 +535,6 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             'details'        => $details,
             'user'           => $user
         ]);
-    }
-
-    public function actionInviteReferrals() {
-        /** @var YumUser $user */
-        $user = Yii::app()->user->data();
-
-        if(!$user->isAuth() || !$user->isCorporate()) {
-            $this->redirect("dashboard");
-        }
-
-
-        if(!Yii::app()->request->getIsAjaxRequest()) {
-            $referralInviteModel = new ReferralsInviteForm();
-            $this->render("invite_referrals", ['user'=>$user, 'referralInviteModel' => $referralInviteModel]);
-        }
-        else {
-            $referralForm = new ReferralsInviteForm();
-
-            $referralInviteText   = Yii::app()->request->getParam('ReferralsInviteForm')['text'];
-
-            $referralForm->emails = strtolower(Yii::app()->request->getParam('emails')) ;
-            $referralForm->text   = Yii::app()->request->getParam('text');
-
-            $errors = CActiveForm::validate($referralForm);
-
-            if ($errors && $errors != "[]") {
-                echo $errors;
-            }
-            else {
-
-                foreach($referralForm->validatedEmailsArray as $referAddress) {
-                    $refer = new UserReferral();
-                    $refer->referral_email = strtolower($referAddress);
-                    if(UserService::addReferralUser($user, $refer)) {
-                        $refer->sendInviteReferralEmail($referralInviteText);
-                    }
-                }
-
-                $message = (count($referralForm->validatedEmailsArray) > 1) ?  "Приглашения для " : "Приглашение для ";
-                $emails = implode($referralForm->validatedEmailsArray, ", ");
-                $message .= $emails;
-                $message .= (count($referralForm->validatedEmailsArray) > 1) ?  " успешно отправлены" : " успешно отправлено";
-                Yii::app()->user->setFlash('success', $message);
-            }
-        }
-    }
-
-
-    function actionSendReferralEmail() {
-        $user = Yii::app()->user->data();
-        if (!$user->isAuth()) {
-            Yii::app()->user->setFlash('success', $this->renderPartial('_thank_you_form', [], true));
-            $this->redirect('/');
-        } elseif ($user->isPersonal()) {
-            $this->redirect('/dashboard');
-        }
-
-        else {
-
-            $this->redirect('/dashboard');
-        }
-    }
-
-    function actionDontShowInviteReferralsPopup() {
-
-        $user = Yii::app()->user->data();
-
-        if ($user->isPersonal()) {
-            Yii::app()->end();
-        }
-
-        $user->getAccount()->is_display_referrals_popup = 0;
-        $user->getAccount()->save();
-    }
-
-    function actionDontShowTariffExpirePopup() {
-
-        $user = Yii::app()->user->data();
-
-        if ($user->isPersonal()) {
-            Yii::app()->end();
-        }
-
-        $user->getAccount()->is_display_tariff_expire_pop_up = 0;
-        $user->getAccount()->save();
     }
 
     public function actionSwitchAssessmentResultsRenderType() {

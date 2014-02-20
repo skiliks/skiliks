@@ -192,9 +192,6 @@ class UserServiceUnitTest extends CDbTestCase
         $assert_account_corporate->refresh();
         $this->assertEquals($assert_account_corporate->invites_limit, 6);
 
-        //Делаем Expired инвайтов и проверяем что они не устарели
-        InviteService::makeExpiredInvitesExpired();
-
         $invite->refresh();
         $this->assertEquals($invite->status, Invite::STATUS_PENDING);
         $assert_account_corporate->refresh();
@@ -203,9 +200,6 @@ class UserServiceUnitTest extends CDbTestCase
         //Проставляем одному инвайту Expired время
         $invite->expired_at = date("Y-m-d H:i:s");
         $invite->save(false);
-
-        //Делаем Expired инвайтов и проверяем что он устарел и вернулся в аккаунт
-        InviteService::makeExpiredInvitesExpired();
         $invite->refresh();
         $this->assertEquals($invite->status, Invite::STATUS_EXPIRED);
         $assert_account_corporate->refresh();
@@ -308,35 +302,6 @@ class UserServiceUnitTest extends CDbTestCase
         $invite2->refresh();
         $this->assertEquals($invite2->status, Invite::STATUS_PENDING);
 
-        $invite2->expired_at = (new DateTime())->format("Y-m-d H:i:s");
-        $invite2->save(false);
-
-        /* @var $tariff Tariff */
-        $tariff = Tariff::model()->findByAttributes(['slug'=>Tariff::SLUG_LITE]);
-
-        $assert_account_corporate->setTariff($tariff, true);
-
-        InviteService::makeExpiredInvitesExpired();
-
-        $invite2->refresh();
-        $this->assertEquals($invite2->status, Invite::STATUS_EXPIRED);
-
-        $assert_account_corporate->refresh();
-        $this->assertEquals($assert_account_corporate->invites_limit, $tariff->simulations_amount + 1 );//Возвращена симуляция 1 за то что человек заплатил за тариф
-
-        $this->assertEquals($assert_account_corporate->getActiveTariff()->slug, Tariff::SLUG_LITE);
-        //Тест 3.1. Проверить, что при устаревании тарифного плана, после LiteFree у человека будет Free.
-        $active_plan = $assert_account_corporate->getActiveTariffPlan();
-        $active_plan->finished_at = (new DateTime())->format("Y-m-d H:i:s");
-        $active_plan->save(false);
-        UserService::tariffExpired();
-        $assert_account_corporate->refresh();
-
-        $active_plan = $assert_account_corporate->getActiveTariffPlan();
-        $this->assertEquals($active_plan->tariff->slug, Tariff::SLUG_FREE);
-
-        $this->assertEquals($assert_account_corporate->invites_limit, $active_plan->tariff->simulations_amount);
-
     }
 
     public function testPaymentSystem() {
@@ -360,110 +325,6 @@ class UserServiceUnitTest extends CDbTestCase
         $assert_profile_corporate = YumProfile::model()->findByAttributes(['email'=>'test-corporate-phpunit-account@skiliks.com']);
 
         $account = &$assert_profile_corporate->user->account_corporate;
-        /* @var $tariffLiteFree Tariff */
-        $tariffLiteFree = Tariff::model()->findByAttributes(['slug'=>Tariff::SLUG_LITE_FREE]);
-
-        // количество симуляций верное для только что активированного аккаунта?
-        $this->assertEquals($tariffLiteFree->simulations_amount, $account->getTotalAvailableInvitesLimit());
-
-        // ---
-
-        /* @var $tariff Tariff */
-        $tariff = Tariff::model()->findByAttributes(['slug'=>Tariff::SLUG_FREE]);
-        $account->setTariff($tariff, true);
-        $active_tariff_plan = $account->getActiveTariffPlan();
-        $before_tariff_plan_id = $active_tariff_plan->id;
-        $active_tariff_plan->finished_at = (new DateTime())->format("Y-m-d H:i:s");
-        $active_tariff_plan->save(false);
-
-        UserService::tariffExpired();
-
-        $after_plan = $account->getActiveTariffPlan();
-        //Тест 3. Проверить, что при устаревании тарифного плана, после Free у человека будет Free.
-        $this->assertNotEquals($before_tariff_plan_id, $after_plan->id);
-        $this->assertEquals(Tariff::SLUG_FREE, $after_plan->tariff->slug);
-        $this->assertEquals(0, $account->getTotalAvailableInvitesLimit());
-
-        // ---
-        //Тест 2. Проверить с Free тарифного плана нельзя перейти на LiteFree.
-        //2.1. На уровне попапа
-        //2.2. Если использовать setTariff()
-        $tariff = Tariff::model()->findByAttributes(['slug'=>Tariff::SLUG_LITE_FREE]);
-        $this->assertFalse(UserService::isAllowOrderTariff($tariff, $account));
-
-        // проверка ссылки для попапа
-        //Тест 1. Проверить с Free тарифного плана можно перейти на больший.
-        //1.1. На уровне попапа
-        $action = UserService::getActionOnPopup($account, Tariff::SLUG_LITE);
-        $this->assertEquals(['type'=>'link'], $action);
-
-        $tariff = Tariff::model()->findByAttributes(['slug'=>Tariff::SLUG_LITE]);
-        $invoice = UserService::createFakeInvoiceForUnitTest($tariff, $account);
-        //1.2. вызвать setTariff() в нутри метода completeInvoice
-        $this->assertTrue($invoice->completeInvoice());
-
-        $active_tariff = $account->getActiveTariffPlan();
-
-        $this->assertEquals(Tariff::SLUG_LITE, $active_tariff->tariff->slug);
-
-        $account->refresh();
-        $this->assertEquals($tariff->simulations_amount, $account->getTotalAvailableInvitesLimit());
-
-        // ---
-
-        $action = UserService::getActionOnPopup($account, Tariff::SLUG_LITE);
-
-        $this->assertEquals('extend-tariff-popup', $action['popup_class']);
-
-
-        $action = UserService::getActionOnPopup($account, Tariff::SLUG_PROFESSIONAL);
-
-        $this->assertEquals('tariff-replace-now-popup', $action['popup_class']);
-
-        //Тест 7. Проверить случай перехода с Lite на PROFESSIONAL,при наличии активного тарифа, но пользователь выбрал "применить сейчас". Татифный план должен быть применён сразу.
-        $tariff = Tariff::model()->findByAttributes(['slug'=>Tariff::SLUG_PROFESSIONAL]);
-
-        $invoice = UserService::createFakeInvoiceForUnitTest($tariff, $account);
-
-        $this->assertTrue($invoice->completeInvoice());
-
-
-        $active_tariff = $account->getActiveTariffPlan();
-
-        $this->assertEquals(Tariff::SLUG_PROFESSIONAL, $active_tariff->tariff->slug);
-
-        // ---
-
-        $action = UserService::getActionOnPopup($account, Tariff::SLUG_STARTER);
-
-        $this->assertEquals('downgrade-tariff-popup', $action['popup_class']);
-
-        //Тест 6. Проверить случай перехода с Lite на Started,при наличии активного тарифа. Татифный план должен ставиться в очередь.
-        $tariff = Tariff::model()->findByAttributes(['slug'=>Tariff::SLUG_STARTER]);
-        $invoice = UserService::createFakeInvoiceForUnitTest($tariff, $account);
-        $this->assertTrue($invoice->completeInvoice());
-        $account->refresh();
-        $active_tariff = $account->getActiveTariffPlan();
-
-        $this->assertEquals(Tariff::SLUG_PROFESSIONAL, $active_tariff->tariff->slug);
-        $this->assertEquals(
-            $account->getActiveTariffPlan()->tariff->simulations_amount,
-            $account->getTotalAvailableInvitesLimit()
-        );
-
-        //Тест 5. Проверить случай перехода с Started на Lite. Татифный план должен ставиться в очередь.
-
-        $pending_tariff = $account->getPendingTariffPlan();
-
-        $this->assertEquals(Tariff::SLUG_STARTER, $pending_tariff->tariff->slug);
-
-        // ---
-
-        $action = UserService::getActionOnPopup($account, Tariff::SLUG_STARTER);
-
-        $this->assertEquals('tariff-already-booked-popup', $action['popup_class']);
-        //Тест 4. Проверить что LiteFree тарифный план нельзя продлить.
-        $this->assertFalse(UserService::isAllowOrderTariff($tariff, $account));
 
     }
 

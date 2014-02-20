@@ -17,10 +17,6 @@
 
     <table class="table table-bordered" style="width: 50%">
         <tr>
-            <td>Текущий тарифный план</td>
-            <td><?= $account->tariff->label ?></td>
-        </tr>
-        <tr>
             <td>Текущее количество доступных приглашений</td>
             <td><?= $account->getTotalAvailableInvitesLimit() ?></td>
         <tr>
@@ -58,10 +54,10 @@
             <?php endif ?>
             <tr class="orders-row">
                 <td><?= $log->date ?></td>
-                <td><?= $log->amount ?> <?= $log->direction ?> до <?= ($log->limit_after_transaction+$log->invites_limit_referrals) ?></td>
+                <td><?= $log->amount ?> <?= $log->direction ?> до <?= ($log->limit_after_transaction) ?></td>
                 <td><?= $log->message ?></td>
                 <td>
-                    <?= $log->limit_after_transaction ?> / <?= $log->invites_limit_referrals ?>
+                    <?= $log->limit_after_transaction ?>
                 </td>
             </tr>
         <?php endforeach ?>

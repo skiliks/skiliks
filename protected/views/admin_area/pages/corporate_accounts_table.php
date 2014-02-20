@@ -11,7 +11,6 @@
     'Количество отправленных приглашений',
     'Количество пройденных полных симуляций "сам-себе"',
     'Количество пройденных полных симуляций "для людей"',
-    'Тарифный план',
     'Дата регистрации',
     'Дата последнего посещения',
 ] ?>
@@ -80,9 +79,6 @@
                 <td style="text-align: center;"><?= $account->getNumberOfInvitationsSent() ?></td>
                 <td style="text-align: center;"><?= $account->getNumberOfFullSimulationsForSelf() ?></td>
                 <td style="text-align: center;"><?= $account->getNumberOfFullSimulationsForPeople() ?></td>
-                <td style="width: 150px;">
-                    <?= $account->getActiveTariffPlan()->tariff->label ?>
-                </td>
                 <td style="width: 140px;">
                     <?= date('Y-m-d H:i:s', $account->user->createtime) ?>
                 </td>

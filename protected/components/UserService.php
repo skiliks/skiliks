@@ -247,13 +247,11 @@ class UserService {
 
             $account_corporate->user_id = $user->id;
             $account_corporate->default_invitation_mail_text = 'Вопросы относительно тестирования вы можете задать по адресу '.$profile->email.', куратор тестирования - '.$profile->firstname.' '. $profile->lastname .'.';
-            $tariff = Tariff::model()->findByAttributes(['slug' => Tariff::SLUG_LITE_FREE]);
-            $account_corporate->setTariff($tariff, true);
             $account_corporate->save(false);
 
             UserService::logCorporateInviteMovementAdd(
-                sprintf('Количество симуляций для нового аккаунта номер %s, емейл %s, задано равным %s по тарифному плану %s.',
-                    $account_corporate->user_id, $profile->email, $account_corporate->getTotalAvailableInvitesLimit(), $tariff->label
+                sprintf('Количество симуляций для нового аккаунта номер %s, емейл %s, задано равным %s .',
+                    $account_corporate->user_id, $profile->email, $account_corporate->getTotalAvailableInvitesLimit()
                 ),
                 $account_corporate,
                 $account_corporate->getTotalAvailableInvitesLimit()
@@ -359,22 +357,7 @@ class UserService {
                 $invite->message = preg_replace('/(\n\r)/', '<br>', $invite->message);
                 $invite->message = preg_replace('/\\n|\\r/', '<br>', $invite->message);
                 $invite->is_display_simulation_results = (int) !$is_display_results;
-                $invite->setTariffPlan();
-                $invite->setExpiredAt();
                 $invite->save(false);
-
-                // check is display pop up about referral`s model {
-                $userInvitesCount = Invite::model()->countByAttributes([
-                    'owner_id'    => $user->id,
-                    'scenario_id' => $invite->scenario_id,
-                ]);
-
-                $countOfInvitesToShowPopup = Yii::app()->params['countOfInvitesToShowReferralPopup'];
-                if($userInvitesCount == $countOfInvitesToShowPopup) {
-                    $user->getAccount()->is_display_referrals_popup = 1;
-                    $user->getAccount()->save();
-                }
-                // check is display pop up about referral`s model }
 
                 InviteService::logAboutInviteStatus($invite, sprintf(
                     'Приглашение для %s создано в корпоративном кабинете пользователя %s.',
@@ -700,318 +683,16 @@ class UserService {
     }
 
     /**
-     * Запускает устаревание тарифных планов
-     *
-     * @return array
-     */
-    public static function tariffExpired() {
-
-        /* @var $users UserAccountCorporate[] */
-        $tariff_plans = TariffPlan::model()->findAll(
-            sprintf("'%s' < finished_at AND finished_at <= '%s' AND status = '%s'",
-                date("Y-m-d 00:00:00"),
-                date("Y-m-d 23:59:59"),
-                TariffPlan::STATUS_ACTIVE
-            ));
-
-        $expiredAccounts = [];
-
-        if( null !== $tariff_plans ) {
-            /* @var $tariff_plan TariffPlan */
-            foreach( $tariff_plans as $tariff_plan ) {
-                $account = $tariff_plan->user->account_corporate;
-                $initValue = $account->getTotalAvailableInvitesLimit();
-                UserService::logCorporateInviteMovementAdd('Тарифный план '.$account->tariff->label.' истёк. Количество доступных симуляция обнулено.', $account, $initValue);
-
-                // процесс смены тарифного плана при истечении предыдущего {
-                $pending = $account->getPendingTariffPlan();
-                if(null === $pending) {
-                    $tariff = Tariff::model()->findByAttributes(['slug'=>Tariff::SLUG_FREE]);
-                    $account->setTariff($tariff, true);
-                } else {
-                    $active = $account->getActiveTariffPlan();
-                    $active->status = TariffPlan::STATUS_EXPIRED;
-                    $active->save(false);
-                    $pending->status = TariffPlan::STATUS_ACTIVE;
-                    $pending->save(false);
-                    $account->tariff_id = $pending->tariff_id;
-                    $account->invites_limit = $pending->tariff->simulations_amount;
-                    $account->tariff_expired_at = $pending->finished_at;
-                    $account->tariff_activated_at = $pending->started_at;
-
-                }
-                $account->save(false);
-                $expiredAccounts[] = $account;
-
-                if(null !== $pending) {
-                    continue;
-                }
-                // процесс смены тарифного плана при истечении предыдущего }
-
-                // send email for any account {
-
-                $linkToProlongTariff = '';
-                if ($account->user->getAccount()->getActiveTariffPlan()->tariff->isCanBeProlonged()){
-                    $linkToProlongTariff = 'его <a href="' . MailHelper::createUrlWithHostname("static/tariffs")
-                        . '">продлить</a> или';
-                }
-
-                $mailOptions          = new SiteEmailOptions();
-                $mailOptions->from    = 'support@skiliks.com';
-                $mailOptions->to      = $account->user->profile->email;
-                $mailOptions->subject = 'Истёк тарифный план на ' . Yii::app()->params['server_domain_name'];
-                $mailOptions->h1      = sprintf('Приветствуем, %s!', $account->user->getFormattedFirstName());
-                $mailOptions->text1   = '
-                    <p  style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
-                        Ваш тарифный план истёк.
-                        Вы можете ' . $linkToProlongTariff
-                        . ' <a href="' . MailHelper::createUrlWithHostname('static/tariffs')
-                        . '" style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva,
-                        sans-serif;font-size:14px;">оформить новый</a>.
-                    </p>
-                ';
-
-                UserService::addStandardEmailToQueue($mailOptions, SiteEmailOptions::TEMPLATE_ANJELA);
-                // send email for any account }
-            }
-        }
-
-        return $expiredAccounts;
-    }
-
-    /**
-     * Отправляет письмо о том, что аккаунт скоро устареет, за 3 дня до даты истечения.
-     * Если у аккаунта 0 симуляций - письмо отправлять не надо.
-     *
-     * @return UserAccountCorporate[]
-     */
-    public static function tariffExpiredInTreeDays() {
-
-        $date = new DateTime();
-        $date->add(new DateInterval('P3D'));
-        $date_expire_from = $date->format('Y-m-d 00:00:00');
-        $date->add(new DateInterval('P1D'));
-        $date_expire_to = $date->format('Y-m-d 00:00:00');
-
-        /* @var $users UserAccountCorporate[] */
-        $tariff_plans = TariffPlan::model()->findAll(
-            ':from_date < finished_at AND finished_at <= :to_date AND status = :active ',
-            [
-                'from_date' => $date_expire_from,
-                'to_date'   => $date_expire_to,
-                'active'    => TariffPlan::STATUS_ACTIVE
-            ]
-        );
-
-        $expiredSoonAccounts = [];
-
-        if( null !== $tariff_plans ) {
-            /* @var $tariff_plan TariffPlan */
-            foreach( $tariff_plans as $tariff_plan ) {
-                $account = $tariff_plan->user->account_corporate;
-
-                if($account->getTotalAvailableInvitesLimit() == 0) {
-                    continue;
-                }
-
-                $expiredSoonAccounts[] = $account;
-
-                $mailOptions          = new SiteEmailOptions();
-                $mailOptions->from    = 'support@skiliks.com';
-                $mailOptions->to      = $account->user->profile->email;
-                $mailOptions->subject = 'Неиспользованные симуляции на skiliks.com';
-
-                $mailOptions->h1      = sprintf('Приветствуем, %s!', $account->user->getFormattedFirstName());
-                $mailOptions->text1   = sprintf('
-                    <p  style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
-                        Благодарим за использование skiliks!
-                        <br/><br/>
-                        Еще %s %s<!-- симуляций --> ждут ваших действий.
-                        По истечении месяца (%s %s, %s) нам будет жаль обнулять ваш счет.
-                        <br/><br/>
-                        Пожалуйста, <a target="_blank" style="text-decoration:none;color:#147b99;font-family:Tahoma,
-                         Geneva, sans-serif;font-size:14px;" href="%s">
-                        зайдите </a>
-                        в ваш кабинет для отправки приглашения на тест или прохождения симуляции.
-                    </p> ',
-                    $account->getTotalAvailableInvitesLimit(),
-                    StringTools::lastLetter($account->getTotalAvailableInvitesLimit(), ["симуляция", "симуляции", "симуляций"]),
-                    // ---
-                    date('d', strtotime($account->getActiveTariffPlan()->finished_at)),
-                    Yii::t('site',date('M', strtotime($account->getActiveTariffPlan()->finished_at))),
-                    date('Y', strtotime($account->getActiveTariffPlan()->finished_at)),
-                    // ---
-                    Yii::app()->params['server_name'].'/dashboard'
-                );
-
-                UserService::addStandardEmailToQueue($mailOptions, SiteEmailOptions::TEMPLATE_FIKUS);
-            }
-        }
-
-        return $expiredSoonAccounts;
-    }
-
-    /**
-     * Создает реферрала
-     * @param YumUser $user
-     * @param YumProfile $profile
-     * @param UserAccountCorporate $account_corporate
-     * @param UserReferral $userReferralRecord
-     * @return bool
-     */
-    public static function createReferral(YumUser &$user, YumProfile &$profile, UserAccountCorporate &$account_corporate, UserReferral &$userReferralRecord) {
-        $profile->email = strtolower($userReferralRecord->referral_email);
-        if(self::createCorporateAccount($user, $profile, $account_corporate)) {
-            $userReferralRecord->referral_id = $user->id;
-            $userReferralRecord->approveReferral();
-            $userReferralRecord->rejectAllWithSameEmail();
-            $userReferralRecord->save(false);
-            YumUser::activate($profile->email, $user->activationKey);
-            //$user->authenticate($user_password);
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Сохраняет реферала в базе
-     * @param YumUser $user
-     * @param UserReferral $referral
-     * @return bool
-     */
-    public static function addReferralUser( YumUser $user, UserReferral &$referral ) {
-        $referral->referrer_id    = $user->id;
-        $referral->invited_at     = date("Y-m-d H:i:s");
-        $referral->status         = "pending";
-        $referral->save(false);
-        $referral->uniqueid    = md5($referral->id . time());
-        return $referral->save(false);
-    }
-
-    /**
      * Создает фейковый заказ для тестов
-     * @param Tariff $tariff
      * @param UserAccountCorporate $account
      * @return Invoice
      */
-    public static function createFakeInvoiceForUnitTest(Tariff $tariff, UserAccountCorporate $account) {
+    public static function createFakeInvoiceForUnitTest(UserAccountCorporate $account) {
         $invoice = new Invoice();
         $invoice->user_id = $account->user_id;
-        $invoice->tariff_id = $tariff->id;
         $invoice->save(false);
 
         return $invoice;
-    }
-
-    /**
-     * Определяет какой попап показать и какие данные передать
-     * @param UserAccountCorporate $account
-     * @param string $tariff_slug слаг тарифа
-     * @return array
-     */
-    public static function getActionOnPopup(UserAccountCorporate $account, $tariff_slug) {
-        $pending = $account->getPendingTariffPlan();
-        $result = ['type' => 'popup'];
-
-        if(null !== $pending) {
-            /**
-             * Тарифного плана в очереди нет
-             */
-            $result['tariff_label'] = $pending->tariff->label;
-            $result['tariff_start'] = StaticSiteTools::formattedDateTimeWithRussianMonth((new DateTime($pending->started_at)));
-            $result['tariff_end']   = StaticSiteTools::formattedDateTimeWithRussianMonth((new DateTime($pending->started_at))->modify('+30 days'));
-            $result['popup_class']  = 'tariff-already-booked-popup';
-            return $result;
-        }
-
-        /* @var $tariff Tariff */
-        $tariff = Tariff::model()->findByAttributes(['slug'=>$tariff_slug]);
-        $active = $account->getActiveTariffPlan();
-
-        if($active->tariff->slug === Tariff::SLUG_FREE) {
-            return ['type'=>'link'];
-        }
-
-        $finish_at = $account->getActiveTariffPlan()->finished_at;
-        $start_time = (new DateTime($finish_at))->format("Y-m-d H:i:s");
-
-
-        $result['tariff_label'] = $tariff->label;
-        $result['tariff_limits'] = $tariff->simulations_amount;
-        $result['tariff_start'] = StaticSiteTools::formattedDateTimeWithRussianMonth((new DateTime($finish_at)));
-        $result['tariff_end'] = StaticSiteTools::formattedDateTimeWithRussianMonth((new DateTime($start_time))->modify('+30 days'));
-
-        if((int)$active->tariff->weight === (int)$tariff->weight) {
-            /**
-             * Продление ТП
-             */
-            $result['popup_class'] = 'extend-tariff-popup';
-        } elseif((int)$active->tariff->weight < (int)$tariff->weight) {
-            /**
-             * Смена на больший ТП
-             */
-            if((int)$account->getTotalAvailableInvitesLimit() > 0) {
-                /**
-                 * Если симуляции остались (будет предупреждение, что они сгорят)
-                 */
-                $result['popup_class'] = 'tariff-replace-now-popup';
-            } else {
-                /**
-                 * Если симуляций не осталось, надо проверить,
-                 * может есть отправленные (или в прогрессе) приглашения,
-                 * при смене ТП сегодня
-                 * -- завтра пользователь потеряет все отправленные или в прогрессе приглашения.
-                 */
-
-                $invites = (int)Invite::model()->count('tariff_plan_id = :tariff_plan_id and owner_id = :owner_id and owner_id = receiver_id and status = :in_progress',
-                    [
-                        'tariff_plan_id' => $active->id,
-                        'owner_id' => $account->user_id,
-                        'in_progress'=>Invite::STATUS_IN_PROGRESS
-                    ]
-                );
-                $invites += (int)Invite::model()->count('tariff_plan_id = :tariff_plan_id and owner_id = :owner_id and (owner_id != receiver_id or receiver_id is null) and (status = :pending or status = :accepted or status = :in_progress)',
-                    [
-                        'tariff_plan_id' => $active->id,
-                        'owner_id' => $account->user_id,
-                        'accepted'=>Invite::STATUS_ACCEPTED,
-                        'pending'=>Invite::STATUS_PENDING,
-                        'in_progress'=>Invite::STATUS_IN_PROGRESS
-                    ]
-                );
-                if( $invites > 0 ) {
-                    /**
-                     * Предупреждение, о вожможной утрате приглашений, надо показывать
-                     */
-                    $result['popup_class'] = 'tariff-replace-if-zero-popup';
-                    $result['invite_limits'] = $invites;
-                } else {
-                    /**
-                     * Тариф можно применять сразу - сегодня
-                     */
-                    $result['popup_class'] = 'tariff-replace-now-popup';
-                }
-            }
-        } else {
-            /**
-             * Смена на меньший ТП
-             */
-            $result['popup_class']   = 'downgrade-tariff-popup';
-            $result['invite_limits'] = $account->getTotalAvailableInvitesLimit();
-        }
-
-        return $result;
-    }
-
-    /**
-     * @param Tariff $tariff
-     * @param UserAccountCorporate $account
-     * @return bool
-     */
-    public static function isAllowOrderTariff(Tariff $tariff, UserAccountCorporate $account){
-
-        return !$account->hasPendingTariffPlan() && $tariff->isDisplayOnTariffsPage();
-
     }
 
     /**

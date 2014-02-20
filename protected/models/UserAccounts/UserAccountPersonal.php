@@ -18,13 +18,6 @@
 class UserAccountPersonal extends CActiveRecord
 {
 
-    /**
-     * @return null
-     */
-    public function getTariffLabel()
-    {
-        return null;
-    }
 
     /* ---------------------------------------------------------------------------------------------------- */
 

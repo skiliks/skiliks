@@ -818,12 +818,6 @@ class AdminPagesController extends SiteBaseController {
         ]);
     }
 
-    public function actionReferralsList() {
-        $dataProvider = UserReferral::model()->searchReferrals();
-        $this->layout = '/admin_area/layouts/admin_main';
-        $this->render('/admin_area/pages/referrals_list', ['dataProvider' => $dataProvider]);
-    }
-
     public function actionCompleteInvoice() {
         $invoiceId = Yii::app()->request->getParam('invoice_id');
 
@@ -844,8 +838,8 @@ class AdminPagesController extends SiteBaseController {
             $invoice->completeInvoice($user->profile->email);
 
             UserService::logCorporateInviteMovementAdd(sprintf(
-                    "Принята оплата по счёт-фактуре номер %s, на тарифный план %s. Количество доступных симуляций установлено в %s . Админ %s.",
-                    $invoice->id, $invoice->tariff->label, $invoice->tariff->simulations_amount, $admin->profile->email
+                    "Принята оплата по счёт-фактуре номер %s. Админ %s.",
+                    $invoice->id, $admin->profile->email
                 ),  $invoice->user->getAccount(), $initValue);
 
             echo json_encode(["return" => true, "paidAt" => $invoice->paid_at]);
@@ -1430,17 +1424,6 @@ class AdminPagesController extends SiteBaseController {
         }
 
         if($user->isCorporate()) {
-            $isSwitchShowReferralInfoPopup = Yii::app()->request->getParam("switchReferralInfoPopup", null);
-            if($isSwitchShowReferralInfoPopup !== null) {
-                $user->account_corporate->is_display_referrals_popup = !$user->account_corporate->is_display_referrals_popup;
-                $user->account_corporate->save();
-            }
-
-            $isSwitchTariffExpiredPopup = Yii::app()->request->getParam("switchTariffExpiredPopup", null);
-            if($isSwitchTariffExpiredPopup !== null) {
-                $user->account_corporate->is_display_tariff_expire_pop_up = !$user->account_corporate->is_display_tariff_expire_pop_up;
-                $user->account_corporate->save();
-            }
 
             if($this->getParam('save_form') === 'true'){
 
@@ -1458,63 +1441,6 @@ class AdminPagesController extends SiteBaseController {
         $this->render('/admin_area/pages/user_details', [
             'user' => $user,
         ]);
-    }
-
-    public function actionUserSetTariff($userId, $label)
-    {
-        /* @var $user YumUser */
-        $user = YumUser::model()->findByPk($userId);
-        if (null === $user ) {
-            Yii::app()->user->setFlash('error', sprintf(
-                'Не найден пользователь с номером "%s".',
-                $userId
-            ));
-            $this->redirect('/admin_area/dashboard');
-        }
-
-        if (false == $user->isCorporate()) {
-            Yii::app()->user->setFlash('error', sprintf(
-                'Не найден пользователь "%s %s" не является корпоративным пользователем.',
-                $user->profile->firstname,
-                $user->profile->lastname,
-                $userId
-            ));
-            $this->redirect('/admin_area/user/'.$userId.'/details');
-        }
-
-        $tariff = Tariff::model()->findByAttributes(['slug' => $label]);
-
-        if (null == $tariff) {
-            Yii::app()->user->setFlash('error', sprintf(
-                'Не найден тариф "%s".',
-                $label
-            ));
-            $this->redirect('/admin_area/dashboard');
-        }
-
-        // set Tariff {
-        $user->getAccount()->setTariff($tariff, true);
-        // set Tariff }
-
-        $admin = Yii::app()->user->data();
-
-        UserService::logCorporateInviteMovementAdd(
-            sprintf('Тарифный план для %s сменён на %s из админ области. Количество доступных симуляций установлено в %s. Админ %s.',
-                $user->profile->email, $tariff->label, $user->getAccount()->invites_limit,
-          $admin->profile->email
-            ),
-            $user->getAccount(),
-            $user->getAccount()->getTotalAvailableInvitesLimit()
-        );
-
-        Yii::app()->user->setFlash('success', sprintf(
-            'Активирован тарифный план "%s" для "%s %s".',
-            ucfirst($label),
-            $user->profile->firstname,
-            $user->profile->lastname
-        ));
-
-        $this->redirect('/admin_area/user/'.$userId.'/details');
     }
 
     public function actionUserAddRemoveInvitations($userId, $value)
@@ -1747,17 +1673,6 @@ class AdminPagesController extends SiteBaseController {
 
                 echo " {$saves} files stored!\r\n";
             }
-        }
-    }
-
-    public function actionUserReferrals($userId = false) {
-        if($userId) {
-            $user = YumUser::model()->findByPk($userId);
-            $totalReferrals = UserReferral::model()->countUserReferrals($user->id);
-            $this->layout = '/admin_area/layouts/admin_main';
-            $dataProvider = UserReferral::model()->searchUserReferrals($user->id);
-            $this->render('/admin_area/pages/user_referrals_list', ['totalRefers'=>$totalReferrals, 'user'=>$user,
-                    'dataProvider' => $dataProvider]);
         }
     }
 
@@ -2036,32 +1951,6 @@ class AdminPagesController extends SiteBaseController {
 
         $this->layout = '/admin_area/layouts/admin_main';
         $this->render('/admin_area/pages/not_corporate_emails', ['dataProvider' => $dataProvider, 'email'=>$email]);
-    }
-
-    public function actionSetInviteExpiredAt() {
-
-            $expired_at = $this->getParam('expired_at');
-            $invite_id = $this->getParam('invite_id');
-            if($expired_at !== null && $invite_id !== null){
-                /* @var $invite Invite */
-                $invite = Invite::model()->findByPk($invite_id);
-                $invite->expired_at = $expired_at;
-                $invite->save(false);
-            }
-        $this->redirect($this->request->urlReferrer);
-    }
-
-    public function actionChangeInviteExpireRule() {
-
-        $rule = $this->getParam('rule');
-        $user_id = $this->getParam('user_id');
-        if($rule !== null && $user_id !== null){
-            /* @var $user YumUser */
-            $user = YumUser::model()->findByPk($user_id);
-            $user->account_corporate->expire_invite_rule = $rule;
-            $user->account_corporate->save(false);
-        }
-        $this->redirect($this->request->urlReferrer);
     }
 
     public function actionChangeSecurityRisk() {
