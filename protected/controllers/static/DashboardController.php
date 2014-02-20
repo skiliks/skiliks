@@ -358,11 +358,6 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             $this->redirect('/dashboard');
         }
 
-        if((int)$invite->status === Invite::STATUS_EXPIRED){
-            Yii::app()->user->setFlash('error', 'У симуляции истек срок давности');
-            $this->redirect('/');
-        }
-
         if((int)$invite->status !== Invite::STATUS_PENDING){
 
             $this->redirect('/dashboard');

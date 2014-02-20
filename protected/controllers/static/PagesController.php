@@ -116,17 +116,6 @@ class PagesController extends SiteBaseController
             $this->redirect('/dashboard');
         }
 
-        if ($invite->status == Invite::STATUS_EXPIRED) {
-
-            Yii::app()->user->setFlash('success', sprintf(
-                'Приглашение от %s %s просрочено.',
-                $invite->getCompanyOwnershipType(),
-                ($invite->getCompanyName() === null)?"компании":$invite->getCompanyName()
-            ));
-
-            $this->redirect('/dashboard');
-        }
-
         // for invites to unregistered (when invitation had been send) users, receiver_id is NULL
         // fix (NULL) receiver_id to make sure that simulation can start
         $invite->receiver_id = Yii::app()->user->data()->id;

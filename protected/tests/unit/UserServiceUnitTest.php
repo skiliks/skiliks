@@ -37,7 +37,6 @@ class UserServiceUnitTest extends CDbTestCase
             $user = YumProfile::model()->findByAttributes(['email'=>$email]);
             if(null !== $user) {
                 Invoice::model()->deleteAllByAttributes(['user_id'=>$user->user_id]);
-                UserReferral::model()->deleteAllByAttributes(['referrer_id'=>$user->user_id]);
                 YumUser::model()->deleteAllByAttributes(['id'=>$user->user_id]);
                 YumProfile::model()->deleteAllByAttributes(['user_id'=>$user->user_id]);
                 UserAccountCorporate::model()->deleteAllByAttributes(['user_id'=>$user->user_id]);
@@ -97,8 +96,6 @@ class UserServiceUnitTest extends CDbTestCase
         /* @var UserAccountCorporate $assert_account_corporate */
         $assert_account_corporate = UserAccountCorporate::model()->findByAttributes(['user_id'=>$assert_profile_corporate->user_id]);
         $this->assertNotNull($assert_account_corporate);
-
-        $this->assertEquals($assert_account_corporate->expire_invite_rule, UserAccountCorporate::EXPIRE_INVITE_RULE_BY_TARIFF);
 
         //Проверяем что в аккаунт добавлено 3 симуляции
         /* @var $assert_account_corporate UserAccountCorporate */
@@ -197,13 +194,6 @@ class UserServiceUnitTest extends CDbTestCase
         $assert_account_corporate->refresh();
         $this->assertEquals($assert_account_corporate->invites_limit, 6);
 
-        //Проставляем одному инвайту Expired время
-        $invite->expired_at = date("Y-m-d H:i:s");
-        $invite->save(false);
-        $invite->refresh();
-        $this->assertEquals($invite->status, Invite::STATUS_EXPIRED);
-        $assert_account_corporate->refresh();
-        $this->assertEquals($assert_account_corporate->invites_limit, 7);
 
         //Создаем ещё одно приглашение персональному аккаунту
         $invite2 = new Invite();
@@ -248,57 +238,6 @@ class UserServiceUnitTest extends CDbTestCase
         $assert_account_corporate->changeInviteLimits(-4);
         $assert_account_corporate->refresh();
         $this->assertEquals($assert_account_corporate->invites_limit, 4);
-
-
-        //Создаем приглашение для реферала и регистрируем его
-        $referral = new UserReferral();
-        $referral->referral_email = strtolower('referall-unit-text@kiliks.com');
-        $result = UserService::addReferralUser($user_corporate, $referral);
-        $this->assertTrue($result);
-
-        $user_referral  = new YumUser('registration');
-        $user_referral->setAttributes(['password'=>'Skiliks123123', 'password_again'=>'Skiliks123123', 'agree_with_terms'=>'yes']);
-        $profile_referral  = new YumProfile('registration_corporate');
-        $profile_referral->setAttributes(['firstname'=>'Августин', 'lastname'=>'Пупанов']);
-        $account_referral = new UserAccountCorporate('corporate');
-        $account_referral->setAttributes(['industry_id'=>Industry::model()->findByAttributes(['label'=>'Другая'])->id]);
-
-
-        //Yii::app()->user->data()->logout();
-        $result = UserService::createReferral($user_referral, $profile_referral, $account_referral, $referral);
-        $this->assertTrue($result);
-
-        $assert_account_corporate->refresh();
-
-
-        //Сздаем второго реферала с таким же доменом
-        $referral2 = new UserReferral();
-        $referral2->referral_email = strtolower('referall-unit-text2@kiliks.com');
-        $result = UserService::addReferralUser($user_corporate, $referral2);
-        $this->assertTrue($result);
-
-        $user_referral2  = new YumUser('registration');
-        $user_referral2->setAttributes(['password'=>'Skiliks123123', 'password_again'=>'Skiliks123123', 'agree_with_terms'=>'yes']);
-        $profile_referral2  = new YumProfile('registration_corporate');
-        $profile_referral2->setAttributes(['firstname'=>'Августин', 'lastname'=>'Пупанов']);
-        $account_referral2 = new UserAccountCorporate('corporate');
-        $account_referral2->setAttributes(['industry_id'=>Industry::model()->findByAttributes(['label'=>'Другая'])->id]);
-
-
-        //Yii::app()->user->data()->logout();
-        $result = UserService::createReferral($user_referral2, $profile_referral2, $account_referral2, $referral2);
-        $this->assertTrue($result);
-
-        $assert_account_corporate->refresh();
-
-        //Добавляем на основной счет инвайты и проверяем что все правильно
-        $assert_account_corporate->changeInviteLimits(5);
-
-        $assert_account_corporate->refresh();
-        $this->assertEquals($assert_account_corporate->invites_limit, 9);
-
-        /* @var $my_invite Invite */
-
         $invite2->refresh();
         $this->assertEquals($invite2->status, Invite::STATUS_PENDING);
 

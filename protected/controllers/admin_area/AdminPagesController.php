@@ -177,7 +177,6 @@ class AdminPagesController extends SiteBaseController {
                 Invite::STATUS_ACCEPTED    => true,
                 Invite::STATUS_IN_PROGRESS => true,
                 Invite::STATUS_COMPLETED   => true,
-                Invite::STATUS_EXPIRED     => false,
                 Invite::STATUS_DECLINED    => false,
                 Invite::STATUS_DELETED     => false,
             ];
@@ -361,7 +360,6 @@ class AdminPagesController extends SiteBaseController {
                     Invite::STATUS_ACCEPTED    => true,
                     Invite::STATUS_IN_PROGRESS => true,
                     Invite::STATUS_COMPLETED   => true,
-                    Invite::STATUS_EXPIRED     => false,
                     Invite::STATUS_DECLINED    => false,
                     Invite::STATUS_DELETED     => false,
                 ];
