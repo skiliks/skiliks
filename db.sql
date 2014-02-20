@@ -12885,7 +12885,7 @@ DROP TABLE IF EXISTS `user`;
 
 CREATE TABLE `user` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `username` varchar(20) NOT NULL,
+  `username` varchar(200) NOT NULL,
   `password` varchar(128) NOT NULL,
   `salt` varchar(128) NOT NULL,
   `activationKey` varchar(128) NOT NULL DEFAULT '',
