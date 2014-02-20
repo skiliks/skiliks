@@ -21,8 +21,8 @@
 return array(
     'There was an error sending recovery email' => 'Произошла ошибка при отправке email по восстановлению пароля. Пожалуйста повторите запрос',
     'Thank you! See you soon!' => 'Спасибо! До скорого!',
-    '2-3-hours game' => '2-3 часовая игра',
-    'A tool to assess candidates and newcomers' => 'Отличный инструмент для оценки кандидатов и новых сотрудников',
+    '2-hours game' => '2 часовая игра',
+    'A tool to assess candidates and employees' => 'Отличный инструмент для оценки кандидатов и сотрудников',
     'Back to top' => 'Наверх',
     'Based on best working practices' => 'Основан на лучшей управленческой практике',
     'Based on mathematical methods not just feelings' => 'Использует математические методы анализа<br />поведения, а не субъективные ощущения ',
@@ -427,5 +427,7 @@ return array(
     'www.skiliks.com - online simulation aimed at testing management skills' => 'www.skiliks.com - онлайн симуляция для оценки навыков менеджеров',
     'This user\'s name already exists.' => 'Такое имя пользователя уже занято.',
     'Additional simulations' => 'Дополнительные симуляции',
-    'Your account has been locked' => 'Ваш аккаунт заблокирован'
+    'Your account has been locked' => 'Ваш аккаунт заблокирован',
+
+    'Register now' => 'Зарегистрироваться сейчас',
 );

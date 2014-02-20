@@ -1,0 +1,36 @@
+
+
+body.action-controller-index-static-pages header {
+    background-image: url("../../../img/site/1280/team/bg-top-team.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center bottom;
+    height: 500px;
+}
+
+body.action-controller-index-static-pages {
+    background-image: none;
+    background-color: #E8F7F7;
+}
+
+.us-column-full {
+    width: 950px;
+}
+
+.skiliks .us-homepage-content {
+    margin-top: -350px;
+}
+
+.list-white li {
+    color: #FFFFFF;
+    font-family: "ProximaNova-Regular";
+    margin-bottom: 7px;
+    min-height: 18px;
+    padding-left: 27px;
+    text-shadow: 0 0 8px rgba(0, 0, 0, 0.14);
+}
+
+.list-white {
+    list-style: none outside none;
+    margin-top: 24px;
+}
