@@ -1207,11 +1207,13 @@ class ImportGameDataService
         // Сценарий будет обновлён через неделю - я правка тут на 10 минут
         $loshadkin = $this->scenario->getCharacter(['fio' => 'Лошадкин М.']);
         $themeNew = Theme::model()->findByAttributes(['text' => 'Новая тема']);
-        $mail_theme = $this->scenario->getOutboxMailTheme([
-            'theme_id'        => $themeNew->id,
-            'character_to_id' => $loshadkin->id,
-            'mail_prefix'     => null,
-        ]);
+        if (null !== $themeNew) {
+            $mail_theme = $this->scenario->getOutboxMailTheme([
+                'theme_id'        => $themeNew->id,
+                'character_to_id' => $loshadkin->id,
+                'mail_prefix'     => null,
+            ]);
+        }
         if (null == $mail_theme) {
             $mail_theme = new OutboxMailTheme();
             $mail_theme->theme_id        = $themeNew->id;
