@@ -111,15 +111,15 @@ class UserAuthController extends YumController
                     //YumUser::activate($profile->email, $this->user->activationKey);
                     // $this->user->authenticate($YumUser['password']);
 
-                    $action = YumAction::model()->findByAttributes(['title' => UserService::CAN_START_FULL_SIMULATION]);
-
-                    $permission = new YumPermission();
-                    $permission->principal_id = $this->user->id;
-                    $permission->subordinate_id = $this->user->id;
-                    $permission->action = $action->id;
-                    $permission->type = 'user';
-                    $permission->template = 1; // magic const
-                    $permission->save(false);
+//                    $action = YumAction::model()->findByAttributes(['title' => UserService::CAN_START_FULL_SIMULATION]);
+//
+//                    $permission = new YumPermission();
+//                    $permission->principal_id = $this->user->id;
+//                    $permission->subordinate_id = $this->user->id;
+//                    $permission->action = $action->id;
+//                    $permission->type = 'user';
+//                    $permission->template = 1; // magic const
+//                    $permission->save(false);
 
                     UserService::assignAllNotAssignedUserInvites($this->user);
 
@@ -213,15 +213,15 @@ class UserAuthController extends YumController
                     $account->user_id = $this->user->id;
                     $account->save(false);
 
-                    $action = YumAction::model()->findByAttributes(['title' => UserService::CAN_START_FULL_SIMULATION]);
-
-                    $permission = new YumPermission();
-                    $permission->principal_id = $this->user->id;
-                    $permission->subordinate_id = $this->user->id;
-                    $permission->action = $action->id;
-                    $permission->type = 'user';
-                    $permission->template = 1; // magic const
-                    $permission->save(false);
+//                    $action = YumAction::model()->findByAttributes(['title' => UserService::CAN_START_FULL_SIMULATION]);
+//
+//                    $permission = new YumPermission();
+//                    $permission->principal_id = $this->user->id;
+//                    $permission->subordinate_id = $this->user->id;
+//                    $permission->action = $action->id;
+//                    $permission->type = 'user';
+//                    $permission->template = 1; // magic const
+//                    $permission->save(false);
 
                     UserService::assignAllNotAssignedUserInvites($this->user);
 
