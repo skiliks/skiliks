@@ -60,31 +60,36 @@ class DebugController extends SiteBaseController
 
     public function actionSK_5494() {
 
-        $text = '<Имя клиента>, благодарим вас за интерес к нашей симуляции!<br/>
+        $text = '<br/><Имя клиента>,<br/>
+<br/>
+Благодарим вас за интерес к нашей симуляции!<br/>
 <br/>
 Мы стараемся следовать запросам наших клиентов и регулярно вносим изменения в продукт!<br/>
 <br/>
 С 1 апреля 2014 года наши клиенты смогут использовать следующие новые возможности:<br/>
-1. Каждый сотрудник, прошедший симуляцию, сможет ознакомиться с детальной обратной связью по всем оцениваемым навыкам.<br/>
-2. Каждый сотрудник, прошедший симуляцию, сможет получить личный план развития управленческих навыков.<br/>
-3. Компания, где 20 и более сотрудников прошли симуляцию, сможет получить Отчет по диагностике управленческого потенциала компании.
-   Этот отчет дает системное понимание зон развития навыков управленческой команды.<br/>
 <br/>
-Перечисленные выше возможности вы получите БЕСПЛАТНО по всей базе сотрудников, прошедших симуляцию до 18 февраля 2014 года.<br/>
+1. Каждый сотрудник, прошедший симуляцию, сможет ознакомиться с детальной обратной связью по всем оцениваемым навыкам.<br/>
+<br/>
+2. Каждый сотрудник, прошедший симуляцию, сможет получить личный план развития управленческих навыков.<br/>
+<br/>
+3. Компания, где 20 и более сотрудников прошли симуляцию, сможет получить Отчет по диагностике управленческого потенциала компании. Этот отчет дает системное понимание зон развития навыков управленческой команды.<br/>
+<br/>
+Перечисленные выше возможности вы получите БЕСПЛАТНО по всей базе сотрудников по тарифам, приобретенным до 31 марта 2014 года.<br/>
 <br/>
 Удачи,';
 
-        $profiles = YumProfile::model()->findAllByAttributes(['email' => 'tony@skiliks.com']);
+        // $profiles = YumProfile::model()->findAllByAttributes(['email' => 'tony@skiliks.com']);
         // $profiles = YumProfile::model()->findAllByAttributes(['email' => 'maria.gorina@skiliks.com']);
         // $profiles = YumProfile::model()->findAllByAttributes(['email' => 'slavka@skiliks.com']);
         foreach ($profiles as $profile) {
-            $text = str_replace('<Имя клиента>', ucfirst($profile->firstname).' '.ucfirst($profile->lastname), $text);
+            $text = str_replace('<Имя клиента>', ucfirst($profile->firstname), $text);
 
             $mailOptions           = new SiteEmailOptions();
             $mailOptions->from     = 'support@skiliks.com';
             $mailOptions->to       = $profile->email;
-            $mailOptions->subject  = 'Новые возможности Skiliks - план развития и диагностика управленческого потенциала компании';
-            $mailOptions->template = 'krutko';
+            $mailOptions->h1       = null;
+            $mailOptions->subject  = 'Новые возможности Skiliks';
+            $mailOptions->template = 'krutko-2';
             $mailOptions->setText($text);
 
             UserService::addStandardEmailToQueue($mailOptions, $mailOptions->template);

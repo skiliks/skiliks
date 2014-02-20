@@ -46,7 +46,7 @@
                  * Также некоторые почтовые клиенты по умолчанию рисуют рамки у таблиц и картирок - мы обнуляем эти рамки.
                  */
                 ?>
-                <td colspan="4" rowspan="2" style=" width: 360px; vertical-align: top; height: 612px;"><img border="0px" src="cid:<?= $template ?>" style="border-color: #ff0000; display:block; height: 612px;" /></td>
+                <td colspan="4" rowspan="2" style=" width: 360px; vertical-align: top; height: 812px; overflow: hidden;"><img border="0px" src="cid:<?= $template ?>" style="border-color: #ff0000; display:block; height: 812px;" /></td>
             </tr>
 
             <?php
@@ -54,10 +54,11 @@
              * Основное тело письма
              */
             ?>
-            <tr style="height: 413px;">
+            <tr style="height: 611px;">
                 <td style="width: 10px;  height: 413px;"  bgcolor="f2f2f2"></td>
                 <td style="width: 30px;  height: 413px;"  bgcolor="fdfbc6"></td>
-                <td style="width: 490px; height: 413px; vertical-align: top;" bgcolor="fdfbc6">
+                <td style="width: 490px; height: 397px; vertical-align: top;" bgcolor="fdfbc6">
+                    <?php if (null !== $h1): ?>
                     <h1 style="
                         color:#626250;
                         font-family:Tahoma, Geneva, sans-serif;
@@ -69,16 +70,21 @@
                         ">
                         <?= $h1 ?>
                     </h1>
+                    <?php endif; ?>
 
                     <p style="
-                        margin:0 0 15px 0;
+                        height: 590px;
+                        margin: 0 0 15px 0;
+                        padding-right: 30px;
                         color:#555545;
                         font-family:Tahoma, Geneva, sans-serif;
                         font-size:14px;
                         text-align:justify;
                         line-height:20px;
+                        overflow-y: auto;
                         ">
                         <?= $text1 ?>
+                        <?= $text2 ?>
                     </p>
                 </td>
             </tr>
@@ -91,20 +97,22 @@
             <tr style="border: 0;">
                 <td bgcolor="f2f2f2"></td>
                 <td bgcolor="fdfbc6"></td>
-                <td bgcolor="fdfbc6" colspan="2">
+                <td bgcolor="fdfbc6" style="overflow: hidden;">
                     <p style="
-                        margin:0 0 15px 0;
+                        margin: 0px 0 15px 0;
                         color:#555545;
                         font-family:Tahoma, Geneva, sans-serif;
                         font-size:14px;
                         text-align:justify;
                         line-height:20px;
                         ">
-                        <?= $text2 ?>
+                        <?php /*= $text1 ?>
+                        <?= $text2*/ ?>
                     </p>
                     <p style="margin:0 0 15px 0;text-align:justify;line-height:20px;"><strong style="color:#555545;font-family:Tahoma, Geneva, sans-serif;font-weight:bold;font-size:14px">Ваш skiliks</strong></p>
                     <p><a style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;" href="http://www.skiliks.com">www.skiliks.com</a></p></td>
                 </td>
+                <td bgcolor="fdfbc6"></td>
                 <td bgcolor="fdfbc6"></td>
                 <td bgcolor="f2f2f2"></td>
                 <td></td>
