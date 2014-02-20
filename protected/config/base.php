@@ -116,9 +116,6 @@ return CMap::mergeArray(
             // Максимальная длинна имени
             'userNameInHeaderMaxLength'     => 30,
 
-            // четвёртое приглашение значит что, 3 приглашения отправлены или пройдены в режиме сам-себе
-            'countOfInvitesToShowReferralPopup'     => 4,
-
             // точно используется?
             'vacancyLinkInProfileMaxLength' => 50,
 
@@ -134,9 +131,6 @@ return CMap::mergeArray(
 
             // количество симуляций, которое даётся корпоративному пользователю после регистрации
             'initialSimulationsAmount'      => 3,
-
-
-            'inviteExpired'                 => 5,
 
             // Блокирует/разрещает использование админами входа на сайт от именю любого пользователя
             'isBlockGhostLogin'             => false,
@@ -247,8 +241,6 @@ return CMap::mergeArray(
                 'SiteHeartWidgetTitle'               => 'Онлайн помощь', // chat Skiliks(test mode): 626464, chat TechHelp (production mode): 633075
             ],
             'cron' => [
-                // через сколько секунд устаревает приглашение
-                'InviteExpired'=> 60*60*24*5,
             ],
 
             'initial_data' => [

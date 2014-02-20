@@ -79,7 +79,6 @@ class UserAccountCorporate extends CActiveRecord
      * invite STATUS_ACCEPTED - invite spent
      * invite STATUS_COMPLETED - invite spent
      * invite STATUS_DECLINED - invite already returned while decline
-     * invite STATUS_EXPIRED - invite already returned while mark expired
      * invite STATUS_STARTED - invite spent
      *
      * @param Invite $invite
@@ -103,21 +102,6 @@ class UserAccountCorporate extends CActiveRecord
             Yii::log("User doesn't have invites but tried to decrease it");
             return false;
         }
-    }
-
-    /**
-     * @param null $referrer_email
-     */
-    public function addReferralInvite($referrer_email = null) {
-
-        $initValue = $this->getTotalAvailableInvitesLimit();
-        UserService::logCorporateInviteMovementAdd(
-            'Регистрация реферала ' . $referrer_email,
-            $this,
-            $initValue
-        );
-
-        $this->save();
     }
 
     /**

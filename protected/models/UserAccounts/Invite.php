@@ -42,7 +42,6 @@ class Invite extends CActiveRecord
     const STATUS_ACCEPTED    = 1;
     const STATUS_COMPLETED   = 2;
     const STATUS_DECLINED    = 3;
-    const STATUS_EXPIRED     = 4;
     const STATUS_IN_PROGRESS = 5;
     const STATUS_DELETED     = 6;
 
@@ -52,7 +51,6 @@ class Invite extends CActiveRecord
         self::STATUS_ACCEPTED    => 'Accepted',
         self::STATUS_IN_PROGRESS => 'In Progress', // after sim start
         self::STATUS_COMPLETED   => 'Completed', // after sim start
-        self::STATUS_EXPIRED     => 'Expired',
         self::STATUS_DELETED     => 'Deleted'
     ];
 
@@ -62,7 +60,6 @@ class Invite extends CActiveRecord
         self::STATUS_ACCEPTED    => 'Принятый',
         self::STATUS_IN_PROGRESS => 'В процессе', // after sim start
         self::STATUS_COMPLETED   => 'Завершенный', // after sim start
-        self::STATUS_EXPIRED     => 'Истекший',
         self::STATUS_DELETED     => 'Удален'
     ];
 
@@ -72,7 +69,6 @@ class Invite extends CActiveRecord
         'Accepted'    => self::STATUS_ACCEPTED,
         'In Progress' => self::STATUS_IN_PROGRESS,
         'Completed'   => self::STATUS_COMPLETED,
-        'Expired'     => self::STATUS_EXPIRED,
         'InProgress'  => self::STATUS_IN_PROGRESS,
     ];
 
@@ -82,11 +78,9 @@ class Invite extends CActiveRecord
         self::STATUS_ACCEPTED    => 'Приглашённый зарегистрировался на сайте и принял приглашение на прохождение симуляции',
         self::STATUS_IN_PROGRESS => 'Приглашённый начал прохождение симуляции',
         self::STATUS_COMPLETED   => 'Симуляция пройдена, доступны результаты',
-        self::STATUS_EXPIRED     => 'Прошли 5 дней с момента отправки приглашения, а приглашённый не предпринял никаких действий',
         self::STATUS_DELETED     => ''
     ];
 
-    const EXPIRED_TIME = 604800; // 7days
 
     /* ------------------------------------------------------------------------------------------------------------ */
 
@@ -190,15 +184,6 @@ class Invite extends CActiveRecord
     }
 
     /**
-     * @return string
-     */
-    public function getExpiredDate()
-    {
-        $time = time($this->sent_time) + self::EXPIRED_TIME;
-        return Yii::t('site', date('F', $time)).date(' d, Y', $time);
-    }
-
-    /**
      * @return bool
      */
     public function isPending()
@@ -285,7 +270,6 @@ class Invite extends CActiveRecord
             self::STATUS_ACCEPTED => 'label-warning',
             self::STATUS_COMPLETED => 'label-success',
             self::STATUS_DECLINED => 'label-danger',
-            self::STATUS_EXPIRED => 'label-danger',
             self::STATUS_IN_PROGRESS => 'label-info',
         ];
 
@@ -370,45 +354,6 @@ class Invite extends CActiveRecord
 
         return false;
     }
-
-    /**
-     * Бизнес логика, которая должна быть выполненя в день когда приглашение становится просроченным
-     *
-     * @return bool
-     */
-    public function inviteExpired()
-    {
-        if (Invite::STATUS_IN_PROGRESS == $this->status && null !== $this->simulation) {
-            $lastLog = LogServerRequest::model()->find([
-                'order' => 'real_time DESC',
-                'condition' => 'sim_id = '.$this->simulation->id
-            ]);
-
-            $last_request_time = strtotime($lastLog->real_time);
-            $expired_time = strtotime('-1 hour');
-            // проверяем что последний лог пришел посже чем час назад
-            if ($lastLog !== null && $last_request_time > $expired_time) {
-                // если последний лог пришел посже чем час назад - то инвайт не делаем просроченным
-                return false;
-            }
-        }
-        $invite_status = $this->status;
-        $this->status = Invite::STATUS_EXPIRED;
-        $this->save(false);
-
-        InviteService::logAboutInviteStatus($this, 'Сменился статус с '.Invite::getStatusNameByCode($invite_status)." на ".Invite::getStatusNameByCode($this->status));
-        $account = UserAccountCorporate::model()->findByAttributes(['user_id' => $this->owner_id]);
-
-        if (null === $account) {
-            return false;
-        }
-        /* @var $account UserAccountCorporate */
-       $account->invites_limit++;
-       $account->save(false);
-
-        return true;
-    }
-
 
     /**
      * @return bool

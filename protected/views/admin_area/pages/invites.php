@@ -125,13 +125,6 @@ $titles = [
                         />
                 </td>
                 <td>
-                    <?= Invite::$statusText[Invite::STATUS_EXPIRED] ?>
-                    <input type="checkbox"
-                        name="invite_statuses[<?= Invite::STATUS_EXPIRED ?>]"
-                        <?= ($formFilters['invite_statuses'][Invite::STATUS_EXPIRED]) ? 'checked="checked"' : ''; ?>
-                        />
-                </td>
-                <td>
                     <?= Invite::$statusText[Invite::STATUS_DECLINED] ?>
                     <input type="checkbox"
                         name="invite_statuses[<?= Invite::STATUS_DECLINED ?>]"
