@@ -77,6 +77,11 @@ $assetsUrl = $this->getAssetsUrl();
             <i class="icon icon-arrow-up icon-white"></i>
             Приглашения от меня
     </a>
+    &nbsp; &nbsp;
+    <a class="btn btn-success" href="/admin_area/user/<?= $user->id ?>/send-invites">
+        <i class="icon icon-arrow-up icon-white"></i>
+        Отправить преглашения
+    </a>
 <?php endif ?>
 
 <br/>
