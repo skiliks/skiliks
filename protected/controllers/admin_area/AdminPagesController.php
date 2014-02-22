@@ -1794,7 +1794,7 @@ class AdminPagesController extends SiteBaseController {
             $email->body = str_replace('cid:denejnaia',  $assetsUrl . '/img/site/emails/denejnaia.png',     $email->body);
             $email->body = str_replace('cid:fikus',      $assetsUrl . '/img/site/emails/fikus.png',         $email->body);
             $email->body = str_replace('cid:jeleznij',   $assetsUrl . '/img/site/emails/jeleznij.png',      $email->body);
-            $email->body = str_replace('cid:krutko',     $assetsUrl . '/img/site/emails/krutko.png',        $email->body);
+            $email->body = str_replace('cid:krutko-2',   $assetsUrl . '/img/site/emails/krutko-2.png',      $email->body);
             $email->body = str_replace('cid:top-left',   $assetsUrl . '/img/site/emails/top-left.png',      $email->body);
             $email->body = str_replace('cid:trudiakin',  $assetsUrl . '/img/site/emails/trudiakin.png',     $email->body);
             $email->body = str_replace('cid:skiliks_ny', $assetsUrl . '/img/site/emails/ny/skiliks_ny.jpg', $email->body);

@@ -46,7 +46,7 @@
                  * Также некоторые почтовые клиенты по умолчанию рисуют рамки у таблиц и картирок - мы обнуляем эти рамки.
                  */
                 ?>
-                <td colspan="4" rowspan="2" style=" width: 360px; vertical-align: top; height: 812px; overflow: hidden;"><img border="0px" src="cid:<?= $template ?>" style="border-color: #ff0000; display:block; height: 812px;" /></td>
+                <td colspan="4" rowspan="2" style=" width: 360px; vertical-align: top; height: 812px; overflow: hidden;"><img border="0px" src="cid:<?= $template ?>" style="border-color: #ff0000; display:block; height: 842px;" /></td>
             </tr>
 
             <?php
@@ -73,8 +73,8 @@
                     <?php endif; ?>
 
                     <p style="
-                        height: 590px;
-                        margin: 0 0 15px 0;
+                        height: 640px;
+                        margin: 0 0 0 0;
                         padding-right: 30px;
                         color:#555545;
                         font-family:Tahoma, Geneva, sans-serif;
@@ -85,6 +85,9 @@
                         ">
                         <?= $text1 ?>
                         <?= $text2 ?>
+                        <strong style="color:#555545;font-family:Tahoma, Geneva, sans-serif;font-weight:bold;font-size:14px">Удачи,<br/> ваш skiliks</strong><br/>
+                        <br/>
+                        <a style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;" href="http://www.skiliks.com">www.skiliks.com</a>
                     </p>
                 </td>
             </tr>
@@ -109,8 +112,6 @@
                         <?php /*= $text1 ?>
                         <?= $text2*/ ?>
                     </p>
-                    <p style="margin:0 0 15px 0;text-align:justify;line-height:20px;"><strong style="color:#555545;font-family:Tahoma, Geneva, sans-serif;font-weight:bold;font-size:14px">Ваш skiliks</strong></p>
-                    <p><a style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;" href="http://www.skiliks.com">www.skiliks.com</a></p></td>
                 </td>
                 <td bgcolor="fdfbc6"></td>
                 <td bgcolor="fdfbc6"></td>

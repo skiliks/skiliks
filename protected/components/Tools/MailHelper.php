@@ -47,7 +47,7 @@ class MailHelper
      *
      * @return array
      */
-    public static function sendMailFromQueue($limit = 10)
+    public static function sendMailFromQueue($limit = 500)
     {
         $mails = EmailQueue::model()->findAll(' status = :status order by id desc limit ' . $limit, ['status' => EmailQueue::STATUS_PENDING]);
 

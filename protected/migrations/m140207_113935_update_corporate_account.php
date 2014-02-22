@@ -6,6 +6,9 @@ class m140207_113935_update_corporate_account extends CDbMigration
 	{
         $this->addColumn(UserAccountCorporate::model()->tableName(), 'company_name_for_sales', 'varchar(255) default null');
         $this->addColumn(UserAccountCorporate::model()->tableName(), 'industry_for_sales', 'varchar(255) default null');
+
+        $import = new ImportCorporateInfo();
+        $import->import();
 	}
 
 	public function down()
