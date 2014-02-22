@@ -213,6 +213,7 @@ return [
                 'admin_area/statistics/free-disk-space'                   => 'admin_area/AdminPages/StatisticFreeDiskSpace',
                 'admin_area/invite/<inviteId:\w+>/switch-can-be-reloaded' => 'admin_area/AdminPages/InviteSwitchCanBeReloaded',
                 'admin_area/ban_user/<userId:\d+>'                        => 'admin_area/AdminPages/BanUser',
+                'admin_area/user/<userId:\d+>/send-invites'               => 'admin_area/AdminPages/SendInvites',
 
                 'admin_area/corporate-accounts'                   => 'admin_area/AdminPages/CorporateAccountList',
                 'admin_area/order/action/status'                  => 'admin_area/AdminPages/OrderActionStatus',

@@ -2021,4 +2021,11 @@ class AdminPagesController extends SiteBaseController {
         $export = new CorporateAccountExport();
         $export->export();
     }
+
+    public function actionSendInvites($userId) {
+        $user = YumUser::model()->findByPk($userId);
+        $this->layout = '/admin_area/layouts/admin_main';
+
+        $this->render('//admin_area/pages/user_send_invites', ['user'=>$user]);
+    }
 }
