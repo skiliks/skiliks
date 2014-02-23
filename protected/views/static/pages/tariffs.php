@@ -1,19 +1,113 @@
-<h2 class="thetitle text-center"><?= Yii::t('site', 'Pricing & Plans Monthly Rates') ?></h2>
-<?php
-/* @var $user  YumUser */
-$lang = Yii::app()->getLanguage();
-?>
-<div class="tarifswrap">
+<section>
+    <h1 class="pull-content-center">
+        <?= 'Скидка 50% на весь 2014 год при оплате до 31 марта' ?>
+    </h1>
 
-    <p class="text-left text16 additional-text">
-        <?php if ($lang == 'ru'): ?>
-        <sup>*</sup> Первый месяц использования <br/>
-        <sup>**</sup> Симуляции по выбранному тарифу активны в течение месяца. По истечении месяца неиспользованные симуляции сгорают.
-        <?php endif; ?>
-    </p>
-    <div class="contwrap"><a class="light-btn feedback"><?= Yii::t('site', 'Send feedback') ?></a>
-    <span class="social_networks">
-        <?php $this->renderPartial('//global_partials/addthis', ['force' => true]) ?>
+    <br/>
+
+    <span class="pull-content-center column-full">
+        <span class="nice-border background-light-yellow border-radius-standard us-price-box">
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <a class="button-white button-white-hover inter-active label icon-arrow-blue" href="/payment/order/lite">
+                <?= 'Купить' ?>
+            </a>
+        </span>
+
+        <span class="nice-border background-light-yellow border-radius-standard us-price-box margin-left-18">
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <a class="button-white button-white-hover inter-active label icon-arrow-blue" href="/payment/order/lite">
+                <?= 'Купить' ?>
+            </a>
+        </span>
+
+        <span class="nice-border background-light-yellow border-radius-standard us-price-box margin-left-18">
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <a class="button-white button-white-hover inter-active label icon-arrow-blue" href="/payment/order/lite">
+                <?= 'Купить' ?>
+            </a>
+        </span>
+
+        <span class="nice-border background-light-yellow border-radius-standard us-price-box margin-left-18">
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <a class="button-white button-white-hover inter-active label icon-arrow-blue" href="/payment/order/lite">
+                <?= 'Купить' ?>
+            </a>
+        </span>
     </span>
+
+    <div class="us-feedback-margin">
+        <br/>
+        <br/>
+
+        <a class="button-white button-white-hover inter-active label icon-arrow-blue action-feedback"><?= Yii::t('site', 'Send feedback') ?></a>
+        <span class="social_networks">
+            <?php // $this->renderPartial('//global_partials/addthis', ['force' => true]) ?>
+        </span>
     </div>
-</div>
+</section>
+
+<div class="clearfix"></div>

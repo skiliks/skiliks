@@ -1,0 +1,19 @@
+
+.skiliks .us-price-box {
+    background-image: url('../../../../img/site/1280/prices/price-box-background.jpg');
+    background-repeat: no-repeat;
+    height: 410px;
+    padding: 0;
+    margin: 0;
+    width: 221px;
+}
+
+.us-feedback-margin {
+    margin-left: 100px;
+}
+
+@media screen and (max-width: 1279px) {
+    .us-feedback-margin {
+        margin-left: 20px;
+    }
+}

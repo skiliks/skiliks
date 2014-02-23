@@ -65,6 +65,10 @@ class PagesController extends SiteBaseController
             Yii::app()->setLanguage("ru");
         }
 
+        $this->layout = '//layouts/site_standard_2';
+
+        $this->addSiteCss('/pages/prices.css');
+
         $this->render('tariffs');
     }
 
