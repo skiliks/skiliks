@@ -1,4 +1,7 @@
 
+body {
+    overflow-x: hidden;
+}
 
 body.action-controller-index-static-pages header {
     background-image: url("../../../img/site/1280/team/bg-top-team.jpg");
