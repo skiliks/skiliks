@@ -1,0 +1,14 @@
+
+@media screen and (max-width: 1279px) {
+    .us-box-order-method {
+        width: 260px;
+    }
+
+    #payment-form .row label {
+        width: 95px;
+    }
+
+    .us-order-header {
+        height: 220px;
+    }
+}

@@ -110,6 +110,14 @@ h1, h2, h3, h4, h5, h6 {
     color: #3D4041;
 }
 
+.skiliks .color-6D6D5B {
+    color: #6D6D5B;
+}
+
+.skiliks .color-ffffff {
+    color: #ffffff;
+}
+
 .background-yellow h1,
 .background-yellow h2,
 .background-yellow h3,
@@ -149,7 +157,7 @@ ul, ol, a, span, i, label {
 
 b, strong, .bold {
     font-family: "ProximaNova-Bold", sans-serif;
-    font-weight: bold;
+    font-weight: normal;
 }
 
 small {

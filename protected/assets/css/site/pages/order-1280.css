@@ -1,0 +1,81 @@
+
+/* reset padding */
+.skiliks .nice-border {
+    margin: 0;
+    padding: 0;
+}
+
+.skiliks .us-order-box {
+    background-image: url('../../../../img/site/1280/prices/order-box-background.gif');
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+}
+
+.skiliks  .us-order-preview {
+    background-image: url('../../../../img/site/1280/prices/order-preview-box-background.gif');
+    background-repeat: no-repeat;
+    height: 150px;
+    margin-top: 30px;
+    margin-right: 125px;
+    width: 150px;
+}
+
+.us-order-preview h5 {
+    margin-top: 15px;
+}
+
+.us-order-preview strong {
+    margin-top: 20px;
+    font-size: 1.5em;
+}
+
+.us-order-header {
+    display: block;
+    height: 250px;
+}
+
+.us-box-order-method,
+.us-order-description {
+    margin-top: 30px;
+    margin-left: 140px;
+}
+
+.us-box-order-method {
+    height: 270px;
+    vertical-align: top;
+    width: 340px;
+}
+
+#payment-form .row label {
+    width: 132px;
+}
+
+.us-without-commission {
+    margin-left: 20px;
+    margin-top: 4px;
+    vertical-align: top;
+}
+
+.skiliks .us-order-description-row {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+.skiliks .us-order-description-row,
+.skiliks .us-order-description-row label,
+.skiliks .us-order-description-row div {
+    color: #fff;
+}
+
+.skiliks .us-order-description-row label {
+    display: inline-block;
+    width: 250px;
+}
+
+.skiliks .us-order-description-row small {
+    font-size: 0.7em;
+}
+
+.us-order-description-row label {
+
+}

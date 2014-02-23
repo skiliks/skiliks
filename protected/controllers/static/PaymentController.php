@@ -16,6 +16,11 @@ class PaymentController extends SiteBaseController
             $this->redirect('/');
         }
 
+        $this->layout = 'site_standard_2';
+
+        $this->addSiteCss('/pages/order-1280.css');
+        $this->addSiteCss('/pages/order-1024.css');
+
         $this->render('order', [
             'account' => $user->account_corporate,
             'paymentMethodCash'      => new CashPaymentMethod(),
