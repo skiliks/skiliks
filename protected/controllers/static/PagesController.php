@@ -19,8 +19,11 @@ class PagesController extends SiteBaseController
         $this->layout = 'site_standard_2';
 
         $this->addSiteJs('_page-homepage.js');
+        $this->addSiteJs('_start_demo.js');
+
         $this->addSiteCss('pages/homepage.css');
         $this->addSiteCss('pages/homepage-1024.css');
+        $this->addSiteCss('partials/_system-mistmatch.css');
 
         /* @var $user YumUser */
         $this->render('home', [

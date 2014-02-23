@@ -27,7 +27,6 @@ $(document).ready(function () {
         }
 
         var top = ((popover.height() - 16)/2);
-        console.log('top: ', top, popover);
         popover.find('.locator-popover-triangle-left').css("top", top  + 'px');
     });
 
@@ -44,7 +43,6 @@ $(document).ready(function () {
 
     // 3) feedback
     $('.action-feedback').on('click', function (e) {
-        console.log('action feedback',$('.locator-feedback-dialog'));
         var selected = $(this).attr('data-selected');
         $('.locator-feedback-dialog').dialog({
             // autoOpen : true,
@@ -174,7 +172,6 @@ $(document).ready(function () {
 
     // 9 )
     window.addVacancyValidation = function addVacancyValidation(form, data, hasError) {
-        console.log(form, data, hasError);
         if (!hasError) {
             window.location.href = form.attr('data-url');
         }
@@ -231,7 +228,7 @@ function getDialogWindowWidth(padding) {
         padding = 0;
     };
 
-    if ($(document).width() < 1281) {
+    if ($(window).width() < 1281) {
         return  940;
     } else {
         return  1115 - padding;
@@ -240,7 +237,7 @@ function getDialogWindowWidth(padding) {
 
 // 2.1) Определяет ширину стандартные "2/3 ширины сайта"
 function getDialogWindowWidth_2of3() {
-    if ($(document).width() < 1281) {
+    if ($(window).width() < 1281) {
         return 585;
     } else {
         return 719;
@@ -249,7 +246,7 @@ function getDialogWindowWidth_2of3() {
 
 // 2.2) Определяет ширину стандартные "2/3 ширины сайта"
 function getDialogWindowWidth_2of3_wide() {
-    if ($(document).width() < 1281) {
+    if ($(window).width() < 1281) {
         return 601;
     } else {
         return 735;
@@ -258,7 +255,7 @@ function getDialogWindowWidth_2of3_wide() {
 
 // 2.3) Определяет ширину окон автиризации и автовостановления пароля
 function getDialogAuthWindowWidth() {
-    if ($(document).width() < 1281) {
+    if ($(window).width() < 1281) {
         return 283;
     } else {
         return 283;
@@ -267,7 +264,7 @@ function getDialogAuthWindowWidth() {
 
 // 2.4) Определяет ширину попапа с оценкой за симуляцию
 function getDialogSimulationDetailsPopupWidth() {
-    if ($(document).width() < 1281) {
+    if ($(window).width() < 1281) {
         return 822;
     } else {
         return 1003;
@@ -276,7 +273,7 @@ function getDialogSimulationDetailsPopupWidth() {
 
 // 2.5) Определяет высоту попапа с оценкой за симуляцию
 function getDialogSimulationDetailsPopupHeight() {
-    if ($(document).width() < 1281) {
+    if ($(window).width() < 1281) {
         return 766;
     } else {
         return 935;
@@ -301,8 +298,6 @@ window.feedbackSubmit = function feedbackSubmit(form, data, hasError) {
 
 // 5) authentication Validation
 window.authenticateValidation = function authenticateValidation(form, data, hasError) {
-
-    console.log(form, data, hasError);
 
     // аккаунт не активирован
     if (undefined != data.YumUserLogin_not_activated) {

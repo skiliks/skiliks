@@ -61,7 +61,7 @@
                     'url'         => ['#'],
                     'visible'     => $isGuest && empty($disableDemo) && Yii::app()->language === 'ru',
                     'linkOptions' => [
-                        'class'     => 'start-lite-simulation-btn main-menu-demo icon-circle-with-blue-arrow icon-padding-condensed',
+                        'class'     => 'action-open-lite-simulation-popup icon-circle-with-blue-arrow icon-padding-condensed',
                         'data-href' =>'/simulation/demo'
                     ]
                 ],

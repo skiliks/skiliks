@@ -135,7 +135,7 @@
                     <?php echo Yii::t('site', '&quot;It&lsquo;s a real game with<br />&nbsp;great challenge and high<br />&nbsp;&nbsp;&nbsp;&nbsp;immersion - I haven&lsquo;t even<br />&nbsp;&nbsp;noticed how the time<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;passed by&quot;') ?>
                 </p>
             </section>
-            <article class="us-middle-content text-29313D">
+            <article class="us-middle-content color-29313D">
                 <h2><?= Yii::t('site', 'Easy')?></h2>
                 <ul>
                     <li><?= Yii::t('site', 'Saves your time')?></li>
@@ -157,7 +157,7 @@
 
         <!--clients-->
         <section class="pull-content-left">
-            <article class="us-our-client text-29313D">
+            <article class="us-our-client color-29313D">
             <h2><?=Yii::t('site', 'Our Clients')?></h2>
 
             <ul>

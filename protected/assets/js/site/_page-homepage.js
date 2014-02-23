@@ -6,16 +6,26 @@ $(document).ready(function() {
         if (1 == window.isSkipBrowserCheck) {
             return;
         }
-        $(".system-mismatch-popup").dialog({
+        $(".locator-system-mismatch-popup").dialog({
             closeOnEscape: true,
-            dialogClass: 'popup-before-start-sim',
-            minHeight: 220,
+            dialogClass: 'background-sky',
+            minHeight: 440,
             modal: true,
             resizable: false,
-            width:881,
-            draggable: false
+            width: getDialogWindowWidth(),
+            draggable: false,
+            open: function() {
+                $(window).resize();
+            }
         });
     }
+
+    // смена ширины при изменении размеров окна браузера
+    // выравнивание при изменении размеров окна браузера
+    $(window).on('resize', function() {
+        $('.locator-system-mismatch-popup').dialog("option", "width", getDialogWindowWidth());
+        $('.locator-system-mismatch-popup').dialog("option", "position", "center");
+    });
 
     // проверка ОС
     var os_name ="Unknown OS";
@@ -44,6 +54,7 @@ $(document).ready(function() {
     });
 
     if (isUnsupportedOs) {
+        console.log('displaySystemMismatch');
         window.displaySystemMismatch();
     }
 
@@ -55,6 +66,7 @@ $(document).ready(function() {
     };
 
     if (window.httpUserAgent.indexOf('YaBrowser') != -1) {
+        console.log('displaySystemMismatch');
         window.displaySystemMismatch();
     }
 
@@ -70,6 +82,7 @@ $(document).ready(function() {
     }
 
     if (false == isSupportedBrowser) {
+        console.log('displaySystemMismatch');
         window.displaySystemMismatch();
     }
     // проверка ОС и браузера }

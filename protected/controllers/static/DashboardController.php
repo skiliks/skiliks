@@ -164,6 +164,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         $this->addSiteCss('_simulation_details-1024.css');
 
         $this->addSiteJs('_page-dashboard.js');
+        $this->addSiteJs('_start_demo.js');
         $this->addSiteJs('libs/d3.v3.js');
         $this->addSiteJs('libs/charts.js');
 
@@ -214,9 +215,11 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         $this->addSiteCss('_simulation_details-1024.css');
 
         $this->addSiteJs('_page-dashboard.js');
+        $this->addSiteJs('_start_demo.js');
+        $this->addSiteJs('_decine-invite.js');
+
         $this->addSiteJs('libs/d3.v3.js');
         $this->addSiteJs('libs/charts.js');
-        $this->addSiteJs('_decine-invite.js');
 
         $this->render('dashboard_personal', [
             'simulation' => $simulation,

@@ -80,38 +80,6 @@ $(document).ready(function () {
         })
     });
 
-    // 4) попап перед стартом лайт симуляции в кабинетах
-    $('.action-open-lite-simulation-popup').click(function(event) {
-
-        // get URL for lite simulation
-        var href = $(this).attr('data-href');
-
-        // popup-before-start-sim lite-simulation-info-dialog
-        $(".locator-lite-simulation-info-popup").dialog({
-            closeOnEscape: true,
-            dialogClass: 'background-sky popup-information',
-            minHeight: 220,
-            modal: true,
-            resizable: false,
-            width: getDialogWindowWidth(),
-            draggable: false,
-            open: function( event, ui ) {
-                $('.action-start-lite-simulation-now').click(function() {
-                    location.assign(href);
-                });
-            }
-        });
-        return false;
-    });
-
-    // смена ширины при изменении размеров окна браузера
-    // выравнивание при изменении размеров окна браузера
-    $(window).on('resize', function() {
-        console.log('11');
-        $('.locator-lite-simulation-info-popup').dialog("option", "width", getDialogWindowWidth());
-        $('.locator-lite-simulation-info-popup').dialog("option", "position", "center");
-    });
-
     // 5) перемещаем .pager в нужное место
     $('.locator-pager-place').html($('.locator-contrast-table .pager').html());
     $('.locator-contrast-table .pager').html('');
@@ -138,11 +106,9 @@ $(document).ready(function () {
                     var dataGlobal = data;
                     if (0 < parseInt(data.count_self_to_self_invites_in_progress)) {
                         // незавершенные симуляции есть
-                        console.log('initWarningAboutSimulationInProgress');
                         initWarningAboutSimulationInProgress(href, dataGlobal);
                     } else {
                         // незавершенных симуляций нет
-                        console.log('displaySimulationInfoPopUp');
                         displaySimulationInfoPopUp(href, dataGlobal);
                     }
                 }
@@ -216,7 +182,6 @@ $(document).ready(function () {
     });
 
     function infoPopup_aboutFullSimulation(href) {
-        console.log('infoPopup_aboutFullSimulation', pre_simulation_popup);
         pre_simulation_popup.dialog('open');
         $('.locator-next-step').attr('data-href', href);
     }
@@ -231,23 +196,10 @@ $(document).ready(function () {
         if(data.user_try_start_simulation_twice &&
             0 == parseInt(data.count_self_to_self_invites_in_progress)) {
             // предупреждение о попытке повторного начала симуляции
-            console.log("initWarningAboutSimulationInProgress");
             initWarningAboutSimulationInProgress(href, data);
-//            $(".pre-start-popup").dialog({
-//                closeOnEscape: true,
-//                dialogClass: 'popup-before-start-sim',
-//                minHeight: 220,
-//                modal: true,
-//                resizable: false,
-//                width: getDialogWindowWidth(),
-//                open: function( event, ui ) {
-//                    $('.start-full-simulation-next').attr('data-href', href);
-//                }
-//            });
         } else {
             // информация про ключевые моменты в сценарии фулл симуляции
             // что я? где я? сотрудники, цели.
-            console.log('infoPopup_aboutFullSimulation');
             infoPopup_aboutFullSimulation(href);
         }
     }
