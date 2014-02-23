@@ -317,7 +317,7 @@ class UserService {
      *
      * @return bool|null
      */
-    public static function sendInvite(YumUser $user, $profile, Invite &$invite, $is_display_results) {
+    public static function sendInvite(YumUser $user, $profile, Invite &$invite, $is_display_results, $send_invite = true) {
 
         $validPrevalidate = null;
         if($profile !== null && $profile->user->isCorporate()) {
@@ -352,29 +352,32 @@ class UserService {
             if ($invite->validate() && 0 < $user->getAccount()->getTotalAvailableInvitesLimit()) {
                 $invite->markAsSendToday();
                 $user->account_corporate->default_invitation_mail_text = $invite->message;
-                $user->account_corporate->save();
                 $invite->message = preg_replace('/(\r\n)/', '<br>', $invite->message);
                 $invite->message = preg_replace('/(\n\r)/', '<br>', $invite->message);
                 $invite->message = preg_replace('/\\n|\\r/', '<br>', $invite->message);
                 $invite->is_display_simulation_results = (int) !$is_display_results;
-                $invite->save(false);
 
-                InviteService::logAboutInviteStatus($invite, sprintf(
-                    'Приглашение для %s создано в корпоративном кабинете пользователя %s.',
-                    $invite->email,
-                    $user->profile->email
-                ));
+                if($send_invite) {
+                    $user->account_corporate->save();
+                    $invite->save(false);
 
-                self::sendEmailInvite($invite);
-                $initValue = $user->getAccount()->getTotalAvailableInvitesLimit();
+                    InviteService::logAboutInviteStatus($invite, sprintf(
+                        'Приглашение для %s создано в корпоративном кабинете пользователя %s.',
+                        $invite->email,
+                        $user->profile->email
+                    ));
 
-                // decline corporate user invites_limit
-                $user->getAccount()->decreaseLimit();
-                $user->getAccount()->save();
-                $user->refresh();
+                    self::sendEmailInvite($invite);
+                    $initValue = $user->getAccount()->getTotalAvailableInvitesLimit();
 
-                UserService::logCorporateInviteMovementAdd(sprintf("Симуляция списана за отправку приглашения номер %s для %s",
-                    $invite->id, $invite->email), $user->getAccount(), $initValue);
+                    // decline corporate user invites_limit
+                    $user->getAccount()->decreaseLimit();
+                    $user->getAccount()->save();
+                    $user->refresh();
+
+                    UserService::logCorporateInviteMovementAdd(sprintf("Симуляция списана за отправку приглашения номер %s для %s",
+                        $invite->id, $invite->email), $user->getAccount(), $initValue);
+                }
 
                 return true;
                 //$this->redirect('/dashboard');
@@ -382,7 +385,9 @@ class UserService {
                 //Yii::app()->user->setFlash('error', Yii::t('site', 'У вас закончились приглашения'));
                 throw new RedirectException("Нужно перехватить это исключение и отредиректить");
             } else {
-                Yii::app()->user->setFlash('error', Yii::t('site', 'Приглашение уже отправлено'));
+                if($send_invite){
+                    Yii::app()->user->setFlash('error', Yii::t('site', 'Приглашение уже отправлено'));
+                }
             }
         }
         return $validPrevalidate;
@@ -1033,6 +1038,37 @@ class UserService {
         }
 
         return ['ip_code' => $ip_code . $domain_code, 'ip_db' => $ip_db];
+    }
+
+    public static function createPersonalAccountAndSendEmail(YumUser &$user, YumProfile &$profile, UserAccountPersonal &$account_personal) {
+        $password = $user->password;
+        if(self::createPersonalAccount($user, $profile, $account_personal)) {
+            YumUser::activate($profile->email, $user->activationKey);
+            $mailOptions = new SiteEmailOptions();
+            $mailOptions->from = Yum::module('registration')->registrationEmail;
+            $mailOptions->to = $profile->email;
+            $mailOptions->subject = 'Регистрация на skiliks';
+
+            $mailOptions->h1      = sprintf('Приветствуем, %s!', $profile->firstname);
+            $mailOptions->text1   = '
+                <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
+                    Для вас был создан аккаунт с логином '.$profile->email.' и паролем '.$password.'
+                </p>
+            ';
+
+            return UserService::addStandardEmailToQueue($mailOptions, SiteEmailOptions::TEMPLATE_ANJELA);
+        }
+        return false;
+    }
+
+    public static function generatePassword($length = 8){
+        $chars = 'abdefhiknrstyzABDEFGHKNQRSTYZ23456789';
+        $numChars = strlen($chars);
+        $string = '';
+        for ($i = 0; $i < $length; $i++) {
+            $string .= substr($chars, rand(1, $numChars) - 1, 1);
+        }
+        return $string;
     }
 }
 

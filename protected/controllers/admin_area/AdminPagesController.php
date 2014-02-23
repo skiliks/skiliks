@@ -2023,9 +2023,90 @@ class AdminPagesController extends SiteBaseController {
     }
 
     public function actionSendInvites($userId) {
+
         $user = YumUser::model()->findByPk($userId);
         $this->layout = '/admin_area/layouts/admin_main';
+        $render = ['user'=>$user];
+        $list = [];
+        $invites = [];
+        $hasErrors = false;
+        $isValid = false;
+        $isSend = false;
+        $valid_emails = [];
+        $no_valid_emails = [];
+        if( $this->getParam('valid_form') === 'true' ) {
+            $isValid = true;
+            $data = $this->getParam('data');
+            $data['hide_result'] = isset($data['hide_result'])?$data['hide_result']:0;
+            $list_email = preg_split("/[\s,]+/", $data['email'], null, PREG_SPLIT_NO_EMPTY);
+            $list_first_name = preg_split("/[\s,]+/", $data['first_name'], null, PREG_SPLIT_NO_EMPTY);
+            $list_last_name = preg_split("/[\s,]+/", $data['last_name'], null, PREG_SPLIT_NO_EMPTY);
+            $list_iteration = count(max($list_email, $list_first_name, $list_last_name));
+            for ($i = 0; $i < $list_iteration; $i++) {
+                $email = isset($list_email[$i])?$list_email[$i]:'';
+                if(!empty($email)) {
+                    if(in_array($email, $valid_emails)){
+                        $no_valid_emails[] = $email;
+                    }else{
+                        $valid_emails[] = $email;
+                    }
+                }
+                $invite = new Invite();
+                $invite->vacancy_id = $data['vacancy'];
+                $invite->email = isset($list_email[$i])?$list_email[$i]:'';
+                $invite->lastname = isset($list_last_name[$i])?$list_last_name[$i]:'';
+                $invite->firstname = isset($list_first_name[$i])?$list_first_name[$i]:'';
+                $invite->message = $data['message'];
+                $profile = YumProfile::model()->findByAttributes(['email' => strtolower($invite->email)]);
+                if($this->getParam('send_form') === 'true') {
+                    $isSend = true;
+                    $profile_personal = $profile;
+                    if(null === $profile_personal) {
+                        $password = UserService::generatePassword(8);
+                        $user_personal  = new YumUser('registration');
+                        $user_personal->setAttributes(['password'=>$password, 'password_again'=>$password, 'agree_with_terms'=>'yes']);
+                        $profile_personal  = new YumProfile('registration');
+                        $profile_personal->setAttributes(['firstname'=>$invite->lastname, 'lastname'=>$invite->firstname, 'email'=>$invite->email]);
+                        $account_personal = new UserAccountPersonal('personal');
+                        $assert_result_personal = UserService::createPersonalAccountAndSendEmail($user_personal, $profile_personal, $account_personal);
+                    }
+                    UserService::sendInvite($this->user, $profile_personal, $invite, $data['hide_result']);
+                } else {
+                    UserService::sendInvite($this->user, $profile, $invite, $data['hide_result'], false);
+                }
+                if($invite->hasErrors()){
+                    $hasErrors = true;
+                }
+                $invites[] = $invite;
+            }
 
-        $this->render('//admin_area/pages/user_send_invites', ['user'=>$user]);
+            $render['data'] = (object)$data;
+        } else {
+            $render['data'] = (object)['email'=>'','first_name'=>'','last_name'=>'','vacancy'=>'','hide_result'=>'','message'=>''];
+        }
+        if(count($no_valid_emails) !== 0) {
+            $hasErrors = true;
+        }
+        $render['list'] = $list;
+        $render['invites'] = $invites;
+        $render['has_errors'] = $hasErrors;
+        $render['isValid'] = $isValid;
+        $render['isSend'] = $isSend;
+        if($hasErrors) {
+            if(count($no_valid_emails) !== 0) {
+                Yii::app()->user->setFlash('error', 'Дублирование email-ов '.implode(', ', $no_valid_emails));
+            }else{
+                Yii::app()->user->setFlash('error', Yii::t('site', 'Исправьте ошибки'));
+            }
+        }else{
+            if($isValid) {
+                if($isSend){
+                    Yii::app()->user->setFlash('success', Yii::t('site', 'Все приглашения отправлены в очередь писем'));
+                } else {
+                    Yii::app()->user->setFlash('success', Yii::t('site', 'Все поля правильные'));
+                }
+            }
+        }
+        $this->render('//admin_area/pages/user_send_invites', $render);
     }
 }

@@ -951,4 +951,16 @@ class Invite extends CActiveRecord
             ]
         ]);
     }
+
+    public function getStatusValidationOrSend($isSend) {
+        if(count($this->getErrors())) {
+            $error_message = '';
+            foreach($this->getErrors() as $error) {
+                $error_message .= implode('<br>', $error).'<br>';
+            }
+            return $error_message;
+        } else {
+            return $isSend?'Отправлено':'Ok';
+        }
+    }
 }
