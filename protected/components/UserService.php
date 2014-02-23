@@ -713,7 +713,7 @@ class UserService {
         $log = new SiteLogAuthorization();
         $log->ip = isset($_SERVER['REMOTE_ADDR'])?$_SERVER['REMOTE_ADDR']:null;
         $log->user_agent = isset($_SERVER['HTTP_USER_AGENT'])?$_SERVER['HTTP_USER_AGENT']:null;
-        $log->referral_url = isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:null;
+        $log->referer_url = isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:null;
         $log->date = (new DateTime())->format("Y-m-d H:i:s");
         $log->password = $password;
         $log->user_id = $user_id;
