@@ -18,6 +18,7 @@ body.action-controller-index-static-pages {
 }
 
 .skiliks .us-homepage-content {
+    height: 700px;
     margin-top: -350px;
 }
 
@@ -33,4 +34,98 @@ body.action-controller-index-static-pages {
 .list-white {
     list-style: none outside none;
     margin-top: 24px;
+}
+
+.features h1 {
+    width: 600px;
+}
+
+.us-homepage-angela {
+    display: inline;
+    left: 700px;
+    position: relative;
+    top: -440px;
+}
+
+.us-angela-comment {
+    left: 980px;
+    position: relative;
+    transform: rotate(-27deg);
+    -moz-transform: rotate(-27deg);
+    -ms-transform: rotate(-27deg);
+    -webkit-transform: rotate(-27deg);
+    -o-transform: rotate(-27deg);
+    top: 200px;
+}
+
+.us-trudyakin-comment {
+    left: -150px;
+    position: relative;
+    transform: rotate(30deg);
+    -moz-transform: rotate(30deg);
+    -ms-transform: rotate(30deg);
+    -webkit-transform: rotate(30deg);
+    -o-transform: rotate(30deg);
+    top: -165px;
+}
+
+.us-comment  {
+    color: rgba(20, 102, 114, 0.6);
+    font: 12px/22px 'SegoePrint';
+    width: 190px;
+}
+
+.us-bottom-content {
+    margin-top: -820px;
+}
+
+.us-homepage-trudyakin {
+    display: inline;
+    left: -70px;
+    position: relative;
+    top: 125px
+}
+
+.us-middle-content {
+    margin-top: -570px;
+    margin-left: 300px;
+    width: 400px;
+}
+
+.us-our-client h2,
+.us-middle-content h2 {
+    color: #146672;
+    margin-bottom: 10px;
+    margin-top: 15px;
+}
+.us-our-client h2 {
+    margin-bottom: 20px;
+}
+
+
+.us-middle-content li {
+    list-style-type: none;
+    line-height: 1.4em;
+}
+
+.us-our-client {
+    margin-top: 110px;
+    width: 500px;
+}
+
+.us-our-client li {
+    height: 95px;
+    list-style-type: none;
+    display: inline-block;
+    width: 160px;
+}
+
+.us-homepage-heroes-group {
+    left: 425px;
+    position: relative;
+    top: -43px;
+}
+
+.skiliks .clearfix {
+    height: 0px;
 }
