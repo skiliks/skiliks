@@ -1,0 +1,36 @@
+@media screen and (max-width: 1279px) {
+    .us-column-full {
+        width: 750px;
+    }
+
+    .us-homepage-trudyakin {
+        left: -190px;
+    }
+
+    .us-trudyakin-comment {
+        left: -280px;
+    }
+
+    .us-middle-content {
+        margin-left: 180px;
+        margin-top: -529px;
+    }
+
+    .us-our-client {
+        margin-top: 150px;
+        margin-left: -80px;
+    }
+
+    .us-homepage-heroes-group {
+        left: 285px;
+        top: -74px;
+    }
+
+    .us-homepage-angela {
+        left: 525px;
+    }
+
+    .us-angela-comment {
+        left: 805px;
+    }
+}
