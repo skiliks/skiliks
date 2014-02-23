@@ -1,8 +1,7 @@
 <?php $titles = [
     'Дата',
     'Транзакция',
-    'Место спровоцировавцее транзакцию (в коде проекта)',
-    'Приглашения <br/>тариф / рефералы<br/>в итоге',
+    'Место спровоцировавцее транзакцию (в коде проекта)'
 ] ?>
 <div class="row fix-top">
 
@@ -56,9 +55,6 @@
                 <td><?= $log->date ?></td>
                 <td><?= $log->amount ?> <?= $log->direction ?> до <?= ($log->limit_after_transaction) ?></td>
                 <td><?= $log->message ?></td>
-                <td>
-                    <?= $log->limit_after_transaction ?>
-                </td>
             </tr>
         <?php endforeach ?>
         </tbody>
