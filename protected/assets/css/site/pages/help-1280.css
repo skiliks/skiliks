@@ -34,6 +34,7 @@ ul.question-container li {
     padding: 16px 40px 14px 20px;
 }
 
+ul.question-container li:hover,
 ul.question-container li.active {
     background-color: #FFFFFF;
     background-image: url("../../../img/arrow-to-bottom.png");
