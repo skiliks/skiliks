@@ -31,7 +31,7 @@
     <?php if(!$has_errors && $isValid) : ?>
         <?php
         $innerText = '
-            Для вас был создан аккаунт с логином {email} и паролем {password.}<br>
+            Для вас был создан аккаунт с логином {email} и паролем {password}<br>
             Пожалуйста,
             <a target="_blank" style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;"
             href="' . Yii::app()->createAbsoluteUrl('/user/auth') . '">
