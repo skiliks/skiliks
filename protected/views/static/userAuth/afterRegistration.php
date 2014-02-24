@@ -3,7 +3,13 @@
 <br/>
 
 <h1 class="pull-content-center">
-    На указанный вами email <?=Yii::app()->session->get("email");?> отправлено письмо
+    На указанный вами email
+    <?= (isset(Yii::app()->request->cookies['registration_email']))
+        ? Yii::app()->request->cookies['registration_email']->value
+        : '';
+    ?>
+    <br/>
+    отправлено письмо
 </h1>
 
 <br/>

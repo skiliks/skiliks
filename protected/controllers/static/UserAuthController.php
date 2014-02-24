@@ -179,12 +179,12 @@ class UserAuthController extends YumController
 
         $profile = new YumProfile('registration');
 
-        $account = new UserAccountPersonal();
+        $account = new UserAccountCorporate();
         $error = null;
 
         $YumUser     = Yii::app()->request->getParam('YumUser');
         $YumProfile  = Yii::app()->request->getParam('YumProfile');
-        $UserAccount = Yii::app()->request->getParam('UserAccountPersonal');
+        $UserAccount = Yii::app()->request->getParam('UserAccountCorporate');
 
         // if(null !== $YumUser && null !== $YumProfile && null !== $UserAccount) {
         if(Yii::app()->request->isPostRequest) {
@@ -213,19 +213,13 @@ class UserAuthController extends YumController
                     $account->user_id = $this->user->id;
                     $account->save(false);
 
-//                    $action = YumAction::model()->findByAttributes(['title' => UserService::CAN_START_FULL_SIMULATION]);
-//
-//                    $permission = new YumPermission();
-//                    $permission->principal_id = $this->user->id;
-//                    $permission->subordinate_id = $this->user->id;
-//                    $permission->action = $action->id;
-//                    $permission->type = 'user';
-//                    $permission->template = 1; // magic const
-//                    $permission->save(false);
+                    UserService::createCorporateAccount($this->user, $profile, $account);
+                    UserService::sendRegistrationEmail($this->user);
 
                     UserService::assignAllNotAssignedUserInvites($this->user);
 
-                    Yii::app()->session["user_id"] = $this->user->id;
+                    Yii::app()->request->cookies['registration_email'] =
+                        new CHttpCookie('registration_email', $profile->email);
 
                     $this->redirect(['afterRegistration']);
                 } else {
