@@ -214,6 +214,7 @@
     color: white;
 }
 
+.background-dark-blue-transparent-40-hovered,
 .static-page-links li a {
     background-color: rgba(20, 102, 114, 0.4);
 }

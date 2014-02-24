@@ -14,10 +14,7 @@ nav ul li.menu-item {
     list-style-type: none;
 }
 
-.static-page-links li a {
-    /*background-color: #5798a2;*/
-}
-
+.background-dark-blue-transparent-40-hovered:hover,
 a.link-with-background:hover,
 .static-page-links li a.active,
 .static-page-links li a:hover {

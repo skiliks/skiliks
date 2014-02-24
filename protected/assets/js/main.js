@@ -567,7 +567,6 @@ var fixLogotypes = function() {
                 $(this).css('color', '#555742');
                 $(this).removeClass("active");
             }
-            //Cufon.refresh();
         })
 
         $(".showDialogRejected").click(function(e){

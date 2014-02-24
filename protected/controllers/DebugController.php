@@ -2,89 +2,7 @@
 
 class DebugController extends SiteBaseController
 {
-
-    public function actionIndex() {
-       $var = Scenario::model()->findByAttributes(['slug'=>Scenario::TYPE_FULL])->getOutgoingPhoneTheme(['theme_id'=>3]);
-       var_dump($var);
-    }
-
-    public function actionSend()
-    {
-        $email_to = Yii::app()->request->getParam('email', 'slavka@skiliks.com');
-        //$email_to = Yii::app()->request->getParam('email', 'gty1991@gmail.com');
-
-        $text = //'<br/>Text 2. <br/>2lkj lk jlk jl k klj<br/>3l kjl jlk jl<br/>4j ljlk <br/>5jlkj <br/>6lj lj ljl jl jl<br/>7 jl kj lkj<br/>8 kj lj lkj lj<br/>9 lkj lkjl kjl jl <br/>10jl jlkj<br/>11 l jlkj l<br/>12jl kjl jlkj ljl11<br/>13 jlj ljl<br/>14 jl jl jl<br/>15 jlj ljlj lkj<br/>16 lkj lkj lkj<br/>17 lkj lkj <br/>18 lkj ljl jl k<br/>19 jl lk jlj <br/>20 lkj ljl kjk jkjl kj'
-            'Text 2. lkj      lk jlk jl koookljl kjl jlk jlj ljlk jlkj lj lj ljl jl jl jl kj lkj kj lj lkj lj lkj lkjl kjl jl jl jlkj l jlkj ljl kjl jlkj ljl jlj ljl jl jl jl jlj ljlj lkj lkj lkj lkj lkj lkj lkj ljl jl kjl kjl kj'
-            .'Text 2. lkj lk jlk jl k kljl kjl jlk jlj ljlk jlkj lj lj ljl jl jl jl kj lkj kj lj lkj lj lkj lkjl kjl jl jl jlkj l jlkj ljl kjl jlkj ljl jlj ljl jl jl jl jlj ljlj lkj lkj lkj lkj lkj lkj lkj ljl jl kjl kjl kj'
-            .'Text 2. lkj lk jlk jl k kljl kjl jlk jlj ljlk jlkj lj lj ljl jl jl jl kj lkj kj lj lkj lj lkj lkjl kjl jl jl jlkj l jlkj ljl kjl jlkj ljl jlj ljl jl jl jl jlj ljlj lkj lkj lkj lkj lkj lkj lkj ljl jl kjl kjl kj'
-            .'Text 2. lkj lk jlk jl k kljl kjl jlk jlj ljlk jlkj lj lj ljl jl jl jl kj lkj kj lj lkj lj lkj lkjl kjl jl jl jlkj l jlkj ljl kjl jlkj ljl jlj ljl jl jl jl jlj ljlj lkj lkj lkj lkj lkj lkj lkj ljl jl kjl kjl kj'
-            .'Text 2. lkj lk jlk jl k kljl kjl jlk jlj ljlk jlkj lj lj ljl jl jl jl kj lkj kj lj lkj lj lkj lkjl kjl jl jl jlkj l jlkj ljl kjl jlkj ljl jlj ljl jl jl jl jlj ljlj lkj lkj lkj lkj lkj lkj lkj ljl jl kjl kjl kj';
-
-        /*$text = '<br/>ййййййййййщщ щщщщщщщщмммммммммм ннннннннннввввввввввю юююююююююхххххххххх ййййййййййщщ щщщщщщщщмммммммммм ннннннннннввввввввввю юююююююююхххххххххх
-            ййййййййййщщ щщщщщщщщмммммммммм ннннннннннввввввввввю юююююююююхххххххххх ййййййййййщщ  щщщщщщщщмммммммммм ннннннннннввввввввввю юююююююююхххххххххх
-            ййййййййййщщ щщщщщщщщмммммммммм ннннннннннввввввввввю ююю1<br/>1ююююююхххххххххх ййййййййййщщ щщщщщщщщмммммммммм ннннннннннввввввввввю юююююююююхххххххххх
-            ййййййййййщщ щщщщщщщщмммммммммм ннннннннннввввввввввю юююююююююхххххххххх ййййййййййщщ щщщщщщщщмммммммммм ннннннннннввввввввввю юююююююююхххххххххх
-            ййййййййййщщ щщщщщщщщмммммммммм ннннннннннввввввввввю юююююююююхххххххххх ййййййййййщщ щщщщщщщщмммммммммм ннннннннннввввввввввю юююююююююхххххххххх';
-*/
-        foreach (['anjela'/*, 'denejnaia', 'fikus', 'jeleznij', 'krutko', 'trudiakin'*/] as $template) {
-
-            $mailOptions           = new SiteEmailOptions();
-            $mailOptions->from     = 'support@skiliks.com';
-            $mailOptions->to       = $email_to;
-            $mailOptions->subject  = 'New emails markup test. 12.2 - '.$template.' - '.date('H:i:s');
-            $mailOptions->template = $template;
-            $mailOptions->setText($text);
-
-            UserService::addStandardEmailToQueue($mailOptions, $template);
-
-            echo 'done';
-
-            $result = MailHelper::sendMailFromQueue(1);
-            echo "Done - {$result['done']}\r\n";
-            echo "Fail - {$result['fail']}\r\n";
-        }
-    }
-
-    public function actionStandard() {
-        $this->layout = '//layouts/site_standard_2';
-
-        $this->render('//static/site/error404', []);
-    }
-
-    public function actionClusterData() {
-        $this->layout = null;
-        $result = UserService::getServerInfo();
-        echo "IP code: ".$result['ip_code']."\r\n <br>";
-        echo "IP db: ".$result['ip_db'];
-    }
-
-    public function actionSK_5494() {
-
-        $text = '<br/><Имя клиента>,<br/>
-<br/>
-Благодарим вас за интерес к нашей симуляции!<br/>
-<br/>
-Мы стараемся следовать запросам наших клиентов и регулярно вносим изменения в продукт!<br/>
-<br/>
-С 1 апреля 2014 года наши клиенты смогут использовать следующие новые возможности:<br/>
-<br/>
-1. Каждый сотрудник, прошедший симуляцию, сможет ознакомиться с детальной обратной связью по всем оцениваемым навыкам.<br/>
-<br/>
-2. Каждый сотрудник, прошедший симуляцию, сможет получить личный план развития управленческих навыков.<br/>
-<br/>
-3. Компания, где 20 и более сотрудников прошли симуляцию, сможет получить Отчет по диагностике управленческого потенциала компании. Этот отчет дает системное понимание зон развития навыков управленческой команды.<br/>
-<br/>
-Перечисленные выше возможности вы получите БЕСПЛАТНО по всей базе сотрудников по тарифам, приобретенным до 31 марта 2014 года.<br/>
-<br/>
-';
-
-        //$profiles = YumProfile::model()->findAllByAttributes(['email' => ['tony@skiliks.com', 'maria.gorina@skiliks.com','slavka@skiliks.com','tetyana.grybok@skiliks.com']]);
-        // $profiles = YumProfile::model()->findAllByAttributes(['email' => 'maria.gorina@skiliks.com']);
-        //$profiles = YumProfile::model()->findAllByAttributes(['email' => 'slavka@skiliks.com']);
-        //$profiles = YumProfile::model()->findAllByAttributes(['email' => 'ivan@skiliks.com']);
-        //$profiles = YumProfile::model()->findAllByAttributes(['email' => 'gty1991@gmail.com']);
-
-        $list = 'slavka@skiliks.com  Вячеслав
+    public $list = 'slavka@skiliks.com  Вячеслав
  tony@skiliks.com  Антон
  tetyana.grybok@skiliks.com  Tetyana
  tatiana@skiliks.com  Tatyana
@@ -145,7 +63,6 @@ class DebugController extends SiteBaseController
  uzhakina@malakut.ru  Юлия
  fedor@fabit.ru  Федор
  abash@yandex-team.ru  Алексей
- funsad@yandex-team.ru  Александр
  m.zavyalova@avgust.com  Марина
  matafonovd@hq.nettrader.ru  Денис
  ekaterina.tselova@lafarge.com  Екатерина
@@ -321,7 +238,6 @@ class DebugController extends SiteBaseController
  Cqo@gritti.am  Кристина
  admin@crossflow.ru  Dmitriy
  gordeev@reconn.ru  Андрей
- evgeniya.goleva@lamoda.ru  Евгения
  ofilippova@specialone.ru  Олеся
  yl@digitaloctober.com  Юлия
  elena.yakubenko@jti.com  Елена
@@ -684,7 +600,84 @@ class DebugController extends SiteBaseController
  s.novikov@vdgb.ru  Сергей
  zorin@ergosolo.ru  Давран
  s.valtsev@elumatec.kz  Станислав
- tetyana.grybok+0122@skiliks.com  tetyana';
+ tetyana.grybok+0122@skiliks.com  tetyana
+ n.morozova.uh@hitachi-kenki.com  Наталья';
+
+    public function actionIndex() {
+       $var = Scenario::model()->findByAttributes(['slug'=>Scenario::TYPE_FULL])->getOutgoingPhoneTheme(['theme_id'=>3]);
+       var_dump($var);
+    }
+
+    public function actionSend()
+    {
+        $email_to = Yii::app()->request->getParam('email', 'slavka@skiliks.com');
+        //$email_to = Yii::app()->request->getParam('email', 'gty1991@gmail.com');
+
+        $text = 'Text 2. lkj      lk jlk jl koookljl kjl jlk jlj ljlk jlkj lj lj ljl jl jl jl kj lkj kj lj lkj lj lkj lkjl kjl jl jl jlkj l jlkj ljl kjl jlkj ljl jlj ljl jl jl jl jlj ljlj lkj lkj lkj lkj lkj lkj lkj ljl jl kjl kjl kj'
+            .'Text 2. lkj lk jlk jl k kljl kjl jlk jlj ljlk jlkj lj lj ljl jl jl jl kj lkj kj lj lkj lj lkj lkjl kjl jl jl jlkj l jlkj ljl kjl jlkj ljl jlj ljl jl jl jl jlj ljlj lkj lkj lkj lkj lkj lkj lkj ljl jl kjl kjl kj'
+            .'Text 2. lkj lk jlk jl k kljl kjl jlk jlj ljlk jlkj lj lj ljl jl jl jl kj lkj kj lj lkj lj lkj lkjl kjl jl jl jlkj l jlkj ljl kjl jlkj ljl jlj ljl jl jl jl jlj ljlj lkj lkj lkj lkj lkj lkj lkj ljl jl kjl kjl kj'
+            .'Text 2. lkj lk jlk jl k kljl kjl jlk jlj ljlk jlkj lj lj ljl jl jl jl kj lkj kj lj lkj lj lkj lkjl kjl jl jl jlkj l jlkj ljl kjl jlkj ljl jlj ljl jl jl jl jlj ljlj lkj lkj lkj lkj lkj lkj lkj ljl jl kjl kjl kj'
+            .'Text 2. lkj lk jlk jl k kljl kjl jlk jlj ljlk jlkj lj lj ljl jl jl jl kj lkj kj lj lkj lj lkj lkjl kjl jl jl jlkj l jlkj ljl kjl jlkj ljl jlj ljl jl jl jl jlj ljlj lkj lkj lkj lkj lkj lkj lkj ljl jl kjl kjl kj';
+
+        foreach (['anjela'/*, 'denejnaia', 'fikus', 'jeleznij', 'krutko', 'trudiakin'*/] as $template) {
+
+            $mailOptions           = new SiteEmailOptions();
+            $mailOptions->from     = 'support@skiliks.com';
+            $mailOptions->to       = $email_to;
+            $mailOptions->subject  = 'New emails markup test. 12.2 - '.$template.' - '.date('H:i:s');
+            $mailOptions->template = $template;
+            $mailOptions->setText($text);
+
+            UserService::addStandardEmailToQueue($mailOptions, $template);
+
+            echo 'done';
+
+            $result = MailHelper::sendMailFromQueue(1);
+            echo "Done - {$result['done']}\r\n";
+            echo "Fail - {$result['fail']}\r\n";
+        }
+    }
+
+    public function actionStandard() {
+        $this->layout = '//layouts/site_standard_2';
+
+        $this->render('//static/site/error404', []);
+    }
+
+    public function actionClusterData() {
+        $this->layout = null;
+        $result = UserService::getServerInfo();
+        echo "IP code: ".$result['ip_code']."\r\n <br>";
+        echo "IP db: ".$result['ip_db'];
+    }
+
+    public function actionSK_5494() {
+
+        $text = '<br/><Имя клиента>,<br/>
+<br/>
+Благодарим вас за интерес к нашей симуляции!<br/>
+<br/>
+Мы стараемся следовать запросам наших клиентов и регулярно вносим изменения в продукт!<br/>
+<br/>
+С 1 апреля 2014 года наши клиенты смогут использовать следующие новые возможности:<br/>
+<br/>
+1. Каждый сотрудник, прошедший симуляцию, сможет ознакомиться с детальной обратной связью по всем оцениваемым навыкам.<br/>
+<br/>
+2. Каждый сотрудник, прошедший симуляцию, сможет получить личный план развития управленческих навыков.<br/>
+<br/>
+3. Компания, где 20 и более сотрудников прошли симуляцию, сможет получить Отчет по диагностике управленческого потенциала компании. Этот отчет дает системное понимание зон развития навыков управленческой команды.<br/>
+<br/>
+Перечисленные выше возможности вы получите БЕСПЛАТНО по всей базе сотрудников по тарифам, приобретенным до 31 марта 2014 года.<br/>
+<br/>
+';
+
+        //$profiles = YumProfile::model()->findAllByAttributes(['email' => ['tony@skiliks.com', 'maria.gorina@skiliks.com','slavka@skiliks.com','tetyana.grybok@skiliks.com']]);
+        // $profiles = YumProfile::model()->findAllByAttributes(['email' => 'maria.gorina@skiliks.com']);
+        //$profiles = YumProfile::model()->findAllByAttributes(['email' => 'slavka@skiliks.com']);
+        //$profiles = YumProfile::model()->findAllByAttributes(['email' => 'ivan@skiliks.com']);
+        //$profiles = YumProfile::model()->findAllByAttributes(['email' => 'gty1991@gmail.com']);
+
+        $list = $this->list;
 
         $profiles = explode("\n", $list);
 
@@ -719,11 +712,7 @@ class DebugController extends SiteBaseController
 <br/>
 ';
 
-        $list = 'slavka@skiliks.com  Вячеслав
-tetyana.grybok@skiliks.com  Tetyana
-tatiana@skiliks.com  Tatyana
-ivan@skiliks.com  Ваня
-gty1991@gmail.com  Татьяна';
+        $list = $this->list;
 
         $profiles = explode("\n", $list);
 
