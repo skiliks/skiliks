@@ -381,7 +381,7 @@ define([
                         } else if (event.data[0].code !== 'None' && event.eventTime) {
                             me.events.wait(event.data[0].code, event.eventTime);
                         } else {
-                            throw new Error('parseNewEvents. System can`t add event and can`t event.data[0].code !== None.');
+                            throw new Error('parseNewEvents error. ' + SKApp.simulation.getGameTime(true) + ' ' + JSON.stringify(event));
                         }
                     });
                 } catch(exception) {
