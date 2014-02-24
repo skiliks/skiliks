@@ -108,7 +108,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             $invite->setAttributes($this->getParam('Invite'));
             $is_send = false;
             try {
-                $is_send = UserService::sendInvite($this->user, $profile, $invite, $this->getParam('Invite')['is_display_simulation_results']);
+                $is_send = UserService::sendInvite($this->user, $invite, $this->getParam('Invite')['is_display_simulation_results']);
                 if($is_send){
                     UserService::sendEmailInvite($invite);
                 }
