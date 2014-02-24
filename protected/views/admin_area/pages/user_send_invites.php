@@ -42,7 +42,7 @@
         $mailOptions->setText($data->message);
         $mailOptions->text1 = '
             <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
-                Компания '. $invite->ownerUser->account_corporate->company_name .' предлагает вам пройти тест "Базовый менеджмент".<br/>
+                Компания '. $user->account_corporate->company_name .' предлагает вам пройти тест "Базовый менеджмент".<br/>
                 <a target="_blank" style="text-decoration: none; color: #147b99;" href="' . Yii::app()->createAbsoluteUrl('static/pages/product') .'">"Базовый менеджмент"</a>
                 - это деловая симуляция, позволяющая оценить менеджерские навыки в форме увлекательной игры.<br/>
             </p>
