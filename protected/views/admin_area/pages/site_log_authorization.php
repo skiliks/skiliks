@@ -23,7 +23,7 @@ $this->widget('zii.widgets.grid.CGridView', [
         ['header' => 'Пароль', 'name' => 'password', 'value' => '$data->password'],
         ['header' => 'User Id', 'name' => 'user_id', 'value' => '$data->user_id'],
         ['header' => 'Тип входа', 'name' => 'type_auth', 'value' => '$data->type_auth'],
-        ['header' => 'Referral url', 'name' => 'referral_url', 'value' => '$data->referral_url'],
+        ['header' => 'Referral url', 'name' => 'referer_url', 'value' => '$data->referer_url'],
 
     ]
 ]);
