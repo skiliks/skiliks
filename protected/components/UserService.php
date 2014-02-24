@@ -306,27 +306,19 @@ class UserService {
         return $isValidUser && $isValidProfile;
     }
 
+
     /**
      * Наполняет приглашение правильными данными.
      * Валидирует отправителя и получателя. (количество доступных симуляций, типы профилей, т.п.)
      *
      * @param YumUser $user - кто шлёт приглашение
-     * @param $profile - кому шлют приглашение
      * @param Invite $invite - пустой объект приглашения
      * @param $is_display_results - это опция в приглашении
-     *
-     * @return bool|null
+     * @param $send_invite
+     * @return bool
+     * @throws RedirectException
      */
-    public static function sendInvite(YumUser $user, $profile, Invite &$invite, $is_display_results, $send_invite = true) {
-
-        $validPrevalidate = null;
-        if($profile !== null && $profile->user->isCorporate()) {
-            $validPrevalidate = false;
-            Yii::app()->user->setFlash('error', sprintf(
-                'Данный пользователь с e-mail: '.$invite->email.' является корпоративным. Вы можете отправлять
-                     приглашения только персональным и незарегистрированным пользователям'
-            ));
-        } else {
+    public static function sendInvite(YumUser $user, Invite &$invite, $is_display_results, $send_invite = true) {
 
             $invite->code = uniqid(md5(mt_rand()));
             $invite->owner_id = $user->id;
@@ -336,7 +328,7 @@ class UserService {
             $profile = YumProfile::model()->findByAttributes([
                 'email' => strtolower($invite->email)
             ]);
-            if ($profile) {
+            if ($profile !== null) {
                 $invite->receiver_id = $profile->user->id;
             }
 
@@ -367,7 +359,6 @@ class UserService {
                         $user->profile->email
                     ));
 
-                    self::sendEmailInvite($invite);
                     $initValue = $user->getAccount()->getTotalAvailableInvitesLimit();
 
                     // decline corporate user invites_limit
@@ -389,9 +380,7 @@ class UserService {
                     Yii::app()->user->setFlash('error', Yii::t('site', 'Приглашение уже отправлено'));
                 }
             }
-        }
-        return $validPrevalidate;
-
+        return false;
     }
 
     /**
@@ -451,6 +440,61 @@ class UserService {
             </p>
             <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">'.
                 $mailOptions->text1.
+            '</p>';
+
+        $mailOptions->text2 = '<p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">'.
+            $mailOptions->text2.'
+            </p>
+             <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">'
+            . $innerText .
+            '</p>';
+
+        $invite->markAsSendToday();
+        $invite->save();
+
+        $sent = UserService::addStandardEmailToQueue($mailOptions, SiteEmailOptions::TEMPLATE_ANJELA);
+
+        return $sent;
+    }
+
+    /**
+     * Ставит в очередь писем письмо-приглашение пройти симуляцию.
+     *
+     * @param Invite $invite
+     * @param string $password
+     *
+     * @return bool
+     *
+     * @throws CException
+     */
+    public static function sendEmailInviteAndRegistration(Invite $invite, $password) {
+
+        if (empty($invite->email)) {
+            throw new CException(Yum::t('Email is not set when trying to send invite email. Wrong invite object.'));
+        }
+
+        $innerText = '
+            Для вас был создан аккаунт с логином '.$invite->email.' и паролем '.$password.'<br>
+            Пожалуйста,
+            <a target="_blank" style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;"
+            href="' . Yii::app()->createAbsoluteUrl('/user/auth') . '">
+                зайдите
+            </a> в свой кабинет и примите приглашение на тестирование для прохождения симуляции.';
+
+        $mailOptions          = new SiteEmailOptions();
+        $mailOptions->from    = Yum::module('registration')->registrationEmail;
+        $mailOptions->to      = $invite->email;
+        $mailOptions->subject = 'Приглашение пройти симуляцию на ' . Yii::app()->params['server_domain_name'];
+        $mailOptions->h1      = $invite->getReceiverFirstName() . ', приветствуем вас!';
+        $mailOptions->setText($invite->message);
+        $mailOptions->text1 = '
+            <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
+                Компания '. $invite->ownerUser->account_corporate->company_name .' предлагает вам пройти тест "Базовый менеджмент".<br/>
+                <a target="_blank" style="text-decoration: none; color: #147b99;" href="' . Yii::app()->createAbsoluteUrl('static/pages/product') .'">"Базовый менеджмент"</a>
+                - это деловая симуляция, позволяющая оценить менеджерские навыки в форме увлекательной игры.<br/>
+            </p>
+            <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">'.
+            $mailOptions->text1.
             '</p>';
 
         $mailOptions->text2 = '<p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">'.
@@ -1040,27 +1084,10 @@ class UserService {
         return ['ip_code' => $ip_code . $domain_code, 'ip_db' => $ip_db];
     }
 
-    public static function createPersonalAccountAndSendEmail(YumUser &$user, YumProfile &$profile, UserAccountPersonal &$account_personal) {
-        $password = $user->password;
-        if(self::createPersonalAccount($user, $profile, $account_personal)) {
-            YumUser::activate($profile->email, $user->activationKey);
-            $mailOptions = new SiteEmailOptions();
-            $mailOptions->from = Yum::module('registration')->registrationEmail;
-            $mailOptions->to = $profile->email;
-            $mailOptions->subject = 'Регистрация на skiliks';
-
-            $mailOptions->h1      = sprintf('Приветствуем, %s!', $profile->firstname);
-            $mailOptions->text1   = '
-                <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
-                    Для вас был создан аккаунт с логином '.$profile->email.' и паролем '.$password.'
-                </p>
-            ';
-
-            return UserService::addStandardEmailToQueue($mailOptions, SiteEmailOptions::TEMPLATE_ANJELA);
-        }
-        return false;
-    }
-
+    /**
+     * @param int $length
+     * @return string
+     */
     public static function generatePassword($length = 8){
         $chars = 'abdefhiknrstyzABDEFGHKNQRSTYZ23456789';
         $numChars = strlen($chars);

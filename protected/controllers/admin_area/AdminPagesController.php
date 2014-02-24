@@ -2068,11 +2068,19 @@ class AdminPagesController extends SiteBaseController {
                         $profile_personal  = new YumProfile('registration');
                         $profile_personal->setAttributes(['firstname'=>$invite->lastname, 'lastname'=>$invite->firstname, 'email'=>$invite->email]);
                         $account_personal = new UserAccountPersonal('personal');
-                        $assert_result_personal = UserService::createPersonalAccountAndSendEmail($user_personal, $profile_personal, $account_personal);
+                        if(UserService::createPersonalAccount($user_personal, $profile_personal, $account_personal)){
+                            YumUser::activate($profile_personal->email, $user_personal->activationKey);
+                            if(UserService::sendInvite($user, $invite, $data['hide_result'])){
+                                UserService::sendEmailInviteAndRegistration($invite, $password);
+                            }
+                        }
+                    }else{
+                        if(UserService::sendInvite($user, $invite, $data['hide_result'])){
+                            UserService::sendEmailInvite($invite);
+                        }
                     }
-                    UserService::sendInvite($this->user, $profile_personal, $invite, $data['hide_result']);
                 } else {
-                    UserService::sendInvite($this->user, $profile, $invite, $data['hide_result'], false);
+                    UserService::sendInvite($user, $invite, $data['hide_result'], false);
                 }
                 if($invite->hasErrors()){
                     $hasErrors = true;
@@ -2082,7 +2090,7 @@ class AdminPagesController extends SiteBaseController {
 
             $render['data'] = (object)$data;
         } else {
-            $render['data'] = (object)['email'=>'','first_name'=>'','last_name'=>'','vacancy'=>'','hide_result'=>'','message'=>''];
+            $render['data'] = (object)['email'=>'','first_name'=>'','last_name'=>'','vacancy'=>'','hide_result'=>'','message'=>$user->account_corporate->default_invitation_mail_text];
         }
         if(count($no_valid_emails) !== 0) {
             $hasErrors = true;
