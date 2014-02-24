@@ -46,7 +46,7 @@
                  * Также некоторые почтовые клиенты по умолчанию рисуют рамки у таблиц и картирок - мы обнуляем эти рамки.
                  */
                 ?>
-                <td colspan="4" rowspan="2" style=" width: 360px; vertical-align: top; height: 622px; overflow: hidden;"><img border="0px" src="cid:<?= $template ?>" style="border-color: #ff0000; display:block; height: 622px;" /></td>
+                <td colspan="4" rowspan="2" style=" width: 360px; vertical-align: top; height: 812px; overflow: hidden;"><img border="0px" src="cid:<?= $template ?>" style="border-color: #ff0000; display:block; height: 842px;" /></td>
             </tr>
 
             <?php
@@ -54,7 +54,7 @@
              * Основное тело письма
              */
             ?>
-            <tr style="height: 423px;">
+            <tr style="height: 611px;">
                 <td style="width: 10px;  height: 413px;"  bgcolor="f2f2f2"></td>
                 <td style="width: 30px;  height: 413px;"  bgcolor="fdfbc6"></td>
                 <td style="width: 490px; height: 397px; vertical-align: top;" bgcolor="fdfbc6">
@@ -73,7 +73,7 @@
                     <?php endif; ?>
 
                     <p style="
-                        height: 423px;
+                        height: 640px;
                         margin: 0 0 0 0;
                         padding-right: 30px;
                         color:#555545;

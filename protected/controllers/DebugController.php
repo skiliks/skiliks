@@ -706,5 +706,44 @@ class DebugController extends SiteBaseController
             UserService::addStandardEmailToQueue($mailOptions, $mailOptions->template);
         }
     }
+
+    public function actionSK_5517() {
+
+        $text = '<br/><Имя клиента>,<br/>
+<br/>
+Благодарим вас за использование skiliks!<br/>
+<br/>
+Обратите, пожалуйста, внимание, что цены и тарифы на симуляции изменились!<br/>
+<br/>
+Рады сообщить, что всем клиентам, купившим skiliks по любому тарифу в период до 31 марта, будет предоставлена 50% скидка до конца 2014 года.<br/>
+<br/>
+';
+
+        $list = 'slavka@skiliks.com  Вячеслав
+tetyana.grybok@skiliks.com  Tetyana
+tatiana@skiliks.com  Tatyana
+ivan@skiliks.com  Ваня
+gty1991@gmail.com  Татьяна';
+
+        $profiles = explode("\n", $list);
+
+        foreach ($profiles as $profile) {
+            $profile = trim($profile);
+            $data = explode(' ', $profile);
+
+            var_dump($data);
+            $text2 = str_replace('<Имя клиента>', ucfirst($data[2]), $text);
+
+            $mailOptions           = new SiteEmailOptions();
+            $mailOptions->from     = 'support@skiliks.com';
+            $mailOptions->to       = $data[0];
+            $mailOptions->h1       = null;
+            $mailOptions->subject  = 'Изменения в тарифах skiliks';
+            $mailOptions->template = 'anjela';
+            $mailOptions->setText($text2);
+
+            UserService::addStandardEmailToQueue($mailOptions, $mailOptions->template);
+        }
+    }
 }
 
