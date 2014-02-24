@@ -5,7 +5,7 @@
     <?= $user->profile->firstname.' '.$user->profile->lastname ?>, компания <?= empty($user->account_corporate->company_name)?$user->account_corporate->company_name_for_sales : $user->account_corporate->company_name ?>
 </h3>
 <br>
-<a href="/admin_area/user/43/details">
+<a href="/admin_area/user/<?= $user->id ?>/details">
     &lt;- Вернутья назад
 </a>
 <br>

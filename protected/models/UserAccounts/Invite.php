@@ -617,6 +617,13 @@ class Invite extends CActiveRecord
         }
     }
 
+    public function checkInviteLimits()
+    {
+        if($this->ownerUser->account_corporate->getTotalAvailableInvitesLimit() <= 0) {
+            $this->addError('email', 'У вас недостаточно приглашений');
+        }
+    }
+
 	/**
 	 * @return array relational rules.
 	 */

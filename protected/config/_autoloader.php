@@ -22,6 +22,7 @@ return [
         'application.components.Report2.*',
         'application.components.debug.*',
         'application.components.tcpdf.*',
+        'application.components.Exceptions.*',//Exceptions
 
         /* Controllers */
         'application.controllers.static.*',
