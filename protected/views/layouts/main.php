@@ -236,12 +236,6 @@ if(preg_match('/(?i)Firefox/',$_SERVER['HTTP_USER_AGENT']))
                     hcc.src = ("https:" === document.location.protocol ? "https" : "http")+"://widget.siteheart.com/apps/js/sh.js?v=2";
                     var s = document.head;
                     s.parentNode.insertBefore(hcc, null);
-
-//                    setTimeout(function() {
-//                        $('.sh_button_back').click();
-//                        $('input.shc').eq(1).click();
-//                        $('.sh_button_back').click();
-//                    }, 2000);
                 });
             </script>
         <?php endif; ?>

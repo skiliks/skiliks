@@ -53,6 +53,13 @@ class PagesController extends SiteBaseController
      */
     public function actionProduct()
     {
+        $this->layout = 'site_standard_2';
+
+        $this->addSiteJs('_page-product.js');
+
+        $this->addSiteCss('pages/product-1280.css');
+        $this->addSiteCss('pages/product-1024.css');
+
         $this->render('product');
     }
 

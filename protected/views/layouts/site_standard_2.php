@@ -59,6 +59,7 @@ $cs->registerCssFile($assetsUrl . "/css/site/social-networks.css");
 $cs->registerCssFile($assetsUrl . "/css/site/styles_size_independent.css");
 $cs->registerCssFile($assetsUrl . "/css/site/styles-1280.css");
 $cs->registerCssFile($assetsUrl . "/css/site/styles-1024.css");
+$cs->registerCssFile($assetsUrl . "/css/site/partials/site-heart.css");
 
 if(preg_match('/(?i)Chrome/',$_SERVER['HTTP_USER_AGENT']))
 {
@@ -162,9 +163,33 @@ if(preg_match('/(?i)MSIE/',$_SERVER['HTTP_USER_AGENT']))
     </footer>
 
     <!-- FOOTER } -->
+    <?php if (Yii::app()->params['public']['isDisplaySupportChat']) : ?>
+
+        <script type="text/javascript">
+            window._shcp = [];
+            window._shcp.push({
+                link_wrap_off: true, widget_id :<?= Yii::app()->params['public']['SiteHeartWidgetCode'] ?>,
+                widget : "Chat",
+                side : "right",
+                position : "top",
+                template : "blue",
+                title : "<?= Yii::app()->params['public']['SiteHeartWidgetTitle'] ?>",
+                title_offline : "Оставьте сообщение",
+                auth : "<?= StaticSiteTools::getSiteHeartAuth(Yii::app()->user->data()); ?>"
+            });
+            $(document).ready(function() {
+                var hcc = document.createElement("script");
+                hcc.type = "text/javascript";
+                hcc.async = true;
+                hcc.src = ("https:" === document.location.protocol ? "https" : "http")+"://widget.siteheart.com/apps/js/sh.js?v=2";
+                var s = document.head;
+                s.parentNode.insertBefore(hcc, null);
+            });
+        </script>
+    <?php endif; ?>
 
     <?php $this->renderPartial('//global_partials/_feedback', []) ?>
-    <?php // $this->renderPartial('//global_partials/_google_analytics') ?>
+    <?php $this->renderPartial('//global_partials/_google_analytics') ?>
     <?php $this->renderPartial('//global_partials/_before_start_lite_simulation_popup', []) ?>
 </section>
 
