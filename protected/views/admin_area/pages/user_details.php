@@ -80,7 +80,7 @@ $assetsUrl = $this->getAssetsUrl();
     &nbsp; &nbsp;
     <a class="btn btn-success" href="/admin_area/user/<?= $user->id ?>/send-invites">
         <i class="icon icon-arrow-up icon-white"></i>
-        Отправить преглашения
+        Отправить приглашения
     </a>
 <?php endif ?>
 

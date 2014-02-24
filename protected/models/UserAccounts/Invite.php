@@ -578,7 +578,6 @@ class Invite extends CActiveRecord
             array('firstname', 'required', 'message' => Yii::t('site', 'First name is required')),
             array('lastname', 'required', 'message' => Yii::t('site', 'Last name is required')),
             array('email', 'required', 'message' => Yii::t('site', 'Email is required')),
-            array('email', 'checkSendYourself'),
             array('vacancy_id', 'required', 'message' => Yii::t('site', 'Vacancy is required')),
 			array('owner_id, receiver_id, vacancy_id, status', 'length', 'max'=>10),
 			array('firstname, lastname', 'length', 'max'=>50),
@@ -591,20 +590,30 @@ class Invite extends CActiveRecord
 			array('tutorial_finished_at, can_be_reloaded, is_display_simulation_results', 'safe'),
 			array('stacktrace, is_crashed', 'safe'),
 			array('fullname', 'length', 'max' => 101, 'allowEmpty' => true), /* firstname+ lastname + 1 */
+            array('email', 'checkRegisteredCorporate', 'message' => Yii::t('site', 'Вы можете отправлять
+                     приглашения только персональным и незарегистрированным пользователям')),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, owner_id, receiver_id, firstname, lastname, email, message, signature, code, vacancy_id, status, sent_time', 'safe', 'on'=>'search'),
 		);
 	}
 
-    public function checkSendYourself()
+    public function checkRegisteredCorporate()
     {
-        if ($this->ownerUser &&
+        if($this->ownerUser &&
             $this->ownerUser->account_corporate &&
             $this->email &&
-            strtolower($this->ownerUser->profile->email) == strtolower($this->email)
-        ) {
-            $this->addError('email', Yii::t('site', 'Действие невозможно'));
+            strtolower($this->ownerUser->profile->email) == strtolower($this->email)) {
+            $this->clearErrors();
+            $this->addError('email', Yii::t('site', 'Вы не можете отправить себе приглашение'));
+
+        } else {
+            if ($this->owner_id !== $this->receiver_id && $this->receiverUser !== null && $this->receiverUser->isCorporate()) {
+                $this->clearErrors();
+                $this->addError('email', Yii::t('site',
+                    'Данный пользователь с e-mail: '.$this->email.' является корпоративным. Вы можете отправлять
+                     приглашения только персональным и незарегистрированным пользователям'));
+            }
         }
     }
 
