@@ -23,7 +23,7 @@ class PagesController extends SiteBaseController
 
         $this->addSiteCss('pages/homepage.css');
         $this->addSiteCss('pages/homepage-1024.css');
-        $this->addSiteCss('partials/_system-mistmatch.css');
+        $this->addSiteCss('partials/system-mismatch.css');
 
         /* @var $user YumUser */
         $this->render('home', [
@@ -84,6 +84,10 @@ class PagesController extends SiteBaseController
      */
     public function actionSystemMismatch()
     {
+        $this->layout = 'site_standard_2';
+
+        $this->addSiteCss('partials/system-mismatch.css');
+
         $this->render('system-mismatch', [
             'assetsUrl'      => $this->getAssetsUrl(),
             'userSubscribed' => true,
