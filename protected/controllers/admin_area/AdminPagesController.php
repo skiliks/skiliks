@@ -2134,7 +2134,7 @@ class AdminPagesController extends SiteBaseController {
                 } else {
                     if(count($invites) === 0 && $isValid) {
                         $render['has_errors'] = true;
-                        Yii::app()->user->setFlash('error', Yii::t('site', 'У вас нет адерсатов'));
+                        Yii::app()->user->setFlash('error', Yii::t('site', 'У вас нет адресатов'));
                     }elseif($user->account_corporate->getTotalAvailableInvitesLimit() < count($invites)){
                         $invite_limit_error = true;
                     }else{
