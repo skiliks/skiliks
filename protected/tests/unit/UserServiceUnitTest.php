@@ -405,7 +405,7 @@ class UserServiceUnitTest extends CDbTestCase
 
         // ---
         //Тест 2. Проверить с Free тарифного плана нельзя перейти на LiteFree.
-        //2.1. На уровне попапа
+        //2.1. На уровне попапаs
         //2.2. Если использовать setTariff()
         $tariff = Tariff::model()->findByAttributes(['slug'=>Tariff::SLUG_LITE_FREE]);
         $this->assertFalse(UserService::isAllowOrderTariff($tariff, $account));
@@ -483,6 +483,10 @@ class UserServiceUnitTest extends CDbTestCase
         $this->assertEquals('tariff-already-booked-popup', $action['popup_class']);
         //Тест 4. Проверить что LiteFree тарифный план нельзя продлить.
         $this->assertFalse(UserService::isAllowOrderTariff($tariff, $account));
+
+    }
+
+    public function testDemo() {
 
     }
 }

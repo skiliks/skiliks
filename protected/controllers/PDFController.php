@@ -203,4 +203,9 @@ class PDFController extends SiteBaseController {
         }
     }
 
+    public function actionSimulationDetailPDFBank(){
+
+
+    }
+
 } 
