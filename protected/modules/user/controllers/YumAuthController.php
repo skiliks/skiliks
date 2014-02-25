@@ -421,6 +421,10 @@ class YumAuthController extends YumController {
             }
 		}
 
+        $this->layout = '//layouts/site_standard_2';
+
+        $this->addSiteCss('pages/page-auth.css');
+
 		$this->render(Yum::module()->loginView, array(
 					'model' => $this->loginForm));
 	}

@@ -15,7 +15,7 @@
 <br/>
 <br/>
 
-<div class="nice-border column-2-3-wide pull-center pull-content-center
+<div class="nice-border column-2-3-fixed pull-center pull-content-center
     border-radius-standard background-yellow us-activation-email-notice">
     <div class="pull-content-left us-activation-email-content">
         <h3 class="margin-bottom-half-standard">Активация</h3>

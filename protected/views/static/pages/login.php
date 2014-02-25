@@ -1,22 +1,18 @@
 <?php
-if(!isset($model)) 
-	$model = new YumUserLogin();
+if(!isset($model)) {
+    $model = new YumUserLogin();
+}
 
 $module = Yum::module();
 
 $this->pageTitle = Yum::t('Вход');
-if(isset($this->title))
 $this->title = Yum::t('Вход');
 $this->breadcrumbs=array(Yum::t('Вход'));
-
-Yum::renderFlash();
 ?>
 
 <div class="form">
 <p>
-<?php
-echo Yum::t(
-		'Пожалуйста, заполните следующую форму с ваших учетных данных:'); ?>
+<?= 'Пожалуйста, заполните следующую форму с ваших учетных данных:' ?>
 </p>
 
 <?php echo CHtml::beginForm(array('//user/auth/login'));  ?>

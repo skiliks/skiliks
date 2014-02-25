@@ -102,6 +102,10 @@ h1, h2, h3, h4, h5, h6 {
     color: #ffffff;
 }
 
+.color-146672 {
+    color: #146672;
+}
+
 .color-29313D {
     color: #29313D;
 }
@@ -449,7 +453,7 @@ form .error-place {
 .error .error-place {
     display: block;
     height: 14px;
-    margin-top: -14px; /* this.margin-top === this.height*/
+    margin-top: -17px; /* this.margin-top немного более this.height*/
 }
 
 .error .error-place .errorMessage {

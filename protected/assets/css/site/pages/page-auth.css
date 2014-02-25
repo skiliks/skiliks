@@ -1,0 +1,54 @@
+.us-auth-box {
+    width: 640px;
+}
+
+.skiliks .nice-border {
+    padding: 0;
+}
+
+.skiliks .us-user-auth-page-form #YumUserLogin_username,
+.skiliks .us-user-auth-page-form #YumUserLogin_password {
+    width: 233px;
+}
+
+.us-label {
+    font-size: 1.2em;
+    margin-top: -2px;
+    vertical-align: top;
+}
+
+.us-first-input,
+.us-second-input {
+    margin-bottom: 2px;
+    padding-left: 5px;
+    width: 240px;
+}
+
+.us-auth-box.error {
+    padding-top: 14px;
+}
+
+.us-auth-box.border-radius-standard {
+    border-radius: 5px;
+}
+
+@media screen and (max-width: 1279px) {
+
+    .us-first-input,
+    .us-second-input {
+        width: 209px;
+    }
+
+    .skiliks .us-first-input {
+        margin-left: -5px;
+    }
+
+    .skiliks .us-user-auth-page-form #YumUserLogin_username,
+    .skiliks .us-user-auth-page-form #YumUserLogin_password {
+        width: 195px;
+    }
+
+    .us-auth-box {
+        width: 556px;
+    }
+}

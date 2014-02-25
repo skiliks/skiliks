@@ -33,16 +33,16 @@
     padding: 30px;
 }
 
-.controller-static-profile .column-2-3-wide {
+.controller-static-profile .column-2-3-fixed {
     width: 699px;
     font-size: 1.2em;
 }
 
-.controller-static-profile .column-2-3-wide .button-white {
+.controller-static-profile .column-2-3-fixed .button-white {
     font-size: 0.8em;
 }
 
-.controller-static-profile .column-2-3-wide .button-standard {
+.controller-static-profile .column-2-3-fixed .button-standard {
     font-size: 1.06em;
 }
 
@@ -61,8 +61,8 @@
     margin-top: 15px;
 }
 
-.controller-static-profile .column-2-3-wide .sbSelector,
-.controller-static-profile .column-2-3-wide .sbHolder {
+.controller-static-profile .column-2-3-fixed .sbSelector,
+.controller-static-profile .column-2-3-fixed .sbHolder {
     font-size: 0.9em;
 }
 
@@ -116,7 +116,7 @@
     font-size: 0.8em;
 }
 
-.action-controller-corporateReferrals-static-profile .column-2-3-wide {
+.action-controller-corporateReferrals-static-profile .column-2-3-fixed {
     padding-bottom: 0;
 }
 

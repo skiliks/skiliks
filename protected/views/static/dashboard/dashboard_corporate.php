@@ -47,7 +47,7 @@
     <!-- TABLE -->
     <section class="
         locator-corporate-invitations-list-box
-        corporate-invitations-list-box column-2-3-wide
+        corporate-invitations-list-box column-2-3-fixed
         pull-content-right inline-block vertical-align-top mark-up-block">
 
         <label class="mark-up-label">#Dashboard-column-2-3</label>

@@ -1,7 +1,7 @@
 <section class="team">
     <article>
         <h1 class="pull-content-center"><?= Yii::t('site', 'Meet the Team') ?></h1>
-        <p class="text-white pull-content-center text-for-article condensed-column"><?= Yii::t('site', 'As managers we know the issue of hiring and developing professionals. As consultants and continuous improvement practitioners we know the way this issue can be solved. So we decided to create the product that would help managers of any level in any business to build their teams with much more confidence and without time-consuming assessment process.') ?></p>
+        <p class="color-ffffff pull-content-center text-for-article condensed-column"><?= Yii::t('site', 'As managers we know the issue of hiring and developing professionals. As consultants and continuous improvement practitioners we know the way this issue can be solved. So we decided to create the product that would help managers of any level in any business to build their teams with much more confidence and without time-consuming assessment process.') ?></p>
         <br/>
     </article>
 

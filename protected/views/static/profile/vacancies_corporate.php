@@ -12,7 +12,7 @@
         <?php $this->renderPartial('_menu_corporate', ['active' => ['vacancies' => true]]) ?>
     </aside>
 
-    <section class="column-2-3-wide inline-block border-radius-standard background-F3FFFF
+    <section class="column-2-3-fixed inline-block border-radius-standard background-F3FFFF
          pull-right pull-content-left vertical-align-top profile-right-side">
 
         <div class="vacancy-list margin-bottom-standard">

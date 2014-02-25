@@ -21,7 +21,7 @@ ul.question-container li {
     background-attachment: scroll;
     background-clip: border-box;
     background-color: #FDFCC6;
-    background-image: url("../../../img/arrow-to-right.png");
+    background-image: url("../../../img/site/1280/help/arrow-to-right.png");
     background-origin: padding-box;
     background-position: 1110px 20px;
     background-repeat: no-repeat;
@@ -37,7 +37,7 @@ ul.question-container li {
 ul.question-container li:hover,
 ul.question-container li.active {
     background-color: #FFFFFF;
-    background-image: url("../../../img/arrow-to-bottom.png");
+    background-image: url("../../../img/site/1280/help/arrow-to-bottom.png");
     color: #146672;
 }
 

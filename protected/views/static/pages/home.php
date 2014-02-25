@@ -10,7 +10,7 @@
         <section class="features">
             <h1><?= Yii::t('site', 'Easy &amp; reliable way to discover your people management skills!') ?></h1>
 
-            <div class="column-2-3-wide">
+            <div class="column-2-3-fixed">
                 <span class="column-1-2">
                     <ul class="list-white">
                         <li class="icon-tick"><?= Yii::t('site', 'Simulation aimed at testing basic manager’s skills')?></li>
@@ -127,7 +127,7 @@
         <!--features end-->
 
         <!--main article-->
-        <section class="pull-content-left column-2-3-wide us-bottom-content">
+        <section class="pull-content-left column-2-3-fixed us-bottom-content">
             <img class="us-homepage-trudyakin" src="<?= $this->assetsUrl ?>/img/site/1280/homepage/trudyakin.png" />
 
             <section class="">
