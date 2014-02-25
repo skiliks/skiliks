@@ -35,3 +35,4 @@
         </span>
     </div>
 </section>
+<div class="clearfix"></div>

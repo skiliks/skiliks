@@ -21,7 +21,11 @@
 .us-second-input {
     margin-bottom: 2px;
     padding-left: 5px;
-    width: 240px;
+    width: 247px;
+}
+
+.skiliks .us-first-input {
+    margin-left: -4px;
 }
 
 .us-auth-box.error {
@@ -36,12 +40,10 @@
 
     .us-first-input,
     .us-second-input {
-        width: 209px;
+        width: 208px;
     }
 
-    .skiliks .us-first-input {
-        margin-left: -5px;
-    }
+
 
     .skiliks .us-user-auth-page-form #YumUserLogin_username,
     .skiliks .us-user-auth-page-form #YumUserLogin_password {
