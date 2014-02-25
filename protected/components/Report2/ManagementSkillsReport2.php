@@ -45,7 +45,9 @@ class ManagementSkillsReport2 extends LogTable  {
                     }
                 }
 
-                if(($lgg->learningGoalGroup->code == "1_5" or $lgg->learningGoalGroup->code == "2_3" or $lgg->learningGoalGroup->code == "3_4") && $i==0) {
+                // "1_5" for v1
+                // "1_4" for v2
+                if(($lgg->learningGoalGroup->code == "1_4" or $lgg->learningGoalGroup->code == "2_3" or $lgg->learningGoalGroup->code == "3_4") && $i==0) {
 
                     $this->logs[] = $new;
                     // making the result
@@ -58,7 +60,7 @@ class ManagementSkillsReport2 extends LogTable  {
                             $new->rating_scale = "combined";
                             $new->title = "ИТОГО";
                             $value = round($area->value, 2);
-                            $value = (string) $value === '0' ? '0.00':$value;
+                            $value = (string) $value === '0' ? '0.00' : $value;
                             $new->rating = $value;
                         }
                     }
