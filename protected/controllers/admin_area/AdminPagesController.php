@@ -2024,6 +2024,7 @@ class AdminPagesController extends SiteBaseController {
 
     public function actionSendInvites($userId) {
 
+        /* @var YumUser $user */
             $user = YumUser::model()->findByPk($userId);
             $this->layout = '/admin_area/layouts/admin_main';
             $render = ['user'=>$user];
@@ -2035,6 +2036,7 @@ class AdminPagesController extends SiteBaseController {
             $valid_emails = [];
             $no_valid_emails = [];
             $invite_limit_error = false;
+
             if( $this->getParam('valid_form') === 'true' ) {
                 $isValid = true;
                 $data = $this->getParam('data');
@@ -2043,6 +2045,7 @@ class AdminPagesController extends SiteBaseController {
                 $list_first_name = preg_split("/[\s,]+/", $data['first_name'], null, PREG_SPLIT_NO_EMPTY);
                 $list_last_name = preg_split("/[\s,]+/", $data['last_name'], null, PREG_SPLIT_NO_EMPTY);
                 $list_iteration = count(max($list_email, $list_first_name, $list_last_name));
+
                 for ($i = 0; $i < $list_iteration; $i++) {
                     $email = isset($list_email[$i])?$list_email[$i]:'';
                     if(!empty($email)) {
@@ -2052,6 +2055,7 @@ class AdminPagesController extends SiteBaseController {
                             $valid_emails[] = $email;
                         }
                     }
+
                     $invite = new Invite();
                     $invite->vacancy_id = $data['vacancy'];
                     $invite->email = isset($list_email[$i])?$list_email[$i]:'';
@@ -2059,9 +2063,11 @@ class AdminPagesController extends SiteBaseController {
                     $invite->firstname = isset($list_first_name[$i])?$list_first_name[$i]:'';
                     $invite->message = $data['message'];
                     $profile = YumProfile::model()->findByAttributes(['email' => strtolower($invite->email)]);
+
                     if($this->getParam('send_form') === 'true') {
                         $isSend = true;
                         $profile_personal = $profile;
+
                         if(null === $profile_personal) {
                             $password = UserService::generatePassword(8);
                             $user_personal  = new YumUser('registration');
@@ -2069,34 +2075,30 @@ class AdminPagesController extends SiteBaseController {
                             $profile_personal  = new YumProfile('registration');
                             $profile_personal->setAttributes(['firstname'=>$invite->lastname, 'lastname'=>$invite->firstname, 'email'=>$invite->email]);
                             $account_personal = new UserAccountPersonal('personal');
+
                             if(UserService::createPersonalAccount($user_personal, $profile_personal, $account_personal)){
+
                                 YumUser::activate($profile_personal->email, $user_personal->activationKey);
                                 try{
                                     if(UserService::sendInvite($user, $invite, $data['hide_result'])){
                                         UserService::sendEmailInviteAndRegistration($invite, $password);
                                     }
                                 } catch(RedirectException $e) {
-                                    $hasErrors = true;
-                                    Yii::app()->user->setFlash('error', Yii::t('site', 'У вас недостаточно инвайтов(сейчас '.$user->account_corporate->getTotalAvailableInvitesLimit().' - нужно '.count($invites).')'));
+                                    $invite_limit_error = true;
+
                                 }
                             }
-                        }else{
-                        try{
-                            if(UserService::sendInvite($user, $invite, $data['hide_result'])){
-                                UserService::sendEmailInvite($invite);
+                        } else {
+                            try{
+                                if(UserService::sendInvite($user, $invite, $data['hide_result'])){
+                                    UserService::sendEmailInvite($invite);
+                                }
+                            } catch(RedirectException $e) {
+                                $invite_limit_error = true;
                             }
-                        } catch(RedirectException $e) {
-                            $hasErrors = true;
-                            Yii::app()->user->setFlash('error', Yii::t('site', 'У вас недостаточно инвайтов(сейчас '.$user->account_corporate->getTotalAvailableInvitesLimit().' - нужно '.count($invites).')'));
-                        }
                         }
                     } else {
-                        try{
                             UserService::sendInvite($user, $invite, $data['hide_result'], false);
-                        } catch(RedirectException $e) {
-                            $hasErrors = true;
-                            Yii::app()->user->setFlash('error', Yii::t('site', 'У вас недостаточно инвайтов(сейчас '.$user->account_corporate->getTotalAvailableInvitesLimit().' - нужно '.count($invites).')'));
-                        }
                     }
                     if($invite->hasErrors()){
                         $hasErrors = true;
@@ -2112,15 +2114,13 @@ class AdminPagesController extends SiteBaseController {
         if(count($no_valid_emails) !== 0) {
             $hasErrors = true;
         }
-        if($user->account_corporate->getTotalAvailableInvitesLimit() < count($invites)){
-            $hasErrors = true;
-            Yii::app()->user->setFlash('error', Yii::t('site', 'У вас недостаточно инвайтов(сейчас '.$user->account_corporate->getTotalAvailableInvitesLimit().' - нужно '.count($invites).')'));
-        }
+
         $render['list'] = $list;
         $render['invites'] = $invites;
         $render['has_errors'] = $hasErrors;
         $render['isValid'] = $isValid;
         $render['isSend'] = $isSend;
+
         if($hasErrors) {
             if(count($no_valid_emails) !== 0) {
                 Yii::app()->user->setFlash('error', 'Дублирование email-ов '.implode(', ', $no_valid_emails));
@@ -2132,9 +2132,20 @@ class AdminPagesController extends SiteBaseController {
                 if($isSend){
                     Yii::app()->user->setFlash('success', Yii::t('site', 'Все приглашения отправлены в очередь писем'));
                 } else {
-                    Yii::app()->user->setFlash('success', Yii::t('site', 'Все поля правильные'));
+                    if(count($invites) === 0 && $isValid) {
+                        $render['has_errors'] = true;
+                        Yii::app()->user->setFlash('error', Yii::t('site', 'У вас нет адерсатов'));
+                    }elseif($user->account_corporate->getTotalAvailableInvitesLimit() < count($invites)){
+                        $invite_limit_error = true;
+                    }else{
+                        Yii::app()->user->setFlash('success', Yii::t('site', 'Все поля правильные'));
+                    }
                 }
             }
+        }
+        if($invite_limit_error){
+            $render['has_errors'] = true;
+            Yii::app()->user->setFlash('error', Yii::t('site', 'У вас недостаточно инвайтов(сейчас '.$user->account_corporate->getTotalAvailableInvitesLimit().' - нужно '.count($invites).')'));
         }
         $this->render('//admin_area/pages/user_send_invites', $render);
     }
