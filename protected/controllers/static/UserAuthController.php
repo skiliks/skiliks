@@ -652,6 +652,10 @@ class UserAuthController extends YumController
                 $this->redirect('/dashboard');
             }
             if ($profile && $profile->user->status > 0 && $profile->user->activationKey == $key) {
+
+                $this->layout = 'site_standard_2';
+                $this->addSiteCss('pages/page-auth.css');
+
                 $this->render('setPassword', [
                     'passwordForm' => $passwordForm
                 ]);

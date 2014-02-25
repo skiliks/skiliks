@@ -6,6 +6,11 @@
     padding: 0;
 }
 
+.skiliks .us-user-auth-page-form #YumUserChangePassword_password,
+.skiliks .us-user-auth-page-form #YumUserChangePassword_verifyPassword {
+    width: 159px;
+}
+
 .skiliks .us-user-auth-page-form #YumUserLogin_username,
 .skiliks .us-user-auth-page-form #YumUserLogin_password {
     width: 233px;
@@ -22,6 +27,11 @@
     margin-bottom: 2px;
     padding-left: 5px;
     width: 247px;
+}
+
+.action-controller-recovery-static-userAuth .us-first-input,
+.action-controller-recovery-static-userAuth .us-second-input  {
+    width: 173px;
 }
 
 .skiliks .us-first-input {
@@ -43,7 +53,10 @@
         width: 208px;
     }
 
-
+    .skiliks .us-user-auth-page-form #YumUserChangePassword_password,
+    .skiliks .us-user-auth-page-form #YumUserChangePassword_verifyPassword {
+        width: 100px;
+    }
 
     .skiliks .us-user-auth-page-form #YumUserLogin_username,
     .skiliks .us-user-auth-page-form #YumUserLogin_password {
