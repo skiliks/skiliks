@@ -2098,7 +2098,11 @@ class AdminPagesController extends SiteBaseController {
                             }
                         }
                     } else {
+                        try{
                             UserService::sendInvite($user, $invite, $data['hide_result'], false);
+                        } catch(RedirectException $e) {
+                            $invite_limit_error = true;
+                        }
                     }
                     if($invite->hasErrors()){
                         $hasErrors = true;
