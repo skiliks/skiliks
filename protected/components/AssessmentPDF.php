@@ -68,6 +68,11 @@ class AssessmentPDF {
      * Создание шаблона pdf задание параметров и конфигов
      * Еденица измерения мм для всего документа
      */
+
+    public  $image_height = null;
+
+    public  $image_width = null;
+
     public function __construct() {
         $this->pdf = Yii::createComponent('application.components.tcpdf.tcpdf',
             'P', 'mm', 'A4', true, 'UTF-8');
@@ -94,12 +99,30 @@ class AssessmentPDF {
         $this->pdf->ImageEps($this->images_dir.$this->page_number++.'_.eps', 0, 0, 210, 297.2);
     }
 
-    /**
-     * Выводит файл в браузер
-     * @param $name имя файла
-     */
+
+    public function addSinglePage($path, $x=0, $y=0, $w=210, $h=297.2) {
+        $orientation = ($h>$w) ? 'P' : 'L';
+        $this->pdf->AddPage($orientation, [$w, $h]);
+        if(null === $this->image_height || null === $this->image_width) {
+            $this->image_height = $h;
+            $this->image_width = $w;
+        }
+        $this->pdf->ImageEps($this->images_dir.$path.'.eps', $x, $y, $this->image_width, $this->image_height);
+        $this->image_height = null;
+        $this->image_width = null;
+    }
+
+    public function setEpsSize($w, $h){
+        $this->image_height = $h;
+        $this->image_width = $w;
+    }
+
     public function renderOnBrowser($name) {
         $this->pdf->Output($name.'.pdf');
+    }
+
+    public function saveOnDisk($name) {
+        $this->pdf->Output($name.'.pdf', 'F');
     }
 
     /**
