@@ -55,7 +55,12 @@
 
     .skiliks .us-user-auth-page-form #YumUserChangePassword_password,
     .skiliks .us-user-auth-page-form #YumUserChangePassword_verifyPassword {
-        width: 100px;
+        width: 129px;
+    }
+
+    .action-controller-recovery-static-userAuth .us-first-input,
+    .action-controller-recovery-static-userAuth .us-second-input  {
+        width: 142px;
     }
 
     .skiliks .us-user-auth-page-form #YumUserLogin_username,
