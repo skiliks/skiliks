@@ -332,7 +332,11 @@ class UserService {
                 $invite->message = preg_replace('/(\r\n)/', '<br>', $invite->message);
                 $invite->message = preg_replace('/(\n\r)/', '<br>', $invite->message);
                 $invite->message = preg_replace('/\\n|\\r/', '<br>', $invite->message);
-                $invite->is_display_simulation_results = (int) !$is_display_results;
+                if($invite->ownerUser->profile->email === 'dmkrivonos@prbb.ru'){
+                    $invite->is_display_simulation_results = 0;
+                }else{
+                    $invite->is_display_simulation_results = (int) !$is_display_results;
+                }
                 $invite->setTariffPlan();
                 $invite->setExpiredAt();
                 $invite->save(false);

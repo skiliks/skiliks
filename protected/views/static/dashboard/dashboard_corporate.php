@@ -1,3 +1,4 @@
+<?php /* @var Invite $invite */ ?>
 <section class="dashboard corpdashboard">
     <a href="#" data-href="/simulation/promo/full/<?= $notUsedFullSimulationInvite->id ?>"
        class="start-full-simulation start-full-simulation-btn light-btn">Начать симуляцию (2 часа)
@@ -129,7 +130,15 @@
                 <?php // echo $form->error($invite, 'signature'); ?>
 
                 <div class="inline-block">
-                    <?php echo $form->checkBox($invite, 'is_display_simulation_results', ['class'=>'inline-radio-button']); ?>
+                    <?php
+                         if($invite->ownerUser->profile->email === 'dmkrivonos@prbb.ru') {
+                             $options = ['class'=>'inline-radio-button', 'checked'=>'checked'];
+                         }else{
+                             $options = ['class'=>'inline-radio-button'];
+                         }
+
+                    ?>
+                    <?php echo $form->checkBox($invite, 'is_display_simulation_results', $options); ?>
                     <?php echo $form->labelEx($invite, 'is_display_simulation_results', ['class'=>'inline-radio-button-label']); ?>
                 </div>
                 <div style="clear:both;"></div>
