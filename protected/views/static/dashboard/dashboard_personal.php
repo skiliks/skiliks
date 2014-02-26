@@ -66,8 +66,6 @@
 
 <?php $this->renderPartial('partials/_exists-simulation-in-progress-warning-popup', []) ?>
 
-<div class="locator-simulation-details-popup"></div>
-
 <?php // margin-bottom 150px ?>
 <div class="clearfix column-full"></div>
 

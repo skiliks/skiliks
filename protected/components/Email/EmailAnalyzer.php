@@ -482,7 +482,7 @@ class EmailAnalyzer
         // gather statistic }
 
         // 0 points if user had send too less emails (no matter W or R, or N)
-        if ($userRightEmails/$rightMsNumber < (float)$limitToGetPoints) {
+        if ($rightMsNumber == 0 || $userRightEmails/$rightMsNumber < (float)$limitToGetPoints) {
             return array(
                 'positive' => 0,
                 'obj'      => $behave_3326,

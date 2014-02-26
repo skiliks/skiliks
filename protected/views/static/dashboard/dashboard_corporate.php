@@ -100,8 +100,6 @@
 </section>
 <!-- } hidden content -->
 
-<div class="locator-simulation-details-popup"></div>
-
 <?php // margin-bottom 200px ?>
 <div class="clearfix column-full"></div>
 

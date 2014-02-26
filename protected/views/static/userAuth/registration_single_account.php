@@ -99,4 +99,6 @@
     </div>
 </section>
 
+<?php $this->renderPartial('//global_partials/_popup_result_simulation_container', [ 'display_results_for' => $display_results_for]) ?>
+
 <div class="clearfix"></div>

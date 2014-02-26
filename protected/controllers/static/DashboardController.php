@@ -219,7 +219,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
 
         $this->addSiteJs('_page-dashboard.js');
         $this->addSiteJs('_start_demo.js');
-        $this->addSiteJs('_decine-invite.js');
+        $this->addSiteJs('_decline-invite.js');
 
         $this->addSiteJs('libs/d3.v3.js');
         $this->addSiteJs('libs/charts.js');

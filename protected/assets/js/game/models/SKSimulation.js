@@ -416,10 +416,7 @@ define([
                             me.updateServerInfoForDev(data.serverInfo);
                         }
 
-                        console.log(data);
-
                         if (undefined !== data && null !== data && undefined !== data.serverInfo && null !== data.serverInfo) {
-                            console.log('1: '), data.serverInfo;
                             me.updateServerInfoForDev(data.serverInfo);
                         }
 
@@ -485,7 +482,6 @@ define([
                         me.window.set('name', 'mainScreen');
                         me.window.set('subname', 'mainScreen');
                         win = me.window;
-                        //console.log('win 1 : ', win, ' , ', me.window, ' , ', me.window.id);
                         win.open();
 
                         me.todo_tasks.fetch();

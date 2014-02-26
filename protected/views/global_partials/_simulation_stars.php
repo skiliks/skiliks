@@ -70,7 +70,7 @@
                     </span>
 
                     <?php if ($isDisplayArrow) : ?>
-                        <span data-simulation="/dashboard/simulationdetails/<?php echo $simulation->id; ?>" class="action-display-simulation-details-popup icon-circle-with-blue-arrow icon-21x21-empty">
+                        <span data-simulation="/simulation/<?php echo $simulation->id; ?>/details" class="action-display-simulation-details-popup icon-circle-with-blue-arrow icon-21x21-empty">
                             </span>
                     <?php endif ?>
                     </p>

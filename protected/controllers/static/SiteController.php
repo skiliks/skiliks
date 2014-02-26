@@ -49,6 +49,8 @@ class SiteController extends SiteBaseController
     {
         $this->layout = '//layouts/site_standard_2';
 
+        $this->addSiteJs('_start_demo.js');
+
         $this->returnErrorMessage(Yii::app()->errorHandler->error);
     }
 

@@ -317,6 +317,10 @@ class MailBox extends CActiveRecord
         $prefix = ($prefix === null ? '' : $prefix);
         $this->mail_prefix = ($this->mail_prefix === null) ? '' : $this->mail_prefix;
 
+        if (null == $this->theme) {
+            throw new Exception('Theme in null in email '.$this->id.' ,code '.$this->template->code);
+        }
+
         return str_replace(
             ['re', 'fwd'],
             ['Re: ', 'Fwd: '],

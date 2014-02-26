@@ -108,19 +108,6 @@ class UserAuthController extends YumController
                     $invite->receiver_id = $this->user->id;
                     $invite->save();
 
-                    //YumUser::activate($profile->email, $this->user->activationKey);
-                    // $this->user->authenticate($YumUser['password']);
-
-//                    $action = YumAction::model()->findByAttributes(['title' => UserService::CAN_START_FULL_SIMULATION]);
-//
-//                    $permission = new YumPermission();
-//                    $permission->principal_id = $this->user->id;
-//                    $permission->subordinate_id = $this->user->id;
-//                    $permission->action = $action->id;
-//                    $permission->type = 'user';
-//                    $permission->template = 1; // magic const
-//                    $permission->save(false);
-
                     UserService::assignAllNotAssignedUserInvites($this->user);
 
                     $this->redirect(['afterRegistration']);
@@ -151,7 +138,8 @@ class UserAuthController extends YumController
 
         $this->addSiteJs('_page-registration.js');
         $this->addSiteJs('_terms-and-agreements.js');
-        $this->addSiteJs('_decine-invite.js');
+        $this->addSiteJs('_decline-invite.js');
+        $this->addSiteJs('_start_demo.js');
 
         $this->render(
             'registration_by_link',
@@ -245,13 +233,30 @@ class UserAuthController extends YumController
             $statuses[$status->id] = Yii::t('site', $status->label);
         }
 
+        // Getting user simulation id to display the simulation result if user had completed the demo
+        $simulationToDisplayResults = null;
+        if (isset(Yii::app()->request->cookies['display_result_for_simulation_id'])) {
+            $simulationToDisplayResults = Simulation::model()->findByPk(
+                Yii::app()->request->cookies['display_result_for_simulation_id']->value
+            );
+            unset(Yii::app()->request->cookies['display_result_for_simulation_id']);
+        }
+
         $this->layout = 'site_standard_2';
 
         $this->addSiteCss('pages/_page-registration.css');
         $this->addSiteCss('pages/_page-registration-1024.css');
 
+        $this->addSiteCss('_simulation_details.css');
+        $this->addSiteCss('_simulation_details-1024.css');
+
         $this->addSiteJs('_page-registration.js');
         $this->addSiteJs('_terms-and-agreements.js');
+        $this->addSiteJs('_start_demo.js');
+        $this->addSiteJs('_simulation-details-popup.js');
+
+        $this->addSiteJs('libs/d3.v3.js');
+        $this->addSiteJs('libs/charts.js');
 
         $this->render(
             'registration_single_account',
@@ -261,7 +266,8 @@ class UserAuthController extends YumController
                 'account'    => $account,
                 'industries' => $industries,
                 'statuses'   => $statuses,
-                'error'      => $error
+                'error'      => $error,
+                'display_results_for' => $simulationToDisplayResults,
             ]
         );
     }

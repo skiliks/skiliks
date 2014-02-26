@@ -39,11 +39,10 @@ class PagesController extends SiteBaseController
      */
     public function actionTeam()
     {
-        $assetsUrl = $this->getAssetsUrl();
-        $clientScripts = Yii::app()->getClientScript();
-        $clientScripts->registerCssFile($assetsUrl.'/css/site/_page-team.css');
-
         $this->layout = '//layouts/site_standard_2';
+
+        $this->addSiteJs('_start_demo.js');
+        $this->addSiteCss('_page-team.css');
 
         $this->render('team');
     }
@@ -56,6 +55,7 @@ class PagesController extends SiteBaseController
         $this->layout = 'site_standard_2';
 
         $this->addSiteJs('_page-product.js');
+        $this->addSiteJs('_start_demo.js');
 
         $this->addSiteCss('pages/product-1280.css');
         $this->addSiteCss('pages/product-1024.css');
@@ -75,6 +75,7 @@ class PagesController extends SiteBaseController
         $this->layout = '//layouts/site_standard_2';
 
         $this->addSiteCss('/pages/prices.css');
+        $this->addSiteJs('_start_demo.js');
 
         $this->render('tariffs');
     }
@@ -87,6 +88,7 @@ class PagesController extends SiteBaseController
         $this->layout = 'site_standard_2';
 
         $this->addSiteCss('partials/system-mismatch.css');
+        $this->addSiteJs('_start_demo.js');
 
         $this->render('system-mismatch', [
             'assetsUrl'      => $this->getAssetsUrl(),
