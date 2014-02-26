@@ -1337,19 +1337,19 @@ class SimulationService
         $pdf->setImagesDir('simulation_details_v2_for_bank/images/');
         $pdf->setEpsSize(164, 202);
         $pdf->addSinglePage('bank_4', 0, 0, 177, 206);
-        $pdf->addPercentSmallInfo($data['performance']['total'], 46.6, 11);
+        $pdf->addPercentSmallInfo($data['performance']['total'], 46, 11);
 
         //Срочно
-        $pdf->addUniversalBar(47, 30.8, $pdf->getPerformanceCategory($data['performance'], '0'), 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);
+        $pdf->addUniversalBar(45.5, 30.8, $pdf->getPerformanceCategory($data['performance'], '0'), 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);
 
         //Высокий приоритет
-        $pdf->addUniversalBar(47, 41.3, $pdf->getPerformanceCategory($data['performance'], '1'), 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);
+        $pdf->addUniversalBar(45.5, 41.3, $pdf->getPerformanceCategory($data['performance'], '1'), 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);
 
         //Средний приоритет
-        $pdf->addUniversalBar(47, 51.9, $pdf->getPerformanceCategory($data['performance'], '2'), 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);
+        $pdf->addUniversalBar(45.5, 51.9, $pdf->getPerformanceCategory($data['performance'], '2'), 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);
 
         //Двухминутные задачи
-        $pdf->addUniversalBar(47, 62.5, $pdf->getPerformanceCategory($data['performance'], '2_min'), 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);
+        $pdf->addUniversalBar(45.5, 62.5, $pdf->getPerformanceCategory($data['performance'], '2_min'), 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);
 
         $pdf->saveOnDisk($path.'bank_4');
 
