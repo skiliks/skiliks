@@ -68,6 +68,7 @@ class AssessmentPDF {
 
     public function saveOnDisk($name) {
         $this->pdf->Output($name.'.pdf', 'F');
+        exec("convert ".$name.".pdf ".$name.".jpg");
     }
 
     public function writeTextBold($text, $x, $y, $size, $color = array(0,0,0)) {
