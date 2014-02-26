@@ -360,7 +360,6 @@ class UserService {
                     $user->profile->email
                 ));
 
-                self::sendEmailInvite($invite);
                 $initValue = $user->getAccount()->getTotalAvailableInvitesLimit();
 
                 // decline corporate user invites_limit
@@ -456,6 +455,73 @@ class UserService {
         $sent = MailHelper::addMailToQueue($mail);
         return $sent;
     }
+
+    public static function sendEmailInviteAndRegistration(Invite $invite, $password) {
+
+        if (empty($invite->email)) {
+            throw new CException(Yum::t('Email is not set when trying to send invite email. Wrong invite object.'));
+        }
+
+        $inviteEmailTemplate = Yii::app()->params['emails']['inviteEmailTemplate'];
+
+        $body = self::renderEmailPartial($inviteEmailTemplate, [
+            'invite' => $invite,
+            'password' => $password
+        ]);
+
+        $mail = [
+            'from'        => Yum::module('registration')->registrationEmail,
+            'to'          => $invite->email,
+            'subject'     => 'Приглашение пройти симуляцию на Skiliks.com',
+            'body'        => $body,
+            'embeddedImages' => [
+                [
+                    'path'     => Yii::app()->basePath.'/assets/img/mail-top.png',
+                    'cid'      => 'mail-top',
+                    'name'     => 'mailtop',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],[
+                    'path'     => Yii::app()->basePath.'/assets/img/mail-top-2.png',
+                    'cid'      => 'mail-top-2',
+                    'name'     => 'mailtop2',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],[
+                    'path'     => Yii::app()->basePath.'/assets/img/mail-right-1.png',
+                    'cid'      => 'mail-right-1',
+                    'name'     => 'mailright1',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],[
+                    'path'     => Yii::app()->basePath.'/assets/img/mail-right-2.png',
+                    'cid'      => 'mail-right-2',
+                    'name'     => 'mailright2',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],[
+                    'path'     => Yii::app()->basePath.'/assets/img/mail-right-3.png',
+                    'cid'      => 'mail-right-3',
+                    'name'     => 'mailright3',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],[
+                    'path'     => Yii::app()->basePath.'/assets/img/mail-bottom.png',
+                    'cid'      => 'mail-bottom',
+                    'name'     => 'mailbottom',
+                    'encoding' => 'base64',
+                    'type'     => 'image/png',
+                ],
+            ],
+        ];
+
+        $invite->markAsSendToday();
+        $invite->save();
+
+        $sent = MailHelper::addMailToQueue($mail);
+        return $sent;
+    }
+
 
     /**
      * Скопирован с Yii.
@@ -1207,6 +1273,20 @@ class UserService {
         }
 
         return ['ip_code' => $ip_code . $domain_code, 'ip_db' => $ip_db];
+    }
+
+    /**
+     * @param int $length
+     * @return string
+     */
+    public static function generatePassword($length = 8){
+        $chars = 'abdefhiknrstyzABDEFGHKNQRSTYZ23456789';
+        $numChars = strlen($chars);
+        $string = '';
+        for ($i = 0; $i < $length; $i++) {
+            $string .= substr($chars, rand(1, $numChars) - 1, 1);
+        }
+        return $string;
     }
 }
 

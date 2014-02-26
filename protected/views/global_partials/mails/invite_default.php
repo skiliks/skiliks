@@ -46,6 +46,9 @@
                                     </p>
 
                                     <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
+                                        <?php if(isset($password) && !empty($password)) : ?>
+                                            Для вас был создан аккаунт с логином <?= $invite->email ?> и паролем <?= $password ?><br>
+                                        <?php endif ?>
                                         <?php if ($invite->receiverUser && !$invite->receiverUser->isActive()): ?>
                                             Пожалуйста, <a href="<?=$invite->receiverUser->getActivationUrl()?>">активируйте ваш аккаунт</a>,
                                             выберите индивидуальный профиль, войдите в свой кабинет

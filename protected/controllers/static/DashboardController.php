@@ -107,11 +107,33 @@ class DashboardController extends SiteBaseController implements AccountPageContr
 
             $profile = YumProfile::model()->findByAttributes(['email' => strtolower($invite->email)]);
             $invite->setAttributes($this->getParam('Invite'));
-            $is_send = UserService::sendInvite($this->user, $profile, $invite, $this->getParam('Invite')['is_display_simulation_results']);
-            if(true === $is_send){
-                $this->redirect('/dashboard');
-            }elseif(false === $is_send) {
-                $validPrevalidate = false;
+            if($profile === null && $this->user->profile->email === 'dmkrivonos@prbb.ru') {
+                $password = UserService::generatePassword(8);
+                $user_personal  = new YumUser('registration');
+                $user_personal->setAttributes(['password'=>$password, 'password_again'=>$password, 'agree_with_terms'=>'yes']);
+                $profile_personal  = new YumProfile('registration');
+                $profile_personal->setAttributes(['firstname'=>$invite->lastname, 'lastname'=>$invite->firstname, 'email'=>$invite->email]);
+                $account_personal = new UserAccountPersonal('personal');
+                $account_personal->setAttributes(['professional_status_id'=>ProfessionalStatus::model()->findByAttributes(['label'=>'Функциональный менеджер'])->id]);
+                if(UserService::createPersonalAccount($user_personal, $profile_personal, $account_personal)){
+                    YumUser::activate($profile_personal->email, $user_personal->activationKey);
+                    $is_send = UserService::sendInvite($this->user, $profile_personal, $invite, $this->getParam('Invite')['is_display_simulation_results']);
+                    if(true === $is_send) {
+                        UserService::sendEmailInviteAndRegistration($invite, $password);
+                        $this->redirect('/dashboard');
+                    } elseif(false === $is_send) {
+                        $validPrevalidate = false;
+                    }
+                }
+
+            } else {
+                $is_send = UserService::sendInvite($this->user, $profile, $invite, $this->getParam('Invite')['is_display_simulation_results']);
+                if(true === $is_send){
+                    UserService::sendEmailInvite($invite);
+                    $this->redirect('/dashboard');
+                }elseif(false === $is_send) {
+                    $validPrevalidate = false;
+                }
             }
         }
         // handle send invitation }
