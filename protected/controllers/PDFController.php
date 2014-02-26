@@ -205,6 +205,8 @@ class PDFController extends SiteBaseController {
 
     public function actionSimulationDetailPDFBank(){
 
+        $simulation = Simulation::model()->findByPk(10264);
+        SimulationService::saveAssessmentPDFFilesOnDisk($simulation);
 
     }
 

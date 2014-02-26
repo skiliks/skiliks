@@ -1161,7 +1161,7 @@ class SimulationService
         $pdf->setImagesDir('simulation_details_v2_for_bank/images/');
         // 1. Спидометры и прочее
         $pdf->addSinglePage('bank_1', 0, 0, 190, 92);
-        $pdf->addRatingOverall(75.5, 0, $data['overall']);
+        $pdf->addRatingOverall(75.2, 0, $data['overall']);
         $pdf->addSpeedometer(9.5, 58.5, $data['time']['total']);
         $pdf->addSpeedometer(78.4, 58.5, $data['performance']['total']);
         $pdf->addSpeedometer(147.3, 58.5, $data['management']['total']);
@@ -1186,95 +1186,8 @@ class SimulationService
 
         $pdf = new AssessmentPDF();
         $pdf->setImagesDir('simulation_details_v2_for_bank/images/');
-        $pdf->setEpsSize(164, 202);
-        $pdf->addSinglePage('bank_3', 0, 0, 177, 206);
-        $pdf->addPercentSmallInfo($data['performance']['total'], 46.6, 11);
-
-        //Срочно
-        $pdf->addUniversalBar(47, 30.8, $pdf->getPerformanceCategory($data['performance'], '0'), 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);
-
-        //Высокий приоритет
-        $pdf->addUniversalBar(47, 41.3, $pdf->getPerformanceCategory($data['performance'], '1'), 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);
-
-        //Средний приоритет
-        $pdf->addUniversalBar(47, 51.9, $pdf->getPerformanceCategory($data['performance'], '2'), 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);
-
-        //Двухминутные задачи
-        $pdf->addUniversalBar(47, 62.5, $pdf->getPerformanceCategory($data['performance'], '2_min'), 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);
-
-        $pdf->saveOnDisk($path.'bank_3');
-
-        $pdf = new AssessmentPDF();
-        $pdf->setImagesDir('simulation_details_v2_for_bank/images/');
-        $pdf->setEpsSize(171, 80);
-        $pdf->addSinglePage('bank_4', 0, 0, 189, 80);
-
-        $pdf->addPercentSmallInfo($data['management']['total'], 160.6, 1.5);
-        //48.9
-        $pdf->addUniversalBar(59.5, 21, $data['management'][1]['total'], 128.7, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);//1
-        $pdf->addUniversalBar(59.5, 31.6, $data['management'][2]['total'], 128.7, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);//2
-        $pdf->addUniversalBar(59.5, 42.2, $data['management'][3]['total'], 128.7, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);//3
-
-        $pdf->saveOnDisk($path.'bank_4');
-
-        $pdf = new AssessmentPDF();
-        $pdf->setImagesDir('simulation_details_v2_for_bank/images/');
-        $pdf->setEpsSize(199, 114);
-        $pdf->addSinglePage('bank_5', 0, 0, 205, 114);
-
-        $pdf->addPercentBigInfo($data['management'][1]['total'], 1.4, 13);
-        //60 - 23
-        $pdf->addUniversalBar(75, 37, $data['management'][1]['1_1']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//1.1 positive
-        $pdf->addUniversalBar(75, 47, $data['management'][1]['1_2']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//1.2 positive
-        $pdf->addUniversalBar(75, 57, $data['management'][1]['1_3']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//1.3 positive
-
-        $pdf->addUniversalBar(150, 37, $data['management'][1]['1_1']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//1.1 negative
-        $pdf->addUniversalBar(150, 47, $data['management'][1]['1_2']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//1.2 negative
-        $pdf->addUniversalBar(150, 57, $data['management'][1]['1_3']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//1.3 negative
-        $pdf->addUniversalBar(150, 67, $data['management'][1]['1_4']['-'], 54.14, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_NEGATIVE);//1.4 negative
-
-        $pdf->saveOnDisk($path.'bank_5');
-
-        $pdf = new AssessmentPDF();
-        $pdf->setImagesDir('simulation_details_v2_for_bank/images/');
-        $pdf->setEpsSize(198, 103);
-        $pdf->addSinglePage('bank_6', 0, 0, 205, 103);
-
-        $pdf->addPercentBigInfo($data['management'][2]['total'], 0.5, 12.8);
-
-        $pdf->addUniversalBar(75, 36, $data['management'][2]['2_1']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//2.1 positive
-        $pdf->addUniversalBar(75, 46, $data['management'][2]['2_2']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//2.2 positive
-        $pdf->addUniversalBar(75, 56, $data['management'][2]['2_3']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//2.3 positive
-
-        $pdf->addUniversalBar(150, 36, $data['management'][2]['2_1']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//2.1 negative
-        $pdf->addUniversalBar(150, 46, $data['management'][2]['2_2']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//2.2 negative
-        $pdf->addUniversalBar(150, 56, $data['management'][2]['2_3']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//2.3 negative
-
-        $pdf->saveOnDisk($path.'bank_6');
-
-        $pdf = new AssessmentPDF();
-        $pdf->setImagesDir('simulation_details_v2_for_bank/images/');
-        $pdf->setEpsSize(198, 130);
-        $pdf->addSinglePage('bank_7', 0, 0, 205, 130);
-
-        $pdf->addPercentBigInfo($data['management'][3]['total'], 0.8, 16.8);
-
-        $pdf->addUniversalBar(75, 44, $data['management'][3]['3_1']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//3.1 positive
-        $pdf->addUniversalBar(75, 55, $data['management'][3]['3_2']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//3.2 positive
-        $pdf->addUniversalBar(75, 66, $data['management'][3]['3_3']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//3.3 positive
-        $pdf->addUniversalBar(75, 77, $data['management'][3]['3_4']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//3.4 positive
-
-        $pdf->addUniversalBar(150, 44, $data['management'][3]['3_1']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//3.1 negative
-        $pdf->addUniversalBar(150, 55, $data['management'][3]['3_2']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//3.2 negative
-        $pdf->addUniversalBar(150, 66, $data['management'][3]['3_3']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//3.3 negative
-        $pdf->addUniversalBar(150, 77, $data['management'][3]['3_4']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//3.4 negative
-
-        $pdf->saveOnDisk($path.'bank_7');
-
-        $pdf = new AssessmentPDF();
-        $pdf->setImagesDir('simulation_details_v2_for_bank/images/');
         $pdf->setEpsSize(204, 110);
-        $pdf->addSinglePage('bank_8', 0, 0, 204, 110);
+        $pdf->addSinglePage('bank_3', 0, 0, 204, 110);
 
         $pdf->addPercentSmallInfo($data['time']['total'], 174, 1.8);
 
@@ -1326,12 +1239,12 @@ class SimulationService
         $pdf->addTimeBarUnproductive($y_positive, 87, $data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_PLANING], $max_negative);
 
 
-        $pdf->saveOnDisk($path.'bank_8');
+        $pdf->saveOnDisk($path.'bank_3');
 
         $pdf = new AssessmentPDF();
         $pdf->setImagesDir('simulation_details_v2_for_bank/images/');
-        $pdf->setEpsSize(148, 100);
-        $pdf->addSinglePage('bank_9', 0, 0, 176.5, 100);
+        $pdf->setEpsSize(164, 202);
+        $pdf->addSinglePage('bank_4', 0, 0, 177, 206);
         $pdf->addPercentSmallInfo($data['performance']['total'], 46.6, 11);
 
         //Срочно
@@ -1345,6 +1258,94 @@ class SimulationService
 
         //Двухминутные задачи
         $pdf->addUniversalBar(47, 62.5, $pdf->getPerformanceCategory($data['performance'], '2_min'), 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);
+
+        $pdf->saveOnDisk($path.'bank_4');
+
+        $pdf = new AssessmentPDF();
+        $pdf->setImagesDir('simulation_details_v2_for_bank/images/');
+        $pdf->setEpsSize(160, 80);
+        $pdf->addSinglePage('bank_5', 0, 0, 190.5, 80);
+
+        $pdf->addPercentSmallInfo($data['management']['total'], 149.7, 1.5);
+        //48.9
+        $pdf->addUniversalBar(61, 22.1, $data['management'][1]['total'], 128.7, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);//1
+        $pdf->addUniversalBar(61, 32.7, $data['management'][2]['total'], 128.7, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);//2
+        $pdf->addUniversalBar(61, 43.3, $data['management'][3]['total'], 128.7, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);//3
+
+
+        $pdf->saveOnDisk($path.'bank_5');
+
+        $pdf = new AssessmentPDF();
+        $pdf->setImagesDir('simulation_details_v2_for_bank/images/');
+        $pdf->setEpsSize(198, 104);
+        $pdf->addSinglePage('bank_6', 0, 0, 205, 104);
+
+        $pdf->addPercentBigInfo($data['management'][1]['total'], 1.3, 4.5);
+        //60 - 23
+        $pdf->addUniversalBar(75, 27.5, $data['management'][1]['1_1']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//1.1 positive
+        $pdf->addUniversalBar(75, 37.5, $data['management'][1]['1_2']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//1.2 positive
+        $pdf->addUniversalBar(75, 47.5, $data['management'][1]['1_3']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//1.3 positive
+
+        $pdf->addUniversalBar(150, 27.5, $data['management'][1]['1_1']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//1.1 negative
+        $pdf->addUniversalBar(150, 37.5, $data['management'][1]['1_2']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//1.2 negative
+        $pdf->addUniversalBar(150, 47.5, $data['management'][1]['1_3']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//1.3 negative
+        $pdf->addUniversalBar(150, 57.5, $data['management'][1]['1_4']['-'], 54.14, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_NEGATIVE);//1.4 negative
+
+        $pdf->saveOnDisk($path.'bank_6');
+
+        $pdf = new AssessmentPDF();
+        $pdf->setImagesDir('simulation_details_v2_for_bank/images/');
+        $pdf->setEpsSize(198, 95);
+        $pdf->addSinglePage('bank_7', 0, 0, 205, 95);
+
+        $pdf->addPercentBigInfo($data['management'][2]['total'], 0.5, 4.7);
+
+        $pdf->addUniversalBar(75, 28, $data['management'][2]['2_1']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//2.1 positive
+        $pdf->addUniversalBar(75, 38, $data['management'][2]['2_2']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//2.2 positive
+        $pdf->addUniversalBar(75, 48, $data['management'][2]['2_3']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//2.3 positive
+
+        $pdf->addUniversalBar(150, 28, $data['management'][2]['2_1']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//2.1 negative
+        $pdf->addUniversalBar(150, 38, $data['management'][2]['2_2']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//2.2 negative
+        $pdf->addUniversalBar(150, 48, $data['management'][2]['2_3']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//2.3 negative
+
+        $pdf->saveOnDisk($path.'bank_7');
+
+        $pdf = new AssessmentPDF();
+        $pdf->setImagesDir('simulation_details_v2_for_bank/images/');
+        $pdf->setEpsSize(198, 105);
+        $pdf->addSinglePage('bank_8', 0, 0, 205, 105);
+
+        $pdf->addPercentBigInfo($data['management'][3]['total'], 0.8, 4.3);
+
+        $pdf->addUniversalBar(75, 28, $data['management'][3]['3_1']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//3.1 positive
+        $pdf->addUniversalBar(75, 38, $data['management'][3]['3_2']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//3.2 positive
+        $pdf->addUniversalBar(75, 48, $data['management'][3]['3_3']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//3.3 positive
+        $pdf->addUniversalBar(75, 58, $data['management'][3]['3_4']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//3.4 positive
+
+        $pdf->addUniversalBar(150, 28, $data['management'][3]['3_1']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//3.1 negative
+        $pdf->addUniversalBar(150, 38, $data['management'][3]['3_2']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//3.2 negative
+        $pdf->addUniversalBar(150, 48, $data['management'][3]['3_3']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//3.3 negative
+        $pdf->addUniversalBar(150, 58, $data['management'][3]['3_4']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//3.4 negative
+
+        $pdf->saveOnDisk($path.'bank_8');
+
+        $pdf = new AssessmentPDF();
+        $pdf->setImagesDir('simulation_details_v2_for_bank/images/');
+        $pdf->setEpsSize(148, 100);
+        $pdf->addSinglePage('bank_9', 0, 0, 176.5, 100);
+        $pdf->addPercentSmallInfo($data['performance']['total'], 45.8, 11.6);
+
+        //Срочно
+        $pdf->addUniversalBar(47, 31.7, $pdf->getPerformanceCategory($data['performance'], '0'), 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);
+
+        //Высокий приоритет
+        $pdf->addUniversalBar(47, 42.5, $pdf->getPerformanceCategory($data['performance'], '1'), 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);
+
+        //Средний приоритет
+        $pdf->addUniversalBar(47, 52.8, $pdf->getPerformanceCategory($data['performance'], '2'), 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);
+
+        //Двухминутные задачи
+        $pdf->addUniversalBar(47, 63.9, $pdf->getPerformanceCategory($data['performance'], '2_min'), 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);
 
         $pdf->saveOnDisk($path.'bank_9');
     }
