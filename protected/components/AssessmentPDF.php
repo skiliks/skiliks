@@ -123,6 +123,7 @@ class AssessmentPDF {
 
     public function saveOnDisk($name) {
         $this->pdf->Output($name.'.pdf', 'F');
+        exec("convert ".$name.".pdf ".$name.".jpg");
     }
 
     /**
