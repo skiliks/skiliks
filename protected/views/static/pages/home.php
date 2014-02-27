@@ -11,7 +11,7 @@
             <h1><?= Yii::t('site', 'Easy &amp; reliable way to discover your people management skills!') ?></h1>
 
             <div class="column-2-3-fixed">
-                <span class="column-1-2">
+                <span class="us-column-2-3">
                     <ul class="list-white">
                         <li class="icon-tick"><?= Yii::t('site', 'Simulation aimed at testing basic manager’s skills')?></li>
                         <li class="icon-tick"><?= Yii::t('site', '2-hours game')?></li>
@@ -27,26 +27,31 @@
                         </a>
 
                     <?php elseif ('en' == Yii::app()->getlanguage()): ?>
+                        <br/>
+                        <br/>
                         <!-- FORM { -->
-                        <div id="notify-form">
-                            <form action="static/pages/addUserSubscription" id="subscribe-form">
+                        <div class="locator-subscribe-form">
+                            <form action="static/pages/addUserSubscription" id="action-subscribe-form">
                                 <div>
-                                    <input type="text"
-                                           id = "user-email-value"
+                                    <span class="error-place">
+                                        <span class="errorMessage locator-errorMessage"></span>
+                                    </span>
+                                    <input type="text" style="width: 182px;"
+                                           class="inputs-wide-height locator-user-email-value"
                                            placeholder="<?= Yii::t('site', 'Enter your email address') ?>"
                                         />
-                                    <p id="user-email-error-box" class="errorMessage" style="display: none; top:-17px; left:2px; white-space: nowrap;">
-                                        <?php Yii::t('site', 'Please enter a valid email address') ?>
-                                    </p>
+                                    <input type="submit" value="<?= Yii::t('site', 'Notify me') ?>"
+                                        class="label background-dark-blue icon-circle-with-blue-arrow-big
+                                        button-standard icon-padding-standard margin-left-8" />
                                 </div>
-                                <div><input type="submit" value="<?= Yii::t('site', 'Notify me') ?>" /></div>
                             </form>
                         </div>
                         <!-- FORM } -->
                     <?php endif ?>
 
                 </span>
-                <span class="column-1-2">
+                <span class="us-column-1-3 margin-left-18 vertical-align-top">
+                    <br/>
                     <div class="videosocwrap clearfix">
                         <div class="video" style="cursor: pointer;">
                             <span class="video-caption"><?= Yii::t('site', 'Watch the video to learn more')?></span>
@@ -173,7 +178,6 @@
         </section>
         <!--clients end-->
     </section>
-
 
 <img class="us-homepage-heroes-group" src="<?= $this->assetsUrl ?>/img/site/1280/homepage/heroes-group.png" />
 

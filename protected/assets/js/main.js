@@ -135,7 +135,7 @@ var fixLogotypes = function() {
             });
 
             // hack {
-            $('.accept-invite-warning-popup full-simulation-info-popup').css('top', '50px');
+            $('.accept-invite-warning-popup .full-simulation-info-popup').css('top', '50px');
             $(window).scrollTop('.narrow-contnt');
 
             // hack }

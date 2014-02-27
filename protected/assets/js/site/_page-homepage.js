@@ -88,20 +88,19 @@ $(document).ready(function() {
     // проверка ОС и браузера }
 
     // Подписка
-    $('#subscribe-form').submit(function(e) {
+    $('#action-subscribe-form').submit(function(e) {
         hideError();
         e.preventDefault();
 
         $.ajax({
             url: $(this).attr('action'),
             type: 'POST',
-            data: {'email': $('#user-email-value').val()},
+            data: {'email': $('.locator-user-email-value').val()},
             success: function(response) {
                 if ('undefined' !== typeof response.result || 'undefined' !== typeof response.message) {
                     if (1 === response.result) {
                         // redirect to success page
-                        $('#notify-form').html('<p class="success">Thank you! See you soon</p>');
-                        //window.location.href = '/static/comingSoonSuccess/en';
+                        $('.locator-subscribe-form').html('<p class="us-success-text">Thank you! See you soon</p>');
                         $.cookie('_lang', 'en'); //установить значение cookie
                     } else {
                         // invalid email
@@ -122,3 +121,15 @@ $(document).ready(function() {
         return true;
     });
 });
+
+var displayError = function(msg) {
+    $('.locator-errorMessage').text(msg);
+    $('#action-subscribe-form').addClass('error');
+    $('.locator-user-email-value').css({"border-color":"#BD2929"});
+}
+
+var hideError = function() {
+    $('#action-subscribe-form').removeClass('error');
+    $('.locator-errorMessage').text('');
+    $('.locator-user-email-value').css({"border-color":"#3E5259"});
+}

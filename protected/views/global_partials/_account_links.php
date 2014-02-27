@@ -21,9 +21,10 @@
             'itemCssClass'   => 'menu-item',
             'items'=>[
                 [
-                    'label'   => Yii::t('site', 'Русский'),
-                    'url'     => StaticSiteTools::getLangSwitcherUrl(Yii::app()->request, Yii::app()->getLanguage()),
-                    'visible' => StaticSiteTools::isLangSwitcherUrlVisible(Yii::app()->request, Yii::app()->controller),
+                    'label'       => Yii::t('site', 'Русский'),
+                    'linkOptions' => ['class' => 'label'],
+                    'url'         => StaticSiteTools::getLangSwitcherUrl(Yii::app()->request, Yii::app()->getLanguage()),
+                    'visible'     => StaticSiteTools::isLangSwitcherUrlVisible(Yii::app()->request, Yii::app()->controller),
                 ],
                 [
                     'label'       => Yii::t('site', 'My office'),
