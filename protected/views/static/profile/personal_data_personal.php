@@ -2,7 +2,7 @@
     <h1 class="margin-bottom-standard"><?php echo Yii::t('site', 'Profile') ?></h1>
 </section>
 
-<section class="pull-content-left nice-border reset-padding unstandard-personal-dat-height
+<section class="pull-content-left nice-border reset-padding unstandard-personal-data-height
     border-radius-standard background-transparent-20">
 
     <!--div class="transparent-boder profilewrap"-->
@@ -28,8 +28,8 @@
                     </span>
                 </span>
                 <?php echo $form->labelEx($profile, 'firstname'); ?>
-                <?php echo $form->textField($profile, 'firstname'); ?>
-                <?php echo $form->textField($profile, 'lastname'); ?>
+                <?php echo $form->textField($profile, 'firstname', ['placeholder' => 'Введите имя']); ?>
+                <?php echo $form->textField($profile, 'lastname', ['placeholder' => 'Введите фамилию']); ?>
             </div>
 
             <div class="row rowup">
@@ -45,7 +45,7 @@
                 <?php echo $form->dropDownList($account, 'professional_status_id', $statuses); ?>
             </div>
 
-            <div class="row <?= $this->hasErrors($form, $account, 'professional_status_id') ?>">
+            <div class="row <?= $this->hasErrors($form, $account, 'professional_status_id') ?> margin-bottom-half-standard">
                 <span class="error-place">
                     <?php echo $form->error($account       , 'industry_id'); ?>
                 </span>
@@ -58,9 +58,21 @@
                     <?php echo $form->error($account, 'birthday'); ?>
                 </span>
                 <?php echo $form->labelEx($account, 'birthday'); ?>
-                <?php echo $form->textField($account, 'birthday[day]', array('value'=>$account->getBirthdayDate('d'), 'placeholder'=>'ДД')); ?>
-                <?php echo $form->textField($account, 'birthday[month]', array('value'=>$account->getBirthdayDate('m'), 'placeholder'=>'ММ')); ?>
-                <?php echo $form->textField($account, 'birthday[year]', array('value'=>$account->getBirthdayDate('Y'), 'placeholder'=>'ГГГГ')); ?>
+                <?php echo $form->textField($account, 'birthday[day]', [
+                    'maxlength'        => 2,
+                    'value'       => $account->getBirthdayDate('d'),
+                    'placeholder' => 'ДД'
+                ]); ?>
+                <?php echo $form->textField($account, 'birthday[month]', [
+                    'maxlength'        => 2,
+                    'value'       => $account->getBirthdayDate('m'),
+                    'placeholder' => 'ММ'
+                ]); ?>
+                <?php echo $form->textField($account, 'birthday[year]', [
+                    'maxlength'        => 4,
+                    'value'       => $account->getBirthdayDate('Y'),
+                    'placeholder' => 'ГГГГ'
+                ]); ?>
             </div>
 
             <div class="row <?= $this->hasErrors($form, $account, 'location') ?>">

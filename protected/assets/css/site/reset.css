@@ -195,11 +195,12 @@ input[type='password'] {
     border-radius: 5px;
     box-shadow: 10px 4px 10px rgba(0, 0, 0, 0.1) inset;
     color: #146672;
+    font-family: 'ProximaNova-Regular';
     height: 26px;
-    line-height: 26px;
+    line-height: 1em;
     font-size: 1em;
     line-height: 1em;
-    padding: 2px 4px;
+    padding: 4px 2px 0px 6px;
 }
 
 input[type='checkbox'] {
@@ -211,7 +212,7 @@ input[type='checkbox'] {
 
 textarea {
     min-height: 78px; /* 26*3 */
-    line-height: 1.3em;
+    line-height: 1.3em; /* приемлемый отступ между строками */
     padding: 12px;
 }
 

@@ -67,4 +67,8 @@
     #UserAccountPersonal_location {
         width: 366px;
     }
+
+    .skiliks .error .error-place {
+        height: 14px;
+    }
 }

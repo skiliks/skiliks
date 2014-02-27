@@ -2,7 +2,7 @@
     <h1 class="margin-bottom-standard"><?php echo Yii::t('site', 'Profile') ?></h1>
 </section>
 
-<section class="pull-content-left nice-border reset-padding
+<section class="pull-content-left nice-border reset-padding unstandard-personal-data-height
     border-radius-standard background-transparent-20">
 
     <aside class="column-1-3 inline-block background-yellow border-radius-standard vertical-align-top">

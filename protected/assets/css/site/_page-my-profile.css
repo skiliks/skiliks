@@ -38,6 +38,12 @@
     font-size: 1.2em;
 }
 
+.controller-static-profile .column-2-3-fixed input[type="text"],
+.controller-static-profile .column-2-3-fixed input[type="password"],
+.controller-static-profile .column-2-3-fixed textarea {
+    font-size: 0.8em;
+}
+
 .controller-static-profile .column-2-3-fixed .button-white {
     font-size: 0.8em;
 }
@@ -66,9 +72,29 @@
     font-size: 0.9em;
 }
 
+textarea,
+input[type='text'],
+input[type='password'] {
+    resize: none;
+    width: 214px;
+}
+
+#UserAccountPersonal_birthday_day,
+#UserAccountPersonal_birthday_month {
+    width: 26px;
+}
+
+#UserAccountPersonal_birthday_year {
+    width: 37px;
+}
+
 #add-vacancy-form .sbSelector,
 #add-vacancy-form .sbHolder {
     width: 452px;
+}
+
+#UserAccountCorporate_company_description {
+    width: 426px;
 }
 
 #add-vacancy-form input[type="text"] {
@@ -137,21 +163,37 @@
 
 .unstandard-error-firstname {
     display: inline-block;
-    width: 224px;
+    width: 226px;
 }
 
 .controller-static-profile  .error-place {
-    padding-left: 246px;
+    padding-left: 244px;
 }
 
 .unstandard-personal-data-height {
     height: 412px;
 }
 
-.unstandart-triple-input input {
-    width: 139px;
-}
-
 #UserAccountPersonal_location {
     width: 445px;
+}
+
+.action-controller-personalPersonalData-static-profile .unstandard-personal-data-height {
+    height: 391px;
+}
+
+.action-controller-corporatePersonalData-static-profile .unstandard-personal-data-height {
+    height: 246px;
+}
+
+.action-controller-personalPassword-static-profile .unstandard-personal-data-height {
+    height: 300px;
+}
+
+.action-controller-corporatePassword-static-profile .unstandard-personal-data-height {
+    height: 302px;
+}
+
+.skiliks .error .error-place {
+    height: 16px;
 }

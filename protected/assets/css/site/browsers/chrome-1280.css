@@ -1,3 +1,9 @@
 .assessment-results-type-switcher {
     padding-bottom: 4px;
 }
+
+textarea,
+input[type='text'],
+input[type='password'] {
+    line-height: auto;
+}
