@@ -41,7 +41,7 @@
                     <?= $form->error($invite, 'vacancy_id'); ?>
                 </span>
                 <?= $form->labelEx($invite, 'vacancy_id'); ?>
-                <?= $form->dropDownList($invite, 'vacancy_id', $vacancies); ?>
+                <?= $form->dropDownList($invite, 'vacancy_id', $vacancies, ['extraSbClass' => 'sbSelect-vacancies']); ?>
 
                 <span class="action-add-vacancy button-add-vacancy"></span>
             </div>

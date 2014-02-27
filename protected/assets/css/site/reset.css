@@ -236,10 +236,6 @@ textarea {
 
 }
 
-.skiliks .ui-dialog li {
-    margin-left: 16px;
-}
-
 .skiliks .ui-dialog ul.after-p {
     margin-top: -20px; /* чтоб компенсировать отступ от .skiliks .ui-dialog p */
 }

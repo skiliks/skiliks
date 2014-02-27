@@ -6098,6 +6098,7 @@ $.widget("ui.dialog", {
 		minWidth: 150,
 		modal: false,
         isSkiliks: false,
+        extraCloseClass: '',
 		position: {
             use: false,
 			my: 'center',
@@ -6179,7 +6180,8 @@ $.widget("ui.dialog", {
 			uiDialogTitlebarClose = $('<a href="#"></a>')
 				.addClass(
 					'ui-dialog-titlebar-close ' +
-					'ui-corner-all'
+					'ui-corner-all ' +
+                     self.options.extraCloseClass + ' '
 				)
 				.attr('role', 'button')
 				.hover(

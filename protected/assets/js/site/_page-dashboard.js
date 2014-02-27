@@ -220,6 +220,7 @@ $(document).ready(function () {
             modal: true,
             resizable: false,
             draggable: false,
+            extraCloseClass: 'close-form-add-vacancy',
             title: '',
             width: getDialogWindowWidth_2of3(),
             position: {

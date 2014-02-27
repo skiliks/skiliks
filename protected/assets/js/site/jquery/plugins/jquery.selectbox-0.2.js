@@ -81,7 +81,7 @@
 				s = FALSE, optGroup = $target.find("optgroup"), opts = $target.find("option"), olen = opts.length;
 				
 			$target.attr("sb", inst.uid);
-				
+
 			$.extend(inst.settings, self._defaults, settings);
 			self._state[inst.uid] = FALSE;
 			$target.hide();
@@ -100,10 +100,10 @@
 					}
 				}
 			}
-			
+
 			sbHolder = $("<div>", {
 				"id": "sbHolder_" + inst.uid,
-				"class": inst.settings.classHolder,
+				"class": inst.settings.classHolder + ' ' + $target.attr('extraSbClass'),
 				"tabindex": $target.attr("tabindex")
 			});
 			
@@ -183,7 +183,8 @@
 					if (!that.is(":disabled") && !disabled) {
 						child = $("<a>", {
 							"href": "#" + that.val(),
-							"rel": that.val()
+							"rel": that.val(),
+							"class": 'option-' + (i + 1)
 						}).text(that.text()).bind("click.sb", function (e) {
 							if (e && e.preventDefault) {
 								e.preventDefault();
