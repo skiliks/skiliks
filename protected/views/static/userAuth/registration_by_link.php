@@ -28,7 +28,9 @@
                 <div class="row <?= $this->hasErrors($form, $profile, 'firstname') ?>
                     <?= $this->hasErrors($form, $profile, 'lastname') ?>">
                     <span class="error-place">
-                        <?= $form->error($profile, 'firstname'); ?>
+                        <span class="inline-error-first">
+                            <?= $form->error($profile, 'firstname'); ?>
+                        </span>
                         <?= $form->error($profile, 'lastname'); ?>
                     </span>
                     <?php echo $form->labelEx($profile, 'Имя', ['class' => 'padding-left-18']); ?>

@@ -80,6 +80,9 @@ input[type="checkbox"] {
 }
 
 .inline-error-first {
-    width: 163px;
+    width: 227px;
 }
 
+textarea, input[type="text"], input[type="password"] {
+    width: 200px;
+}

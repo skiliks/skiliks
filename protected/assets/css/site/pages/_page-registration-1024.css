@@ -5,6 +5,10 @@
     }
 
     .inline-error-first {
-        width: 141px;
+        width: 197px;
+    }
+
+    textarea, input[type="text"], input[type="password"] {
+        width: 170px;
     }
 }
