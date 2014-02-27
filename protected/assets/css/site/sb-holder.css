@@ -89,7 +89,7 @@
     padding: 0;
     position: absolute;
     top: 30px;
-    width: auto;
+    width: 100%; /* было auto*/
     z-index: 5;
     overflow-y: auto;
 }
