@@ -228,6 +228,7 @@ function getDialogWindowWidth(padding) {
         padding = 0;
     };
 
+    // 1265 найдено экспериментально
     if ($(window).width() < 1265) {
         return  940;
     } else {
@@ -237,7 +238,7 @@ function getDialogWindowWidth(padding) {
 
 // 2.1) Определяет ширину стандартные "2/3 ширины сайта"
 function getDialogWindowWidth_2of3() {
-    console.log('WW: ',$(window).width());
+    // 1265 найдено экспериментально
     if ($(window).width() < 1265) {
         return 585;
     } else {
@@ -247,8 +248,8 @@ function getDialogWindowWidth_2of3() {
 
 // 2.2) Определяет ширину стандартные "2/3 ширины сайта"
 function getDialogWindowWidth_2of3_wide() {
-    console.log('W: ',$(window).width());
-    if ($(window).width() < 1265) {
+    // 1265 найдено экспериментально
+    if ($(window).css('width') < 1265) {
         return 601;
     } else {
         return 735;
@@ -257,6 +258,7 @@ function getDialogWindowWidth_2of3_wide() {
 
 // 2.3) Определяет ширину окон автиризации и автовостановления пароля
 function getDialogAuthWindowWidth() {
+    // 1265 найдено экспериментально
     if ($(window).width() < 1265) {
         return 283;
     } else {
@@ -266,6 +268,7 @@ function getDialogAuthWindowWidth() {
 
 // 2.4) Определяет ширину попапа с оценкой за симуляцию
 function getDialogSimulationDetailsPopupWidth() {
+    // 1265 найдено экспериментально
     if ($(window).width() < 1265) {
         return 822;
     } else {
@@ -275,6 +278,7 @@ function getDialogSimulationDetailsPopupWidth() {
 
 // 2.5) Определяет высоту попапа с оценкой за симуляцию
 function getDialogSimulationDetailsPopupHeight() {
+    // 1265 найдено экспериментально
     if ($(window).width() < 1265) {
         return 766;
     } else {

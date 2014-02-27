@@ -268,14 +268,25 @@ $(document).ready(function () {
         // смена ширины при изменении размеров окна браузера
         // выравнивание при изменении размеров окна браузера
         $(window).on('resize', function() {
-            $('.locator-form-invite-step-2').dialog("option", "width", getDialogWindowWidth_2of3());
+            var newWidth = getDialogWindowWidth_2of3();
+            $('.locator-form-invite-step-2').dialog("option", "width", newWidth);
             $('.locator-form-invite-step-2').dialog("option", "position", {
                 use: true,
                 my: "right top",
                 at: "right top",
                 of: $('.locator-corporate-invitations-list-box')
             });
+
+            // в разных браузерах  в getDialogWindowWidth_2of3()
+            // и @media screen and (max-width: 1279px)
+            // момент смены размера разный
+            // - тут это просвляется для input и textarea
+            // потому что им нельзя задать размен в %
+            $('#Invite_fullname').width(newWidth - 100);
+            $('Invite_message').width(newWidth - 100);
         });
+
+        $(window).resize();
 
         $( ".locator-form-invite-step-2").dialog('open');
     }
