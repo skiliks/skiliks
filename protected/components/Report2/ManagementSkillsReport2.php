@@ -135,11 +135,7 @@ class ManagementSkillsReport2 extends LogTable  {
 
     public function getCellValueFormat($columnNo, $rowNo = null) {
         if (3 == $columnNo) {
-            if (8 == $rowNo) { // 1.4 Прерывание при выполнении задач
-                return \PHPExcel_Style_NumberFormat::FORMAT_TEXT;
-            } else {
-                return \PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00;
-            }
+            return \PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00;
         } else {
             return \PHPExcel_Style_NumberFormat::FORMAT_TEXT;
         }
