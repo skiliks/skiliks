@@ -6405,10 +6405,9 @@ $.widget("ui.dialog", {
         winHeigth = $(window).height();
         dialogHeight = this.element.parent().height();
 
-        console.log('1', winHeigth, dialogHeight);
         /* 55 px сверху и 55 px снизу */
+        // нижк есть повторение использование этого куска
         if (winHeigth < dialogHeight + 110) {
-            console.log('2');
             this.element.parent().css('position', 'absolute');
             this.element.parent().css('top', '50px');
             clearfixHeight = $('.clearfix').height();
@@ -6416,7 +6415,6 @@ $.widget("ui.dialog", {
             /* 100 px сверху и 100 px снизу */
             $('.clearfix').css('height', clearfixHeight + (dialogHeight - winHeigth) + 110 );
         } else {
-            console.log('3');
             this.element.parent().css('position', 'fixed');
 
             if (this.options.position.use) {
@@ -6438,6 +6436,16 @@ $.widget("ui.dialog", {
                     || 'right top' == this.options.position.at) {
                     var top = element.offset().top;
                     this.element.parent().css('top', top + 'px' );
+                }
+
+                // это повторение более верхнего куска - но пока не хочу выносить его в отдельную функцию
+                if (winHeigth < top + dialogHeight + 110) {
+                    this.element.parent().css('position', 'absolute');
+                    this.element.parent().css('top', '50px');
+                    clearfixHeight = $('.clearfix').height();
+
+                    /* 100 px сверху и 100 px снизу */
+                    $('.clearfix').css('height', clearfixHeight + (dialogHeight - winHeigth) + 110 );
                 }
             } else {
                 this.element.parent().css('top', (winHeigth - dialogHeight)/2 + 'px' );

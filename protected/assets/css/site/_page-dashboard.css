@@ -403,6 +403,7 @@ i.icon-doc {
 #send-invite-message-form textarea {
     border: 0;
     box-shadow: none;
+    overflow-x: hidden;
 }
 
 #send-invite-message-form input[type='text'] {
