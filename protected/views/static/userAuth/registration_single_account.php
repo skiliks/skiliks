@@ -60,13 +60,18 @@
                     <?php echo $form->passwordField($user, 'password_again', ['class' => 'shifted']); ?>
                 </div>
 
-                <div class="us-error-place <?= $this->hasErrors($form, $profile, 'not_activated') ?>">
+                <div class="us-error-place <?= $this->hasErrors($form, $profile, 'not_activated') ?>
+                    <?= $this->hasErrors($form, $profile, 'is_baned') ?>">
+
+                    <?php // обе эти ошибки одновременно произойти не могут ?>
                     <span class="error-place">
                         <?= str_replace(
                             '<a',
                             '<a class="inter-active-blue"',
                             $form->error($profile, 'not_activated')
                         ); ?>
+
+                        <?php echo $form->error($profile, 'is_baned'); ?>
                     </span>
                 </div>
 

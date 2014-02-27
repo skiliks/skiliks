@@ -1024,6 +1024,58 @@ class UserService {
         return MailHelper::addMailToQueue($emailOptions);
     }
 
+    /**
+     * Добавляет в очередь писем письмо, в стандартном оформлении.
+     *
+     * @param SiteEmailOptions $emailOptions
+     * @param string $template
+     *
+     * @return EmailQueue
+     */
+    public static function addLongEmailToQueue(SiteEmailOptions $emailOptions, $template)
+    {
+        /**
+         * Формируем HTML письма
+         */
+        $emailOptions->body = self::renderEmailPartial('standard_email_with_image_long', [
+            'title'    => $emailOptions->subject,
+            'template' => $template,
+            'h1'       => $emailOptions->h1,
+            'text1'    => $emailOptions->text1,
+            'text2'    => $emailOptions->text2,
+        ]);
+
+        /**
+         * В стандартном дизайне участвует всего три картинки.
+         */
+        $emailOptions->embeddedImages = [
+            [
+                'path'     => Yii::app()->basePath.'/assets/img/site/emails/top-left.png',
+                'cid'      => 'top-left',
+                'name'     => 'top-left',
+                'encoding' => 'base64',
+                'type'     => 'image/png',
+            ],[
+                'path'     => Yii::app()->basePath.'/assets/img/site/emails/bottom.png',
+                'cid'      => 'bottom',
+                'name'     => 'bottom',
+                'encoding' => 'base64',
+                'type'     => 'image/png',
+            ],[
+                'path'     => Yii::app()->basePath.'/assets/img/site/emails/'.$template.'.png',
+                'cid'      => $template,
+                'name'     => $template,
+                'encoding' => 'base64',
+                'type'     => 'image/png',
+            ]
+        ];
+
+        /**
+         * Добавляем письмо в лчетедь писем
+         */
+        return MailHelper::addMailToQueue($emailOptions);
+    }
+
 
     /**
      * Ставит в очередь на отправку письма-поздравления с новым годом 2014.

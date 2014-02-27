@@ -31,10 +31,10 @@
     <div class="pull-content-center">
         <a href="/registration/single-account"
            class="us-link-register">Начать регистрацию заново</a>
-        <?php if(null != $profile) : ?>
+        <?php /*if(null != $profile) : ?>
             <br/>
             <a href="/activation/resend/<?= $profile->id ?>" class="whitelink nodecorlink link-xxlarge">Выслать активационное письмо повторно</a>
-        <?php endif; ?>
+        <?php endif;*/ ?>
     </div>
  <?php endif; ?>
 

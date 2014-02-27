@@ -99,8 +99,6 @@ class UserAuthController extends YumController
             if ($userValid && $profileValid && $accountValid) {
                 $result = $this->user->register($this->user->username, $this->user->password, $profile);
 
-
-
                 if (false !== $result) {
                     $account->user_id = $this->user->id;
                     $account->save(false);
@@ -108,9 +106,14 @@ class UserAuthController extends YumController
                     $invite->receiver_id = $this->user->id;
                     $invite->save();
 
+                    YumUser::activate($profile->email, $this->user->activationKey);
+                    $this->user->authenticate($YumUser['password']);
+
                     UserService::assignAllNotAssignedUserInvites($this->user);
 
-                    $this->redirect(['afterRegistration']);
+                    sleep(0.5);
+
+                    $this->redirect('/dashboard');
                 } else {
                     $this->user->password = '';
                     $this->user->password_again = '';
@@ -532,9 +535,6 @@ class UserAuthController extends YumController
         if($user instanceof YumUser) {
             if(Yum::module('registration')->loginAfterSuccessfulActivation) {
                 UserService::authenticate($user);
-//                $login = new YumUserIdentity($user->username, false);
-//                $login->authenticate(true);
-//                Yii::app()->user->login($login, 60);
             }
 
             if ($user->isPersonal()) {
