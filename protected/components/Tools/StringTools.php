@@ -97,9 +97,11 @@ class StringTools
      */
     public static function getMaxLength($max_length, $string) {
 
-        if(strlen($string) <= $max_length){
+        if ('' == $string) {
+            return '&nbsp;';
+        } elseif (strlen($string) <= $max_length){
             return $string;
-        }else{
+        } else {
             return substr($string, 0, $max_length).'...';
         }
     }

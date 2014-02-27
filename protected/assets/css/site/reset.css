@@ -457,10 +457,6 @@ form .error-place {
     margin-top: -17px; /* this.margin-top немного более this.height*/
 }
 
-.error .error-place .errorMessage {
-    display: inline-block;
-}
-
 .error select,
 .error textarea,
 .error input[type='text'],

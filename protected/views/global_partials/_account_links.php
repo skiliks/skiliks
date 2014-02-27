@@ -19,6 +19,7 @@
             'activeCssClass' => 'active',
             'activateItems'  => true,
             'itemCssClass'   => 'menu-item',
+            'encodeLabel'    => false,
             'items'=>[
                 [
                     'label'       => Yii::t('site', 'Русский'),
