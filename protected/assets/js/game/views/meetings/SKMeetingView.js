@@ -48,6 +48,7 @@ define([
 
         'renderWindow': function (el) {
             try {
+                AppView.frame._showPausedScreen();
                 var me = this;
 
                 me.subjects = new SKMeetingSubjectCollection();
@@ -60,8 +61,9 @@ define([
                         el.html(_.template(meetingChooseTpl, {
                             'subjects': me.subjects
                         }));
-                        AppView.frame._showPausedScreen();
                         me.$el.topZIndex();
+                    } else {
+                        AppView.frame._hidePausedScreen();
                     }
                 });
             } catch(exception) {
