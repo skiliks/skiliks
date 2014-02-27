@@ -21,7 +21,10 @@ class InitDBCommand extends CConsoleCommand
 {
     public function actionIndex($database, $forceDelete = false)
     {
-
+        
+        if($forceDelete) {
+            $this->removeAllDocumentsAndLogs();
+        }
         //:TODO Нужны права рута
         echo "\n Drop `$database`.";
         // DROP DATABASE
@@ -124,6 +127,27 @@ class InitDBCommand extends CConsoleCommand
             '--email=' . $user['username'], '--password=' . $user['password'], '--isAdmin=' . ((isset($user['is_admin']) && 1 == $user['is_admin']) ? "true" : "false")
         );
         $runner->run($args);
+    }
+
+    private function removeAllDocumentsAndLogs(){
+        $project_path = __DIR__."/../../";
+        $path = "rm -rf ".$project_path."documents/user/*";
+        echo "Start ".$path."\r\n";
+        exec($path);
+        echo "End\r\n";
+        $path = "rm -rf ".$project_path."protected/logs/*";
+        echo "Start ".$path."\r\n";
+        exec($path);
+        echo "End\r\n";
+        $path = "rm -rf ".$project_path."protected/system_data/analytic_files_2/*";
+        echo "Start ".$path."\r\n";
+        exec($path);
+        echo "End\r\n";
+        $path = "rm -rf ".$project_path."protected/system_data/prb_bank/pdf_slices/*";
+        echo "Start ".$path."\r\n";
+        exec($path);
+        echo "End\r\n";
+        echo "Delete All docs and logs \r\n";
     }
 
 }
