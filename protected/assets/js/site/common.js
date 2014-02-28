@@ -48,7 +48,7 @@ $(document).ready(function () {
             // autoOpen : true,
             width: getDialogWindowWidth_2of3(),
             height: 400,
-            dialogClass: 'popup-form background-image-two-lamps',
+            dialogClass: 'popup-form background-image-two-lamps hide-ui-dialog-content' ,
             modal: true,
             resizable: false,
             draggable: false,

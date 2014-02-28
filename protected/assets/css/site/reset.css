@@ -270,6 +270,10 @@ textarea {
     padding: 20px 35px 35px 20px; /* 15 0 0 15 даёт .nice-border, в сумме по 35px с каждой стороны */
 }
 
+.hide-ui-dialog-content .ui-dialog-content {
+    overflow: hidden;
+}
+
 .skiliks .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick {
     background: url("../../img/site/1280/popups/close-modal.png") no-repeat 0 0;
     display: block;
