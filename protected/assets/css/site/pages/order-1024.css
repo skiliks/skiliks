@@ -11,4 +11,14 @@
     .us-order-header {
         height: 220px;
     }
+
+    textarea,
+    input[type='text'],
+    input[type='password'] {
+        min-width: 150px;
+    }
+
+    .us-without-commission {
+        margin-top: 2px;
+    }
 }

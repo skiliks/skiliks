@@ -76,7 +76,10 @@
                         ) ?>
                         <?= $form->labelEx($account, 'preference_payment_method', ['label' => 'Оплата по счёту', 'for' => 'payment_invoice']) ?>
                         <div class="method-description color-6D6D5B">
-                            <small>Заполните ваши реквизиты и на ваш email придет счет. Тарифный план будет подключён после получения платежа.</small>
+                            <span>
+                                Заполните ваши реквизиты и на ваш email придет счет.
+                                Тарифный план будет подключён после получения платежа.
+                            </span>
                         </div>
                     </div>
 
@@ -123,21 +126,21 @@
                         <?= $form->label($account, 'preference_payment_method', ['label' => 'Оплата картой и электронными деньгами', 'for' => 'payment_card']) ?>
 
                         <div class="method-description color-6D6D5B">
-                            <small>
+                            <span>
                                 <img src="<?=$this->getAssetsUrl()?>/img/site/1280/prices/visa-mastercard.gif" alt="Варианты оплаты" /></span>
                                 <span class="us-without-commission">Без комиссий</span>
-                            </small>
+                            </span>
                             <br/>
                             <span>Электронные деньги</span>
                             <br/>
-                            <small>
+                            <span>
                                 <img src="<?=$this->getAssetsUrl()?>/img/site/1280/prices/epay-services.png" alt="Варианты оплаты" />
                                 <span class="us-without-commission">Без комиссий</span>
                                 <br/>
                                 Выставление счёта в интернет-банк и другие способы оплаты, предусмотренные платёжной системой
                                 <br/><br/>
                                 Выбирая данную опцию, вы будете перенаправлены на страницу платёжной системы
-                            </small>
+                            </span>
                         </div>
                     </div>
                 </span>

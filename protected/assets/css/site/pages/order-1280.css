@@ -52,7 +52,7 @@
 
 .us-without-commission {
     margin-left: 20px;
-    margin-top: 4px;
+    margin-top: 1px;
     vertical-align: top;
 }
 
@@ -76,6 +76,8 @@
     font-size: 0.7em;
 }
 
-.us-order-description-row label {
-
+textarea,
+input[type='text'],
+input[type='password'] {
+    min-width: 170px;
 }
