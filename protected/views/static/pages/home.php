@@ -22,7 +22,7 @@
                     <!-- -->
                     <?php if ('ru' == Yii::app()->getlanguage()): ?>
 
-                        <a href="/registration" class="label background-dark-blue icon-circle-with-blue-arrow-big button-standard icon-padding-standard">
+                        <a href="/registration/single-account" class="label background-dark-blue icon-circle-with-blue-arrow-big button-standard icon-padding-standard">
                             <?= Yii::t('site', 'Register now') ?>
                         </a>
 
