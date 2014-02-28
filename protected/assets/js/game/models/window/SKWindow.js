@@ -72,6 +72,15 @@ define([], function () {
                         this.set('name', 'mainScreen');
                         this.set('subname', 'manual');
                     }
+                        var tmp_name = this.get('name');
+                        var tmp_subname = this.get('subname');
+                        console.log("tmp_name");
+                        console.log(tmp_name);
+                        console.log("tmp_subname");
+                        console.log(tmp_subname);
+
+                    console.log("SKApp.simulation.window_set");
+                    console.log(SKApp.simulation.window_set);
 
                     if (window.Raven) {
                         window.Raven.captureMessage(
@@ -127,7 +136,12 @@ define([], function () {
          */
         'getSubwindowId': function () {
             try {
-                return screensSub[this.get('subname')];
+                //console.log("this.get('id')", this.get('id'));
+                if(this.get('subname') === undefined) {
+                    return screensSub[this.get('id')];
+                } else {
+                    return screensSub[this.get('subname')];
+                }
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);
