@@ -6,7 +6,7 @@
     <br/>
 
     <span class="pull-content-center column-full">
-        <span class="nice-border background-light-yellow border-radius-standard us-price-box">
+        <span class="nice-border background-yellow border-radius-standard us-price-box">
             <br/>
             <br/>
             <br/>
@@ -29,7 +29,7 @@
             </a>
         </span>
 
-        <span class="nice-border background-light-yellow border-radius-standard us-price-box margin-left-18">
+        <span class="nice-border background-yellow border-radius-standard us-price-box margin-left-18">
             <br/>
             <br/>
             <br/>
@@ -52,7 +52,7 @@
             </a>
         </span>
 
-        <span class="nice-border background-light-yellow border-radius-standard us-price-box margin-left-18">
+        <span class="nice-border background-yellow border-radius-standard us-price-box margin-left-18">
             <br/>
             <br/>
             <br/>
@@ -75,7 +75,7 @@
             </a>
         </span>
 
-        <span class="nice-border background-light-yellow border-radius-standard us-price-box margin-left-18">
+        <span class="nice-border background-yellow border-radius-standard us-price-box margin-left-18">
             <br/>
             <br/>
             <br/>
