@@ -41,6 +41,15 @@ ul.question-container li.active {
     color: #146672;
 }
 
+ul.question-container .default li {
+    color: #000;
+}
+
+ul.question-container .default li:hover {
+    background-image: none;
+    color: #000;
+}
+
 ul.question-container li div {
     color: #000000;
     display: none;
