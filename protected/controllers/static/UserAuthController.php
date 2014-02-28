@@ -26,7 +26,7 @@ class UserAuthController extends YumController
             Yii::app()->user->logout();
         }
 
-        $this->redirect('/registration');
+        $this->redirect('/registration/single-account');
     }
 
     /**
