@@ -283,8 +283,9 @@ $(document).ready(function () {
             // момент смены размера разный
             // - тут это просвляется для input и textarea
             // потому что им нельзя задать размен в %
+            console.log('newWidth: ', newWidth);
             $('#Invite_fullname').width(newWidth - 100);
-            $('Invite_message').width(newWidth - 100);
+            $('#Invite_message').width(newWidth - 100);
         });
 
         $(window).resize();
