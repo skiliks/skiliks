@@ -284,13 +284,17 @@ $(document).ready(function () {
             // - тут это просвляется для input и textarea
             // потому что им нельзя задать размен в %
             console.log('newWidth: ', newWidth);
-            $('#Invite_fullname').width(newWidth - 100);
-            $('#Invite_message').width(newWidth - 100);
+            $('#Invite_fullname').css('width', (newWidth - 100) + 'px');
+
+            // 117, а не 100 - потому что есть скролл
+            $('#Invite_message').css('width', (newWidth - 117) + 'px');
+            // min-width нуен для textarea в сафари
+            $('#Invite_message').css('min-width', (newWidth - 117) + 'px');
         });
 
-        $(window).resize();
-
         $( ".locator-form-invite-step-2").dialog('open');
+
+        $(window).resize();
     }
 
     // 13)
