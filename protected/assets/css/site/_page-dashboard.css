@@ -557,7 +557,9 @@ i.icon-doc {
 }
 
 #DeclineExplanation_reason_id label {
-    height: 19px;
+    font-family: ProximaNova-Regular;
+    font-size: 1.3em;
+    height: 22px;
     vertical-align: middle;
 }
 

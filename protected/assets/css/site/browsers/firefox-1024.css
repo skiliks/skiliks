@@ -7,7 +7,7 @@
         margin-right: 15px;
     }
 
-    .action-controller-registrationSingleAccount-static-userAuth .inline-error-first {
-        /*width: 177px;*/
+    #DeclineExplanation_reason_id label {
+        height: 20px;
     }
 }

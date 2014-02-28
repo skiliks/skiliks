@@ -43,7 +43,7 @@
         </div>
     </span>
 
-    <div class="row">
+    <div class="row pull-content-center">
         <!-- chancel-decline -->
         <span class = 'label background-dark-blue icon-circle-with-blue-arrow-big
             button-standard icon-padding-standard inter-active
