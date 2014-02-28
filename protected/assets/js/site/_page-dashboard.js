@@ -234,16 +234,23 @@ $(document).ready(function () {
         // смена ширины при изменении размеров окна браузера
         // выравнивание при изменении размеров окна браузера
         $(window).on('resize', function() {
-            $('.locator-form-vacancy').dialog("option", "width", getDialogWindowWidth_2of3());
+            var newWidth = getDialogWindowWidth_2of3();
+            $('.locator-form-vacancy').dialog("option", "width", newWidth);
             $('.locator-form-vacancy').dialog("option", "position", {
                 use: true,
                 my: "right top",
                 at: "right top",
                 of: $('.locator-corporate-invitations-list-box')
             });
+
+            $('#Vacancy_label').css('width', (newWidth - 316) + 'px');
+            $('#Vacancy_link').css('width', (newWidth - 316) + 'px');
+            $('#add-vacancy-form .sbHolder').css('width', (newWidth - 310) + 'px');
         });
 
         $(".form-vacancy").dialog('open');
+
+        $(window).resize();
     });
 
     // 11) переместил в common.js
@@ -283,7 +290,6 @@ $(document).ready(function () {
             // момент смены размера разный
             // - тут это просвляется для input и textarea
             // потому что им нельзя задать размен в %
-            console.log('newWidth: ', newWidth);
             $('#Invite_fullname').css('width', (newWidth - 100) + 'px');
 
             // 117, а не 100 - потому что есть скролл
