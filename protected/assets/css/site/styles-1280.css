@@ -352,3 +352,15 @@ nav ul li.menu-item span.not-started-simulations {
 #YumUserLogin_not_activate_em_ a {
     text-decoration: underline;
 }
+
+#DeclineExplanation_reason_id label {
+    font-family: ProximaNova-Regular;
+    font-size: 1.3em;
+    height: 22px;
+    vertical-align: middle;
+}
+
+#DeclineExplanation_description {
+    resize: none;
+    width: 645px;
+}

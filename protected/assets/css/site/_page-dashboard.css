@@ -556,14 +556,3 @@ i.icon-doc {
     max-height: 85px;
 }
 
-#DeclineExplanation_reason_id label {
-    font-family: ProximaNova-Regular;
-    font-size: 1.3em;
-    height: 22px;
-    vertical-align: middle;
-}
-
-#DeclineExplanation_description {
-    resize: none;
-    width: 645px;
-}

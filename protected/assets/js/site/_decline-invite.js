@@ -13,7 +13,8 @@ $(document).ready(function(){
                 window.declineInviteId = $(this).attr('data-invite-id');
 
                 $('.locator-invite-decline-box').dialog({
-                    dialogClass: 'popup-form-wide background-middle-dark-blue background-image-book-2',
+                    dialogClass: 'popup-form-wide background-middle-dark-blue ' +
+                        'background-image-book-2 hide-ui-dialog-content',
                     modal:       true,
                     autoOpen:    true,
                     resizable:   false,
