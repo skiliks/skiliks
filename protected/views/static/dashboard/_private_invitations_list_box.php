@@ -92,24 +92,3 @@
 <!-- decline-form { -->
 <div class="locator-invite-decline-box"></div>
 <!-- decline-form } -->
-
-<script type="text/javascript">
-    $(function(){
-        // decline dialog {
-//        $.ajax({
-//            url: '/dashboard/decline-invite/validation',
-//            type: 'POST',
-//            success: function(data) {
-//                $('#invite-decline-form').html(data.html).hide();
-//
-//                $('.decline-link').click(function(event){
-//                    event.preventDefault();
-//                    $('#invite-decline-form').find('input#DeclineExplanation_invite_id').val($(this).attr('title'));
-//
-//                    $('#invite-decline-form').show();
-//                });
-//            }
-//        })
-        // decline dialog }
-     });
-</script>

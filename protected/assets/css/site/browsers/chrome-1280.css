@@ -11,3 +11,7 @@ input[type='password'] {
 .ui-dialog #feedback-form #Feedback_email {
     width: 414px;
 }
+
+#DeclineExplanation_reason_id label {
+    height: 23px;
+}

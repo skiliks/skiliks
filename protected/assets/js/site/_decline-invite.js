@@ -8,7 +8,7 @@ $(document).ready(function(){
             $('.locator-invite-decline-box').html(data.html);
 
             // 14.1 ) добавление HTML кода формы
-            $('.action-decline-invite').click(function(event){
+            $('.action-decline-invite').click(function(event) {
                 var me = this;
                 window.declineInviteId = $(this).attr('data-invite-id');
 
@@ -33,6 +33,12 @@ $(document).ready(function(){
                         });
                     }
                 });
+            });
+
+            $(window).on('resize', function() {
+                $('.locator-invite-decline-box').dialog("option", "width", getDialogWindowWidth_2of3());
+                $('.locator-invite-decline-box').dialog("option", "position", "center");
+                $('#DeclineExplanation_description').css('width', (getDialogWindowWidth_2of3() - 80) + 'px');
             });
 
             // 14.2 ) Обработка события "Да, я подтверждаю отказ от приглашения"

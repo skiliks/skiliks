@@ -555,3 +555,13 @@ i.icon-doc {
     min-height: 85px;
     max-height: 85px;
 }
+
+#DeclineExplanation_reason_id label {
+    height: 19px;
+    vertical-align: middle;
+}
+
+#DeclineExplanation_description {
+    resize: none;
+    width: 645px;
+}

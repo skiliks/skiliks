@@ -6411,7 +6411,10 @@ $.widget("ui.dialog", {
         // нижк есть повторение использование этого куска
         if (winHeigth < dialogHeight + 110) {
             this.element.parent().css('position', 'absolute');
-            this.element.parent().css('top', '50px');
+
+            var top = $(window).scrollTop() + 50;
+
+            this.element.parent().css('top', top + 'px');
             clearfixHeight = $('.clearfix').height();
 
             /* 100 px сверху и 100 px снизу */
@@ -6443,7 +6446,10 @@ $.widget("ui.dialog", {
                 // это повторение более верхнего куска - но пока не хочу выносить его в отдельную функцию
                 if (winHeigth < top + dialogHeight + 110) {
                     this.element.parent().css('position', 'absolute');
-                    this.element.parent().css('top', '50px');
+
+                    var top = $(window).scrollTop() + 50;
+
+                    this.element.parent().css('top', top + 'px');
                     clearfixHeight = $('.clearfix').height();
 
                     /* 100 px сверху и 100 px снизу */

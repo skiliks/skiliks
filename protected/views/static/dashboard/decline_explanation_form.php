@@ -38,7 +38,7 @@
                 <?php echo $form->error($declineExplanation, 'description') ?>
             </span>
             <?php echo $form->textArea($declineExplanation, 'description', [
-                'placeholder'=>Yii::t("site","Failure cause")
+                'placeholder' => Yii::t("site","Failure cause")
             ]); ?>
         </div>
     </span>

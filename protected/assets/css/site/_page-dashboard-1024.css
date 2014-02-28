@@ -144,4 +144,8 @@
         min-width: 475px;
         max-width: 475px;
     }
+
+    #DeclineExplanation_description {
+        width: 505px;
+    }
 }

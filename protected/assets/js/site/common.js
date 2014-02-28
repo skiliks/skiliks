@@ -51,11 +51,7 @@ $(document).ready(function () {
             dialogClass: 'popup-form background-image-two-lamps hide-ui-dialog-content' ,
             modal: true,
             resizable: false,
-            draggable: false,
-            open: function() {
-//                $('.popup-form').css('position', 'fixed');
-//                $('.popup-form').css('top', '70px');
-            }
+            draggable: false
         });
     });
 
