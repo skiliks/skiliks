@@ -154,6 +154,12 @@ define([
                             me.delegateEvents();
                         }, duration);
 
+                        me.$('video').on('error', function() {
+                            if (window.Raven) {
+                                window.Raven.captureMessage("Случилась ошибка с файлом " + me.$('video').attr('src'));
+                            }
+                        });
+
                         // this stupid code is a workaround of Google Chrome bug where video does not start
                         me.$('video').on('canplay', function() {
                             this.play();
