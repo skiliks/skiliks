@@ -62,7 +62,8 @@ class YumProfile extends YumActiveRecord
         return Yii::t('site',  'Email already exists, but not activated.')
             . CHtml::link(
                 Yii::t('site','Send activation again'),
-                '/activation/resend/' . $id
+                '/activation/resend/' . $id,
+                ['class' => 'color-146672']
             );
     }
 
@@ -249,7 +250,10 @@ class YumProfile extends YumActiveRecord
         }
         if ($existProfile !== NULL && !$existProfile->user->isActive()) {
                 $error = Yii::t('site',  'Email already exists, but not activated.')
-                    . CHtml::link(Yii::t('site','Send activation again'),'/activation/resend/' . $existProfile->id);
+                    . CHtml::link(
+                        Yii::t('site','Send activation again'),
+                        '/activation/resend/' . $existProfile->id
+                    );
                 $this->addError('not_activated', $error);
         }
     }
@@ -279,7 +283,10 @@ class YumProfile extends YumActiveRecord
 
         if ($existProfile !== NULL && !$existProfile->user->isActive()) {
             return Yii::t('site',  'Email already exists, but not activated.')
-                . CHtml::link(Yii::t('site','Send activation again'),'/activation/resend/' . $existProfile->id);
+                . CHtml::link(
+                    Yii::t('site','Send activation again'),
+                    '/activation/resend/' . $existProfile->id
+                );
         }
         return false;
     }

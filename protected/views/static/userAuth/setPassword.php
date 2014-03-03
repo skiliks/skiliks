@@ -22,6 +22,8 @@
             <div class="nice-border-not-transparent border-radius-standard
                 pull-center background-D1E8EA us-auth-box <?= $passwordForm->hasErrors() ? 'error' : '' ?>">
 
+
+
                 <span class="error-place pull-left">
                     <span class="us-first-input pull-content-left">
                         <?php echo $form->error($passwordForm, 'password') ?>

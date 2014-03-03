@@ -46,6 +46,11 @@
     border-radius: 5px;
 }
 
+.us-error-bottom {
+    margin-bottom: -7px;
+    margin-left: -40px;
+}
+
 @media screen and (max-width: 1279px) {
 
     .us-first-input,

@@ -27,12 +27,15 @@ $module = Yum::module();
             </h2>
             <br/>
 
+            <?php // var_dump($model->getErrors()) ?>
+
             <div class="nice-border-not-transparent border-radius-standard
-                pull-center background-D1E8EA us-auth-box <?= $model->hasErrors() ? 'error' : '' ?>">
+                pull-center background-D1E8EA us-auth-box <?= $model->hasErrors() ? 'error' : '' ?>
+                <?= ('' != $model->getError('form')) ? 'global-error' : '' ?>">
 
                 <span class="error-place pull-left">
                     <span class="us-first-input pull-content-left">
-                        <?php echo CHtml::error($model,'username') ?>
+                        <?php echo CHtml::error($model, 'username') ?>
                     </span>
                     <span class="us-second-input pull-content-left">
                         <?php echo CHtml::error($model,'password') ?>
@@ -53,18 +56,17 @@ $module = Yum::module();
                     'class' => 'label background-dark-blue icon-circle-with-blue-arrow-big
                         button-standard icon-padding-standard margin-left-8'
                 ]); ?>
-            </div>
 
-            <?php // for "your email not activated" message { ?>
-            <div id="yum-login-global-errors">
-                <?php echo CHtml::error($model,'form') ?>
-                <script>
-                    <?php // to prevent update text by Cufon - it`s brake link "send activation email again" ?>
-                    $('#yum-login-global-errors .errorMessage').addClass('globalErrorMessage');
-                    $('#yum-login-global-errors .errorMessage').removeClass('errorMessage');
-                </script>
+                <?php // for "your email not activated" message { ?>
+                <span class="<?= $model->hasErrors() ? 'error' : '' ?> pull-content-left us-error-bottom">
+                <span class="error-place pull-left">
+                    <span class="pull-content-left">
+                        <?php echo CHtml::error($model, 'form') ?>
+                    </span>
+                </span>
+            </span>
+                <?php // for "your email not activated" message } ?>
             </div>
-            <?php // for "your email not activated" message } ?>
 
             <div class="row">
                 <?php echo CHtml::activeCheckBox($model, 'rememberMe', [
