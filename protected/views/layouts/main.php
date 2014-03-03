@@ -197,7 +197,7 @@ if(preg_match('/(?i)Firefox/',$_SERVER['HTTP_USER_AGENT']))
                     <p class="copyright">Copyright - Skiliks  - 2013</p>
                     <?php if ('ru' == Yii::app()->getlanguage()): ?>
                         <span class="help-contact-us">
-                            Свяжитесь с нами: <a href="mailto:supportp@skiliks.com">support@skiliks.com</a>
+                            Свяжитесь с нами: <a href="mailto:support@skiliks.com">support@skiliks.com</a>
                         </span>
                     <?php endif; ?>
                     <?php $route = Yii::app()->getController()->getRoute(); ?>
