@@ -22,6 +22,10 @@
  * @property string $status_for_sales
  * @property string $company_name_for_sales
  * @property string $industry_for_sales
+ * @property string $discount
+ * @property string $start_discount
+ * @property string $end_discount
+ *
  * The followings are the available model relations:
  * @property YumUser $user
  * @property Industry $industry
