@@ -326,32 +326,6 @@ define([
             }
         },
 
-        /**
-         * @method closeAll
-         * @return void
-         */
-        'closeAll':   function () {
-            try {
-                var name;
-                if (arguments.length === 1) {
-                    name = arguments[0];
-                }
-                var reverse_list = this.models.slice();
-                reverse_list.forEach(function (win) {
-                    if (name ? win.get('name') === name : win.get('name') !== 'mainScreen') {
-                        // we can`t close already closed windows
-                        if (true === win.is_opened) {
-                            win.close();
-                        }
-                    }
-                });
-            } catch(exception) {
-                if (window.Raven) {
-                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
-                }
-            }
-        },
-
         deactivateActiveWindow: function () {
             try {
                 this.getActiveWindow().deactivate();

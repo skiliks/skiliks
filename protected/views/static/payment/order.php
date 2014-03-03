@@ -28,7 +28,11 @@
                 </div>
                 <div class="us-order-description-row">
                     <label>Скидка</label>
-                    <strong class="">50%</strong>
+                    <strong class=""><?= $account->discount ?>%</strong>
+                </div>
+                <div class="us-order-description-row">
+                    <label>Количество симуляций</label>
+                    <strong class=""><input type="text" value="<?= $minSimulationSelected?>"></strong>
                 </div>
             </span>
 

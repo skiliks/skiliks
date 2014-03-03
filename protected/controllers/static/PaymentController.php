@@ -4,14 +4,14 @@ class PaymentController extends SiteBaseController
 {
     const SYSTEM_ERROR = 'Ошибка системы. Обратитесь к владельцам сайта для уточнения причины.';
 
-    public function actionOrder($tariffType = null)
+    public function actionOrder()
     {
         /** @var YumUser $user */
         $user = Yii::app()->user->data();
 
         if (!$user->isAuth() || !$user->isCorporate()) {
             Yii::app()->user->setFlash('error', sprintf(
-                'Тарифные планы доступны корпоративным пользователям. Пожалуйста, <a href="/logout/registration" class="color-428290">зарегистрируйте</a> корпоративный аккаунт и получите доступ.'
+                'Оплата доступна корпоративным пользователям. Пожалуйста, <a href="/logout/registration" class="color-428290">зарегистрируйте</a> корпоративный аккаунт и получите доступ.'
             ));
             $this->redirect('/');
         }
@@ -21,10 +21,13 @@ class PaymentController extends SiteBaseController
         $this->addSiteCss('/pages/order-1280.css');
         $this->addSiteCss('/pages/order-1024.css');
 
+        $minSimulationSelected = Price::model()->findByAttributes(['alias'=>'lite'])->from;
+
         $this->render('order', [
             'account' => $user->account_corporate,
             'paymentMethodCash'      => new CashPaymentMethod(),
-            'paymentMethodRobokassa' => new RobokassaPaymentMethod()
+            'paymentMethodRobokassa' => new RobokassaPaymentMethod(),
+            'minSimulationSelected' => $minSimulationSelected
         ]);
     }
 

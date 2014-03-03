@@ -150,8 +150,8 @@ return [
                 'dashboard/accept-invite/<id:\w+>'  => 'static/dashboard/acceptInvite',
                 'dashboard/decline-invite/<id:\w+>' => 'static/dashboard/declineInvite',
 
-                'payment/order/<tariffType:\w+>'       => 'static/payment/order',
-                'payment/do'                           => 'static/payment/do',
+                'payment/order'  => 'static/payment/order',
+                'payment/do'  => 'static/payment/do',
 
                 'statistics/phpUnitTests' => 'statistics/statistics/phpUnitTests',
                 'statistics/SeleniumTests' => 'statistics/statistics/SeleniumTests',
