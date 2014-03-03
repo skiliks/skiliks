@@ -10,4 +10,9 @@
     #DeclineExplanation_reason_id label {
         height: 20px;
     }
+
+    input.button-standard {
+        padding-bottom: 9px;
+        padding-top: 10px;
+    }
 }

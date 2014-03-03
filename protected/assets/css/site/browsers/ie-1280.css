@@ -6,3 +6,8 @@ input[type='checkbox'] {
 #DeclineExplanation_reason_id label {
     height: 23px;
 }
+
+input.button-standard {
+    padding-bottom: 12px;
+    padding-top: 12px;
+}

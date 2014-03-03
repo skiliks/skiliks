@@ -2,16 +2,22 @@
     padding-bottom: 4px;
 }
 
-textarea,
-input[type='text'],
-input[type='password'] {
-    line-height: auto;
-}
-
 .ui-dialog #feedback-form #Feedback_email {
     width: 414px;
 }
 
 #DeclineExplanation_reason_id label {
     height: 23px;
+}
+
+input.button-standard {
+    margin-top: 0;
+    padding-bottom: 12px;
+    padding-top: 13px;
+}
+
+textarea,
+input[type='text'],
+input[type='password'] {
+   /* line-height: auto;*/
 }
