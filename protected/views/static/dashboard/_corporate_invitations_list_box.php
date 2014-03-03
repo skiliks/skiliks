@@ -40,7 +40,7 @@
                 'name' => 'status',
                 'value' => function(Invite $data){
                     return '
-                        <span class="action-display-popover inter-active table-link">'
+                        <span class="action-display-popover inter-active table-link color-428290">'
                         . Yii::t("site", $data->getStatusText())
                         . '<div class="hide inner-popover background-sky">
                             <div class="popover-triangle locator-popover-triangle-left"></div>
