@@ -1433,6 +1433,15 @@ class AdminPagesController extends SiteBaseController {
                 $user->account_corporate->status_for_sales = $this->getParam('status_for_sales');
                 $user->account_corporate->save(false);
             }
+
+            if($this->getParam('discount_form') === 'true') {
+
+                $user->account_corporate->discount = $this->getParam('discount');
+                $user->account_corporate->start_discount = $this->getParam('start_discount');
+                $user->account_corporate->end_discount = $this->getParam('end_discount');
+                $user->account_corporate->save(false);
+
+            }
         }
 
         $this->layout = '//admin_area/layouts/admin_main';
