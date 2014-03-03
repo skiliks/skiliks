@@ -99,6 +99,8 @@ define([], function () {
                 this.updateUid();
 
                 this.is_opened = false;
+                console.log('this.is_opened = false');
+                console.log(this.get('subname'));
                 this.simulation = SKApp.simulation;
             } catch(exception) {
                 if (window.Raven) {
@@ -159,6 +161,8 @@ define([], function () {
                     throw new Error ("Window is already opened");
                 }
                 me.is_opened = true;
+                console.log('me.is_opened = true');
+                console.log(this.get('subname'));
                 me.simulation.window_set.showWindow(me);
                 /**
                  * Вызывается в момент открытия окна. View должен отрисовать окно в этот момент
@@ -186,6 +190,8 @@ define([], function () {
                     return;
                 }
                 this.is_opened = false;
+                console.log('this.is_opened = false');
+                console.log(this.get('subname'));
                 SKApp.simulation.window_set.hideWindow(this);
                 this.trigger('close');
             } catch(exception) {
