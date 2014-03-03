@@ -24,7 +24,7 @@
             <br/>
             <br/>
             <br/>
-            <a class="button-white button-white-hover inter-active label icon-arrow-blue" href="/payment/order/lite">
+            <a class="button-white button-white-hover inter-active label icon-arrow-blue" href="/payment/order">
                 <?= 'Купить' ?>
             </a>
         </span>
@@ -47,7 +47,7 @@
             <br/>
             <br/>
             <br/>
-            <a class="button-white button-white-hover inter-active label icon-arrow-blue" href="/payment/order/lite">
+            <a class="button-white button-white-hover inter-active label icon-arrow-blue" href="/payment/order">
                 <?= 'Купить' ?>
             </a>
         </span>
@@ -70,7 +70,7 @@
             <br/>
             <br/>
             <br/>
-            <a class="button-white button-white-hover inter-active label icon-arrow-blue" href="/payment/order/lite">
+            <a class="button-white button-white-hover inter-active label icon-arrow-blue" href="/payment/order">
                 <?= 'Купить' ?>
             </a>
         </span>
@@ -93,7 +93,7 @@
             <br/>
             <br/>
             <br/>
-            <a class="button-white button-white-hover inter-active label icon-arrow-blue" href="/payment/order/lite">
+            <a class="button-white button-white-hover inter-active label icon-arrow-blue" href="/payment/order">
                 <?= 'Купить' ?>
             </a>
         </span>
