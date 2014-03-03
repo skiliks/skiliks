@@ -16,8 +16,14 @@ input.button-standard {
     padding-top: 13px;
 }
 
-textarea,
-input[type='text'],
-input[type='password'] {
-   /* line-height: auto;*/
+.action-controller-login-auth #YumUserLogin_username {
+    margin-left: -35px;
+}
+
+.action-controller-login-auth .error-place {
+    margin-left: 2px;
+}
+
+.action-controller-login-auth .us-first-input {
+    width: 245px;
 }

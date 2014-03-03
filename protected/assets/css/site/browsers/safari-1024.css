@@ -1,0 +1,8 @@
+
+@media screen and (max-width: 1279px) {
+    .skiliks input.us-button-submit {
+        margin-top: 0;
+        padding-top: 11px;
+        padding-bottom: 10px;
+    }
+}

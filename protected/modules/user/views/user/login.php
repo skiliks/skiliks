@@ -54,7 +54,7 @@ $module = Yum::module();
 
                 <?php echo CHtml::submitButton(Yum::t('Войти'), [
                     'class' => 'label background-dark-blue icon-circle-with-blue-arrow-big
-                        button-standard icon-padding-standard margin-left-8'
+                        button-standard icon-padding-standard margin-left-8 us-button-submit'
                 ]); ?>
 
                 <?php // for "your email not activated" message { ?>
