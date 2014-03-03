@@ -73,6 +73,11 @@
     color: #428290;
 }
 
+ul.question-container .default li.color-797966, /* help-page */
+.skiliks .color-797966 {
+    color: #797966;
+}
+
 .color-29313D {
     color: #29313D;
 }
