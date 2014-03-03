@@ -170,7 +170,7 @@ class PagesController extends SiteBaseController
 
                 $mail = array(
                     'from' => Yum::module('registration')->registrationEmail,
-                    'to' => 'help@skiliks.com',
+                    'to' => 'support@skiliks.com',
                     'subject' => 'Новый отзыв',
                     'body' => $body,
                     'embeddedImages' => [

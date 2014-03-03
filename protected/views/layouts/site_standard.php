@@ -160,7 +160,7 @@ $cs->registerCssFile($assetsUrl . "/css/static.css");
                     </div>
                 </div>
                 <div class="container-3 container proxima-reg font-small">
-                    <div class="grid1 empty-block">.</div><div class="grid1 text-center">Copyright - Skiliks  - 2012</div><div class="grid1 text-right"><?php if ('ru' == Yii::app()->getlanguage()): ?><span class="help-contact-us">Свяжитесь с нами: <a href="mailto:help@skiliks.com">help@skiliks.com</a></span><?php endif; ?></div>
+                    <div class="grid1 empty-block">.</div><div class="grid1 text-center">Copyright - Skiliks  - 2012</div><div class="grid1 text-right"><?php if ('ru' == Yii::app()->getlanguage()): ?><span class="help-contact-us">Свяжитесь с нами: <a href="mailto:support@skiliks.com">help@skiliks.com</a></span><?php endif; ?></div>
                 </div>
                 <a href="#top" class="to-top font-small"><?php echo Yii::t('site', 'Back to top') ?></a>
                 <?php $route = Yii::app()->getController()->getRoute(); ?>
