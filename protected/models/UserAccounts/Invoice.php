@@ -13,6 +13,7 @@
  * @property string $additional_data
  * @property string $comment
  * @property integer $month_selected
+ * @property integer $simulation_selected
  *
  * The followings are the available model relations:
  * @property YumUser $user
