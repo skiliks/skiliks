@@ -186,20 +186,23 @@ class Registration_by_link_SK3373_Test extends SeleniumTestHelper
 
         $invites="-". $this->getText(Yii::app()->params['test_mappings']['corporate']['invites_limit']);
 
-        $this->open('/admin_area/user/4/details');
-        $this->waitForVisible("xpath=//div[2]/div/div[2]/table/tbody/tr[5]/td[4]/form/input[1]");
-        $this->type("xpath=//div[2]/div/div[2]/table/tbody/tr[5]/td[4]/form/input[1]",$invites);
-        $this->optimal_click("css=#add_invites_button");
-        sleep(3);
+        $this->open('/admin_area/dashboard');
+        $this->waitForVisible(Yii::app()->params['test_admin_mappings']['pages_list']['home']);
+        $this->optimal_click(Yii::app()->params['test_admin_mappings']['home_page']['current_user_details']);
+        $this->waitForVisible(Yii::app()->params['test_admin_mappings']['corporate_info']['change_password']);
+        $this->type(Yii::app()->params['test_admin_mappings']['corporate_info']['add_sim_amount'],$invites);
+        $this->optimal_click(Yii::app()->params['test_admin_mappings']['corporate_info']['add_sim_amount_btn']);
+        $this->waitForTextPresent("Количество доступных симуляций для");
 
         $this->open('/dashboard');
+        $this->waitForVisible(Yii::app()->params['test_mappings']['corporate']['username']);
 
         //проверить, что 0 симуляций на счету
         $this->assertTrue($this->getText(Yii::app()->params['test_mappings']['corporate']['invites_limit'])=='0');
 
         //добавить нужное кол-во симуляций себе в аккаунт
         $this->open('/invite/add-10');
-        sleep(3);
+        $this->waitForTextPresent("Вам добавлено 10 приглашений!");
         $this->open('/dashboard');
         $this->waitForTextPresent("Рабочий кабинет");
         $this->assertTrue($this->getText(Yii::app()->params['test_mappings']['corporate']['invites_limit'])=='10');
@@ -237,8 +240,7 @@ class Registration_by_link_SK3373_Test extends SeleniumTestHelper
         $this->waitForTextPresent("Пожалуйста, укажите причину отказа");
 
         $this->optimal_click(Yii::app()->params['test_mappings']['register_by_link']['confirm_decline_invite']);
-        sleep(3);
-        $this->waitForTextPresent("Необходимо заполнить поле Причина отказа");
+        $this->waitForTextPresent("Необходимо указать причину отказа");
 
         $this->optimal_click(Yii::app()->params['test_mappings']['register_by_link']['decline_reason_0']);
         $this->optimal_click(Yii::app()->params['test_mappings']['register_by_link']['confirm_decline_invite']);
