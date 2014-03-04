@@ -20,14 +20,30 @@ class PaymentController extends SiteBaseController
 
         $this->addSiteCss('/pages/order-1280.css');
         $this->addSiteCss('/pages/order-1024.css');
+        $this->addSiteJs('_page-payment.js');
 
         $minSimulationSelected = Price::model()->findByAttributes(['alias'=>'lite'])->from;
+        $json = [
+            'minSimulationSelected' => $minSimulationSelected
+        ];
+        foreach(Price::model()->findAll() as $price){
+            /* @var $price Price */
+            $json['prices'][] = [
+                'name' => $price->name,
+                'to' => $price->to,
+                'from' => $price->from,
+                'alias' => $price->alias,
+                'in_RUB' => $price->in_RUB,
+                'in_USD' => $price->in_USD,
+            ];
 
+        }
         $this->render('order', [
             'account' => $user->account_corporate,
             'paymentMethodCash'      => new CashPaymentMethod(),
             'paymentMethodRobokassa' => new RobokassaPaymentMethod(),
-            'minSimulationSelected' => $minSimulationSelected
+            'minSimulationSelected' => $minSimulationSelected,
+            'paymentData' => $json
         ]);
     }
 

@@ -184,7 +184,7 @@
 						child = $("<a>", {
 							"href": "#" + that.val(),
 							"rel": that.val(),
-							"class": 'option-' + (i + 1)
+							"class": 'option-' + $(sbOptions).find('li').length /* номер по порядку */
 						}).text(that.text()).bind("click.sb", function (e) {
 							if (e && e.preventDefault) {
 								e.preventDefault();
