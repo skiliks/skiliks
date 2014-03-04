@@ -47,53 +47,6 @@ class PaymentController extends SiteBaseController
         ]);
     }
 
-    public function actionDo()
-    {
-        /** @var YumUser $user */
-        $user = Yii::app()->user->data();
-
-        if (!Yii::app()->request->getIsAjaxRequest() || !$user->isAuth() || !$user->isCorporate()) {
-            echo 'false';
-            Yii::app()->end();
-        }
-
-        $UserAccountCorporate = Yii::app()->request->getParam('UserAccountCorporate');
-        $Invoice = Yii::app()->request->getParam('Invoice');
-        $account = $user->account_corporate;
-
-        if (null !== $UserAccountCorporate) {
-            $account->preference_payment_method = $method = $UserAccountCorporate['preference_payment_method'];
-
-            if ($method === UserAccountCorporate::PAYMENT_METHOD_INVOICE && null !== $Invoice) {
-                $invoice = new Invoice();
-
-                $account->inn                 = $invoice->inn     = $Invoice['inn'];
-                $account->cpp                 = $invoice->cpp     = $Invoice['cpp'];
-                $account->bank_account_number = $invoice->account = $Invoice['account'];
-                $account->bic                 = $invoice->bic     = $Invoice['bic'];
-
-                $invoice->user_id = $user->id;
-                $invoice->status = Invoice::STATUS_PENDING;
-
-                $errors = CActiveForm::validate($invoice);
-
-                if (Yii::app()->request->getParam('ajax') === 'payment-form') {
-                    echo $errors;
-                } elseif (!$account->hasErrors()) {
-                    $account->save();
-                    $invoice->save();
-
-                    echo sprintf(
-                        Yii::t('site', 'Thanks for your order, Invoice was sent to %s. Plan will be available upon receipt of payment'),
-                        $user->profile->email
-                    );
-                }
-            }
-        } else {
-            echo 'false';
-        }
-    }
-
     public function actionDoCashPayment() {
 
         /** @var YumUser $user */
@@ -121,7 +74,7 @@ class PaymentController extends SiteBaseController
         } elseif ($errors == "[]" && !$account->hasErrors()) {
             $account->save();
 
-            $months = Yii::app()->request->getParam('cash-month-selected');
+            $months = Yii::app()->request->getParam('simulation-selected');
 
             if( !isset($months) || $months === null || (int)$months == 0) {
                 throw new Exception("Invoice has to be created for at least one month");
