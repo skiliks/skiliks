@@ -48,7 +48,7 @@
 
 .us-error-bottom {
     margin-bottom: -7px;
-    margin-left: -40px;
+    width: 630px;
 }
 
 @media screen and (max-width: 1279px) {
@@ -75,5 +75,9 @@
 
     .us-auth-box {
         width: 556px;
+    }
+
+    .us-error-bottom {
+        width: 552px;
     }
 }

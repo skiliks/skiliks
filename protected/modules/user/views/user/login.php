@@ -58,7 +58,7 @@ $module = Yum::module();
                 ]); ?>
 
                 <?php // for "your email not activated" message { ?>
-                <span class="<?= $model->hasErrors() ? 'error' : '' ?> pull-content-left us-error-bottom">
+                <span class="<?= ('' != CHtml::error($model, 'form')) ? 'error' : 'hide' ?> pull-content-left us-error-bottom">
                 <span class="error-place pull-left">
                     <span class="pull-content-left">
                         <?php echo CHtml::error($model, 'form') ?>

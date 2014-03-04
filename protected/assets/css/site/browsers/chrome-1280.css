@@ -16,8 +16,8 @@ input.button-standard {
     padding-top: 13px;
 }
 
-.action-controller-login-auth #YumUserLogin_username {
-    margin-left: -35px;
+.skiliks.action-controller-recovery-static-userAuth .us-auth-box {
+    width: 650px;
 }
 
 .action-controller-login-auth .error-place {
