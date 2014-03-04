@@ -261,6 +261,7 @@ return CMap::mergeArray(
             ],
 
             'test_mappings' => require(dirname(__FILE__) . '/test_mappings.php'),
+            'test_admin_mappings' => require(dirname(__FILE__) . '/test_admin_mappings.php'),
 
             'analizer' => array(
                 // данные для анализа екселя

@@ -29,20 +29,23 @@ class Registration_by_link_SK3373_Test extends SeleniumTestHelper
 
         $invites="-". $this->getText(Yii::app()->params['test_mappings']['corporate']['invites_limit']);
 
-        $this->open('/admin_area/user/4/details');
-        $this->waitForVisible("xpath=//div[2]/div/div[2]/table/tbody/tr[5]/td[4]/form/input[1]");
-        $this->type("xpath=//div[2]/div/div[2]/table/tbody/tr[5]/td[4]/form/input[1]",$invites);
-        $this->optimal_click("css=#add_invites_button");
-        sleep(3);
+        $this->open('/admin_area/dashboard');
+        $this->waitForVisible(Yii::app()->params['test_admin_mappings']['pages_list']['home']);
+        $this->optimal_click(Yii::app()->params['test_admin_mappings']['home_page']['current_user_details']);
+        $this->waitForVisible(Yii::app()->params['test_admin_mappings']['corporate_info']['change_password']);
+        $this->type(Yii::app()->params['test_admin_mappings']['corporate_info']['add_sim_amount'],$invites);
+        $this->optimal_click(Yii::app()->params['test_admin_mappings']['corporate_info']['add_sim_amount_btn']);
+        $this->waitForTextPresent("Количество доступных симуляций для");
 
         $this->open('/dashboard');
+        $this->waitForVisible(Yii::app()->params['test_mappings']['corporate']['username']);
 
         //проверить, что 0 симуляций на счету
         $this->assertTrue($this->getText(Yii::app()->params['test_mappings']['corporate']['invites_limit'])=='0');
 
         //добавить нужное кол-во симуляций себе в аккаунт
         $this->open('/invite/add-10');
-        sleep(3);
+        $this->waitForTextPresent("Вам добавлено 10 приглашений!");
         $this->open('/dashboard');
         $this->waitForTextPresent("Рабочий кабинет");
         $this->assertTrue($this->getText(Yii::app()->params['test_mappings']['corporate']['invites_limit'])=='10');
@@ -52,9 +55,9 @@ class Registration_by_link_SK3373_Test extends SeleniumTestHelper
         //все пустые значения
         $this->optimal_click(Yii::app()->params['test_mappings']['corporate']['sendInvite']);
         sleep(3);
-        $this->assertTrue($this->getText("css=.errorMessage.Invite_firstname")=="Введите имя");
-        $this->assertTrue($this->getText("css=.errorMessage.Invite_lastname")=="Введите фамилию");
-        $this->assertTrue($this->getText("css=.errorMessage.Invite_email")=="Введите email");
+        $this->assertTextPresent("Введите имя");
+        $this->assertTextPresent("Введите фамилию");
+        $this->assertTextPresent("Введите email");
 
         //имя и фамилия введены, почта неправильная
         $this->type(Yii::app()->params['test_mappings']['corporate']['inviteName'],"InviteName");
@@ -62,22 +65,22 @@ class Registration_by_link_SK3373_Test extends SeleniumTestHelper
         $this->type(Yii::app()->params['test_mappings']['corporate']['inviteEmail'],"email");
         $this->optimal_click(Yii::app()->params['test_mappings']['corporate']['sendInvite']);
         sleep(3);
-        $this->assertTrue($this->getText("css=.errorMessage.Invite_email")=="Email введён неверно");
+        $this->assertTextPresent("Email введён неверно");
 
         //почта своя
         $this->type(Yii::app()->params['test_mappings']['corporate']['inviteEmail'],"selenium.engine@skiliks.com");
         $this->optimal_click(Yii::app()->params['test_mappings']['corporate']['sendInvite']);
         sleep(3);
         $this->waitForVisible("xpath=(//*[contains(text(),'Данный пользователь с e-mail: selenium.engine@skiliks.com')])");
-        $this->optimal_click("css=.popupclose");
-        $this->assertTrue($this->getText("css=.errorMessage.Invite_email")=="Действие невозможно");
+        $this->optimal_click("xpath=//div[4]/div[1]/a/span");
+        //$this->assertTextPresent("Действие невозможно");
 
         //почта корпоративная
         $this->type(Yii::app()->params['test_mappings']['corporate']['inviteEmail'],"selenium.assessment@skiliks.com");
         $this->optimal_click(Yii::app()->params['test_mappings']['corporate']['sendInvite']);
         sleep(3);
         $this->waitForVisible("xpath=(//*[contains(text(),'Данный пользователь с e-mail: selenium.assessment@skiliks.com')])");
-        $this->optimal_click("css=.popupclose");
+        $this->optimal_click("xpath=//div[4]/div[1]/a/span");
 
         //выслать уникальному персональному
         $emailForNewInvite = "invite+";
@@ -85,6 +88,8 @@ class Registration_by_link_SK3373_Test extends SeleniumTestHelper
         $emailForNewInvite .= "@pers";
         $emailForNewInvite .= (string)rand(1, 500)+(string)rand(1,50)+(string)rand(1,10);
         $emailForNewInvite .= ".skil.com";
+        $this->type(Yii::app()->params['test_mappings']['corporate']['inviteName'],"InviteName");
+        $this->type(Yii::app()->params['test_mappings']['corporate']['inviteSurname'],"InviteSurname");
         $this->type(Yii::app()->params['test_mappings']['corporate']['inviteEmail'],$emailForNewInvite);
         $this->optimal_click(Yii::app()->params['test_mappings']['corporate']['sendInvite']);
         sleep(3);
@@ -99,7 +104,7 @@ class Registration_by_link_SK3373_Test extends SeleniumTestHelper
         $this->type(Yii::app()->params['test_mappings']['corporate']['inviteEmail'],$emailForNewInvite);
         $this->optimal_click(Yii::app()->params['test_mappings']['corporate']['sendInvite']);
         sleep(3);
-        $this->assertTrue($this->getText("css=.errorMessage.Invite_email")=="Приглашение уже отправлено");
+        $this->assertTextPresent("Приглашение уже отправлено");
 
         //переход по ссылке от работодателя
         $this->open($this->getInviteLink($emailForNewInvite));
@@ -108,10 +113,9 @@ class Registration_by_link_SK3373_Test extends SeleniumTestHelper
         //проверка на валидацию ошибок при регистрации по ссылке
         $this->optimal_click(Yii::app()->params['test_mappings']['register_by_link']['register_button']);
         sleep(3);
-        $this->assertTrue($this->getText(Yii::app()->params['test_mappings']['register_by_link']['error_status'])=="Выберите профессиональный статус");
-        $this->assertTrue($this->getText(Yii::app()->params['test_mappings']['register_by_link']['error_password'])=="Введите пароль");
-        $this->assertTrue($this->getText(Yii::app()->params['test_mappings']['register_by_link']['error_password_again'])=="Подтвердите пароль");
-        $this->assertTrue($this->getText(Yii::app()->params['test_mappings']['register_by_link']['error_terms'])=="Вы должны согласиться с условиями");
+        $this->assertTextPresent("Введите пароль");
+        $this->assertTextPresent("Подтвердите пароль");
+        $this->assertTextPresent("Вы должны согласиться с условиями");
         $this->assertTrue($this->getValue(Yii::app()->params['test_mappings']['register_by_link']['invite_name'])=="InviteName");
         $this->assertTrue($this->getValue(Yii::app()->params['test_mappings']['register_by_link']['invite_surname'])=="InviteSurname");
 
@@ -120,14 +124,12 @@ class Registration_by_link_SK3373_Test extends SeleniumTestHelper
         $this->type(Yii::app()->params['test_mappings']['register_by_link']['invite_surname'],"");
         $this->optimal_click(Yii::app()->params['test_mappings']['register_by_link']['register_button']);
         sleep(3);
-        $this->assertTrue($this->getText(Yii::app()->params['test_mappings']['register_by_link']['error_name'])=="Введите имя");
-        $this->assertTrue($this->getText(Yii::app()->params['test_mappings']['register_by_link']['error_surname'])=="Введите фамилию");
+        $this->assertTextPresent("Введите имя");
+        $this->assertTextPresent("Введите фамилию");
 
         //новое имя и фамилия, выбрать статус, ввести короткие пароли, открыть лиц. соглашение, закрыть, нажать на регистрацию
         $this->type(Yii::app()->params['test_mappings']['register_by_link']['invite_name'],"NewInviteName");
         $this->type(Yii::app()->params['test_mappings']['register_by_link']['invite_surname'],"NewInviteSurname");
-        $this->optimal_click("link=Выберите статус");
-        $this->optimal_click("link=Функциональный менеджер");
         $this->type(Yii::app()->params['test_mappings']['register_by_link']['password'],"123");
         $this->type(Yii::app()->params['test_mappings']['register_by_link']['password_again'],"123");
         $this->optimal_click(Yii::app()->params['test_mappings']['register_by_link']['link_terms']);
@@ -136,18 +138,25 @@ class Registration_by_link_SK3373_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['register_by_link']['checkbox_terms']);
         $this->optimal_click(Yii::app()->params['test_mappings']['register_by_link']['register_button']);
         sleep(3);
-        $this->assertTrue($this->getText(Yii::app()->params['test_mappings']['register_by_link']['error_password'])=="Не менее 6 символов");
+        $this->assertTextPresent("Не менее 6 символов");
 
         //пароли, которые не совпадают
         $this->type(Yii::app()->params['test_mappings']['register_by_link']['password'],"123123");
         $this->type(Yii::app()->params['test_mappings']['register_by_link']['password_again'],"1231234");
         $this->optimal_click(Yii::app()->params['test_mappings']['register_by_link']['register_button']);
         sleep(3);
-        $this->assertTrue($this->getText(Yii::app()->params['test_mappings']['register_by_link']['error_password'])=="Пароли не совпадают");
+        $this->assertTextPresent("Пароли не совпадают");
 
-        //правильные пароли
+        //правильные пароли, но слишком простые
         $this->type(Yii::app()->params['test_mappings']['register_by_link']['password'],"123123");
         $this->type(Yii::app()->params['test_mappings']['register_by_link']['password_again'],"123123");
+        $this->optimal_click(Yii::app()->params['test_mappings']['register_by_link']['register_button']);
+        sleep(3);
+        $this->assertTextPresent("Пароль слишком простой");
+
+        //правильные пароли
+        $this->type(Yii::app()->params['test_mappings']['register_by_link']['password'],"skiliks123123");
+        $this->type(Yii::app()->params['test_mappings']['register_by_link']['password_again'],"skiliks123123");
         $this->optimal_click(Yii::app()->params['test_mappings']['register_by_link']['register_button']);
         $this->waitForTextPresent("Личный кабинет");
 
