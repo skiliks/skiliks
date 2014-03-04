@@ -6,6 +6,12 @@ $(document).ready(function () {
 
     var simulation_popup = $('.locator-simulation-details-popup');
 
+    if ('undefined' == typeof simulation_popup.html() ) {
+        /* из locator-simulation-details-popup создаётся потом окно ui-dialog */
+        $('body').append('<div class="locator-simulation-details-popup"></div>');
+        simulation_popup = $('.locator-simulation-details-popup');
+    }
+
     simulation_popup.dialog({
         dialogClass: 'background-sky-blue simulation-result-popup',
         modal:       true,
