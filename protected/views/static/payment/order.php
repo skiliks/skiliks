@@ -4,6 +4,9 @@
  * @var Invoice $invoice
  */
 ?>
+<div style="display: none;" id="payment_data">
+    <?= json_encode($paymentData) ?>
+</div>
 <section>
     <h1 class="thetitle"><?= 'Оформление заказа' ?></h1>
 
@@ -14,25 +17,27 @@
             <span class="us-order-description pull-left color-ffffff">
                 <div class="us-order-description-row">
                     <label>Текущий тарифный план</label>
-                    <strong class="inline">
+                    <strong class="inline current-price-name">
                         Lite
                     </strong>
                     <br/>
-                    <label></label><small>11 900 р.</small>
+                    <label></label><small class="current-price">11 900 р.</small>
                 </div>
                 <div class="us-order-description-row">
                     <label>Полная стоимость</label>
-                    <strong class="">
-                        11 900 р.
+                    <strong class="order-price-total">
+                        11 900
                     </strong>
+                    р.
                 </div>
                 <div class="us-order-description-row">
                     <label>Скидка</label>
-                    <strong class=""><?= $account->discount ?>%</strong>
+                    <strong class="current-discount"><?= $account->discount ?>%</strong>
                 </div>
+                <div class="error_simulation_selected" style="display: none;"></div>
                 <div class="us-order-description-row">
                     <label>Количество симуляций</label>
-                    <strong class=""><input type="text" value="<?= $minSimulationSelected?>"></strong>
+                    <strong class=""><input type="text" id="simulation_selected" value="<?= $minSimulationSelected?>"></strong>
                 </div>
             </span>
 
@@ -44,7 +49,7 @@
                 <strong class="locator-order-tariff-label">Lite</strong>
                 <br/>
                 <strong class="locator-order-price-total">
-                    5&nbsp;950 <small>р</small>
+                    <span class="order-price-total">0</span> <small>р</small>
                 </strong>
             </span>
         </div>
