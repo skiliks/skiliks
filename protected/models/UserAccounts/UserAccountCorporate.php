@@ -344,4 +344,8 @@ class UserAccountCorporate extends CActiveRecord
 
         return '';
     }
+
+    public function getDiscount(){
+        return $this->discount;
+    }
 }

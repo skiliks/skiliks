@@ -32,7 +32,7 @@
                 </div>
                 <div class="us-order-description-row">
                     <label>Скидка</label>
-                    <strong class="current-discount"><?= $account->discount ?>%</strong>
+                    <strong class="current-discount"><?= $account->getDiscount() ?>%</strong>
                 </div>
                 <div class="error_simulation_selected" style="display: none;"></div>
                 <div class="us-order-description-row">

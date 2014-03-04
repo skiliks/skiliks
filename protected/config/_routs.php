@@ -151,8 +151,6 @@ return [
                 'dashboard/decline-invite/<id:\w+>' => 'static/dashboard/declineInvite',
 
                 'payment/order'  => 'static/payment/order',
-                'payment/do'  => 'static/payment/do',
-
                 'statistics/phpUnitTests' => 'statistics/statistics/phpUnitTests',
                 'statistics/SeleniumTests' => 'statistics/statistics/SeleniumTests',
                 'statistics/SeleniumTestsAuth' => 'statistics/statistics/SeleniumTestsAuth',
