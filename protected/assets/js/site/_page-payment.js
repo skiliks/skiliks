@@ -9,7 +9,7 @@ $(document).ready(function() {
                 return false;
             }
             else {
-                $("#cash-month-selected").val($("#month-selected").val());
+                $("#simulation-selected").val($("#simulation_selected").val());
                 $("#payment-form").submit();
             }
         }
@@ -44,7 +44,7 @@ $(document).ready(function() {
     };
 
     function proceedRobokassaPayment() {
-        $.getJSON( "/payment/getRobokassaForm", {monthSelected : $("#month-selected").val()})
+        $.getJSON( "/payment/getRobokassaForm", {'simulation-selected' : $("#simulation-selected").val()})
             .done(function( json ) {
                 if(json.invoice_id == null) {
                     alert("В процессе обработки возникла ошибка. Пожалуйста, свяжитесь с администрацией сайта.");
@@ -98,8 +98,12 @@ $(document).ready(function() {
         return price_return;
     }
 
-    $('#simulation_selected').bind('focusout', function(e) {
+    var simulation_selected = $('#simulation_selected');
+    simulation_selected.bind('focusout', function(e) {
         validationSimulationSelected();
+    });
+    simulation_selected.bind('textchange', function(e) {
+        $('#simulation-selected').val($(this).val());
     });
 
     validationSimulationSelected();

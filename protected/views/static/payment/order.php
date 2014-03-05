@@ -92,7 +92,7 @@
                         </div>
                     </div>
 
-                    <input type="hidden" name="cash-month-selected" id="cash-month-selected" value="1" />
+                    <input type="hidden" name="simulation-selected" id="simulation-selected" value="<?= $minSimulationSelected?>" />
 
                     <div class="row">
                         <?= $form->labelEx($paymentMethodCash, 'ИНН') ?>
