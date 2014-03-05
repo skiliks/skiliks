@@ -305,10 +305,9 @@ return [
 
     'user_auth' =>
     [
-        'email' => "xpath=//*[@class='enter_form']//..//*[@id='YumUserLogin_username']",
-        'password'=>"xpath=//*[@class='enter_form']//..//*[@id='YumUserLogin_password']",
-        'login' => "xpath=//*[@class='enter_form']//..//*[@name='yt0']",
-        'remember_me' => "css=.niceCheck"
+        'email' => "xpath=//section/div/form/div//..//*[@id='YumUserLogin_username']",
+        'password'=>"xpath=//section/div/form/div//..//*[@id='YumUserLogin_password']",
+        'login' => "xpath=//section/section/div/form/div/div[1]/input[3]"
     ],
 
 ];

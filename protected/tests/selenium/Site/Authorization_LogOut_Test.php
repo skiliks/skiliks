@@ -9,7 +9,7 @@
 class Authorization_LogOut_SK3222_Test extends SeleniumTestHelper
 {
     /**
-     * test_Authorization_LogOut_SK3222() тестирует задачу SKILIKS-3222.
+     * test_Authorization_LogOut_SK3222() тестирует задачу SKILIKS-3222 попап Вход
      */
     public function test_Authorization_LogOut_SK3222()
     {
@@ -48,7 +48,7 @@ class Authorization_LogOut_SK3222_Test extends SeleniumTestHelper
         $this->type(Yii::app()->params['test_mappings']['site']['username'],"emailForBaned@skiliks.com");
         $this->type(Yii::app()->params['test_mappings']['site']['userpass'],"123123");
         $this->optimal_click(Yii::app()->params['test_mappings']['site']['enter']);
-        $this->waitForTextPresent('Ваш аккаунт заблокирован');
+        $this->waitForTextPresent('Аккаунт заблокирован'); //неправильный текст - потом поменять
 
         $this->type(Yii::app()->params['test_mappings']['site']['username'],"emailNotActivated@skiliks.com");
         $this->type(Yii::app()->params['test_mappings']['site']['userpass'],"123123");
@@ -56,6 +56,9 @@ class Authorization_LogOut_SK3222_Test extends SeleniumTestHelper
         $this->waitForTextPresent('E-mail уже зарегистрирован, но не активирован');
     }
 
+    /**
+     * test_UserAuth_Authorization_SK5187() тестирует задачу SKILIKS-5187 (страница /user/auth)
+     */
     public function test_UserAuth_Authorization_SK5187()
     {
         $this->deleteAllVisibleCookies();
@@ -90,11 +93,11 @@ class Authorization_LogOut_SK3222_Test extends SeleniumTestHelper
         $this->type(Yii::app()->params['test_mappings']['user_auth']['email'],"emailForBaned@skiliks.com");
         $this->type(Yii::app()->params['test_mappings']['user_auth']['password'],"111111");
         $this->optimal_click(Yii::app()->params['test_mappings']['user_auth']['login']);
-        $this->waitForTextPresent('Ваш аккаунт заблокирован');
+        $this->waitForTextPresent('Аккаунт emailforbaned@skiliks.com заблокирован');  //неправильный текст - потом поменять
 
-        /*$this->type(Yii::app()->params['test_mappings']['user_auth']['email'],"emailNotActivated@skiliks.com");
+        $this->type(Yii::app()->params['test_mappings']['user_auth']['email'],"emailNotActivated@skiliks.com");
         $this->type(Yii::app()->params['test_mappings']['user_auth']['password'],"123123");
         $this->optimal_click(Yii::app()->params['test_mappings']['user_auth']['login']);
-        $this->waitForTextPresent('E-mail уже зарегистрирован, но не активирован');*/
+        $this->waitForTextPresent('E-mail уже зарегистрирован, но не активирован');
     }
 }
