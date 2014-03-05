@@ -6,7 +6,7 @@
  * The followings are the available columns in table 'invoice':
  * @property integer $id
  * @property string $user_id
- * @property string $amount
+ * @property integer $amount
  * @property string $create_date
  * @property string $paid_at
  * @property string $payment_system
@@ -92,19 +92,30 @@ class Invoice extends CActiveRecord
     /**
      * Method need for creating an invoice and storing it do db
      */
-    public function createInvoice($user = null, $months = null) {
+    public function createInvoice($user = null, $simulation_selected = null) {
         if($user !== null) {
             $this->created_at = date('Y-m-d H:i:s');
             $this->user        = $user;
             $this->user_id     = $user->id;
-            $this->amount      = 10 * $months;
-            $this->month_selected = $months;
+            $this->amount      = $this->calculateAmount($simulation_selected);
+            $this->simulation_selected = $simulation_selected;
             $this->save();
             $invoice_log = new LogPayments();
             $invoice_log->log($this, "Заказ");
             return $this->id;
         }
         else return false;
+    }
+
+    public function calculateAmount($simulation_selected) {
+
+        foreach(Price::model()->findAll() as $price) {
+            /* @var $price Price */
+            if($price->from <= $simulation_selected && $price->to > $simulation_selected) {
+                return ($price->in_RUB * $simulation_selected) * ( 100 - $this->user->account_corporate->getDiscount() ) / 100;
+            }
+        }
+
     }
 
 
@@ -161,7 +172,7 @@ class Invoice extends CActiveRecord
             $account = $this->user->account_corporate;
 
             $this->paid_at = date('Y-m-d H:i:s');
-
+            $account->invites_limit += $this->simulation_selected;
             $account->save(false);
             $this->save(false);
 

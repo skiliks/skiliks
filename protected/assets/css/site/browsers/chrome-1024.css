@@ -15,7 +15,11 @@
         margin-top: -1px;
     }
 
-    .skiliks .us-auth-box {
-        width: 553px;
+    .skiliks.action-controller-recovery-static-userAuth .us-auth-box {
+        width: 562px;
+    }
+
+    .action-controller-login-auth .us-first-input {
+        width: 206px;
     }
 }

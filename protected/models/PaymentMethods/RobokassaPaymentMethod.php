@@ -62,10 +62,10 @@ class RobokassaPaymentMethod extends CFormModel {
 
     /**
      * @param $user
-     * @param $invoice
+     * @param $simulation_selected
      */
-    public function setDescription($user, $invoice) {
-        $this->Description = "Продление тарифного плана  для компании ".$user->account_corporate->ownership_type .
+    public function setDescription($user, $simulation_selected) {
+        $this->Description = "Покупка {$simulation_selected} симуляций для компании ".$user->account_corporate->ownership_type .
            " " .$user->account_corporate->company_name;
     }
 

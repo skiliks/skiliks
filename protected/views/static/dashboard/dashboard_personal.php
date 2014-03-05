@@ -66,6 +66,12 @@
 
 <?php $this->renderPartial('partials/_exists-simulation-in-progress-warning-popup', []) ?>
 
+<?php if ($display_results_for): ?>
+    <?php $this->renderPartial('//global_partials/_popup_result_simulation_container', [
+        'display_results_for' => $display_results_for
+    ]) ?>
+<?php endif; ?>
+
 <?php // margin-bottom 150px ?>
 <div class="clearfix column-full"></div>
 

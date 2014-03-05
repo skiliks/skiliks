@@ -47,53 +47,6 @@ class PaymentController extends SiteBaseController
         ]);
     }
 
-    public function actionDo()
-    {
-        /** @var YumUser $user */
-        $user = Yii::app()->user->data();
-
-        if (!Yii::app()->request->getIsAjaxRequest() || !$user->isAuth() || !$user->isCorporate()) {
-            echo 'false';
-            Yii::app()->end();
-        }
-
-        $UserAccountCorporate = Yii::app()->request->getParam('UserAccountCorporate');
-        $Invoice = Yii::app()->request->getParam('Invoice');
-        $account = $user->account_corporate;
-
-        if (null !== $UserAccountCorporate) {
-            $account->preference_payment_method = $method = $UserAccountCorporate['preference_payment_method'];
-
-            if ($method === UserAccountCorporate::PAYMENT_METHOD_INVOICE && null !== $Invoice) {
-                $invoice = new Invoice();
-
-                $account->inn                 = $invoice->inn     = $Invoice['inn'];
-                $account->cpp                 = $invoice->cpp     = $Invoice['cpp'];
-                $account->bank_account_number = $invoice->account = $Invoice['account'];
-                $account->bic                 = $invoice->bic     = $Invoice['bic'];
-
-                $invoice->user_id = $user->id;
-                $invoice->status = Invoice::STATUS_PENDING;
-
-                $errors = CActiveForm::validate($invoice);
-
-                if (Yii::app()->request->getParam('ajax') === 'payment-form') {
-                    echo $errors;
-                } elseif (!$account->hasErrors()) {
-                    $account->save();
-                    $invoice->save();
-
-                    echo sprintf(
-                        Yii::t('site', 'Thanks for your order, Invoice was sent to %s. Plan will be available upon receipt of payment'),
-                        $user->profile->email
-                    );
-                }
-            }
-        } else {
-            echo 'false';
-        }
-    }
-
     public function actionDoCashPayment() {
 
         /** @var YumUser $user */
@@ -121,10 +74,10 @@ class PaymentController extends SiteBaseController
         } elseif ($errors == "[]" && !$account->hasErrors()) {
             $account->save();
 
-            $months = Yii::app()->request->getParam('cash-month-selected');
+            $simulation_selected = Yii::app()->request->getParam('simulation-selected');
 
-            if( !isset($months) || $months === null || (int)$months == 0) {
-                throw new Exception("Invoice has to be created for at least one month");
+            if( !isset($simulation_selected) || $simulation_selected === null || (int)$simulation_selected < 3) {
+                throw new Exception("Случилась ошибка, поле simulation-selected не валидное");
             }
 
             $invoice = new Invoice();
@@ -134,7 +87,7 @@ class PaymentController extends SiteBaseController
                                                      "account" => $paymentMethod->account,
                                                      "bic" => $paymentMethod->bic]);
             // setting months that user selected, after it create an invoice and save it
-            $invoice->createInvoice($user, $months);
+            $invoice->createInvoice($user, $simulation_selected);
 
             // send booker email
             if($paymentMethod->sendBookerEmail($invoice, $user)) {
@@ -154,19 +107,19 @@ class PaymentController extends SiteBaseController
             $this->redirect('/');
         }
 
-        $months = Yii::app()->request->getParam('monthSelected');
+        $simulation_selected = Yii::app()->request->getParam('simulation-selected');
 
-        if( !isset($months) || $months === null || (int)$months == 0) {
-            throw new Exception("Invoice has to be created for at least one month");
+        if( !isset($simulation_selected) || $simulation_selected === null || (int)$simulation_selected < 3) {
+            throw new Exception("Случилась ошибка, поле simulation-selected не валидное");
         }
 
         $invoice = new Invoice();
         $invoice->payment_system = "robokassa";
         // setting months that user selected, after it create an invoice and save it
-        $invoice->createInvoice($user, $months);
+        $invoice->createInvoice($user, $simulation_selected);
 
         $robokassa = new RobokassaPaymentMethod();
-        $robokassa->setDescription($user, $invoice);
+        $robokassa->setDescription($user, $simulation_selected);
         $formData = $robokassa->generateJsonBackData($invoice);
         echo json_encode($formData);
     }
@@ -219,7 +172,7 @@ class PaymentController extends SiteBaseController
         $criteria = new CDbCriteria();
         $criteria->compare('id', $invoiceId);
 
-
+        /* @var $invoice Invoice */
         $invoice = Invoice::model()->find($criteria);
 
         if($invoice !== null && $invoice->paid_at == null) {

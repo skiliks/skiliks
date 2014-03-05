@@ -32,7 +32,7 @@
                 </div>
                 <div class="us-order-description-row">
                     <label>Скидка</label>
-                    <strong class="current-discount"><?= $account->discount ?>%</strong>
+                    <strong class="current-discount"><?= $account->getDiscount() ?>%</strong>
                 </div>
                 <div class="error_simulation_selected" style="display: none;"></div>
                 <div class="us-order-description-row">
@@ -92,7 +92,7 @@
                         </div>
                     </div>
 
-                    <input type="hidden" name="cash-month-selected" id="cash-month-selected" value="1" />
+                    <input type="hidden" name="simulation-selected" id="simulation-selected" value="<?= $minSimulationSelected?>" />
 
                     <div class="row">
                         <?= $form->labelEx($paymentMethodCash, 'ИНН') ?>
