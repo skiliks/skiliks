@@ -15,7 +15,7 @@ class Authorization_LogOut_SK3222_Test extends SeleniumTestHelper
     {
         $this->deleteAllVisibleCookies();
         $this->windowMaximize();
-        $this->open('http://test.skiliks.com/');
+        $this->open('/ru');
 
         // проверка наличия попапа Входа
         $this->optimal_click(Yii::app()->params['test_mappings']['site']['logIn']);
@@ -63,7 +63,7 @@ class Authorization_LogOut_SK3222_Test extends SeleniumTestHelper
     {
         $this->deleteAllVisibleCookies();
         $this->windowMaximize();
-        $this->open('http://test.skiliks.com/user/auth');
+        $this->open('/user/auth');
 
         $this->waitForVisible(Yii::app()->params['test_mappings']['user_auth']['email']);
         $this->optimal_click(Yii::app()->params['test_mappings']['user_auth']['login']);
