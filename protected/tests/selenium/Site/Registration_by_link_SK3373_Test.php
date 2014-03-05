@@ -36,7 +36,7 @@ class Registration_by_link_SK3373_Test extends SeleniumTestHelper
         $this->waitForVisible(Yii::app()->params['test_admin_mappings']['pages_list']['home']);
         $this->optimal_click(Yii::app()->params['test_admin_mappings']['home_page']['current_user_details']);
         $this->waitForVisible(Yii::app()->params['test_admin_mappings']['corporate_info']['change_password']);
-        $this->type(Yii::app()->params['test_admin_mappings']['corporate_info']['add_sim_amount'],$invites);
+        $this->type(Yii::app()->params['test_admin_mappings']['corporate_info']['add_sim_amount_text'],$invites);
         $this->optimal_click(Yii::app()->params['test_admin_mappings']['corporate_info']['add_sim_amount_btn']);
         $this->waitForTextPresent("Количество доступных симуляций для");
 
