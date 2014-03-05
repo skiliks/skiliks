@@ -722,7 +722,7 @@ class SeleniumTestHelper extends CWebTestCase
         }
         $new_email .= (string)rand(1, 500)+(string)rand(1,50)+(string)rand(1,10);
         $new_email .= ".skil.com";
-        $UserDetails = array($name,$surname,$new_email,'123123');
+        $UserDetails = array($name,$surname,$new_email,'skiliks123123');
         return $UserDetails;
     }
 

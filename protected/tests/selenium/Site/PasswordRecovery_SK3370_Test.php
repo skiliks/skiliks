@@ -35,27 +35,28 @@ class PasswordRecovery_SK3370_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['site']['recovery_button']);
         $this->waitForVisible("xpath=(//*[contains(text(),'Отсутствующий email')])");
 
-       /* $this->type(Yii::app()->params['test_mappings']['site']['recovery_email'],"emailForBan@skiliks.com");
+        $this->type(Yii::app()->params['test_mappings']['site']['recovery_email'],"emailForBaned@skiliks.com");
         $this->optimal_click(Yii::app()->params['test_mappings']['site']['recovery_button']);
-        $this->waitForVisible("xpath=(//*[contains(text(),'Ваш аккаунт заблокирован')])");*/
+        $this->waitForVisible("xpath=(//*[contains(text(),'Ваш аккаунт заблокирован')])");
 
         $this->type(Yii::app()->params['test_mappings']['site']['recovery_email'],$email);
         $this->optimal_click(Yii::app()->params['test_mappings']['site']['recovery_button']);
         $this->waitForVisible("xpath=(//*[contains(text(),'На ваш email выслана инструкция по смене пароля.')])");
         //проверить, что письмо есть в очереди событий
-        sleep(10);
+        sleep(20);
         if ($this->findRecoveryMailInQueue($email)==true)
         {
             //перереход по ссылке
             $this->open($this->createRecoveryURL($this->findUserIdByEmail($email)));
-            //кейсы восстановления проверить
-            $this->type(Yii::app()->params['test_mappings']['site']['change_pass'],"123123");
-            $this->type(Yii::app()->params['test_mappings']['site']['verify_pass'],"123123");
+            //TODO: кейсы восстановления проверить
+            $this->type(Yii::app()->params['test_mappings']['site']['change_pass'],"skiliks123123");
+            $this->type(Yii::app()->params['test_mappings']['site']['verify_pass'],"skiliks123123");
             $this->optimal_click(Yii::app()->params['test_mappings']['site']['save_new_pass']);
             $this->waitForVisible("xpath=(//*[contains(text(),'Новый пароль успешно сохранен')])");
         }
         else
             $this->fail("There is no letter for recover password in database");
+        //TODO: кейсы повторного использования ссылки восстановления пароля
     }
 
     private function createRecoveryURL ($id)
@@ -84,7 +85,7 @@ class PasswordRecovery_SK3370_Test extends SeleniumTestHelper
         $criteria->params= array(':recipients'=>$email);
         try{
             $letter = EmailQueue::model()->find($criteria);
-            if (($letter->recipients==$email)&&($letter->subject == "Восстановление пароля для сайта test.skiliks.com"))
+            if (($letter->recipients==$email)&&($letter->subject == "Восстановление пароля для сайта test.skiliks.com")) // Восстановление пароля для сайта не задан
                 return true;
             else
                 return false;

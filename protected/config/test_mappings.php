@@ -226,18 +226,18 @@ return [
     'site_register' =>
     [
         //TODO: ничего еще не меняла из локаторов
-        'free_access1' => "xpath=//*[@id='top']/div[2]/section[1]/a",
-        'free_access2' => "xpath=//*[@id='top']/div[4]/footer/a",
-        'register_popup' => "css=.registration-popup",
+        'registration_button' => "xpath=//section/section[1]/div/span[1]/a",
+        'registration_link_header' => "xpath=//*[@id='yw0']/li[3]/a",
+        'registration_link_popup' => "css=.unstandard-registration-link",
         'userName' => 'css=#YumProfile_firstname',
         'userSurname' => 'css=#YumProfile_lastname',
         'userEmail' => 'css=#YumProfile_email',
         'password1' => 'css=#YumUser_password',
         'password2' => 'css=#YumUser_password_again',
-        'register_button' => "xpath=(//*[contains(text(),'Зарегистрироваться')])",
-        'checkbox_terms' => 'css=#YumUser_agree_with_terms',
-        'link_terms' => 'css=.terms',
-        'close_terms' => 'css=.ui-icon.ui-icon-closethick'
+        'register_button' => "xpath=//*[@id='registration-form']/div[7]/input",
+        'checkbox_terms' => "xpath=//*[@id='YumUser_agree_with_terms']",
+        'link_terms' => 'css=.action-show-terms-pop-up',
+        'close_terms' => 'xpath=//div[4]/div[1]/a/span'
     ],
 
     'personal' =>
@@ -264,7 +264,15 @@ return [
         'inviteEmail' => "css=#Invite_email",
         'addVacancy' => "css=.action-add-vacancy.button-add-vacancy",
         'sendInvite' => "css=.selenium-button-send-invite",
-        'invites_limit' => "css=.selenium-simulations-amount"
+        'invites_limit' => "css=.selenium-simulations-amount",
+        'profile'=>"xpath=//*[@id='yw3']/li[2]/a",
+    ],
+
+    'corporate_profile' =>
+    [
+        'name'=>"css=#profile_firstname",
+        'lastname'=>"css=#profile_lastname",
+        'email'=>"xpath=//*[@id='account-corporate-personal-form']/div[2]/span"
     ],
 
     'popup_send_invite' =>  /// ничего еще не меняла из локаторов
@@ -282,14 +290,14 @@ return [
         'password_again' => "css=#YumUser_password_again",
         'checkbox_terms' => "css=#YumUser_agree_with_terms",
         'link_terms' => "css=.action-show-terms-pop-up",
-        'close_terms_popup' => "xpath=//div[5]/div[1]/a/span",
+        'close_terms_popup' => "xpath=//div[4]/div[1]/a/span",  // локально будет 5й див, потому что локально есть еще и сайтхарт
         'register_button' => "xpath=//*[@id='registration-by-link-form']/div[6]/input",
         'decline_register' => "css=.action-decline-invite",
         'decline_reason_0' => "css=#DeclineExplanation_reason_id_0",
         'decline_reason_1' => "css=#DeclineExplanation_reason_id_1",
         'decline_reason_2' => "css=#DeclineExplanation_reason_id_2",
         'decline_reason_3' => "css=#DeclineExplanation_reason_id_3",
-        'close_decline_popup' => "xpath=//div[6]/div[1]/a/span",
+        'close_decline_popup' => "xpath=//div[3]/div[1]/a/span", // локально будет 6й див, потому что локально есть еще и сайтхарт
         'back_to_registration' => "css=.action-close-popup",
         'confirm_decline_invite' => "css=.action-confirm-decline",
         'input_area_for_reason' => "css=#DeclineExplanation_description"
