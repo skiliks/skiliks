@@ -20,7 +20,7 @@
             <div class="labelwrap"><div class="popover hide"><div class="popover-triangle"></div>
                 <div class="popover-content"><div class="popup-content ">Всегда выполняется самая приоритетная задача из всех известных на данный момент</div></div></div><span class="thelabel"><div><span class="list-counter">1.3 </span><a href="#" class="list-text">Выполнение задач с учётом приоритетов</a></div></span><a class="questn show-popover show-popover-1 popover-margin3" href="#"></a></div>
 
-            <div class="labelwrap"><span class="thelabel"><div><span class="list-counter">1.4 </span>
+            <div class="labelwrap"><span class="thelabel"><div><span class="list-counter  pull-left">1.4 </span>
                 <a href="#" class="list-text">Прерывание при выполнении задач</a></div></span></div>
         </div>
         <script>
@@ -55,7 +55,7 @@
                 <div class="chartproblem"></div>
             </div>
             <div class="twocharts followPriorities-4">
-                <div class="chartbar"></div>
+
                 <div class="chartproblem"></div>
             </div>
         </div>
