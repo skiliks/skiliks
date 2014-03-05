@@ -34,8 +34,8 @@ class Authorization_LogOut_SK3222_Test extends SeleniumTestHelper
         $this->loginPopup("selenium.engine@skiliks.com","not correct password",'Неверный пароль');
         $this->loginPopup("selenium111@skiliks.com","123123",'Неверный логин');
         $this->loginPopup("selenium.engine@skiliks.com","111",'Неверный пароль');
-        $this->loginPopup("emailForBaned@skiliks.com","123123",'Аккаунт заблокирован'); //неправильный текст - потом поменять
-        $this->loginPopup("emailNotActivated@skiliks.com","123123",'E-mail уже зарегистрирован, но не активирован');
+        $this->loginPopup("emailForBaned@skiliks.com","123123",'заблокирован'); //неправильный текст - потом поменять
+        $this->loginPopup("emailNotActivated@skiliks.com","123123",'не активирован');
     }
 
     /**
@@ -62,7 +62,7 @@ class Authorization_LogOut_SK3222_Test extends SeleniumTestHelper
         $this->loginUserAuth("selenium111@skiliks.com", "123123", 'Неверный логин' );
         $this->loginUserAuth("selenium.engine@skiliks.com", "111", 'Неверный пароль' );
         $this->loginUserAuth("emailForBaned@skiliks.com", "111111", 'заблокирован' ); //неправильный текст - потом поменять
-        $this->loginUserAuth("emailNotActivated@skiliks.com", "123123", 'E-mail уже зарегистрирован, но не активирован' );
+        $this->loginUserAuth("emailNotActivated@skiliks.com", "123123", 'не активирован' );
     }
 
     public function loginPopup($email, $password, $message)
@@ -70,7 +70,7 @@ class Authorization_LogOut_SK3222_Test extends SeleniumTestHelper
         $this->type(Yii::app()->params['test_mappings']['site']['username'], $email);
         $this->type(Yii::app()->params['test_mappings']['site']['userpass'], $password);
         $this->optimal_click(Yii::app()->params['test_mappings']['site']['enter']);
-        $this->waitForTextPresent($message);
+        $this->waitForVisible("xpath=(//*[contains(text(),'".$message."')])");
     }
 
     public function loginUserAuth($email, $password, $message)
@@ -78,6 +78,6 @@ class Authorization_LogOut_SK3222_Test extends SeleniumTestHelper
         $this->type(Yii::app()->params['test_mappings']['user_auth']['email'], $email);
         $this->type(Yii::app()->params['test_mappings']['user_auth']['password'], $password);
         $this->optimal_click(Yii::app()->params['test_mappings']['user_auth']['login']);
-        $this->waitForTextPresent($message);
+        $this->waitForVisible("xpath=(//*[contains(text(),'".$message."')])");
     }
 }
