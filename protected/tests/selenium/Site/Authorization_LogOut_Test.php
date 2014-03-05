@@ -21,39 +21,18 @@ class Authorization_LogOut_SK3222_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['site']['logIn']);
 
         $this->waitForTextPresent('Запомнить меня'); // проверяем, что есть особый текст
+
+        //пустые значения
         $this->optimal_click(Yii::app()->params['test_mappings']['site']['enter']);
         $this->waitForTextPresent('Введите логин');
         $this->assertTextPresent('Введите пароль');
 
-        $this->type(Yii::app()->params['test_mappings']['site']['username'],"asdskiliks.com");
-        $this->type(Yii::app()->params['test_mappings']['site']['userpass'],"123123");
-        $this->optimal_click(Yii::app()->params['test_mappings']['site']['enter']);
-        $this->waitForTextPresent('Email введён неверно');
-
-        $this->type(Yii::app()->params['test_mappings']['site']['username'],"selenium.engine@skiliks.com");
-        $this->type(Yii::app()->params['test_mappings']['site']['userpass'],"not correct password");
-        $this->optimal_click(Yii::app()->params['test_mappings']['site']['enter']);
-        $this->waitForTextPresent('Неверный пароль');
-
-        $this->type(Yii::app()->params['test_mappings']['site']['username'],"selenium111@skiliks.com");
-        $this->type(Yii::app()->params['test_mappings']['site']['userpass'],"123123");
-        $this->optimal_click(Yii::app()->params['test_mappings']['site']['enter']);
-        $this->waitForTextPresent('Неверный логин');
-
-        $this->type(Yii::app()->params['test_mappings']['site']['username'],"selenium.engine@skiliks.com");
-        $this->type(Yii::app()->params['test_mappings']['site']['userpass'],"111");
-        $this->optimal_click(Yii::app()->params['test_mappings']['site']['enter']);
-        $this->waitForTextPresent('Неверный пароль');
-
-        $this->type(Yii::app()->params['test_mappings']['site']['username'],"emailForBaned@skiliks.com");
-        $this->type(Yii::app()->params['test_mappings']['site']['userpass'],"123123");
-        $this->optimal_click(Yii::app()->params['test_mappings']['site']['enter']);
-        $this->waitForTextPresent('Аккаунт заблокирован'); //неправильный текст - потом поменять
-
-        $this->type(Yii::app()->params['test_mappings']['site']['username'],"emailNotActivated@skiliks.com");
-        $this->type(Yii::app()->params['test_mappings']['site']['userpass'],"123123");
-        $this->optimal_click(Yii::app()->params['test_mappings']['site']['enter']);
-        $this->waitForTextPresent('E-mail уже зарегистрирован, но не активирован');
+        $this->loginPopup("asdskiliks.com","123123",'Email введён неверно');
+        $this->loginPopup("selenium.engine@skiliks.com","not correct password",'Неверный пароль');
+        $this->loginPopup("selenium111@skiliks.com","123123",'Неверный логин');
+        $this->loginPopup("selenium.engine@skiliks.com","111",'Неверный пароль');
+        $this->loginPopup("emailForBaned@skiliks.com","123123",'Аккаунт заблокирован'); //неправильный текст - потом поменять
+        $this->loginPopup("emailNotActivated@skiliks.com","123123",'E-mail уже зарегистрирован, но не активирован');
     }
 
     /**
@@ -66,38 +45,33 @@ class Authorization_LogOut_SK3222_Test extends SeleniumTestHelper
         $this->open('/user/auth');
 
         $this->waitForVisible(Yii::app()->params['test_mappings']['user_auth']['email']);
+
+        //пустые значения
         $this->optimal_click(Yii::app()->params['test_mappings']['user_auth']['login']);
         $this->waitForTextPresent('Введите логин (email)');
         $this->assertTextPresent('Введите пароль');
 
-        $this->type(Yii::app()->params['test_mappings']['user_auth']['email'],"asdskiliks.com");
-        $this->type(Yii::app()->params['test_mappings']['user_auth']['password'],"123123");
-        $this->optimal_click(Yii::app()->params['test_mappings']['user_auth']['login']);
-        $this->waitForTextPresent('Email введён неверно');
+        $this->loginUserAuth("asdskiliks.com", "123123", 'Email введён неверно' );
+        $this->loginUserAuth("selenium.engine@skiliks.com", "not correct password", 'Неверный пароль' );
+        $this->loginUserAuth("selenium111@skiliks.com", "123123", 'Неверный логин' );
+        $this->loginUserAuth("selenium.engine@skiliks.com", "111", 'Неверный пароль' );
+        $this->loginUserAuth("emailForBaned@skiliks.com", "111111", 'заблокирован' ); //неправильный текст - потом поменять
+        $this->loginUserAuth("emailNotActivated@skiliks.com", "123123", 'E-mail уже зарегистрирован, но не активирован' );
+    }
 
-        $this->type(Yii::app()->params['test_mappings']['user_auth']['email'],"selenium.engine@skiliks.com");
-        $this->type(Yii::app()->params['test_mappings']['user_auth']['password'],"not correct password");
-        $this->optimal_click(Yii::app()->params['test_mappings']['user_auth']['login']);
-        $this->waitForTextPresent('Неверный пароль');
+    public function loginPopup($email, $password, $message)
+    {
+        $this->type(Yii::app()->params['test_mappings']['site']['username'], $email);
+        $this->type(Yii::app()->params['test_mappings']['site']['userpass'], $password);
+        $this->optimal_click(Yii::app()->params['test_mappings']['site']['enter']);
+        $this->waitForTextPresent($message);
+    }
 
-        $this->type(Yii::app()->params['test_mappings']['user_auth']['email'],"selenium111@skiliks.com");
-        $this->type(Yii::app()->params['test_mappings']['user_auth']['password'],"123123");
+    public function loginUserAuth($email, $password, $message)
+    {
+        $this->type(Yii::app()->params['test_mappings']['user_auth']['email'], $email);
+        $this->type(Yii::app()->params['test_mappings']['user_auth']['password'], $password);
         $this->optimal_click(Yii::app()->params['test_mappings']['user_auth']['login']);
-        $this->waitForTextPresent('Неверный логин');
-
-        $this->type(Yii::app()->params['test_mappings']['user_auth']['email'],"selenium.engine@skiliks.com");
-        $this->type(Yii::app()->params['test_mappings']['user_auth']['password'],"111");
-        $this->optimal_click(Yii::app()->params['test_mappings']['user_auth']['login']);
-        $this->waitForTextPresent('Неверный пароль');
-
-        $this->type(Yii::app()->params['test_mappings']['user_auth']['email'],"emailForBaned@skiliks.com");
-        $this->type(Yii::app()->params['test_mappings']['user_auth']['password'],"111111");
-        $this->optimal_click(Yii::app()->params['test_mappings']['user_auth']['login']);
-        $this->waitForTextPresent('заблокирован');  //неправильный текст - потом поменять
-
-        $this->type(Yii::app()->params['test_mappings']['user_auth']['email'],"emailNotActivated@skiliks.com");
-        $this->type(Yii::app()->params['test_mappings']['user_auth']['password'],"123123");
-        $this->optimal_click(Yii::app()->params['test_mappings']['user_auth']['login']);
-        $this->waitForTextPresent('E-mail уже зарегистрирован, но не активирован');
+        $this->waitForTextPresent($message);
     }
 }
