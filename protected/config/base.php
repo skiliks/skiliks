@@ -82,9 +82,10 @@ return CMap::mergeArray(
                 'fileExtension' => '.tpl',
             ),
             'clientScript' => array(
-                'class' => 'ext.yii-less-extension.components.YiiLessCClientScript',
-                'cache' => true,
-                'basePath' => realpath(dirname(__FILE__) . '/../..')
+                'class'              => 'ext.yii-less-extension.components.YiiLessCClientScript',
+                'cache'              => true,
+                'basePath'           => realpath(dirname(__FILE__) . '/../..'),
+                'coreScriptPosition' => CClientScript::POS_END,
             ),
             'errorHandler'=>array(
                 'errorAction' => 'static/site/error404'

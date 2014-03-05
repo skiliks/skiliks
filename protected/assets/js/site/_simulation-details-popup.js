@@ -21,6 +21,11 @@ $(document).ready(function () {
         resizable:   false
     });
 
+    $(window).resize(function(){
+        $('.locator-simulation-details-popup').dialog("option", "width", getDialogSimulationDetailsPopupWidth());
+        $('.locator-simulation-details-popup').dialog("option", "position", "center");
+    })
+
     /**
      * @param string url, '/simulation/ХХХ/details'
      */
