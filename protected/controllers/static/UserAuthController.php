@@ -621,7 +621,7 @@ class UserAuthController extends YumController
     public function actionRecovery($email = null, $key = null) {
 
         $this->addSiteJs('_start_demo.js');
-        
+
         $recoveryForm = new YumPasswordRecoveryForm;
         $passwordForm = new YumUserChangePassword;
 
