@@ -31,85 +31,32 @@ class RegisterUser_SK4705_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['site_register']['registration_link_header']);
         $this->waitForVisible(Yii::app()->params['test_mappings']['site_register']['checkbox_terms']);
 
-        //check needed information for this page
         $this->assertTextPresent('Пожалуйста, зарегистрируйтесь, чтобы перейти к тестированию');
 
         //0 - personal
         $account_details = $this->setUserDetails(1);
 
-        // all is empty
-        $this->optimal_click(Yii::app()->params['test_mappings']['site_register']['register_button']);
-        $this->waitForTextPresent('Введите имя');
-        $this->assertTextPresent('Введите фамилию');
-        $this->assertTextPresent('Введите email');
-        $this->assertTextPresent('Введите пароль');
-        $this->assertTextPresent('Подтвердите пароль');
-        $this->assertTextPresent('Вы должны согласиться с условиями');
-        sleep(1);
+        $this->userRegisterInformation("", "", "", "", "", "", array("Введите имя", "Введите фамилию", "Введите email", "Введите пароль", "Подтвердите пароль", "Вы должны согласиться с условиями"));
 
-        $this->type(Yii::app()->params['test_mappings']['site_register']['userName'],$account_details[0]);
-        $this->type(Yii::app()->params['test_mappings']['site_register']['userSurname'],$account_details[1]);
-        $this->optimal_click(Yii::app()->params['test_mappings']['site_register']['checkbox_terms']);
-        $this->type(Yii::app()->params['test_mappings']['site_register']['password1']," ");
-        $this->type(Yii::app()->params['test_mappings']['site_register']['password2']," ");
-        $this->optimal_click(Yii::app()->params['test_mappings']['site_register']['register_button']);
-        $this->waitForTextPresent('Введите пароль');
-        $this->assertTextPresent('Подтвердите пароль');
-        sleep(1);
+        $this->userRegisterInformation("", $account_details[0], $account_details[1], " ", " ", 1, array("Введите email", "Введите пароль", "Подтвердите пароль"));
 
-        $this->type(Yii::app()->params['test_mappings']['site_register']['password1'],"123");
-        $this->type(Yii::app()->params['test_mappings']['site_register']['password2'],"123");
-        $this->optimal_click(Yii::app()->params['test_mappings']['site_register']['register_button']);
-        $this->waitForTextPresent('Не менее 6 символов');
-        sleep(1);
+        $this->userRegisterInformation("", $account_details[0], $account_details[1], "123", "123", 0, array("Введите email", "Не менее 6 символов"));
 
-        $this->type(Yii::app()->params['test_mappings']['site_register']['password1'],"123123");
-        $this->type(Yii::app()->params['test_mappings']['site_register']['password2'],"123123123");
-        $this->optimal_click(Yii::app()->params['test_mappings']['site_register']['register_button']);
-        $this->waitForTextPresent('Пароли не совпадают');
-        sleep(1);
+        $this->userRegisterInformation("", $account_details[0], $account_details[1], "123123", "123123123", 0, array("Введите email", "Пароли не совпадают"));
 
-        $this->type(Yii::app()->params['test_mappings']['site_register']['password1'],"123123");
-        $this->type(Yii::app()->params['test_mappings']['site_register']['password2'],"123123");
-        $this->optimal_click(Yii::app()->params['test_mappings']['site_register']['register_button']);
-        $this->waitForTextPresent('Пароль слишком простой');
-        sleep(1);
+        $this->userRegisterInformation("", $account_details[0], $account_details[1], "123123", "123123", 0, array("Введите email", "Пароль слишком простой"));
 
-        $this->type(Yii::app()->params['test_mappings']['site_register']['password1'],$account_details[3]);
-        $this->type(Yii::app()->params['test_mappings']['site_register']['password2'],$account_details[3]);
-        $this->optimal_click(Yii::app()->params['test_mappings']['site_register']['register_button']);
-        $this->waitForTextPresent('Введите email');
-        sleep(1);
+        $this->userRegisterInformation("", $account_details[0], $account_details[1], $account_details[3], $account_details[3], 0, array("Введите email"));
 
-        // wrong email
-        $this->type(Yii::app()->params['test_mappings']['site_register']['userEmail'], "wrongEmail");
-        $this->optimal_click(Yii::app()->params['test_mappings']['site_register']['register_button']);
-        $this->waitForTextPresent('Email введён неверно');
-        sleep(1);
+        $this->userRegisterInformation("wrongEmail", $account_details[0], $account_details[1], $account_details[3], $account_details[3], 0, array("Email введён неверно"));
 
-        //baned email
-        $this->type(Yii::app()->params['test_mappings']['site_register']['userEmail'], "emailForBaned@skiliks.com");
-        $this->optimal_click(Yii::app()->params['test_mappings']['site_register']['register_button']);
-        $this->waitForTextPresent('Аккаунт emailforbaned@skiliks.com заблокирован');
-        $this->assertTextPresent('Данный email занят');
-        sleep(1);
+        $this->userRegisterInformation("emailForBaned@skiliks.com", $account_details[0], $account_details[1], $account_details[3], $account_details[3], 0, array("заблокирован", "Данный email занят"));
 
-        $this->type(Yii::app()->params['test_mappings']['site_register']['userEmail'], "tetyana.grybok@skiliks.com");
-        $this->optimal_click(Yii::app()->params['test_mappings']['site_register']['register_button']);
-        $this->waitForTextPresent('Данный email занят');
-        sleep(1);
+        $this->userRegisterInformation("tetyana.grybok@skiliks.com", $account_details[0], $account_details[1], $account_details[3], $account_details[3], 0, array("Данный email занят"));
 
-        $this->type(Yii::app()->params['test_mappings']['site_register']['userEmail'], "emailNotActivated@skiliks.com");
-        $this->optimal_click(Yii::app()->params['test_mappings']['site_register']['register_button']);
-        $this->waitForTextPresent('E-mail уже зарегистрирован, но не активирован.');
-        sleep(1);
+        $this->userRegisterInformation("emailNotActivated@skiliks.com", $account_details[0], $account_details[1], $account_details[3], $account_details[3], 0, array("не активирован"));
 
-        //good email
-        $this->type(Yii::app()->params['test_mappings']['site_register']['userEmail'], $account_details[2]);
-        $this->optimal_click(Yii::app()->params['test_mappings']['site_register']['register_button']);
-        sleep(1);
-
-        $this->waitForTextPresent("На указанный вами email ". $account_details[2]);
+        $this->userRegisterInformation($account_details[2], $account_details[0], $account_details[1], $account_details[3], $account_details[3], 0, array("На указанный вами email"));
 
         $this->open($this->getActivationKeyByEmail($account_details[2]));
 
@@ -127,5 +74,24 @@ class RegisterUser_SK4705_Test extends SeleniumTestHelper
         $this->assertTrue($this->getText(Yii::app()->params['test_mappings']['corporate_profile']['email'])==$account_details[2]);
 
 
+    }
+
+    public function userRegisterInformation($email, $name, $surname, $password1, $password2, $terms, $errors)
+    {
+        $this->type(Yii::app()->params['test_mappings']['site_register']['userEmail'], $email);
+        $this->type(Yii::app()->params['test_mappings']['site_register']['userName'], $name);
+        $this->type(Yii::app()->params['test_mappings']['site_register']['userSurname'], $surname);
+        $this->type(Yii::app()->params['test_mappings']['site_register']['password1'], $password1);
+        $this->type(Yii::app()->params['test_mappings']['site_register']['password2'], $password2);
+        if ($terms==1)
+        {
+            $this->optimal_click(Yii::app()->params['test_mappings']['site_register']['checkbox_terms']);
+        }
+        $this->optimal_click(Yii::app()->params['test_mappings']['site_register']['register_button']);
+        for ($i=0; $i<count($errors); $i++ )
+        {
+            sleep(1);
+            $this->waitForVisible("xpath=(//*[contains(text(),'".$errors[$i]."')])");
+        }
     }
 }

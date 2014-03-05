@@ -225,7 +225,6 @@ return [
 
     'site_register' =>
     [
-        //TODO: ничего еще не меняла из локаторов
         'registration_button' => "xpath=//section/section[1]/div/span[1]/a",
         'registration_link_header' => "xpath=//*[@id='yw0']/li[3]/a",
         'registration_link_popup' => "css=.unstandard-registration-link",
