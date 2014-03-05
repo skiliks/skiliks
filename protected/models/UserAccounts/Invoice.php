@@ -6,7 +6,7 @@
  * The followings are the available columns in table 'invoice':
  * @property integer $id
  * @property string $user_id
- * @property string $amount
+ * @property integer $amount
  * @property string $create_date
  * @property string $paid_at
  * @property string $payment_system
@@ -172,7 +172,7 @@ class Invoice extends CActiveRecord
             $account = $this->user->account_corporate;
 
             $this->paid_at = date('Y-m-d H:i:s');
-
+            $account->invites_limit += $this->simulation_selected;
             $account->save(false);
             $this->save(false);
 
