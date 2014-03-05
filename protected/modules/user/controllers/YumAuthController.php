@@ -304,6 +304,9 @@ class YumAuthController extends YumController {
     }
     // GET user/auth
 	public function actionLogin() {
+
+        $this->addSiteJs('_start_demo.js');
+
         $form = 'login-form';
 		// If the user is already logged in send them to the return Url 
 		if (!Yii::app()->user->isGuest && isset($_POST['ajax']) && $_POST['ajax'] == $form) {
