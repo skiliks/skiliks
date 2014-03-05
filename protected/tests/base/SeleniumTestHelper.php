@@ -738,5 +738,28 @@ class SeleniumTestHelper extends CWebTestCase
         $key = $invite->code;
         return "/registration/by-link/". $key;
     }
+
+
+    protected function clear_blocked_auth_users()
+    {
+        $this->open('/ru');
+        $this->optimal_click(Yii::app()->params['test_mappings']['site']['logIn']);
+        $this->waitForVisible(Yii::app()->params['test_mappings']['site']['username']);
+        $this->type(Yii::app()->params['test_mappings']['site']['username'],'selenium.engine@skiliks.com');
+        $this->type(Yii::app()->params['test_mappings']['site']['userpass'],'skiliks123123');
+        $this->optimal_click(Yii::app()->params['test_mappings']['site']['enter']);
+        $this->waitForVisible(Yii::app()->params['test_mappings']['corporate']['username']);
+
+        $this->open('/admin_area/users_managament/blocked-authorization-list');
+
+        while ($this->isElementPresent("xpath=//div[2]/div/div[2]/table/tbody/tr[2]/td[1]/a"))
+        {
+            $this->open('/admin_area/users_managament/blocked-authorization-list');
+            $this->optimal_click("xpath=//div[2]/div/div[2]/table/tbody/tr[2]/td[1]/a");
+            $this->waitForVisible(Yii::app()->params['test_admin_mappings']['corporate_info']['change_password']);
+            $this->optimal_click(Yii::app()->params['test_admin_mappings']['corporate_info']['auth_block']);
+        }
+        $this->optimal_click(Yii::app()->params['test_admin_mappings']['home_page']['logout']);
+    }
 }
 

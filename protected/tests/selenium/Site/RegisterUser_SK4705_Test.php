@@ -15,6 +15,9 @@ class RegisterUser_SK4705_Test extends SeleniumTestHelper
     {
         $this->deleteAllVisibleCookies();
         $this->windowMaximize();
+
+        $this->clear_blocked_auth_users();
+
         $this->open('/ru');
 
         $this->optimal_click(Yii::app()->params['test_mappings']['site']['logIn']);

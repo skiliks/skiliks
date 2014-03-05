@@ -15,6 +15,9 @@ class Authorization_LogOut_SK3222_Test extends SeleniumTestHelper
     {
         $this->deleteAllVisibleCookies();
         $this->windowMaximize();
+
+        $this->clear_blocked_auth_users();
+
         $this->open('/ru');
 
         // проверка наличия попапа Входа
@@ -42,6 +45,9 @@ class Authorization_LogOut_SK3222_Test extends SeleniumTestHelper
     {
         $this->deleteAllVisibleCookies();
         $this->windowMaximize();
+
+        $this->clear_blocked_auth_users();
+
         $this->open('/user/auth');
 
         $this->waitForVisible(Yii::app()->params['test_mappings']['user_auth']['email']);

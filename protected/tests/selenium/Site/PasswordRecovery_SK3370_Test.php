@@ -15,6 +15,9 @@ class PasswordRecovery_SK3370_Test extends SeleniumTestHelper
     {
         $this->deleteAllVisibleCookies();
         $this->windowMaximize();
+
+        $this->clear_blocked_auth_users();
+
         $this->open('/ru');
         $email = "selenium.engine@skiliks.com";
         //кликаем на Вход

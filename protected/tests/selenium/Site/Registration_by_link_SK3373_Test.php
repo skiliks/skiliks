@@ -16,12 +16,15 @@ class Registration_by_link_SK3373_Test extends SeleniumTestHelper
         // Пока считаем, что позиция уже добавлена пользователем
         $this->deleteAllVisibleCookies();
         $this->windowMaximize();
+
+        $this->clear_blocked_auth_users();
+
         $this->open('/ru');
 
         $this->optimal_click(Yii::app()->params['test_mappings']['site']['logIn']);
         $this->waitForVisible(Yii::app()->params['test_mappings']['site']['username']);
         $this->type(Yii::app()->params['test_mappings']['site']['username'],'selenium.engine@skiliks.com');
-        $this->type(Yii::app()->params['test_mappings']['site']['userpass'],'123123');
+        $this->type(Yii::app()->params['test_mappings']['site']['userpass'],'skiliks123123');
         $this->optimal_click(Yii::app()->params['test_mappings']['site']['enter']);
 
         $this->waitForVisible(Yii::app()->params['test_mappings']['corporate']['username']);
@@ -173,12 +176,15 @@ class Registration_by_link_SK3373_Test extends SeleniumTestHelper
         // Пока считаем, что позиция уже добавлена пользователем
         $this->deleteAllVisibleCookies();
         $this->windowMaximize();
+
+        $this->clear_blocked_auth_users();
+
         $this->open('/ru');
 
         $this->optimal_click(Yii::app()->params['test_mappings']['site']['logIn']);
         $this->waitForVisible(Yii::app()->params['test_mappings']['site']['username']);
         $this->type(Yii::app()->params['test_mappings']['site']['username'],'selenium.engine@skiliks.com');
-        $this->type(Yii::app()->params['test_mappings']['site']['userpass'],'123123');
+        $this->type(Yii::app()->params['test_mappings']['site']['userpass'],'skiliks123123');
         $this->optimal_click(Yii::app()->params['test_mappings']['site']['enter']);
 
         $this->waitForVisible(Yii::app()->params['test_mappings']['corporate']['username']);

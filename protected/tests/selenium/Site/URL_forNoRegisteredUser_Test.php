@@ -22,6 +22,9 @@ class URL_forNoRegisteredUser_Test extends SeleniumTestHelper
 
         $this->deleteAllVisibleCookies();
         $this->windowMaximize();
+
+        $this->clear_blocked_auth_users();
+
         $this->open('/ru');
 
         $this->check_all_urls($all_buttons, "English");
