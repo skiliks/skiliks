@@ -169,13 +169,9 @@ return CMap::mergeArray(
             ],
 
             'imagesForPreLoad' => [
-                'img/papka-small.png',
                 'img/pause.png',
-                'img/phone-small.png',
-                'img/plan-small.png',
-                'img/pochta-small.png',
-                'img/workplace-small.png',
-                'img/doc-icons.png',
+                'img/simulation/icon-pause.png' ,
+                'img/simulation/icon-fullscreen.png' ,
                 'img/doc-icons-mini.png',
                 'img/window-title-dots.png',
                 'img/main-screen/bg-main-light.jpg',
