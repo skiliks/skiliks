@@ -82,7 +82,7 @@ class PasswordRecovery_SK3370_Test extends SeleniumTestHelper
         $criteria->params= array(':recipients'=>$email);
         try{
             $letter = EmailQueue::model()->find($criteria);
-            if (($letter->recipients==$email)&&($letter->subject == "Восстановление пароля для сайта не задан")) // Восстановление пароля для сайта test.skiliks.com
+            if (($letter->recipients==$email)&&($letter->subject == "Восстановление пароля для сайта test.skiliks.com")) // Восстановление пароля для сайта не задан
                 return true;
             else
                 return false;
