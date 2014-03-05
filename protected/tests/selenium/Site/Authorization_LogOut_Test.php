@@ -93,7 +93,7 @@ class Authorization_LogOut_SK3222_Test extends SeleniumTestHelper
         $this->type(Yii::app()->params['test_mappings']['user_auth']['email'],"emailForBaned@skiliks.com");
         $this->type(Yii::app()->params['test_mappings']['user_auth']['password'],"111111");
         $this->optimal_click(Yii::app()->params['test_mappings']['user_auth']['login']);
-        $this->waitForTextPresent('Аккаунт emailforbaned@skiliks.com заблокирован');  //неправильный текст - потом поменять
+        $this->waitForTextPresent('заблокирован');  //неправильный текст - потом поменять
 
         $this->type(Yii::app()->params['test_mappings']['user_auth']['email'],"emailNotActivated@skiliks.com");
         $this->type(Yii::app()->params['test_mappings']['user_auth']['password'],"123123");
