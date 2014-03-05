@@ -37,7 +37,8 @@ return [
         'add_10_sims' => 'xpath=//div[2]/div/div[2]/div/a[3]',
         'quick_view_email' => 'xpath=//div[2]/div/div[2]/div/form[1]/input[1]',
         'quick_view_find' => 'xpath=//div[2]/div/div[2]/div/form[1]/input[2]',
-        'current_user_details' => "xpath=//div[1]/div/div/div/p/a[1]"
+        'current_user_details' => "xpath=//div[1]/div/div/div/p/a[1]",
+        'logout'=>"xpath=//div[1]/div/div/div/p/a[2]",
     ],
 
     'corporate_info' => [
