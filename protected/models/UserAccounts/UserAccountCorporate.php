@@ -248,6 +248,9 @@ class UserAccountCorporate extends CActiveRecord
             array('ownership_type', 'length', 'max' => 50),
             array('company_name', 'length', 'max' => 50),
             array('company_description', 'length', 'max' => 250),
+            array('discount', 'discountValidator'),
+            array('start_discount', 'startDiscountValidator'),
+            array('end_discount', 'endDiscountValidator'),
 		);
 	}
 
@@ -347,5 +350,32 @@ class UserAccountCorporate extends CActiveRecord
 
     public function getDiscount(){
         return $this->discount;
+    }
+
+    public function discountValidator($attribute) {
+        if(is_numeric($this->$attribute) && (int)$this->$attribute > 0 && (int)$this->$attribute <= 100){
+            return true;
+        }
+        $this->addError($attribute, "Сидка должна быть числом от 0 до 100");
+        return false;
+    }
+
+    public function startDiscountValidator($attribute) {
+        if(UserService::validateDate($this->$attribute) && strtotime($this->$attribute) > strtotime(date('Y-m-d', time()))){
+            return true;
+        }else{
+            $this->addError($attribute, "Дата должна быть больше текущей даты");
+            return false;
+        }
+    }
+
+    public function endDiscountValidator($attribute) {
+
+        if(UserService::validateDate($this->$attribute) && strtotime($this->$attribute) > strtotime(date('Y-m-d', time()))){
+            return true;
+        }else{
+            $this->addError($attribute, "Дата должна быть больше текущей даты");
+            return false;
+        }
     }
 }

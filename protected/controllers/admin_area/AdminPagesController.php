@@ -1435,11 +1435,19 @@ class AdminPagesController extends SiteBaseController {
             }
 
             if($this->getParam('discount_form') === 'true') {
-
                 $user->account_corporate->discount = $this->getParam('discount');
                 $user->account_corporate->start_discount = $this->getParam('start_discount');
                 $user->account_corporate->end_discount = $this->getParam('end_discount');
-                $user->account_corporate->save(false);
+                if($user->account_corporate->validate(['discount', 'start_discount', 'end_discount'])){
+                    $user->account_corporate->save(false);
+                    Yii::app()->user->setFlash('success', 'Сохранено успешно');
+                }else{
+                    $error_message = '';
+                    foreach($user->account_corporate->getErrors() as $error){
+                        $error_message .= implode('<br>', $error).'<br>';
+                    }
+                    Yii::app()->user->setFlash('error', $error_message);
+                }
 
             }
         }
