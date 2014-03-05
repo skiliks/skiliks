@@ -669,7 +669,7 @@
 }
 
 .resultslegend, .legendmargin {
-    margin-left: 290px;
+    margin-left: 313px;
 }
 
 .legendvalue {
@@ -778,7 +778,7 @@
     border: 10px solid #c2dddf;
     display: table-cell;
     padding: 20px;
-    width:415px;
+    width: 426px;
 }
 
 .timeblock .resulttitele {

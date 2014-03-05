@@ -34,18 +34,18 @@ $cs->registerCoreScript('jquery.yiiactiveform.js');
 
 /* fix:
  1. jquery .live() issue, @link: http://stackoverflow.com/questions/15573645/typeerror-live-is-not-a-function */
-$cs->registerScriptFile($assetsUrl . '/js/site/jquery/plugins/jquery-migrate-1.1.1.min.js');
+$cs->registerScriptFile($assetsUrl . '/js/site/jquery/plugins/jquery-migrate-1.1.1.min.js', CClientScript::POS_END);
 
 /* .dialog() */
-$cs->registerScriptFile($assetsUrl . '/js/site/jquery/plugins/jquery-ui-1.8.24.custom.js', CClientScript::POS_BEGIN);
+$cs->registerScriptFile($assetsUrl . '/js/site/jquery/plugins/jquery-ui-1.8.24.custom.js', CClientScript::POS_END); // CClientScript::POS_BEGIN
 
-$cs->registerScriptFile($assetsUrl . "/js/site/jquery/plugins/jquery.browser.js");
-$cs->registerScriptFile($assetsUrl . "/js/site/jquery/plugins/jquery.cookies.js");
-$cs->registerScriptFile($assetsUrl . '/js/site/jquery/plugins/jquery.textchange.js');
-$cs->registerScriptFile($assetsUrl . '/js/site/jquery/plugins/jquery.selectbox-0.2.js');
+$cs->registerScriptFile($assetsUrl . '/js/site/jquery/plugins/jquery.browser.js', CClientScript::POS_END);
+$cs->registerScriptFile($assetsUrl . '/js/site/jquery/plugins/jquery.cookies.js', CClientScript::POS_END);
+$cs->registerScriptFile($assetsUrl . '/js/site/jquery/plugins/jquery.textchange.js', CClientScript::POS_END);
+$cs->registerScriptFile($assetsUrl . '/js/site/jquery/plugins/jquery.selectbox-0.2.js', CClientScript::POS_END);
 
-$cs->registerScriptFile($assetsUrl . '/js/site/common.js');
-$cs->registerScriptFile($assetsUrl . '/js/site/_simulation-details-popup.js');
+$cs->registerScriptFile($assetsUrl . '/js/site/common.js', CClientScript::POS_END);
+$cs->registerScriptFile($assetsUrl . '/js/site/_simulation-details-popup.js', CClientScript::POS_END);
 
 /* .dialog() */
 $cs->registerCssFile($assetsUrl . '/js/jquery/jquery-ui.css');
@@ -169,6 +169,19 @@ if(preg_match('/(?i)Safari/',$_SERVER['HTTP_USER_AGENT']))
     </footer>
 
     <!-- FOOTER } -->
+
+    <?php $this->renderPartial('//global_partials/_feedback', []) ?>
+    <?php $this->renderPartial('//global_partials/_google_analytics') ?>
+    <?php $this->renderPartial('//global_partials/_before_start_lite_simulation_popup', []) ?>
+</section>
+
+<?php $this->renderPartial('//global_partials/_flash_messages', [
+    'isDisplayAccountLinks' => true
+]) ?>
+
+<?php $this->renderPartial('//global_partials/_sing_in') ?>
+
+</body>
     <?php if (Yii::app()->params['public']['isDisplaySupportChat']) : ?>
 
         <script type="text/javascript">
@@ -193,17 +206,4 @@ if(preg_match('/(?i)Safari/',$_SERVER['HTTP_USER_AGENT']))
             });
         </script>
     <?php endif; ?>
-
-    <?php $this->renderPartial('//global_partials/_feedback', []) ?>
-    <?php $this->renderPartial('//global_partials/_google_analytics') ?>
-    <?php $this->renderPartial('//global_partials/_before_start_lite_simulation_popup', []) ?>
-</section>
-
-<?php $this->renderPartial('//global_partials/_flash_messages', [
-    'isDisplayAccountLinks' => true
-]) ?>
-
-<?php $this->renderPartial('//global_partials/_sing_in') ?>
-
-</body>
 </html>

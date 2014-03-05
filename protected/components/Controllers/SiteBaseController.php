@@ -230,7 +230,10 @@ class SiteBaseController extends CController {
      * @param string $path, like '_page-dashboard.js'
      */
     public function addSiteJs($path) {
-        $this->clientScripts->registerScriptFile($this->assetsUrl.'/js/site/'.$path);
+        $this->clientScripts->registerScriptFile(
+            $this->assetsUrl.'/js/site/'.$path,
+            CClientScript::POS_END
+        );
     }
 
     /**
