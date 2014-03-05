@@ -54,6 +54,9 @@ class PagesController extends SiteBaseController
     {
         $this->layout = 'site_standard_2';
 
+        $this->addSiteJs('libs/d3.v3.js');
+        $this->addSiteJs('libs/charts.js');
+
         $this->addSiteJs('_page-product.js');
         $this->addSiteJs('_start_demo.js');
 

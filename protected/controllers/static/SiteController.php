@@ -67,6 +67,8 @@ class SiteController extends SiteBaseController
      */
     public function actionError404()
     {
+        $this->addSiteJs('_start_demo.js');
+        
         $this->layout = '//layouts/site_standard_2';
 
         $error = Yii::app()->errorHandler->error;

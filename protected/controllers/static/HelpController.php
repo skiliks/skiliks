@@ -14,7 +14,9 @@ class HelpController extends SiteBaseController
 
         $this->addSiteCss('pages/help-1280.css');
         $this->addSiteCss('pages/help-1024.css');
+
         $this->addSiteJs('_page-help.js');
+        $this->addSiteJs('_start_demo.js');
 
         $this->render("help_general");
     }
@@ -24,7 +26,9 @@ class HelpController extends SiteBaseController
 
         $this->addSiteCss('pages/help-1280.css');
         $this->addSiteCss('pages/help-1024.css');
+
         $this->addSiteJs('_page-help.js');
+        $this->addSiteJs('_start_demo.js');
 
         $this->render("help_corporate");
     }
@@ -34,7 +38,9 @@ class HelpController extends SiteBaseController
 
         $this->addSiteCss('pages/help-1280.css');
         $this->addSiteCss('pages/help-1024.css');
+
         $this->addSiteJs('_page-help.js');
+        $this->addSiteJs('_start_demo.js');
 
         $this->render("help_personal");
     }
