@@ -11,7 +11,7 @@
                             Выполнение форс-мажорных задач, отложить которые невозможно.
                         </div></div></div>
                 <h4 class="resulttitele smallerfont">Срочно</h4>
-                <a href="#" class="questn show-popover show-popover-2" style="margin:0;"></a>
+                <a href="#" class="questn show-popover show-popover-2" ></a>
             </div>
 
             <div class="row"><div class="popover hide"><div class="popover-triangle"></div>
@@ -19,7 +19,7 @@
                             Выполнение задач, значимых для компании в целом или для подразделения, которые должны быть обязательно сделаны сегодня.
                         </div></div></div>
                 <h4 class="resulttitele smallerfont">Высокий приоритет</h4>
-                <a href="#" class="questn show-popover show-popover-2" style="margin:0;"></a>
+                <a href="#" class="questn show-popover show-popover-2" ></a>
             </div>
 
             <div class="row"><div class="popover hide"><div class="popover-triangle"></div>
@@ -27,7 +27,7 @@
                             Выполнение задач, значимых для компании в целом или для подразделения, со сроком исполнения в ближайшие дни.
                         </div></div></div>
                 <h4 class="resulttitele smallerfont">Средний приоритет</h4>
-                <a href="#" class="questn show-popover show-popover-2" style="margin:0;"></a>
+                <a href="#" class="questn show-popover show-popover-2" ></a>
             </div>
 
             <div class="row"><div class="popover hide"><div class="popover-triangle"></div>
@@ -35,7 +35,7 @@
                             Задачи, выполнение которых занимает не более 2 минут.
                         </div></div></div>
                 <h4 class="resulttitele smallerfont">Двухминутные задачи</h4>
-                <a href="#" class="questn show-popover show-popover-2" style="margin:0;"></a>
+                <a href="#" class="questn show-popover show-popover-2" ></a>
             </div>
         </div>
 

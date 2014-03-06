@@ -43,4 +43,8 @@ $(document).ready(function () {
         event.preventDefault();
         window.showSimulationDetails($(this).attr('data-simulation'));
     });
+
+    if (!isNaN(parseFloat(window.display_results_for)) && isFinite(window.display_results_for)) {
+        showSimulationDetails('/simulation/' + window.display_results_for + '/details');
+    }
 });

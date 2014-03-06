@@ -79,13 +79,6 @@ class SiteController extends SiteBaseController
         }
     }
 
-    public function actionWatchVideo() {
-        if ('en' == $this->getParam('_lang')) {
-            Yii::app()->language = 'en';
-        }
-        $this->render('watchVideo');
-    }
-
     public function actionIsStarted()
     {
         $invite_id = Yii::app()->request->getParam('invite_id');

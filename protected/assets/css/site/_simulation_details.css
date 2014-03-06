@@ -423,8 +423,8 @@
 }
 
 .bluelist li,
-.bluelist a,
-.bluelist a:visited {
+.bluelist li a,
+.bluelist li a:visited {
     color: #2d7b91;
     font-family: "ProximaNova-Regular";
     text-decoration: none;
@@ -558,7 +558,7 @@
 }
 
 .resultlabeltitle {
-    padding-left: 318px;
+    padding-left: 330px;
 }
 
 .totalwithresult {
@@ -736,7 +736,7 @@
     padding: 0 10px 0 10px;
     margin: 0 0 20px;
     position: absolute;
-    width: 960px;
+    width: 980px;
     text-align: center;
 }
 
@@ -1108,7 +1108,12 @@
 }
 
 .twobarstitles .barstitle:first-child {
+    margin-left: 12px;
     width: 385px;
+}
+
+.twobarstitles .barstitle:nth-child(2) {
+    margin-left: 7px;
 }
 
 .timedetail .resulttitele {
@@ -1191,7 +1196,7 @@
     left: 63px;
     background: url(../../img/site/1280/assessment/arrow.png) no-repeat;
 
-    /*-webkit-transform-origin: 92px 11px;*/
+    -webkit-transform-origin: 92px 11px;
     /*-moz-transform-origin: 92px 11px;*/
     /*-ms-transform-origin: 92px 11px;*/
     transform-origin: 92px 11px;
