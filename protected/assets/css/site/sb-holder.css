@@ -167,11 +167,13 @@
 
 .width-1024 .sbToggle{
     /*background-image:url("../../img/site/1024/sb-holder/bg-select-toggle.png");*/
-    /*height: 17px;*/
+    background-position: center -3px;
+    height: 17px;
     /*width: 13px;*/
 }
 
 .width-1024 .sbToggleOpen{
+    background-position: center -23px;
     /*background: url("../../img/site/1024/sb-holder/bg-select-toggle.png") no-repeat 0 -17px;*/
 }
 
