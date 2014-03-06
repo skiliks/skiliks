@@ -201,6 +201,8 @@ $(document).ready(function () {
         } else {
             $('body').css('background-size', ' 1600px auto ');
         }
+
+        addWindowWidthClassToBody();
     });
 });
 

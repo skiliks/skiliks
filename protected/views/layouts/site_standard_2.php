@@ -185,6 +185,28 @@ if(preg_match('/(?i)Safari/',$_SERVER['HTTP_USER_AGENT']))
     <?php if (Yii::app()->params['public']['isDisplaySupportChat']) : ?>
 
         <script type="text/javascript">
+            function getWindowWidth() {
+                if (self.innerWidth) {
+                    return self.innerWidth;
+                }
+                else if (document.documentElement && document.documentElement.clientHeight){
+                    return document.documentElement.clientWidth;
+                }
+                else if (document.body) {
+                    return document.body.clientWidth;
+                }
+                return 0;
+            }
+
+            function addWindowWidthClassToBody() {
+                document.body.className = document.body.className.replace('width-1024', '');
+                if (getWindowWidth() < 1280) {
+                    document.body.className = document.body.className + ' width-1024';
+                }
+            }
+
+            addWindowWidthClassToBody();
+
             window._shcp = [];
             window._shcp.push({
                 link_wrap_off: true, widget_id :<?= Yii::app()->params['public']['SiteHeartWidgetCode'] ?>,
