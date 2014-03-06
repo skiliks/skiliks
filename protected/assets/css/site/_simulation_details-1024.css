@@ -6,7 +6,8 @@
     max-width: 260px;
 }
 
-.width-1024 .chart-gauge, .signmore {
+.width-1024 .chart-gauge,
+.width-1024 .signmore {
     /*-moz-transform: scale(0.8);*/
     /*-o-transform: scale(0.8);*/
     -webkit-transform: scale(0.8);
@@ -28,7 +29,8 @@
     transform: scale(0.8);
 }
 
-.width-1024 .timedetail .testtime, .valuetitle {
+.width-1024 .timedetail .testtime,
+.width-1024 .valuetitle {
     /*-moz-transform: scale(0.7);*/
     /*-o-transform: scale(0.7);*/
     /*-webkit-transform: scale(0.7);*/
@@ -119,11 +121,13 @@
     margin-top: 2px;
 }
 
-.width-1024 .mangrlresults .chartbar, .mangrlresults .chartproblem {
+.width-1024 .mangrlresults .chartbar,
+.width-1024 .mangrlresults .chartproblem {
     margin-bottom: 14px;
 }
 
-.width-1024 .extrasidepads, .section {
+.width-1024 .extrasidepads,
+.width-1024 .section {
     padding: 0;
 }
 
@@ -143,7 +147,8 @@
     width: 175px;
 }
 
-.width-1024 .managerialmain .chartbar, .managerialmain .chartproblem {
+.width-1024 .managerialmain .chartbar,
+.width-1024 .managerialmain .chartproblem {
     margin-bottom: 25px;
 }
 
@@ -178,7 +183,8 @@
     line-height: 110%;
 }
 
-.width-1024 .resultslegend, .legendmargin {
+.width-1024 .resultslegend,
+.width-1024 .legendmargin {
     margin-left: 292px;
 }
 
@@ -223,7 +229,8 @@
     width: 255px;
 }
 
-.width-1024 .iv.percentil_text_product, div.percentil_text {
+.width-1024 .iv.percentil_text_product,
+.width-1024 div.percentil_text {
     margin-right: 12px;
     margin-top: 3px;
 }
@@ -235,7 +242,8 @@
     height: 18px;
 }
 
-.width-1024 .percentil_base, .percentil_overall {
+.width-1024 .percentil_base,
+.width-1024 .percentil_overall {
     background-position: 0 -18px;
     background-size: 68px 36px;
 }
@@ -302,7 +310,10 @@
     margin-left: -6px;
 }
 
-.width-1024 .chart-bar, .chart-bar .chart-value, .chartbar .chart-value, .emptychart .chart-value {
+.width-1024 .chart-bar,
+.width-1024.chart-bar .chart-value,
+.width-1024 .chartbar .chart-value,
+.width-1024 .emptychart .chart-value {
     height: 24px;
     line-height: 24px;
 }
@@ -344,7 +355,8 @@
     background-size: contain;
 }
 
-.width-1024 .chart-gauge, .signmore {
+.width-1024 .chart-gauge,
+.width-1024 .signmore {
     /*-moz-transform: scale(0.8);*/
     /*-o-transform: scale(0.8);*/
     /*-webkit-transform: scale(0.8);*/
@@ -364,7 +376,8 @@
     transform: scale(0.8);
 }
 
-.width-1024 .timedetail .testtime, .valuetitle {
+.width-1024 .timedetail .testtime,
+.width-1024 .valuetitle {
     /*-moz-transform: scale(0.7);*/
     /*-o-transform: scale(0.7);*/
     -webkit-transform: scale(0.7);
