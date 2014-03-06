@@ -30,7 +30,7 @@ class Registration_by_link_SK3373_Test extends SeleniumTestHelper
         $this->waitForVisible(Yii::app()->params['test_mappings']['corporate']['username']);
         $this->assertTrue($this->getText(Yii::app()->params['test_mappings']['corporate']['username'])=="seleniumEngine");
 
-        $invites="-". $this->getText(Yii::app()->params['test_mappings']['corporate']['invites_limit']);
+        $invites=$this->getText(Yii::app()->params['test_mappings']['corporate']['invites_limit']);
 
         $this->open('/admin_area/dashboard');
         $this->waitForVisible(Yii::app()->params['test_admin_mappings']['pages_list']['home']);
