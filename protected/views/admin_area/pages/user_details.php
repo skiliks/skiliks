@@ -193,7 +193,7 @@ $assetsUrl = $this->getAssetsUrl();
 <?php if ($user->isCorporate()) : ?>
     <form class="form-inline" method="post">
         <label>Изменить скидку (%)</label>
-        <input type="text" name="discount" class="input-small" placeholder="Скидка" value="<?= $user->account_corporate->getDiscount() ?>">
+        <input type="text" name="discount" class="input-small" placeholder="Скидка" value="<?= $user->account_corporate->discount ?>">
         <label>Дата начала</label>
         <input type="text" name="start_discount" class="input-large" placeholder="пример - 2013-10-04" value="<?= $user->account_corporate->start_discount ?>">
         <label>Дата конца</label>

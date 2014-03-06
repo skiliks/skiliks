@@ -348,12 +348,17 @@ class UserAccountCorporate extends CActiveRecord
         return '';
     }
 
-    public function getDiscount(){
-        return $this->discount;
+    public function getDiscount() {
+        if(strtotime($this->start_discount) <= strtotime(date('Y-m-d', time())) && strtotime($this->end_discount) >= strtotime(date('Y-m-d', time()))){
+            return $this->discount;
+        } else {
+            return 0;
+        }
+
     }
 
     public function discountValidator($attribute) {
-        if(is_numeric($this->$attribute) && (int)$this->$attribute > 0 && (int)$this->$attribute <= 100){
+        if(is_numeric($this->$attribute) && (int)$this->$attribute >= 0 && (int)$this->$attribute <= 100){
             return true;
         }
         $this->addError($attribute, "Сидка должна быть числом от 0 до 100");
@@ -361,10 +366,15 @@ class UserAccountCorporate extends CActiveRecord
     }
 
     public function startDiscountValidator($attribute) {
-        if(UserService::validateDate($this->$attribute) && strtotime($this->$attribute) > strtotime(date('Y-m-d', time()))){
-            return true;
+        if(UserService::validateDate($this->$attribute)){
+            if(strtotime($this->start_discount) <= strtotime($this->end_discount)) {
+                return true;
+            }else{
+                $this->addError($attribute, "Дата начала скидки не может быть позже чем конец скидки");
+                return false;
+            }
         }else{
-            $this->addError($attribute, "Дата должна быть больше текущей даты");
+            $this->addError($attribute, "Соблюдайте формат Y-m-d");
             return false;
         }
     }
