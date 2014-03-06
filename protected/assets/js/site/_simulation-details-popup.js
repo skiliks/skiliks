@@ -3,7 +3,7 @@
  */
 
 $(document).ready(function () {
-
+    // 1) добавить HTML для попапа с результатами симуляции
     var simulation_popup = $('.locator-simulation-details-popup');
 
     if ('undefined' == typeof simulation_popup.html() ) {
@@ -12,6 +12,7 @@ $(document).ready(function () {
         simulation_popup = $('.locator-simulation-details-popup');
     }
 
+    // 2) инициализация диалога
     simulation_popup.dialog({
         dialogClass: 'background-sky-blue simulation-result-popup',
         modal:       true,
@@ -39,11 +40,14 @@ $(document).ready(function () {
         });
     };
 
+    // 3) Реакция на клик по рейтингу (звёздами или процентилю)
     $(".action-show-simulation-details-popup").click(function (event) {
         event.preventDefault();
         window.showSimulationDetails($(this).attr('data-simulation'));
     });
 
+    // 4) открытие окна с результатами автоматически
+    // (происходит после завершения симуляции)
     if (!isNaN(parseFloat(window.display_results_for)) && isFinite(window.display_results_for)) {
         showSimulationDetails('/simulation/' + window.display_results_for + '/details');
     }

@@ -1308,3 +1308,16 @@
 #time-management-detail .extrasidepads {
     margin-top: 20px;
 }
+
+.skiliks #managerial-skills-1-2 .inner-popover,
+.skiliks #managerial-skills-3-4 .inner-popover {
+    left: 18px;
+    margin-top: 44px;
+    width: 240px;
+    z-index: 1;
+}
+
+.skiliks #managerial-skills-1-2 .popover-content ,
+.skiliks #managerial-skills-3-4 .popover-content {
+    width: 220px;
+}

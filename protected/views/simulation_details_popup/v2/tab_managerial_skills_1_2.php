@@ -11,36 +11,68 @@
 
     <div class="clearfix-simulation-results mangrlresults">
         <div class="labels labels1">
-            <div class="labelwrap"><div class="popover hide"><div class="popover-triangle"></div>
-                <div class="popover-content"><div class="popup-content ">Постановка всех текущих задач в план до начала их выполнения, формирование реализуемого плана на день. Определение конкретного времени выполнения для всех задач, в том числе долгосрочных</div></div></div><span class="thelabel"><div><span class="list-counter">1.1 </span><a href="#" class="list-text">Использование планирования в течение дня</a></div></span><a class="questn show-popover show-popover-1 popover-margin1" href="#"></a></div>
+            <div class="labelwrap">
+                <div class="locator-learning-goal-description-hint hide
+                    inner-popover background-yellow us-hint-assessment-type">
+                    <div class="popover-triangle-upper"></div>
+                    <div class="popover-wrapper">
+                        <div class="popover-content">
+                            Постановка всех текущих задач в план до начала их выполнения,
+                            формирование реализуемого плана на день. Определение конкретного времени выполнения для всех
+                            задач, в том числе долгосрочных
+                        </div>
+                    </div>
+                </div>
+                <span class="thelabel"><div><span class="list-counter">1.1 </span><a href="#" class="list-text">Использование
+                            планирования в течение дня</a></div></span><a
+                    class="questn action-toggle-learning-goal-description-hint" href="#"></a>
+            </div>
 
-            <div class="labelwrap"><div class="popover hide"><div class="popover-triangle"></div>
-                <div class="popover-content"><div class="popup-content ">По всем текущим задачам постановка в план самой приоритетной задачи на самое раннее время, по сравнению с менее приоритетной, при условии, что у задачи нет фиксированного времени выполнения</div></div></div><span class="thelabel"><div><span class="list-counter">1.2 </span><a href="#" class="list-text">Правильное определение приоритетов задач при планировании</a></div></span><a class="questn show-popover show-popover-1 popover-margin3" href="#"></a></div>
+            <div class="labelwrap">
+                <div class="locator-learning-goal-description-hint hide
+                        inner-popover background-yellow us-hint-assessment-type">
+                    <div class="popover-triangle-upper"></div>
+                    <div class="popover-wrapper">
+                        <div class="popover-content">
+                            По всем текущим задачам постановка в план самой приоритетной задачи
+                            на самое раннее время, по сравнению с менее приоритетной, при условии, что у задачи нет
+                            фиксированного времени выполнения
+                        </div>
+                    </div>
+                </div>
 
-            <div class="labelwrap"><div class="popover hide"><div class="popover-triangle"></div>
-                <div class="popover-content"><div class="popup-content ">Всегда выполняется самая приоритетная задача из всех известных на данный момент</div></div></div><span class="thelabel"><div><span class="list-counter">1.3 </span><a href="#" class="list-text">Выполнение задач с учётом приоритетов</a></div></span><a class="questn show-popover show-popover-1 popover-margin3" href="#"></a></div>
+                <span class="thelabel"><div><span class="list-counter">1.2 </span><a href="#" class="list-text">Правильное
+                            определение приоритетов задач при планировании</a></div></span><a
+                    class="questn action-toggle-learning-goal-description-hint" href="#"></a>
+            </div>
 
-            <div class="labelwrap"><span class="thelabel"><div><span class="list-counter  pull-left">1.4 </span>
-                <a href="#" class="list-text">Прерывание при выполнении задач</a></div></span></div>
+            <div class="labelwrap">
+                <div class="locator-learning-goal-description-hint hide
+                        inner-popover background-yellow us-hint-assessment-type">
+                    <div class="popover-triangle-upper"></div>
+                    <div class="popover-wrapper">
+                        <div class="popover-content">
+                            Всегда выполняется самая приоритетная задача из всех известных на
+                            данный момент
+                        </div>
+                    </div>
+                </div>
+
+                <span class="thelabel"><div><span class="list-counter">1.3 </span><a href="#" class="list-text">Выполнение
+                            задач с учётом приоритетов</a></div></span><a
+                    class="questn action-toggle-learning-goal-description-hint" href="#"></a>
+            </div>
+
+            <div class="labelwrap">
+                <span class="thelabel">
+                    <div>
+                        <span class="list-counter  pull-left">1.4 </span>
+                        <a href="#" class="list-text">Прерывание при выполнении задач</a>
+                    </div>
+                </span>
+            </div>
         </div>
-        <script>
-            $(document).ready(function() {
-                $(".show-popover-1").click(function() {
-                    if(!$(this).parent("div").find(".popover").hasClass("active")) {
-                        $(".popover.active").removeClass("active");
-                    }
-                    $(this).parent("div").find(".popover").toggleClass("active")
-                        .css("margin-top", $(this).parent("div").find(".list-text").innerHeight()+10);
-                })
-                $(".show-popover-2").click(function() {
-                    if(!$(this).parent("div").find(".popover").hasClass("active")) {
-                        $(".popover.active").removeClass("active");
-                    }
-                    $(this).parent("div").find(".popover").toggleClass("active")
-                        .css("margin-top", $(this).parent("div").find(".list-text").innerHeight()+30);
-                })
-            });
-        </script>
+
         <div class="barswrap">
             <div class="twocharts followPriorities-1">
                 <div class="chartbar"></div>

@@ -31,7 +31,8 @@ $(document).ready(function () {
     });
 
     $(document).click(function(e) {
-        if(!$(e.target).is('.action-display-popover')) {
+        if(!$(e.target).is('.action-display-popover')
+            && !$(e.target).is('.action-toggle-learning-goal-description-hint')) {
             hideAllPopovers();
         }
     });
@@ -210,9 +211,8 @@ $(document).ready(function () {
 function hideAllPopovers() {
     $(".action-display-popover").removeClass("active");
     $(".inner-popover").removeClass("active");
-    $(".inner-popover").hide();
+    $(".inner-popover").addClass('hide');
 }
-
 
 /**
  * 2) Определяет ширину попапа не весь экран
