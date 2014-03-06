@@ -59,7 +59,7 @@ return [
         'account_type' => "xpath=//div[2]/div/div[2]/table/tbody/tr[3]/td[2]/span[1]",
         'is_account_blocked' => "xpath=//div[2]/div/div[2]/table/tbody/tr[3]/td[2]/span[2]",
         'sim_amount' => "xpath=//div[2]/div/div[2]/table/tbody/tr[4]/td[2]",
-        'add_sim_amount' => "xpath=//div[2]/div/div[2]/table/tbody/tr[5]/td[2]/form/input[1]",
+        'add_sim_amount_text' => "xpath=//div[2]/div/div[2]/table/tbody/tr[5]/td[2]/form/input[1]",
         'add_sim_amount_btn' => "xpath=//*[@id='add_invites_button']",
         'type_of_rating' => "xpath=//div[2]/div/div[2]/table/tbody/tr[6]/td[2]",
         'ip_address' => "xpath=//div[2]/div/div[2]/table/tbody/tr[7]/td[2]",
