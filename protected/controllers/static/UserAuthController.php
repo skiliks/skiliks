@@ -278,8 +278,9 @@ class UserAuthController extends YumController
     /**
      * User registration step 1 - handle form
      */
-    public function actionAfterRegistration()
-    {
+    public function actionAfterRegistration() {
+        $this->addSiteJs('_start_demo.js');
+
         $user_id = Yii::app()->session->get("user_id");
         $profile = YumProfile::model()->findByAttributes(['user_id' => $user_id]);
 
@@ -297,89 +298,91 @@ class UserAuthController extends YumController
     /**
      * User registration step 1 - handle form
      */
-    public function actionAfterRegistrationCorporate()
-    {
-        if (false === Yii::app()->user->isGuest) {
-            Yii::app()->user->logout();
-        }
-
-        $this->render('afterRegistrationCorporate');
-    }
+//    public function actionAfterRegistrationCorporate()
+//    {
+//        if (false === Yii::app()->user->isGuest) {
+//            Yii::app()->user->logout();
+//        }
+//
+//        $this->addSiteJs('_start_demo.js');
+//
+//        $this->render('afterRegistrationCorporate');
+//    }
 
     /**
      * User registration default errors handler
      */
-    public function actionErrorDuringRegistration()
-    {
-        Yii::app()->user->setFlash(
-            'error',
-            Yii::t('site','Something went wrong please try to %s register again %s.')
-        );
-
-        $this->render('emptyPage', [
-            'user' => $this->user
-        ]);
-    }
+//    public function actionErrorDuringRegistration()
+//    {
+//        Yii::app()->user->setFlash(
+//            'error',
+//            Yii::t('site','Something went wrong please try to %s register again %s.')
+//        );
+//
+//        $this->render('emptyPage', [
+//            'user' => $this->user
+//        ]);
+//    }
 
     /**
      * User registration Error "You Has Already Choose Account"
      */
-    public function actionErrorYouHasAlreadyChooseAccount()
-    {
-        $this->checkUser();
-
-        Yii::app()->user->setFlash('error', 'Вы уже выбрали тип аккаунта');
-
-        $this->render('emptyPage', [
-            'user'  => $this->user
-        ]);
-    }
+//    public function actionErrorYouHasAlreadyChooseAccount()
+//    {
+//        $this->checkUser();
+//
+//        Yii::app()->user->setFlash('error', 'Вы уже выбрали тип аккаунта');
+//
+//        $this->render('emptyPage', [
+//            'user'  => $this->user
+//        ]);
+//    }
 
     /**
      * User registration Error "Your Account Not Active"
      */
-    public function actionErrorYourAccountNotActive()
-    {
-        $this->checkUser();
-
-        Yii::app()->user->setFlash('error', 'Ваш аккаунт неактивен');
-
-        $this->render('emptyPage', [
-            'user'  => $this->user
-        ]);
-    }
+//    public function actionErrorYourAccountNotActive()
+//    {
+//        $this->checkUser();
+//
+//        Yii::app()->user->setFlash('error', 'Ваш аккаунт неактивен');
+//
+//        $this->render('emptyPage', [
+//            'user'  => $this->user
+//        ]);
+//    }
 
     /**
      * User registration Error "Please sing-is or register"
      */
-    public function actionErrorSingInOrRegister()
-    {
-        Yii::app()->user->setFlash(
-            'error',
-            Yii::t('site', 'You not authorized. Please %s sing-in %s or %s register %s.')
-        );
-
-        $this->render('emptyPage');
-    }
+//    public function actionErrorSingInOrRegister()
+//    {
+//        Yii::app()->user->setFlash(
+//            'error',
+//            Yii::t('site', 'You not authorized. Please %s sing-in %s or %s register %s.')
+//        );
+//
+//        $this->render('emptyPage');
+//    }
 
     /**
      * User registration - "Account Type Saves Successfully" message
      */
-    public function actionAccountTypeSavesSuccessfully()
-    {
-        $this->checkUser();
-
-        if ($this->user->isHasAccount() ) {
-            $this->redirect('/dashboard');
-            return;
-        }
-
-        /*Yii::app()->user->setFlash( 'success', $message );*/
-
-        $this->render('emptyPage', [
-            'user' => $this->user
-        ]);
-    }
+//    public function actionAccountTypeSavesSuccessfully()
+//    {
+//        $this->checkUser();
+//
+//        if ($this->user->isHasAccount() ) {
+//            $this->redirect('/dashboard');
+//            return;
+//        }
+//
+//        /*Yii::app()->user->setFlash( 'success', $message );*/
+//
+//        $this->render('emptyPage', [
+//            'user' => $this->user
+//        ]);
+//    }
 
     public function actionRegistration()
     {
@@ -485,12 +488,12 @@ class UserAuthController extends YumController
     /**
      * Just error message
      */
-    public function actionPleaseConfirmCorporateEmail()
-    {
-        $this->checkUser();
-
-        $this->render('emptyPage');
-    }
+//    public function actionPleaseConfirmCorporateEmail()
+//    {
+//        $this->checkUser();
+//
+//        $this->render('emptyPage');
+//    }
 
     /**
      * Activation of an user account. The Email and the Activation key send
@@ -582,35 +585,35 @@ class UserAuthController extends YumController
     /**
      * Display simulation result marks
      */
-    public function actionResults()
-    {
-        // check is user authenticated
-        if (Yii::app()->user->isGuest) {
-            $this->redirect(['registration/error/sign-in-or-register']);
-        }
-
-        $this->user = Yii::app()->user->data();
-
-        $results = [];
-
-        $simulation = Simulation::model()->findByAttributes([
-            'user_id' => $this->user->id
-        ],
-        [
-            'order' => 'id DESC'
-        ]);
-
-        if (null !== $simulation) {
-            $results = AssessmentAggregated::model()->findAllByAttributes([
-                'sim_id' => $simulation->id
-            ]);
-        }
-
-        // all checks passed - render simulation results
-        $this->render('results', [
-            'results' => $results
-        ]);
-    }
+//    public function actionResults()
+//    {
+//        // check is user authenticated
+//        if (Yii::app()->user->isGuest) {
+//            $this->redirect(['registration/error/sign-in-or-register']);
+//        }
+//
+//        $this->user = Yii::app()->user->data();
+//
+//        $results = [];
+//
+//        $simulation = Simulation::model()->findByAttributes([
+//            'user_id' => $this->user->id
+//        ],
+//        [
+//            'order' => 'id DESC'
+//        ]);
+//
+//        if (null !== $simulation) {
+//            $results = AssessmentAggregated::model()->findAllByAttributes([
+//                'sim_id' => $simulation->id
+//            ]);
+//        }
+//
+//        // all checks passed - render simulation results
+//        $this->render('results', [
+//            'results' => $results
+//        ]);
+//    }
 
     /**
      * Восстановление пароля
@@ -642,9 +645,6 @@ class UserAuthController extends YumController
                     Yii::app()->user->setFlash('success password-recovery-step-4', 'Новый пароль успешно сохранен');
                     if (Yum::module('registration')->loginAfterSuccessfulRecovery) {
                           UserService::authenticate($user);
-//                        $login = new YumUserIdentity($user->username, false);
-//                        $login->authenticate(true);
-//                        Yii::app()->user->login($login, 60);
                     }
 
                     $this->redirect('/');
@@ -715,6 +715,4 @@ class UserAuthController extends YumController
             'recoveryForm' => $recoveryForm
         ]);
     }
-
 }
-
