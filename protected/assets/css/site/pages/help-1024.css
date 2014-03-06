@@ -1,18 +1,16 @@
 
-@media screen and (max-width: 1279px) {
-    .skiliks .us-column-1-3 {
-        width: 301px;
-    }
+.width-1024.skiliks .us-column-1-3 {
+    width: 301px;
+}
 
-    ul.question-container li {
-        background-position: 915px 20px;
-    }
+.width-1024 ul.question-container li {
+    background-position: 915px 20px;
+}
 
-    .skiliks .us-column-1-3 h4 {
-        margin-top: 17px;
-    }
+.width-1024.skiliks .us-column-1-3 h4 {
+    margin-top: 17px;
+}
 
-    .skiliks .us-column-1-3:first-child h4 {
-        margin-top: 30px;
-    }
+.width-1024.skiliks .us-column-1-3:first-child h4 {
+    margin-top: 30px;
 }

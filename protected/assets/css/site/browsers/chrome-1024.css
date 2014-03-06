@@ -1,25 +1,23 @@
-@media screen and (max-width: 1279px) {
-    .button-add-vacancy {
-        top: 8px;
-    }
+.width-1024 .button-add-vacancy {
+    top: 8px;
+}
 
-    .assessment-results-type-switcher {
-        padding-bottom: 1px;
-    }
+.width-1024 .assessment-results-type-switcher {
+    padding-bottom: 1px;
+}
 
-    .button-white {
-        line-height: 2.7em;
-    }
+.width-1024 .button-white {
+    line-height: 2.7em;
+}
 
-    input.button-standard {
-        margin-top: -1px;
-    }
+.width-1024 input.button-standard {
+    margin-top: -1px;
+}
 
-    .skiliks.action-controller-recovery-static-userAuth .us-auth-box {
-        width: 562px;
-    }
+.width-1024.skiliks.action-controller-recovery-static-userAuth .us-auth-box {
+    width: 562px;
+}
 
-    .action-controller-login-auth .us-first-input {
-        width: 206px;
-    }
+.width-1024.action-controller-login-auth .us-first-input {
+    width: 206px;
 }

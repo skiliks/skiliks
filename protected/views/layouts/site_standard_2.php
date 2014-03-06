@@ -185,6 +185,8 @@ if(preg_match('/(?i)Safari/',$_SERVER['HTTP_USER_AGENT']))
     <?php if (Yii::app()->params['public']['isDisplaySupportChat']) : ?>
 
         <script type="text/javascript">
+            window.standardMinWindowWidth = 1265;
+
             function getWindowWidth() {
                 if (self.innerWidth) {
                     return self.innerWidth;
@@ -199,8 +201,9 @@ if(preg_match('/(?i)Safari/',$_SERVER['HTTP_USER_AGENT']))
             }
 
             function addWindowWidthClassToBody() {
+                console.log('getWindowWidth() ', getWindowWidth());
                 document.body.className = document.body.className.replace('width-1024', '');
-                if (getWindowWidth() < 1280) {
+                if (getWindowWidth() < window.standardMinWindowWidth) {
                     document.body.className = document.body.className + ' width-1024';
                 }
             }

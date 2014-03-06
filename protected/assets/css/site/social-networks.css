@@ -4,12 +4,6 @@
     vertical-align: middle;
 }
 
-@media screen and (max-width: 1279px) {
-    .social-networks-share-links {
-        height: 43px;
-    }
-}
-
 .share-buttons-box {
     margin-right: 270px;
     height: 34px;
@@ -76,4 +70,12 @@
 
 .linkedIn-share-button a:hover {
     background-position: -166px -39px;
+}
+
+/* ################################################################################# */
+/* .width-1024                                                                       */
+/* ################################################################################# */
+
+.width-1024 .social-networks-share-links {
+    height: 43px;
 }

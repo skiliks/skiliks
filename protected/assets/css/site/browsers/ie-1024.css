@@ -1,23 +1,21 @@
-@media screen and (max-width: 1279px) {
-    .skiliks .us-auth-box {
-        width: 544px;
-    }
+.width-1024.skiliks .us-auth-box {
+    width: 544px;
+}
 
-    .skiliks .us-error-bottom {
-        width: 540px;
-    }
+.width-1024.skiliks .us-error-bottom {
+    width: 540px;
+}
 
-    .skiliks .us-user-auth-page-form #YumUserChangePassword_password,
-    .skiliks .us-user-auth-page-form #YumUserChangePassword_verifyPassword {
-        width: 134px;
-    }
+.width-1024.skiliks .us-user-auth-page-form #YumUserChangePassword_password,
+.width-1024.skiliks .us-user-auth-page-form #YumUserChangePassword_verifyPassword {
+    width: 134px;
+}
 
-    .action-controller-recovery-static-userAuth .us-first-input,
-    .action-controller-recovery-static-userAuth .us-second-input  {
-        width: 145px;
-    }
+.width-1024.action-controller-recovery-static-userAuth .us-first-input,
+.width-1024.action-controller-recovery-static-userAuth .us-second-input {
+    width: 145px;
+}
 
-    .mangrlresultstitle {
-        margin-left: 10px;
-    }
+.width-1024 .mangrlresultstitle {
+    margin-left: 10px;
 }

@@ -226,8 +226,8 @@ function getDialogWindowWidth(padding) {
         padding = 0;
     };
 
-    // 1265 найдено экспериментально
-    if ($(window).width() < 1265) {
+    // window.standardMinWindowWidth найдено экспериментально
+    if (getWindowWidth() < window.standardMinWindowWidth) {
         return  940;
     } else {
         return  1115 - padding;
@@ -236,8 +236,8 @@ function getDialogWindowWidth(padding) {
 
 // 2.1) Определяет ширину стандартные "2/3 ширины сайта"
 function getDialogWindowWidth_2of3() {
-    // 1265 найдено экспериментально
-    if ($(window).width() < 1265) {
+    // window.standardMinWindowWidth найдено экспериментально
+    if (getWindowWidth() < window.standardMinWindowWidth) {
         return 585;
     } else {
         return 719;
@@ -246,8 +246,8 @@ function getDialogWindowWidth_2of3() {
 
 // 2.2) Определяет ширину стандартные "2/3 ширины сайта"
 function getDialogWindowWidth_2of3_wide() {
-    // 1265 найдено экспериментально
-    if ($(window).css('width') < 1265) {
+    // window.standardMinWindowWidth найдено экспериментально
+    if (getWindowWidth() < window.standardMinWindowWidth) {
         return 601;
     } else {
         return 735;
@@ -256,8 +256,8 @@ function getDialogWindowWidth_2of3_wide() {
 
 // 2.3) Определяет ширину окон автиризации и автовостановления пароля
 function getDialogAuthWindowWidth() {
-    // 1265 найдено экспериментально
-    if ($(window).width() < 1265) {
+    // window.standardMinWindowWidth найдено экспериментально
+    if (getWindowWidth() < window.standardMinWindowWidth) {
         return 283;
     } else {
         return 283;
@@ -266,8 +266,8 @@ function getDialogAuthWindowWidth() {
 
 // 2.4) Определяет ширину попапа с оценкой за симуляцию
 function getDialogSimulationDetailsPopupWidth() {
-    // 1265 найдено экспериментально
-    if ($(window).width() < 1265) {
+    // window.standardMinWindowWidth найдено экспериментально
+    if (getWindowWidth() < window.standardMinWindowWidth) {
         return 822;
     } else {
         return 1003;
@@ -276,8 +276,8 @@ function getDialogSimulationDetailsPopupWidth() {
 
 // 2.5) Определяет высоту попапа с оценкой за симуляцию
 function getDialogSimulationDetailsPopupHeight() {
-    // 1265 найдено экспериментально
-    if ($(window).width() < 1265) {
+    // window.standardMinWindowWidth найдено экспериментально
+    if (getWindowWidth() < window.standardMinWindowWidth) {
         return 766;
     } else {
         return 935;

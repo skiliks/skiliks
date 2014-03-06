@@ -51,33 +51,34 @@
     width: 630px;
 }
 
-@media screen and (max-width: 1279px) {
+/* ######################################################################### */
+/* .width-1024                                                               */
+/* ######################################################################### */
 
-    .us-first-input,
-    .us-second-input {
-        width: 208px;
-    }
+.width-1024 .us-first-input,
+.us-second-input {
+    width: 208px;
+}
 
-    .skiliks .us-user-auth-page-form #YumUserChangePassword_password,
-    .skiliks .us-user-auth-page-form #YumUserChangePassword_verifyPassword {
-        width: 129px;
-    }
+.width-1024.skiliks .us-user-auth-page-form #YumUserChangePassword_password,
+.width-1024.skiliks .us-user-auth-page-form #YumUserChangePassword_verifyPassword {
+    width: 129px;
+}
 
-    .action-controller-recovery-static-userAuth .us-first-input,
-    .action-controller-recovery-static-userAuth .us-second-input  {
-        width: 142px;
-    }
+.width-1024.action-controller-recovery-static-userAuth .us-first-input,
+.width-1024.action-controller-recovery-static-userAuth .us-second-input {
+    width: 142px;
+}
 
-    .skiliks .us-user-auth-page-form #YumUserLogin_username,
-    .skiliks .us-user-auth-page-form #YumUserLogin_password {
-        width: 195px;
-    }
+.width-1024skiliks .us-user-auth-page-form #YumUserLogin_username,
+.width-1024.skiliks .us-user-auth-page-form #YumUserLogin_password {
+    width: 195px;
+}
 
-    .us-auth-box {
-        width: 556px;
-    }
+.width-1024 .us-auth-box {
+    width: 556px;
+}
 
-    .us-error-bottom {
-        width: 552px;
-    }
+.width-1024 .us-error-bottom {
+    width: 552px;
 }

@@ -12,8 +12,7 @@
     margin-left: 100px;
 }
 
-@media screen and (max-width: 1279px) {
-    .us-feedback-margin {
-        margin-left: 20px;
-    }
+.width-1024 .us-feedback-margin {
+    margin-left: 20px;
 }
+

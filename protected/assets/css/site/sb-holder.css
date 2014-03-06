@@ -141,47 +141,54 @@
 .sbOptions .sbSub{
     padding-left: 17px;
 }
-@media screen and (max-width: 1146px){
-    .sbHolder {
-        height:17px;
-        font-size:11px;
-    }
-    .sbSelector{
-        height: 17px;
-        font-family:'ProximaNova-Regular';
-        line-height: 17px;
-        text-indent: 4px;
-        /*width: 110px;*/
-    }
-    .sbToggle{
-        /*background-image:url("../../img/site/1024/sb-holder/bg-select-toggle.png");*/
-        /*height: 17px;*/
-        /*width: 13px;*/
-    }
-    .sbToggleOpen{
-        /*background: url("../../img/site/1024/sb-holder/bg-select-toggle.png") no-repeat 0 -17px;*/
-    }
 
-    .empty-select .sbToggle {
-        background-image: url("../../img/site/1024/sb-holder/emp-select-toggle.png");
-    }
-
-    section.registration-by-link .form .row .sbHolder {
-        width:285px;
-    }
-
-    #registration-by-link-form .sbHolder,
-    section.registration-by-link .shifted {
-        margin-left: -3px;
-    }
-
-    .wide .sbHolder_err {
-        top: -5px;
-        left: 165px;
-    }
-}
 /* --------------- /select ---------*/
 
 .skiliks .ui-dialog ul.sbOptions {
     display: block;
+}
+
+/* ########################################################################## */
+/* .width-1024                                                                */
+/* ########################################################################## */
+
+.width-1024 .sbHolder {
+    height:17px;
+    font-size:11px;
+}
+
+.width-1024 .sbSelector{
+    height: 17px;
+    font-family:'ProximaNova-Regular';
+    line-height: 17px;
+    text-indent: 4px;
+    /*width: 110px;*/
+}
+
+.width-1024 .sbToggle{
+    /*background-image:url("../../img/site/1024/sb-holder/bg-select-toggle.png");*/
+    /*height: 17px;*/
+    /*width: 13px;*/
+}
+
+.width-1024 .sbToggleOpen{
+    /*background: url("../../img/site/1024/sb-holder/bg-select-toggle.png") no-repeat 0 -17px;*/
+}
+
+.width-1024 .empty-select .sbToggle {
+    background-image: url("../../img/site/1024/sb-holder/emp-select-toggle.png");
+}
+
+.width-1024 section.registration-by-link .form .row .sbHolder {
+    width:285px;
+}
+
+.width-1024 #registration-by-link-form .sbHolder,
+.width-1024 section.registration-by-link .shifted {
+    margin-left: -3px;
+}
+
+.width-1024 .wide .sbHolder_err {
+    top: -5px;
+    left: 165px;
 }

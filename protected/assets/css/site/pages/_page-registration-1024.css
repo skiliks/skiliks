@@ -1,14 +1,14 @@
 
-@media screen and (max-width: 1279px) {
-    .us-registration-by-link-body {
-        background-position: 468px 10px;
-    }
+.width-1024 .us-registration-by-link-body {
+    background-position: 468px 10px;
+}
 
-    .inline-error-first {
-        width: 197px;
-    }
+.width-1024 .inline-error-first {
+    width: 197px;
+}
 
-    textarea, input[type="text"], input[type="password"] {
-        width: 170px;
-    }
+.width-1024 textarea,
+.width-1024 input[type="text"],
+.width-1024 input[type="password"] {
+    width: 170px;
 }

@@ -1,117 +1,116 @@
-@media screen and (max-width: 1279px) {
-    nav ul li.menu-item span,
-    nav ul li.menu-item a {
-        border-radius: 2px;
-        margin: 0 0 0 0px;
-        padding: 4px 7px;
-    }
 
-    header nav ul li.menu-item .profile-icon {
-        padding-left: 34px;
-    }
+.width-1024 nav ul li.menu-item span,
+.width-1024 nav ul li.menu-item a {
+    border-radius: 2px;
+    margin: 0 0 0 0px;
+    padding: 4px 7px;
+}
 
-    header nav ul li.menu-item .icon-profile-personal,
-    header nav ul li.menu-item .icon-profile-corporate {
-        background-position: 8px 5px;
-        background-size: 13px auto;
-    }
+.width-1024 header nav ul li.menu-item .profile-icon {
+    padding-left: 34px;
+}
 
-    .copyright-box {
-        height: 23px;
-    }
+.width-1024 header nav ul li.menu-item .icon-profile-personal,
+.width-1024 header nav ul li.menu-item .icon-profile-corporate {
+    background-position: 8px 5px;
+    background-size: 13px auto;
+}
 
-    .copyright-box span {
-        height: 23px;
-        line-height: 23px;
-    }
+.width-1024 .copyright-box {
+    height: 23px;
+}
 
-    .share-buttons-box {
-        margin-right: 222px;
-    }
+.width-1024 .copyright-box span {
+    height: 23px;
+    line-height: 23px;
+}
 
-    .copyright {
-        margin-left: 197px;
-    }
+.width-1024 .share-buttons-box {
+    margin-right: 222px;
+}
 
-    .icon-circle-with-blue-arrow {
-        background-position: 6px center;
-        padding-left: 25px;
-    }
+.width-1024 .copyright {
+    margin-left: 197px;
+}
 
-    header nav.account-links {
-        height: 41px;
-    }
+.width-1024 .icon-circle-with-blue-arrow {
+    background-position: 6px center;
+    padding-left: 25px;
+}
 
-    header nav.account-links ul {
-        margin-top: 8px;
-        margin-right: 5px;
-    }
+.width-1024 header nav.account-links {
+    height: 41px;
+}
 
-    header nav.static-page-links {
-        height: 66px;
-    }
+.width-1024 header nav.account-links ul {
+    margin-top: 8px;
+    margin-right: 5px;
+}
 
-    header nav.static-page-links ul {
-        margin-top: 20px;
-        margin-right: 5px;
-    }
+.width-1024 header nav.static-page-links {
+    height: 66px;
+}
 
-    footer nav.static-page-links {
-        height: 95px;
-    }
+.width-1024 header nav.static-page-links ul {
+    margin-top: 20px;
+    margin-right: 5px;
+}
 
-    .footer-clear-fix {
-        height: 126px;
-    }
+.width-1024 footer nav.static-page-links {
+    height: 95px;
+}
 
-    .logo-footer-link {
-        height: 38px;
-        width:  144px;
-    }
+.width-1024 .footer-clear-fix {
+    height: 126px;
+}
 
-    .link-to-top {
-        padding-top: 16px;
-    }
+.width-1024 .logo-footer-link {
+    height: 38px;
+    width: 144px;
+}
 
-    footer .footer-logo {
-        margin-top: 28px;
-    }
+.width-1024 .link-to-top {
+    padding-top: 16px;
+}
 
-    footer .static-page-links ul {
-        margin-top: 36px;
-    }
+.width-1024 footer .footer-logo {
+    margin-top: 28px;
+}
 
-    /* --- */
+.width-1024 footer .static-page-links ul {
+    margin-top: 36px;
+}
 
-    .ui-dialog.popup-form textarea {
-        height: 110px;
-        width: 478px;
-    }
+/* --- */
 
-    .ui-dialog.popup-form-wide textarea {
-        width: 515px;
-    }
+.width-1024 .ui-dialog.popup-form textarea {
+    height: 110px;
+    width: 478px;
+}
 
-    .ui-dialog #feedback-form #Feedback_email {
-        margin-right: 16px;
-        padding-left: 16px;
-        padding-right: 16px;
-        width: 316px;
-    }
+.width-1024 .ui-dialog.popup-form-wide textarea {
+    width: 515px;
+}
 
-    .ui-dialog #feedback-form #Feedback_message {
-        max-height: 110px;
-        min-height: 110px;
-        max-width: 488px;
-        min-width: 488px;
-    }
+.width-1024 .ui-dialog #feedback-form #Feedback_email {
+    margin-right: 16px;
+    padding-left: 16px;
+    padding-right: 16px;
+    width: 316px;
+}
 
-    nav ul li.menu-item span.not-started-simulations {
-        padding-top: 0px;
-        width: 6px;
-    }
+.width-1024 .ui-dialog #feedback-form #Feedback_message {
+    max-height: 110px;
+    min-height: 110px;
+    max-width: 488px;
+    min-width: 488px;
+}
 
-    #DeclineExplanation_description {
-        width: 505px;
-    }
+.width-1024 nav ul li.menu-item span.not-started-simulations {
+    padding-top: 0px;
+    width: 6px;
+}
+
+.width-1024 #DeclineExplanation_description {
+    width: 505px;
 }

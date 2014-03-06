@@ -1,30 +1,29 @@
-@media screen and (max-width: 1279px) {
-    body {
-        font-size: 12px; /* 1em for 1280- */
-    }
 
-    header {
-        height: 118px;
-    }
+.width-1024 body {
+    font-size: 12px; /* 1em for 1280- */
+}
 
-    footer.main-content {
-        height: 308px;
-    }
+.width-1024 header {
+    height: 118px;
+}
 
-    textarea,
-    input[type="text"],
-    input[type="password"], {
-        box-shadow: 8px 4px 8px rgba(0, 0, 0, 0.1) inset;
-        height: 21px;
-    }
+.width-1024 footer.main-content {
+    height: 308px;
+}
 
-    section.main-content {
-        /* странно почему секция с контентом сдвинута влево при 1024 */
-        /* ... ну, приходится компенсировать сдвиг: */
-        padding-left: 8px;
-    }
+.width-1024 textarea,
+.width-1024 input[type="text"],
+.width-1024 input[type="password"], {
+    box-shadow: 8px 4px 8px rgba(0, 0, 0, 0.1) inset;
+    height: 21px;
+}
 
-    .skiliks .ui-dialog.background-image-book-2, .background-image-book-2 {
-        background-position: -125px 0;
-    }
+.width-1024 section.main-content {
+    /* странно почему секция с контентом сдвинута влево при 1024 */
+    /* ... ну, приходится компенсировать сдвиг: */
+    padding-left: 8px;
+}
+
+.width-1024.skiliks .ui-dialog.background-image-book-2, .background-image-book-2 {
+    background-position: -125px 0;
 }

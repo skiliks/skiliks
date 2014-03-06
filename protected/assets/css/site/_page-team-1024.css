@@ -1,0 +1,40 @@
+.width-1024.action-controller-team-static-pages header {
+    background-image: url("../../img/site/1024/team/bg-top-team.jpg");
+    background-size: auto auto;
+}
+
+.width-1024.action-controller-team-static-pages  h1 {
+    height: 66px;
+}
+
+.width-1024 .condensed-column {
+    width: 590px;
+}
+
+.width-1024 .tab-marina {
+    background-image: url("../../img/site/1024/team/bg-team-maria.png");
+}
+
+.width-1024 .tab-leah {
+    background-image: url("../../img/site/1024/team/bg-team-alyona.png");
+}
+
+.width-1024 .tab-tony {
+    background-image: url("../../img/site/1024/team/bg-team-tony.png");
+}
+
+.width-1024 .tab-others {
+    background-image: url("../../img/site/1024/team/bg-team-others.png");
+}
+
+.width-1024 .page-team-tab {
+    height: 114px;
+    margin: 0 5px 4px;
+    padding: 36px 0 0 30px;
+    width: 353px;
+}
+
+.width-1024 .team-values {
+    padding-top: 100px;
+    width: 300px;
+}

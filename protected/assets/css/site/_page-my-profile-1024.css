@@ -1,74 +1,72 @@
-@media screen and (max-width: 1279px) {
-    .controller-static-profile .column-2-3-fixed {
-        width: 577px;
-    }
+.width-1024 .controller-static-profile .column-2-3-fixed {
+    width: 577px;
+}
 
-    .profile-menu li a {
-        background-position: 288px -65px;
-    }
+.width-1024 .profile-menu li a {
+    background-position: 288px -65px;
+}
 
-    .profile-menu li.active a,
-    .profile-menu li a:hover {
-        background-position: 288px 17px;
-        color: #245057;
-    }
+.width-1024 .profile-menu li.active a,
+.width-1024 .profile-menu li a:hover {
+    background-position: 288px 17px;
+    color: #245057;
+}
 
-    .profile-right-side label {
-        width: 196px;
-    }
+.width-1024 .profile-right-side label {
+    width: 196px;
+}
 
-    .profile-right-side {
-        padding: 24px;
-    }
+.width-1024 .profile-right-side {
+    padding: 24px;
+}
 
-    #YumProfile_firstname,
-    #YumProfile_lastname,
-    #profile_firstname ,
-    #profile_lastname,
-    #UserAccountCorporate_ownership_type,
-    #UserAccountCorporate_company_name {
-        width: 176px;
-    }
+.width-1024 #YumProfile_firstname,
+.width-1024 #YumProfile_lastname,
+.width-1024 #profile_firstname,
+.width-1024 #profile_lastname,
+.width-1024 #UserAccountCorporate_ownership_type,
+.width-1024 #UserAccountCorporate_company_name {
+    width: 176px;
+}
 
-    #UserAccountCorporate_company_description {
-        width: 351px;
-    }
+.width-1024 #UserAccountCorporate_company_description {
+    width: 351px;
+}
 
-    .action-controller-corporateReferrals-static-profile .table-footer, .contrast-table table {
-        margin-left: -24px;
-        width: 625px;
-    }
+.width-1024 .action-controller-corporateReferrals-static-profile .table-footer, .contrast-table table {
+    margin-left: -24px;
+    width: 625px;
+}
 
-    #add-vacancy-form .sbSelector,
-    #add-vacancy-form .sbHolder {
-        width: 375px;
-    }
+.width-1024 #add-vacancy-form .sbSelector,
+.width-1024 #add-vacancy-form .sbHolder {
+    width: 375px;
+}
 
-    #add-vacancy-form input[type="text"] {
-        width: 367px;
-    }
+.width-1024 #add-vacancy-form input[type="text"] {
+    width: 367px;
+}
 
-    .skiliks.controller-static-profile .sbHolder {
-        width: 375px;
-    }
+.width-1024 .skiliks.controller-static-profile .sbHolder {
+    width: 375px;
+}
 
-    .unstandard-error-firstname {
-        width: 187px;
-    }
+.width-1024 .unstandard-error-firstname {
+    width: 187px;
+}
 
-    .controller-static-profile .error-place {
-        padding-left: 200px;
-    }
+.width-1024 .controller-static-profile .error-place {
+    padding-left: 200px;
+}
 
-    .unstandart-triple-input input {
-        width: 113px;
-    }
+.width-1024 .unstandart-triple-input input {
+    width: 113px;
+}
 
-    #UserAccountPersonal_location {
-        width: 366px;
-    }
+.width-1024 #UserAccountPersonal_location {
+    width: 366px;
+}
 
-    .skiliks .error .error-place {
-        height: 14px;
-    }
+.width-1024.skiliks .error .error-place {
+    height: 14px;
 }

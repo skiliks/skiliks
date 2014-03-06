@@ -419,6 +419,7 @@ input.inputs-wide-height {
     margin: 0 0 40px 0;
 }
 
+.ui-dialog .ui-dialog-content.overflow-hidden,
 .overflow-hidden {
     overflow: hidden;
 }
