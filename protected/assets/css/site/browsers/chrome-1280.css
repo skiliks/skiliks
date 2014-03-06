@@ -27,3 +27,11 @@ input.button-standard {
 .action-controller-login-auth .us-first-input {
     width: 245px;
 }
+
+.mangrlresultstitle {
+    margin-left: 27px;
+}
+
+.twobarstitles .barstitle:first-child {
+    margin-left: 0;
+}

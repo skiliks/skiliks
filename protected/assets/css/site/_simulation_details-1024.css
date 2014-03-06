@@ -1,10 +1,10 @@
 @media screen and (max-width: 1279px) {
     .mangrlresults .labels a {
-        max-width: 182px;
+        max-width: 220px;
     }
 
     .thelabel {
-        max-width: 220px;
+        max-width: 260px;
     }
 
     .chart-gauge, .signmore {
@@ -152,8 +152,17 @@
         width: 495px;
     }
 
+    .mangrlresultstitle {
+        margin-left: 11px;
+    }
+
     .twobarstitles .barstitle:first-child {
+        margin-left: 0;
         width: 286px;
+    }
+
+    .twobarstitles .barstitle:nth-child(2) {
+        margin-left: 10px;
     }
 
     .twocharts .chartbar {
@@ -208,7 +217,7 @@
     }
 
     .resultlabeltitle {
-        padding-left: 274px;
+        padding-left: 313px;
     }
 
     .product .widthblock {
@@ -365,9 +374,16 @@
 
     .questn {
         background-size: contain;
+        height: 24px;
         margin-left: 6px;
-        margin-bottom:-8px;
-        margin-top: -2px;
+        margin-top: -1px;
+        width: 24px;
+    }
+
+    #productivity .questn {
+        height: 25px;
+        margin-top: 1px;
+        width: 25px;
     }
 
     .valuetitle {
@@ -429,3 +445,5 @@
         margin-right: 12px;
     }
 }
+
+
