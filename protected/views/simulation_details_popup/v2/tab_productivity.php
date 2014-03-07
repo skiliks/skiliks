@@ -70,6 +70,7 @@
                 <a href="#" class="questn action-toggle-learning-goal-description-hint"></a>
             </div>
         </div>
+    </div>
     <div class="legendwrap resultslegend">
         <div class="legend">
             <p class="barstitle">Обозначения</p>

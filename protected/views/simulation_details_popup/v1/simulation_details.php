@@ -32,6 +32,7 @@
             }
         }
     </script>
+
     <div class="navigatnwrap scenario-<?= $simulation->game_type->slug ?>-box">
         <ul class="navigation">
             <li><a href="#main"><?php echo Yii::t('site', 'Main') ?></a></li>
