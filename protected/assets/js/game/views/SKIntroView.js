@@ -68,8 +68,6 @@ define([
                             subname: 'manual',
                             required: true
                         });
-                        windowManual.set('name', 'mainScreen');
-                        windowManual.set('subname', 'manual');
                         //console.log('windowManual 1 : ', windowManual, ',', windowManual.id);
                     var warning;
 

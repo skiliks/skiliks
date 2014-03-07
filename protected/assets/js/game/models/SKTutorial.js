@@ -23,7 +23,7 @@ define([
                     eventsQueueDepth: $("#events-queue-depth").val()
                 }, function (data) {
                     if (undefined !== data && null !== data && undefined !== data.serverInfo && null !== data.serverInfo) {
-                        console.log('1: '), data.serverInfo;
+                        //console.log('1: '), data.serverInfo;
                         me.updateServerInfoForDev(data.serverInfo);
                     }
                 });
