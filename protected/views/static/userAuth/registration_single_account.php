@@ -36,7 +36,9 @@
                         <span class="inline-error-first">
                             <?= $form->error($profile, 'firstname'); ?>
                         </span>
-                        <?= $form->error($profile, 'lastname'); ?>
+                        <span class="inline-error-second">
+                            <?= $form->error($profile, 'lastname'); ?>
+                        </span>
                     </span>
                     <?php echo $form->labelEx($profile, 'Имя', ['class' => 'padding-left-18']); ?>
                     <?php echo $form->textField($profile, 'firstname', ['placeholder' => 'Имя']); ?>

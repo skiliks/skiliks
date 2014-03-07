@@ -4,7 +4,13 @@
 }
 
 .width-1024 .inline-error-first {
-    width: 197px;
+    width: 200px;
+}
+
+.width-1024 .inline-error-second {
+    margin-left: 200px;
+    margin-top: 0;
+    vertical-align: top;
 }
 
 .width-1024 textarea,

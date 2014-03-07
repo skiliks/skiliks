@@ -530,6 +530,13 @@ i.icon-doc {
     display: inline-block;
     width: 120px;
 }
+
+.unstandard-secondname-error {
+    margin-left: 125px;
+    margin-top: -4px;
+    vertical-align: top;
+}
+
 #invite-form .unstandard-position-error {
     padding-top: 11px;
 }

@@ -109,6 +109,12 @@
     width: 94px;
 }
 
+.width-1024 .unstandard-secondname-error {
+    margin-left: 98px;
+    margin-top: -1px;
+    vertical-align: top;
+}
+
 .width-1024 .invite-people-box {
     height: 225px;
 }

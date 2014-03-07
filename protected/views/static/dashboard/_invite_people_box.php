@@ -20,7 +20,9 @@
                     <span class="unstandard-firstname-error">
                         <?= $form->error($invite, 'firstname'); ?>
                     </span>
-                    <?= $form->error($invite, 'lastname'); ?>
+                    <span class="unstandard-secondname-error">
+                        <?= $form->error($invite, 'lastname'); ?>
+                    </span>
                 </span>
                 <?= $form->labelEx($invite, 'full_name'); ?>
                 <?= $form->textField($invite, 'firstname', ['placeholder' => Yii::t('site','First name')]); ?>

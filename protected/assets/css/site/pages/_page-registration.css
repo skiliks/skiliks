@@ -83,6 +83,12 @@ input[type="checkbox"] {
     width: 227px;
 }
 
+.inline-error-second {
+    margin-left: 234px;
+    margin-top: -3px;
+    vertical-align: top;
+}
+
 textarea, input[type="text"], input[type="password"] {
     width: 200px;
 }
