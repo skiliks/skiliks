@@ -36,7 +36,7 @@
                 'columns' => [
                     ['header' => '', 'name' => '' , 'value' => '($row+1)."."'],
                     ['header' => Yii::t('site', 'Name'), 'name' => 'label' , 'value' => '$data->label'],
-                    ['header' => Yii::t('site', 'Link'), 'name' => 'link'  , 'value' => '$data->getCroppedUrl()'],
+                    ['header' => Yii::t('site', 'Link'), 'name' => 'link'  , 'value' => '$data->getCroppedUrl()' , 'type' => 'html'],
                     ['header' => ''                                        , 'value' => '"<a class=\"icon-16 icon-edit\" href=\"/profile/corporate/vacancy/$data->id/edit\" title=\"редактировать\"></a>"' , 'type' => 'html'],
                     ['header' => ''                                        , 'value' => '"<a class=\"icon-16 icon-delete\" href=\"/profile/corporate/vacancy/$data->id/remove\" title=\"удалить\"></a>"' , 'type' => 'html'],
                 ]
