@@ -121,6 +121,10 @@
     clear: both;
 }
 
+.skiliks .gauge-charts {
+    margin-top: 6px;
+}
+
 .product .maincharts {
     margin-top: -34px;
 }
@@ -365,7 +369,8 @@
     width: 316px;
 }
 
-.gauge-charts, .levellabels {
+.gauge-charts,
+.levellabels {
     margin: 0 auto;
     overflow: visible;
 }
@@ -562,7 +567,7 @@
 }
 
 .totalwithresult {
-    padding-left: 52px;
+    /*padding-left: 52px;*/
     position: relative;
 }
 
@@ -782,7 +787,7 @@
 }
 
 .timeblock .resulttitele {
-    margin-bottom:44px;
+    margin-bottom: 5px;
 }
 
 .timedetail .timeblock  .resulttitele {
@@ -1005,7 +1010,7 @@
 }
 
 .labels .labelwrap:first-child {
-    margin-top:15px;
+    margin-top: 19px;
 }
 
 .high-labels .labelwrap, .high-labels .labelwrap:first-child {
@@ -1322,4 +1327,13 @@
 .skiliks #managerial-skills-1-2 .popover-content ,
 .skiliks #managerial-skills-3-4 .popover-content {
     width: 220px;
+}
+
+#main .bluelist {
+    margin-left: 56px;
+    width: 200px;
+}
+
+#managerial-skills-2 .list-text {
+    width: 245px;
 }

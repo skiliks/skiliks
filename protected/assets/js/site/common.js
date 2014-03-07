@@ -278,9 +278,9 @@ function getDialogSimulationDetailsPopupWidth() {
 function getDialogSimulationDetailsPopupHeight() {
     // window.standardMinWindowWidth найдено экспериментально
     if (getWindowWidth() < window.standardMinWindowWidth) {
-        return 766;
+        return 730; //766
     } else {
-        return 935;
+        return 800; //935
     }
 }
 

@@ -70,6 +70,10 @@
                 <a href="#" class="questn action-toggle-learning-goal-description-hint"></a>
             </div>
         </div>
+
+        <!-- полосы прогресса с оценками за резкльтативность -->
+        <div class="bars barswrap"></div>
+
     </div>
     <div class="legendwrap resultslegend">
         <div class="legend">

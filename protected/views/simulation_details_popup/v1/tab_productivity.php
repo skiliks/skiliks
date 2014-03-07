@@ -71,9 +71,9 @@
             </div>
         </div>
 
-        <div class="bars barswrap">
+        <!-- полосы прогресса с оценками за резкльтативность -->
+        <div class="bars barswrap"></div>
 
-        </div>
     </div>
     <div class="legendwrap resultslegend">
         <div class="legend">

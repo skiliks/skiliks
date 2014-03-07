@@ -34,10 +34,26 @@
     </script>
     <div class="navigatnwrap scenario-<?= $simulation->game_type->slug ?>-box">
         <ul class="navigation">
-            <li><a href="#main"><?php echo Yii::t('site', 'Main') ?></a></li>
-            <li><a href="#managerial-skills"><?php echo Yii::t('site', 'Managerial skills') ?></a></li>
-            <li><a href="#productivity"><?php echo Yii::t('site', 'Productivity') ?></a></li>
-            <li><a href="#time-management"><?php echo Yii::t('site', 'Time management') ?></a></li>
+            <li>
+                <a href="#main">
+                    <?php echo Yii::t('site', 'Main') ?>
+                </a>
+            </li>
+            <li>
+                <a href="#time-management">
+                    <?php echo Yii::t('site', 'Time management') ?>
+                </a>
+            </li>
+            <li>
+                <a href="#productivity">
+                    <?php echo Yii::t('site', 'Productivity') ?>
+                </a>
+            </li>
+            <li>
+                <a href="#managerial-skills">
+                    <?php echo Yii::t('site', 'Managerial skills') ?>
+                </a>
+            </li>
             <?php /* not in release 1.2
                 <li><a href="#personal-qualities"><?php echo Yii::t('site', 'Personal qualities') ?></a></li>
             */ ?>
@@ -51,28 +67,32 @@
             ]) ?>
         </div>
 
-        <div id="managerial-skills">
-            <?php $this->renderPartial($simulation->results_popup_partials_path.'/tab_managerial_skills', []) ?>
-        </div>
-
-        <div id="managerial-skills-1-2">
-            <?php $this->renderPartial($simulation->results_popup_partials_path.'/tab_managerial_skills_1_2', ['simulation'=>$simulation]) ?>
-        </div>
-
-        <div id="managerial-skills-3-4">
-            <?php $this->renderPartial($simulation->results_popup_partials_path.'/tab_managerial_skills_3_4', []) ?>
-        </div>
-
-        <div id="productivity">
-            <?php $this->renderPartial($simulation->results_popup_partials_path.'/tab_productivity') ?>
-        </div>
-
         <div id="time-management">
             <?php $this->renderPartial($simulation->results_popup_partials_path.'/tab_time_management', []) ?>
         </div>
 
         <div id="time-management-detail">
             <?php $this->renderPartial($simulation->results_popup_partials_path.'/tab_time_management_detail', []) ?>
+        </div>
+
+        <div id="productivity">
+            <?php $this->renderPartial($simulation->results_popup_partials_path.'/tab_productivity') ?>
+        </div>
+
+        <div id="managerial-skills">
+            <?php $this->renderPartial($simulation->results_popup_partials_path.'/tab_managerial_skills', []) ?>
+        </div>
+
+        <div id="managerial-skills-1">
+            <?php $this->renderPartial($simulation->results_popup_partials_path.'/tab_managerial_skills_1', ['simulation'=>$simulation]) ?>
+        </div>
+
+        <div id="managerial-skills-2">
+            <?php $this->renderPartial($simulation->results_popup_partials_path.'/tab_managerial_skills_2', []) ?>
+        </div>
+
+        <div id="managerial-skills-3">
+            <?php $this->renderPartial($simulation->results_popup_partials_path.'/tab_managerial_skills_3', []) ?>
         </div>
     </div>
 

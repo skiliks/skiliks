@@ -17,7 +17,7 @@ $(document).ready(function () {
         dialogClass: 'background-sky-blue simulation-result-popup',
         modal:       true,
         width:       getDialogSimulationDetailsPopupWidth(),
-        height:      935,
+        height:      getDialogSimulationDetailsPopupHeight(),
         autoOpen:    false,
         resizable:   false
     });
