@@ -1,7 +1,7 @@
 
 body.action-controller-team-static-pages {
     /*background-image: none;*/
-    background-image: url("../../img/site/1280/team/bg-team.png");
+    background-image: url("../../../img/site/1280/team/bg-team.png");
     background-color: #e8f7f7;
 
     /* @todo: сделать длинее нижний фон с предметами */
@@ -10,7 +10,7 @@ body.action-controller-team-static-pages {
 }
 
 body.action-controller-team-static-pages header {
-    background-image: url("../../img/site/1280/team/bg-top-team.jpg");
+    background-image: url("../../../img/site/1280/team/bg-top-team.jpg");
     background-size: cover;
     background-repeat: no-repeat;
     height: 800px;
@@ -49,19 +49,19 @@ section.main-content {
 }
 
 .tab-marina {
-    background-image: url("../../img/site/1280/team/bg-team-maria.png");
+    background-image: url("../../../img/site/1280/team/bg-team-maria.png");
 }
 
 .tab-leah {
-    background-image: url("../../img/site/1280/team/bg-team-alyona.png");
+    background-image: url("../../../img/site/1280/team/bg-team-alyona.png");
 }
 
 .tab-tony {
-    background-image: url("../../img/site/1280/team/bg-team-tony.png");
+    background-image: url("../../../img/site/1280/team/bg-team-tony.png");
 }
 
 .tab-others {
-    background-image: url("../../img/site/1280/team/bg-team-others.png");
+    background-image: url("../../../img/site/1280/team/bg-team-others.png");
 }
 
 .page-team-tab {
@@ -98,12 +98,13 @@ section.main-content {
 }
 
 .team .team-values ul li {
-    background: url("../../img/site/1280/team/bg-team-values-item.png") no-repeat scroll center 0 rgba(0, 0, 0, 0);
+    background: url("../../../img/site/1280/team/bg-team-values-item.png") no-repeat scroll center 0 rgba(0, 0, 0, 0);
     color: #29313D;
     font-size: 1.071em;
     line-height: 1.333em;
     margin-top: 15px;
     padding-top: 84px;
+    list-style: none outside none;
 }
 
 

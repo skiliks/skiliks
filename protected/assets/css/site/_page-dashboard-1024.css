@@ -143,3 +143,11 @@
     min-width: 475px;
     max-width: 475px;
 }
+
+.width-1024 .button-add-vacancy {
+    background: url("../../img/site/1280/buttons/plus.png") no-repeat scroll 50% 50% #DDDDDD;
+    height: 17px;
+    line-height: 17px;
+    margin-top: -2px;
+    top: 5px;
+}

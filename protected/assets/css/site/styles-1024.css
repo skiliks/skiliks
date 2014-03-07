@@ -1,7 +1,7 @@
 
 .width-1024 nav ul li.menu-item span,
 .width-1024 nav ul li.menu-item a {
-    border-radius: 2px;
+    /*border-radius: 2px;*/
     margin: 0 0 0 0px;
     padding: 4px 7px;
 }
@@ -113,4 +113,10 @@
 
 .width-1024 #DeclineExplanation_description {
     width: 505px;
+}
+
+.width-1024 header nav ul li.menu-item .log-out-link-separator {
+    height: 18px;
+    margin: 0 0px -5px 0;
+    padding: 0;
 }

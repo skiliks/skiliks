@@ -364,3 +364,12 @@ nav ul li.menu-item span.not-started-simulations {
     resize: none;
     width: 645px;
 }
+
+header nav ul li.menu-item .log-out-link-separator {
+    border-left: 1px solid #d6e9eb;
+    border-radius: 0;
+    height: 20px;
+    margin: 0 0 -5px 0;
+    padding: 0;
+    width: 0;
+}

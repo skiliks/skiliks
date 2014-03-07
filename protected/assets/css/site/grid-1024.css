@@ -16,10 +16,14 @@
     height: 34px;
 }
 
-.width-1024 .label,
+/*.width-1024 .label,*/
 .width-1024 .static-page-links .label a {
-    padding-left: 6px;
-    padding-right: 6px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.width-1024 .button-standard {
+    padding-right: 20px;
 }
 
 .width-1024 .menu-item.label {

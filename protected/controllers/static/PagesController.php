@@ -21,7 +21,7 @@ class PagesController extends SiteBaseController
         $this->addSiteJs('_page-homepage.js');
         $this->addSiteJs('_start_demo.js');
 
-        $this->addSiteCss('pages/homepage.css');
+        $this->addSiteCss('pages/homepage-1280.css');
         $this->addSiteCss('pages/homepage-1024.css');
         $this->addSiteCss('partials/system-mismatch.css');
 
@@ -42,7 +42,8 @@ class PagesController extends SiteBaseController
         $this->layout = '//layouts/site_standard_2';
 
         $this->addSiteJs('_start_demo.js');
-        $this->addSiteCss('_page-team.css');
+        $this->addSiteCss('pages/_page-team-1280.css');
+        $this->addSiteCss('pages/_page-team-1024.css');
 
         $this->render('team');
     }

@@ -16,7 +16,7 @@ nav ul li.menu-item {
 
 .background-dark-blue-transparent-40-hovered:hover,
 a.link-with-background:hover,
-.static-page-links li a.active,
+.static-page-links li.active a,
 .static-page-links li a:hover {
     background-color: #146672;
 }
@@ -47,15 +47,6 @@ header .icon-profile-personal {
     position: absolute;
     top: 7px;
     width: 1px;
-}
-
-header nav ul li.menu-item .log-out-link-separator {
-    border-left: 1px solid #d6e9eb;
-    border-radius: 0;
-    height: 20px;
-    margin: 0 -7px -5px 0;
-    padding: 0;
-    width: 0;
 }
 
 /* --- */

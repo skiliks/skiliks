@@ -1,5 +1,5 @@
 .width-1024.action-controller-team-static-pages header {
-    background-image: url("../../img/site/1024/team/bg-top-team.jpg");
+    background-image: url("../../../img/site/1024/team/bg-top-team.jpg");
     background-size: auto auto;
 }
 
@@ -12,19 +12,19 @@
 }
 
 .width-1024 .tab-marina {
-    background-image: url("../../img/site/1024/team/bg-team-maria.png");
+    background-image: url("../../../img/site/1024/team/bg-team-maria.png");
 }
 
 .width-1024 .tab-leah {
-    background-image: url("../../img/site/1024/team/bg-team-alyona.png");
+    background-image: url("../../../img/site/1024/team/bg-team-alyona.png");
 }
 
 .width-1024 .tab-tony {
-    background-image: url("../../img/site/1024/team/bg-team-tony.png");
+    background-image: url("../../../img/site/1024/team/bg-team-tony.png");
 }
 
 .width-1024 .tab-others {
-    background-image: url("../../img/site/1024/team/bg-team-others.png");
+    background-image: url("../../../img/site/1024/team/bg-team-others.png");
 }
 
 .width-1024 .page-team-tab {
