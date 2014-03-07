@@ -6408,13 +6408,16 @@ $.widget("ui.dialog", {
         dialogHeight = this.element.parent().height();
 
         /* 55 px сверху и 55 px снизу */
-        // нижк есть повторение использование этого куска
+        // ниже есть повторение использование этого куска
+        console.log(winHeigth, dialogHeight + 110);
         if (winHeigth < dialogHeight + 110) {
+
             this.element.parent().css('position', 'absolute');
 
             var top = $(window).scrollTop() + 50;
 
             this.element.parent().css('top', top + 'px');
+
             clearfixHeight = $('.clearfix').height();
 
             /* 100 px сверху и 100 px снизу */

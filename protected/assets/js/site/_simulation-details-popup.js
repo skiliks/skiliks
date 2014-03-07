@@ -25,6 +25,14 @@ $(document).ready(function () {
     $(window).resize(function(){
         $('.locator-simulation-details-popup').dialog("option", "width", getDialogSimulationDetailsPopupWidth());
         $('.locator-simulation-details-popup').dialog("option", "position", "center");
+
+        winHeigth = $(window).height();
+        dialogHeight = $('.simulation-result-popup').height();
+        if (winHeigth < dialogHeight + 110) {
+            $('.simulation-result-popup').css('top', '50px');
+        }
+
+        $('body').scrollTop(0);
     })
 
     /**

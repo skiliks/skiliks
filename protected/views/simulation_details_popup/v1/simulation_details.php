@@ -7,13 +7,13 @@
 <?php if($simulation->game_type->isLite()) : ?>
     <h1>Пример отчета по оценке (цифры случайные)</h1>
 <?php elseif($user->isPersonal()) : ?>
-    <h1><?php echo $user->profile->firstname ?> <?php echo $user->profile->lastname ?></h1>
+    <h1 class="name"><?php echo $user->profile->firstname ?> <?php echo $user->profile->lastname ?></h1>
 <?php elseif(null === $simulation->invite) : ?>
     <?php // это хак для просмотра результатов lite симуляций,
     //в случае одновременного запуска нескольких lite симуляций по одному и туме же инвайту  ?>
-    <h1><?php echo $user->profile->firstname ?> <?php echo $user->profile->lastname ?></h1>
+    <h1 class="name"><?php echo $user->profile->firstname ?> <?php echo $user->profile->lastname ?></h1>
 <?php else : ?>
-    <h1><?php echo $simulation->invite->firstname ?> <?php echo $simulation->invite->lastname ?></h1>
+    <h1 class="name"><?php echo $simulation->invite->firstname ?> <?php echo $simulation->invite->lastname ?></h1>
 <?php endif ?>
 
 <div class="simulation-details scenario-<?= $simulation->game_type->slug ?>">
