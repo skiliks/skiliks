@@ -233,10 +233,10 @@ define(["text!game/jst/window.jst"],
          */
         doWindowClose: function (event) {
             try {
-                    console.log("doWindowClose");
-                    console.log(this.options.model_instance.get('subname'));
-                    console.log("this.options.model_instance.is_opened");
-                    console.log(this.options.model_instance.is_opened);
+                    //console.log("doWindowClose");
+                    //console.log(this.options.model_instance.get('subname'));
+                    //console.log("this.options.model_instance.is_opened");
+                    //console.log(this.options.model_instance.is_opened);
 // иногда игрок не может закрыть Window - получается заблокированная игра
 //                if($(event.currentTarget).attr('data-disabled') !== 'true'){
 //                    $(event.currentTarget).attr('data-disabled', 'true');

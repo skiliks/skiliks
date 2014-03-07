@@ -99,8 +99,7 @@ define([], function () {
                 this.updateUid();
 
                 this.is_opened = false;
-                console.log('this.is_opened = false');
-                console.log(this.get('subname'));
+
                 this.simulation = SKApp.simulation;
             } catch(exception) {
                 if (window.Raven) {
@@ -161,8 +160,7 @@ define([], function () {
                     throw new Error ("Window is already opened");
                 }
                 me.is_opened = true;
-                console.log('me.is_opened = true');
-                console.log(this.get('subname'));
+
                 me.simulation.window_set.showWindow(me);
                 /**
                  * Вызывается в момент открытия окна. View должен отрисовать окно в этот момент
@@ -182,7 +180,13 @@ define([], function () {
         close: function() {
             try {
                 if (!this.is_opened) {
-                    throw new Error ("Window is already closed");
+                    var message = "Window is already closed. Name: "+this.get('name')+" subname: "+this.get('subname')+" id: "+this.get('id')+". game time: "+SKApp.simulation.getGameTime();
+                    console.error(message);
+                    if (window.Raven) {
+                        window.Raven.captureMessage(message);
+                        //JSON.stringify(SKApp.simulation.window_set.models);
+                        window.Raven.captureMessage(JSON.stringify(SKApp.simulation.window_set.models));
+                    }
                 }
                 this.trigger('pre_close');
                 if (this.prevent_close === true) {
@@ -190,8 +194,7 @@ define([], function () {
                     return;
                 }
                 this.is_opened = false;
-                console.log('this.is_opened = false');
-                console.log(this.get('subname'));
+
                 SKApp.simulation.window_set.hideWindow(this);
                 this.trigger('close');
             } catch(exception) {

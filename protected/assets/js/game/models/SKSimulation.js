@@ -95,8 +95,6 @@ define([
                     this.phone_history = new SKPhoneHistoryCollection();
                     this.handleEvents();
 
-                    this.loadDocsDialog = null;
-
                     this.set('scenarioName', null);
 
                     this.on('tick', function () {
@@ -479,8 +477,6 @@ define([
                         localStorage.setItem('lastGetState', nowDate.getTime());
 
                         me.window = new SKWindow({name:'mainScreen', subname:'mainScreen'});
-                        me.window.set('name', 'mainScreen');
-                        me.window.set('subname', 'mainScreen');
                         win = me.window;
                         win.open();
 
