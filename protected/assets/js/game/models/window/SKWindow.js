@@ -54,7 +54,7 @@ define([], function () {
          */
         initialize: function () {
             try {
-
+                console.log("SKWindow.initialize");
                 // иногда обьект SKWindow приходит с id - что удивительно {
                 // и mainScreen и subname == undefined
                 // причину этого бага мы пока не нашли,
