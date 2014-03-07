@@ -182,53 +182,53 @@ if(preg_match('/(?i)Safari/',$_SERVER['HTTP_USER_AGENT']))
 <?php $this->renderPartial('//global_partials/_sing_in') ?>
 
 </body>
-    <?php if (Yii::app()->params['public']['isDisplaySupportChat']) : ?>
+    <script type="text/javascript">
+        window.standardMinWindowWidth = 1265;
 
-        <script type="text/javascript">
-            window.standardMinWindowWidth = 1265;
-
-            function getWindowWidth() {
-                if (self.innerWidth) {
-                    return self.innerWidth;
-                }
-                else if (document.documentElement && document.documentElement.clientHeight){
-                    return document.documentElement.clientWidth;
-                }
-                else if (document.body) {
-                    return document.body.clientWidth;
-                }
-                return 0;
+        function getWindowWidth() {
+            if (self.innerWidth) {
+                return self.innerWidth;
             }
-
-            function addWindowWidthClassToBody() {
-                console.log('getWindowWidth() ', getWindowWidth());
-                document.body.className = document.body.className.replace('width-1024', '');
-                if (getWindowWidth() < window.standardMinWindowWidth) {
-                    document.body.className = document.body.className + ' width-1024';
-                }
+            else if (document.documentElement && document.documentElement.clientHeight){
+                return document.documentElement.clientWidth;
             }
+            else if (document.body) {
+                return document.body.clientWidth;
+            }
+            return 0;
+        }
 
-            addWindowWidthClassToBody();
+        function addWindowWidthClassToBody() {
+            console.log('getWindowWidth() ', getWindowWidth());
+            document.body.className = document.body.className.replace('width-1024', '');
+            if (getWindowWidth() < window.standardMinWindowWidth) {
+                document.body.className = document.body.className + ' width-1024';
+            }
+        }
 
-            window._shcp = [];
-            window._shcp.push({
-                link_wrap_off: true, widget_id :<?= Yii::app()->params['public']['SiteHeartWidgetCode'] ?>,
-                widget : "Chat",
-                side : "right",
-                position : "top",
-                template : "blue",
-                title : "<?= Yii::app()->params['public']['SiteHeartWidgetTitle'] ?>",
-                title_offline : "Оставьте сообщение",
-                auth : "<?= StaticSiteTools::getSiteHeartAuth(Yii::app()->user->data()); ?>"
-            });
-            $(document).ready(function() {
-                var hcc = document.createElement("script");
-                hcc.type = "text/javascript";
-                hcc.async = true;
-                hcc.src = ("https:" === document.location.protocol ? "https" : "http")+"://widget.siteheart.com/apps/js/sh.js?v=2";
-                var s = document.head;
-                s.parentNode.insertBefore(hcc, null);
-            });
-        </script>
+        addWindowWidthClassToBody();
+
+        <?php if (Yii::app()->params['public']['isDisplaySupportChat']) : ?>
+        window._shcp = [];
+        window._shcp.push({
+            link_wrap_off: true, widget_id :<?= Yii::app()->params['public']['SiteHeartWidgetCode'] ?>,
+            widget : "Chat",
+            side : "right",
+            position : "top",
+            template : "blue",
+            title : "<?= Yii::app()->params['public']['SiteHeartWidgetTitle'] ?>",
+            title_offline : "Оставьте сообщение",
+            auth : "<?= StaticSiteTools::getSiteHeartAuth(Yii::app()->user->data()); ?>"
+        });
+        $(document).ready(function() {
+            var hcc = document.createElement("script");
+            hcc.type = "text/javascript";
+            hcc.async = true;
+            hcc.src = ("https:" === document.location.protocol ? "https" : "http")+"://widget.siteheart.com/apps/js/sh.js?v=2";
+            var s = document.head;
+            s.parentNode.insertBefore(hcc, null);
+        });
     <?php endif; ?>
+
+    </script>
 </html>
