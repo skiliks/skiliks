@@ -18,3 +18,11 @@
 .width-1024 .estmfooter {
     width: 799px;
 }
+
+.width-1024.skiliks .high-labels .thelabel {
+    /*height: 33px;*/
+}
+
+.width-1024.skiliks #managerial-skills .labels {
+    margin-top: 7px;
+}

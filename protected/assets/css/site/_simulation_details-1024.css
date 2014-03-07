@@ -152,7 +152,7 @@
 }
 
 .width-1024 .high-labels .thelabel {
-    height: 38px;
+    height: 35px;
 }
 
 .width-1024 .mangrlresults .display-ib {
@@ -471,5 +471,9 @@
 
 .width-1024 #managerial-skills-2 .list-text {
     width: 235px;
+}
+
+.width-1024 #managerial-skills .labels {
+    margin-top: 5px;
 }
 
