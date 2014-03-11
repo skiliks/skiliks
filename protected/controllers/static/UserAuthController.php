@@ -163,8 +163,9 @@ class UserAuthController extends YumController
      */
     public function actionRegistrationSingleAccount()
     {
-        Yii::app()->user->logout();
-        sleep(0.5); // for safety
+        if (Yii::app()->user->data()->isAuth()) {
+            $this->redirect('/dashboard');
+        }
 
         $this->user = new YumUser('registration');
 

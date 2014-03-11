@@ -148,3 +148,8 @@ p.us-success-text {
     color: #146672;
     font: 2.144em/1.5em "ProximaNova-Regular";
 }
+
+#action-subscribe-form.error .error-place .errorMessage,
+#action-subscribe-form.error .error-place {
+    height: 17px;
+}
