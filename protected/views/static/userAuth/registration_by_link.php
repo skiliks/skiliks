@@ -28,10 +28,10 @@
                 <div class="row <?= $this->hasErrors($form, $profile, 'firstname') ?>
                     <?= $this->hasErrors($form, $profile, 'lastname') ?>">
                     <span class="error-place">
-                        <span class="">
+                        <span class="inline-error-first">
                             <?= $form->error($profile, 'firstname'); ?>
                         </span>
-                        <span class="inline-error-second">
+                        <span class="">
                             <?= $form->error($profile, 'lastname'); ?>
                         </span>
                     </span>

@@ -89,6 +89,12 @@ input[type="checkbox"] {
     vertical-align: top;
 }
 
+.action-registerByLink .inline-error-second {
+    margin-left: 0;
+    margin-top: 10px;
+    vertical-align: middle;
+}
+
 textarea, input[type="text"], input[type="password"] {
     width: 200px;
 }
