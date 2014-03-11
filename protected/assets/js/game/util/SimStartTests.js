@@ -22,7 +22,7 @@ try {
 
                 var maxSupport = {
                     mozilla: 27,
-                    chrome: 32,
+                    chrome: 33,
                     msie: 11,
                     safari: 7
                 };
