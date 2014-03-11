@@ -373,3 +373,9 @@ header nav ul li.menu-item .log-out-link-separator {
     padding: 0;
     width: 0;
 }
+
+#login-form .error .error-place .errorMessage,
+#login-form .error .error-place {
+    height: 14px;
+    margin-top: -14px;
+}

@@ -19,7 +19,7 @@
         <?= CHtml::hiddenField("returnUrl", '/dashboard') ?>
         <?= CHtml::hiddenField("ajax", 'login-form') ?>
 
-        <div class="row row-13">
+        <div class="row row-13 margin-bottom-half-standard">
             <span class="action-password-recovery pull-right inter-active-with-hover
                 unstandard-password-recovery">
                 <?php echo Yii::t('site', 'Forgot your password?') ?>
