@@ -84,8 +84,13 @@
     padding-left: 6px;
 }
 
+.width-1024 .mangrlresults .labelwrap:first-child .list-counter,
 .width-1024 .mangrlresults .labelwrap:first-child .list-text {
-    width: 175px;
+    margin-top: -6px;
+}
+
+.width-1024 .mangrlresults .labelwrap:first-child .list-text {
+    width: 135px;
 }
 
 .width-1024 .simulation-details .navigation {
@@ -470,7 +475,7 @@
 }
 
 .width-1024 #managerial-skills-2 .list-text {
-    width: 235px;
+    width: 233px;
 }
 
 .width-1024 #managerial-skills .labels {

@@ -1337,7 +1337,7 @@
 }
 
 #managerial-skills-2 .list-text {
-    width: 245px;
+    width: 241px;
 }
 
 .simulation-result-popup h1.name {
@@ -1345,4 +1345,9 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+
+.mangrlresults .labelwrap:first-child .list-counter,
+.mangrlresults .labelwrap:first-child .list-text {
+    margin-top: -10px;
 }
