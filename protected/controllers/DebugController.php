@@ -734,5 +734,9 @@ class DebugController extends SiteBaseController
             UserService::addStandardEmailToQueue($mailOptions, $mailOptions->template);
         }
     }
+
+    public function actionSleep() {
+        sleep(30);
+    }
 }
 
