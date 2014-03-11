@@ -197,6 +197,7 @@ define([
                         var dialog_id = $(e.currentTarget).attr('data-id');
                         var is_final = $(e.currentTarget).attr('data-is-final');
                         me.options.model_instance.get('sim_event').selectReplica(dialog_id, function () {
+                            console.log("Replica "+dialog_id+ " complete");
                             me.options.model_instance.setLastDialog(dialog_id);
                             if (is_final) {
                                 me.options.model_instance.setOnTop();

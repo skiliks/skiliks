@@ -288,6 +288,7 @@ define([], function () {
                 SKApp.server.api('dialog/get', {
                     'dialogId': replica_id
                 }, function (data) {
+                    console.log('callback dialog/get run for replica_id: '+replica_id);
                     if (data.result === 1) {
                         if (me.getStatus() !== 'completed') {
                             me.complete();
