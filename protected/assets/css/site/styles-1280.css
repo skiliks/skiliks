@@ -380,3 +380,8 @@ header nav ul li.menu-item .log-out-link-separator {
     height: 14px;
     margin-top: -14px;
 }
+
+#login-form .error-place #YumUserLogin_not_activate_em_.errorMessage {
+    margin-top: 14px;
+    max-width: 280px;
+}

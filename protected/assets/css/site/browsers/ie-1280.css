@@ -37,3 +37,7 @@ input.button-standard {
 .twobarstitles .barstitle:first-child {
     margin-left: 0;
 }
+
+#YumUserLogin_not_activate_em_ a {
+    display: block;
+}

@@ -107,6 +107,7 @@ $(document).ready(function () {
             open: function() {
                 // из-за фокуса на данный input не видно текста placeholder
                 $('#YumUserLogin_username').blur();
+                $(".locator-box-sign-in").addClass('overflow-hidden');
             }
         });
 
