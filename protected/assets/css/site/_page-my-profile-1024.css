@@ -33,7 +33,8 @@
     width: 351px;
 }
 
-.width-1024 .action-controller-corporateReferrals-static-profile .table-footer, .contrast-table table {
+.width-1024.action-controller-corporateReferrals-static-profile .table-footer,
+.width-1024 .contrast-table table {
     margin-left: -24px;
     width: 625px;
 }
@@ -55,7 +56,7 @@
     width: 187px;
 }
 
-.width-1024 .controller-static-profile .error-place {
+.width-1024.controller-static-profile .error-place {
     padding-left: 200px;
 }
 
