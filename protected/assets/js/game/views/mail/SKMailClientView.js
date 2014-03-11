@@ -2816,7 +2816,7 @@ define([
                                 SKApp.simulation.mailClient.reloadSubjects(me.getCurrentEmailRecipientIds(), subject, function(){
                                     SKApp.simulation.mailClient.getAvailablePhrases(me.getCurrentEmailRecipientId(), SKApp.simulation.mailClient.availableSubjects[0].themeId, function(){ });
                                 });
-                                $(".tagInputField").val(" ");
+
                             },
                             onDelete: function (tag) {
                                 var el = this;
