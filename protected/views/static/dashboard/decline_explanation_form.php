@@ -53,7 +53,7 @@
 
         <!-- confirm-decline -->
         <span class = 'label background-dark-blue icon-circle-with-blue-arrow-big
-            button-standard icon-padding-standard inter-active
+            button-standard icon-padding-standard inter-active margin-left-18
             action-confirm-decline'>
             Отказаться
         </span>

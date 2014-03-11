@@ -54,6 +54,11 @@ $(document).ready(function () {
             resizable: false,
             draggable: false
         });
+
+        $(window).resize(function(){
+            $('.locator-feedback-dialog').dialog('option', 'width', getDialogWindowWidth_2of3());
+            $('.locator-feedback-dialog').dialog('option', 'position', 'center center');
+        });
     });
 
     // 4) flash messages
