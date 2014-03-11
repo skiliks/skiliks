@@ -54,7 +54,7 @@ define([], function () {
          */
         initialize: function () {
             try {
-                console.log("SKWindow.initialize");
+                console.log("SKWindow.initialize "+this.get('subname')+" cid: "+this.cid);
                 // иногда обьект SKWindow приходит с id - что удивительно {
                 // и mainScreen и subname == undefined
                 // причину этого бага мы пока не нашли,
@@ -62,7 +62,7 @@ define([], function () {
                 //
                 // - поэтому лечим последствия
                 if ('undefined' == typeof this.get('name') && 'undefined' == typeof this.get('subname')) {
-                    console.error('Warning! SKWindow name and subname is undefined. Id is ' + this.get('id'));
+                    console.error('Warning! SKWindow name and subname is undefined. Id is ' + this.get('id') + " cid: "+this.cid);
 
                     if ('mainScreen' == this.get('id')) {
                         this.set('name', 'mainScreen');
