@@ -213,6 +213,8 @@ var fixLogotypes = function() {
 
         window.addVacancyValidation = function addVacancyValidation(form, data, hasError) {
             if (!hasError) {
+                $('<span class="send-vacancy-loader"></span>').insertAfter('.send-vacancy');
+                $('.send-vacancy').remove();
                 window.location.href = form.attr('data-url');
             }
             return false;
