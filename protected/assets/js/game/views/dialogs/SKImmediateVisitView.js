@@ -37,6 +37,7 @@ define([
                 try {
                     var me = this;
                     this.listenTo(this.options.model_instance, 'refresh', function () {
+                        console.log(" me.render(); ");
                         me.render();
                     });
                     // original video height and width
@@ -65,6 +66,7 @@ define([
              */
             'renderWindow':function (el) {
                 try {
+                    console.log('renderWindow');
                     var me = this,
                         event = this.options.model_instance.get('sim_event'),
                         my_replicas = event.getMyReplicas(),
