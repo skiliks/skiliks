@@ -26,3 +26,21 @@
     line-height: 2.8em;
 }
 
+.width-1024 #invite-form .error .error-place {
+    height: 14px;
+}
+
+.width-1024 #invite-form .error .error-place .errorMessage {
+    margin-top: 4px;
+}
+.width-1024 #invite-form .unstandard-firstname-error {
+    margin-top: -10px;
+}
+
+.width-1024 #invite-form .unstandard-secondname-error {
+    margin-top: -22px;
+}
+
+.width-1024 #invite-form .unstandard-position-error .error-place {
+    margin-bottom: -3px;
+}

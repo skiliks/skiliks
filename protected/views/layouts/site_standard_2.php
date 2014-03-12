@@ -65,21 +65,15 @@ if(preg_match('/(?i)Chrome/',$_SERVER['HTTP_USER_AGENT']))
 {
     $cs->registerCssFile($assetsUrl . "/css/site/browsers/chrome-1280.css");
     $cs->registerCssFile($assetsUrl . "/css/site/browsers/chrome-1024.css");
-}
-
-if(preg_match('/(?i)Firefox/',$_SERVER['HTTP_USER_AGENT']))
+} elseif(preg_match('/(?i)Firefox/',$_SERVER['HTTP_USER_AGENT']))
 {
     $cs->registerCssFile($assetsUrl . "/css/site/browsers/firefox-1280.css");
     $cs->registerCssFile($assetsUrl . "/css/site/browsers/firefox-1024.css");
-}
-
-if(preg_match('/(?i)MSIE/',$_SERVER['HTTP_USER_AGENT']))
+} elseif(preg_match('/(?i)MSIE/',$_SERVER['HTTP_USER_AGENT']))
 {
     $cs->registerCssFile($assetsUrl . "/css/site/browsers/ie-1280.css");
     $cs->registerCssFile($assetsUrl . "/css/site/browsers/ie-1024.css");
-}
-
-if(preg_match('/(?i)Safari/',$_SERVER['HTTP_USER_AGENT']))
+} elseif(preg_match('/(?i)Safari/',$_SERVER['HTTP_USER_AGENT']))
 {
     $cs->registerCssFile($assetsUrl . "/css/site/browsers/safari-1280.css");
     $cs->registerCssFile($assetsUrl . "/css/site/browsers/safari-1024.css");
