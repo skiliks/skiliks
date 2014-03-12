@@ -50,7 +50,7 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
             'dsn' => $sentryDsn,
         ],
         'public' => [
-            'storageURL'           => 'http://storage-2.skiliks.com/',
+            'storageURL'           => 'http://storage2.skiliks.com/',
             'useSentryForJsLog'    => true,
             'isDisplaySupportChat' => true,
         ]
