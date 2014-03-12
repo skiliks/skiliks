@@ -12,6 +12,7 @@ class InitBaseUsersCommand
      */
     public function run($forceDelete = false)
     {
+        //Удаление всех аккаунтов
         if($forceDelete) {
             YumUser::model()->deleteAll();
             YumProfile::model()->deleteAll();
