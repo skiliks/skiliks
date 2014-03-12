@@ -188,8 +188,10 @@ define([
                                 if( url === me.api_root + me.connectPath ) {
                                     me.is_connected = true;
                                     me.stopTryConnect();
-                                    me.error_dialog.remove();
-                                    delete me.error_dialog;
+                                    if(null !== me.error_dialog){
+                                        me.error_dialog.remove();
+                                        delete me.error_dialog;
+                                    }
                                     me.success_dialog = new SKDialogView({
                                         'message': 'Соединение с интернет востановлено!',
                                         'modal': true,
