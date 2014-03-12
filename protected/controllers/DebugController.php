@@ -738,5 +738,11 @@ class DebugController extends SiteBaseController
     public function actionSleep() {
         sleep(30);
     }
+
+    public function actionDebug(){
+        if(Yii::app()->user->data()->isCorporate()){
+            echo 'Corporate';
+        }
+    }
 }
 
