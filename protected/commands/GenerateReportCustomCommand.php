@@ -46,6 +46,7 @@ class GenerateReportCustomCommand extends CConsoleCommand
 
             $generator = new AnalyticalFileGenerator();
             $generator->{"runAssessment_".$assessment_version}($data_simulations);
+            $generator->save($assessment_version);
         }
 
         echo "Done ".count($data_simulations)." \r\n";

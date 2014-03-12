@@ -6,17 +6,47 @@
 class AnalyticalFileGenerator {
 
     /**
-     * @var array
+     * @var array $sheets
      */
     public $sheets = [];
 
+    /*
+     * Список соответствия [имя листа] = номер листа
+     * @var string[]
+     */
+    public $sheets_map = [];
+
+    /*
+     * Список соответствия [имя листа] = номер последней не пустой строки данного листа
+     * @var string[]
+     */
+    public $sheet_row_position = [];
+
+    /*
+     * Список соответствия [имя листа] = номер последней не пустой колонки
+     * в последней не пустой строке данного листа
+     *
+     * @var string[]
+     */
+    public $sheet_column_position = [];
+
     /**
-     * @var int
+     * Имя текущего листа:
+     * - на данный лист осуществляется вставка данных
+     * - sheet_number указывает на номер этого листа
+     * - [column_number;row_number] является позицией курсора на этом листе
+     *
+     * @var string|null $sheet_name
+     */
+    public $sheet_name = null;
+
+    /**
+     * @var int $sheet_number
      */
     public $sheet_number = 0;
 
     /**
-     * @var int
+     * @var int $column_number
      */
     public $column_number = 0;
 
@@ -26,7 +56,7 @@ class AnalyticalFileGenerator {
     public $row_number = 0;
 
     /**
-     * @var PHPExcel
+     * @var PHPExcel $document
      */
     public $document;
 
@@ -34,24 +64,30 @@ class AnalyticalFileGenerator {
 
     public $info_company_name = '';
 
+    /**
+     * @var integer $info_simulation_id;
+     */
     public $info_simulation_id;
 
     /**
-     *
+     * Надо ли добавлять пятый лист с поведениями
+     * @var bool $is_add_behaviours
      */
-    public function generateV1() {
+    public $is_add_behaviours = false;
 
+    /**
+     * Создаёт объект ексель документа
+     */
+    public function createDocument() {
+        $this->document = new PHPExcel();
+        $this->document->removeSheetByIndex(0);
     }
 
     /**
+     * @param string $text, содержимое ячейки колонки
+     * @param integer $width, ширина колонки
      *
-     */
-    public function generateV2() {
-
-    }
-
-    /**
-     * @param $text
+     * @return
      */
     public function addColumn($text, $width = null) {
         /* @var $sheet PHPExcel_Worksheet */
@@ -76,10 +112,19 @@ class AnalyticalFileGenerator {
 
         }
         $this->column_number++;
+
+        if('Поведения' == $this->sheet_name){
+            $sheet->getStyleByColumnAndRow($this->column_number, $sheet->getHighestRow())
+                ->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        }
+
         return $sheet;
     }
 
-
+    /**
+     * @param $text
+     * @param null $width
+     */
     public function addColumnRight($text, $width = null) {
         $text = str_replace('.', ',', $text);
         $sheet = $this->addColumn($text, $width);
@@ -92,11 +137,20 @@ class AnalyticalFileGenerator {
     }
 
     /**
+     * Добавляет строку в документ с первыми треся предустановленными колонками:
+     * - Наименование Компании
+     * - ФИО
+     * - ID симуляции
      *
+     * В случае если строка первая на листе -- задаёт заголовки колонок листа
      */
     public function addRow(){
         $this->row_number++;
         $this->column_number = 0;
+
+        $this->sheet_row_position[$this->sheet_name] = $this->row_number;
+        $this->sheet_column_position[$this->sheet_name] = $this->column_number;
+
         if($this->row_number === 1) {
             $this->setBoldFirstRow();
             $this->addColumn('Наименование Компании', 24);
@@ -110,27 +164,43 @@ class AnalyticalFileGenerator {
         }
     }
 
+
+    /**
+     * @param string $name
+     */
+    public function addSheet($name) {
+        if (false == isset($this->sheets_map[$name])) {
+            /* @var $this->document PHPExcel */
+            $sheet = new PHPExcel_Worksheet($this->document, $name);
+            $this->document->addSheet($sheet);
+
+            $this->sheet_number++;
+            $this->sheets_map[$name] = $this->sheet_number;
+            $this->sheet_name = $name;
+
+            $this->sheets[$this->sheet_number] = $sheet;
+        } else {
+            $this->sheet_number = $this->sheets_map[$name];
+            $this->sheet_name = $name;
+            $this->sheets[$this->sheet_number] = $this->document->getSheetByName($name);
+        }
+
+
+        if (false == isset($this->sheet_row_position[$name])) {
+            $this->sheet_row_position[$name] = 0;
+        }
+
+        if (false == isset($this->sheet_column_position[$name])) {
+            $this->sheet_column_position[$name] = 0;
+        }
+
+        $this->row_number = $this->sheet_row_position[$name];
+        $this->column_number = $this->sheet_column_position[$name];
+    }
+
     /**
      *
      */
-    public function createDocument() {
-        $this->document =  new PHPExcel();
-        $this->document->removeSheetByIndex(0);
-    }
-
-    /**
-     * @param $name
-     */
-    public function addSheet($name) {
-        /* @var $this->document PHPExcel */
-        $sheet = new PHPExcel_Worksheet($this->document, $name);
-        $this->document->addSheet($sheet);
-        $this->sheet_number++;
-        $this->sheets[$this->sheet_number] = $sheet;
-        $this->row_number = 0;
-        $this->column_number = 0;
-    }
-
     public function setBorderBold() {
         /* @var $sheet PHPExcel_Worksheet */
         $sheet = $this->sheets[$this->sheet_number];
@@ -142,6 +212,9 @@ class AnalyticalFileGenerator {
             ->getBorders()->getRight()->setBorderStyle(\PHPExcel_Style_Border::BORDER_THICK);
     }
 
+    /**
+     *
+     */
     public function setBoldFirstRow(){
         /* @var $sheet PHPExcel_Worksheet */
         $sheet = $this->sheets[$this->sheet_number];
@@ -149,15 +222,23 @@ class AnalyticalFileGenerator {
     }
 
     /**
-     *
+     * Сохраняет документ из $this->document
+     * в файл по адресу self::createPathForAnalyticsFile()
      */
-    public function save($assessment_version) {
-
+    public function save($assessment_version, $filename = 'custom') {
+        echo "\r\n";
+        var_dump('save started');
+        var_dump(date('H:i:s', time()));
         $excelWriter = new PHPExcel_Writer_Excel2007($this->document);
-        $path = SimulationService::createPathForAnalyticsFile('custom', $assessment_version);
+        $path = SimulationService::createPathForAnalyticsFile($filename, $assessment_version);
         $excelWriter->save($path);
+        var_dump(date('H:i:s', time()));
+        var_dump('save finished');
     }
 
+    /**
+     * @param Simulation $simulation
+     */
     public function setInfoBySimulation(Simulation $simulation) {
         if($simulation->invite === null || $simulation->invite->ownerUser === null || $simulation->invite->ownerUser->getAccount() === null){
             $this->info_company_name = 'getAccount() return null or user or invite not define, very bad';
@@ -181,17 +262,19 @@ class AnalyticalFileGenerator {
      */
     public function runAssessment_v2(array $simulations) {
         /* @var $simulations Simulation[] */
-        $this->createDocument();
 
         $this->addSheet("Итоговый рейтинг");
 
-        $this->addRow();
-
-        $this->addColumn('Тип оценки', 40);
-        $this->addColumn('Оценка', 14);
-        $this->setBorderBold();
+//        $this->addRow();
+//
+//        $this->addColumn('Тип оценки', 40);
+//        $this->addColumn('Оценка', 14);
+//        $this->setBorderBold();
         ////////////////////////////////////////////////////
+        echo "\r\n";
         foreach($simulations as $simulation) {
+            echo ".";
+
             $data = json_decode($simulation->getAssessmentDetails(), true);
 
             $this->setInfoBySimulation($simulation);
@@ -221,16 +304,18 @@ class AnalyticalFileGenerator {
 
         $this->addSheet("Управленческие навыки");
 
-        $this->addRow();
-
-        $this->addColumn('Группа навыков', 42);
-        $this->addColumn('Навык', 50);
-        $this->addColumn('Шкала оценки', 14);
-        $this->addColumn('Навык, оценка (0-100%)', 18);
-
-        $this->setBorderBold();
+//        $this->addRow();
+//
+//        $this->addColumn('Группа навыков', 42);
+//        $this->addColumn('Навык', 50);
+//        $this->addColumn('Шкала оценки', 14);
+//        $this->addColumn('Навык, оценка (0-100%)', 18);
+//
+//        $this->setBorderBold();
         ////////////////////////////////////////////////
+        echo "\r\n";
         foreach($simulations as $simulation) {
+            echo ".";
             $data = json_decode($simulation->getAssessmentDetails(), true);
 
             $this->setInfoBySimulation($simulation);
@@ -376,12 +461,13 @@ class AnalyticalFileGenerator {
         ////////////////////////////////////////////////
         $this->addSheet("Результативность");
 
-        $this->addRow();
-        $this->addColumn('Группа задач', 20);
-        $this->addColumn('Результативность, оценка (0-100%)', 20);
+//        $this->addRow();
+//        $this->addColumn('Группа задач', 20);
+//        $this->addColumn('Результативность, оценка (0-100%)', 20);
         ///////////////////////////////////////////////////////////
-
+        echo "\r\n";
         foreach($simulations as $simulation) {
+            echo ".";
             $data = json_decode($simulation->getAssessmentDetails(), true);
 
             $this->setInfoBySimulation($simulation);
@@ -405,12 +491,14 @@ class AnalyticalFileGenerator {
         //////////////////////////////////////////////////////////
         $this->addSheet("Эффект. использования времени");
 
-        $this->addRow();
-        $this->addColumn('Группа параметров', 55);
-        $this->addColumn('Параметр', 45);
-        $this->addColumn('Эффективность использования времени, оценка', 14);
+//        $this->addRow();
+//        $this->addColumn('Группа параметров', 55);
+//        $this->addColumn('Параметр', 45);
+//        $this->addColumn('Эффективность использования времени, оценка', 14);
         ////////////////////////////////////////////////////
+        echo "\r\n";
         foreach($simulations as $simulation) {
+            echo ".";
             $data = json_decode($simulation->getAssessmentDetails(), true);
 
             $this->setInfoBySimulation($simulation);
@@ -486,13 +574,19 @@ class AnalyticalFileGenerator {
             $this->setBorderBold();
         }
         ////////////////////////////////////////////////////
-        $this->save('v2');
-
+        if ($this->is_add_behaviours) {
+            $this->addBehavioursSheet($simulations);
+        }
     }
 
-    public function runAssessment_v1(array $simulations) {
+    /**
+     * @param Simulations[] $simulations
+     *
+     * Задаёт преобразование оценоа 1.1-1.5 в 1.1-1.5 или 1.1-1.4
+     * @param string $management_interpretation_mode ['va_to_v1';'v1_to_v2']
+     */
+    public function runAssessment_v1(array $simulations, $management_interpretation_mode = 'v1_to_v1') {
         /* @var $simulations Simulation[] */
-        $this->createDocument();
 
         $this->addSheet("Итоговый рейтинг");
 
@@ -502,7 +596,9 @@ class AnalyticalFileGenerator {
         $this->addColumn('Оценка', 14);
         $this->setBorderBold();
         ////////////////////////////////////////////////////
+        echo "\r\n";
         foreach($simulations as $simulation) {
+            echo  '.';
             $data = json_decode($simulation->getAssessmentDetails(), true);
 
             $this->setInfoBySimulation($simulation);
@@ -553,65 +649,126 @@ class AnalyticalFileGenerator {
         $this->addColumn('Навык, оценка (0-100%)', 18);
 
         $this->setBorderBold();
+
         ////////////////////////////////////////////////
+        echo "\r\n";
         foreach($simulations as $simulation) {
+            echo ".";
             $data = json_decode($simulation->getAssessmentDetails(), true);
 
             $this->setInfoBySimulation($simulation);
 
-            $this->addRow();
-            $this->addColumn('1. Управление задачами с учётом приоритетов');
-            $this->addColumn('1.1 Определение приоритетов');
-            $this->addColumn('positive');
-            $this->addColumnRight(round($data['management'][1]['1_1']['+'], 2).'%');
+            // 1.x) ###############################################
 
-            $this->addRow();
-            $this->addColumn('1. Управление задачами с учётом приоритетов');
-            $this->addColumn('1.2 Использование планирования в течение дня');
-            $this->addColumn('positive');
-            $this->addColumnRight(round($data['management'][1]['1_2']['+'], 2).'%');
+            if ('v1_to_v1' == $management_interpretation_mode) {
+                $this->addRow();
+                $this->addColumn('1. Управление задачами с учётом приоритетов');
+                $this->addColumn('1.1 Определение приоритетов');
+                $this->addColumn('positive');
+                $this->addColumnRight(round($data['management'][1]['1_1']['+'], 2).'%');
 
-            $this->addRow();
-            $this->addColumn('1. Управление задачами с учётом приоритетов');
-            $this->addColumn('1.2 Использование планирования в течение дня');
-            $this->addColumn('negative');
-            $this->addColumnRight(round($data['management'][1]['1_2']['-'], 2).'%');
+                $this->addRow();
+                $this->addColumn('1. Управление задачами с учётом приоритетов');
+                $this->addColumn('1.2 Использование планирования в течение дня');
+                $this->addColumn('positive');
+                $this->addColumnRight(round($data['management'][1]['1_2']['+'], 2).'%');
 
-            $this->addRow();
-            $this->addColumn('1. Управление задачами с учётом приоритетов');
-            $this->addColumn('1.3 Правильное определение приоритетов задач при планировании');
-            $this->addColumn('positive');
-            $this->addColumnRight(round($data['management'][1]['1_3']['+'], 2).'%');
+                $this->addRow();
+                $this->addColumn('1. Управление задачами с учётом приоритетов');
+                $this->addColumn('1.2 Использование планирования в течение дня');
+                $this->addColumn('negative');
+                $this->addColumnRight(round($data['management'][1]['1_2']['-'], 2).'%');
 
-            $this->addRow();
-            $this->addColumn('1. Управление задачами с учётом приоритетов');
-            $this->addColumn('1.3 Правильное определение приоритетов задач при планировании');
-            $this->addColumn('negative');
-            $this->addColumnRight(round($data['management'][1]['1_3']['-'], 2).'%');
+                $this->addRow();
+                $this->addColumn('1. Управление задачами с учётом приоритетов');
+                $this->addColumn('1.3 Правильное определение приоритетов задач при планировании');
+                $this->addColumn('positive');
+                $this->addColumnRight(round($data['management'][1]['1_3']['+'], 2).'%');
 
-            $this->addRow();
-            $this->addColumn('1. Управление задачами с учётом приоритетов');
-            $this->addColumn('1.4 Выполнение задач в соответствии с приоритетами');
-            $this->addColumn('positive');
-            $this->addColumnRight(round($data['management'][1]['1_4']['+'], 2).'%');
+                $this->addRow();
+                $this->addColumn('1. Управление задачами с учётом приоритетов');
+                $this->addColumn('1.3 Правильное определение приоритетов задач при планировании');
+                $this->addColumn('negative');
+                $this->addColumnRight(round($data['management'][1]['1_3']['-'], 2).'%');
 
-            $this->addRow();
-            $this->addColumn('1. Управление задачами с учётом приоритетов');
-            $this->addColumn('1.4 Выполнение задач в соответствии с приоритетами');
-            $this->addColumn('negative');
-            $this->addColumnRight(round($data['management'][1]['1_4']['-'], 2).'%');
+                $this->addRow();
+                $this->addColumn('1. Управление задачами с учётом приоритетов');
+                $this->addColumn('1.4 Выполнение задач в соответствии с приоритетами');
+                $this->addColumn('positive');
+                $this->addColumnRight(round($data['management'][1]['1_4']['+'], 2).'%');
 
-            $this->addRow();
-            $this->addColumn('1. Управление задачами с учётом приоритетов');
-            $this->addColumn('1.5 Завершение начатых задач');
-            $this->addColumn('negative');
-            $this->addColumnRight(round($data['management'][1]['1_5']['-'], 2).'%');
+                $this->addRow();
+                $this->addColumn('1. Управление задачами с учётом приоритетов');
+                $this->addColumn('1.4 Выполнение задач в соответствии с приоритетами');
+                $this->addColumn('negative');
+                $this->addColumnRight(round($data['management'][1]['1_4']['-'], 2).'%');
+
+                // если оценка за 1.5 = 0, то её нет в кеш попапе!
+                if (false == isset($data['management'][1]['1_5'])) {
+                    $data['management'][1]['1_5'] = ['-' => 0];
+                }
+
+                $this->addRow();
+                $this->addColumn('1. Управление задачами с учётом приоритетов');
+                $this->addColumn('1.5 Завершение начатых задач');
+                $this->addColumn('negative');
+                $this->addColumnRight(round($data['management'][1]['1_5']['-'], 2).'%');
+            } elseif ('v1_to_v2' == $management_interpretation_mode) {
+                $this->addRow();
+                $this->addColumn('1. Управление задачами с учётом приоритетов');
+                $this->addColumn('1.1 Использование планирования в течение дня');
+                $this->addColumn('positive');
+                $this->addColumnRight(round($data['management'][1]['1_2']['+'], 2).'%');
+
+                $this->addRow();
+                $this->addColumn('1. Управление задачами с учётом приоритетов');
+                $this->addColumn('1.1 Использование планирования в течение дня');
+                $this->addColumn('negative');
+                $this->addColumnRight(round($data['management'][1]['1_2']['-'], 2).'%');
+
+                $this->addRow();
+                $this->addColumn('1. Управление задачами с учётом приоритетов');
+                $this->addColumn('1.2 Правильное определение приоритетов задач при планировании');
+                $this->addColumn('positive');
+                $this->addColumnRight(round($data['management'][1]['1_3']['+'], 2).'%');
+
+                $this->addRow();
+                $this->addColumn('1. Управление задачами с учётом приоритетов');
+                $this->addColumn('1.2 Правильное определение приоритетов задач при планировании');
+                $this->addColumn('negative');
+                $this->addColumnRight(round($data['management'][1]['1_3']['-'], 2).'%');
+
+                $this->addRow();
+                $this->addColumn('1. Управление задачами с учётом приоритетов');
+                $this->addColumn('1.3 Выполнение задач в соответствии с приоритетами');
+                $this->addColumn('positive');
+                $this->addColumnRight(round($data['management'][1]['1_4']['+'], 2).'%');
+
+                $this->addRow();
+                $this->addColumn('1. Управление задачами с учётом приоритетов');
+                $this->addColumn('1.3 Выполнение задач в соответствии с приоритетами');
+                $this->addColumn('negative');
+                $this->addColumnRight(round($data['management'][1]['1_4']['-'], 2).'%');
+
+                // если оценка за 1.4 = 0, то её нет в кеш попапе!
+                if (false == isset($data['management'][1]['1_5'])) {
+                    $data['management'][1]['1_5'] = ['-' => 0];
+                }
+
+                $this->addRow();
+                $this->addColumn('1. Управление задачами с учётом приоритетов');
+                $this->addColumn('1.4 Завершение начатых задач');
+                $this->addColumn('negative');
+                $this->addColumnRight(round($data['management'][1]['1_5']['-'], 2).'%');
+            }
 
             $this->addRow();
             $this->addColumn('1. Управление задачами с учётом приоритетов');
             $this->addColumn('ИТОГО');
             $this->addColumn('combined');
             $this->addColumnRight(round($data['management'][1]['total'], 2).'%');
+
+            // 2.x) ###############################################
 
             $this->addRow();
             $this->addColumn('2. Управление людьми');
@@ -654,6 +811,8 @@ class AnalyticalFileGenerator {
             $this->addColumn('ИТОГО');
             $this->addColumn('combined');
             $this->addColumnRight(round($data['management'][2]['total'], 2).'%');
+
+            // 3.x) ###############################################
 
             $this->addRow();
             $this->addColumn('3. Управление коммуникациями');
@@ -711,8 +870,10 @@ class AnalyticalFileGenerator {
         $this->addColumn('Группа задач', 20);
         $this->addColumn('Результативность, оценка (0-100%)', 20);
         ///////////////////////////////////////////////////////////
-
+        echo "\r\n";
         foreach($simulations as $simulation) {
+            echo ".";
+
             $data = json_decode($simulation->getAssessmentDetails(), true);
 
             $this->setInfoBySimulation($simulation);
@@ -741,7 +902,9 @@ class AnalyticalFileGenerator {
         $this->addColumn('Параметр', 45);
         $this->addColumn('Эффективность использования времени, оценка', 14);
         ////////////////////////////////////////////////////
+        echo "\r\n";
         foreach($simulations as $simulation) {
+            echo ".";
             $data = json_decode($simulation->getAssessmentDetails(), true);
 
             $this->setInfoBySimulation($simulation);
@@ -817,8 +980,42 @@ class AnalyticalFileGenerator {
             $this->setBorderBold();
         }
         ////////////////////////////////////////////////////
-        $this->save('v1');
+        if ($this->is_add_behaviours) {
+            $this->addBehavioursSheet($simulations);
+        }
+    }
 
+    /**
+     * @param Simulation[] $simulations
+     */
+    public function addBehavioursSheet($simulations) {
+        $this->addSheet("Поведения");
+
+        if (0 == $this->sheet_row_position["Поведения"]) {
+            $this->addRow();
+            $this->addColumn('Номер требуемого поведения', 14);
+            $this->addColumn('Номер цели обучения', 14);
+            $this->addColumn('Наименование цели обучения', 30);
+            $this->addColumn('Наименование требуемого поведения', 30);
+            $this->addColumn('Оценка полученная в симуляции', 14);
+        }
+        //////////////////////////////////////////////////
+
+        echo "\r\n";
+        foreach($simulations as $simulation) {
+            echo ".";
+            $this->setInfoBySimulation($simulation);
+
+            /* @var AssessmentAggregated $behaviour */
+            foreach ($simulation->assessment_aggregated as $behaviour) {
+                $this->addRow();
+                $this->addColumn($behaviour->point->code);
+                $this->addColumn($behaviour->point->learning_goal->code);
+                $this->addColumn($behaviour->point->learning_goal->title);
+                $this->addColumn($behaviour->point->title);
+                $this->addColumn($behaviour->value);
+            }
+        }
     }
 
     /**
