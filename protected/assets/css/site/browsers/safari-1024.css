@@ -17,3 +17,7 @@
     margin-top: 0;
     top: 7px;
 }
+
+.width-1024 .popup-auth input.button-white {
+    line-height: 2.4em;
+}
