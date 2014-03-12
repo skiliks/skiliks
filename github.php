@@ -7,6 +7,3 @@ if($_GET['code'] === 'true'){
 } else {
     `sudo -u skiliks /usr/local/bin/git-update-backend`;
 }
-
-exec('sudo ls', $output, $ret);
-print_r($output);
