@@ -134,8 +134,8 @@ footer .static-page-links ul {
 
 input.button-standard {
     height: auto;
-    padding-top: 11px; /* у span отступы больше */
-    padding-bottom: 11px; /* у span отступы больше */
+    padding-top: 12px; /* было 11 /* у span отступы больше */
+    padding-bottom: 10px; /* было 11  /* у span отступы больше */
 }
 
 .button-standard:hover {

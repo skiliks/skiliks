@@ -4,3 +4,27 @@
     padding-bottom: 12px;
     margin-top: 0;
 }
+
+.skiliks .company-info-height {
+    height: 376px;
+}
+
+.skiliks .button-add-vacancy {
+    margin-top: 0;
+    top: 8px;
+}
+
+.skiliks input.button-white,
+.skiliks .ui-widget input.button-white {
+    line-height: 2.1em;
+}
+
+.action-controller-corporateVacancies-static-profile .profile-right-side .button-white {
+    line-height: 2.5em;
+}
+
+.skiliks nav ul li.menu-item span,
+.skiliks nav ul li.menu-item a {
+    padding-top: 6px;
+    padding-bottom: 2px;
+}

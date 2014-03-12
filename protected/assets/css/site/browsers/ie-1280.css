@@ -41,3 +41,22 @@ input.button-standard {
 #YumUserLogin_not_activate_em_ a {
     display: block;
 }
+
+.skiliks .company-info-height {
+    height: 368px;
+}
+
+.skiliks.action-controller-personalPersonalData-static-profile .unstandard-personal-data-height {
+    height: 417px;
+}
+
+nav ul li.menu-item span,
+nav ul li.menu-item a {
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+.skiliks input.button-white,
+.skiliks .ui-widget input.button-white {
+    line-height: 1.8em;
+}

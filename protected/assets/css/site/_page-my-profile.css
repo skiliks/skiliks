@@ -50,6 +50,7 @@
 
 .controller-static-profile .column-2-3-fixed .button-standard {
     font-size: 1.06em;
+    line-height: 1em;
 }
 
 .controller-static-profile .error-place {
@@ -171,6 +172,7 @@ input[type='password'] {
 }
 
 .unstandard-personal-data-height {
+    min-width: 1150px;
     height: 412px;
 }
 
@@ -183,7 +185,7 @@ input[type='password'] {
 }
 
 .action-controller-corporatePersonalData-static-profile .unstandard-personal-data-height {
-    height: 246px;
+    height: 248px;
 }
 
 .action-controller-personalPassword-static-profile .unstandard-personal-data-height {
@@ -197,3 +199,4 @@ input[type='password'] {
 .skiliks .error .error-place {
     height: 16px;
 }
+

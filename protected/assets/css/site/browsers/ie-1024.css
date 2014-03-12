@@ -23,3 +23,18 @@
 .width-1024 .button-add-vacancy {
     top: 6px;
 }
+
+.width-1024.action-controller-corporatePassword-static-profile .unstandard-personal-data-height {
+    height: 282px;
+}
+
+.width-1024 nav ul li.menu-item span,
+.width-1024 nav ul li.menu-item a {
+    margin: 0 0 0 0px;
+    padding: 5px 7px;
+}
+
+.skiliks.width-1024 input.button-white,
+.skiliks.width-1024 .ui-widget input.button-white {
+    line-height: 2.2em;
+}

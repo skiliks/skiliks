@@ -35,3 +35,23 @@ input.button-standard {
 .twobarstitles .barstitle:first-child {
     margin-left: 0;
 }
+
+.skiliks.action-controller-corporatePersonalData-static-profile .unstandard-personal-data-height {
+    height: 252px;
+}
+
+.skiliks .company-info-height {
+    height: 379px;
+}
+
+.skiliks.action-controller-personalPersonalData-static-profile .unstandard-personal-data-height {
+    height: 396px;
+}
+
+.skiliks.action-controller-personalPassword-static-profile .unstandard-personal-data-height {
+    height: 302px;
+}
+
+.skiliks.action-controller-corporateVacancies-static-profile .profile-right-side .button-white {
+    line-height: 2.4em;
+}

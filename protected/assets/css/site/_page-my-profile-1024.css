@@ -71,3 +71,15 @@
 .width-1024.skiliks .error .error-place {
     height: 14px;
 }
+
+.width-1024 .unstandard-personal-data-height {
+    min-width: 951px;
+}
+
+.width-1024.action-controller-corporatePersonalData-static-profile .unstandard-personal-data-height {
+    height: 225px;
+}
+
+.width-1024 .company-info-height {
+    height: 345px;
+}
