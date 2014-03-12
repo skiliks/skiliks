@@ -10,8 +10,15 @@ class InitBaseUsersCommand
     /**
      * Code copied and fixed from YumInstallController->actionInstall()
      */
-    public function run($args)
+    public function run($forceDelete = false)
     {
+        //Удаление всех аккаунтов
+        if($forceDelete) {
+            YumUser::model()->deleteAll();
+            YumProfile::model()->deleteAll();
+            UserAccountCorporate::model()->deleteAll();
+            UserAccountPersonal::model()->deleteAll();
+        }
         ini_set('memory_limit', '900M');
 
         echo "\n Start InitBaseUsers \n";
@@ -73,7 +80,9 @@ class InitBaseUsersCommand
                     $industry = Industry::model()->findByAttributes(['label'=>'Другая']);
                     $accountCorporate->user_id = $yumUser->id;
                     $accountCorporate->industry_id = $industry->id;
-                    $accountCorporate->save(['user_id, industry_id']);
+                    if(false == $accountCorporate->save(['user_id, industry_id'])){
+                        throw new Exception(print_r($accountCorporate->getErrors()));
+                    }
                 } else {
                     print_r($yumUser->getErrors());
                     print_r($user);

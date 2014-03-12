@@ -1,7 +1,7 @@
 <?php
 
 // Team 'Develop - live.skiliks.com'
-$sentryDsn = 'https://41680afc32f344d88ab67eef43254684:e4265582b811477089af672d368c93bf@app.getsentry.com/15804';
+$sentryDsn = 'https://51b6e7f12ea6466cb155a9d842a03474:d51a648eaf4b48c39b73143455e54f7c@app.getsentry.com/20804';
 
 define(YII_DEBUG, false);
 return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
@@ -50,7 +50,7 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
             'dsn' => $sentryDsn,
         ],
         'public' => [
-            'storageURL'           => 'http://storage-2.skiliks.com/',
+            'storageURL'           => 'http://storage2.skiliks.com/',
             'useSentryForJsLog'    => true,
             'isDisplaySupportChat' => true,
         ]

@@ -1,6 +1,5 @@
 <?php
 
-// Team 'Develop - live.skiliks.com'
 $sentryDsn = 'https://41680afc32f344d88ab67eef43254684:e4265582b811477089af672d368c93bf@app.getsentry.com/15804';
 
 define(YII_DEBUG, false);
