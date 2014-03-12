@@ -79,7 +79,9 @@ class InitBaseUsersCommand
                     $industry = Industry::model()->findByAttributes(['label'=>'Другая']);
                     $accountCorporate->user_id = $yumUser->id;
                     $accountCorporate->industry_id = $industry->id;
-                    $accountCorporate->save(['user_id, industry_id']);
+                    if(false == $accountCorporate->save(['user_id, industry_id'])){
+                        throw new Exception(print_r($accountCorporate->getErrors()));
+                    }
                 } else {
                     print_r($yumUser->getErrors());
                     print_r($user);
