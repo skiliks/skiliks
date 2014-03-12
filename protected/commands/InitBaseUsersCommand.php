@@ -10,8 +10,11 @@ class InitBaseUsersCommand
     /**
      * Code copied and fixed from YumInstallController->actionInstall()
      */
-    public function run($args)
+    public function run($forceDelete = false)
     {
+        if($forceDelete) {
+            YumUser::model()->deleteAll();
+        }
         ini_set('memory_limit', '900M');
 
         echo "\n Start InitBaseUsers \n";
