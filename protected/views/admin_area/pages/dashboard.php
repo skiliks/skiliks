@@ -1,6 +1,6 @@
 <div>
     <h1>Dashboard</h1>
-    <?= 'short_open_tag' ?>
+
     <br/>
 
     <!-- DEV modes: -->
