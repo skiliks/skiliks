@@ -14,6 +14,9 @@ class InitBaseUsersCommand
     {
         if($forceDelete) {
             YumUser::model()->deleteAll();
+            YumProfile::model()->deleteAll();
+            UserAccountCorporate::model()->deleteAll();
+            UserAccountPersonal::model()->deleteAll();
         }
         ini_set('memory_limit', '900M');
 
