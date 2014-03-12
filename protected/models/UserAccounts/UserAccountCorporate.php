@@ -366,6 +366,9 @@ class UserAccountCorporate extends CActiveRecord
     }
 
     public function startDiscountValidator($attribute) {
+        if($this->getIsNewRecord()){
+            return true;
+        }
         if(UserService::validateDate($this->$attribute)){
             if(strtotime($this->start_discount) <= strtotime($this->end_discount)) {
                 return true;
@@ -380,7 +383,9 @@ class UserAccountCorporate extends CActiveRecord
     }
 
     public function endDiscountValidator($attribute) {
-
+        if($this->getIsNewRecord()){
+            return true;
+        }
         if(UserService::validateDate($this->$attribute) && strtotime($this->$attribute) > strtotime(date('Y-m-d', time()))){
             return true;
         }else{
