@@ -188,7 +188,7 @@ define([
                                 if( url === me.api_root + me.connectPath ) {
                                     me.is_connected = true;
                                     me.stopTryConnect();
-                                    if(null !== me.error_dialog){
+                                    if(null !== me.error_dialog) {
                                         me.error_dialog.remove();
                                         delete me.error_dialog;
                                     }
