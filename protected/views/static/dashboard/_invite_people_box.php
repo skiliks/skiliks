@@ -9,7 +9,7 @@
             )); ?>
 
             <h2>Отправить приглашение</h2>
-
+            <div id="corporate-user-id" style="display: none;"><?= $user->id ?></div>
             <span class="form-global-errors">
                 <?= $form->error($invite, 'invitations'); // You has no available invites! ?>
             </span>

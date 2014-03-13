@@ -24,6 +24,7 @@
             <?php $this->renderPartial('_invite_people_box', [
                 'invite'    => $invite,
                 'vacancies' => $vacancies,
+                'user' => $user
             ]) ?>
 
             <?php if ($display_results_for): ?>
