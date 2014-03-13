@@ -33,6 +33,15 @@
                href="http://windows.microsoft.com/en-us/internet-explorer/ie-10-worldwide-languages" target="_blank">
                 Установить</a>
         </span>
+        <span class="or color-3D4041">или </span>
+        <span class="browser safari">
+            <label class="color-3D4041">Safari 6+</label>
+            <div class="ico"></div>
+            <br/>
+            <a class="button-white button-white-hover inter-active label icon-arrow-blue"
+               href="http://support.apple.com/downloads/#safari" target="_blank">
+                Установить</a>
+        </span>
     </div>
 </section>
 <div class="clearfix"></div>
