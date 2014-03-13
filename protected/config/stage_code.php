@@ -33,9 +33,6 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
                 ),
             ),
         ),
-        'session' => array(
-            'timeout'                => 60*5, // 5 минут
-        ),
     ),
     'params'=>array(
         'isBlockGhostLogin'  => false,
