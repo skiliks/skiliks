@@ -182,23 +182,60 @@ $(document).ready(function () {
         }
         return false;
     };
-    $("#Invite_firstname").val(localStorage.Invite_firstname?localStorage.Invite_firstname:'');
-    $("#Invite_lastname").val(localStorage.Invite_lastname?localStorage.Invite_lastname:'');
-    $("#Invite_email").val(localStorage.Invite_email?localStorage.Invite_email:'');
+
+    function addInviteCache(name, empty){
+        empty = empty || false;
+        var user_id =  $('#corporate-user-id').text();
+        if(!localStorage['user_id_'+user_id]){
+            localStorage['user_id_'+user_id] = JSON.stringify({});
+        }
+
+        var obj = JSON.parse(localStorage['user_id_'+user_id]);
+        if(empty){
+            obj[name] = '';
+        }else{
+            obj[name] = $('#'+name).val();
+        }
+        localStorage['user_id_'+user_id] = JSON.stringify(obj);
+    }
+
+    function getInviteCache(name){
+        var user_id =  $('#corporate-user-id').text();
+        if(!localStorage['user_id_'+user_id]){
+            return false;
+        }
+        var obj = JSON.parse(localStorage['user_id_'+user_id]);
+        if(obj[name]){
+            $('#'+name).val(obj[name]);
+        }
+        return true;
+    }
+    getInviteCache('Invite_firstname');
+    getInviteCache('Invite_lastname');
+    getInviteCache('Invite_email');
+    /*$("#Invite_firstname").val(JSON.parse(localStorage['user_id_'+user_id]).Invite_firstname?JSON.parse(localStorage['user_id_'+user_id]).Invite_firstname:'');
+    $("#Invite_lastname").val(JSON.parse(localStorage['user_id_'+user_id]).Invite_lastname?JSON.parse(localStorage['user_id_'+user_id]).Invite_lastname:'');
+    $("#Invite_email").val(JSON.parse(localStorage['user_id_'+user_id]).Invite_email?JSON.parse(localStorage['user_id_'+user_id]).Invite_email:'');*/
 
     $("#Invite_firstname").bind('textchange', function(e) {
-        localStorage.Invite_firstname = $(this).val();
+        addInviteCache('Invite_firstname');
+        //localStorage['user_id_'+user_id] = JSON.stringify(JSON.parse(localStorage['user_id_'+user_id]).Invite_firstname = $(this).val());
     });
     $("#Invite_lastname").bind('textchange', function(e) {
-        localStorage.Invite_lastname = $(this).val();
+        addInviteCache('Invite_lastname');
+        //localStorage['user_id_'+user_id].Invite_lastname = $(this).val();
     });
     $("#Invite_email").bind('textchange', function(e) {
-        localStorage.Invite_email = $(this).val();
+        addInviteCache('Invite_email');
+        //localStorage['user_id_'+user_id].Invite_email = $(this).val();
     });
     $("#Invite_send").bind('click', function() {
-        localStorage.Invite_firstname = "";
-        localStorage.Invite_lastname = "";
-        localStorage.Invite_email = "";
+        addInviteCache('Invite_firstname', true);
+        addInviteCache('Invite_lastname', true);
+        addInviteCache('Invite_email', true);
+        //localStorage['user_id_'+user_id].Invite_firstname = "";
+        //localStorage['user_id_'+user_id].Invite_lastname = "";
+        //localStorage['user_id_'+user_id].Invite_email = "";
 
         return true;
     });
