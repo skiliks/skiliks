@@ -14,14 +14,16 @@ return [
                 'static/'         => 'static/pages/index',
 
                 'static/team/<_lang:\w+>'    => 'static/pages/team',
+                'team/<_lang:\w+>'           => 'static/pages/team', // sentry показывает что есть запросы к такому URL
                 'static/product/<_lang:\w+>' => 'static/pages/product',
                 'static/tariffs/<_lang:\w+>' => 'static/pages/tariffs',
                 'static/terms'               => 'static/pages/terms',
                 'static/feedback'            => 'static/pages/feedback',
 
-                'static/drag-and-drop'            => 'static/pages/dragAndDropPrototype',
+                'static/drag-and-drop'       => 'static/pages/dragAndDropPrototype',
 
                 'static/team/'    => 'static/pages/team',
+                'team/'           => 'static/pages/team', // sentry показывает что есть запросы к такому URL
                 'static/product/' => 'static/pages/product',
                 'static/tariffs/' => 'static/pages/tariffs',
 

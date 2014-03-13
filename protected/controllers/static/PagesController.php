@@ -29,7 +29,7 @@ class PagesController extends SiteBaseController
         $this->render('home', [
             'assetsUrl'          => $this->getAssetsUrl(),
             'userSubscribed'     => false,
-            'httpUserAgent'      => $_SERVER['HTTP_USER_AGENT'],
+            'httpUserAgent'      => (isset($_SERVER['HTTP_USER_AGENT'])) ? $_SERVER['HTTP_USER_AGENT'] : 'HTTP_USER_AGENT скрыт.',
             'isSkipBrowserCheck' => (int)Yii::app()->params['public']['isSkipBrowserCheck'],
         ]);
     }

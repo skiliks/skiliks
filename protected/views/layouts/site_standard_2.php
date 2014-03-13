@@ -101,6 +101,36 @@ if(preg_match('/(?i)Chrome/',$_SERVER['HTTP_USER_AGENT']))
 </head>
 
 <body class="skiliks <?php echo StaticSiteTools::getBodyClass(Yii::app()->request) ?>">
+
+<?php // Этот кусок JS должен быть за BODY что в случае маленького екрана СSS класс .width-1024
+      // был добавлен максимально быстро, и вёрстка не прыгала от нормального к уменшенному масштабу. ?>
+<script type="text/javascript">
+    window.standardMinWindowWidth = 1265;
+
+    function getWindowWidth() {
+        if (self.innerWidth) {
+            return self.innerWidth;
+        }
+        else if (document.documentElement && document.documentElement.clientHeight){
+            return document.documentElement.clientWidth;
+        }
+        else if (document.body) {
+            return document.body.clientWidth;
+        }
+        return 0;
+    }
+
+    function addWindowWidthClassToBody() {
+        console.log('getWindowWidth() ', getWindowWidth());
+        document.body.className = document.body.className.replace('width-1024', '');
+        if (getWindowWidth() < window.standardMinWindowWidth) {
+            document.body.className = document.body.className + ' width-1024';
+        }
+    }
+
+    addWindowWidthClassToBody();
+</script>
+
 <section class="partial">
     <label class="partial-label"><?= __FILE__ ?></label>
 
@@ -177,52 +207,52 @@ if(preg_match('/(?i)Chrome/',$_SERVER['HTTP_USER_AGENT']))
 
 </body>
     <script type="text/javascript">
-        window.standardMinWindowWidth = 1265;
-
-        function getWindowWidth() {
-            if (self.innerWidth) {
-                return self.innerWidth;
-            }
-            else if (document.documentElement && document.documentElement.clientHeight){
-                return document.documentElement.clientWidth;
-            }
-            else if (document.body) {
-                return document.body.clientWidth;
-            }
-            return 0;
-        }
-
-        function addWindowWidthClassToBody() {
-            console.log('getWindowWidth() ', getWindowWidth());
-            document.body.className = document.body.className.replace('width-1024', '');
-            if (getWindowWidth() < window.standardMinWindowWidth) {
-                document.body.className = document.body.className + ' width-1024';
-            }
-        }
-
-        addWindowWidthClassToBody();
+//        window.standardMinWindowWidth = 1265;
+//
+//        function getWindowWidth() {
+//            if (self.innerWidth) {
+//                return self.innerWidth;
+//            }
+//            else if (document.documentElement && document.documentElement.clientHeight){
+//                return document.documentElement.clientWidth;
+//            }
+//            else if (document.body) {
+//                return document.body.clientWidth;
+//            }
+//            return 0;
+//        }
+//
+//        function addWindowWidthClassToBody() {
+//            console.log('getWindowWidth() ', getWindowWidth());
+//            document.body.className = document.body.className.replace('width-1024', '');
+//            if (getWindowWidth() < window.standardMinWindowWidth) {
+//                document.body.className = document.body.className + ' width-1024';
+//            }
+//        }
+//
+//        addWindowWidthClassToBody();
 
         <?php if (Yii::app()->params['public']['isDisplaySupportChat']) : ?>
-        window._shcp = [];
-        window._shcp.push({
-            link_wrap_off: true, widget_id :<?= Yii::app()->params['public']['SiteHeartWidgetCode'] ?>,
-            widget : "Chat",
-            side : "right",
-            position : "top",
-            template : "blue",
-            title : "<?= Yii::app()->params['public']['SiteHeartWidgetTitle'] ?>",
-            title_offline : "Оставьте сообщение",
-            auth : "<?= StaticSiteTools::getSiteHeartAuth(Yii::app()->user->data()); ?>"
-        });
-        $(document).ready(function() {
-            var hcc = document.createElement("script");
-            hcc.type = "text/javascript";
-            hcc.async = true;
-            hcc.src = ("https:" === document.location.protocol ? "https" : "http")+"://widget.siteheart.com/apps/js/sh.js?v=2";
-            var s = document.head;
-            s.parentNode.insertBefore(hcc, null);
-        });
-    <?php endif; ?>
+            window._shcp = [];
+            window._shcp.push({
+                link_wrap_off: true, widget_id :<?= Yii::app()->params['public']['SiteHeartWidgetCode'] ?>,
+                widget : "Chat",
+                side : "right",
+                position : "top",
+                template : "blue",
+                title : "<?= Yii::app()->params['public']['SiteHeartWidgetTitle'] ?>",
+                title_offline : "Оставьте сообщение",
+                auth : "<?= StaticSiteTools::getSiteHeartAuth(Yii::app()->user->data()); ?>"
+            });
+            $(document).ready(function() {
+                var hcc = document.createElement("script");
+                hcc.type = "text/javascript";
+                hcc.async = true;
+                hcc.src = ("https:" === document.location.protocol ? "https" : "http")+"://widget.siteheart.com/apps/js/sh.js?v=2";
+                var s = document.head;
+                s.parentNode.insertBefore(hcc, null);
+            });
+        <?php endif; ?>
 
     </script>
 </html>
