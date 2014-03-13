@@ -13,16 +13,16 @@
     height: 284px;
 }
 
-.skiliks.width-1024 .button-add-vacancy {
+.width-1024.skiliks .button-add-vacancy {
     margin-top: 0;
     top: 7px;
 }
 
-.skiliks input.button-white {
+.width-1024.skiliks input.button-white {
     line-height: 2.4em;
 }
 
-.action-controller-corporateVacancies-static-profile .profile-right-side .button-white {
+.width-1024.action-controller-corporateVacancies-static-profile .profile-right-side .button-white {
     line-height: 2.9em;
 }
 
