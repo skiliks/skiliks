@@ -122,3 +122,7 @@
 .width-1024 input.button-standard {
     padding-bottom: 8px;
 }
+
+.width-1024 .us-remember-me-margin {
+    margin-top: 1px;
+}

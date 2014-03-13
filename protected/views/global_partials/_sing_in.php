@@ -58,7 +58,9 @@
         <?php // for "your email not activated" message } ?>
 
         <div class="row-13">
-            <input type="checkbox" name="YumUserLogin[rememberMe]" class="reset-margin vertical-align-top"/>
+            <span class="us-remember-me-margin">
+            <input type="checkbox" name="YumUserLogin[rememberMe]" class="reset-margin"/>
+                </span>
             <label class="vertical-align-top"><?php echo Yii::t('site', 'Remember me') ?></label>
 
             <!-- Регистрация -->

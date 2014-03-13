@@ -32,3 +32,8 @@
 .skiliks .blockvalue {
     line-height: 32px;
 }
+
+.us-remember-me-margin {
+    margin-top: -1px;
+    vertical-align: top;
+}

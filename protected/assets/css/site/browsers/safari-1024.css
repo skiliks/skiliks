@@ -25,3 +25,7 @@
 .action-controller-corporateVacancies-static-profile .profile-right-side .button-white {
     line-height: 2.9em;
 }
+
+.width-1024 .us-remember-me-margin {
+    margin-top: 0px;
+}
