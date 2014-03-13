@@ -54,8 +54,8 @@ class ProfileController extends SiteBaseController implements AccountPageControl
             $isProfileValid = $profile->validate(['firstname', 'lastname']);
 
             if ($isProfileValid && $isAccountValid) {
-                $profile->save();
-                $account->save();
+                $profile->save(false);
+                $account->save(false);
             }
         }
 
@@ -111,11 +111,11 @@ class ProfileController extends SiteBaseController implements AccountPageControl
             $UserAccountCorporate = Yii::app()->request->getParam('UserAccountCorporate');
             $account->position_id = $UserAccountCorporate['position_id'];
 
-            $isAccountValid = $account->validate();
+            $isAccountValid = $account->validate(['position_id']);
 
             if ($isProfileValid && $isAccountValid) {
-                $profile->save();
-                $account->save();
+                $profile->save(false);
+                $account->save(false);
             }
         }
 
