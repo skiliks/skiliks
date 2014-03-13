@@ -128,12 +128,20 @@ class SiteController extends SiteBaseController
                 UserService::logCorporateInviteMovementAdd(sprintf("Симуляция номер %s прервана ( приглашение номер %s). В аккаунт возвращена одна симуляция.",
                     $invite->simulation->id,$invite->id), $user->getAccount(), $initValue);
 
+            } else {
+
+                $initValue = $user->getAccount()->getTotalAvailableInvitesLimit();
+                $user->getAccount()->invites_limit++;
+
+                UserService::logCorporateInviteMovementAdd(sprintf("Приглашение номер %s. В аккаунт возвращена одна симуляция.",
+                    $invite->id), $user->getAccount(), $initValue);
+
             }
             $invite->status = Invite::STATUS_DELETED;
             $invite->save(false);
         }
 
-        $user->getAccount()->save();
+        $user->getAccount()->save(false);
     }
 
     public function actionUserStartSecondSimulation() {
