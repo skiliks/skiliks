@@ -60,3 +60,7 @@ nav ul li.menu-item a {
 .skiliks .ui-widget input.button-white {
     line-height: 1.8em;
 }
+
+.skiliks .ui-dialog form#add-vacancy-form .sbHolder {
+    margin-left: 0px;
+}
