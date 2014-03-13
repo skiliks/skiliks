@@ -36,8 +36,16 @@
 }
 
 .system-mistmatch .button-white {
-    font-size: 0.9em;
+    font-size: 0.83em;
     margin-left: 0px;
+}
+
+.width-1024 .system-mistmatch .button-white {
+    line-height: 2.5em;
+}
+
+.system-mistmatch .button-white {
+    line-height: 2.2em;
 }
 
 .action-controller-systemMismatch-static-pages .color-3D4041 {

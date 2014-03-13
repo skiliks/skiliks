@@ -48,3 +48,7 @@
 .width-1024 #invite-form .unstandard-position-error .error-place {
     margin-bottom: -3px;
 }
+
+.width-1024.skiliks .system-mistmatch .button-white {
+    line-height: 2.7em;
+}
