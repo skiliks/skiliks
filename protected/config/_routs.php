@@ -69,7 +69,7 @@ return [
                 'simulation/<mode:\w+>/<type:\w+>'                 => 'static/site/simulation',
                 'promo/<mode:\w+>/<type:\w+>'                      => 'static/dashboard/index',
 
-                'registration'                                   => 'static/userAuth/registration',
+                'registration'                                   => 'static/userAuth/registrationSingleAccount',
                 'registration/by-link/<code:\w+>'                => 'static/userAuth/registerByLink',
                 'registration/single-account'                    => 'static/userAuth/registrationSingleAccount',
 //                'registration/account-type/added'                => 'static/userAuth/accountTypeSavesSuccessfully',
