@@ -194,37 +194,20 @@ class UserAuthController extends YumController
                 $username = substr($username, 0, 199);
                 $this->user->username = $username;
             }
+            if(UserService::createCorporateAccount($this->user, $profile, $account)){
+                UserService::sendRegistrationEmail($this->user);
 
-            $userValid = $this->user->validate();
-            $profileValid = $profile->validate();
+                UserService::assignAllNotAssignedUserInvites($this->user);
 
-            if ($userValid && $profileValid) {
-                $result = $this->user->register($this->user->username, $this->user->password, $profile);
+                Yii::app()->request->cookies['registration_email'] =
+                    new CHttpCookie('registration_email', $profile->email);
 
-                if (false !== $result) {
-                    $account->user_id = $this->user->id;
-                    $account->save(false);
-
-                    UserService::createCorporateAccount($this->user, $profile, $account);
-                    UserService::sendRegistrationEmail($this->user);
-
-                    UserService::assignAllNotAssignedUserInvites($this->user);
-
-                    Yii::app()->request->cookies['registration_email'] =
-                        new CHttpCookie('registration_email', $profile->email);
-
-                    $this->redirect(['afterRegistration']);
-                } else {
-                    $this->user->password = '';
-                    $this->user->password_again = '';
-
-                    Yii::app()->user->setFlash(
-                        'error',
-                        'Ошибки регистрации. Обратитесь в <a href="/contacts">службу поддержки</a>.'
-                    );
-                    $this->redirect('/');
-                }
+                $this->redirect(['afterRegistration']);
+            }else{
+                $this->user->password = '';
+                $this->user->password_again = '';
             }
+
         }
 
         $industries = ['' => 'Выберите область деятельности'];
