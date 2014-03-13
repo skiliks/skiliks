@@ -10,6 +10,10 @@
     line-height: 2.7em;
 }
 
+.width-1024 input.button-white {
+    line-height: 2em;
+}
+
 .width-1024 input.button-standard {
     margin-top: -1px;
 }
