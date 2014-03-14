@@ -10,6 +10,9 @@
 
         $visibleName = (!Yii::app()->user->isGuest && $user->isCorporate() || $user->isPersonal())?true:false;
         $iconForProfile = '';
+        if(!Yii::app()->user->isGuest){
+            $user->profile->refresh();
+        }
         $iconForProfile = (!Yii::app()->user->isGuest && $user->isCorporate())
             ? 'icon-profile-corporate'
             : 'icon-profile-personal';

@@ -169,7 +169,7 @@ class UserAuthController extends YumController
 
         $this->user = new YumUser('registration');
 
-        $profile = new YumProfile('registration');
+        $profile = new YumProfile('registration_corporate');
 
         $account = new UserAccountCorporate();
         $error = null;

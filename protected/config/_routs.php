@@ -127,6 +127,7 @@ return [
                 'profile/corporate' => 'static/profile/index',
                 'profile/personal'  => 'static/profile/index',
                 'profile/save-analytic-file-2'  => 'static/profile/SaveAssessmentAnalyticFile2',
+                'profile/save-full-assessment-analytic-file'  => 'static/profile/SaveFullAssessmentAnalyticFile',
 
                 'statistic/'          => 'static/statistic/index',
                 'statistic/corporate' => 'static/statistic/corporate',

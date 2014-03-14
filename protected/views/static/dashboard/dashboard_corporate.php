@@ -68,7 +68,7 @@
         </div>
 
         <a class="action-load-file pull-left label link-with-background"
-        href="/profile/save-analytic-file-2?version=v1">
+        href="/profile/save-full-assessment-analytic-file">
             <i class="icon icon-excel"></i>
             <label>Результаты</label>
         </a>
