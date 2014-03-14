@@ -83,6 +83,12 @@ define([
                         'img_src': image_src,
                         'poster_src':poster_src
                     });
+                    /*me.$('video').on('error', function(event) {
+                        console.log(event);
+                        if (window.Raven) {
+                            window.Raven.captureMessage("Случилась ошибка с файлом " + me.$('video').attr('src'));
+                        }
+                    });*/
                     var is_first_replica = !el.html();
                     $('<div class="hidden placeholder" />').html(text).appendTo(el);
                     if (!is_first_replica) {
@@ -90,8 +96,14 @@ define([
                             el.find('video.visit-background').on('loadeddata', function(){
                                 renderFn(remote_replica);
                             });
+                            el.find('video.visit-background').on('error', function(event){
+                                renderFn(remote_replica);
+                            });
                         } else if (image_src) {
                             el.find('img.visit-background').on('load', function(){
+                                renderFn(remote_replica);
+                            });
+                            el.find('img.visit-background').on('error', function(){
                                 renderFn(remote_replica);
                             });
                         } else {
@@ -155,12 +167,6 @@ define([
                             }
                             me.delegateEvents();
                         }, duration);
-
-                        me.$('video').on('error', function() {
-                            if (window.Raven) {
-                                window.Raven.captureMessage("Случилась ошибка с файлом " + me.$('video').attr('src'));
-                            }
-                        });
 
                         // this stupid code is a workaround of Google Chrome bug where video does not start
                         me.$('video').on('canplay', function() {
