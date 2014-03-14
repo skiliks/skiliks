@@ -2186,8 +2186,11 @@ class AdminPagesController extends SiteBaseController {
         /**
          * @link: http://filext.com/faq/office_mime_types.php
          */
+
+        $filename = 'analitics_'.date('YMD').'_admin_version.xlsx';
+
         header('Content-Type:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=utf-8');
-        header('Content-Disposition: attachment; filename="full_report.xlsx"');
+        header('Content-Disposition: attachment; filename="{$filename}"');
 
         echo file_get_contents(
             Yii::app()->basePath.'/system_data/analytic_files_2/full_report_.xlsx'
