@@ -226,14 +226,14 @@ class AnalyticalFileGenerator {
      * в файл по адресу self::createPathForAnalyticsFile()
      */
     public function save($assessment_version, $filename = 'custom') {
-        echo "\r\n";
-        var_dump('save started');
-        var_dump(date('H:i:s', time()));
+        //echo "\r\n";
+        //var_dump('save started');
+        //var_dump(date('H:i:s', time()));
         $excelWriter = new PHPExcel_Writer_Excel2007($this->document);
         $path = SimulationService::createPathForAnalyticsFile($filename, $assessment_version);
         $excelWriter->save($path);
-        var_dump(date('H:i:s', time()));
-        var_dump('save finished');
+        //var_dump(date('H:i:s', time()));
+        //var_dump('save finished');
     }
 
     /**
@@ -271,9 +271,9 @@ class AnalyticalFileGenerator {
 //        $this->addColumn('Оценка', 14);
 //        $this->setBorderBold();
         ////////////////////////////////////////////////////
-        echo "\r\n";
+        //echo "\r\n";
         foreach($simulations as $simulation) {
-            echo ".";
+            //echo ".";
 
             $data = json_decode($simulation->getAssessmentDetails(), true);
 
@@ -313,9 +313,9 @@ class AnalyticalFileGenerator {
 //
 //        $this->setBorderBold();
         ////////////////////////////////////////////////
-        echo "\r\n";
+        //echo "\r\n";
         foreach($simulations as $simulation) {
-            echo ".";
+            //echo ".";
             $data = json_decode($simulation->getAssessmentDetails(), true);
 
             $this->setInfoBySimulation($simulation);
@@ -465,9 +465,9 @@ class AnalyticalFileGenerator {
 //        $this->addColumn('Группа задач', 20);
 //        $this->addColumn('Результативность, оценка (0-100%)', 20);
         ///////////////////////////////////////////////////////////
-        echo "\r\n";
+        //echo "\r\n";
         foreach($simulations as $simulation) {
-            echo ".";
+            //echo ".";
             $data = json_decode($simulation->getAssessmentDetails(), true);
 
             $this->setInfoBySimulation($simulation);
@@ -496,9 +496,9 @@ class AnalyticalFileGenerator {
 //        $this->addColumn('Параметр', 45);
 //        $this->addColumn('Эффективность использования времени, оценка', 14);
         ////////////////////////////////////////////////////
-        echo "\r\n";
+        //echo "\r\n";
         foreach($simulations as $simulation) {
-            echo ".";
+            //echo ".";
             $data = json_decode($simulation->getAssessmentDetails(), true);
 
             $this->setInfoBySimulation($simulation);
@@ -596,9 +596,9 @@ class AnalyticalFileGenerator {
         $this->addColumn('Оценка', 14);
         $this->setBorderBold();
         ////////////////////////////////////////////////////
-        echo "\r\n";
+        //echo "\r\n";
         foreach($simulations as $simulation) {
-            echo  '.';
+            //echo  '.';
             $data = json_decode($simulation->getAssessmentDetails(), true);
 
             $this->setInfoBySimulation($simulation);
@@ -651,9 +651,9 @@ class AnalyticalFileGenerator {
         $this->setBorderBold();
 
         ////////////////////////////////////////////////
-        echo "\r\n";
+        //echo "\r\n";
         foreach($simulations as $simulation) {
-            echo ".";
+            //echo ".";
             $data = json_decode($simulation->getAssessmentDetails(), true);
 
             $this->setInfoBySimulation($simulation);
@@ -870,9 +870,9 @@ class AnalyticalFileGenerator {
         $this->addColumn('Группа задач', 20);
         $this->addColumn('Результативность, оценка (0-100%)', 20);
         ///////////////////////////////////////////////////////////
-        echo "\r\n";
+        //echo "\r\n";
         foreach($simulations as $simulation) {
-            echo ".";
+            //echo ".";
 
             $data = json_decode($simulation->getAssessmentDetails(), true);
 
@@ -902,9 +902,9 @@ class AnalyticalFileGenerator {
         $this->addColumn('Параметр', 45);
         $this->addColumn('Эффективность использования времени, оценка', 14);
         ////////////////////////////////////////////////////
-        echo "\r\n";
+        //echo "\r\n";
         foreach($simulations as $simulation) {
-            echo ".";
+            //echo ".";
             $data = json_decode($simulation->getAssessmentDetails(), true);
 
             $this->setInfoBySimulation($simulation);
@@ -1001,9 +1001,9 @@ class AnalyticalFileGenerator {
         }
         //////////////////////////////////////////////////
 
-        echo "\r\n";
+        //echo "\r\n";
         foreach($simulations as $simulation) {
-            echo ".";
+            //echo ".";
             $this->setInfoBySimulation($simulation);
 
             /* @var AssessmentAggregated $behaviour */

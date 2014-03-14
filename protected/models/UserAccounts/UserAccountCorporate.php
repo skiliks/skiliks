@@ -25,6 +25,7 @@
  * @property string $discount
  * @property string $start_discount
  * @property string $end_discount
+ * @property string $cache_full_report
  *
  * The followings are the available model relations:
  * @property YumUser $user

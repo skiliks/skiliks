@@ -554,22 +554,7 @@ class ProfileController extends SiteBaseController implements AccountPageControl
             } else {
 
                 // формируем имя для файла-архива {
-                $latinCompanyOwnership = StringTools::CyToEnWithUppercase($this->user->getAccount()->ownership_type);
-                $latinCompanyName = StringTools::CyToEnWithUppercase($this->user->getAccount()->company_name);
-
-                $latinCompanyOwnership = preg_replace("/[^a-zA-Z0-9]/", "", $latinCompanyOwnership);
-                $latinCompanyName = preg_replace("/[^a-zA-Z0-9]/", "", $latinCompanyName);
-
-                $zipFilename = 'analitics_' . date('dmy');
-                // формируем имя для файла-архива }
-
-                // добавляем имя компании к имени файла спереди, но только если имя компании не пустое
-                if ('' != $latinCompanyName) {
-                    $zipFilename = $latinCompanyName . '_' . $zipFilename;
-                }
-                if ('' != $latinCompanyOwnership) {
-                    $zipFilename = $latinCompanyOwnership . '_' . $zipFilename;
-                }
+                $zipFilename = SimulationService::getFileNameForAnalyticalFile($this->user);
 
                 if (null !== $path1) {
                     // задаём псевдоним, чтоб не палить структуру папок нашего сервера
@@ -684,5 +669,72 @@ class ProfileController extends SiteBaseController implements AccountPageControl
             }
         }
         $this->redirect('/');
+    }
+
+    public function actionSaveFullAssessmentAnalyticFile() {
+        $this->checkUser();
+
+        if (!$this->user->isCorporate()) {
+            $this->redirect('/dashboard');
+        } else {
+
+            // Собираем процентили }
+
+            // Собираем все симуляции и группируем по типу оценки [v1,v2] {
+            $scenario = Scenario::model()->findByAttributes(['slug'=>Scenario::TYPE_FULL]);
+            $invites = Invite::model()->findAllByAttributes(['owner_id'=>$this->user->id, 'scenario_id'=>$scenario->id, 'status'=>Invite::STATUS_COMPLETED]);
+            /* @var Simulation[] $simulations */
+
+            $realUserSimulationsV1 = [];
+            $realUserSimulationsV2 = [];
+            $simulationsId = [];
+            /* @var $invite Invite */
+            foreach($invites as $invite) {
+                $simulation = $invite->simulation;
+
+                if($simulation->end === null) {
+                    continue;
+                }
+
+                if(empty($simulation->results_popup_cache) === false) {
+
+                    if (Simulation::ASSESSMENT_VERSION_1 == $simulation->assessment_version) {
+                        $simulationsId[] = $simulation->id;
+                        $realUserSimulationsV1[$simulation->id] = $simulation;
+                    }
+
+                    if (Simulation::ASSESSMENT_VERSION_2 == $simulation->assessment_version) {
+                        $simulationsId[] = $simulation->id;
+                        $realUserSimulationsV2[$simulation->id] = $simulation;
+                    }
+                }
+            }
+            sort($simulationsId);
+            if(implode(',', $simulationsId) !== $this->user->account_corporate->cache_full_report) {
+                // непосредственно генерация
+                $generator = new AnalyticalFileGenerator();
+                $generator->is_add_behaviours = false;
+                $generator->createDocument();
+                $generator->runAssessment_v1($realUserSimulationsV1, 'v1_to_v2');
+                $generator->runAssessment_v2($realUserSimulationsV2);
+                $generator->save('user_id_'.$this->user->id,'full_report');
+                $this->user->account_corporate->cache_full_report = implode(',', $simulationsId);
+                $this->user->account_corporate->save(false);
+            }
+            // Собираем и группируем симуляции }
+            $path = SimulationService::createPathForAnalyticsFile('full_report', 'user_id_'.$this->user->id);
+            if(file_exists($path)) {
+                $Filename = SimulationService::getFileNameForAnalyticalFile($this->user);
+                $Filename.='_full_report';
+                header('Content-Type: application/vnd.ms-excel; charset=utf-8');
+                header('Content-Disposition: attachment; filename="' . $Filename . '.xlsx"');
+                $File = file_get_contents($path);
+                echo $File;
+            }else{
+                Yii::app()->user->setFlash('error', 'Файл не найден');
+                $this->redirect('/dashboard');
+            }
+
+        }
     }
 }
