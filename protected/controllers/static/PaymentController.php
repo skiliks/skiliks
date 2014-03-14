@@ -21,8 +21,11 @@ class PaymentController extends SiteBaseController
         $this->addSiteCss('/pages/order-1280.css');
         $this->addSiteCss('/pages/order-1024.css');
         $this->addSiteJs('_page-payment.js');
-
-        $minSimulationSelected = Price::model()->findByAttributes(['alias'=>'lite'])->from;
+        if(0 === (int)Invoice::model()->count('user_id = '.$user->id.' and paid_at is not null')){
+            $minSimulationSelected = Price::model()->findByAttributes(['alias'=>'lite'])->from;
+        }else{
+            $minSimulationSelected = 1;
+        }
         $json = [
             'minSimulationSelected' => $minSimulationSelected
         ];
@@ -75,8 +78,12 @@ class PaymentController extends SiteBaseController
             $account->save();
 
             $simulation_selected = Yii::app()->request->getParam('simulation-selected');
-
-            if( !isset($simulation_selected) || $simulation_selected === null || (int)$simulation_selected < 3) {
+            if(0 === (int)Invoice::model()->count('user_id = '.$user->id.' and paid_at is not null')){
+                $minSimulationSelected = (int)Price::model()->findByAttributes(['alias'=>'lite'])->from;
+            }else{
+                $minSimulationSelected = 1;
+            }
+            if( !isset($simulation_selected) || $simulation_selected === null || (int)$simulation_selected < $minSimulationSelected) {
                 throw new Exception("Случилась ошибка, поле simulation-selected не валидное");
             }
 
@@ -108,8 +115,12 @@ class PaymentController extends SiteBaseController
         }
 
         $simulation_selected = Yii::app()->request->getParam('simulation-selected');
-
-        if( !isset($simulation_selected) || $simulation_selected === null || (int)$simulation_selected < 3) {
+        if(0 === (int)Invoice::model()->count('user_id = '.$user->id.' and paid_at is not null')){
+            $minSimulationSelected = (int)Price::model()->findByAttributes(['alias'=>'lite'])->from;
+        }else{
+            $minSimulationSelected = 1;
+        }
+        if( !isset($simulation_selected) || $simulation_selected === null || (int)$simulation_selected < $minSimulationSelected) {
             throw new Exception("Случилась ошибка, поле simulation-selected не валидное");
         }
 
