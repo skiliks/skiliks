@@ -97,10 +97,13 @@ define([
                                 renderFn(remote_replica);
                             });
                             el.find('video.visit-background').on('error', function(event){
-                                console.log(event);
+                                renderFn(remote_replica);
                             });
                         } else if (image_src) {
                             el.find('img.visit-background').on('load', function(){
+                                renderFn(remote_replica);
+                            });
+                            el.find('img.visit-background').on('error', function(){
                                 renderFn(remote_replica);
                             });
                         } else {
