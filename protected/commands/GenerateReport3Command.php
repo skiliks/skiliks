@@ -63,20 +63,22 @@ class GenerateReport3Command extends CConsoleCommand
 
         // также нам нужны симуляции от e.sarnova@august-bel.by {
         $augustBelProfile = YumProfile::model()->findByAttributes(['email' => 'e.sarnova@august-bel.by']);
-        $augustBelSimulations = Simulation::model()->findAll(
-            "user_id = {$augustBelProfile->user_id} and
+        if (null !== $augustBelProfile) {
+            $augustBelSimulations = Simulation::model()->findAll(
+                "user_id = {$augustBelProfile->user_id} and
                 scenario_id = {$scenario->id} and
                 assessment_version = '{$assessment_version}' and
                 end is not null");
 
-        foreach($augustBelSimulations as $simulation) {
-            /* @var Simulation $simulation */
-            if (Simulation::ASSESSMENT_VERSION_1 == $simulation->assessment_version) {
-                $realUserSimulationsV1[$simulation->id] = $simulation;
-            }
+            foreach($augustBelSimulations as $simulation) {
+                /* @var Simulation $simulation */
+                if (Simulation::ASSESSMENT_VERSION_1 == $simulation->assessment_version) {
+                    $realUserSimulationsV1[$simulation->id] = $simulation;
+                }
 
-            if (Simulation::ASSESSMENT_VERSION_2 == $simulation->assessment_version) {
-                $realUserSimulationsV2[$simulation->id] = $simulation;
+                if (Simulation::ASSESSMENT_VERSION_2 == $simulation->assessment_version) {
+                    $realUserSimulationsV2[$simulation->id] = $simulation;
+                }
             }
         }
         // также нам нужны симуляции от e.sarnova@august-bel.by }
