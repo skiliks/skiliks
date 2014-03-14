@@ -27,3 +27,7 @@ body.width-1024 {
 .width-1024.skiliks .ui-dialog.background-image-book-2, .background-image-book-2 {
     background-position: -125px 0;
 }
+
+.width-1024 input.button-standard {
+    padding-bottom: 8px;
+}

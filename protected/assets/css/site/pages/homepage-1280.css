@@ -153,3 +153,9 @@ p.us-success-text {
 #action-subscribe-form.error .error-place {
     height: 17px;
 }
+
+.us-start-demo {
+    left: 6px;
+    position: relative;
+    top: -79px;
+}

@@ -53,9 +53,16 @@
                 <span class="us-column-1-3 margin-left-18 vertical-align-top">
                     <br/>
                     <div class="videosocwrap clearfix">
-                        <div class="video" style="cursor: pointer;">
-                            <span class="video-caption"><?= Yii::t('site', 'Watch the video to learn more')?></span>
+                        <div class="pull-content-center">
+                            <span class="action-open-lite-simulation-popup inter-active">
+                                <img class="us-start-demo-image"
+                                     src="<?= $this->assetsUrl ?>/img/site/1280/homepage/demo.png" />
+                                <span class="label button-standard no-hover background-dark-blue color-ffffff us-start-demo">
+                                    Начать демо
+                                </span>
+                            </span>
                         </div>
+                        <?php /*
                         <div class="social_networks smallicons">
                             <span><?= Yii::t('site', 'Share video')?>:</span>
                             <div class="addthis_toolbox addthis_default_style addthis_32x32_style"
@@ -116,6 +123,7 @@
                                 </a>
                             </div>
                         </div>
+                        */ ?>
                     </div>
                 </span>
             </div>

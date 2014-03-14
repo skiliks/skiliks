@@ -42,3 +42,14 @@
 .width-1024 .us-column-1-3 {
     width: 221px;
 }
+
+.width-1024 .us-start-demo-image {
+    height: 150px;
+    margin-top: 30px;
+}
+
+.width-1024 .us-start-demo {
+    left: 6px;
+    position: relative;
+    top: -61px;
+}

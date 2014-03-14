@@ -455,3 +455,30 @@ form .error-place {
     border : 0 none;
 }
 
+.button-standard.icon-padding-standard {
+    background-position: 16px center;
+    padding-left: 48px;
+}
+
+.button-standard {
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 1.3em;
+    font-weight: bold;
+    padding: 14px 20px;
+}
+
+input.button-standard {
+    height: auto;
+    padding-top: 12px; /* было 11 /* у span отступы больше */
+    padding-bottom: 10px; /* было 11  /* у span отступы больше */
+}
+
+.button-standard:hover {
+    background-color: #BD2929;
+}
+
+.background-dark-blue.no-hover:hover {
+    background-color: #146672;
+}
