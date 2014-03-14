@@ -613,29 +613,38 @@ class DebugController extends SiteBaseController
         $email_to = Yii::app()->request->getParam('email', 'slavka@skiliks.com');
         //$email_to = Yii::app()->request->getParam('email', 'gty1991@gmail.com');
 
-        $text = 'Text 2. lkj      lk jlk jl koookljl kjl jlk jlj ljlk jlkj lj lj ljl jl jl jl kj lkj kj lj lkj lj lkj lkjl kjl jl jl jlkj l jlkj ljl kjl jlkj ljl jlj ljl jl jl jl jlj ljlj lkj lkj lkj lkj lkj lkj lkj ljl jl kjl kjl kj'
+        $textLong = 'Text 2. lkj      lk jlk jl koookljl kjl jlk jlj ljlk jlkj lj lj ljl jl jl jl kj lkj kj lj lkj lj lkj lkjl kjl jl jl jlkj l jlkj ljl kjl jlkj ljl jlj ljl jl jl jl jlj ljlj lkj lkj lkj lkj lkj lkj lkj ljl jl kjl kjl kj'
             .'Text 2. lkj lk jlk jl k kljl kjl jlk jlj ljlk jlkj lj lj ljl jl jl jl kj lkj kj lj lkj lj lkj lkjl kjl jl jl jlkj l jlkj ljl kjl jlkj ljl jlj ljl jl jl jl jlj ljlj lkj lkj lkj lkj lkj lkj lkj ljl jl kjl kjl kj'
             .'Text 2. lkj lk jlk jl k kljl kjl jlk jlj ljlk jlkj lj lj ljl jl jl jl kj lkj kj lj lkj lj lkj lkjl kjl jl jl jlkj l jlkj ljl kjl jlkj ljl jlj ljl jl jl jl jlj ljlj lkj lkj lkj lkj lkj lkj lkj ljl jl kjl kjl kj'
             .'Text 2. lkj lk jlk jl k kljl kjl jlk jlj ljlk jlkj lj lj ljl jl jl jl kj lkj kj lj lkj lj lkj lkjl kjl jl jl jlkj l jlkj ljl kjl jlkj ljl jlj ljl jl jl jl jlj ljlj lkj lkj lkj lkj lkj lkj lkj ljl jl kjl kjl kj'
             .'Text 2. lkj lk jlk jl k kljl kjl jlk jlj ljlk jlkj lj lj ljl jl jl jl kj lkj kj lj lkj lj lkj lkjl kjl jl jl jlkj l jlkj ljl kjl jlkj ljl jlj ljl jl jl jl jlj ljlj lkj lkj lkj lkj lkj lkj lkj ljl jl kjl kjl kj';
 
-        foreach (['anjela'/*, 'denejnaia', 'fikus', 'jeleznij', 'krutko', 'trudiakin'*/] as $template) {
+        $textShort = 'Text 2. lkj      lk jlk jl koookljl kjl jlk jlj ljlk jlkj lj lj ljl jl jl jl kj lkj kj lj lkj lj lkj lkjl kjl jl jl jlkj l jlkj ljl kjl jlkj ljl jlj ljl jl jl jl jlj ljlj lkj lkj lkj lkj lkj lkj lkj ljl jl kjl kjl kj'
+            .'Text 2. lkj lk jlk jl k kljl kjl jlk jlj ljlk jlkj lj lj ljl jl jl jl kj lkj kj lj lkj lj lkj lkjl kjl jl jl jlkj l jlkj ljl kjl jlkj ljl jlj ljl jl jl jl jlj ljlj lkj lkj lkj lkj lkj lkj lkj ljl jl kjl kjl kj';
+
+        foreach (['anjela', 'denejnaia', 'fikus', 'jeleznij', 'krutko', 'trudiakin'] as $template) {
 
             $mailOptions           = new SiteEmailOptions();
             $mailOptions->from     = 'support@skiliks.com';
             $mailOptions->to       = $email_to;
             $mailOptions->subject  = 'New emails markup test. 12.2 - '.$template.' - '.date('H:i:s');
             $mailOptions->template = $template;
-            $mailOptions->setText($text);
+            $mailOptions->text1 = $textShort;
 
             UserService::addStandardEmailToQueue($mailOptions, $template);
 
-            echo 'done';
+            $mailOptions->text1 = $textLong;
 
-            $result = MailHelper::sendMailFromQueue(1);
-            echo "Done - {$result['done']}\r\n";
-            echo "Fail - {$result['fail']}\r\n";
+            UserService::addLongEmailToQueue($mailOptions, $template);
         }
+
+        echo 'done';
+
+//        $result = MailHelper::sendMailFromQueue(12);
+//        echo "Done - {$result['done']}\r\n";
+//        echo "Fail - {$result['fail']}\r\
+
+        $this->redirect('/admin_area');
     }
 
     public function actionStandard() {
@@ -685,16 +694,13 @@ class DebugController extends SiteBaseController
             $profile = trim($profile);
             $data = explode(' ', $profile);
 
-            var_dump($data[2], $data[0]);
-            $text2 = str_replace('<Имя клиента>', ucfirst($data[2]), $text);
-
             $mailOptions           = new SiteEmailOptions();
             $mailOptions->from     = 'support@skiliks.com';
             $mailOptions->to       = $data[0];
             $mailOptions->h1       = null;
             $mailOptions->subject  = 'Новые возможности Skiliks';
             $mailOptions->template = 'krutko-2';
-            $mailOptions->setText($text2);
+            $mailOptions->text1 = str_replace('<Имя клиента>', ucfirst($data[2]), $text);
 
             UserService::addStandardEmailToQueue($mailOptions, $mailOptions->template);
         }

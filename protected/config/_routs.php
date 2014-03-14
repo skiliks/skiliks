@@ -165,6 +165,7 @@ return [
                 'logService/addInviteLog' => 'static/statistic/addInviteLog',
 
                 'admin_area'                   => 'admin_area/AdminPages/Dashboard',
+                'admin_area/downloadFullAnalyticFile' => 'admin_area/AdminPages/DownloadFullAnalyticFile',
                 'admin_area/invites'           => 'admin_area/AdminPages/Invites',
                 'admin_area/dashboard'         => 'admin_area/AdminPages/Dashboard',
                 'admin_area/login'             => 'admin_area/AdminPages/Login',

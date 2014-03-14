@@ -58,22 +58,10 @@
                 <td style="width: 10px;  height: 413px;"  bgcolor="f2f2f2"></td>
                 <td style="width: 30px;  height: 413px;"  bgcolor="fdfbc6"></td>
                 <td style="width: 490px; height: 397px; vertical-align: top;" bgcolor="fdfbc6">
-                    <?php if (null !== $h1): ?>
-                    <h1 style="
-                        color:#626250;
-                        font-family:Tahoma, Geneva, sans-serif;
-                        font-size:28px;
-                        line-height:32px;
-                        margin:10px 0 15px 0;
-                        padding:0;
-                        width: 490px;
-                        ">
-                        <?= $h1 ?>
-                    </h1>
-                    <?php endif; ?>
-
-                    <p style="
-                        height: 640px;
+                    <div style="
+                        height: 642px;
+                        max-height: 642px;
+                        max-width: 460px;
                         margin: 0 0 0 0;
                         padding-right: 30px;
                         color:#555545;
@@ -83,12 +71,26 @@
                         line-height:20px;
                         overflow-y: auto;
                         ">
+                        <?php if (null !== $h1): ?>
+                            <h1 style="
+                                color:#626250;
+                                font-family:Tahoma, Geneva, sans-serif;
+                                font-size:28px;
+                                line-height:32px;
+                                margin:10px 0 15px 0;
+                                padding:0;
+                                width: 490px;
+                                ">
+                                <?= $h1 ?>
+                            </h1>
+                        <?php endif; ?>
+
                         <?= $text1 ?>
                         <?= $text2 ?>
                         <strong style="color:#555545;font-family:Tahoma, Geneva, sans-serif;font-weight:bold;font-size:14px">Удачи,<br/> ваш skiliks</strong><br/>
                         <br/>
                         <a style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;" href="http://www.skiliks.com">www.skiliks.com</a>
-                    </p>
+                    </div>
                 </td>
             </tr>
 

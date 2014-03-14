@@ -13,13 +13,6 @@ class SiteEmailOptions {
     const TEMPLATE_KRUTKO    = 'krutko';
     const TEMPLATE_TRUDIAKIN = 'trudiakin';
 
-    const TEMPLATE_FIKUS_LONG     = 'fikus_long';
-    const TEMPLATE_ANJELA_LONG    = 'anjela_long';
-    const TEMPLATE_DENEJNAIA_LONG = 'denejnaia_long';
-    const TEMPLATE_JELEZNIJ_LONG  = 'jeleznij_long';
-    const TEMPLATE_KRUTKO_LONG    = 'krutko_long';
-    const TEMPLATE_TRUDIAKIN_LONG = 'trudiakin_long';
-
     /**
      * От кого
      * @var string

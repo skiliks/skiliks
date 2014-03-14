@@ -48,11 +48,13 @@ class GenerateReport3Command extends CConsoleCommand
                 && empty($simulation->results_popup_cache) === false) {
 
                 /* @var Simulation $simulation */
-                if (Simulation::ASSESSMENT_VERSION_1 == $simulation->assessment_version) {
+                if (Simulation::ASSESSMENT_VERSION_1 == $simulation->assessment_version
+                    /*&& count($realUserSimulationsV1) < 3*/) {
                     $realUserSimulationsV1[$simulation->id] = $simulation;
                 }
 
-                if (Simulation::ASSESSMENT_VERSION_2 == $simulation->assessment_version) {
+                if (Simulation::ASSESSMENT_VERSION_2 == $simulation->assessment_version
+                    /*&& count($realUserSimulationsV2) < 3*/) {
                     $realUserSimulationsV2[$simulation->id] = $simulation;
                 }
             }

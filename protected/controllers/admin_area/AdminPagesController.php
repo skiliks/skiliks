@@ -1806,14 +1806,21 @@ class AdminPagesController extends SiteBaseController {
             $assetsUrl = $this->getAssetsUrl();
 
             // подмена путей к картинкам на настоящие
+            $email->body = str_replace('cid:anjela_long',     $assetsUrl . '/img/site/emails/anjela_long.png',    $email->body);
+            $email->body = str_replace('cid:bottom_long',     $assetsUrl . '/img/site/emails/bottom_long.png',    $email->body);
+            $email->body = str_replace('cid:denejnaia_long',  $assetsUrl . '/img/site/emails/denejnaia_long.png', $email->body);
+            $email->body = str_replace('cid:fikus_long',      $assetsUrl . '/img/site/emails/fikus_long.png',     $email->body);
+            $email->body = str_replace('cid:jeleznij_long',   $assetsUrl . '/img/site/emails/jeleznij_long.png',  $email->body);
+            $email->body = str_replace('cid:trudiakin_long',  $assetsUrl . '/img/site/emails/trudiakin_long.png', $email->body);
+
             $email->body = str_replace('cid:anjela',     $assetsUrl . '/img/site/emails/anjela.png',        $email->body);
             $email->body = str_replace('cid:bottom',     $assetsUrl . '/img/site/emails/bottom.png',        $email->body);
             $email->body = str_replace('cid:denejnaia',  $assetsUrl . '/img/site/emails/denejnaia.png',     $email->body);
             $email->body = str_replace('cid:fikus',      $assetsUrl . '/img/site/emails/fikus.png',         $email->body);
             $email->body = str_replace('cid:jeleznij',   $assetsUrl . '/img/site/emails/jeleznij.png',      $email->body);
-            $email->body = str_replace('cid:krutko-2',   $assetsUrl . '/img/site/emails/krutko-2.png',      $email->body);
-            $email->body = str_replace('cid:top-left',   $assetsUrl . '/img/site/emails/top-left.png',      $email->body);
             $email->body = str_replace('cid:trudiakin',  $assetsUrl . '/img/site/emails/trudiakin.png',     $email->body);
+
+            $email->body = str_replace('cid:top-left',   $assetsUrl . '/img/site/emails/top-left.png',      $email->body);
             $email->body = str_replace('cid:skiliks_ny', $assetsUrl . '/img/site/emails/ny/skiliks_ny.jpg', $email->body);
 
             $this->layout = '/admin_area/layouts/admin_main';
@@ -2169,5 +2176,22 @@ class AdminPagesController extends SiteBaseController {
             Yii::app()->user->setFlash('error', Yii::t('site', 'У вас недостаточно инвайтов(сейчас '.$user->account_corporate->getTotalAvailableInvitesLimit().' - нужно '.count($invites).')'));
         }
         $this->render('//admin_area/pages/user_send_invites', $render);
+    }
+
+    /**
+     * Позволяет пользователю скачать
+     * protected/system_data/analytic_files_2/full_report_.xlsx
+     */
+    public function actionDownloadFullAnalyticFile() {
+        /**
+         * @link: http://filext.com/faq/office_mime_types.php
+         */
+        header('Content-Type:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=utf-8');
+        header('Content-Disposition: attachment; filename="full_report.xlsx"');
+
+        echo file_get_contents(
+            Yii::app()->basePath.'/system_data/analytic_files_2/full_report_.xlsx'
+        );
+        Yii::app()->end();
     }
 }

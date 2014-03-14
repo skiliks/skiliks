@@ -76,11 +76,40 @@ class AnalyticalFileGenerator {
     public $is_add_behaviours = false;
 
     /**
+     * @var string[], список id поведений
+     * [ id => false ]
+     * Используется как эталонны й пр ипроверке, все ли поведения добавлены на лист поведений
+     */
+    public $behaviourIds = [];
+
+    /**
+     * @var HeroBehaviour[], список обьектов-поведений
+     * [ id => HeroBehaviour ]
+     * Используется чтоб слать меньше запросов к БД
+     */
+    public $behaviourObjects = [];
+
+    /**
      * Создаёт объект ексель документа
      */
     public function createDocument() {
         $this->document = new PHPExcel();
         $this->document->removeSheetByIndex(0);
+    }
+
+    /**
+     * Инициализирует данные о HeroBehaviours для addBehavioursSheet()
+     */
+    public function initBehavioursData() {
+        if (0 == count($this->behaviourIds) && 0 == count($this->behaviourObjects)) {
+            $allBehaviours = HeroBehaviour::model()->findAll(' scenario_id = 2 ');
+            foreach($allBehaviours as $behaviour) {
+                /* @var HeroBehaviour $behaviour */
+                $this->behaviourIds[$behaviour->id] = false;
+                $this->behaviourObjects[$behaviour->id] = $behaviour;
+                var_dump($behaviour->code);
+            }
+        }
     }
 
     /**
@@ -989,6 +1018,9 @@ class AnalyticalFileGenerator {
      * @param Simulation[] $simulations
      */
     public function addBehavioursSheet($simulations) {
+
+        $this->initBehavioursData();
+
         $this->addSheet("Поведения");
 
         if (0 == $this->sheet_row_position["Поведения"]) {
@@ -1006,14 +1038,30 @@ class AnalyticalFileGenerator {
             echo ".";
             $this->setInfoBySimulation($simulation);
 
+            $usedBehaviours = $this->behaviourIds;
+
             /* @var AssessmentAggregated $behaviour */
             foreach ($simulation->assessment_aggregated as $behaviour) {
+                if (isset($usedBehaviours[$behaviour->point->id])) {
+                    $usedBehaviours[$behaviour->point->id] = true;
+                }
                 $this->addRow();
                 $this->addColumn($behaviour->point->code);
                 $this->addColumn($behaviour->point->learning_goal->code);
                 $this->addColumn($behaviour->point->learning_goal->title);
                 $this->addColumn($behaviour->point->title);
                 $this->addColumn($behaviour->value);
+            }
+
+            foreach ($usedBehaviours as $id => $value) {
+                if (false == $value) {
+                    $this->addRow();
+                    $this->addColumn($this->behaviourObjects[$id]->code);
+                    $this->addColumn($this->behaviourObjects[$id]->learning_goal->code);
+                    $this->addColumn($this->behaviourObjects[$id]->learning_goal->title);
+                    $this->addColumn($this->behaviourObjects[$id]->title);
+                    $this->addColumn('-');
+                }
             }
         }
     }

@@ -431,7 +431,7 @@ class UserService {
         $mailOptions->to      = $invite->email;
         $mailOptions->subject = 'Приглашение пройти симуляцию на ' . Yii::app()->params['server_domain_name'];
         $mailOptions->h1      = $invite->getReceiverFirstName() . ', приветствуем вас!';
-        $mailOptions->setText($invite->message);
+
         $mailOptions->text1 = '
             <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
                 Компания '. $invite->ownerUser->account_corporate->company_name .' предлагает вам пройти тест "Базовый менеджмент".<br/>
@@ -442,17 +442,17 @@ class UserService {
                 $mailOptions->text1.
             '</p>';
 
-        $mailOptions->text2 = '<p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">'.
-            $mailOptions->text2.'
-            </p>
-             <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">'
-            . $innerText .
-            '</p>';
+        $mailOptions->text1 .= $invite->message;
+
+        $mailOptions->text1 .= '
+         <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">'
+        . $innerText .
+        '</p>';
 
         $invite->markAsSendToday();
         $invite->save();
 
-        $sent = UserService::addStandardEmailToQueue($mailOptions, SiteEmailOptions::TEMPLATE_ANJELA);
+        $sent = UserService::addLongEmailToQueue($mailOptions, SiteEmailOptions::TEMPLATE_ANJELA);
 
         return $sent;
     }
@@ -486,28 +486,24 @@ class UserService {
         $mailOptions->to      = $invite->email;
         $mailOptions->subject = 'Приглашение пройти симуляцию на ' . Yii::app()->params['server_domain_name'];
         $mailOptions->h1      = $invite->getReceiverFirstName() . ', приветствуем вас!';
-        $mailOptions->setText($invite->message);
+
         $mailOptions->text1 = '
             <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
                 Компания '. $invite->ownerUser->account_corporate->company_name .' предлагает вам пройти тест "Базовый менеджмент".<br/>
                 <a target="_blank" style="text-decoration: none; color: #147b99;" href="' . Yii::app()->createAbsoluteUrl('static/pages/product') .'">"Базовый менеджмент"</a>
                 - это деловая симуляция, позволяющая оценить менеджерские навыки в форме увлекательной игры.<br/>
-            </p>
-            <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">'.
-            $mailOptions->text1.
-            '</p>';
+            </p>';
 
-        $mailOptions->text2 = '<p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">'.
-            $mailOptions->text2.'
-            </p>
-             <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">'
+        $mailOptions->text1 .= $invite->message;
+
+        $mailOptions->text1 .= '<p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">'
             . $innerText .
             '</p>';
 
         $invite->markAsSendToday();
         $invite->save();
 
-        $sent = UserService::addStandardEmailToQueue($mailOptions, SiteEmailOptions::TEMPLATE_ANJELA);
+        $sent = UserService::addLongEmailToQueue($mailOptions, SiteEmailOptions::TEMPLATE_ANJELA);
 
         return $sent;
     }
@@ -827,7 +823,7 @@ class UserService {
 
         $mailOptions1->text2 .= '</table>';
 
-        UserService::addStandardEmailToQueue($mailOptions1, SiteEmailOptions::TEMPLATE_JELEZNIJ);
+        UserService::addLongEmailToQueue($mailOptions1, SiteEmailOptions::TEMPLATE_JELEZNIJ);
 
         // ############################################################################################
 
@@ -1039,7 +1035,7 @@ class UserService {
          */
         $emailOptions->body = self::renderEmailPartial('standard_email_with_image_long', [
             'title'    => $emailOptions->subject,
-            'template' => $template,
+            'template' => $template.'_long',
             'h1'       => $emailOptions->h1,
             'text1'    => $emailOptions->text1,
             'text2'    => $emailOptions->text2,

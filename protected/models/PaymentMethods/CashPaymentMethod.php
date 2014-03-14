@@ -111,9 +111,8 @@ class CashPaymentMethod extends CFormModel {
                 $user->account_corporate->company_name,
                 Yii::app()->params['server_domain_name']
             );
-            $mailOptions->h1      = 'Поступил новый заказ.';
-            $mailOptions->text1   = '';
-            $mailOptions->text2   = '
+            $mailOptions->h1     = 'Поступил новый заказ.';
+            $mailOptions->text1  = '
                 <table cellspacing="20" border="1">
                     <tr>
                         <td>Номер заказа</td>
@@ -175,7 +174,7 @@ class CashPaymentMethod extends CFormModel {
                 </table>
             ';
 
-            $sent = UserService::addStandardEmailToQueue($mailOptions, SiteEmailOptions::TEMPLATE_DENEJNAIA);
+            $sent = UserService::addLongEmailToQueue($mailOptions, SiteEmailOptions::TEMPLATE_DENEJNAIA);
 
             $invoice_log = new LogPayments();
             $invoice_log->log($invoice, "Письмо об обновлении тарифного плана отправлено пользователю на " . $bookerEmail);

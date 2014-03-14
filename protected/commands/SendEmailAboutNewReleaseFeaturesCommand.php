@@ -86,7 +86,7 @@ class SendEmailAboutNewReleaseFeaturesCommand extends CConsoleCommand
                  </p>
             ';
 
-            $sent = UserService::addStandardEmailToQueue($mailOptions, SiteEmailOptions::TEMPLATE_ANJELA);
+            $sent = UserService::addLongEmailToQueue($mailOptions, SiteEmailOptions::TEMPLATE_ANJELA);
 
             if($sent) {
                 $count_send++;
