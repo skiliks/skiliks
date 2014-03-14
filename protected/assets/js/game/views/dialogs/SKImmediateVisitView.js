@@ -83,18 +83,21 @@ define([
                         'img_src': image_src,
                         'poster_src':poster_src
                     });
-                    me.$('video').on('error', function(event) {
+                    /*me.$('video').on('error', function(event) {
                         console.log(event);
                         if (window.Raven) {
                             window.Raven.captureMessage("Случилась ошибка с файлом " + me.$('video').attr('src'));
                         }
-                    });
+                    });*/
                     var is_first_replica = !el.html();
                     $('<div class="hidden placeholder" />').html(text).appendTo(el);
                     if (!is_first_replica) {
                         if (video_src) {
                             el.find('video.visit-background').on('loadeddata', function(){
                                 renderFn(remote_replica);
+                            });
+                            el.find('video.visit-background').on('error', function(event){
+                                console.log(event);
                             });
                         } else if (image_src) {
                             el.find('img.visit-background').on('load', function(){
