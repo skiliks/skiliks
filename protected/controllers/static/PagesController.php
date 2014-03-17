@@ -60,9 +60,13 @@ class PagesController extends SiteBaseController
 
         $this->addSiteJs('_page-product.js');
         $this->addSiteJs('_start_demo.js');
+        $this->addSiteJs('_simulation-details-popup.js');
 
         $this->addSiteCss('pages/product-1280.css');
         $this->addSiteCss('pages/product-1024.css');
+
+        $this->addSiteCss('_simulation_details.css');
+        $this->addSiteCss('_simulation_details-1024.css');
 
         $this->render('product');
     }

@@ -1,0 +1,123 @@
+hgroup h4 {
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
+.us-separator {
+    height: 10px;
+    width: 4%;
+}
+
+.column-1-3.us-column-1-3 {
+    background-image: url('../../../img/site/1280/product/blue-dot.png');
+    background-position: center 25px;
+    background-repeat: no-repeat;
+    padding-top: 110px;
+    vertical-align: top;
+    width: 30%;
+}
+
+.us-overall {
+    margin-top: 80px;
+}
+
+.skiliks .percentil_text_product {
+    font-family: ProximaNova-Bold;
+    font-size: 1.1em;
+    margin-top: -2px;
+    margin-left: 7px;
+    vertical-align: top;
+}
+
+.skiliks .overall {
+    font-size: 1.1em;
+}
+
+.skiliks .overall .value {
+    margin-top: 1px;
+}
+
+.skiliks .chart-gauge .chart-value {
+    color: #FFF;
+}
+
+.skiliks .product .maincharts {
+    margin-bottom: 0;
+    margin-top: 0;
+    height: 150px;
+}
+
+.skiliks .bluelist li a.color-ffffff {
+    color: #ffffff;
+}
+
+.product .bluelist li {
+    background: url('../../../img/site/1280/product/bullit.png') no-repeat 0 5px;
+}
+
+.product .bluelist .subisopen {
+    background: url('../../../img/site/1280/product/bullit.png') no-repeat 0 5px #5B9FA8;
+    border-radius: 5px;
+}
+
+.skiliks .us-nice-border {
+    border-radius: 8px;
+    width: 445px;
+    padding: 0;
+}
+
+.skiliks .us-box-title {
+    background: url("../../../img/site/1280/product/title.png") no-repeat;
+    border-radius: 8px 8px 0 0;
+    height: 100px;
+    padding: 50px 0 0 0;
+    width: 445px;
+}
+
+.us-box-content {
+    border-radius: 0 0 8px 8px;
+    padding: 25px;
+    width: 395px;
+}
+
+.us-nice-border h5{
+    padding: 25px 0 25px 0;
+}
+
+.us-product-gauge-charts {
+    margin-left: 90px;
+}
+
+.skiliks .us-rateslist {
+    margin-left: 10px;
+}
+
+.skiliks .widthblock ol {
+    text-align: left;
+}
+
+.skiliks .widthblock:first-child h4 {
+    padding-left: 50px;
+}
+
+.skiliks .widthblock:first-child {
+    margin-right: 30px;
+}
+
+.skiliks .widthblock:nth-child(2) h6 {
+    margin-left: -10px;
+}
+
+.skiliks .widthblock:nth-child(2) ol {
+    margin-left: -65px;
+    padding-left: 0px;
+}
+
+.skiliks .widthblock:nth-child(3) ol {
+    margin-left: -10px;
+    padding-left: 0px;
+}
+
+.skiliks .product .bluelist li {
+    background-position: 0 4px;
+}

@@ -1,0 +1,66 @@
+.skiliks.width-1024 .us-nice-border {
+    width: 405px;
+}
+
+.skiliks.width-1024 .us-box-title {
+    background-position: center bottom;
+    height: 80px;
+    padding-top: 50px;
+    width: 405px;
+}
+
+.width-1024 .us-box-content {
+    width: 355px;
+}
+
+.width-1024 .us-nice-border h5{
+    /*padding: 15px 0 15px 0;*/
+}
+
+.width-1024 .us-speedometers {
+    margin-left: -20px;
+}
+
+.width-1024 .us-product-gauge-charts {
+    margin-left: 70px;
+}
+
+.width-1024 .levellabels h6 {
+    width: 220px;
+}
+
+.width-1024.skiliks .us-levellabels {
+    margin-left: 10px;
+}
+
+.width-1024.skiliks .widthblock:nth-child(1) h6 {
+    margin-left: 57px;
+}
+
+.width-1024.skiliks .widthblock:nth-child(2) h6 {
+    margin-left: 42px;
+}
+
+.width-1024.skiliks .widthblock:nth-child(3) h6 {
+    margin-left: 59px;
+}
+
+.width-1024.skiliks .us-rateslist {
+    margin-left: -20px;
+}
+
+.width-1024 .chart-gauge .chart-value {
+    margin-left: 0;
+}
+
+.width-1024 .widthblock:nth-child(1) ol {
+    margin-left: 5px;
+}
+
+.width-1024 .widthblock:nth-child(2) ol {
+    margin-left: -45px;
+}
+
+.width-1024 .widthblock:nth-child(3) ol {
+    margin-left: -5px;
+}

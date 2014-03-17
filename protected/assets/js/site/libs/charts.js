@@ -10,7 +10,13 @@
             $arrow = $('<span class="pointer"/>'),
             $value = $('<span class="chart-value"/>');
 
-        this.options = options = options || {};
+        var options = options || {};
+
+        // на странице "О продукте" не надо показывть цифру - только "%" надо.
+        options.isDisplayValue = ('undefined' == typeof options.isDisplayValue)
+            ? true : options.isDisplayValue;
+        this.options = options;
+
         this.el = {
             chart: $chart,
             arrow: $arrow,
@@ -49,12 +55,17 @@
                     $(this).css('transform', 'rotate(' + now + 'deg)');
                     },
                 complete: function() {
+                    if (false == me.options.isDisplayValue) {
+                        value = '';
+                    }
                     me.el.value.text(value + '%').css({
                         left: left + 'px',
                         bottom: bottom + 'px'
                     });
                 }
             });
+
+
         },
         refresh: function() {
             var v = this.value;
