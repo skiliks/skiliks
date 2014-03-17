@@ -810,6 +810,11 @@ class SimulationService
             $simulation->assessment_version = $assessment_engine_version;
             $simulation->save(false);
 
+            $simulation->popup_tests_cache = serialize([
+                'popup' => SimulationResultTextService::generate($simulation, 'popup')
+            ]);
+            $simulation->save(false);
+
     }
 
     /**

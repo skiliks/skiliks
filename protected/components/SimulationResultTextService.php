@@ -20,29 +20,30 @@ class SimulationResultTextService {
     /**
      * Метод генерирует Гороскоп
      * @param Simulation $simulation
+     * @param string $type Тип popup или pdf
      * @return array
      * @throws Exception
      */
-    public static function generate(Simulation $simulation) {
+    public static function generate(Simulation $simulation, $type) {
         foreach(ParagraphPocket::model()->findAll() as $pocket) {
             /* @var $pocket ParagraphPocket */
             self::$pockets[$pocket->paragraph_alias][$pocket->behaviour_alias][] = $pocket;
         }
         $assessment = json_decode($simulation->getAssessmentDetails(), true);
         /* @var $paragraphs Paragraph[] */
-        $paragraphs = Paragraph::model()->findAll('scenario_id = '.$simulation->game_type->id.' order by order_number');
+        $paragraphs = Paragraph::model()->findAll('scenario_id = '.$simulation->game_type->id. ' and type = \''.$type.'\' order by order_number');
         $value = null;
         foreach($paragraphs as $paragraph) {
             switch($paragraph->method)
             {
                 case 'SinglePocket':
-                    self::$recommendations[] = self::SinglePocket($paragraph->value_1, $paragraph->alias, $assessment);
+                    self::$recommendations[$paragraph->alias] = self::SinglePocket($paragraph->value_1, $paragraph->alias, $assessment);
                     break;
                 case 'TwoPocketsWithOneNegative':
-                    self::$recommendations[] = self::TwoPocketsWithOneNegative($paragraph->value_1, $paragraph->value_2, $paragraph->alias, $assessment);
+                    self::$recommendations[$paragraph->alias] = self::TwoPocketsWithOneNegative($paragraph->value_1, $paragraph->value_2, $paragraph->alias, $assessment);
                     break;
                 case 'TreePocketsWithTwoNegative':
-                    self::$recommendations[] = self::TreePocketsWithTwoNegative($paragraph->value_1, $paragraph->value_2, $paragraph->value_3, $paragraph->alias, $assessment);
+                    self::$recommendations[$paragraph->alias] = self::TreePocketsWithTwoNegative($paragraph->value_1, $paragraph->value_2, $paragraph->value_3, $paragraph->alias, $assessment);
                     break;
                 default:
                     throw new Exception("Метод {$paragraph->method}");
