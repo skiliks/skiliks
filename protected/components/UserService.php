@@ -1030,12 +1030,14 @@ class UserService {
      */
     public static function addLongEmailToQueue(SiteEmailOptions $emailOptions, $template)
     {
+        $template .= '_long';
+
         /**
          * Формируем HTML письма
          */
         $emailOptions->body = self::renderEmailPartial('standard_email_with_image_long', [
             'title'    => $emailOptions->subject,
-            'template' => $template.'_long',
+            'template' => $template,
             'h1'       => $emailOptions->h1,
             'text1'    => $emailOptions->text1,
             'text2'    => $emailOptions->text2,

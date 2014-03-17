@@ -49,7 +49,10 @@ class MailHelper
      */
     public static function sendMailFromQueue($limit = 500)
     {
-        $mails = EmailQueue::model()->findAll(' status = :status order by id desc limit ' . $limit, ['status' => EmailQueue::STATUS_PENDING]);
+        $mails = EmailQueue::model()->findAll(
+            ' status = :status order by id desc limit ' . $limit,
+            ['status' => EmailQueue::STATUS_PENDING]
+        );
 
         /* @var $mail EmailQueue */
         $result = ['done'=>0, 'fail'=>0];
@@ -60,6 +63,7 @@ class MailHelper
         }
 
         foreach($mails as $mail) {
+            $mail->errors = null; // очистка поля на случай повторной отпраки письма.
             try{
                 $sent = YumMailer::send([
                     'from'=>$mail->sender_email,

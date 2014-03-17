@@ -1812,6 +1812,7 @@ class AdminPagesController extends SiteBaseController {
             $email->body = str_replace('cid:fikus_long',      $assetsUrl . '/img/site/emails/fikus_long.png',     $email->body);
             $email->body = str_replace('cid:jeleznij_long',   $assetsUrl . '/img/site/emails/jeleznij_long.png',  $email->body);
             $email->body = str_replace('cid:trudiakin_long',  $assetsUrl . '/img/site/emails/trudiakin_long.png', $email->body);
+            $email->body = str_replace('cid:krutko_long',     $assetsUrl . '/img/site/emails/krutko_long.png', $email->body);
 
             $email->body = str_replace('cid:anjela',     $assetsUrl . '/img/site/emails/anjela.png',        $email->body);
             $email->body = str_replace('cid:bottom',     $assetsUrl . '/img/site/emails/bottom.png',        $email->body);
@@ -1819,6 +1820,7 @@ class AdminPagesController extends SiteBaseController {
             $email->body = str_replace('cid:fikus',      $assetsUrl . '/img/site/emails/fikus.png',         $email->body);
             $email->body = str_replace('cid:jeleznij',   $assetsUrl . '/img/site/emails/jeleznij.png',      $email->body);
             $email->body = str_replace('cid:trudiakin',  $assetsUrl . '/img/site/emails/trudiakin.png',     $email->body);
+            $email->body = str_replace('cid:krutko',     $assetsUrl . '/img/site/emails/krutko.png',     $email->body);
 
             $email->body = str_replace('cid:top-left',   $assetsUrl . '/img/site/emails/top-left.png',      $email->body);
             $email->body = str_replace('cid:skiliks_ny', $assetsUrl . '/img/site/emails/ny/skiliks_ny.jpg', $email->body);
