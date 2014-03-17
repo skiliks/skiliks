@@ -42,8 +42,8 @@ class SimulationResultTextService {
                 case 'TwoPocketsWithOneNegative':
                     self::$recommendations[$paragraph->alias] = self::TwoPocketsWithOneNegative($paragraph->value_1, $paragraph->value_2, $paragraph->alias, $assessment);
                     break;
-                case 'TreePocketsWithTwoNegative':
-                    self::$recommendations[$paragraph->alias] = self::TreePocketsWithTwoNegative($paragraph->value_1, $paragraph->value_2, $paragraph->value_3, $paragraph->alias, $assessment);
+                case 'ThreePocketsWithTwoNegative':
+                    self::$recommendations[$paragraph->alias] = self::ThreePocketsWithTwoNegative($paragraph->value_1, $paragraph->value_2, $paragraph->value_3, $paragraph->alias, $assessment);
                     break;
                 default:
                     throw new Exception("Метод {$paragraph->method}");
@@ -122,7 +122,7 @@ class SimulationResultTextService {
      * @return string
      * @throws Exception
      */
-    public static function TreePocketsWithTwoNegative($behaviour_alias_1, $behaviour_alias_2, $behaviour_alias_3,  $alias, $assessment) {
+    public static function ThreePocketsWithTwoNegative($behaviour_alias_1, $behaviour_alias_2, $behaviour_alias_3,  $alias, $assessment) {
 
         $value_2 = self::getValueInAssessment($behaviour_alias_2, $assessment);
         $value_3 = self::getValueInAssessment($behaviour_alias_3, $assessment);
