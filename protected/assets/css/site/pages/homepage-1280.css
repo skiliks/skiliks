@@ -159,3 +159,8 @@ p.us-success-text {
     position: relative;
     top: -79px;
 }
+
+.us-start-demo-box {
+   position: relative;
+   z-index: 1;
+}

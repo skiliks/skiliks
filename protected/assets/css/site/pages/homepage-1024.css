@@ -53,3 +53,11 @@
     position: relative;
     top: -61px;
 }
+
+body.action-controller-index-static-pages.width-1024 header {
+    background-position: center -40px;
+}
+
+.width-1024 .us-bottom-content {
+    margin-top: -860px;
+}

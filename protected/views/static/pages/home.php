@@ -51,10 +51,11 @@
 
                 </span>
                 <span class="us-column-1-3 margin-left-18 vertical-align-top">
-                    <br/>
-                    <div class="videosocwrap clearfix">
+                    <?php if ('ru' == Yii::app()->getlanguage()): ?>
+                        <br/>
                         <div class="pull-content-center">
-                            <span class="action-open-lite-simulation-popup inter-active">
+                            <span class="action-open-lite-simulation-popup inter-active us-start-demo-box"
+                                  data-href="/simulation/demo">
                                 <img class="us-start-demo-image"
                                      src="<?= $this->assetsUrl ?>/img/site/1280/homepage/demo.png" />
                                 <span class="label button-standard no-hover background-dark-blue color-ffffff us-start-demo">
@@ -62,69 +63,7 @@
                                 </span>
                             </span>
                         </div>
-                        <?php /*
-                        <div class="social_networks smallicons">
-                            <span><?= Yii::t('site', 'Share video')?>:</span>
-                            <div class="addthis_toolbox addthis_default_style addthis_32x32_style"
-                                 addthis:url="http://player.vimeo.com/video/<?= Yii::t('site', '61258856')?>?title=0&amp;byline=0&amp;portrait=0&amp;color=24bdd3"
-                                 addthis:title="Skiliks - game the skills"
-                                 addthis:description="<?= Yii::t('site', 'www.skiliks.com - online simulation aimed at testing management skills')?>">
-
-                                <a class="new_social_buttons vk_share_button" title="VK" onclick="
-                                    window.open(
-                                    'http://vk.com/share.php?'
-                                    + 'description=<?= Yii::t('site', 'www.skiliks.com - online simulation aimed at testing management skills')?>'
-                                    + '&url=' + encodeURIComponent('<?= Yii::app()->request->hostInfo?>'
-                                    +'/watchVideo/' + '<?= Yii::app()->language?>'),
-                                    'vk-share-dialog',
-                                    'width=626, height=436');
-                                    return false;" href="#" target="_blank">
-                                </a>
-
-                                <a class="new_social_buttons facebook_share_button" title="Facebook" onclick="
-                                    window.open(
-                                    'https://www.facebook.com/sharer/sharer.php?u='
-                                    + encodeURIComponent('<?= Yii::app()->request->hostInfo?>'
-                                    +'/watchVideo/' + '<?= Yii::app()->language?>'),
-                                    'facebook-share-dialog',
-                                    'width=626,height=436');
-                                    return false;" href="#" target="_blank">
-                                </a>
-
-
-                                <a class="new_social_buttons twitter_share_button" title="Twitter" onclick="
-                                    window.open(
-                                    'https://twitter.com/share?url='
-                                    + encodeURIComponent('<?= Yii::app()->request->hostInfo?>'
-                                    + '/watchVideo/' + '<?= Yii::app()->language?>'),
-                                    'twitter-share-dialog',
-                                    'width=626,height=436');
-                                    return false;" href="#" target="_blank">
-                                </a>
-
-                                <a class="new_social_buttons google_share_button" title="Google" onclick="
-                                    window.open(
-                                    'https://plus.google.com/share?url='
-                                    + encodeURIComponent('<?= Yii::app()->request->hostInfo?>'
-                                    + '/watchVideo/' + '<?= Yii::app()->language?>'),
-                                    'google-share-dialog',
-                                    'width=626,height=436');
-                                    return false;" href="#" target="_blank">
-                                </a>
-
-                                <a class="new_social_buttons linkedin_share_button" title="Linkedin" onclick="
-                                    window.open(
-                                    'https://www.linkedin.com/cws/share?url='
-                                    + encodeURIComponent('<?= Yii::app()->request->hostInfo?>'
-                                    + '/watchVideo/' + '<?= Yii::app()->language?>'),
-                                    'linkedin-share-dialog',
-                                    'width=626,height=436');
-                                    return false;" href="#" target="_blank">
-                                </a>
-                            </div>
-                        </div>
-                        */ ?>
-                    </div>
+                    <?php endif ?>
                 </span>
             </div>
 
