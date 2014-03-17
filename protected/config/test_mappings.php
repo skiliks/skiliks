@@ -309,4 +309,20 @@ return [
         'login' => "xpath=//section/section/div/form/div/div[1]/input[3]"
     ],
 
+    'site_urls' =>
+    [
+        'en-ru' => "/ru",
+        'ru-en' => "/en",
+        'home' => "/",
+        'about_us'=>"/static/team",
+        'about_product' => "/static/product",
+        'tariffs'=>"/static/tariffs",
+        'registration' => "/registration/single-account",
+        'old_registration' => "/registration",
+        'help'=>"/help/general",
+        '404' => "/404",
+        'user_auth'=>"/user/auth",
+        'after_registration' => "/userAuth/afterRegistration",
+    ],
+
 ];
