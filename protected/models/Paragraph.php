@@ -7,6 +7,7 @@
  * @property integer $id
  * @property integer $scenario_id
  * @property string $alias
+ * @property string $type
  * @property string $label
  * @property integer $order_number
  * @property string $value_1
