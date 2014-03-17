@@ -42,7 +42,7 @@ class SimulationResultTextService {
                     self::$recommendations[] = self::TwoPocketsWithOneNegative($paragraph->value_1, $paragraph->value_2, $paragraph->alias, $assessment);
                     break;
                 case 'TreePocketsWithTwoNegative':
-                    self::$recommendations[] = self::TreePocketsWithTwoNegative();
+                    self::$recommendations[] = self::TreePocketsWithTwoNegative($paragraph->value_1, $paragraph->value_2, $paragraph->value_3, $paragraph->alias, $assessment);
                     break;
                 default:
                     throw new Exception("Метод {$paragraph->method}");
@@ -111,11 +111,39 @@ class SimulationResultTextService {
     }
 
     /**
-     * Метод для расчета 1.4-1.5
+     * Ищет текст по значению $behaviour_alias_2(негативное) + $behaviour_alias_2(негативное) / 2  для повидения $alias по карману
+     * или для позитивноего и негативного
+     * @param $behaviour_alias_1
+     * @param $behaviour_alias_2
+     * @param $behaviour_alias_3
+     * @param $alias
+     * @param $assessment
      * @return string
+     * @throws Exception
      */
-    public static function TreePocketsWithTwoNegative() {
-        return 'TreePocketsWithTwoNegative';
+    public static function TreePocketsWithTwoNegative($behaviour_alias_1, $behaviour_alias_2, $behaviour_alias_3,  $alias, $assessment) {
+
+        $value_2 = self::getValueInAssessment($behaviour_alias_2, $assessment);
+        $value_3 = self::getValueInAssessment($behaviour_alias_3, $assessment);
+        $value_2 = $value_2 + $value_3;
+
+        $pockets_2 = self::$pockets[$alias][$behaviour_alias_1];
+        /* @var $pockets_2 ParagraphPocket[] */
+        foreach($pockets_2 as $pocket_num => $pocket) {
+            $left_direction = trim($pocket->left_direction);
+            $right_direction = trim($pocket->right_direction);
+            if(self::$left_direction($pocket->left, $value_2) && self::$right_direction($pocket->right, $value_2)){
+                //Если человек мало сделал ошибок(первый карман) то получает positive
+                if($pocket_num === 0) {
+                    return self::SinglePocket($behaviour_alias_1, $alias, $assessment);
+                } elseif($pocket_num === (count($pockets_2) - 1)) { //Если много(последний карман) то negative
+                    return $pocket->text;
+                } else { //Среднее, positive и negative
+                    return self::SinglePocket($behaviour_alias_1, $alias, $assessment).' '.$pocket->text;
+                }
+            }
+        }
+        throw new Exception("Карман не найден");
     }
 
     /**
