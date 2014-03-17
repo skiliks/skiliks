@@ -162,3 +162,8 @@
 .width-1024.action-controller-corporateVacancies-static-profile table.items td:nth-child(3){
     max-width: 245px;
 }
+
+/* Надо скрыть пейджер, пока он не будет перемещён на правильное место: */
+.contrast-table .pager {
+    display: none;
+}
