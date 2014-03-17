@@ -27,10 +27,10 @@ class StartDemo_SK5605_Test extends SeleniumTestHelper
         $this->open_url(Yii::app()->params['test_mappings']['site_urls']['after_registration']);
 
         $this->open_en_urls(Yii::app()->params['test_mappings']['site_urls']['ru-en']);
-        /*$this->open_en_urls(Yii::app()->params['test_mappings']['site_urls']['home']);
+        $this->open_en_urls(Yii::app()->params['test_mappings']['site_urls']['home']);
         $this->open_en_urls(Yii::app()->params['test_mappings']['site_urls']['about_us']);
         $this->open_en_urls(Yii::app()->params['test_mappings']['site_urls']['about_product']);
-        $this->open_en_urls(Yii::app()->params['test_mappings']['site_urls']['tariffs']);*/
+        $this->open_en_urls(Yii::app()->params['test_mappings']['site_urls']['tariffs']);
 
     }
 
@@ -67,9 +67,9 @@ class StartDemo_SK5605_Test extends SeleniumTestHelper
     public function open_en_urls($url)
     {
         $this->open($url);
-        //$this->waitForVisible("xpath=(//*[contains(text(),'Русский')])");
+        $this->waitForVisible("xpath=(//*[contains(text(),'Русский')])");
         try {
-            $this->isVisible("xpath=(//*[contains(text(),'Начать демо')])");
+            $this->isElementPresent("xpath=(//*[contains(text(),'Начать демо')])");
         } catch (Exception $e) {
             $this->fail("Button for start demo is present at english version at the url = " . $url);
         }
