@@ -62,7 +62,7 @@ class Authorization_LogOut_SK3222_Test extends SeleniumTestHelper
         $this->loginUserAuth("selenium111@skiliks.com", "123123", 'Неверный логин' );
         $this->loginUserAuth("selenium.engine@skiliks.com", "111", 'Неверный пароль' );
         $this->loginUserAuth("emailForBaned@skiliks.com", "111111", 'заблокирован' ); //неправильный текст - потом поменять
-        $this->loginUserAuth("emailNotActivated@skiliks.com", "123123", 'не активирован' );
+        /*$this->loginUserAuth("emailNotActivated@skiliks.com", "123123", 'не активирован' );*/
     }
 
     public function loginPopup($email, $password, $message)
