@@ -18,7 +18,7 @@ class URL_forNoRegisteredUser_Test extends SeleniumTestHelper
         $buttons_text_en = array('Home','About Us','Product','Home', 'About Us', 'Product');
         $text_inside_en= array('Easy','Meet','About the Product', 'Easy','Meet','About the Product');
         $buttons_xpath_en = array ("xpath=//*[@id='yw1']/li[1]/a", "xpath=//*[@id='yw1']/li[2]/a", "xpath=//*[@id='yw1']/li[3]/a", "xpath=//*[@id='yw2']/li[1]/a", "xpath=//*[@id='yw2']/li[2]/a", "xpath=//*[@id='yw2']/li[3]/a", "xpath=//*[@id='yw1']/li[3]/a");
-    $all_buttons_en = array($buttons_xpath_en, $buttons_text_en, $text_inside_en);
+        $all_buttons_en = array($buttons_xpath_en, $buttons_text_en, $text_inside_en);
 
         $this->deleteAllVisibleCookies();
         $this->windowMaximize();
@@ -34,23 +34,13 @@ class URL_forNoRegisteredUser_Test extends SeleniumTestHelper
         sleep(5);
         $this->assertTextPresent($all_buttons[2][sizeof($all_buttons[0])-1]); // проверяем, что есть особый текст
 
-        $this->optimal_click("css=.ui-icon.ui-icon-closethick");
+        $this->optimal_click("xpath=//div[3]/div[1]/a/span");
 
-        // проверка Тарифов
-        $this->optimal_click("xpath=//*[@id='yw0']/li[4]/a"); // кликаем на кнопку по xpath
-        sleep(5);
-        $this->assertTextPresent("Тарифные"); // проверяем, что есть особый текст
-        for ($j = 0; $j<sizeof($all_buttons[0]) ; $j++)  // цикл проверки есть ли все нужные кнопки
-        {
-            $this->assertTextPresent($all_buttons[1][$j]); // проверяем, что у этих кнопок правильный текст
-        }
-
-        $this->optimal_click("xpath=//*[@id='yw0']/li[1]/a");
-        sleep(5);
+        $this->optimal_click("css=.locator-logo-head");
         $this->optimal_click("xpath=(//*[contains(text(),'English')])");
         sleep(5);
 
-        $this->optimal_click("xpath=//*[@id='subscribe-form']/div[2]/input");
+        $this->optimal_click("//*[@id='action-subscribe-form']/div/input[2]");
         sleep(1);
         $this->assertTextPresent("Enter your email address");
 
@@ -58,15 +48,15 @@ class URL_forNoRegisteredUser_Test extends SeleniumTestHelper
         $new_email .= (string)rand(1, 10000)+(string)rand(1,500);
         $new_email .= "@skiliks.mail";
 
-        $this->type("xpath=//*[@id='user-email-value']", $new_email);
-        $this->optimal_click("xpath=//*[@id='subscribe-form']/div[2]/input");
+        $this->type("css=.locator-user-email-value", $new_email);
+        $this->optimal_click("xpath=//*[@id='action-subscribe-form']/div/input[2]");
         sleep(10);
         $this->assertTextPresent("Thank");
 
-        $this->optimal_click("xpath=//*[@id='yw0']/li[1]/a");
+        $this->optimal_click("css=.locator-logo-head");
         sleep(5);
-        $this->type("xpath=//*[@id='user-email-value']", $new_email);
-        $this->optimal_click("xpath=//*[@id='subscribe-form']/div[2]/input");
+        $this->type("css=.locator-user-email-value", $new_email);
+        $this->optimal_click("xpath=//*[@id='action-subscribe-form']/div/input[2]");
         sleep(1);
         $this->assertTextPresent("has been already added before!");
     }

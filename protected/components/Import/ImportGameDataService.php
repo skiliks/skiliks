@@ -1203,28 +1203,6 @@ class ImportGameDataService
         OutgoingPhoneTheme::model()->deleteAll('import_id<>:import_id AND scenario_id = :scenario_id', array('import_id' => $this->import_id, 'scenario_id' => $this->scenario->primaryKey));
         OutboxMailTheme::model()->deleteAll('import_id<>:import_id AND scenario_id = :scenario_id', array('import_id' => $this->import_id, 'scenario_id' => $this->scenario->primaryKey));
 
-        // SKILIKS-5210 {
-        // Сценарий будет обновлён через неделю - я правка тут на 10 минут
-        $loshadkin = $this->scenario->getCharacter(['fio' => 'Лошадкин М.']);
-        $themeNew = Theme::model()->findByAttributes(['text' => 'Новая тема']);
-        if (null !== $themeNew) {
-            $mail_theme = $this->scenario->getOutboxMailTheme([
-                'theme_id'        => $themeNew->id,
-                'character_to_id' => $loshadkin->id,
-                'mail_prefix'     => null,
-            ]);
-        }
-        if (null == $mail_theme) {
-            $mail_theme = new OutboxMailTheme();
-            $mail_theme->theme_id        = $themeNew->id;
-            $mail_theme->character_to_id = $loshadkin->id;
-            $mail_theme->wr          = 'w';
-            $mail_theme->import_id   = $this->import_id;
-            $mail_theme->scenario_id = $this->scenario->id;
-            $mail_theme->save(false);
-        }
-        // SKILIKS-5210 }
-
         $html .= "Email from characters import finished! <br/>";
 
         $this->logEnd();
@@ -2901,10 +2879,14 @@ class ImportGameDataService
         $items = 0;
         $order_number = 1;
         for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
-            $paragraph = $this->scenario->getParagraph(['alias'=>$this->getCellValue($sheet, 'alias', $i)]);
+            $paragraph = $this->scenario->getParagraph([
+                'alias'=>$this->getCellValue($sheet, 'alias', $i),
+                'type'=>$this->getCellValue($sheet, 'type', $i)]
+            );
             if (null === $paragraph) {
                 $paragraph = new Paragraph();
                 $paragraph->alias = $this->getCellValue($sheet, 'alias', $i);
+                $paragraph->type = $this->getCellValue($sheet, 'type', $i);
             }
             $paragraph->order_number = $order_number;
             $paragraph->label = trim($this->getCellValue($sheet, 'label', $i));

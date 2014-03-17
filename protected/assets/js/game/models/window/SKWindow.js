@@ -179,6 +179,7 @@ define([], function () {
          */
         close: function() {
             try {
+                console.log(this.get('id')+" close");
                 if (!this.is_opened) {
                     var message = "Window is already closed. Name: "+this.get('name')+" subname: "+this.get('subname')+" id: "+this.get('id')+". game time: "+SKApp.simulation.getGameTime();
                     console.error(message);
