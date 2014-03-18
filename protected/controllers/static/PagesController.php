@@ -74,6 +74,29 @@ class PagesController extends SiteBaseController
     /**
      *
      */
+    public function actionProductDiagnostic()
+    {
+        $this->layout = 'site_standard_2';
+
+        $this->addSiteJs('libs/d3.v3.js');
+        $this->addSiteJs('libs/charts.js');
+
+        $this->addSiteJs('_page-product.js');
+        $this->addSiteJs('_start_demo.js');
+        $this->addSiteJs('_simulation-details-popup.js');
+
+        $this->addSiteCss('pages/product-1280.css');
+        $this->addSiteCss('pages/product-1024.css');
+
+        $this->addSiteCss('_simulation_details.css');
+        $this->addSiteCss('_simulation_details-1024.css');
+
+        $this->render('product-diagnostic');
+    }
+
+    /**
+     *
+     */
     public function actionTariffs()
     {
         if($this->user->isAuth()) {

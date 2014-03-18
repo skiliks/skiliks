@@ -16,6 +16,7 @@ return [
                 'static/team/<_lang:\w+>'    => 'static/pages/team',
                 'team/<_lang:\w+>'           => 'static/pages/team', // sentry показывает что есть запросы к такому URL
                 'static/product/<_lang:\w+>' => 'static/pages/product',
+                'static/product-diagnostic/<_lang:\w+>' => 'static/pages/productDiagnostic',
                 'static/tariffs/<_lang:\w+>' => 'static/pages/tariffs',
                 'static/terms'               => 'static/pages/terms',
                 'static/feedback'            => 'static/pages/feedback',
@@ -25,6 +26,7 @@ return [
                 'static/team/'    => 'static/pages/team',
                 'team/'           => 'static/pages/team', // sentry показывает что есть запросы к такому URL
                 'static/product/' => 'static/pages/product',
+                'static/product-diagnostic' => 'static/pages/productDiagnostic',
                 'static/tariffs/' => 'static/pages/tariffs',
 
                 'static/charts' => 'static/pages/charts',
