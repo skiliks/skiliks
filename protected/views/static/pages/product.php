@@ -57,7 +57,7 @@
         <div class="estmtileswrap product-estmtileswrap  pull-content-center us-speedometers">
             <span class="widthblock column-1-3 vertical-align-top">
                 <h4 class=" pull-content-center">
-                    <?= Yii::t('site', 'Managerial skills')?>
+                    <?= Yii::t('site', 'Time management effectiveness')?>
                 </h4>
             </span>
             <span class="widthblock column-1-3 vertical-align-top">
@@ -67,7 +67,7 @@
             </span>
             <span class="widthblock column-1-3 vertical-align-top">
                 <h4 class=" pull-content-center">
-                    <?= Yii::t('site', 'Time management effectiveness')?>
+                    <?= Yii::t('site', 'Managerial skills')?>
                 </h4>
             </span>
         </div><!-- /estmtileswrap -->
@@ -79,7 +79,7 @@
     <div class="levellabels  pull-content-center us-levellabels">
         <span class="widthblock column-1-3 pull-content-center vertical-align-top">
             <h6>
-                <?= Yii::t('site', 'Level of skills maturity')?>
+                <?= Yii::t('site', 'Speed of getting results')?>
             </h6>
         </span>
         <span class="widthblock column-1-3 pull-content-center vertical-align-top">
@@ -89,12 +89,25 @@
         </span>
         <span class="widthblock column-1-3 pull-content-center vertical-align-top">
             <h6 class="product_h3_margin_left">
-                <?= Yii::t('site', 'Speed of getting results')?>
+                <?= Yii::t('site', 'Level of skills maturity')?>
             </h6>
         </span>
     </div>
     <br/>
     <div class="rateslist pull-content-center us-rateslist">
+        <span class="widthblock column-1-3 vertical-align-top">
+            <h4 class="pull-content-center"><?= Yii::t('site', 'Indicators')?></h4>
+            <ol class="bluelist nobultslist">
+                <li><a class="productlink" href="#time-management-detail" data-parent="time-management"><?= Yii::t('site', 'Time distribution')?></a></li>
+                <li><a class="productlink" href="#time-management"><?= Yii::t('site', 'Extra working hours')?> </a></li>
+            </ol>
+        </span>
+        <span class="widthblock column-1-3 vertical-align-top">
+            <h4 class="pull-content-center"><?= Yii::t('site', 'Indicators')?></h4>
+            <ol class="bluelist nobultslist">
+                <li><a class="productlink" href="#time-management-detail" data-parent="time-management"><?= Yii::t('site', 'Productivity')?></a></li>
+            </ol>
+        </span>
         <span class="widthblock column-1-3 vertical-align-top">
             <h4 class="pull-content-center"><?= Yii::t('site', 'Scope of assessed skills')?></h4>
             <ol class="bluelist">
@@ -132,19 +145,6 @@
                 </li>
             </ol>
         </span>
-        <span class="widthblock column-1-3 vertical-align-top">
-            <h4 class="pull-content-center"><?= Yii::t('site', 'Indicators')?></h4>
-            <ol class="bluelist nobultslist">
-                <li><a class="productlink" href="#time-management-detail" data-parent="time-management"><?= Yii::t('site', 'Productivity')?></a></li>
-            </ol>
-        </span>
-        <span class="widthblock column-1-3 vertical-align-top">
-            <h4 class="pull-content-center"><?= Yii::t('site', 'Indicators')?></h4>
-            <ol class="bluelist nobultslist">
-                <li><a class="productlink" href="#time-management-detail" data-parent="time-management"><?= Yii::t('site', 'Time distribution')?></a></li>
-                <li><a class="productlink" href="#time-management"><?= Yii::t('site', 'Extra working hours')?> </a></li>
-            </ol>
-        </span>
     </div>
     <!-- /NEW CONTENT -->
     <br/>
@@ -162,7 +162,7 @@
 
         <div class="column-full">
             <span class="column-1-2 pull-content-center vertical-align-top">
-                <span class="us-nice-border nice-border">
+                <span class="us-nice-border nice-border us-first-column pull-right">
                     <span class="us-box-title background-yellow">
                         <h1 class="color-ffffff"><?= Yii::t('site', 'Easy')?></h1>
                     </span>
@@ -192,7 +192,7 @@
             <!-- ######################################################################### -->
 
             <span class="column-1-2 pull-content-center vertical-align-top">
-                <span class="us-nice-border nice-border">
+                <span class="us-nice-border nice-border us-second-column pull-left">
                     <span class="us-box-title background-yellow">
                         <h1 class="color-ffffff"><?= Yii::t('site', 'Reliable')?></h1>
                     </span>

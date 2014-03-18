@@ -33,3 +33,13 @@
 .width-1024.skiliks .system-mistmatch .button-white {
     line-height: 2.8em;
 }
+
+.width-1024.skiliks.action-controller-product-static-pages .blockvalue {
+    top: 1px;
+    vertical-align: top;
+}
+
+.width-1024.skiliks.action-controller-product-static-pages .value {
+    margin-top: -1px;
+    vertical-align: top;
+}

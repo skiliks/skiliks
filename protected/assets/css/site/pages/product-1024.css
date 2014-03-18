@@ -10,6 +10,7 @@
 }
 
 .width-1024 .us-box-content {
+    height: 849px;
     width: 355px;
 }
 
@@ -63,4 +64,8 @@
 
 .width-1024 .widthblock:nth-child(3) ol {
     margin-left: -5px;
+}
+
+.width-1024.skiliks .blockvalue {
+    top: -6px;
 }

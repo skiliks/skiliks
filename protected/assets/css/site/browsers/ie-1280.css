@@ -68,3 +68,7 @@ nav ul li.menu-item a {
 .us-remember-me-margin {
     margin-top: 1px;
 }
+
+.skiliks.action-controller-product-static-pages .blockvalue {
+    top: -4px;
+}

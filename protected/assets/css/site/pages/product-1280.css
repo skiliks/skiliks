@@ -76,6 +76,7 @@ hgroup h4 {
 
 .us-box-content {
     border-radius: 0 0 8px 8px;
+    height: 976px;
     padding: 25px;
     width: 395px;
 }
@@ -120,4 +121,16 @@ hgroup h4 {
 
 .skiliks .product .bluelist li {
     background-position: 0 4px;
+}
+
+.us-first-column {
+    margin-right: 12px;
+}
+
+.us-second-column {
+    margin-left: 12px;
+}
+
+.skiliks .blockvalue {
+    top: -6px;
 }
