@@ -28,6 +28,9 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         $cookie = (Yii::app()->request->cookies['dashboard_page'] !== null) ? Yii::app()->request->cookies['dashboard_page']->value : null;
 
         if($request_uri == "/dashboard" && $cookie != null && $cookie != $request_uri) {
+            if(Yii::app()->user->hasFlash('error')){
+                Yii::app()->user->setFlash('error', Yii::app()->user->getFlash('error'));
+            }
             $this->redirect($cookie);
         }
 
