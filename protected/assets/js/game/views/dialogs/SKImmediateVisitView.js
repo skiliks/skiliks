@@ -94,17 +94,25 @@ define([
                     if (!is_first_replica) {
                         if (video_src) {
                             el.find('video.visit-background').on('loadeddata', function(){
-                                renderFn(remote_replica);
+                                if('true' !== el.find('video.visit-background').data('renderFn')){
+                                    renderFn(remote_replica);
+                                }
                             });
                             el.find('video.visit-background').on('error', function(event){
-                                renderFn(remote_replica);
+                                if('true' !== el.find('video.visit-background').data('renderFn')){
+                                    renderFn(remote_replica);
+                                }
                             });
                         } else if (image_src) {
                             el.find('img.visit-background').on('load', function(){
-                                renderFn(remote_replica);
+                                if('true' !== el.find('video.visit-background').data('renderFn')){
+                                    renderFn(remote_replica);
+                                }
                             });
                             el.find('img.visit-background').on('error', function(){
-                                renderFn(remote_replica);
+                                if('true' !== el.find('video.visit-background').data('renderFn')){
+                                    renderFn(remote_replica);
+                                }
                             });
                         } else {
                             renderFn(remote_replica);
@@ -121,6 +129,7 @@ define([
 
                 function renderFn(remote_replica) {
                     try {
+                        el.find('video.visit-background').data('renderFn', 'true');
                         console.log('renderFn');
                         console.trace();
                         var oldContent = el.children('.visit-background-container'),
