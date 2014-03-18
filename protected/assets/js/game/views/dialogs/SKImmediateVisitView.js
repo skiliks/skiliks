@@ -130,9 +130,7 @@ define([
                 function renderFn(remote_replica) {
                     try {
                         el.find('video.visit-background').data('remote_replica_id', remote_replica.id);
-                        console.log('renderFn');
-                        console.log(typeof remote_replica.id, typeof el.find('video.visit-background').data('remote_replica_id'));
-                        console.trace();
+
                         var oldContent = el.children('.visit-background-container'),
                             newContent = el.find('.placeholder .visit-background-container');
                         if (oldContent.length) {
