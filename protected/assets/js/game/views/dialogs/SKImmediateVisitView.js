@@ -122,6 +122,7 @@ define([
                 function renderFn(remote_replica) {
                     try {
                         console.log('renderFn');
+                        console.trace();
                         var oldContent = el.children('.visit-background-container'),
                             newContent = el.find('.placeholder .visit-background-container');
                         if (oldContent.length) {
