@@ -121,7 +121,7 @@ define([
 
                 function renderFn(remote_replica) {
                     try {
-
+                        console.log('renderFn');
                         var oldContent = el.children('.visit-background-container'),
                             newContent = el.find('.placeholder .visit-background-container');
                         if (oldContent.length) {
@@ -156,6 +156,7 @@ define([
                                 event.selectReplica(remote_replica.id, function () {
                                     me.options.model_instance.setLastDialog(remote_replica.id);
                                     if (remote_replica.is_final_replica === "1") {
+                                        console.log('renderFn close in timeout');
                                         me.options.model_instance.setOnTop();
                                         me.options.model_instance.close();
                                     }
