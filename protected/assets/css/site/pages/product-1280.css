@@ -134,3 +134,71 @@ hgroup h4 {
 .skiliks .blockvalue {
     top: -6px;
 }
+
+.us-sub-title {
+    height: 30px;
+    margin-left: 10px;
+    margin-top: -3px;
+    vertical-align: top;
+}
+
+.product-company-diagnostic-charts-container {
+    width: 1000px;
+}
+
+.product-company-diagnostic-chart {
+    background: url('../../../img/site/1280/product/diagnostic-chart.png') no-repeat center center;
+    width: 33%;
+    height: 200px;
+}
+
+.action-controller-productDiagnostic-static-pages .us-box-content {
+    height: 235px;
+}
+
+.us-h4 {
+    margin-left: 68px;
+}
+
+.action-controller-productDiagnostic-static-pages .allsummry {
+    background-position: center 40px;
+}
+
+.action-controller-productDiagnostic-static-pages .product-estmtileswrap {
+    margin-top: 10px;
+    padding-right: 40px;
+}
+
+.action-controller-productDiagnostic-static-pages .product .levellabels {
+    padding-right: 40px;
+}
+
+.skiliks.action-controller-productDiagnostic-static-pages .us-rateslist {
+    margin-left: 10px;
+    padding-right: 40px;
+}
+
+.skiliks .us-legend {
+    margin-top: 15px;
+    margin-left: 86px;
+    padding: 8px 0 2px 54px;
+    width: 922px;
+}
+
+.us-legend .label {
+    height: 25px;
+    padding: 0;
+    width: 25px;
+}
+
+.us-legend-text {
+    width: 227px;
+}
+
+.us-legend-text label {
+    font-size: 1.2em;
+    height: 25px;
+    line-height: 1.5em;
+    padding-left: 10px;
+    vertical-align: top;
+}

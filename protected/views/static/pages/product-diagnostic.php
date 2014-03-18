@@ -3,52 +3,43 @@
 
 <hgroup>
     <h1 class="pull-content-center">
-        <?= Yii::t('site', 'About the Product')?>
+        Диагностика управленческого потенциала компании
     </h1>
     <br/>
-    <h4 class="pull-content-center">
-        <?= Yii::t('site', 'We have created on-line business simulation to discover manager’s skills.')?>
+    <h4 class="pull-content-left us-h4">
+        Системная картина уровня развития управленческих навыков менеджеров компании и<br/> зон ее развития
     </h4>
 </hgroup>
 <br/>
 
 <div class="column-full color-ffffff">
-        <span class="column-1-3 pull-content-center us-column-1-3">
-            <?= Yii::t('site', 'Assessor needs no more than 5 minutes to appoint the assessment session and get the results. Detailed report on productivity, demonsrated managerial skills will be provided for each assessed candidate.')?>
-        </span>
+    <span class="column-1-3 pull-content-center us-column-1-3">
+        Сводный отчет в excel, позволяющий увидеть уровень развития навыков управленческой команды и отдельных групп.
+    </span>
     <span class="us-separator"></span>
-        <span class="column-1-3 pull-content-center us-column-1-3">
-            <?= Yii::t('site', 'Applicant needs 2-3 hours to get  through the exciting gameplay allowing a deep immersion into real working environment with managerial tasks and decision-making situations.')?>
-        </span>
+    <span class="column-1-3 pull-content-center us-column-1-3">
+        Сравнительный анализ уровня развития управленческих навыков компании и среднего уровня в стране (позже, отрасли)
+    </span>
     <span class="us-separator"></span>
-        <span class="column-1-3 pull-content-center us-column-1-3">
-            <?= Yii::t('site', 'Assessment outcome of a particular person can be compared with the outcomes of other people with different backgrounds, geographies, etc. This option is available for either assessors or applicants.')?>
-        </span>
+    <span class="column-1-3 pull-content-center us-column-1-3">
+        Практическая база для формирования программы обучения и развития менеджеров в компании
+    </span>
 </div>
 <br/>
 
 <!-- NEW CONTENT -->
 <div class="us-overall">
     <h2 class="pull-content-center">
-        <?= Yii::t('site', 'Overall manager’s rating')?>
+        Управленческий потенциал компании
     </h2>
 </div>
 <div class="allsummry pull-content-center">
     <div class="estmtresults pull-content-center">
-        <div class="overall percentil_overall_container percentil_overall_container_product">
-            <span class="percentil_base">
-                <span class="percentil_overall" style="width:80%"></span>
-            </span>
-            <span class="percentil_text_product">P</span>
-        </div>
-        <div class="clear: both"></div>
         <div class="overall">
-                <span class="allratebg">
-                    <span class="allrating" style="width:100%"></span>
-                </span>
-                <span class="blockvalue"
-                    ><span class="value">%</span>
-                </span>
+            <span class="blockvalue" >
+                <span class="value">%</span>
+            </span>
+            <h5 class="inline-block us-sub-title">прошедших симуляцию сотрудников</h5>
         </div>
     </div><!-- /estmtresults -->
 
@@ -57,42 +48,60 @@
     <div class="estmtileswrap product-estmtileswrap  pull-content-center us-speedometers">
             <span class="widthblock column-1-3 vertical-align-top">
                 <h4 class=" pull-content-center">
-                    <?= Yii::t('site', 'Time management effectiveness')?>
+                    Управленческие навыки
                 </h4>
             </span>
             <span class="widthblock column-1-3 vertical-align-top">
                 <h4 class=" pull-content-center">
-                    <?= Yii::t('site', 'Productivity')?>
+                    Результативность
                 </h4>
             </span>
             <span class="widthblock column-1-3 vertical-align-top">
                 <h4 class=" pull-content-center">
-                    <?= Yii::t('site', 'Managerial skills')?>
+                    Эффективность использования времени
                 </h4>
             </span>
     </div><!-- /estmtileswrap -->
 </div>
-<div class="clearfix maincharts">
-    <div class="product-gauge-charts us-product-gauge-charts"></div>
+<div class="product-company-diagnostic-charts-container pull-center">
+    <span class="product-company-diagnostic-chart"></span>
+    <span class="product-company-diagnostic-chart"></span>
+    <span class="product-company-diagnostic-chart"></span>
 </div>
 
 <div class="levellabels  pull-content-center us-levellabels">
-        <span class="widthblock column-1-3 pull-content-center vertical-align-top">
-            <h6>
-                <?= Yii::t('site', 'Speed of getting results')?>
-            </h6>
-        </span>
-        <span class="widthblock column-1-3 pull-content-center vertical-align-top">
-            <h6>
-                <?= Yii::t('site', 'Achievement of results: number and value of tasks completed')?>
-            </h6>
-        </span>
-        <span class="widthblock column-1-3 pull-content-center vertical-align-top">
-            <h6 class="product_h3_margin_left">
-                <?= Yii::t('site', 'Level of skills maturity')?>
-            </h6>
-        </span>
+    <span class="widthblock column-1-3 pull-content-center vertical-align-top">
+        <h6>
+            Уровень владения навыками
+        </h6>
+    </span>
+    <span class="widthblock column-1-3 pull-content-center vertical-align-top">
+        <h6>
+            Уровень достижения результатов: количество и значимость выполненных задач
+        </h6>
+    </span>
+    <span class="widthblock column-1-3 pull-content-center vertical-align-top">
+        <h6 class="product_h3_margin_left">
+            Время, затраченное на выполнение задач
+        </h6>
+    </span>
 </div>
+
+<div class="label background-middle-dark-blue us-legend pull-center">
+    <span class="color-ffffff us-legend-text">
+        <span class="label background-2bbb05"></span><label>- Отлично</label>
+    </span>
+    <span class="color-ffffff us-legend-text">
+        <span class="label background-f5ed2a"></span><label>- Хорошо</label>
+    </span>
+    <span class="color-ffffff us-legend-text">
+        <span class="label background-ffb329"></span><label>- Средне</label>
+    </span>
+    <span class="color-ffffff us-legend-text">
+        <span class="label background-e52902"></span><label>- Плохо</label>
+    </span>
+</div>
+
 <br/>
 <div class="rateslist pull-content-center us-rateslist">
         <span class="widthblock column-1-3 vertical-align-top">
@@ -151,12 +160,9 @@
 <section>
     <hgroup>
         <h1 class="pull-content-center">
-            <?= Yii::t('site', 'More Information')?>
+            Дополнительно
         </h1>
         <br/>
-        <h4 class="pull-content-center">
-            <?= Yii::t('site', 'Our simulation is easy and reliable way to discover your people management skills:')?>
-        </h4>
         <br/>
     </hgroup>
 
@@ -164,27 +170,21 @@
             <span class="column-1-2 pull-content-center vertical-align-top">
                 <span class="us-nice-border nice-border us-first-column pull-right">
                     <span class="us-box-title background-yellow">
-                        <h1 class="color-ffffff"><?= Yii::t('site', 'Easy')?></h1>
+                        <h1 class="color-ffffff">Презентация</h1>
                     </span>
                     <span class="us-box-content background-yellow">
-                        <h5><?= Yii::t('site', 'Saves your time')?></h5>
-
-                        <p class="color-3D4041"><?= Yii::t('site', 'Add up the number of hours you waste on the futile  interviews. Use these hours on your first priority project!')?></p>
-                        <p class="color-3D4041"><?= Yii::t('site', 'Two clicks to start the process and get the necessary assessment.')?></p>
-
-                        <h5><?= Yii::t('site', 'Unlimited number of applicants in any part of the world.')?></h5>
-
-                        <p class="color-3D4041"><?= Yii::t('site', 'No limits! Use the simulation for managers from anywhere in the world. Assess as many people as you need.')?></p>
-
-                        <h5><?= Yii::t('site', 'No hard-, soft- or any-ware required! Just make  sure you and your managers are on line!')?></h5>
-
-                        <p class="color-3D4041"><?= Yii::t('site', 'NO NEED to  buy computers')?></p>
-                        <p class="color-3D4041"><?= Yii::t('site', 'NO NEED to buy/distribute/integrate any soft')?></p>
-                        <p class="color-3D4041"><?= Yii::t('site', 'NO NEED to lease additional office space')?></p>
-
-                        <h5><?= Yii::t('site', 'Results can be used immediately')?></h5>
-
-                        <p class="color-3D4041"><?= Yii::t('site', 'NO NEED to call experts to interpret the results! Just open your Skiliks Office and use the managers’ assessment data to make the decision!')?></p>
+                        <p class="color-3D4041">
+                            Мы предлагаем презентацию полученных результатов управленческой команде.
+                            <br/>
+                            <br/>
+                            Совместное обсуждение результатов позволяет пройти стадию «разморозки» и мотивировать менеджеров на развитие и обучение за три часа.
+                            <br/>
+                            <br/>
+                            Презентацию проводит один из партнеров компании.
+                            <br/>
+                            <br/>
+                            тоимость презентации обсуждается отдельно.
+                        </p>
                     </span>
                 </span>
             </span>
@@ -194,27 +194,21 @@
             <span class="column-1-2 pull-content-center vertical-align-top">
                 <span class="us-nice-border nice-border us-second-column pull-left">
                     <span class="us-box-title background-yellow">
-                        <h1 class="color-ffffff"><?= Yii::t('site', 'Reliable')?></h1>
+                        <h1 class="color-ffffff">Практикум</h1>
                     </span>
                     <span class="us-box-content background-yellow">
-                        <h5><?= Yii::t('site', 'Focused on the practical skills')?></h5>
-
-                        <p class="color-3D4041"><?= Yii::t('site', 'We focus the simulation on measuring  real managerial skills – their ability to bring value from the first working day. Skill itself is the mastered capacity to carry out pre-determined results with minimum resources.')?></p>
-
-                        <h5><?= Yii::t('site', 'Based on best working practices')?></h5>
-
-                        <p class="color-3D4041"><?= Yii::t('site', 'We developed the assessment based on the selection of crucial practical skills that define manager’s performance with detailed analysis of how these skills become apparent in behaviour')?></p>
-                        <p class="color-3D4041"><?= Yii::t('site', 'We are continuously up-grading managerial skills profile')?></p>
-
-                        <h5><?= Yii::t('site', 'Uses real work environment, tasks and decision making situations')?></h5>
-
-                        <p class="color-3D4041"><?= Yii::t('site', 'In the simulation we have replicated the manager’s everyday life - familiar tasks, situations, interfaces and office environment. It helps manager to be himself and demonstrate his best results.')?></p>
-
-                        <h5><?= Yii::t('site', 'Based on mathematical methods not just feelings')?></h5>
-
-                        <p class="color-3D4041"><?= Yii::t('site', 'Each skill is assessed in many instances throughout the simulation forming valid outcome. Just imagine how many days you need in order to do it in real life!')?></p>
-                        <p class="color-3D4041"><?= Yii::t('site', 'We collect and analyse the data of hundreds of participants to manage the simulation.')?></p>
-                        <p class="color-3D4041"><?= Yii::t('site', 'We give you the possibility to compare candidates using clear quantitative criteria.')?></p>
+                        <p class="color-3D4041">
+                            Мы предлагаем практикум по отработке ключевых менеджерских навыков управленческой команды.
+                            <br/>
+                            <br/>
+                            За один-два дня менеджеры получат комплексное понимание и отработают на практике ключевые навыки, влияющие на их производительность и результативность, т.е. на эффективность компании.
+                            <br/>
+                            <br/>
+                            Практикум ведет сертифицированный тренер.
+                            <br/>
+                            <br/>
+                            Стоимость практикума обсуждается отдельно.
+                        </p>
                     </span>
                 </span>
             </span>

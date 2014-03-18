@@ -69,3 +69,44 @@
 .width-1024.skiliks .blockvalue {
     top: -6px;
 }
+
+/* .action-controller-productDiagnostic-static-pages: */
+
+.width-1024.action-controller-productDiagnostic-static-pages .us-box-content {
+    height: 200px;
+}
+
+.width-1024 .product-company-diagnostic-charts-container {
+    padding-right: 20px;
+    width: 800px;
+}
+
+.width-1024 .us-h4 {
+    margin-left: 40px;
+}
+
+.width-1024.action-controller-productDiagnostic-static-pages .allsummry {
+    background-position: center 31px;
+}
+
+.width-1024.skiliks.action-controller-productDiagnostic-static-pages .us-levellabels {
+    width: 820px;
+}
+
+.width-1024.skiliks.action-controller-productDiagnostic-static-pages .us-rateslist {
+    margin-left: -10px;
+}
+
+.width-1024.skiliks .us-legend {
+    margin-top: 15px;
+    margin-left: 64px;
+    width: 760px;
+}
+
+.width-1024 .us-legend-text {
+    width: 187px;
+}
+
+.width-1024 .us-legend-text label {
+    margin-top: 2px;
+}
