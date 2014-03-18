@@ -709,7 +709,7 @@ class ProfileController extends SiteBaseController implements AccountPageControl
                     }
                 }
             }
-            if(empty($realUserSimulationsV1) || empty($realUserSimulationsV2)){
+            if(empty($realUserSimulationsV1) && empty($realUserSimulationsV2)){
                 Yii::app()->user->setFlash('error',
                     'У вас нет пройденных симуляций, чтобы сгенерировать на их основе аналитический файл');
                 $this->redirect('/dashboard');
