@@ -696,7 +696,7 @@ class ProfileController extends SiteBaseController implements AccountPageControl
                     continue;
                 }
 
-                if(empty($simulation->results_popup_cache) === false) {
+                if(empty($simulation->results_popup_cache) === false && strtotime($invite->simulation->end) > strtotime('2013-08-01')) {
 
                     if (Simulation::ASSESSMENT_VERSION_1 == $simulation->assessment_version) {
                         $simulationsId[] = $simulation->id;
