@@ -91,26 +91,27 @@ define([
                     });*/
                     var is_first_replica = !el.html();
                     $('<div class="hidden placeholder" />').html(text).appendTo(el);
+                    var remote_replica_id = remote_replica?remote_replica.id : 0;
                     if (!is_first_replica) {
                         if (video_src) {
                             el.find('video.visit-background').on('loadeddata', function(){
-                                if(remote_replica.id !== el.find('video.visit-background').data('remote_replica_id')){
+                                if(remote_replica_id !== el.find('video.visit-background').data('remote_replica_id')){
                                     renderFn(remote_replica);
                                 }
                             });
                             el.find('video.visit-background').on('error', function(event){
-                                if(remote_replica.id !== el.find('video.visit-background').data('remote_replica_id')){
+                                if(remote_replica_id !== el.find('video.visit-background').data('remote_replica_id')){
                                     renderFn(remote_replica);
                                 }
                             });
                         } else if (image_src) {
                             el.find('img.visit-background').on('load', function(){
-                                if(remote_replica.id !== el.find('video.visit-background').data('remote_replica_id')){
+                                if(remote_replica_id !== el.find('video.visit-background').data('remote_replica_id')){
                                     renderFn(remote_replica);
                                 }
                             });
                             el.find('img.visit-background').on('error', function(){
-                                if(remote_replica.id !== el.find('video.visit-background').data('remote_replica_id')){
+                                if(remote_replica_id !== el.find('video.visit-background').data('remote_replica_id')){
                                     renderFn(remote_replica);
                                 }
                             });
@@ -129,7 +130,8 @@ define([
 
                 function renderFn(remote_replica) {
                     try {
-                        el.find('video.visit-background').data('remote_replica_id', remote_replica.id);
+                        var remote_replica_id = remote_replica?remote_replica.id : 0;
+                        el.find('video.visit-background').data('remote_replica_id', remote_replica_id);
 
                         var oldContent = el.children('.visit-background-container'),
                             newContent = el.find('.placeholder .visit-background-container');

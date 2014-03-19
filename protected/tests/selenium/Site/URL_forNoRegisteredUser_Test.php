@@ -34,7 +34,7 @@ class URL_forNoRegisteredUser_Test extends SeleniumTestHelper
         sleep(5);
         $this->assertTextPresent($all_buttons[2][sizeof($all_buttons[0])-1]); // проверяем, что есть особый текст
 
-        $this->optimal_click("xpath=//div[3]/div[1]/a/span");
+        $this->optimal_click("xpath=//div[2]/div[1]/a/span"); //локально 3й див
 
         $this->optimal_click("css=.locator-logo-head");
         $this->optimal_click("xpath=(//*[contains(text(),'English')])");
