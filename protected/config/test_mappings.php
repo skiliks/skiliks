@@ -30,7 +30,7 @@ return [
 
     'mail' => [
         'new_letter' => "link=новое письмо",
-        'to_whom' => "id=MailClient_RecipientsList",
+        'to_whom' => "xpath=//*[@id='MailClient_RecipientsList']/li/input",
         'add_recipient' => "//input[@type='text']",
         'del_recipient' => "css=li.tagItem",
         'add_copy_rec' => "xpath=//*[@id='MailClient_CopiesList']/li/input",

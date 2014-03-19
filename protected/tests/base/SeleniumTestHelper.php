@@ -250,8 +250,15 @@ class SeleniumTestHelper extends CWebTestCase
     protected function optimal_click ($loc)
     {
         sleep (1);
-        $this->waitForVisible($loc);
-        $this->click($loc);
+        try
+        {
+            $this->waitForVisible($loc);
+            $this->click($loc);
+        }
+        catch (Exception $e)
+        {
+            $this->fail("!!! FAIL: not found ". $loc. "in the simulation!!!");
+        }
         sleep (1);
     }
 
