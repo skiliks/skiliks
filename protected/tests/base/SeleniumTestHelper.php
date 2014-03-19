@@ -226,19 +226,30 @@ class SeleniumTestHelper extends CWebTestCase
         if ($this->isElementPresent(Yii::app()->params['test_mappings']['icons_active']['mail'])==true)
         {
             $this->optimal_click(Yii::app()->params['test_mappings']['icons_active']['mail']);
-            if ($this->isElementPresent(Yii::app()->params['test_mappings']['mail']['to_whom'])==true)
+            sleep(5);
+            if ($this->isVisible(Yii::app()->params['test_mappings']['mail']['to_whom'])==true)
             {
                 $this->optimal_click(Yii::app()->params['test_mappings']['icons']['close']);
                 $this->optimal_click(Yii::app()->params['test_mappings']['mail']['popup_unsave']);
+                $this->optimal_click("css=.NEW_EMAIL");
+            }
+            else
+            {
+                $this->optimal_click("css=.NEW_EMAIL");
             }
         }
         else
         {
             $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
-            if ($this->isElementPresent(Yii::app()->params['test_mappings']['mail']['to_whom'])==true)
+            sleep(5);
+            if ($this->isVisible(Yii::app()->params['test_mappings']['mail']['to_whom'])==true)
             {
                 $this->optimal_click(Yii::app()->params['test_mappings']['icons']['close']);
                 $this->optimal_click(Yii::app()->params['test_mappings']['mail']['popup_unsave']);
+            }
+            else
+            {
+                $this->optimal_click("css=.NEW_EMAIL");
             }
         }
         $this->logTestResult("write email when mail icon status is unidentified\n", true, $this->invite_id);
@@ -257,7 +268,7 @@ class SeleniumTestHelper extends CWebTestCase
         }
         catch (Exception $e)
         {
-            $this->fail("!!! FAIL: not found ". $loc. "in the simulation!!!");
+            $this->fail("!!! FAIL: not found ". $loc);
         }
         sleep (1);
     }

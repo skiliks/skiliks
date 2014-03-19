@@ -92,8 +92,9 @@ define([
                                 callback:callback,
                                 is_repeat_request:false,
                                 ajax:null,
-                                status:'padding'
+                                status:'pending'
                             }));
+                            console.log();
                         } else if(_.first(models).get('is_repeat_request')) {
 
                         } else {
@@ -158,7 +159,7 @@ define([
                                 if( url !== me.api_root + me.connectPath && me.try_connect === false) {
                                     var request = _.first(SKApp.server.requests_queue.where({uniqueId:params.uniqueId}));
                                     request.set('status', 'failed');
-                                    var requests = SKApp.server.requests_queue.where({status:'padding'});
+                                    var requests = SKApp.server.requests_queue.where({status:'pending'});
                                         requests.forEach(function(request){
                                             if(request.get('ajax') !== null){
                                                 request.get('ajax').abort();
@@ -189,6 +190,7 @@ define([
                                     me.is_connected = true;
                                     me.stopTryConnect();
                                     if(null !== me.error_dialog) {
+                                        console.log('me.error_dialog.remove()');
                                         me.error_dialog.remove();
                                         delete me.error_dialog;
                                     }
@@ -202,10 +204,12 @@ define([
                                                     // Если происхои митинг - то не надо снимать игру с паузы
                                                     // а то вермя пойдёт, а игрок не заметит
                                                     // (на екране ведь затемнение "Ушел на встречу, вернусь в ХХ:ХХ.")
+                                                    console.log('onclick: Продолжить игру');
                                                     var restoreAbortedRequests = function() {
                                                         SKApp.server.requests_queue.each(function(request) {
                                                             request.set('is_repeat_request', true);
-                                                            request.set('status', 'padding');
+                                                            request.set('status', 'pending');
+                                                            console.log('restoreAbortedRequests '+request.get('uniqueId'));
                                                             if(request.get('url') === '/index.php/events/getState' || request.get('url') !== '/index.php/simulation/stop'){
                                                                 SKApp.server.apiQueue(request.get('url'), request.get('data'), request.get('callback'));
                                                             }else{
@@ -215,6 +219,7 @@ define([
                                                         });
                                                         me.success_dialog.remove();
                                                         delete me.success_dialog;
+                                                        console.log('me.success_dialog.remove()');
                                                     }
 
                                                     if (SKApp.simulation.isActiveMeetingPresent()) {
