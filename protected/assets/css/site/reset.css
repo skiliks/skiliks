@@ -482,3 +482,7 @@ input.button-standard {
 .background-dark-blue.no-hover:hover {
     background-color: #146672;
 }
+
+.skiliks .reset-to-regular {
+    font-family: ProximaNova-Regular;
+}

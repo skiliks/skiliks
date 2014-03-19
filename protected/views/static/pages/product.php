@@ -6,7 +6,7 @@
             <?= Yii::t('site', 'About the Product')?>
         </h1>
         <br/>
-        <h4 class="pull-content-center">
+        <h4 class="pull-content-center reset-to-regular">
             <?= Yii::t('site', 'We have created on-line business simulation to discover manager’s skills.')?>
         </h4>
     </hgroup>
@@ -150,9 +150,9 @@
     <br/>
     <section>
         <hgroup>
-            <h1 class="pull-content-center">
+            <h2 class="pull-content-center">
                 <?= Yii::t('site', 'More Information')?>
-            </h1>
+            </h2>
             <br/>
             <h4 class="pull-content-center">
                 <?= Yii::t('site', 'Our simulation is easy and reliable way to discover your people management skills:')?>
@@ -164,7 +164,7 @@
             <span class="column-1-2 pull-content-center vertical-align-top">
                 <span class="us-nice-border nice-border us-first-column pull-right">
                     <span class="us-box-title background-yellow">
-                        <h1 class="color-ffffff"><?= Yii::t('site', 'Easy')?></h1>
+                        <h1 class="color-ffffff reset-to-regular"><?= Yii::t('site', 'Easy')?></h1>
                     </span>
                     <span class="us-box-content background-yellow">
                         <h5><?= Yii::t('site', 'Saves your time')?></h5>
@@ -194,7 +194,7 @@
             <span class="column-1-2 pull-content-center vertical-align-top">
                 <span class="us-nice-border nice-border us-second-column pull-left">
                     <span class="us-box-title background-yellow">
-                        <h1 class="color-ffffff"><?= Yii::t('site', 'Reliable')?></h1>
+                        <h1 class="color-ffffff reset-to-regular"><?= Yii::t('site', 'Reliable')?></h1>
                     </span>
                     <span class="us-box-content background-yellow">
                         <h5><?= Yii::t('site', 'Focused on the practical skills')?></h5>

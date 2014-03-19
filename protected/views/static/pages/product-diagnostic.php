@@ -6,7 +6,7 @@
         Диагностика управленческого потенциала компании
     </h1>
     <br/>
-    <h4 class="pull-content-left us-h4">
+    <h4 class="pull-content-left us-h4 reset-to-regular">
         Системная картина уровня развития управленческих навыков менеджеров компании и<br/> зон ее развития
     </h4>
 </hgroup>
@@ -29,17 +29,17 @@
 
 <!-- NEW CONTENT -->
 <div class="us-overall">
-    <h2 class="pull-content-center">
+    <h1 class="pull-content-center">
         Управленческий потенциал компании
-    </h2>
+    </h1>
 </div>
 <div class="allsummry pull-content-center">
     <div class="estmtresults pull-content-center">
-        <div class="overall">
+        <div class="">
             <span class="blockvalue" >
                 <span class="value">%</span>
             </span>
-            <h5 class="inline-block us-sub-title">прошедших симуляцию сотрудников</h5>
+            <h4 class="inline-block us-sub-title">прошедших симуляцию сотрудников</h4>
         </div>
     </div><!-- /estmtresults -->
 
@@ -159,9 +159,9 @@
 <br/>
 <section>
     <hgroup>
-        <h1 class="pull-content-center">
+        <h2 class="pull-content-center">
             Дополнительно
-        </h1>
+        </h2>
         <br/>
         <br/>
     </hgroup>
@@ -170,7 +170,7 @@
             <span class="column-1-2 pull-content-center vertical-align-top">
                 <span class="us-nice-border nice-border us-first-column pull-right">
                     <span class="us-box-title background-yellow">
-                        <h1 class="color-ffffff">Презентация</h1>
+                        <h1 class="color-ffffff reset-to-regular">Презентация</h1>
                     </span>
                     <span class="us-box-content background-yellow">
                         <p class="color-3D4041">
@@ -183,7 +183,7 @@
                             Презентацию проводит один из партнеров компании.
                             <br/>
                             <br/>
-                            тоимость презентации обсуждается отдельно.
+                            Стоимость презентации обсуждается отдельно.
                         </p>
                     </span>
                 </span>
@@ -194,7 +194,7 @@
             <span class="column-1-2 pull-content-center vertical-align-top">
                 <span class="us-nice-border nice-border us-second-column pull-left">
                     <span class="us-box-title background-yellow">
-                        <h1 class="color-ffffff">Практикум</h1>
+                        <h1 class="color-ffffff reset-to-regular">Практикум</h1>
                     </span>
                     <span class="us-box-content background-yellow">
                         <p class="color-3D4041">
