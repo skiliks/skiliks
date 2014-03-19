@@ -289,7 +289,7 @@ return [
         'password_again' => "css=#YumUser_password_again",
         'checkbox_terms' => "css=#YumUser_agree_with_terms",
         'link_terms' => "css=.action-show-terms-pop-up",
-        'close_terms_popup' => "xpath=//div[4]/div[1]/a/span",  // локально будет 5й див, потому что локально есть еще и сайтхарт
+        'close_terms_popup' => "xpath=//div[3]/div[1]/a/span",  // локально будет 4й див
         'register_button' => "xpath=//*[@id='registration-by-link-form']/div[6]/input",
         'decline_register' => "css=.action-decline-invite",
         'decline_reason_0' => "css=#DeclineExplanation_reason_id_0",

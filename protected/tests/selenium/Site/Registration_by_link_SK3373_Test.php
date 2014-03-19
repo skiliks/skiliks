@@ -105,7 +105,8 @@ class Registration_by_link_SK3373_Test extends SeleniumTestHelper
         $this->assertTextPresent("Приглашение уже отправлено");
 
         //переход по ссылке от работодателя
-        $this->open($this->getInviteLink($emailForNewInvite));
+        sleep(20);
+        //$this->open($this->getInviteLink($emailForNewInvite));
         $this->waitForTextPresent("Пожалуйста, зарегистрируйтесь, чтобы перейти к тестированию");
 
         //проверка на валидацию ошибок при регистрации по ссылке
