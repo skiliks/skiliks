@@ -14,7 +14,10 @@
     max-width: 260px;
 }
 
-.width-1024 .chart-gauge,
+.width-1024 .chart-gauge {
+    background: url(../../img/site/1280/assessment/gauge-164.png) no-repeat center bottom;
+}
+
 .width-1024 .signmore {
     /*-moz-transform: scale(0.8);*/
     /*-o-transform: scale(0.8);*/

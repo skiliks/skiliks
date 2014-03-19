@@ -59,6 +59,7 @@
 }
 
 .width-1024 #invite-form .sbHolder,
+.width-1024 #invite-form .sbHolder li a,
 .width-1024 #invite-form select {
     width: 177px;
 }
@@ -156,11 +157,6 @@
     line-height: 17px;
     margin-top: -2px;
     top: 5px;
-}
-
-.width-1024.action-controller-corporateVacancies-static-profile table.items td:nth-child(2),
-.width-1024.action-controller-corporateVacancies-static-profile table.items td:nth-child(3){
-    max-width: 245px;
 }
 
 /* Надо скрыть пейджер, пока он не будет перемещён на правильное место: */

@@ -83,3 +83,8 @@
 .width-1024 .company-info-height {
     height: 345px;
 }
+
+.width-1024.action-controller-corporateVacancies-static-profile table.items td:nth-child(2),
+.width-1024.action-controller-corporateVacancies-static-profile table.items td:nth-child(3){
+    max-width: 245px;
+}
