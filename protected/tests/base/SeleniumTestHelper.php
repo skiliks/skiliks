@@ -226,6 +226,7 @@ class SeleniumTestHelper extends CWebTestCase
         if ($this->isElementPresent(Yii::app()->params['test_mappings']['icons_active']['mail'])==true)
         {
             $this->optimal_click(Yii::app()->params['test_mappings']['icons_active']['mail']);
+            sleep(5);
             if ($this->isElementPresent(Yii::app()->params['test_mappings']['mail']['to_whom'])==true)
             {
                 $this->optimal_click(Yii::app()->params['test_mappings']['icons']['close']);
@@ -235,6 +236,7 @@ class SeleniumTestHelper extends CWebTestCase
         else
         {
             $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
+            sleep(5);
             if ($this->isElementPresent(Yii::app()->params['test_mappings']['mail']['to_whom'])==true)
             {
                 $this->optimal_click(Yii::app()->params['test_mappings']['icons']['close']);
