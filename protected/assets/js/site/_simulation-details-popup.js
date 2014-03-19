@@ -44,6 +44,9 @@ $(document).ready(function () {
             success: function (data) {
                 simulation_popup.html(data);
                 simulation_popup.dialog('open');
+
+                $(window).resize();
+                $(window).scrollTop('body');
             }
         });
     };
