@@ -24,6 +24,7 @@ $(document).ready(function () {
 
     $(window).resize(function(){
         $('.locator-simulation-details-popup').dialog("option", "width", getDialogSimulationDetailsPopupWidth());
+        $('.locator-simulation-details-popup').dialog("option", "height", getDialogSimulationDetailsPopupHeight());
         $('.locator-simulation-details-popup').dialog("option", "position", "center");
 
         winHeigth = $(window).height();

@@ -325,7 +325,7 @@ function getDialogSimulationDetailsPopupHeight() {
     if (getWindowWidth() < window.standardMinWindowWidth) {
         return 730; //766
     } else {
-        return 800; //935
+        return 810; //935
     }
 }
 

@@ -59,7 +59,7 @@
                 <?= $form->dropDownList($vacancy, 'professional_specialization_id', $specializations); ?>
             </div>
 
-            <div class="row row-32 row-inputs">
+            <div class="row row-32 row-inputs margin-bottom-half-standard-1024">
                 <span class="error-place">
                     <?= $form->error($vacancy       , 'label'); ?>
                 </span>
@@ -67,7 +67,7 @@
                 <?= $form->textField($vacancy, 'label'); ?>
             </div>
 
-            <div class="row row-26">
+            <div class="row row-32">
                 <span class="error-place">
                     <?= $form->error($vacancy    , 'link'); ?>
                 </span>

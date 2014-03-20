@@ -397,6 +397,7 @@ input.inputs-wide-height {
     width: 21px;
 }
 
+.width-1024 .margin-bottom-half-standard-1024,
 .margin-bottom-half-standard {
     margin-bottom: 10px;
 }
