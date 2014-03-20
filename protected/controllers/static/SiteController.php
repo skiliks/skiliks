@@ -25,6 +25,12 @@ class SiteController extends SiteBaseController
         {
             $this->redirect('/system-mismatch');
         }
+        /* @var $user YumUser */
+        $user = Yii::app()->user->data();
+        if($user->isCorporate() && 0 === (int)$user->account_corporate->getTotalAvailableInvitesLimit()){
+            Yii::app()->user->setFlash('error', Yii::t('site', 'У вас закончились приглашения'));
+            $this->redirect('/dashboard');
+        }
 
 
         $start = Yii::app()->request->getParam('start');
