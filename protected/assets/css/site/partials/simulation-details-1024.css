@@ -15,7 +15,7 @@
 }
 
 .width-1024 .chart-gauge {
-    background: url(../../img/site/1280/assessment/gauge-164.png) no-repeat center bottom;
+    background: url(../../../img/site/1280/assessment/gauge-164.png) no-repeat center bottom;
 }
 
 .width-1024 .signmore {
@@ -68,7 +68,7 @@
 .width-1024 .blockvalue {
     height: 24px;
     line-height: 24px;
-    top: -3px;
+    top: -7px;
 }
 
 .width-1024 .simulation-result-popup {
@@ -92,8 +92,10 @@
     margin-top: -6px;
 }
 
-.width-1024 .mangrlresults .labelwrap:first-child .list-text {
-    width: 135px;
+.width-1024 #managerial-skills-1 .mangrlresults .labelwrap .list-text,
+.width-1024 #managerial-skills-2 .mangrlresults .labelwrap .list-text,
+.width-1024 #managerial-skills-3 .mangrlresults .labelwrap .list-text {
+    width: 225px;
 }
 
 .width-1024 .simulation-details .navigation {
@@ -170,6 +172,14 @@
 .width-1024 .managerialmain .chartbar,
 .width-1024 .managerialmain .chartproblem {
     margin-bottom: 25px;
+}
+
+.width-1024 .mangrlresults .twocharts:last-child > *,
+.width-1024 .mangrlresults .chartbar:last-child,
+.width-1024 .mangrlresults .chartproblem:last-child,
+.width-1024 .managerialmain .chartbar:last-child,
+.width-1024 .managerialmain .chartproblem:last-child {
+    margin-bottom: 0;
 }
 
 .width-1024 .barswrap {

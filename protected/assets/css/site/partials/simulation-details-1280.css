@@ -136,7 +136,7 @@
 }
 
 .allratebg {
-    background: url("../../img/site/1280/assessment/stars-big.png") no-repeat left top;
+    background: url("../../../img/site/1280/assessment/stars-big.png") no-repeat left top;
 }
 
 .allratebg, .allrating {
@@ -146,7 +146,7 @@
 }
 
 .allrating {
-    background: url("../../img/site/1280/assessment/stars-big.png") no-repeat left bottom;
+    background: url("../../../img/site/1280/assessment/stars-big.png") no-repeat left bottom;
 }
 
 .overall {
@@ -162,7 +162,7 @@
 .percentil_base, .percentil_overall {
     width: 74px;
     height: 18px;
-    background-image: url(../../img/site/1280/assessment/percentile.png);
+    background-image: url(../../../img/site/1280/assessment/percentile.png);
     display: inline-block;
     background-position: 0 -18px;
     background-attachment: scroll;
@@ -186,7 +186,7 @@
     background-attachment: scroll;
     background-clip: border-box;
     background-color: rgba(0, 0, 0, 0);
-    background-image: url("../../img/site/1280/assessment/percentile-background.png");
+    background-image: url("../../../img/site/1280/assessment/percentile-background.png");
     background-origin: padding-box;
     background-position: center top;
     background-repeat: no-repeat;
@@ -237,7 +237,7 @@
 }
 
 .allsummry {
-    background: url("../../img/site/1280/assessment/results-distribution-lines.png") no-repeat center 79px;
+    background: url("../../../img/site/1280/assessment/results-distribution-lines.png") no-repeat center 79px;
     margin-top: 30px;
 }
 
@@ -468,7 +468,7 @@
 }
 
 .product .hassubmenu>a {
-    background:url("../../img/site/1280/buttons/plus-minus.png") no-repeat right 2px;
+    background:url("../../../img/site/1280/buttons/plus-minus.png") no-repeat right 2px;
     display:block;
     padding-right: 26px;
 }
@@ -696,7 +696,7 @@
 }
 
 .questn {
-    background: url(../../img/site/1280/buttons/icon-question.png) no-repeat left bottom;
+    background: url(../../../img/site/1280/buttons/icon-question.png) no-repeat left bottom;
     display: inline-block;
     height:30px;
     float: right;
@@ -704,7 +704,7 @@
 }
 
 .signmore {
-    background: url(../../img/site/1280/assessment/icon-circle-with-arow.png) no-repeat right top;
+    background: url(../../../img/site/1280/assessment/icon-circle-with-arow.png) no-repeat right top;
     height: 21px;
     padding-left: 10px;
     vertical-align: middle;
@@ -805,7 +805,7 @@
 }
 
 .timediagr {
-    background:url("../../img/site/1280/assessment/time-distribution.png") no-repeat;
+    background:url("../../../img/site/1280/assessment/time-distribution.png") no-repeat;
     height:351px;
     position:relative;
     width:351px;
@@ -1167,7 +1167,7 @@
 }
 
 .chart-gauge {
-    background: url(../../img/site/1280/assessment/gauge.png) no-repeat center bottom;
+    background: url(../../../img/site/1280/assessment/gauge.png) no-repeat center bottom;
     position: relative;
     width: 240px;
     height: 120px;
@@ -1189,7 +1189,7 @@
     bottom: -8px;
     left: 50%;
     margin-left: -17px;
-    background: url(../../img/site/1280/assessment/bullet.png) no-repeat;
+    background: url(../../../img/site/1280/assessment/bullet.png) no-repeat;
 }
 
 .chart-gauge .pointer {
@@ -1199,7 +1199,7 @@
     height: 20px;
     bottom: 2px;
     left: 63px;
-    background: url(../../img/site/1280/assessment/arrow.png) no-repeat;
+    background: url(../../../img/site/1280/assessment/arrow.png) no-repeat;
 
     -webkit-transform-origin: 92px 11px;
     /*-moz-transform-origin: 92px 11px;*/
@@ -1260,14 +1260,14 @@
 
 .chart-pie {
     position: relative;
-    background: url(../../img/site/1280/assessment/pie-simple.png) no-repeat 50% 50%;
+    background: url(../../../img/site/1280/assessment/pie-simple.png) no-repeat 50% 50%;
     width: 300px;
     height: 300px;
 }
 
 .chart-pie.scaled {
-    background: url(../../img/site/1280/assessment/pie-scale.png) no-repeat 50% 60%,
-    url(../../img/site/1280/assessment/pie-simple.png) no-repeat 50% 50%;
+    background: url(../../../img/site/1280/assessment/pie-scale.png) no-repeat 50% 60%,
+    url(../../../img/site/1280/assessment/pie-simple.png) no-repeat 50% 50%;
 }
 
 .chart-pie:after {
@@ -1277,11 +1277,11 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: url(../../img/site/1280/assessment/pie-glance.png) no-repeat 50% 25%;
+    background: url(../../../img/site/1280/assessment/pie-glance.png) no-repeat 50% 25%;
 }
 
 .testtime {
-    background: url("../../img/site/1280/assessment/clock-small.png") no-repeat;
+    background: url("../../../img/site/1280/assessment/clock-small.png") no-repeat;
     color: #146672;
     float: right;
     font-family: "ProximaNova-Bold";

@@ -152,14 +152,14 @@
 }
 
 .width-1024 .button-add-vacancy {
-    background: url("../../img/site/1280/buttons/plus.png") no-repeat scroll 50% 50% #DDDDDD;
+    background: url("../../../img/site/1280/buttons/plus.png") no-repeat scroll 50% 50% #DDDDDD;
     height: 17px;
     line-height: 17px;
     margin-top: -2px;
     top: 5px;
 }
 
-/* Надо скрыть пейджер, пока он не будет перемещён на правильное место: */
-.contrast-table .pager {
-    display: none;
+.width-1024 .us-column-1-3-min-height {
+    min-height: 40px;
 }
+

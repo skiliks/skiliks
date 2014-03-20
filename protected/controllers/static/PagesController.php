@@ -42,8 +42,8 @@ class PagesController extends SiteBaseController
         $this->layout = '//layouts/site_standard_2';
 
         $this->addSiteJs('_start_demo.js');
-        $this->addSiteCss('pages/_page-team-1280.css');
-        $this->addSiteCss('pages/_page-team-1024.css');
+        $this->addSiteCss('pages/team-1280.css');
+        $this->addSiteCss('pages/team-1024.css');
 
         $this->render('team');
     }
@@ -65,8 +65,8 @@ class PagesController extends SiteBaseController
         $this->addSiteCss('pages/product-1280.css');
         $this->addSiteCss('pages/product-1024.css');
 
-        $this->addSiteCss('_simulation_details.css');
-        $this->addSiteCss('_simulation_details-1024.css');
+        $this->addSiteCss('partials/simulation-details-1280.css');
+        $this->addSiteCss('partials/simulation-details-1024.css');
 
         $this->render('product');
     }
@@ -88,8 +88,8 @@ class PagesController extends SiteBaseController
         $this->addSiteCss('pages/product-1280.css');
         $this->addSiteCss('pages/product-1024.css');
 
-        $this->addSiteCss('_simulation_details.css');
-        $this->addSiteCss('_simulation_details-1024.css');
+        $this->addSiteCss('partials/simulation-details-1280.css');
+        $this->addSiteCss('partials/simulation-details-1024.css');
 
         $this->render('product-diagnostic');
     }

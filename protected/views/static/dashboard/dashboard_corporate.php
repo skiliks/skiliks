@@ -20,7 +20,8 @@
     <!-- LEFT SIDE -->
     <aside class="column-1-3 pull-content-left inline-block vertical-align-top mark-up-block">
         <label class="mark-up-label">#Dashboard-aside</label>
-        <div class="invite-people-box nice-border border-radius-standard background-dark-blue column-1-3-condensed box-bottom-standard border-radius-standard">
+        <div class="invite-people-box nice-border border-radius-standard background-dark-blue
+            us-column-1-3-min-height column-1-3-condensed box-bottom-standard border-radius-standard">
             <?php $this->renderPartial('_invite_people_box', [
                 'invite'    => $invite,
                 'vacancies' => $vacancies,
@@ -39,7 +40,7 @@
         <!-- FEED BACK -->
         <br/>
         <div>
-            <span class="action-feedback inter-active button-white button-white-hover label icon-arrow-blue reset-margin">
+            <span class="action-feedback inter-active button-white button-white-hover label icon-arrow-blue  us-feedback-margin">
                 Обратная связь
             </span>
         </div>

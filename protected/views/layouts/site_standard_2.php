@@ -50,9 +50,9 @@ $cs->registerScriptFile($assetsUrl . '/js/site/_simulation-details-popup.js', CC
 /* .dialog() */
 $cs->registerCssFile($assetsUrl . '/js/jquery/jquery-ui.css');
 
-$cs->registerCssFile($assetsUrl . "/css/site/reset.css");
+$cs->registerCssFile($assetsUrl . "/css/site/reset-1280.css");
 $cs->registerCssFile($assetsUrl . "/css/site/reset-1024.css");
-$cs->registerCssFile($assetsUrl . "/css/site/grid.css");
+$cs->registerCssFile($assetsUrl . "/css/site/grid-1280.css");
 $cs->registerCssFile($assetsUrl . "/css/site/grid-1024.css");
 $cs->registerCssFile($assetsUrl . "/css/site/sb-holder.css");
 $cs->registerCssFile($assetsUrl . "/css/site/social-networks.css");

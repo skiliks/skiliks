@@ -41,7 +41,7 @@
 }
 
 .button-add-vacancy {
-    background: url("../../img/site/1280/buttons/plus.png") no-repeat scroll 50% 50% #DDDDDD;
+    background: url("../../../img/site/1280/buttons/plus.png") no-repeat scroll 50% 50% #DDDDDD;
     border-radius: 4px;
     cursor: pointer;
     display: inline-block;
@@ -246,7 +246,7 @@
 /* шестерёнка */
 
 .table-menu-switcher {
-    background: url("../../img/site/1280/buttons/icon-gear.png") no-repeat left top;
+    background: url("../../../img/site/1280/buttons/icon-gear.png") no-repeat left top;
     position: relative;
     height: 22px;
     width: 22px;
@@ -304,11 +304,11 @@
 }
 
 .percentile-selected {
-    background: url("../../img/site/1280/dashboard/percentile-selected.png") no-repeat;
+    background: url("../../../img/site/1280/dashboard/percentile-selected.png") no-repeat;
 }
 
 .stars-selected {
-    background: url("../../img/site/1280/dashboard/stars-selected.png") no-repeat;
+    background: url("../../../img/site/1280/dashboard/stars-selected.png") no-repeat;
 }
 
 .assessment-results-type-switcher {
@@ -334,11 +334,11 @@ i.icon {
 }
 
 i.icon-excel {
-    background-image: url("../../img/site/1280/buttons/icon-xls.png");
+    background-image: url("../../../img/site/1280/buttons/icon-xls.png");
 }
 
 i.icon-doc {
-    background-image: url("../../img/site/1280/buttons/icon-doc.png");
+    background-image: url("../../../img/site/1280/buttons/icon-doc.png");
 }
 
 .link-with-background label{
@@ -563,3 +563,7 @@ i.icon-doc {
     max-height: 85px;
 }
 
+/* Надо скрыть пейджер, пока он не будет перемещён на правильное место: */
+.contrast-table .pager {
+    display: none;
+}

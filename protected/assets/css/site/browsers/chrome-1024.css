@@ -54,17 +54,25 @@
 }
 
 .width-1024.skiliks.action-controller-corporatePersonalData-static-profile .unstandard-personal-data-height {
-    height: 218px;
+    height: 222px; /* fixed */
 }
 
 .width-1024.action-controller-corporatePassword-static-profile .unstandard-personal-data-height {
-    height: 277px;
+    height: 280px; /* fixed */
 }
 
 .width-1024.skiliks .company-info-height {
-    height: 344px;
+    height: 346px; /* fixed */
 }
 
 .width-1024.controller-static-profile input.button-standard {
     padding-bottom: 12px;
+}
+
+.width-1024.skiliks.action-controller-personalPersonalData-static-profile .unstandard-personal-data-height {
+    height: 363px; /* fixed */
+}
+
+.width-1024.skiliks.action-controller-personalPassword-static-profile .unstandard-personal-data-height {
+    height: 281px; /* fixed */
 }

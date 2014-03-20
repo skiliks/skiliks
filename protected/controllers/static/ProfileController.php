@@ -71,8 +71,8 @@ class ProfileController extends SiteBaseController implements AccountPageControl
 
         $this->layout = 'site_standard_2';
 
-        $this->addSiteCss('_page-my-profile.css');
-        $this->addSiteCss('_page-my-profile-1024.css');
+        $this->addSiteCss('pages/my-profile-1280.css');
+        $this->addSiteCss('pages/my-profile-1024.css');
         $this->addSiteJs('_page-my-profile.js');
 
         $this->render('personal_data_personal', [
@@ -126,8 +126,8 @@ class ProfileController extends SiteBaseController implements AccountPageControl
 
         $this->layout = 'site_standard_2';
 
-        $this->addSiteCss('_page-my-profile.css');
-        $this->addSiteCss('_page-my-profile-1024.css');
+        $this->addSiteCss('pages/my-profile-1280.css');
+        $this->addSiteCss('pages/my-profile-1024.css');
         $this->addSiteJs('_page-my-profile.js');
 
         $this->render('personal_data_corporate', [
@@ -181,8 +181,8 @@ class ProfileController extends SiteBaseController implements AccountPageControl
 
         $this->layout = 'site_standard_2';
 
-        $this->addSiteCss('_page-my-profile.css');
-        $this->addSiteCss('_page-my-profile-1024.css');
+        $this->addSiteCss('pages/my-profile-1280.css');
+        $this->addSiteCss('pages/my-profile-1024.css');
         $this->addSiteJs('_page-my-profile.js');
 
         $this->render('password_corporate', [
@@ -225,8 +225,8 @@ class ProfileController extends SiteBaseController implements AccountPageControl
 
         $this->layout = 'site_standard_2';
 
-        $this->addSiteCss('_page-my-profile.css');
-        $this->addSiteCss('_page-my-profile-1024.css');
+        $this->addSiteCss('pages/my-profile-1280.css');
+        $this->addSiteCss('pages/my-profile-1024.css');
         $this->addSiteJs('_page-my-profile.js');
 
         $this->render('password_personal', [
@@ -292,8 +292,8 @@ class ProfileController extends SiteBaseController implements AccountPageControl
 
         $this->layout = 'site_standard_2';
 
-        $this->addSiteCss('_page-my-profile.css');
-        $this->addSiteCss('_page-my-profile-1024.css');
+        $this->addSiteCss('pages/my-profile-1280.css');
+        $this->addSiteCss('pages/my-profile-1024.css');
         $this->addSiteJs('_page-my-profile.js');
 
         $this->render('company_info_corporate', [
@@ -359,8 +359,8 @@ class ProfileController extends SiteBaseController implements AccountPageControl
 
         $this->layout = 'site_standard_2';
 
-        $this->addSiteCss('_page-my-profile.css');
-        $this->addSiteCss('_page-my-profile-1024.css');
+        $this->addSiteCss('pages/my-profile-1280.css');
+        $this->addSiteCss('pages/my-profile-1024.css');
         $this->addSiteJs('_page-my-profile.js');
 
         $this->render('vacancies_corporate', [

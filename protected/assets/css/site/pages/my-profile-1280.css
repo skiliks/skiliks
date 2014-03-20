@@ -3,7 +3,7 @@
 }
 
 .profile-menu li {
-    background: url("../../img/site/1280/profile/menu-top-bg.png") repeat-x 0 49px;
+    background: url("../../../img/site/1280/profile/menu-top-bg.png") repeat-x 0 49px;
     list-style-type: none;
 }
 
@@ -12,7 +12,7 @@
 }
 
 .profile-menu li a {
-    background: url("../../img/site/1280/profile/menu-arrows.png") no-repeat 354px -65px;
+    background: url("../../../img/site/1280/profile/menu-arrows.png") no-repeat 354px -65px;
     color: #555742;
     font-size: 1.3em;
     padding: 12px 20px 12px 12px;
@@ -177,7 +177,7 @@ input[type='password'] {
 }
 
 #UserAccountPersonal_location {
-    width: 445px;
+    width: 444px;
 }
 
 .action-controller-personalPersonalData-static-profile .unstandard-personal-data-height {

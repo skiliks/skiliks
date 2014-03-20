@@ -369,3 +369,7 @@ header nav ul li.menu-item .log-out-link-separator {
 .us-remember-me-margin {
     margin-top: 2px;
 }
+
+.skiliks .us-feedback-margin {
+    margin-left: -8px;
+}

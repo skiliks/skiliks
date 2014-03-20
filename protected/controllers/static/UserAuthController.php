@@ -136,8 +136,8 @@ class UserAuthController extends YumController
 
         $this->layout = 'site_standard_2';
 
-        $this->addSiteCss('pages/_page-registration.css');
-        $this->addSiteCss('pages/_page-registration-1024.css');
+        $this->addSiteCss('pages/registration-1280.css');
+        $this->addSiteCss('pages/registration-1024.css');
 
         $this->addSiteJs('_page-registration.js');
         $this->addSiteJs('_terms-and-agreements.js');
@@ -231,11 +231,11 @@ class UserAuthController extends YumController
 
         $this->layout = 'site_standard_2';
 
-        $this->addSiteCss('pages/_page-registration.css');
-        $this->addSiteCss('pages/_page-registration-1024.css');
+        $this->addSiteCss('pages/registration-1280.css');
+        $this->addSiteCss('pages/registration-1024.css');
 
-        $this->addSiteCss('_simulation_details.css');
-        $this->addSiteCss('_simulation_details-1024.css');
+        $this->addSiteCss('partials/simulation-details-1280.css');
+        $this->addSiteCss('partials/simulation-details-1024.css');
 
         $this->addSiteJs('_page-registration.js');
         $this->addSiteJs('_terms-and-agreements.js');
