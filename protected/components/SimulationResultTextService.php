@@ -24,7 +24,7 @@ class SimulationResultTextService {
      * @return array
      * @throws Exception
      */
-    public static function generate(Simulation $simulation, $type) {
+    public static function generate(Simulation $simulation, $type, $part_assessment = false) {
         foreach(ParagraphPocket::model()->findAll() as $pocket) {
             /* @var $pocket ParagraphPocket */
             self::$pockets[$pocket->paragraph_alias][$pocket->behaviour_alias][] = $pocket;
@@ -34,21 +34,31 @@ class SimulationResultTextService {
         $paragraphs = Paragraph::model()->findAll('scenario_id = '.$simulation->game_type->id. ' and type = \''.$type.'\' order by order_number');
         $value = null;
         foreach($paragraphs as $paragraph) {
-            switch($paragraph->method)
-            {
-                case 'SinglePocket':
-                    self::$recommendations[$paragraph->alias] = self::SinglePocket($paragraph->value_1, $paragraph->alias, $assessment);
-                    break;
-                case 'TwoPocketsWithOneNegative':
-                    self::$recommendations[$paragraph->alias] = self::TwoPocketsWithOneNegative($paragraph->value_1, $paragraph->value_2, $paragraph->alias, $assessment);
-                    break;
-                case 'ThreePocketsWithTwoNegative':
-                    self::$recommendations[$paragraph->alias] = self::ThreePocketsWithTwoNegative($paragraph->value_1, $paragraph->value_2, $paragraph->value_3, $paragraph->alias, $assessment);
-                    break;
-                default:
-                    throw new Exception("Метод {$paragraph->method}");
-                    break;
+            try{
+                switch($paragraph->method)
+                {
+                    case 'SinglePocket':
+                        self::$recommendations[$paragraph->alias] = self::SinglePocket($paragraph->value_1, $paragraph->alias, $assessment);
+                        break;
+                    case 'TwoPocketsWithOneNegative':
+                        self::$recommendations[$paragraph->alias] = self::TwoPocketsWithOneNegative($paragraph->value_1, $paragraph->value_2, $paragraph->alias, $assessment);
+                        break;
+                    case 'ThreePocketsWithTwoNegative':
+                        self::$recommendations[$paragraph->alias] = self::ThreePocketsWithTwoNegative($paragraph->value_1, $paragraph->value_2, $paragraph->value_3, $paragraph->alias, $assessment);
+                        break;
+                    default:
+                        throw new Exception("Метод {$paragraph->method}");
+                        break;
+                }
             }
+            catch(AssessmentValueNotFound $e) {
+                if($part_assessment) {
+                    continue;
+                } else {
+                    throw new Exception($e->getMessage());
+                }
+            }
+
         }
 
         return self::$recommendations;
@@ -157,7 +167,11 @@ class SimulationResultTextService {
         $array_parts = explode('[', $value);
         foreach($array_parts as $part) {
             if(!empty($part)){
-                $assessment = $assessment[rtrim($part, ']')];
+                if(isset($assessment[rtrim($part, ']')])) {
+                    $assessment = $assessment[rtrim($part, ']')];
+                } else {
+                    throw new AssessmentValueNotFound("Undefined index: ".rtrim($part, ']'));
+                }
             }
         }
         return $assessment;
