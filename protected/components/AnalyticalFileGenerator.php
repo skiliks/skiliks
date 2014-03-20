@@ -609,7 +609,7 @@ class AnalyticalFileGenerator {
     }
 
     /**
-     * @param Simulations[] $simulations
+     * @param Simulation[] $simulations
      *
      * Задаёт преобразование оценоа 1.1-1.5 в 1.1-1.5 или 1.1-1.4
      * @param string $management_interpretation_mode ['va_to_v1';'v1_to_v2']
