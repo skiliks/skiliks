@@ -117,6 +117,9 @@ return CMap::mergeArray(
             // Максимальная длинна имени
             'userNameInHeaderMaxLength'     => 30,
 
+            // Максимальная длинна имени
+            'minimumOrderForTheFirstTime'   => 3,
+
             // точно используется?
             'vacancyLinkInProfileMaxLength' => 50,
 
