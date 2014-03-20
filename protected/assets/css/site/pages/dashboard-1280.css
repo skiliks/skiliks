@@ -572,3 +572,6 @@ i.icon-doc {
     margin-right: 8px;
 }
 
+.us-column-1-3-min-height {
+    min-height: 87px;
+}
