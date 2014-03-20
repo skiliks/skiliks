@@ -60,3 +60,7 @@
 .width-1024.skiliks .blockvalue {
     line-height: 27px;
 }
+
+.width-1024 #form-decline-explanation .button-standard {
+    padding-top: 16px;
+}

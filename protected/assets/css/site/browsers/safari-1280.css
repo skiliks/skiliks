@@ -49,3 +49,13 @@
 .skiliks.action-controller-corporatePassword-static-profile .unstandard-personal-data-height {
     height: 299px;
 }
+
+.skiliks #DeclineExplanation_reason_id label {
+    height: 18px;
+    margin-top: 3px;
+    vertical-align: top;
+}
+
+#form-decline-explanation .button-standard {
+    padding-top: 16px;
+}
