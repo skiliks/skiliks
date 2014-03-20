@@ -159,4 +159,11 @@
     top: 5px;
 }
 
+.width-1024 .invite-accept-popup .unstandard-list-description {
+    width: 660px;
+}
+
+.width-1024 .unstandard-simulation-requirements .column-1-4 {
+    width: 151px;
+}
 

@@ -329,6 +329,16 @@ function getDialogSimulationDetailsPopupHeight() {
     }
 }
 
+// 2.6) Определяет высоту попапа "Правила прохождения симуляции"
+function getDialogSimulationRulesPopupHeight() {
+    // window.standardMinWindowWidth найдено экспериментально
+    if (getWindowWidth() < window.standardMinWindowWidth) {
+        return 850;
+    } else {
+        return 920;
+    }
+}
+
 // 3)
 function getInviteId(url){
     return parseInt(url.replace('/simulation/promo/full/', ''), 0);

@@ -479,7 +479,9 @@ i.icon-doc {
 .invite-accept-popup .unstandard-list-number {
     font-family: ProximaNova-Bold;
     font-size: 2em;
-    height: 37px;
+    height: 32px;
+    padding-top: 5px;
+    vertical-align: top;
     width: 37px;
 }
 

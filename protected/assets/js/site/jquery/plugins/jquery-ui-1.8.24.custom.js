@@ -6409,7 +6409,6 @@ $.widget("ui.dialog", {
 
         /* 55 px сверху и 55 px снизу */
         // ниже есть повторение использование этого куска
-        console.log(winHeigth, dialogHeight + 110);
         if (winHeigth < dialogHeight + 110) {
 
             this.element.parent().css('position', 'absolute');

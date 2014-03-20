@@ -321,12 +321,13 @@ $(document).ready(function () {
             resizable:   false,
             draggable:   false,
             width:       getDialogWindowWidth(),
-            height:   950,
-            position: {
-                my: "left top",
-                at: "left top",
-                of: $(".action-feedback")
-            },
+            height:      getDialogSimulationRulesPopupHeight(),
+            position: 'center center',
+//            position: {
+//                my: "left top",
+//                at: "left top",
+//                of: $(".action-feedback")
+//            },
             open: function( event, ui ) {
                 $(this).find('.locator-start-later').attr(
                     'href',
@@ -342,6 +343,17 @@ $(document).ready(function () {
                 // странный баг - только для этого, длинного, окна
                 // каждый раз открывается на одно окно больше: 1,2,3 ...
                 $('.locator-invite-accept-popup').dialog("destroy");
+            }
+        });
+
+        $(window).resize(function(){
+            $('.locator-invite-accept-popup').dialog('option', 'width', getDialogWindowWidth());
+            $('.locator-invite-accept-popup').dialog('option', 'height', getDialogSimulationRulesPopupHeight());
+            $('.locator-invite-accept-popup').dialog('option', 'position', 'center');
+
+            // иногда попап преобретает отрицательное смещение
+            if (parseInt($('.locator-invite-accept-popup').css('top')) < 50) {
+                $('.locator-invite-accept-popup').css('top', '0px');
             }
         });
 
