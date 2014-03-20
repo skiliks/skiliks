@@ -21,11 +21,7 @@ class PaymentController extends SiteBaseController
         $this->addSiteCss('/pages/order-1280.css');
         $this->addSiteCss('/pages/order-1024.css');
         $this->addSiteJs('_page-payment.js');
-        if(0 === (int)Invoice::model()->count('user_id = '.$user->id.' and paid_at is not null')){
-            $minSimulationSelected = Price::model()->findByAttributes(['alias'=>'lite'])->from;
-        }else{
-            $minSimulationSelected = 1;
-        }
+        $minSimulationSelected = self::getMinSimulationsForOrder($user);
         $json = [
             'minSimulationSelected' => $minSimulationSelected
         ];
@@ -78,11 +74,7 @@ class PaymentController extends SiteBaseController
             $account->save();
 
             $simulation_selected = Yii::app()->request->getParam('simulation-selected');
-            if(0 === (int)Invoice::model()->count('user_id = '.$user->id.' and paid_at is not null')){
-                $minSimulationSelected = (int)Price::model()->findByAttributes(['alias'=>'lite'])->from;
-            }else{
-                $minSimulationSelected = 1;
-            }
+            $minSimulationSelected = self::getMinSimulationsForOrder($user);
             if( !isset($simulation_selected) || $simulation_selected === null || (int)$simulation_selected < $minSimulationSelected) {
                 throw new Exception("Случилась ошибка, поле simulation-selected не валидное");
             }
@@ -115,11 +107,7 @@ class PaymentController extends SiteBaseController
         }
 
         $simulation_selected = Yii::app()->request->getParam('simulation-selected');
-        if(0 === (int)Invoice::model()->count('user_id = '.$user->id.' and paid_at is not null')){
-            $minSimulationSelected = (int)Price::model()->findByAttributes(['alias'=>'lite'])->from;
-        }else{
-            $minSimulationSelected = 1;
-        }
+        $minSimulationSelected = self::getMinSimulationsForOrder($user);
         if( !isset($simulation_selected) || $simulation_selected === null || (int)$simulation_selected < $minSimulationSelected) {
             throw new Exception("Случилась ошибка, поле simulation-selected не валидное");
         }
@@ -229,6 +217,14 @@ class PaymentController extends SiteBaseController
             'Ваш заказ принят, в течении дня вам на почту придёт счёт фактура для оплаты выбранного тарифного плана.'
         ));
         $this->redirect('/dashboard');
+    }
+
+    public static function getMinSimulationsForOrder(YumUser $user){
+        if(0 === (int)Invoice::model()->count('user_id = '.$user->id.' and paid_at is not null')){
+            return Yii::app()->params['minimumOrderForTheFirstTime'];
+        }else{
+            return (int)Price::model()->findByAttributes(['alias'=>'lite'])->from;
+        }
     }
 
 }
