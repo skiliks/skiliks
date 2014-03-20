@@ -70,9 +70,13 @@
 }
 
 .width-1024.skiliks.action-controller-personalPersonalData-static-profile .unstandard-personal-data-height {
-    height: 363px; /* fixed */
+    height: 360px; /* fixed 363 -> 360 */
 }
 
 .width-1024.skiliks.action-controller-personalPassword-static-profile .unstandard-personal-data-height {
     height: 281px; /* fixed */
+}
+
+.width-1024.skiliks .us-password-height {
+    height: 279px;
 }

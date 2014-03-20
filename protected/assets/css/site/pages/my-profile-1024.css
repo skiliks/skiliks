@@ -76,15 +76,23 @@
     min-width: 951px;
 }
 
-.width-1024.action-controller-corporatePersonalData-static-profile .unstandard-personal-data-height {
+.width-1024.skiliks.action-controller-corporatePersonalData-static-profile .unstandard-personal-data-height {
     height: 225px;
 }
 
-.width-1024 .company-info-height {
+.width-1024.skiliks .company-info-height {
     height: 345px;
 }
 
 .width-1024.action-controller-corporateVacancies-static-profile table.items td:nth-child(2),
 .width-1024.action-controller-corporateVacancies-static-profile table.items td:nth-child(3){
     max-width: 245px;
+}
+
+.width-1024 .us-password-height {
+    height: 283px;
+}
+
+.width-1024 .us-password-personal-height {
+    height: 279px;
 }

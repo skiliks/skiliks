@@ -436,7 +436,7 @@ i.icon-doc {
 
 /* ----- personal ----- */
 
-.action-controller-personal-static-dashboard h3 {
+.action-controller-personal-static-dashboard .page-title-box h3 {
     margin-top: 6px;
     margin-left: 102px;
 }
@@ -571,3 +571,4 @@ i.icon-doc {
 .controller-static-dashboard .page-title-box .button-white:last-child {
     margin-right: 8px;
 }
+

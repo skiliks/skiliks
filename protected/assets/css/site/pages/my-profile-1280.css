@@ -206,3 +206,11 @@ input[type='password'] {
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+.us-password-height {
+    height: 298px;
+}
+
+.us-password-personal-height {
+    height: 298px;
+}
