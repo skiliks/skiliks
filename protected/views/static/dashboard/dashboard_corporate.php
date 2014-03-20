@@ -40,7 +40,8 @@
         <!-- FEED BACK -->
         <br/>
         <div>
-            <span class="action-feedback inter-active button-white button-white-hover label icon-arrow-blue  us-feedback-margin">
+            <span class="action-feedback inter-active button-white
+            button-white-hover label icon-arrow-blue">
                 Обратная связь
             </span>
         </div>

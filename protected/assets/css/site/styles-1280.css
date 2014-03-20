@@ -92,7 +92,7 @@ header nav.static-page-links ul {
 
 header nav.account-links ul,
 header nav.static-page-links ul {
-    margin-right: -8px;
+    margin-right: -12px; /* fixed for dashboad corporate */
 }
 
 footer nav.static-page-links {
@@ -370,6 +370,3 @@ header nav ul li.menu-item .log-out-link-separator {
     margin-top: 2px;
 }
 
-.skiliks .us-feedback-margin {
-    margin-left: -8px;
-}

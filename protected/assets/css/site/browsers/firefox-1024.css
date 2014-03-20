@@ -1,5 +1,6 @@
+.width-1024 header header nav.account-links ul,
 .width-1024 header nav.static-page-links ul {
-    margin-right: 15px;
+    margin-right: -8px; /* fixed for dashboad corporate */
 }
 
 .width-1024 header nav.account-links ul {
