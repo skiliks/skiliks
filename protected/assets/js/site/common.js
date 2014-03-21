@@ -84,6 +84,11 @@ $(document).ready(function () {
     // а флеш-сообщения надо по высоте тавнять с низом header
     $('.locator-flash').dialog('open');
 
+    $(window).resize(function(){
+        $('.locator-flash').dialog('option', 'width', getDialogWindowWidth_2of3());
+        $('.locator-flash').dialog('option', 'position', 'center center');
+    });
+
     // 5) sign-in
     $('.action-sign-in').click(function(event){
         event.preventDefault(event);

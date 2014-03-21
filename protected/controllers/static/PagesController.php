@@ -25,6 +25,8 @@ class PagesController extends SiteBaseController
         $this->addSiteCss('pages/homepage-1024.css');
         $this->addSiteCss('partials/system-mismatch.css');
 
+        Yii::app()->user->setFlash('success', UserService::renderPartial('static/dashboard/_thank_you_form', []));
+
         /* @var $user YumUser */
         $this->render('home', [
             'assetsUrl'          => $this->getAssetsUrl(),
