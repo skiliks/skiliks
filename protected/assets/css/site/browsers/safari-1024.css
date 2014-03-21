@@ -64,3 +64,7 @@
 .width-1024 #form-decline-explanation .button-standard {
     padding-top: 16px;
 }
+
+.width-1024.action-controller-personalPersonalData-static-profile .unstandard-personal-data-height {
+    height: 361px;
+}
