@@ -157,7 +157,7 @@ class PDFController extends SiteBaseController {
             $pdf->writeTextLeftRegular(125, 10, 76, 192, 12, $popup_tests_cache['performance.middle']['text']);
 
             $pdf->writeTextLeftRegular(90, 10, 131, 214.2, 12, $popup_tests_cache['preformance.two_minutes']['short_text']);
-            $pdf->writeTextLeftRegular(125, 10, 76, 220, 12, $popup_tests_cache['preformance.two_minutes']['text']);*/
+            $pdf->writeTextLeftRegular(125, 10, 76, 220, 12, $popup_tests_cache['preformance.two_minutes']['text']);
 
 
         // 4. Управленческие навыки
@@ -170,10 +170,11 @@ class PDFController extends SiteBaseController {
             $pdf->addUniversalBar(77.7, 53.7, $data['management'][1]['total'], 128.7, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);//1
             $pdf->addUniversalBar(77.7, 64.5, $data['management'][2]['total'], 128.7, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);//2
             $pdf->addUniversalBar(77.7, 75.2, $data['management'][3]['total'], 128.7, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);//3
-            /*
+            */
+
                         if (Simulation::ASSESSMENT_VERSION_1 == $assessmentVersion) {
                             // 5. Управленческие навыки - 1 по версии v1
-                            $pdf->page_number = 5;
+
                             $pdf->addPage();
                             $pdf->writeTextBold($username, 3.5, 3.5, 21);
                             $pdf->addPercentBigInfo($data['management'][1]['total'], 3.4, 36.8);
@@ -192,49 +193,61 @@ class PDFController extends SiteBaseController {
 
                         if (Simulation::ASSESSMENT_VERSION_2 == $assessmentVersion) {
                             // 5. Управленческие навыки - 1 по версии v2
-                            $pdf->addPage();
+                            $pdf->addPage(6);
                             $pdf->writeTextBold($username, 3.5, 3.5, 21);
-                            $pdf->addPercentBigInfo($data['management'][1]['total'], 3.4, 36.8);
+                            $pdf->addPercentBigInfo($data['management'][1]['total'], 3.4, 35.6);
 
-                            $pdf->addUniversalBar(77, 60, $data['management'][1]['1_1']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//1.1 positive
-                            $pdf->addUniversalBar(77, 70.6, $data['management'][1]['1_2']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//1.2 positive
-                            $pdf->addUniversalBar(77, 81.2, $data['management'][1]['1_3']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//1.3 positive
+                            $pdf->addUniversalBar(77, 63, $data['management'][1]['1_1']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//1.1 positive
+                            $pdf->addUniversalBar(77, 73.6, $data['management'][1]['1_2']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//1.2 positive
+                            $pdf->addUniversalBar(77, 84.2, $data['management'][1]['1_3']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//1.3 positive
 
-                            $pdf->addUniversalBar(152, 60, $data['management'][1]['1_1']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//1.1 negative
-                            $pdf->addUniversalBar(152, 70.6, $data['management'][1]['1_2']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//1.2 negative
-                            $pdf->addUniversalBar(152, 81.2, $data['management'][1]['1_3']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//1.3 negative
-                            $pdf->addUniversalBar(152, 91.8, $data['management'][1]['1_4']['-'], 54.14, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_NEGATIVE);//1.4 negative
+                            $pdf->addUniversalBar(152, 63, $data['management'][1]['1_1']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//1.1 negative
+                            $pdf->addUniversalBar(152, 73.6, $data['management'][1]['1_2']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//1.2 negative
+                            $pdf->addUniversalBar(152, 84.2, $data['management'][1]['1_3']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//1.3 negative
+                            $pdf->addUniversalBar(152, 94.8, $data['management'][1]['1_4']['-'], 54.14, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_NEGATIVE);//1.4 negative
+
+                            $pdf->writeTextLeftRegular(90, 10, 76, 150, 12, $popup_tests_cache['management.day_planing']['short_text']);
+                            $pdf->writeTextLeftRegular(125, 10, 76, 155, 12, $popup_tests_cache['management.day_planing']['text']);
+
+                            $pdf->writeTextLeftRegular(90, 10, 76, 183, 12, $popup_tests_cache['management.tasks_priority_planing']['short_text']);
+                            $pdf->writeTextLeftRegular(125, 10, 76, 188, 12, $popup_tests_cache['management.tasks_priority_planing']['text']);
+
+                            $pdf->writeTextLeftRegular(90, 10, 76, 220, 12, $popup_tests_cache['management.tasks_priority_execution']['short_text']);
+                            $pdf->writeTextLeftRegular(125, 10, 76, 225, 12, $popup_tests_cache['management.tasks_priority_execution']['text']);
+
+                            $pdf->writeTextLeftRegular(90, 10, 76, 262, 12, $popup_tests_cache['management.tasks_interruprion']['short_text']);
+                            $pdf->writeTextLeftRegular(125, 10, 76, 267, 12, $popup_tests_cache['management.tasks_interruprion']['text']);
                         }
+            /*
+                                // 6. Управленческие навыки - 2
+                                    $pdf->addPage();
+                                    $pdf->writeTextBold($username, 3.5, 3.5, 21);
+                                    $pdf->addPercentBigInfo($data['management'][2]['total'], 2.8, 36.8);
 
-                    // 6. Управленческие навыки - 2
-                        $pdf->addPage();
-                        $pdf->writeTextBold($username, 3.5, 3.5, 21);
-                        $pdf->addPercentBigInfo($data['management'][2]['total'], 2.8, 36.8);
+                                    $pdf->addUniversalBar(77, 60, $data['management'][2]['2_1']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//2.1 positive
+                                    $pdf->addUniversalBar(77, 70.6, $data['management'][2]['2_2']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//2.2 positive
+                                    $pdf->addUniversalBar(77, 81.2, $data['management'][2]['2_3']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//2.3 positive
 
-                        $pdf->addUniversalBar(77, 60, $data['management'][2]['2_1']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//2.1 positive
-                        $pdf->addUniversalBar(77, 70.6, $data['management'][2]['2_2']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//2.2 positive
-                        $pdf->addUniversalBar(77, 81.2, $data['management'][2]['2_3']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//2.3 positive
+                                    $pdf->addUniversalBar(152, 60, $data['management'][2]['2_1']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//2.1 negative
+                                    $pdf->addUniversalBar(152, 70.6, $data['management'][2]['2_2']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//2.2 negative
+                                    $pdf->addUniversalBar(152, 81.2, $data['management'][2]['2_3']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//2.3 negative
 
-                        $pdf->addUniversalBar(152, 60, $data['management'][2]['2_1']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//2.1 negative
-                        $pdf->addUniversalBar(152, 70.6, $data['management'][2]['2_2']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//2.2 negative
-                        $pdf->addUniversalBar(152, 81.2, $data['management'][2]['2_3']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//2.3 negative
+                                // 7. Управленческие навыки - 3
+                                    $pdf->addPage();
 
-                    // 7. Управленческие навыки - 3
-                        $pdf->addPage();
+                                    $pdf->writeTextBold($username, 3.5, 3.5, 21);
+                                    $pdf->addPercentBigInfo($data['management'][3]['total'], 2.8, 36.8);
 
-                        $pdf->writeTextBold($username, 3.5, 3.5, 21);
-                        $pdf->addPercentBigInfo($data['management'][3]['total'], 2.8, 36.8);
+                                    $pdf->addUniversalBar(77, 60, $data['management'][3]['3_1']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//3.1 positive
+                                    $pdf->addUniversalBar(77, 70.6, $data['management'][3]['3_2']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//3.2 positive
+                                    $pdf->addUniversalBar(77, 81.2, $data['management'][3]['3_3']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//3.3 positive
+                                    $pdf->addUniversalBar(77, 91.8, $data['management'][3]['3_4']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//3.4 positive
 
-                        $pdf->addUniversalBar(77, 60, $data['management'][3]['3_1']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//3.1 positive
-                        $pdf->addUniversalBar(77, 70.6, $data['management'][3]['3_2']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//3.2 positive
-                        $pdf->addUniversalBar(77, 81.2, $data['management'][3]['3_3']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//3.3 positive
-                        $pdf->addUniversalBar(77, 91.8, $data['management'][3]['3_4']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//3.4 positive
-
-                        $pdf->addUniversalBar(152, 60, $data['management'][3]['3_1']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//3.1 negative
-                        $pdf->addUniversalBar(152, 70.6, $data['management'][3]['3_2']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//3.2 negative
-                        $pdf->addUniversalBar(152, 81.2, $data['management'][3]['3_3']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//3.3 negative
-                        $pdf->addUniversalBar(152, 91.8, $data['management'][3]['3_4']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//3.4 negative
-                        */
+                                    $pdf->addUniversalBar(152, 60, $data['management'][3]['3_1']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//3.1 negative
+                                    $pdf->addUniversalBar(152, 70.6, $data['management'][3]['3_2']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//3.2 negative
+                                    $pdf->addUniversalBar(152, 81.2, $data['management'][3]['3_3']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//3.3 negative
+                                    $pdf->addUniversalBar(152, 91.8, $data['management'][3]['3_4']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//3.4 negative
+                                    */
             $first_name = StringTools::CyToEnWithUppercase($simulation->user->profile->firstname);
             $last_name = StringTools::CyToEnWithUppercase($simulation->user->profile->lastname);
             $vacancy_name = "";
