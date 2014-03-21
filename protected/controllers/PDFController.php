@@ -39,11 +39,11 @@ class PDFController extends SiteBaseController {
             $pdf->addRatingOverall(86.6, 45.8, $data['overall']);
             $pdf->addSpeedometer(21, 107.2, $data['time']['total']);
             $pdf->addSpeedometer(89, 107.2, $data['performance']['total']);
-            $pdf->addSpeedometer(158, 107.2, $data['management']['total']);*/
+            $pdf->addSpeedometer(158, 107.2, $data['management']['total']);
 
         // 2. Тайм менеджмент
 
-            $pdf->addPage(2);
+            $pdf->addPage();
 
 
             $pdf->writeTextBold($username, 3.5, 3.5, 21);
@@ -59,9 +59,6 @@ class PDFController extends SiteBaseController {
             );
             $pdf->addOvertime(158.1, 90.2, $data['time']['workday_overhead_duration']);
 
-
-            $pdf->addPercentSmallInfo($data['time']['total'], 179, 175.84);
-
             $pdf->writeTextLeftRegular(90, 10, 13, 180, 11, $popup_tests_cache['time.productive_time']['short_text']);
             $pdf->writeTextLeftRegular(90, 10, 13, 185, 11, $popup_tests_cache['time.productive_time']['text']);
 
@@ -72,56 +69,69 @@ class PDFController extends SiteBaseController {
             $pdf->writeTextLeftRegular(90, 10, 13, 240.5, 11, $popup_tests_cache['time.waiting_time']['text']);
 
             $pdf->writeTextLeftRegular(90, 10, 115, 180, 11, $popup_tests_cache['time.over_time']['short_text']);
-            $pdf->writeTextLeftRegular(90, 10, 115, 185, 11, $popup_tests_cache['time.over_time']['text']);
+            $pdf->writeTextLeftRegular(90, 10, 115, 185, 11, $popup_tests_cache['time.over_time']['text']);*/
 
-            /*$pdf->addPercentMiddleInfo(
+            $pdf->addPage(3);
+
+
+            $pdf->writeTextBold($username, 3.5, 3.5, 21);
+
+            $pdf->addPercentSmallInfo($data['time']['total'], 176.5, 28.3);
+
+            $pdf->writeTextCenterRegular(90, 10, 65, 33, 16, '(очень высокий уровень)');//(очень высокий уровень)
+
+            $pdf->addPercentMiddleInfo(
                 $data['time'][TimeManagementAggregated::SLUG_GLOBAL_TIME_SPEND_FOR_1ST_PRIORITY_ACTIVITIES],
                 82.1,
-                197.5
+                54.3
             ); //Продуктивное время
 
-            $pdf->addPercentMiddleInfo($data['time'][TimeManagementAggregated::SLUG_GLOBAL_TIME_SPEND_FOR_NON_PRIORITY_ACTIVITIES], 185, 197.5);//Не продуктивное время
+            $pdf->addPercentMiddleInfo(
+                $data['time'][TimeManagementAggregated::SLUG_GLOBAL_TIME_SPEND_FOR_NON_PRIORITY_ACTIVITIES],
+                185,
+                54.3
+            );//Не продуктивное время
 
             //Positive
             $x_positive = 33;
             $max_positive = $pdf->getMaxTimePositive($data['time']);
 
-            //Документы
-            $pdf->addTimeBarProductive($x_positive, 218, $data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_DOCUMENTS], $max_positive);
+            //Документы 218
+            $pdf->addTimeBarProductive($x_positive, 74.5, $data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_DOCUMENTS], $max_positive);
 
             //Встречи
-            $pdf->addTimeBarProductive($x_positive, 228.5, $data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_MEETINGS], $max_positive);
+            $pdf->addTimeBarProductive($x_positive, 85.5, $data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_MEETINGS], $max_positive);
 
             //Звонки
-            $pdf->addTimeBarProductive($x_positive, 239, $data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_PHONE_CALLS], $max_positive);
+            $pdf->addTimeBarProductive($x_positive, 96.5, $data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_PHONE_CALLS], $max_positive);
 
             //Почта
-            $pdf->addTimeBarProductive($x_positive, 249.5, $data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_MAIL], $max_positive);
+            $pdf->addTimeBarProductive($x_positive, 107, $data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_MAIL], $max_positive);
 
             //План
-            $pdf->addTimeBarProductive($x_positive, 260, $data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_PLANING], $max_positive);
+            $pdf->addTimeBarProductive($x_positive, 117.5, $data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_PLANING], $max_positive);
 
             //Negative
             $y_positive = 137;
             $max_negative = $pdf->getMaxTimeNegative($data['time']);
 
             //Документы
-            $pdf->addTimeBarUnproductive($y_positive, 218, $data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_DOCUMENTS], $max_negative);
+            $pdf->addTimeBarUnproductive($y_positive, 74.5, $data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_DOCUMENTS], $max_negative);
 
             //Встречи
-            $pdf->addTimeBarUnproductive($y_positive, 228.5, $data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_MEETINGS], $max_negative);
+            $pdf->addTimeBarUnproductive($y_positive, 85.5, $data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_MEETINGS], $max_negative);
 
             //Звонки
-            $pdf->addTimeBarUnproductive($y_positive, 239, $data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_PHONE_CALLS], $max_negative);
+            $pdf->addTimeBarUnproductive($y_positive, 96.5, $data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_PHONE_CALLS], $max_negative);
 
             //Почта
-            $pdf->addTimeBarUnproductive($y_positive, 249.5, $data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_MAIL], $max_negative);
+            $pdf->addTimeBarUnproductive($y_positive, 107, $data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_MAIL], $max_negative);
 
             //План
-            $pdf->addTimeBarUnproductive($y_positive, 260, $data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_PLANING], $max_negative);
+            $pdf->addTimeBarUnproductive($y_positive, 117.5, $data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_PLANING], $max_negative);
 
         // 3. Результативность
-            $pdf->addPage();
+            /*$pdf->addPage();
             $pdf->writeTextBold($username, 3.5, 3.5, 21);
             $pdf->addPercentSmallInfo($data['performance']['total'], 134, 27.8);
 
