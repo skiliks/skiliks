@@ -73,6 +73,8 @@ class AssessmentPDF {
 
     public  $image_width = null;
 
+    public  $debug = false;
+
     public function __construct() {
         $this->pdf = Yii::createComponent('application.components.tcpdf.tcpdf',
             'P', 'mm', 'A4', true, 'UTF-8');
@@ -160,6 +162,20 @@ class AssessmentPDF {
         $this->pdf->SetX($x);
         $this->pdf->SetTextColorArray($color);
         $this->pdf->Write(0, $text);
+    }
+
+    public function writeTextLeftRegular($width, $height, $x, $y, $size, $text) {
+        $this->pdf->SetFont('proxima-nova-regular', '', $size);
+        $this->pdf->SetTextColor(0,0,0);
+        $this->pdf->MultiCell($width, $height, $text, 1, 'L', $fill=true, $ln=1, $x, $y);
+    }
+
+    public function writeTextCenterRegular($width, $height, $x, $y, $size, $text) {
+        $this->pdf->SetFont('proxima-nova-regular', '', $size);
+        $this->pdf->SetTextColor(0,0,0);
+        $this->pdf->MultiCell($width, $height, $text, 1, 'C', $fill=true, $ln=1, $x, $y);
+
+
     }
 
     /**

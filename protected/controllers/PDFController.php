@@ -23,11 +23,11 @@ class PDFController extends SiteBaseController {
         if($isUser || $isOwner || $isAdmin) {
             $data = json_decode($simulation->getAssessmentDetails(), true);
 
-            //$popup_tests_cache = SimulationResultTextService::generate($simulation, 'popup');
+            $popup_tests_cache = SimulationResultTextService::generate($simulation, 'popup');
             //var_dump($popup_tests_cache);
             //exit;
             $pdf = new AssessmentPDF();
-
+            $pdf->debug = true;
             $username = $simulation->user->profile->firstname.' '.$simulation->user->profile->lastname;
 
             $pdf->setImagesDir('simulation_details_'.$assessmentVersion.'/images/');
@@ -42,10 +42,14 @@ class PDFController extends SiteBaseController {
             $pdf->addSpeedometer(158, 107.2, $data['management']['total']);*/
 
         // 2. Тайм менеджмент
+
             $pdf->addPage(2);
+
+
             $pdf->writeTextBold($username, 3.5, 3.5, 21);
             $pdf->addPercentSmallInfo($data['time']['total'], 183.1, 27.8);
-            $pdf->writeTextRegular('(очень высокий уровень)', 70, 33, 16);
+            $pdf->writeTextCenterRegular(90, 10, 65, 33, 16, '(очень высокий уровень)');//(очень высокий уровень)
+
             $pdf->addTimeDistribution(
                 55.7,
                 89.4,
@@ -57,6 +61,18 @@ class PDFController extends SiteBaseController {
 
 
             $pdf->addPercentSmallInfo($data['time']['total'], 179, 175.84);
+
+            $pdf->writeTextLeftRegular(90, 10, 13, 180, 11, $popup_tests_cache['time.productive_time']['short_text']);
+            $pdf->writeTextLeftRegular(90, 10, 13, 185, 11, $popup_tests_cache['time.productive_time']['text']);
+
+            $pdf->writeTextLeftRegular(90, 10, 13, 211, 11, $popup_tests_cache['time.not_productive_time']['short_text']);
+            $pdf->writeTextLeftRegular(90, 10, 13, 216, 11, $popup_tests_cache['time.not_productive_time']['text']);
+
+            $pdf->writeTextLeftRegular(90, 10, 13, 235.5, 11, $popup_tests_cache['time.waiting_time']['short_text']);
+            $pdf->writeTextLeftRegular(90, 10, 13, 240.5, 11, $popup_tests_cache['time.waiting_time']['text']);
+
+            $pdf->writeTextLeftRegular(90, 10, 115, 180, 11, $popup_tests_cache['time.over_time']['short_text']);
+            $pdf->writeTextLeftRegular(90, 10, 115, 185, 11, $popup_tests_cache['time.over_time']['text']);
 
             /*$pdf->addPercentMiddleInfo(
                 $data['time'][TimeManagementAggregated::SLUG_GLOBAL_TIME_SPEND_FOR_1ST_PRIORITY_ACTIVITIES],
