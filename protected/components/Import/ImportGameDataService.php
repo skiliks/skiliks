@@ -2929,6 +2929,7 @@ class ImportGameDataService
                 $paragraph->right = trim($this->getCellValue($sheet, 'right', $i));
             }
             $paragraph->text = trim($this->getCellValue($sheet, 'text', $i));
+            $paragraph->short_text = trim($this->getCellValue($sheet, 'short_text', $i));
             $paragraph->scenario_id = $this->scenario->primaryKey;
             $paragraph->import_id = $this->import_id;
             $paragraph->save(false);

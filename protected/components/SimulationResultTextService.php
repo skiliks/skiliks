@@ -80,8 +80,11 @@ class SimulationResultTextService {
         foreach($pockets as $pocket) {
             $left_direction = trim($pocket->left_direction);
             $right_direction = trim($pocket->right_direction);
-            if(self::$left_direction($pocket->left, $value_1) && self::$right_direction($pocket->right, $value_1)){
-                return $pocket->text;
+            if(self::$left_direction($pocket->left, $value_1) && self::$right_direction($pocket->right, $value_1)) {
+                return [
+                        'text' => $pocket->text,
+                        'short_text' => $pocket->short_text
+                       ];
             }
         }
 
@@ -112,7 +115,10 @@ class SimulationResultTextService {
                 if($pocket_num === 0) {
                     return self::SinglePocket($behaviour_alias_1, $alias, $assessment);
                 } elseif($pocket_num === (count($pockets_2) - 1)) { //Если много(последний карман) то negative
-                    return $pocket->text;
+                    return [
+                        'text' => $pocket->text,
+                        'short_text' => $pocket->short_text
+                    ];
                 } else { //Среднее, positive и negative
                     return self::SinglePocket($behaviour_alias_1, $alias, $assessment).' '.$pocket->text;
                 }
@@ -148,7 +154,10 @@ class SimulationResultTextService {
                 if($pocket_num === 0) {
                     return self::SinglePocket($behaviour_alias_1, $alias, $assessment);
                 } elseif($pocket_num === (count($pockets_2) - 1)) { //Если много(последний карман) то negative
-                    return $pocket->text;
+                    return [
+                        'text' => $pocket->text,
+                        'short_text' => $pocket->short_text
+                    ];
                 } else { //Среднее, positive и negative
                     return self::SinglePocket($behaviour_alias_1, $alias, $assessment).' '.$pocket->text;
                 }

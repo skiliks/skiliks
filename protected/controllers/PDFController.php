@@ -10,8 +10,8 @@ class PDFController extends SiteBaseController {
             $this->redirect('/registration');
         }
 
-        $simId = $this->getParam('sim_id');
-        $assessmentVersion = $this->getParam('assessment_version');
+        $simId = 11056; //$this->getParam('sim_id');
+        $assessmentVersion = 'v2';//$this->getParam('assessment_version');
 
 
         /* @var $simulation Simulation */
@@ -23,6 +23,9 @@ class PDFController extends SiteBaseController {
         if($isUser || $isOwner || $isAdmin) {
             $data = json_decode($simulation->getAssessmentDetails(), true);
 
+            //$popup_tests_cache = SimulationResultTextService::generate($simulation, 'popup');
+            //var_dump($popup_tests_cache);
+            //exit;
             $pdf = new AssessmentPDF();
 
             $username = $simulation->user->profile->firstname.' '.$simulation->user->profile->lastname;
@@ -30,32 +33,32 @@ class PDFController extends SiteBaseController {
             $pdf->setImagesDir('simulation_details_'.$assessmentVersion.'/images/');
 
         // 1. Спидометры и прочее
-            $pdf->addPage();
+            /*$pdf->addPage();
             $pdf->writeTextBold($username, 3.5, 3.5, 21);
-            $pdf->addRatingPercentile(92.4, 37.6, $data['percentile']['total']);
-            $pdf->addRatingOverall(85, 48, $data['overall']);
-            $pdf->addSpeedometer(19.8, 109.2, $data['time']['total']);
-            $pdf->addSpeedometer(87.9, 109.2, $data['performance']['total']);
-            $pdf->addSpeedometer(156.9, 109.2, $data['management']['total']);
+            $pdf->addRatingPercentile(94, 35.6, $data['percentile']['total']);
+            $pdf->addRatingOverall(86.6, 45.8, $data['overall']);
+            $pdf->addSpeedometer(21, 107.2, $data['time']['total']);
+            $pdf->addSpeedometer(89, 107.2, $data['performance']['total']);
+            $pdf->addSpeedometer(158, 107.2, $data['management']['total']);*/
 
         // 2. Тайм менеджмент
-            $pdf->addPage();
+            $pdf->addPage(2);
             $pdf->writeTextBold($username, 3.5, 3.5, 21);
-            $pdf->addPercentSmallInfo($data['time']['total'], 184.1, 28.4);
-
+            $pdf->addPercentSmallInfo($data['time']['total'], 183.1, 27.8);
+            $pdf->writeTextRegular('(очень высокий уровень)', 70, 33, 16);
             $pdf->addTimeDistribution(
-                53.9,
-                89.7,
+                55.7,
+                89.4,
                 $data['time']['time_spend_for_1st_priority_activities'],
                 $data['time']['time_spend_for_non_priority_activities'],
                 $data['time']['time_spend_for_inactivity']
             );
-            $pdf->addOvertime(156.2, 90.7, $data['time']['workday_overhead_duration']);
+            $pdf->addOvertime(158.1, 90.2, $data['time']['workday_overhead_duration']);
 
 
-            $pdf->addPercentSmallInfo($data['time']['total'], 177, 175.84);
+            $pdf->addPercentSmallInfo($data['time']['total'], 179, 175.84);
 
-            $pdf->addPercentMiddleInfo(
+            /*$pdf->addPercentMiddleInfo(
                 $data['time'][TimeManagementAggregated::SLUG_GLOBAL_TIME_SPEND_FOR_1ST_PRIORITY_ACTIVITIES],
                 82.1,
                 197.5
@@ -191,7 +194,7 @@ class PDFController extends SiteBaseController {
             $pdf->addUniversalBar(152, 70.6, $data['management'][3]['3_2']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//3.2 negative
             $pdf->addUniversalBar(152, 81.2, $data['management'][3]['3_3']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//3.3 negative
             $pdf->addUniversalBar(152, 91.8, $data['management'][3]['3_4']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//3.4 negative
-
+            */
             $first_name = StringTools::CyToEnWithUppercase($simulation->user->profile->firstname);
             $last_name = StringTools::CyToEnWithUppercase($simulation->user->profile->lastname);
             $vacancy_name = "";

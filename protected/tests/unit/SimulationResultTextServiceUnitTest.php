@@ -16,9 +16,21 @@ class SimulationResultTextServiceUnitTest extends CDbTestCase {
         $recommendations = SimulationResultTextService::generate($simulation, 'popup', true);
 
         $this->assertEquals([
-            'management.day_planing.positive' => 'Было запланировано менее 60% или более 100% рабочего времени или менеджер не приступал к планированию в начале рабочего дня.',
-            'management.day_planing.negative' => 'В работе по планированию не было грубых ошибок',
-            'management.day_planing' => 'Было запланировано менее 60% или более 100% рабочего времени или менеджер не приступал к планированию в начале рабочего дня.'
+            'management.day_planing.positive' => [
+                'text' => 'Было запланировано менее 60% или более 100% рабочего времени или менеджер не приступал к планированию в начале рабочего дня.',
+                'short_text' => 'плохо'
+            ],
+
+            'management.day_planing.negative' => [
+                'text' => 'В работе по планированию не было грубых ошибок',
+                'short_text' => 'нет ошибок'
+            ],
+
+            'management.day_planing' => [
+                'text' => 'Было запланировано менее 60% или более 100% рабочего времени или менеджер не приступал к планированию в начале рабочего дня.',
+                'short_text' => 'плохо'
+            ]
+
         ], $recommendations);
     }
 

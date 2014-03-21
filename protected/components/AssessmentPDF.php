@@ -90,12 +90,16 @@ class AssessmentPDF {
     /**
      * Создание страницы по шаблону с eps на весь экран
      */
-    public function addPage() {
+    public function addPage($number = null) {
         $this->pdf->AddPage();
-
+        if($number !== null){
+            $this->page_number = $number;
+        }
         // "297.2" вместо "297", чтобы квадраты номеров страниц внизу соприкасались с краем страницы
         // видимо, из-за какой-то ошибки рендера, картинка высотой 297 чуть короче страницы высотой 297
         // и под номером страницы видна белая полоса 0,2 мм
+        //echo $this->page_number++;
+        //exit;
         $this->pdf->ImageEps($this->images_dir.$this->page_number++.'_.eps', 0, 0, 210, 297.2);
     }
 
