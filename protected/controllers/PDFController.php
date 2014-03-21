@@ -69,9 +69,9 @@ class PDFController extends SiteBaseController {
             $pdf->writeTextLeftRegular(90, 10, 13, 240.5, 11, $popup_tests_cache['time.waiting_time']['text']);
 
             $pdf->writeTextLeftRegular(90, 10, 115, 180, 11, $popup_tests_cache['time.over_time']['short_text']);
-            $pdf->writeTextLeftRegular(90, 10, 115, 185, 11, $popup_tests_cache['time.over_time']['text']);*/
+            $pdf->writeTextLeftRegular(90, 10, 115, 185, 11, $popup_tests_cache['time.over_time']['text']);
 
-            $pdf->addPage(3);
+            $pdf->addPage();
 
 
             $pdf->writeTextBold($username, 3.5, 3.5, 21);
@@ -130,25 +130,38 @@ class PDFController extends SiteBaseController {
             //План
             $pdf->addTimeBarUnproductive($y_positive, 117.5, $data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_PLANING], $max_negative);
 
-        // 3. Результативность
-            /*$pdf->addPage();
+        // 3. Результативность */
+            $pdf->addPage(4);
             $pdf->writeTextBold($username, 3.5, 3.5, 21);
-            $pdf->addPercentSmallInfo($data['performance']['total'], 134, 27.8);
-
+            $pdf->addPercentSmallInfo($data['performance']['total'], 133.8, 28);
+            $pdf->writeTextCenterRegular(90, 10, 65, 33, 16, '(очень высокий уровень)');//(очень высокий уровень)
             //Срочно
-            $pdf->addUniversalBar(77, 45.8, $pdf->getPerformanceCategory($data['performance'], '0'), 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);
+            $pdf->addUniversalBar(77, 54.8, $pdf->getPerformanceCategory($data['performance'], '0'), 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);
 
             //Высокий приоритет
-            $pdf->addUniversalBar(77, 56.3, $pdf->getPerformanceCategory($data['performance'], '1'), 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);
+            $pdf->addUniversalBar(77, 65.5, $pdf->getPerformanceCategory($data['performance'], '1'), 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);
 
             //Средний приоритет
-            $pdf->addUniversalBar(77, 66.9, $pdf->getPerformanceCategory($data['performance'], '2'), 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);
+            $pdf->addUniversalBar(77, 76.2, $pdf->getPerformanceCategory($data['performance'], '2'), 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);
 
             //Двухминутные задачи
-            $pdf->addUniversalBar(77, 77.5, $pdf->getPerformanceCategory($data['performance'], '2_min'), 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);
+            $pdf->addUniversalBar(77, 87.2, $pdf->getPerformanceCategory($data['performance'], '2_min'), 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);
+
+            $pdf->writeTextLeftRegular(90, 10, 98, 134.2, 12, $popup_tests_cache['performance.urgent']['short_text']);
+            $pdf->writeTextLeftRegular(125, 10, 76, 139.5, 12, $popup_tests_cache['performance.urgent']['text']);
+
+            $pdf->writeTextLeftRegular(90, 10, 125, 158, 12, $popup_tests_cache['performance.high']['short_text']);
+            $pdf->writeTextLeftRegular(125, 10, 76, 164.3, 12, $popup_tests_cache['performance.high']['text']);
+
+            $pdf->writeTextLeftRegular(90, 10, 125, 186.5, 12, $popup_tests_cache['performance.middle']['short_text']);
+            $pdf->writeTextLeftRegular(125, 10, 76, 192, 12, $popup_tests_cache['performance.middle']['text']);
+
+            $pdf->writeTextLeftRegular(90, 10, 131, 214.2, 12, $popup_tests_cache['preformance.two_minutes']['short_text']);
+            $pdf->writeTextLeftRegular(125, 10, 76, 220, 12, $popup_tests_cache['preformance.two_minutes']['text']);
+
 
         // 4. Управленческие навыки
-            $pdf->addPage();
+            /*$pdf->addPage();
 
             $pdf->writeTextBold($username, 3.5, 3.5, 21);
             $pdf->addPercentSmallInfo($data['management']['total'], 149.3, 28.3);
