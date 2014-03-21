@@ -20,6 +20,12 @@
     padding-top: 9px;
 }
 
+.width-1024.action-controller-index-static-pages input.button-standard { /* homepage */
+    margin-top: 0;
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
 .width-1024.skiliks.action-controller-recovery-static-userAuth .us-auth-box {
     width: 562px;
 }

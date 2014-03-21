@@ -155,7 +155,11 @@ p.us-success-text {
 }
 
 .us-start-demo {
+    height: 26px;
+    font-size: 1.21em;
     left: 6px;
+    padding-top: 5px;
+    padding-bottom: 3px;
     position: relative;
     top: -79px;
 }
@@ -164,3 +168,33 @@ p.us-success-text {
    position: relative;
    z-index: 1;
 }
+
+/* popup-video { */
+
+.popup-video {
+    background: none repeat scroll 0 0 #146672;
+    border: medium none;
+    border-radius: 8px;
+    box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
+    margin: 0 auto;
+    overflow: hidden;
+    padding: 0;
+}
+
+.popup-video.ui-dialog .iframe-video.ui-dialog-content {
+    overflow: hidden;
+}
+
+.popup-video .iframe-video iframe {
+    border-radius: 5px;
+    height: 354px;
+    width: 100%;
+}
+
+
+.skiliks .popup-video .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick {
+    margin-top: -18px;
+}
+
+/* popup-video } */
+

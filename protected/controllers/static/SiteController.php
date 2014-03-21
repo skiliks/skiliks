@@ -150,6 +150,9 @@ class SiteController extends SiteBaseController
         $user->getAccount()->save(false);
     }
 
+    /**
+     *
+     */
     public function actionUserStartSecondSimulation() {
 
         $invite_id = Yii::app()->request->getParam('invite_id');
@@ -159,6 +162,9 @@ class SiteController extends SiteBaseController
         }
     }
 
+    /**
+     *
+     */
     public function actionUserRejectStartSecondSimulation() {
         $invite_id = Yii::app()->request->getParam('invite_id');
         if(null!==$invite_id){
@@ -188,6 +194,19 @@ class SiteController extends SiteBaseController
         $invite->save(false);
 
         $this->redirect('/simulation/promo/lite/'.$invite->id);
+    }
+
+    /**
+     * Показывает видео с Vimeo "Как удобно пользоваться Скиликсом для найма сотрудников".
+     */
+    public function actionWatchVideo()
+    {
+        $this->layout = '//layouts/site_standard_2';
+
+        if ('en' == $this->getParam('_lang')) {
+            Yii::app()->language = 'en';
+        }
+        $this->render('watchVideo');
     }
 }
 

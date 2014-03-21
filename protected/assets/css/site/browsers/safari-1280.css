@@ -59,3 +59,13 @@
 #form-decline-explanation .button-standard {
     padding-top: 16px;
 }
+
+.skiliks input.inputs-wide-height {
+    /*height: 38px;*/
+    margin-top: 1px;
+}
+
+.skiliks input.button-standard {
+    padding-top: 13px;
+    padding-bottom: 11px;
+}

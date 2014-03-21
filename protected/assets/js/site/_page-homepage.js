@@ -88,7 +88,7 @@ $(document).ready(function() {
     }
     // проверка ОС и браузера }
 
-    // Подписка
+    // 2) Подписка
     $('#action-subscribe-form').submit(function(e) {
         hideError();
         e.preventDefault();
@@ -121,6 +121,50 @@ $(document).ready(function() {
         // prevent default behaviour
         return true;
     });
+
+    // 3) Video-popup
+    $(".action-view-video").click(function() {
+        //$($(".main-content .iframe-video-wrap").html()).dialog({
+        $('.iframe-video').dialog({
+            modal: true,
+            resizable: false,
+            draggable: false,
+            height: 354,
+            width: 850,
+            dialogClass: "popup-video background-dark-blue reset-padding",
+            position: {
+                my: "center top",
+                at: "center bottom",
+                of: $('header')
+            },
+            open: function() {
+                $('.popup-video .ui-icon-closethick').click(function(){
+                    $(".popup-video .iframe-video iframe").attr("src",
+                        $(".iframe-video iframe").attr("src").replace('?autoplay=1',''));
+                });
+            }/*,
+            show: {
+                effect: "clip",
+                duration: 1000
+            },
+            hide: {
+                effect: "puff",
+                duration: 500
+            }*/
+        });
+
+        $(".popup-video .iframe-video iframe").attr("src", $(".iframe-video iframe").attr("src") + '?autoplay=1');
+
+
+        //$('.popup-video .ui-dialog-titlebar').remove();
+        //$('.popup-video').prepend('<a class="popupclose" href="javascript:void(0);"></a>');
+//        $('.popup-video a.popupclose').click(function() {
+//            $('.iframe-video').dialog('close');
+//            $('.popup-video a.popupclose').remove();
+//            $('.iframe-video').detach();
+//        });
+
+    });
 });
 
 var displayError = function(msg) {
@@ -132,5 +176,4 @@ var displayError = function(msg) {
 var hideError = function() {
     $('#action-subscribe-form').removeClass('error');
     $('.locator-errorMessage').text('');
-    $('.locator-user-email-value').css({"border-color":"#3E5259"});
 }

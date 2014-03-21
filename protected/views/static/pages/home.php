@@ -52,15 +52,97 @@
                 </span>
                 <span class="us-column-1-3 margin-left-18 vertical-align-top">
                     <?php if ('ru' == Yii::app()->getlanguage()): ?>
+                        <?php // RU: ?>
                         <br/>
                         <div class="pull-content-center">
                             <span class="action-open-lite-simulation-popup inter-active us-start-demo-box"
                                   data-href="/simulation/demo">
                                 <img class="us-start-demo-image"
                                      src="<?= $this->assetsUrl ?>/img/site/1280/homepage/demo.png" />
-                                <span class="label button-standard no-hover background-dark-blue color-ffffff us-start-demo">
+                                <span class="label no-hover background-dark-blue color-ffffff us-start-demo">
                                     Начать демо
                                 </span>
+                            </span>
+                        </div>
+                    <?php else: ?>
+                    <?php // EN: ?>
+                        <br/>
+                        <div class="pull-content-center">
+                            <span class="inter-active us-start-demo-box us-video-height"
+                                  data-href="/simulation/demo">
+                                <span class="action-view-video">
+                                    <img class="us-start-demo-image"
+                                         src="<?= $this->assetsUrl ?>/img/site/1280/homepage/demo.png" />
+                                    <span class="label no-hover background-dark-blue color-ffffff us-start-demo">
+                                        Watch the video
+                                    </span>
+                                </span>
+
+                                <?php // Social networks share(video) links { ?>
+                                <span class="social-networks-share-link pull-content-right">
+                                    <label class="inline-block">Share video:</label>
+
+                                    <span class="share-buttons-box inline-block">
+                                        <ul class="inline-list inline-block">
+                                            <li class="share-button vk-share-button">
+                                                <a target="_blank" href="#" onclick="
+                                                    window.open(
+                                                    'http://vk.com/share.php?url='
+                                                    + encodeURIComponent('http://loc.skiliks.com/watchVideo/en'),
+                                                    'vk-share-dialog',
+                                                    'width=626,height=436');
+                                                    return false;" title="ВКонтакте">
+                                                </a>
+                                            </li>
+
+                                            <li class="share-button facebook-share-button">
+                                                <a target="_blank" href="#" onclick="
+                                                    window.open(
+                                                      'https://www.facebook.com/sharer/sharer.php?u='
+                                                      + encodeURIComponent('http://loc.skiliks.com/watchVideo/en'),
+                                                      'fb-share-dialog',
+                                                      'width=626,height=436');
+                                                    return false;" title="Facebook">
+                                                </a>
+                                            </li>
+
+                                            <li class="share-button twitter-share-button">
+                                                <a target="_blank" href="#" onclick="
+                                                    window.open(
+                                                    'https://twitter.com/share?url='
+                                                    + encodeURIComponent('http://loc.skiliks.com/watchVideo/en'),
+                                                    'twitter-share-dialog',
+                                                    'width=626,height=436');
+                                                    return false;" title="Twitter">
+                                                </a>
+                                            </li>
+
+                                            <li class="share-button google-share-button">
+                                                <a target="_blank" href="#" onclick="
+                                                    window.open(
+                                                    'https://plus.google.com/share?url='
+                                                    + encodeURIComponent('http://loc.skiliks.com/watchVideo/en'),
+                                                    'google-share-dialog',
+                                                    'width=626,height=436');
+                                                    return false;" title="Google">
+                                                </a>
+                                            </li>
+
+                                            <li class="share-button linkedIn-share-button">
+                                                <a target="_blank" href="#" onclick="
+                                                    window.open(
+                                                    'https://www.linkedin.com/cws/share?url='
+                                                    + encodeURIComponent('http://loc.skiliks.com/watchVideo/en'),
+                                                    'linkedin-share-dialog',
+                                                    'width=626,height=436');
+                                                    return false;" title="Linkedin">
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </span>
+                                </span>
+                                <?php // Social networks share(video) links } ?>
+
                             </span>
                         </div>
                     <?php endif ?>
@@ -127,6 +209,13 @@
     </section>
 
 <img class="us-homepage-heroes-group" src="<?= $this->assetsUrl ?>/img/site/1280/homepage/heroes-group.png" />
+
+<div class="iframe-video-wrap hide">
+    <div class="iframe-video">
+        <iframe src="http://player.vimeo.com/video/<?= Yii::t('site', '61258856') ?>"
+            frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+    </div>
+</div>
 
 <?=$this->renderPartial('//global_partials/_system_mismatch_popup')?>
 

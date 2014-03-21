@@ -79,3 +79,17 @@
 .width-1024 .social-networks-share-links {
     height: 43px;
 }
+
+.us-homepage-content .social-networks-share-link {
+    width: 393px;
+    position: relative;
+    top: -30px;
+}
+
+.us-homepage-content .social-networks-share-link .share-buttons-box {
+    margin-right: 0;
+}
+
+.us-video-height {
+    height: 220px;
+}

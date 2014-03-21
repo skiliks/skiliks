@@ -84,7 +84,19 @@ if(preg_match('/(?i)Chrome/',$_SERVER['HTTP_USER_AGENT']))
 <!DOCTYPE html>
 <html lang="<?php echo Yii::t('site', 'en') ?>">
 <head>
-    <meta property="og:image" content="<?php echo $assetsUrl?>/img/skiliks-fb.png"/>
+
+    <?php if(Yii::app()->controller->action->id == "watchVideo") : ?>
+        <?php // facebook image for share video link ?>
+        <meta property="og:image" content="http://<?=$_SERVER['HTTP_HOST']; ?><?php echo $assetsUrl?>/img/site/social-networks/videoscreen.jpg"/>
+    <?php else : ?>
+        <meta property="og:image" content="http://<?=$_SERVER['HTTP_HOST']; ?><?php echo $assetsUrl?>/img/site/social-networks/skiliks-fb.png"/>
+    <?php endif ?>
+
+
+    <meta property="og:image" content="http://<?=$_SERVER['HTTP_HOST']; ?><?php echo $assetsUrl?>/img/site/social-networks/skiliks-fb.png"/>
+    <meta property="og:title" content="Skiliks – game the skills"/>
+    <meta property="og:url" content="http://<?=$_SERVER['HTTP_HOST']; ?>"/>
+
     <meta charset="utf-8" />
     <meta name="description" content="Простой и надежный способ проверить навыки менеджеров:
         деловая онлайн симуляция, имитирующая реальный рабочий день с типичными управленческими задачами
@@ -92,6 +104,7 @@ if(preg_match('/(?i)Chrome/',$_SERVER['HTTP_USER_AGENT']))
     <meta property="og:description" content="Простой и надежный способ проверить навыки менеджеров:
         деловая онлайн симуляция, имитирующая реальный рабочий день с типичными управленческими задачами
         и ситуациями принятия решений">
+
     <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon" />
     <title>Skiliks - game the skills</title>
 

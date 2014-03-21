@@ -43,3 +43,8 @@
 .width-1024.skiliks .us-password-height {
     height: 279px;
 }
+
+.width-1024 #action-subscribe-form .inputs-wide-height {
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
