@@ -129,7 +129,7 @@ $(document).ready(function() {
             modal: true,
             resizable: false,
             draggable: false,
-            height: 354,
+            height: 479,
             width: 850,
             dialogClass: "popup-video background-dark-blue reset-padding",
             position: {
@@ -138,32 +138,17 @@ $(document).ready(function() {
                 of: $('header')
             },
             open: function() {
-                $('.popup-video .ui-icon-closethick').click(function(){
+                $('.popup-video .ui-icon-closethick').click(function() {
+                    // только в IE - если видео скрыто оно не останавливается
+                    // приходится перезагружать его, но без автостарта
                     $(".popup-video .iframe-video iframe").attr("src",
                         $(".iframe-video iframe").attr("src").replace('?autoplay=1',''));
                 });
-            }/*,
-            show: {
-                effect: "clip",
-                duration: 1000
-            },
-            hide: {
-                effect: "puff",
-                duration: 500
-            }*/
+            }
         });
 
+        // заставляем видео включиться
         $(".popup-video .iframe-video iframe").attr("src", $(".iframe-video iframe").attr("src") + '?autoplay=1');
-
-
-        //$('.popup-video .ui-dialog-titlebar').remove();
-        //$('.popup-video').prepend('<a class="popupclose" href="javascript:void(0);"></a>');
-//        $('.popup-video a.popupclose').click(function() {
-//            $('.iframe-video').dialog('close');
-//            $('.popup-video a.popupclose').remove();
-//            $('.iframe-video').detach();
-//        });
-
     });
 });
 
