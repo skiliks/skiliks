@@ -150,6 +150,10 @@ $(document).ready(function() {
         // заставляем видео включиться
         $(".popup-video .iframe-video iframe").attr("src", $(".iframe-video iframe").attr("src") + '?autoplay=1');
     });
+
+    $(window).on('resize', function() {
+        $('.iframe-video').dialog('option', 'position', 'center center');
+    });
 });
 
 var displayError = function(msg) {
