@@ -61,7 +61,7 @@ class SeleniumTestHelper extends CWebTestCase
         for ($second = 0; ; $second++) {
             if ($second >= 600) $this->fail("!!! FAIL: simulation does not start, because there isn't desktop at the screen!!!");
             try {
-                if ($this->isVisible("id=addTriggerSelect")) break;
+                if ($this->isVisible("css=.btn.btn-simulation-stop")) break;
             } catch (Exception $e) {}
             usleep(100000);
         }

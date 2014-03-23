@@ -30,12 +30,13 @@ class Authorization_LogOut_SK3222_Test extends SeleniumTestHelper
         $this->waitForTextPresent('Введите логин');
         $this->assertTextPresent('Введите пароль');
 
+        //$this->loginPopup("emailNotActivated@skiliks.com","123123",'не активирован');
         $this->loginPopup("asdskiliks.com","123123",'Email введён неверно');
         $this->loginPopup("selenium.engine@skiliks.com","not correct password",'Неверный пароль');
         $this->loginPopup("selenium111@skiliks.com","123123",'Неверный логин');
         $this->loginPopup("selenium.engine@skiliks.com","111",'Неверный пароль');
         $this->loginPopup("emailForBaned@skiliks.com","123123",'заблокирован'); //неправильный текст - потом поменять
-        $this->loginPopup("emailNotActivated@skiliks.com","123123",'не активирован');
+
     }
 
     /**
