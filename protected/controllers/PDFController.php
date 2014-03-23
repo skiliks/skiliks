@@ -33,7 +33,7 @@ class PDFController extends SiteBaseController {
             $pdf->setImagesDir('simulation_details_'.$assessmentVersion.'/images/');
 
         // 1. Спидометры и прочее
-            /*$pdf->addPage();
+            $pdf->addPage();
             $pdf->writeTextBold($username, 3.5, 3.5, 21);
             $pdf->addRatingPercentile(94, 35.6, $data['percentile']['total']);
             $pdf->addRatingOverall(86.6, 45.8, $data['overall']);
@@ -196,6 +196,7 @@ class PDFController extends SiteBaseController {
             $pdf->addPage();
             $pdf->writeTextBold($username, 3.5, 3.5, 21);
             $pdf->addPercentBigInfo($data['management'][1]['total'], 3.4, 35.6);
+            $pdf->writeTextCenterRegular(90, 10, 42, 41, 16, '(очень высокий уровень)');//(очень высокий уровень)
 
             $pdf->addUniversalBar(77, 63, $data['management'][1]['1_1']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//1.1 positive
             $pdf->addUniversalBar(77, 73.6, $data['management'][1]['1_2']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//1.2 positive
@@ -217,12 +218,13 @@ class PDFController extends SiteBaseController {
 
             $pdf->writeTextLeftRegular(90, 10, 76, 262, 12, $popup_tests_cache['management.tasks_interruprion']['short_text']);
             $pdf->writeTextLeftRegular(125, 10, 76, 267, 12, $popup_tests_cache['management.tasks_interruprion']['text']);
-                        }
+            }
 
             // 6. Управленческие навыки - 2
             $pdf->addPage();
             $pdf->writeTextBold($username, 3.5, 3.5, 21);
             $pdf->addPercentBigInfo($data['management'][2]['total'], 3.1, 36.3);
+            $pdf->writeTextCenterRegular(90, 10, 10, 41, 16, '(очень высокий уровень)');//(очень высокий уровень)
 
             $pdf->addUniversalBar(77, 63, $data['management'][2]['2_1']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//2.1 positive
             $pdf->addUniversalBar(77, 73.6, $data['management'][2]['2_2']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//2.2 positive
@@ -240,13 +242,14 @@ class PDFController extends SiteBaseController {
 
             $pdf->writeTextLeftRegular(90, 10, 77, 228, 12, $popup_tests_cache['management.tasks_priority_execution']['short_text']);
             $pdf->writeTextLeftRegular(125, 10, 77, 233, 12, $popup_tests_cache['management.tasks_priority_execution']['text']);
-            */
+
 
             // 7. Управленческие навыки - 3
-            $pdf->addPage(8);
+            $pdf->addPage();
 
             $pdf->writeTextBold($username, 3.5, 3.5, 21);
             $pdf->addPercentBigInfo($data['management'][3]['total'], 3, 35.8);
+            $pdf->writeTextCenterRegular(90, 10, 23, 41, 16, '(очень высокий уровень)');//(очень высокий уровень)
 
             $pdf->addUniversalBar(77, 63.5, $data['management'][3]['3_1']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//3.1 positive
             $pdf->addUniversalBar(77, 72.7, $data['management'][3]['3_2']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//3.2 positive
