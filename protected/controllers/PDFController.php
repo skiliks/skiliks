@@ -24,8 +24,8 @@ class PDFController extends SiteBaseController {
             $data = json_decode($simulation->getAssessmentDetails(), true);
 
             $popup_tests_cache = SimulationResultTextService::generate($simulation, 'popup');
-            //var_dump($popup_tests_cache);
-            //exit;
+            var_dump($popup_tests_cache);
+            exit;
             $pdf = new AssessmentPDF();
             $pdf->debug = true;
             $username = $simulation->user->profile->firstname.' '.$simulation->user->profile->lastname;
@@ -207,17 +207,17 @@ class PDFController extends SiteBaseController {
             $pdf->addUniversalBar(152, 84.2, $data['management'][1]['1_3']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//1.3 negative
             $pdf->addUniversalBar(152, 94.8, $data['management'][1]['1_4']['-'], 54.14, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_NEGATIVE);//1.4 negative
 
-            $pdf->writeTextLeftRegular(90, 10, 76, 150, 12, $popup_tests_cache['management.day_planing']['short_text']);
-            $pdf->writeTextLeftRegular(125, 10, 76, 155, 12, $popup_tests_cache['management.day_planing']['text']);
+            $pdf->writeTextLeftRegular(90, 10, 76, 150, 12, $popup_tests_cache['management.task_managment.day_planing']['short_text']);
+            $pdf->writeTextLeftRegular(125, 10, 76, 155, 12, $popup_tests_cache['management.task_managment.day_planing']['text']);
 
-            $pdf->writeTextLeftRegular(90, 10, 76, 183, 12, $popup_tests_cache['management.tasks_priority_planing']['short_text']);
-            $pdf->writeTextLeftRegular(125, 10, 76, 188, 12, $popup_tests_cache['management.tasks_priority_planing']['text']);
+            $pdf->writeTextLeftRegular(90, 10, 76, 183, 12, $popup_tests_cache['management.task_managment.tasks_priority_planing']['short_text']);
+            $pdf->writeTextLeftRegular(125, 10, 76, 188, 12, $popup_tests_cache['management.task_managment.tasks_priority_planing']['text']);
 
-            $pdf->writeTextLeftRegular(90, 10, 76, 220, 12, $popup_tests_cache['management.tasks_priority_execution']['short_text']);
-            $pdf->writeTextLeftRegular(125, 10, 76, 225, 12, $popup_tests_cache['management.tasks_priority_execution']['text']);
+            $pdf->writeTextLeftRegular(90, 10, 76, 220, 12, $popup_tests_cache['management.task_managment.tasks_priority_execution']['short_text']);
+            $pdf->writeTextLeftRegular(125, 10, 76, 225, 12, $popup_tests_cache['management.task_managment.tasks_priority_execution']['text']);
 
-            $pdf->writeTextLeftRegular(90, 10, 76, 262, 12, $popup_tests_cache['management.tasks_interruprion']['short_text']);
-            $pdf->writeTextLeftRegular(125, 10, 76, 267, 12, $popup_tests_cache['management.tasks_interruprion']['text']);
+            $pdf->writeTextLeftRegular(90, 10, 76, 262, 12, $popup_tests_cache['management.task_managment.tasks_interruprion']['short_text']);
+            $pdf->writeTextLeftRegular(125, 10, 76, 267, 12, $popup_tests_cache['management.task_managment.tasks_interruprion']['text']);
             }
 
             // 6. Управленческие навыки - 2
@@ -234,14 +234,14 @@ class PDFController extends SiteBaseController {
             $pdf->addUniversalBar(152, 73.6, $data['management'][2]['2_2']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//2.2 negative
             $pdf->addUniversalBar(152, 84.2, $data['management'][2]['2_3']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//2.3 negative
 
-            $pdf->writeTextLeftRegular(90, 10, 76, 142, 12, $popup_tests_cache['management.day_planing']['short_text']);
-            $pdf->writeTextLeftRegular(125, 10, 76, 147, 12, $popup_tests_cache['management.day_planing']['text']);
+            $pdf->writeTextLeftRegular(90, 10, 76, 142, 12, $popup_tests_cache['management.people_managment.delegation']['short_text']);
+            $pdf->writeTextLeftRegular(125, 10, 76, 147, 12, $popup_tests_cache['management.people_managment.delegation']['text']);
 
-            $pdf->writeTextLeftRegular(90, 10, 76, 176, 12, $popup_tests_cache['management.tasks_priority_planing']['short_text']);
-            $pdf->writeTextLeftRegular(125, 10, 76, 181, 12, $popup_tests_cache['management.tasks_priority_planing']['text']);
+            $pdf->writeTextLeftRegular(90, 10, 76, 176, 12, $popup_tests_cache['management.people_managment.resource_quality']['short_text']);
+            $pdf->writeTextLeftRegular(125, 10, 76, 181, 12, $popup_tests_cache['management.people_managment.resource_quality']['text']);
 
-            $pdf->writeTextLeftRegular(90, 10, 77, 228, 12, $popup_tests_cache['management.tasks_priority_execution']['short_text']);
-            $pdf->writeTextLeftRegular(125, 10, 77, 233, 12, $popup_tests_cache['management.tasks_priority_execution']['text']);
+            $pdf->writeTextLeftRegular(90, 10, 77, 228, 12, $popup_tests_cache['management.people_managment.feedback']['short_text']);
+            $pdf->writeTextLeftRegular(125, 10, 77, 233, 12, $popup_tests_cache['management.people_managment.feedback']['text']);
 
 
             // 7. Управленческие навыки - 3
@@ -261,17 +261,17 @@ class PDFController extends SiteBaseController {
             $pdf->addUniversalBar(152, 84, $data['management'][3]['3_3']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//3.3 negative
             $pdf->addUniversalBar(152, 94, $data['management'][3]['3_4']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//3.4 negative
 
-            $pdf->writeTextLeftRegular(90, 10, 77, 156, 12, $popup_tests_cache['management.day_planing']['short_text']);
-            $pdf->writeTextLeftRegular(125, 10, 77, 161, 12, $popup_tests_cache['management.day_planing']['text']);
+            $pdf->writeTextLeftRegular(90, 10, 77, 156, 12, $popup_tests_cache['management.communication_managment.comunication_channel']['short_text']);
+            $pdf->writeTextLeftRegular(125, 10, 77, 161, 12, $popup_tests_cache['management.communication_managment.comunication_channel']['text']);
 
-            $pdf->writeTextLeftRegular(90, 10, 77, 183, 12, $popup_tests_cache['management.tasks_priority_planing']['short_text']);
-            $pdf->writeTextLeftRegular(125, 10, 77, 188, 12, $popup_tests_cache['management.tasks_priority_planing']['text']);
+            $pdf->writeTextLeftRegular(90, 10, 77, 183, 12, $popup_tests_cache['management.communication_managment.effective_mail']['short_text']);
+            $pdf->writeTextLeftRegular(125, 10, 77, 188, 12, $popup_tests_cache['management.communication_managment.effective_mail']['text']);
 
-            $pdf->writeTextLeftRegular(90, 10, 77, 216, 12, $popup_tests_cache['management.tasks_priority_execution']['short_text']);
-            $pdf->writeTextLeftRegular(125, 10, 77, 221, 12, $popup_tests_cache['management.tasks_priority_execution']['text']);
+            $pdf->writeTextLeftRegular(90, 10, 77, 216, 12, $popup_tests_cache['management.communication_managment.effective_calls']['short_text']);
+            $pdf->writeTextLeftRegular(125, 10, 77, 221, 12, $popup_tests_cache['management.communication_managment.effective_calls']['text']);
 
-            $pdf->writeTextLeftRegular(90, 10, 77, 247, 12, $popup_tests_cache['management.tasks_priority_execution']['short_text']);
-            $pdf->writeTextLeftRegular(125, 10, 77, 252, 12, $popup_tests_cache['management.tasks_priority_execution']['text']);
+            $pdf->writeTextLeftRegular(90, 10, 77, 247, 12, $popup_tests_cache['management.communication_managment.effective_meetings']['short_text']);
+            $pdf->writeTextLeftRegular(125, 10, 77, 252, 12, $popup_tests_cache['management.communication_managment.effective_meetings']['text']);
 
             $first_name = StringTools::CyToEnWithUppercase($simulation->user->profile->firstname);
             $last_name = StringTools::CyToEnWithUppercase($simulation->user->profile->lastname);
