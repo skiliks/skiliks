@@ -214,4 +214,10 @@ $(document).ready(function(){
         }
     });
 
+    $('.action-toggle-is-test').click(function(){
+        $.post('/admin_area/order/' + $(this).attr("data-invoice-id") + '/toggle-is-test/').
+            done(function() {
+                window.location.reload();
+            });
+    });
 });

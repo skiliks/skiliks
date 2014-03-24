@@ -679,6 +679,9 @@ class AdminPagesController extends SiteBaseController {
         echo $xls;
     }
 
+    /**
+     * @throws LogicException
+     */
     public function actionResetInvite() {
 
         $invite_id = Yii::app()->request->getParam('invite_id', null);
@@ -696,10 +699,22 @@ class AdminPagesController extends SiteBaseController {
         $this->redirect("/admin_area/invites");
     }
 
+    /**
+     * Список заказов
+     */
     public function actionOrders()
     {
-        // pager {
+        $isEmptyFilters =
+            false === Yii::app()->request->getParam('email', false)
+            && false === Yii::app()->request->getParam('cash', false)
+            && false === Yii::app()->request->getParam('robokassa', false)
+            && false === Yii::app()->request->getParam('notDone', false)
+            && false === Yii::app()->request->getParam('isTestPayment', false)
+            && false === Yii::app()->request->getParam('isRealPayment', false);
+        // если вс фильтры пусты - то надо задать значение по умолчанию
+        // в true все чекбоксы кроме isTestPayment.
 
+        // pager {
         $page = Yii::app()->request->getParam('page');
 
         if (null === $page) {
@@ -722,9 +737,7 @@ class AdminPagesController extends SiteBaseController {
             $this->redirect($session["order_address"]);
         }
 
-
         $session["order_address"] = $request_uri;
-
 
         $criteria = new CDbCriteria;
 
@@ -739,27 +752,46 @@ class AdminPagesController extends SiteBaseController {
         }
 
         // appying payment method filters
-        $filterCash = Yii::app()->request->getParam('cash', null);
-        $filterRobokassa = Yii::app()->request->getParam('robokassa', null);
+        $filterCash = Yii::app()->request->getParam('cash', $isEmptyFilters);
+        $filterRobokassa = Yii::app()->request->getParam('robokassa', $isEmptyFilters);
 
-        if($filterCash !== null && $filterRobokassa === null) {
+        if($filterCash !== false && $filterRobokassa === false) {
             $criteria->compare("payment_system", 'cash');
         }
-        elseif($filterCash === null && $filterRobokassa !== null) {
+        elseif($filterCash === false && $filterRobokassa !== false) {
             $criteria->compare("t.payment_system", 'robokassa');
         }
         // if both are not null we taking everything
 
-
         // applying done / not done filters
-        $done = Yii::app()->request->getParam('done', null);
-        $notDone = Yii::app()->request->getParam('notDone', null);
+        $done = Yii::app()->request->getParam('done', $isEmptyFilters);
+        $notDone = Yii::app()->request->getParam('notDone', $isEmptyFilters);
 
         if($done !== null && $notDone === null) {
             $criteria->addCondition("t.paid_at IS NOT NULL");
-        }
-        elseif($done === null && $notDone !== null) {
+        } elseif ($done === null && $notDone !== null) {
             $criteria->addCondition("t.paid_at IS NULL");
+        }
+        // if both are not null we taking everything
+
+        // applying done / not done filters
+        $isTestPayment = Yii::app()->request->getParam('isTestPayment', false);
+        $isRealPayment = Yii::app()->request->getParam('isRealPayment', $isEmptyFilters);
+
+        if ('on' == $isTestPayment) {
+            $isTestPayment = true;
+        }
+
+        if ('on' == $isRealPayment) {
+            $isRealPayment = true;
+        }
+
+        if($isTestPayment && false == $isRealPayment) {
+            $criteria->addCondition("t.is_test_payment = 1");
+        } elseif (false == $isTestPayment && $isRealPayment) {
+            $criteria->addCondition("t.is_test_payment = 0");
+        } elseif (false == $isTestPayment && false == $isRealPayment) {
+            $criteria->addCondition("t.is_test_payment IS NULL");
         }
         // if both are not null we taking everything
 
@@ -768,24 +800,14 @@ class AdminPagesController extends SiteBaseController {
         // checking if submit button wasn't pushed
         $formSended = Yii::app()->request->getParam('form-send', null);
 
-        if($formSended !== null) {
-            $appliedFilters = ["email"     =>$filterEmail,
-                               "robokassa" =>$filterRobokassa,
-                               "cash"      =>$filterCash,
-                               "done"      =>$done,
-                               "notDone"   =>$notDone
-                              ];
-        }
-        else {
-            // generationg the all filters to be checked
-            $appliedFilters = ["email"     => null,
-                               "robokassa" => "set",
-                               "cash"      => "set",
-                               "done"      => "set",
-                               "notDone"   => "set"
-            ];
-        }
-
+        $appliedFilters = ["email"           => $filterEmail,
+            "robokassa"       => $filterRobokassa,
+            "cash"            => $filterCash,
+            "done"            => $done,
+            "notDone"         => $notDone,
+            "isTestPayment"   => $isTestPayment,
+            "isRealPayment"   => $isRealPayment,
+        ];
 
         // counting objects to make the pagination
         $totalItems = count(Invoice::model()->findAll($criteria));
@@ -795,7 +817,6 @@ class AdminPagesController extends SiteBaseController {
         $pager->applyLimit($criteria);
         $pager->route = 'admin_area/AdminPages/Orders';
         // pager }
-
 
         // building criteria
         $criteria->order = "created_at desc" ;
@@ -816,6 +837,9 @@ class AdminPagesController extends SiteBaseController {
         ]);
     }
 
+    /**
+     *
+     */
     public function actionCompleteInvoice() {
         $invoiceId = Yii::app()->request->getParam('invoice_id');
 
@@ -844,6 +868,9 @@ class AdminPagesController extends SiteBaseController {
         }
     }
 
+    /**
+     *
+     */
     public function actionDisableInvoice() {
         $invoiceId = Yii::app()->request->getParam('invoice_id');
 
@@ -871,6 +898,9 @@ class AdminPagesController extends SiteBaseController {
 
     }
 
+    /**
+     *
+     */
     public function actionCommentInvoice() {
         $invoiceId = Yii::app()->request->getParam('invoice_id');
         $criteria = new CDbCriteria();
@@ -889,6 +919,9 @@ class AdminPagesController extends SiteBaseController {
         }
     }
 
+    /**
+     *
+     */
     public function actionGetInvoiceLog() {
         $invoiceId = Yii::app()->request->getParam('invoice_id');
         $criteria = new CDbCriteria();
@@ -907,6 +940,35 @@ class AdminPagesController extends SiteBaseController {
         echo json_encode(["log" => $returnData]);
     }
 
+    /**
+     * Меняет значение invoice->is_test_payment на противоположное
+     */
+    public function actionOrderToggleIsTest($invoiceId)
+    {
+        /** @var Invoice $invoice */
+        $invoice = Invoice::model()->findByPk($invoiceId);
+
+        if (null !== $invoice) {
+            $invoice->is_test_payment = abs($invoice->is_test_payment - 1);
+            $invoice->save();
+
+            $label = (1 == $invoice->is_test_payment) ? 'тестовый' : 'реальный' ;
+
+            Yii::app()->user->setFlash('success',
+                sprintf(
+                    'Заказа #%s конвертирован в "%s".',
+                    $invoiceId,
+                    $label
+                )
+            );
+        } else {
+            Yii::app()->user->setFlash('error', sprintf('Заказа #%s нет в базе данных.', $invoiceId));
+        }
+    }
+
+    /**
+     * @throws Exception
+     */
     public function actionOrderChecked() {
 
         $order_id = Yii::app()->request->getParam('order_id', null);
@@ -938,6 +1000,9 @@ class AdminPagesController extends SiteBaseController {
         $this->redirect("/admin_area/orders");
     }
 
+    /**
+     * @throws Exception
+     */
     public function actionOrderActionStatus() {
 
         $order_id = Yii::app()->request->getParam('order_id', null);
@@ -988,6 +1053,9 @@ class AdminPagesController extends SiteBaseController {
         $this->redirect("/admin_area/invites");
     }
 
+    /**
+     *
+     */
     public function actionInviteCalculateTheEstimate() {
 
         $simId = Yii::app()->request->getParam('sim_id', null);
@@ -997,6 +1065,9 @@ class AdminPagesController extends SiteBaseController {
         $this->redirect("/admin_area/invites");
     }
 
+    /**
+     *
+     */
     public function actionSiteLogs() {
         $invite_id = Yii::app()->request->getParam('invite_id', null);
         $invite = Invite::model()->findByPk($invite_id);
@@ -1036,6 +1107,9 @@ class AdminPagesController extends SiteBaseController {
         ]);
     }
 
+    /**
+     * @param $simId
+     */
     public function actionSimulationSetEmergency($simId)
     {
         /** @var Simulation $simulation */

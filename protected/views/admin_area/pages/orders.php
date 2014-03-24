@@ -1,11 +1,14 @@
 <?php $titles = [
+    'ID <br/>заказа',
     'Email',
     'Имя',
     'Фамилия',
     'Компания',
-    'ID <br/>заказа',
+    'Тестовый?',
+    '',
     'Время заказа',
     'Время оплаты',
+    '',
     'Стоимость',
     'Платежная<br/>система',
     'ИНН',
@@ -21,7 +24,7 @@
     <h2>Заказы</h2>
 
     <div class="row">
-        <form class="form-inline" action="/admin_area/orders">
+        <form class="form-inline" action="/admin_area/orders" method="GET">
             <table class="table table-bordered" style="margin-left: 40px; width: 80%;">
                 <tr>
                     <td>Е-мейл клиента</td>
@@ -35,11 +38,11 @@
                         <button class="btn btn-uncheck-all">Снять все</button>
                     </td>
                     <td><input type="checkbox" name="cash" id="cash" value="cash"
-                               <?php if($filters["cash"] !== null) : ?>checked <?php endif; ?>>
+                               <?php if($filters["cash"] !== false) : ?>checked <?php endif; ?>>
                         <label for="cash">Оплата по счету</label>
                     </td>
                     <td><input type="checkbox" name="robokassa" id="robokassa" value="robokassa"
-                               <?php if($filters["robokassa"] !== null) : ?>checked <?php endif; ?>>
+                               <?php if($filters["robokassa"] !== false) : ?>checked <?php endif; ?>>
                         <label for="robokassa">Оплата робокассой</label>
                     </td>
                 </tr>
@@ -51,13 +54,29 @@
                         <button class="btn btn-uncheck-all">Снять все</button>
                     </td>
                     <td><input type="checkbox" name="done" id="done" value="done"
-                               <?php if($filters["done"] !== null) : ?>checked <?php endif; ?>>
-                        <label for="done">Проведенные</label></td>
+                               <?php if($filters["done"]) : ?>checked <?php endif; ?>>
+                        <label for="done">Оплаченные</label></td>
                     <td><input type="checkbox" name="notDone" id="notDone" value="notDone"
-                               <?php if($filters["notDone"] !== null) : ?>checked <?php endif; ?>>
-                        <label for="notDone">Не проведенные</label>
+                               <?php if($filters["notDone"]) : ?>checked <?php endif; ?>>
+                        <label for="notDone">Не оплаченные</label>
                     </td>
                 </tr>
+
+                <tr>
+                    <td>Статус оплаты</td>
+                    <td>
+                        <button class="btn btn-check-all">Отметить все</button>
+                        <button class="btn btn-uncheck-all">Снять все</button>
+                    </td>
+                    <td><input type="checkbox" name="isTestPayment" id="isTestPayment"
+                            <?php if(true === $filters["isTestPayment"]) : ?>checked <?php endif; ?>>
+                        <label for="isTestPayment">Тестовые</label></td>
+                    <td><input type="checkbox" name="isRealPayment" id="isRealPayment"
+                            <?php if(true === $filters["isRealPayment"]) : ?>checked <?php endif; ?>>
+                        <label for="isRealPayment">Реальные</label>
+                    </td>
+                </tr>
+
                 <tr>
                     <td colspan="4">
                         <a style="margin-left:20px;" name="form-send" class="btn disable-filters">Снять фильтры</a>
@@ -100,6 +119,9 @@
         <?php $i= 0 ?>
         <?php endif ?>
         <tr class="orders-row">
+            <!-- order id    -->
+            <td><?=$model->id?></td>
+
             <td>
                 <!-- email -->
                 <a href="/admin_area/user/<?=$model->user->profile->id ?>/details" target="_blank"><i class="icon-user"></i></a>
@@ -117,14 +139,45 @@
             <!-- company_name -->
             <td><?= (empty($model->user->account_corporate->company_name)) ? '--' : $model->user->account_corporate->company_name?></td>
 
-            <!-- order id    -->
-            <td><?=$model->id?></td>
+            <!-- is test payment? -->
+            <td><?= (1 == $model->is_test_payment)
+                    ? '<span class="label">тестовый</span>'
+                    : '<span class="label label-success">$ реальный</span>' ?>
+            </td>
+
+            <!-- toggle is_test_payment value -->
+            <td>
+                <a class="btn action-toggle-is-test btn-success"
+                   data-invoice-id="<?=$model->id?>">
+                       сделать <?= (1 == $model->is_test_payment) ? 'Реальным' : 'Тестовым' ?>
+                   </a>
+            </td>
+
+            <!-- Created at -->
             <td>
                 <?=(empty($model->created_at)?'---- -- -- --':$model->created_at)?>
             </td>
 
+            <!-- payed at -->
             <td>
-                <span class="invoice-date-paid"><?=(empty($model->paid_at) ? 'Не оплачен' :$model->paid_at)?></span>
+                <span class="invoice-date-paid">
+                    <?=(empty($model->paid_at) ?
+                        '<span class="label label-important"><i class="icon icon-fire icon-white"></i> не оплачен</span>' :
+                        $model->paid_at)?>
+                </span>
+            </td>
+
+            <!-- Подтвердить/Откатить заказ -->
+            <td>
+                <a class="btn btn-success complete-invoice"
+                   style="<?= (null == $model->paid_at) ? '' : 'display : none;'; ?>"
+                   data-invoice-id="<?=$model->id?>" data-months="<?=$model->month_selected ?>"
+                   data-user-email="<?=$model->user->profile->email?>">Подтвердить</a>
+
+                <a class="btn btn-warning disable-invoice"
+                   style="<?= (null == $model->paid_at) ? 'display : none;' : ''; ?>"
+                   data-invoice-id="<?=$model->id?>" data-months="<?=$model->month_selected ?>"
+                   data-user-email="<?=$model->user->profile->email?>">Откатить</a>
             </td>
 
             <td><?= Yii::app()->numberFormatter->formatCurrency($model->amount, "RUR") ?></td>
@@ -151,10 +204,6 @@
                 <a href="#" class="btn btn-info view-payment-log" data-invoice-id="<?=$model->id?>">Лог</a>
             </td>
 
-            <td>
-                    <a class="btn btn-success complete-invoice" data-invoice-id="<?=$model->id?>"  data-months="<?=$model->month_selected ?>"  data-user-email="<?=$model->user->profile->email?>">Подтвердить</a>
-                    <a class="btn btn-warning disable-invoice" style="display:none;" data-invoice-id="<?=$model->id?>"  data-months="<?=$model->month_selected ?>"  data-user-email="<?=$model->user->profile->email?>">Откатить</a>
-            </td>
         </tr>
         <?php endforeach ?>
         </tbody>
