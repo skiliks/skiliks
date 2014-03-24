@@ -10,7 +10,7 @@ class SimulationResultTextServiceUnitTest extends CDbTestCase {
         $invite->receiverUser = $user;
         $invite->scenario->slug = Scenario::TYPE_FULL;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
-        $simulation->results_popup_cache = serialize(json_decode('{"management":{"1":{"1_1":{"+":"15.09","-":"0.00"}}}}', true));
+        /*$simulation->results_popup_cache = serialize(json_decode('{"management":{"1":{"1_1":{"+":"15.09","-":"0.00"}}}}', true));
         $simulation->save(false);
 
         $recommendations = SimulationResultTextService::generate($simulation, 'popup', true);
@@ -31,7 +31,15 @@ class SimulationResultTextServiceUnitTest extends CDbTestCase {
                 'short_text' => 'плохо'
             ]
 
-        ], $recommendations);
+        ], $recommendations);*/
+
+        $simulation->results_popup_cache = serialize(json_decode('{"management":{"1":{"total":"40.000000","1_1":{"+":"18.18","-":"100.00"},"1_2":{"+":"0.00","-":"0.00"},"1_3":{"+":"73.46","-":"0.00"},"1_4":{"+":"0.00","-":"0.00"}}}}', true));
+
+        $simulation->save(false);
+
+        $recommendations = SimulationResultTextService::generate($simulation, 'popup', true);
+
+        $this->assertEquals([], $recommendations);
     }
 
 }

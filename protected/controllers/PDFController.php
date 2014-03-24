@@ -31,7 +31,7 @@ class PDFController extends SiteBaseController {
             ]);
             $simulation->save(false);*/
             $popup_tests_cache = unserialize($simulation->popup_tests_cache)['popup'];
-            //var_dump($popup_tests_cache);
+            //echo $simulation->getAssessmentDetails();
             //exit;
             $pdf = new AssessmentPDF();
             $pdf->debug = true;
