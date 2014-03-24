@@ -58,10 +58,14 @@ define([
             sc_interval_id:null,
 
             useSCHotkeys:true,
+
             /**
-             * Тип симуляции. 'real' — real-режим, 'developer' — debug-режим
-             * @attribute stype
+             * Интерфейс лочится при фпантастическом приёме и отправке почты
+             *
+             * @var boolean isInterfaceWasLocked
              */
+            isInterfaceWasLocked: false,
+
             /**;
              * Constructor
              * @method initialize

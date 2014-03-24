@@ -167,6 +167,14 @@ define([
                                         });
 
                                         if(me.error_dialog === null) {
+
+                                            // если была фантастическая отправка, то интерфейс заблокирован
+                                            SKApp.simulation.isInterfaceWasLoсked = false;
+                                            if (0 < $('.display-lock').length) {
+                                                SKApp.simulation.trigger('input-lock:stop');
+                                                SKApp.simulation.isInterfaceWasLoсked = true;
+                                            }
+
                                             me.error_dialog = new SKDialogView({
                                                 'message': "Пропало Интернет соединение. <br> Симуляция поставлена на паузу.<br>"+
                                                     "Пожалуйста, проверьте Интернет соединение.<br>"+
@@ -205,6 +213,13 @@ define([
                                                     // а то вермя пойдёт, а игрок не заметит
                                                     // (на екране ведь затемнение "Ушел на встречу, вернусь в ХХ:ХХ.")
                                                     console.log('onclick: Продолжить игру');
+
+                                                    // если интерфейс был залочен отправкой/приёмом письма фантастическим образом
+                                                    // надо вернуть блокировку
+                                                    if (SKApp.simulation.isInterfaceWasLoсked) {
+                                                        SKApp.simulation.trigger('input-lock:start');
+                                                    }
+
                                                     var restoreAbortedRequests = function() {
                                                         SKApp.server.requests_queue.each(function(request) {
                                                             request.set('is_repeat_request', true);
