@@ -388,6 +388,12 @@ class Simulation extends CActiveRecord
             }
             // get weight, just to use them like labels }
 
+            if($this->assessment_version === Simulation::ASSESSMENT_VERSION_2 ) {
+                $empty_cache = '{"management":{"1":{"total":"0","1_1":{"+":"0","-":"0"},"1_2":{"+":"0","-":"0"},"1_3":{"+":"0","-":"0"},"1_4":{"+":"0","-":"0"}},"2":{"total":"0","2_1":{"+":"0","-":"0"},"2_2":{"+":"0","-":"0"},"2_3":{"+":"0","-":"0"}},"3":{"total":"0","3_1":{"+":"0","-":"0"},"3_2":{"+":"0","-":"0"},"3_3":{"+":"0","-":"0"},"3_4":{"+":"0","-":"0"}},"total":"0"},"performance":{"0":"0","1":"0","2":"0","total":"0","2_min":"0"},"time":{"total":"0","workday_overhead_duration":"0","time_spend_for_1st_priority_activities":"0","time_spend_for_non_priority_activities":"0","time_spend_for_inactivity":"0","1st_priority_documents":"0","1st_priority_meetings":"0","1st_priority_phone_calls":"0","1st_priority_mail":"0","1st_priority_planning":"0","non_priority_documents":"0","non_priority_meetings":"0","non_priority_phone_calls":"0","non_priority_mail":"0","non_priority_planning":"0","efficiency":"0"},"overall":"0","percentile":{"total":"0"},"personal":{"9":"0","10":"0","11":"0","12":"0","13":"0","14":"0","15":"0","16":"0"},"additional_data":{"management":"0","performance":"0","time":"0"}}';
+
+                $result = array_replace_recursive(json_decode($empty_cache, true), $result);
+
+            }
         }else{
             $result = '{"management":{"total":"0.00","1":{"total":"0.000000","1_1":{"+":"0.00","-":"0.00"},"1_2":{"+":"0.00","-":"0.00"},"1_3":{"+":"0.00","-":"0.00"},"1_5":{"+":"0.00","-":"0.00"},"1_4":{"+":"0.00","-":"0.00"}},"3":{"total":"0.00","3_1":{"+":"0.00","-":"0.00"},"3_2":{"+":"0.00","-":"0.00"},"3_3":{"+":"0.00","-":"0.00"},"3_4":{"+":"0.00","-":"0.00"}},"2":{"total":"0.000000","2_1":{"+":"0.00","-":"0.00"},"2_2":{"+":"0.00","-":"0.00"},"2_3":{"+":"0.00","-":"0.00"}}},"performance":{"total":"0.00"},"time":{"total":"0.00","workday_overhead_duration":"0.00","time_spend_for_1st_priority_activities":"0.00","time_spend_for_non_priority_activities":"0.00","time_spend_for_inactivity":"0.00","1st_priority_documents":"0.00","1st_priority_meetings":"0.00","1st_priority_phone_calls":"0.00","1st_priority_mail":"0.00","1st_priority_planning":"0.00","non_priority_documents":"0.00","non_priority_meetings":"0.00","non_priority_phone_calls":"0.00","non_priority_mail":"0.00","non_priority_planning":"0.00","efficiency":"0.00"},"overall":"0.00","personal":{"9":"0.000000","10":"0.000000","12":"0.000000","13":"0.000000","14":"0.000000","15":"0.000000","16":"0.000000","11":"0.000000"},"additional_data":{"management":"0.00","performance":"0.00","time":"0.00"}}';
             $result = json_decode($result);
@@ -1035,6 +1041,28 @@ class Simulation extends CActiveRecord
             return null;
         }else{
             return $assessment->value;
+        }
+    }
+
+    public function mergeAssessment($empty, $current) {
+        $new = [];
+        foreach($empty as $key => $item) {
+            if(isset($current[$key])){
+                $new[$key] = $current[$key];
+
+            } else {
+                $new[$key] = $item;
+            }
+        }
+    }
+
+    private function _merge_recursive($empty, $current, $new) {
+        foreach($empty as $key => $item) {
+            if(isset($current[$key])){
+                $new[$key] = $current[$key];
+            } else {
+                $new[$key] = $item;
+            }
         }
     }
 

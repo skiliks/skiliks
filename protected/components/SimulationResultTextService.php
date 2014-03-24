@@ -179,7 +179,7 @@ class SimulationResultTextService {
                 if(isset($assessment[rtrim($part, ']')])) {
                     $assessment = $assessment[rtrim($part, ']')];
                 } else {
-                    throw new AssessmentValueNotFound("Undefined index: ".rtrim($part, ']'));
+                    throw new AssessmentValueNotFound("Undefined index: ".rtrim($part, ']').' on '.$value);
                 }
             }
         }
