@@ -27,10 +27,19 @@ class SiteController extends SiteBaseController
         }
         /* @var $user YumUser */
         $user = Yii::app()->user->data();
-        if($user->isCorporate() && 0 === (int)$user->account_corporate->getTotalAvailableInvitesLimit()){
+        $startedInvites = Invite::model()->countByAttributes([
+            'owner_id' => $user->id,
+            'receiver_id' => $user->id,
+            'status' => Invite::STATUS_IN_PROGRESS
+        ]);
+        if($user->isCorporate() && 0 === (int)$user->account_corporate->getTotalAvailableInvitesLimit() && 0 === (int)$startedInvites) {
             Yii::app()->user->setFlash('error', Yii::t('site', 'У вас закончились приглашения'));
             $this->redirect('/dashboard');
         }
+        /*if($user->isCorporate() && 0 === (int)$user->account_corporate->getTotalAvailableInvitesLimit()){
+            Yii::app()->user->setFlash('error', Yii::t('site', 'У вас закончились приглашения'));
+            $this->redirect('/dashboard');
+        }*/
 
 
         $start = Yii::app()->request->getParam('start');
