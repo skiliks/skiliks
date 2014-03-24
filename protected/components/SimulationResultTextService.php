@@ -103,67 +103,14 @@ class SimulationResultTextService {
      * @throws Exception
      */
     public static function TwoPocketsWithOneNegative($behaviour_alias_1, $behaviour_alias_2, $alias, $assessment) {
-        $value_2 = self::getValueInAssessment($behaviour_alias_2, $assessment);
 
-        $pockets_2 = self::$pockets[$alias][$behaviour_alias_1];
-        /* @var $pockets_2 ParagraphPocket[] */
-        foreach($pockets_2 as $pocket_num => $pocket) {
-            $left_direction = trim($pocket->left_direction);
-            $right_direction = trim($pocket->right_direction);
-            if(self::$left_direction($pocket->left, $value_2) && self::$right_direction($pocket->right, $value_2)){
-                //Если человек мало сделал ошибок(первый карман) то получает positive
-                if($pocket_num === 0) {
-                    return self::SinglePocket($behaviour_alias_1, $alias, $assessment);
-                } elseif($pocket_num === (count($pockets_2) - 1)) { //Если много(последний карман) то negative
-                    return [
-                        'text' => $pocket->text,
-                        'short_text' => $pocket->short_text
-                    ];
-                } else { //Среднее, positive и negative
-                    return self::SinglePocket($behaviour_alias_1, $alias, $assessment).' '.$pocket->text;
-                }
-            }
-        }
-        throw new Exception("Карман не найден");
-    }
+        $positive = self::SinglePocket($behaviour_alias_1, $alias, $assessment);
+        $negative = self::SinglePocket($behaviour_alias_2, $alias, $assessment);
 
-    /**
-     * Ищет текст по значению $behaviour_alias_2(негативное) + $behaviour_alias_2(негативное) / 2  для повидения $alias по карману
-     * или для позитивноего и негативного
-     * @param $behaviour_alias_1
-     * @param $behaviour_alias_2
-     * @param $behaviour_alias_3
-     * @param $alias
-     * @param $assessment
-     * @return string
-     * @throws Exception
-     */
-    public static function ThreePocketsWithTwoNegative($behaviour_alias_1, $behaviour_alias_2, $behaviour_alias_3,  $alias, $assessment) {
-
-        $value_2 = self::getValueInAssessment($behaviour_alias_2, $assessment);
-        $value_3 = self::getValueInAssessment($behaviour_alias_3, $assessment);
-        $value_2 = $value_2 + $value_3;
-
-        $pockets_2 = self::$pockets[$alias][$behaviour_alias_1];
-        /* @var $pockets_2 ParagraphPocket[] */
-        foreach($pockets_2 as $pocket_num => $pocket) {
-            $left_direction = trim($pocket->left_direction);
-            $right_direction = trim($pocket->right_direction);
-            if(self::$left_direction($pocket->left, $value_2) && self::$right_direction($pocket->right, $value_2)){
-                //Если человек мало сделал ошибок(первый карман) то получает positive
-                if($pocket_num === 0) {
-                    return self::SinglePocket($behaviour_alias_1, $alias, $assessment);
-                } elseif($pocket_num === (count($pockets_2) - 1)) { //Если много(последний карман) то negative
-                    return [
-                        'text' => $pocket->text,
-                        'short_text' => $pocket->short_text
-                    ];
-                } else { //Среднее, positive и negative
-                    return self::SinglePocket($behaviour_alias_1, $alias, $assessment).' '.$pocket->text;
-                }
-            }
-        }
-        throw new Exception("Карман не найден");
+        return [
+            'text' => $positive['text']." ".$negative['text'],
+            'short_text' => $positive['short_text']
+        ];
     }
 
     /**
@@ -193,7 +140,7 @@ class SimulationResultTextService {
      * @return bool
      */
     public static function greater_equal($direction, $value) {
-        return $direction <= $value;
+        return (int)$direction <= (int)$value;
     }
 
     /**
@@ -203,7 +150,7 @@ class SimulationResultTextService {
      * @return bool
      */
     public static function less($direction, $value) {
-        return $direction > $value;
+        return (int)$direction > (int)$value;
     }
 
     /**
@@ -213,6 +160,6 @@ class SimulationResultTextService {
      * @return bool
      */
     public static function less_equal($direction, $value) {
-        return $direction >= $value;
+        return (int)$direction >= (int)$value;
     }
 } 
