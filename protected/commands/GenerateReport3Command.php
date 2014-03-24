@@ -45,7 +45,8 @@ class GenerateReport3Command extends CConsoleCommand
             /* @var Simulation $simulation */
               if(isset($simulationPercentiles[$simulation->id])
                 && $simulationPercentiles[$simulation->id] != 0
-                && empty($simulation->results_popup_cache) === false) {
+                && empty($simulation->results_popup_cache) === false
+                && count($realUserSimulationsV1) < 2) {
 
                 /* @var Simulation $simulation */
                 if (Simulation::ASSESSMENT_VERSION_1 == $simulation->assessment_version
@@ -62,25 +63,25 @@ class GenerateReport3Command extends CConsoleCommand
         // Собираем и группируем симуляции }
 
         // также нам нужны симуляции от e.sarnova@august-bel.by {
-        $augustBelProfile = YumProfile::model()->findByAttributes(['email' => 'e.sarnova@august-bel.by']);
-        if (null !== $augustBelProfile) {
-            $augustBelSimulations = Simulation::model()->findAll(
-                "user_id = {$augustBelProfile->user_id} and
-                scenario_id = {$scenario->id} and
-                assessment_version = '{$assessment_version}' and
-                end is not null");
-
-            foreach($augustBelSimulations as $simulation) {
-                /* @var Simulation $simulation */
-                if (Simulation::ASSESSMENT_VERSION_1 == $simulation->assessment_version) {
-                    $realUserSimulationsV1[$simulation->id] = $simulation;
-                }
-
-                if (Simulation::ASSESSMENT_VERSION_2 == $simulation->assessment_version) {
-                    $realUserSimulationsV2[$simulation->id] = $simulation;
-                }
-            }
-        }
+//        $augustBelProfile = YumProfile::model()->findByAttributes(['email' => 'e.sarnova@august-bel.by']);
+//        if (null !== $augustBelProfile) {
+//            $augustBelSimulations = Simulation::model()->findAll(
+//                "user_id = {$augustBelProfile->user_id} and
+//                scenario_id = {$scenario->id} and
+//                assessment_version = '{$assessment_version}' and
+//                end is not null");
+//
+//            foreach($augustBelSimulations as $simulation) {
+//                /* @var Simulation $simulation */
+//                if (Simulation::ASSESSMENT_VERSION_1 == $simulation->assessment_version) {
+//                    $realUserSimulationsV1[$simulation->id] = $simulation;
+//                }
+//
+//                if (Simulation::ASSESSMENT_VERSION_2 == $simulation->assessment_version) {
+//                    $realUserSimulationsV2[$simulation->id] = $simulation;
+//                }
+//            }
+//        }
         // также нам нужны симуляции от e.sarnova@august-bel.by }
 
         // салютуем в консоль, что данные готовы

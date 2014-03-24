@@ -107,7 +107,6 @@ class AnalyticalFileGenerator {
                 /* @var HeroBehaviour $behaviour */
                 $this->behaviourIds[$behaviour->id] = false;
                 $this->behaviourObjects[$behaviour->id] = $behaviour;
-                var_dump($behaviour->code);
             }
         }
     }
@@ -255,14 +254,9 @@ class AnalyticalFileGenerator {
      * в файл по адресу self::createPathForAnalyticsFile()
      */
     public function save($assessment_version, $filename = 'custom') {
-        //echo "\r\n";
-        //var_dump('save started');
-        //var_dump(date('H:i:s', time()));
         $excelWriter = new PHPExcel_Writer_Excel2007($this->document);
         $path = SimulationService::createPathForAnalyticsFile($filename, $assessment_version);
         $excelWriter->save($path);
-        //var_dump(date('H:i:s', time()));
-        //var_dump('save finished');
     }
 
     /**
@@ -294,15 +288,13 @@ class AnalyticalFileGenerator {
 
         $this->addSheet("Итоговый рейтинг");
 
-//        $this->addRow();
-//
-//        $this->addColumn('Тип оценки', 40);
-//        $this->addColumn('Оценка', 14);
-//        $this->setBorderBold();
-        ////////////////////////////////////////////////////
-        //echo "\r\n";
+        if (Yii::app() instanceof CConsoleApplication) {
+            echo  "\r\n";
+        }
         foreach($simulations as $simulation) {
-            //echo ".";
+            if (Yii::app() instanceof CConsoleApplication) {
+                echo  '.';
+            }
 
             $data = json_decode($simulation->getAssessmentDetails(), true);
 
@@ -330,21 +322,15 @@ class AnalyticalFileGenerator {
             $this->setBorderBold();
         }
 
-
         $this->addSheet("Управленческие навыки");
 
-//        $this->addRow();
-//
-//        $this->addColumn('Группа навыков', 42);
-//        $this->addColumn('Навык', 50);
-//        $this->addColumn('Шкала оценки', 14);
-//        $this->addColumn('Навык, оценка (0-100%)', 18);
-//
-//        $this->setBorderBold();
-        ////////////////////////////////////////////////
-        //echo "\r\n";
+        if (Yii::app() instanceof CConsoleApplication) {
+            echo  "\r\n";
+        }
         foreach($simulations as $simulation) {
-            //echo ".";
+            if (Yii::app() instanceof CConsoleApplication) {
+                echo  '.';
+            }
             $data = json_decode($simulation->getAssessmentDetails(), true);
 
             $this->setInfoBySimulation($simulation);
@@ -383,6 +369,12 @@ class AnalyticalFileGenerator {
             $this->addColumn('1.3 Выполнение задач в соответствии с приоритетами');
             $this->addColumn('negative');
             $this->addColumnRight(round($data['management'][1]['1_3']['-'], 2).'%');
+
+            $this->addRow();
+            $this->addColumn('1. Управление задачами с учётом приоритетов');
+            $this->addColumn('1.4 Прерывание при выполнении задач');
+            $this->addColumn('positive');
+            $this->addColumnRight('не оценивается');
 
             $this->addRow();
             $this->addColumn('1. Управление задачами с учётом приоритетов');
@@ -448,7 +440,7 @@ class AnalyticalFileGenerator {
             $this->addColumn('3. Управление коммуникациями');
             $this->addColumn('3.1 Оптимальное использование каналов коммуникации');
             $this->addColumn('negative');
-            $this->addColumnRight(round($data['management'][3]['3_1']['-'], 2).'%');
+            $this->addColumnRight('не оценивается');
 
             $this->addRow();
             $this->addColumn('3. Управление коммуникациями');
@@ -467,6 +459,12 @@ class AnalyticalFileGenerator {
             $this->addColumn('3.3 Эффективная работа со звонками');
             $this->addColumn('positive');
             $this->addColumnRight(round($data['management'][3]['3_3']['+'], 2).'%');
+
+            $this->addRow();
+            $this->addColumn('3. Управление коммуникациями');
+            $this->addColumn('3.3 Эффективная работа со звонками');
+            $this->addColumn('negative');
+            $this->addColumnRight('не оценивается');
 
             $this->addRow();
             $this->addColumn('3. Управление коммуникациями');
@@ -490,13 +488,13 @@ class AnalyticalFileGenerator {
         ////////////////////////////////////////////////
         $this->addSheet("Результативность");
 
-//        $this->addRow();
-//        $this->addColumn('Группа задач', 20);
-//        $this->addColumn('Результативность, оценка (0-100%)', 20);
-        ///////////////////////////////////////////////////////////
-        //echo "\r\n";
+        if (Yii::app() instanceof CConsoleApplication) {
+            echo  "\r\n";
+        }
         foreach($simulations as $simulation) {
-            //echo ".";
+            if (Yii::app() instanceof CConsoleApplication) {
+                echo  '.';
+            }
             $data = json_decode($simulation->getAssessmentDetails(), true);
 
             $this->setInfoBySimulation($simulation);
@@ -520,14 +518,13 @@ class AnalyticalFileGenerator {
         //////////////////////////////////////////////////////////
         $this->addSheet("Эффект. использования времени");
 
-//        $this->addRow();
-//        $this->addColumn('Группа параметров', 55);
-//        $this->addColumn('Параметр', 45);
-//        $this->addColumn('Эффективность использования времени, оценка', 14);
-        ////////////////////////////////////////////////////
-        //echo "\r\n";
+        if (Yii::app() instanceof CConsoleApplication) {
+            echo  "\r\n";
+        }
         foreach($simulations as $simulation) {
-            //echo ".";
+            if (Yii::app() instanceof CConsoleApplication) {
+                echo  '.';
+            }
             $data = json_decode($simulation->getAssessmentDetails(), true);
 
             $this->setInfoBySimulation($simulation);
@@ -625,9 +622,13 @@ class AnalyticalFileGenerator {
         $this->addColumn('Оценка', 14);
         $this->setBorderBold();
         ////////////////////////////////////////////////////
-        //echo "\r\n";
+        if (Yii::app() instanceof CConsoleApplication) {
+            echo "\r\n";
+        }
         foreach($simulations as $simulation) {
-            //echo  '.';
+            if (Yii::app() instanceof CConsoleApplication) {
+                echo  '.';
+            }
             $data = json_decode($simulation->getAssessmentDetails(), true);
 
             $this->setInfoBySimulation($simulation);
@@ -680,15 +681,18 @@ class AnalyticalFileGenerator {
         $this->setBorderBold();
 
         ////////////////////////////////////////////////
-        //echo "\r\n";
+        if (Yii::app() instanceof CConsoleApplication) {
+            echo  "\r\n";
+        }
         foreach($simulations as $simulation) {
-            //echo ".";
+            if (Yii::app() instanceof CConsoleApplication) {
+                echo  '.';
+            }
             $data = json_decode($simulation->getAssessmentDetails(), true);
 
             $this->setInfoBySimulation($simulation);
 
             // 1.x) ###############################################
-
             if ('v1_to_v1' == $management_interpretation_mode) {
                 $this->addRow();
                 $this->addColumn('1. Управление задачами с учётом приоритетов');
@@ -779,6 +783,12 @@ class AnalyticalFileGenerator {
                 $this->addColumn('negative');
                 $this->addColumnRight(round($data['management'][1]['1_4']['-'], 2).'%');
 
+                $this->addRow();
+                $this->addColumn('1. Управление задачами с учётом приоритетов');
+                $this->addColumn('1.4 Выполнение задач в соответствии с приоритетами');
+                $this->addColumn('positive');
+                $this->addColumnRight('не оценивается');
+
                 // если оценка за 1.4 = 0, то её нет в кеш попапе!
                 if (false == isset($data['management'][1]['1_5'])) {
                     $data['management'][1]['1_5'] = ['-' => 0];
@@ -798,7 +808,6 @@ class AnalyticalFileGenerator {
             $this->addColumnRight(round($data['management'][1]['total'], 2).'%');
 
             // 2.x) ###############################################
-
             $this->addRow();
             $this->addColumn('2. Управление людьми');
             $this->addColumn('2.1 Использование делегирования для управления объемом задач');
@@ -842,7 +851,6 @@ class AnalyticalFileGenerator {
             $this->addColumnRight(round($data['management'][2]['total'], 2).'%');
 
             // 3.x) ###############################################
-
             $this->addRow();
             $this->addColumn('3. Управление коммуникациями');
             $this->addColumn('3.1 Оптимальное использование каналов коммуникации');
@@ -853,7 +861,7 @@ class AnalyticalFileGenerator {
             $this->addColumn('3. Управление коммуникациями');
             $this->addColumn('3.1 Оптимальное использование каналов коммуникации');
             $this->addColumn('negative');
-            $this->addColumnRight(round($data['management'][3]['3_1']['-'], 2).'%');
+            $this->addColumnRight('не оценивается');
 
             $this->addRow();
             $this->addColumn('3. Управление коммуникациями');
@@ -872,6 +880,12 @@ class AnalyticalFileGenerator {
             $this->addColumn('3.3 Эффективная работа со звонками');
             $this->addColumn('positive');
             $this->addColumnRight(round($data['management'][3]['3_3']['+'], 2).'%');
+
+            $this->addRow();
+            $this->addColumn('3. Управление коммуникациями');
+            $this->addColumn('3.3 Эффективная работа со звонками');
+            $this->addColumn('negative');
+            $this->addColumnRight('не оценивается');
 
             $this->addRow();
             $this->addColumn('3. Управление коммуникациями');
@@ -899,9 +913,13 @@ class AnalyticalFileGenerator {
         $this->addColumn('Группа задач', 20);
         $this->addColumn('Результативность, оценка (0-100%)', 20);
         ///////////////////////////////////////////////////////////
-        //echo "\r\n";
+        if (Yii::app() instanceof CConsoleApplication) {
+            echo  "\r\n";
+        }
         foreach($simulations as $simulation) {
-            //echo ".";
+            if (Yii::app() instanceof CConsoleApplication) {
+                echo  '.';
+            }
 
             $data = json_decode($simulation->getAssessmentDetails(), true);
 
@@ -931,9 +949,13 @@ class AnalyticalFileGenerator {
         $this->addColumn('Параметр', 45);
         $this->addColumn('Эффективность использования времени, оценка', 14);
         ////////////////////////////////////////////////////
-        //echo "\r\n";
+        if (Yii::app() instanceof CConsoleApplication) {
+            echo  "\r\n";
+        }
         foreach($simulations as $simulation) {
-            //echo ".";
+            if (Yii::app() instanceof CConsoleApplication) {
+                echo  '.';
+            }
             $data = json_decode($simulation->getAssessmentDetails(), true);
 
             $this->setInfoBySimulation($simulation);
@@ -1032,10 +1054,13 @@ class AnalyticalFileGenerator {
             $this->addColumn('Оценка полученная в симуляции', 14);
         }
         //////////////////////////////////////////////////
-
-        //echo "\r\n";
+        if (Yii::app() instanceof CConsoleApplication) {
+            echo  "\r\n";
+        }
         foreach($simulations as $simulation) {
-            //echo ".";
+            if (Yii::app() instanceof CConsoleApplication) {
+                echo  '.';
+            }
             $this->setInfoBySimulation($simulation);
 
             $usedBehaviours = $this->behaviourIds;
