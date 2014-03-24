@@ -41,6 +41,9 @@ class PDFController extends SiteBaseController {
 
         // 1. Спидометры и прочее
             $pdf->addPage();
+
+            $pdf->pdf->setCellHeightRatio(1);
+
             $pdf->writeTextBold($username, 3.5, 3.5, 21);
             $pdf->addRatingPercentile(94, 35.6, $data['percentile']['total']);
             $pdf->addRatingOverall(86.6, 45.8, $data['overall']);
