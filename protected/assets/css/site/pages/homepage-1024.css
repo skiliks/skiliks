@@ -54,10 +54,60 @@
     top: -61px;
 }
 
-body.action-controller-index-static-pages.width-1024 header {
+body.width-1024.action-controller-index-static-pages header {
     background-position: center -40px;
 }
 
 .width-1024 .us-bottom-content {
     margin-top: -860px;
+}
+
+.width-1024.language-en .us-start-demo-box {
+    width: 280px;
+}
+
+.width-1024.language-en .us-start-demo-box .social-networks-share-link a {
+    height: 28px;
+    width: 28px;
+    background-size: 170px 61px;
+}
+
+.width-1024.language-en .us-start-demo-box .vk-share-button a:hover {
+    background-position: 0 -34px;
+}
+
+.width-1024.language-en .us-start-demo-box .facebook-share-button a {
+    background-position: -36px 0;
+}
+
+.width-1024.language-en .us-start-demo-box .facebook-share-button a:hover {
+    background-position: -36px -34px;
+}
+
+.width-1024.language-en .us-start-demo-box .twitter-share-button a {
+    background-position: -71px 0;
+}
+
+.width-1024.language-en .us-start-demo-box .twitter-share-button a:hover {
+    background-position: -71px -34px;
+}
+
+.width-1024.language-en .us-start-demo-box .google-share-button a {
+    background-position: -107px 0;
+}
+
+.width-1024.language-en .us-start-demo-box .google-share-button a:hover {
+    background-position: -107px -34px;
+}
+
+.width-1024.language-en .us-start-demo-box .linkedIn-share-button a {
+    background-position: -142px 0;
+}
+
+.width-1024.language-en .us-start-demo-box .linkedIn-share-button a:hover {
+    background-position: -142px -34px;
+}
+
+.width-1024.language-en .us-homepage-content .us-start-demo-box .social-networks-share-link {
+    width: 280px;
 }
