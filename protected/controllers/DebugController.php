@@ -758,6 +758,9 @@ class DebugController extends SiteBaseController
             }
 
         }*/
+        if(Yii::app()->user->data() !== null && Yii::app()->user->data()->isAdmin()){
+           phpinfo();
+        }
     }
 }
 
