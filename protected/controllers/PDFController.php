@@ -10,8 +10,10 @@ class PDFController extends SiteBaseController {
             $this->redirect('/registration');
         }
 
-        $simId = 11056; //$this->getParam('sim_id');
-        $assessmentVersion = 'v2';//$this->getParam('assessment_version');
+        //$simId = 11056; //$this->getParam('sim_id');
+        $simId = $this->getParam('sim_id');
+        //$assessmentVersion = 'v2';//$this->getParam('assessment_version');
+        $assessmentVersion = $this->getParam('assessment_version');
 
 
         /* @var $simulation Simulation */
@@ -23,9 +25,14 @@ class PDFController extends SiteBaseController {
         if($isUser || $isOwner || $isAdmin) {
             $data = json_decode($simulation->getAssessmentDetails(), true);
 
-            $popup_tests_cache = SimulationResultTextService::generate($simulation, 'popup');
-            var_dump($popup_tests_cache);
-            exit;
+            //$popup_tests_cache = SimulationResultTextService::generate($simulation, 'popup');
+            /*$simulation->popup_tests_cache = serialize([
+                'popup' => SimulationResultTextService::generate($simulation, 'popup')
+            ]);
+            $simulation->save(false);*/
+            $popup_tests_cache = unserialize($simulation->popup_tests_cache)['popup'];
+            //var_dump($popup_tests_cache);
+            //exit;
             $pdf = new AssessmentPDF();
             $pdf->debug = true;
             $username = $simulation->user->profile->firstname.' '.$simulation->user->profile->lastname;
@@ -48,7 +55,7 @@ class PDFController extends SiteBaseController {
 
             $pdf->writeTextBold($username, 3.5, 3.5, 21);
             $pdf->addPercentSmallInfo($data['time']['total'], 183.1, 27.8);
-            $pdf->writeTextCenterRegular(90, 10, 65, 33, 16, '(очень высокий уровень)');//(очень высокий уровень)
+            $pdf->writeTextCenterRegular(90, 10, 65, 33, 16, $popup_tests_cache['time']['short_text']);//(очень высокий уровень)
 
             $pdf->addTimeDistribution(
                 55.7,
@@ -76,9 +83,9 @@ class PDFController extends SiteBaseController {
 
             $pdf->writeTextBold($username, 3.5, 3.5, 21);
 
-            $pdf->addPercentSmallInfo($data['time']['total'], 176.5, 28.3);
+            $pdf->addPercentSmallInfo($data['time'][TimeManagementAggregated::SLUG_GLOBAL_TIME_SPEND_FOR_1ST_PRIORITY_ACTIVITIES], 176.5, 28.3);
 
-            $pdf->writeTextCenterRegular(90, 10, 65, 33, 16, '(очень высокий уровень)');//(очень высокий уровень)
+            $pdf->writeTextCenterRegular(90, 10, 65, 33, 16, $popup_tests_cache['time.productive_time']['short_text']);//(очень высокий уровень)
 
             $pdf->addPercentMiddleInfo(
                 $data['time'][TimeManagementAggregated::SLUG_GLOBAL_TIME_SPEND_FOR_1ST_PRIORITY_ACTIVITIES],
@@ -134,7 +141,7 @@ class PDFController extends SiteBaseController {
             $pdf->addPage();
             $pdf->writeTextBold($username, 3.5, 3.5, 21);
             $pdf->addPercentSmallInfo($data['performance']['total'], 133.8, 28);
-            $pdf->writeTextCenterRegular(90, 10, 65, 33, 16, '(очень высокий уровень)');//(очень высокий уровень)
+            $pdf->writeTextCenterRegular(90, 10, 65, 33, 16, $popup_tests_cache['performance']['short_text']);//(очень высокий уровень)
             //Срочно
             $pdf->addUniversalBar(77, 54.8, $pdf->getPerformanceCategory($data['performance'], '0'), 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);
 
@@ -165,7 +172,7 @@ class PDFController extends SiteBaseController {
 
             $pdf->writeTextBold($username, 3.5, 3.5, 21);
             $pdf->addPercentSmallInfo($data['management']['total'], 148, 27.7);
-            $pdf->writeTextCenterRegular(90, 10, 58, 33, 16, '(очень высокий уровень)');//(очень высокий уровень)
+            $pdf->writeTextCenterRegular(90, 10, 58, 33, 16, $popup_tests_cache['management']['short_text']);//(очень высокий уровень)
 
             $pdf->addUniversalBar(77.7, 53.7, $data['management'][1]['total'], 128.7, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);//1
             $pdf->addUniversalBar(77.7, 64.5, $data['management'][2]['total'], 128.7, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);//2
@@ -196,7 +203,7 @@ class PDFController extends SiteBaseController {
             $pdf->addPage();
             $pdf->writeTextBold($username, 3.5, 3.5, 21);
             $pdf->addPercentBigInfo($data['management'][1]['total'], 3.4, 35.6);
-            $pdf->writeTextCenterRegular(90, 10, 42, 41, 16, '(очень высокий уровень)');//(очень высокий уровень)
+            $pdf->writeTextCenterRegular(90, 10, 42, 41, 16, $popup_tests_cache['management.task_managment']['short_text']);//(очень высокий уровень)
 
             $pdf->addUniversalBar(77, 63, $data['management'][1]['1_1']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//1.1 positive
             $pdf->addUniversalBar(77, 73.6, $data['management'][1]['1_2']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//1.2 positive
@@ -224,7 +231,7 @@ class PDFController extends SiteBaseController {
             $pdf->addPage();
             $pdf->writeTextBold($username, 3.5, 3.5, 21);
             $pdf->addPercentBigInfo($data['management'][2]['total'], 3.1, 36.3);
-            $pdf->writeTextCenterRegular(90, 10, 10, 41, 16, '(очень высокий уровень)');//(очень высокий уровень)
+            $pdf->writeTextCenterRegular(90, 10, 10, 41, 16, $popup_tests_cache['management.people_managment']['short_text']);//(очень высокий уровень)
 
             $pdf->addUniversalBar(77, 63, $data['management'][2]['2_1']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//2.1 positive
             $pdf->addUniversalBar(77, 73.6, $data['management'][2]['2_2']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//2.2 positive
@@ -249,7 +256,7 @@ class PDFController extends SiteBaseController {
 
             $pdf->writeTextBold($username, 3.5, 3.5, 21);
             $pdf->addPercentBigInfo($data['management'][3]['total'], 3, 35.8);
-            $pdf->writeTextCenterRegular(90, 10, 23, 41, 16, '(очень высокий уровень)');//(очень высокий уровень)
+            $pdf->writeTextCenterRegular(90, 10, 23, 41, 16, $popup_tests_cache['management.communication_managment']['short_text']);//(очень высокий уровень)
 
             $pdf->addUniversalBar(77, 63.5, $data['management'][3]['3_1']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//3.1 positive
             $pdf->addUniversalBar(77, 72.7, $data['management'][3]['3_2']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//3.2 positive
