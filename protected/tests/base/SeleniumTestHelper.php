@@ -763,7 +763,7 @@ class SeleniumTestHelper extends CWebTestCase
         $this->open('/ru');
         $this->optimal_click(Yii::app()->params['test_mappings']['site']['logIn']);
         $this->waitForVisible(Yii::app()->params['test_mappings']['site']['username']);
-        $this->type(Yii::app()->params['test_mappings']['site']['username'],'selenium.engine@skiliks.com');
+        $this->type(Yii::app()->params['test_mappings']['site']['username'],'tetyana.grybok@skiliks.com');
         $this->type(Yii::app()->params['test_mappings']['site']['userpass'],'skiliks123123');
         $this->optimal_click(Yii::app()->params['test_mappings']['site']['enter']);
         $this->waitForVisible(Yii::app()->params['test_mappings']['corporate']['username']);
