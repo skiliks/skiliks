@@ -4,6 +4,7 @@ class MeetingController extends SimulationBaseController {
     
     public function actionGetSubjects()
     {
+        //throw new Exception("Stop");
         $this->sendJSON([
             'result' => self::STATUS_SUCCESS,
             'data'   => MeetingService::getList(

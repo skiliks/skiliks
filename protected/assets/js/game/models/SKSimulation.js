@@ -117,6 +117,10 @@ define([
                         }
 
                         me.trigger('time:' + hours + '-' + (minutes < 10 ? '0' : '') + minutes);
+                        if(me.getGameMinutes() >= 11*60) {
+                            me.trigger('time:11-00');
+
+                        }
 
                         minutes += 5;
                         if (minutes >= 60) {
@@ -148,21 +152,13 @@ define([
                     this.isPlayIncomingMailSound = true;
 
                     this.once('time:11-00', function () {
+                        console.log('trigger time:11-00');
                         SKApp.server.api('dayPlan/CopyPlan', {
                             minutes:me.getGameMinutes()
                         }, function () {
+
                         });
                     });
-
-//                  это, вроде, только для Zoho надо?
-//                    $(window).on('message', function(event) {
-//                        event = event.originalEvent;
-//                        if (event.data) {
-//                            if ('DocumentLoaded' === event.data.type) {
-//                                me.onDocumentLoaded(event);
-//                            }
-//                        }
-//                    });
 
                     this.bindEmergencyHotkey();
 
