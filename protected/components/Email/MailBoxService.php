@@ -586,7 +586,10 @@ class MailBoxService
         $mail = MailBox::model()->findByPk($mailId);
         $mail->code = $result['result_code'];
         $mail->template_id = $result['result_template_id'];
-        $mail->save();
+        if(empty($mail->message) && $mail->constructor_code === 'null'){
+            $mail->message = $mail->template->message;
+        }
+        $mail->save(false);
 
         // switch flag if necessary {
         self::addToQueue($simulation, $mail);
