@@ -605,7 +605,7 @@ class Invite extends CActiveRecord
             $this->email &&
             strtolower($this->ownerUser->profile->email) == strtolower($this->email)) {
             $this->clearErrors();
-            $this->addError('email', Yii::t('site', 'Вы не можете отправить себе приглашение'));
+            $this->addError('email', Yii::t('site', 'Действие невозможно'));
 
         } else {
             if ($this->owner_id !== $this->receiver_id && $this->receiverUser !== null && $this->receiverUser->isCorporate()) {

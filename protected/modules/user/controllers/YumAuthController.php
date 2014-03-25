@@ -416,7 +416,7 @@ class YumAuthController extends YumController {
 
 
                     } else {
-                        $this->loginForm->addError('username', Yii::t('site', 'Wrong email or password'));
+                        //$this->loginForm->addError('username', Yii::t('site', 'Wrong email or password'));
                     }
                 } else {
                     $this->loginForm->addError('username', Yii::t('site', 'Wrong email or password'));

@@ -240,7 +240,7 @@ return array(
     'Managerial skills' => 'Управленческие навыки',
     'Personal qualities' => 'Личностные характеристики',
     'Activation did not work' => 'Активация не сработала',
-    'The user is already activated' => 'Данный email уже активирован',
+    'The user is already activated' => 'Аккаунт уже активирован',
     'Profile found, but no associated user. Possible database inconsistency. Please contact the System administrator with this error message, thank you' => 'С Вашим профилем не проассоциирован ни олин пользователь. Обратитесь к администрации сайта чтобы решить эту проблему.',
     'Your account has been activated' => 'Ваш аккаунт успешно активирован',
     'Professional occupation' => 'Професcиональная область',

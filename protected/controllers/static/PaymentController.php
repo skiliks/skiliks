@@ -214,7 +214,7 @@ class PaymentController extends SiteBaseController
         }
 
         Yii::app()->user->setFlash('error', sprintf(
-            'Ваш заказ принят, в течении дня вам на почту придёт счёт фактура для оплаты выбранного тарифного плана.'
+            'Ваш заказ принят. В течении дня вам на почту придёт счёт фактура для оплаты выбранного тарифного плата'
         ));
         $this->redirect('/dashboard');
     }
