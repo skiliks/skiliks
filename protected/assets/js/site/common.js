@@ -218,13 +218,9 @@ $(document).ready(function () {
     getInviteCache('Invite_firstname');
     getInviteCache('Invite_lastname');
     getInviteCache('Invite_email');
-    /*$("#Invite_firstname").val(JSON.parse(localStorage['user_id_'+user_id]).Invite_firstname?JSON.parse(localStorage['user_id_'+user_id]).Invite_firstname:'');
-    $("#Invite_lastname").val(JSON.parse(localStorage['user_id_'+user_id]).Invite_lastname?JSON.parse(localStorage['user_id_'+user_id]).Invite_lastname:'');
-    $("#Invite_email").val(JSON.parse(localStorage['user_id_'+user_id]).Invite_email?JSON.parse(localStorage['user_id_'+user_id]).Invite_email:'');*/
 
     $("#Invite_firstname").bind('textchange', function(e) {
         addInviteCache('Invite_firstname');
-        //localStorage['user_id_'+user_id] = JSON.stringify(JSON.parse(localStorage['user_id_'+user_id]).Invite_firstname = $(this).val());
     });
     $("#Invite_lastname").bind('textchange', function(e) {
         addInviteCache('Invite_lastname');
@@ -245,16 +241,20 @@ $(document).ready(function () {
         return true;
     });
 
-    // 10)
-    window.addEventListener('resize', function(event){
-        if (1600 < $(window).width()) {
-            $('body').css('background-size', $(window).width() + 'px auto ');
-        } else {
-            $('body').css('background-size', ' 1600px auto ');
-        }
-
+    // 10) global Background +  Footer
+    window.addEventListener('resize', function(event) {
+        // width-1024 class
         addWindowWidthClassToBody();
+
+        // footer
+        stickyFooterAndBackground();
     });
+
+    stickyFooterAndBackground();
+});
+
+$(window).load(function(){
+    stickyFooter();
 });
 
 // 1)
@@ -403,3 +403,24 @@ window.passwordRecoverySubmit = function passwordRecoverySubmit(form, data, hasE
 
     return false;
 };
+
+// 7
+function stickyFooterAndBackground() {
+    // Footer
+    var bodyHeight = $('body').height();
+    var windowHeight = $(window).height();
+    var footerBottom = $('footer').offset().top + $('footer').height()
+
+    if (footerBottom < windowHeight) {
+        $('footer').css('position', 'absolute');
+    } else {
+        $('footer').css('position', 'relative');
+    }
+
+    // Background
+    if (1600 < $(window).width()) {
+        $('body').css('background-size', $(window).width() + 'px auto');
+    } else {
+        $('body').css('background-size', ' 1600px auto ');
+    }
+}

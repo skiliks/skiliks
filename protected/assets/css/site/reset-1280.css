@@ -41,6 +41,10 @@ section.main-content {
     position: relative;
 }
 
+footer {
+    bottom: 0;
+}
+
 footer.main-content {
     background-image: url('../../img/site/1280/general-style/site-footer.png');
     background-position: center top;

@@ -54,7 +54,6 @@ $(document).ready(function() {
     });
 
     if (isUnsupportedOs) {
-        console.log('displaySystemMismatch');
         window.displaySystemMismatch();
     }
 
@@ -67,7 +66,6 @@ $(document).ready(function() {
     };
 
     if (window.httpUserAgent.indexOf('YaBrowser') != -1) {
-        console.log('displaySystemMismatch');
         window.displaySystemMismatch();
     }
 
@@ -83,7 +81,6 @@ $(document).ready(function() {
     }
 
     if (false == isSupportedBrowser) {
-        console.log('displaySystemMismatch');
         window.displaySystemMismatch();
     }
     // проверка ОС и браузера }

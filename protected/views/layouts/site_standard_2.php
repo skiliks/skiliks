@@ -134,7 +134,6 @@ if(preg_match('/(?i)Chrome/',$_SERVER['HTTP_USER_AGENT']))
     }
 
     function addWindowWidthClassToBody() {
-        console.log('getWindowWidth() ', getWindowWidth());
         document.body.className = document.body.className.replace('width-1024', '');
         if (getWindowWidth() < window.standardMinWindowWidth) {
             document.body.className = document.body.className + ' width-1024';
@@ -220,31 +219,6 @@ if(preg_match('/(?i)Chrome/',$_SERVER['HTTP_USER_AGENT']))
 
 </body>
     <script type="text/javascript">
-//        window.standardMinWindowWidth = 1265;
-//
-//        function getWindowWidth() {
-//            if (self.innerWidth) {
-//                return self.innerWidth;
-//            }
-//            else if (document.documentElement && document.documentElement.clientHeight){
-//                return document.documentElement.clientWidth;
-//            }
-//            else if (document.body) {
-//                return document.body.clientWidth;
-//            }
-//            return 0;
-//        }
-//
-//        function addWindowWidthClassToBody() {
-//            console.log('getWindowWidth() ', getWindowWidth());
-//            document.body.className = document.body.className.replace('width-1024', '');
-//            if (getWindowWidth() < window.standardMinWindowWidth) {
-//                document.body.className = document.body.className + ' width-1024';
-//            }
-//        }
-//
-//        addWindowWidthClassToBody();
-
         <?php if (Yii::app()->params['public']['isDisplaySupportChat']) : ?>
             window._shcp = [];
             window._shcp.push({
@@ -266,6 +240,5 @@ if(preg_match('/(?i)Chrome/',$_SERVER['HTTP_USER_AGENT']))
                 s.parentNode.insertBefore(hcc, null);
             });
         <?php endif; ?>
-
     </script>
 </html>

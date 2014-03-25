@@ -1304,7 +1304,7 @@ class YumUser extends YumActiveRecord
                 return 'активен';
                 break;
             case self::STATUS_BANNED:
-                return 'в бане';
+                return 'banned';
                 break;
             case self::STATUS_REMOVED:
                 return 'удалён';
