@@ -265,21 +265,21 @@ class DashboardController extends SiteBaseController implements AccountPageContr
 
         if ($invite->isAccepted()) {
             Yii::app()->user->setFlash('success', sprintf(
-                "Нельзя удалить приглашение которое находится в статусе 'Подтверждено'"
+                "Нельзя удалить приглашение которое находится в статусе \"Подтверждено\""
             ));
             $this->redirect(Yii::app()->request->urlReferrer);
         }
 
         if ($invite->isStarted()) {
             Yii::app()->user->setFlash('success', sprintf(
-                "Нельзя удалить приглашение которое находится в статусе 'Начато'"
+                "Нельзя удалить приглашение которое находится в статусе \"Начато\""
             ));
             $this->redirect(Yii::app()->request->urlReferrer);
         }
 
         if ($invite->isCompleted()) {
             Yii::app()->user->setFlash('success', sprintf(
-                "Нельзя удалить приглашение которое находится в статусе 'Готово'"
+                "Нельзя удалить приглашение которое находится в статусе \"Готово\""
             ));
             $this->redirect(Yii::app()->request->urlReferrer);
         }
@@ -292,7 +292,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
                 $user->account_corporate->increaseLimit($invite);
 
                 UserService::logCorporateInviteMovementAdd(
-                    'Ивайт удален пользователем в статусе '.Invite::getStatusNameByCode($status),
+                    'Ивайт удален пользователем в статусе "'.Invite::getStatusNameByCode($status).'"',
                     $this->user->getAccount(),
                     $initValue
                 );

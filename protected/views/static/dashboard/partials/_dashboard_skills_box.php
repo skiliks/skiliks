@@ -18,7 +18,7 @@
     <div class="popover-triangle-upper"></div>
     <div class="popover-wrapper">
         <div class="popover-content">
-            Переключение между относительным и абсолютным рейтингом.
+            Переключение между относительным и абсолютным рейтингом
         </div>
     </div>
 </div>

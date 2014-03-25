@@ -21,9 +21,9 @@
 <h3 class="midtitle">
     <?php if(false === $error) echo Yii::t('site','The user is already activated'); ?>
     <?php if($error == -1) echo Yii::t('site','The user is already activated'); ?>
-    <?php if($error == -2) echo Yii::t('site','Wrong activation Key'); ?>
+    <?php if($error == -2) echo Yii::t('site','The user is already activated'); ?>
     <?php if($error == -3) echo Yii::t('site','Profile found, but no associated user. Possible database inconsistency. Please contact the System administrator with this error message, thank you'); ?>
 </h3>
 
-<p><a href="/user/auth/">Зайдите</a> в свой аккаунт, используя данный email в качестве login.</p>
+<p><a href="/user/auth/" style="color: #428290">Зайдите</a> в свой аккаунт, используя данный email в качестве login.</p>
 <p>Если вы забыли свой пароль, воспользуйтесь сервисом <a class="sign-in-link-in-popup" href="#">Восстановить пароль</a></p>

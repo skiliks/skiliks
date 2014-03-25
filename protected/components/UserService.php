@@ -639,7 +639,7 @@ class UserService {
             /** @var Invite $invite */
             $invite = Invite::model()->findByAttributes(['id' => $invite_id]);
             if (null === $invite) {
-                Yii::app()->user->setFlash('error', 'Выберите приглашение по которому вы хотите начать симуляцию');
+                Yii::app()->user->setFlash('error', 'Выберите приглашение, по которому вы хотите начать симуляцию');
                 return $result->setRedirect('/dashboard');
             }
 
@@ -912,7 +912,7 @@ class UserService {
             case YumUserIdentity::ERROR_STATUS_INACTIVE:
                 throw new CHttpException(200, 'Аккаунт неактивен.');
             case YumUserIdentity::ERROR_STATUS_BANNED:
-                throw new CHttpException(200, 'Аккаунт заблокирован');
+                throw new CHttpException(200, 'Ваш аккаунт заблокирован');
             case YumUserIdentity::ERROR_STATUS_REMOVED:
                 throw new CHttpException(200, 'Аккаунт удалён.');
             case YumUserIdentity::ERROR_PASSWORD_INVALID:

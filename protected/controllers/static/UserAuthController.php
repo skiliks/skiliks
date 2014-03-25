@@ -42,7 +42,7 @@ class UserAuthController extends YumController
         }
 
         if((int)$invite->status === Invite::STATUS_DECLINED){
-            Yii::app()->user->setFlash('error', 'Приглашение уже отклонено.'); // TODO:Проблемный попап
+            Yii::app()->user->setFlash('error', 'Приглашение уже отклонено'); // TODO:Проблемный попап
             $this->redirect('/');
         }
 
@@ -560,7 +560,7 @@ class UserAuthController extends YumController
             $this->redirect(['afterRegistration']);
         } else {
             if($profile->user->isBanned()) {
-                Yii::app()->user->setFlash('error', 'Невозможно восстановить пароль - ваш аккаунт заблокирован');
+                Yii::app()->user->setFlash('error', 'Ваш аккаунт заблокирован');
             }
             $this->redirect('/');
         }

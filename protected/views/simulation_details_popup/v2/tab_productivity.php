@@ -13,7 +13,7 @@
                     <div class="popover-triangle-upper"></div>
                     <div class="popover-wrapper">
                         <div class="popover-content">
-                            Выполнение форс-мажорных задач, отложить которые невозможно.
+                            Выполнение форс-мажорных задач, отложить которые невозможно
                         </div>
                     </div>
                 </div>
