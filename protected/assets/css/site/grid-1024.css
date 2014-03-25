@@ -64,3 +64,18 @@
 .width-1024 .row-13 {
     height: 11px;
 }
+
+/* ---- */
+
+.width-1024 nav ul li.menu-item span.icon-sub-menu {
+    background-position: 98px 11px;
+    padding-right: 25px;
+}
+
+.width-1024 nav ul li.menu-item .icon-sub-menu.open {
+    background-position: 96px 13px;
+}
+
+.width-1024 .sub-menu-1 {
+    top: 77px;
+}

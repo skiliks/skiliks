@@ -44,10 +44,30 @@
                     'visible' => $isGuest || false === $isDisplayAccountLinks
                 ],
 
+                // Продукты без подменю - для англоязычных страниц
                 [
                     'label'   => Yii::t('site', 'Product'),
-                    'url'     => ['/static/pages/product'],
-                    'visible' => $isGuest || false === $isDisplayAccountLinks
+                    'url'     => ['/static/product'],
+                    'visible' => ($isGuest || false === $isDisplayAccountLinks) && 'en' == Yii::app()->getLanguage(),
+                ],
+
+                // Продукты с подменю - для русскоязычных страниц
+                [
+                    'label'   => Yii::t('site', 'Product'),
+                    'linkOptions'      => ['class' => 'label icon-sub-menu locator-submenu-switcher action-show-product-submenu background-dark-blue-transparent-40-hovered'],
+                    'visible' => ($isGuest || false === $isDisplayAccountLinks) && 'ru' == Yii::app()->getLanguage(),
+                    'submenuOptions' => ['class' => 'sub-menu-1 locator-product-submenu'],
+                    'items'=> [
+                        [
+                            'label' => 'Бизнес-игра Skiliks',
+                            'url'   => ['/static/product'],
+                        ],
+                        [
+                            'label' => 'Диагностика управленческого потенциала',
+                            'url'   => ['/static/product-diagnostic'],
+                        ],
+                    ]
+
                 ],
 
                 [

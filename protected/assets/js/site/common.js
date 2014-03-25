@@ -246,15 +246,30 @@ $(document).ready(function () {
         // width-1024 class
         addWindowWidthClassToBody();
 
+        // Исправляет смещение меню О продукте
+        // смещение должно рассчитыватсья после того как в body добавлен класс width-1024
+        // иначе смещение будет неправильное
+        $('.locator-product-submenu').css('left', $('.locator-submenu-switcher').offset().left);
+
         // footer
         stickyFooterAndBackground();
     });
 
     stickyFooterAndBackground();
-});
 
-$(window).load(function(){
-    stickyFooter();
+    // 11) Выпадающее меню О продукте
+    $('.action-show-product-submenu').click(function() {
+        $('.locator-product-submenu').css('left', $('.locator-submenu-switcher').offset().left);
+        $('.locator-product-submenu').toggle();
+
+        var switcher = $('.locator-submenu-switcher');
+
+        if (switcher.hasClass('open')) {
+            switcher.removeClass('open');
+        } else {
+            switcher.addClass('open');
+        }
+    });
 });
 
 // 1)

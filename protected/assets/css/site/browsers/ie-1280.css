@@ -88,3 +88,8 @@ nav ul li.menu-item a {
 .skiliks .us-password-personal-height {
     height: 297px;
 }
+
+.skiliks .sh_btn .sh_btn_char {
+    height: 14px;
+    margin-top: -1px;
+}
