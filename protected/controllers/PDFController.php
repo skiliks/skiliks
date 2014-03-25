@@ -25,11 +25,13 @@ class PDFController extends SiteBaseController {
         if($isUser || $isOwner || $isAdmin) {
             $data = json_decode($simulation->getAssessmentDetails(), true);
 
+            if (null == $simulation->popup_tests_cache) {
             //$popup_tests_cache = SimulationResultTextService::generate($simulation, 'popup');
-            /*$simulation->popup_tests_cache = serialize([
-                'popup' => SimulationResultTextService::generate($simulation, 'popup')
-            ]);
-            $simulation->save(false);*/
+                $simulation->popup_tests_cache = serialize([
+                    'popup' => SimulationResultTextService::generate($simulation, 'popup')
+                ]);
+                $simulation->save(false);
+            }
             $popup_tests_cache = unserialize($simulation->popup_tests_cache)['popup'];
             //echo $simulation->getAssessmentDetails();
             //exit;
@@ -50,6 +52,37 @@ class PDFController extends SiteBaseController {
             $pdf->addSpeedometer(21, 107.2, $data['time']['total']);
             $pdf->addSpeedometer(89, 107.2, $data['performance']['total']);
             $pdf->addSpeedometer(158, 107.2, $data['management']['total']);
+
+            /*
+              1.не работает
+              2.высота в мм
+              3. true - 0 = верхний левый угол)
+            */
+//            $pdf->pdf->setXY(0, 200, true);
+//
+//            $pdf->pdf->SetFont('proxima-nova-regular', '', 11);
+//            $pdf->pdf->SetFont('proxima-nova-bold', 'bold', 11);
+//
+//
+//            $html = <<<EOF
+//<!-- EXAMPLE OF CSS STYLE -->
+//<style>
+//</style>
+//<body>
+//<table>
+//<tr>
+//<td></td>
+//<td><h3>aaaa</h3>
+//<font face="proxima-nova-bold" style="font-weight: bold;">UUUUUU</font><br/>
+//<font face="proxima-nova-regular">UUUUUU</font><br/>
+//<span style="font-weight: bold;">bold text</span><br/>
+//<span>aaaa jkl jlkj lkj lj kj jlj lkj ljljlj ljl jlj lj lkjl jl jl jl jlj lj lkj lkjaldhklasdka gsdkjghaskjhgjhg hg hg hg </span></td>
+//</tr>
+//<table>
+//</body>
+//EOF;
+//
+//            $pdf->pdf->writeHTML($html, true, false, true, false, '');
 
         // 2. Тайм менеджмент
 
@@ -88,7 +121,9 @@ class PDFController extends SiteBaseController {
 
             $pdf->addPercentSmallInfo($data['time'][TimeManagementAggregated::SLUG_GLOBAL_TIME_SPEND_FOR_1ST_PRIORITY_ACTIVITIES], 176.5, 28.3);
 
-            $pdf->writeTextCenterRegular(90, 10, 65, 33, 16, $popup_tests_cache['time.productive_time']['short_text']);//(очень высокий уровень)
+            $pdf->writeTextCenterRegular(90, 10, 65, 33, 16,
+                $popup_tests_cache['time.productive_time']['short_text']
+            );//(очень высокий уровень)
 
             $pdf->addPercentMiddleInfo(
                 $data['time'][TimeManagementAggregated::SLUG_GLOBAL_TIME_SPEND_FOR_1ST_PRIORITY_ACTIVITIES],
