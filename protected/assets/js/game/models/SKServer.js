@@ -153,7 +153,7 @@ define([
                             }
                         },
                         complete: function (xhr, text_status) {
-                            if (('timeout' === text_status || xhr.status === 0)  && me.is_connected) {
+                            if (('timeout' === text_status || xhr.status === 0 || 'error' === text_status)  && me.is_connected) {
                                 SKApp.isInternetConnectionBreakHappent = true;
                                 me.is_connected = false;
                                 if( url !== me.api_root + me.connectPath && me.try_connect === false) {
