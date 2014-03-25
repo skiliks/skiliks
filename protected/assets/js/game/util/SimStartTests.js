@@ -39,7 +39,17 @@ try {
                  * Она нужна -- потому что в IE8, текущая JS проверка валится.
                  */
 
-                if (window.httpUserAgent.indexOf('YaBrowser') != -1) {
+                if (window.httpUserAgent.indexOf('YaBrowser') != -1 || // -1 != -1 = false
+                    window.httpUserAgent.indexOf('MRCHROME') != -1 ||
+                    window.httpUserAgent.indexOf('IceDragon') != -1 ||
+                    window.httpUserAgent.indexOf('Maxthon') != -1 ||
+                    window.httpUserAgent.indexOf('PaleMoon') != -1 ||
+                    window.httpUserAgent.indexOf('PB0.') != -1 ||
+                    window.httpUserAgent.indexOf('QIPSurf') != -1 ||
+                    window.httpUserAgent.indexOf('Sleipnir') != -1 ||
+                    window.httpUserAgent.indexOf('SlimBrowser') != -1 ||
+                    window.httpUserAgent.indexOf('Nichrome') != -1
+                ) {
                     location.href = cfg.oldBrowserUrl;
                     return false;
                 }
