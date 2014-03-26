@@ -15,8 +15,6 @@ class GenerateFullAssessmentAnalyticFileCommand extends CConsoleCommand
         /* @var UserAccountCorporate[] $users_account */
         echo "Found ".count($users_account)." accounts \n";
         foreach($users_account as $account) {
-            //var_dump(count($users_account));
-            //exit;
             $account->cache_full_report = null;
             $account->save(false);
             if(UserService::generateFullAssessmentAnalyticFile($account->user) === false ){
