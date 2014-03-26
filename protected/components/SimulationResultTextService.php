@@ -40,14 +40,11 @@ class SimulationResultTextService {
                     case 'SinglePocket':
                         self::$recommendations[$paragraph->alias] = self::SinglePocket($paragraph->value_1, $paragraph->alias, $assessment);
                         break;
-                    case 'TwoPocketsWithOneNegative':
-                        self::$recommendations[$paragraph->alias] = self::TwoPocketsWithOneNegative($paragraph->value_1, $paragraph->value_2, $paragraph->alias, $assessment);
-                        break;
-                    case 'ThreePocketsWithTwoNegative':
-                        self::$recommendations[$paragraph->alias] = self::ThreePocketsWithTwoNegative($paragraph->value_1, $paragraph->value_2, $paragraph->value_3, $paragraph->alias, $assessment);
+                    case 'HugeProblemsPocketsConcatenation':
+                        self::$recommendations[$paragraph->alias] = self::HugeProblemsPocketsConcatenation($paragraph->value_1, $paragraph->value_2, $paragraph->alias, $assessment);
                         break;
                     default:
-                        throw new Exception("Метод {$paragraph->method}");
+                        throw new Exception("Метод {$paragraph->method} не найден");
                         break;
                 }
             }
