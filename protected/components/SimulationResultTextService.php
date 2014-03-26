@@ -121,6 +121,17 @@ class SimulationResultTextService {
 
         $positive = self::SinglePocket($behaviour_alias_1, $alias, $assessment);
         $negative = self::SinglePocket($behaviour_alias_2, $alias, $assessment);
+        if((int)$negative['pocket']['left'] === 0) {
+            return [
+                'text' => $positive['text'],
+                'short_text' => '('.$positive['short_text'].')'
+            ];
+        }else{
+            return [
+                'text' => $positive['text']." ".$negative['text'],
+                'short_text' => '('.$positive['short_text'].', '.$negative['short_text'].')'
+            ];
+        }
 
     }
 
