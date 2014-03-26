@@ -293,7 +293,7 @@ class AnalyticalFileGenerator {
         }
         foreach($simulations as $simulation) {
             if (Yii::app() instanceof CConsoleApplication) {
-                echo  '.';
+                echo  ". \r\n";
             }
 
             $data = json_decode($simulation->getAssessmentDetails(), true);
@@ -329,7 +329,7 @@ class AnalyticalFileGenerator {
         }
         foreach($simulations as $simulation) {
             if (Yii::app() instanceof CConsoleApplication) {
-                echo  '.';
+                echo  ". \r\n";
             }
             $data = json_decode($simulation->getAssessmentDetails(), true);
 
@@ -493,7 +493,7 @@ class AnalyticalFileGenerator {
         }
         foreach($simulations as $simulation) {
             if (Yii::app() instanceof CConsoleApplication) {
-                echo  '.';
+                echo  ". \r\n";
             }
             $data = json_decode($simulation->getAssessmentDetails(), true);
 
@@ -523,7 +523,7 @@ class AnalyticalFileGenerator {
         }
         foreach($simulations as $simulation) {
             if (Yii::app() instanceof CConsoleApplication) {
-                echo  '.';
+                echo  ". \r\n";
             }
             $data = json_decode($simulation->getAssessmentDetails(), true);
 
@@ -627,7 +627,7 @@ class AnalyticalFileGenerator {
         }
         foreach($simulations as $simulation) {
             if (Yii::app() instanceof CConsoleApplication) {
-                echo  '.';
+                echo  ". \r\n";
             }
             $data = json_decode($simulation->getAssessmentDetails(), true);
 
@@ -686,7 +686,7 @@ class AnalyticalFileGenerator {
         }
         foreach($simulations as $simulation) {
             if (Yii::app() instanceof CConsoleApplication) {
-                echo  '.';
+                echo  ". \r\n";
             }
             $data = json_decode($simulation->getAssessmentDetails(), true);
 
@@ -918,7 +918,7 @@ class AnalyticalFileGenerator {
         }
         foreach($simulations as $simulation) {
             if (Yii::app() instanceof CConsoleApplication) {
-                echo  '.';
+                echo  ". \r\n";
             }
 
             $data = json_decode($simulation->getAssessmentDetails(), true);
@@ -954,7 +954,7 @@ class AnalyticalFileGenerator {
         }
         foreach($simulations as $simulation) {
             if (Yii::app() instanceof CConsoleApplication) {
-                echo  '.';
+                echo  ". \r\n";
             }
             $data = json_decode($simulation->getAssessmentDetails(), true);
 
@@ -1059,7 +1059,7 @@ class AnalyticalFileGenerator {
         }
         foreach($simulations as $simulation) {
             if (Yii::app() instanceof CConsoleApplication) {
-                echo  '.';
+                echo  ". \r\n";
             }
             $this->setInfoBySimulation($simulation);
 

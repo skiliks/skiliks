@@ -680,52 +680,10 @@ class ProfileController extends SiteBaseController implements AccountPageControl
 
             // Собираем процентили }
 
-            // Собираем все симуляции и группируем по типу оценки [v1,v2] {
-            $scenario = Scenario::model()->findByAttributes(['slug'=>Scenario::TYPE_FULL]);
-            $invites = Invite::model()->findAllByAttributes(['owner_id'=>$this->user->id, 'scenario_id'=>$scenario->id, 'status'=>Invite::STATUS_COMPLETED]);
-            /* @var Simulation[] $simulations */
-
-            $realUserSimulationsV1 = [];
-            $realUserSimulationsV2 = [];
-            $simulationsId = [];
-            /* @var $invite Invite */
-            foreach($invites as $invite) {
-                $simulation = $invite->simulation;
-
-                if($simulation->end === null) {
-                    continue;
-                }
-
-                if(empty($simulation->results_popup_cache) === false && strtotime($invite->simulation->end) > strtotime('2013-08-01')) {
-
-                    if (Simulation::ASSESSMENT_VERSION_1 == $simulation->assessment_version) {
-                        $simulationsId[] = $simulation->id;
-                        $realUserSimulationsV1[$simulation->id] = $simulation;
-                    }
-
-                    if (Simulation::ASSESSMENT_VERSION_2 == $simulation->assessment_version) {
-                        $simulationsId[] = $simulation->id;
-                        $realUserSimulationsV2[$simulation->id] = $simulation;
-                    }
-                }
-            }
-            if(empty($realUserSimulationsV1) && empty($realUserSimulationsV2)){
+            if(false === UserService::generateFullAssessmentAnalyticFile($this->user)){
                 Yii::app()->user->setFlash('error',
-                    'У вас нет пройденных симуляций, чтобы сгенерировать на их основе аналитический файл');
+                'У вас нет пройденных симуляций, чтобы сгенерировать на их основе аналитический файл');
                 $this->redirect('/dashboard');
-
-            }
-            sort($simulationsId);
-            if(implode(',', $simulationsId) !== $this->user->account_corporate->cache_full_report) {
-                // непосредственно генерация
-                $generator = new AnalyticalFileGenerator();
-                $generator->is_add_behaviours = false;
-                $generator->createDocument();
-                $generator->runAssessment_v1($realUserSimulationsV1, 'v1_to_v2');
-                $generator->runAssessment_v2($realUserSimulationsV2);
-                $generator->save('user_id_'.$this->user->id,'full_report');
-                $this->user->account_corporate->cache_full_report = implode(',', $simulationsId);
-                $this->user->account_corporate->save(false);
             }
             // Собираем и группируем симуляции }
             $path = SimulationService::createPathForAnalyticsFile('full_report', 'user_id_'.$this->user->id);
