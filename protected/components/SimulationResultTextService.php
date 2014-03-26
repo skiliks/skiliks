@@ -40,14 +40,11 @@ class SimulationResultTextService {
                     case 'SinglePocket':
                         self::$recommendations[$paragraph->alias] = self::SinglePocket($paragraph->value_1, $paragraph->alias, $assessment);
                         break;
-                    case 'TwoPocketsWithOneNegative':
-                        self::$recommendations[$paragraph->alias] = self::TwoPocketsWithOneNegative($paragraph->value_1, $paragraph->value_2, $paragraph->alias, $assessment);
-                        break;
-                    case 'ThreePocketsWithTwoNegative':
-                        self::$recommendations[$paragraph->alias] = self::ThreePocketsWithTwoNegative($paragraph->value_1, $paragraph->value_2, $paragraph->value_3, $paragraph->alias, $assessment);
+                    case 'HugeProblemsPocketsConcatenation':
+                        self::$recommendations[$paragraph->alias] = self::HugeProblemsPocketsConcatenation($paragraph->value_1, $paragraph->value_2, $paragraph->alias, $assessment);
                         break;
                     default:
-                        throw new Exception("Метод {$paragraph->method}");
+                        throw new Exception("Метод {$paragraph->method} не найден");
                         break;
                 }
             }
@@ -72,7 +69,7 @@ class SimulationResultTextService {
      * @return string
      * @throws Exception
      */
-    public static function SinglePocket($behaviour_alias_1, $alias, $assessment) {
+    public static function SinglePocket($behaviour_alias_1, $alias, $assessment, $with_brackets=true) {
         $value_1 = self::getValueInAssessment($behaviour_alias_1, $assessment);
 
         $pockets = self::$pockets[$alias][$behaviour_alias_1];
@@ -81,9 +78,10 @@ class SimulationResultTextService {
             $left_direction = trim($pocket->left_direction);
             $right_direction = trim($pocket->right_direction);
             if(self::$left_direction($pocket->left, $value_1) && self::$right_direction($pocket->right, $value_1)) {
+
                 return [
                         'text' => $pocket->text,
-                        'short_text' => $pocket->short_text,
+                        'short_text' => $with_brackets?'('.$pocket->short_text.')':$pocket->short_text,
                         'pocket' => [
                             'left' => $pocket->left,
                             'right' => $pocket->right
@@ -119,8 +117,8 @@ class SimulationResultTextService {
 
     public static function HugeProblemsPocketsConcatenation($behaviour_alias_1, $behaviour_alias_2, $alias, $assessment){
 
-        $positive = self::SinglePocket($behaviour_alias_1, $alias, $assessment);
-        $negative = self::SinglePocket($behaviour_alias_2, $alias, $assessment);
+        $positive = self::SinglePocket($behaviour_alias_1, $alias, $assessment, false);
+        $negative = self::SinglePocket($behaviour_alias_2, $alias, $assessment, false);
         if((int)$negative['pocket']['left'] === 0) {
             return [
                 'text' => $positive['text'],

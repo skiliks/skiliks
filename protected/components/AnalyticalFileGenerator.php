@@ -132,13 +132,7 @@ class AnalyticalFileGenerator {
             $sheet->getStyleByColumnAndRow($this->column_number, $sheet->getHighestRow())
                 ->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
         }
-        /*if((is_float(mb_substr($text, 0, mb_strlen($text, 'UTF-8') - 1, 'UTF-8')) || is_numeric(mb_substr($text, 0, mb_strlen($text, 'UTF-8') - 1))) && mb_substr($text, mb_strlen($text, 'UTF-8') - 1, mb_strlen($text, 'UTF-8'), 'UTF-8') === '%') {
-            $sheet->getStyleByColumnAndRow($this->column_number, $sheet->getHighestRow())
-                ->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-            $sheet->getStyleByColumnAndRow($this->column_number, $sheet->getHighestRow())
-                ->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
-        }*/
         $this->column_number++;
 
         if('Поведения' == $this->sheet_name){

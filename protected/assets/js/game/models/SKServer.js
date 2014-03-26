@@ -173,7 +173,8 @@ define([
                                                 SKApp.simulation.trigger('input-lock:stop');
                                                 SKApp.simulation.isInterfaceWasLoсked = true;
                                             }
-
+                                            //Чтоб заблокировать ввод с клавиатуры в SocialCalc при розрыве интеренета
+                                            SocialCalc.Keyboard.passThru = true;
                                             me.error_dialog = new SKDialogView({
                                                 'message': "Пропало Интернет соединение. <br> Симуляция поставлена на паузу.<br>"+
                                                     "Пожалуйста, проверьте Интернет соединение.<br>"+
@@ -212,7 +213,8 @@ define([
                                                     // а то вермя пойдёт, а игрок не заметит
                                                     // (на екране ведь затемнение "Ушел на встречу, вернусь в ХХ:ХХ.")
                                                     console.log('onclick: Продолжить игру');
-
+                                                    //Чтоб розблокировать ввод с клавиатуры в SocialCalc
+                                                    SocialCalc.Keyboard.passThru = null;
                                                     // если интерфейс был залочен отправкой/приёмом письма фантастическим образом
                                                     // надо вернуть блокировку
                                                     if (SKApp.simulation.isInterfaceWasLoсked) {
