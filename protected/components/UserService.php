@@ -1192,7 +1192,7 @@ class UserService {
 
         }
         sort($simulationsId);
-        //if(implode(',', $simulationsId) !== $user->account_corporate->cache_full_report) {
+        if(implode(',', $simulationsId) !== $user->account_corporate->cache_full_report) {
             // непосредственно генерация
             $generator = new AnalyticalFileGenerator();
             $generator->is_add_behaviours = false;
@@ -1202,7 +1202,7 @@ class UserService {
             $generator->save('user_id_'.$user->id,'full_report');
             $user->account_corporate->cache_full_report = implode(',', $simulationsId);
             $user->account_corporate->save(false);
-        //}
+        }
         return true;
     }
 }
