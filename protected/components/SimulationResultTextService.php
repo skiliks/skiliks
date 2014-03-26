@@ -124,12 +124,12 @@ class SimulationResultTextService {
         if((int)$negative['pocket']['left'] === 0) {
             return [
                 'text' => $positive['text'],
-                'short_text' => $positive['short_text']
+                'short_text' => '('.$positive['short_text'].')'
             ];
         }else{
             return [
                 'text' => $positive['text']." ".$negative['text'],
-                'short_text' => $positive['short_text']
+                'short_text' => '('.$positive['short_text'].', '.$negative['short_text'].')'
             ];
         }
 
