@@ -94,7 +94,6 @@ define([
                                 ajax:null,
                                 status:'pending'
                             }));
-                            console.log();
                         } else if(_.first(models).get('is_repeat_request')) {
 
                         } else {
