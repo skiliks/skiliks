@@ -383,6 +383,11 @@ ul.question-container .default li.color-797966, /* help-page */
 footer .sub-menu-1 {
     background-color: #2C6F79;
     top: 239px;
+    width: 311px;
+}
+
+footer .static-page-links .sub-menu-1 li a {
+    width: 280px;
 }
 
 footer .static-page-links .sub-menu-1 li a:hover {

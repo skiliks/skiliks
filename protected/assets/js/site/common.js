@@ -35,6 +35,11 @@ $(document).ready(function () {
             && !$(e.target).is('.action-toggle-learning-goal-description-hint')) {
             hideAllPopovers();
         }
+
+        if(!$(e.target).is('.action-show-product-submenu')) {
+            $('.locator-product-submenu').hide();
+            $('.locator-submenu-switcher').removeClass('open');
+        }
     });
     // action-display-popover }
 
@@ -257,8 +262,7 @@ $(document).ready(function () {
         // Исправляет смещение меню О продукте
         // смещение должно рассчитыватсья после того как в body добавлен класс width-1024
         // иначе смещение будет неправильное
-        $('header .static-page-links .locator-product-submenu').css('left', $('header .static-page-links .locator-submenu-switcher').offset().left);
-        $('footer .static-page-links .locator-product-submenu').css('left', $('footer .static-page-links .locator-submenu-switcher').offset().left);
+        fixProductDropDown();
 
         // footer
         stickyFooterAndBackground();
@@ -268,7 +272,8 @@ $(document).ready(function () {
 
     // 11) Выпадающее меню О продукте
     $('header .action-show-product-submenu').click(function() {
-        $('header .locator-product-submenu').css('left', $('header .locator-submenu-switcher').offset().left);
+        fixProductDropDown();
+
         $('header .locator-product-submenu').toggle();
 
         var switcher = $('header .locator-submenu-switcher');
@@ -281,7 +286,8 @@ $(document).ready(function () {
     });
 
     $('footer .action-show-product-submenu').click(function() {
-        $('footer .locator-product-submenu').css('left', $('footer .locator-submenu-switcher').offset().left);
+        fixProductDropDown();
+
         $('footer .locator-product-submenu').toggle();
 
         var switcher = $('footer .locator-submenu-switcher');
@@ -461,4 +467,17 @@ function stickyFooterAndBackground() {
         $('body').css('background-size', ' 1600px auto ');
     }
 }
+
+// 8)
+// Исправляет смещение меню "О продукте"
+function fixProductDropDown() {
+    $('header .static-page-links .locator-product-submenu').css('left', $('header .static-page-links .locator-submenu-switcher').offset().left);
+
+    var offset = 200;
+    if ($('body').hasClass('width-1024')) {
+        offset = 175;
+    }
+    $('footer .locator-product-submenu').css('left', $('footer .locator-submenu-switcher').offset().left - offset);
+}
+
 
