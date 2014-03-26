@@ -83,7 +83,11 @@ class SimulationResultTextService {
             if(self::$left_direction($pocket->left, $value_1) && self::$right_direction($pocket->right, $value_1)) {
                 return [
                         'text' => $pocket->text,
-                        'short_text' => $pocket->short_text
+                        'short_text' => $pocket->short_text,
+                        'pocket' => [
+                            'left' => $pocket->left,
+                            'right' => $pocket->right
+                        ]
                        ];
             }
         }
@@ -111,6 +115,13 @@ class SimulationResultTextService {
             'text' => $positive['text']." ".$negative['text'],
             'short_text' => $positive['short_text']
         ];
+    }
+
+    public static function HugeProblemsPocketsConcatenation($behaviour_alias_1, $behaviour_alias_2, $alias, $assessment){
+
+        $positive = self::SinglePocket($behaviour_alias_1, $alias, $assessment);
+        $negative = self::SinglePocket($behaviour_alias_2, $alias, $assessment);
+
     }
 
     /**
