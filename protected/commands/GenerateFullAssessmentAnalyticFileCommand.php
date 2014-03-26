@@ -7,7 +7,7 @@ class GenerateFullAssessmentAnalyticFileCommand extends CConsoleCommand
     public function actionIndex($email=null)
     {
         if($email !== null){
-            $profile = YumProfile::model()->findAllByAttributes(['email'=>$email]);
+            $profile = YumProfile::model()->findByAttributes(['email'=>$email]);
             $users_account = UserAccountCorporate::model()->findAllByAttributes(['user_id'=>$profile->user_id]);
         } else {
             $project_path = __DIR__."/../../";
