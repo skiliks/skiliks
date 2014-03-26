@@ -43,6 +43,8 @@ $(document).ready(function () {
             open: function() {
                 $('.locator-for-ui-dialog-status-data').text(statusData);
                 $('.locator-flash').removeClass('hide');
+
+                stickyFooterAndBackground();
             }
         });
     });

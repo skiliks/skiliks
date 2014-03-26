@@ -7,7 +7,7 @@
 
             <ul class="question-container column-full">
 
-                <li class="">
+                <li class="action-toggle-help-paragraph">
                     Для кого предназначена симуляция?
                     <div class="color-797966">
                         <p class="">
@@ -27,7 +27,7 @@
                     </div>
                 </li>
 
-                <li class="">
+                <li class="action-toggle-help-paragraph">
                     Что необходимо для использования симуляции?
                     <div class="color-797966">
                         <p class="">
@@ -52,7 +52,7 @@
                     </div>
                 </li>
 
-                <li class="">
+                <li class="action-toggle-help-paragraph">
                     Учитываются ли в симуляции специфические требования компании к сотрудникам?
                     <div class="color-797966">
                         <p class="">
@@ -63,7 +63,7 @@
                     </div>
                 </li>
 
-                <li class="">
+                <li class="action-toggle-help-paragraph">
                     Как убедиться в том, что симуляцию проходил именно тот человек, кому отправлено приглашение?
                     <div class="color-797966">
                         <p class="">

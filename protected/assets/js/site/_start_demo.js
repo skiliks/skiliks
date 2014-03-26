@@ -20,6 +20,8 @@ $(document).ready(function(){
                 $('.action-start-lite-simulation-now').click(function() {
                     location.assign(href);
                 });
+
+                stickyFooterAndBackground();
             }
         });
         return false;

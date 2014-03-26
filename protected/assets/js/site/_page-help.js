@@ -1,6 +1,6 @@
 
 $(document).ready(function(){
-    $(".question-container>li").click(function() {
+    $(".action-toggle-help-paragraph").click(function() {
         if(!$(this).children("div").is(":visible")) {
             $(this).children("div").slideDown("fast");
             $(this).css('color', '#146672');
@@ -11,5 +11,7 @@ $(document).ready(function(){
             $(this).css('color', '#555742');
             $(this).removeClass("active");
         }
+
+        stickyFooterAndBackground();
     })
 });

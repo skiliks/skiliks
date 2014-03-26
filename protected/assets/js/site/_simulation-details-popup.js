@@ -19,7 +19,10 @@ $(document).ready(function () {
         width:       getDialogSimulationDetailsPopupWidth(),
         height:      getDialogSimulationDetailsPopupHeight(),
         autoOpen:    false,
-        resizable:   false
+        resizable:   false,
+        open: function() {
+            stickyFooterAndBackground();
+        }
     });
 
     $(window).resize(function(){

@@ -16,6 +16,7 @@ $(document).ready(function() {
             draggable: false,
             open: function() {
                 $(window).resize();
+                stickyFooterAndBackground();
             }
         });
     }
@@ -121,7 +122,6 @@ $(document).ready(function() {
 
     // 3) Video-popup
     $(".action-view-video").click(function() {
-        //$($(".main-content .iframe-video-wrap").html()).dialog({
         $('.iframe-video').dialog({
             modal: true,
             resizable: false,
@@ -141,6 +141,8 @@ $(document).ready(function() {
                     $(".popup-video .iframe-video iframe").attr("src",
                         $(".iframe-video iframe").attr("src").replace('?autoplay=1',''));
                 });
+
+                stickyFooterAndBackground();
             }
         });
 

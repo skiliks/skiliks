@@ -46,13 +46,15 @@ $(document).ready(function () {
     $('.action-feedback').on('click', function (e) {
         var selected = $(this).attr('data-selected');
         $('.locator-feedback-dialog').dialog({
-            // autoOpen : true,
             width: getDialogWindowWidth_2of3(),
             height: 400,
             dialogClass: 'popup-form background-image-two-lamps hide-ui-dialog-content' ,
             modal: true,
             resizable: false,
-            draggable: false
+            draggable: false,
+            open: function() {
+                stickyFooterAndBackground();
+            }
         });
 
         $(window).resize(function(){
@@ -77,6 +79,7 @@ $(document).ready(function () {
         },
         open: function() {
             $('.locator-flash').removeClass('hide');
+            stickyFooterAndBackground();
         }
     });
 
@@ -113,6 +116,8 @@ $(document).ready(function () {
                 // из-за фокуса на данный input не видно текста placeholder
                 $('#YumUserLogin_username').blur();
                 $(".locator-box-sign-in").addClass('overflow-hidden');
+
+                stickyFooterAndBackground();
             }
         });
 
@@ -144,6 +149,7 @@ $(document).ready(function () {
             open: function() {
                 // из-за фокуса на данный input не видно текста placeholder
                 $('#YumPasswordRecoveryForm_email').blur();
+                stickyFooterAndBackground();
             }
         });
 
@@ -176,6 +182,8 @@ $(document).ready(function () {
         } else {
             $(this).addClass('hide');
         }
+
+        stickyFooterAndBackground();
     });
 
     // 9 )
@@ -249,7 +257,8 @@ $(document).ready(function () {
         // Исправляет смещение меню О продукте
         // смещение должно рассчитыватсья после того как в body добавлен класс width-1024
         // иначе смещение будет неправильное
-        $('.locator-product-submenu').css('left', $('.locator-submenu-switcher').offset().left);
+        $('header .static-page-links .locator-product-submenu').css('left', $('header .static-page-links .locator-submenu-switcher').offset().left);
+        $('footer .static-page-links .locator-product-submenu').css('left', $('footer .static-page-links .locator-submenu-switcher').offset().left);
 
         // footer
         stickyFooterAndBackground();
@@ -258,11 +267,24 @@ $(document).ready(function () {
     stickyFooterAndBackground();
 
     // 11) Выпадающее меню О продукте
-    $('.action-show-product-submenu').click(function() {
-        $('.locator-product-submenu').css('left', $('.locator-submenu-switcher').offset().left);
-        $('.locator-product-submenu').toggle();
+    $('header .action-show-product-submenu').click(function() {
+        $('header .locator-product-submenu').css('left', $('header .locator-submenu-switcher').offset().left);
+        $('header .locator-product-submenu').toggle();
 
-        var switcher = $('.locator-submenu-switcher');
+        var switcher = $('header .locator-submenu-switcher');
+
+        if (switcher.hasClass('open')) {
+            switcher.removeClass('open');
+        } else {
+            switcher.addClass('open');
+        }
+    });
+
+    $('footer .action-show-product-submenu').click(function() {
+        $('footer .locator-product-submenu').css('left', $('footer .locator-submenu-switcher').offset().left);
+        $('footer .locator-product-submenu').toggle();
+
+        var switcher = $('footer .locator-submenu-switcher');
 
         if (switcher.hasClass('open')) {
             switcher.removeClass('open');
@@ -419,7 +441,7 @@ window.passwordRecoverySubmit = function passwordRecoverySubmit(form, data, hasE
     return false;
 };
 
-// 7
+// 7)
 function stickyFooterAndBackground() {
     // Footer
     var bodyHeight = $('body').height();
@@ -439,3 +461,4 @@ function stickyFooterAndBackground() {
         $('body').css('background-size', ' 1600px auto ');
     }
 }
+

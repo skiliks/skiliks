@@ -32,6 +32,8 @@ $(document).ready(function(){
                         $('.action-close-popup').click(function() {
                             $('.locator-invite-decline-box').dialog('close');
                         });
+
+                        stickyFooterAndBackground();
                     }
                 });
             });

@@ -380,6 +380,23 @@ ul.question-container .default li.color-797966, /* help-page */
     background-position: 111px 15px;
 }
 
+footer .sub-menu-1 {
+    background-color: #2C6F79;
+    top: 239px;
+}
+
+footer .static-page-links .sub-menu-1 li a:hover {
+    background-color: #146672;
+}
+
+footer .icon-sub-menu {
+    background-position: 92px 10px;
+}
+
+footer .icon-sub-menu.open {
+    background-position: 89px 13px;
+}
+
 /* --- */
 
 .skiliks .sbSelector:link,

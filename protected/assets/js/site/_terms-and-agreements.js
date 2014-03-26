@@ -24,6 +24,8 @@ $(document).ready(function(){
                         // блокируем скролл страницы: "body" + resize() нуны для safari
                         $("body").css("overflow-y", "hidden");
                         $(window).resize();
+
+                        stickyFooterAndBackground();
                     },
                     close: function () {
                         // блокируем скролл страницы

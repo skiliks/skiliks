@@ -6,7 +6,7 @@
 
             <div class="nice-border border-radius-standard">
                 <ul class="question-container column-full">
-                    <li class="solo ">
+                    <li class="solo action-toggle-help-paragraph">
                         Логин и пароль
                         <div class="color-797966">
                             <p class="">
@@ -32,7 +32,7 @@
             <div class="nice-border border-radius-standard">
                 <ul class="question-container column-full">
 
-                    <li class="">
+                    <li class="action-toggle-help-paragraph">
                         Приём приглашений
                         <div class="color-797966">
                             <p class="">
@@ -47,7 +47,7 @@
                         </div>
                     </li>
 
-                    <li class="">
+                    <li class="action-toggle-help-paragraph">
                         Прохождение симуляции
                         <div class="color-797966">
                             <p class="">
@@ -61,7 +61,7 @@
                         </div>
                     </li>
 
-                    <li class="">
+                    <li class="action-toggle-help-paragraph">
                         Просмотр результатов тестирования
                         <div class="color-797966">
                             <p class="">
@@ -84,7 +84,7 @@
             <div class="nice-border border-radius-standard">
                 <ul class="question-container column-full">
 
-                    <li class="">
+                    <li class="action-toggle-help-paragraph">
                         Личные данные
                         <div class="color-797966">
                             <p class="">
@@ -95,7 +95,7 @@
                         </div>
                     </li>
 
-                    <li class="">
+                    <li class="action-toggle-help-paragraph">
                         Пароль
                         <div class="color-797966">
                             <p class="">

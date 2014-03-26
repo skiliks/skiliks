@@ -163,6 +163,8 @@ $(document).ready(function () {
                     displaySimulationInfoPopUp(href, dataGlobal);
                     // отображаем вступительный попап }
                 });
+
+                stickyFooterAndBackground();
             }
         });
     }
@@ -178,7 +180,10 @@ $(document).ready(function () {
         minHeight: 220,
         modal: true,
         resizable: false,
-        width: getDialogWindowWidth()
+        width: getDialogWindowWidth(),
+        open: function() {
+            stickyFooterAndBackground();
+        }
     });
 
     function infoPopup_aboutFullSimulation(href) {
@@ -228,6 +233,9 @@ $(document).ready(function () {
                 my: "left top",
                 at: "left top",
                 of: $('.locator-corporate-invitations-list-box')
+            },
+            open: function() {
+                stickyFooterAndBackground();
             }
         });
 
@@ -270,6 +278,9 @@ $(document).ready(function () {
                 my: "right top",
                 at: "right top",
                 of: $('.locator-corporate-invitations-list-box')
+            },
+            open: function() {
+                stickyFooterAndBackground();
             }
         });
 
@@ -323,11 +334,6 @@ $(document).ready(function () {
             width:       getDialogWindowWidth(),
             height:      getDialogSimulationRulesPopupHeight(),
             position: 'center center',
-//            position: {
-//                my: "left top",
-//                at: "left top",
-//                of: $(".action-feedback")
-//            },
             open: function( event, ui ) {
                 $(this).find('.locator-start-later').attr(
                     'href',
@@ -338,6 +344,8 @@ $(document).ready(function () {
                     'data-href',
                     buttonAccept.attr('data-link-start-now')
                 );
+
+                stickyFooterAndBackground();
             },
             close: function() {
                 // странный баг - только для этого, длинного, окна
