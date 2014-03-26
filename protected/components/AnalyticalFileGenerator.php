@@ -148,10 +148,10 @@ class AnalyticalFileGenerator {
      * @param null $width
      */
     public function addColumnRight($text, $format, $width = null) {
-        $text = mb_str_replace('.', ',', $text, 'UTF-8');
+        $text = mb_str_replace('.', ',', $text);
         if($format === PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00) {
             if($text[mb_strlen($text, 'UTF-8') - 1] === '%' && !in_array(',', str_split($text))){
-                $text = mb_str_replace('%', '', $text, 'UTF-8').',00%';
+                $text = mb_str_replace('%', '', $text).',00%';
             }
         }
         $sheet = $this->addColumn($text, $width);
