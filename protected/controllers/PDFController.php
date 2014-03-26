@@ -61,7 +61,7 @@ class PDFController extends SiteBaseController {
 //            $pdf->pdf->setXY(0, 200, true);
 //
 //            $pdf->pdf->SetFont('proxima-nova-regular', '', 11);
-//            $pdf->pdf->SetFont('proxima-nova-bold', 'bold', 11);
+//            $pdf->pdf->SetFont('dejavusans', '', 11);
 //
 //
 //            $html = <<<EOF
@@ -73,10 +73,10 @@ class PDFController extends SiteBaseController {
 //<tr>
 //<td></td>
 //<td><h3>aaaa</h3>
-//<font face="proxima-nova-bold" style="font-weight: bold;">UUUUUU</font><br/>
-//<font face="proxima-nova-regular">UUUUUU</font><br/>
-//<span style="font-weight: bold;">bold text</span><br/>
-//<span>aaaa jkl jlkj lkj lj kj jlj lkj ljljlj ljl jlj lj lkjl jl jl jl jlj lj lkj lkjaldhklasdka gsdkjghaskjhgjhg hg hg hg </span></td>
+//<font face="dejavusans" style="font-weight: bold;">текст 1</font><br/>
+//<font face="dejavusans">текст 2</font><br/>
+//<span style="font-weight: bold;">bold text текст 3</span><br/>
+//<span>текст 4 </span></td>
 //</tr>
 //<table>
 //</body>

@@ -164,10 +164,13 @@ class AssessmentPDF {
         $this->pdf->Write(0, $text);
     }
 
-    public function writeTextLeftRegular($width, $height, $x, $y, $size, $text) {
+    public function writeTextLeftRegular($width, $height, $x, $y, $size, $text, $font = 'proxima-nova-regular') {
         $this->pdf->SetFont('proxima-nova-regular', '', $size);
+        $this->pdf->setCellHeightRatio(1.1);
+        $this->pdf->SetFont($font, '', $size - 1);
         $this->pdf->SetTextColor(0,0,0);
         $this->pdf->MultiCell($width, $height, $text, 1, 'L', $fill=true, $ln=1, $x, $y);
+        $this->pdf->setCellHeightRatio(1);
     }
 
     public function writeTextCenterRegular($width, $height, $x, $y, $size, $text) {
