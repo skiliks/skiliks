@@ -132,13 +132,13 @@ class AnalyticalFileGenerator {
             $sheet->getStyleByColumnAndRow($this->column_number, $sheet->getHighestRow())
                 ->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
         }
-        if((is_float(mb_substr($text, 0, mb_strlen($text, 'UTF-8') - 1, 'UTF-8')) || is_numeric(mb_substr($text, 0, mb_strlen($text, 'UTF-8') - 1))) && mb_substr($text, mb_strlen($text, 'UTF-8') - 1, mb_strlen($text, 'UTF-8'), 'UTF-8') === '%') {
+        /*if((is_float(mb_substr($text, 0, mb_strlen($text, 'UTF-8') - 1, 'UTF-8')) || is_numeric(mb_substr($text, 0, mb_strlen($text, 'UTF-8') - 1))) && mb_substr($text, mb_strlen($text, 'UTF-8') - 1, mb_strlen($text, 'UTF-8'), 'UTF-8') === '%') {
             $sheet->getStyleByColumnAndRow($this->column_number, $sheet->getHighestRow())
                 ->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
             $sheet->getStyleByColumnAndRow($this->column_number, $sheet->getHighestRow())
                 ->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
-        }
+        }*/
         $this->column_number++;
 
         if('Поведения' == $this->sheet_name){
@@ -153,8 +153,13 @@ class AnalyticalFileGenerator {
      * @param $text
      * @param null $width
      */
-    public function addColumnRight($text, $width = null) {
+    public function addColumnRight($text, $format, $width = null) {
         $text = str_replace('.', ',', $text);
+        if($format === PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00) {
+            if($text[strlen($text) - 1] === '%' && !in_array(',', str_split($text))){
+                $text = str_replace('%', '', $text).',00%';
+            }
+        }
         $sheet = $this->addColumn($text, $width);
         $sheet->getStyleByColumnAndRow($this->column_number-1, $sheet->getHighestRow())->getFill()
             ->applyFromArray(array('type' => \PHPExcel_Style_Fill::FILL_SOLID,
@@ -162,6 +167,10 @@ class AnalyticalFileGenerator {
             ));
         $sheet->getStyleByColumnAndRow($this->column_number-1, $sheet->getHighestRow())
             ->getBorders()->getRight()->setBorderStyle(\PHPExcel_Style_Border::BORDER_THICK);
+        $sheet->getStyleByColumnAndRow($this->column_number-1, $sheet->getHighestRow())
+            ->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyleByColumnAndRow($this->column_number-1, $sheet->getHighestRow())
+            ->getNumberFormat()->setFormatCode($format);
     }
 
     /**
@@ -301,23 +310,23 @@ class AnalyticalFileGenerator {
             $this->setInfoBySimulation($simulation);
             $this->addRow();
             $this->addColumn('Управленческие навыки');
-            $this->addColumnRight(round($data['management']['total'], 2).'%');
+            $this->addColumnRight(round($data['management']['total'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
             $this->addRow();
             $this->addColumn('Результативность');
-            $this->addColumnRight(round($data['performance']['total'], 2).'%');
+            $this->addColumnRight(round($data['performance']['total'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
             $this->addRow();
             $this->addColumn('Эффективность использования времени');
-            $this->addColumnRight(round($data['time']['total'], 2).'%');
+            $this->addColumnRight(round($data['time']['total'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
             $this->addRow();
             $this->addColumn('Итоговый рейтинг');
-            $this->addColumnRight(round($data['overall'], 2).'%');
+            $this->addColumnRight(round($data['overall'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
             $this->addRow();
             $this->addColumn('Процентиль');
-            $this->addColumnRight(round($data['percentile']['total'], 2).'%');
+            $this->addColumnRight(round($data['percentile']['total'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
             /////////////////////////////////////////////////////
             $this->setBorderBold();
         }
@@ -338,151 +347,151 @@ class AnalyticalFileGenerator {
             $this->addColumn('1. Управление задачами с учётом приоритетов');
             $this->addColumn('1.1 Использование планирования в течение дня');
             $this->addColumn('negative');
-            $this->addColumnRight(round($data['management'][1]['1_1']['-'], 2).'%');
+            $this->addColumnRight(round($data['management'][1]['1_1']['-'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
             $this->addRow();
             $this->addColumn('1. Управление задачами с учётом приоритетов');
             $this->addColumn('1.1 Использование планирования в течение дня');
             $this->addColumn('positive');
-            $this->addColumnRight(round($data['management'][1]['1_1']['+'], 2).'%');
+            $this->addColumnRight(round($data['management'][1]['1_1']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
             $this->addRow();
             $this->addColumn('1. Управление задачами с учётом приоритетов');
             $this->addColumn('1.2 Правильное определение приоритетов задач при планировании');
             $this->addColumn('positive');
-            $this->addColumnRight(round($data['management'][1]['1_2']['+'], 2).'%');
+            $this->addColumnRight(round($data['management'][1]['1_2']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
             $this->addRow();
             $this->addColumn('1. Управление задачами с учётом приоритетов');
             $this->addColumn('1.2 Правильное определение приоритетов задач при планировании');
             $this->addColumn('negative');
-            $this->addColumnRight(round($data['management'][1]['1_2']['-'], 2).'%');
+            $this->addColumnRight(round($data['management'][1]['1_2']['-'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
             $this->addRow();
             $this->addColumn('1. Управление задачами с учётом приоритетов');
             $this->addColumn('1.3 Выполнение задач в соответствии с приоритетами');
             $this->addColumn('positive');
-            $this->addColumnRight(round($data['management'][1]['1_3']['+'], 2).'%');
+            $this->addColumnRight(round($data['management'][1]['1_3']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
             $this->addRow();
             $this->addColumn('1. Управление задачами с учётом приоритетов');
             $this->addColumn('1.3 Выполнение задач в соответствии с приоритетами');
             $this->addColumn('negative');
-            $this->addColumnRight(round($data['management'][1]['1_3']['-'], 2).'%');
+            $this->addColumnRight(round($data['management'][1]['1_3']['-'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
             $this->addRow();
             $this->addColumn('1. Управление задачами с учётом приоритетов');
             $this->addColumn('1.4 Прерывание при выполнении задач');
             $this->addColumn('positive');
-            $this->addColumnRight('не оценивается');
+            $this->addColumnRight('не оценивается', PHPExcel_Style_NumberFormat::FORMAT_TEXT);
 
             $this->addRow();
             $this->addColumn('1. Управление задачами с учётом приоритетов');
             $this->addColumn('1.4 Прерывание при выполнении задач');
             $this->addColumn('negative');
-            $this->addColumnRight(round($data['management'][1]['1_4']['-'], 2).'%');
+            $this->addColumnRight(round($data['management'][1]['1_4']['-'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
             $this->addRow();
             $this->addColumn('1. Управление задачами с учётом приоритетов');
             $this->addColumn('ИТОГО');
             $this->addColumn('combined');
-            $this->addColumnRight(round($data['management'][1]['total'], 2).'%');
+            $this->addColumnRight(round($data['management'][1]['total'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
             $this->addRow();
             $this->addColumn('2. Управление людьми');
             $this->addColumn('2.1 Использование делегирования для управления объемом задач');
             $this->addColumn('positive');
-            $this->addColumnRight(round($data['management'][2]['2_1']['+'], 2).'%');
+            $this->addColumnRight(round($data['management'][2]['2_1']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
             $this->addRow();
             $this->addColumn('2. Управление людьми');
             $this->addColumn('2.1 Использование делегирования для управления объемом задач');
             $this->addColumn('negative');
-            $this->addColumnRight(round($data['management'][2]['2_1']['-'], 2).'%');
+            $this->addColumnRight(round($data['management'][2]['2_1']['-'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
             $this->addRow();
             $this->addColumn('2. Управление людьми');
             $this->addColumn('2.2 Управление ресурсами различной квалификации');
             $this->addColumn('positive');
-            $this->addColumnRight(round($data['management'][2]['2_2']['+'], 2).'%');
+            $this->addColumnRight(round($data['management'][2]['2_2']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
             $this->addRow();
             $this->addColumn('2. Управление людьми');
             $this->addColumn('2.2 Управление ресурсами различной квалификации');
             $this->addColumn('negative');
-            $this->addColumnRight(round($data['management'][2]['2_2']['-'], 2).'%');
+            $this->addColumnRight(round($data['management'][2]['2_2']['-'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
             $this->addRow();
             $this->addColumn('2. Управление людьми');
             $this->addColumn('2.3 Использование обратной связи');
             $this->addColumn('positive');
-            $this->addColumnRight(round($data['management'][2]['2_3']['+'], 2).'%');
+            $this->addColumnRight(round($data['management'][2]['2_3']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
             $this->addRow();
             $this->addColumn('2. Управление людьми');
             $this->addColumn('2.3 Использование обратной связи');
             $this->addColumn('negative');
-            $this->addColumnRight(round($data['management'][2]['2_3']['-'], 2).'%');
+            $this->addColumnRight(round($data['management'][2]['2_3']['-'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
             $this->addRow();
             $this->addColumn('2. Управление людьми');
             $this->addColumn('ИТОГО');
             $this->addColumn('combined');
-            $this->addColumnRight(round($data['management'][2]['total'], 2).'%');
+            $this->addColumnRight(round($data['management'][2]['total'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
             $this->addRow();
             $this->addColumn('3. Управление коммуникациями');
             $this->addColumn('3.1 Оптимальное использование каналов коммуникации');
             $this->addColumn('positive');
-            $this->addColumnRight(round($data['management'][3]['3_1']['+'], 2).'%');
+            $this->addColumnRight(round($data['management'][3]['3_1']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
             $this->addRow();
             $this->addColumn('3. Управление коммуникациями');
             $this->addColumn('3.1 Оптимальное использование каналов коммуникации');
             $this->addColumn('negative');
-            $this->addColumnRight('не оценивается');
+            $this->addColumnRight('не оценивается', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
             $this->addRow();
             $this->addColumn('3. Управление коммуникациями');
             $this->addColumn('3.2 Эффективная работа с почтой');
             $this->addColumn('positive');
-            $this->addColumnRight(round($data['management'][3]['3_2']['+'], 2).'%');
+            $this->addColumnRight(round($data['management'][3]['3_2']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
             $this->addRow();
             $this->addColumn('3. Управление коммуникациями');
             $this->addColumn('3.2 Эффективная работа с почтой');
             $this->addColumn('negative');
-            $this->addColumnRight(round($data['management'][3]['3_2']['-'], 2).'%');
+            $this->addColumnRight(round($data['management'][3]['3_2']['-'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
             $this->addRow();
             $this->addColumn('3. Управление коммуникациями');
             $this->addColumn('3.3 Эффективная работа со звонками');
             $this->addColumn('positive');
-            $this->addColumnRight(round($data['management'][3]['3_3']['+'], 2).'%');
+            $this->addColumnRight(round($data['management'][3]['3_3']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
             $this->addRow();
             $this->addColumn('3. Управление коммуникациями');
             $this->addColumn('3.3 Эффективная работа со звонками');
             $this->addColumn('negative');
-            $this->addColumnRight('не оценивается');
+            $this->addColumnRight('не оценивается', PHPExcel_Style_NumberFormat::FORMAT_TEXT);
 
             $this->addRow();
             $this->addColumn('3. Управление коммуникациями');
             $this->addColumn('3.4 Эффективное управление встречами');
             $this->addColumn('positive');
-            $this->addColumnRight(round($data['management'][3]['3_4']['+'], 2).'%');
+            $this->addColumnRight(round($data['management'][3]['3_4']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
             $this->addRow();
             $this->addColumn('3. Управление коммуникациями');
             $this->addColumn('3.4 Эффективное управление встречами');
             $this->addColumn('negative');
-            $this->addColumnRight(round($data['management'][3]['3_4']['-'], 2).'%');
+            $this->addColumnRight(round($data['management'][3]['3_4']['-'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
             $this->addRow();
             $this->addColumn('3. Управление коммуникациями');
             $this->addColumn('ИТОГО');
             $this->addColumn('combined');
-            $this->addColumnRight(round($data['management'][3]['total'], 2).'%');
+            $this->addColumnRight(round($data['management'][3]['total'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
             $this->setBorderBold();
         }
         ////////////////////////////////////////////////
@@ -500,19 +509,19 @@ class AnalyticalFileGenerator {
             $this->setInfoBySimulation($simulation);
             $this->addRow();
             $this->addColumn('Срочно');
-            $this->addColumnRight($this->getPerformanceCategory($data['performance'], '0'));
+            $this->addColumnRight($this->getPerformanceCategory($data['performance'], '0'), PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
             $this->addRow();
             $this->addColumn('Высокий приоритет');
-            $this->addColumnRight($this->getPerformanceCategory($data['performance'], '1'));
+            $this->addColumnRight($this->getPerformanceCategory($data['performance'], '1'), PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
             $this->addRow();
             $this->addColumn('Средний приоритет');
-            $this->addColumnRight($this->getPerformanceCategory($data['performance'], '2'));
+            $this->addColumnRight($this->getPerformanceCategory($data['performance'], '2'), PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
             $this->addRow();
             $this->addColumn('Двухминутные задачи');
-            $this->addColumnRight($this->getPerformanceCategory($data['performance'], '2_min'));
+            $this->addColumnRight($this->getPerformanceCategory($data['performance'], '2_min'), PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
             $this->setBorderBold();
         }
         //////////////////////////////////////////////////////////
@@ -531,72 +540,72 @@ class AnalyticalFileGenerator {
             $this->addRow();
             $this->addColumn('1. Распределение времени, %');
             $this->addColumn('Продуктивное время (выполнение приоритетных задач)');
-            $this->addColumnRight(round($data['time']['time_spend_for_1st_priority_activities'], 2).'%');
+            $this->addColumnRight(round($data['time']['time_spend_for_1st_priority_activities'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
             $this->addRow();
             $this->addColumn('1. Распределение времени, %');
             $this->addColumn('Непродуктивное время (иные действия, не связанные с приоритетами)');
-            $this->addColumnRight(round($data['time']['time_spend_for_non_priority_activities'], 2).'%');
+            $this->addColumnRight(round($data['time']['time_spend_for_non_priority_activities'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
             $this->addRow();
             $this->addColumn('1. Распределение времени, %');
             $this->addColumn('Время ожидания и бездействия');
-            $this->addColumnRight(round($data['time']['time_spend_for_inactivity'], 2).'%');
+            $this->addColumnRight(round($data['time']['time_spend_for_inactivity'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
             $this->addRow();
             $this->addColumn('2. Сверхурочное время (минуты)');
             $this->addColumn('Сверхурочное время');
-            $this->addColumnRight(round($data['time']['workday_overhead_duration'], 2));
+            $this->addColumnRight(round($data['time']['workday_overhead_duration'], 2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
 
             $this->addRow();
             $this->addColumn('1.1 Продуктивное время (выполнение приоритетных задач, минуты)');
             $this->addColumn('Работа с документами');
-            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_DOCUMENTS],2));
+            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_DOCUMENTS],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
 
             $this->addRow();
             $this->addColumn('1.1 Продуктивное время (выполнение приоритетных задач, минуты)');
             $this->addColumn('Встречи');
-            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_MEETINGS],2));
+            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_MEETINGS],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
 
             $this->addRow();
             $this->addColumn('1.1 Продуктивное время (выполнение приоритетных задач, минуты)');
             $this->addColumn('Звонки');
-            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_PHONE_CALLS],2));
+            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_PHONE_CALLS],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
 
             $this->addRow();
             $this->addColumn('1.1 Продуктивное время (выполнение приоритетных задач, минуты)');
             $this->addColumn('Работа с почтой');
-            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_MAIL],2));
+            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_MAIL],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
 
             $this->addRow();
             $this->addColumn('1.1 Продуктивное время (выполнение приоритетных задач, минуты)');
             $this->addColumn('Планирование');
-            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_PLANING], 2));
+            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_PLANING], 2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
             ////
             $this->addRow();
             $this->addColumn('1.2 Непродуктивное время (иные действия, не связанные с приоритетами)');
             $this->addColumn('Работа с документами');
-            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_DOCUMENTS],2));
+            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_DOCUMENTS],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
 
             $this->addRow();
             $this->addColumn('1.2 Непродуктивное время (иные действия, не связанные с приоритетами)');
             $this->addColumn('Встречи');
-            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_MEETINGS],2));
+            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_MEETINGS],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
 
             $this->addRow();
             $this->addColumn('1.2 Непродуктивное время (иные действия, не связанные с приоритетами)');
             $this->addColumn('Звонки');
-            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_PHONE_CALLS],2));
+            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_PHONE_CALLS],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
 
             $this->addRow();
             $this->addColumn('1.2 Непродуктивное время (иные действия, не связанные с приоритетами)');
             $this->addColumn('Работа с почтой');
-            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_MAIL],2));
+            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_MAIL],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
 
             $this->addRow();
             $this->addColumn('1.2 Непродуктивное время (иные действия, не связанные с приоритетами)');
             $this->addColumn('Планирование');
-            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_PLANING],2));
+            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_PLANING],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
             $this->setBorderBold();
         }
         ////////////////////////////////////////////////////
@@ -634,24 +643,24 @@ class AnalyticalFileGenerator {
             $this->setInfoBySimulation($simulation);
             $this->addRow();
             $this->addColumn('Управленческие навыки');
-            $this->addColumnRight(round($data['management']['total'], 2).'%');
+            $this->addColumnRight(round($data['management']['total'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
             $this->addRow();
             $this->addColumn('Результативность');
-            $this->addColumnRight(round($data['performance']['total'], 2).'%');
+            $this->addColumnRight(round($data['performance']['total'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
             $this->addRow();
             $this->addColumn('Эффективность использования времени');
-            $this->addColumnRight(round($data['time']['total'], 2).'%');
+            $this->addColumnRight(round($data['time']['total'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
             $this->addRow();
             $this->addColumn('Итоговый рейтинг');
-            $this->addColumnRight(round($data['overall'], 2).'%');
+            $this->addColumnRight(round($data['overall'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
             $this->addRow();
             $this->addColumn('Процентиль');
             if(isset($data['percentile'])) {
-                $this->addColumnRight(round($data['percentile']['total'], 2).'%');
+                $this->addColumnRight(round($data['percentile']['total'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
             } else {
                 /* @var $assessmentRecord AssessmentOverall */
                 $assessmentRecord = AssessmentOverall::model()->findByAttributes([
@@ -659,9 +668,9 @@ class AnalyticalFileGenerator {
                     'sim_id'                   => $simulation->id
                 ]);
                 if( null !== $assessmentRecord ) {
-                    $this->addColumnRight(round($assessmentRecord->value, 2).'%');
+                    $this->addColumnRight(round($assessmentRecord->value, 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
                 }else{
-                    $this->addColumnRight('--');
+                    $this->addColumnRight('--', PHPExcel_Style_NumberFormat::FORMAT_TEXT);
                 }
             }
             /////////////////////////////////////////////////////
@@ -698,43 +707,43 @@ class AnalyticalFileGenerator {
                 $this->addColumn('1. Управление задачами с учётом приоритетов');
                 $this->addColumn('1.1 Определение приоритетов');
                 $this->addColumn('positive');
-                $this->addColumnRight(round($data['management'][1]['1_1']['+'], 2).'%');
+                $this->addColumnRight(round($data['management'][1]['1_1']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
                 $this->addRow();
                 $this->addColumn('1. Управление задачами с учётом приоритетов');
                 $this->addColumn('1.2 Использование планирования в течение дня');
                 $this->addColumn('positive');
-                $this->addColumnRight(round($data['management'][1]['1_2']['+'], 2).'%');
+                $this->addColumnRight(round($data['management'][1]['1_2']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
                 $this->addRow();
                 $this->addColumn('1. Управление задачами с учётом приоритетов');
                 $this->addColumn('1.2 Использование планирования в течение дня');
                 $this->addColumn('negative');
-                $this->addColumnRight(round($data['management'][1]['1_2']['-'], 2).'%');
+                $this->addColumnRight(round($data['management'][1]['1_2']['-'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
                 $this->addRow();
                 $this->addColumn('1. Управление задачами с учётом приоритетов');
                 $this->addColumn('1.3 Правильное определение приоритетов задач при планировании');
                 $this->addColumn('positive');
-                $this->addColumnRight(round($data['management'][1]['1_3']['+'], 2).'%');
+                $this->addColumnRight(round($data['management'][1]['1_3']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
                 $this->addRow();
                 $this->addColumn('1. Управление задачами с учётом приоритетов');
                 $this->addColumn('1.3 Правильное определение приоритетов задач при планировании');
                 $this->addColumn('negative');
-                $this->addColumnRight(round($data['management'][1]['1_3']['-'], 2).'%');
+                $this->addColumnRight(round($data['management'][1]['1_3']['-'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
                 $this->addRow();
                 $this->addColumn('1. Управление задачами с учётом приоритетов');
-                $this->addColumn('1.4 Выполнение задач в соответствии с приоритетами');
+                $this->addColumn('1.4 Прерывание при выполнении задач');
                 $this->addColumn('positive');
-                $this->addColumnRight(round($data['management'][1]['1_4']['+'], 2).'%');
+                $this->addColumnRight(round($data['management'][1]['1_4']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
                 $this->addRow();
                 $this->addColumn('1. Управление задачами с учётом приоритетов');
-                $this->addColumn('1.4 Выполнение задач в соответствии с приоритетами');
+                $this->addColumn('1.4 Прерывание при выполнении задач');
                 $this->addColumn('negative');
-                $this->addColumnRight(round($data['management'][1]['1_4']['-'], 2).'%');
+                $this->addColumnRight(round($data['management'][1]['1_4']['-'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
                 // если оценка за 1.5 = 0, то её нет в кеш попапе!
                 if (false == isset($data['management'][1]['1_5'])) {
@@ -745,49 +754,49 @@ class AnalyticalFileGenerator {
                 $this->addColumn('1. Управление задачами с учётом приоритетов');
                 $this->addColumn('1.5 Завершение начатых задач');
                 $this->addColumn('negative');
-                $this->addColumnRight(round($data['management'][1]['1_5']['-'], 2).'%');
+                $this->addColumnRight(round($data['management'][1]['1_5']['-'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
             } elseif ('v1_to_v2' == $management_interpretation_mode) {
                 $this->addRow();
                 $this->addColumn('1. Управление задачами с учётом приоритетов');
                 $this->addColumn('1.1 Использование планирования в течение дня');
                 $this->addColumn('positive');
-                $this->addColumnRight(round($data['management'][1]['1_2']['+'], 2).'%');
+                $this->addColumnRight(round($data['management'][1]['1_2']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
                 $this->addRow();
                 $this->addColumn('1. Управление задачами с учётом приоритетов');
                 $this->addColumn('1.1 Использование планирования в течение дня');
                 $this->addColumn('negative');
-                $this->addColumnRight(round($data['management'][1]['1_2']['-'], 2).'%');
+                $this->addColumnRight(round($data['management'][1]['1_2']['-'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
                 $this->addRow();
                 $this->addColumn('1. Управление задачами с учётом приоритетов');
                 $this->addColumn('1.2 Правильное определение приоритетов задач при планировании');
                 $this->addColumn('positive');
-                $this->addColumnRight(round($data['management'][1]['1_3']['+'], 2).'%');
+                $this->addColumnRight(round($data['management'][1]['1_3']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
                 $this->addRow();
                 $this->addColumn('1. Управление задачами с учётом приоритетов');
                 $this->addColumn('1.2 Правильное определение приоритетов задач при планировании');
                 $this->addColumn('negative');
-                $this->addColumnRight(round($data['management'][1]['1_3']['-'], 2).'%');
+                $this->addColumnRight(round($data['management'][1]['1_3']['-'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
                 $this->addRow();
                 $this->addColumn('1. Управление задачами с учётом приоритетов');
                 $this->addColumn('1.3 Выполнение задач в соответствии с приоритетами');
                 $this->addColumn('positive');
-                $this->addColumnRight(round($data['management'][1]['1_4']['+'], 2).'%');
+                $this->addColumnRight(round($data['management'][1]['1_4']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
                 $this->addRow();
                 $this->addColumn('1. Управление задачами с учётом приоритетов');
                 $this->addColumn('1.3 Выполнение задач в соответствии с приоритетами');
                 $this->addColumn('negative');
-                $this->addColumnRight(round($data['management'][1]['1_4']['-'], 2).'%');
+                $this->addColumnRight(round($data['management'][1]['1_4']['-'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
                 $this->addRow();
                 $this->addColumn('1. Управление задачами с учётом приоритетов');
-                $this->addColumn('1.4 Выполнение задач в соответствии с приоритетами');
+                $this->addColumn('1.4 Прерывание при выполнении задач');
                 $this->addColumn('positive');
-                $this->addColumnRight('не оценивается');
+                $this->addColumnRight('не оценивается', PHPExcel_Style_NumberFormat::FORMAT_TEXT);
 
                 // если оценка за 1.4 = 0, то её нет в кеш попапе!
                 if (false == isset($data['management'][1]['1_5'])) {
@@ -796,114 +805,114 @@ class AnalyticalFileGenerator {
 
                 $this->addRow();
                 $this->addColumn('1. Управление задачами с учётом приоритетов');
-                $this->addColumn('1.4 Завершение начатых задач');
+                $this->addColumn('1.4 Прерывание при выполнении задач');
                 $this->addColumn('negative');
-                $this->addColumnRight(round($data['management'][1]['1_5']['-'], 2).'%');
+                $this->addColumnRight(round($data['management'][1]['1_5']['-'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
             }
 
             $this->addRow();
             $this->addColumn('1. Управление задачами с учётом приоритетов');
             $this->addColumn('ИТОГО');
             $this->addColumn('combined');
-            $this->addColumnRight(round($data['management'][1]['total'], 2).'%');
+            $this->addColumnRight(round($data['management'][1]['total'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
             // 2.x) ###############################################
             $this->addRow();
             $this->addColumn('2. Управление людьми');
             $this->addColumn('2.1 Использование делегирования для управления объемом задач');
             $this->addColumn('positive');
-            $this->addColumnRight(round($data['management'][2]['2_1']['+'], 2).'%');
+            $this->addColumnRight(round($data['management'][2]['2_1']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
             $this->addRow();
             $this->addColumn('2. Управление людьми');
             $this->addColumn('2.1 Использование делегирования для управления объемом задач');
             $this->addColumn('negative');
-            $this->addColumnRight(round($data['management'][2]['2_1']['-'], 2).'%');
+            $this->addColumnRight(round($data['management'][2]['2_1']['-'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
             $this->addRow();
             $this->addColumn('2. Управление людьми');
             $this->addColumn('2.2 Управление ресурсами различной квалификации');
             $this->addColumn('positive');
-            $this->addColumnRight(round($data['management'][2]['2_2']['+'], 2).'%');
+            $this->addColumnRight(round($data['management'][2]['2_2']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
             $this->addRow();
             $this->addColumn('2. Управление людьми');
             $this->addColumn('2.2 Управление ресурсами различной квалификации');
             $this->addColumn('negative');
-            $this->addColumnRight(round($data['management'][2]['2_2']['-'], 2).'%');
+            $this->addColumnRight(round($data['management'][2]['2_2']['-'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
             $this->addRow();
             $this->addColumn('2. Управление людьми');
             $this->addColumn('2.3 Использование обратной связи');
             $this->addColumn('positive');
-            $this->addColumnRight(round($data['management'][2]['2_3']['+'], 2).'%');
+            $this->addColumnRight(round($data['management'][2]['2_3']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
             $this->addRow();
             $this->addColumn('2. Управление людьми');
             $this->addColumn('2.3 Использование обратной связи');
             $this->addColumn('negative');
-            $this->addColumnRight(round($data['management'][2]['2_3']['-'], 2).'%');
+            $this->addColumnRight(round($data['management'][2]['2_3']['-'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
             $this->addRow();
             $this->addColumn('2. Управление людьми');
             $this->addColumn('ИТОГО');
             $this->addColumn('combined');
-            $this->addColumnRight(round($data['management'][2]['total'], 2).'%');
+            $this->addColumnRight(round($data['management'][2]['total'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
             // 3.x) ###############################################
             $this->addRow();
             $this->addColumn('3. Управление коммуникациями');
             $this->addColumn('3.1 Оптимальное использование каналов коммуникации');
             $this->addColumn('positive');
-            $this->addColumnRight(round($data['management'][3]['3_1']['+'], 2).'%');
+            $this->addColumnRight(round($data['management'][3]['3_1']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
             $this->addRow();
             $this->addColumn('3. Управление коммуникациями');
             $this->addColumn('3.1 Оптимальное использование каналов коммуникации');
             $this->addColumn('negative');
-            $this->addColumnRight('не оценивается');
+            $this->addColumnRight('не оценивается', PHPExcel_Style_NumberFormat::FORMAT_TEXT);
 
             $this->addRow();
             $this->addColumn('3. Управление коммуникациями');
             $this->addColumn('3.2 Эффективная работа с почтой');
             $this->addColumn('positive');
-            $this->addColumnRight(round($data['management'][3]['3_2']['+'], 2).'%');
+            $this->addColumnRight(round($data['management'][3]['3_2']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
             $this->addRow();
             $this->addColumn('3. Управление коммуникациями');
             $this->addColumn('3.2 Эффективная работа с почтой');
             $this->addColumn('negative');
-            $this->addColumnRight(round($data['management'][3]['3_2']['-'], 2).'%');
+            $this->addColumnRight(round($data['management'][3]['3_2']['-'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
             $this->addRow();
             $this->addColumn('3. Управление коммуникациями');
             $this->addColumn('3.3 Эффективная работа со звонками');
             $this->addColumn('positive');
-            $this->addColumnRight(round($data['management'][3]['3_3']['+'], 2).'%');
+            $this->addColumnRight(round($data['management'][3]['3_3']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
             $this->addRow();
             $this->addColumn('3. Управление коммуникациями');
             $this->addColumn('3.3 Эффективная работа со звонками');
             $this->addColumn('negative');
-            $this->addColumnRight('не оценивается');
+            $this->addColumnRight('не оценивается', PHPExcel_Style_NumberFormat::FORMAT_TEXT);
 
             $this->addRow();
             $this->addColumn('3. Управление коммуникациями');
             $this->addColumn('3.4 Эффективное управление встречами');
             $this->addColumn('positive');
-            $this->addColumnRight(round($data['management'][3]['3_4']['+'], 2).'%');
+            $this->addColumnRight(round($data['management'][3]['3_4']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
             $this->addRow();
             $this->addColumn('3. Управление коммуникациями');
             $this->addColumn('3.4 Эффективное управление встречами');
             $this->addColumn('negative');
-            $this->addColumnRight(round($data['management'][3]['3_4']['-'], 2).'%');
+            $this->addColumnRight(round($data['management'][3]['3_4']['-'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
             $this->addRow();
             $this->addColumn('3. Управление коммуникациями');
             $this->addColumn('ИТОГО');
             $this->addColumn('combined');
-            $this->addColumnRight(round($data['management'][3]['total'], 2).'%');
+            $this->addColumnRight(round($data['management'][3]['total'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
             $this->setBorderBold();
         }
         ////////////////////////////////////////////////
@@ -926,19 +935,19 @@ class AnalyticalFileGenerator {
             $this->setInfoBySimulation($simulation);
             $this->addRow();
             $this->addColumn('Срочно');
-            $this->addColumnRight($this->getPerformanceCategory($data['performance'], '0'));
+            $this->addColumnRight($this->getPerformanceCategory($data['performance'], '0'), PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
 
             $this->addRow();
             $this->addColumn('Высокий приоритет');
-            $this->addColumnRight($this->getPerformanceCategory($data['performance'], '1'));
+            $this->addColumnRight($this->getPerformanceCategory($data['performance'], '1'), PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
 
             $this->addRow();
             $this->addColumn('Средний приоритет');
-            $this->addColumnRight($this->getPerformanceCategory($data['performance'], '2'));
+            $this->addColumnRight($this->getPerformanceCategory($data['performance'], '2'), PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
 
             $this->addRow();
             $this->addColumn('Двухминутные задачи');
-            $this->addColumnRight($this->getPerformanceCategory($data['performance'], '2_min'));
+            $this->addColumnRight($this->getPerformanceCategory($data['performance'], '2_min'), PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
             $this->setBorderBold();
         }
         //////////////////////////////////////////////////////////
@@ -962,72 +971,72 @@ class AnalyticalFileGenerator {
             $this->addRow();
             $this->addColumn('1. Распределение времени, %');
             $this->addColumn('Продуктивное время (выполнение приоритетных задач)');
-            $this->addColumnRight(round($data['time']['time_spend_for_1st_priority_activities'], 2).'%');
+            $this->addColumnRight(round($data['time']['time_spend_for_1st_priority_activities'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
             $this->addRow();
             $this->addColumn('1. Распределение времени, %');
             $this->addColumn('Непродуктивное время (иные действия, не связанные с приоритетами)');
-            $this->addColumnRight(round($data['time']['time_spend_for_non_priority_activities'], 2).'%');
+            $this->addColumnRight(round($data['time']['time_spend_for_non_priority_activities'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
             $this->addRow();
             $this->addColumn('1. Распределение времени, %');
             $this->addColumn('Время ожидания и бездействия');
-            $this->addColumnRight(round($data['time']['time_spend_for_inactivity'], 2).'%');
+            $this->addColumnRight(round($data['time']['time_spend_for_inactivity'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
             $this->addRow();
             $this->addColumn('2. Сверхурочное время (минуты)');
             $this->addColumn('Сверхурочное время');
-            $this->addColumnRight(round($data['time']['workday_overhead_duration'], 2));
+            $this->addColumnRight(round($data['time']['workday_overhead_duration'], 2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
 
             $this->addRow();
             $this->addColumn('1.1 Продуктивное время (выполнение приоритетных задач, минуты)');
             $this->addColumn('Работа с документами');
-            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_DOCUMENTS],2));
+            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_DOCUMENTS],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
 
             $this->addRow();
             $this->addColumn('1.1 Продуктивное время (выполнение приоритетных задач, минуты)');
             $this->addColumn('Встречи');
-            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_MEETINGS],2));
+            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_MEETINGS],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
 
             $this->addRow();
             $this->addColumn('1.1 Продуктивное время (выполнение приоритетных задач, минуты)');
             $this->addColumn('Звонки');
-            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_PHONE_CALLS],2));
+            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_PHONE_CALLS],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
 
             $this->addRow();
             $this->addColumn('1.1 Продуктивное время (выполнение приоритетных задач, минуты)');
             $this->addColumn('Работа с почтой');
-            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_MAIL],2));
+            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_MAIL],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
 
             $this->addRow();
             $this->addColumn('1.1 Продуктивное время (выполнение приоритетных задач, минуты)');
             $this->addColumn('Планирование');
-            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_PLANING],2));
+            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_PLANING],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
             ////
             $this->addRow();
             $this->addColumn('1.2 Непродуктивное время (иные действия, не связанные с приоритетами)');
             $this->addColumn('Работа с документами');
-            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_DOCUMENTS],2));
+            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_DOCUMENTS],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
 
             $this->addRow();
             $this->addColumn('1.2 Непродуктивное время (иные действия, не связанные с приоритетами)');
             $this->addColumn('Встречи');
-            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_MEETINGS],2));
+            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_MEETINGS],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
 
             $this->addRow();
             $this->addColumn('1.2 Непродуктивное время (иные действия, не связанные с приоритетами)');
             $this->addColumn('Звонки');
-            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_PHONE_CALLS],2));
+            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_PHONE_CALLS],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
 
             $this->addRow();
             $this->addColumn('1.2 Непродуктивное время (иные действия, не связанные с приоритетами)');
             $this->addColumn('Работа с почтой');
-            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_MAIL],2));
+            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_MAIL],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
 
             $this->addRow();
             $this->addColumn('1.2 Непродуктивное время (иные действия, не связанные с приоритетами)');
             $this->addColumn('Планирование');
-            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_PLANING],2));
+            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_PLANING],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
             $this->setBorderBold();
         }
         ////////////////////////////////////////////////////
