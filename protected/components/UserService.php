@@ -1198,9 +1198,7 @@ class UserService {
             $generator->is_add_behaviours = false;
             $generator->createDocument();
             $generator->runAssessment_v1($realUserSimulationsV1, 'v1_to_v2');
-            echo  "\r\n";
             $generator->runAssessment_v2($realUserSimulationsV2);
-            echo  "\r\n";
             $generator->save('user_id_'.$user->id,'full_report');
             $user->account_corporate->cache_full_report = implode(',', $simulationsId);
             $user->account_corporate->save(false);

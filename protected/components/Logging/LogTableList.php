@@ -192,7 +192,6 @@ namespace application\components\Logging {
 
         public function saveLogsAsExcelReport2()
         {
-            //echo 'start sim_id = '.$this->simulation->id."\r\n";
             if($this->simulation->invite === null || $this->simulation->invite->ownerUser === null || $this->simulation->invite->ownerUser->getAccount() === null){
                 $companyName = 'getAccount() return null or user or invite not define, very bad';
             }elseif($this->simulation->invite->ownerUser->getAccount() instanceof \UserAccountPersonal){

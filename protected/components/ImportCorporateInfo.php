@@ -29,7 +29,6 @@ class ImportCorporateInfo {
             $profile->user->account_corporate->description_for_sales = $this->getCellValue($sheet, 'Описание', $i);
             $profile->user->account_corporate->industry_for_sales = $this->getCellValue($sheet, 'Отрасль', $i);
             $profile->user->account_corporate->save(false);
-            echo $email."\r\n";
         }
 
         return false;
