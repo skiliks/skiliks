@@ -5,6 +5,7 @@
  */
 class SimulationResultTextService {
 
+    private static $sim_id = 0;
     /**
      * Карманы
      * @var array
@@ -25,6 +26,9 @@ class SimulationResultTextService {
      * @throws Exception
      */
     public static function generate(Simulation $simulation, $type, $part_assessment = false) {
+
+        self::$sim_id = $simulation->id;
+
         foreach(ParagraphPocket::model()->findAll() as $pocket) {
             /* @var $pocket ParagraphPocket */
             self::$pockets[$pocket->paragraph_alias][$pocket->behaviour_alias][] = $pocket;
@@ -71,7 +75,11 @@ class SimulationResultTextService {
      */
     public static function SinglePocket($behaviour_alias_1, $alias, $assessment, $with_brackets=true) {
         $value_1 = self::getValueInAssessment($behaviour_alias_1, $assessment);
+        if((int)$value_1 > 100 && $alias !== 'time.over_time') {
 
+            echo "$alias -> $value_1 for sim_id ".self::$sim_id."\r\n";
+            $value_1 = 100;
+        }
         $pockets = self::$pockets[$alias][$behaviour_alias_1];
         /* @var $pockets ParagraphPocket[] */
         foreach($pockets as $pocket) {
@@ -90,7 +98,7 @@ class SimulationResultTextService {
             }
         }
 
-        throw new Exception("Карман не найден");
+        throw new Exception("Карман не найден для $alias -> $value_1");
 
     }
 
@@ -181,5 +189,25 @@ class SimulationResultTextService {
      */
     public static function less_equal($direction, $value) {
         return (int)$direction >= (int)$value;
+    }
+
+    public static function generateForAllFullCompleteSimulations() {
+        ini_set('memory_limit', '-1');
+        $scenario = Scenario::model()->findByAttributes(['slug'=>Scenario::TYPE_FULL]);
+        /* @var Simulation[] $simulations */
+        $simulations = Simulation::model()->findAll("scenario_id = :scenario_id and results_popup_cache is not null and end >= '2013-08-01 00:00:00'", [
+            'scenario_id' => $scenario->id
+        ]);
+        //$count = count($simulations);
+        //echo 'Найдено '.$count."\r\n";
+        foreach($simulations as $simulation) {
+            //echo 'Обработка sim_id = '.$simulation->id."\r\n";
+            $simulation->popup_tests_cache = serialize([
+                'popup' => SimulationResultTextService::generate($simulation, 'popup')
+            ]);
+            $simulation->save(false);
+            //$count--;
+            //echo 'Осталось '.$count."\r\n";
+        }
     }
 } 
