@@ -58,6 +58,12 @@
             <div class="table-footer"></div>
         </div>
 
+        <div class="pull-content-right">
+            <span class="inter-active color-ffffff action-show-sim-rules">
+                Правила прохождения симуляции
+            </span>
+        </div>
+
         <div class="pager-place locator-pager-place"></div>
 
         <?php $this->renderPartial('partials/accept-invite-warning-popup', []) ?>

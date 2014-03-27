@@ -471,7 +471,12 @@ function stickyFooterAndBackground() {
 // 8)
 // Исправляет смещение меню "О продукте"
 function fixProductDropDown() {
-    $('header .static-page-links .locator-product-submenu').css('left', $('header .static-page-links .locator-submenu-switcher').offset().left);
+    if (0 < $('header .static-page-links .locator-submenu-switcher').length) {
+        $('header .static-page-links .locator-product-submenu').css(
+            'left',
+            $('header .static-page-links .locator-submenu-switcher').offset().left
+        );
+    }
 
     var offset = 200;
     if ($('body').hasClass('width-1024')) {

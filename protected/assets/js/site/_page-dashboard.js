@@ -335,6 +335,12 @@ $(document).ready(function () {
             height:      getDialogSimulationRulesPopupHeight(),
             position: 'center center',
             open: function( event, ui ) {
+                // по клику на .action-show-sim-rules
+                // эти кнопки могут быть скрыты
+                // надо их показать
+                $('.locator-start-later').show();
+                $('.locator-start-now').show();
+
                 $(this).find('.locator-start-later').attr(
                     'href',
                     buttonAccept.attr('data-link-start-later')
@@ -345,7 +351,61 @@ $(document).ready(function () {
                     buttonAccept.attr('data-link-start-now')
                 );
 
-                stickyFooterAndBackground();
+                $(window).resize();
+            },
+            close: function() {
+                // странный баг - только для этого, длинного, окна
+                // каждый раз открывается на одно окно больше: 1,2,3 ...
+                $('.locator-invite-accept-popup').dialog("destroy");
+            }
+        });
+
+        $(window).resize(function(){
+            $('.locator-invite-accept-popup').dialog('option', 'width', getDialogWindowWidth());
+            $('.locator-invite-accept-popup').dialog('option', 'height', getDialogSimulationRulesPopupHeight());
+            $('.locator-invite-accept-popup').dialog('option', 'position', 'center');
+
+            // иногда попап преобретает отрицательное смещение
+            if (parseInt($('.locator-invite-accept-popup').css('top')) < 50) {
+                $('.locator-invite-accept-popup').css('top', '0px');
+            }
+        });
+
+        // выходящий за размеры окна попап создаёт пустоту равную его высоте под футером
+        // + липнет к верхнему краю окна и не реагирует на top (если position: relative)
+        // если position: absolute - то с футером всё ок и попапом можно управлять
+        $('.locator-invite-accept-popup').css('margin-top', '50px');
+
+        // hack }
+
+        return false;
+    });
+
+    // 14)
+    $('.action-show-sim-rules').click(function(e) {
+
+        // У пользователя. вероятно будет несколько непринятых приглашений
+        // а попап у нас один.
+        // Чтоб передать в попап данные какое именно приглашение пользователь принимает,
+        // используем переменную buttonAccept - это ссылка на кнопку
+        // у кнопки уже имеются атрибуты data-link-start-now и data-link-start-later
+        var buttonAccept = $(this);
+
+        // accept-invite-warning-popup full-simulation-info-popup margin-top-popup
+        $('.locator-invite-accept-popup').dialog({
+            dialogClass: 'popup-information background-sky locator-invite-accept-popup',
+            modal:       true,
+            autoOpen:    true,
+            resizable:   false,
+            draggable:   false,
+            width:       getDialogWindowWidth(),
+            height:      getDialogSimulationRulesPopupHeight(),
+            position: 'center center',
+            open: function( event, ui ) {
+                $('.locator-start-later').hide();
+                $('.locator-start-now').hide();
+
+                $(window).resize();
             },
             close: function() {
                 // странный баг - только для этого, длинного, окна

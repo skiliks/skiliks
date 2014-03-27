@@ -6420,7 +6420,7 @@ $.widget("ui.dialog", {
             clearfixHeight = $('.clearfix').height();
 
             /* 100 px сверху и 100 px снизу */
-            $('.clearfix').css('height', clearfixHeight + (dialogHeight - winHeigth) + 110 );
+            $('.clearfix').css('height', clearfixHeight + (dialogHeight - winHeigth) + top + 160 ); // 160 == 50px отступ под окном
         } else {
             this.element.parent().css('position', 'fixed');
 
@@ -6455,7 +6455,7 @@ $.widget("ui.dialog", {
                     clearfixHeight = $('.clearfix').height();
 
                     /* 100 px сверху и 100 px снизу */
-                    $('.clearfix').css('height', clearfixHeight + (dialogHeight - winHeigth) + 110 );
+                    $('.clearfix').css('height', clearfixHeight + (dialogHeight - winHeigth) + top + 160 ); // 160 == 50px отступ под окном
                 }
             } else {
                 this.element.parent().css('top', (winHeigth - dialogHeight)/2 + 'px' );
