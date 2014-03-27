@@ -237,7 +237,7 @@ class UserAccountCorporate extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('user_id'     , 'required', 'on' => ['insert', 'update', 'corporate']),
-			array('industry_id' , 'numerical', 'integerOnly'=>true),
+			array('industry_id' , 'numerical', 'integerOnly' => true, 'allowEmpty' => false, 'message' => Yii::t('site', 'Выберите отрасль')),
             array('industry_id' , 'required', 'on' => ['registration', 'corporate'], 'message' => Yii::t('site', 'Выберите отрасль')),
 			array('user_id'     , 'length'   , 'max'=>10, 'on' => ['registration', 'corporate']),
 			// The following rule is used by search().
