@@ -76,8 +76,9 @@ class SimulationResultTextService {
     public static function SinglePocket($behaviour_alias_1, $alias, $assessment, $with_brackets=true) {
         $value_1 = self::getValueInAssessment($behaviour_alias_1, $assessment);
         if((int)$value_1 > 100 && $alias !== 'time.over_time') {
-
-            echo "$alias -> $value_1 for sim_id ".self::$sim_id."\r\n";
+            if (Yii::app() instanceof CConsoleApplication) {
+                echo "$alias -> $value_1 for sim_id ".self::$sim_id."\r\n";
+            }
             $value_1 = 100;
         }
         $pockets = self::$pockets[$alias][$behaviour_alias_1];
