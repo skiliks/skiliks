@@ -745,22 +745,14 @@ class DebugController extends SiteBaseController
         sleep(30);
     }
 
-    public function actionDebug(){
-        /*$scenario = Scenario::model()->findByAttributes(['slug'=>Scenario::TYPE_FULL]);
-        $invites = Invite::model()->findAllByAttributes(['scenario_id'=>$scenario->id, 'status'=>Invite::STATUS_COMPLETED]);
-        foreach($invites as $invite) {
+    public function actionDebug() {
+        /* @var $simulation Simulation */
+        $simulation = Simulation::model()->findByPk(5013);
+        echo json_encode(unserialize($simulation->results_popup_cache));
 
-            if($invite->simulation->end !== null && empty($invite->simulation->results_popup_cache) === false) {
-                $data = json_decode($invite->simulation->getAssessmentDetails(), true);
-                if(!isset($data['management'][1])){
-                    echo($invite->simulation_id.',');
-                }
-            }
-
-        }*/
-        if(Yii::app()->user->data() !== null && Yii::app()->user->data()->isAdmin()){
+        /*if(Yii::app()->user->data() !== null && Yii::app()->user->data()->isAdmin()){
            phpinfo();
-        }
+        }*/
     }
 }
 

@@ -10,14 +10,19 @@ class PDFController extends SiteBaseController {
             $this->redirect('/registration');
         }
 
-        $simId = 11056; //$this->getParam('sim_id');
+        $simId = 5013; //$this->getParam('sim_id');
         //$simId = $this->getParam('sim_id');
-        $assessmentVersion = 'v2';//$this->getParam('assessment_version');
+        $assessmentVersion = 'v1';//$this->getParam('assessment_version');
         //$assessmentVersion = $this->getParam('assessment_version');
+
 
 
         /* @var $simulation Simulation */
         $simulation = Simulation::model()->findByPk($simId);
+        $simulation->popup_tests_cache = serialize([
+            'popup' => SimulationResultTextService::generate($simulation, 'popup')
+        ]);
+        $simulation->save(false);
         $isUser = $simulation->user_id === $this->user->id;
         $isOwner = $simulation->invite->owner_id === $this->user->id;
         $isAdmin = $this->user->isAdmin();
@@ -258,21 +263,59 @@ class PDFController extends SiteBaseController {
 
             if (Simulation::ASSESSMENT_VERSION_1 == $assessmentVersion) {
             // 5. Управленческие навыки - 1 по версии v1
+                $pdf->addPage(6);
+                $pdf->writeTextBold($username, 3.5, 3.5, 21);
+                $pdf->addPercentBigInfo($data['management'][1]['total'], 3.4, 35.6);
+                $pdf->writeTextCenterRegular(90, 10, 42, 41, 16, $popup_tests_cache['management.task_managment']['short_text']);//(очень высокий уровень)
 
-            $pdf->addPage(6);
-            $pdf->writeTextBold($username, 3.5, 3.5, 21);
-            $pdf->addPercentBigInfo($data['management'][1]['total'], 3.4, 36.8);
+                $pdf->addUniversalBar(77, 63, $data['management'][1]['1_2']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//1.1 positive
+                $pdf->addUniversalBar(77, 73.6, $data['management'][1]['1_3']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//1.2 positive
+                $pdf->addUniversalBar(77, 84.2, $data['management'][1]['1_4']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//1.3 positive
 
-            $pdf->addUniversalBar(77, 58.7,   $data['management'][1]['1_1']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//1.1 positive
-            $pdf->addUniversalBar(77, 69.0, $data['management'][1]['1_2']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//1.2 positive
-            $pdf->addUniversalBar(77, 79.0, $data['management'][1]['1_3']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//1.3 positive
-            $pdf->addUniversalBar(77, 89.0, $data['management'][1]['1_4']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//1.4 positive
+                $pdf->addUniversalBar(152, 63, $data['management'][1]['1_2']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//1.1 negative
+                $pdf->addUniversalBar(152, 73.6, $data['management'][1]['1_3']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//1.2 negative
+                $pdf->addUniversalBar(152, 84.2, $data['management'][1]['1_4']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//1.3 negative
+                $pdf->addUniversalBar(152, 94.8, $data['management'][1]['1_5']['-'], 54.14, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_NEGATIVE);//1.4 negative
 
-            $pdf->addUniversalBar(152, 58.7,    $data['management'][1]['1_1']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//1.1 negative
-            $pdf->addUniversalBar(152, 69.0,  $data['management'][1]['1_2']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//1.2 negative
-            $pdf->addUniversalBar(152, 79.0,  $data['management'][1]['1_3']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//1.3 negative
-            $pdf->addUniversalBar(152, 89.0,  $data['management'][1]['1_4']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT,  AssessmentPDF::BAR_NEGATIVE);//1.4 negative
-            $pdf->addUniversalBar(152, 99.0, $data['management'][1]['1_5']['-'], 54.14, AssessmentPDF::ROUNDED_BOTH,  AssessmentPDF::BAR_NEGATIVE);//1.5 negative
+                $pdf->writeHtml('
+                    <tr>
+                        <td style="width: 35%;"></td>
+                        <td style="width: 60%;"
+                            ><font face="dejavusans" style="font-weight: bold;font-size: 13pt;">1.1 Использование планирования в течение дня</font><br
+                            ><font face="dejavusans" style="font-weight: bold;font-size: 11pt;">'.$popup_tests_cache['management.task_managment.day_planing']['short_text'].'</font><br
+                            ><font style="font-size: 13pt;"></font><font face="dejavusans" style="font-size: 11pt;">'.$popup_tests_cache['management.task_managment.day_planing']['text'].'</font><br>
+                        </td>
+                        <td style="width: 5%;"></td>
+                    </tr>
+                    <tr>
+                        <td style="width: 35%;"></td>
+                        <td style="width: 60%;"
+                            ><font face="dejavusans" style="font-weight: bold;font-size: 13pt;">1.2 Правильное определение приоритетов задач при планировании</font><br
+                            ><font face="dejavusans" style="font-weight: bold;font-size: 11pt;">'.$popup_tests_cache['management.task_managment.tasks_priority_planing']['short_text'].'</font><br
+                            ><font style="font-size: 13pt;"></font><font face="dejavusans" style="font-size: 11pt;">'.$popup_tests_cache['management.task_managment.tasks_priority_planing']['text'].'</font><br>
+                        </td>
+                        <td style="width: 5%;"></td>
+                    </tr>
+                    <tr>
+                        <td style="width: 35%;"></td>
+                        <td style="width: 60%;"
+                            ><font face="dejavusans" style="font-weight: bold;font-size: 13pt;">1.3 Выполнение задач в соответствии с приоритетами</font><br
+                            ><font face="dejavusans" style="font-weight: bold;font-size: 11pt;">'.$popup_tests_cache['management.task_managment.tasks_priority_execution']['short_text'].'</font><br
+                            ><font style="font-size: 13pt;"></font><font face="dejavusans" style="font-size: 11pt;">'.$popup_tests_cache['management.task_managment.tasks_priority_execution']['text'].'</font><br>
+                        </td>
+                        <td style="width: 5%;"></td>
+                    </tr>
+                    <tr>
+                        <td style="width: 35%;"></td>
+                        <td style="width: 60%;"
+                            ><font face="dejavusans" style="font-weight: bold;font-size: 13pt;">1.4 Прерывание при выполнении задач</font><br
+                            ><font face="dejavusans" style="font-weight: bold;font-size: 11pt;">'.$popup_tests_cache['management.task_managment.tasks_interruprion']['short_text'].'</font><br
+                            ><font style="font-size: 13pt;"></font><font face="dejavusans" style="font-size: 11pt;">'.$popup_tests_cache['management.task_managment.tasks_interruprion']['text'].'</font><br>
+                        </td>
+                        <td style="width: 5%;"></td>
+                    </tr>
+            ', 150);
+
             }
 
             if (Simulation::ASSESSMENT_VERSION_2 == $assessmentVersion) {

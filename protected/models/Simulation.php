@@ -320,6 +320,18 @@ class Simulation extends CActiveRecord
     {
         // use cached results popup data
         if (null !== $this->results_popup_cache) {
+            if($this->assessment_version === Simulation::ASSESSMENT_VERSION_1 ) {
+                $empty_cache = '{"management":{"1":{"total":"0","1_1":{"+":"0","-":"0"},"1_2":{"+":"0","-":"0"},"1_3":{"+":"0","-":"0"},"1_5":{"+":"0","-":"0"},"1_4":{"+":"0","-":"0"}},"2":{"total":"0","2_1":{"+":"0","-":"0"},"2_2":{"+":"0","-":"0"},"2_3":{"+":"0","-":"0"}},"3":{"total":"0","3_1":{"+":"0","-":"0"},"3_2":{"+":"0","-":"0"},"3_3":{"+":"0","-":"0"},"3_4":{"+":"0","-":"0"}},"total":"0"},"performance":{"0":"0","1":"0","2":"0","total":"0","2_min":"0"},"time":{"total":"0","workday_overhead_duration":"0","time_spend_for_1st_priority_activities":"0","time_spend_for_non_priority_activities":"0","time_spend_for_inactivity":"0","1st_priority_documents":"0","1st_priority_meetings":"0","1st_priority_phone_calls":"0","1st_priority_mail":"0","1st_priority_planning":"0","non_priority_documents":"0","non_priority_meetings":"0","non_priority_phone_calls":"0","non_priority_mail":"0","non_priority_planning":"0","efficiency":"0"},"overall":"0","percentile":{"total":"0"},"personal":{"9":"0","10":"0","11":"0","12":"0","13":"0","14":"0","15":"0","16":"0"},"additional_data":{"management":"0","performance":"0","time":"0"}}';
+
+                return json_encode(array_replace_recursive(json_decode($empty_cache, true), unserialize($this->results_popup_cache)));
+
+            }
+            if($this->assessment_version === Simulation::ASSESSMENT_VERSION_2 ) {
+                $empty_cache = '{"management":{"1":{"total":"0","1_1":{"+":"0","-":"0"},"1_2":{"+":"0","-":"0"},"1_3":{"+":"0","-":"0"},"1_4":{"+":"0","-":"0"}},"2":{"total":"0","2_1":{"+":"0","-":"0"},"2_2":{"+":"0","-":"0"},"2_3":{"+":"0","-":"0"}},"3":{"total":"0","3_1":{"+":"0","-":"0"},"3_2":{"+":"0","-":"0"},"3_3":{"+":"0","-":"0"},"3_4":{"+":"0","-":"0"}},"total":"0"},"performance":{"0":"0","1":"0","2":"0","total":"0","2_min":"0"},"time":{"total":"0","workday_overhead_duration":"0","time_spend_for_1st_priority_activities":"0","time_spend_for_non_priority_activities":"0","time_spend_for_inactivity":"0","1st_priority_documents":"0","1st_priority_meetings":"0","1st_priority_phone_calls":"0","1st_priority_mail":"0","1st_priority_planning":"0","non_priority_documents":"0","non_priority_meetings":"0","non_priority_phone_calls":"0","non_priority_mail":"0","non_priority_planning":"0","efficiency":"0"},"overall":"0","percentile":{"total":"0"},"personal":{"9":"0","10":"0","11":"0","12":"0","13":"0","14":"0","15":"0","16":"0"},"additional_data":{"management":"0","performance":"0","time":"0"}}';
+
+                return json_encode(array_replace_recursive(json_decode($empty_cache, true), unserialize($this->results_popup_cache)));
+
+            }
             return json_encode(unserialize($this->results_popup_cache));
         }
 
