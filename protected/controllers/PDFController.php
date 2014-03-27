@@ -171,7 +171,7 @@ class PDFController extends SiteBaseController {
 
             //План
             $pdf->addTimeBarUnproductive($y_positive, 117.5, $data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_PLANING], $max_negative);
-            */
+
         // 3. Результативность
             $pdf->addPage(4);
             $pdf->writeTextBold($username, 3.5, 3.5, 21);
@@ -243,7 +243,7 @@ class PDFController extends SiteBaseController {
                     </tr>
             ', 134);
 
-        /*
+
         // 4. Управленческие навыки
             $pdf->addPage(5);
 
@@ -255,7 +255,7 @@ class PDFController extends SiteBaseController {
             $pdf->addUniversalBar(77.7, 64.5, $data['management'][2]['total'], 128.7, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);//2
             $pdf->addUniversalBar(77.7, 75.2, $data['management'][3]['total'], 128.7, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);//3
 
-
+*/
             if (Simulation::ASSESSMENT_VERSION_1 == $assessmentVersion) {
             // 5. Управленческие навыки - 1 по версии v1
 
@@ -277,7 +277,7 @@ class PDFController extends SiteBaseController {
 
             if (Simulation::ASSESSMENT_VERSION_2 == $assessmentVersion) {
             // 5. Управленческие навыки - 1 по версии v2
-            $pdf->addPage(7);
+            $pdf->addPage(6);
             $pdf->writeTextBold($username, 3.5, 3.5, 21);
             $pdf->addPercentBigInfo($data['management'][1]['total'], 3.4, 35.6);
             $pdf->writeTextCenterRegular(90, 10, 42, 41, 16, $popup_tests_cache['management.task_managment']['short_text']);//(очень высокий уровень)
@@ -291,7 +291,45 @@ class PDFController extends SiteBaseController {
             $pdf->addUniversalBar(152, 84.2, $data['management'][1]['1_3']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//1.3 negative
             $pdf->addUniversalBar(152, 94.8, $data['management'][1]['1_4']['-'], 54.14, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_NEGATIVE);//1.4 negative
 
-            $pdf->writeTextLeftRegular(90, 10, 76, 150, 12, $popup_tests_cache['management.task_managment.day_planing']['short_text']);
+                $pdf->writeHtml('
+                    <tr>
+                        <td style="width: 35%;"></td>
+                        <td style="width: 60%;"
+                            ><font face="dejavusans" style="font-weight: bold;font-size: 13pt;">1.1 Использование планирования в течение дня</font><br
+                            ><font face="dejavusans" style="font-weight: bold;font-size: 11pt;">'.$popup_tests_cache['management.task_managment.day_planing']['short_text'].'</font><br
+                            ><font style="font-size: 13pt;"></font><font face="dejavusans" style="font-size: 11pt;">'.$popup_tests_cache['management.task_managment.day_planing']['text'].'</font><br>
+                        </td>
+                        <td style="width: 5%;"></td>
+                    </tr>
+                    <tr>
+                        <td style="width: 35%;"></td>
+                        <td style="width: 60%;"
+                            ><font face="dejavusans" style="font-weight: bold;font-size: 13pt;">1.2 Правильное определение приоритетов задач при планировании</font><br
+                            ><font face="dejavusans" style="font-weight: bold;font-size: 11pt;">'.$popup_tests_cache['management.task_managment.tasks_priority_planing']['short_text'].'</font><br
+                            ><font style="font-size: 13pt;"></font><font face="dejavusans" style="font-size: 11pt;">'.$popup_tests_cache['management.task_managment.tasks_priority_planing']['text'].'</font><br>
+                        </td>
+                        <td style="width: 5%;"></td>
+                    </tr>
+                    <tr>
+                        <td style="width: 35%;"></td>
+                        <td style="width: 60%;"
+                            ><font face="dejavusans" style="font-weight: bold;font-size: 13pt;">1.3 Выполнение задач в соответствии с приоритетами</font><br
+                            ><font face="dejavusans" style="font-weight: bold;font-size: 11pt;">'.$popup_tests_cache['management.task_managment.tasks_priority_execution']['short_text'].'</font><br
+                            ><font style="font-size: 13pt;"></font><font face="dejavusans" style="font-size: 11pt;">'.$popup_tests_cache['management.task_managment.tasks_priority_execution']['text'].'</font><br>
+                        </td>
+                        <td style="width: 5%;"></td>
+                    </tr>
+                    <tr>
+                        <td style="width: 35%;"></td>
+                        <td style="width: 60%;"
+                            ><font face="dejavusans" style="font-weight: bold;font-size: 13pt;">1.4 Прерывание при выполнении задач</font><br
+                            ><font face="dejavusans" style="font-weight: bold;font-size: 11pt;">'.$popup_tests_cache['management.task_managment.tasks_interruprion']['short_text'].'</font><br
+                            ><font style="font-size: 13pt;"></font><font face="dejavusans" style="font-size: 11pt;">'.$popup_tests_cache['management.task_managment.tasks_interruprion']['text'].'</font><br>
+                        </td>
+                        <td style="width: 5%;"></td>
+                    </tr>
+            ', 150);
+            /*$pdf->writeTextLeftRegular(90, 10, 76, 150, 12, $popup_tests_cache['management.task_managment.day_planing']['short_text']);
             $pdf->writeTextLeftRegular(125, 10, 76, 155, 12, $popup_tests_cache['management.task_managment.day_planing']['text']);
 
             $pdf->writeTextLeftRegular(90, 10, 76, 183, 12, $popup_tests_cache['management.task_managment.tasks_priority_planing']['short_text']);
@@ -301,11 +339,11 @@ class PDFController extends SiteBaseController {
             $pdf->writeTextLeftRegular(125, 10, 76, 225, 12, $popup_tests_cache['management.task_managment.tasks_priority_execution']['text']);
 
             $pdf->writeTextLeftRegular(90, 10, 76, 262, 12, $popup_tests_cache['management.task_managment.tasks_interruprion']['short_text']);
-            $pdf->writeTextLeftRegular(125, 10, 76, 267, 12, $popup_tests_cache['management.task_managment.tasks_interruprion']['text']);
+            $pdf->writeTextLeftRegular(125, 10, 76, 267, 12, $popup_tests_cache['management.task_managment.tasks_interruprion']['text']);*/
             }
 
             // 6. Управленческие навыки - 2
-            $pdf->addPage(8);
+            /*$pdf->addPage(7);
             $pdf->writeTextBold($username, 3.5, 3.5, 21);
             $pdf->addPercentBigInfo($data['management'][2]['total'], 3.1, 36.3);
             $pdf->writeTextCenterRegular(90, 10, 10, 41, 16, $popup_tests_cache['management.people_managment']['short_text']);//(очень высокий уровень)
@@ -329,7 +367,7 @@ class PDFController extends SiteBaseController {
 
 
             // 7. Управленческие навыки - 3
-            $pdf->addPage(9);
+            $pdf->addPage(8);
 
             $pdf->writeTextBold($username, 3.5, 3.5, 21);
             $pdf->addPercentBigInfo($data['management'][3]['total'], 3, 35.8);
