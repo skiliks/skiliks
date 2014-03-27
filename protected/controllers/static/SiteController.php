@@ -36,11 +36,6 @@ class SiteController extends SiteBaseController
             Yii::app()->user->setFlash('error', Yii::t('site', 'У вас закончились приглашения'));
             $this->redirect('/dashboard');
         }
-        /*if($user->isCorporate() && 0 === (int)$user->account_corporate->getTotalAvailableInvitesLimit()){
-            Yii::app()->user->setFlash('error', Yii::t('site', 'У вас закончились приглашения'));
-            $this->redirect('/dashboard');
-        }*/
-
 
         $start = Yii::app()->request->getParam('start');
         $user = Yii::app()->user->data();

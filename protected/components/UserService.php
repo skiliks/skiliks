@@ -631,11 +631,13 @@ class UserService {
             return $result->setRedirect('/dashboard');
         }
 
-        if (null === $invite_id && false === $user->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)) {
+        /** user can start lite simulation without real (saved) $invite  */
+        if (null === $invite_id && Scenario::TYPE_LITE != $type && false === $user->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)) {
             return $result->setRedirect('/dashboard');
         }
 
-        if (null !== $invite_id) {
+        /** user can start lite simulation without real (saved) $invite  */
+        if (null !== $invite_id && Scenario::TYPE_LITE != $type) {
             /** @var Invite $invite */
             $invite = Invite::model()->findByAttributes(['id' => $invite_id]);
             if (null === $invite) {
