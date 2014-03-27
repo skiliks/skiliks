@@ -649,4 +649,44 @@ class AssessmentPDF {
     {
         $this->images_dir = __DIR__.'/../system_data/tcpdf/'.$path;
     }
+
+    public function writeHtml($html, $padding_top) {
+        /*
+        1.не работает
+        2.высота в мм
+        3. true - 0 = верхний левый угол)
+        */
+        $this->pdf->setXY(0, $padding_top, true);
+
+        $this->pdf->SetFont('proxima-nova-regular', '', 11);
+        $this->pdf->SetFont('dejavusans', '', 11);
+        $this->pdf->SetTextColor(0,0,0);
+        $html = '<style>
+                 </style>
+                <body>
+                    <table style="background-color: #ff0000;">
+                        '.$html.'
+                    </table>
+                </body>';
+
+        /*$html = '
+                <!-- EXAMPLE OF CSS STYLE -->
+                <style>
+                </style>
+                <body>
+                <table>
+                <tr>
+                <td></td>
+                <td><h3>aaaa</h3>
+                <font face="dejavusans" style="font-weight: bold;">текст 1</font><br/>
+                <font face="dejavusans">текст 2</font><br/>
+                <span style="font-weight: bold;">bold text текст 3</span><br/>
+                <span>текст 4 </span></td>
+                </tr>
+                <table>
+                </body>';*/
+
+
+        $this->pdf->writeHTML($html, true, false, true, false, '');
+    }
 }

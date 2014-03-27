@@ -10,10 +10,10 @@ class PDFController extends SiteBaseController {
             $this->redirect('/registration');
         }
 
-        //$simId = 11056; //$this->getParam('sim_id');
-        $simId = $this->getParam('sim_id');
-        //$assessmentVersion = 'v2';//$this->getParam('assessment_version');
-        $assessmentVersion = $this->getParam('assessment_version');
+        $simId = 11056; //$this->getParam('sim_id');
+        //$simId = $this->getParam('sim_id');
+        $assessmentVersion = 'v2';//$this->getParam('assessment_version');
+        //$assessmentVersion = $this->getParam('assessment_version');
 
 
         /* @var $simulation Simulation */
@@ -44,49 +44,18 @@ class PDFController extends SiteBaseController {
             $pdf->pdf->setCellHeightRatio(1);
 
         // 1. Спидометры и прочее
-            $pdf->addPage();
+            /*$pdf->addPage(1);
 
             $pdf->writeTextBold($username, 3.5, 3.5, 21);
             $pdf->addRatingPercentile(94, 35.6, $data['percentile']['total']);
             $pdf->addRatingOverall(86.6, 45.8, $data['overall']);
             $pdf->addSpeedometer(21, 107.2, $data['time']['total']);
             $pdf->addSpeedometer(89, 107.2, $data['performance']['total']);
-            $pdf->addSpeedometer(158, 107.2, $data['management']['total']);
+            $pdf->addSpeedometer(158, 107.2, $data['management']['total']);*/
 
-            /*
-              1.не работает
-              2.высота в мм
-              3. true - 0 = верхний левый угол)
-            */
-//            $pdf->pdf->setXY(0, 200, true);
-//
-//            $pdf->pdf->SetFont('proxima-nova-regular', '', 11);
-//            $pdf->pdf->SetFont('dejavusans', '', 11);
-//
-//
-//            $html = <<<EOF
-//<!-- EXAMPLE OF CSS STYLE -->
-//<style>
-//</style>
-//<body>
-//<table>
-//<tr>
-//<td></td>
-//<td><h3>aaaa</h3>
-//<font face="dejavusans" style="font-weight: bold;">текст 1</font><br/>
-//<font face="dejavusans">текст 2</font><br/>
-//<span style="font-weight: bold;">bold text текст 3</span><br/>
-//<span>текст 4 </span></td>
-//</tr>
-//<table>
-//</body>
-//EOF;
-//
-//            $pdf->pdf->writeHTML($html, true, false, true, false, '');
-
-        // 2. Тайм менеджмент
-
-            $pdf->addPage();
+            // 2. Тайм менеджмент
+            //======================================================================================
+            $pdf->addPage(2);
 
 
             $pdf->writeTextBold($username, 3.5, 3.5, 21);
@@ -101,20 +70,60 @@ class PDFController extends SiteBaseController {
                 $data['time']['time_spend_for_inactivity']
             );
             $pdf->addOvertime(158.1, 90.2, $data['time']['workday_overhead_duration']);
+            $pdf->writeHtml('
+                    <tr>
+                        <td style="width: 5.5%;"></td>
+                        <td  style="width: 42%; padding: 0px;"
+                            ><font face="dejavusans" style="font-weight: bold;font-size: 13pt;">Продуктивное время</font><br
+                            ><font face="dejavusans" style="font-weight: bold;font-size: 11pt; ">'.$popup_tests_cache['time.productive_time']['short_text'].'</font><br
+                            ><font style="font-size: 13pt;"></font><font face="dejavusans" style="font-size: 11pt;">'.$popup_tests_cache['time.productive_time']['text'].'</font><br>
+                        </td>
+                        <td style="width: 6%;"></td>
+                        <td style="width: 42%;"
+                            ><font face="dejavusans" style="font-weight: bold;font-size: 13pt;">Сверхурочное</font><br
+                            ><font face="dejavusans" style="font-weight: bold;font-size: 11pt;">'.$popup_tests_cache['time.over_time']['short_text'].'</font><br
+                            ><font style="font-size: 13pt;"></font><font face="dejavusans" style="font-size: 11pt;">'.$popup_tests_cache['time.over_time']['text'].'</font><br>
+                        </td>
+                        <td style="width: 4.5%;"></td>
+                    </tr>
+                    <tr>
+                        <td style="width: 5.5%;"></td>
+                        <td  style="width: 42%; padding: 0px;"
+                            ><font face="dejavusans" style="font-weight: bold;font-size: 13pt;">Непродуктивное время</font><br
+                            ><font face="dejavusans" style="font-weight: bold;font-size: 11pt; ">'.$popup_tests_cache['time.not_productive_time']['short_text'].'</font><br
+                            ><font style="font-size: 13pt;"></font><font face="dejavusans" style="font-size: 11pt;">'.$popup_tests_cache['time.not_productive_time']['text'].'</font><br>
+                        </td>
+                        <td style="width: 6%;"></td>
+                        <td style="width: 42%;"></td>
+                        <td style="width: 4.5%;"></td>
+                    </tr>
+                    <tr>
+                        <td style="width: 5.5%;"></td>
+                        <td  style="width: 42%; padding: 0px;"
+                            ><font face="dejavusans" style="font-weight: bold;font-size: 13pt;">Время ожидания и бездействия</font><br
+                            ><font face="dejavusans" style="font-weight: bold;font-size: 11pt; ">'.$popup_tests_cache['time.over_time']['short_text'].'</font><br
+                            ><font style="font-size: 13pt;"></font><font face="dejavusans" style="font-size: 11pt;">'.$popup_tests_cache['time.over_time']['text'].'</font><br>
+                        </td>
+                        <td style="width: 6%;"></td>
+                        <td style="width: 42%;"></td>
+                        <td style="width: 4.5%;"></td>
+                    </tr>
+            ', 165);
 
-            $pdf->writeTextLeftRegular(90, 10, 13, 180, 11, $popup_tests_cache['time.productive_time']['short_text']);
-            $pdf->writeTextLeftRegular(90, 10, 13, 185, 11, $popup_tests_cache['time.productive_time']['text']);
+//            $pdf->writeTextLeftRegular(90, 10, 13, 180, 11, $popup_tests_cache['time.productive_time']['short_text']);
+//            $pdf->writeTextLeftRegular(90, 10, 13, 185, 11, $popup_tests_cache['time.productive_time']['text']);
+//
+//            $pdf->writeTextLeftRegular(90, 10, 13, 211, 11, $popup_tests_cache['time.not_productive_time']['short_text']);
+//            $pdf->writeTextLeftRegular(90, 10, 13, 216, 11, $popup_tests_cache['time.not_productive_time']['text']);
+//
+//            $pdf->writeTextLeftRegular(90, 10, 13, 235.5, 11, $popup_tests_cache['time.waiting_time']['short_text']);
+//            $pdf->writeTextLeftRegular(90, 10, 13, 240.5, 11, $popup_tests_cache['time.waiting_time']['text']);
+//
+//            $pdf->writeTextLeftRegular(90, 10, 115, 180, 11, $popup_tests_cache['time.over_time']['short_text']);
+//            $pdf->writeTextLeftRegular(90, 10, 115, 185, 11, $popup_tests_cache['time.over_time']['text']);
 
-            $pdf->writeTextLeftRegular(90, 10, 13, 211, 11, $popup_tests_cache['time.not_productive_time']['short_text']);
-            $pdf->writeTextLeftRegular(90, 10, 13, 216, 11, $popup_tests_cache['time.not_productive_time']['text']);
-
-            $pdf->writeTextLeftRegular(90, 10, 13, 235.5, 11, $popup_tests_cache['time.waiting_time']['short_text']);
-            $pdf->writeTextLeftRegular(90, 10, 13, 240.5, 11, $popup_tests_cache['time.waiting_time']['text']);
-
-            $pdf->writeTextLeftRegular(90, 10, 115, 180, 11, $popup_tests_cache['time.over_time']['short_text']);
-            $pdf->writeTextLeftRegular(90, 10, 115, 185, 11, $popup_tests_cache['time.over_time']['text']);
-
-            $pdf->addPage();
+            //====================================================================================
+            /*$pdf->addPage(3);
 
 
             $pdf->writeTextBold($username, 3.5, 3.5, 21);
@@ -176,7 +185,7 @@ class PDFController extends SiteBaseController {
             $pdf->addTimeBarUnproductive($y_positive, 117.5, $data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_PLANING], $max_negative);
 
         // 3. Результативность
-            $pdf->addPage();
+            $pdf->addPage(4);
             $pdf->writeTextBold($username, 3.5, 3.5, 21);
             $pdf->addPercentSmallInfo($data['performance']['total'], 133.8, 28);
             $pdf->writeTextCenterRegular(90, 10, 65, 33, 16, $popup_tests_cache['performance']['short_text']);//(очень высокий уровень)
@@ -220,7 +229,7 @@ class PDFController extends SiteBaseController {
             if (Simulation::ASSESSMENT_VERSION_1 == $assessmentVersion) {
             // 5. Управленческие навыки - 1 по версии v1
 
-            $pdf->addPage();
+            $pdf->addPage(6);
             $pdf->writeTextBold($username, 3.5, 3.5, 21);
             $pdf->addPercentBigInfo($data['management'][1]['total'], 3.4, 36.8);
 
@@ -238,7 +247,7 @@ class PDFController extends SiteBaseController {
 
             if (Simulation::ASSESSMENT_VERSION_2 == $assessmentVersion) {
             // 5. Управленческие навыки - 1 по версии v2
-            $pdf->addPage();
+            $pdf->addPage(7);
             $pdf->writeTextBold($username, 3.5, 3.5, 21);
             $pdf->addPercentBigInfo($data['management'][1]['total'], 3.4, 35.6);
             $pdf->writeTextCenterRegular(90, 10, 42, 41, 16, $popup_tests_cache['management.task_managment']['short_text']);//(очень высокий уровень)
@@ -266,7 +275,7 @@ class PDFController extends SiteBaseController {
             }
 
             // 6. Управленческие навыки - 2
-            $pdf->addPage();
+            $pdf->addPage(8);
             $pdf->writeTextBold($username, 3.5, 3.5, 21);
             $pdf->addPercentBigInfo($data['management'][2]['total'], 3.1, 36.3);
             $pdf->writeTextCenterRegular(90, 10, 10, 41, 16, $popup_tests_cache['management.people_managment']['short_text']);//(очень высокий уровень)
@@ -290,7 +299,7 @@ class PDFController extends SiteBaseController {
 
 
             // 7. Управленческие навыки - 3
-            $pdf->addPage();
+            $pdf->addPage(9);
 
             $pdf->writeTextBold($username, 3.5, 3.5, 21);
             $pdf->addPercentBigInfo($data['management'][3]['total'], 3, 35.8);
@@ -316,7 +325,7 @@ class PDFController extends SiteBaseController {
             $pdf->writeTextLeftRegular(125, 10, 77, 221, 12, $popup_tests_cache['management.communication_managment.effective_calls']['text']);
 
             $pdf->writeTextLeftRegular(90, 10, 77, 247, 12, $popup_tests_cache['management.communication_managment.effective_meetings']['short_text']);
-            $pdf->writeTextLeftRegular(125, 10, 77, 252, 12, $popup_tests_cache['management.communication_managment.effective_meetings']['text']);
+            $pdf->writeTextLeftRegular(125, 10, 77, 252, 12, $popup_tests_cache['management.communication_managment.effective_meetings']['text']);*/
 
             $first_name = StringTools::CyToEnWithUppercase($simulation->user->profile->firstname);
             $last_name = StringTools::CyToEnWithUppercase($simulation->user->profile->lastname);
