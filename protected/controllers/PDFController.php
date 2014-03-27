@@ -44,7 +44,7 @@ class PDFController extends SiteBaseController {
             $pdf->pdf->setCellHeightRatio(1);
 
         // 1. Спидометры и прочее
-            /*$pdf->addPage(1);
+            $pdf->addPage(1);
 
             $pdf->writeTextBold($username, 3.5, 3.5, 21);
             $pdf->addRatingPercentile(94, 35.6, $data['percentile']['total']);
@@ -255,7 +255,7 @@ class PDFController extends SiteBaseController {
             $pdf->addUniversalBar(77.7, 64.5, $data['management'][2]['total'], 128.7, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);//2
             $pdf->addUniversalBar(77.7, 75.2, $data['management'][3]['total'], 128.7, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);//3
 
-*/
+
             if (Simulation::ASSESSMENT_VERSION_1 == $assessmentVersion) {
             // 5. Управленческие навыки - 1 по версии v1
 
@@ -329,21 +329,11 @@ class PDFController extends SiteBaseController {
                         <td style="width: 5%;"></td>
                     </tr>
             ', 150);
-            /*$pdf->writeTextLeftRegular(90, 10, 76, 150, 12, $popup_tests_cache['management.task_managment.day_planing']['short_text']);
-            $pdf->writeTextLeftRegular(125, 10, 76, 155, 12, $popup_tests_cache['management.task_managment.day_planing']['text']);
 
-            $pdf->writeTextLeftRegular(90, 10, 76, 183, 12, $popup_tests_cache['management.task_managment.tasks_priority_planing']['short_text']);
-            $pdf->writeTextLeftRegular(125, 10, 76, 188, 12, $popup_tests_cache['management.task_managment.tasks_priority_planing']['text']);
-
-            $pdf->writeTextLeftRegular(90, 10, 76, 220, 12, $popup_tests_cache['management.task_managment.tasks_priority_execution']['short_text']);
-            $pdf->writeTextLeftRegular(125, 10, 76, 225, 12, $popup_tests_cache['management.task_managment.tasks_priority_execution']['text']);
-
-            $pdf->writeTextLeftRegular(90, 10, 76, 262, 12, $popup_tests_cache['management.task_managment.tasks_interruprion']['short_text']);
-            $pdf->writeTextLeftRegular(125, 10, 76, 267, 12, $popup_tests_cache['management.task_managment.tasks_interruprion']['text']);*/
             }
 
             // 6. Управленческие навыки - 2
-            /*$pdf->addPage(7);
+            $pdf->addPage(7);
             $pdf->writeTextBold($username, 3.5, 3.5, 21);
             $pdf->addPercentBigInfo($data['management'][2]['total'], 3.1, 36.3);
             $pdf->writeTextCenterRegular(90, 10, 10, 41, 16, $popup_tests_cache['management.people_managment']['short_text']);//(очень высокий уровень)
@@ -356,15 +346,35 @@ class PDFController extends SiteBaseController {
             $pdf->addUniversalBar(152, 73.6, $data['management'][2]['2_2']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//2.2 negative
             $pdf->addUniversalBar(152, 84.2, $data['management'][2]['2_3']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//2.3 negative
 
-            $pdf->writeTextLeftRegular(90, 10, 76, 142, 12, $popup_tests_cache['management.people_managment.delegation']['short_text']);
-            $pdf->writeTextLeftRegular(125, 10, 76, 147, 12, $popup_tests_cache['management.people_managment.delegation']['text']);
-
-            $pdf->writeTextLeftRegular(90, 10, 76, 176, 12, $popup_tests_cache['management.people_managment.resource_quality']['short_text']);
-            $pdf->writeTextLeftRegular(125, 10, 76, 181, 12, $popup_tests_cache['management.people_managment.resource_quality']['text']);
-
-            $pdf->writeTextLeftRegular(90, 10, 77, 228, 12, $popup_tests_cache['management.people_managment.feedback']['short_text']);
-            $pdf->writeTextLeftRegular(125, 10, 77, 233, 12, $popup_tests_cache['management.people_managment.feedback']['text']);
-
+            $pdf->writeHtml('
+                    <tr>
+                        <td style="width: 35%;"></td>
+                        <td style="width: 60%;"
+                            ><font face="dejavusans" style="font-weight: bold;font-size: 13pt;">2.1 Использование делегирования для управления объемом задач</font><br
+                            ><font face="dejavusans" style="font-weight: bold;font-size: 11pt;">'.$popup_tests_cache['management.people_managment.delegation']['short_text'].'</font><br
+                            ><font style="font-size: 13pt;"></font><font face="dejavusans" style="font-size: 11pt;">'.$popup_tests_cache['management.people_managment.delegation']['text'].'</font><br>
+                        </td>
+                        <td style="width: 5%;"></td>
+                    </tr>
+                    <tr>
+                        <td style="width: 35%;"></td>
+                        <td style="width: 60%;"
+                            ><font face="dejavusans" style="font-weight: bold;font-size: 13pt;">2.2 Управление ресурсами различной квалификации</font><br
+                            ><font face="dejavusans" style="font-weight: bold;font-size: 11pt;">'.$popup_tests_cache['management.people_managment.resource_quality']['short_text'].'</font><br
+                            ><font style="font-size: 13pt;"></font><font face="dejavusans" style="font-size: 11pt;">'.$popup_tests_cache['management.people_managment.resource_quality']['text'].'</font><br>
+                        </td>
+                        <td style="width: 5%;"></td>
+                    </tr>
+                    <tr>
+                        <td style="width: 35%;"></td>
+                        <td style="width: 60%;"
+                            ><font face="dejavusans" style="font-weight: bold;font-size: 13pt;">2.3 Использование обратной связи</font><br
+                            ><font face="dejavusans" style="font-weight: bold;font-size: 11pt;">'.$popup_tests_cache['management.people_managment.feedback']['short_text'].'</font><br
+                            ><font style="font-size: 13pt;"></font><font face="dejavusans" style="font-size: 11pt;">'.$popup_tests_cache['management.people_managment.feedback']['text'].'</font><br>
+                        </td>
+                        <td style="width: 5%;"></td>
+                    </tr>
+            ', 140);
 
             // 7. Управленческие навыки - 3
             $pdf->addPage(8);
@@ -382,18 +392,44 @@ class PDFController extends SiteBaseController {
             $pdf->addUniversalBar(152, 72.7, $data['management'][3]['3_2']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//3.2 negative
             $pdf->addUniversalBar(152, 84, $data['management'][3]['3_3']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//3.3 negative
             $pdf->addUniversalBar(152, 94, $data['management'][3]['3_4']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//3.4 negative
-
-            $pdf->writeTextLeftRegular(90, 10, 77, 156, 12, $popup_tests_cache['management.communication_managment.comunication_channel']['short_text']);
-            $pdf->writeTextLeftRegular(125, 10, 77, 161, 12, $popup_tests_cache['management.communication_managment.comunication_channel']['text']);
-
-            $pdf->writeTextLeftRegular(90, 10, 77, 183, 12, $popup_tests_cache['management.communication_managment.effective_mail']['short_text']);
-            $pdf->writeTextLeftRegular(125, 10, 77, 188, 12, $popup_tests_cache['management.communication_managment.effective_mail']['text']);
-
-            $pdf->writeTextLeftRegular(90, 10, 77, 216, 12, $popup_tests_cache['management.communication_managment.effective_calls']['short_text']);
-            $pdf->writeTextLeftRegular(125, 10, 77, 221, 12, $popup_tests_cache['management.communication_managment.effective_calls']['text']);
-
-            $pdf->writeTextLeftRegular(90, 10, 77, 247, 12, $popup_tests_cache['management.communication_managment.effective_meetings']['short_text']);
-            $pdf->writeTextLeftRegular(125, 10, 77, 252, 12, $popup_tests_cache['management.communication_managment.effective_meetings']['text']);*/
+            $pdf->writeHtml('
+                    <tr>
+                        <td style="width: 35%;"></td>
+                        <td style="width: 60%;"
+                            ><font face="dejavusans" style="font-weight: bold;font-size: 13pt;">3.1 Оптимальное использование каналов коммуникации</font><br
+                            ><font face="dejavusans" style="font-weight: bold;font-size: 11pt;">'.$popup_tests_cache['management.communication_managment.comunication_channel']['short_text'].'</font><br
+                            ><font style="font-size: 13pt;"></font><font face="dejavusans" style="font-size: 11pt;">'.$popup_tests_cache['management.communication_managment.comunication_channel']['text'].'</font><br>
+                        </td>
+                        <td style="width: 5%;"></td>
+                    </tr>
+                    <tr>
+                        <td style="width: 35%;"></td>
+                        <td style="width: 60%;"
+                            ><font face="dejavusans" style="font-weight: bold;font-size: 13pt;">3.2 Эффективная работа с почтой</font><br
+                            ><font face="dejavusans" style="font-weight: bold;font-size: 11pt;">'.$popup_tests_cache['management.communication_managment.effective_mail']['short_text'].'</font><br
+                            ><font style="font-size: 13pt;"></font><font face="dejavusans" style="font-size: 11pt;">'.$popup_tests_cache['management.communication_managment.effective_mail']['text'].'</font><br>
+                        </td>
+                        <td style="width: 5%;"></td>
+                    </tr>
+                    <tr>
+                        <td style="width: 35%;"></td>
+                        <td style="width: 60%;"
+                            ><font face="dejavusans" style="font-weight: bold;font-size: 13pt;">3.3 Эффективная работа со звонками</font><br
+                            ><font face="dejavusans" style="font-weight: bold;font-size: 11pt;">'.$popup_tests_cache['management.communication_managment.effective_calls']['short_text'].'</font><br
+                            ><font style="font-size: 13pt;"></font><font face="dejavusans" style="font-size: 11pt;">'.$popup_tests_cache['management.communication_managment.effective_calls']['text'].'</font><br>
+                        </td>
+                        <td style="width: 5%;"></td>
+                    </tr>
+                    <tr>
+                        <td style="width: 35%;"></td>
+                        <td style="width: 60%;"
+                            ><font face="dejavusans" style="font-weight: bold;font-size: 13pt;">3.4 Эффективное управление встречами</font><br
+                            ><font face="dejavusans" style="font-weight: bold;font-size: 11pt;">'.$popup_tests_cache['management.communication_managment.effective_meetings']['short_text'].'</font><br
+                            ><font style="font-size: 13pt;"></font><font face="dejavusans" style="font-size: 11pt;">'.$popup_tests_cache['management.communication_managment.effective_meetings']['text'].'</font><br>
+                        </td>
+                        <td style="width: 5%;"></td>
+                    </tr>
+            ', 150);
 
             $first_name = StringTools::CyToEnWithUppercase($simulation->user->profile->firstname);
             $last_name = StringTools::CyToEnWithUppercase($simulation->user->profile->lastname);
