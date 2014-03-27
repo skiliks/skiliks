@@ -14,3 +14,12 @@
     height: 14px;
     margin-top: -1px;
 }
+
+.action-registrationSingleAccount .inline-error-first {
+    vertical-align: top;
+    margin-top: 15px;
+}
+
+.action-registrationSingleAccount .inline-error-second {
+    margin-top: -5px;
+}

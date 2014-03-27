@@ -48,3 +48,11 @@
     padding-top: 2px;
     padding-bottom: 2px;
 }
+
+.width-1024.action-registrationSingleAccount .inline-error-first {
+    margin-top: 17px;
+}
+
+.width-1024.action-registrationSingleAccount .inline-error-second {
+    margin-top: 0;
+}
