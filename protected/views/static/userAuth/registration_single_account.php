@@ -11,7 +11,7 @@
         <div class="us-registration-header"></div>
         <div class="us-registration-body">
 
-            <h5 class="pull-center">Пожалуйста, зарегистрируйтесь, чтобы перейти к тестированию</h5>
+            <h5 class="pull-left color-6D6D5B" style="padding-left: 171px">Создание корпоративного профиля</h5>
 
             <br/>
 
@@ -21,14 +21,6 @@
                 <?php $form = $this->beginWidget('CActiveForm', array(
                     'id' => 'registration-form'
                 )); ?>
-
-                <div class="row <?= $this->hasErrors($form, $profile, 'email') ?>">
-                    <span class="error-place">
-                        <?= $form->error($profile, 'email'); ?>
-                    </span>
-                    <?php echo $form->labelEx($profile, 'Email', ['class' => 'padding-left-18']); ?>
-                    <?php echo $form->textField($profile, 'email', ['placeholder' => 'Email']); ?>
-                </div>
 
                 <div class="row <?= $this->hasErrors($form, $profile, 'firstname') ?>
                     <?= $this->hasErrors($form, $profile, 'lastname') ?>">
@@ -44,6 +36,23 @@
                     <?php echo $form->textField($profile, 'firstname', ['placeholder' => 'Имя']); ?>
                     <?php echo $form->textField($profile, 'lastname', ['placeholder' => 'Фамилия', 'class' => 'margin-left-18']); ?>
                 </div>
+
+                <div class="row <?= $this->hasErrors($form, $profile, 'email') ?>">
+                    <span class="error-place">
+                        <?= $form->error($profile, 'email'); ?>
+                    </span>
+                    <?php echo $form->labelEx($profile, 'Email', ['class' => 'padding-left-18']); ?>
+                    <?php echo $form->textField($profile, 'email', ['placeholder' => 'Email']); ?>
+                </div>
+
+                <div class="row <?= $this->hasErrors($form, $account, 'industry_id') ?> us-UserAccountCorporate_industry_id">
+                    <span class="error-place">
+                        <?= $form->error($account, 'industry_id'); ?>
+                    </span>
+                    <?php echo $form->labelEx($account, 'Отрасль', ['class' => 'padding-left-18']); ?>
+                    <?php echo $form->dropDownList($account, 'industry_id', $industries); ?>
+                </div>
+
 
                 <div class="row <?= $this->hasErrors($form, $user, 'password') ?>">
                     <span class="error-place">
@@ -94,7 +103,7 @@
                 <div class="row">
                     <label class="padding-left-18"></label>
                     <?php echo CHtml::submitButton( Yii::t('site', 'Sign up'), [
-                        'class' => 'label background-dark-blue icon-circle-with-blue-arrow-big button-standard icon-padding-standard'
+                        'class' => 'background-dark-blue icon-circle-with-blue-arrow-big button-standard icon-padding-standard'
                     ]); ?>
                 </div>
 

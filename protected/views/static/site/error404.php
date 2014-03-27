@@ -11,7 +11,7 @@
 
     <!-- bigbtnsubmt -->
     <!-- button-standard blue-button icon-circle-with-blue-arrow icon-padding-standard -->
-    <a href="/" class="label background-dark-blue icon-circle-with-blue-arrow-big button-standard icon-padding-standard">
+    <a href="/" class="background-dark-blue icon-circle-with-blue-arrow-big button-standard icon-padding-standard">
         <?php echo Yii::t('site','Back to homepage');?></a>
     <br/>
 </div>

@@ -27,7 +27,7 @@
         <div class="pull-content-center">
             <!-- bigbtnsubmt start-lite-simulation-now -->
             <a href="#" data-href="#"
-               class="label background-dark-blue icon-circle-with-blue-arrow-big
+               class="background-dark-blue icon-circle-with-blue-arrow-big
                button-standard icon-padding-standard
                action-start-lite-simulation-now">
                 Далее

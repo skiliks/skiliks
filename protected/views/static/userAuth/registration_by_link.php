@@ -84,7 +84,7 @@
                 <div class="row">
                     <label class="padding-left-18"></label>
                     <?php echo CHtml::submitButton( Yii::t('site', 'Sign up'), [
-                        'class' => 'label background-dark-blue icon-circle-with-blue-arrow-big button-standard icon-padding-standard'
+                        'class' => 'background-dark-blue icon-circle-with-blue-arrow-big button-standard icon-padding-standard'
                     ]); ?>
 
                     <!-- decline-link -->

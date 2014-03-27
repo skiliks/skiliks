@@ -78,7 +78,7 @@
             <div class="pull-content-center">
                 <?php echo CHtml::submitButton($submitButtonTitle , [
                     'name' => 'add',
-                    'class' => 'label background-dark-blue icon-circle-with-blue-arrow-big button-standard icon-padding-standard send-vacancy'
+                    'class' => 'background-dark-blue icon-circle-with-blue-arrow-big button-standard icon-padding-standard send-vacancy'
                 ]); ?>
             </div>
 

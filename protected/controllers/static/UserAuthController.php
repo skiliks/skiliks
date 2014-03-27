@@ -229,6 +229,11 @@ class UserAuthController extends YumController
             unset(Yii::app()->request->cookies['display_result_for_simulation_id']);
         }
 
+        $positions = ["" => "Выберите должность"];
+        foreach (Position::model()->findAll() as $position) {
+            $positions[$position->id] = $position->label;
+        }
+
         $this->layout = 'site_standard_2';
 
         $this->addSiteCss('pages/registration-1280.css');
@@ -254,6 +259,7 @@ class UserAuthController extends YumController
                 'industries' => $industries,
                 'statuses'   => $statuses,
                 'error'      => $error,
+                'position'   => $positions,
                 'display_results_for' => $simulationToDisplayResults,
             ]
         );

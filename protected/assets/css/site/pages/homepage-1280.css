@@ -196,4 +196,7 @@ p.us-success-text {
     margin-top: -18px;
 }
 
-
+.us-homepage-content .button-standard {
+    padding-top: 14px;
+    padding-bottom: 14px;
+}

@@ -50,7 +50,7 @@
                 <div class="row buttons">
                     <?php echo CHtml::submitButton(Yii::t('site', 'Сохранить изменения'), [
                         'name'  => 'save',
-                        'class' => 'label background-dark-blue icon-circle-with-blue-arrow-big button-standard icon-padding-standard',
+                        'class' => 'background-dark-blue icon-circle-with-blue-arrow-big button-standard icon-padding-standard',
                     ]); ?>
                 </div>
             <?php } ?>

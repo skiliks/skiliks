@@ -24,7 +24,7 @@
 
         <div class="pull-content-center">
             <!-- bigbtnsubmt start-full-simulation-next start-full-simulation-now -->
-            <span data-href="#" class="label background-dark-blue icon-circle-with-blue-arrow-big
+            <span data-href="#" class="background-dark-blue icon-circle-with-blue-arrow-big
                 button-standard icon-padding-standard inter-active
                 action-start-full-simulation-now locator-next-step">
                 Далее</span>

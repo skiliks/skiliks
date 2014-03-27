@@ -157,7 +157,10 @@
                 <div class="">
                     <br/>
                     <div class="pull-content-center">
-                        <?= CHtml::submitButton('Оплатить', ['class' => 'label background-dark-blue icon-circle-with-blue-arrow-big button-standard icon-padding-standard']); ?>
+                        <?= CHtml::submitButton('Оплатить', [
+                            'class' => 'background-dark-blue icon-circle-with-blue-arrow-big
+                            button-standard icon-padding-standard'
+                        ]); ?>
                     </div>
                     <br/>
                 </div>

@@ -46,7 +46,7 @@
 
 
                 <?php echo CHtml::submitButton(Yii::t('site', 'Сохранить изменения'), [
-                    'class' => 'label background-dark-blue icon-circle-with-blue-arrow-big
+                    'class' => 'background-dark-blue icon-circle-with-blue-arrow-big
                         button-standard us-button-submit icon-padding-standard margin-left-8'
                 ]); ?>
             </div>

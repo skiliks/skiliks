@@ -75,13 +75,13 @@
 
     <div class="row pull-content-center margin-bottom-standard">
         <!-- bigbtnsubmt accept-requirements  -->
-        <a class='label background-dark-blue icon-circle-with-blue-arrow-big
+        <a class='background-dark-blue icon-circle-with-blue-arrow-big
                button-standard icon-padding-standard locator-start-later'>
             <?= Yii::t('site', 'Начать позже') ?>
         </a>
 
         <!-- bigbtnsubmt start-full-simulation start-simulation-from-popup -->
-        <span class='label background-dark-blue icon-circle-with-blue-arrow-big
+        <span class='background-dark-blue icon-circle-with-blue-arrow-big
                button-standard icon-padding-standard inter-active
                locator-start-now action-open-full-simulation-popup'>
             <?= Yii::t('site', 'Начать сейчас') ?>

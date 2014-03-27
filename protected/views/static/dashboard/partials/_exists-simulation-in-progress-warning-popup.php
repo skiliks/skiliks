@@ -16,13 +16,13 @@
         <div class="pull-content-center">
             <!-- back-button -->
             <span data-href="#"
-               class="label background-dark-blue icon-circle-with-blue-arrow-big inter-active
+               class="background-dark-blue icon-circle-with-blue-arrow-big inter-active
                button-standard icon-padding-standard action-close-popup">
                 Вернуться</span>
 
             <!-- go-ahead-button -->
             <span data-href="#"
-               class="label background-dark-blue icon-circle-with-blue-arrow-big inter-active
+               class="background-dark-blue icon-circle-with-blue-arrow-big inter-active
                button-standard icon-padding-standard action-start-full-simulation">
                 Прервать текущую и начать новую</span>
         </div>

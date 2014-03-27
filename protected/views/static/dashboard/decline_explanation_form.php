@@ -45,14 +45,14 @@
 
     <div class="row pull-content-center">
         <!-- chancel-decline -->
-        <span class = 'label background-dark-blue icon-circle-with-blue-arrow-big
+        <span class = 'background-dark-blue icon-circle-with-blue-arrow-big
             button-standard icon-padding-standard inter-active
             action-close-popup'>
             <?= $user->isAuth() ? 'Вернуться к приглашению' : 'Вернуться к регистрации' ?>
         </span>
 
         <!-- confirm-decline -->
-        <span class = 'label background-dark-blue icon-circle-with-blue-arrow-big
+        <span class = 'background-dark-blue icon-circle-with-blue-arrow-big
             button-standard icon-padding-standard inter-active margin-left-18
             action-confirm-decline'>
             Отказаться

@@ -22,7 +22,9 @@
                     <!-- -->
                     <?php if ('ru' == Yii::app()->getlanguage()): ?>
 
-                        <a href="/registration/single-account" class="label background-dark-blue icon-circle-with-blue-arrow-big button-standard icon-padding-standard">
+                        <a href="/registration/single-account"
+                           class="background-dark-blue icon-circle-with-blue-arrow-big
+                               button-standard icon-padding-standard">
                             <?= Yii::t('site', 'Register now') ?>
                         </a>
 
@@ -41,7 +43,7 @@
                                            placeholder="<?= Yii::t('site', 'Enter your email address') ?>"
                                         />
                                     <input type="submit" value="<?= Yii::t('site', 'Notify me') ?>"
-                                        class="label background-dark-blue icon-circle-with-blue-arrow-big
+                                        class="background-dark-blue icon-circle-with-blue-arrow-big
                                         button-standard icon-padding-standard margin-left-8" />
                                 </div>
                             </form>

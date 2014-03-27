@@ -52,7 +52,7 @@
             'placeholder' => 'Введите ваш email',
         ]); ?>
         <?php echo CHtml::submitButton(Yii::t('site', 'Send'), [
-            'class' => 'label background-dark-blue icon-circle-with-blue-arrow-big button-standard icon-padding-standard',
+            'class' => 'background-dark-blue icon-circle-with-blue-arrow-big button-standard icon-padding-standard',
             'name'  => 'submit'
         ]); ?>
     </div>
