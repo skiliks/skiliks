@@ -34,6 +34,12 @@ class SimulationResultTextService {
             self::$pockets[$pocket->paragraph_alias][$pocket->behaviour_alias][] = $pocket;
         }
         $assessment = json_decode($simulation->getAssessmentDetails(), true);
+        if($simulation->assessment_version === Simulation::ASSESSMENT_VERSION_1) {
+            $assessment['management'][1]['1_1'] = $assessment['management'][1]['1_2'];
+            $assessment['management'][1]['1_2'] = $assessment['management'][1]['1_3'];
+            $assessment['management'][1]['1_3'] = $assessment['management'][1]['1_4'];
+            $assessment['management'][1]['1_4'] = $assessment['management'][1]['1_5'];
+        }
         /* @var $paragraphs Paragraph[] */
         $paragraphs = Paragraph::model()->findAll('scenario_id = '.$simulation->game_type->id. ' and type = \''.$type.'\' order by order_number');
         $value = null;
