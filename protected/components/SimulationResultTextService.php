@@ -54,7 +54,7 @@ class SimulationResultTextService {
                         self::$recommendations[$paragraph->alias] = self::HugeProblemsPocketsConcatenation($paragraph->value_1, $paragraph->value_2, $paragraph->alias, $assessment);
                         break;
                     default:
-                        throw new Exception("Метод {$paragraph->method} не найден");
+                        throw new Exception("Метод {$paragraph->method} не найден for ".self::$sim_id);
                         break;
                 }
             }
