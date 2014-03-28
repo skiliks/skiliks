@@ -81,12 +81,19 @@ class SimulationResultTextService {
      */
     public static function SinglePocket($behaviour_alias_1, $alias, $assessment, $with_brackets=true) {
         $value_1 = self::getValueInAssessment($behaviour_alias_1, $assessment);
-        if((int)$value_1 > 100 && $alias !== 'time.over_time') {
+        if((int)$value_1 > 100 && $alias === 'performance.high') {
             if (Yii::app() instanceof CConsoleApplication) {
                 echo "$alias -> $value_1 for sim_id ".self::$sim_id."\r\n";
             }
             $value_1 = 100;
         }
+        if((int)$value_1 > 120 && $alias === 'time.over_time') {
+            if (Yii::app() instanceof CConsoleApplication) {
+                echo "$alias -> $value_1 for sim_id ".self::$sim_id."\r\n";
+            }
+            $value_1 = 120;
+        }
+
         $pockets = self::$pockets[$alias][$behaviour_alias_1];
         /* @var $pockets ParagraphPocket[] */
         foreach($pockets as $pocket) {
