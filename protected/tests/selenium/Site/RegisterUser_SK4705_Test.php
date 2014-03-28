@@ -36,27 +36,27 @@ class RegisterUser_SK4705_Test extends SeleniumTestHelper
         //0 - personal
         $account_details = $this->setUserDetails(1);
 
-        $this->userRegisterInformation("", "", "", "", "", "", array("Введите имя", "Введите фамилию", "Введите email", "Введите пароль", "Подтвердите пароль", "Вы должны согласиться с условиями"));
+        $this->userRegisterInformation("", "", "", "", "", "", "", array("Введите имя", "Введите фамилию", "Введите email", "Выберите отрасль", "Введите пароль", "Подтвердите пароль", "Вы должны согласиться с условиями"));
 
-        $this->userRegisterInformation("", $account_details[0], $account_details[1], " ", " ", 1, array("Введите email", "Введите пароль", "Подтвердите пароль"));
+        $this->userRegisterInformation("", $account_details[0], $account_details[1], "Автомобильный бизнес", " ", " ", 1, array("Введите email", "Введите пароль", "Подтвердите пароль"));
 
-        $this->userRegisterInformation("", $account_details[0], $account_details[1], "123", "123", 0, array("Введите email", "Не менее 6 символов"));
+        $this->userRegisterInformation("", $account_details[0], $account_details[1], "", "123", "123", 0, array("Введите email", "Не менее 6 символов"));
 
-        $this->userRegisterInformation("", $account_details[0], $account_details[1], "123123", "123123123", 0, array("Введите email", "Пароли не совпадают"));
+        $this->userRegisterInformation("", $account_details[0], $account_details[1], "", "123123", "123123123", 0, array("Введите email", "Пароли не совпадают"));
 
-        $this->userRegisterInformation("", $account_details[0], $account_details[1], "123123", "123123", 0, array("Введите email", "Пароль слишком простой"));
+        $this->userRegisterInformation("", $account_details[0], $account_details[1], "", "123123", "123123", 0, array("Введите email", "Пароль слишком простой"));
 
-        $this->userRegisterInformation("", $account_details[0], $account_details[1], $account_details[3], $account_details[3], 0, array("Введите email"));
+        $this->userRegisterInformation("", $account_details[0], $account_details[1], "", $account_details[3], $account_details[3], 0, array("Введите email"));
 
-        $this->userRegisterInformation("wrongEmail", $account_details[0], $account_details[1], $account_details[3], $account_details[3], 0, array("Email введён неверно"));
+        $this->userRegisterInformation("wrongEmail", $account_details[0], $account_details[1], "", $account_details[3], $account_details[3], 0, array("Email введён неверно"));
 
-        $this->userRegisterInformation("emailForBaned@skiliks.com", $account_details[0], $account_details[1], $account_details[3], $account_details[3], 0, array("заблокирован", "Данный email занят"));
+        $this->userRegisterInformation("emailForBaned@skiliks.com", $account_details[0], $account_details[1], "", $account_details[3], $account_details[3], 0, array("заблокирован", "Данный email занят"));
 
-        $this->userRegisterInformation("tetyana.grybok@skiliks.com", $account_details[0], $account_details[1], $account_details[3], $account_details[3], 0, array("Данный email занят"));
+        $this->userRegisterInformation("tetyana.grybok@skiliks.com", $account_details[0], $account_details[1], "", $account_details[3], $account_details[3], 0, array("Данный email занят"));
 
-        $this->userRegisterInformation("emailNotActivated@skiliks.com", $account_details[0], $account_details[1], $account_details[3], $account_details[3], 0, array("не активирован"));
+        $this->userRegisterInformation("emailNotActivated@skiliks.com", $account_details[0], $account_details[1], "", $account_details[3], $account_details[3], 0, array("не активирован"));
 
-        $this->userRegisterInformation($account_details[2], $account_details[0], $account_details[1], $account_details[3], $account_details[3], 0, array("На указанный вами email"));
+        $this->userRegisterInformation($account_details[2], $account_details[0], $account_details[1], "", $account_details[3], $account_details[3], 0, array("На указанный вами email"));
 
         $this->open($this->getActivationKeyByEmail($account_details[2]));
 
@@ -76,11 +76,16 @@ class RegisterUser_SK4705_Test extends SeleniumTestHelper
 
     }
 
-    public function userRegisterInformation($email, $name, $surname, $password1, $password2, $terms, $errors)
+    public function userRegisterInformation($email, $name, $surname, $lineOfBusiness, $password1, $password2, $terms, $errors)
     {
         $this->type(Yii::app()->params['test_mappings']['site_register']['userEmail'], $email);
         $this->type(Yii::app()->params['test_mappings']['site_register']['userName'], $name);
         $this->type(Yii::app()->params['test_mappings']['site_register']['userSurname'], $surname);
+        if ($lineOfBusiness!="")
+        {
+            $this->optimal_click("xpath=(//*[contains(text(),'Выберите область деятельности')])");
+            $this->optimal_click("xpath=(//*[contains(text(),'".$lineOfBusiness."')])");
+        }
         $this->type(Yii::app()->params['test_mappings']['site_register']['password1'], $password1);
         $this->type(Yii::app()->params['test_mappings']['site_register']['password2'], $password2);
         if ($terms==1)
