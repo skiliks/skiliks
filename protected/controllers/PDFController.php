@@ -10,10 +10,10 @@ class PDFController extends SiteBaseController {
             $this->redirect('/registration');
         }
 
-        $simId = 5013; //$this->getParam('sim_id');
-        //$simId = $this->getParam('sim_id');
-        $assessmentVersion = 'v1';//$this->getParam('assessment_version');
-        //$assessmentVersion = $this->getParam('assessment_version');
+        //$simId = 5013; //$this->getParam('sim_id');
+        $simId = $this->getParam('sim_id');
+        //$assessmentVersion = 'v1';//$this->getParam('assessment_version');
+        $assessmentVersion = $this->getParam('assessment_version');
 
 
 
