@@ -5922,6 +5922,8 @@ SocialCalc.MouseWheelRegister = function(element, functionobj) {
 
 SocialCalc.ProcessMouseWheel = function(e) {
 
+   if(SKApp.server.is_active_game === false){ return false; }
+
    var event = e || window.event;
    var delta;
 
@@ -6081,7 +6083,8 @@ SocialCalc.KeyboardFocus = function() {
 SocialCalc.ProcessKeyDown = function(e) {
 
    //console.log('SocialCalc.ProcessKeyDown', e);
-   //debugger;
+   if(SKApp.server.is_active_game === false){ return false; }
+
    var kt = SocialCalc.keyboardTables;
    kt.didProcessKey = false; // always start false
    kt.statusFromProcessKey = false;
@@ -6135,6 +6138,7 @@ SocialCalc.ProcessKeyDown = function(e) {
 
 SocialCalc.ProcessKeyPress = function(e) {
 
+   if(SKApp.server.is_active_game === false){ return false; }
    var kt = SocialCalc.keyboardTables;
 
    var ch="";
@@ -6360,6 +6364,7 @@ SocialCalc.ProcessKeyPress = function(e) {
 //
 
 SocialCalc.ProcessKey = function (ch, e) {
+   if(SKApp.server.is_active_game === false){ return false; }
 
    var ft = SocialCalc.Keyboard.focusTable;
 
