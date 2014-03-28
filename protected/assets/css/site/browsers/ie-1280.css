@@ -93,3 +93,12 @@ nav ul li.menu-item a {
     height: 14px;
     margin-top: -1px;
 }
+
+.action-registrationSingleAccount .inline-error-first {
+    vertical-align: top;
+    margin-top: 16px;
+}
+
+.action-registrationSingleAccount .inline-error-second {
+    margin-top: -4px;
+}

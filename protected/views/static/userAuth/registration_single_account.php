@@ -37,14 +37,6 @@
                     <?php echo $form->textField($profile, 'lastname', ['placeholder' => 'Фамилия', 'class' => 'margin-left-18']); ?>
                 </div>
 
-                <div class="row <?= $this->hasErrors($form, $profile, 'email') ?>">
-                    <span class="error-place">
-                        <?= $form->error($profile, 'email'); ?>
-                    </span>
-                    <?php echo $form->labelEx($profile, 'Email', ['class' => 'padding-left-18']); ?>
-                    <?php echo $form->textField($profile, 'email', ['placeholder' => 'Email']); ?>
-                </div>
-
                 <div class="row <?= $this->hasErrors($form, $account, 'industry_id') ?> us-UserAccountCorporate_industry_id">
                     <span class="error-place">
                         <?= $form->error($account, 'industry_id'); ?>
@@ -53,12 +45,19 @@
                     <?php echo $form->dropDownList($account, 'industry_id', $industries); ?>
                 </div>
 
+                <div class="row <?= $this->hasErrors($form, $profile, 'email') ?>">
+                    <span class="error-place">
+                        <?= $form->error($profile, 'email'); ?>
+                    </span>
+                    <?php echo $form->labelEx($profile, 'Корпоративный email', ['class' => 'padding-left-18']); ?>
+                    <?php echo $form->textField($profile, 'email', ['placeholder' => 'Email']); ?>
+                </div>
 
                 <div class="row <?= $this->hasErrors($form, $user, 'password') ?>">
                     <span class="error-place">
                         <?php echo $form->error($user, 'password'); ?>
                     </span>
-                    <?php echo $form->labelEx($user, 'password', ['class' => 'padding-left-18']); ?>
+                    <?php echo $form->labelEx($user, 'Пароль', ['class' => 'padding-left-18']); ?>
                     <?php echo $form->passwordField($user, 'password', ['class' => 'shifted']); ?>
                     <span class="action-toggle-show-password padding-left-18 inter-active-blue"> Показать пароль </span>
                 </div>

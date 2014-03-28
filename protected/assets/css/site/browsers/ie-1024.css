@@ -69,3 +69,12 @@
     padding-top: 2px;
     padding-bottom: 2px;
 }
+
+.width-1024.action-registrationSingleAccount .inline-error-first {
+    vertical-align: top;
+    margin-top: 16px;
+}
+
+.width-1024.action-registrationSingleAccount .inline-error-second {
+    margin-top: -1px;
+}

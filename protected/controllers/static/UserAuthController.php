@@ -210,7 +210,7 @@ class UserAuthController extends YumController
 
         }
 
-        $industries = ['' => 'Выберите область деятельности'];
+        $industries = ['' => 'Выберите отрасль'];
         foreach (Industry::model()->findAll() as $industry) {
             $industries[$industry->id] = Yii::t('site', $industry->label);
         }
@@ -284,95 +284,6 @@ class UserAuthController extends YumController
             'profile' => $profile,
         ]);
     }
-
-    /**
-     * User registration step 1 - handle form
-     */
-//    public function actionAfterRegistrationCorporate()
-//    {
-//        if (false === Yii::app()->user->isGuest) {
-//            Yii::app()->user->logout();
-//        }
-//
-//        $this->addSiteJs('_start_demo.js');
-//
-//        $this->render('afterRegistrationCorporate');
-//    }
-
-    /**
-     * User registration default errors handler
-     */
-//    public function actionErrorDuringRegistration()
-//    {
-//        Yii::app()->user->setFlash(
-//            'error',
-//            Yii::t('site','Something went wrong please try to %s register again %s.')
-//        );
-//
-//        $this->render('emptyPage', [
-//            'user' => $this->user
-//        ]);
-//    }
-
-    /**
-     * User registration Error "You Has Already Choose Account"
-     */
-//    public function actionErrorYouHasAlreadyChooseAccount()
-//    {
-//        $this->checkUser();
-//
-//        Yii::app()->user->setFlash('error', 'Вы уже выбрали тип аккаунта');
-//
-//        $this->render('emptyPage', [
-//            'user'  => $this->user
-//        ]);
-//    }
-
-    /**
-     * User registration Error "Your Account Not Active"
-     */
-//    public function actionErrorYourAccountNotActive()
-//    {
-//        $this->checkUser();
-//
-//        Yii::app()->user->setFlash('error', 'Ваш аккаунт неактивен');
-//
-//        $this->render('emptyPage', [
-//            'user'  => $this->user
-//        ]);
-//    }
-
-    /**
-     * User registration Error "Please sing-is or register"
-     */
-//    public function actionErrorSingInOrRegister()
-//    {
-//        Yii::app()->user->setFlash(
-//            'error',
-//            Yii::t('site', 'You not authorized. Please %s sing-in %s or %s register %s.')
-//        );
-//
-//        $this->render('emptyPage');
-//    }
-
-    /**
-     * User registration - "Account Type Saves Successfully" message
-     */
-//    public function actionAccountTypeSavesSuccessfully()
-//    {
-//        $this->checkUser();
-//
-//        if ($this->user->isHasAccount() ) {
-//            $this->redirect('/dashboard');
-//            return;
-//        }
-//
-//        /*Yii::app()->user->setFlash( 'success', $message );*/
-//
-//        $this->render('emptyPage', [
-//            'user' => $this->user
-//        ]);
-//    }
 
     public function actionRegistration()
     {
