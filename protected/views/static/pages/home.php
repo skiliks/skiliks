@@ -58,7 +58,12 @@
                         <br/>
                         <div class="pull-content-center">
                             <span class="action-open-lite-simulation-popup inter-active us-start-demo-box"
-                                  data-href="/simulation/demo">
+                                  <?php if (0 == count($notUsedLiteSimulations)): ?>
+                                    data-href="/simulation/demo"
+                                  <?php else: ?>
+                                    data-href="/simulation/promo/lite/<?= $notUsedLiteSimulations[0]->id ?>"
+                                  <?php endif ?>
+                                >
                                 <img class="us-start-demo-image"
                                      src="<?= $this->assetsUrl ?>/img/site/1280/homepage/demo.png" />
                                 <span class="label no-hover background-dark-blue color-ffffff us-start-demo">

@@ -16,6 +16,13 @@ class PagesController extends SiteBaseController
 
     public function actionIndex()
     {
+        $notUsedLiteSimulations = [];
+
+        if (false == Yii::app()->user->isGuest) {
+            $liteScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_LITE]);
+            $notUsedLiteSimulations = UserService::getSelfToSelfInvite($this->user, $liteScenario);
+        }
+
         $this->layout = 'site_standard_2';
 
         $this->addSiteJs('_page-homepage.js');
@@ -27,10 +34,11 @@ class PagesController extends SiteBaseController
 
         /* @var $user YumUser */
         $this->render('home', [
-            'assetsUrl'          => $this->getAssetsUrl(),
-            'userSubscribed'     => false,
-            'httpUserAgent'      => (isset($_SERVER['HTTP_USER_AGENT'])) ? $_SERVER['HTTP_USER_AGENT'] : 'HTTP_USER_AGENT скрыт.',
-            'isSkipBrowserCheck' => (int)Yii::app()->params['public']['isSkipBrowserCheck'],
+            'assetsUrl'              => $this->getAssetsUrl(),
+            'userSubscribed'         => false,
+            'httpUserAgent'          => (isset($_SERVER['HTTP_USER_AGENT'])) ? $_SERVER['HTTP_USER_AGENT'] : 'HTTP_USER_AGENT скрыт.',
+            'isSkipBrowserCheck'     => (int)Yii::app()->params['public']['isSkipBrowserCheck'],
+            'notUsedLiteSimulations' => $notUsedLiteSimulations,
         ]);
     }
 
