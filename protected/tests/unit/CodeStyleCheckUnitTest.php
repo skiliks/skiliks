@@ -62,7 +62,8 @@ class CodeStyleCheckUnitTest  extends CDbTestCase
                 'tcpdf_barcodes_1d.php',
                 'tcpdf_barcodes_2d.php',
                 'tcpdf_import.php',
-                'AnalyticalFileGenerator.php'
+                'AnalyticalFileGenerator.php',
+                'SimulationResultTextService.php'
             ]);
 
             foreach ($filesList as $filename) {
