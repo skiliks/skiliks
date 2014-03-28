@@ -27,7 +27,9 @@
                 <p>Компания <?= $invite->ownerUser->account_corporate->company_name ?> предлагает вам пройти тест "Базовый менеджмент".</p>
                 <?php if (empty($invite->receiverUser)): ?>
                     <p>
-                        <a target="_blank" href="<?= $this->createAbsoluteUrl('static/pages/product') ?>">"Базовый менеджмент"</a>
+                        <!--a target="_blank" href="<?= $this->createAbsoluteUrl('static/pages/product') ?>"-->
+                            "Базовый менеджмент"
+                        <!--/a-->
                         - это деловая симуляция, позволяющая оценить менеджерские навыки в форме увлекательной игры.</p>
                 <?php endif; ?>
             <?php endif; ?>
@@ -43,22 +45,32 @@
             <p>
                 <?php if ($invite->receiverUser && !$invite->receiverUser->isActive()): ?>
                     Пожалуйста,
-                    <a target="_blank" href="<?=$invite->receiverUser->getActivationUrl()?>">активируйте ваш аккаунт</a>,
+                    <!--a target="_blank" href="<?=$invite->receiverUser->getActivationUrl()?>"-->
+                        активируйте ваш аккаунт
+                    <!--/a-->,
                     выберите индивидуальный профиль, ввойдите в свой кабинет
                     и примите приглашение на тестирование для прохождения симуляции.
                 <?php elseif ($invite->receiverUser && $invite->receiverUser->isPersonal()): ?>
                     Пожалуйста,
-                    <a target="_blank" href="<?= $this->createAbsoluteUrl('/dashboard') ?>">зайдите</a>
+                    <!--a target="_blank" href="<?= $this->createAbsoluteUrl('/dashboard') ?>"-->
+                        зайдите
+                    <!--/a-->
                     в свой кабинет и примите приглашение на тестирование для прохождения симуляции.
                 <?php elseif ($invite->receiverUser && $invite->receiverUser->isCorporate()): ?>
                     Пожалуйста,
-                    <a target="_blank" href="<?= $this->createAbsoluteUrl('/registration') ?>">создайте личный профиль</a>
+                    <!--a target="_blank" href="<?= $this->createAbsoluteUrl('/registration') ?>"-->
+                        создайте личный профиль
+                    <!--/a-->
                     или
-                    <a href="<?= $this->createAbsoluteUrl('/dashboard') ?>">войдите в личный кабинет</a>
+                    <!--a href="<?= $this->createAbsoluteUrl('/dashboard') ?>"-->
+                    войдите в личный кабинет
+                    <!--/a-->
                     и примите приглашение на тестирование для прохождения симуляции.
                 <?php else: ?>
                     Пожалуйста,
-                    <a target="_blank" href="<?= $this->createAbsoluteUrl('/registration') ?>">зарегистрируйтесь</a>
+                    <!--a target="_blank" href="<?= $this->createAbsoluteUrl('/registration') ?>"-->
+                        зарегистрируйтесь
+                    <!--/a-->
                     и примите приглашение на тестирование для прохождения симуляции.
                 <?php endif; ?>
             </p>
