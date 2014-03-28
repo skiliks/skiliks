@@ -233,7 +233,7 @@ return [
         'userEmail' => 'css=#YumProfile_email',
         'password1' => 'css=#YumUser_password',
         'password2' => 'css=#YumUser_password_again',
-        'register_button' => "xpath=//*[@id='registration-form']/div[7]/input",
+        'register_button' => "xpath=//*[@id='registration-form']/div[8]/input",
         'checkbox_terms' => "xpath=//*[@id='YumUser_agree_with_terms']",
         'link_terms' => 'css=.action-show-terms-pop-up',
         'close_terms' => 'xpath=//div[4]/div[1]/a/span'

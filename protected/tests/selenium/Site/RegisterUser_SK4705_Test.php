@@ -31,14 +31,14 @@ class RegisterUser_SK4705_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['site_register']['registration_link_header']);
         $this->waitForVisible(Yii::app()->params['test_mappings']['site_register']['checkbox_terms']);
 
-        $this->assertTextPresent('Пожалуйста, зарегистрируйтесь, чтобы перейти к тестированию');
+        $this->assertTextPresent('Создание корпоративного профиля');
 
         //0 - personal
         $account_details = $this->setUserDetails(1);
 
         $this->userRegisterInformation("", "", "", "", "", "", "", array("Введите имя", "Введите фамилию", "Введите email", "Выберите отрасль", "Введите пароль", "Подтвердите пароль", "Вы должны согласиться с условиями"));
 
-        $this->userRegisterInformation("", $account_details[0], $account_details[1], "Автомобильный бизнес", " ", " ", 1, array("Введите email", "Введите пароль", "Подтвердите пароль"));
+        $this->userRegisterInformation("", $account_details[0], $account_details[1], "xpath=//*[@id='registration-form']/div[3]/div/ul/li[2]/a", " ", " ", 1, array("Введите email", "Введите пароль", "Подтвердите пароль"));
 
         $this->userRegisterInformation("", $account_details[0], $account_details[1], "", "123", "123", 0, array("Введите email", "Не менее 6 символов"));
 
@@ -83,8 +83,9 @@ class RegisterUser_SK4705_Test extends SeleniumTestHelper
         $this->type(Yii::app()->params['test_mappings']['site_register']['userSurname'], $surname);
         if ($lineOfBusiness!="")
         {
-            $this->optimal_click("xpath=(//*[contains(text(),'Выберите область деятельности')])");
-            $this->optimal_click("xpath=(//*[contains(text(),'".$lineOfBusiness."')])");
+            $this->optimal_click("xpath=//div/div[2]/div/form/div[3]/div/a[2]");
+            $this->mouseOver($lineOfBusiness);
+            $this->optimal_click($lineOfBusiness);
         }
         $this->type(Yii::app()->params['test_mappings']['site_register']['password1'], $password1);
         $this->type(Yii::app()->params['test_mappings']['site_register']['password2'], $password2);
