@@ -201,9 +201,16 @@
 
     <div class="us-feedback-margin">
         <br/>
+        <span class="pull-content-left color-3D4041" style="margin-bottom: 10px; font-size: 1.15em;">
+            При покупке любого тарифного пакета Вы можете приобрести дополнительные симуляции поштучно.<br/>
+            Цена 1 штуки рассчитывается исходя из выбранного тарифного плана.
+        </span>
         <br/>
 
-        <a class="button-white button-white-hover inter-active label icon-arrow-blue action-feedback"><?= Yii::t('site', 'Send feedback') ?></a>
+        <a class="button-white button-white-hover inter-active label icon-arrow-blue action-feedback reset-margin">
+            <?= Yii::t('site', 'Send feedback') ?>
+        </a>
+
         <span class="social_networks">
             <?php // $this->renderPartial('//global_partials/addthis', ['force' => true]) ?>
         </span>

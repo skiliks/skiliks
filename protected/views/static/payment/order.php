@@ -37,7 +37,16 @@
                 <div class="error_simulation_selected" style="display: none;"></div>
                 <div class="us-order-description-row">
                     <label>Количество симуляций</label>
-                    <strong class=""><input type="text" id="simulation_selected" value="<?= $minSimulationSelected?>"></strong>
+                    <strong class="">
+                        <?php
+                            $ordered = Yii::app()->request->getParam('ordered');
+                            $defaultValue = $minSimulationSelected;
+                            if (null != $ordered) {
+                                $defaultValue = (int)$ordered;
+                            }
+                        ?>
+                        <input type="text" id="simulation_selected" value="<?= $defaultValue ?>">
+                    </strong>
                 </div>
             </span>
 
