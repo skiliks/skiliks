@@ -205,23 +205,24 @@ class SimulationResultTextService {
         return (int)$direction >= (int)$value;
     }
 
+    /**
+     * Генерирует ке текстов для PDFа с ифографикой
+     */
     public static function generateForAllFullCompleteSimulations() {
         ini_set('memory_limit', '-1');
         $scenario = Scenario::model()->findByAttributes(['slug'=>Scenario::TYPE_FULL]);
+
         /* @var Simulation[] $simulations */
+        /* До 2013-08-01 нет симуляций клиентов */
         $simulations = Simulation::model()->findAll("scenario_id = :scenario_id and results_popup_cache is not null and end >= '2013-08-01 00:00:00'", [
             'scenario_id' => $scenario->id
         ]);
-        //$count = count($simulations);
-        //echo 'Найдено '.$count."\r\n";
+
         foreach($simulations as $simulation) {
-            //echo 'Обработка sim_id = '.$simulation->id."\r\n";
             $simulation->popup_tests_cache = serialize([
                 'popup' => SimulationResultTextService::generate($simulation, 'popup')
             ]);
             $simulation->save(false);
-            //$count--;
-            //echo 'Осталось '.$count."\r\n";
         }
     }
 } 
