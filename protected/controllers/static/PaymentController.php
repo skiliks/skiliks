@@ -21,10 +21,11 @@ class PaymentController extends SiteBaseController
         $this->addSiteCss('/pages/order-1280.css');
         $this->addSiteCss('/pages/order-1024.css');
         $this->addSiteJs('_page-payment.js');
-        $minSimulationSelected = self::getMinSimulationsForOrder($user);
+        $minSimulationSelected = self::getMinSimulationsForOrder($user, Yii::app()->request->getParam('ordered'));
         $json = [
             'minSimulationSelected' => $minSimulationSelected
         ];
+
         foreach(Price::model()->findAll() as $price){
             /* @var $price Price */
             $json['prices'][] = [
@@ -35,8 +36,8 @@ class PaymentController extends SiteBaseController
                 'in_RUB' => $price->in_RUB,
                 'in_USD' => $price->in_USD,
             ];
-
         }
+
         $this->render('order', [
             'account' => $user->account_corporate,
             'paymentMethodCash'      => new CashPaymentMethod(),
@@ -219,12 +220,30 @@ class PaymentController extends SiteBaseController
         $this->redirect('/dashboard');
     }
 
-    public static function getMinSimulationsForOrder(YumUser $user){
-        if(0 === (int)Invoice::model()->count('user_id = '.$user->id.' and paid_at is not null')){
-            return Yii::app()->params['minimumOrderForTheFirstTime'];
-        }else{
-            return (int)Price::model()->findByAttributes(['alias'=>'lite'])->from;
+    /**
+     * Возвращает количество заказанных человеком симуляций,
+     * для задания значений я умолчанию на странице оформить заказ.
+     * Если человек не указал сколько он хочет ($ordered) - выбирается значение минимальное доступное значение:
+     * params['minimumOrderForTheFirstTime'] или одина симуляция
+     *
+     * @param YumUser $user
+     * @param integer $ordered
+     *
+     * @return int
+     */
+    public static function getMinSimulationsForOrder(YumUser $user, $ordered = null) {
+
+        if (null != $ordered) {
+            return $ordered;
         }
+
+        if (0 === (int)Invoice::model()->count('user_id = '.$user->id.' and paid_at is not null')) {
+            $amount = Yii::app()->params['minimumOrderForTheFirstTime'];
+        } else {
+            $amount = 1;
+        }
+
+        return $amount;
     }
 
 }
