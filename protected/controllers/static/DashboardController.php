@@ -447,7 +447,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         $declineExplanation = new DeclineExplanation();
         $declineExplanation->attributes = Yii::app()->request->getParam('DeclineExplanation');
 
-        $result = null; // InviteService::declineInvite(Yii::app()->user->data(), $declineExplanation);
+        $result = InviteService::declineInvite(Yii::app()->user->data(), $declineExplanation);
 
         if( null !== $result ) {
             $this->redirect( $result );
