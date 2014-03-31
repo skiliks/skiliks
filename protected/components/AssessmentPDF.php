@@ -103,6 +103,10 @@ class AssessmentPDF {
         $this->pdf->ImageEps($this->images_dir.$this->page_number++.'_.eps', 0, 0, 210, 297.2);
     }
 
+    public function addEmptyPage(){
+        $this->pdf->AddPage();
+    }
+
 
     public function addSinglePage($path, $x=0, $y=0, $w=210, $h=297.2) {
         $orientation = ($h>$w) ? 'P' : 'L';
@@ -664,7 +668,7 @@ class AssessmentPDF {
         $html = '<style>
                  </style>
                 <body>
-                    <table style="background-color: #ff0000;">
+                    <table style="">
                         '.$html.'
                     </table>
                 </body>';

@@ -15,14 +15,9 @@ class PDFController extends SiteBaseController {
         //$assessmentVersion = 'v1';//$this->getParam('assessment_version');
         $assessmentVersion = $this->getParam('assessment_version');
 
-
-
         /* @var $simulation Simulation */
         $simulation = Simulation::model()->findByPk($simId);
-        $simulation->popup_tests_cache = serialize([
-            'popup' => SimulationResultTextService::generate($simulation, 'popup')
-        ]);
-        $simulation->save(false);
+
         $isUser = $simulation->user_id === $this->user->id;
         $isOwner = $simulation->invite->owner_id === $this->user->id;
         $isAdmin = $this->user->isAdmin();
@@ -41,7 +36,6 @@ class PDFController extends SiteBaseController {
             //echo $simulation->getAssessmentDetails();
             //exit;
             $pdf = new AssessmentPDF();
-            $pdf->debug = true;
             $username = $simulation->user->profile->firstname.' '.$simulation->user->profile->lastname;
 
             $pdf->setImagesDir('simulation_details_'.$assessmentVersion.'/images/');
@@ -491,6 +485,85 @@ class PDFController extends SiteBaseController {
         $simulation = Simulation::model()->findByPk(10264);
         SimulationService::saveAssessmentPDFFilesOnDisk($simulation);
 
+    }
+
+    public function actionBehavioursPDF() {
+
+        $this->user = Yii::app()->user->data();
+        if(null === $this->user && false === $this->user->isAuth()) {
+            $this->redirect('/registration');
+        }
+
+        //$simId = 5013; //$this->getParam('sim_id');
+        $simId = $this->getParam('sim_id');
+        //$assessmentVersion = 'v1';//$this->getParam('assessment_version');
+        //$assessmentVersion = $this->getParam('assessment_version');
+
+        /* @var $simulation Simulation */
+        $simulation = Simulation::model()->findByPk($simId);
+        /*$simulation->popup_tests_cache = serialize([
+            //'popup' => SimulationResultTextService::generate($simulation, 'popup'),
+            'recommendation' => SimulationResultTextService::generate($simulation, 'recommendation', true)
+        ]);*/
+        $simulation->save(false);
+        $isUser = $simulation->user_id === $this->user->id;
+        $isOwner = $simulation->invite->owner_id === $this->user->id;
+        $isAdmin = $this->user->isAdmin();
+
+        if($isUser || $isOwner || $isAdmin) {
+            $data = unserialize($simulation->popup_tests_cache)['recommendation'];
+            $username = $simulation->user->profile->firstname.' '.$simulation->user->profile->lastname;
+
+            $pdf = new AssessmentPDF();
+            $pdf->pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+            $pdf->addEmptyPage();
+            $pdf->writeTextBold($username, 3.5, 3.5, 21);
+            $pdf->writeTextBold("Индивидуальный план развития", 3.5, 13, 19);
+
+            $html = '';
+            $Criteria = new CDbCriteria();
+            $Criteria->order = 'code asc';
+            $groups = $simulation->game_type->getLearningGoalGroups($Criteria);
+            foreach($groups as $group) {
+                $ul = '';
+                foreach(LearningGoal::model()->findAllByAttributes(['learning_goal_group_id'=>$group->id]) as $learningGoal) {
+
+                    /* @var LearningGoal $learningGoal */
+                    foreach($learningGoal->heroBehaviours as $behaviour) {
+                        /* @var HeroBehaviour $behaviour */
+                        if(isset($data[$behaviour->code])) {
+                            //var_dump($data[$behaviour->code]);
+                            //exit;
+                            $ul .= '<li>'.$behaviour->code.' - '.$data[$behaviour->code]['text'].'</li>';
+                        }
+                    }
+
+                }
+
+                $html .= '<tr>
+                            <td style="width: 5%;"></td>
+                            <td style="width: 90%;"
+                                ><font face="dejavusans" style="font-weight: bold;font-size: 12pt;">'.str_replace('_', '.', $group->code).' '.$group->title.'</font
+                                ><ul>
+                                    '.$ul.'
+                                  </ul><br>
+                            </td>
+                            <td style="width: 5%;"></td>
+                          </tr>';
+            }
+
+            $pdf->writeHtml($html, 25);
+
+            $first_name = StringTools::CyToEnWithUppercase($simulation->user->profile->firstname);
+            $last_name = StringTools::CyToEnWithUppercase($simulation->user->profile->lastname);
+            $vacancy_name = "";
+            if($simulation->invite->owner_id !== $simulation->invite->receiver_id) {
+                $vacancy_name = "_".StringTools::CyToEnWithUppercase($simulation->invite->vacancy->label);
+            }
+            $pdf->renderOnBrowser($first_name.'_'.$last_name.$vacancy_name.'_'.$assessmentVersion.'_'.date('dmy'));
+        }else {
+            $this->redirect('/dashboard');
+        }
     }
 
 } 

@@ -228,7 +228,7 @@ class Scenario extends CActiveRecord
     /**
      * @param array of strings | CDbCriteria $data
      *
-     * @return array of LearningGoalGroup
+     * @return LearningGoalGroup[]
      */
     public function getLearningGoalGroups($data = [])
     {
