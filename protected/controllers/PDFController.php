@@ -560,7 +560,7 @@ class PDFController extends SiteBaseController {
             if($simulation->invite->owner_id !== $simulation->invite->receiver_id) {
                 $vacancy_name = "_".StringTools::CyToEnWithUppercase($simulation->invite->vacancy->label);
             }
-            $pdf->renderOnBrowser($first_name.'_'.$last_name.$vacancy_name.'_'.$assessmentVersion.'_'.date('dmy'));
+            $pdf->renderOnBrowser($first_name.'_'.$last_name.$vacancy_name.'_'.$simulation->assessment_version.'_'.date('dmy'));
         }else {
             $this->redirect('/dashboard');
         }
