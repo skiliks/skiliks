@@ -814,7 +814,7 @@ class SimulationService
 
             $simulation->popup_tests_cache = serialize([
                 'popup' => SimulationResultTextService::generate($simulation, 'popup'),
-                'recommendation' => SimulationResultTextService::generate($simulation, 'recommendation')
+                'recommendation' => SimulationResultTextService::generate($simulation, 'recommendation', true)
             ]);
             $simulation->save(false);
 
