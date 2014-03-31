@@ -314,7 +314,7 @@ class PDFController extends SiteBaseController {
                         </td>
                         <td style="width: 5%;"></td>
                     </tr>
-            ', 150);
+            ', 145);
 
             }
 
@@ -371,7 +371,7 @@ class PDFController extends SiteBaseController {
                         </td>
                         <td style="width: 5%;"></td>
                     </tr>
-            ', 150);
+            ', 145);
 
             }
 
@@ -417,7 +417,7 @@ class PDFController extends SiteBaseController {
                         </td>
                         <td style="width: 5%;"></td>
                     </tr>
-            ', 140);
+            ', 135);
 
             // 7. Управленческие навыки - 3
             $pdf->addPage(8);
@@ -472,7 +472,7 @@ class PDFController extends SiteBaseController {
                         </td>
                         <td style="width: 5%;"></td>
                     </tr>
-            ', 150);
+            ', 145);
 
             $first_name = StringTools::CyToEnWithUppercase($simulation->user->profile->firstname);
             $last_name = StringTools::CyToEnWithUppercase($simulation->user->profile->lastname);

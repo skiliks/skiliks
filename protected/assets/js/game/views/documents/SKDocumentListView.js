@@ -36,6 +36,7 @@ define(["game/views/SKWindowView", "game/models/window/SKDocumentsWindow"], func
                 };
                 var cmd = options.data.cmd;
                 if ('open' === cmd) {
+                    if(SKApp.server.is_active_game === false){ return; }
                     if (this.fm.url(options.data.target) === "") {
                         res.data = {
                             cwd: {
@@ -115,6 +116,7 @@ define(["game/views/SKWindowView", "game/models/window/SKDocumentsWindow"], func
                         url: 'myDocuments/connector',
                         transport: SKElFinderTransport,
                         getFileCallback: function (file) {
+                            if(SKApp.server.is_active_game === false){ return false; }
                             file = decodeURIComponent(file);
                             file = file.replace(/.*\//, '');
                             var document = SKApp.simulation.documents.where({name: file})[0];

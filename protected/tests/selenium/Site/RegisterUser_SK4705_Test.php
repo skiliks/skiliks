@@ -38,7 +38,7 @@ class RegisterUser_SK4705_Test extends SeleniumTestHelper
 
         $this->userRegisterInformation("", "", "", "", "", "", "", array("Введите имя", "Введите фамилию", "Введите email", "Выберите отрасль", "Введите пароль", "Подтвердите пароль", "Вы должны согласиться с условиями"));
 
-        $this->userRegisterInformation("", $account_details[0], $account_details[1], "xpath=//*[@id='registration-form']/div[3]/div/ul/li[2]/a", " ", " ", 1, array("Введите email", "Введите пароль", "Подтвердите пароль"));
+        $this->userRegisterInformation("", $account_details[0], $account_details[1], "xpath=//*[@id='registration-form']/div[2]/div/ul/li[2]/a", " ", " ", 1, array("Введите email", "Введите пароль", "Подтвердите пароль"));
 
         $this->userRegisterInformation("", $account_details[0], $account_details[1], "", "123", "123", 0, array("Введите email", "Не менее 6 символов"));
 
@@ -83,7 +83,7 @@ class RegisterUser_SK4705_Test extends SeleniumTestHelper
         $this->type(Yii::app()->params['test_mappings']['site_register']['userSurname'], $surname);
         if ($lineOfBusiness!="")
         {
-            $this->optimal_click("xpath=//div/div[2]/div/form/div[3]/div/a[2]");
+            $this->optimal_click("xpath=//div/div[2]/div/form/div[2]/div/a[2]");
             $this->mouseOver($lineOfBusiness);
             $this->optimal_click($lineOfBusiness);
         }
