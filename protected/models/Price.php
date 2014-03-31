@@ -14,6 +14,11 @@
  */
 class Price extends CActiveRecord
 {
+    const ALIAS_LITE          = 'lite';
+    const ALIAS_STARTED      = 'started';
+    const ALIAS_PROFESSIONAL = 'professional';
+    const ALIAS_BUSINESS     = 'business';
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.

@@ -12,6 +12,16 @@
     margin-left: 100px;
 }
 
+.us-price-title {
+    font-family: ProximaNova-Bold;
+    font-size: 1.4em;
+    line-height: 1em;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    border: 1px solid #69A7B0;
+    border-width: 0 0 1px 0;
+}
+
 .width-1024 .us-feedback-margin {
     margin-left: 20px;
 }
