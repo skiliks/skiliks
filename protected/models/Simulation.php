@@ -26,6 +26,7 @@ use application\components\Logging\LogTableList as LogTableList;
  * @property string $percentile
  * @property string $assessment_version
  * @property string $popup_tests_cache
+ * @property string $behaviours_cache
  *
  * @property SimulationCompletedParent[] $completed_parent_activities
  * @property AssessmentAggregated[] $assessment_aggregated

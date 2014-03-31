@@ -761,6 +761,8 @@ class SimulationService
 
                 $simulation->calculatePercentile();
 
+                self::saveBehavioursCache($simulation);
+
                 self::logAboutSim($simulation, sprintf(
                     'sim stop: assessment calculated. Overall: %s, Percentile  %s.',
                     (float)$simulation->getCategoryAssessmentWithoutRound(),
@@ -1465,5 +1467,37 @@ class SimulationService
             $zipFilename = $latinCompanyOwnership . '_' . $zipFilename;
         }
         return $zipFilename;
+    }
+
+    public static function saveBehavioursCache(Simulation $simulation)
+    {
+        $cache = [];
+        $behaviours = AssessmentCalculation::model()->findAllByAttributes(['sim_id'=>$simulation->id]);
+        /* @var $behaviours AssessmentCalculation[] */
+        foreach($behaviours as $behaviour) {
+            if($behaviour->point !== null) {
+                $cache[$behaviour->point->code] = $behaviour->value;
+            }
+        }
+
+        $simulation->behaviours_cache = serialize($cache);
+        $simulation->save(false);
+    }
+
+    public static function generateBehavioursCache() {
+        ini_set('memory_limit', '-1');
+        $scenario = Scenario::model()->findByAttributes(['slug'=>Scenario::TYPE_FULL]);
+        /* @var Simulation[] $simulations */
+        $simulations = Simulation::model()->findAll("scenario_id = :scenario_id and results_popup_cache is not null and end >= '2013-08-01 00:00:00'", [
+            'scenario_id' => $scenario->id
+        ]);
+        $count = count($simulations);
+        echo 'Найдено '.$count."\r\n";
+        foreach($simulations as $simulation) {
+            echo 'Обработка sim_id = '.$simulation->id."\r\n";
+            SimulationService::saveBehavioursCache($simulation);
+            $count--;
+            echo 'Осталось '.$count."\r\n";
+        }
     }
 }
