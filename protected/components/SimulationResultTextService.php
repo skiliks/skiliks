@@ -112,7 +112,7 @@ class SimulationResultTextService {
             }
         }
 
-        throw new Exception("Карман не найден для $alias -> $value_1");
+        throw new Exception("Карман не найден для $alias -> $value_1 for sim_id ".self::$sim_id."\r\n");
 
     }
 
