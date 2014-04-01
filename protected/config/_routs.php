@@ -164,6 +164,7 @@ return [
                 'statistics/FeedbackCount' => 'statistics/statistics/FeedbackCount',
 
                 'pdf/simulation-detail-pdf/<sim_id:\w+>/<assessment_version:\w+>' => 'PDF/SimulationDetailPDF',
+                'pdf/BehavioursPDF' => 'PDF/BehavioursPDF',
 
                 'logService/addInviteLog' => 'static/statistic/addInviteLog',
 
