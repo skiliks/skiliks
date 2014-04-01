@@ -27,17 +27,24 @@ class PDFController extends SiteBaseController {
         if($isUser || $isOwner || $isAdmin) {
             $first_name = StringTools::CyToEnWithUppercase($simulation->user->profile->firstname);
             $last_name = StringTools::CyToEnWithUppercase($simulation->user->profile->lastname);
-            $filename = __DIR__.'/../system_data/simulation_details/'.$first_name.'_'.$last_name.'_'.date('dmy', strtotime($simulation->end)).'.zip';
-            if(false === file_exists($filename)){
-                $zip = new ZipArchive;
-                $zip->open($filename, ZIPARCHIVE::CREATE);
-                $zip->addFile($this->createSimulationDetailPDF($simulation));
-                $zip->addFile($this->createBehavioursPDF($simulation));
+            $path = __DIR__.'/../system_data/simulation_details/';
+            $filename = $first_name.'_'.$last_name.'_'.date('dmy', strtotime($simulation->end)).'.zip';
+            if(false === file_exists($path.'/'.$filename)){
+
+                $zip = new ZipArchive();
+                $zip->open($path.'/'.$filename, ZIPARCHIVE::CREATE);
+
+                $zip->addFile($path.'/'.$this->createSimulationDetailPDF($simulation, $path).'.pdf', '/'.$this->createSimulationDetailPDF($simulation, $path).'.pdf');
+                $zip->addFile($path.'/'.$this->createBehavioursPDF($simulation, $path).'.pdf', '/'.$this->createBehavioursPDF($simulation, $path).'.pdf');
                 $zip->close();
             }
-            header('Content-Type: application/vnd.ms-excel; charset=utf-8');
-            header('Content-Disposition: attachment; filename="' . $simulation->invite->firstname.'_'.$simulation->invite->lastname.'_'.date('dmy', strtotime($simulation->end)).'.zip');
-            $File = file_get_contents($filename);
+
+            //exit('yes');
+            header('Content-Type: application/zip; charset=utf-8');
+            header('Content-Disposition: attachment; filename="'.$filename.'"');
+
+            $File = file_get_contents($path.'/'.$filename);
+
             echo $File;
         } else {
             $this->redirect('/dashboard');
@@ -45,7 +52,7 @@ class PDFController extends SiteBaseController {
     }
 
 
-    private function createSimulationDetailPDF(Simulation $simulation) {
+    private function createSimulationDetailPDF(Simulation $simulation, $path) {
         $assessmentVersion = $simulation->assessment_version;
         $data = json_decode($simulation->getAssessmentDetails(), true);
 
@@ -495,14 +502,14 @@ class PDFController extends SiteBaseController {
         $first_name = StringTools::CyToEnWithUppercase($simulation->user->profile->firstname);
         $last_name = StringTools::CyToEnWithUppercase($simulation->user->profile->lastname);
 
-        $filename = __DIR__.'/../system_data/simulation_details/'.$first_name.'_'.$last_name.'_detail_'.date('dmy', strtotime($simulation->end));
+        $filename = $first_name.'_'.$last_name.'_detail_'.date('dmy', strtotime($simulation->end));
 
-        $pdf->saveOnDisk($filename, false);
+        $pdf->saveOnDisk($path.'/'.$filename, false);
 
         return $filename;
     }
 
-    private function createBehavioursPDF(Simulation $simulation) {
+    private function createBehavioursPDF(Simulation $simulation, $path) {
 
         $data = unserialize($simulation->popup_tests_cache)['recommendation'];
         $username = $simulation->user->profile->firstname.' '.$simulation->user->profile->lastname;
@@ -550,9 +557,9 @@ class PDFController extends SiteBaseController {
         $first_name = StringTools::CyToEnWithUppercase($simulation->user->profile->firstname);
         $last_name = StringTools::CyToEnWithUppercase($simulation->user->profile->lastname);
 
-        $filename = __DIR__.'/../system_data/simulation_details/'.$first_name.'_'.$last_name.'_behaviours_'.date('dmy', strtotime($simulation->end));
+        $filename = $first_name.'_'.$last_name.'_behaviours_'.date('dmy', strtotime($simulation->end));
 
-        $pdf->saveOnDisk($filename, false);
+        $pdf->saveOnDisk($path.'/'.$filename, false);
 
         return $filename;
     }

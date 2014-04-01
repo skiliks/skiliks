@@ -539,7 +539,7 @@ class ProfileController extends SiteBaseController implements AccountPageControl
 
             $pathToZip = __DIR__ . '/../../system_data/analytic_files_2/analitic_file_' . $this->user->id . '.zip';
 
-            $zip = new ZipArchive;
+            $zip = new ZipArchive();
 
             if (file_exists($pathToZip)) {
                 $zip->open($pathToZip, ZIPARCHIVE::OVERWRITE);
