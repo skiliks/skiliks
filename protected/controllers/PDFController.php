@@ -501,10 +501,10 @@ class PDFController extends SiteBaseController {
 
         /* @var $simulation Simulation */
         $simulation = Simulation::model()->findByPk($simId);
-        /*$simulation->popup_tests_cache = serialize([
-            //'popup' => SimulationResultTextService::generate($simulation, 'popup'),
+        $simulation->popup_tests_cache = serialize([
+            'popup' => SimulationResultTextService::generate($simulation, 'popup'),
             'recommendation' => SimulationResultTextService::generate($simulation, 'recommendation', true)
-        ]);*/
+        ]);
         $simulation->save(false);
         $isUser = $simulation->user_id === $this->user->id;
         $isOwner = $simulation->invite->owner_id === $this->user->id;
