@@ -32,6 +32,13 @@
 
 .width-1024.skiliks .us-levellabels {
     margin-left: 10px;
+    padding-left: 23px;
+    padding-right: 0;
+}
+
+.skiliks .widthblock:first-child {
+    margin-left: 25px;
+    margin-right: 10px;
 }
 
 .width-1024.skiliks .widthblock:nth-child(1) h6 {

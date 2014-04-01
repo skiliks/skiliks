@@ -12,6 +12,7 @@ hgroup h4 {
     background-image: url('../../../img/site/1280/product/blue-dot.png');
     background-position: center 25px;
     background-repeat: no-repeat;
+    font-size: 1.3em;
     padding-top: 110px;
     vertical-align: top;
     width: 30%;
@@ -76,7 +77,8 @@ hgroup h4 {
 
 .us-box-content {
     border-radius: 0 0 8px 8px;
-    height: 984px;
+    height: 1450px;
+    font-size: 1.3em;
     padding: 25px;
     width: 395px;
 }
@@ -153,7 +155,7 @@ hgroup h4 {
 }
 
 .action-controller-productDiagnostic-static-pages .us-box-content {
-    height: 235px;
+    height: 340px;
 }
 
 .us-h4 {
@@ -201,4 +203,10 @@ hgroup h4 {
     line-height: 1.5em;
     padding-left: 10px;
     vertical-align: top;
+}
+
+
+.skiliks .product .bluelist li li {
+    background-position: 15px 4px;
+    padding-left: 30px;
 }

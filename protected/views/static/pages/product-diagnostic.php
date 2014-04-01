@@ -3,7 +3,7 @@
 
 <hgroup>
     <h1 class="pull-content-center">
-        Диагностика управленческого потенциала компании
+        Диагностика управленческого <br/>потенциала компании
     </h1>
     <br/>
     <h4 class="pull-content-left us-h4 reset-to-regular">
@@ -71,19 +71,19 @@
 
 <div class="levellabels  pull-content-center us-levellabels">
     <span class="widthblock column-1-3 pull-content-center vertical-align-top">
-        <h6>
+        <h5>
             Уровень владения навыками
-        </h6>
+        </h5>
     </span>
     <span class="widthblock column-1-3 pull-content-center vertical-align-top">
-        <h6>
+        <h5>
             Уровень достижения результатов: количество и значимость выполненных задач
-        </h6>
+        </h5>
     </span>
     <span class="widthblock column-1-3 pull-content-center vertical-align-top">
-        <h6 class="product_h3_margin_left">
+        <h5 class="product_h3_margin_left">
             Время, затраченное на выполнение задач
-        </h6>
+        </h5>
     </span>
 </div>
 
@@ -104,56 +104,59 @@
 
 <br/>
 <div class="rateslist pull-content-center us-rateslist">
-        <span class="widthblock column-1-3 vertical-align-top">
-            <h4 class="pull-content-center"><?= Yii::t('site', 'Indicators')?></h4>
-            <ol class="bluelist nobultslist">
-                <li><a class="productlink" href="#time-management-detail" data-parent="time-management"><?= Yii::t('site', 'Time distribution')?></a></li>
-                <li><a class="productlink" href="#time-management"><?= Yii::t('site', 'Extra working hours')?> </a></li>
-            </ol>
-        </span>
-        <span class="widthblock column-1-3 vertical-align-top">
-            <h4 class="pull-content-center"><?= Yii::t('site', 'Indicators')?></h4>
-            <ol class="bluelist nobultslist">
-                <li><a class="productlink" href="#time-management-detail" data-parent="time-management"><?= Yii::t('site', 'Productivity')?></a></li>
-            </ol>
-        </span>
-        <span class="widthblock column-1-3 vertical-align-top">
-            <h4 class="pull-content-center"><?= Yii::t('site', 'Scope of assessed skills')?></h4>
-            <ol class="bluelist">
-                <li class="hassubmenu">
-                    <a class="sub-menu-switcher color-ffffff" href="#managerial-skills-1-2" data-parent="managerial-skills">
-                        <?= Yii::t('site', 'Manages task in accordance with priorities')?>
-                    </a>
-                    <ul class="productsubmenu hide">
-                        <li><a href="#"><?= Yii::t('site', 'Uses planning during the day')?></a></li>
-                        <li><a href="#"><?= Yii::t('site', 'Correctly defines tasks’ priorities while planning')?></a></li>
-                        <li><a href="#"><?= Yii::t('site', 'Follows tasks priorities in execution')?></a></li>
-                        <li><a href="#"><?= Yii::t('site', 'Completes tasks in full')?></a></li>
-                    </ul>
-                </li>
-                <li class="hassubmenu">
-                    <a class="sub-menu-switcher color-ffffff" href="#managerial-skills-1-2" data-parent="managerial-skills">
-                        <?= Yii::t('site', 'Manages people effectively')?>
-                    </a>
-                    <ul class="productsubmenu hide">
-                        <li><a href="#"><?= Yii::t('site', 'Uses delegation to manage scope of work')?></a></li>
-                        <li><a href="#"><?= Yii::t('site', 'Effectively manages resources with different qualification')?></a></li>
-                        <li><a href="#"><?= Yii::t('site', 'Uses feedback')?></a></li>
-                    </ul>
-                </li>
-                <li class="hassubmenu">
-                    <a class="sub-menu-switcher color-ffffff" href="#managerial-skills-3-4" data-parent="managerial-skills">
-                        <?= Yii::t('site', 'Communicates effectiely')?>
-                    </a>
-                    <ul class="productsubmenu hide">
-                        <li><a href="#"><?= Yii::t('site', 'Wisely uses means of communication')?></a></li>
-                        <li><a href="#"><?= Yii::t('site', 'Deals with mail effectively')?></a></li>
-                        <li><a href="#"><?= Yii::t('site', 'Deals with calls effectively')?></a></li>
-                        <li><a href="#"><?= Yii::t('site', 'Deals with meetings effectively')?></a></li>
-                    </ul>
-                </li>
-            </ol>
-        </span>
+    <span class="widthblock column-1-3 vertical-align-top">
+        <h4 class="pull-content-center"><?= Yii::t('site', 'Scope of assessed skills')?></h4>
+        <ol class="bluelist">
+            <li class="hassubmenu">
+                <a class="sub-menu-switcher color-ffffff" href="#managerial-skills-1-2"
+                    style="font-size: 1.13em" data-parent="managerial-skills">
+                    <?= Yii::t('site', 'Manages task in accordance with priorities')?>
+                </a>
+                <ul class="productsubmenu hide">
+                    <li><a href="#"><?= Yii::t('site', 'Uses planning during the day')?></a></li>
+                    <li><a href="#"><?= Yii::t('site', 'Correctly defines tasks’ priorities while planning')?></a></li>
+                    <li><a href="#"><?= Yii::t('site', 'Follows tasks priorities in execution')?></a></li>
+                    <li><a href="#"><?= Yii::t('site', 'Completes tasks in full')?></a></li>
+                </ul>
+            </li>
+            <li class="hassubmenu">
+                <a class="sub-menu-switcher color-ffffff" href="#managerial-skills-1-2"
+                    style="font-size: 1.13em" data-parent="managerial-skills">
+                    <?= Yii::t('site', 'Manages people effectively')?>
+                </a>
+                <ul class="productsubmenu hide">
+                    <li><a href="#"><?= Yii::t('site', 'Uses delegation to manage scope of work')?></a></li>
+                    <li><a href="#"><?= Yii::t('site', 'Effectively manages resources with different qualification')?></a></li>
+                    <li><a href="#"><?= Yii::t('site', 'Uses feedback')?></a></li>
+                </ul>
+            </li>
+            <li class="hassubmenu">
+                <a class="sub-menu-switcher color-ffffff" href="#managerial-skills-3-4"
+                    style="font-size: 1.13em" data-parent="managerial-skills">
+                    <?= Yii::t('site', 'Communicates effectiely')?>
+                </a>
+                <ul class="productsubmenu hide">
+                    <li><a href="#"><?= Yii::t('site', 'Wisely uses means of communication')?></a></li>
+                    <li><a href="#"><?= Yii::t('site', 'Deals with mail effectively')?></a></li>
+                    <li><a href="#"><?= Yii::t('site', 'Deals with calls effectively')?></a></li>
+                    <li><a href="#"><?= Yii::t('site', 'Deals with meetings effectively')?></a></li>
+                </ul>
+            </li>
+        </ol>
+    </span>
+    <span class="widthblock column-1-3 vertical-align-top">
+        <h4 class="pull-content-center"><?= Yii::t('site', 'Indicators')?></h4>
+        <ol class="bluelist nobultslist">
+            <li><a class="productlink" href="#time-management-detail" style="font-size: 1.13em" data-parent="time-management"><?= Yii::t('site', 'Productivity')?></a></li>
+        </ol>
+    </span>
+    <span class="widthblock column-1-3 vertical-align-top">
+        <h4 class="pull-content-center"><?= Yii::t('site', 'Indicators')?></h4>
+        <ol class="bluelist nobultslist">
+            <li><a class="productlink" href="#time-management-detail" style="font-size: 1.13em" data-parent="time-management"><?= Yii::t('site', 'Time distribution')?></a></li>
+            <li><a class="productlink" href="#time-management" style="font-size: 1.13em"><?= Yii::t('site', 'Extra working hours')?> </a></li>
+        </ol>
+    </span>
 </div>
 <!-- /NEW CONTENT -->
 <br/>
