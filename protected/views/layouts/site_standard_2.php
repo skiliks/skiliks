@@ -157,8 +157,11 @@ if(preg_match('/(?i)Chrome/',$_SERVER['HTTP_USER_AGENT']))
         <!-- SITE PAGES NAVIGATION -->
         <nav class="column-full inline-list pull-content-right static-page-links">
             <a href="/" class="inline-block pull-left">
+                <!--img class="locator-logo-head"
+                     src="<?php echo $assetsUrl?>/img/site/1280/logotypes/logo-head.png" alt="Skiliks"/-->
                 <img class="locator-logo-head"
-                     src="<?php echo $assetsUrl?>/img/site/1280/logotypes/logo-head.png" alt="Skiliks"/>
+                     style="margin-top: -15px;"
+                     src="<?php echo $assetsUrl?>/img/site/1280/logotypes/logo-head-1st-april.png" alt="Skiliks"/>
             </a>
             <?php $this->renderPartial('//global_partials/_static_pages_links', [
                 'isDisplayAccountLinks' => true
