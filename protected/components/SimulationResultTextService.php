@@ -33,12 +33,18 @@ class SimulationResultTextService {
             /* @var $pocket ParagraphPocket */
             self::$pockets[$pocket->paragraph_alias][$pocket->behaviour_alias][] = $pocket;
         }
-        $assessment = json_decode($simulation->getAssessmentDetails(), true);
-        if($simulation->assessment_version === Simulation::ASSESSMENT_VERSION_1) {
-            $assessment['management'][1]['1_1'] = $assessment['management'][1]['1_2'];
-            $assessment['management'][1]['1_2'] = $assessment['management'][1]['1_3'];
-            $assessment['management'][1]['1_3'] = $assessment['management'][1]['1_4'];
-            $assessment['management'][1]['1_4'] = $assessment['management'][1]['1_5'];
+        if($type === 'popup') {
+            $assessment = json_decode($simulation->getAssessmentDetails(), true);
+            if($simulation->assessment_version === Simulation::ASSESSMENT_VERSION_1) {
+                $assessment['management'][1]['1_1'] = $assessment['management'][1]['1_2'];
+                $assessment['management'][1]['1_2'] = $assessment['management'][1]['1_3'];
+                $assessment['management'][1]['1_3'] = $assessment['management'][1]['1_4'];
+                $assessment['management'][1]['1_4'] = $assessment['management'][1]['1_5'];
+            }
+        } elseif($type === 'recommendation') {
+            $assessment = unserialize($simulation->behaviours_cache);
+        }else{
+            throw new Exception("");
         }
         /* @var $paragraphs Paragraph[] */
         $paragraphs = Paragraph::model()->findAll('scenario_id = '.$simulation->game_type->id. ' and type = \''.$type.'\' order by order_number');
@@ -52,6 +58,9 @@ class SimulationResultTextService {
                         break;
                     case 'HugeProblemsPocketsConcatenation':
                         self::$recommendations[$paragraph->alias] = self::HugeProblemsPocketsConcatenation($paragraph->value_1, $paragraph->value_2, $paragraph->alias, $assessment);
+                        break;
+                    case 'SinglePocketForBehaviours':
+                        self::$recommendations[$paragraph->alias] = self::SinglePocketForBehaviours($paragraph->value_1, $paragraph->alias, $assessment);
                         break;
                     default:
                         throw new Exception("Метод {$paragraph->method} не найден for ".self::$sim_id);
@@ -67,7 +76,8 @@ class SimulationResultTextService {
             }
 
         }
-
+        //var_dump(self::$recommendations);
+        //exit;
         return self::$recommendations;
     }
 
@@ -168,7 +178,7 @@ class SimulationResultTextService {
                 if(isset($assessment[rtrim($part, ']')])) {
                     $assessment = $assessment[rtrim($part, ']')];
                 } else {
-                    throw new AssessmentValueNotFound("Undefined index: ".rtrim($part, ']').' on '.$value);
+                        throw new AssessmentValueNotFound("Undefined index: ".rtrim($part, ']').' on '.$value);
                 }
             }
         }
@@ -181,8 +191,22 @@ class SimulationResultTextService {
      * @param $value
      * @return bool
      */
-    public static function greater_equal($direction, $value) {
-        return (int)$direction <= (int)$value;
+    public static function greater_equal($direction, $value, $is_float = false) {
+        if($is_float){
+            return (float)$direction <= (float)$value;
+        }else{
+            return (int)$direction <= (int)$value;
+        }
+
+    }
+
+    public static function greater($direction, $value, $is_float = false) {
+        if($is_float){
+            return (float)$direction < (float)$value;
+        }else{
+            return (int)$direction < (int)$value;
+        }
+
     }
 
     /**
@@ -191,8 +215,12 @@ class SimulationResultTextService {
      * @param $value
      * @return bool
      */
-    public static function less($direction, $value) {
-        return (int)$direction > (int)$value;
+    public static function less($direction, $value, $is_float = false) {
+        if($is_float){
+            return (float)$direction > (float)$value;
+        }else{
+            return (int)$direction > (int)$value;
+        }
     }
 
     /**
@@ -201,8 +229,12 @@ class SimulationResultTextService {
      * @param $value
      * @return bool
      */
-    public static function less_equal($direction, $value) {
-        return (int)$direction >= (int)$value;
+    public static function less_equal($direction, $value, $is_float = false) {
+        if($is_float){
+            return (float)$direction >= (float)$value;
+        }else{
+            return (int)$direction >= (int)$value;
+        }
     }
 
     /**
@@ -220,9 +252,35 @@ class SimulationResultTextService {
 
         foreach($simulations as $simulation) {
             $simulation->popup_tests_cache = serialize([
-                'popup' => SimulationResultTextService::generate($simulation, 'popup')
+                'popup' => SimulationResultTextService::generate($simulation, 'popup'),
+                'recommendation' => SimulationResultTextService::generate($simulation, 'recommendation', true)
             ]);
             $simulation->save(false);
         }
+    }
+
+    public static function SinglePocketForBehaviours($behaviour_alias_1, $alias, $assessment, $with_brackets=true){
+
+        $value_1 = self::getValueInAssessment($behaviour_alias_1, $assessment);
+
+        $pockets = self::$pockets[$alias][$behaviour_alias_1];
+        /* @var $pockets ParagraphPocket[] */
+        foreach($pockets as $pocket) {
+            $left_direction = trim($pocket->left_direction);
+            $right_direction = trim($pocket->right_direction);
+            if(self::$left_direction($pocket->left, $value_1, true) && self::$right_direction($pocket->right, $value_1, true)) {
+
+                return [
+                    'text' => $pocket->text,
+                    'short_text' => $with_brackets?'('.$pocket->short_text.')':$pocket->short_text,
+                    'pocket' => [
+                        'left' => $pocket->left,
+                        'right' => $pocket->right
+                    ]
+                ];
+            }
+        }
+
+        throw new Exception("Карман не найден для $alias -> $value_1 for sim_id ".self::$sim_id."\r\n");
     }
 } 

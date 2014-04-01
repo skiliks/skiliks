@@ -746,13 +746,14 @@ class DebugController extends SiteBaseController
     }
 
     public function actionDebug() {
-        /* @var $simulation Simulation */
-        $simulation = Simulation::model()->findByPk(5013);
-        echo json_encode(unserialize($simulation->results_popup_cache));
 
-        /*if(Yii::app()->user->data() !== null && Yii::app()->user->data()->isAdmin()){
-           phpinfo();
-        }*/
+        $items = AssessmentCalculation::model()->findAllByAttributes(['sim_id' => $this->getParam('sim_id') ]);
+        /* @var AssessmentCalculation[] $items */
+        foreach($items as $item){
+            if($item->point !== null){
+                echo $item->point->code."<br>";
+            }
+        }
     }
 }
 

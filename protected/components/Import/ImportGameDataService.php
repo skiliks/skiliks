@@ -2880,13 +2880,13 @@ class ImportGameDataService
         $order_number = 1;
         for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
             $paragraph = $this->scenario->getParagraph([
-                'alias'=>$this->getCellValue($sheet, 'alias', $i),
-                'type'=>$this->getCellValue($sheet, 'type', $i)]
+                'alias'=>trim($this->getCellValue($sheet, 'alias', $i)),
+                'type'=>trim($this->getCellValue($sheet, 'type', $i))]
             );
             if (null === $paragraph) {
                 $paragraph = new Paragraph();
-                $paragraph->alias = $this->getCellValue($sheet, 'alias', $i);
-                $paragraph->type = $this->getCellValue($sheet, 'type', $i);
+                $paragraph->alias = trim($this->getCellValue($sheet, 'alias', $i));
+                $paragraph->type = trim($this->getCellValue($sheet, 'type', $i));
             }
             $paragraph->order_number = $order_number;
             $paragraph->label = trim($this->getCellValue($sheet, 'label', $i));
