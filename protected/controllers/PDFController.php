@@ -77,7 +77,7 @@ class PDFController extends SiteBaseController {
         $pdf->addPage(1);
 
         $pdf->writeTextBold($username, 3.5, 3.5, 21);
-        $pdf->addRatingPercentile(94, 38.0, $data['percentile']['total']+30);
+        $pdf->addRatingPercentile(94, 38.0, $data['percentile']['total']);
         $pdf->addRatingOverall(86.6, 48.8, $data['overall']);
         $pdf->addSpeedometer(21, 109.7, $data['time']['total']);
         $pdf->addSpeedometer(89, 109.7, $data['performance']['total']);
