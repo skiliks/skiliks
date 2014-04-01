@@ -29,15 +29,21 @@ class PDFController extends SiteBaseController {
             $last_name = StringTools::CyToEnWithUppercase($simulation->user->profile->lastname);
             $filename = __DIR__.'/../system_data/simulation_details/'.$first_name.'_'.$last_name.'_'.date('dmy', strtotime($simulation->end)).'.zip';
             if(false === file_exists($filename)){
+
                 $zip = new ZipArchive;
                 $zip->open($filename, ZIPARCHIVE::CREATE);
-                $zip->addFile($this->createSimulationDetailPDF($simulation));
-                $zip->addFile($this->createBehavioursPDF($simulation));
+
+                $zip->addFile($this->createSimulationDetailPDF($simulation).'.pdf');
+                $zip->addFile($this->createBehavioursPDF($simulation).'.pdf');
                 $zip->close();
             }
-            header('Content-Type: application/vnd.ms-excel; charset=utf-8');
-            header('Content-Disposition: attachment; filename="' . $simulation->invite->firstname.'_'.$simulation->invite->lastname.'_'.date('dmy', strtotime($simulation->end)).'.zip');
+
+            //exit('yes');
+            header('Content-Type: application/zip; charset=utf-8');
+            header('Content-Disposition: attachment; filename="my.zip"');
+
             $File = file_get_contents($filename);
+
             echo $File;
         } else {
             $this->redirect('/dashboard');

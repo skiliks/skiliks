@@ -742,7 +742,8 @@ class DebugController extends SiteBaseController
     }
 
     public function actionSleep() {
-        sleep(30);
+
+        //sleep(30);
     }
 
     public function actionDebug() {
