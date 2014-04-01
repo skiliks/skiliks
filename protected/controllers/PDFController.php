@@ -12,64 +12,88 @@ class PDFController extends SiteBaseController {
 
         //$simId = 5013; //$this->getParam('sim_id');
         $simId = $this->getParam('sim_id');
-        //$assessmentVersion = 'v1';//$this->getParam('assessment_version');
-        $assessmentVersion = $this->getParam('assessment_version');
 
         /* @var $simulation Simulation */
         $simulation = Simulation::model()->findByPk($simId);
-
+        $simulation->popup_tests_cache = serialize([
+            'popup' => SimulationResultTextService::generate($simulation, 'popup'),
+            'recommendation' => SimulationResultTextService::generate($simulation, 'recommendation', true)
+        ]);
+        $simulation->save(false);
         $isUser = $simulation->user_id === $this->user->id;
         $isOwner = $simulation->invite->owner_id === $this->user->id;
         $isAdmin = $this->user->isAdmin();
 
         if($isUser || $isOwner || $isAdmin) {
-            $data = json_decode($simulation->getAssessmentDetails(), true);
-
-            if (null == $simulation->popup_tests_cache) {
-            //$popup_tests_cache = SimulationResultTextService::generate($simulation, 'popup');
-                $simulation->popup_tests_cache = serialize([
-                    'popup' => SimulationResultTextService::generate($simulation, 'popup')
-                ]);
-                $simulation->save(false);
+            $first_name = StringTools::CyToEnWithUppercase($simulation->user->profile->firstname);
+            $last_name = StringTools::CyToEnWithUppercase($simulation->user->profile->lastname);
+            $filename = __DIR__.'/../system_data/simulation_details/'.$first_name.'_'.$last_name.'_'.date('dmy', strtotime($simulation->end)).'.zip';
+            if(false === file_exists($filename)){
+                $zip = new ZipArchive;
+                $zip->open($filename, ZIPARCHIVE::CREATE);
+                $zip->addFile($this->createSimulationDetailPDF($simulation));
+                $zip->addFile($this->createBehavioursPDF($simulation));
+                $zip->close();
             }
-            $popup_tests_cache = unserialize($simulation->popup_tests_cache)['popup'];
-            //echo $simulation->getAssessmentDetails();
-            //exit;
-            $pdf = new AssessmentPDF();
-            $username = $simulation->user->profile->firstname.' '.$simulation->user->profile->lastname;
+            header('Content-Type: application/vnd.ms-excel; charset=utf-8');
+            header('Content-Disposition: attachment; filename="' . $simulation->invite->firstname.'_'.$simulation->invite->lastname.'_'.date('dmy', strtotime($simulation->end)).'.zip');
+            $File = file_get_contents($filename);
+            echo $File;
+        } else {
+            $this->redirect('/dashboard');
+        }
+    }
 
-            $pdf->setImagesDir('simulation_details_'.$assessmentVersion.'/images/');
 
-            $pdf->pdf->setCellHeightRatio(1);
+    private function createSimulationDetailPDF(Simulation $simulation) {
+        $assessmentVersion = $simulation->assessment_version;
+        $data = json_decode($simulation->getAssessmentDetails(), true);
+
+        if (null == $simulation->popup_tests_cache) {
+            //$popup_tests_cache = SimulationResultTextService::generate($simulation, 'popup');
+            $simulation->popup_tests_cache = serialize([
+                'popup' => SimulationResultTextService::generate($simulation, 'popup')
+            ]);
+            $simulation->save(false);
+        }
+        $popup_tests_cache = unserialize($simulation->popup_tests_cache)['popup'];
+        //echo $simulation->getAssessmentDetails();
+        //exit;
+        $pdf = new AssessmentPDF();
+        $username = $simulation->user->profile->firstname.' '.$simulation->user->profile->lastname;
+
+        $pdf->setImagesDir('simulation_details_'.$assessmentVersion.'/images/');
+
+        $pdf->pdf->setCellHeightRatio(1);
 
         // 1. Спидометры и прочее
-            $pdf->addPage(1);
+        $pdf->addPage(1);
 
-            $pdf->writeTextBold($username, 3.5, 3.5, 21);
-            $pdf->addRatingPercentile(94, 35.6, $data['percentile']['total']);
-            $pdf->addRatingOverall(86.6, 45.8, $data['overall']);
-            $pdf->addSpeedometer(21, 107.2, $data['time']['total']);
-            $pdf->addSpeedometer(89, 107.2, $data['performance']['total']);
-            $pdf->addSpeedometer(158, 107.2, $data['management']['total']);
+        $pdf->writeTextBold($username, 3.5, 3.5, 21);
+        $pdf->addRatingPercentile(94, 35.6, $data['percentile']['total']);
+        $pdf->addRatingOverall(86.6, 45.8, $data['overall']);
+        $pdf->addSpeedometer(21, 107.2, $data['time']['total']);
+        $pdf->addSpeedometer(89, 107.2, $data['performance']['total']);
+        $pdf->addSpeedometer(158, 107.2, $data['management']['total']);
 
-            // 2. Тайм менеджмент
-            //======================================================================================
-            $pdf->addPage(2);
+        // 2. Тайм менеджмент
+        //======================================================================================
+        $pdf->addPage(2);
 
 
-            $pdf->writeTextBold($username, 3.5, 3.5, 21);
-            $pdf->addPercentSmallInfo($data['time']['total'], 183.1, 27.8);
-            $pdf->writeTextCenterRegular(90, 10, 65, 33, 16, $popup_tests_cache['time']['short_text']);//(очень высокий уровень)
+        $pdf->writeTextBold($username, 3.5, 3.5, 21);
+        $pdf->addPercentSmallInfo($data['time']['total'], 183.1, 27.8);
+        $pdf->writeTextCenterRegular(90, 10, 65, 33, 16, $popup_tests_cache['time']['short_text']);//(очень высокий уровень)
 
-            $pdf->addTimeDistribution(
-                55.7,
-                89.4,
-                $data['time']['time_spend_for_1st_priority_activities'],
-                $data['time']['time_spend_for_non_priority_activities'],
-                $data['time']['time_spend_for_inactivity']
-            );
-            $pdf->addOvertime(158.1, 90.2, $data['time']['workday_overhead_duration']);
-            $pdf->writeHtml('
+        $pdf->addTimeDistribution(
+            55.7,
+            89.4,
+            $data['time']['time_spend_for_1st_priority_activities'],
+            $data['time']['time_spend_for_non_priority_activities'],
+            $data['time']['time_spend_for_inactivity']
+        );
+        $pdf->addOvertime(158.1, 90.2, $data['time']['workday_overhead_duration']);
+        $pdf->writeHtml('
                     <tr>
                         <td style="width: 5.5%;"></td>
                         <td  style="width: 42%; padding: 0px;"
@@ -109,86 +133,86 @@ class PDFController extends SiteBaseController {
                     </tr>
             ', 165);
 
-            //====================================================================================
-            $pdf->addPage(3);
+        //====================================================================================
+        $pdf->addPage(3);
 
 
-            $pdf->writeTextBold($username, 3.5, 3.5, 21);
+        $pdf->writeTextBold($username, 3.5, 3.5, 21);
 
-            $pdf->addPercentSmallInfo($data['time'][TimeManagementAggregated::SLUG_GLOBAL_TIME_SPEND_FOR_1ST_PRIORITY_ACTIVITIES], 176.5, 28.3);
+        $pdf->addPercentSmallInfo($data['time'][TimeManagementAggregated::SLUG_GLOBAL_TIME_SPEND_FOR_1ST_PRIORITY_ACTIVITIES], 176.5, 28.3);
 
-            $pdf->writeTextCenterRegular(90, 10, 65, 33, 16,
-                $popup_tests_cache['time.productive_time']['short_text']
-            );//(очень высокий уровень)
+        $pdf->writeTextCenterRegular(90, 10, 65, 33, 16,
+            $popup_tests_cache['time.productive_time']['short_text']
+        );//(очень высокий уровень)
 
-            $pdf->addPercentMiddleInfo(
-                $data['time'][TimeManagementAggregated::SLUG_GLOBAL_TIME_SPEND_FOR_1ST_PRIORITY_ACTIVITIES],
-                82.1,
-                54.3
-            ); //Продуктивное время
+        $pdf->addPercentMiddleInfo(
+            $data['time'][TimeManagementAggregated::SLUG_GLOBAL_TIME_SPEND_FOR_1ST_PRIORITY_ACTIVITIES],
+            82.1,
+            54.3
+        ); //Продуктивное время
 
-            $pdf->addPercentMiddleInfo(
-                $data['time'][TimeManagementAggregated::SLUG_GLOBAL_TIME_SPEND_FOR_NON_PRIORITY_ACTIVITIES],
-                185,
-                54.3
-            );//Не продуктивное время
+        $pdf->addPercentMiddleInfo(
+            $data['time'][TimeManagementAggregated::SLUG_GLOBAL_TIME_SPEND_FOR_NON_PRIORITY_ACTIVITIES],
+            185,
+            54.3
+        );//Не продуктивное время
 
-            //Positive
-            $x_positive = 33;
-            $max_positive = $pdf->getMaxTimePositive($data['time']);
+        //Positive
+        $x_positive = 33;
+        $max_positive = $pdf->getMaxTimePositive($data['time']);
 
-            //Документы 218
-            $pdf->addTimeBarProductive($x_positive, 74.5, $data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_DOCUMENTS], $max_positive);
+        //Документы 218
+        $pdf->addTimeBarProductive($x_positive, 74.5, $data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_DOCUMENTS], $max_positive);
 
-            //Встречи
-            $pdf->addTimeBarProductive($x_positive, 85.5, $data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_MEETINGS], $max_positive);
+        //Встречи
+        $pdf->addTimeBarProductive($x_positive, 85.5, $data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_MEETINGS], $max_positive);
 
-            //Звонки
-            $pdf->addTimeBarProductive($x_positive, 96.5, $data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_PHONE_CALLS], $max_positive);
+        //Звонки
+        $pdf->addTimeBarProductive($x_positive, 96.5, $data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_PHONE_CALLS], $max_positive);
 
-            //Почта
-            $pdf->addTimeBarProductive($x_positive, 107, $data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_MAIL], $max_positive);
+        //Почта
+        $pdf->addTimeBarProductive($x_positive, 107, $data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_MAIL], $max_positive);
 
-            //План
-            $pdf->addTimeBarProductive($x_positive, 117.5, $data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_PLANING], $max_positive);
+        //План
+        $pdf->addTimeBarProductive($x_positive, 117.5, $data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_PLANING], $max_positive);
 
-            //Negative
-            $y_positive = 137;
-            $max_negative = $pdf->getMaxTimeNegative($data['time']);
+        //Negative
+        $y_positive = 137;
+        $max_negative = $pdf->getMaxTimeNegative($data['time']);
 
-            //Документы
-            $pdf->addTimeBarUnproductive($y_positive, 74.5, $data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_DOCUMENTS], $max_negative);
+        //Документы
+        $pdf->addTimeBarUnproductive($y_positive, 74.5, $data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_DOCUMENTS], $max_negative);
 
-            //Встречи
-            $pdf->addTimeBarUnproductive($y_positive, 85.5, $data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_MEETINGS], $max_negative);
+        //Встречи
+        $pdf->addTimeBarUnproductive($y_positive, 85.5, $data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_MEETINGS], $max_negative);
 
-            //Звонки
-            $pdf->addTimeBarUnproductive($y_positive, 96.5, $data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_PHONE_CALLS], $max_negative);
+        //Звонки
+        $pdf->addTimeBarUnproductive($y_positive, 96.5, $data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_PHONE_CALLS], $max_negative);
 
-            //Почта
-            $pdf->addTimeBarUnproductive($y_positive, 107, $data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_MAIL], $max_negative);
+        //Почта
+        $pdf->addTimeBarUnproductive($y_positive, 107, $data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_MAIL], $max_negative);
 
-            //План
-            $pdf->addTimeBarUnproductive($y_positive, 117.5, $data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_PLANING], $max_negative);
+        //План
+        $pdf->addTimeBarUnproductive($y_positive, 117.5, $data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_PLANING], $max_negative);
 
         // 3. Результативность
-            $pdf->addPage(4);
-            $pdf->writeTextBold($username, 3.5, 3.5, 21);
-            $pdf->addPercentSmallInfo($data['performance']['total'], 133.8, 28);
-            $pdf->writeTextCenterRegular(90, 10, 65, 33, 16, $popup_tests_cache['performance']['short_text']);//(очень высокий уровень)
-            //Срочно
-            $pdf->addUniversalBar(77, 54.8, $pdf->getPerformanceCategory($data['performance'], '0'), 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);
+        $pdf->addPage(4);
+        $pdf->writeTextBold($username, 3.5, 3.5, 21);
+        $pdf->addPercentSmallInfo($data['performance']['total'], 133.8, 28);
+        $pdf->writeTextCenterRegular(90, 10, 65, 33, 16, $popup_tests_cache['performance']['short_text']);//(очень высокий уровень)
+        //Срочно
+        $pdf->addUniversalBar(77, 54.8, $pdf->getPerformanceCategory($data['performance'], '0'), 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);
 
-            //Высокий приоритет
-            $pdf->addUniversalBar(77, 65.5, $pdf->getPerformanceCategory($data['performance'], '1'), 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);
+        //Высокий приоритет
+        $pdf->addUniversalBar(77, 65.5, $pdf->getPerformanceCategory($data['performance'], '1'), 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);
 
-            //Средний приоритет
-            $pdf->addUniversalBar(77, 76.2, $pdf->getPerformanceCategory($data['performance'], '2'), 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);
+        //Средний приоритет
+        $pdf->addUniversalBar(77, 76.2, $pdf->getPerformanceCategory($data['performance'], '2'), 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);
 
-            //Двухминутные задачи
-            $pdf->addUniversalBar(77, 87.2, $pdf->getPerformanceCategory($data['performance'], '2_min'), 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);
+        //Двухминутные задачи
+        $pdf->addUniversalBar(77, 87.2, $pdf->getPerformanceCategory($data['performance'], '2_min'), 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);
 
-            $pdf->writeHtml('
+        $pdf->writeHtml('
                     <tr>
                         <td style="width: 35%;"></td>
                         <td style="width: 60%;"
@@ -235,8 +259,8 @@ class PDFController extends SiteBaseController {
                         <td style="width: 35%;"></td>
                         <td style="width: 60%;"
                             ><font face="dejavusans" style="font-weight: bold;font-size: 13pt;">Двухминутные задачи</font
-                            >&nbsp;&nbsp;<font face="dejavusans" style="font-weight: bold;font-size: 11pt;">'.$popup_tests_cache['preformance.two_minutes']['short_text'].'</font><br
-                            ><font style="font-size: 13pt;"></font><font face="dejavusans" style="font-size: 11pt;">'.$popup_tests_cache['preformance.two_minutes']['text'].'</font><br>
+                            >&nbsp;&nbsp;<font face="dejavusans" style="font-weight: bold;font-size: 11pt;">'.$popup_tests_cache['performance.two_minutes']['short_text'].'</font><br
+                            ><font style="font-size: 13pt;"></font><font face="dejavusans" style="font-size: 11pt;">'.$popup_tests_cache['performance.two_minutes']['text'].'</font><br>
                         </td>
                         <td style="width: 5%;"></td>
                     </tr>
@@ -244,34 +268,34 @@ class PDFController extends SiteBaseController {
 
 
         // 4. Управленческие навыки
-            $pdf->addPage(5);
+        $pdf->addPage(5);
 
-            $pdf->writeTextBold($username, 3.5, 3.5, 21);
-            $pdf->addPercentSmallInfo($data['management']['total'], 148, 27.7);
-            $pdf->writeTextCenterRegular(90, 10, 58, 33, 16, $popup_tests_cache['management']['short_text']);//(очень высокий уровень)
+        $pdf->writeTextBold($username, 3.5, 3.5, 21);
+        $pdf->addPercentSmallInfo($data['management']['total'], 148, 27.7);
+        $pdf->writeTextCenterRegular(90, 10, 58, 33, 16, $popup_tests_cache['management']['short_text']);//(очень высокий уровень)
 
-            $pdf->addUniversalBar(77.7, 53.7, $data['management'][1]['total'], 128.7, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);//1
-            $pdf->addUniversalBar(77.7, 64.5, $data['management'][2]['total'], 128.7, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);//2
-            $pdf->addUniversalBar(77.7, 75.2, $data['management'][3]['total'], 128.7, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);//3
+        $pdf->addUniversalBar(77.7, 53.7, $data['management'][1]['total'], 128.7, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);//1
+        $pdf->addUniversalBar(77.7, 64.5, $data['management'][2]['total'], 128.7, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);//2
+        $pdf->addUniversalBar(77.7, 75.2, $data['management'][3]['total'], 128.7, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);//3
 
 
-            if (Simulation::ASSESSMENT_VERSION_1 == $assessmentVersion) {
+        if (Simulation::ASSESSMENT_VERSION_1 == $assessmentVersion) {
             // 5. Управленческие навыки - 1 по версии v1
-                $pdf->addPage(6);
-                $pdf->writeTextBold($username, 3.5, 3.5, 21);
-                $pdf->addPercentBigInfo($data['management'][1]['total'], 3.4, 35.6);
-                $pdf->writeTextCenterRegular(90, 10, 42, 41, 16, $popup_tests_cache['management.task_managment']['short_text']);//(очень высокий уровень)
+            $pdf->addPage(6);
+            $pdf->writeTextBold($username, 3.5, 3.5, 21);
+            $pdf->addPercentBigInfo($data['management'][1]['total'], 3.4, 35.6);
+            $pdf->writeTextCenterRegular(90, 10, 42, 41, 16, $popup_tests_cache['management.task_managment']['short_text']);//(очень высокий уровень)
 
-                $pdf->addUniversalBar(77, 63, $data['management'][1]['1_2']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//1.1 positive
-                $pdf->addUniversalBar(77, 73.6, $data['management'][1]['1_3']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//1.2 positive
-                $pdf->addUniversalBar(77, 84.2, $data['management'][1]['1_4']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//1.3 positive
+            $pdf->addUniversalBar(77, 63, $data['management'][1]['1_2']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//1.1 positive
+            $pdf->addUniversalBar(77, 73.6, $data['management'][1]['1_3']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//1.2 positive
+            $pdf->addUniversalBar(77, 84.2, $data['management'][1]['1_4']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//1.3 positive
 
-                $pdf->addUniversalBar(152, 63, $data['management'][1]['1_2']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//1.1 negative
-                $pdf->addUniversalBar(152, 73.6, $data['management'][1]['1_3']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//1.2 negative
-                $pdf->addUniversalBar(152, 84.2, $data['management'][1]['1_4']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//1.3 negative
-                $pdf->addUniversalBar(152, 94.8, $data['management'][1]['1_5']['-'], 54.14, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_NEGATIVE);//1.4 negative
+            $pdf->addUniversalBar(152, 63, $data['management'][1]['1_2']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//1.1 negative
+            $pdf->addUniversalBar(152, 73.6, $data['management'][1]['1_3']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//1.2 negative
+            $pdf->addUniversalBar(152, 84.2, $data['management'][1]['1_4']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//1.3 negative
+            $pdf->addUniversalBar(152, 94.8, $data['management'][1]['1_5']['-'], 54.14, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_NEGATIVE);//1.4 negative
 
-                $pdf->writeHtml('
+            $pdf->writeHtml('
                     <tr>
                         <td style="width: 35%;"></td>
                         <td style="width: 60%;"
@@ -310,9 +334,9 @@ class PDFController extends SiteBaseController {
                     </tr>
             ', 145);
 
-            }
+        }
 
-            if (Simulation::ASSESSMENT_VERSION_2 == $assessmentVersion) {
+        if (Simulation::ASSESSMENT_VERSION_2 == $assessmentVersion) {
             // 5. Управленческие навыки - 1 по версии v2
             $pdf->addPage(6);
             $pdf->writeTextBold($username, 3.5, 3.5, 21);
@@ -328,7 +352,7 @@ class PDFController extends SiteBaseController {
             $pdf->addUniversalBar(152, 84.2, $data['management'][1]['1_3']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//1.3 negative
             $pdf->addUniversalBar(152, 94.8, $data['management'][1]['1_4']['-'], 54.14, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_NEGATIVE);//1.4 negative
 
-                $pdf->writeHtml('
+            $pdf->writeHtml('
                     <tr>
                         <td style="width: 35%;"></td>
                         <td style="width: 60%;"
@@ -367,23 +391,23 @@ class PDFController extends SiteBaseController {
                     </tr>
             ', 145);
 
-            }
+        }
 
-            // 6. Управленческие навыки - 2
-            $pdf->addPage(7);
-            $pdf->writeTextBold($username, 3.5, 3.5, 21);
-            $pdf->addPercentBigInfo($data['management'][2]['total'], 3.1, 36.3);
-            $pdf->writeTextCenterRegular(90, 10, 10, 41, 16, $popup_tests_cache['management.people_managment']['short_text']);//(очень высокий уровень)
+        // 6. Управленческие навыки - 2
+        $pdf->addPage(7);
+        $pdf->writeTextBold($username, 3.5, 3.5, 21);
+        $pdf->addPercentBigInfo($data['management'][2]['total'], 3.1, 36.3);
+        $pdf->writeTextCenterRegular(90, 10, 10, 41, 16, $popup_tests_cache['management.people_managment']['short_text']);//(очень высокий уровень)
 
-            $pdf->addUniversalBar(77, 63, $data['management'][2]['2_1']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//2.1 positive
-            $pdf->addUniversalBar(77, 73.6, $data['management'][2]['2_2']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//2.2 positive
-            $pdf->addUniversalBar(77, 84.2, $data['management'][2]['2_3']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//2.3 positive
+        $pdf->addUniversalBar(77, 63, $data['management'][2]['2_1']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//2.1 positive
+        $pdf->addUniversalBar(77, 73.6, $data['management'][2]['2_2']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//2.2 positive
+        $pdf->addUniversalBar(77, 84.2, $data['management'][2]['2_3']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//2.3 positive
 
-            $pdf->addUniversalBar(152, 63, $data['management'][2]['2_1']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//2.1 negative
-            $pdf->addUniversalBar(152, 73.6, $data['management'][2]['2_2']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//2.2 negative
-            $pdf->addUniversalBar(152, 84.2, $data['management'][2]['2_3']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//2.3 negative
+        $pdf->addUniversalBar(152, 63, $data['management'][2]['2_1']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//2.1 negative
+        $pdf->addUniversalBar(152, 73.6, $data['management'][2]['2_2']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//2.2 negative
+        $pdf->addUniversalBar(152, 84.2, $data['management'][2]['2_3']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//2.3 negative
 
-            $pdf->writeHtml('
+        $pdf->writeHtml('
                     <tr>
                         <td style="width: 35%;"></td>
                         <td style="width: 60%;"
@@ -413,23 +437,23 @@ class PDFController extends SiteBaseController {
                     </tr>
             ', 135);
 
-            // 7. Управленческие навыки - 3
-            $pdf->addPage(8);
+        // 7. Управленческие навыки - 3
+        $pdf->addPage(8);
 
-            $pdf->writeTextBold($username, 3.5, 3.5, 21);
-            $pdf->addPercentBigInfo($data['management'][3]['total'], 3, 35.8);
-            $pdf->writeTextCenterRegular(90, 10, 23, 41, 16, $popup_tests_cache['management.communication_managment']['short_text']);//(очень высокий уровень)
+        $pdf->writeTextBold($username, 3.5, 3.5, 21);
+        $pdf->addPercentBigInfo($data['management'][3]['total'], 3, 35.8);
+        $pdf->writeTextCenterRegular(90, 10, 23, 41, 16, $popup_tests_cache['management.communication_managment']['short_text']);//(очень высокий уровень)
 
-            $pdf->addUniversalBar(77, 63.5, $data['management'][3]['3_1']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//3.1 positive
-            $pdf->addUniversalBar(77, 72.7, $data['management'][3]['3_2']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//3.2 positive
-            $pdf->addUniversalBar(77, 84, $data['management'][3]['3_3']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//3.3 positive
-            $pdf->addUniversalBar(77, 94, $data['management'][3]['3_4']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//3.4 positive
+        $pdf->addUniversalBar(77, 63.5, $data['management'][3]['3_1']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//3.1 positive
+        $pdf->addUniversalBar(77, 72.7, $data['management'][3]['3_2']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//3.2 positive
+        $pdf->addUniversalBar(77, 84, $data['management'][3]['3_3']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//3.3 positive
+        $pdf->addUniversalBar(77, 94, $data['management'][3]['3_4']['+'], 71.38, AssessmentPDF::ROUNDED_LEFT, AssessmentPDF::BAR_POSITIVE);//3.4 positive
 
-            $pdf->addUniversalBar(152, 63.5, $data['management'][3]['3_1']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//3.1 negative
-            $pdf->addUniversalBar(152, 72.7, $data['management'][3]['3_2']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//3.2 negative
-            $pdf->addUniversalBar(152, 84, $data['management'][3]['3_3']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//3.3 negative
-            $pdf->addUniversalBar(152, 94, $data['management'][3]['3_4']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//3.4 negative
-            $pdf->writeHtml('
+        $pdf->addUniversalBar(152, 63.5, $data['management'][3]['3_1']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//3.1 negative
+        $pdf->addUniversalBar(152, 72.7, $data['management'][3]['3_2']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//3.2 negative
+        $pdf->addUniversalBar(152, 84, $data['management'][3]['3_3']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//3.3 negative
+        $pdf->addUniversalBar(152, 94, $data['management'][3]['3_4']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//3.4 negative
+        $pdf->writeHtml('
                     <tr>
                         <td style="width: 35%;"></td>
                         <td style="width: 60%;"
@@ -468,79 +492,48 @@ class PDFController extends SiteBaseController {
                     </tr>
             ', 145);
 
-            $first_name = StringTools::CyToEnWithUppercase($simulation->user->profile->firstname);
-            $last_name = StringTools::CyToEnWithUppercase($simulation->user->profile->lastname);
-            $vacancy_name = "";
-            if($simulation->invite->owner_id !== $simulation->invite->receiver_id) {
-                $vacancy_name = "_".StringTools::CyToEnWithUppercase($simulation->invite->vacancy->label);
-            }
-            $pdf->renderOnBrowser($first_name.'_'.$last_name.$vacancy_name.'_'.$assessmentVersion.'_'.date('dmy'));
-        } else {
-            $this->redirect('/dashboard');
-        }
+        $first_name = StringTools::CyToEnWithUppercase($simulation->user->profile->firstname);
+        $last_name = StringTools::CyToEnWithUppercase($simulation->user->profile->lastname);
+
+        $filename = __DIR__.'/../system_data/simulation_details/'.$first_name.'_'.$last_name.'_detail_'.date('dmy', strtotime($simulation->end));
+
+        $pdf->saveOnDisk($filename, false);
+
+        return $filename;
     }
 
-    public function actionSimulationDetailPDFBank(){
+    private function createBehavioursPDF(Simulation $simulation) {
 
-        $simulation = Simulation::model()->findByPk(10264);
-        SimulationService::saveAssessmentPDFFilesOnDisk($simulation);
+        $data = unserialize($simulation->popup_tests_cache)['recommendation'];
+        $username = $simulation->user->profile->firstname.' '.$simulation->user->profile->lastname;
 
-    }
+        $pdf = new AssessmentPDF();
+        $pdf->pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+        $pdf->addEmptyPage();
+        $pdf->writeTextBold($username, 3.5, 3.5, 21);
+        $pdf->writeTextBold("Индивидуальный план развития", 3.5, 13, 19);
 
-    public function actionBehavioursPDF() {
+        $html = '';
+        $Criteria = new CDbCriteria();
+        $Criteria->order = 'code asc';
+        $groups = $simulation->game_type->getLearningGoalGroups($Criteria);
+        foreach($groups as $group) {
+            $ul = '';
+            foreach(LearningGoal::model()->findAllByAttributes(['learning_goal_group_id'=>$group->id]) as $learningGoal) {
 
-        $this->user = Yii::app()->user->data();
-        if(null === $this->user && false === $this->user->isAuth()) {
-            $this->redirect('/registration');
-        }
-
-        //$simId = 5013; //$this->getParam('sim_id');
-        $simId = $this->getParam('sim_id');
-        //$assessmentVersion = 'v1';//$this->getParam('assessment_version');
-        //$assessmentVersion = $this->getParam('assessment_version');
-
-        /* @var $simulation Simulation */
-        $simulation = Simulation::model()->findByPk($simId);
-        $simulation->popup_tests_cache = serialize([
-            'popup' => SimulationResultTextService::generate($simulation, 'popup'),
-            'recommendation' => SimulationResultTextService::generate($simulation, 'recommendation', true)
-        ]);
-        $simulation->save(false);
-        $isUser = $simulation->user_id === $this->user->id;
-        $isOwner = $simulation->invite->owner_id === $this->user->id;
-        $isAdmin = $this->user->isAdmin();
-
-        if($isUser || $isOwner || $isAdmin) {
-            $data = unserialize($simulation->popup_tests_cache)['recommendation'];
-            $username = $simulation->user->profile->firstname.' '.$simulation->user->profile->lastname;
-
-            $pdf = new AssessmentPDF();
-            $pdf->pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
-            $pdf->addEmptyPage();
-            $pdf->writeTextBold($username, 3.5, 3.5, 21);
-            $pdf->writeTextBold("Индивидуальный план развития", 3.5, 13, 19);
-
-            $html = '';
-            $Criteria = new CDbCriteria();
-            $Criteria->order = 'code asc';
-            $groups = $simulation->game_type->getLearningGoalGroups($Criteria);
-            foreach($groups as $group) {
-                $ul = '';
-                foreach(LearningGoal::model()->findAllByAttributes(['learning_goal_group_id'=>$group->id]) as $learningGoal) {
-
-                    /* @var LearningGoal $learningGoal */
-                    foreach($learningGoal->heroBehaviours as $behaviour) {
-                        /* @var HeroBehaviour $behaviour */
-                        if(isset($data[$behaviour->code])) {
-                            //var_dump($data[$behaviour->code]);
-                            //exit;
-                            $ul .= '<li>'.$behaviour->code.' - '.$data[$behaviour->code]['text'].'</li>';
-                        }
+                /* @var LearningGoal $learningGoal */
+                foreach($learningGoal->heroBehaviours as $behaviour) {
+                    /* @var HeroBehaviour $behaviour */
+                    if(isset($data[$behaviour->code])) {
+                        //var_dump($data[$behaviour->code]);
+                        //exit;
+                        $ul .= '<li>'.$behaviour->code.' - '.$data[$behaviour->code]['text'].'</li>';
                     }
-
                 }
 
-                $html .= '<tr>
+            }
+
+            $html .= '<tr>
                             <td style="width: 5%;"></td>
                             <td style="width: 90%;"
                                 ><font face="dejavusans" style="font-weight: bold;font-size: 12pt;">'.str_replace('_', '.', $group->code).' '.$group->title.'</font
@@ -550,20 +543,18 @@ class PDFController extends SiteBaseController {
                             </td>
                             <td style="width: 5%;"></td>
                           </tr>';
-            }
-
-            $pdf->writeHtml($html, 25);
-
-            $first_name = StringTools::CyToEnWithUppercase($simulation->user->profile->firstname);
-            $last_name = StringTools::CyToEnWithUppercase($simulation->user->profile->lastname);
-            $vacancy_name = "";
-            if($simulation->invite->owner_id !== $simulation->invite->receiver_id) {
-                $vacancy_name = "_".StringTools::CyToEnWithUppercase($simulation->invite->vacancy->label);
-            }
-            $pdf->renderOnBrowser($first_name.'_'.$last_name.$vacancy_name.'_'.$simulation->assessment_version.'_'.date('dmy'));
-        }else {
-            $this->redirect('/dashboard');
         }
+
+        $pdf->writeHtml($html, 25);
+
+        $first_name = StringTools::CyToEnWithUppercase($simulation->user->profile->firstname);
+        $last_name = StringTools::CyToEnWithUppercase($simulation->user->profile->lastname);
+
+        $filename = __DIR__.'/../system_data/simulation_details/'.$first_name.'_'.$last_name.'_behaviours_'.date('dmy', strtotime($simulation->end));
+
+        $pdf->saveOnDisk($filename, false);
+
+        return $filename;
     }
 
 } 
