@@ -1473,8 +1473,8 @@ class SimulationService
     public static function saveBehavioursCache(Simulation $simulation)
     {
         $cache = [];
-        $behaviours = AssessmentCalculation::model()->findAllByAttributes(['sim_id'=>$simulation->id]);
-        /* @var $behaviours AssessmentCalculation[] */
+        $behaviours = AssessmentAggregated::model()->findAllByAttributes(['sim_id'=>$simulation->id]);
+        /* @var $behaviours AssessmentAggregated[] */
         foreach($behaviours as $behaviour) {
             if($behaviour->point !== null) {
                 $cache[$behaviour->point->code] = $behaviour->value;
