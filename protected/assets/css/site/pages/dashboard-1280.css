@@ -577,3 +577,7 @@ i.icon-doc {
 .us-column-1-3-min-height {
     min-height: 87px;
 }
+
+.skiliks .ui-dialog.popup-information {
+    overflow: hidden;
+}
