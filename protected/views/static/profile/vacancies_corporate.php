@@ -34,7 +34,7 @@
                     'pageSize'      => 5
                 ],
                 'columns' => [
-                    ['header' => '', 'name' => '' , 'value' => '($row+1)."."'],
+                    ['header' => '', 'name' => '' , 'value' => '(10*(Yii::app()->request->getParam("page",1) - 1) + $row + 1)."."'],
                     ['header' => Yii::t('site', 'Name'), 'name' => 'label' , 'value' => '$data->label'],
                     ['header' => Yii::t('site', 'Link'), 'name' => 'link'  , 'value' => '$data->getCroppedUrl()' , 'type' => 'html'],
                     ['header' => ''                                        , 'value' => '"<a class=\"icon-16 icon-edit\" href=\"/profile/corporate/vacancy/$data->id/edit\" title=\"редактировать\"></a>"' , 'type' => 'html'],

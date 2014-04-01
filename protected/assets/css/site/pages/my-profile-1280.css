@@ -214,3 +214,21 @@ input[type='password'] {
 .us-password-personal-height {
     height: 298px;
 }
+
+.skiliks .pager {
+    text-align: center;
+}
+
+.skiliks ul.yiiPager {
+    display: inline-block;
+    margin-top: 12px;
+}
+
+.skiliks ul.yiiPager li.page {
+    background-color: #6CAAB3;
+    padding: 7px;
+}
+
+.action-controller-corporateVacancies-static-profile .light-list-table table {
+    width: 100%;
+}

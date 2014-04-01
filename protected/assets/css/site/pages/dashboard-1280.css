@@ -184,63 +184,6 @@
 
 /* стрелки сортировки */
 
-/* pager: */
-
-.pager-place {
-    margin-top: 10px;
-    text-align: center;
-}
-
-.skiliks ul.yiiPager .first,
-.skiliks ul.yiiPager .last {
-    display: none;
-}
-
-.skiliks ul.yiiPager .previous a,
-.skiliks ul.yiiPager .next a {
-    background-color:  #6CAAB3;
-    border: none;
-    margin-left: 15px;
-    margin-right: 15px;
-    padding: 7px 10px;
-}
-
-.skiliks ul.yiiPager .previous a:hover,
-.skiliks ul.yiiPager .next a:hover {
-    background-color:  #146672;
-}
-
-.skiliks ul.yiiPager a:visited,
-.skiliks ul.yiiPager .hidden a,
-.skiliks ul.yiiPager .page a:link,
-.skiliks ul.yiiPager .next a:visited,
-.skiliks ul.yiiPager .next a:link,
-.skiliks ul.yiiPager a:link {
-    color: #FFFFFF;
-    font: 14px "ProximaNova-Bold";
-}
-
-.skiliks ul.yiiPager .page a,
-.skiliks ul.yiiPager .page a:link,
-.skiliks ul.yiiPager .page a:visited {
-    border: medium none;
-    margin: 0 4px;
-    padding: 0;
-    text-decoration: none;
-}
-
-.skiliks ul.yiiPager .selected a,
-.skiliks ul.yiiPager .selected a:link,
-.skiliks ul.yiiPager .selected a:visited {
-    color: #146672;
-    background-color: transparent;
-}
-
-.skiliks ul.yiiPager li,
-.skiliks ul.yiiPager li a {
-    display: inline-block;
-}
-
 /* } redefine /framework/zii/widgets/assets/gridview/styles.css --- */
 
 /* шестерёнка */

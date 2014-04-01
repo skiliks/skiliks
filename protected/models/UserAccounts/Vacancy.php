@@ -127,7 +127,7 @@ class Vacancy extends CActiveRecord
 		return new CActiveDataProvider($this, [
 			'criteria'   => $criteria,
             'pagination' => [
-                'pageSize' => 20,
+                'pageSize' => 10,
                 'pageVar'  => 'page'
             ]
 		]);
