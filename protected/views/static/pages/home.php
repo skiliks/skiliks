@@ -24,7 +24,7 @@
 
                         <a href="/registration/single-account"
                            class="background-dark-blue icon-circle-with-blue-arrow-big
-                               button-standard icon-padding-standard">
+                               button-standard button-standard-BD2929 icon-padding-standard">
                             <?= Yii::t('site', 'Register now') ?>
                         </a>
 

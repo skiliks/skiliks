@@ -675,3 +675,12 @@ li.icon-tick {
     margin-top: 30px;
 }
 
+.button-standard-BD2929 {
+    background-position: 16px center;
+    background-color: #BD2929;
+}
+
+.button-standard-BD2929:hover {
+    background-position: 16px center;
+    background-color: #820303;
+}
