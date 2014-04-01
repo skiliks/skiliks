@@ -578,6 +578,6 @@ i.icon-doc {
     min-height: 87px;
 }
 
-.skiliks .ui-dialog.popup-information {
+.skiliks .ui-dialog.popup-information .ui-dialog-content {
     overflow: hidden;
 }
