@@ -70,11 +70,11 @@ class PDFController extends SiteBaseController {
         $pdf->addPage(1);
 
         $pdf->writeTextBold($username, 3.5, 3.5, 21);
-        $pdf->addRatingPercentile(94, 35.6, $data['percentile']['total']);
-        $pdf->addRatingOverall(86.6, 45.8, $data['overall']);
-        $pdf->addSpeedometer(21, 107.2, $data['time']['total']);
-        $pdf->addSpeedometer(89, 107.2, $data['performance']['total']);
-        $pdf->addSpeedometer(158, 107.2, $data['management']['total']);
+        $pdf->addRatingPercentile(94, 38.0, $data['percentile']['total']+30);
+        $pdf->addRatingOverall(86.6, 48.8, $data['overall']);
+        $pdf->addSpeedometer(21, 109.7, $data['time']['total']);
+        $pdf->addSpeedometer(89, 109.7, $data['performance']['total']);
+        $pdf->addSpeedometer(158, 109.7, $data['management']['total']);
 
         // 2. Тайм менеджмент
         //======================================================================================
