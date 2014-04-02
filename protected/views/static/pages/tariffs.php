@@ -1,5 +1,5 @@
 <h2 class="thetitle text-center">
-    <?= Yii::t('site', '50% discount for all tariffs till March 31') ?>
+    <?= Yii::t('site', '50% discount for all tariffs till April 15') ?>
 </h2>
 <?php
 /* @var $tariffs  Tariff[] */
