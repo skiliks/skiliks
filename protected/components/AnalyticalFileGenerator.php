@@ -149,9 +149,20 @@ class AnalyticalFileGenerator {
      */
     public function addColumnRight($text, $format, $width = null) {
         $text = str_replace('.', ',', $text);
+
         if($format === PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00) {
             if($text[strlen($text) - 1] === '%' && !in_array(',', str_split($text))){
                 $text = str_replace('%', '', $text).',00%';
+            }elseif($text[strlen($text) - 1] === '%' && strlen(explode(',', $text)[1]) === 2){
+                //var_dump($text);
+                $text = str_replace('%', '', $text).'0%';
+            }
+        }
+        if($format === PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00) {
+            if(isset(explode(',', $text)[1]) && strlen(explode(',', $text)[1]) === 1){
+                $text.='0';
+            } elseif(isset(explode(',', $text)[1]) && strlen(explode(',', $text)[1]) === 0) {
+                $text.=',00';
             }
         }
         $sheet = $this->addColumn($text, $width);
@@ -554,52 +565,52 @@ class AnalyticalFileGenerator {
             $this->addRow();
             $this->addColumn('1.1 Продуктивное время (выполнение приоритетных задач, минуты)');
             $this->addColumn('Работа с документами');
-            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_DOCUMENTS],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
+            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_DOCUMENTS],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
 
             $this->addRow();
             $this->addColumn('1.1 Продуктивное время (выполнение приоритетных задач, минуты)');
             $this->addColumn('Встречи');
-            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_MEETINGS],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
+            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_MEETINGS],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
 
             $this->addRow();
             $this->addColumn('1.1 Продуктивное время (выполнение приоритетных задач, минуты)');
             $this->addColumn('Звонки');
-            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_PHONE_CALLS],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
+            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_PHONE_CALLS],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
 
             $this->addRow();
             $this->addColumn('1.1 Продуктивное время (выполнение приоритетных задач, минуты)');
             $this->addColumn('Работа с почтой');
-            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_MAIL],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
+            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_MAIL],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
 
             $this->addRow();
             $this->addColumn('1.1 Продуктивное время (выполнение приоритетных задач, минуты)');
             $this->addColumn('Планирование');
-            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_PLANING], 2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
+            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_PLANING], 2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
             ////
             $this->addRow();
             $this->addColumn('1.2 Непродуктивное время (иные действия, не связанные с приоритетами)');
             $this->addColumn('Работа с документами');
-            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_DOCUMENTS],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
+            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_DOCUMENTS],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
 
             $this->addRow();
             $this->addColumn('1.2 Непродуктивное время (иные действия, не связанные с приоритетами)');
             $this->addColumn('Встречи');
-            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_MEETINGS],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
+            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_MEETINGS],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
 
             $this->addRow();
             $this->addColumn('1.2 Непродуктивное время (иные действия, не связанные с приоритетами)');
             $this->addColumn('Звонки');
-            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_PHONE_CALLS],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
+            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_PHONE_CALLS],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
 
             $this->addRow();
             $this->addColumn('1.2 Непродуктивное время (иные действия, не связанные с приоритетами)');
             $this->addColumn('Работа с почтой');
-            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_MAIL],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
+            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_MAIL],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
 
             $this->addRow();
             $this->addColumn('1.2 Непродуктивное время (иные действия, не связанные с приоритетами)');
             $this->addColumn('Планирование');
-            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_PLANING],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
+            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_PLANING],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
             $this->setBorderBold();
         }
         ////////////////////////////////////////////////////
@@ -929,19 +940,19 @@ class AnalyticalFileGenerator {
             $this->setInfoBySimulation($simulation);
             $this->addRow();
             $this->addColumn('Срочно');
-            $this->addColumnRight($this->getPerformanceCategory($data['performance'], '0'), PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
+            $this->addColumnRight($this->getPerformanceCategory($data['performance'], '0'), PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
             $this->addRow();
             $this->addColumn('Высокий приоритет');
-            $this->addColumnRight($this->getPerformanceCategory($data['performance'], '1'), PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
+            $this->addColumnRight($this->getPerformanceCategory($data['performance'], '1'), PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
             $this->addRow();
             $this->addColumn('Средний приоритет');
-            $this->addColumnRight($this->getPerformanceCategory($data['performance'], '2'), PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
+            $this->addColumnRight($this->getPerformanceCategory($data['performance'], '2'), PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
 
             $this->addRow();
             $this->addColumn('Двухминутные задачи');
-            $this->addColumnRight($this->getPerformanceCategory($data['performance'], '2_min'), PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
+            $this->addColumnRight($this->getPerformanceCategory($data['performance'], '2_min'), PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
             $this->setBorderBold();
         }
         //////////////////////////////////////////////////////////
@@ -980,57 +991,57 @@ class AnalyticalFileGenerator {
             $this->addRow();
             $this->addColumn('2. Сверхурочное время (минуты)');
             $this->addColumn('Сверхурочное время');
-            $this->addColumnRight(round($data['time']['workday_overhead_duration'], 2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
+            $this->addColumnRight(round($data['time']['workday_overhead_duration'], 2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
 
             $this->addRow();
             $this->addColumn('1.1 Продуктивное время (выполнение приоритетных задач, минуты)');
             $this->addColumn('Работа с документами');
-            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_DOCUMENTS],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
+            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_DOCUMENTS],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
 
             $this->addRow();
             $this->addColumn('1.1 Продуктивное время (выполнение приоритетных задач, минуты)');
             $this->addColumn('Встречи');
-            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_MEETINGS],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
+            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_MEETINGS],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
 
             $this->addRow();
             $this->addColumn('1.1 Продуктивное время (выполнение приоритетных задач, минуты)');
             $this->addColumn('Звонки');
-            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_PHONE_CALLS],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
+            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_PHONE_CALLS],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
 
             $this->addRow();
             $this->addColumn('1.1 Продуктивное время (выполнение приоритетных задач, минуты)');
             $this->addColumn('Работа с почтой');
-            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_MAIL],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
+            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_MAIL],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
 
             $this->addRow();
             $this->addColumn('1.1 Продуктивное время (выполнение приоритетных задач, минуты)');
             $this->addColumn('Планирование');
-            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_PLANING],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
+            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_PLANING],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
             ////
             $this->addRow();
             $this->addColumn('1.2 Непродуктивное время (иные действия, не связанные с приоритетами)');
             $this->addColumn('Работа с документами');
-            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_DOCUMENTS],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
+            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_DOCUMENTS],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
 
             $this->addRow();
             $this->addColumn('1.2 Непродуктивное время (иные действия, не связанные с приоритетами)');
             $this->addColumn('Встречи');
-            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_MEETINGS],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
+            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_MEETINGS],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
 
             $this->addRow();
             $this->addColumn('1.2 Непродуктивное время (иные действия, не связанные с приоритетами)');
             $this->addColumn('Звонки');
-            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_PHONE_CALLS],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
+            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_PHONE_CALLS],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
 
             $this->addRow();
             $this->addColumn('1.2 Непродуктивное время (иные действия, не связанные с приоритетами)');
             $this->addColumn('Работа с почтой');
-            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_MAIL],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
+            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_MAIL],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
 
             $this->addRow();
             $this->addColumn('1.2 Непродуктивное время (иные действия, не связанные с приоритетами)');
             $this->addColumn('Планирование');
-            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_PLANING],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
+            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_PLANING],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
             $this->setBorderBold();
         }
         ////////////////////////////////////////////////////
