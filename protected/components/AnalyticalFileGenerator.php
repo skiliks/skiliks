@@ -159,9 +159,9 @@ class AnalyticalFileGenerator {
             }
         }
         if($format === PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00) {
-            if(strlen(explode(',', $text)[1]) === 1){
+            if(isset(explode(',', $text)[1]) && strlen(explode(',', $text)[1]) === 1){
                 $text.='0';
-            } elseif(strlen(explode(',', $text)[1]) === 0) {
+            } elseif(isset(explode(',', $text)[1]) && strlen(explode(',', $text)[1]) === 0) {
                 $text.=',00';
             }
         }
