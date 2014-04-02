@@ -264,4 +264,17 @@ class UserServiceUnitTest extends CDbTestCase
 
     }
 
+    public function testDebug(){
+        $text = '12,5%';
+        if(true) {
+            if($text[strlen($text) - 1] === '%' && !in_array(',', str_split($text))){
+                $text = str_replace('%', '', $text).',00%';
+            }elseif($text[strlen($text) - 1] === '%' && strlen(explode(',', $text)[1]) === 2){
+                var_dump($text);
+                $text = str_replace('%', '', $text).'0%';
+            }
+        }
+
+    }
+
 }
