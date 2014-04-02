@@ -658,7 +658,9 @@ define([
                     model.isNewTask = false;
                     me.addDayPlanTask(model);
                 });
-                me.listenTo(SKApp.simulation, 'tick', me.disableOldSlots);
+                if(!SKApp.isTutorial()) {
+                    me.listenTo(SKApp.simulation, 'tick', me.disableOldSlots);
+                }
                 setTimeout(function () {
                     me.disableOldSlots();
                     me.$('.planner-book-timetable,.planner-book-afterv-table').mCustomScrollbar({autoDraggerLength:false, updateOnContentResize: true});
