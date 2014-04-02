@@ -110,7 +110,7 @@ class PDFController extends SiteBaseController {
                         </td>
                         <td style="width: 6%;"></td>
                         <td style="width: 42%;"
-                            ><font face="dejavusans" style="font-weight: bold;font-size: 13pt;">Сверхурочное</font><br
+                            ><font face="dejavusans" style="font-weight: bold;font-size: 13pt;">Сверхурочное время</font><br
                             ><font face="dejavusans" style="font-weight: bold;font-size: 11pt;">'.$popup_tests_cache['time.over_time']['short_text'].'</font><br
                             ><font style="font-size: 13pt;"></font><font face="dejavusans" style="font-size: 11pt;">'.$popup_tests_cache['time.over_time']['text'].'</font><br>
                         </td>
@@ -140,9 +140,9 @@ class PDFController extends SiteBaseController {
                     </tr>
             ', 165);
 
-        //====================================================================================
+        // 3. Тайм менеджмент - подробно
+        // ====================================================================================
         $pdf->addPage(3);
-
 
         $pdf->writeTextBold($username, 3.5, 3.5, 21);
 
@@ -202,7 +202,7 @@ class PDFController extends SiteBaseController {
         //План
         $pdf->addTimeBarUnproductive($y_positive, 117.5, $data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_PLANING], $max_negative);
 
-        // 3. Результативность
+        // 4. Результативность
         $pdf->addPage(4);
         $pdf->writeTextBold($username, 3.5, 3.5, 21);
         $pdf->addPercentSmallInfo($data['performance']['total'], 133.8, 28);
@@ -274,7 +274,7 @@ class PDFController extends SiteBaseController {
             ', 134);
 
 
-        // 4. Управленческие навыки
+        // 5. Управленческие навыки в общем
         $pdf->addPage(5);
 
         $pdf->writeTextBold($username, 3.5, 3.5, 21);
@@ -287,7 +287,7 @@ class PDFController extends SiteBaseController {
 
 
         if (Simulation::ASSESSMENT_VERSION_1 == $assessmentVersion) {
-            // 5. Управленческие навыки - 1 по версии v1
+            // 6. Управленческие навыки - пункт 1 по версии v1
             $pdf->addPage(6);
             $pdf->writeTextBold($username, 3.5, 3.5, 21);
             $pdf->addPercentBigInfo($data['management'][1]['total'], 3.4, 35.6);
@@ -306,8 +306,8 @@ class PDFController extends SiteBaseController {
                     <tr>
                         <td style="width: 35%;"></td>
                         <td style="width: 60%;"
-                            ><font face="dejavusans" style="font-weight: bold;font-size: 13pt;">1.1 Использование планирования в течение дня</font><br
-                            ><font face="dejavusans" style="font-weight: bold;font-size: 11pt;">'.$popup_tests_cache['management.task_managment.day_planing']['short_text'].'</font><br
+                            ><font face="dejavusans" style="font-weight: bold;font-size: 13pt;">1.1 Использование планирования в течение дня</font>
+                            <font face="dejavusans" style="font-weight: bold;font-size: 11pt;">'.$popup_tests_cache['management.task_managment.day_planing']['short_text'].'</font><br
                             ><font style="font-size: 13pt;"></font><font face="dejavusans" style="font-size: 11pt;">'.$popup_tests_cache['management.task_managment.day_planing']['text'].'</font><br>
                         </td>
                         <td style="width: 5%;"></td>
@@ -315,8 +315,8 @@ class PDFController extends SiteBaseController {
                     <tr>
                         <td style="width: 35%;"></td>
                         <td style="width: 60%;"
-                            ><font face="dejavusans" style="font-weight: bold;font-size: 13pt;">1.2 Правильное определение приоритетов задач при планировании</font><br
-                            ><font face="dejavusans" style="font-weight: bold;font-size: 11pt;">'.$popup_tests_cache['management.task_managment.tasks_priority_planing']['short_text'].'</font><br
+                            ><font face="dejavusans" style="font-weight: bold;font-size: 13pt;">1.2 Правильное определение приоритетов задач при планировании</font>
+                            <font face="dejavusans" style="font-weight: bold;font-size: 11pt;">'.$popup_tests_cache['management.task_managment.tasks_priority_planing']['short_text'].'</font><br
                             ><font style="font-size: 13pt;"></font><font face="dejavusans" style="font-size: 11pt;">'.$popup_tests_cache['management.task_managment.tasks_priority_planing']['text'].'</font><br>
                         </td>
                         <td style="width: 5%;"></td>
@@ -324,8 +324,8 @@ class PDFController extends SiteBaseController {
                     <tr>
                         <td style="width: 35%;"></td>
                         <td style="width: 60%;"
-                            ><font face="dejavusans" style="font-weight: bold;font-size: 13pt;">1.3 Выполнение задач в соответствии с приоритетами</font><br
-                            ><font face="dejavusans" style="font-weight: bold;font-size: 11pt;">'.$popup_tests_cache['management.task_managment.tasks_priority_execution']['short_text'].'</font><br
+                            ><font face="dejavusans" style="font-weight: bold;font-size: 13pt;">1.3 Выполнение задач в соответствии с приоритетами</font>
+                            <font face="dejavusans" style="font-weight: bold;font-size: 11pt;">'.$popup_tests_cache['management.task_managment.tasks_priority_execution']['short_text'].'</font><br
                             ><font style="font-size: 13pt;"></font><font face="dejavusans" style="font-size: 11pt;">'.$popup_tests_cache['management.task_managment.tasks_priority_execution']['text'].'</font><br>
                         </td>
                         <td style="width: 5%;"></td>
@@ -341,10 +341,8 @@ class PDFController extends SiteBaseController {
                     </tr>
             ', 145);
 
-        }
-
-        if (Simulation::ASSESSMENT_VERSION_2 == $assessmentVersion) {
-            // 5. Управленческие навыки - 1 по версии v2
+        } elseif (Simulation::ASSESSMENT_VERSION_2 == $assessmentVersion) {
+            // 6. Управленческие навыки - пункт 1 по версии v2
             $pdf->addPage(6);
             $pdf->writeTextBold($username, 3.5, 3.5, 21);
             $pdf->addPercentBigInfo($data['management'][1]['total'], 3.4, 35.6);
@@ -363,8 +361,8 @@ class PDFController extends SiteBaseController {
                     <tr>
                         <td style="width: 35%;"></td>
                         <td style="width: 60%;"
-                            ><font face="dejavusans" style="font-weight: bold;font-size: 13pt;">1.1 Использование планирования в течение дня</font><br
-                            ><font face="dejavusans" style="font-weight: bold;font-size: 11pt;">'.$popup_tests_cache['management.task_managment.day_planing']['short_text'].'</font><br
+                            ><font face="dejavusans" style="font-weight: bold;font-size: 13pt;">1.1 Использование планирования в течение дня</font>
+                            <font face="dejavusans" style="font-weight: bold;font-size: 11pt;">'.$popup_tests_cache['management.task_managment.day_planing']['short_text'].'</font><br
                             ><font style="font-size: 13pt;"></font><font face="dejavusans" style="font-size: 11pt;">'.$popup_tests_cache['management.task_managment.day_planing']['text'].'</font><br>
                         </td>
                         <td style="width: 5%;"></td>
@@ -372,8 +370,8 @@ class PDFController extends SiteBaseController {
                     <tr>
                         <td style="width: 35%;"></td>
                         <td style="width: 60%;"
-                            ><font face="dejavusans" style="font-weight: bold;font-size: 13pt;">1.2 Правильное определение приоритетов задач при планировании</font><br
-                            ><font face="dejavusans" style="font-weight: bold;font-size: 11pt;">'.$popup_tests_cache['management.task_managment.tasks_priority_planing']['short_text'].'</font><br
+                            ><font face="dejavusans" style="font-weight: bold;font-size: 13pt;">1.2 Правильное определение приоритетов задач при планировании</font>
+                            <font face="dejavusans" style="font-weight: bold;font-size: 11pt;">'.$popup_tests_cache['management.task_managment.tasks_priority_planing']['short_text'].'</font><br
                             ><font style="font-size: 13pt;"></font><font face="dejavusans" style="font-size: 11pt;">'.$popup_tests_cache['management.task_managment.tasks_priority_planing']['text'].'</font><br>
                         </td>
                         <td style="width: 5%;"></td>
@@ -381,8 +379,8 @@ class PDFController extends SiteBaseController {
                     <tr>
                         <td style="width: 35%;"></td>
                         <td style="width: 60%;"
-                            ><font face="dejavusans" style="font-weight: bold;font-size: 13pt;">1.3 Выполнение задач в соответствии с приоритетами</font><br
-                            ><font face="dejavusans" style="font-weight: bold;font-size: 11pt;">'.$popup_tests_cache['management.task_managment.tasks_priority_execution']['short_text'].'</font><br
+                            ><font face="dejavusans" style="font-weight: bold;font-size: 13pt;">1.3 Выполнение задач в соответствии с приоритетами</font>
+                            <font face="dejavusans" style="font-weight: bold;font-size: 11pt;">'.$popup_tests_cache['management.task_managment.tasks_priority_execution']['short_text'].'</font><br
                             ><font style="font-size: 13pt;"></font><font face="dejavusans" style="font-size: 11pt;">'.$popup_tests_cache['management.task_managment.tasks_priority_execution']['text'].'</font><br>
                         </td>
                         <td style="width: 5%;"></td>
@@ -400,7 +398,7 @@ class PDFController extends SiteBaseController {
 
         }
 
-        // 6. Управленческие навыки - 2
+        // 7. Управленческие навыки - пункт 2
         $pdf->addPage(7);
         $pdf->writeTextBold($username, 3.5, 3.5, 21);
         $pdf->addPercentBigInfo($data['management'][2]['total'], 3.1, 36.3);
@@ -418,8 +416,8 @@ class PDFController extends SiteBaseController {
                     <tr>
                         <td style="width: 35%;"></td>
                         <td style="width: 60%;"
-                            ><font face="dejavusans" style="font-weight: bold;font-size: 13pt;">2.1 Использование делегирования для управления объемом задач</font><br
-                            ><font face="dejavusans" style="font-weight: bold;font-size: 11pt;">'.$popup_tests_cache['management.people_managment.delegation']['short_text'].'</font><br
+                            ><font face="dejavusans" style="font-weight: bold;font-size: 13pt;">2.1 Использование делегирования для управления объемом задач</font>
+                            <font face="dejavusans" style="font-weight: bold;font-size: 11pt;">'.$popup_tests_cache['management.people_managment.delegation']['short_text'].'</font><br
                             ><font style="font-size: 13pt;"></font><font face="dejavusans" style="font-size: 11pt;">'.$popup_tests_cache['management.people_managment.delegation']['text'].'</font><br>
                         </td>
                         <td style="width: 5%;"></td>
@@ -427,8 +425,8 @@ class PDFController extends SiteBaseController {
                     <tr>
                         <td style="width: 35%;"></td>
                         <td style="width: 60%;"
-                            ><font face="dejavusans" style="font-weight: bold;font-size: 13pt;">2.2 Управление ресурсами различной квалификации</font><br
-                            ><font face="dejavusans" style="font-weight: bold;font-size: 11pt;">'.$popup_tests_cache['management.people_managment.resource_quality']['short_text'].'</font><br
+                            ><font face="dejavusans" style="font-weight: bold;font-size: 13pt;">2.2 Управление ресурсами различной квалификации</font>
+                            <font face="dejavusans" style="font-weight: bold;font-size: 11pt;">'.$popup_tests_cache['management.people_managment.resource_quality']['short_text'].'</font><br
                             ><font style="font-size: 13pt;"></font><font face="dejavusans" style="font-size: 11pt;">'.$popup_tests_cache['management.people_managment.resource_quality']['text'].'</font><br>
                         </td>
                         <td style="width: 5%;"></td>
@@ -444,7 +442,7 @@ class PDFController extends SiteBaseController {
                     </tr>
             ', 135);
 
-        // 7. Управленческие навыки - 3
+        // 8. Управленческие навыки - пункт 3
         $pdf->addPage(8);
 
         $pdf->writeTextBold($username, 3.5, 3.5, 21);
@@ -464,8 +462,8 @@ class PDFController extends SiteBaseController {
                     <tr>
                         <td style="width: 35%;"></td>
                         <td style="width: 60%;"
-                            ><font face="dejavusans" style="font-weight: bold;font-size: 13pt;">3.1 Оптимальное использование каналов коммуникации</font><br
-                            ><font face="dejavusans" style="font-weight: bold;font-size: 11pt;">'.$popup_tests_cache['management.communication_managment.comunication_channel']['short_text'].'</font><br
+                            ><font face="dejavusans" style="font-weight: bold;font-size: 13pt;">3.1 Оптимальное использование каналов коммуникации</font>
+                            <font face="dejavusans" style="font-weight: bold;font-size: 11pt;">'.$popup_tests_cache['management.communication_managment.comunication_channel']['short_text'].'</font><br
                             ><font style="font-size: 13pt;"></font><font face="dejavusans" style="font-size: 11pt;">'.$popup_tests_cache['management.communication_managment.comunication_channel']['text'].'</font><br>
                         </td>
                         <td style="width: 5%;"></td>
