@@ -9,7 +9,7 @@
 
 <section>
     <h1 class="pull-content-center">
-        <?= 'Скидка 50% на весь 2014 год при оплате до 31 марта' ?>
+        <?= Yii::t('site', 'Tariff plans 2014') ?>
     </h1>
 
     <br/>
@@ -200,11 +200,13 @@
     </span>
 
     <div class="us-feedback-margin">
-        <br/>
-        <span class="pull-content-left color-3D4041" style="margin-bottom: 10px; font-size: 1.15em;">
-            При покупке любого тарифного пакета Вы можете приобрести дополнительные симуляции поштучно.<br/>
-            Цена 1 штуки рассчитывается исходя из выбранного тарифного плана.
-        </span>
+        <?php if ('ru' == Yii::app()->language) : ?>
+            <br/>
+            <span class="pull-content-left color-3D4041" style="margin-bottom: 10px; font-size: 1.15em;">
+                При покупке любого тарифного пакета Вы можете приобрести дополнительные симуляции поштучно.<br/>
+                Цена 1 штуки рассчитывается исходя из выбранного тарифного плана.
+            </span>
+        <?php endif; ?>
         <br/>
 
         <a class="button-white button-white-hover inter-active label icon-arrow-blue action-feedback reset-margin">
