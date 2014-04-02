@@ -18,8 +18,11 @@ class GenerateFullAssessmentAnalyticFileCommand extends CConsoleCommand
             $users_account = UserAccountCorporate::model()->findAll();
         }
         /* @var UserAccountCorporate[] $users_account */
+        $i = 10;
         echo "Found ".count($users_account)." accounts \n";
         foreach($users_account as $account) {
+            //if($account->user->profile->email !== 'arkadiy.kulik@insead.edu') continue;
+
             $account->cache_full_report = null;
             $account->save(false);
             if(UserService::generateFullAssessmentAnalyticFile($account->user) === false ){
@@ -27,7 +30,7 @@ class GenerateFullAssessmentAnalyticFileCommand extends CConsoleCommand
             } else {
                 echo "Account ".$account->user->profile->email." complete \n";
             }
-
+            unset ($account);
             //echo "Account ".$account->user->profile->email." complete \n";
         }
     }

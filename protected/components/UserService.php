@@ -1204,6 +1204,7 @@ class UserService {
             $generator->save('user_id_'.$user->id,'full_report');
             $user->account_corporate->cache_full_report = implode(',', $simulationsId);
             $user->account_corporate->save(false);
+            unset ($generator);
         }
         return true;
     }
