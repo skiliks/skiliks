@@ -1481,6 +1481,14 @@ class SimulationService
             }
         }
 
+        $points = $simulation->game_type->getHeroBehavours([]);
+        /* @var $points HeroBehaviour[] */
+        foreach($points as $point) {
+            if(!isset($cache[$point->code])) {
+                $cache[$point->code] = 0;
+            }
+        }
+
         $simulation->behaviours_cache = serialize($cache);
         $simulation->save(false);
     }
