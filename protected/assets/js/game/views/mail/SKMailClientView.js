@@ -2666,7 +2666,7 @@ define([
                     }
 
                     this.mailClient.messageForNewEmail = response.phrases.message;
-                    this.renderPreviousMessage(response.phrases.previousMessage);
+                    this.renderPreviousMessage(response.phrases.previouseMessage);
 
                     this.renderTXT();
 
@@ -2779,7 +2779,7 @@ define([
 
                         this.renderSingleSubject(subject);
 
-                        this.renderPreviousMessage(response.phrases.previousMessage);
+                        this.renderPreviousMessage(response.phrases.previouseMessage);
                         var me = this;
 
                         var assignedRecipient = [];
