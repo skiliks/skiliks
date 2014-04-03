@@ -535,7 +535,7 @@ class PDFController extends SiteBaseController {
             '3_3' => '3.3 Эффективная работа со звонками',
             '3_4' => '3.4 Эффективное управление встречами',
             '3_5_1' => 'Управление количеством и периодами времени, затраченного на почту',
-            '3_5_2' => 'УЭффективная обработка входящих писем в почте',
+            '3_5_2' => 'Эффективная обработка входящих писем в почте',
             '3_5_3' => 'Создание информативных и экономных исходящих писем',
             '3_5_4' => 'Управление количеством и периодами времени, затраченного на звонки',
             '3_5_5' => 'Эффективная обработка входящих звонков',
@@ -557,7 +557,7 @@ class PDFController extends SiteBaseController {
             '3332' => '3_5_3',
             '3333' => '3_5_3',
 
-            '341а8' => '3_5_4',
+            '341a8' => '3_5_4',
 
             '341b1' => '3_5_5',
             '341b5' => '3_5_5',
@@ -591,6 +591,7 @@ class PDFController extends SiteBaseController {
 
                 /* @var LearningGoal $learningGoal */
                 foreach($learningGoal->heroBehaviours as $behaviour) {
+                    //var_dump($behaviour->code);
                     /* @var HeroBehaviour $behaviour */
                     if(isset($data[$behaviour->code])) {
                         if($data[$behaviour->code]['short_text'] === '(хорошо)'){
@@ -616,6 +617,7 @@ class PDFController extends SiteBaseController {
             if(in_array($group->code, ['3_2', '3_3', '3_4'])) {
                 $data2 = [];
                 foreach($ul as $code => $text) {
+
                     /*if(in_array($code, [3214, 3218])){
                         continue;
                     }*/
@@ -625,6 +627,7 @@ class PDFController extends SiteBaseController {
                         //$text = '<font face="dejavusans" style="font-weight: bold;font-size: 10pt;">'.$titles[$group->code].'</font>';
                         $data2[$sub_titles[$code]][] = $text;
                     }
+
                 }
 
                 //var_dump($data);
