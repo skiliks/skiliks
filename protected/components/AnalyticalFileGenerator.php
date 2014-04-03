@@ -447,7 +447,7 @@ class AnalyticalFileGenerator {
             $this->addColumn('3. Управление коммуникациями');
             $this->addColumn('3.1 Оптимальное использование каналов коммуникации');
             $this->addColumn('negative');
-            $this->addColumnRight('не оценивается', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+            $this->addColumnRight('не оценивается', PHPExcel_Style_NumberFormat::FORMAT_TEXT);
 
             $this->addRow();
             $this->addColumn('3. Управление коммуникациями');
