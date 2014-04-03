@@ -1120,9 +1120,14 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 try {
                     var mailClient = this;
 
+                    var isFwdEmail = (action == 'add_fwd' ||  action == 'delete_fwd');
+                    var isFirsRecipientRemoved = (_.first(recipientIds) === mailClient.findRecipientByName($(el_tag).text().replace(/\s\((.*)\)/g, '')));
+
+                    // for NEW email
+                    var isRecipientChanged = (0 !== mailClient.availablePhrases.length && isFirsRecipientRemoved && this.isNotEmptySubject());
+
                     // display warning only if user add extra recipients
-                    if (0 !== mailClient.availablePhrases.length && _.first(recipientIds) === mailClient.findRecipientByName($(el_tag).text().replace(/\s\((.*)\)/g, '')) &&  this.isNotEmptySubject()) {
-                        if(action !== 'add_fwd' && action !== 'delete_fwd') {
+                    if (isRecipientChanged || (isFwdEmail) && isFirsRecipientRemoved) {
                         this.message_window = new SKDialogView({
                             'message':'Если вы измените список адресатов, то поменяются доступные Вам темы письма, очистится список доступных фраз и тескт письма.',
                             'buttons':[
@@ -1130,11 +1135,18 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                                     'value':'Продолжить',
                                     'onclick':function () {
                                         delete mailClient.message_window;
-                                        if(recipientIds.length !== 0){mailClient.reloadSubjects(recipientIds, parent_subject);}
+
+                                        if(false == isFwdEmail) {
+                                            if(recipientIds.length !== 0){
+                                                mailClient.reloadSubjects(recipientIds, parent_subject);
+                                            }
+                                        }
+
                                         $("#mailEmulatorNewLetterText").html('');
-                                        if ('add' === action || 'add_fwd' === action) {
+
+                                        if ('add' === action) {
                                             callback();
-                                        }else if('delete'){
+                                        } else if('delete') {
                                             $("#MailClient_RecipientsList")[0].removeTag(el_tag);
                                             if(typeof updateSubject === 'function'){
                                                 updateSubject();
@@ -1146,16 +1158,12 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                                 {
                                     'value':'Вернуться',
                                     'onclick':function () {
-                                        //mailClient.trigger('mail:return_last_subject');
                                         delete mailClient.message_window;
-
                                     }
                                 }
-                            ]
-                        });}else{
-                            if(action === 'delete_fwd' || action === 'add_fwd'){return true;}
-                        }
-                        return false;
+                            ]});
+
+                        return true;
                     } else {
                         return true;
                     }

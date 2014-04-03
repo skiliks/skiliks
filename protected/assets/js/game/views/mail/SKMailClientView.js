@@ -2190,8 +2190,6 @@ define([
                     });
                     $(".mail-text-wrap").droppable({
                         drop:function (event, ui) {
-                            //console.log('drop');
-                            //console.log($(ui.helper).parent().data('id'));
                             if(me.$('#MailClient_RecipientsList .tagItem').length === 0 || me.$('#MailClient_NewLetterSubject .dd-selected').text() === 'без темы.'){
                                 me.message_window_phrase = new SKDialogView({
                                     'message':'Для написания нового письма выберите тему и адресата.',
@@ -2228,8 +2226,6 @@ define([
                     });
                     $(".mail-tags-bl").droppable({
                         drop:function (event, ui) {
-                            //console.log('drop');
-                            //console.log($(ui.helper).data('uid'));
                             var phrase_uid = $(ui.helper).data('uid');
                             if(phrase_uid !== undefined) {
                                 var phrase = me.mailClient.getUsedPhraseByUid(phrase_uid);
@@ -2825,10 +2821,9 @@ define([
                                     'delete_fwd',
                                     undefined,
                                     function () {
-                                        //$("#MailClient_RecipientsList").appand('<li class="tagItem">'+tag+'</li>');
                                         $("#MailClient_RecipientsList")[0].removeTag(el);
                                     },
-                                    me
+                                    el
                                 );
                                 return del;
                             }

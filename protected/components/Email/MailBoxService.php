@@ -1,9 +1,6 @@
 <?php
 
 /**
- * Description of MailBoxService
- *
- * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class MailBoxService
 {
