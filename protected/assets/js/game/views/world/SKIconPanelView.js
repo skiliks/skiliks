@@ -211,6 +211,8 @@ define([
                             }
                         };
                     }
+
+                    $('.door').addClass('icon-button-disabled');
                     this.startAnimation('.' + event.getTypeSlug(), callbackFunction, me.isShortDuration(data));
 
                     if(SKApp.simulation.isPlayIncomingCallSound){
@@ -365,6 +367,7 @@ define([
 
                     if (!(me.icon_lock[selector])) {
                         me.icon_lock[selector] = true;
+
                         var el = me.$(selector);
                         el.addClass('icon-active');
 
