@@ -641,6 +641,8 @@ class MailBoxService
             'mail_prefix'     => $mailPrefix
         ]);
 
+        $theme = Theme::model()->findByPk($themeId);
+
         if( null !== $outbox_mail_theme ) {
             if($outbox_mail_theme->mailConstructor !== null && $outbox_mail_theme->mailConstructor->code === 'TXT') {
                 $mailTemplate = $simulation->game_type->getMailTemplate(['code' => $outbox_mail_theme->mail_code]);
@@ -960,7 +962,7 @@ class MailBoxService
             $result['phrases']['previouseMessage'] = $email->message;
         } elseif ($action == self::ACTION_REPLY || $action == self::ACTION_REPLY_ALL) {
             $themePrefix = 're';
-            $result['phrases'] = self::getPhrases($email->simulation, $email->theme_id, $email->receiver_id, $themePrefix.$email->mail_prefix);
+            $result['phrases'] = self::getPhrases($email->simulation, $email->theme_id, $email->sender_id, $themePrefix.$email->mail_prefix);
             $result['phrases']['previouseMessage'] = $email->message;
         }
         $result['theme'] = $email->getFormattedTheme($themePrefix);
