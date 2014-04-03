@@ -131,8 +131,9 @@ class AssessmentPDF {
 
     public function saveOnDisk($name, $convert_to_jpg=true) {
         $this->pdf->Output($name.'.pdf', 'F');
-        if($convert_to_jpg){
-            exec("convert ".$name.".pdf ".$name.".jpg");
+        if ($convert_to_jpg) {
+            exec("convert -quality 100 -density 600 ".$name.".pdf ".$name.".jpg");
+            exec("convert -quality 90 -resize 25%  ".$name.".jpg ".$name.".jpg");
         }
     }
 

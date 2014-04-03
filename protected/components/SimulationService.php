@@ -1266,7 +1266,14 @@ class SimulationService
         $pdf->addSpeedometer(78.4, 58.5, $data['performance']['total']);
         $pdf->addSpeedometer(147.3, 58.5, $data['management']['total']);
 
-        $pdf->saveOnDisk($path.'bank_1');
+        $pdf->saveOnDisk(sprintf(
+            '%sp1_%s_%s_overall',
+            $path,
+            $simulation->id,
+            ucfirst(StringTools::CyToEn($simulation->user->profile->lastname))
+        ));
+
+        // ---------------------------------------
 
         $pdf = new AssessmentPDF();
         $pdf->setImagesDir('simulation_details_v2_for_bank/images/');
@@ -1282,7 +1289,14 @@ class SimulationService
         );
         $pdf->addOvertime(145.2, 63.8, $data['time']['workday_overhead_duration']);
 
-        $pdf->saveOnDisk($path.'bank_2');
+        $pdf->saveOnDisk(sprintf(
+            '%sp2_%s_%s_time',
+            $path,
+            $simulation->id,
+            ucfirst(StringTools::CyToEn($simulation->user->profile->lastname))
+        ));
+
+        // ---------------------------------------
 
         $pdf = new AssessmentPDF();
         $pdf->setImagesDir('simulation_details_v2_for_bank/images/');
@@ -1296,7 +1310,6 @@ class SimulationService
             79.1,
             23.5
         ); //Продуктивное время
-
 
         $pdf->addPercentMiddleInfo($data['time'][TimeManagementAggregated::SLUG_GLOBAL_TIME_SPEND_FOR_NON_PRIORITY_ACTIVITIES], 183.5, 23.5);//Не продуктивное время
 
@@ -1338,8 +1351,14 @@ class SimulationService
         //План
         $pdf->addTimeBarUnproductive($y_positive, 87, $data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_PLANING], $max_negative);
 
+        $pdf->saveOnDisk(sprintf(
+            '%sp3_%s_%s_time_detail',
+            $path,
+            $simulation->id,
+            ucfirst(StringTools::CyToEn($simulation->user->profile->lastname))
+        ));
 
-        $pdf->saveOnDisk($path.'bank_3');
+        // ---------------------------------------
 
         $pdf = new AssessmentPDF();
         $pdf->setImagesDir('simulation_details_v2_for_bank/images/');
@@ -1359,7 +1378,14 @@ class SimulationService
         //Двухминутные задачи
         $pdf->addUniversalBar(45.5, 62.5, $pdf->getPerformanceCategory($data['performance'], '2_min'), 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);
 
-        $pdf->saveOnDisk($path.'bank_4');
+        $pdf->saveOnDisk(sprintf(
+            '%sp4_1_%s_%s_productivity',
+            $path,
+            $simulation->id,
+            ucfirst(StringTools::CyToEn($simulation->user->profile->lastname))
+        ));
+
+        // ---------------------------------------
 
         $pdf = new AssessmentPDF();
         $pdf->setImagesDir('simulation_details_v2_for_bank/images/');
@@ -1373,7 +1399,14 @@ class SimulationService
         $pdf->addUniversalBar(61, 43.3, $data['management'][3]['total'], 128.7, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);//3
 
 
-        $pdf->saveOnDisk($path.'bank_5');
+        $pdf->saveOnDisk(sprintf(
+            '%sp5_%s_%s_skills_overall',
+            $path,
+            $simulation->id,
+            ucfirst(StringTools::CyToEn($simulation->user->profile->lastname))
+        ));
+
+        // ---------------------------------------
 
         $pdf = new AssessmentPDF();
         $pdf->setImagesDir('simulation_details_v2_for_bank/images/');
@@ -1391,7 +1424,14 @@ class SimulationService
         $pdf->addUniversalBar(150, 47.5, $data['management'][1]['1_3']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//1.3 negative
         $pdf->addUniversalBar(150, 57.5, $data['management'][1]['1_4']['-'], 54.14, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_NEGATIVE);//1.4 negative
 
-        $pdf->saveOnDisk($path.'bank_6');
+        $pdf->saveOnDisk(sprintf(
+            '%sp6_%s_%s_skills_planing',
+            $path,
+            $simulation->id,
+            ucfirst(StringTools::CyToEn($simulation->user->profile->lastname))
+        ));
+
+        // ---------------------------------------
 
         $pdf = new AssessmentPDF();
         $pdf->setImagesDir('simulation_details_v2_for_bank/images/');
@@ -1408,7 +1448,14 @@ class SimulationService
         $pdf->addUniversalBar(150, 38, $data['management'][2]['2_2']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//2.2 negative
         $pdf->addUniversalBar(150, 48, $data['management'][2]['2_3']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//2.3 negative
 
-        $pdf->saveOnDisk($path.'bank_7');
+        $pdf->saveOnDisk(sprintf(
+            '%sp7_%s_%s_skills_delegation',
+            $path,
+            $simulation->id,
+            ucfirst(StringTools::CyToEn($simulation->user->profile->lastname))
+        ));
+
+        // ---------------------------------------
 
         $pdf = new AssessmentPDF();
         $pdf->setImagesDir('simulation_details_v2_for_bank/images/');
@@ -1427,7 +1474,14 @@ class SimulationService
         $pdf->addUniversalBar(150, 48, $data['management'][3]['3_3']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//3.3 negative
         $pdf->addUniversalBar(150, 58, $data['management'][3]['3_4']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//3.4 negative
 
-        $pdf->saveOnDisk($path.'bank_8');
+        $pdf->saveOnDisk(sprintf(
+            '%sp8_%s_%s_skills_communication',
+            $path,
+            $simulation->id,
+            ucfirst(StringTools::CyToEn($simulation->user->profile->lastname))
+        ));
+
+        // ---------------------------------------
 
         $pdf = new AssessmentPDF();
         $pdf->setImagesDir('simulation_details_v2_for_bank/images/');
@@ -1447,7 +1501,12 @@ class SimulationService
         //Двухминутные задачи
         $pdf->addUniversalBar(47, 63.9, $pdf->getPerformanceCategory($data['performance'], '2_min'), 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);
 
-        $pdf->saveOnDisk($path.'bank_9');
+        $pdf->saveOnDisk(sprintf(
+            '%sp4_%s_%s_productivity',
+            $path,
+            $simulation->id,
+            ucfirst(StringTools::CyToEn($simulation->user->profile->lastname))
+        ));
     }
 
     public static function getFileNameForAnalyticalFile(YumUser $user){
