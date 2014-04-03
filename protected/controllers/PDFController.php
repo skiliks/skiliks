@@ -25,7 +25,8 @@ class PDFController extends SiteBaseController {
         $isAdmin = $this->user->isAdmin();
 
         if($isUser || $isOwner || $isAdmin) {
-            $first_name = StringTools::CyToEnWithUppercase($simulation->user->profile->firstname);
+            $this->createBehavioursPDF($simulation, '', false);
+            /*$first_name = StringTools::CyToEnWithUppercase($simulation->user->profile->firstname);
             $last_name = StringTools::CyToEnWithUppercase($simulation->user->profile->lastname);
             $path = __DIR__.'/../system_data/simulation_details/';
             $filename = $first_name.'_'.$last_name.'_'.date('dmy', strtotime($simulation->end)).'.zip';
@@ -45,14 +46,14 @@ class PDFController extends SiteBaseController {
 
             $File = file_get_contents($path.'/'.$filename);
 
-            echo $File;
+            echo $File;*/
         } else {
             $this->redirect('/dashboard');
         }
     }
 
 
-    private function createSimulationDetailPDF(Simulation $simulation, $path) {
+    private function createSimulationDetailPDF(Simulation $simulation, $path, $save = true) {
         $assessmentVersion = $simulation->assessment_version;
         $data = json_decode($simulation->getAssessmentDetails(), true);
 
@@ -502,62 +503,175 @@ class PDFController extends SiteBaseController {
 
         $filename = $first_name.'_'.$last_name.'_detail_'.date('dmy', strtotime($simulation->end));
 
-        $pdf->saveOnDisk($path.'/'.$filename, false);
+        if($save) {
+            $pdf->saveOnDisk($path.'/'.$filename, false);
+        } else {
+            $pdf->renderOnBrowser($filename);
+        }
 
         return $filename;
     }
 
-    private function createBehavioursPDF(Simulation $simulation, $path) {
+    private function createBehavioursPDF(Simulation $simulation, $path, $save = false) {
 
         $data = unserialize($simulation->popup_tests_cache)['recommendation'];
+        //var_dump($data);
+        //exit;
         $username = $simulation->user->profile->firstname.' '.$simulation->user->profile->lastname;
+
+        $titles = [
+            '1' => '1. Управление задачами с учетом приоритетов',
+            '1_1' => '1.1 Планирование рабочего дня',
+            '1_2' => '1.2 Определение категории задачи (по матрице важно/срочно) при планировании',
+            '1_3' => '1.3 Выполнение задач с учетом их категорий',
+            '1_4' => '1.4 Завершения начатой задачи (следование приоритету и ориентация на результат)',
+            '2' => '2. Управление людьми',
+            '2_1' => '2.1 Использование делегирования',
+            '2_2' => '2.2 Управление сотрудниками различной квалификации',
+            '2_3' => '2.3 Использование обратной связи',
+            '3' => '3. Управление коммуникациями',
+            '3_1' => '3.1 Выбор наилучего канала коммуникации исходя из задач коммуникаций',
+            '3_2' => '3.2 Эффективная работа с почтой',
+            '3_3' => '3.3 Эффективная работа со звонками',
+            '3_4' => '3.4 Эффективное управление встречами',
+            '3_5_1' => 'Управление количеством и периодами времени, затраченного на почту',
+            '3_5_2' => 'Эффективная обработка входящих писем в почте',
+            '3_5_3' => 'Создание информативных и экономных исходящих писем',
+            '3_5_4' => 'Управление количеством и периодами времени, затраченного на звонки',
+            '3_5_5' => 'Эффективная обработка входящих звонков',
+            '3_5_6' => 'Управление количеством и периодами времени, затраченного на встречи',
+            '3_5_7' => 'Эффективный прием посетителей',
+            '3_5_8' => 'Эффективная обработка результатов встречи',
+        ];
+
+        $sub_titles = [
+            '3311' => '3_5_1',
+            '3312' => '3_5_1',
+            '3313' => '3_5_1',
+
+            '3322' => '3_5_2',
+            '3323' => '3_5_2',
+            '3324' => '3_5_2',
+            '3326' => '3_5_2',
+
+            '3332' => '3_5_3',
+            '3333' => '3_5_3',
+
+            '341a8' => '3_5_4',
+
+            '341b1' => '3_5_5',
+            '341b5' => '3_5_5',
+            '341b7' => '3_5_5',
+
+            '351a1' => '3_5_6',
+            '351a2' => '3_5_6',
+
+            '351b1' => '3_5_7',
+            '351b2' => '3_5_7',
+            '351b3' => '3_5_7',
+
+            '351c1' => '3_5_8',
+            '351c2' => '3_5_8',
+            '351c3' => '3_5_8'
+        ];
 
         $pdf = new AssessmentPDF();
         $pdf->pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
         $pdf->addEmptyPage();
-        $pdf->writeTextBold($username, 3.5, 3.5, 21);
-        $pdf->writeTextBold("Индивидуальный план развития", 3.5, 13, 19);
+        $pdf->writeTextBold($username, 33, 8.5, 21);
+        $pdf->writeTextBold("Индивидуальный план развития", 45, 21, 21);
 
-        $html = '';
+        $html = [];
         $Criteria = new CDbCriteria();
         $Criteria->order = 'code asc';
         $groups = $simulation->game_type->getLearningGoalGroups($Criteria);
         foreach($groups as $group) {
-            $ul = '';
+            $ul = [];
             foreach(LearningGoal::model()->findAllByAttributes(['learning_goal_group_id'=>$group->id]) as $learningGoal) {
 
                 /* @var LearningGoal $learningGoal */
                 foreach($learningGoal->heroBehaviours as $behaviour) {
+                    //var_dump($behaviour->code);
                     /* @var HeroBehaviour $behaviour */
                     if(isset($data[$behaviour->code])) {
-                        //var_dump($data[$behaviour->code]);
-                        //exit;
-                        $ul .= '<li>'.$behaviour->code.' - '.$data[$behaviour->code]['text'].'</li>';
+                        if($data[$behaviour->code]['short_text'] === '(хорошо)'){
+                            continue;
+                        }
+                        $ul[$behaviour->code] = '<li>'.$behaviour->code.' - '.$data[$behaviour->code]['text'].'</li>';
                     }
                 }
 
             }
-
-            $html .= '<tr>
-                            <td style="width: 5%;"></td>
-                            <td style="width: 90%;"
-                                ><font face="dejavusans" style="font-weight: bold;font-size: 12pt;">'.str_replace('_', '.', $group->code).' '.$group->title.'</font
-                                ><ul>
-                                    '.$ul.'
-                                  </ul><br>
+            ksort($ul);
+            if(count($ul) === 0) { continue; }
+            
+            if(!isset($html[explode('_', $group->code)[0]])) {
+                $html[explode('_', $group->code)[0]] = '<tr>
+                            <td style="width: 15%;"></td>
+                            <td style="width: 78%;"
+                                ><font face="dejavusans" style="font-weight: bold;font-size: 15pt;">'.$titles[explode('_', $group->code)[0]].'</font>
                             </td>
-                            <td style="width: 5%;"></td>
+                            <td style="width: 7%;"></td>
                           </tr>';
-        }
+            }
+            if(in_array($group->code, ['3_2', '3_3', '3_4'])) {
+                $data2 = [];
+                foreach($ul as $code => $text) {
 
-        $pdf->writeHtml($html, 25);
+                    /*if(in_array($code, [3214, 3218])){
+                        continue;
+                    }*/
+                    //var_dump($code);
+                    //exit;
+                    if(isset($sub_titles[$code])) {
+                        //$text = '<font face="dejavusans" style="font-weight: bold;font-size: 10pt;">'.$titles[$group->code].'</font>';
+                        $data2[$sub_titles[$code]][] = $text;
+                    }
+
+                }
+
+                //var_dump($data);
+                //exit;
+                $td = '';
+
+                foreach($data2 as $code => $li){
+                    $td.= '<font face="dejavusans" style="font-weight: bold;font-size: 10pt;">'.$titles[$code].'</font><br><ul>'.implode('', $li).'</ul>';
+                }
+                $html[$group->code] = '<tr>
+                            <td style="width: 15%;"></td>
+                            <td style="width: 78%;"
+                                ><font face="dejavusans" style="font-weight: bold;font-size: 12pt;">'.$titles[$group->code].'</font
+                                ><br>'.$td.'
+                            </td>
+                            <td style="width: 7%;"></td>
+                          </tr><br>';
+
+            } else {
+                $html[$group->code] = '<tr>
+                            <td style="width: 15%;"></td>
+                            <td style="width: 78%;"
+                                ><font face="dejavusans" style="font-weight: bold;font-size: 12pt;">'.$titles[$group->code].'</font
+                                ><ul>
+                                    '.implode('', $ul).'
+                                  </ul>
+                            </td>
+                            <td style="width: 7%;"></td>
+                          </tr><br>';
+            }
+        }
+        //exit;
+        $pdf->writeHtml(implode('', $html), 35);
 
         $first_name = StringTools::CyToEnWithUppercase($simulation->user->profile->firstname);
         $last_name = StringTools::CyToEnWithUppercase($simulation->user->profile->lastname);
 
         $filename = $first_name.'_'.$last_name.'_behaviours_'.date('dmy', strtotime($simulation->end));
 
-        $pdf->saveOnDisk($path.'/'.$filename, false);
+        if($save) {
+            $pdf->saveOnDisk($path.'/'.$filename, false);
+        } else {
+            $pdf->renderOnBrowser($filename);
+        }
 
         return $filename;
     }
