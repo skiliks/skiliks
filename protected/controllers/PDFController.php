@@ -578,8 +578,8 @@ class PDFController extends SiteBaseController {
         $pdf = new AssessmentPDF();
         $pdf->pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
         $pdf->addEmptyPage();
-        $pdf->writeTextBold($username, 3.5, 3.5, 21);
-        $pdf->writeTextBold("Индивидуальный план развития", 45, 13, 21);
+        $pdf->writeTextBold($username, 33, 8.5, 21);
+        $pdf->writeTextBold("Индивидуальный план развития", 45, 21, 21);
 
         $html = [];
         $Criteria = new CDbCriteria();
@@ -607,11 +607,11 @@ class PDFController extends SiteBaseController {
             
             if(!isset($html[explode('_', $group->code)[0]])) {
                 $html[explode('_', $group->code)[0]] = '<tr>
-                            <td style="width: 5%;"></td>
-                            <td style="width: 90%;"
+                            <td style="width: 15%;"></td>
+                            <td style="width: 78%;"
                                 ><font face="dejavusans" style="font-weight: bold;font-size: 15pt;">'.$titles[explode('_', $group->code)[0]].'</font>
                             </td>
-                            <td style="width: 5%;"></td>
+                            <td style="width: 7%;"></td>
                           </tr>';
             }
             if(in_array($group->code, ['3_2', '3_3', '3_4'])) {
@@ -638,29 +638,29 @@ class PDFController extends SiteBaseController {
                     $td.= '<font face="dejavusans" style="font-weight: bold;font-size: 10pt;">'.$titles[$code].'</font><br><ul>'.implode('', $li).'</ul>';
                 }
                 $html[$group->code] = '<tr>
-                            <td style="width: 5%;"></td>
-                            <td style="width: 90%;"
+                            <td style="width: 15%;"></td>
+                            <td style="width: 78%;"
                                 ><font face="dejavusans" style="font-weight: bold;font-size: 12pt;">'.$titles[$group->code].'</font
                                 ><br>'.$td.'
                             </td>
-                            <td style="width: 5%;"></td>
+                            <td style="width: 7%;"></td>
                           </tr><br>';
 
             } else {
                 $html[$group->code] = '<tr>
-                            <td style="width: 5%;"></td>
-                            <td style="width: 90%;"
+                            <td style="width: 15%;"></td>
+                            <td style="width: 78%;"
                                 ><font face="dejavusans" style="font-weight: bold;font-size: 12pt;">'.$titles[$group->code].'</font
                                 ><ul>
                                     '.implode('', $ul).'
                                   </ul>
                             </td>
-                            <td style="width: 5%;"></td>
+                            <td style="width: 7%;"></td>
                           </tr><br>';
             }
         }
         //exit;
-        $pdf->writeHtml(implode('', $html), 25);
+        $pdf->writeHtml(implode('', $html), 35);
 
         $first_name = StringTools::CyToEnWithUppercase($simulation->user->profile->firstname);
         $last_name = StringTools::CyToEnWithUppercase($simulation->user->profile->lastname);
