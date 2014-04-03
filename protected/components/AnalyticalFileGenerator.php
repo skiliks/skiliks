@@ -148,23 +148,15 @@ class AnalyticalFileGenerator {
      * @param null $width
      */
     public function addColumnRight($text, $format, $width = null) {
-        $text = str_replace('.', ',', $text);
+
 
         if($format === PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00) {
-            if($text[strlen($text) - 1] === '%' && !in_array(',', str_split($text))){
-                $text = str_replace('%', '', $text).',00%';
-            }elseif($text[strlen($text) - 1] === '%' && strlen(explode(',', $text)[1]) === 2){
-                //var_dump($text);
-                $text = str_replace('%', '', $text).'0%';
-            }
+            $text = number_format(round((float)$text, 2), 2).'%';
         }
         if($format === PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00) {
-            if(isset(explode(',', $text)[1]) && strlen(explode(',', $text)[1]) === 1){
-                $text.='0';
-            } elseif(isset(explode(',', $text)[1]) && strlen(explode(',', $text)[1]) === 0) {
-                $text.=',00';
-            }
+            $text = number_format(round((float)$text, 2), 2);
         }
+        $text = str_replace('.', ',', $text);
         $sheet = $this->addColumn($text, $width);
         $sheet->getStyleByColumnAndRow($this->column_number-1, $sheet->getHighestRow())->getFill()
             ->applyFromArray(array('type' => \PHPExcel_Style_Fill::FILL_SOLID,
@@ -176,6 +168,7 @@ class AnalyticalFileGenerator {
             ->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
         $sheet->getStyleByColumnAndRow($this->column_number-1, $sheet->getHighestRow())
             ->getNumberFormat()->setFormatCode($format);
+
     }
 
     /**
