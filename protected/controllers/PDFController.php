@@ -515,6 +515,8 @@ class PDFController extends SiteBaseController {
     private function createBehavioursPDF(Simulation $simulation, $path, $save = false) {
 
         $data = unserialize($simulation->popup_tests_cache)['recommendation'];
+        //var_dump($data);
+        //exit;
         $username = $simulation->user->profile->firstname.' '.$simulation->user->profile->lastname;
 
         $titles = [
@@ -600,6 +602,8 @@ class PDFController extends SiteBaseController {
 
             }
             ksort($ul);
+            if(count($ul) === 0) { continue; }
+            
             if(!isset($html[explode('_', $group->code)[0]])) {
                 $html[explode('_', $group->code)[0]] = '<tr>
                             <td style="width: 5%;"></td>
@@ -609,8 +613,38 @@ class PDFController extends SiteBaseController {
                             <td style="width: 5%;"></td>
                           </tr>';
             }
-            
-            $html[$group->code] = '<tr>
+            if(in_array($group->code, ['3_2', '3_3', '3_4'])) {
+                $data2 = [];
+                foreach($ul as $code => $text) {
+                    /*if(in_array($code, [3214, 3218])){
+                        continue;
+                    }*/
+                    //var_dump($code);
+                    //exit;
+                    if(isset($sub_titles[$code])) {
+                        //$text = '<font face="dejavusans" style="font-weight: bold;font-size: 10pt;">'.$titles[$group->code].'</font>';
+                        $data2[$sub_titles[$code]][] = $text;
+                    }
+                }
+
+                //var_dump($data);
+                //exit;
+                $td = '';
+
+                foreach($data2 as $code => $li){
+                    $td.= '<font face="dejavusans" style="font-weight: bold;font-size: 10pt;">'.$titles[$code].'</font><br><ul>'.implode('', $li).'</ul>';
+                }
+                $html[$group->code] = '<tr>
+                            <td style="width: 5%;"></td>
+                            <td style="width: 90%;"
+                                ><font face="dejavusans" style="font-weight: bold;font-size: 12pt;">'.$titles[$group->code].'</font
+                                ><br>'.$td.'
+                            </td>
+                            <td style="width: 5%;"></td>
+                          </tr><br>';
+
+            } else {
+                $html[$group->code] = '<tr>
                             <td style="width: 5%;"></td>
                             <td style="width: 90%;"
                                 ><font face="dejavusans" style="font-weight: bold;font-size: 12pt;">'.$titles[$group->code].'</font
@@ -620,8 +654,9 @@ class PDFController extends SiteBaseController {
                             </td>
                             <td style="width: 5%;"></td>
                           </tr><br>';
+            }
         }
-
+        //exit;
         $pdf->writeHtml(implode('', $html), 25);
 
         $first_name = StringTools::CyToEnWithUppercase($simulation->user->profile->firstname);
