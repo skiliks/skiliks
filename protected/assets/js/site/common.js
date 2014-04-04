@@ -1,4 +1,21 @@
 $(document).ready(function () {
+
+    $(".log-out-link").click(function(){
+        var lastGetState = new Date();
+        if(localStorage.getItem('lastGetState') === null){
+            return true;
+        } else if(lastGetState.getTime() <= (parseInt(localStorage.getItem('lastGetState')) +30000)) {
+            if (window.confirm("У вас есть незавершенная симуляция. Если вы выйдете из аккаунта, то потеряете все результаты")) {
+                //window.alert("Ок");
+                return true;
+            } else {
+                //window.alert("Тупак");
+                return false;
+            }
+        } else {
+            return true;
+        }
+    });
     // 1) отображает подстказку справа от элемента "action-display-popover" на странице
     $(".action-display-popover").click(function() {
 
