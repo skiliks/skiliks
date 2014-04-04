@@ -614,52 +614,87 @@ class PDFController extends SiteBaseController {
                             <td style="width: 7%;"></td>
                           </tr>';
             }
+
             if(in_array($group->code, ['3_2', '3_3', '3_4'])) {
                 $data2 = [];
                 foreach($ul as $code => $text) {
-
-                    /*if(in_array($code, [3214, 3218])){
-                        continue;
-                    }*/
-                    //var_dump($code);
-                    //exit;
                     if(isset($sub_titles[$code])) {
-                        //$text = '<font face="dejavusans" style="font-weight: bold;font-size: 10pt;">'.$titles[$group->code].'</font>';
                         $data2[$sub_titles[$code]][] = $text;
                     }
 
                 }
 
-                //var_dump($data);
-                //exit;
-                $td = '';
+                $list = '';
 
-                foreach($data2 as $code => $li){
-                    $td.= '<font face="dejavusans" style="font-weight: bold;font-size: 10pt;">'.$titles[$code].'</font><br><ul>'.implode('', $li).'</ul>';
+                foreach ($data2 as $code => $li) {
+                    $list.= '<table>
+                        <tr>
+                            <td>
+                                <font face="dejavusans" style="font-weight: bold;font-size: 10pt;">'.$titles[$code].'</font
+                            ></td>
+                        </tr>
+                        <tr>
+                            <td>
+                            <ul>'.implode('', $li).'</ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                &nbsp;
+                            </td>
+                        </tr>
+                        </table>';
                 }
-                $html[$group->code] = '<tr>
+
+                if (0 < count($data2)) {
+                    $html[$group->code] = '<tr>
                             <td style="width: 15%;"></td>
                             <td style="width: 78%;"
                                 ><font face="dejavusans" style="font-weight: bold;font-size: 12pt;">'.$titles[$group->code].'</font
-                                ><br>'.$td.'
+                                ></td>
+                            <td style="width: 7%;"></td>
+                          </tr>
+                          <tr>
+                            <td style="width: 15%;"></td>
+                            <td style="width: 78%;">
+                            '. $list.'
                             </td>
                             <td style="width: 7%;"></td>
-                          </tr><br>';
+                          </tr>';
+                } else {
+                    $html[$group->code] = '<tr>
+                            <td style="width: 15%;"></td>
+                            <td style="width: 78%;"
+                                ><font face="dejavusans" style="font-weight: bold;font-size: 12pt;">'.$titles[$group->code].'</font
+                                >
+                            </td>
+                            <td style="width: 7%;"></td>
+                          </tr>
+                          <br>';
+                }
+
 
             } else {
+                // '1_1', '1_2', '1_3', '1_4', '2_1', '2_2', '2_3', '3_1', '3_5'
                 $html[$group->code] = '<tr>
-                            <td style="width: 15%;"></td>
-                            <td style="width: 78%;"
-                                ><font face="dejavusans" style="font-weight: bold;font-size: 12pt;">'.$titles[$group->code].'</font
-                                ><ul>
-                                    '.implode('', $ul).'
-                                  </ul>
-                            </td>
-                            <td style="width: 7%;"></td>
-                          </tr><br>';
+                        <td style="width: 15%;"></td>
+                        <td style="width: 78%;"
+                            ><font face="dejavusans" style="font-weight: bold; font-size: 12pt; ">'.$titles[$group->code].'</font>
+                        </td>
+                        <td style="width: 7%;"></td>
+                      </tr>
+                      <tr>
+                        <td style="width: 15%;"></td>
+                        <td style="width: 78%;"
+                            ><ul>
+                                '.implode('', $ul).'
+                              </ul>
+                        </td>
+                        <td style="width: 7%;"></td>
+                      </tr>
+                      <br>';
             }
         }
-        //exit;
         $pdf->writeHtml(implode('', $html), 35);
 
         $first_name = StringTools::CyToEnWithUppercase($simulation->user->profile->firstname);
