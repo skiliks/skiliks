@@ -1119,9 +1119,10 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
             reloadSubjectsWithWarning:function (recipientIds, action, parent_subject, callback, el_tag, updateSubject) {
                 try {
                     var mailClient = this;
+                    var recipientIdByTagText = mailClient.findRecipientByName($(el_tag).text().replace(/\s\((.*)\)/g, ''));
 
                     var isFwdEmail = (action == 'add_fwd' ||  action == 'delete_fwd');
-                    var isFirsRecipientRemoved = (_.first(recipientIds) === mailClient.findRecipientByName($(el_tag).text().replace(/\s\((.*)\)/g, '')));
+                    var isFirsRecipientRemoved = (_.first(recipientIds) === recipientIdByTagText);
 
                     // for NEW email
                     var isRecipientChanged = (0 !== mailClient.availablePhrases.length && isFirsRecipientRemoved && this.isNotEmptySubject());
@@ -1140,13 +1141,28 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                                             if(recipientIds.length !== 0){
                                                 mailClient.reloadSubjects(recipientIds, parent_subject);
                                             }
+                                        } else {
+                                            if (action == 'delete_fwd' && isFirsRecipientRemoved) {
+
+                                                // надо запросить фразы для второго персонажа, в списке аддресатов
+                                                // ведь первого мы удаляем
+                                                // есди получатель один - передаём на сервер NULL
+                                                var currentRecipientId = null;
+                                                if (undefined != typeof recipientIds[1]) {
+                                                    var currentRecipientId = recipientIds[1];
+                                                }
+                                                mailClient.getAvailablePhrases(
+                                                    currentRecipientId ,
+                                                    mailClient.activeEmail.subject.themeId
+                                                );
+                                            }
                                         }
 
                                         $("#mailEmulatorNewLetterText").html('');
 
                                         if ('add' === action) {
                                             callback();
-                                        } else if('delete') {
+                                        } else {
                                             $("#MailClient_RecipientsList")[0].removeTag(el_tag);
                                             if(typeof updateSubject === 'function'){
                                                 updateSubject();
@@ -1163,7 +1179,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                                 }
                             ]});
 
-                        return true;
+                        return false;
                     } else {
                         return true;
                     }
