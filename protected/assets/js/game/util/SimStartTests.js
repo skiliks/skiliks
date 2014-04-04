@@ -48,7 +48,8 @@ try {
                     window.httpUserAgent.indexOf('QIPSurf') != -1 ||
                     window.httpUserAgent.indexOf('Sleipnir') != -1 ||
                     window.httpUserAgent.indexOf('SlimBrowser') != -1 ||
-                    window.httpUserAgent.indexOf('Nichrome') != -1
+                    window.httpUserAgent.indexOf('Nichrome') != -1 ||
+                    window.httpUserAgent.indexOf('Mobile') != -1
                 ) {
                     location.href = cfg.oldBrowserUrl;
                     return false;
