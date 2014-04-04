@@ -454,6 +454,9 @@ class UserService {
 
         $sent = UserService::addLongEmailToQueue($mailOptions, SiteEmailOptions::TEMPLATE_ANJELA);
 
+        $invite->ownerUser->getAccount()->default_invitation_mail_text = str_replace('<br>', "\r\n", $invite->message);
+        $invite->ownerUser->getAccount()->save(false);
+
         return $sent;
     }
 
