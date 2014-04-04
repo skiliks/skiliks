@@ -55,12 +55,12 @@ class Invite extends CActiveRecord
     ];
 
     public static $statusTextRus = [
-        self::STATUS_PENDING     => 'В ожидании',
-        self::STATUS_DECLINED    => 'Отклонено',
-        self::STATUS_ACCEPTED    => 'Принятый',
-        self::STATUS_IN_PROGRESS => 'В процессе', // after sim start
-        self::STATUS_COMPLETED   => 'Завершенный', // after sim start
-        self::STATUS_DELETED     => 'Удален'
+        self::STATUS_PENDING     => 'в ожидании',
+        self::STATUS_DECLINED    => 'отклонено',
+        self::STATUS_ACCEPTED    => 'принятый',
+        self::STATUS_IN_PROGRESS => 'в процессе', // after sim start
+        self::STATUS_COMPLETED   => 'завершенный', // after sim start
+        self::STATUS_DELETED     => 'удален'
     ];
 
     public static $statusId = [
