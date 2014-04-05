@@ -83,6 +83,28 @@ class GenerateReport3Command extends CConsoleCommand
         }
         // также нам нужны симуляции от e.sarnova@august-bel.by }
 
+        // также нам нужна симуляця для o.zaikina@erc.ur.ru {
+        $zaikinaProfile = YumProfile::model()->findByAttributes(['email' => 'o.zaikina@erc.ur.ru']);
+        if (null !== $zaikinaProfile) {
+            $zaikinaSimulations = Simulation::model()->findAll(
+                "user_id = {$zaikinaProfile->user_id} and
+                scenario_id = {$scenario->id} and
+                assessment_version = '{$assessment_version}' and
+                end is not null");
+
+            foreach($zaikinaSimulations as $simulation) {
+                /* @var Simulation $simulation */
+                if (Simulation::ASSESSMENT_VERSION_1 == $simulation->assessment_version) {
+                    $realUserSimulationsV1[$simulation->id] = $simulation;
+                }
+
+                if (Simulation::ASSESSMENT_VERSION_2 == $simulation->assessment_version) {
+                    $realUserSimulationsV2[$simulation->id] = $simulation;
+                }
+            }
+        }
+        // также нам нужна симуляця для o.zaikina@erc.ur.ru }
+
         // салютуем в консоль, что данные готовы
         var_dump(date('H:i:s', $start_time));
         var_dump(date('H:i:s', time()));
