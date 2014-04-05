@@ -115,7 +115,13 @@ define([
                     scroll:true,
                     snap:'td.planner-book-timetable-event-fl',
                     snapMode:'inner',
-                    snapTolerance:12,
+
+                    // SKILIKS-5819
+                    // В сафари едет вёрстка на листа "Завтра"
+                    // и неторорые строчки становятся меньше 12рх
+                    // из-за чево при snapTolerance = 12 в них невозможно поставить задачи
+                    snapTolerance: ($.browser['safari']) ? 5 : 12,
+
                     stack:".planner-book",
                     start:function () {
                         me.showDayPlanSlot($(this));
@@ -549,7 +555,6 @@ define([
                 me.$('.plan-todo-wrap .plan-todo-inner').append('<div style="height: 60px;"></div>');
                 this.setupDraggable();
                 this.$('.plan-todo-wrap').mCustomScrollbar("update");
-                //console.log('updateTodos');
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);
