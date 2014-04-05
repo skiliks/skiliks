@@ -112,7 +112,8 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             $is_send = false;
             try {
                 $is_send = UserService::sendInvite($this->user, $invite, $this->getParam('Invite')['is_display_simulation_results']);
-                if($is_send){
+                if ($is_send) {
+                    $invite->refresh();
                     UserService::sendEmailInvite($invite);
                 }
             } catch (RedirectException $e) {
