@@ -8,8 +8,9 @@
 
 class YumUserChangePassword extends YumFormModel 
 {
-//	private $_errors;
-	public $password;
+	use PasswordValidationTrait;
+
+    public $password;
 	public $verifyPassword;
 	public $currentPassword;
 
@@ -25,6 +26,9 @@ class YumUserChangePassword extends YumFormModel
         $rules[] = array('password', 'required', 'message' => Yii::t('site', 'Password is required'));
         $rules[] = array('verifyPassword', 'required', 'message' => Yii::t('site', 'Repeat password'));
         $rules[] = array('password', 'compare', 'compareAttribute' =>'verifyPassword', 'message' => Yii::t('site', 'Passwords do not match'));
+        $rules[] = array('password', 'passwordCyrillicStringMin', 'limit' => 6);
+        $rules[] = array('password', 'safe');
+        $rules[] = array('password',  'isJustPassword');
         $rules[] = array('currentPassword', 'length', 'max' => 50);
         $rules[] = array('verifyPassword', 'length', 'max' => 50);
         $rules[] = array('password', 'length', 'max' => 50);
@@ -41,5 +45,4 @@ class YumUserChangePassword extends YumFormModel
 			'currentPassword'=>Yum::t('Ваш текущий пароль'),
 		);
 	}
-
 }
