@@ -203,11 +203,7 @@ class UserAuthController extends YumController
                     new CHttpCookie('registration_email', $profile->email);
 
                 $this->redirect(['afterRegistration']);
-            }else{
-                $this->user->password = '';
-                $this->user->password_again = '';
             }
-
         }
 
         $industries = ['' => 'Выберите отрасль'];
