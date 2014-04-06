@@ -275,8 +275,8 @@ class ProfileController extends SiteBaseController implements AccountPageControl
             $account->company_size_id      = $UserAccountCorporate['company_size_id'];
             $account->company_description  = $UserAccountCorporate['company_description'];
 
-            if ($account->validate()) {
-                $account->save();
+            if ($account->validate(['ownership_type','company_name','industry_id','company_size_id','company_description'])) {
+                $account->save(false, ['ownership_type','company_name','industry_id','company_size_id','company_description']);
             }
         }
 
