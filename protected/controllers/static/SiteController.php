@@ -25,12 +25,14 @@ class SiteController extends SiteBaseController
         {
             $this->redirect('/system-mismatch');
         }
+        $scenario = Scenario::model()->findByAttributes(['slug'=>Scenario::TYPE_FULL]);
         /* @var $user YumUser */
         $user = Yii::app()->user->data();
         $startedInvites = Invite::model()->countByAttributes([
             'owner_id' => $user->id,
             'receiver_id' => $user->id,
-            'status' => Invite::STATUS_IN_PROGRESS
+            'status' => Invite::STATUS_IN_PROGRESS,
+            'scenario_id' => $scenario->id
         ]);
         if($user->isCorporate() && 0 === (int)$user->account_corporate->getTotalAvailableInvitesLimit() && 0 === (int)$startedInvites) {
             Yii::app()->user->setFlash('error', Yii::t('site', 'У вас закончились приглашения'));
