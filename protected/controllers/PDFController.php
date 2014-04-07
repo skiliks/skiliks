@@ -717,7 +717,7 @@ class PDFController extends SiteBaseController {
 
         $filename .= '_'.$type.'_'.date('dmy', strtotime($simulation->end));
 
-        return $filename;
+        return str_replace(' ', '_', $filename);
     }
 
 } 
