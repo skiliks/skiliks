@@ -195,20 +195,27 @@ define([], function () {
                     console.error('Иконки должны заблокироваться!');
                     if (window.Raven) {
                         window.Raven.captureMessage(message);
-                        window.Raven.captureMessage('stringify window_set:' + JSON.stringify(SKApp.simulation.window_set.models));
+                        window.Raven.captureMessage('stringify window_set:'
+                            + JSON.stringify(SKApp.simulation.window_set.models));
                     }
-
-                    // попробую просо не закрівать окно, если уж оно уже закрыто
-                    return;
                 }
+
+                // пока это мобытие слушает только MailClient
                 this.trigger('pre_close');
+
                 if (this.prevent_close === true) {
                     delete this.prevent_close;
                     return;
                 }
+
                 this.is_opened = false;
 
                 SKApp.simulation.window_set.hideWindow(this);
+
+                if (window.Raven) {
+                    window.Raven.captureMessage('stringify windowLog:'
+                        + JSON.stringify(SKApp.simulation.windowLog));
+                }
                 this.trigger('close');
             } catch(exception) {
                 if (window.Raven) {

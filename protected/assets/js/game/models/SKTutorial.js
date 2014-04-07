@@ -23,7 +23,6 @@ define([
                     eventsQueueDepth: $("#events-queue-depth").val()
                 }, function (data) {
                     if (undefined !== data && null !== data && undefined !== data.serverInfo && null !== data.serverInfo) {
-                        //console.log('1: '), data.serverInfo;
                         me.updateServerInfoForDev(data.serverInfo);
                     }
                 });
@@ -44,9 +43,9 @@ define([
                 var h = Math.floor(sh / 3600);
                 var m = Math.floor((sh - (h * 3600)) / 60);
                 var s = sh - (h * 3600) - (m * 60);
-                if (h   < 10) {h   = "0"+h;}
-                if (m < 10) {m = "0"+m;}
-                if (s < 10) {s = "0"+s;}
+                if (h   < 10) { h  = "0" + h; }
+                if (m < 10) { m = "0" + m; }
+                if (s < 10) { s = "0" + s; }
                 return h + ':' + m + (is_seconds ? ':' + s : '');
             } catch(exception) {
                 if (window.Raven) {

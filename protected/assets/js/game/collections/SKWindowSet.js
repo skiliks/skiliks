@@ -129,9 +129,13 @@ define([
                     // SKILIKS-5863
                     // надо исправлять ситуацию с двумя моделями для одной вьюхи справки
                     var countManual = 0;
+                    var countMain = 0;
                     this.each(function (window) {
                         if ('mainScreen' == window.get('name') && 'manual' == window.get('subname')) {
                             countManual++;
+                        }
+                        if ('mainScreen' == window.get('name') && 'mainScreen' == window.get('subname')) {
+                            countMain++;
                         }
                         zIndex = Math.max(window.get('zindex') !== undefined ? window.get('zindex') : -1, zIndex);
                     });
@@ -156,6 +160,15 @@ define([
                             }
                             zIndex = Math.max(window.get('zindex') !== undefined ? window.get('zindex') : -1, zIndex);
                         });
+                    }
+
+                    if (1 < countMain) {
+                        var message = "Two models for mainScreen detected: "
+                            + JSON.stringify(me)
+                            + ". game time: " + SKApp.simulation.getGameTime();
+                        if (window.Raven) {
+                            window.Raven.captureMessage(message);
+                        }
                     }
 
                 }, this);
@@ -245,7 +258,6 @@ define([
                     var WindowType = this.window_classes[name + '/' + subname] || SKWindow;
                     //console.log('WindowType 1 : ', name + '/' + subname, ' , ', WindowType);
                     var win = new WindowType(_.extend({name: name, subname: subname}, params));
-                    //console.log('win 1 : ', win);
                     win.open();
                 }
             } catch(exception) {

@@ -68,7 +68,6 @@ define([
                             subname: 'manual',
                             required: true
                         });
-                        //console.log('windowManual 1 : ', windowManual, ',', windowManual.id);
                     var warning;
 
                     appView.drawDesktop();
@@ -80,7 +79,19 @@ define([
                             me.stopPause();
                         });
                         appView.frame._showPausedScreen();
+
+                        if (window.Raven) {
+                            window.Raven.captureMessage('windowManual before open:'
+                                + JSON.stringify(SKApp.simulation.window_set.models));
+                        }
+
                         windowManual.open();
+
+                        if (window.Raven) {
+                            window.Raven.captureMessage('windowManual after open:'
+                                + JSON.stringify(SKApp.simulation.window_set.models));
+                        }
+
                     } else if(!app.isLite()) {
                         if(false === SKApp.simulation.isDebug()) {
                             $('.time').addClass("paused");
@@ -107,7 +118,7 @@ define([
                                 }]
                             });
                         }
-                    }else{
+                    } else {
                         me.stopPause();
                     }
                 };

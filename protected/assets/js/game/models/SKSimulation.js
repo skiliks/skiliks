@@ -475,7 +475,7 @@ define([
 
                         me.start_time = new Date();
                         localStorage.setItem('lastGetState', nowDate.getTime());
-                        console.log("SKSimulation.start "+data.scenarioName);
+
                         me.window = new SKWindow({name:'mainScreen', subname:'mainScreen'});
                         win = me.window;
                         win.open();
