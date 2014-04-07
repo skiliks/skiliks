@@ -1529,6 +1529,12 @@ class SimulationService
         return $zipFilename;
     }
 
+    /**
+     * Выбирает из базы все данные по симуляции, которые необходимо занести в кеш
+     * и сохраняет их в оговореном формате (серилизованными) в симуляцию.
+     *
+     * @param Simulation $simulation
+     */
     public static function saveBehavioursCache(Simulation $simulation)
     {
         $cache = [];
@@ -1552,20 +1558,27 @@ class SimulationService
         $simulation->save(false);
     }
 
-    public static function generateBehavioursCache() {
+    /**
+     * Генерирует текстовый кеш для Рекоммендаций по зарвитию менеджерских навыков (ИПР)
+     * Для всех завершенных симуляций, пройденных после 1 августа 2013
+     */
+    public static function generateBehavioursCache()
+    {
         ini_set('memory_limit', '-1');
         $scenario = Scenario::model()->findByAttributes(['slug'=>Scenario::TYPE_FULL]);
+
         /* @var Simulation[] $simulations */
-        $simulations = Simulation::model()->findAll("scenario_id = :scenario_id and results_popup_cache is not null and end >= '2013-08-01 00:00:00'", [
-            'scenario_id' => $scenario->id
-        ]);
+        $simulations = Simulation::model()->findAll(
+            "scenario_id = :scenario_id and results_popup_cache is not null and end >= '2013-08-01 00:00:00'",
+            [
+                'scenario_id' => $scenario->id
+            ]
+        );
         $count = count($simulations);
-        echo 'Найдено '.$count."\r\n";
+
         foreach($simulations as $simulation) {
-            echo 'Обработка sim_id = '.$simulation->id."\r\n";
             SimulationService::saveBehavioursCache($simulation);
             $count--;
-            echo 'Осталось '.$count."\r\n";
         }
     }
 }
