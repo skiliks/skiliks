@@ -28,6 +28,7 @@ class PDFController extends SiteBaseController {
             $first_name = StringTools::CyToEnWithUppercase($simulation->user->profile->firstname);
             $last_name = StringTools::CyToEnWithUppercase($simulation->user->profile->lastname);
             $path = __DIR__.'/../system_data/simulation_details/';
+
             $filename = $first_name.'_'.$last_name.'_'.date('dmy', strtotime($simulation->end)).'.zip';
             if(false === file_exists($path.'/'.$filename)){
 
@@ -571,7 +572,9 @@ class PDFController extends SiteBaseController {
             '351c3' => '3_5_8'
         ];
 
-        $pdf = new AssessmentPDF();
+        $pdf = new AssessmentPDF(true);
+        $pdf->pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+        $pdf->pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
         $pdf->pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
         $pdf->addEmptyPage();
         $pdf->writeTextBold($username, 33, 8.5, 21);
