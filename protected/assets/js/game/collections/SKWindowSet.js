@@ -124,10 +124,39 @@ define([
                 });
                 this.on('add', function (win) {
                     var zIndex = -1;
+                    var me = this;
+
+                    // SKILIKS-5863
+                    // надо исправлять ситуацию с двумя моделями для одной вьюхи справки
+                    var countManual = 0;
                     this.each(function (window) {
+                        if ('mainScreen' == window.get('name') && 'manual' == window.get('subname')) {
+                            countManual++;
+                        }
                         zIndex = Math.max(window.get('zindex') !== undefined ? window.get('zindex') : -1, zIndex);
                     });
                     win.set('zindex', zIndex + 1);
+
+                    // SKILIKS-5863
+                    // если есть дублирующиеся окна - уничтожаем не открытые
+                    // не открытое окно, это вобще нонсенс
+                    if (1 < countManual) {
+                        // логирую проблемный WindowSet, для дальнейшего изучения {
+                        var message = "Two models for manual detected: "
+                            + JSON.stringify(me)
+                            + ". game time: " + SKApp.simulation.getGameTime();
+                        if (window.Raven) {
+                            window.Raven.captureMessage(message);
+                        }
+                        // логирую проблемный WindowSet, для дальнейшего изучения }
+                        this.each(function (window) {
+                            if ('mainScreen' == window.get('name') && 'manual' == window.get('subname')
+                                && false == window.is_opened) {
+                                me.remove(window);
+                            }
+                            zIndex = Math.max(window.get('zindex') !== undefined ? window.get('zindex') : -1, zIndex);
+                        });
+                    }
 
                 }, this);
 
