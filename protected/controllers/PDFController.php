@@ -25,8 +25,7 @@ class PDFController extends SiteBaseController {
         $isAdmin = $this->user->isAdmin();
 
         if($isUser || $isOwner || $isAdmin) {
-            $this->createBehavioursPDF($simulation, '', false);
-            /*$first_name = StringTools::CyToEnWithUppercase($simulation->user->profile->firstname);
+            $first_name = StringTools::CyToEnWithUppercase($simulation->user->profile->firstname);
             $last_name = StringTools::CyToEnWithUppercase($simulation->user->profile->lastname);
             $path = __DIR__.'/../system_data/simulation_details/';
             $filename = $first_name.'_'.$last_name.'_'.date('dmy', strtotime($simulation->end)).'.zip';
@@ -40,13 +39,13 @@ class PDFController extends SiteBaseController {
                 $zip->close();
             }
 
-            //exit('yes');
+
             header('Content-Type: application/zip; charset=utf-8');
             header('Content-Disposition: attachment; filename="'.$filename.'"');
 
             $File = file_get_contents($path.'/'.$filename);
 
-            echo $File;*/
+            echo $File;
         } else {
             $this->redirect('/dashboard');
         }
@@ -498,10 +497,7 @@ class PDFController extends SiteBaseController {
                     </tr>
             ', 145);
 
-        $first_name = StringTools::CyToEnWithUppercase($simulation->user->profile->firstname);
-        $last_name = StringTools::CyToEnWithUppercase($simulation->user->profile->lastname);
-
-        $filename = $first_name.'_'.$last_name.'_detail_'.date('dmy', strtotime($simulation->end));
+        $filename = $this->createFilename($simulation, 'results');
 
         if($save) {
             $pdf->saveOnDisk($path.'/'.$filename, false);
@@ -512,7 +508,7 @@ class PDFController extends SiteBaseController {
         return $filename;
     }
 
-    private function createBehavioursPDF(Simulation $simulation, $path, $save = false) {
+    private function createBehavioursPDF(Simulation $simulation, $path, $save = true) {
 
         $data = unserialize($simulation->popup_tests_cache)['recommendation'];
         //var_dump($data);
@@ -597,7 +593,7 @@ class PDFController extends SiteBaseController {
                         if($data[$behaviour->code]['short_text'] === '(хорошо)'){
                             continue;
                         }
-                        $ul[$behaviour->code] = '<li>'.$behaviour->code.' - '.$data[$behaviour->code]['text'].'</li>';
+                        $ul[$behaviour->code] = '<li>'.$data[$behaviour->code]['text'].'</li>';
                     }
                 }
 
@@ -697,16 +693,33 @@ class PDFController extends SiteBaseController {
         }
         $pdf->writeHtml(implode('', $html), 35);
 
-        $first_name = StringTools::CyToEnWithUppercase($simulation->user->profile->firstname);
-        $last_name = StringTools::CyToEnWithUppercase($simulation->user->profile->lastname);
-
-        $filename = $first_name.'_'.$last_name.'_behaviours_'.date('dmy', strtotime($simulation->end));
-
+        $filename = $this->createFilename($simulation, 'plan_razvitiya');
         if($save) {
             $pdf->saveOnDisk($path.'/'.$filename, false);
         } else {
             $pdf->renderOnBrowser($filename);
         }
+
+        return $filename;
+    }
+
+    private function createFilename(Simulation $simulation, $type) {
+
+        $filename = '';
+        $filename .= StringTools::CyToEnWithUppercase($simulation->user->profile->firstname);
+        $filename .= '_'.StringTools::CyToEnWithUppercase($simulation->user->profile->lastname);
+        $latinCompanyOwnership = StringTools::CyToEnWithUppercase($simulation->invite->ownerUser->getAccount()->ownership_type);
+        $latinCompanyName = StringTools::CyToEnWithUppercase($simulation->invite->ownerUser->getAccount()->company_name);
+        $latinCompanyOwnership = preg_replace("/[^a-zA-Z0-9]/", "", $latinCompanyOwnership);
+        $latinCompanyName = preg_replace("/[^a-zA-Z0-9]/", "", $latinCompanyName);
+
+        if ('' != $latinCompanyOwnership) {
+            $filename .= '_'.$latinCompanyOwnership;
+        }
+        if ('' != $latinCompanyName) {
+            $filename .= '_'.$latinCompanyName;
+        }
+        $filename .= '_'.$type.'_'.date('dmy', strtotime($simulation->end));
 
         return $filename;
     }
