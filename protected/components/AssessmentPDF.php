@@ -75,15 +75,18 @@ class AssessmentPDF {
 
     public  $debug = false;
 
-    public function __construct() {
-        $this->pdf = Yii::createComponent('application.components.tcpdf.tcpdf',
+    public function __construct($display_footer = false) {
+        $this->pdf = Yii::createComponent('application.components.tcpdf.mypdf',
             'P', 'mm', 'A4', true, 'UTF-8');
 
         //Убрать отступы по краям
-        $this->pdf->SetMargins(0,0,0, true);
+        //$this->pdf->SetMargins(0,0,0, true);
 
         $this->pdf->setPrintHeader(false);
-        $this->pdf->setPrintFooter(false);
+        if($display_footer === false){
+
+            $this->pdf->setPrintFooter(false);
+        }
 
         //это нужно для того чтоб сделать картинку на всю страницу
         $this->pdf->SetAutoPageBreak(false, 0);
