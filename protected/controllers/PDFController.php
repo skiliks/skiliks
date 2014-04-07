@@ -28,7 +28,7 @@ class PDFController extends SiteBaseController {
             $first_name = StringTools::CyToEnWithUppercase($simulation->user->profile->firstname);
             $last_name = StringTools::CyToEnWithUppercase($simulation->user->profile->lastname);
             $path = __DIR__.'/../system_data/simulation_details/';
-   
+
             $filename = $first_name.'_'.$last_name.'_'.date('dmy', strtotime($simulation->end)).'.zip';
             if(false === file_exists($path.'/'.$filename)){
 
@@ -712,7 +712,7 @@ class PDFController extends SiteBaseController {
         $filename .= StringTools::CyToEnWithUppercase($simulation->user->profile->firstname);
         $filename .= '_'.StringTools::CyToEnWithUppercase($simulation->user->profile->lastname);
         if($simulation->invite->vacancy !== null) {
-            $filename .= '_'.StringTools::CyToEnWithUppercase($simulation->invite->vacancy->label);
+            $filename .= '_'.preg_replace("/[^a-zA-Z0-9]/", "", StringTools::CyToEnWithUppercase($simulation->invite->vacancy->label));
         }
 
         $filename .= '_'.$type.'_'.date('dmy', strtotime($simulation->end));
