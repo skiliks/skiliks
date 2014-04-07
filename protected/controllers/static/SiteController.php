@@ -34,7 +34,7 @@ class SiteController extends SiteBaseController
             'status' => Invite::STATUS_IN_PROGRESS,
             'scenario_id' => $scenario->id
         ]);
-        if($user->isCorporate() && 0 === (int)$user->account_corporate->getTotalAvailableInvitesLimit() && 0 === (int)$startedInvites) {
+        if($type !== Scenario::TYPE_LITE && $user->isCorporate() && 0 === (int)$user->account_corporate->getTotalAvailableInvitesLimit() && 0 === (int)$startedInvites) {
             Yii::app()->user->setFlash('error', Yii::t('site', 'У вас закончились приглашения'));
             $this->redirect('/dashboard');
         }
