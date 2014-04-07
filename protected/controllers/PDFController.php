@@ -28,7 +28,8 @@ class PDFController extends SiteBaseController {
             $first_name = StringTools::CyToEnWithUppercase($simulation->user->profile->firstname);
             $last_name = StringTools::CyToEnWithUppercase($simulation->user->profile->lastname);
             $path = __DIR__.'/../system_data/simulation_details/';
-
+            $this->createBehavioursPDF($simulation, $path, false);
+            exit;
             $filename = $first_name.'_'.$last_name.'_'.date('dmy', strtotime($simulation->end)).'.zip';
             if(false === file_exists($path.'/'.$filename)){
 
@@ -596,7 +597,7 @@ class PDFController extends SiteBaseController {
                         if($data[$behaviour->code]['short_text'] === '(хорошо)'){
                             continue;
                         }
-                        $ul[$behaviour->code] = '<li>'.$data[$behaviour->code]['text'].'</li>';
+                        $ul[$behaviour->code] = '<li><font face="dejavusans" style="font-size: 10pt;">'.$data[$behaviour->code]['text'].'</font></li>';
                     }
                 }
 
@@ -694,7 +695,7 @@ class PDFController extends SiteBaseController {
                       <br>';
             }
         }
-        $pdf->writeHtml(implode('', $html), 35);
+        $pdf->writeHtml('&nbsp;&nbsp;&nbsp;&nbsp;'.implode('', $html), 35);
 
         $filename = $this->createFilename($simulation, 'plan_razvitiya');
         if($save) {
