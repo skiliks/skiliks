@@ -741,7 +741,19 @@ class DebugController extends SiteBaseController
         }
     }
 
-    public function actionSleep() {
+    public function actionStarted() {
+
+        $profile = YumProfile::model()->findByAttributes(['email'=>$this->getParam('email')]);
+        $scenario = Scenario::model()->findByAttributes(['slug'=>Scenario::TYPE_FULL]);
+        $startedInvites = Invite::model()->findAllByAttributes([
+            'owner_id' => $profile->user_id,
+            'receiver_id' => $profile->user_id,
+            'status' => Invite::STATUS_IN_PROGRESS,
+            'scenario_id' => $scenario->id
+        ]);
+        foreach($startedInvites as $invite) {
+            echo $invite->id.',';
+        }
 
         //sleep(30);
     }
