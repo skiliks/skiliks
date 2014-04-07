@@ -12,12 +12,12 @@
 
 input.button-standard {
     margin-top: 0;
-    padding-bottom: 13px;
-    padding-top: 12px;
+    padding-bottom: 16px;
+    padding-top: 16px;
 }
 
 .skiliks.action-controller-recovery-static-userAuth .us-auth-box {
-    width: 650px;
+    width: 635px; /* 650, исправлено из-за бага на странице востановлении пароля */
 }
 
 .action-controller-login-auth .error-place {
