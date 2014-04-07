@@ -708,17 +708,10 @@ class PDFController extends SiteBaseController {
         $filename = '';
         $filename .= StringTools::CyToEnWithUppercase($simulation->user->profile->firstname);
         $filename .= '_'.StringTools::CyToEnWithUppercase($simulation->user->profile->lastname);
-        $latinCompanyOwnership = StringTools::CyToEnWithUppercase($simulation->invite->ownerUser->getAccount()->ownership_type);
-        $latinCompanyName = StringTools::CyToEnWithUppercase($simulation->invite->ownerUser->getAccount()->company_name);
-        $latinCompanyOwnership = preg_replace("/[^a-zA-Z0-9]/", "", $latinCompanyOwnership);
-        $latinCompanyName = preg_replace("/[^a-zA-Z0-9]/", "", $latinCompanyName);
+        if($simulation->invite->vacancy !== null) {
+            $filename .= '_'.StringTools::CyToEnWithUppercase($simulation->invite->vacancy->label);
+        }
 
-        if ('' != $latinCompanyOwnership) {
-            $filename .= '_'.$latinCompanyOwnership;
-        }
-        if ('' != $latinCompanyName) {
-            $filename .= '_'.$latinCompanyName;
-        }
         $filename .= '_'.$type.'_'.date('dmy', strtotime($simulation->end));
 
         return $filename;
