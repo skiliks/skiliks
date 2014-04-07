@@ -411,6 +411,7 @@ $(document).ready(function () {
                 // странный баг - только для этого, длинного, окна
                 // каждый раз открывается на одно окно больше: 1,2,3 ...
                 $('.locator-invite-accept-popup').dialog("destroy");
+                $(window).scrollTop('body');
             }
         });
 

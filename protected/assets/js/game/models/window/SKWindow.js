@@ -54,7 +54,9 @@ define([], function () {
          */
         initialize: function () {
             try {
-                console.log("SKWindow.initialize "+this.get('subname')+" cid: "+this.cid);
+                var message = "SKWindow.initialize " + this.get('subname')
+                    + " cid: " + this.cid
+                    + ". game time: " + SKApp.simulation.getGameTime();
                 // иногда обьект SKWindow приходит с id - что удивительно {
                 // и mainScreen и subname == undefined
                 // причину этого бага мы пока не нашли,
@@ -62,8 +64,6 @@ define([], function () {
                 //
                 // - поэтому лечим последствия
                 if ('undefined' == typeof this.get('name') && 'undefined' == typeof this.get('subname')) {
-                    console.error('Warning! SKWindow name and subname is undefined. Id is ' + this.get('id') + " cid: "+this.cid);
-
                     if ('mainScreen' == this.get('id')) {
                         this.set('name', 'mainScreen');
                         this.set('subname', 'mainScreen');
@@ -80,6 +80,14 @@ define([], function () {
                     }
                 }
                 // иногда обьект SKWindow приходит с id - что удивительно }
+
+                if (window.Raven && 'mainScreen' == this.get('name') && 'mainScreen' == this.get('subname')) {
+                    window.Raven.captureMessage('Log mainScreen init: ' + message);
+                }
+
+                if (window.Raven && 'mainScreen' == this.get('name') && 'manual' == this.get('subname')) {
+                    window.Raven.captureMessage('Log manual init: ' + message);
+                }
 
                 var window_id = this.get('name') + "/" + this.get('subname');
                 if (window_id in SKApp.simulation.window_set) {
@@ -179,15 +187,19 @@ define([], function () {
          */
         close: function() {
             try {
-                console.log(this.get('id')+" close");
                 if (!this.is_opened) {
-                    var message = "Window is already closed. Name: "+this.get('name')+" subname: "+this.get('subname')+" id: "+this.get('id')+". game time: "+SKApp.simulation.getGameTime();
-                    console.error(message);
+                    var message = "Window is already closed. Name: " + this.get('name')
+                        + " subname: " + this.get('subname')
+                        + " id: " + this.get('id')
+                        + ". game time: " + SKApp.simulation.getGameTime();
+                    console.error('Иконки должны заблокироваться!');
                     if (window.Raven) {
                         window.Raven.captureMessage(message);
-                        //JSON.stringify(SKApp.simulation.window_set.models);
-                        window.Raven.captureMessage(JSON.stringify(SKApp.simulation.window_set.models));
+                        window.Raven.captureMessage('stringify window_set:' + JSON.stringify(SKApp.simulation.window_set.models));
                     }
+
+                    // попробую просо не закрівать окно, если уж оно уже закрыто
+                    return;
                 }
                 this.trigger('pre_close');
                 if (this.prevent_close === true) {
