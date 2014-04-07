@@ -28,8 +28,7 @@ class PDFController extends SiteBaseController {
             $first_name = StringTools::CyToEnWithUppercase($simulation->user->profile->firstname);
             $last_name = StringTools::CyToEnWithUppercase($simulation->user->profile->lastname);
             $path = __DIR__.'/../system_data/simulation_details/';
-            $this->createBehavioursPDF($simulation, $path, false);
-            exit;
+
             $filename = $first_name.'_'.$last_name.'_'.date('dmy', strtotime($simulation->end)).'.zip';
             if(false === file_exists($path.'/'.$filename)){
 
