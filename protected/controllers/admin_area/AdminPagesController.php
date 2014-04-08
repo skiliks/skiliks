@@ -2094,6 +2094,8 @@ class AdminPagesController extends SiteBaseController {
         $user->is_password_bruteforce_detected = $set;
         $user->save(false);
 
+        UserService::logAccountAction($user, $_SERVER['REMOTE_ADDR'], 'У пользователь '.$user->profile->email.' была заблокирована авторизация админом '.$this->user->profile->email);
+
         $this->redirect(Yii::app()->request->urlReferrer);
     }
 
