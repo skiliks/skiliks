@@ -84,6 +84,7 @@ define([
                             appView.frame._toggleClockFreeze(false);
                             if (window.Raven) {
                                 window.Raven.captureMessage('windowManual close 3');
+                                window.Raven.captureMessage('Type of me :', (typeof me));
                             }
                             me.stopPause();
                             if (window.Raven) {
