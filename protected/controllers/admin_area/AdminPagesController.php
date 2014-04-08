@@ -696,6 +696,8 @@ class AdminPagesController extends SiteBaseController {
             throw new LogicException("The operation is not successful");
         }
         InviteService::logAboutInviteStatus($invite, 'Админ '.$this->user->profile->email.' откатил приглашение id = '.$invite_id);
+        Yii::app()->user->setFlash('success', "Успешно");
+        $this->redirect($this->request->urlReferrer);
     }
 
     /**
