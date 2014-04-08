@@ -12,7 +12,7 @@ hgroup h4 {
     background-image: url('../../../img/site/1280/product/blue-dot.png');
     background-position: center 25px;
     background-repeat: no-repeat;
-    font-size: 1.3em;
+    font-size: 1.2em;
     padding-top: 110px;
     vertical-align: top;
     width: 30%;
@@ -158,10 +158,6 @@ hgroup h4 {
     height: 340px;
 }
 
-.us-h4 {
-    margin-left: 68px;
-}
-
 .action-controller-productDiagnostic-static-pages .allsummry {
     background-position: center 40px;
 }
@@ -178,6 +174,11 @@ hgroup h4 {
 .skiliks.action-controller-productDiagnostic-static-pages .us-rateslist {
     margin-left: 10px;
     padding-right: 40px;
+}
+
+.skiliks.action-controller-productDiagnostic-static-pages .us-column-ful {
+    min-width: 998px;
+    width: 998px;
 }
 
 .skiliks .us-legend {

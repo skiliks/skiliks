@@ -6,13 +6,13 @@
         Диагностика управленческого <br/>потенциала компании
     </h1>
     <br/>
-    <h4 class="pull-content-left us-h4 reset-to-regular">
+    <h4 class="pull-content-center reset-to-regular">
         Системная картина уровня развития управленческих навыков менеджеров компании и<br/> зон ее развития
     </h4>
 </hgroup>
 <br/>
 
-<div class="column-full color-ffffff">
+<div class="column-full  us-column-ful color-ffffff">
     <span class="column-1-3 pull-content-center us-column-1-3">
         Сводный отчет в excel, позволяющий увидеть уровень развития навыков управленческой команды и отдельных групп.
     </span>
@@ -72,7 +72,7 @@
 <div class="levellabels  pull-content-center us-levellabels">
     <span class="widthblock column-1-3 pull-content-center vertical-align-top">
         <h5>
-            Уровень владения навыками
+            Уровень владения <br/>навыками
         </h5>
     </span>
     <span class="widthblock column-1-3 pull-content-center vertical-align-top">
