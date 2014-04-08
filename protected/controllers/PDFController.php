@@ -605,6 +605,7 @@ class PDFController extends SiteBaseController {
             if(count($ul) === 0) { continue; }
             
             if(!isset($html[explode('_', $group->code)[0]])) {
+                // заголовка первого уровня типа "1. Управление задачами с учетом приоритетов"
                 $html[explode('_', $group->code)[0]] = '<tr>
                             <td style="width: 15%;"></td>
                             <td style="width: 78%;"
@@ -626,19 +627,23 @@ class PDFController extends SiteBaseController {
                 $list = '';
 
                 foreach ($data2 as $code => $li) {
-                    $list.= '<table>
+                    // не маркированные цифрами заголовки второго уровня
+                    // типа "Управление количеством и периодами времени, затраченного на почту"
+                    $list.= '<table border="1">
                         <tr>
-                            <td>
-                                <font face="dejavusans" style="font-weight: bold;font-size: 10pt;">'.$titles[$code].'</font
+                            <td style="width: 15%;"></td>
+                            <td style="width: 78%;"><font face="dejavusans" style="font-weight: bold;font-size: 10pt;">'.$titles[$code].'</font
                             ></td>
                         </tr>
                         <tr>
-                            <td>
+                            <td style="width: 15%;"></td>
+                            <td style="width: 78%;">
                             <ul>'.implode('', $li).'</ul>
                             </td>
                         </tr>
                         <tr>
-                            <td>
+                            <td style="width: 15%;"></td>
+                            <td style="width: 78%;">
                                 &nbsp;
                             </td>
                         </tr>
@@ -655,9 +660,9 @@ class PDFController extends SiteBaseController {
                           </tr>
                           <tr>
                             <td style="width: 15%;"></td>
-                            <td style="width: 78%;">
-                            '. $list.'
-                            </td>
+                            <td style="width: 78%;">'.
+                            $list
+                            .'</td>
                             <td style="width: 7%;"></td>
                           </tr>';
                 } else {
@@ -675,10 +680,17 @@ class PDFController extends SiteBaseController {
 
             } else {
                 // '1_1', '1_2', '1_3', '1_4', '2_1', '2_2', '2_3', '3_1', '3_5'
+                // подпункты
                 $html[$group->code] = '<tr>
                         <td style="width: 15%;"></td>
                         <td style="width: 78%;"
-                            ><font face="dejavusans" style="font-weight: bold; font-size: 12pt; ">'.$titles[$group->code].'</font>
+                            ><table><tr>
+                                <td style="width: 4%;"></td>
+                                <td style="width: 96%;"><font face="dejavusans" style="font-weight: bold; font-size: 12pt; margin-left: 100px;">'
+                                .$titles[$group->code].'</font>
+                                </td>
+                            </tr>
+                        </table>
                         </td>
                         <td style="width: 7%;"></td>
                       </tr>
