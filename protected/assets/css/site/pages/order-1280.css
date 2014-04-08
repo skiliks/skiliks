@@ -82,3 +82,21 @@ input[type='text'],
 input[type='password'] {
     min-width: 170px;
 }
+
+.skiliks .error .error-place {
+    height: 15px;
+    margin-left: 135px;
+}
+
+.us-order-description-row .error-place {
+    display: none;
+}
+
+.us-order-description-row.error .error-place {
+    display: block;
+    font-size: 0.8em;
+    height: 15px;
+    margin-top: -15px;
+    margin-left: 254px;
+    width: 370px;
+}

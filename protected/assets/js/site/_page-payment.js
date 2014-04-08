@@ -74,26 +74,24 @@ $(document).ready(function() {
 
         if (validation.test(simulation_selected)
             && parseInt(simulation_selected) >= parseInt(payment_data['minSimulationSelected'])) {
-            error_simulation_selected.css('display', 'none');
+
+            error_simulation_selected.parent().removeClass('error');
 
             var price = getPriceInfo(simulation_selected, payment_data['prices']);
-
-            // Форматирование цены:
-            // parseInt(_price_).toFixed(0).replace(/\d(?=(\d{3})+\.)/g, '$& ')
 
             $('.current-price-name').html(price['name']);
             $('.locator-order-tariff-label').html(price['name']);
             $('.order-price-1-sim').html(parseInt(price['in_RUB']).format());
 
-            var total = (simulation_selected * price['in_RUB']) * ( 100 - parseFloat($('.current-discount').text()))/100;
+            var total = (simulation_selected * price['in_RUB']);
             var discount = ( 100 - parseFloat($('.current-discount').text()))/100;
 
             $('.order-price-total').html(parseInt(total).format());
             $('.order-price-total-with-discount').html(parseInt(total * discount).format());
             return true;
         } else {
-            error_simulation_selected.css('display', '');
-            error_simulation_selected.html("Вводить можно только цифры<br>Минимальное значение "+payment_data['minSimulationSelected']);
+            error_simulation_selected.parent().addClass('error');
+            error_simulation_selected.html('Вводить можно только цифры. Минимальное значение "' + payment_data['minSimulationSelected'] + '".');
             return false;
         }
     }

@@ -33,8 +33,8 @@
                     <label>Скидка</label>
                     <strong class="current-discount"><?= $account->getDiscount() ?>%</strong>
                 </div>
-                <div class="error_simulation_selected" style="display: none;"></div>
                 <div class="us-order-description-row">
+                    <span class="error-place error_simulation_selected"></span>
                     <label>Количество симуляций</label>
                     <strong class="">
                         <?php
@@ -103,27 +103,35 @@
                     <input type="hidden" name="simulation-selected" id="simulation-selected" value="<?= $minSimulationSelected?>" />
 
                     <div class="row">
+                        <span class="error-place">
+                            <?= $form->error($paymentMethodCash, 'inn') ?>
+                        </span>
                         <?= $form->labelEx($paymentMethodCash, 'ИНН') ?>
                         <?= $form->textField($paymentMethodCash, 'inn', ['maxlength' => 10]) ?>
-                        <?= $form->error($paymentMethodCash, 'inn') ?>
                     </div>
 
                     <div class="row">
+                        <span class="error-place">
+                            <?= $form->error($paymentMethodCash, 'cpp') ?>
+                        </span>
                         <?= $form->labelEx($paymentMethodCash, 'КПП') ?>
                         <?= $form->textField($paymentMethodCash, 'cpp', ['maxlength' => 9]) ?>
-                        <?= $form->error($paymentMethodCash, 'cpp') ?>
                     </div>
 
                     <div class="row">
+                        <span class="error-place">
+                            <?= $form->error($paymentMethodCash, 'account') ?>
+                        </span>
                         <?= $form->labelEx($paymentMethodCash, 'Расчётный счёт') ?>
                         <?= $form->textField($paymentMethodCash, 'account', ['maxlength' => 20]) ?>
-                        <?= $form->error($paymentMethodCash, 'account') ?>
                     </div>
 
                     <div class="row">
+                        <span class="error-place">
+                            <?= $form->error($paymentMethodCash, 'bic') ?>
+                        </span>
                         <?= $form->labelEx($paymentMethodCash, 'БИК') ?>
                         <?= $form->textField($paymentMethodCash, 'bic', ['maxlength' => 9]) ?>
-                        <?= $form->error($paymentMethodCash, 'bic') ?>
                     </div>
                 </span>
 
