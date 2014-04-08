@@ -690,13 +690,12 @@ class AdminPagesController extends SiteBaseController {
         if (empty($invite)) {
             throw new LogicException('Invite does not exist');
         }
-
+        InviteService::logAboutInviteStatus($invite, 'Админ '.$this->user->profile->email.' начал откат приглашения id = '.$invite_id);
         $result = $invite->resetInvite();
         if(false === $result){
             throw new LogicException("The operation is not successful");
         }
-
-        $this->redirect("/admin_area/invites");
+        InviteService::logAboutInviteStatus($invite, 'Админ '.$this->user->profile->email.' откатил приглашение id = '.$invite_id);
     }
 
     /**
