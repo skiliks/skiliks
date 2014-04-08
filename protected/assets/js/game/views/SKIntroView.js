@@ -90,7 +90,7 @@ define([
                                 window.Raven.captureMessage('me is undefined');
                                 alert('me is undefined');
                             }
-                            SKApp.intro.stopPause();
+                            me.stopPause();
                             if (window.Raven) {
                                 window.Raven.captureMessage('windowManual close 4');
                             }

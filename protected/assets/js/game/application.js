@@ -29,11 +29,11 @@ require([
                 window.SKApp = new SKApplication(window.gameConfig);
                 window.AppView = new SKApplicationView();
 
-                SKApp.intro = new SKIntroView();
+                window.SKApp.intro = new SKIntroView();
                 if (!$.cookie('intro_is_watched_2') && window.gameConfig.type === 'tutorial') {
-                    SKApp.intro.show();
+                    window.SKApp.intro.show();
                 } else {
-                    SKApp.intros.appLaunch();
+                    window.SKApp.intro.appLaunch();
                 }
             }
         } catch(exception) {
