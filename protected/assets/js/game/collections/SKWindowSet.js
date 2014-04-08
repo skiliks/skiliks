@@ -338,6 +338,13 @@ define([
                     var WindowType = this.window_classes[name + '/' + subname] || SKWindow;
                     //console.log('WindowType 2 : ', WindowType);
                     var win = new WindowType(_.extend({name: name, subname: subname}, params));
+
+                    if (SKApp.isTutorial()) {
+                        if (window.Raven) {
+                            window.Raven.captureMessage('windows set open window' + JSON.stringify(win));
+                        }
+                    }
+
                     win.open();
                     return win;
                 }

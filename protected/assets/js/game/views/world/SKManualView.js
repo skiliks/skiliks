@@ -90,6 +90,12 @@ define(
                     if(SKApp.isTutorial() && !SKApp.simulation.manual_is_first_closed) {
                         this.$el.css('zIndex', 1001); // у DIV-затемнения индекс 1000
                     }
+
+                    if (window.Raven && SKApp.isTutorial()) {
+                        window.Raven.captureMessage('window_set when manual opened:'
+                            + JSON.stringify(SKApp.simulation.window_set.models));
+                    }
+
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
