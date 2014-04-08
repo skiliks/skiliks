@@ -64,13 +64,6 @@ define([], function () {
                 //
                 // - поэтому лечим последствия
                 if ('undefined' == typeof this.get('name') && 'undefined' == typeof this.get('subname')) {
-
-                    if (window.Raven) {
-                        window.Raven.captureMessage(
-                            'Warning! SKWindow name and subname is undefined - before: ' + JSON.stringify(this)
-                        );
-                    }
-
                     if ('mainScreen' == this.get('id')) {
                         this.set('name', 'mainScreen');
                         this.set('subname', 'mainScreen');
@@ -78,12 +71,6 @@ define([], function () {
                     if ('manual' == this.get('id')) {
                         this.set('name', 'mainScreen');
                         this.set('subname', 'manual');
-                    }
-
-                    if (window.Raven) {
-                        window.Raven.captureMessage(
-                            'Warning! SKWindow name and subname is undefined - after: ' + JSON.stringify(this)
-                        );
                     }
                 }
                 // иногда обьект SKWindow приходит с id - что удивительно }

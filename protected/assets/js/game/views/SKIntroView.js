@@ -74,23 +74,25 @@ define([
 
                     if (app.isTutorial()) {
                         windowManual.on('close', function() {
+                            if (window.Raven) {
+                                window.Raven.captureMessage('windowManual close 1');
+                            }
                             appView.frame._hidePausedScreen();
+                            if (window.Raven) {
+                                window.Raven.captureMessage('windowManual close 2');
+                            }
                             appView.frame._toggleClockFreeze(false);
+                            if (window.Raven) {
+                                window.Raven.captureMessage('windowManual close 3');
+                            }
                             me.stopPause();
+                            if (window.Raven) {
+                                window.Raven.captureMessage('windowManual close 4');
+                            }
                         });
                         appView.frame._showPausedScreen();
 
-                        if (window.Raven) {
-                            window.Raven.captureMessage('windowManual before open:'
-                                + JSON.stringify(SKApp.simulation.window_set.models));
-                        }
-
                         windowManual.open();
-
-                        if (window.Raven) {
-                            window.Raven.captureMessage('windowManual after open:'
-                                + JSON.stringify(SKApp.simulation.window_set.models));
-                        }
 
                     } else if(!app.isLite()) {
                         if(false === SKApp.simulation.isDebug()) {
