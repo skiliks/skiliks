@@ -690,13 +690,12 @@ class AdminPagesController extends SiteBaseController {
         if (empty($invite)) {
             throw new LogicException('Invite does not exist');
         }
-
+        InviteService::logAboutInviteStatus($invite, 'Админ '.$this->user->profile->email.' начал откат приглашения id = '.$invite_id);
         $result = $invite->resetInvite();
         if(false === $result){
             throw new LogicException("The operation is not successful");
         }
-
-        $this->redirect("/admin_area/invites");
+        InviteService::logAboutInviteStatus($invite, 'Админ '.$this->user->profile->email.' откатил приглашение id = '.$invite_id);
     }
 
     /**
@@ -1500,13 +1499,32 @@ class AdminPagesController extends SiteBaseController {
 
             if($this->getParam('save_form') === 'true'){
 
-                $user->account_corporate->industry_for_sales = $this->getParam('industry_for_sales');
-                $user->account_corporate->company_name_for_sales = $this->getParam('company_name_for_sales');
-                $user->account_corporate->site = $this->getParam('site');
-                $user->account_corporate->description_for_sales = $this->getParam('description_for_sales');
-                $user->account_corporate->contacts_for_sales = $this->getParam('contacts_for_sales');
-                $user->account_corporate->status_for_sales = $this->getParam('status_for_sales');
+                if($user->account_corporate->industry_for_sales !== $this->getParam('industry_for_sales')){
+                    $user->account_corporate->industry_for_sales = $this->getParam('industry_for_sales');
+                    UserService::logAccountAction($user, $_SERVER['REMOTE_ADDR'], 'Админ '.$this->user->profile->email.' указал Отрасль для пользователя '.$this->getParam('industry_for_sales').' для пользователя '.$user->profile->email);
+                }
+                if($user->account_corporate->company_name_for_sales !== $this->getParam('company_name_for_sales')) {
+                    $user->account_corporate->company_name_for_sales = $this->getParam('company_name_for_sales');
+                    UserService::logAccountAction($user, $_SERVER['REMOTE_ADDR'], 'Админ '.$this->user->profile->email.' указал Название компании для пользователя '.$this->getParam('company_name_for_sales').' для пользователя '.$user->profile->email);
+                }
+                if($user->account_corporate->site !== $this->getParam('site')) {
+                    $user->account_corporate->site = $this->getParam('site');
+                    UserService::logAccountAction($user, $_SERVER['REMOTE_ADDR'], 'Админ '.$this->user->profile->email.' указал Сайт '.$this->getParam('site').' для пользователя '.$user->profile->email);
+                }
+                if($user->account_corporate->description_for_sales !== $this->getParam('description_for_sales')){
+                    $user->account_corporate->description_for_sales = $this->getParam('description_for_sales');
+                    UserService::logAccountAction($user, $_SERVER['REMOTE_ADDR'], 'Админ '.$this->user->profile->email.' указал Описание компании для пользователя '.$this->getParam('description_for_sales').' для пользователя '.$user->profile->email);
+                }
+                if($user->account_corporate->contacts_for_sales !== $this->getParam('contacts_for_sales')) {
+                    UserService::logAccountAction($user, $_SERVER['REMOTE_ADDR'], 'Админ '.$this->user->profile->email.' указал Контактный телефон для пользователя '.$this->getParam('contacts_for_sales').' для пользователя '.$user->profile->email);
+                    $user->account_corporate->contacts_for_sales = $this->getParam('contacts_for_sales');
+                }
+                if($user->account_corporate->status_for_sales !== $this->getParam('status_for_sales')){
+                    UserService::logAccountAction($user, $_SERVER['REMOTE_ADDR'], 'Админ '.$this->user->profile->email.' указал Статус контактного лица для пользователя '.$this->getParam('status_for_sales').' для пользователя '.$user->profile->email);
+                    $user->account_corporate->status_for_sales = $this->getParam('status_for_sales');
+                }
                 $user->account_corporate->save(false);
+
             }
 
             if($this->getParam('discount_form') === 'true') {
@@ -1515,6 +1533,7 @@ class AdminPagesController extends SiteBaseController {
                 $user->account_corporate->end_discount = $this->getParam('end_discount');
                 if($user->account_corporate->validate(['discount', 'start_discount', 'end_discount'])){
                     $user->account_corporate->save(false);
+                    UserService::logAccountAction($user, $_SERVER['REMOTE_ADDR'], 'Админ '.$this->user->profile->email.' назначил скидку '.$this->getParam('discount').' с '.$this->getParam('start_discount').' до '.$this->getParam('end_discount').' для пользователя @');
                     Yii::app()->user->setFlash('success', 'Сохранено успешно');
                 }else{
                     $error_message = '';
@@ -2094,6 +2113,8 @@ class AdminPagesController extends SiteBaseController {
         $user->is_password_bruteforce_detected = $set;
         $user->save(false);
 
+        UserService::logAccountAction($user, $_SERVER['REMOTE_ADDR'], 'У пользователь '.$user->profile->email.' была заблокирована авторизация админом '.$this->user->profile->email);
+
         $this->redirect(Yii::app()->request->urlReferrer);
     }
 
@@ -2252,6 +2273,9 @@ class AdminPagesController extends SiteBaseController {
         if($invite_limit_error){
             $render['has_errors'] = true;
             Yii::app()->user->setFlash('error', Yii::t('site', 'У вас недостаточно инвайтов(сейчас '.$user->account_corporate->getTotalAvailableInvitesLimit().' - нужно '.count($invites).')'));
+        }
+        if($invite_limit_error === false && $hasErrors === false) {
+            UserService::logAccountAction($user, $_SERVER['REMOTE_ADDR'], 'Админ '.$this->user->profile->email.' отправил приглашения от имени '.$user->profile->email.' для '.implode(',', $valid_emails));
         }
         $this->render('//admin_area/pages/user_send_invites', $render);
     }
