@@ -565,7 +565,8 @@ class SimulationService
         $simulation->mode = Simulation::MODE_DEVELOPER_LABEL === $simulationMode ? Simulation::MODE_DEVELOPER_ID : Simulation::MODE_PROMO_ID;
         $simulation->scenario_id = Scenario::model()->findByAttributes(['slug' => $scenarioType])->primaryKey;
         $simulation->status = Simulation::STATUS_IN_PROGRESS;
-        $simulation->save();
+        $simulation->ipv4 = isset($_SERVER['REMOTE_ADDR'])?$_SERVER['REMOTE_ADDR']:null;
+        $simulation->save(false);
         $_POST['simId'] = $simulation->id;
         // save simulation ID to user session
         Yii::app()->session['simulation'] = $simulation->id;
