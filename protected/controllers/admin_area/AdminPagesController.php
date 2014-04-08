@@ -1515,6 +1515,7 @@ class AdminPagesController extends SiteBaseController {
                 $user->account_corporate->end_discount = $this->getParam('end_discount');
                 if($user->account_corporate->validate(['discount', 'start_discount', 'end_discount'])){
                     $user->account_corporate->save(false);
+                    UserService::logAccountAction($user, $_SERVER['REMOTE_ADDR'], 'Админ '.$this->user->profile->email.' назначил скидку '.$this->getParam('discount').' с '.$this->getParam('start_discount').' до '.$this->getParam('end_discount').' для пользователя @');
                     Yii::app()->user->setFlash('success', 'Сохранено успешно');
                 }else{
                     $error_message = '';
