@@ -2255,6 +2255,9 @@ class AdminPagesController extends SiteBaseController {
             $render['has_errors'] = true;
             Yii::app()->user->setFlash('error', Yii::t('site', 'У вас недостаточно инвайтов(сейчас '.$user->account_corporate->getTotalAvailableInvitesLimit().' - нужно '.count($invites).')'));
         }
+        if($invite_limit_error === false && $hasErrors === false) {
+            UserService::logAccountAction($user, $_SERVER['REMOTE_ADDR'], 'Админ '.$this->user->profile->email.' отправил приглашения от имени '.$user->profile->email.' для '.implode(',', $valid_emails));
+        }
         $this->render('//admin_area/pages/user_send_invites', $render);
     }
 
