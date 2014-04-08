@@ -1290,6 +1290,7 @@ class AdminPagesController extends SiteBaseController {
 
         if (null !== $newPassword) {
             if ($siteUser->setPassword($newPassword, YumEncrypt::generateSalt())) {
+                UserService::logAccountAction($siteUser, $_SERVER['REMOTE_ADDR'], 'Пароль для пользователя '.$siteUser->profile->email.' был изменён админом '.$this->user->profile->email);
                 Yii::app()->user->setFlash('success', 'Пароль обновлён.');
             } else {
                 Yii::app()->user->setFlash('error', 'Пароль не обновлён.');
@@ -2032,6 +2033,7 @@ class AdminPagesController extends SiteBaseController {
         if($banUser->isCorporate()) {
             $isBanned = $banUser->banUser();
             if($isBanned) {
+                UserService::logAccountAction($banUser, $_SERVER['REMOTE_ADDR'], 'Пользователь '.$banUser->profile->email.' был за банен (статус "banned") админом '.$this->user->profile->email);
                 Yii::app()->user->setFlash('success', 'Аккаунт '. $banUser->profile->email .' успешно заблокирован.');
             }
         }
