@@ -16,18 +16,17 @@
         <div class="column-full us-order-header">
             <span class="us-order-description pull-left color-ffffff">
                 <div class="us-order-description-row">
-                    <label>Текущий тарифный план</label>
-                    <strong class="inline current-price-name">
-                        Lite
-                    </strong>
-                    <br/>
-                    <label></label><small class="current-price">11 900 р.</small>
+                    <label>Ваш тарифный план</label>
+                    <strong class="inline current-price-name"></strong>
                 </div>
                 <div class="us-order-description-row">
                     <label>Полная стоимость</label>
-                    <strong class="order-price-total">
-                        11 900
-                    </strong>
+                    <strong class="order-price-total"></strong>
+                    р.
+                </div>
+                <div class="us-order-description-row">
+                    <label>Цена за 1 симуляцию</label>
+                    <strong class="order-price-1-sim"></strong>
                     р.
                 </div>
                 <div class="us-order-description-row">
@@ -58,7 +57,7 @@
                 <strong class="locator-order-tariff-label">Lite</strong>
                 <br/>
                 <strong class="locator-order-price-total">
-                    <span class="order-price-total">0</span> <small>р</small>
+                    <span class="order-price-total-with-discount"></span> <small>р</small>
                 </strong>
             </span>
         </div>

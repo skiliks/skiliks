@@ -502,4 +502,15 @@ function fixProductDropDown() {
     $('footer .locator-product-submenu').css('left', $('footer .locator-submenu-switcher').offset().left - offset);
 }
 
-
+/**
+ * Форматирование цены
+ * http://stackoverflow.com/questions/149055/how-can-i-format-numbers-as-money-in-javascript
+ *
+ * @param integer decimalLen: length of decimal
+ * @param integer integerLen: length of sections
+ */
+Number.prototype.format = function(decimalLen, integerLen) {
+    var thousandsSeparator = ' ';
+    var re = '\\d(?=(\\d{' + (integerLen || 3) + '})+' + (decimalLen > 0 ? '\\.' : '$') + ')';
+    return this.toFixed(Math.max(0, ~~decimalLen)).replace(new RegExp(re, 'g'), '$&' + thousandsSeparator);
+};

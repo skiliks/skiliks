@@ -65,18 +65,31 @@ $(document).ready(function() {
             });
     }
 
-    function validationSimulationSelected() {
+    function validationSimulationSelected()
+    {
         var error_simulation_selected = $('.error_simulation_selected');
         var simulation_selected = $('#simulation_selected').val();
         var payment_data = $.parseJSON($("#payment_data").text());
-        var validation = new RegExp('^(0)$|^([1-9][0-9]*)$');//payment_data['minSimulationSelected']
-        if(validation.test(simulation_selected) && parseInt(simulation_selected) >= parseInt(payment_data['minSimulationSelected'])) {
+        var validation = new RegExp('^(0)$|^([1-9][0-9]*)$');
+
+        if (validation.test(simulation_selected)
+            && parseInt(simulation_selected) >= parseInt(payment_data['minSimulationSelected'])) {
             error_simulation_selected.css('display', 'none');
+
             var price = getPriceInfo(simulation_selected, payment_data['prices']);
+
+            // Форматирование цены:
+            // parseInt(_price_).toFixed(0).replace(/\d(?=(\d{3})+\.)/g, '$& ')
+
             $('.current-price-name').html(price['name']);
             $('.locator-order-tariff-label').html(price['name']);
-            $('.current-price').html(price['in_RUB']);
-            $('.order-price-total').html(parseInt((simulation_selected * price['in_RUB'])*(100-parseFloat($('.current-discount').text()))/100));
+            $('.order-price-1-sim').html(parseInt(price['in_RUB']).format());
+
+            var total = (simulation_selected * price['in_RUB']) * ( 100 - parseFloat($('.current-discount').text()))/100;
+            var discount = ( 100 - parseFloat($('.current-discount').text()))/100;
+
+            $('.order-price-total').html(parseInt(total).format());
+            $('.order-price-total-with-discount').html(parseInt(total * discount).format());
             return true;
         } else {
             error_simulation_selected.css('display', '');
