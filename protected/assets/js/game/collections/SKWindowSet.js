@@ -202,7 +202,7 @@ define([
             try {
                 var me = this;
                 if (win.single === true && me.get(win)) {
-                    throw new Error('Window already displayed');
+                    throw new Error('Window already displayed: ' + JSON.stringify(win));
                 }
                 if (me.length) {
                     me.at(this.length - 1).deactivate();

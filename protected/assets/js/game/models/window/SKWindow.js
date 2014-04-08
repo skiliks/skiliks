@@ -64,6 +64,13 @@ define([], function () {
                 //
                 // - поэтому лечим последствия
                 if ('undefined' == typeof this.get('name') && 'undefined' == typeof this.get('subname')) {
+
+                    if (window.Raven) {
+                        window.Raven.captureMessage(
+                            'Warning! SKWindow name and subname is undefined - before: ' + JSON.stringify(this)
+                        );
+                    }
+
                     if ('mainScreen' == this.get('id')) {
                         this.set('name', 'mainScreen');
                         this.set('subname', 'mainScreen');
@@ -75,7 +82,7 @@ define([], function () {
 
                     if (window.Raven) {
                         window.Raven.captureMessage(
-                            'Warning! SKWindow name and subname is undefined. Id is ' + this.get('id')
+                            'Warning! SKWindow name and subname is undefined - after: ' + JSON.stringify(this)
                         );
                     }
                 }
@@ -263,6 +270,13 @@ define([], function () {
 
                 if (!params.silent) {
                     this.trigger('deactivate');
+                }
+                if (undefined == typeof this.simulation) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage('simulation is undefined for ' + JSON.stringify(this));
+                    }
+
+                    this.simulation = SKApp.simulation;
                 }
                 this.simulation.windowLog.deactivate(this);
             } catch(exception) {
