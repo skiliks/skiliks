@@ -631,8 +631,8 @@ class PDFController extends SiteBaseController {
                     // типа "Управление количеством и периодами времени, затраченного на почту"
                     $list.= '<table>
                         <tr>
-                            <td style="width: 5%"></td>
-                            <td style="width: 95%"><font face="dejavusans" style="font-weight: bold;font-size: 10pt;">'.$titles[$code].'</font
+                            <td style="width: 4%"></td>
+                            <td style="width: 96%"><font face="dejavusans" style="font-weight: bold;font-size: 10pt;">'.$titles[$code].'</font
                             ></td>
                         </tr>
                         <tr>
