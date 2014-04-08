@@ -26,6 +26,7 @@
  * @property string $start_discount
  * @property string $end_discount
  * @property string $cache_full_report
+ * @property integer $excluded_from_mailing Исключить с рассылки 1
  *
  * The followings are the available model relations:
  * @property YumUser $user
@@ -35,6 +36,9 @@ class UserAccountCorporate extends CActiveRecord
 {
     const PAYMENT_METHOD_INVOICE = "invoice";
     const PAYMENT_METHOD_CARD = "card";
+
+    const EXCLUDED_FROM_MAILING_YES = '1';
+    const EXCLUDED_FROM_MAILING_NO = '0';
 
     /**
      * @return string

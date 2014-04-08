@@ -2299,4 +2299,15 @@ class AdminPagesController extends SiteBaseController {
         );
         Yii::app()->end();
     }
+
+    public function actionExcludedFromMailing(){
+        if(null !== $this->getParam('set') && null !== $this->getParam('user_id')) {
+
+            $account = UserAccountCorporate::model()->findByAttributes(['user_id'=>$this->getParam('user_id')]);
+            $account->excluded_from_mailing= $this->getParam('set');
+            $account->save(false);
+        }
+
+        $this->redirect($this->request->urlReferrer);
+    }
 }
