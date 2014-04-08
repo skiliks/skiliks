@@ -84,9 +84,13 @@ define([
                             appView.frame._toggleClockFreeze(false);
                             if (window.Raven) {
                                 window.Raven.captureMessage('windowManual close 3');
-                                window.Raven.captureMessage('Type of me :', (typeof me));
+                                window.Raven.captureMessage('Type of me :' + (typeof me));
                             }
-                            me.stopPause();
+                            if (undefined == typeof me && window.Raven) {
+                                window.Raven.captureMessage('me is undefined');
+                                alert('me is undefined');
+                            }
+                            SKApp.intro.stopPause();
                             if (window.Raven) {
                                 window.Raven.captureMessage('windowManual close 4');
                             }
