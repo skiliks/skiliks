@@ -72,16 +72,16 @@ define([
 
                     appView.drawDesktop();
 
-                    if (app.isTutorial()) {
+                    if (SKApp.isTutorial()) {
                         windowManual.on('close', function() {
                             if (window.Raven) {
                                 window.Raven.captureMessage('windowManual close 1');
                             }
-                            appView.frame._hidePausedScreen();
+                            window.AppView.frame._hidePausedScreen();
                             if (window.Raven) {
                                 window.Raven.captureMessage('windowManual close 2');
                             }
-                            appView.frame._toggleClockFreeze(false);
+                            window.AppView.frame._toggleClockFreeze(false);
                             if (window.Raven) {
                                 window.Raven.captureMessage('windowManual close 3');
                                 window.Raven.captureMessage('Type of me :' + (typeof me));
@@ -95,7 +95,7 @@ define([
                                 window.Raven.captureMessage('windowManual close 4');
                             }
                         });
-                        appView.frame._showPausedScreen();
+                        window.AppView.frame._showPausedScreen();
 
                         windowManual.open();
 
