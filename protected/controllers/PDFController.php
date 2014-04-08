@@ -631,16 +631,17 @@ class PDFController extends SiteBaseController {
                     // типа "Управление количеством и периодами времени, затраченного на почту"
                     $list.= '<table>
                         <tr>
-                            <td><font face="dejavusans" style="font-weight: bold;font-size: 10pt;">'.$titles[$code].'</font
+                            <td style="width: 5%"></td>
+                            <td style="width: 95%"><font face="dejavusans" style="font-weight: bold;font-size: 10pt;">'.$titles[$code].'</font
                             ></td>
                         </tr>
                         <tr>
-                            <td>
+                            <td collspan="2" style="width: 100%">
                             <ul>'.implode('', $li).'</ul>
                             </td>
                         </tr>
                         <tr>
-                            <td>
+                            <td collspan="2" style="width: 100%">
                                 &nbsp;
                             </td>
                         </tr>
@@ -649,7 +650,8 @@ class PDFController extends SiteBaseController {
 
                 if (0 < count($data2)) {
                     $html[$group->code] = '<tr>
-                            <td style="width: 19%;"></td>
+                            <td style="width: 15%;"></td>
+                            <td style="width: 4%;"></td>
                             <!--  15% (для заголовков) + 4% (для поззаголовков) -->
                             <td style="width: 74%;"
                                 ><font face="dejavusans" style="font-weight: bold;font-size: 12pt;">'.$titles[$group->code].'</font
@@ -657,8 +659,8 @@ class PDFController extends SiteBaseController {
                             <td style="width: 7%;"></td>
                           </tr>
                           <tr>
-                            <td style="width: 19%;"></td>
-                            <td style="width: 74%;">'.
+                            <td style="width: 15%;"></td>
+                            <td style="width: 78%;" collspan="2">'.
                             $list
                             .'</td>
                             <td style="width: 7%;"></td>
