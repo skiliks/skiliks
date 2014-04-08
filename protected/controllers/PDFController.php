@@ -629,21 +629,18 @@ class PDFController extends SiteBaseController {
                 foreach ($data2 as $code => $li) {
                     // не маркированные цифрами заголовки второго уровня
                     // типа "Управление количеством и периодами времени, затраченного на почту"
-                    $list.= '<table border="1">
+                    $list.= '<table>
                         <tr>
-                            <td style="width: 15%;"></td>
-                            <td style="width: 78%;"><font face="dejavusans" style="font-weight: bold;font-size: 10pt;">'.$titles[$code].'</font
+                            <td><font face="dejavusans" style="font-weight: bold;font-size: 10pt;">'.$titles[$code].'</font
                             ></td>
                         </tr>
                         <tr>
-                            <td style="width: 15%;"></td>
-                            <td style="width: 78%;">
+                            <td>
                             <ul>'.implode('', $li).'</ul>
                             </td>
                         </tr>
                         <tr>
-                            <td style="width: 15%;"></td>
-                            <td style="width: 78%;">
+                            <td>
                                 &nbsp;
                             </td>
                         </tr>
@@ -652,23 +649,24 @@ class PDFController extends SiteBaseController {
 
                 if (0 < count($data2)) {
                     $html[$group->code] = '<tr>
-                            <td style="width: 15%;"></td>
-                            <td style="width: 78%;"
+                            <td style="width: 19%;"></td>
+                            <!--  15% (для заголовков) + 4% (для поззаголовков) -->
+                            <td style="width: 74%;"
                                 ><font face="dejavusans" style="font-weight: bold;font-size: 12pt;">'.$titles[$group->code].'</font
                                 ></td>
                             <td style="width: 7%;"></td>
                           </tr>
                           <tr>
-                            <td style="width: 15%;"></td>
-                            <td style="width: 78%;">'.
+                            <td style="width: 19%;"></td>
+                            <td style="width: 74%;">'.
                             $list
                             .'</td>
                             <td style="width: 7%;"></td>
                           </tr>';
                 } else {
                     $html[$group->code] = '<tr>
-                            <td style="width: 15%;"></td>
-                            <td style="width: 78%;"
+                            <td style="width: 19%;"></td>
+                            <td style="width: 74%;"
                                 ><font face="dejavusans" style="font-weight: bold;font-size: 12pt;">'.$titles[$group->code].'</font
                                 >
                             </td>
