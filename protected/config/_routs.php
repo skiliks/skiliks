@@ -201,6 +201,7 @@ return [
                 'admin_area/site-log-account-action' => 'admin_area/AdminPages/SiteLogAccountAction',
                 'admin_area/user-bruteforce'         => 'admin_area/AdminPages/UserBruteforce',
                 'admin_area/admins-list'             => 'admin_area/AdminPages/AdminsList',
+                'admin_area/excluded_from_mailing'             => 'admin_area/AdminPages/ExcludedFromMailing',
 
                 'admin_area/simulations/rating/csv'                       => 'admin_area/AdminPages/SimulationsRatingCsv',
                 'admin_area/simulations/rating'                           => 'admin_area/AdminPages/SimulationsRating',

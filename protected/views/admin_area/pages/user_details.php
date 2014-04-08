@@ -82,6 +82,17 @@ $assetsUrl = $this->getAssetsUrl();
         <i class="icon icon-envelope icon-white"></i>
         Отправить приглашения
     </a>
+    <?php if($user->account_corporate->excluded_from_mailing === UserAccountCorporate::EXCLUDED_FROM_MAILING_YES) : ?>
+        &nbsp; &nbsp;
+        <a class="btn btn-success" href="/admin_area/excluded_from_mailing?user_id=<?= $user->id ?>&set=<?=UserAccountCorporate::EXCLUDED_FROM_MAILING_NO?>">
+            Включить почту
+        </a>
+    <?php else : ?>
+        &nbsp; &nbsp;
+        <a class="btn btn-danger" href="/admin_area/excluded_from_mailing/?user_id=<?= $user->id ?>&set=<?=UserAccountCorporate::EXCLUDED_FROM_MAILING_YES?>">
+            Исключить почту
+        </a>
+    <?php endif ?>
 <?php endif ?>
 
 <br/>
