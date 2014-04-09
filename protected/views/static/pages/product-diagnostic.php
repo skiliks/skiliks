@@ -71,17 +71,17 @@
 
 <div class="levellabels  pull-content-center us-levellabels">
     <span class="widthblock column-1-3 pull-content-center vertical-align-top">
-        <h5>
+        <h5 class="us-h5">
             Уровень владения <br/>навыками
         </h5>
     </span>
     <span class="widthblock column-1-3 pull-content-center vertical-align-top">
-        <h5>
+        <h5 class="us-h5">
             Уровень достижения результатов: количество и значимость выполненных задач
         </h5>
     </span>
     <span class="widthblock column-1-3 pull-content-center vertical-align-top">
-        <h5 class="product_h3_margin_left">
+        <h5 class="product_h3_margin_left us-h5">
             Время, затраченное на выполнение задач
         </h5>
     </span>
