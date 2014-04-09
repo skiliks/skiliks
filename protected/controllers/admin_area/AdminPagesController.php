@@ -696,6 +696,8 @@ class AdminPagesController extends SiteBaseController {
             throw new LogicException("The operation is not successful");
         }
         InviteService::logAboutInviteStatus($invite, 'Админ '.$this->user->profile->email.' откатил приглашение id = '.$invite_id);
+        Yii::app()->user->setFlash('success', "Успешно");
+        $this->redirect($this->request->urlReferrer);
     }
 
     /**
@@ -1533,7 +1535,7 @@ class AdminPagesController extends SiteBaseController {
                 $user->account_corporate->end_discount = $this->getParam('end_discount');
                 if($user->account_corporate->validate(['discount', 'start_discount', 'end_discount'])){
                     $user->account_corporate->save(false);
-                    UserService::logAccountAction($user, $_SERVER['REMOTE_ADDR'], 'Админ '.$this->user->profile->email.' назначил скидку '.$this->getParam('discount').' с '.$this->getParam('start_discount').' до '.$this->getParam('end_discount').' для пользователя @');
+                    UserService::logAccountAction($user, $_SERVER['REMOTE_ADDR'], 'Админ '.$this->user->profile->email.' назначил скидку '.$this->getParam('discount').' с '.$this->getParam('start_discount').' до '.$this->getParam('end_discount').' для пользователя '.$user->profile->email);
                     Yii::app()->user->setFlash('success', 'Сохранено успешно');
                 }else{
                     $error_message = '';
@@ -2112,8 +2114,9 @@ class AdminPagesController extends SiteBaseController {
         $user = YumUser::model()->findByPk($user_id);
         $user->is_password_bruteforce_detected = $set;
         $user->save(false);
+        $action = ($set === YumUSer::IS_PASSWORD_BRUTEFORCE_DETECTED)?'заблокирована':'разблокирована';
 
-        UserService::logAccountAction($user, $_SERVER['REMOTE_ADDR'], 'У пользователь '.$user->profile->email.' была заблокирована авторизация админом '.$this->user->profile->email);
+        UserService::logAccountAction($user, $_SERVER['REMOTE_ADDR'], 'У пользователь '.$user->profile->email.' была '.$action.' авторизация админом '.$this->user->profile->email);
 
         $this->redirect(Yii::app()->request->urlReferrer);
     }
@@ -2274,7 +2277,7 @@ class AdminPagesController extends SiteBaseController {
             $render['has_errors'] = true;
             Yii::app()->user->setFlash('error', Yii::t('site', 'У вас недостаточно инвайтов(сейчас '.$user->account_corporate->getTotalAvailableInvitesLimit().' - нужно '.count($invites).')'));
         }
-        if($invite_limit_error === false && $hasErrors === false) {
+        if($invite_limit_error === false && $hasErrors === false && $isSend && $isValid) {
             UserService::logAccountAction($user, $_SERVER['REMOTE_ADDR'], 'Админ '.$this->user->profile->email.' отправил приглашения от имени '.$user->profile->email.' для '.implode(',', $valid_emails));
         }
         $this->render('//admin_area/pages/user_send_invites', $render);
