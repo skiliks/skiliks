@@ -75,14 +75,6 @@ define([], function () {
                 }
                 // иногда обьект SKWindow приходит с id - что удивительно }
 
-                if (window.Raven && 'mainScreen' == this.get('name') && 'mainScreen' == this.get('subname')) {
-                    window.Raven.captureMessage('Log mainScreen init: ' + message);
-                }
-
-                if (window.Raven && 'mainScreen' == this.get('name') && 'manual' == this.get('subname')) {
-                    window.Raven.captureMessage('Log manual init: ' + message);
-                }
-
                 var window_id = this.get('name') + "/" + this.get('subname');
                 if (window_id in SKApp.simulation.window_set) {
                     throw new Error ("Window " + window_id + " already exists");
@@ -181,7 +173,9 @@ define([], function () {
          */
         close: function() {
             try {
-                if (!this.is_opened) {
+                var me = this;
+
+                if (!me.is_opened) {
                     var message = "Window is already closed. Name: " + this.get('name')
                         + " subname: " + this.get('subname')
                         + " id: " + this.get('id')
@@ -189,28 +183,36 @@ define([], function () {
                     console.error('Иконки должны заблокироваться!');
                     if (window.Raven) {
                         window.Raven.captureMessage(message);
-                        window.Raven.captureMessage('stringify window_set:'
+                        window.Raven.captureMessage('L. stringify window_set:'
                             + JSON.stringify(SKApp.simulation.window_set.models));
                     }
                 }
 
                 // пока это мобытие слушает только MailClient
-                this.trigger('pre_close');
+                me.trigger('pre_close');
 
-                if (this.prevent_close === true) {
-                    delete this.prevent_close;
+                if (me.prevent_close === true) {
+                    delete me.prevent_close;
+
+                    if (window.Raven) {
+                        window.Raven.captureMessage('L. prevent_close ' + SKApp.simulation.is);
+                    }
+
                     return;
                 }
 
-                this.is_opened = false;
+                me.is_opened = false;
 
                 SKApp.simulation.window_set.hideWindow(this);
 
                 if (window.Raven) {
-                    window.Raven.captureMessage('stringify windowLog:'
+                    window.Raven.captureMessage('L. stringify windowLog:'
                         + JSON.stringify(SKApp.simulation.windowLog));
                 }
-                this.trigger('close');
+                me.trigger('close');
+                if (window.Raven) {
+                    window.Raven.captureMessage('L. close triggered: ' + me.get('name') + ' / ' + me.get('name'));
+                }
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);

@@ -592,62 +592,25 @@ define([
              */
             stopPause: function(callback) {
                 try {
-                    if (window.Raven && SKApp.isTutorial()) {
-                        window.Raven.captureMessage('stopPause 1');
-                    }
                     var me = this;
                     me.is_paused = false;
-                    if (window.Raven && SKApp.isTutorial()) {
-                        window.Raven.captureMessage('stopPause 2');
-                    }
                         if( me.paused_time !== undefined )
                         {
-                            if (window.Raven && SKApp.isTutorial()) {
-                                window.Raven.captureMessage('stopPause 2.1');
-                            }
                             me._startTimer();
-                            if (window.Raven && SKApp.isTutorial()) {
-                                window.Raven.captureMessage('stopPause 2.1.1');
-                            }
                             me.skipped_seconds -= (new Date() - me.paused_time) / 1000;
                             delete me.paused_time;
-                            if (window.Raven && SKApp.isTutorial()) {
-                                window.Raven.captureMessage('stopPause 2.1.2');
-                            }
+
                             me.trigger('pause:stop');
-                            if (window.Raven && SKApp.isTutorial()) {
-                                window.Raven.captureMessage('stopPause 2.1.3');
-                            }
+
                             if (typeof callback === 'function') {
-                                if (window.Raven && SKApp.isTutorial()) {
-                                    window.Raven.captureMessage('stopPause 2.1.4');
-                                }
                                 callback();
-                                if (window.Raven && SKApp.isTutorial()) {
-                                    window.Raven.captureMessage('stopPause 2.1.5');
-                                }
                             }
                         } else if( me.start_time === undefined ) {
-                            if (window.Raven && SKApp.isTutorial()) {
-                                window.Raven.captureMessage('stopPause 2.2');
-                            }
                             me.trigger('pause:stop');
-                            if (window.Raven && SKApp.isTutorial()) {
-                                window.Raven.captureMessage('stopPause 2.2.1');
-                            }
                             if (typeof callback === 'function') {
-                                if (window.Raven && SKApp.isTutorial()) {
-                                    window.Raven.captureMessage('stopPause 2.2.2');
-                                }
                                 callback();
-                                if (window.Raven && SKApp.isTutorial()) {
-                                    window.Raven.captureMessage('stopPause 2.2.3');
-                                }
                             }
                         }
-                    if (window.Raven && SKApp.isTutorial()) {
-                        window.Raven.captureMessage('stopPause 3');
-                    }
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);

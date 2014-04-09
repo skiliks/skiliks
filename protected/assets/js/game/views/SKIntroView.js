@@ -75,25 +75,11 @@ define([
                     if (SKApp.isTutorial()) {
                         windowManual.on('close', function() {
                             if (window.Raven) {
-                                window.Raven.captureMessage('windowManual close 1');
+                                window.Raven.captureMessage('windowManual close');
                             }
                             window.AppView.frame._hidePausedScreen();
-                            if (window.Raven) {
-                                window.Raven.captureMessage('windowManual close 2');
-                            }
                             window.AppView.frame._toggleClockFreeze(false);
-                            if (window.Raven) {
-                                window.Raven.captureMessage('windowManual close 3');
-                                window.Raven.captureMessage('Type of me :' + (typeof me));
-                            }
-                            if (undefined == typeof me && window.Raven) {
-                                window.Raven.captureMessage('me is undefined');
-                                alert('me is undefined');
-                            }
                             me.stopPause();
-                            if (window.Raven) {
-                                window.Raven.captureMessage('windowManual close 4');
-                            }
                         });
                         window.AppView.frame._showPausedScreen();
 
