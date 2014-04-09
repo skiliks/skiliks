@@ -19,12 +19,13 @@
                 'id' => 'account-personal-personal-form'
             )); ?>
 
-            <div class="row <?= $this->hasErrors($form, $profile, 'firstname') ?> <?= $this->hasErrors($form, $profile, 'lastname') ?>">
+            <div class="row <?= $this->hasErrors($form, $profile, 'firstname') ?> <?= $this->hasErrors($form, $profile, 'lastname') ?>"
+                style="margin-top: 6px;">
                 <span class="error-place">
                        <span class="unstandard-error-firstname">
                         <?php echo $form->error($profile, 'firstname'); ?>
                     </span>
-                    <span class="unstandard-error-firstname">
+                    <span class="unstandard-error-firstname" style="margin-left: 30px;">
                         <?php echo $form->error($profile, 'lastname'); ?>
                     </span>
                 </span>
@@ -35,18 +36,24 @@
 
             <div class="row rowup">
                 <?php echo $form->labelEx($profile , 'Email'); ?>
-                <span class="value"><?php echo $profile->email; ?></span>
+                <span class="value" style="font-family: ProximaNova-Bold;"><?php echo $profile->email; ?></span>
             </div>
 
-            <div class="row <?= $this->hasErrors($form, $account, 'professional_status_id') ?>">
+            <div class="row <?= $this->hasErrors($form, $account, 'professional_status_id') ?>"
+                style="margin-top: 8px;">
                 <span class="error-place">
                     <?php echo $form->error($account, 'professional_status_id'); ?>
                 </span>
-                <?php echo $form->labelEx($account     , 'professional_status_id'); ?>
-                <?php echo $form->dropDownList($account, 'professional_status_id', $statuses); ?>
+                <?php echo $form->labelEx($account     , 'professional_status_id', [
+                    'style' => 'line-height: 1em;'
+                ]); ?>
+                <span style="vertical-align: top;">
+                    <?php echo $form->dropDownList($account, 'professional_status_id', $statuses); ?>
+                </span>
             </div>
 
-            <div class="row <?= $this->hasErrors($form, $account, 'professional_status_id') ?> margin-bottom-half-standard">
+            <div class="row <?= $this->hasErrors($form, $account, 'industry_id') ?> margin-bottom-half-standard"
+                style="margin-top: -4px;">
                 <span class="error-place">
                     <?php echo $form->error($account       , 'industry_id'); ?>
                 </span>
@@ -62,21 +69,25 @@
                 <?php echo $form->textField($account, 'birthday[day]', [
                     'maxlength'        => 2,
                     'value'       => $account->getBirthdayDate('d'),
-                    'placeholder' => 'ДД'
+                    'placeholder' => 'ДД',
+                    'style'       => 'width: 34px;',
                 ]); ?>
                 <?php echo $form->textField($account, 'birthday[month]', [
                     'maxlength'        => 2,
                     'value'       => $account->getBirthdayDate('m'),
-                    'placeholder' => 'ММ'
+                    'placeholder' => 'ММ',
+                    'style'       => 'width: 34px; margin-left: 10px;',
                 ]); ?>
                 <?php echo $form->textField($account, 'birthday[year]', [
                     'maxlength'        => 4,
                     'value'       => $account->getBirthdayDate('Y'),
-                    'placeholder' => 'ГГГГ'
+                    'placeholder' => 'ГГГГ',
+                    'style'       => 'width: 55px; margin-left: 10px;',
                 ]); ?>
             </div>
 
-            <div class="row <?= $this->hasErrors($form, $account, 'location') ?>">
+            <div class="row <?= $this->hasErrors($form, $account, 'location') ?>"
+                style="margin-top: 13px;">
                 <span class="error-place">
                     <?php echo $form->error($account, 'location'); ?>
                 </span>
@@ -84,7 +95,7 @@
                 <?php echo $form->textField($account, 'location'); ?>
             </div>
 
-            <div class="row buttons">
+            <div class="row buttons" style="margin-top: 13px;">
                 <?php echo CHtml::submitButton(Yii::t('site', 'Сохранить изменения'), [
                     'name'  => 'save',
                     'class' => 'background-dark-blue icon-circle-with-blue-arrow-big button-standard icon-padding-standard'

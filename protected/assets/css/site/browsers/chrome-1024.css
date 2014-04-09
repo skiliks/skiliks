@@ -65,24 +65,8 @@
     height: 262px;
 }
 
-.width-1024.action-controller-corporatePassword-static-profile .unstandard-personal-data-height {
-    /*height: 280px; /* fixed */
-}
-
-.width-1024.skiliks .company-info-height {
-    /*height: 346px; /* fixed */
-}
-
 .width-1024.controller-static-profile input.button-standard {
     padding-bottom: 12px;
-}
-
-.width-1024.skiliks.action-controller-personalPersonalData-static-profile .unstandard-personal-data-height {
-    /*height: 360px; /* fixed 363 -> 360 */
-}
-
-.width-1024.skiliks.action-controller-personalPassword-static-profile .unstandard-personal-data-height {
-    /*height: 281px; /* fixed */
 }
 
 .width-1024.action-controller-corporatePassword-static-profile .us-password-height {
@@ -95,4 +79,12 @@
 
 .width-1024.action-corporateVacancies .profile-right-side {
     min-height: 149px;
+}
+
+.width-1024.action-controller-personalPassword-static-profile .us-password-personal-height {
+    height: 306px;
+}
+
+.width-1024.action-controller-personalPersonalData-static-profile .unstandard-personal-data-height {
+    height: 372px;
 }

@@ -42,6 +42,15 @@
     padding-bottom: 29px;
 }
 
+.action-controller-personalPersonalData-static-profile .profile-right-side,
+.action-controller-personalPassword-static-profile .profile-right-side {
+    padding-left: 31px;
+    width: 576px; /* padding 52! */
+}
+.action-controller-personalPersonalData-static-profile .profile-right-side {
+    padding-bottom: 25px;
+}
+
 /* --- */
 
 .profile-right-side label {
@@ -70,8 +79,27 @@
     margin-bottom: 25px;
 }
 
+.action-controller-personalPersonalData-static-profile label {
+    width: 188px;
+}
 
+.action-controller-personalPassword-static-profile .profile-right-side label {
+    width: 158px;
+}
+
+.action-controller-personalPassword-static-profile .controller-static-profile .error-place {
+    padding-left: 162px;
+}
 /* --- */
+
+#YumProfile_firstname,
+#YumProfile_lastname {
+    width: 159px;
+}
+#YumProfile_lastname {
+    margin-left: 25px;
+}
+
 
 .skiliks .us-company-form {
     width: 110px;
@@ -127,7 +155,11 @@ input[type='password'] {
 }
 
 .skiliks.controller-static-profile .sbHolder {
-    width: 368px;
+    width: 366px;
+}
+
+.action-controller-personalPersonalData-static-profile .skiliks.controller-static-profile .sbHolder {
+    width: 360px;
 }
 
 .skiliks.controller-static-profile.action-controller-corporateCompanyInfo-static-profile .sbHolder {
@@ -194,6 +226,10 @@ input[type='password'] {
     width: 225px;
 }
 
+.action-controller-personalPersonalData-static-profile .unstandard-error-firstname {
+    width: 170px;
+}
+
 .action-controller-corporatePersonalData-static-profile .unstandard-error-firstname {
     width: 169px;
 }
@@ -219,11 +255,11 @@ input[type='password'] {
 }
 
 #UserAccountPersonal_location {
-    width: 444px;
+    width: 356px;
 }
 
 .action-controller-personalPersonalData-static-profile .unstandard-personal-data-height {
-    height: 391px;
+    height: 393px;
 }
 
 .action-controller-corporatePersonalData-static-profile .unstandard-personal-data-height {
@@ -257,6 +293,10 @@ input[type='password'] {
     height: 298px;
 }
 
+.action-controller-personalPassword-static-profile .us-password-personal-height {
+    height: 308px;
+}
+
 .skiliks .pager {
     text-align: center;
 }
@@ -279,10 +319,38 @@ input[type='password'] {
     width: 927px;
 }
 
+.action-personalPersonalData .us-profile-width,
+.action-personalPassword .us-profile-width {
+    width: 955px;
+}
+
 aside {
     width: 275px;
 }
 
+.action-personalPersonalData aside,
+.action-personalPassword aside {
+    width: 254px;
+}
+
+
+.action-personalPersonalData .profile-menu li.active a,
+.action-personalPassword .profile-menu li.active a,
+.action-personalPersonalData .profile-menu li a:hover,
+.action-personalPassword .profile-menu li a:hover {
+    background-position: 227px 17px;
+}
+
 .action-corporateVacancies .profile-right-side {
     min-height: 145px;
+}
+
+.action-personalPersonalData .profile-right-side,
+.action-personalPassword .profile-right-side{
+    width: 624px;
+}
+
+.action-personalPersonalData .profile-menu li a,
+.action-personalPassword .profile-menu li a {
+    min-height: 26px;
 }

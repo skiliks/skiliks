@@ -36,7 +36,8 @@
                 <?php echo $form->passwordField($passwordForm, 'currentPassword'); ?>
             </div>
 
-            <div class="row <?= $this->hasErrors($form, $passwordForm, 'password') ?>" style="margin-top: 10px;">
+            <div class="row <?= $this->hasErrors($form, $passwordForm, 'password') ?>"
+                 style="margin-top: 10px;">
                 <span class="error-place">
                     <?php echo $form->error($passwordForm, 'password'); ?>
                 </span>
@@ -44,7 +45,8 @@
                 <?php echo $form->passwordField($passwordForm, 'password'); ?>
             </div>
 
-            <div class="row <?= $this->hasErrors($form, $passwordForm, 'verifyPassword') ?>" style="margin-top: 10px;">
+            <div class="row <?= $this->hasErrors($form, $passwordForm, 'verifyPassword') ?>"
+                 style="margin-top: 10px;">
                 <span class="error-place">
                     <?php echo $form->error($passwordForm, 'verifyPassword'); ?>
                 </span>

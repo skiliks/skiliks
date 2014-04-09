@@ -4,7 +4,7 @@
 </section>
 
 <section class="pull-content-left nice-border reset-padding us-password-personal-height us-profile-width
-    shadow-14 border-radius-standard background-transparent-20 pull-center">
+    shadow-14 border-radius-standard background-transparent-20 pull-center font-always-14px">
 
     <aside class="inline-block background-yellow border-radius-standard vertical-align-top">
         <?php $this->renderPartial('_menu_personal', ['active' => ['password' => true]]) ?>
@@ -19,32 +19,41 @@
             )); ?>
 
             <div class="row">
-                <p class="text16"><?php if($is_done) { echo Yii::t('site', 'Ваш новый пароль сохранён'); }else{ echo Yii::t('site', 'Вы можете изменить пароль'); } ?></p>
+                <p class="text16" style="font-size: 1.1em">
+                    <?php if ($is_done) : ?>
+                        <?= Yii::t('site', 'Ваш новый пароль сохранён') ?>
+                    <?php else : ?>
+                        <?= Yii::t('site', 'Вы можете установить пароль') ?>
+                    <?php endif; ?>
+                </p>
             </div>
 
             <div class="row <?= $this->hasErrors($form, $passwordForm, 'currentPassword') ?>">
                 <span class="error-place">
                     <?php echo $form->error($passwordForm, 'currentPassword'); ?>
                 </span>
-                <?php echo $form->labelEx($passwordForm, 'currentPassword'); ?>
+                <?php echo $form->labelEx($passwordForm, 'Текущий пароль'); ?>
                 <?php echo $form->passwordField($passwordForm, 'currentPassword'); ?>
             </div>
 
-            <div class="row <?= $this->hasErrors($form, $passwordForm, 'password') ?>">
+            <div class="row <?= $this->hasErrors($form, $passwordForm, 'password') ?>"
+                 style="margin-top: 10px;">
                 <span class="error-place">
                     <?php echo $form->error($passwordForm, 'password'); ?>
                 </span>
-                <?php echo $form->labelEx($passwordForm, 'password'); ?>
+                <?php echo $form->labelEx($passwordForm, 'Новый пароль'); ?>
                 <?php echo $form->passwordField($passwordForm, 'password'); ?>
             </div>
 
-            <div class="row <?= $this->hasErrors($form, $passwordForm, 'verifyPassword') ?>">
+            <div class="row <?= $this->hasErrors($form, $passwordForm, 'verifyPassword') ?>"
+                 style="margin-top: 10px; margin-bottom: 10px;">
                 <span class="error-place">
                     <?php echo $form->error($passwordForm, 'verifyPassword'); ?>
                 </span>
-                <?php echo $form->labelEx($passwordForm, 'verifyPassword'); ?>
+                <?php echo $form->labelEx($passwordForm, 'Повторите пароль'); ?>
                 <?php echo $form->passwordField($passwordForm, 'verifyPassword'); ?>
             </div>
+
             <?php if($is_done) { ?>
                 <div class="done-password-change"></div>
             <?php }else{ ?>
