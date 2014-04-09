@@ -91,7 +91,8 @@ $(document).ready(function() {
             return true;
         } else {
             error_simulation_selected.parent().addClass('error');
-            error_simulation_selected.html('Вводить можно только цифры. Минимальное значение "' + payment_data['minSimulationSelected'] + '".');
+            error_simulation_selected.html('Вводить можно только цифры. Минимальное значение "'
+                + payment_data['minSimulationSelected'] + '"');
             return false;
         }
     }

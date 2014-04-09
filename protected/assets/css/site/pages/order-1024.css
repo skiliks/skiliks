@@ -22,7 +22,7 @@
 }
 
 .width-1024.skiliks .us-order-preview {
-    margin-right: 68px;
+    margin-right: 48px;
 }
 
 .width-1024.skiliks .error .error-place {
@@ -34,5 +34,5 @@
 .width-1024 .us-order-description-row.error .error-place {
     margin-top: -13px;
     margin-left: 254px;
-    width: 308px;
+    width: 330px;
 }
