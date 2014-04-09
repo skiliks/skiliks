@@ -220,4 +220,22 @@ $(document).ready(function(){
                 window.location.reload();
             });
     });
+
+    $('.feedback-edit-button').click(function() {
+        var feedback_comment = $(this).parents('tr').find('.feedback-comment');
+        var message = feedback_comment.text();
+        feedback_comment.html('<textarea>' + message + '</textarea>');
+        $(this).parent().html('<a class="btn btn-success feedback-save-button">Сохранить</a>');
+    });
+
+    $('.feedback-save-button').live('click', function() {
+        console.log('cac');
+        var feedback_comment = $(this).parents('tr').find('.feedback-comment');
+        var message = feedback_comment.find('textarea').val();
+        console.log(message);
+        var id = feedback_comment.data('feedback-id');
+        $.post( "/admin_area/feedbacks", {message : message, id:id, is_ajax:'yes'}, function( data ) {
+            window.location.assign('/admin_area/feedbacks');
+        });
+    });
 });

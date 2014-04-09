@@ -1451,6 +1451,20 @@ class AdminPagesController extends SiteBaseController {
 
     public function actionFeedBacksList()
     {
+        if($this->getParam('is_ajax') === 'yes'){
+            $feedback = Feedback::model()->findByPk($this->getParam('id'));
+            $feedback->comment = $this->getParam('message');
+            $feedback->save(false);
+            Yii::app()->user->setFlash('success', "Успешно");
+            return;
+        }
+        if($this->getParam('is_action') === 'yes'){
+            $feedback = Feedback::model()->findByPk($this->getParam('id'));
+            $feedback->is_processed = $this->getParam('is_processed');
+            $feedback->save(false);
+            Yii::app()->user->setFlash('success', "Успешно");
+            $this->redirect('/admin_area/feedbacks');
+        }
         $this->pageTitle = 'Админка: Список отзывов';
         $this->layout = '//admin_area/layouts/admin_main';
 
