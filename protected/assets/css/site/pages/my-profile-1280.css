@@ -21,7 +21,7 @@
 
 .profile-menu li.active a,
 .profile-menu li a:hover {
-    background-position: 354px 17px;
+    background-position: 242px 17px;
     color: #245057;
 }
 
@@ -30,38 +30,57 @@
 }
 
 .profile-right-side {
-    padding: 30px;
+    padding: 3px 21px 35px 21px;
+    width: 586px; /* padding 42! */
 }
 
-.controller-static-profile .column-2-3-fixed {
-    width: 699px;
-    font-size: 1.2em;
+.action-controller-corporatePassword-static-profile .profile-right-side {
+    padding-bottom: 22px;
 }
 
-.controller-static-profile .column-2-3-fixed input[type="text"],
-.controller-static-profile .column-2-3-fixed input[type="password"],
-.controller-static-profile .column-2-3-fixed textarea {
-    font-size: 0.8em;
-}
-
-.controller-static-profile .column-2-3-fixed .button-white {
-    font-size: 0.8em;
-}
-
-.controller-static-profile .column-2-3-fixed .button-standard {
-    font-size: 1.06em;
-    line-height: 1em;
-}
-
-.controller-static-profile .error-place {
-    font-size: 0.8em;
-}
-
-.profile-right-side label {
-    width: 240px;
+.action-controller-corporateCompanyInfo-static-profile .profile-right-side {
+    padding-bottom: 29px;
 }
 
 /* --- */
+
+.profile-right-side label {
+    font-size: 1.1em;
+    width: 240px;
+}
+
+.action-controller-corporatePersonalData-static-profile .profile-right-side label {
+    width: 188px;
+}
+
+.action-controller-corporatePassword-static-profile .profile-right-side label {
+    width: 158px;
+}
+
+.action-controller-corporatePassword-static-profile input[type='password'] {
+    width: 216px;
+}
+
+.action-controller-corporateCompanyInfo-static-profile .profile-right-side label {
+    width: 177px;
+}
+
+.action-controller-corporateVacancies-static-profile .items {
+    font-size: 1.27em;
+    margin-bottom: 25px;
+}
+
+
+/* --- */
+
+.skiliks .us-company-form {
+    width: 110px;
+}
+
+.skiliks .us-company-name {
+    margin-left: 10px;
+    width: 261px;
+}
 
 #add-vacancy-form .button-standard {
     float: left;
@@ -77,7 +96,7 @@ textarea,
 input[type='text'],
 input[type='password'] {
     resize: none;
-    width: 214px;
+    width: 164px;
 }
 
 #UserAccountPersonal_birthday_day,
@@ -94,16 +113,25 @@ input[type='password'] {
     width: 452px;
 }
 
+.action-controller-corporateVacancies-static-profile #add-vacancy-form .sbSelector,
+.action-controller-corporateVacancies-static-profile #add-vacancy-form .sbHolder {
+    width: 340px;
+}
+
 #UserAccountCorporate_company_description {
-    width: 426px;
+    width: 379px;
 }
 
 #add-vacancy-form input[type="text"] {
-    width: 444px;
+    width: 332px;
 }
 
 .skiliks.controller-static-profile .sbHolder {
-    width: 450px;
+    width: 368px;
+}
+
+.skiliks.controller-static-profile.action-controller-corporateCompanyInfo-static-profile .sbHolder {
+    width: 205px;
 }
 
 .data strong,
@@ -120,7 +148,6 @@ input[type='password'] {
 .data small {
     color: #959595;
     font-family: "ProximaNova-Regular";
-    font-size: 0.8em;
 }
 
 .action-controller-corporateTariff-static-profile label {
@@ -140,7 +167,7 @@ input[type='password'] {
 }
 
 .contrast-table th a {
-    font-size: 0.8em;
+    /*font-size: 0. 8em;*/
 }
 
 .action-controller-corporateReferrals-static-profile .column-2-3-fixed {
@@ -159,7 +186,7 @@ input[type='password'] {
 }
 
 .company-info-height {
-    height: 372px;
+    height: 370px;
 }
 
 .unstandard-error-firstname {
@@ -167,12 +194,27 @@ input[type='password'] {
     width: 225px;
 }
 
+.action-controller-corporatePersonalData-static-profile .unstandard-error-firstname {
+    width: 169px;
+}
+
+.unstandard-error-lastname {
+    margin-left: 30px;
+}
+
 .controller-static-profile  .error-place {
-    padding-left: 244px;
+    padding-left: 191px;
+}
+
+.action-controller-corporatePersonalData-static-profile .error-place {
+    padding-left: 191px;
+}
+
+.action-controller-corporatePassword-static-profile .error-place {
+    padding-left: 160px;
 }
 
 .unstandard-personal-data-height {
-    min-width: 1150px;
     height: 412px;
 }
 
@@ -185,7 +227,7 @@ input[type='password'] {
 }
 
 .action-controller-corporatePersonalData-static-profile .unstandard-personal-data-height {
-    height: 248px;
+    height: 266px; /*  248px */
 }
 
 .action-controller-personalPassword-static-profile .unstandard-personal-data-height {
@@ -208,7 +250,7 @@ input[type='password'] {
 }
 
 .us-password-height {
-    height: 298px;
+    height: 295px;
 }
 
 .us-password-personal-height {
@@ -231,4 +273,16 @@ input[type='password'] {
 
 .action-controller-corporateVacancies-static-profile .light-list-table table {
     width: 100%;
+}
+
+.us-profile-width {
+    width: 927px;
+}
+
+aside {
+    width: 275px;
+}
+
+.action-corporateVacancies .profile-right-side {
+    min-height: 145px;
 }

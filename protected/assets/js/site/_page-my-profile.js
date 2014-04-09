@@ -13,7 +13,7 @@ $(document).ready(function () {
             // то надо задавать высоту вручную
             $('.locator-content-box').css(
                 'height',
-                $('.locator-light-list-table').height() + 355 + 'px'
+                $('.locator-light-list-table').height() + 360 + 'px'
             );
 
         } else {

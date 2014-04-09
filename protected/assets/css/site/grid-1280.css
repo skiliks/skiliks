@@ -226,6 +226,10 @@ ul.question-container .default li.color-797966, /* help-page */
     border-radius: 8px;
 }
 
+.shadow-14 {
+    box-shadow: 0 0 0 14px rgba(255, 255, 255, 0.2);
+}
+
 .box-bottom-standard {
     margin-bottom: 30px;
 }

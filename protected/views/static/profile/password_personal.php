@@ -1,15 +1,16 @@
-<section class="page-title-box column-full pull-content-left ">
+
+<section class="page-title-box column-full pull-content-center">
     <h1 class="margin-bottom-standard"><?php echo Yii::t('site', 'Profile') ?></h1>
 </section>
 
-<section class="pull-content-left nice-border reset-padding us-password-personal-height
-    border-radius-standard background-transparent-20">
+<section class="pull-content-left nice-border reset-padding us-password-personal-height us-profile-width
+    shadow-14 border-radius-standard background-transparent-20 pull-center">
 
-    <aside class="column-1-3 inline-block background-yellow border-radius-standard vertical-align-top">
+    <aside class="inline-block background-yellow border-radius-standard vertical-align-top">
         <?php $this->renderPartial('_menu_personal', ['active' => ['password' => true]]) ?>
     </aside>
 
-    <section class="column-2-3-fixed inline-block border-radius-standard background-F3FFFF
+    <section class="inline-block border-radius-standard background-F3FFFF
          pull-right pull-content-left vertical-align-top profile-right-side">
         <div class="">
 

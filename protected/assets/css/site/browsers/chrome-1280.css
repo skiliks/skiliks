@@ -37,7 +37,7 @@ input.button-standard {
 }
 
 .skiliks.action-controller-corporatePersonalData-static-profile .unstandard-personal-data-height {
-    height: 248px;
+    height: 274px;
 }
 
 .skiliks .company-info-height {
@@ -45,11 +45,11 @@ input.button-standard {
 }
 
 .skiliks.action-controller-personalPersonalData-static-profile .unstandard-personal-data-height {
-    height: 393px; /* fixed */
+    /*height: 393px; /* fixed */
 }
 
 .skiliks.action-controller-personalPassword-static-profile .unstandard-personal-data-height {
-    height: 299px; /* fixed */
+    /*height: 299px; /* fixed */
 }
 
 .skiliks.action-controller-corporateVacancies-static-profile .profile-right-side .button-white {
@@ -61,7 +61,13 @@ input.button-standard {
 }
 
 .skiliks.action-controller-corporatePassword-static-profile .unstandard-personal-data-height {
-    height: 300px;
+    /*height: 300px;*/
 }
 
+.action-controller-corporatePassword-static-profile .us-password-height {
+    height: 302px;
+}
 
+.skiliks.action-corporateVacancies .profile-right-side {
+    min-height: 141px;
+}

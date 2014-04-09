@@ -1,21 +1,22 @@
 
-<section class="page-title-box column-full pull-content-left ">
+<section class="page-title-box column-full pull-content-center">
     <h1 class="margin-bottom-standard"><?php echo Yii::t('site', 'Profile') ?></h1>
 </section>
 
-<section class="pull-content-left nice-border reset-padding  overflow-hidden
-    border-radius-standard background-transparent-20
+<section class="pull-content-left nice-border reset-padding  overflow-hidden us-profile-width font-always-14px
+    shadow-14 border-radius-standard background-transparent-20 pull-center
     locator-content-box">
 
     <!--div class="transparent-boder profilewrap"-->
-    <aside class="column-1-3 inline-block background-yellow border-radius-standard vertical-align-top">
+    <aside class="inline-block background-yellow border-radius-standard vertical-align-top">
         <?php $this->renderPartial('_menu_corporate', ['active' => ['vacancies' => true]]) ?>
     </aside>
 
-    <section class="column-2-3-fixed inline-block border-radius-standard background-F3FFFF
-         pull-right pull-content-left vertical-align-top profile-right-side">
+    <section class="inline-block border-radius-standard background-F3FFFF
+         pull-right pull-content-left vertical-align-top profile-right-side"
+             style="padding-top: 20px;">
 
-        <div class="vacancy-list margin-bottom-standard">
+        <div class="vacancy-list">
             <?php
             $this->widget('zii.widgets.grid.CGridView', [
                 'dataProvider' => Vacancy::model()->search(Yii::app()->user->data()->id),
@@ -52,7 +53,7 @@
         <span class="action-vacancy-add-form-display action-toggle-hide
             button-white button-white-hover inter-active label icon-arrow-blue reset-margin
             action-show-add-vacancy-form
-            <?php echo ($isHideForm) ? '' : 'hide' ?>">
+            <?php echo ($isHideForm) ? '' : 'hide' ?>" >
             Добавить
         </span>
 

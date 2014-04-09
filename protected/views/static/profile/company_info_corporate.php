@@ -1,16 +1,17 @@
-<section class="page-title-box column-full pull-content-left ">
+
+<section class="page-title-box column-full pull-content-center ">
     <h1 class="margin-bottom-standard"><?php echo Yii::t('site', 'Profile') ?></h1>
 </section>
 
-<section class="pull-content-left nice-border reset-padding company-info-height
-    border-radius-standard background-transparent-20">
+<section class="pull-content-left nice-border reset-padding company-info-height us-profile-width font-always-14px
+    shadow-14 border-radius-standard background-transparent-20 pull-center">
 
     <!--div class="transparent-boder profilewrap"-->
-    <aside class="column-1-3 inline-block background-yellow border-radius-standard vertical-align-top">
+    <aside class="inline-block background-yellow border-radius-standard vertical-align-top">
         <?php $this->renderPartial('_menu_corporate', ['active' => ['company-info' => true]]) ?>
     </aside>
 
-    <section class="column-2-3-fixed inline-block border-radius-standard background-F3FFFF
+    <section class="inline-block border-radius-standard background-F3FFFF
          pull-right pull-content-left vertical-align-top profile-right-side">
         <div class="">
 
@@ -18,11 +19,18 @@
                 'id' => 'account-corporate-company-info-form'
             )); ?>
 
-            <div class="row blueplaceholder">
+            <div class="row blueplaceholder" style="margin-top: 15px">
                 <?php echo $form->labelEx($account, 'Название компании'); ?>
-                <?php echo $form->textField($account, 'ownership_type', ['placeholder' => 'Форма']); ?>
+                <?php echo $form->textField($account, 'ownership_type', [
+                    'placeholder' => 'Форма',
+                    'class'       => 'us-company-form'
+                ]); ?>
                 <?php echo $form->error($account, 'ownership_type'); ?>
-                <?php echo $form->textField($account, 'company_name', ['placeholder' => 'Название']); ?>
+                <?php echo $form->textField($account, 'company_name', [
+                    'placeholder' => 'Название',
+                    'class'       => 'us-company-name'
+
+                ]); ?>
                 <?php echo $form->error($account, 'company_name'); ?>
             </div>
 
@@ -44,7 +52,7 @@
                 <?php echo $form->error($account, 'company_description'); ?>
             </div>
 
-            <div class="row buttons">
+            <div class="row buttons" style="margin-top: 10px;">
                 <?php echo CHtml::submitButton(Yii::t('site', 'Сохранить изменения'), [
                     'name' => 'save',
                     'class' => 'background-dark-blue icon-circle-with-blue-arrow-big
