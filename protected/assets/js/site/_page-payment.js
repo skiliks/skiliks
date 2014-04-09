@@ -53,6 +53,7 @@ $(document).ready(function() {
                     $("input[name='MerchantLogin']").val(json.login);
                     $("input[name='InvId']").val(json.invoice_id);
                     $("input[name='OutSum']").val(json.invoice_amount);
+                    console.log(json.invoice_amount);
                     $("input[name='Description']").val(json.description);
                     $("input[name='SignatureValue']").val(json.key);
                     $("#robokassa-payment-form").submit();
