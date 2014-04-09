@@ -1211,7 +1211,7 @@ class YumUser extends YumActiveRecord
      * Banning the user
      */
     public function banUser() {
-        $this->getAccount()->banUser();
+        // $this->getAccount()->banUser();
         $this->status = self::STATUS_BANNED;
         $isSaved = $this->save(false);
 
