@@ -10,6 +10,8 @@
  * @property string $email
  * @property string $addition
  * @property string $ip_address
+ * @property string $is_processed
+ * @property string $comment
  */
 class Feedback extends CActiveRecord
 {
