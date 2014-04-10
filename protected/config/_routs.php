@@ -218,7 +218,7 @@ return [
                 'admin_area/statistics/statistic-mail'                    => 'admin_area/AdminPages/StatisticMail',
                 'admin_area/statistics/free-disk-space'                   => 'admin_area/AdminPages/StatisticFreeDiskSpace',
                 'admin_area/invite/<inviteId:\w+>/switch-can-be-reloaded' => 'admin_area/AdminPages/InviteSwitchCanBeReloaded',
-                'admin_area/ban_user/<userId:\d+>'                        => 'admin_area/AdminPages/BanUser',
+                'admin_area/ban_user/<userId:\d+>/<action:\w+>'                        => 'admin_area/AdminPages/BanUser',
                 'admin_area/user/<userId:\d+>/send-invites'               => 'admin_area/AdminPages/SendInvites',
                 'admin_area/order/<invoiceId:\d+>/toggle-is-test'         => 'admin_area/AdminPages/OrderToggleIsTest',
 

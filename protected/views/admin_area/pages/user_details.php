@@ -28,11 +28,19 @@ $assetsUrl = $this->getAssetsUrl();
     <i class="icon icon-pencil icon-white"></i>&nbsp;
     Изменить пароль</a>
 <?php if ($user->isCorporate()): ?>
+
     &nbsp; &nbsp;
-    <a class="btn btn-success ban-corporate-user" data-id="<?= $user->id ?>" data-email="<?= $user->profile->email ?>">
+    <?php if($user->isBanned()) : ?>
+    <a class="btn btn-success unban-corporate-user" data-id="<?= $user->id ?>" data-email="<?= $user->profile->email ?>">
         <i class="icon icon-ban-circle icon-white"></i>
-        Забанить аккаунт
+        Разбанить аккаунт
     </a>
+    <?php else : ?>
+        <a class="btn btn-success ban-corporate-user" data-id="<?= $user->id ?>" data-email="<?= $user->profile->email ?>">
+            <i class="icon icon-ban-circle icon-white"></i>
+            Забанить аккаунт
+        </a>
+    <?php endif ?>
 <?php endif; ?>
 
 &nbsp; &nbsp;
