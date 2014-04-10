@@ -524,3 +524,8 @@ i.icon-doc {
 .skiliks .ui-dialog.popup-information .ui-dialog-content {
     overflow: hidden;
 }
+
+.items td {
+    color: #29313D;
+    font-family: ProximaNova-Bold;
+}

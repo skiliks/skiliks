@@ -11,8 +11,9 @@ body.action-controller-team-static-pages {
 
 body.action-controller-team-static-pages header {
     background-image: url("../../../img/site/1280/team/bg-top-team.jpg");
-    background-size: cover;
+    background-position: center bottom;
     background-repeat: no-repeat;
+    background-size: cover;
     height: 800px;
 }
 

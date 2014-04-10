@@ -688,3 +688,7 @@ li.icon-tick {
     background-position: 16px center;
     background-color: #820303;
 }
+
+footer .menu-item a {
+    font-size: 1.08em;
+}

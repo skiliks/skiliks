@@ -97,6 +97,9 @@ if(preg_match('/(?i)Chrome/',$_SERVER['HTTP_USER_AGENT']))
     <meta property="og:title" content="Skiliks – game the skills"/>
     <meta property="og:url" content="http://<?=$_SERVER['HTTP_HOST']; ?>"/>
 
+    <!-- https://developer.mozilla.org/en-US/docs/Mozilla/Mobile/Viewport_meta_tag -->
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+
     <meta charset="utf-8" />
     <meta name="description" content="Простой и надежный способ проверить навыки менеджеров:
         деловая онлайн симуляция, имитирующая реальный рабочий день с типичными управленческими задачами
