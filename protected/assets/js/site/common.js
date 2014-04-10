@@ -471,8 +471,6 @@ function stickyFooterAndBackground() {
     var windowHeight = $(window).height();
     var footerBottom = $('footer').offset().top + $('footer').height();
 
-    console.log(footerBottom, windowHeight);
-
     if (footerBottom == windowHeight) {
         return;
     }
@@ -489,6 +487,8 @@ function stickyFooterAndBackground() {
     } else {
         $('body').css('background-size', ' 1600px auto ');
     }
+
+    $('.locator-global-container').css('width', $(window).width() + 'px');
 }
 
 // 8)

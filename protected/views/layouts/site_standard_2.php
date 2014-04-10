@@ -143,7 +143,7 @@ if(preg_match('/(?i)Chrome/',$_SERVER['HTTP_USER_AGENT']))
     addWindowWidthClassToBody();
 </script>
 
-<section class="partial">
+<section class="partial locator-global-container" style="overflow-x: hidden;">
     <label class="partial-label"><?= __FILE__ ?></label>
 
     <!-- HEADER { -->
