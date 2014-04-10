@@ -78,9 +78,13 @@ hgroup h4 {
 .us-box-content {
     border-radius: 0 0 8px 8px;
     height: 1450px;
-    font-size: 1.3em;
+    font-size: 1.15em;
     padding: 25px;
     width: 395px;
+}
+
+.action-controller-product-static-pages .us-box-content {
+    height: 1175px;
 }
 
 .us-nice-border h5{
@@ -155,7 +159,7 @@ hgroup h4 {
 }
 
 .action-controller-productDiagnostic-static-pages .us-box-content {
-    height: 340px;
+    height: 275px;
 }
 
 .action-controller-productDiagnostic-static-pages .allsummry {
