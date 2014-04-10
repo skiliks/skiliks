@@ -488,7 +488,10 @@ function stickyFooterAndBackground() {
         $('body').css('background-size', ' 1600px auto ');
     }
 
-    $('.locator-global-container').css('width', $(window).width() + 'px');
+    // это надо только для стартовой
+    // в мобильных браузерах её вёрстка едет из-за широкой, не симметричной нижней картинки с героями игры
+    // над футером
+    $('.action-controller-index-static-pages .locator-global-container').css('width', $(window).width() + 'px');
 }
 
 // 8)
