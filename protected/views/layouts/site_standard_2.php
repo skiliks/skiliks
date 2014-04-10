@@ -195,10 +195,10 @@ if(preg_match('/(?i)Chrome/',$_SERVER['HTTP_USER_AGENT']))
 
         <!-- COPYRIGHT -->
         <div class="copyright-box column-full pull-content-center mark-up-block">
-            <span class="copyright">Copyright - Skiliks  - 2013</span>
+            <span class="copyright">Copyright - Skiliks  - 2014</span>
             <?php if ('ru' == Yii::app()->getlanguage()): ?>
                 <span  class="help-email-link">
-                    Свяжитесь с нами: <a href="mailto:help@skiliks.com">help@skiliks.com</a>
+                    Свяжитесь с нами: <a href="mailto:support@skiliks.com">support@skiliks.com</a>
                 </span>
             <?php endif; ?>
         </div>
