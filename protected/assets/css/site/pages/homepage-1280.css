@@ -1,6 +1,6 @@
 
 body {
-    overflow: hidden;
+    overflow-x: hidden;
 }
 
 body.action-controller-index-static-pages header {
