@@ -7,11 +7,6 @@ input[type='checkbox'] {
     height: 23px;
 }
 
-.skiliks input.button-standard {
-    padding-bottom: 17px;
-    padding-top: 17px;
-}
-
 .skiliks .us-auth-box {
     width: 630px;
 }

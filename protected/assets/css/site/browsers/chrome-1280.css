@@ -10,12 +10,6 @@
     height: 23px;
 }
 
-input.button-standard {
-    margin-top: 0;
-    padding-bottom: 16px;
-    padding-top: 16px;
-}
-
 .skiliks.action-controller-recovery-static-userAuth .us-auth-box {
     width: 635px; /* 650, исправлено из-за бага на странице востановлении пароля */
 }

@@ -692,3 +692,9 @@ li.icon-tick {
 footer .menu-item a {
     font-size: 1.08em;
 }
+
+input.button-standard {
+    margin-top: 0;
+    padding-bottom: 16px;
+    padding-top: 16px;
+}
