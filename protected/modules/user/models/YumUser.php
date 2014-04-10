@@ -1225,6 +1225,16 @@ class YumUser extends YumActiveRecord
     }
 
     /**
+     * Banning the user
+     */
+    public function unBanUser() {
+        // $this->getAccount()->banUser();
+        $this->status = self::STATUS_ACTIVE;
+        return $this->save(false);
+
+    }
+
+    /**
      * Добавляет в очередь писем мипьмо пользователю ($this), что его аккаунт заблокирован
      *
      * @return bool

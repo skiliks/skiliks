@@ -206,9 +206,18 @@ $(document).ready(function(){
     })
 
     $(".ban-corporate-user").click(function() {
-        if(confirm("Вы точно хотите забанить аккаунт " + $(this).attr("data-email"))) {
-        $.post("/admin_area/ban_user/" + $(this).attr("data-id")).
+        if(confirm("Вы точно хотите разбанить аккаунт " + $(this).attr("data-email"))) {
+        $.post("/admin_area/ban_user/" + $(this).attr("data-id")+'/ban').
             done(function() {
+                    window.location.reload();
+                });
+        }
+    });
+
+    $(".unban-corporate-user").click(function() {
+        if(confirm("Вы точно хотите забанить аккаунт " + $(this).attr("data-email"))) {
+            $.post("/admin_area/ban_user/" + $(this).attr("data-id")+'/unban').
+                done(function() {
                     window.location.reload();
                 });
         }

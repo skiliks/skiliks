@@ -2061,15 +2061,23 @@ class AdminPagesController extends SiteBaseController {
         $this->redirect('/dashboard');
     }
 
-    public function actionBanUser($userId) {
-
+    public function actionBanUser($userId, $action) {
+        /* @var YumUser $banUser */
         $banUser = YumUser::model()->findByPk($userId);
 
         if($banUser->isCorporate()) {
-            $isBanned = $banUser->banUser();
-            if($isBanned) {
-                UserService::logAccountAction($banUser, $_SERVER['REMOTE_ADDR'], 'Пользователь '.$banUser->profile->email.' был за банен (статус "banned") админом '.$this->user->profile->email);
-                Yii::app()->user->setFlash('success', 'Аккаунт '. $banUser->profile->email .' успешно заблокирован.');
+            if($action === 'ban') {
+                $isBanned = $banUser->banUser();
+                if($isBanned) {
+                    UserService::logAccountAction($banUser, $_SERVER['REMOTE_ADDR'], 'Пользователь '.$banUser->profile->email.' был за банен (статус "banned") админом '.$this->user->profile->email);
+                    Yii::app()->user->setFlash('success', 'Аккаунт '. $banUser->profile->email .' успешно заблокирован.');
+                }
+            }else{
+                $isUnBanned = $banUser->unBanUser();
+                if($isUnBanned) {
+                    UserService::logAccountAction($banUser, $_SERVER['REMOTE_ADDR'], 'Пользователь '.$banUser->profile->email.' был разбанен админом '.$this->user->profile->email);
+                    Yii::app()->user->setFlash('success', 'Аккаунт '. $banUser->profile->email .' успешно раблокирован.');
+                }
             }
         }
     }
