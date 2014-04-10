@@ -16,12 +16,17 @@
     height: 38px;
 }
 
-.width-1024 input.button-standard {
+.width-1024.skiliks .ui-dialog .button-standard {
+    padding-bottom: 15px;
+    padding-top: 15px;
+}
+
+.width-1024.skiliks .button-standard,
+.width-1024.skiliks input.button-standard {
     padding-bottom: 11px;
     padding-top: 12px;
 }
 
-/*.width-1024 .label,*/
 .width-1024 .static-page-links .label a {
     padding-left: 10px;
     padding-right: 10px;

@@ -6,10 +6,6 @@
     width: 980px;
 }
 
-.controller-static-profile .button-standard {
-    padding-top: 10px;
-}
-
 .skiliks .sh_btn .sh_btn_char {
     height: 14px;
     margin-top: -1px;
@@ -24,3 +20,7 @@
     margin-top: -5px;
 }
 
+.skiliks input.button-standard {
+    padding-bottom: 16px;
+    padding-top: 17px;
+}

@@ -6,3 +6,14 @@
 .width-1024.action-corporateVacancies .profile-right-side {
     min-height: 147px;
 }
+
+.width-1024.action-controller-corporatePersonalData-static-profile .button-standard,
+.width-1024.action-controller-corporatePassword-static-profile .button-standard,
+.width-1024.action-controller-corporateCompanyInfo-static-profile .button-standard,
+.width-1024.action-controller-corporateVacancies-static-profile .button-standard {
+    font-size: 1.17em;
+}
+
+.width-1024.action-controller-corporateVacancies-static-profile .profile-right-side .button-white {
+    line-height: 2.2em;
+}

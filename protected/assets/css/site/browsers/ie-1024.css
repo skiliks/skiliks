@@ -47,17 +47,9 @@
     margin-top: 0px;
 }
 
-.width-1024.skiliks.action-controller-personalPassword-static-profile .unstandard-personal-data-height {
-    /*height: 281px; /* fixed */
-}
-
 .width-1024.controller-static-profile .button-standard {
     padding-top: 10px;
-    line-height: 1.6em;
-}
-
-.width-1024.skiliks .us-password-personal-height {
-   /* height: 283px;*/
+    line-height: 1.1em;
 }
 
 .width-1024.skiliks input.button-standard {
@@ -93,4 +85,10 @@
 
 .width-1024.action-controller-personalPersonalData-static-profile .unstandard-personal-data-height {
     height: 378px;
+}
+
+.width-1024.action-controller-personalPersonalData-static-profile.skiliks input.button-standard,
+.width-1024.action-controller-personalPassword-static-profile.skiliks input.button-standard {
+    padding-bottom: 13px;
+    padding-top: 14px;
 }

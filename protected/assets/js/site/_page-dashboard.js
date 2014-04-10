@@ -167,6 +167,11 @@ $(document).ready(function () {
                 stickyFooterAndBackground();
             }
         });
+
+        $(window).on('resize', function() {
+            warningPopup.dialog("option", "width", getDialogWindowWidth());
+            warningPopup.dialog("option", "position", "center");
+        });
     }
 
     // 7) popup-before-start-sim
@@ -189,6 +194,13 @@ $(document).ready(function () {
     function infoPopup_aboutFullSimulation(href) {
         pre_simulation_popup.dialog('open');
         $('.locator-next-step').attr('data-href', href);
+
+        // смена ширины при изменении размеров окна браузера
+        // выравнивание при изменении размеров окна браузера
+        $(window).on('resize', function() {
+            pre_simulation_popup.dialog("option", "width", getDialogWindowWidth());
+            pre_simulation_popup.dialog("option", "position", "center");
+        });
     }
 
     // 8)
