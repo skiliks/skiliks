@@ -16,7 +16,8 @@
     height: 38px;
 }
 
-.width-1024.skiliks .ui-dialog .button-standard {
+.width-1024.skiliks .popup-information .button-standard,
+.width-1024.skiliks .background-image-book-2 .button-standard {
     padding-bottom: 15px;
     padding-top: 15px;
 }

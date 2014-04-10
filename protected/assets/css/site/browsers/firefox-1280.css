@@ -24,3 +24,14 @@
     padding-bottom: 16px;
     padding-top: 17px;
 }
+
+.skiliks.action-registrationSingleAccount input.button-standard {
+    padding-bottom: 14px;
+    padding-top: 15px;
+}
+
+.skiliks.action-registerByLink input.button-standard,
+.skiliks.background-image-book input.button-standard {
+    padding-bottom: 15px;
+    padding-top: 16px;
+}

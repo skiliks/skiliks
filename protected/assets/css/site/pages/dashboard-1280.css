@@ -521,6 +521,7 @@ i.icon-doc {
     min-height: 87px;
 }
 
+.skiliks .ui-dialog.background-image-book .ui-dialog-content,
 .skiliks .ui-dialog.popup-information .ui-dialog-content {
     overflow: hidden;
 }
@@ -529,3 +530,4 @@ i.icon-doc {
     color: #29313D;
     font-family: ProximaNova-Bold;
 }
+

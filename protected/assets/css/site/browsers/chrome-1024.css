@@ -79,8 +79,19 @@
     height: 372px;
 }
 
+.width-1024.action-registrationSingleAccount input.button-standard,
+.width-1024.action-registerByLink input.button-standard,
 .width-1024.action-controller-personalPersonalData-static-profile.skiliks input.button-standard,
 .width-1024.action-controller-personalPassword-static-profile.skiliks input.button-standard {
     padding-bottom: 12px;
+    padding-top: 13px;
+}
+
+.width-1024 .background-image-book .ui-dialog-content {
+    overflow: hidden;
+}
+
+.width-1024.skiliks .ui-dialog.background-image-book input.button-standard {
+    padding-bottom: 13px;
     padding-top: 13px;
 }

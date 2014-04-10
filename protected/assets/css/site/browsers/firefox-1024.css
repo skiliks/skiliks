@@ -63,3 +63,8 @@
 .width-1024.action-controller-corporateVacancies-static-profile .button-standard {
     font-size: 1.1em;
 }
+
+.width-1024.skiliks .background-image-book input.button-standard {
+    padding-bottom: 12px;
+    padding-top: 13px;
+}
