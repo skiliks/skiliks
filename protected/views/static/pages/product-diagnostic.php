@@ -82,7 +82,7 @@
     </span>
     <span class="widthblock column-1-3 pull-content-center vertical-align-top">
         <h5 class="product_h3_margin_left us-h5">
-            Время, затраченное на выполнение задач
+            Время, затраченное на <br/>выполнение задач
         </h5>
     </span>
 </div>

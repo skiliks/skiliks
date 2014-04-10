@@ -12,7 +12,7 @@ hgroup h4 {
     background-image: url('../../../img/site/1280/product/blue-dot.png');
     background-position: center 25px;
     background-repeat: no-repeat;
-    font-size: 1.2em;
+    font-size: 1.15em;
     padding-top: 110px;
     vertical-align: top;
     width: 30%;
@@ -213,5 +213,5 @@ hgroup h4 {
 }
 
 .us-h5 {
-    font-size: 1.29em;
+    font-size: 1.27em;
 }
