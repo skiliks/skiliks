@@ -350,7 +350,7 @@ class UserService {
                 $invite->is_display_simulation_results = (int) !$is_display_results;
 
                 if($send_invite) {
-                    $user->account_corporate->save();
+                    $user->account_corporate->save(false);
                     $invite->save(false);
 
                     InviteService::logAboutInviteStatus($invite, sprintf(
@@ -453,7 +453,7 @@ class UserService {
         $invite->save();
 
         $sent = UserService::addLongEmailToQueue($mailOptions, SiteEmailOptions::TEMPLATE_ANJELA);
-
+        $invite->ownerUser->getAccount()->refresh();
         $invite->ownerUser->getAccount()->default_invitation_mail_text = str_replace('<br>', "\r\n", $invite->message);
         $invite->ownerUser->getAccount()->save(false);
 

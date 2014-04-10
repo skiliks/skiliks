@@ -44,6 +44,7 @@ $(document).ready(function() {
     };
 
     function proceedRobokassaPayment() {
+        validationSimulationSelected();
         $.getJSON( "/payment/getRobokassaForm", {'simulation-selected' : $("#simulation-selected").val()})
             .done(function( json ) {
                 if(json.invoice_id == null) {
@@ -53,6 +54,7 @@ $(document).ready(function() {
                     $("input[name='MerchantLogin']").val(json.login);
                     $("input[name='InvId']").val(json.invoice_id);
                     $("input[name='OutSum']").val(json.invoice_amount);
+                    console.log(json.invoice_amount);
                     $("input[name='Description']").val(json.description);
                     $("input[name='SignatureValue']").val(json.key);
                     $("#robokassa-payment-form").submit();
@@ -67,6 +69,7 @@ $(document).ready(function() {
 
     function validationSimulationSelected()
     {
+        $('#simulation-selected').val($('#simulation_selected').val());
         var error_simulation_selected = $('.error_simulation_selected');
         var simulation_selected = $('#simulation_selected').val();
         var payment_data = $.parseJSON($("#payment_data").text());
@@ -115,7 +118,7 @@ $(document).ready(function() {
         validationSimulationSelected();
     });
     simulation_selected.bind('textchange', function(e) {
-        $('#simulation-selected').val($(this).val());
+
     });
 
     validationSimulationSelected();
