@@ -15,9 +15,9 @@
 }
 
 .width-1024 input.button-standard {
-    margin-top: -1px;
-    padding-bottom: 10px;
-    padding-top: 9px;
+    /*margin-top: -1px;*/
+    /*padding-bottom: 10px;*/
+    /*padding-top: 9px;*/
 }
 
 .width-1024.action-controller-index-static-pages input.button-standard { /* homepage */

@@ -13,7 +13,12 @@
 }
 
 .width-1024 input.inputs-wide-height {
-    height: 34px;
+    height: 40px;
+}
+
+.width-1024 input.button-standard {
+    padding-bottom: 12px;
+    padding-top: 13px;
 }
 
 /*.width-1024 .label,*/
