@@ -198,10 +198,10 @@ if(preg_match('/(?i)Firefox/',$_SERVER['HTTP_USER_AGENT']))
                     <?php $this->renderPartial('//global_partials/addthis', ['force' => false]) ?>
                     <div class="backtotop"><a href="#top"><?php echo Yii::t('site', 'Back to top') ?></a></div>
                     <div class="logo"><a href="/">Skiliks</a></div>
-                    <p class="copyright">Copyright - Skiliks  - 2013</p>
+                    <p class="copyright">Copyright - Skiliks  - 2014</p>
                     <?php if ('ru' == Yii::app()->getlanguage()): ?>
                         <span class="help-contact-us">
-                            Свяжитесь с нами: <a href="mailto:help@skiliks.com">help@skiliks.com</a>
+                            Свяжитесь с нами: <a href="mailto:support@skiliks.com">support@skiliks.com</a>
                         </span>
                     <?php endif; ?>
                     <?php $route = Yii::app()->getController()->getRoute(); ?>
