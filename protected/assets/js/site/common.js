@@ -338,7 +338,7 @@ function getDialogWindowWidth(padding) {
 
     // window.standardMinWindowWidth найдено экспериментально
     if (getWindowWidth() < window.standardMinWindowWidth) {
-        return  940;
+        return  900;
     } else {
         return  1115 - padding;
     }

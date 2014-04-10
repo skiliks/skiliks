@@ -160,7 +160,7 @@
 }
 
 .width-1024 .invite-accept-popup .unstandard-list-description {
-    width: 660px;
+    width: 640px;
 }
 
 .width-1024 .unstandard-simulation-requirements .column-1-4 {
@@ -171,3 +171,6 @@
     overflow: hidden;
 }
 
+.width-1024 .unstandard-simulation-requirements .column-1-4 {
+    padding-right: 17px;
+}
