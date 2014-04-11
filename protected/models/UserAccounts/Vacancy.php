@@ -10,7 +10,7 @@
  * @property string $label
  * @property string $link
  * @property string $import_id
- * @property integer $user_account_corporate_id
+ * @property integer $user_id
  * @property string position_level_slug
  *
  * The followings are the available model relations:

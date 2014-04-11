@@ -9,12 +9,14 @@ $(document).ready(function () {
             // но из-за него не будет видно выыпадающего списка
             $('.locator-content-box').removeClass('overflow-hidden');
 
+            // 1.1 {
             // если убираем overflow:hidden
             // то надо задавать высоту вручную
             $('.locator-content-box').css(
                 'height',
-                $('.locator-light-list-table').height() + 360 + 'px'
+                $('.locator-profile-right-side').height() + 24 + 'px'
             );
+            // 1.1 }
 
         } else {
             // возвращаем удалённые классы

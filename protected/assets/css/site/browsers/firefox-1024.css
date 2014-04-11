@@ -15,10 +15,6 @@
     width: 799px;
 }
 
-.width-1024.skiliks.action-controller-corporatePersonalData-static-profile .unstandard-personal-data-height {
-    height: 269px;
-}
-
 .width-1024.skiliks #managerial-skills .labels {
     margin-top: 7px;
 }
@@ -27,7 +23,7 @@
     line-height: 2.1em;
 }
 
-.width-1024.skiliks .us-password-height {
+.width-1024.skiliks.action-personalPassword .us-password-height {
     height: 292px;
 }
 

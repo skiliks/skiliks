@@ -6,7 +6,7 @@
 }
 
 .skiliks .company-info-height {
-    height: 372px;
+    height: 378px;
 }
 
 .skiliks .button-add-vacancy {
@@ -42,10 +42,6 @@
     line-height: 2.5em;
 }
 
-.skiliks.action-controller-corporatePersonalData-static-profile .unstandard-personal-data-height {
-    height: 245px;
-}
-
 .skiliks.action-controller-corporatePassword-static-profile .unstandard-personal-data-height {
     height: 299px;
 }
@@ -63,11 +59,6 @@
 
 .skiliks input.inputs-wide-height {
     margin-top: 1px;
-}
-
-.skiliks input.button-standard {
-    /*padding-top: 16px;*/
-    /*padding-bottom: 11px;*/
 }
 
 .skiliks .items .button-white {

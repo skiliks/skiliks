@@ -19,6 +19,13 @@
     width: 100%;
 }
 
+.action-controller-corporatePersonalData-static-profile .profile-menu li a,
+.action-controller-corporatePassword-static-profile .profile-menu li a,
+.action-controller-corporateCompanyInfo-static-profile .profile-menu li a,
+.action-controller-corporateVacancies-static-profile .profile-menu li a {
+    background-position: 242px -65px;
+}
+
 .profile-menu li.active a,
 .profile-menu li a:hover {
     background-position: 242px 17px;
@@ -218,7 +225,7 @@ input[type='password'] {
 }
 
 .company-info-height {
-    height: 370px;
+    height: 374px;
 }
 
 .unstandard-error-firstname {
@@ -267,7 +274,7 @@ input[type='password'] {
 }
 
 .action-controller-corporatePersonalData-static-profile .unstandard-personal-data-height {
-    height: 272px; /*  248px */
+    height: 274px; /*  248px */
 }
 
 .action-controller-personalPassword-static-profile .unstandard-personal-data-height {
@@ -289,8 +296,8 @@ input[type='password'] {
     text-overflow: ellipsis;
 }
 
-.us-password-height {
-    height: 295px;
+.action-controller-corporatePassword-static-profile .us-password-height {
+    height: 302px;
 }
 
 .us-password-personal-height {
@@ -336,7 +343,6 @@ aside {
 .action-personalPassword aside {
     width: 254px;
 }
-
 
 .action-personalPersonalData .profile-menu li.active a,
 .action-personalPassword .profile-menu li.active a,

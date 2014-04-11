@@ -37,14 +37,6 @@ input[type='checkbox'] {
     display: block;
 }
 
-.skiliks .company-info-height {
-   /* height: 365px; /* fixed */
-}
-
-.skiliks.action-controller-personalPersonalData-static-profile .unstandard-personal-data-height {
-    /*height: 391px;*/
-}
-
 nav ul li.menu-item span,
 nav ul li.menu-item a {
     padding-top: 4px;
@@ -72,18 +64,6 @@ nav ul li.menu-item a {
     margin-top: -4px;
 }
 
-.skiliks.action-controller-corporatePassword-static-profile .unstandard-personal-data-height {
-    /*height: 298px; /* fixed */
-}
-
-.skiliks.action-controller-corporatePersonalData-static-profile .unstandard-personal-data-height {
-    /*height: 244px;*/
-}
-
-.skiliks .us-password-personal-height {
-    /*height: 297px;*/
-}
-
 .skiliks .sh_btn .sh_btn_char {
     height: 14px;
     margin-top: -1px;
@@ -98,12 +78,8 @@ nav ul li.menu-item a {
     margin-top: -4px;
 }
 
-.action-controller-corporatePassword-static-profile .us-password-height {
-    height: 293px;
-}
-
 .company-info-height {
-    height: 366px;
+    height: 372px;
 }
 
 .action-controller-personalPassword-static-profile .us-password-personal-height {

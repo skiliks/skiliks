@@ -15,7 +15,7 @@
 }
 
 .width-1024.action-controller-corporateVacancies-static-profile .profile-right-side .button-white {
-    line-height: 2.9em;
+    line-height: 2.3em;
 }
 
 .width-1024 .us-remember-me-margin {
@@ -57,18 +57,14 @@
     height: 374px;
 }
 
-.width-1024 .company-info-height {
-    /*height: 346px;*/
-}
-
-.width-1024.action-controller-corporatePassword-static-profile .unstandard-personal-data-height {
-    /*height: 279px;*/
-}
-
-.width-1024.action-controller-corporatePersonalData-static-profile .unstandard-personal-data-height {
-    /*height: 220px;*/
-}
-
 .width-1024.action-controller-personalPassword-static-profile .us-password-personal-height {
     height: 305px;
+}
+
+.width-1024.skiliks.action-controller-corporatePersonalData-static-profile .unstandard-personal-data-height {
+    height: 261px;
+}
+
+.width-1024.action-controller-corporateCompanyInfo-static-profile .company-info-height {
+    height: 362px;
 }

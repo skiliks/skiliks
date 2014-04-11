@@ -13,10 +13,14 @@
     </aside>
 
     <section class="inline-block border-radius-standard background-F3FFFF
-         pull-right pull-content-left vertical-align-top profile-right-side"
+         pull-right pull-content-left vertical-align-top profile-right-side locator-profile-right-side"
              style="padding-top: 20px;">
 
-        <div class="vacancy-list">
+        <?php $vacancyCounter = Vacancy::model()->count('user_id = :user_id', [
+            'user_id' => Yii::app()->user->data()->id
+        ]);?>
+
+        <div class="vacancy-list" style="<?= (0 == $vacancyCounter) ? 'display: none;' : '' ?>">
             <?php
             $this->widget('zii.widgets.grid.CGridView', [
                 'dataProvider' => Vacancy::model()->search(Yii::app()->user->data()->id),
@@ -38,8 +42,18 @@
                     ['header' => '', 'name' => '' , 'value' => '(10*(Yii::app()->request->getParam("page",1) - 1) + $row + 1)."."'],
                     ['header' => Yii::t('site', 'Name'), 'name' => 'label' , 'value' => '$data->label'],
                     ['header' => Yii::t('site', 'Link'), 'name' => 'link'  , 'value' => '$data->getCroppedUrl()' , 'type' => 'html'],
-                    ['header' => ''                                        , 'value' => '"<a class=\"icon-16 icon-edit\" href=\"/profile/corporate/vacancy/$data->id/edit\" title=\"редактировать\"></a>"' , 'type' => 'html'],
-                    ['header' => ''                                        , 'value' => '"<a class=\"icon-16 icon-delete\" href=\"/profile/corporate/vacancy/$data->id/remove\" title=\"удалить\"></a>"' , 'type' => 'html'],
+                    [
+                        'header'      => '',
+                        'value'       => '"<a class=\"icon-16 icon-edit\" href=\"/profile/corporate/vacancy/$data->id/edit\" title=\"редактировать\"></a>"',
+                        'type'        => 'html',
+                        'htmlOptions' => ['width' => '20px']
+                    ],
+                    [
+                        'header'      => '',
+                        'value'       => '"<a class=\"icon-16 icon-delete\" href=\"/profile/corporate/vacancy/$data->id/remove\" title=\"удалить\"></a>"',
+                        'type'        => 'html',
+                        'htmlOptions' => ['width' => '20px'],
+                    ],
                 ]
             ]);
             ?>

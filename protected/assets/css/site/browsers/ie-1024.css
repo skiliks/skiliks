@@ -71,12 +71,8 @@
     margin-top: -1px;
 }
 
-.width-1024.action-controller-corporatePassword-static-profile .us-password-height {
-    height: 299px;
-}
-
 .width-1024 .company-info-height {
-    height: 363px;
+    height: 360px;
 }
 
 .width-1024.action-controller-personalPassword-static-profile .us-password-personal-height {
@@ -87,4 +83,8 @@
 .width-1024.action-controller-personalPassword-static-profile.skiliks input.button-standard {
     padding-bottom: 13px;
     padding-top: 14px;
+}
+
+.width-1024.skiliks.action-corporatePassword .us-password-height {
+    height: 294px;
 }
