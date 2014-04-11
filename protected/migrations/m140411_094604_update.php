@@ -5,20 +5,20 @@ class m140411_094604_update extends CDbMigration
 	public function up()
 	{
         ini_set('memory_limit', '-1');
-//        $scenario = 'full';
-//        $import = new ImportGameDataService($scenario);
-//        $import->importAll();
-//
-//        //TODO: поправить логику
-//        // update file name (version) only after import done {
-//        $scenario = Scenario::model()->findByAttributes(['slug' => $scenario]);
-//        if (null !== $scenario) {
-//            $scenario->filename = basename($import->getFilename());
-//            $scenario->save(false);
-//        }
-//        // update file name (version) only after import done }
-//
-//        echo "\n'Import complete. \n";
+        $scenario = 'full';
+        $import = new ImportGameDataService($scenario);
+        $import->importAll();
+
+        //TODO: поправить логику
+        // update file name (version) only after import done {
+        $scenario = Scenario::model()->findByAttributes(['slug' => $scenario]);
+        if (null !== $scenario) {
+            $scenario->filename = basename($import->getFilename());
+            $scenario->save(false);
+        }
+        // update file name (version) only after import done }
+
+        echo "\n'Import complete. \n";
         /* @var $mails Mailbox[] */
         $mails = $data = Yii::app()->getDb()->
             createCommand()
