@@ -5,18 +5,6 @@
     padding-bottom: 10px;
 }
 
-.width-1024 .company-info-height {
-    height: 346px;
-}
-
-.width-1024.action-controller-corporatePassword-static-profile .unstandard-personal-data-height {
-    height: 279px;
-}
-
-.width-1024.action-controller-corporatePersonalData-static-profile .unstandard-personal-data-height {
-    height: 220px;
-}
-
 .width-1024.skiliks .button-add-vacancy {
     margin-top: 0;
     top: 7px;
@@ -66,5 +54,21 @@
 }
 
 .width-1024.action-controller-personalPersonalData-static-profile .unstandard-personal-data-height {
-    height: 361px;
+    height: 374px;
+}
+
+.width-1024 .company-info-height {
+    /*height: 346px;*/
+}
+
+.width-1024.action-controller-corporatePassword-static-profile .unstandard-personal-data-height {
+    /*height: 279px;*/
+}
+
+.width-1024.action-controller-corporatePersonalData-static-profile .unstandard-personal-data-height {
+    /*height: 220px;*/
+}
+
+.width-1024.action-controller-personalPassword-static-profile .us-password-personal-height {
+    height: 305px;
 }

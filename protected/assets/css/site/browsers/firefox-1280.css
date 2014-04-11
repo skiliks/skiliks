@@ -25,6 +25,14 @@
     padding-top: 17px;
 }
 
+.action-controller-corporatePersonalData-static-profile input.button-standard,
+.action-controller-corporatePassword-static-profile input.button-standard,
+.action-controller-corporateCompanyInfo-static-profile input.button-standard,
+.action-controller-corporateVacancies-static-profile input.button-standard {
+    padding-bottom: 15px;
+    padding-top: 16px;
+}
+
 .skiliks.action-registrationSingleAccount input.button-standard {
     padding-bottom: 14px;
     padding-top: 15px;

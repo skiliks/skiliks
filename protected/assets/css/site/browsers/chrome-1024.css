@@ -72,11 +72,7 @@
 }
 
 .width-1024.action-controller-personalPassword-static-profile .us-password-personal-height {
-    height: 306px;
-}
-
-.width-1024.action-controller-personalPersonalData-static-profile .unstandard-personal-data-height {
-    height: 372px;
+    height: 310px; /* f */
 }
 
 .width-1024.action-registrationSingleAccount input.button-standard,
