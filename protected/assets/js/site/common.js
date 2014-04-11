@@ -504,9 +504,10 @@ function fixProductDropDown() {
         );
     }
 
-    var offset = 200;
+    // не много магических чисел:
+    var offset = 220;
     if ($('body').hasClass('width-1024')) {
-        offset = 175;
+        offset = 195;
     }
     $('footer .locator-product-submenu').css('left', $('footer .locator-submenu-switcher').offset().left - offset);
 }
