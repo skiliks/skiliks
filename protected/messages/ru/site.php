@@ -48,7 +48,7 @@ return array(
     'Results can be obtained and used immediately' => 'Моментально предоставляет готовые для использования результаты оценки',
     'Saves your time' => 'Экономит время',
     'Simulation aimed at testing basic manager’s skills' => 'Деловая симуляция, позволяющая оценить базовые менеджерские навыки',
-    'Easy &amp; reliable way to discover your people management skills!' => 'Простой и надежный способ проверить навыки менеджеров!',
+    'Easy &amp; reliable way to discover your people management skills!' => 'Простой и надежный способ проверить<br>навыки менеджеров!',
     'Uses real work environment, tasks and decision<br />making situations' => 'Максимально приближен к реальному деловому окружению, задачам и ситуациям',
 
     'Русский' => 'English',

@@ -58,8 +58,8 @@ class Invite extends CActiveRecord
         self::STATUS_PENDING     => 'в ожидании',
         self::STATUS_DECLINED    => 'отклонено',
         self::STATUS_ACCEPTED    => 'принятый',
-        self::STATUS_IN_PROGRESS => 'в процессе', // after sim start
-        self::STATUS_COMPLETED   => 'завершенный', // after sim start
+        self::STATUS_IN_PROGRESS => 'в ожидании', // after sim start
+        self::STATUS_COMPLETED   => 'завершено', // after sim start
         self::STATUS_DELETED     => 'удален'
     ];
 
