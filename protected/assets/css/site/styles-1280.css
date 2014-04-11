@@ -307,15 +307,15 @@ footer .static-page-links ul {
     margin: 75px 0 0;
 }
 
-nav ul li.menu-item span.not-started-simulations {
+.skiliks nav ul li.menu-item span.not-started-simulations {
     background-color: #CF1919;
     border-radius: 4px;
     font-family: ProximaNova-Bold;
     font-size: 0.67em;
     height: 20px;
-    left: 7px;
+    left: -11px; /* 0 */
     line-height: 17px;
-    margin-right: -12px;
+    margin-right: -19px;
     padding-top: 2px;
     padding-bottom: 0;
     position: relative;

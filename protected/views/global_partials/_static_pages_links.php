@@ -94,7 +94,10 @@
                 ],
 
                 [
-                    'label'   => Yii::t('site', 'Personal dashboard') . ($count ? "<span class='not-started-simulations'>$count</span>" : ""),
+                    'label'   => Yii::t('site', 'Personal dashboard') . ($count ?
+                            "</a><span class='not-started-simulations'>$count</span><a style='display: none;'>"
+                            : ""
+                        ),
                     'url'     => ['/static/dashboard/index'],
                     'visible' => $isPersonal && $isActivated && !$isGuest && $isDisplayAccountLinks,
                     'active'  => strpos(Yii::app()->request->getPathInfo(), 'dashboard') === 0
