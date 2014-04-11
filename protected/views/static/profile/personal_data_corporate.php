@@ -44,7 +44,7 @@
             </div>
 
             <div class="row" style="margin-top: 9px; font-size: 1.1em">
-                <?php echo $form->labelEx($profile, 'Корпоративный емейл'); ?>
+                <?php echo $form->labelEx($profile, 'Корпоративный email'); ?>
                 <span class="value" style="font-family: ProximaNova-Bold; "><?php echo $profile->email; ?></span>
             </div>
 
