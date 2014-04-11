@@ -12,7 +12,7 @@
 }
 
 .profile-menu li a {
-    background: url("../../../img/site/1280/profile/menu-arrows.png") no-repeat 266px -65px;
+    background: url("../../../img/site/1280/profile/menu-arrows.png") no-repeat 227px -65px;
     color: #555742;
     font-size: 1.3em;
     padding: 12px 20px 12px 12px;
@@ -30,6 +30,21 @@
 .profile-menu li a:hover {
     background-position: 242px 17px;
     color: #245057;
+}
+
+.action-personalPersonalData .profile-menu li.active a,
+.action-personalPassword .profile-menu li.active a {
+    background-position: 227px -65px;
+}
+
+.action-personalPersonalData .profile-menu li a:hover,
+.action-personalPassword .profile-menu li a:hover {
+    background-position: 227px 17px;
+}
+
+.action-personalPersonalData .profile-menu li a,
+.action-personalPassword .profile-menu li a {
+    min-height: 26px;
 }
 
 .profile-menu li.active {
@@ -344,13 +359,6 @@ aside {
     width: 254px;
 }
 
-.action-personalPersonalData .profile-menu li.active a,
-.action-personalPassword .profile-menu li.active a,
-.action-personalPersonalData .profile-menu li a:hover,
-.action-personalPassword .profile-menu li a:hover {
-    background-position: 227px 17px;
-}
-
 .action-corporateVacancies .profile-right-side {
     min-height: 145px;
 }
@@ -360,7 +368,3 @@ aside {
     width: 619px;
 }
 
-.action-personalPersonalData .profile-menu li a,
-.action-personalPassword .profile-menu li a {
-    min-height: 26px;
-}

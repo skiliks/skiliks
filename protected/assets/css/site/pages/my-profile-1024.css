@@ -29,3 +29,7 @@
 .width-1024.action-controller-corporatePassword-static-profile .us-password-height {
     height: 292px;
 }
+
+.width-1024.action-controller-personalPassword-static-profile .button-standard {
+    font-size: 1.1em;
+}

@@ -75,6 +75,14 @@
     height: 310px; /* f */
 }
 
+.width-1024.action-controller-corporatePersonalData-static-profile .button-standard,
+.width-1024.action-controller-corporatePassword-static-profile .button-standard,
+.width-1024.action-controller-corporateCompanyInfo-static-profile .button-standard,
+.width-1024.action-controller-corporateVacancies-static-profile .button-standard {
+    padding-bottom: 12px;
+    padding-top: 13px;
+}
+
 .width-1024.action-registrationSingleAccount input.button-standard,
 .width-1024.action-registerByLink input.button-standard,
 .width-1024.action-controller-personalPersonalData-static-profile.skiliks input.button-standard,

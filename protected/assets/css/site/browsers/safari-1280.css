@@ -64,3 +64,8 @@
 .skiliks .items .button-white {
     line-height: 2.7em;
 }
+
+.skiliks #feedback-form .button-standard {
+    padding-top: 16px;
+    padding-bottom: 17px;
+}

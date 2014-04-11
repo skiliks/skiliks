@@ -25,6 +25,11 @@
     padding-top: 17px;
 }
 
+.skiliks #feedback-form input.button-standard {
+    padding-bottom: 15px;
+    padding-top: 16px;
+}
+
 .action-controller-corporatePersonalData-static-profile input.button-standard,
 .action-controller-corporatePassword-static-profile input.button-standard,
 .action-controller-corporateCompanyInfo-static-profile input.button-standard,
