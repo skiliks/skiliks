@@ -18,6 +18,7 @@
  * @property string  $theme_id
  * @property string  $mail_prefix
  * @property string  $constructor_code
+ * @property string  $theme_text
  *
  * @property integer (bool) $readed, is readed
  * @property integer (bool) $plan, is planed
@@ -318,7 +319,7 @@ class MailBox extends CActiveRecord
         $this->mail_prefix = ($this->mail_prefix === null) ? '' : $this->mail_prefix;
 
         if (null == $this->theme) {
-            throw new Exception('Theme in null in email '.$this->id.' ,code '.$this->template->code);
+            throw new Exception('Theme in null in email '.$this->id.' ,code '.$this->code.', template_id '. $this->template_id);
         }
 
         return str_replace(
