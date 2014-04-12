@@ -345,6 +345,10 @@ ul.question-container .default li.color-797966, /* help-page */
     padding-right: 10px;
 }
 
+.controller-auth .label.button-standard {
+    padding-right: 20px;
+}
+
 .sub-menu-1 {
     border-radius: 5px;
     background-color: #589aa3;

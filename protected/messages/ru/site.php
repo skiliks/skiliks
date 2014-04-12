@@ -58,6 +58,8 @@ return array(
     'My office' => 'Мой офис',
     'Help' => 'Помощь',
 
+    'Buy' => 'Купить',
+
     'en' => 'ru',
     'ru' => 'en',
     'Notify me' => 'Сообщить о запуске',

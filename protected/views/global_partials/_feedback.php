@@ -49,7 +49,7 @@
         </span>
         <?php echo $form->textField($model, 'email', [
             'class'       => 'inputs-wide-height',
-            'placeholder' => 'Введите ваш email',
+            'placeholder' => Yii::t('site', 'Enter your email'),
         ]); ?>
         <?php echo CHtml::submitButton(Yii::t('site', 'Send'), [
             'class' => 'background-dark-blue icon-circle-with-blue-arrow-big button-standard icon-padding-standard',

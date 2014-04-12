@@ -55,7 +55,7 @@
             <br/>
             <a class="button-white button-white-XL button-white-hover inter-active label icon-arrow-blue"
                href="/payment/order?ordered=3">
-                <?= 'Купить' ?>
+                <?= Yii::t('site', 'Buy') ?>
             </a>
         </span>
 
@@ -99,7 +99,7 @@
             <br/>
             <a class="button-white button-white-XL button-white-hover inter-active label icon-arrow-blue"
                href="/payment/order?ordered=10">
-                <?= 'Купить' ?>
+                <?= Yii::t('site', 'Buy') ?>
             </a>
         </span>
 
@@ -147,7 +147,7 @@
             <br/>
             <a class="button-white button-white-hover inter-active label icon-arrow-blue"
                href="/payment/order?ordered=20">
-                <?= 'Купить' ?>
+                <?= Yii::t('site', 'Buy') ?>
             </a>
         </span>
 
@@ -194,7 +194,7 @@
             <br/>
             <a class="button-white button-white-hover inter-active label icon-arrow-blue"
                href="/payment/order?ordered=50">
-                <?= 'Купить' ?>
+                <?= Yii::t('site', 'Buy') ?>
             </a>
         </span>
     </span>
@@ -213,9 +213,6 @@
             <?= Yii::t('site', 'Send feedback') ?>
         </a>
 
-        <span class="social_networks">
-            <?php // $this->renderPartial('//global_partials/addthis', ['force' => true]) ?>
-        </span>
     </div>
 </section>
 
