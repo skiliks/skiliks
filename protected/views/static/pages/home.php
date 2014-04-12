@@ -209,6 +209,7 @@
                 <li><?= CHtml::image("$assetsUrl/img/site/1280/homepage/fabrica-ocon.png")?></li>
                 <li><?= CHtml::image("$assetsUrl/img/site/1280/homepage/nettrader.png")?></li>
                 <li><?= CHtml::image("$assetsUrl/img/site/1280/homepage/eksmo.png")?></li>
+                <li><?= CHtml::image("$assetsUrl/img/site/1280/homepage/exiclub.png")?></li>
             </ul>
             </article>
         </section>
