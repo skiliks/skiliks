@@ -157,28 +157,48 @@
     font-size:11px;
 }
 
+.width-1024.controller-static-profile .main-content .sbHolder {
+    height: 23px;
+    font-size: 0.9em;
+}
+
 .width-1024 .sbSelector{
     height: 17px;
     font-family:'ProximaNova-Regular';
     line-height: 17px;
     text-indent: 4px;
-    /*width: 110px;*/
+}
+
+.width-1024.controller-static-profile .main-content .sbSelector{
+    height: 23px;
+    line-height: 1.75em;
+    text-indent: 5px;
 }
 
 .width-1024 .sbToggle{
-    /*background-image:url("../../img/site/1024/sb-holder/bg-select-toggle.png");*/
     background-position: center -3px;
     height: 17px;
-    /*width: 13px;*/
+}
+
+.width-1024.controller-static-profile .main-content .sbToggle{
+    background-position: 0 0;
+    height: 23px;
 }
 
 .width-1024 .sbToggleOpen{
-    background-position: center -23px;
-    /*background: url("../../img/site/1024/sb-holder/bg-select-toggle.png") no-repeat 0 -17px;*/
+    background-position: 0 -21px;
+}
+
+.width-1024.controller-static-profile .main-content .sbToggleOpen{
+    background-position: center -21px;
 }
 
 .width-1024 .empty-select .sbToggle {
     background-image: url("../../img/site/1024/sb-holder/emp-select-toggle.png");
+}
+
+.width-1024.controller-static-profile .main-content .sbToggle {
+    background-image: url("../../img/site/1280/sb-holder/bg-select-toggle.png");
 }
 
 .width-1024 section.registration-by-link .form .row .sbHolder {
