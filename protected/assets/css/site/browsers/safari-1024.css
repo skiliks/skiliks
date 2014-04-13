@@ -72,6 +72,15 @@
 }
 
 .width-1024 #feedback-form .button-standard {
+    padding-top: 15px;
+    padding-bottom: 11px;
+}
+
+.width-1024.skiliks .blockvalue {
+    top: -2px;
+}
+
+.width-1024.action-index .us-homepage-content .button-standard {
     padding-top: 12px;
     padding-bottom: 13px;
 }
