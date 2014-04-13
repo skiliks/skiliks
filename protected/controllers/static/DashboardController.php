@@ -14,6 +14,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
 
     public function actionCorporate()
     {
+        $isDisplayStandardInvitationMailTopText = true;
         $this->checkUser();
 
         if (false === $this->user->isCorporate() ||  false === $this->user->isActive()){
@@ -68,7 +69,10 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             $validPrevalidate = $invite->validate(['firstname', 'lastname', 'email', 'invitations']);
 
             if ($profile) {
+                $isDisplayStandardInvitationMailTopText = false;
                 $invite->receiver_id = $profile->user->id;
+            }else{
+                $isDisplayStandardInvitationMailTopText = true;
             }
 
             if (null == $invite->vacancy && empty($vacancies)) {
@@ -108,6 +112,9 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         if (null !== Yii::app()->request->getParam('send')) {
 
             $profile = YumProfile::model()->findByAttributes(['email' => strtolower($invite->email)]);
+            if($profile === null){
+                $isDisplayStandardInvitationMailTopText = true;
+            }
             $invite->setAttributes($this->getParam('Invite'));
             $is_send = false;
             try {
@@ -184,7 +191,8 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             'display_results_for' => $simulationToDisplayResults,
             'notUsedLiteSimulationInvite' => $notUsedLiteSimulations[0],
             'notUsedFullSimulationInvite' => $notUsedFullSimulations[0],
-            'user'                => $this->user
+            'user'                => $this->user,
+            'isDisplayStandardInvitationMailTopText'=>$isDisplayStandardInvitationMailTopText
         ]);
     }
 

@@ -246,7 +246,7 @@ class UserService {
             $profile->save(false);
 
             $account_corporate->user_id = $user->id;
-            $account_corporate->default_invitation_mail_text = 'Вопросы относительно тестирования вы можете задать по адресу '.$profile->email.', куратор тестирования - '.$profile->firstname.' '. $profile->lastname .'.';
+            $account_corporate->default_invitation_mail_text = 'Вопросы относительно тестирования вы можете задать по адресу '.$profile->email.', куратор тестирования - '.$profile->firstname.' '. $profile->lastname .'.<br>';
             $account_corporate->save(false);
 
             UserService::logCorporateInviteMovementAdd(
@@ -343,7 +343,7 @@ class UserService {
             // send invitation
             if ($invite->validate() && 0 < $user->getAccount()->getTotalAvailableInvitesLimit()) {
                 $invite->markAsSendToday();
-                $user->account_corporate->default_invitation_mail_text = $invite->message;
+                $user->account_corporate->default_invitation_mail_text = $invite->message.'<br>';
                 $invite->message = preg_replace('/(\r\n)/', '<br>', $invite->message);
                 $invite->message = preg_replace('/(\n\r)/', '<br>', $invite->message);
                 $invite->message = preg_replace('/\\n|\\r/', '<br>', $invite->message);
@@ -432,7 +432,15 @@ class UserService {
         $mailOptions->subject = 'Приглашение пройти симуляцию на ' . Yii::app()->params['server_domain_name'];
         $mailOptions->h1      = $invite->getReceiverFirstName() . ', приветствуем вас!';
 
-        $mailOptions->text1 = '
+        $profile = YumProfile::model()->findByAttributes(['email'=>$invite->email]);
+
+        if($profile !== null) {
+            $mailOptions->text1 = '
+            <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">'.
+                $mailOptions->text1.
+                '</p>';
+        } else {
+            $mailOptions->text1 = '
             <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
                 Компания '. $invite->ownerUser->account_corporate->company_name .' предлагает вам пройти тест "Базовый менеджмент".<br/>
                 <a target="_blank" style="text-decoration: none; color: #147b99;" href="' . Yii::app()->createAbsoluteUrl('static/pages/product') .'">"Базовый менеджмент"</a>
@@ -440,7 +448,9 @@ class UserService {
             </p>
             <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">'.
                 $mailOptions->text1.
-            '</p>';
+                '</p>';
+
+        }
 
         $mailOptions->text1 .= $invite->message;
 

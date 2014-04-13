@@ -98,6 +98,7 @@
         <?php // отправить приглашение шаг 2 ?>
         <?php $this->renderPartial('partials/_invite_people_popup', [
             'invite' => $invite,
+            'isDisplayStandardInvitationMailTopText' => $isDisplayStandardInvitationMailTopText
         ]) ?>
     <?php endif; ?>
 </section>
