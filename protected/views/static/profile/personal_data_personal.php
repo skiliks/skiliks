@@ -3,7 +3,7 @@
     <h1 class="margin-bottom-standard"><?php echo Yii::t('site', 'Profile') ?></h1>
 </section>
 
-<section class="pull-content-left nice-border reset-padding unstandard-personal-data-height us-profile-width
+<section class="pull-content-left nice-border reset-padding unstandard-personal-data-height us-profile-width font-always-14px
     shadow-14 border-radius-standard background-transparent-20 pull-center">
 
     <!--div class="transparent-boder profilewrap"-->
@@ -25,7 +25,7 @@
                        <span class="unstandard-error-firstname">
                         <?php echo $form->error($profile, 'firstname'); ?>
                     </span>
-                    <span class="unstandard-error-firstname" style="margin-left: 30px;">
+                    <span class="unstandard-error-firstname" style="margin-left: 25px;">
                         <?php echo $form->error($profile, 'lastname'); ?>
                     </span>
                 </span>

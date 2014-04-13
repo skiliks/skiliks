@@ -69,7 +69,8 @@ if(preg_match('/(?i)Chrome/',$_SERVER['HTTP_USER_AGENT']))
 {
     $cs->registerCssFile($assetsUrl . "/css/site/browsers/firefox-1280.css");
     $cs->registerCssFile($assetsUrl . "/css/site/browsers/firefox-1024.css");
-} elseif(preg_match('/(?i)MSIE/',$_SERVER['HTTP_USER_AGENT']))
+} elseif(preg_match('/(?i)MSIE/',$_SERVER['HTTP_USER_AGENT'])
+    || preg_match('/(?i)Trident/',$_SERVER['HTTP_USER_AGENT']))
 {
     $cs->registerCssFile($assetsUrl . "/css/site/browsers/ie-1280.css");
     $cs->registerCssFile($assetsUrl . "/css/site/browsers/ie-1024.css");

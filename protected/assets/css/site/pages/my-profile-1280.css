@@ -260,8 +260,12 @@ input[type='password'] {
     margin-left: 30px;
 }
 
-.controller-static-profile  .error-place {
+.action-controller-personalPersonalData-static-profile  .error-place {
     padding-left: 191px;
+}
+
+.action-controller-personalPassword-static-profile  .error-place {
+    padding-left: 162px;
 }
 
 .action-controller-corporateVacancies-static-profile .error-place {
