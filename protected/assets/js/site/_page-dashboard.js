@@ -192,6 +192,8 @@ $(document).ready(function () {
     });
 
     function infoPopup_aboutFullSimulation(href) {
+        pre_simulation_popup.dialog("option", "width", getDialogWindowWidth());
+        pre_simulation_popup.dialog("option", "position", "center");
         pre_simulation_popup.dialog('open');
         $('.locator-next-step').attr('data-href', href);
 
