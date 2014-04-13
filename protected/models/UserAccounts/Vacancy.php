@@ -63,6 +63,7 @@ class Vacancy extends CActiveRecord
 			array('professional_occupation_id, professional_specialization_id', 'numerical', 'integerOnly'=>true),
             array('professional_occupation_id',  'numerical', 'min' => 1, 'message' => '{attribute} cannot be blank.'),
 			array('label', 'length', 'max' => 50),
+			array('label', 'unique'),
 			array('import_id', 'length', 'max' => 60),
             array('link', 'length', 'max' => 1000),
 			//array('link', 'safe'),
