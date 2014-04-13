@@ -68,3 +68,8 @@
     padding-bottom: 12px;
     padding-top: 13px;
 }
+
+.width-1024.action-controller-personalPersonalData-static-profile .error .error-place {
+    height: 18px;
+    margin-top: -18px;
+}
