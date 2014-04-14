@@ -3,7 +3,7 @@
 class SimulationResultTextServiceUnitTest extends CDbTestCase {
 
     public function testGenerate(){
-
+        $this->markTestIncomplete();
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $invite = new Invite();
         $invite->scenario = new Scenario();
