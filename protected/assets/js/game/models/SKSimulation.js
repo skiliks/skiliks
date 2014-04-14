@@ -152,7 +152,6 @@ define([
                     this.isPlayIncomingMailSound = true;
 
                     this.once('time:11-00', function () {
-                        console.log('trigger time:11-00');
                         SKApp.server.api('dayPlan/CopyPlan', {
                             minutes:me.getGameMinutes()
                         }, function () {

@@ -37,7 +37,6 @@ define([
                 try {
                     var me = this;
                     this.listenTo(this.options.model_instance, 'refresh', function () {
-                        console.log(" me.render(); ");
                         me.render();
                     });
                     // original video height and width
@@ -66,7 +65,6 @@ define([
              */
             'renderWindow':function (el) {
                 try {
-                    console.log('renderWindow');
                     var me = this,
                         event = this.options.model_instance.get('sim_event'),
                         my_replicas = event.getMyReplicas(),
@@ -83,12 +81,7 @@ define([
                         'img_src': image_src,
                         'poster_src':poster_src
                     });
-                    /*me.$('video').on('error', function(event) {
-                        console.log(event);
-                        if (window.Raven) {
-                            window.Raven.captureMessage("Случилась ошибка с файлом " + me.$('video').attr('src'));
-                        }
-                    });*/
+
                     var is_first_replica = !el.html();
                     $('<div class="hidden placeholder" />').html(text).appendTo(el);
                     var remote_replica_id = remote_replica?remote_replica.id : 0;
@@ -167,7 +160,6 @@ define([
                                 event.selectReplica(remote_replica.id, function () {
                                     me.options.model_instance.setLastDialog(remote_replica.id);
                                     if (remote_replica.is_final_replica === "1") {
-                                        console.log('renderFn close in timeout');
                                         me.options.model_instance.setOnTop();
                                         me.options.model_instance.close();
                                     }
@@ -217,7 +209,7 @@ define([
                         var dialog_id = $(e.currentTarget).attr('data-id');
                         var is_final = $(e.currentTarget).attr('data-is-final');
                         me.options.model_instance.get('sim_event').selectReplica(dialog_id, function () {
-                            console.log("Replica "+dialog_id+ " complete");
+
                             me.options.model_instance.setLastDialog(dialog_id);
                             if (is_final) {
                                 me.options.model_instance.setOnTop();
