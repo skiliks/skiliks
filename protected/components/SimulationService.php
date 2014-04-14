@@ -1581,7 +1581,6 @@ class SimulationService
 
         foreach($simulations as $simulation) {
             SimulationService::saveBehavioursCache($simulation);
-            echo '.';
             $count--;
         }
     }
