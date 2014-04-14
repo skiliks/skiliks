@@ -23,7 +23,7 @@
                 <?php echo $form->textField($invite, 'fullname'); ?>
             </p>
 
-            <?php if (Yii::app()->params['emails']['isDisplayStandardInvitationMailTopText']): ?>
+            <?php if (Yii::app()->params['emails']['isDisplayStandardInvitationMailTopText'] && $isDisplayStandardInvitationMailTopText): ?>
                 <p>Компания <?= $invite->ownerUser->account_corporate->company_name ?> предлагает вам пройти тест "Базовый менеджмент".</p>
                 <?php if (empty($invite->receiverUser)): ?>
                     <p>

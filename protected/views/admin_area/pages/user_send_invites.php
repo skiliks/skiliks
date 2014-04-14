@@ -40,15 +40,26 @@
 
         $mailOptions          = new SiteEmailOptions();
         // $mailOptions->setText($data->message);
-        $mailOptions->text1 = '
+        $profile = YumProfile::model()->findByAttributes(['email'=>$invite->email]);
+        if($profile !== null) {
+
+            $mailOptions->text1 = '
+            <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">'.
+                $mailOptions->text1.
+                '</p>';
+        }else{
+            
+            $mailOptions->text1 = '
             <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
                 Компания '. $user->account_corporate->company_name .' предлагает вам пройти тест "Базовый менеджмент".<br/>
                 <a target="_blank" style="text-decoration: none; color: #147b99;" href="' . Yii::app()->createAbsoluteUrl('static/pages/product') .'">"Базовый менеджмент"</a>
                 - это деловая симуляция, позволяющая оценить менеджерские навыки в форме увлекательной игры.<br/>
             </p>
             <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">'.
-            $mailOptions->text1.
-            '</p>';
+                $mailOptions->text1.
+                '</p>';
+        }
+
 
         $mailOptions->text1 = '<p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">'.
             $mailOptions->text1.'
