@@ -44,6 +44,8 @@
         if($profile !== null) {
 
             $mailOptions->text1 = '
+            <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
+                Компания '. $user->account_corporate->company_name .' предлагает вам пройти тест "Базовый менеджмент".<br/>
             <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">'.
                 $mailOptions->text1.
                 '</p>';
