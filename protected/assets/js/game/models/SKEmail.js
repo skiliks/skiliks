@@ -423,9 +423,8 @@ define([] ,function() {
          * @returns {string}
          */
         getRecipientIdsString: function() {
-            var string = '';
-
             try {
+                var string = '';
                 for (var i in this.recipients) {
                     string += this.recipients[i].get('id') + ',';
                 }
@@ -443,9 +442,8 @@ define([] ,function() {
          * @returns {string}
          */
         getFormattedRecipientsString: function() {
-            var string = '';
-
             try {
+                var string = '';
                 for (var i in this.recipients) {
                     string += this.recipients[i].getFormattedRecipientLabel();
                 }
@@ -467,9 +465,8 @@ define([] ,function() {
          * @returns {string}
          */
         getCopyToIdsString: function() {
-            var string = '';
-
             try {
+                var string = '';
                 for (var i in this.copyTo) {
                     string += this.copyTo[i].get('id') + ',';
                 }
@@ -487,9 +484,8 @@ define([] ,function() {
          * @returns {string}
          */
         getPhrasesIdsString: function() {
-            var string = '';
-
             try {
+                var string = '';
                 for (var i in this.phrases) {
                     string += this.phrases[i].mySqlId + ',';
                 }
