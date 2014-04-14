@@ -1566,6 +1566,8 @@ class SimulationService
     public static function generateBehavioursCache()
     {
         ini_set('memory_limit', '-1');
+        ini_set('max_execution_time', '180');
+
         $scenario = Scenario::model()->findByAttributes(['slug'=>Scenario::TYPE_FULL]);
 
         /* @var Simulation[] $simulations */
@@ -1579,6 +1581,7 @@ class SimulationService
 
         foreach($simulations as $simulation) {
             SimulationService::saveBehavioursCache($simulation);
+            echo '.';
             $count--;
         }
     }
