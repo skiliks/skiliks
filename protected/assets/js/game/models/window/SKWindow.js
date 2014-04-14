@@ -180,12 +180,6 @@ define([], function () {
                         + " subname: " + this.get('subname')
                         + " id: " + this.get('id')
                         + ". game time: " + SKApp.simulation.getGameTime();
-                    console.error('Иконки должны заблокироваться!');
-                    if (window.Raven) {
-                        window.Raven.captureMessage(message);
-                        window.Raven.captureMessage('L. stringify window_set:'
-                            + JSON.stringify(SKApp.simulation.window_set.models));
-                    }
                 }
 
                 // пока это мобытие слушает только MailClient
@@ -205,14 +199,7 @@ define([], function () {
 
                 SKApp.simulation.window_set.hideWindow(this);
 
-                if (window.Raven) {
-                    window.Raven.captureMessage('L. stringify windowLog:'
-                        + JSON.stringify(SKApp.simulation.windowLog));
-                }
                 me.trigger('close');
-                if (window.Raven) {
-                    window.Raven.captureMessage('L. close triggered: ' + me.get('name') + ' / ' + me.get('name'));
-                }
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);

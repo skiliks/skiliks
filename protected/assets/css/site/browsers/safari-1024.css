@@ -1,8 +1,8 @@
 
 .width-1024.skiliks input.us-button-submit {
     margin-top: 0;
-    padding-top: 11px;
-    padding-bottom: 10px;
+    padding-top: 15px;
+    padding-bottom: 11px;
 }
 
 .width-1024.skiliks .button-add-vacancy {
@@ -76,7 +76,7 @@
     padding-bottom: 11px;
 }
 
-.width-1024.skiliks .blockvalue {
+.width-1024.skiliks #time-management .blockvalue {
     top: -2px;
 }
 

@@ -177,7 +177,6 @@ if(preg_match('/(?i)Chrome/',$_SERVER['HTTP_USER_AGENT']))
     <!-- FOOTER { -->
 
     <footer class="main-content mark-up-block">
-        <label class="mark-up-label">#Footer</label>
         <div class="footer-clear-fix column-full"></div>
 
         <!-- SOCIAL SHARE -->
@@ -188,6 +187,13 @@ if(preg_match('/(?i)Chrome/',$_SERVER['HTTP_USER_AGENT']))
             <a href="/" class="inline-block pull-left logo-footer-link footer-logo">
                 <img src="<?php echo $assetsUrl?>/img/site/1280/logotypes/logo-footer.png" alt="Skiliks"/>
             </a>
+
+            <a href="/registration/single-account"
+               class="background-dark-blue icon-circle-with-blue-arrow-big pull-left us-button-registration
+                               button-standard icon-padding-standard">
+                <?= Yii::t('site', 'Register now') ?>
+            </a>
+
             <?php $this->renderPartial('//global_partials/_static_pages_links', [
                 'isDisplayAccountLinks' => false,
                 'disableDemo'           => true

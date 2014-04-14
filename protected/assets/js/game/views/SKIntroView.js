@@ -74,9 +74,6 @@ define([
 
                     if (SKApp.isTutorial()) {
                         windowManual.on('close', function() {
-                            if (window.Raven) {
-                                window.Raven.captureMessage('windowManual close');
-                            }
                             window.AppView.frame._hidePausedScreen();
                             window.AppView.frame._toggleClockFreeze(false);
                             me.stopPause();

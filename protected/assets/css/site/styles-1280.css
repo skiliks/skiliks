@@ -371,3 +371,17 @@ header nav ul li.menu-item .log-out-link-separator {
     margin-top: 2px;
 }
 
+.skiliks footer .us-button-registration {
+    background-color: #ffffff;
+    background-image: url("../../img/site/1280/buttons/icon-blue-arrow-big.png");
+    color: #146672;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-top: 35px;
+    margin-left: 100px;
+}
+
+.skiliks footer .us-button-registration:hover {
+    background-color: #48B5C6;
+    color: #ffffff;
+}
