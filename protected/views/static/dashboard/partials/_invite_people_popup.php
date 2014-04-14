@@ -1,6 +1,6 @@
 <section class="partial">
     <label class="partial-label"><?= __FILE__ ?></label>
-
+    <?php $invite->receiverUser = YumUser::model()->findByPk($invite->receiver_id) ?>
     <div class="locator-form-invite-step-2">
         <?php $form = $this->beginWidget('CActiveForm', array(
             'id' => 'send-invite-message-form',
@@ -22,17 +22,16 @@
                 </span>
                 <?php echo $form->textField($invite, 'fullname'); ?>
             </p>
-
-            <?php if (Yii::app()->params['emails']['isDisplayStandardInvitationMailTopText'] && $isDisplayStandardInvitationMailTopText): ?>
-                <p>Компания <?= $invite->ownerUser->account_corporate->company_name ?> предлагает вам пройти тест "Базовый менеджмент".</p>
-                <?php if (empty($invite->receiverUser)): ?>
-                    <p>
-                        <!--a target="_blank" href="<?= $this->createAbsoluteUrl('static/pages/product') ?>"-->
+                <?php if (Yii::app()->params['emails']['isDisplayStandardInvitationMailTopText']): ?>
+                    <p>Компания <?= $invite->ownerUser->account_corporate->company_name ?> предлагает вам пройти тест "Базовый менеджмент".</p>
+                    <?php if ($isDisplayStandardInvitationMailTopText): ?>
+                        <p>
+                            <!--a target="_blank" href="<?= $this->createAbsoluteUrl('static/pages/product') ?>"-->
                             "Базовый менеджмент"
-                        <!--/a-->
-                        - это деловая симуляция, позволяющая оценить менеджерские навыки в форме увлекательной игры.</p>
+                            <!--/a-->
+                            - это деловая симуляция, позволяющая оценить менеджерские навыки в форме увлекательной игры.</p>
+                    <?php endif; ?>
                 <?php endif; ?>
-            <?php endif; ?>
 
             <!-- TEXTAREA -->
             <p class="">
@@ -41,7 +40,7 @@
                 </span>
                 <?= $form->textArea($invite, 'message', ['rows' => 20, 'cols' => 60]); ?>
             </p>
-
+            <?php $invite->refresh() ?>
             <p>
                 <?php if ($invite->receiverUser && !$invite->receiverUser->isActive()): ?>
                     Пожалуйста,

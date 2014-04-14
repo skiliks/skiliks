@@ -398,7 +398,7 @@ class UserService {
             throw new CException(Yum::t('Email is not set when trying to send invite email. Wrong invite object.'));
         }
 
-        $innerText = '';
+        $innerText = '<br>';
 
         if ($invite->receiverUser && !$invite->receiverUser->isActive()) {
             $innerText .= 'Пожалуйста, <a href="' . $invite->receiverUser->getActivationUrl() . '">активируйте ваш аккаунт</a>,
@@ -436,6 +436,8 @@ class UserService {
 
         if($profile !== null) {
             $mailOptions->text1 = '
+            <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
+                Компания '. $invite->ownerUser->account_corporate->company_name .' предлагает вам пройти тест "Базовый менеджмент".<br/>
             <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">'.
                 $mailOptions->text1.
                 '</p>';
@@ -455,6 +457,7 @@ class UserService {
         $mailOptions->text1 .= $invite->message;
 
         $mailOptions->text1 .= '
+         <br>
          <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">'
         . $innerText .
         '</p>';
@@ -486,10 +489,10 @@ class UserService {
             throw new CException(Yum::t('Email is not set when trying to send invite email. Wrong invite object.'));
         }
 
-        $innerText = '
+        $innerText = '<br>
             Для вас был создан аккаунт с логином '.$invite->email.' и паролем '.$password.'<br>
-            Пожалуйста,
-            <a target="_blank" style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;"
+            <br>
+            Пожалуйста,<a target="_blank" style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;"
             href="' . Yii::app()->createAbsoluteUrl('/user/auth') . '">
                 зайдите
             </a> в свой кабинет и примите приглашение на тестирование для прохождения симуляции.';
