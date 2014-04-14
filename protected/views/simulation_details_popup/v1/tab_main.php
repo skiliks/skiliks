@@ -83,9 +83,9 @@
             $(".gauge-charts").html('');
             var r = Math.round;
 
-            new charts.Gauge('.gauge-charts', r(AR.management.total || 0), {class: 'inline'});
-            new charts.Gauge('.gauge-charts', r(AR.performance.total || 0), {class: 'inline'});
             new charts.Gauge('.gauge-charts', r(AR.time.total || 0), {class: 'inline'});
+            new charts.Gauge('.gauge-charts', r(AR.performance.total || 0), {class: 'inline'});
+            new charts.Gauge('.gauge-charts', r(AR.management.total || 0), {class: 'inline'});
 
             new charts.Bullet('.bullet-charts', 50, {class: 'small'});
             new charts.Bullet('.bullet-charts', 70, {class: 'small'});
