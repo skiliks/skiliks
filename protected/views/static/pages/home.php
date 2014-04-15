@@ -95,7 +95,7 @@
                                                 <a target="_blank" href="#" onclick="
                                                     window.open(
                                                     'http://vk.com/share.php?url='
-                                                    + encodeURIComponent('http://loc.skiliks.com/watchVideo/en'),
+                                                    + encodeURIComponent('<?= Yii::app()->request->hostInfo; ?>/watchVideo/en'),
                                                     'vk-share-dialog',
                                                     'width=626,height=436');
                                                     return false;" title="ВКонтакте">
@@ -106,7 +106,7 @@
                                                 <a target="_blank" href="#" onclick="
                                                     window.open(
                                                       'https://www.facebook.com/sharer/sharer.php?u='
-                                                      + encodeURIComponent('http://loc.skiliks.com/watchVideo/en'),
+                                                      + encodeURIComponent('<?= Yii::app()->request->hostInfo; ?>/watchVideo/en'),
                                                       'fb-share-dialog',
                                                       'width=626,height=436');
                                                     return false;" title="Facebook">
@@ -117,7 +117,7 @@
                                                 <a target="_blank" href="#" onclick="
                                                     window.open(
                                                     'https://twitter.com/share?url='
-                                                    + encodeURIComponent('http://loc.skiliks.com/watchVideo/en'),
+                                                    + encodeURIComponent('<?= Yii::app()->request->hostInfo; ?>/watchVideo/en'),
                                                     'twitter-share-dialog',
                                                     'width=626,height=436');
                                                     return false;" title="Twitter">
@@ -128,7 +128,7 @@
                                                 <a target="_blank" href="#" onclick="
                                                     window.open(
                                                     'https://plus.google.com/share?url='
-                                                    + encodeURIComponent('http://loc.skiliks.com/watchVideo/en'),
+                                                    + encodeURIComponent('<?= Yii::app()->request->hostInfo; ?>/watchVideo/en'),
                                                     'google-share-dialog',
                                                     'width=626,height=436');
                                                     return false;" title="Google">
@@ -139,7 +139,7 @@
                                                 <a target="_blank" href="#" onclick="
                                                     window.open(
                                                     'https://www.linkedin.com/cws/share?url='
-                                                    + encodeURIComponent('http://loc.skiliks.com/watchVideo/en'),
+                                                    + encodeURIComponent('<?= Yii::app()->request->hostInfo; ?>/watchVideo/en'),
                                                     'linkedin-share-dialog',
                                                     'width=626,height=436');
                                                     return false;" title="Linkedin">
