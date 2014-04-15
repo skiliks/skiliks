@@ -63,7 +63,7 @@ class Vacancy extends CActiveRecord
 			array('professional_occupation_id, professional_specialization_id', 'numerical', 'integerOnly'=>true),
             array('professional_occupation_id',  'numerical', 'min' => 1, 'message' => '{attribute} cannot be blank.'),
 			array('label', 'length', 'max' => 50),
-			array('label', 'unique'),
+			array('label', 'uniqueInAccountValidator'),
 			array('import_id', 'length', 'max' => 60),
             array('link', 'length', 'max' => 1000),
 			//array('link', 'safe'),
@@ -74,6 +74,18 @@ class Vacancy extends CActiveRecord
 			array('id, professional_occupation_id, professional_specialization_id, label, link, import_id', 'safe', 'on'=>'search'),
 		);
 	}
+
+    function uniqueInAccountValidator($attribute, $params) {
+
+        $existVacancies = self::model()->count(' label = :label and user_id = :user_id ', [
+            'label'   => $this->label,
+            'user_id' => Yii::app()->user->data()->id
+        ]);
+
+        if (0 < $existVacancies) {
+            $this->addError($attribute, 'Такое название уже используется.');
+        }
+    }
 
 	/**
 	 * @return array relational rules.
