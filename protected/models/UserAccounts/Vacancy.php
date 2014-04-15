@@ -75,15 +75,21 @@ class Vacancy extends CActiveRecord
 		);
 	}
 
+    /**
+     * Проверяет что такой вакансии ещё нет
+     *
+     * @param $attribute
+     * @param $params
+     */
     function uniqueInAccountValidator($attribute, $params) {
-
-        $existVacancies = self::model()->count(' label = :label and user_id = :user_id ', [
+        $existVacancies = self::model()->count(' label = :label and user_id = :user_id and id != :id ', [
             'label'   => $this->label,
-            'user_id' => Yii::app()->user->data()->id
+            'user_id' => Yii::app()->user->data()->id,
+            'id'      => (int)$this->id
         ]);
 
         if (0 < $existVacancies) {
-            $this->addError($attribute, 'Такое название уже используется.');
+            $this->addError($attribute, 'Такое название уже используется');
         }
     }
 
