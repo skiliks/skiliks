@@ -22,10 +22,10 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
             ),
         ),
         'db' => array(
-            'connectionString' => 'mysql:host=db1.skiliks.com;dbname=skiliks',
+            'connectionString' => 'mysql:host=db.skiliks.com;dbname=skiliks',
             'emulatePrepare' => true,
             'username' => 'skiliks',
-            'password' => 'dep-vep-eb-up-a',
+            'password' => 'scr-2sc-c5sncjs-asdmc',
             'charset' => 'utf8',
             'persistent'=>true,
             'enableParamLogging' => true,
@@ -45,6 +45,7 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
             'useSentryForJsLog'  => true,
             'isSkipBrowserCheck' => false,
             'isIncludeGoogleAnalyticsJavaScript' => true,
+            'storageURL'           => 'http://storage2.skiliks.com/',
         ],
         'robokassa' => [
             'url'            => 'https://auth.robokassa.ru/Merchant/Index.aspx',
