@@ -460,9 +460,6 @@ class Invite extends CActiveRecord
             'date'   =>  date('Y-m-d h:i:s', $today - 60*60*4)
         ]);
 
-//        var_dump($lastLog->id);
-//        die();
-
         if (null == $lastLog) {
             return false;
         }
