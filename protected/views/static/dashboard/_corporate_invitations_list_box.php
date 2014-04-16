@@ -66,7 +66,7 @@
                 locator-assessment-results-type-switcher
                 assessment-results-type-switcher inter-active '.$scoreName.'"
                 ></span>', 'value' => $scoreRender, 'type' => 'raw'],
-            ['header' => '', 'value' => '"<a class=\"inviteaction\" href=\"/dashboard/invite/remove/$data->id\">Удалить</a>"', 'type' => 'html', 'htmlOptions' => ['class' => 'hide']],
+            ['header' => '', 'value' => '"<span class=\"inviteaction action-delete-invite\" data-status=\"$data->status\" data-href=\"/dashboard/invite/remove/$data->id\">Удалить</span>"', 'type' => 'raw', 'htmlOptions' => ['class' => 'hide']],
             ['header' => '', 'value' => '"<a class=\"inviteaction\" href=\"/dashboard/invite/resend/$data->id\">Отправить ещё раз</a>"' , 'type' => 'html', 'htmlOptions' => ['class' => 'hide']],
         ]
     ]);

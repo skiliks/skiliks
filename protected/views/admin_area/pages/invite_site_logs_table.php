@@ -31,6 +31,10 @@
             <td> <?= (null !== $invite->getPercentile()) ? $invite->getPercentile() : '-'; ?></td>
         </tr>
         <tr>
+            <td>Статус</td>
+            <td> <?= Invite::$statusTextRus[$invite->status] ?></td>
+        </tr>
+        <tr>
             <td>Дата создания</td>
             <td> <?= (null !== $invite->sent_time) ? $invite->sent_time : '-'; ?></td>
         </tr>

@@ -242,7 +242,6 @@ class Simulation extends CActiveRecord
         return true;
     }
 
-
     /**
      * @param $user
      * @param $type

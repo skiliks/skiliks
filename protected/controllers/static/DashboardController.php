@@ -271,17 +271,16 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             $this->redirect(Yii::app()->request->urlReferrer);
         }
 
+//        if ($invite->isAccepted()) {
+//            Yii::app()->user->setFlash('success', sprintf(
+//                "Нельзя удалить приглашение которое находится в статусе \"Подтверждено\""
+//            ));
+//            $this->redirect(Yii::app()->request->urlReferrer);
+//        }
 
-        if ($invite->isAccepted()) {
+        if ($invite->isStarted() && $invite->isUserInGame()) {
             Yii::app()->user->setFlash('success', sprintf(
-                "Нельзя удалить приглашение которое находится в статусе \"Подтверждено\""
-            ));
-            $this->redirect(Yii::app()->request->urlReferrer);
-        }
-
-        if ($invite->isStarted()) {
-            Yii::app()->user->setFlash('success', sprintf(
-                "Нельзя удалить приглашение которое находится в статусе \"Начато\""
+                "В данный момент получатель приглашения проходит симуляцию"
             ));
             $this->redirect(Yii::app()->request->urlReferrer);
         }
@@ -293,12 +292,23 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             $this->redirect(Yii::app()->request->urlReferrer);
         }
 
-        if((int)$invite->status === Invite::STATUS_PENDING) {
+        if($invite->status == Invite::STATUS_PENDING
+            || $invite->status == Invite::STATUS_ACCEPTED
+            || $invite->isStarted() && false === $invite->isUserInGame()) {
 
                 $status = $invite->status;
                 $initValue = $user->account_corporate->getTotalAvailableInvitesLimit();
 
                 $user->account_corporate->increaseLimit($invite);
+
+                $invite->refresh();
+
+                // надо прервать начатую симуляцию, от неё 2 часа нет вестей
+                if ($invite->isStarted() && null !== $invite->simulation) {
+                    $invite->simulation->refresh();
+                    $invite->simulation->status = Simulation::STATUS_INTERRUPTED;
+                    $invite->simulation->save(false);
+                }
 
                 UserService::logCorporateInviteMovementAdd(
                     'Ивайт удален пользователем в статусе "'.Invite::getStatusNameByCode($status).'"',
@@ -328,10 +338,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         }
 
         if (null === $invite) {
-            //Yii::app()->user->setFlash('success', sprintf(
-            //    "Такого приглашения не существует"
-            //));
-            $this->redirect('/dashboard');
+              $this->redirect('/dashboard');
         }
 
         if (Invite::STATUS_PENDING !== (int)$invite->status) {

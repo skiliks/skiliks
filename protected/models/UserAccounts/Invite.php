@@ -441,6 +441,35 @@ class Invite extends CActiveRecord
         return self::$statusTextRus[$code];
     }
 
+    /**
+     * Если по симуляции (связаннйо с приглашением)
+     * 4 часа нет логов - игрок точно не игарет
+     *
+     * @return bool
+     */
+    public function isUserInGame() {
+        if (null == $this->simulation_id) {
+            return false;
+        }
+
+        $today = strtotime(date('Y-m-d h:i:s'));
+
+        $lastLog = LogServerRequest::model()->find(
+            ' sim_id = :sim_id and :date < real_time', [
+            'sim_id' => (int)$this->simulation_id,
+            'date'   =>  date('Y-m-d h:i:s', $today - 60*60*4)
+        ]);
+
+//        var_dump($lastLog->id);
+//        die();
+
+        if (null == $lastLog) {
+            return false;
+        }
+
+        return true;
+    }
+
     /* ------------------------------------------------------------------------------------------------------------ */
 
     /**

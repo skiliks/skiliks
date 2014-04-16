@@ -474,6 +474,43 @@ $(document).ready(function () {
         $('#Invite_vacancy_id option[value=' + $.cookie('recently_added_vacancy_id') + ']').attr('selected', 'selected');
         $.cookie('recently_added_vacancy_id', null);
     }
+
+    // 17) Удаление приглашения
+    $(".action-delete-invite").click(function() {
+        // pending
+        if (0 == $(this).attr('data-status')) {
+            window.location.href = $(this).attr('data-href');
+        }
+
+        // accepted
+        if (1 == $(this).attr('data-status')) {
+            if(confirm('Вы действительно хотите удалить приглашение, которое пользователь уже принял?')) {
+                window.location.href = $(this).attr('data-href');
+            }
+        }
+
+        // complete
+        if (2 == $(this).attr('data-status')) {
+            window.location.href = $(this).attr('data-href');
+        }
+
+        // decline
+        if (3 == $(this).attr('data-status')) {
+            window.location.href = $(this).attr('data-href');
+        }
+
+        // in progress
+        if (5 == $(this).attr('data-status')) {
+            if(confirm('Пользователь уже начал симуляцию. Вы действительно хотите удалить приглашение?')) {
+                window.location.href = $(this).attr('data-href');
+            }
+        }
+
+        // deleted
+        if (6 == $(this).attr('data-status')) {
+            window.location.href = $(this).attr('data-href');
+        }
+    });
 });
 
 

@@ -212,8 +212,10 @@
     z-index: 5;
 }
 
+.table-menu span,
 .table-menu a {
     display: block;
+    color: #FFFFFF;
     font-family: "ProximaNova-Regular";
     font-weight: normal;
     padding: 0 0 10px 6px;
