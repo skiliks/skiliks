@@ -271,13 +271,16 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             $this->redirect(Yii::app()->request->urlReferrer);
         }
 
+        // in progress
         if ($invite->isStarted() && $invite->isUserInGame()) {
             Yii::app()->user->setFlash('success', sprintf(
-                "В данный момент получатель приглашения проходит симуляцию"
+                "В данный момент пользователь проходит симуляцию.
+                 Вы сможете удалить приглашение, если пользователь прервет прохождение."
             ));
             $this->redirect(Yii::app()->request->urlReferrer);
         }
 
+        // complete
         if ($invite->isCompleted()) {
             Yii::app()->user->setFlash('success', sprintf(
                 "Нельзя удалить приглашение, которое находится в статусе \"Готово\""
@@ -287,7 +290,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
 
         if($invite->status == Invite::STATUS_PENDING
             || $invite->status == Invite::STATUS_ACCEPTED
-            || $invite->isStarted() && false === $invite->isUserInGame()) {
+            || ($invite->isStarted() && false === $invite->isUserInGame())) {
 
                 $status = $invite->status;
                 $initValue = $user->account_corporate->getTotalAvailableInvitesLimit();
@@ -296,7 +299,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
 
                 $invite->refresh();
 
-                // надо прервать начатую симуляцию, от неё 2 часа нет вестей
+                // надо прервать начатую симуляцию, от неё 4 часа нет вестей
                 if ($invite->isStarted() && null !== $invite->simulation) {
                     $invite->simulation->refresh();
                     $invite->simulation->status = Simulation::STATUS_INTERRUPTED;
