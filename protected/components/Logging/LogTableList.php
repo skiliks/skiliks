@@ -192,20 +192,24 @@ namespace application\components\Logging {
 
         public function saveLogsAsExcelReport2()
         {
-            if($this->simulation->invite === null || $this->simulation->invite->ownerUser === null || $this->simulation->invite->ownerUser->getAccount() === null){
+            if ($this->simulation->invite === null
+                || $this->simulation->invite->ownerUser === null
+                || $this->simulation->invite->ownerUser->getAccount() === null) {
                 $companyName = 'getAccount() return null or user or invite not define, very bad';
-            }elseif($this->simulation->invite->ownerUser->getAccount() instanceof \UserAccountPersonal){
+            } elseif($this->simulation->invite->ownerUser->getAccount() instanceof \UserAccountPersonal) {
                 $companyName = 'user account is personal';
-            }else{
+            } else {
                 $companyName =  $this->simulation->invite->ownerUser->getAccount()->ownership_type.
                     ' '.$this->simulation->invite->ownerUser->getAccount()->company_name;
             }
-            if($this->simulation->invite !== null) {
+
+            if ($this->simulation->invite !== null) {
                 $name = $this->simulation->invite->lastname . " " . $this->simulation->invite->firstname;
 
-            }else{
+            } else {
                 $name = 'invite not found';
             }
+
             $simulation_id = $this->simulation->id;
 
             if(!$this->xls_file) {
@@ -218,8 +222,7 @@ namespace application\components\Logging {
                 if($sheet_counter >= $this->xls_file->getSheetCount()) {
                     $worksheet = new \PHPExcel_Worksheet($this->xls_file, $table->getTitle());
                     $this->xls_file->addSheet($worksheet);
-                }
-                else {
+                } else {
                     $worksheet = $this->xls_file->getSheet($sheet_counter);
                 }
                 $sheet_counter++;

@@ -796,9 +796,7 @@ class SimulationService
                 if ('D1' !== $document->template->code && file_exists($document->getFilePath())) {
                     unlink($document->getFilePath());
                 }
-
                 // remove all files except D1 }
-
             }
 
             EventTrigger::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);

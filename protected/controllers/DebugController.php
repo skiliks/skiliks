@@ -756,11 +756,22 @@ class DebugController extends SiteBaseController
     }
 
     public function actionXxx() {
-        $simulation = Simulation::model()->findByPk(12586);
+        $simulation1 = Simulation::model()->findByPk(9515);
+        $simulation2 = Simulation::model()->findByPk(12586);
 
-        var_dump(SimulationResultTextService::generate($simulation, 'popup'));
-        echo '<br/><br/><br/><br/><br/>';
-        var_dump(SimulationResultTextService::generate($simulation, 'recommendation', true));
+//        var_dump(SimulationResultTextService::generate($simulation, 'popup'));
+//        echo '<br/><br/><br/><br/><br/>';
+        //var_dump(SimulationResultTextService::generate($simulation, 'recommendation', true));
+
+        $generator = new AnalyticalFileGenerator();
+        $generator->is_add_behaviours = false;
+        $generator->createDocument();
+        $generator->runAssessment_v1([$simulation1], 'v1_to_v2');
+        $generator->runAssessment_v2([$simulation2]);
+        $generator->save('user_id_'.$simulation1->user->id,'full_report');
+
+//        echo SimulationService::saveLogsAsExcelReport2([$simulation], $simulation->user->getAccount());
+        echo 'done!';
     }
 }
 
