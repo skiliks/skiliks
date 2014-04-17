@@ -1185,7 +1185,7 @@ class UserService {
         foreach($invites as $invite) {
             $simulation = $invite->simulation;
 
-            if($simulation->end === null) {
+            if(null == $simulation || null ==$simulation->end) {
                 continue;
             }
 
