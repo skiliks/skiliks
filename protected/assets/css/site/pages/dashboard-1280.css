@@ -222,6 +222,7 @@
     text-decoration: none;
 }
 
+.table-menu span:hover,
 .table-menu a:hover {
     color: #000;
 }
