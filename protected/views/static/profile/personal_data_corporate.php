@@ -43,9 +43,11 @@
                 ]); ?>
             </div>
 
-            <div class="row" style="margin-top: 9px; font-size: 1.1em">
+            <div class="row" style="margin-top: 9px;">
                 <?php echo $form->labelEx($profile, 'Корпоративный email'); ?>
-                <span class="value" style="font-family: ProximaNova-Bold; "><?php echo $profile->email; ?></span>
+                <span class="value" style="font-family: ProximaNova-Bold; font-size: 1.1em">
+                    <?php echo $profile->email; ?>
+                </span>
             </div>
 
             <div class="row cposwrap" style="margin-top: 10px;">

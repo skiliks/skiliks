@@ -271,13 +271,6 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             $this->redirect(Yii::app()->request->urlReferrer);
         }
 
-//        if ($invite->isAccepted()) {
-//            Yii::app()->user->setFlash('success', sprintf(
-//                "Нельзя удалить приглашение которое находится в статусе \"Подтверждено\""
-//            ));
-//            $this->redirect(Yii::app()->request->urlReferrer);
-//        }
-
         if ($invite->isStarted() && $invite->isUserInGame()) {
             Yii::app()->user->setFlash('success', sprintf(
                 "В данный момент получатель приглашения проходит симуляцию"
@@ -287,7 +280,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
 
         if ($invite->isCompleted()) {
             Yii::app()->user->setFlash('success', sprintf(
-                "Нельзя удалить приглашение которое находится в статусе \"Готово\""
+                "Нельзя удалить приглашение, которое находится в статусе \"Готово\""
             ));
             $this->redirect(Yii::app()->request->urlReferrer);
         }
