@@ -7,8 +7,8 @@
  */
 class GenerateSimulationResultTextCommand extends CConsoleCommand
 {
-    public function actionIndex()
+    public function actionIndex($from, $to)
     {
-        SimulationResultTextService::generateForAllFullCompleteSimulations();
+        SimulationResultTextService::generateForAllFullCompleteSimulations($from, $to);
     }
 }

@@ -742,7 +742,6 @@ class DebugController extends SiteBaseController
     }
 
     public function actionStarted() {
-
         $profile = YumProfile::model()->findByAttributes(['email'=>$this->getParam('email')]);
         $scenario = Scenario::model()->findByAttributes(['slug'=>Scenario::TYPE_FULL]);
         $startedInvites = Invite::model()->findAllByAttributes([
@@ -754,19 +753,14 @@ class DebugController extends SiteBaseController
         foreach($startedInvites as $invite) {
             echo $invite->id.',';
         }
-
-        //sleep(30);
     }
 
-    public function actionDebug() {
+    public function actionXxx() {
+        $simulation = Simulation::model()->findByPk(12586);
 
-        $items = AssessmentCalculation::model()->findAllByAttributes(['sim_id' => $this->getParam('sim_id') ]);
-        /* @var AssessmentCalculation[] $items */
-        foreach($items as $item){
-            if($item->point !== null){
-                echo $item->point->code."<br>";
-            }
-        }
+        var_dump(SimulationResultTextService::generate($simulation, 'popup'));
+        echo '<br/><br/><br/><br/><br/>';
+        var_dump(SimulationResultTextService::generate($simulation, 'recommendation', true));
     }
 }
 

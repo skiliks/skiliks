@@ -43,7 +43,7 @@ class SimulationResultTextService {
             }
         } elseif($type === 'recommendation') {
             $assessment = unserialize($simulation->behaviours_cache);
-        }else{
+        } else {
             throw new Exception("");
         }
         /* @var $paragraphs Paragraph[] */
@@ -76,8 +76,9 @@ class SimulationResultTextService {
             }
 
         }
-        //var_dump(self::$recommendations);
-        //exit;
+
+        unset($paragraphs);
+
         return self::$recommendations;
     }
 
@@ -154,12 +155,20 @@ class SimulationResultTextService {
         if((int)$negative['pocket']['left'] === 0) {
             return [
                 'text' => $positive['text'],
-                'short_text' => '('.$positive['short_text'].')'
+                'short_text' => '('.$positive['short_text'].')',
+                'text_positive' => $positive['text'],
+                'text_negative' => $negative['text'],
+                'short_text_positive' => $positive['short_text'],
+                'short_text_negative' => $negative['short_text'],
             ];
-        }else{
+        } else {
             return [
-                'text' => $positive['text']." ".$negative['text'],
-                'short_text' => '('.$positive['short_text'].', '.$negative['short_text'].')'
+                'text'       => $positive['text']." ".$negative['text'],
+                'short_text' => '('.$positive['short_text'].', '.$negative['short_text'].')',
+                'text_positive' => $positive['text'],
+                'text_negative' => $negative['text'],
+                'short_text_positive' => $positive['short_text'],
+                'short_text_negative' => $negative['short_text'],
             ];
         }
 
@@ -182,6 +191,8 @@ class SimulationResultTextService {
                 }
             }
         }
+        unset($array_parts);
+
         return $assessment;
     }
 
@@ -240,22 +251,44 @@ class SimulationResultTextService {
     /**
      * Генерирует ке текстов для PDFа с ифографикой
      */
-    public static function generateForAllFullCompleteSimulations() {
+    public static function generateForAllFullCompleteSimulations($from = 0, $to = 10000000) {
         ini_set('memory_limit', '-1');
         $scenario = Scenario::model()->findByAttributes(['slug'=>Scenario::TYPE_FULL]);
 
         /* @var Simulation[] $simulations */
         /* До 2013-08-01 нет симуляций клиентов */
-        $simulations = Simulation::model()->findAll("scenario_id = :scenario_id and results_popup_cache is not null and end >= '2013-08-01 00:00:00'", [
-            'scenario_id' => $scenario->id
+        $simulations = Simulation::model()->findAll("scenario_id = :scenario_id and results_popup_cache is not null
+            and end >= '2013-08-01 00:00:00'
+            and :from < id
+            and id < :to", [
+            'scenario_id' => $scenario->id,
+            'from'        => $from,
+            'to'          => $to,
         ]);
+
+        $i = 0;
+        $n = 0;
+        $count = count($simulations);
 
         foreach($simulations as $simulation) {
             $simulation->popup_tests_cache = serialize([
-                'popup' => SimulationResultTextService::generate($simulation, 'popup'),
+                'popup'          => SimulationResultTextService::generate($simulation, 'popup'),
                 'recommendation' => SimulationResultTextService::generate($simulation, 'recommendation', true)
             ]);
+
+            $n++;
+
             $simulation->save(false);
+            echo $simulation->id . ", " . memory_get_usage() . ' ' . $n . '/' . $count . " \n";
+            unset($simulation);
+
+            $i++;
+
+            if (10 == $i) {
+                echo "gc_collect_cycles \n";
+                gc_collect_cycles();
+                $i = 0;
+            }
         }
     }
 
@@ -268,13 +301,15 @@ class SimulationResultTextService {
         foreach($pockets as $pocket) {
             $left_direction = trim($pocket->left_direction);
             $right_direction = trim($pocket->right_direction);
-            if(self::$left_direction($pocket->left, $value_1, true) && self::$right_direction($pocket->right, $value_1, true)) {
+            if(self::$left_direction($pocket->left, $value_1, true)
+                && self::$right_direction($pocket->right, $value_1, true)) {
 
+                unset($assessment);
                 return [
                     'text' => $pocket->text,
                     'short_text' => $with_brackets?'('.$pocket->short_text.')':$pocket->short_text,
                     'pocket' => [
-                        'left' => $pocket->left,
+                        'left'  => $pocket->left,
                         'right' => $pocket->right
                     ]
                 ];
