@@ -25,7 +25,8 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
             'class'=>'CLogRouter',
             'routes'=>array(
                 array(
-                    'class'  => 'ext.yii-debug-toolbar.YiiDebugToolbarRoute',
+                    'class'     => 'ext.yii-debug-toolbar.YiiDebugToolbarRoute',
+                    'ipFilters' => array('127.0.0.1', '46.4.112.55'),
                 ),
                 array(
                     // Team 'Develop - live.skiliks.com'
