@@ -325,6 +325,8 @@ $(document).ready(function () {
 
         $( ".locator-form-invite-step-2").dialog('open');
 
+        $('.locator-form-invite-step-2').show();
+
         $(window).resize();
     }
 

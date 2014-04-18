@@ -1,7 +1,7 @@
 <section class="partial">
     <label class="partial-label"><?= __FILE__ ?></label>
     <?php $invite->receiverUser = YumUser::model()->findByPk($invite->receiver_id) ?>
-    <div class="locator-form-invite-step-2">
+    <div class="locator-form-invite-step-2" style="display: none;">
         <?php $form = $this->beginWidget('CActiveForm', array(
             'id' => 'send-invite-message-form',
         )); ?>
