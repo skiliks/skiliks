@@ -43,6 +43,44 @@
     text-align: center;
   }
 
+  .book {
+    .tabs {
+      .close-window {
+        background: url(../img/manual/close-bg.png);
+        height: 26px;
+        left: 0;
+        right: 0;
+        width: 29px;
+
+        .win-close {
+          background: url(../img/manual/icon-close3.png) 3px 0 no-repeat;
+          background-color: #232323;
+          border: medium none;
+          cursor: pointer;
+          padding-top: 2px;
+          height: 20px;
+          width: 28px;
+
+
+          &:hover {
+            background-position: 3px -34px;
+          }
+        }
+      }
+    }
+  }
+
+  .tabs li.close-window:before,
+  .tabs li.close-window:after {
+    background: none;
+    bottom: 0;
+    content: none;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 0;
+  }
+
   .tabs {
     position: absolute;
     margin: 0;
@@ -53,7 +91,7 @@
     font-size: 14px;
 
     @media (max-width: 1280px), (max-height: 750px) {
-      height: 17px;
+      height: 26px;
       top: -17px;
       right: 0px;
       font-size: 12px;
@@ -91,21 +129,6 @@
       a, a:hover {
         color: #dad6d1;
         text-decoration: none;
-      }
-    }
-
-    .close-window {
-      width: 12px;
-
-      .win-close {
-        background: url(../img/manual/icon-close2.png) 0 0 no-repeat;
-        height: 12px;
-        width:12px;
-        border: medium none;
-
-        &:hover {
-          background-position: 0px -12px;
-        }
       }
     }
 
