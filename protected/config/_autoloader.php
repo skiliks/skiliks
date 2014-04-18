@@ -31,6 +31,7 @@ return [
         'application.extensions.*',
         'application.extensions.PHPExcel.*',
         'application.extensions.phpmailer.*',
+        'application.extensions.debugToolbar.*',
         'application.vendors.*',
 
         /* Models  */
