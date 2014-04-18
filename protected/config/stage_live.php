@@ -25,6 +25,9 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
             'class'=>'CLogRouter',
             'routes'=>array(
                 array(
+                    'class'  => 'ext.yii-debug-toolbar.YiiDebugToolbarRoute',
+                ),
+                array(
                     // Team 'Develop - live.skiliks.com'
                     'class'  => 'application.components.yii-sentry-log.RSentryLog',
                     'dsn'    => $sentryDsn,
