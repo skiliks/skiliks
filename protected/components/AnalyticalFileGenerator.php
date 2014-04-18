@@ -376,7 +376,8 @@ class AnalyticalFileGenerator {
             if (Yii::app() instanceof CConsoleApplication) {
                 echo '.'; // каждая точка - это одна симуляция
             }
-            $data = json_decode($simulation->getAssessmentDetails(), null, true);
+            $data = json_decode($simulation->getAssessmentDetails(), true);
+            $dataText = unserialize($simulation->popup_tests_cache);
 
             $this->setInfoBySimulation($simulation);
             $this->addRow();
@@ -593,7 +594,7 @@ class AnalyticalFileGenerator {
             $this->addColumn('3. Управление коммуникациями');
             $this->addColumn('3.3 Эффективная работа со звонками');
             $this->addColumn('negative');
-            $this->addColumn('не оценивается', PHPExcel_Style_NumberFormat::FORMAT_TEXT);
+            $this->addColumnRight('не оценивается', PHPExcel_Style_NumberFormat::FORMAT_TEXT);
             $this->addColumn('-');
             $this->addColumn('-', null, true);
 
@@ -639,7 +640,8 @@ class AnalyticalFileGenerator {
             if (Yii::app() instanceof CConsoleApplication) {
                 echo '.'; // каждая точка - это одна симуляция
             }
-            $data = json_decode($simulation->getAssessmentDetails(), null, true);
+            $data = json_decode($simulation->getAssessmentDetails(), true);
+            $dataText = unserialize($simulation->popup_tests_cache);
 
             $this->setInfoBySimulation($simulation);
             $this->addRow();
@@ -678,7 +680,8 @@ class AnalyticalFileGenerator {
             if (Yii::app() instanceof CConsoleApplication) {
                 echo '.'; // каждая точка - это одна симуляция
             }
-            $data = json_decode($simulation->getAssessmentDetails(), null, true);
+            $data = json_decode($simulation->getAssessmentDetails(), true);
+            $dataText = unserialize($simulation->popup_tests_cache);
 
             $this->setInfoBySimulation($simulation);
             $this->addRow();
@@ -820,7 +823,7 @@ class AnalyticalFileGenerator {
             if (Yii::app() instanceof CConsoleApplication) {
                 echo '.'; // каждая точка - это одна симуляция
             }
-            $data = json_decode($simulation->getAssessmentDetails(), null, true);
+            $data = json_decode($simulation->getAssessmentDetails(), true);
             $dataText = unserialize($simulation->popup_tests_cache);
 
             $this->setInfoBySimulation($simulation);
@@ -906,7 +909,6 @@ class AnalyticalFileGenerator {
                 $this->addColumn('1. Управление задачами с учётом приоритетов');
                 $this->addColumn('1.2 Использование планирования в течение дня');
                 $this->addColumn('positive');
-                $this->addColumnRight(round($data['management'][1]['1_2']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
                 $this->addColumnRight(round($data['management'][1]['1_1']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
                 $this->addColumn('-');
                 $this->addColumn('-', null, true);
@@ -916,7 +918,6 @@ class AnalyticalFileGenerator {
                 $this->addColumn('1.2 Использование планирования в течение дня');
                 $this->addColumn('negative');
                 $this->addColumnRight(round($data['management'][1]['1_2']['-'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
-                $this->addColumnRight(round($data['management'][1]['1_1']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
                 $this->addColumn('-');
                 $this->addColumn('-', null, true);
 
@@ -925,7 +926,6 @@ class AnalyticalFileGenerator {
                 $this->addColumn('1.3 Правильное определение приоритетов задач при планировании');
                 $this->addColumn('positive');
                 $this->addColumnRight(round($data['management'][1]['1_3']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
-                $this->addColumnRight(round($data['management'][1]['1_1']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
                 $this->addColumn('-');
                 $this->addColumn('-', null, true);
 
@@ -934,7 +934,6 @@ class AnalyticalFileGenerator {
                 $this->addColumn('1.3 Правильное определение приоритетов задач при планировании');
                 $this->addColumn('negative');
                 $this->addColumnRight(round($data['management'][1]['1_3']['-'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
-                $this->addColumnRight(round($data['management'][1]['1_1']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
                 $this->addColumn('-');
                 $this->addColumn('-', null, true);
 
@@ -943,7 +942,6 @@ class AnalyticalFileGenerator {
                 $this->addColumn('1.4 Прерывание при выполнении задач');
                 $this->addColumn('positive');
                 $this->addColumnRight(round($data['management'][1]['1_4']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
-                $this->addColumnRight(round($data['management'][1]['1_1']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
                 $this->addColumn('-');
                 $this->addColumn('-', null, true);
 
@@ -952,7 +950,6 @@ class AnalyticalFileGenerator {
                 $this->addColumn('1.4 Прерывание при выполнении задач');
                 $this->addColumn('negative');
                 $this->addColumnRight(round($data['management'][1]['1_4']['-'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
-                $this->addColumnRight(round($data['management'][1]['1_1']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
                 $this->addColumn('-');
                 $this->addColumn('-', null, true);
 
@@ -966,7 +963,6 @@ class AnalyticalFileGenerator {
                 $this->addColumn('1.5 Завершение начатых задач');
                 $this->addColumn('negative');
                 $this->addColumnRight(round($data['management'][1]['1_5']['-'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
-                $this->addColumnRight(round($data['management'][1]['1_1']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
                 $this->addColumn('-');
                 $this->addColumn('-', null, true);
 
@@ -1201,7 +1197,7 @@ class AnalyticalFileGenerator {
                 echo '.'; // каждая точка - это одна симуляция
             }
 
-            $data = json_decode($simulation->getAssessmentDetails(), null, true);
+            $data = json_decode($simulation->getAssessmentDetails(), true);
             $dataText = unserialize($simulation->popup_tests_cache);
 
             $this->setInfoBySimulation($simulation);
@@ -1251,7 +1247,7 @@ class AnalyticalFileGenerator {
                 echo '.'; // каждая точка - это одна симуляция
             }
 
-            $data = json_decode($simulation->getAssessmentDetails(), null, true);
+            $data = json_decode($simulation->getAssessmentDetails(), true);
             $dataText = unserialize($simulation->popup_tests_cache);
 
             $this->setInfoBySimulation($simulation);

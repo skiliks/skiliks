@@ -756,12 +756,22 @@ class DebugController extends SiteBaseController
     }
 
     public function actionXxx() {
+        /**
+         * @var Simulation $simulation1
+         * @var Simulation $simulation2
+         */
         $simulation1 = Simulation::model()->findByPk(9515);
         $simulation2 = Simulation::model()->findByPk(12586);
 
 //        var_dump(SimulationResultTextService::generate($simulation, 'popup'));
 //        echo '<br/><br/><br/><br/><br/>';
         //var_dump(SimulationResultTextService::generate($simulation, 'recommendation', true));
+
+//        echo '<pre>';
+//        print_r(json_decode($simulation1->getAssessmentDetails(), true));
+////        print_r(unserialize($simulation1->results_popup_cache));
+//        echo '</pre>';
+//        die;
 
         $generator = new AnalyticalFileGenerator();
         $generator->is_add_behaviours = false;
