@@ -768,9 +768,9 @@ class AdminPagesController extends SiteBaseController {
         $done = Yii::app()->request->getParam('done', $isEmptyFilters);
         $notDone = Yii::app()->request->getParam('notDone', $isEmptyFilters);
 
-        if($done !== null && $notDone === null) {
+        if($done !== false && $notDone === false) {
             $criteria->addCondition("t.paid_at IS NOT NULL");
-        } elseif ($done === null && $notDone !== null) {
+        } elseif ($done === false && $notDone !== false) {
             $criteria->addCondition("t.paid_at IS NULL");
         }
         // if both are not null we taking everything
