@@ -50,43 +50,40 @@ class SendEmailAboutNewReleaseFeaturesCommand extends CConsoleCommand
             $mailOptions->to = $email;
             $mailOptions->subject = 'Новые возможности skiliks';
 
-            $mailOptions->h1      = sprintf('Приветствуем, %s!', $name);
+            $mailOptions->h1      = sprintf('%s,</br>', $name);
             $mailOptions->text1   = '
                 <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
-                    Рады сообщить о выходе новой версии skiliks!<br/><br/>
-                    Сначала о главном:
-                    теперь skiliks можно использовать в браузерах InternetExplorer 10 и 11!
-                    Спасибо поклонникам Microsoft за терпение :-).<br/><br/>
-                    В рабочем кабинете корпоративного пользователя добавлены:<br/>
+                    Благодарим вас за интерес к нашему продукту!
                 </p>
-                <ul style="color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
-                    <li> Инструкция по интерпретации результатов оценки, где пошагово изложен
-                        алгоритм анализа полученных результатов
-                        (<a style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;"
-                            href="' . MailHelper::createUrlWithHostname("public/site/Skiliks_results.pdf") .'">скачать</a>)</li>
-                    <li> Сводный аналитический отчёт по всем прошедшим тестирование,
-                        выгруженный в Excel</li>
-                </ul>
-            ';
-            $mailOptions->text2   = '
                 <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
-                    В результатах оценки добавлены:
+                    Мы добавили новые возможности, которыми вы можете воспользоваться прямо сейчас. И это БЕСПЛАТНО для всех ранее пройденных полных версий игры.
                 </p>
-                <ul style="color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
-                    <li> Детальное описание каждого показателя</li>
-                    <li> Полный отчёт с результатами оценки и описанием всех показателей в формате pdf для печати</li>
-                </ul>
                 <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
-                    Кроме того, мы повысили стабильность процесса тестирования, точность результатов,
-                    улучшили работу настроек безопасности, сделали кабинет и симуляцию немного удобнее.<br/><br/>
-                    Используйте skiliks с удовольствием и делитесь своими впечатлениями!<br/><br/>
-                    Пожалуйста, <a style="text-decoration:none;color:#147b99;font-family:Tahoma, Geneva, sans-serif;font-size:14px;"
-                    href="' . MailHelper::createUrlWithHostname("user/auth") . '">зайдите</a> в ваш кабинет для запуска новой версии и отправки приглашений кандидатам.<br/><br/>
-                    Спасибо, что вы с нами!
-                 </p>
+                    1. Детальная обратная связь по всем оцениваемым навыкам. Теперь оценка стала еще подробнее и нагляднее!
+                </p>
+                <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
+                    2. Индивидуальный план развития управленческих навыков. Теперь вы точно знаете, какие именно навыки сотрудника нужно развивать.
+                </p>
+                <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
+                    Для получения пунктов 1 и 2 достаточно кликнуть на "Полный отчет" в
+                    <a target="_blank" href="https://dl.dropboxusercontent.com/u/20682175/Skiliks_full_report.png">инфографике</a>
+                    или посмотреть примеры
+                    <a target="_blank" href="https://dl.dropboxusercontent.com/u/20682175/Full_report.pdf">здесь</a>
+                    и
+                    <a target="_blank" href="https://dl.dropboxusercontent.com/u/20682175/Development_plan.pdf">
+                    здесь
+                    </a>.
+                </p>
+                <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
+                    3. Компания, где 20 и более сотрудников прошли симуляцию, сможет получить Отчет по диагностике управленческого потенциала во всей компании, отделу, команде. Этот отчет дает системное понимание зон развития навыков управленческой команды.
+                    Более подробно с информацией можно ознакомиться здесь "здесь" должно быть кликабельно - ссылка на http://skiliks.com/static/product-diagnostic#.U05yK-aSz1g
+                </p>
+                <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
+                    Удачи,
+                </p>
             ';
 
-            $sent = UserService::addLongEmailToQueue($mailOptions, SiteEmailOptions::TEMPLATE_ANJELA);
+            $sent = UserService::addLongEmailToQueue($mailOptions, SiteEmailOptions::TEMPLATE_JELEZNIJ);
 
             if($sent) {
                 $count_send++;
