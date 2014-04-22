@@ -24,7 +24,7 @@ class SendEmailAboutNewReleaseFeaturesCommand extends CConsoleCommand
             foreach(UserAccountPersonal::model()->findAll() as $account) {
                 if (0 == $account->excluded_from_mailing) {
                     $emails[$account->user->profile->email]=$account->user->profile->firstname;
-                }                
+                }
             }
         }else{
             $emails_temp = explode(',', $email);
