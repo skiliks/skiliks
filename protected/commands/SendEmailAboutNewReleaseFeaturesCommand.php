@@ -15,12 +15,16 @@ class SendEmailAboutNewReleaseFeaturesCommand extends CConsoleCommand
         }elseif($mode === 'all_corporate') {
             /* @var $account UserAccountCorporate */
             foreach(UserAccountCorporate::model()->findAll() as $account) {
-                $emails[$account->user->profile->email]=$account->user->profile->firstname;
+                if (0 == $account->excluded_from_mailing) {
+                    $emails[$account->user->profile->email]=$account->user->profile->firstname;
+                }
             }
         }elseif($mode === 'all_personal'){
             /* @var $account UserAccountPersonal */
             foreach(UserAccountPersonal::model()->findAll() as $account) {
-                $emails[$account->user->profile->email]=$account->user->profile->firstname;
+                if (0 == $account->excluded_from_mailing) {
+                    $emails[$account->user->profile->email]=$account->user->profile->firstname;
+                }                
             }
         }else{
             $emails_temp = explode(',', $email);
@@ -48,7 +52,7 @@ class SendEmailAboutNewReleaseFeaturesCommand extends CConsoleCommand
             $mailOptions = new SiteEmailOptions();
             $mailOptions->from = Yum::module('registration')->registrationEmail;
             $mailOptions->to = $email;
-            $mailOptions->subject = 'Новые возможности skiliks';
+            $mailOptions->subject = 'Skiliks - доступны новые возможности';
 
             $mailOptions->h1      = sprintf('%s,</br>', $name);
             $mailOptions->text1   = '
@@ -72,7 +76,7 @@ class SendEmailAboutNewReleaseFeaturesCommand extends CConsoleCommand
                     и
                     <a target="_blank" href="https://dl.dropboxusercontent.com/u/20682175/Development_plan.pdf">
                     здесь
-                    </a>.
+                    </a>
                 </p>
                 <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
                     3. Компания, где 20 и более сотрудников прошли симуляцию, сможет получить Отчет по диагностике управленческого потенциала во всей компании, отделу, команде.
