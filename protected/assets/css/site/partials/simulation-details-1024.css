@@ -348,6 +348,10 @@
     line-height: 24px;
 }
 
+.width-1024 .chart-bar .chart-value {
+    padding-right: 8px;
+}
+
 .width-1024 .simulation-details {
     overflow: hidden;
 }

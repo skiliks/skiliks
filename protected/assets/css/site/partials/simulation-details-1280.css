@@ -1251,6 +1251,10 @@
     user-select: none;
 }
 
+.chart-bar .chart-value {
+    padding-right: 10px;
+}
+
 .chart-value {
     font-size: 1.2em;
 }
