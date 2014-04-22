@@ -760,10 +760,37 @@ class DebugController extends SiteBaseController
          * @var Simulation $simulation1
          * @var Simulation $simulation2
          */
-        $simulation1 = Simulation::model()->findByPk(9515);
-        $simulation2 = Simulation::model()->findByPk(12586);
+        $simulation1 = Simulation::model()->findByPk(6258); // 9515
+        $simulation2 = Simulation::model()->findByPk(12023 );
 
-//        var_dump(SimulationResultTextService::generate($simulation, 'popup'));
+        $simulation1->popup_tests_cache = serialize([
+            'popup'          => SimulationResultTextService::generate($simulation1, 'popup'),
+            'recommendation' => SimulationResultTextService::generate($simulation1, 'recommendation', true)
+        ]);
+        $simulation1->save(false, ['popup_tests_cache']);
+
+//        echo '<pre>';
+        // print_r(json_decode(unserialize($simulation2->results_popup_cache), true));
+//        die;
+
+        $simulation2->popup_tests_cache = serialize([
+            'popup'          => SimulationResultTextService::generate($simulation2, 'popup'),
+            'recommendation' => SimulationResultTextService::generate($simulation2, 'recommendation', true),
+        ]);
+        $simulation2->save(false, ['popup_tests_cache']);
+
+
+
+        //$simulation2->getAssessmentDetails();
+
+//
+//        echo '<pre>';
+//        print_r(json_decode(unserialize($simulation2->results_popup_cache)));
+//        // print_r(unserialize($simulation2->popup_tests_cache));
+//        echo '</pre>';
+//        die;
+
+//        var_dump();
 //        echo '<br/><br/><br/><br/><br/>';
         //var_dump(SimulationResultTextService::generate($simulation, 'recommendation', true));
 
@@ -778,7 +805,7 @@ class DebugController extends SiteBaseController
         $generator->createDocument();
         $generator->runAssessment_v1([$simulation1], 'v1_to_v2');
         $generator->runAssessment_v2([$simulation2]);
-        $generator->save('user_id_'.$simulation1->user->id,'full_report');
+        $generator->save('user_id_'.$simulation1->user->id, 'full_report_xxx');
 
 //        echo SimulationService::saveLogsAsExcelReport2([$simulation], $simulation->user->getAccount());
         echo 'done!';

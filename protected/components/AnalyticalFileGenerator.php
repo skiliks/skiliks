@@ -320,7 +320,7 @@ class AnalyticalFileGenerator {
                 round($data['management']['total'], 2).'%',
                 PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00
             );
-            $this->addColumn($dataText['popup']['management']['short_text'], null, true);
+            $this->addColumn(str_replace(['(', ')'], '', $dataText['popup']['management']['short_text']), null, true);
 
             // ---
 
@@ -330,7 +330,7 @@ class AnalyticalFileGenerator {
                 round($data['performance']['total'], 2).'%',
                 PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00
             );
-            $this->addColumn($dataText['popup']['performance']['short_text'], null, true);
+            $this->addColumn(str_replace(['(', ')'], '', $dataText['popup']['performance']['short_text']), null, true);
 
             // ---
 
@@ -340,7 +340,7 @@ class AnalyticalFileGenerator {
                 round($data['time']['total'], 2).'%',
                 PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00
             );
-            $this->addColumn($dataText['popup']['time']['short_text'], null, true);
+            $this->addColumn(str_replace(['(', ')'], '', $dataText['popup']['time']['short_text']), null, true);
 
             // ---
 
@@ -545,7 +545,7 @@ class AnalyticalFileGenerator {
             $this->addColumn('3.1 Оптимальное использование каналов коммуникации');
             $this->addColumn('positive');
             $this->addColumnRight(round($data['management'][3]['3_1']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
-            $this->addColumn($dataText['popup']['management.communication_managment.comunication_channel']['short_text']);
+            $this->addColumn(str_replace(['(', ')'], '', $dataText['popup']['management.communication_managment.comunication_channel']['short_text']));
             $this->addColumn($dataText['popup']['management.communication_managment.comunication_channel']['text'], null, true);
 
             // ---
@@ -585,7 +585,7 @@ class AnalyticalFileGenerator {
             $this->addColumn('3.3 Эффективная работа со звонками');
             $this->addColumn('positive');
             $this->addColumnRight(round($data['management'][3]['3_3']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
-            $this->addColumn($dataText['popup']['management.communication_managment.effective_calls']['short_text']);
+            $this->addColumn(str_replace(['(', ')'], '', $dataText['popup']['management.communication_managment.effective_calls']['short_text']));
             $this->addColumn($dataText['popup']['management.communication_managment.effective_calls']['text'], null, true);
 
             // ---
@@ -647,25 +647,25 @@ class AnalyticalFileGenerator {
             $this->addRow();
             $this->addColumn('Срочно');
             $this->addColumnRight($this->getPerformanceCategory($data['performance'], '0'), PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
-            $this->addColumn($dataText['popup']['performance.urgent']['short_text']);
+            $this->addColumn(str_replace(['(', ')'], '', $dataText['popup']['performance.urgent']['short_text']));
             $this->addColumn($dataText['popup']['performance.urgent']['text'], null, true);
 
             $this->addRow();
             $this->addColumn('Высокий приоритет');
             $this->addColumnRight($this->getPerformanceCategory($data['performance'], '1'), PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
-            $this->addColumn($dataText['popup']['performance.high']['short_text']);
+            $this->addColumn(str_replace(['(', ')'], '', $dataText['popup']['performance.high']['short_text']));
             $this->addColumn($dataText['popup']['performance.high']['text'], null, true);
 
             $this->addRow();
             $this->addColumn('Средний приоритет');
             $this->addColumnRight($this->getPerformanceCategory($data['performance'], '2'), PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
-            $this->addColumn($dataText['popup']['performance.middle']['short_text']);
+            $this->addColumn(str_replace(['(', ')'], '', $dataText['popup']['performance.middle']['short_text']));
             $this->addColumn($dataText['popup']['performance.middle']['text'], null, true);
 
             $this->addRow();
             $this->addColumn('Двухминутные задачи');
             $this->addColumnRight($this->getPerformanceCategory($data['performance'], '2_min'), PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
-            $this->addColumn($dataText['popup']['performance.two_minutes']['short_text']);
+            $this->addColumn(str_replace(['(', ')'], '', $dataText['popup']['performance.two_minutes']['short_text']));
             $this->addColumn($dataText['popup']['performance.two_minutes']['text'], null, true);
 
             $this->setBorderBold();
@@ -688,7 +688,7 @@ class AnalyticalFileGenerator {
             $this->addColumn('1. Распределение времени, %');
             $this->addColumn('Продуктивное время (выполнение приоритетных задач)');
             $this->addColumnRight(round($data['time']['time_spend_for_1st_priority_activities'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
-            $this->addColumn($dataText['popup']['time.productive_time']['short_text']);
+            $this->addColumn(str_replace(['(', ')'], '', $dataText['popup']['time.productive_time']['short_text']));
             $this->addColumn($dataText['popup']['time.productive_time']['text'], null, true);
 
             // ---
@@ -697,7 +697,7 @@ class AnalyticalFileGenerator {
             $this->addColumn('1. Распределение времени, %');
             $this->addColumn('Непродуктивное время (иные действия, не связанные с приоритетами)');
             $this->addColumnRight(round($data['time']['time_spend_for_non_priority_activities'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
-            $this->addColumn($dataText['popup']['time.not_productive_time']['short_text']);
+            $this->addColumn(str_replace(['(', ')'], '', $dataText['popup']['time.not_productive_time']['short_text']));
             $this->addColumn($dataText['popup']['time.not_productive_time']['text'], null, true);
 
             // ---
@@ -706,7 +706,7 @@ class AnalyticalFileGenerator {
             $this->addColumn('1. Распределение времени, %');
             $this->addColumn('Время ожидания и бездействия');
             $this->addColumnRight(round($data['time']['time_spend_for_inactivity'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
-            $this->addColumn($dataText['popup']['time.waiting_time']['short_text']);
+            $this->addColumn(str_replace(['(', ')'], '', $dataText['popup']['time.waiting_time']['short_text']));
             $this->addColumn($dataText['popup']['time.waiting_time']['text'], null, true);
 
             // ---
@@ -715,7 +715,7 @@ class AnalyticalFileGenerator {
             $this->addColumn('2. Сверхурочное время (минуты)');
             $this->addColumn('Сверхурочное время');
             $this->addColumnRight(round($data['time']['workday_overhead_duration'], 2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
-            $this->addColumn($dataText['popup']['time.waiting_time']['short_text']);
+            $this->addColumn(str_replace(['(', ')'], '', $dataText['popup']['time.waiting_time']['short_text']));
             $this->addColumn($dataText['popup']['time.waiting_time']['text'], null, true);
 
             // ---
@@ -830,17 +830,17 @@ class AnalyticalFileGenerator {
             $this->addRow();
             $this->addColumn('Управленческие навыки');
             $this->addColumnRight(round($data['management']['total'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
-            $this->addColumn($dataText['popup']['management']['short_text'], null, true);
+            $this->addColumn(str_replace(['(', ')'], '', $dataText['popup']['management']['short_text']), null, true);
 
             $this->addRow();
             $this->addColumn('Результативность');
             $this->addColumnRight(round($data['performance']['total'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
-            $this->addColumn($dataText['popup']['performance']['short_text'], null, true);
+            $this->addColumn(str_replace(['(', ')'], '', $dataText['popup']['performance']['short_text']), null, true);
 
             $this->addRow();
             $this->addColumn('Эффективность использования времени');
             $this->addColumnRight(round($data['time']['total'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
-            $this->addColumn($dataText['popup']['time']['short_text'], null, true);
+            $this->addColumn(str_replace(['(', ')'], '', $dataText['popup']['time']['short_text']), null, true);
 
             $this->addRow();
             $this->addColumn('Итоговый рейтинг');
@@ -1109,7 +1109,7 @@ class AnalyticalFileGenerator {
             $this->addColumn('3.1 Оптимальное использование каналов коммуникации');
             $this->addColumn('positive');
             $this->addColumnRight(round($data['management'][3]['3_1']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
-            $this->addColumn($dataText['popup']['management.communication_managment.comunication_channel']['short_text']);
+            $this->addColumn(str_replace(['(', ')'], '', $dataText['popup']['management.communication_managment.comunication_channel']['short_text']));
             $this->addColumn($dataText['popup']['management.communication_managment.comunication_channel']['text'], null, true);
 
             $this->addRow();
@@ -1141,7 +1141,7 @@ class AnalyticalFileGenerator {
             $this->addColumn('3.3 Эффективная работа со звонками');
             $this->addColumn('positive');
             $this->addColumnRight(round($data['management'][3]['3_3']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
-            $this->addColumn($dataText['popup']['management.communication_managment.effective_calls']['short_text']);
+            $this->addColumn(str_replace(['(', ')'], '', $dataText['popup']['management.communication_managment.effective_calls']['short_text']));
             $this->addColumn($dataText['popup']['management.communication_managment.effective_calls']['text'], null, true);
 
             $this->addRow();
@@ -1204,25 +1204,25 @@ class AnalyticalFileGenerator {
             $this->addRow();
             $this->addColumn('Срочно');
             $this->addColumnRight($this->getPerformanceCategory($data['performance'], '0'), PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
-            $this->addColumn($dataText['popup']['performance.urgent']['short_text']);
+            $this->addColumn(str_replace(['(', ')'], '', $dataText['popup']['performance.urgent']['short_text']));
             $this->addColumn($dataText['popup']['performance.urgent']['text'], null, true);
 
             $this->addRow();
             $this->addColumn('Высокий приоритет');
             $this->addColumnRight($this->getPerformanceCategory($data['performance'], '1'), PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
-            $this->addColumn($dataText['popup']['performance.high']['short_text']);
+            $this->addColumn(str_replace(['(', ')'], '', $dataText['popup']['performance.high']['short_text']));
             $this->addColumn($dataText['popup']['performance.high']['text'], null, true);
 
             $this->addRow();
             $this->addColumn('Средний приоритет');
             $this->addColumnRight($this->getPerformanceCategory($data['performance'], '2'), PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
-            $this->addColumn($dataText['popup']['performance.middle']['short_text']);
+            $this->addColumn(str_replace(['(', ')'], '', $dataText['popup']['performance.middle']['short_text']));
             $this->addColumn($dataText['popup']['performance.middle']['text'], null, true);
 
             $this->addRow();
             $this->addColumn('Двухминутные задачи');
             $this->addColumnRight($this->getPerformanceCategory($data['performance'], '2_min'), PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
-            $this->addColumn($dataText['popup']['performance.two_minutes']['short_text']);
+            $this->addColumn(str_replace(['(', ')'], '', $dataText['popup']['performance.two_minutes']['short_text']));
             $this->addColumn($dataText['popup']['performance.two_minutes']['text'], null, true);
 
             $this->setBorderBold();
@@ -1255,28 +1255,28 @@ class AnalyticalFileGenerator {
             $this->addColumn('1. Распределение времени, %');
             $this->addColumn('Продуктивное время (выполнение приоритетных задач)');
             $this->addColumnRight(round($data['time']['time_spend_for_1st_priority_activities'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
-            $this->addColumn($dataText['popup']['time.productive_time']['short_text']);
+            $this->addColumn(str_replace(['(', ')'], '', $dataText['popup']['time.productive_time']['short_text']));
             $this->addColumn($dataText['popup']['time.productive_time']['text'], null, true);
 
             $this->addRow();
             $this->addColumn('1. Распределение времени, %');
             $this->addColumn('Непродуктивное время (иные действия, не связанные с приоритетами)');
             $this->addColumnRight(round($data['time']['time_spend_for_non_priority_activities'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
-            $this->addColumn($dataText['popup']['time.not_productive_time']['short_text']);
+            $this->addColumn(str_replace(['(', ')'], '', $dataText['popup']['time.not_productive_time']['short_text']));
             $this->addColumn($dataText['popup']['time.not_productive_time']['text'], null, true);
 
             $this->addRow();
             $this->addColumn('1. Распределение времени, %');
             $this->addColumn('Время ожидания и бездействия');
             $this->addColumnRight(round($data['time']['time_spend_for_inactivity'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
-            $this->addColumn($dataText['popup']['time.waiting_time']['short_text']);
+            $this->addColumn(str_replace(['(', ')'], '', $dataText['popup']['time.waiting_time']['short_text']));
             $this->addColumn($dataText['popup']['time.waiting_time']['text'], null, true);
 
             $this->addRow();
             $this->addColumn('2. Сверхурочное время (минуты)');
             $this->addColumn('Сверхурочное время');
             $this->addColumnRight(round($data['time']['workday_overhead_duration'], 2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
-            $this->addColumn($dataText['popup']['time.waiting_time']['short_text']);
+            $this->addColumn(str_replace(['(', ')'], '', $dataText['popup']['time.waiting_time']['short_text']));
             $this->addColumn($dataText['popup']['time.waiting_time']['text'], null, true);
 
             $this->addRow();

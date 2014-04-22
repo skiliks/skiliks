@@ -158,8 +158,8 @@ class SimulationResultTextService {
                 'short_text' => '('.$positive['short_text'].')',
                 'text_positive' => $positive['text'],
                 'text_negative' => $negative['text'],
-                'short_text_positive' => $positive['short_text'],
-                'short_text_negative' => $negative['short_text'],
+                'short_text_positive' => str_replace(['(', ')'], '', $positive['short_text']),
+                'short_text_negative' => str_replace(['(', ')'], '', $negative['short_text']),
             ];
         } else {
             return [
@@ -167,8 +167,8 @@ class SimulationResultTextService {
                 'short_text' => '('.$positive['short_text'].', '.$negative['short_text'].')',
                 'text_positive' => $positive['text'],
                 'text_negative' => $negative['text'],
-                'short_text_positive' => $positive['short_text'],
-                'short_text_negative' => $negative['short_text'],
+                'short_text_positive' => str_replace(['(', ')'], '', $positive['short_text']),
+                'short_text_negative' => str_replace(['(', ')'], '', $negative['short_text']),
             ];
         }
 
