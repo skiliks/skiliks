@@ -75,11 +75,9 @@ class SendEmailAboutNewReleaseFeaturesCommand extends CConsoleCommand
                     </a>.
                 </p>
                 <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
-                    3. Компания, где 20 и более сотрудников прошли симуляцию, сможет получить Отчет по диагностике управленческого потенциала во всей компании, отделу, команде. Этот отчет дает системное понимание зон развития навыков управленческой команды.
-                    Более подробно с информацией можно ознакомиться здесь "здесь" должно быть кликабельно - ссылка на http://skiliks.com/static/product-diagnostic#.U05yK-aSz1g
-                </p>
-                <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
-                    Удачи,
+                    3. Компания, где 20 и более сотрудников прошли симуляцию, сможет получить Отчет по диагностике управленческого потенциала во всей компании, отделу, команде.
+                    Этот отчет дает системное понимание зон развития навыков управленческой команды.
+                    Более подробно с информацией можно ознакомиться <a target="_blank" href="http://skiliks.com/static/product-diagnostic#.U05yK-aSz1g">здесь</a>
                 </p>
             ';
 
