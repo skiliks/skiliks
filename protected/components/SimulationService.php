@@ -1249,7 +1249,7 @@ class SimulationService
 
     public static function saveAssessmentPDFFilesOnDisk(Simulation $simulation){
 
-        $folderName = ucfirst(StringTools::CyToEn($simulation->user->profile->firstname)).'_'.ucfirst(StringTools::CyToEn($simulation->user->profile->lastname));
+        $folderName = ucfirst(StringTools::CyToEn($simulation->user->profile->lastname)).'_'.ucfirst(StringTools::CyToEn($simulation->user->profile->firstname));
 
         $path = __DIR__."/../system_data/prb_bank/pdf_slices/".$folderName;
         $path = str_replace(' ', '', $path);
@@ -1258,6 +1258,9 @@ class SimulationService
             mkdir($path);
         }
         $path.= '/';
+
+        // ------------------------------------------
+
         $pdf = new AssessmentPDF();
         $pdf->setImagesDir('simulation_details_v2_for_bank/images/');
         // 1. Спидометры и прочее
@@ -1300,6 +1303,7 @@ class SimulationService
         // ---------------------------------------
 
         $pdf = new AssessmentPDF();
+        $pdf->pdf->SetMargins(0,0,0, true);
         $pdf->setImagesDir('simulation_details_v2_for_bank/images/');
         $pdf->setEpsSize(204, 110);
         $pdf->addSinglePage('bank_3', 0, 0, 204, 110);
@@ -1312,7 +1316,11 @@ class SimulationService
             23.5
         ); //Продуктивное время
 
-        $pdf->addPercentMiddleInfo($data['time'][TimeManagementAggregated::SLUG_GLOBAL_TIME_SPEND_FOR_NON_PRIORITY_ACTIVITIES], 183.5, 23.5);//Не продуктивное время
+        $pdf->addPercentMiddleInfo(
+            $data['time'][TimeManagementAggregated::SLUG_GLOBAL_TIME_SPEND_FOR_NON_PRIORITY_ACTIVITIES],
+            182.5,
+            23.5
+        );//Не продуктивное время
 
         //Positive
         $x_positive = 31;
@@ -1358,6 +1366,8 @@ class SimulationService
             $simulation->id,
             ucfirst(StringTools::CyToEn($simulation->user->profile->lastname))
         ));
+
+        return;
 
         // ---------------------------------------
 
