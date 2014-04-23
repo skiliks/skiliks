@@ -108,22 +108,11 @@ class SimulationResultTextService {
             $value_1 = 120;
         }
 
-        if ('time.over_time' == $alias) {
-            var_dump($value_1);
-            // var_dump(self::$pockets[$alias][$behaviour_alias_1]);
-            echo '<br/>';
-        }
-
         $pockets = self::$pockets[$alias][$behaviour_alias_1];
         /* @var $pockets ParagraphPocket[] */
         foreach($pockets as $pocket) {
             $left_direction = trim($pocket->left_direction);
             $right_direction = trim($pocket->right_direction);
-
-//            if ('time.over_time' == $alias) {
-//                var_dump($left_direction, $right_direction);
-//                echo '<br/>';
-//            }
 
             if(self::$left_direction($pocket->left, $value_1) && self::$right_direction($pocket->right, $value_1)) {
 
@@ -135,11 +124,6 @@ class SimulationResultTextService {
                         'right' => $pocket->right
                     ]
                 ];
-
-                if ('time.over_time' == $alias) {
-                    var_dump($return);
-                    echo '<br/>';
-                }
 
                 return $return;
             }
