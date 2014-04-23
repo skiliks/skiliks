@@ -515,8 +515,8 @@ class AnalyticalFileGenerator {
             $this->addColumn('2.3 Использование обратной связи');
             $this->addColumn('positive');
             $this->addColumnRight(round($data['management'][2]['2_3']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
-            $this->addColumn($dataText['popup']['management.people_managment.resource_quality']['short_text_positive']);
-            $this->addColumn($dataText['popup']['management.people_managment.resource_quality']['text_positive'], null, true);
+            $this->addColumn($dataText['popup']['management.people_managment.feedback']['short_text_positive']);
+            $this->addColumn($dataText['popup']['management.people_managment.feedback']['text_positive'], null, true);
 
             // ---
 
@@ -525,8 +525,8 @@ class AnalyticalFileGenerator {
             $this->addColumn('2.3 Использование обратной связи');
             $this->addColumn('negative');
             $this->addColumnRight(round($data['management'][2]['2_3']['-'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
-            $this->addColumn($dataText['popup']['management.people_managment.resource_quality']['short_text_negative']);
-            $this->addColumn($dataText['popup']['management.people_managment.resource_quality']['text_negative'], null, true);
+            $this->addColumn($dataText['popup']['management.people_managment.feedback']['short_text_negative']);
+            $this->addColumn($dataText['popup']['management.people_managment.feedback']['text_negative'], null, true);
 
             // ---
 
@@ -715,8 +715,8 @@ class AnalyticalFileGenerator {
             $this->addColumn('2. Сверхурочное время (минуты)');
             $this->addColumn('Сверхурочное время');
             $this->addColumnRight(round($data['time']['workday_overhead_duration'], 2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
-            $this->addColumn(str_replace(['(', ')'], '', $dataText['popup']['time.waiting_time']['short_text']));
-            $this->addColumn($dataText['popup']['time.waiting_time']['text'], null, true);
+            $this->addColumn(str_replace(['(', ')'], '', $dataText['popup']['time.over_time']['short_text']));
+            $this->addColumn($dataText['popup']['time.over_time']['text'], null, true);
 
             // ---
 
@@ -1083,16 +1083,16 @@ class AnalyticalFileGenerator {
             $this->addColumn('2.3 Использование обратной связи');
             $this->addColumn('positive');
             $this->addColumnRight(round($data['management'][2]['2_3']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
-            $this->addColumn($dataText['popup']['management.people_managment.resource_quality']['short_text_positive']);
-            $this->addColumn($dataText['popup']['management.people_managment.resource_quality']['text_positive'], null, true);
+            $this->addColumn($dataText['popup']['management.people_managment.feedback']['short_text_positive']);
+            $this->addColumn($dataText['popup']['management.people_managment.feedback']['text_positive'], null, true);
 
             $this->addRow();
             $this->addColumn('2. Управление людьми');
             $this->addColumn('2.3 Использование обратной связи');
             $this->addColumn('negative');
             $this->addColumnRight(round($data['management'][2]['2_3']['-'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
-            $this->addColumn($dataText['popup']['management.people_managment.resource_quality']['short_text_negative']);
-            $this->addColumn($dataText['popup']['management.people_managment.resource_quality']['text_negative'], null, true);
+            $this->addColumn($dataText['popup']['management.people_managment.feedback']['short_text_negative']);
+            $this->addColumn($dataText['popup']['management.people_managment.feedback']['text_negative'], null, true);
 
             $this->addRow();
             $this->addColumn('2. Управление людьми');
@@ -1276,8 +1276,8 @@ class AnalyticalFileGenerator {
             $this->addColumn('2. Сверхурочное время (минуты)');
             $this->addColumn('Сверхурочное время');
             $this->addColumnRight(round($data['time']['workday_overhead_duration'], 2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
-            $this->addColumn(str_replace(['(', ')'], '', $dataText['popup']['time.waiting_time']['short_text']));
-            $this->addColumn($dataText['popup']['time.waiting_time']['text'], null, true);
+            $this->addColumn(str_replace(['(', ')'], '', $dataText['popup']['time.over_time']['short_text']));
+            $this->addColumn($dataText['popup']['time.over_time']['text'], null, true);
 
             $this->addRow();
             $this->addColumn('1.1 Продуктивное время (выполнение приоритетных задач, минуты)');

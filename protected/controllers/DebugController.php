@@ -761,6 +761,7 @@ class DebugController extends SiteBaseController
          * @var Simulation $simulation2
          */
         $simulation1 = Simulation::model()->findByPk(6258); // 9515
+        $simulation3 = Simulation::model()->findByPk(5014); // 9515
         $simulation2 = Simulation::model()->findByPk(12023 );
 
         $simulation1->popup_tests_cache = serialize([
@@ -768,6 +769,12 @@ class DebugController extends SiteBaseController
             'recommendation' => SimulationResultTextService::generate($simulation1, 'recommendation', true)
         ]);
         $simulation1->save(false, ['popup_tests_cache']);
+
+        $simulation3->popup_tests_cache = serialize([
+            'popup'          => SimulationResultTextService::generate($simulation1, 'popup'),
+            'recommendation' => SimulationResultTextService::generate($simulation1, 'recommendation', true)
+        ]);
+        $simulation3->save(false, ['popup_tests_cache']);
 
 //        echo '<pre>';
         // print_r(json_decode(unserialize($simulation2->results_popup_cache), true));
@@ -803,7 +810,7 @@ class DebugController extends SiteBaseController
         $generator = new AnalyticalFileGenerator();
         $generator->is_add_behaviours = false;
         $generator->createDocument();
-        $generator->runAssessment_v1([$simulation1], 'v1_to_v2');
+        $generator->runAssessment_v1([$simulation1, $simulation3], 'v1_to_v2');
         $generator->runAssessment_v2([$simulation2]);
         $generator->save('user_id_'.$simulation1->user->id, 'full_report_xxx');
 

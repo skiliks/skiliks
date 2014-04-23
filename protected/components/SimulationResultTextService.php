@@ -91,13 +91,16 @@ class SimulationResultTextService {
      * @throws Exception
      */
     public static function SinglePocket($behaviour_alias_1, $alias, $assessment, $with_brackets=true) {
+
         $value_1 = self::getValueInAssessment($behaviour_alias_1, $assessment);
+
         if((int)$value_1 > 100 && $alias === 'performance.high') {
             if (Yii::app() instanceof CConsoleApplication) {
                 echo "$alias -> $value_1 for sim_id ".self::$sim_id."\r\n";
             }
             $value_1 = 100;
         }
+
         if((int)$value_1 > 120 && $alias === 'time.over_time') {
             if (Yii::app() instanceof CConsoleApplication) {
                 echo "$alias -> $value_1 for sim_id ".self::$sim_id."\r\n";
@@ -105,21 +108,40 @@ class SimulationResultTextService {
             $value_1 = 120;
         }
 
+        if ('time.over_time' == $alias) {
+            var_dump($value_1);
+            // var_dump(self::$pockets[$alias][$behaviour_alias_1]);
+            echo '<br/>';
+        }
+
         $pockets = self::$pockets[$alias][$behaviour_alias_1];
         /* @var $pockets ParagraphPocket[] */
         foreach($pockets as $pocket) {
             $left_direction = trim($pocket->left_direction);
             $right_direction = trim($pocket->right_direction);
+
+//            if ('time.over_time' == $alias) {
+//                var_dump($left_direction, $right_direction);
+//                echo '<br/>';
+//            }
+
             if(self::$left_direction($pocket->left, $value_1) && self::$right_direction($pocket->right, $value_1)) {
 
-                return [
-                        'text' => $pocket->text,
-                        'short_text' => $with_brackets?'('.$pocket->short_text.')':$pocket->short_text,
-                        'pocket' => [
-                            'left' => $pocket->left,
-                            'right' => $pocket->right
-                        ]
-                       ];
+                $return = [
+                    'text' => $pocket->text,
+                    'short_text' => $with_brackets?'('.$pocket->short_text.')':$pocket->short_text,
+                    'pocket' => [
+                        'left' => $pocket->left,
+                        'right' => $pocket->right
+                    ]
+                ];
+
+                if ('time.over_time' == $alias) {
+                    var_dump($return);
+                    echo '<br/>';
+                }
+
+                return $return;
             }
         }
 
