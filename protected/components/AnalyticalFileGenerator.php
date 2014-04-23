@@ -455,8 +455,8 @@ class AnalyticalFileGenerator {
             $this->addColumn('1.4 Прерывание при выполнении задач');
             $this->addColumn('negative');
             $this->addColumnRight(round($data['management'][1]['1_4']['-'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
-            $this->addColumn($dataText['popup']['management.task_managment.tasks_interruprion']['short_text_negative']);
-            $this->addColumn($dataText['popup']['management.task_managment.tasks_interruprion']['text_negative'], null, true);
+            $this->addColumn($dataText['popup']['management.task_managment.tasks_interruprion']['short_text']);
+            $this->addColumn($dataText['popup']['management.task_managment.tasks_interruprion']['text'], null, true);
 
             // ---
 
@@ -1033,8 +1033,8 @@ class AnalyticalFileGenerator {
                 $this->addColumn('1.4 Прерывание при выполнении задач');
                 $this->addColumn('negative');
                 $this->addColumnRight(round($data['management'][1]['1_5']['-'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
-                $this->addColumn($dataText['popup']['management.task_managment.tasks_interruprion']['short_text_negative']);
-                $this->addColumn($dataText['popup']['management.task_managment.tasks_interruprion']['text_negative'], null, true);
+                $this->addColumn($dataText['popup']['management.task_managment.tasks_interruprion']['short_text']);
+                $this->addColumn($dataText['popup']['management.task_managment.tasks_interruprion']['text'], null, true);
             }
 
             $this->addRow();
