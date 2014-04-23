@@ -138,6 +138,7 @@ class AssessmentPDF {
         if ($convert_to_jpg) {
             exec("convert -quality 100 -density 600 ".$name.".pdf ".$name.".jpg");
             exec("convert -quality 90 -resize 25%  ".$name.".jpg ".$name.".jpg");
+            exec("rm ".$name.".pdf");
         }
     }
 

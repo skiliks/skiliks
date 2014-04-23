@@ -1249,8 +1249,10 @@ class SimulationService
 
     public static function saveAssessmentPDFFilesOnDisk(Simulation $simulation){
 
-        //$simulation = Simulation::model()->findByPk('10264');
-        $path = __DIR__."/../system_data/prb_bank/pdf_slices/".$simulation->id;
+        $folderName = ucfirst(StringTools::CyToEn($simulation->user->profile->firstname)).'_'.ucfirst(StringTools::CyToEn($simulation->user->profile->lastname));
+
+        $path = __DIR__."/../system_data/prb_bank/pdf_slices/".$folderName;
+        $path = str_replace(' ', '', $path);
         $data = json_decode($simulation->getAssessmentDetails(), true);
         if(!is_dir($path)){
             mkdir($path);
@@ -1359,30 +1361,30 @@ class SimulationService
 
         // ---------------------------------------
 
-        $pdf = new AssessmentPDF();
-        $pdf->setImagesDir('simulation_details_v2_for_bank/images/');
-        $pdf->setEpsSize(164, 202);
-        $pdf->addSinglePage('bank_4', 0, 0, 177, 206);
-        $pdf->addPercentSmallInfo($data['performance']['total'], 46, 11);
-
-        //Срочно
-        $pdf->addUniversalBar(45.5, 30.8, $pdf->getPerformanceCategory($data['performance'], '0'), 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);
-
-        //Высокий приоритет
-        $pdf->addUniversalBar(45.5, 41.3, $pdf->getPerformanceCategory($data['performance'], '1'), 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);
-
-        //Средний приоритет
-        $pdf->addUniversalBar(45.5, 51.9, $pdf->getPerformanceCategory($data['performance'], '2'), 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);
-
-        //Двухминутные задачи
-        $pdf->addUniversalBar(45.5, 62.5, $pdf->getPerformanceCategory($data['performance'], '2_min'), 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);
-
-        $pdf->saveOnDisk(sprintf(
-            '%sp4_1_%s_%s_productivity',
-            $path,
-            $simulation->id,
-            ucfirst(StringTools::CyToEn($simulation->user->profile->lastname))
-        ));
+//        $pdf = new AssessmentPDF();
+//        $pdf->setImagesDir('simulation_details_v2_for_bank/images/');
+//        $pdf->setEpsSize(164, 202);
+//        $pdf->addSinglePage('bank_4', 0, 0, 177, 206);
+//        $pdf->addPercentSmallInfo($data['performance']['total'], 46, 11);
+//
+//        //Срочно
+//        $pdf->addUniversalBar(45.5, 30.8, $pdf->getPerformanceCategory($data['performance'], '0'), 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);
+//
+//        //Высокий приоритет
+//        $pdf->addUniversalBar(45.5, 41.3, $pdf->getPerformanceCategory($data['performance'], '1'), 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);
+//
+//        //Средний приоритет
+//        $pdf->addUniversalBar(45.5, 51.9, $pdf->getPerformanceCategory($data['performance'], '2'), 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);
+//
+//        //Двухминутные задачи
+//        $pdf->addUniversalBar(45.5, 62.5, $pdf->getPerformanceCategory($data['performance'], '2_min'), 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);
+//
+//        $pdf->saveOnDisk(sprintf(
+//            '%sp4_1_%s_%s_productivity',
+//            $path,
+//            $simulation->id,
+//            ucfirst(StringTools::CyToEn($simulation->user->profile->lastname))
+//        ));
 
         // ---------------------------------------
 
