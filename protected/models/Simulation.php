@@ -323,7 +323,7 @@ class Simulation extends CActiveRecord
         if (null !== $this->results_popup_cache) {
             $cache = unserialize($this->results_popup_cache);
 
-            if(false == is_array($cache)) {
+            if('' === $cache) {
                 $cache = json_decode(unserialize($this->results_popup_cache), true);
             }
 
