@@ -105,7 +105,7 @@ define(
                     var page = $(e.currentTarget).attr('data-refer-page');
                     var index = this.pages.addClass('hidden').filter('[data-page=' + page + ']').removeClass('hidden').index();
 
-                    this.$el.find('.pages .current').html(index + 1);
+                    this.$el.find('.pages .current').html(index);
                     if (index + 1 === this.pages.length) {
                         this.closeBtn.show();
                     }

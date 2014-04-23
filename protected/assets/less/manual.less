@@ -43,33 +43,6 @@
     text-align: center;
   }
 
-  .book {
-    .tabs {
-      .close-window {
-        background: url(../img/manual/close-bg.png);
-        height: 26px;
-        left: 0;
-        right: 0;
-        width: 29px;
-
-        .win-close {
-          background: url(../img/manual/icon-close3.png) 3px 0 no-repeat;
-          background-color: #232323;
-          border: medium none;
-          cursor: pointer;
-          padding-top: 2px;
-          height: 20px;
-          width: 28px;
-
-
-          &:hover {
-            background-position: 3px -34px;
-          }
-        }
-      }
-    }
-  }
-
   .tabs li.close-window:before,
   .tabs li.close-window:after {
     background: none;
@@ -93,7 +66,7 @@
     @media (max-width: 1280px), (max-height: 750px) {
       height: 26px;
       top: -17px;
-      right: 0px;
+      right: 12px; /* s */
       font-size: 12px;
     }
 
@@ -1232,4 +1205,27 @@
 }
 .relative-content {
   position: relative;
+}
+
+.close-window-manual {
+  background-image: url("../img/manual/icon-close5.png");
+  display: inline-block;
+  float: right;
+  height: 28px;
+  margin-right: 80px;
+  margin-top: -16px;
+  vertical-align: top;
+  width: 28px;
+}
+
+@media (max-width: 1280px), (max-height: 750px) {
+  .close-window-manual {
+    height: 25px;
+    margin-right: 58px;
+    margin-top: -18px;
+  }
+}
+
+.close-window-manual:hover {
+  background-position: 0 -30px;
 }
