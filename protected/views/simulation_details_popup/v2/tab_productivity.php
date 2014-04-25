@@ -92,15 +92,12 @@
 
 <script type="text/javascript">
     $(function() {
-        var result = AR.performance,
-            r = Math.round,
-            renderer = function(v) { return v + '%';},
-            categories = ['0', '1', '2', '2_min'];
+        var categories = ['0', '1', '2', '2_min'];
 
         for (var i = 0; i < categories.length; i++) {
-            new charts.Bar('.bars', r(result[categories[i]] || 0), { valueRenderer: renderer });
+            new charts.Bar('.bars', Math.round(AR.performance[categories[i]] || 0), { valueRenderer: renderer });
         }
 
-        $('.productivity-total').html(Math.round(result.total || 0) + '%');
+        $('.productivity-total').html(Math.round(AR.performance.total || 0) + '%');
     });
 </script>

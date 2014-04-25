@@ -27,7 +27,13 @@
                 new charts.Bar(
                     '.' + classPrefix + '-' + i + ' .' + (k % 2 ? 'chartbar' : 'chartproblem'),
                     Math.round(data && data[codes[i - 1]] ? data[codes[i - 1]][k % 2 ? '+' : '-'] : 0),
-                    { valueRenderer: function(v) { return v + '%';}, 'class': (k % 2 ? '' : 'redbar') }
+                    { valueRenderer: function(v) {
+                        if ('' == v) {
+                            return v;
+                        } else {
+                            return v + '%';
+                        }
+                    }, 'class': (k % 2 ? '' : 'redbar') }
                 );
             }
         }

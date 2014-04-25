@@ -60,18 +60,14 @@
 </div>
 <script type="text/javascript">
     $(function() {
-        var result = AR.management,
-            r = Math.round,
-            renderer = function(v) { return v + '%'; };
-
-        for (var i = 1; i < 4; i++) { //8
+        for (var i = 1; i < 4; i++) {
             new charts.Bar(
                 '.management-' + i,
-                r(result[i] && result[i].total ? result[i].total : 0),
+                Math.round(AR.management[i] && AR.management[i].total ? AR.management[i].total : 0),
                 { valueRenderer: renderer }
             );
         }
 
-        $('.managerial-skills').html(r(result.total || 0) + '%');
+        $('.managerial-skills').html(Math.round(AR.performance.total || 0) + '%');
     });
 </script>

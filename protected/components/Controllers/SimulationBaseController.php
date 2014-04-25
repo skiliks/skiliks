@@ -238,4 +238,22 @@ class SimulationBaseController extends CController {
 
         return $mailPrefix;
     }
+
+    /**
+     * Возвращает путь к ассертам
+     * @return string
+     */
+    public function getAssetsUrl()
+    {
+        if(Yii::app()->params['disableAssets']) {
+            return '/protected/assets';
+        } else {
+            return Yii::app()->getAssetManager()
+                ->publish(
+                    Yii::getPathOfAlias('application.assets'),
+                    true, // check assets folder modifiedAs when generate assets folder hash
+                    -1
+                );
+        }
+    }
 }

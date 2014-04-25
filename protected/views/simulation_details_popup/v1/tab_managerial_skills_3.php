@@ -135,10 +135,7 @@
 </div>
 <script type="text/javascript">
     $(function() {
-        var v3 = AR.management[3];
-
-        drawChartBlock('peopleManagement', v3, ['3_1', '3_2', '3_3', '3_4']);
-
-        $('.valuetitle.peopleManagement').html(   Math.round(v3 && v3.total || 0) + '%');
+        drawChartBlock('peopleManagement', AR.management[3], ['3_1', '3_2', '3_3', '3_4']);
+        $('.valuetitle.peopleManagement').html(   Math.round(AR.management[3] && AR.management[3].total || 0) + '%');
     });
 </script>

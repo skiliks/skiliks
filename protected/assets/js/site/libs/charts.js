@@ -36,6 +36,9 @@
         this.setValue(value);
     }
 
+    /**
+     * Спидометры
+     */
     $.extend(Gauge.prototype, {
         pointerLength: 110,
         setValue: function(value) {
@@ -77,6 +80,14 @@
         }
     });
 
+    /**
+     * Полоски с % - как синие так и красные
+     *
+     * @param container
+     * @param value
+     * @param options
+     * @constructor
+     */
     function Bar(container, value, options) {
         var me = this,
             $chart = $('<div class="chart-bar"/>'),
@@ -102,6 +113,13 @@
             .css('width', 0)
             .appendTo(container);
 
+        // если полоса менее 8% - не задавать отступ справа (15рх)
+        // 8% это 15рх/192рх. 192рх - минимальная длинна полосы % на попапе оценки
+        // console.log('3.', this.el.chart.width());
+        if (value/me.maxValue < 0.08) {
+            this.el.value.addClass('no-margin-right');
+        }
+
         this.setValue(value);
     }
 
@@ -116,7 +134,11 @@
                     easing: 'easeOutSine',
                     duration: me.options.duration || 2000,
                     complete: function() {
-                        $(this).html('&nbsp; ' + (me.options.valueRenderer ? me.options.valueRenderer(value) : value));
+                        if (( value < 5 && false == me.el.chart.parent().hasClass('timebars') )
+                            ||( value < 20 && true == me.el.chart.parent().hasClass('timebars') )) {
+                            value = '';
+                        }
+                        $(this).html((me.options.valueRenderer ? me.options.valueRenderer(value) : value)); // '&nbsp; ' +
                     }
                 });
         },
@@ -379,6 +401,14 @@
         Bullet: Bullet,
         Pie: Pie
     };
+
+    window.renderer = function(v) {
+        if ('' == v) {
+            return v;
+        } else {
+            return v + '%';
+        }
+    }
 
     return window.charts;
 })(window, jQuery, d3);

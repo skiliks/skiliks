@@ -72,20 +72,19 @@
     $(function() {
         setTimeout(function() {
             $(".gauge-charts").html('');
-            var r = Math.round;
 
-            new charts.Gauge('.gauge-charts', r(AR.time.total || 0), {class: 'inline'});
-            new charts.Gauge('.gauge-charts', r(AR.performance.total || 0), {class: 'inline'});
-            new charts.Gauge('.gauge-charts', r(AR.management.total || 0), {class: 'inline'});
+            new charts.Gauge('.gauge-charts', Math.round(AR.time.total || 0), {class: 'inline'});
+            new charts.Gauge('.gauge-charts', Math.round(AR.performance.total || 0), {class: 'inline'});
+            new charts.Gauge('.gauge-charts', Math.round(AR.management.total || 0), {class: 'inline'});
 
             new charts.Bullet('.bullet-charts', 50, {class: 'small'});
             new charts.Bullet('.bullet-charts', 70, {class: 'small'});
             new charts.Bullet('.bullet-charts', 40, {class: 'small'});
 
-            $('.overall .value').html(r(AR.overall || 0));
+            $('.overall .value').html(Math.round(AR.overall || 0));
             $('.allrating').css('width', (AR.overall || 0) + '%');
             $('.tab_main_popup.percentil_overall').css('width', (AR.percentile.total || 0) + '%');
-            $('.percentil_text').html("P"+r(AR.percentile.total));
+            $('.percentil_text').html("P" + Math.round(AR.percentile.total));
         }, 500);
     });
 </script>

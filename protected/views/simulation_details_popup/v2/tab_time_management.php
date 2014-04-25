@@ -25,15 +25,13 @@
 
 <script>
 $(function() {
-    var time = AR.time,
-        overtime = time['<?= TimeManagementAggregated::SLUG_WORKDAY_OVERHEAD_DURATION?>'],
-        r = Math.round;
+    var overtime = AR.time['<?= TimeManagementAggregated::SLUG_WORKDAY_OVERHEAD_DURATION?>'];
 
     new charts.Pie('.time-distribution',
         [
-            time['<?= TimeManagementAggregated::SLUG_GLOBAL_TIME_SPEND_FOR_1ST_PRIORITY_ACTIVITIES ?>'],
-            time['<?= TimeManagementAggregated::SLUG_GLOBAL_TIME_SPEND_FOR_NON_PRIORITY_ACTIVITIES ?>'],
-            time['<?= TimeManagementAggregated::SLUG_GLOBAL_TIME_SPEND_FOR_INACTIVITY ?>']
+            AR.time['<?= TimeManagementAggregated::SLUG_GLOBAL_TIME_SPEND_FOR_1ST_PRIORITY_ACTIVITIES ?>'],
+            AR.time['<?= TimeManagementAggregated::SLUG_GLOBAL_TIME_SPEND_FOR_NON_PRIORITY_ACTIVITIES ?>'],
+            AR.time['<?= TimeManagementAggregated::SLUG_GLOBAL_TIME_SPEND_FOR_INACTIVITY ?>']
         ],
         {
             colors: ['#146672', '#e11a1a', '#66a3ab']
@@ -56,6 +54,6 @@ $(function() {
         }
     );
 
-    $('.time-total').html(r(time.total) + '%');
+    $('.time-total').html(Math.round(AR.time.total) + '%');
 });
 </script>

@@ -110,10 +110,7 @@
 </div>
 <script type="text/javascript">
     $(function() {
-        var v2 = AR.management[2];
-
-        drawChartBlock('taskManagement', v2, ['2_1', '2_2', '2_3']);
-
-        $('.valuetitle.taskManagement').html(Math.round(v2 && v2.total || 0) + '%');
+        drawChartBlock('taskManagement', AR.management[2], ['2_1', '2_2', '2_3']);
+        $('.valuetitle.taskManagement').html(Math.round(AR.management[2] && AR.management[2].total || 0) + '%');
     });
 </script>

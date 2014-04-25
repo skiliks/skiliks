@@ -156,12 +156,7 @@
 </div>
 <script type="text/javascript">
     $(function() {
-        var v1 = AR.management[1];//{positive: 20, negative: 20, total: 0}, /* AR.management[1] */
-
-        drawChartBlock('followPriorities', v1, ['1_1', '1_2', '1_3', '1_4', '1_5']);
-        //drawChartBlock('taskManagement', v2, ['214a', '214b', '214d', '214g']);
-
-        $('.valuetitle.followPriorities').html(Math.round(v1 && v1.total || 0) + '%');
-        //$('.valuetitle.taskManagement').html(  Math.round(v2 && v2.total || 0) + '%');
+        drawChartBlock('followPriorities', AR.management[1], ['1_1', '1_2', '1_3', '1_4', '1_5']);
+        $('.valuetitle.followPriorities').html(Math.round(AR.management[1] && AR.management[1].total || 0) + '%');
     });
 </script>

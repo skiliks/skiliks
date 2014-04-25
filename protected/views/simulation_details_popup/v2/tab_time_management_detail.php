@@ -34,23 +34,22 @@
     </div>
 </div>
 <script>
-    var r = Math.round,
-        good = [
-            r(AR.time['<?= TimeManagementAggregated::SLUG_1ST_PRIORITY_DOCUMENTS ?>']),
-            r(AR.time['<?= TimeManagementAggregated::SLUG_1ST_PRIORITY_MEETINGS ?>']),
-            r(AR.time['<?= TimeManagementAggregated::SLUG_1ST_PRIORITY_PHONE_CALLS ?>']),
-            r(AR.time['<?= TimeManagementAggregated::SLUG_1ST_PRIORITY_MAIL ?>']),
-            r(AR.time['<?= TimeManagementAggregated::SLUG_1ST_PRIORITY_PLANING ?>'])
+    var good = [
+            Math.round(AR.time['<?= TimeManagementAggregated::SLUG_1ST_PRIORITY_DOCUMENTS ?>']),
+            Math.round(AR.time['<?= TimeManagementAggregated::SLUG_1ST_PRIORITY_MEETINGS ?>']),
+            Math.round(AR.time['<?= TimeManagementAggregated::SLUG_1ST_PRIORITY_PHONE_CALLS ?>']),
+            Math.round(AR.time['<?= TimeManagementAggregated::SLUG_1ST_PRIORITY_MAIL ?>']),
+            Math.round(AR.time['<?= TimeManagementAggregated::SLUG_1ST_PRIORITY_PLANING ?>'])
         ],
         bad = [
-            r(AR.time['<?= TimeManagementAggregated::SLUG_NON_PRIORITY_DOCUMENTS ?>']),
-            r(AR.time['<?= TimeManagementAggregated::SLUG_NON_PRIORITY_MEETINGS ?>']),
-            r(AR.time['<?= TimeManagementAggregated::SLUG_NON_PRIORITY_PHONE_CALLS ?>']),
-            r(AR.time['<?= TimeManagementAggregated::SLUG_NON_PRIORITY_MAIL ?>']),
-            r(AR.time['<?= TimeManagementAggregated::SLUG_NON_PRIORITY_PLANING ?>'])
+            Math.round(AR.time['<?= TimeManagementAggregated::SLUG_NON_PRIORITY_DOCUMENTS ?>']),
+            Math.round(AR.time['<?= TimeManagementAggregated::SLUG_NON_PRIORITY_MEETINGS ?>']),
+            Math.round(AR.time['<?= TimeManagementAggregated::SLUG_NON_PRIORITY_PHONE_CALLS ?>']),
+            Math.round(AR.time['<?= TimeManagementAggregated::SLUG_NON_PRIORITY_MAIL ?>']),
+            Math.round(AR.time['<?= TimeManagementAggregated::SLUG_NON_PRIORITY_PLANING ?>'])
         ],
-        goodPercents = r(AR.time['<?= TimeManagementAggregated::SLUG_GLOBAL_TIME_SPEND_FOR_1ST_PRIORITY_ACTIVITIES ?>']),
-        badPercents = r(AR.time['<?= TimeManagementAggregated::SLUG_GLOBAL_TIME_SPEND_FOR_NON_PRIORITY_ACTIVITIES ?>']),
+        goodPercents = Math.round(AR.time['<?= TimeManagementAggregated::SLUG_GLOBAL_TIME_SPEND_FOR_1ST_PRIORITY_ACTIVITIES ?>']),
+        badPercents = Math.round(AR.time['<?= TimeManagementAggregated::SLUG_GLOBAL_TIME_SPEND_FOR_NON_PRIORITY_ACTIVITIES ?>']),
         goodMax = Math.max.apply(null, good),
         badMax = Math.max.apply(null, bad),
         i;
@@ -66,5 +65,5 @@
     $('.good .testtime strong').html(goodPercents);
     $('.bad .testtime strong').html(badPercents);
 
-    $('.time-total').html(r(AR.time.total) + '%');
+    $('.time-total').html(Math.round(AR.time.total) + '%');
 </script>

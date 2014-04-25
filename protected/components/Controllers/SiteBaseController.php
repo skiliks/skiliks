@@ -95,8 +95,9 @@ class SiteBaseController extends CController {
             return Yii::app()->getAssetManager()
                 ->publish(
                     Yii::getPathOfAlias('application.assets'),
-                    true, // check assets folder modifiedAs when generate assets folder hash
-                    -1
+                    false, // check assets folder modifiedAs when generate assets folder hash
+                    -1,
+                    true
                 );
         }
 
