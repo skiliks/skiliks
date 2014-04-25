@@ -54,6 +54,6 @@ $(function() {
         }
     );
 
-    $('.time-total').html(Math.round(time.total) + '%');
+    $('.time-total').html(Math.round(AR.time.total) + '%');
 });
 </script>

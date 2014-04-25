@@ -129,13 +129,14 @@
 
             me.value = value;
 
-            me.el.value.html('&nbsp;')
+            me.el.value.html('')
                 .animate({width: value / me.maxValue * 100 + '%'}, {
                     easing: 'easeOutSine',
                     duration: me.options.duration || 2000,
                     complete: function() {
-                        if (( value < 5 && false == me.el.chart.parent().hasClass('timebars') )
-                            ||( value < 20 && true == me.el.chart.parent().hasClass('timebars') )) {
+                        if (( value < 5 ) /* все шкалы, ниже условие утосяется для коротких шкал */
+                            ||( value < 20 && true == me.el.chart.parent().hasClass('timebars') ) /* шкала Тайменеджиент детально */
+                            ||( value < 16 && true == me.el.chart.hasClass('redbar') )) { /* красные шкалы в % */
                             value = '';
                         }
                         $(this).html((me.options.valueRenderer ? me.options.valueRenderer(value) : value)); // '&nbsp; ' +
@@ -402,6 +403,11 @@
         Pie: Pie
     };
 
+    /**
+     * Для отображения оценок с единицей изменения
+     * @param v
+     * @returns {*}
+     */
     window.renderer = function(v) {
         if ('' == v) {
             return v;
