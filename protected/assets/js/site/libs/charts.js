@@ -134,9 +134,13 @@
                     easing: 'easeOutSine',
                     duration: me.options.duration || 2000,
                     complete: function() {
-                        if (( value < 5 ) /* все шкалы, ниже условие утосяется для коротких шкал */
-                            ||( value < 20 && true == me.el.chart.parent().hasClass('timebars') ) /* шкала Тайменеджиент детально */
-                            ||( value < 16 && true == me.el.chart.hasClass('redbar') )) { /* красные шкалы в % */
+//                        if (me.el.chart.parent().hasClass('timebars') && me.el.chart.hasClass('redbar') ) {
+//                            console.log(value, 0.16 * me.maxValue, value < 0.16 * me.maxValue);
+//                        }
+                        if (( value < 0.05 * me.maxValue ) /* все шкалы, ниже условие утосяется для коротких шкал */
+                            ||( true == me.el.chart.parent().hasClass('timebars') && value < 0.16 * me.maxValue ) /* шкала Тайменеджиент детально */
+                            ||( true == me.el.chart.hasClass('redbar') && value < 0.16 * me.maxValue )) { /* красные шкалы в % */
+                            console.log(value)
                             value = '';
                         }
                         $(this).html((me.options.valueRenderer ? me.options.valueRenderer(value) : value)); // '&nbsp; ' +
