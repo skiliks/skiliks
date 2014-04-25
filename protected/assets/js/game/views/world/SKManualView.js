@@ -45,6 +45,8 @@ define(
 
             renderContent: function (content) {
                 try {
+                    // не показывать крестик закрытия в справке,
+                    // пока пользователь не долистает до последней страницы.
                     var required = this.options.model_instance.get('required');
 
                     content.html(_.template(frame, {
@@ -56,7 +58,7 @@ define(
                     });
 
                     this.pages = content.find('.page');
-                    this.closeBtn = content.find('.close-window');
+                    this.closeBtn = content.find('.close-window-manual');
                     content.find('.pages .total').html(this.pages.length).prev('.current').html(1);
 
                     if (required) {
@@ -106,7 +108,7 @@ define(
                     var index = this.pages.addClass('hidden').filter('[data-page=' + page + ']').removeClass('hidden').index();
 
                     this.$el.find('.pages .current').html(index);
-                    if (index + 1 === this.pages.length) {
+                    if (index === this.pages.length) {
                         this.closeBtn.show();
                     }
                     if (index > 0) {
