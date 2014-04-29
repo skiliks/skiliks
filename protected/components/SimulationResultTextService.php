@@ -203,55 +203,43 @@ class SimulationResultTextService {
     }
 
     /**
-     * Больше равно
+     * $value больше равно
      * @param $direction
      * @param $value
      * @return bool
      */
-    public static function greater_equal($direction, $value, $is_float = false) {
-        if($is_float){
-            return (float)$direction <= (float)$value;
-        }else{
-            return (int)$direction <= (int)$value;
-        }
-
-    }
-
-    public static function greater($direction, $value, $is_float = false) {
-        if($is_float){
-            return (float)$direction < (float)$value;
-        }else{
-            return (int)$direction < (int)$value;
-        }
-
+    public static function greater_equal($direction, $value) {
+        return (float)$direction <= (float)$value;
     }
 
     /**
-     * Меньше
+     * $value больше
      * @param $direction
      * @param $value
      * @return bool
      */
-    public static function less($direction, $value, $is_float = false) {
-        if($is_float){
-            return (float)$direction > (float)$value;
-        }else{
-            return (int)$direction > (int)$value;
-        }
+    public static function greater($direction, $value) {
+        return (float)$direction < (float)$value;
     }
 
     /**
-     * Меньше равно
+     * $value меньше
      * @param $direction
      * @param $value
      * @return bool
      */
-    public static function less_equal($direction, $value, $is_float = false) {
-        if($is_float){
-            return (float)$direction >= (float)$value;
-        }else{
-            return (int)$direction >= (int)$value;
-        }
+    public static function less($direction, $value) {
+        return (float)$direction > (float)$value;
+    }
+
+    /**
+     * $value меньше равно
+     * @param $direction
+     * @param $value
+     * @return bool
+     */
+    public static function less_equal($direction, $value) {
+        return (float)$direction >= (float)$value;
     }
 
     /**
