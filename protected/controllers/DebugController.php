@@ -756,65 +756,68 @@ class DebugController extends SiteBaseController
     }
 
     public function actionXxx() {
+        $time = time();
         /**
-         * @var Simulation $simulation1
-         * @var Simulation $simulation2
+         * @var Simulation $simulations1
+         * @var Simulation $simulations2
          */
-        $simulation1 = Simulation::model()->findByPk(6258); // 9515
-        $simulation3 = Simulation::model()->findByPk(5014); // 9515
-        $simulation2 = Simulation::model()->findByPk(12023 );
+        $simulations1 = [Simulation::model()->findByPk(6258)];  // v1
+        $simulations2 = [Simulation::model()->findByPk(12023)]; // v2
 
-        $simulation1->popup_tests_cache = serialize([
-            'popup'          => SimulationResultTextService::generate($simulation1, 'popup'),
-            'recommendation' => SimulationResultTextService::generate($simulation1, 'recommendation', true)
-        ]);
-        $simulation1->save(false, ['popup_tests_cache']);
+        $simulations1 = Simulation::model()->with('invite')->findAll(
+            "invite.owner_id = 1237 and t.end is not null and t.popup_tests_cache is not null and t.results_popup_partials_path like '%v1%'"
+        ); // v1
 
-        $simulation3->popup_tests_cache = serialize([
-            'popup'          => SimulationResultTextService::generate($simulation1, 'popup'),
-            'recommendation' => SimulationResultTextService::generate($simulation1, 'recommendation', true)
-        ]);
-        $simulation3->save(false, ['popup_tests_cache']);
+        $simulations2 = Simulation::model()->with('invite')->findAll(
+            "invite.owner_id = 1237 and t.end is not null and t.popup_tests_cache is not null and t.results_popup_partials_path like '%v2%'"
+        ); // v2
 
-//        echo '<pre>';
-        // print_r(json_decode(unserialize($simulation2->results_popup_cache), true));
-//        die;
-
-        $simulation2->popup_tests_cache = serialize([
-            'popup'          => SimulationResultTextService::generate($simulation2, 'popup'),
-            'recommendation' => SimulationResultTextService::generate($simulation2, 'recommendation', true),
-        ]);
-        $simulation2->save(false, ['popup_tests_cache']);
-
-
-
-        //$simulation2->getAssessmentDetails();
-
+//        $simulation3 = Simulation::model()->findByPk(5014);   // v1
 //
-//        echo '<pre>';
-//        print_r(json_decode(unserialize($simulation2->results_popup_cache)));
-//        // print_r(unserialize($simulation2->popup_tests_cache));
-//        echo '</pre>';
-//        die;
+//        $simulation1->popup_tests_cache = serialize([
+//            'popup'          => SimulationResultTextService::generate($simulation1, 'popup'),
+//            'recommendation' => SimulationResultTextService::generate($simulation1, 'recommendation', true)
+//        ]);
+//        $simulation1->save(false, ['popup_tests_cache']);
+//
+//        $simulation3->popup_tests_cache = serialize([
+//            'popup'          => SimulationResultTextService::generate($simulation1, 'popup'),
+//            'recommendation' => SimulationResultTextService::generate($simulation1, 'recommendation', true)
+//        ]);
+//        $simulation3->save(false, ['popup_tests_cache']);
 
-//        var_dump();
-//        echo '<br/><br/><br/><br/><br/>';
-        //var_dump(SimulationResultTextService::generate($simulation, 'recommendation', true));
-
-//        echo '<pre>';
-//        print_r(json_decode($simulation1->getAssessmentDetails(), true));
-////        print_r(unserialize($simulation1->results_popup_cache));
-//        echo '</pre>';
-//        die;
+//        $simulation2->popup_tests_cache = serialize([
+//            'popup'          => SimulationResultTextService::generate($simulation2, 'popup'),
+//            'recommendation' => SimulationResultTextService::generate($simulation2, 'recommendation', true),
+//        ]);
+//        $simulation2->save(false, ['popup_tests_cache']);
 
         $generator = new AnalyticalFileGenerator();
         $generator->is_add_behaviours = false;
         $generator->createDocument();
-        $generator->runAssessment_v1([$simulation1, $simulation3], 'v1_to_v2');
-        $generator->runAssessment_v2([$simulation2]);
-        $generator->save('user_id_'.$simulation1->user->id, 'full_report_xxx');
+        echo "<pre>\n 1:";
+        echo (time() - $time);
+        $generator->runAssessment_v1($simulations1, 'v1_to_v2');
+        echo "\n 2:";
+        echo (time() - $time);
+        $generator->runAssessment_v2($simulations2);
 
-//        echo SimulationService::saveLogsAsExcelReport2([$simulation], $simulation->user->getAccount());
+//        echo "\n 2.1:";
+//        echo (time() - $time);
+//        $generator->addBehavioursSheet(array_merge($simulations1, $simulations2));
+
+        echo "\n 3:";
+        echo (time() - $time);
+        $generator->setAutoFilters();
+        echo "\n 4:";
+        echo (time() - $time);
+        $generator->save('_', 'f_');
+        echo "\n 5:";
+        echo (time() - $time);
+
+        echo "\n 6:";
+        echo (time() - $time);
+        echo "\n 7:";
         echo 'done!';
     }
 }

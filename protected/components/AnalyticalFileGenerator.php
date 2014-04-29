@@ -123,27 +123,12 @@ class AnalyticalFileGenerator {
         $sheet->setCellValueByColumnAndRow($this->column_number, $this->row_number, $text);
         $sheet->getStyleByColumnAndRow($this->column_number, $this->row_number)
             ->getBorders()->getOutline()->setBorderStyle(\PHPExcel_Style_Border::BORDER_THIN);
+
         if($width !== null){
             $sheet->getColumnDimensionByColumn($this->column_number)->setWidth($width);
-            $sheet->getStyleByColumnAndRow($this->column_number, $sheet->getHighestRow())
-                ->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        }
-        if(is_numeric($text)){
-            $sheet->getStyleByColumnAndRow($this->column_number, $sheet->getHighestRow())
-                ->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        }
-
-        if ($isLast) {
-            $sheet->getStyleByColumnAndRow($this->column_number, $sheet->getHighestRow())
-                ->getBorders()->getRight()->setBorderStyle(\PHPExcel_Style_Border::BORDER_THICK);
         }
 
         $this->column_number++;
-
-        if('Поведения' == $this->sheet_name){
-            $sheet->getStyleByColumnAndRow($this->column_number, $sheet->getHighestRow())
-                ->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        }
 
         return $sheet;
     }
@@ -155,22 +140,8 @@ class AnalyticalFileGenerator {
      * @param string $BGcolor      cell background color
      */
     public function addColumnRight($text, $format, $width = null, $BGcolor = 'FFFF99') {
-
-
-        if($format === PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00) {
-            $text = number_format(round((float)$text, 2), 2).'%';
-        }
-        if($format === PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00) {
-            $text = number_format(round((float)$text, 2), 2);
-        }
-        $text = str_replace('.', ',', $text);
         $sheet = $this->addColumn($text, $width);
-        $sheet->getStyleByColumnAndRow($this->column_number-1, $sheet->getHighestRow())->getFill()
-            ->applyFromArray(array('type' => \PHPExcel_Style_Fill::FILL_SOLID,
-                'startcolor' => array('rgb' => $BGcolor)
-            ));
-//        $sheet->getStyleByColumnAndRow($this->column_number-1, $sheet->getHighestRow())
-//            ->getBorders()->getRight()->setBorderStyle(\PHPExcel_Style_Border::BORDER_THICK);
+
         $sheet->getStyleByColumnAndRow($this->column_number-1, $sheet->getHighestRow())
             ->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
         $sheet->getStyleByColumnAndRow($this->column_number-1, $sheet->getHighestRow())
@@ -195,9 +166,9 @@ class AnalyticalFileGenerator {
 
         if($this->row_number === 1) {
             $this->setBoldFirstRow();
-            $this->addColumn('Наименование Компании', 24);
+            $this->addColumn('Наименование Компании', 25);
             $this->addColumn('ФИО', 24);
-            $this->addColumn('ID симуляции', 14);
+            $this->addColumn('ID симуляции', 15);
             $this->setBorderBold();
         } else {
             $this->addColumn($this->info_company_name);
@@ -248,10 +219,10 @@ class AnalyticalFileGenerator {
         $sheet = $this->sheets[$this->sheet_number];
         for ($i = 0; $i < $this->column_number; $i++) {
             $sheet->getStyleByColumnAndRow($i, $this->row_number)
-                ->getBorders()->getBottom()->setBorderStyle(\PHPExcel_Style_Border::BORDER_THICK);
+                ->getBorders()
+                ->getBottom()
+                ->setBorderStyle(\PHPExcel_Style_Border::BORDER_MEDIUM);
         }
-        $sheet->getStyleByColumnAndRow($this->column_number-1, $sheet->getHighestRow())
-            ->getBorders()->getRight()->setBorderStyle(\PHPExcel_Style_Border::BORDER_THICK);
     }
 
     /**
@@ -317,7 +288,7 @@ class AnalyticalFileGenerator {
             $this->addRow();
             $this->addColumn('Управленческие навыки');
             $this->addColumnRight(
-                round($data['management']['total'], 2).'%',
+                $data['management']['total']/100,
                 PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00
             );
             $this->addColumn(str_replace(['(', ')'], '', $dataText['popup']['management']['short_text']), null, true);
@@ -327,7 +298,7 @@ class AnalyticalFileGenerator {
             $this->addRow();
             $this->addColumn('Результативность');
             $this->addColumnRight(
-                round($data['performance']['total'], 2).'%',
+                $data['performance']['total']/100,
                 PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00
             );
             $this->addColumn(str_replace(['(', ')'], '', $dataText['popup']['performance']['short_text']), null, true);
@@ -337,7 +308,7 @@ class AnalyticalFileGenerator {
             $this->addRow();
             $this->addColumn('Эффективность использования времени');
             $this->addColumnRight(
-                round($data['time']['total'], 2).'%',
+                $data['time']['total']/100,
                 PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00
             );
             $this->addColumn(str_replace(['(', ')'], '', $dataText['popup']['time']['short_text']), null, true);
@@ -347,7 +318,7 @@ class AnalyticalFileGenerator {
             $this->addRow();
             $this->addColumn('Итоговый рейтинг');
             $this->addColumnRight(
-                round($data['overall'], 2).'%',
+                $data['overall']/100,
                 PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00
             );
             $this->addColumn('-', null, true);
@@ -357,13 +328,31 @@ class AnalyticalFileGenerator {
             $this->addRow();
             $this->addColumn('Процентиль');
             $this->addColumnRight(
-                round($data['percentile']['total'], 2).'%',
+                $data['percentile']['total']/100,
                 PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00
             );
             $this->addColumn('-', null, true);
-            /////////////////////////////////////////////////////
+
             $this->setBorderBold();
         }
+
+        $this->setColumnBgColor('E', 'F');
+
+        $this->setBorderAll('A', 'F');
+        $this->setBorderRight('D', 'D');
+        $this->setBorderRight('E', 'E');
+        $this->setBorderRight('F', 'F');
+        $this->setBorderLeft('A', 'A');
+
+        $this->setBorderTop('A', 'F');
+
+        $this->setBorderBold();
+
+        $this->setTitle('A', 'F');
+
+        $this->setColumnAlign('A', 'D', 2, \PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+        $this->setColumnAlign('E', 'E', 2);
+        $this->setColumnAlign('F', 'F', 2);
 
         // } Итоговый рейтинг
 
@@ -384,7 +373,7 @@ class AnalyticalFileGenerator {
             $this->addColumn('1. Управление задачами с учётом приоритетов');
             $this->addColumn('1.1 Использование планирования в течение дня');
             $this->addColumn('negative');
-            $this->addColumnRight(round($data['management'][1]['1_1']['-'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+            $this->addColumnRight($data['management'][1]['1_1']['-']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
             $this->addColumn($dataText['popup']['management.task_managment.day_planing']['short_text_negative']);
             $this->addColumn($dataText['popup']['management.task_managment.day_planing']['text_negative'], null, true);
 
@@ -394,7 +383,7 @@ class AnalyticalFileGenerator {
             $this->addColumn('1. Управление задачами с учётом приоритетов');
             $this->addColumn('1.1 Использование планирования в течение дня');
             $this->addColumn('positive');
-            $this->addColumnRight(round($data['management'][1]['1_1']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+            $this->addColumnRight($data['management'][1]['1_1']['+']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
             $this->addColumn($dataText['popup']['management.task_managment.day_planing']['short_text_positive']);
             $this->addColumn($dataText['popup']['management.task_managment.day_planing']['text_positive'], null, true);
 
@@ -404,7 +393,7 @@ class AnalyticalFileGenerator {
             $this->addColumn('1. Управление задачами с учётом приоритетов');
             $this->addColumn('1.2 Правильное определение приоритетов задач при планировании');
             $this->addColumn('positive');
-            $this->addColumnRight(round($data['management'][1]['1_2']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+            $this->addColumnRight($data['management'][1]['1_2']['+']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
             $this->addColumn($dataText['popup']['management.task_managment.tasks_priority_planing']['short_text_positive']);
             $this->addColumn($dataText['popup']['management.task_managment.tasks_priority_planing']['text_positive'], null, true);
 
@@ -414,7 +403,7 @@ class AnalyticalFileGenerator {
             $this->addColumn('1. Управление задачами с учётом приоритетов');
             $this->addColumn('1.2 Правильное определение приоритетов задач при планировании');
             $this->addColumn('negative');
-            $this->addColumnRight(round($data['management'][1]['1_2']['-'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+            $this->addColumnRight($data['management'][1]['1_2']['-']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
             $this->addColumn($dataText['popup']['management.task_managment.tasks_priority_planing']['short_text_negative']);
             $this->addColumn($dataText['popup']['management.task_managment.tasks_priority_planing']['text_negative'], null, true);
 
@@ -424,7 +413,7 @@ class AnalyticalFileGenerator {
             $this->addColumn('1. Управление задачами с учётом приоритетов');
             $this->addColumn('1.3 Выполнение задач в соответствии с приоритетами');
             $this->addColumn('positive');
-            $this->addColumnRight(round($data['management'][1]['1_3']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+            $this->addColumnRight($data['management'][1]['1_3']['+']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
             $this->addColumn($dataText['popup']['management.task_managment.tasks_priority_execution']['short_text_positive']);
             $this->addColumn($dataText['popup']['management.task_managment.tasks_priority_execution']['text_positive'], null, true);
 
@@ -434,7 +423,7 @@ class AnalyticalFileGenerator {
             $this->addColumn('1. Управление задачами с учётом приоритетов');
             $this->addColumn('1.3 Выполнение задач в соответствии с приоритетами');
             $this->addColumn('negative');
-            $this->addColumnRight(round($data['management'][1]['1_3']['-'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+            $this->addColumnRight($data['management'][1]['1_3']['-']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
             $this->addColumn($dataText['popup']['management.task_managment.tasks_priority_execution']['short_text_negative']);
             $this->addColumn($dataText['popup']['management.task_managment.tasks_priority_execution']['text_negative'], null, true);
 
@@ -454,7 +443,7 @@ class AnalyticalFileGenerator {
             $this->addColumn('1. Управление задачами с учётом приоритетов');
             $this->addColumn('1.4 Прерывание при выполнении задач');
             $this->addColumn('negative');
-            $this->addColumnRight(round($data['management'][1]['1_4']['-'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+            $this->addColumnRight($data['management'][1]['1_4']['-']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
             $this->addColumn(str_replace(['(',')'], '', $dataText['popup']['management.task_managment.tasks_interruprion']['short_text']));
             $this->addColumn($dataText['popup']['management.task_managment.tasks_interruprion']['text'], null, true);
 
@@ -464,7 +453,7 @@ class AnalyticalFileGenerator {
             $this->addColumn('1. Управление задачами с учётом приоритетов');
             $this->addColumn('ИТОГО');
             $this->addColumn('combined');
-            $this->addColumnRight(round($data['management'][1]['total'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+            $this->addColumnRight($data['management'][1]['total']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
             $this->addColumn('-');
             $this->addColumn('-', null, true);
 
@@ -474,7 +463,7 @@ class AnalyticalFileGenerator {
             $this->addColumn('2. Управление людьми');
             $this->addColumn('2.1 Использование делегирования для управления объемом задач');
             $this->addColumn('positive');
-            $this->addColumnRight(round($data['management'][2]['2_1']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+            $this->addColumnRight($data['management'][2]['2_1']['+']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
             $this->addColumn($dataText['popup']['management.people_managment.delegation']['short_text_positive']);
             $this->addColumn($dataText['popup']['management.people_managment.delegation']['text_positive'], null, true);
 
@@ -484,7 +473,7 @@ class AnalyticalFileGenerator {
             $this->addColumn('2. Управление людьми');
             $this->addColumn('2.1 Использование делегирования для управления объемом задач');
             $this->addColumn('negative');
-            $this->addColumnRight(round($data['management'][2]['2_1']['-'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+            $this->addColumnRight($data['management'][2]['2_1']['-']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
             $this->addColumn($dataText['popup']['management.people_managment.delegation']['short_text_negative']);
             $this->addColumn($dataText['popup']['management.people_managment.delegation']['text_negative'], null, true);
 
@@ -494,7 +483,7 @@ class AnalyticalFileGenerator {
             $this->addColumn('2. Управление людьми');
             $this->addColumn('2.2 Управление ресурсами различной квалификации');
             $this->addColumn('positive');
-            $this->addColumnRight(round($data['management'][2]['2_2']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+            $this->addColumnRight($data['management'][2]['2_2']['+']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
             $this->addColumn($dataText['popup']['management.people_managment.resource_quality']['short_text_positive']);
             $this->addColumn($dataText['popup']['management.people_managment.resource_quality']['text_positive'], null, true);
 
@@ -504,7 +493,7 @@ class AnalyticalFileGenerator {
             $this->addColumn('2. Управление людьми');
             $this->addColumn('2.2 Управление ресурсами различной квалификации');
             $this->addColumn('negative');
-            $this->addColumnRight(round($data['management'][2]['2_2']['-'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+            $this->addColumnRight($data['management'][2]['2_2']['-']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
             $this->addColumn($dataText['popup']['management.people_managment.resource_quality']['short_text_negative']);
             $this->addColumn($dataText['popup']['management.people_managment.resource_quality']['text_negative'], null, true);
 
@@ -514,7 +503,7 @@ class AnalyticalFileGenerator {
             $this->addColumn('2. Управление людьми');
             $this->addColumn('2.3 Использование обратной связи');
             $this->addColumn('positive');
-            $this->addColumnRight(round($data['management'][2]['2_3']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+            $this->addColumnRight($data['management'][2]['2_3']['+']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
             $this->addColumn($dataText['popup']['management.people_managment.feedback']['short_text_positive']);
             $this->addColumn($dataText['popup']['management.people_managment.feedback']['text_positive'], null, true);
 
@@ -524,7 +513,7 @@ class AnalyticalFileGenerator {
             $this->addColumn('2. Управление людьми');
             $this->addColumn('2.3 Использование обратной связи');
             $this->addColumn('negative');
-            $this->addColumnRight(round($data['management'][2]['2_3']['-'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+            $this->addColumnRight($data['management'][2]['2_3']['-']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
             $this->addColumn($dataText['popup']['management.people_managment.feedback']['short_text_negative']);
             $this->addColumn($dataText['popup']['management.people_managment.feedback']['text_negative'], null, true);
 
@@ -534,7 +523,7 @@ class AnalyticalFileGenerator {
             $this->addColumn('2. Управление людьми');
             $this->addColumn('ИТОГО');
             $this->addColumn('combined');
-            $this->addColumnRight(round($data['management'][2]['total'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+            $this->addColumnRight($data['management'][2]['total']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
             $this->addColumn('-');
             $this->addColumn('-', null, true);
 
@@ -544,7 +533,7 @@ class AnalyticalFileGenerator {
             $this->addColumn('3. Управление коммуникациями');
             $this->addColumn('3.1 Оптимальное использование каналов коммуникации');
             $this->addColumn('positive');
-            $this->addColumnRight(round($data['management'][3]['3_1']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+            $this->addColumnRight($data['management'][3]['3_1']['+']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
             $this->addColumn(str_replace(['(', ')'], '', $dataText['popup']['management.communication_managment.comunication_channel']['short_text']));
             $this->addColumn($dataText['popup']['management.communication_managment.comunication_channel']['text'], null, true);
 
@@ -564,7 +553,7 @@ class AnalyticalFileGenerator {
             $this->addColumn('3. Управление коммуникациями');
             $this->addColumn('3.2 Эффективная работа с почтой');
             $this->addColumn('positive');
-            $this->addColumnRight(round($data['management'][3]['3_2']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+            $this->addColumnRight($data['management'][3]['3_2']['+']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
             $this->addColumn($dataText['popup']['management.communication_managment.effective_mail']['short_text_positive']);
             $this->addColumn($dataText['popup']['management.communication_managment.effective_mail']['text_positive'], null, true);
 
@@ -574,7 +563,7 @@ class AnalyticalFileGenerator {
             $this->addColumn('3. Управление коммуникациями');
             $this->addColumn('3.2 Эффективная работа с почтой');
             $this->addColumn('negative');
-            $this->addColumnRight(round($data['management'][3]['3_2']['-'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+            $this->addColumnRight($data['management'][3]['3_2']['-']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
             $this->addColumn($dataText['popup']['management.communication_managment.effective_mail']['short_text_negative']);
             $this->addColumn($dataText['popup']['management.communication_managment.effective_mail']['text_negative'], null, true);
 
@@ -584,7 +573,7 @@ class AnalyticalFileGenerator {
             $this->addColumn('3. Управление коммуникациями');
             $this->addColumn('3.3 Эффективная работа со звонками');
             $this->addColumn('positive');
-            $this->addColumnRight(round($data['management'][3]['3_3']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+            $this->addColumnRight($data['management'][3]['3_3']['+']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
             $this->addColumn(str_replace(['(', ')'], '', $dataText['popup']['management.communication_managment.effective_calls']['short_text']));
             $this->addColumn($dataText['popup']['management.communication_managment.effective_calls']['text'], null, true);
 
@@ -604,7 +593,7 @@ class AnalyticalFileGenerator {
             $this->addColumn('3. Управление коммуникациями');
             $this->addColumn('3.4 Эффективное управление встречами');
             $this->addColumn('positive');
-            $this->addColumnRight(round($data['management'][3]['3_4']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+            $this->addColumnRight($data['management'][3]['3_4']['+']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
             $this->addColumn($dataText['popup']['management.communication_managment.effective_meetings']['short_text_positive']);
             $this->addColumn($dataText['popup']['management.communication_managment.effective_meetings']['text_positive'], null, true);
 
@@ -614,7 +603,7 @@ class AnalyticalFileGenerator {
             $this->addColumn('3. Управление коммуникациями');
             $this->addColumn('3.4 Эффективное управление встречами');
             $this->addColumn('negative');
-            $this->addColumnRight(round($data['management'][3]['3_4']['-'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+            $this->addColumnRight($data['management'][3]['3_4']['-']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
             $this->addColumn($dataText['popup']['management.communication_managment.effective_meetings']['short_text_negative']);
             $this->addColumn($dataText['popup']['management.communication_managment.effective_meetings']['text_negative'], null, true);
 
@@ -624,12 +613,33 @@ class AnalyticalFileGenerator {
             $this->addColumn('3. Управление коммуникациями');
             $this->addColumn('ИТОГО');
             $this->addColumn('combined');
-            $this->addColumnRight(round($data['management'][3]['total'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+            $this->addColumnRight($data['management'][3]['total']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
             $this->addColumn('-');
             $this->addColumn('-', null, true);
 
             $this->setBorderBold();
         }
+
+        $this->setColumnBgColor('G', 'H');
+
+        $this->setBorderAll('A', 'I');
+        $this->setBorderLeft('A', 'A');
+        $this->setBorderRight('F', 'F');
+        $this->setBorderRight('G', 'G');
+        $this->setBorderRight('H', 'H');
+        $this->setBorderRight('I', 'I');
+
+        $this->setBorderTop('A', 'H');
+
+        $this->setBorderBold();
+
+        $this->setTitle('A', 'I');
+
+        $this->setColumnAlign('A', 'E', 2, \PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+        $this->setColumnAlign('I', 'I', 2, \PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+        $this->setColumnAlign('C', 'C', 2);
+        $this->setColumnAlign('F', 'H', 2);
+
         ////////////////////////////////////////////////
         $this->addSheet("Результативность");
 
@@ -670,6 +680,24 @@ class AnalyticalFileGenerator {
 
             $this->setBorderBold();
         }
+
+        $this->setColumnBgColor('E', 'F');
+
+        $this->setBorderAll('A', 'G');
+        $this->setBorderLeft('A', 'A');
+        $this->setBorderRight('D', 'D');
+        $this->setBorderRight('E', 'E');
+        $this->setBorderRight('F', 'F');
+        $this->setBorderRight('G', 'G');
+
+        $this->setBorderTop('A', 'G');
+
+        $this->setTitle('A', 'G');
+
+        $this->setColumnAlign('A', 'D', 2, \PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+        $this->setColumnAlign('G', 'G', 2, \PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+        $this->setColumnAlign('C', 'F', 2);
+
         //////////////////////////////////////////////////////////
         $this->addSheet("Эффект. использования времени");
 
@@ -687,7 +715,7 @@ class AnalyticalFileGenerator {
             $this->addRow();
             $this->addColumn('1. Распределение времени, %');
             $this->addColumn('Продуктивное время (выполнение приоритетных задач)');
-            $this->addColumnRight(round($data['time']['time_spend_for_1st_priority_activities'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+            $this->addColumnRight($data['time']['time_spend_for_1st_priority_activities']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
             $this->addColumn(str_replace(['(', ')'], '', $dataText['popup']['time.productive_time']['short_text']));
             $this->addColumn($dataText['popup']['time.productive_time']['text'], null, true);
 
@@ -696,7 +724,7 @@ class AnalyticalFileGenerator {
             $this->addRow();
             $this->addColumn('1. Распределение времени, %');
             $this->addColumn('Непродуктивное время (иные действия, не связанные с приоритетами)');
-            $this->addColumnRight(round($data['time']['time_spend_for_non_priority_activities'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+            $this->addColumnRight($data['time']['time_spend_for_non_priority_activities']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
             $this->addColumn(str_replace(['(', ')'], '', $dataText['popup']['time.not_productive_time']['short_text']));
             $this->addColumn($dataText['popup']['time.not_productive_time']['text'], null, true);
 
@@ -705,7 +733,7 @@ class AnalyticalFileGenerator {
             $this->addRow();
             $this->addColumn('1. Распределение времени, %');
             $this->addColumn('Время ожидания и бездействия');
-            $this->addColumnRight(round($data['time']['time_spend_for_inactivity'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+            $this->addColumnRight($data['time']['time_spend_for_inactivity']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
             $this->addColumn(str_replace(['(', ')'], '', $dataText['popup']['time.waiting_time']['short_text']));
             $this->addColumn($dataText['popup']['time.waiting_time']['text'], null, true);
 
@@ -714,7 +742,7 @@ class AnalyticalFileGenerator {
             $this->addRow();
             $this->addColumn('2. Сверхурочное время (минуты)');
             $this->addColumn('Сверхурочное время');
-            $this->addColumnRight(round($data['time']['workday_overhead_duration'], 2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
+            $this->addColumnRight($data['time']['workday_overhead_duration'], PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
             $this->addColumn(str_replace(['(', ')'], '', $dataText['popup']['time.over_time']['short_text']));
             $this->addColumn($dataText['popup']['time.over_time']['text'], null, true);
 
@@ -723,75 +751,96 @@ class AnalyticalFileGenerator {
             $this->addRow();
             $this->addColumn('1.1 Продуктивное время (выполнение приоритетных задач, минуты)');
             $this->addColumn('Работа с документами');
-            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_DOCUMENTS],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
+            $this->addColumnRight($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_DOCUMENTS], PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
             $this->addColumn('-');
             $this->addColumn('-', null, true);
 
             $this->addRow();
             $this->addColumn('1.1 Продуктивное время (выполнение приоритетных задач, минуты)');
             $this->addColumn('Встречи');
-            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_MEETINGS],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
+            $this->addColumnRight($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_MEETINGS], PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
             $this->addColumn('-');
             $this->addColumn('-', null, true);
 
             $this->addRow();
             $this->addColumn('1.1 Продуктивное время (выполнение приоритетных задач, минуты)');
             $this->addColumn('Звонки');
-            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_PHONE_CALLS],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
+            $this->addColumnRight($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_PHONE_CALLS], PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
             $this->addColumn('-');
             $this->addColumn('-', null, true);
 
             $this->addRow();
             $this->addColumn('1.1 Продуктивное время (выполнение приоритетных задач, минуты)');
             $this->addColumn('Работа с почтой');
-            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_MAIL],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
+            $this->addColumnRight($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_MAIL], PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
             $this->addColumn('-');
             $this->addColumn('-', null, true);
 
             $this->addRow();
             $this->addColumn('1.1 Продуктивное время (выполнение приоритетных задач, минуты)');
             $this->addColumn('Планирование');
-            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_PLANING], 2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
+            $this->addColumnRight($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_PLANING], PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
             $this->addColumn('-');
             $this->addColumn('-', null, true);
 
             $this->addRow();
             $this->addColumn('1.2 Непродуктивное время (иные действия, не связанные с приоритетами)');
             $this->addColumn('Работа с документами');
-            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_DOCUMENTS],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
+            $this->addColumnRight($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_DOCUMENTS], PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
             $this->addColumn('-');
             $this->addColumn('-', null, true);
 
             $this->addRow();
             $this->addColumn('1.2 Непродуктивное время (иные действия, не связанные с приоритетами)');
             $this->addColumn('Встречи');
-            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_MEETINGS],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
+            $this->addColumnRight($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_MEETINGS], PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
             $this->addColumn('-');
             $this->addColumn('-', null, true);
 
             $this->addRow();
             $this->addColumn('1.2 Непродуктивное время (иные действия, не связанные с приоритетами)');
             $this->addColumn('Звонки');
-            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_PHONE_CALLS],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
+            $this->addColumnRight($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_PHONE_CALLS], PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
             $this->addColumn('-');
             $this->addColumn('-', null, true);
 
             $this->addRow();
             $this->addColumn('1.2 Непродуктивное время (иные действия, не связанные с приоритетами)');
             $this->addColumn('Работа с почтой');
-            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_MAIL],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
+            $this->addColumnRight($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_MAIL], PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
             $this->addColumn('-');
             $this->addColumn('-', null, true);
 
             $this->addRow();
             $this->addColumn('1.2 Непродуктивное время (иные действия, не связанные с приоритетами)');
             $this->addColumn('Планирование');
-            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_PLANING],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
+            $this->addColumnRight($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_PLANING], PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
             $this->addColumn('-');
             $this->addColumn('-', null, true);
 
             $this->setBorderBold();
         }
+
+        $this->setColumnBgColor('F', 'G');
+
+        $this->setBorderLeft('A', 'A');
+        $this->setBorderRight('E', 'E');
+        $this->setBorderRight('F', 'F');
+        $this->setBorderRight('G', 'G');
+        $this->setBorderRight('H', 'H');
+        $this->setBorderRight('H', 'H');
+
+        $this->setBorderTop('A', 'H');
+
+        $this->setBorderBold();
+
+        $this->setTitle('A', 'H');
+
+        $this->setColumnAlign('A', 'E', 2, \PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+        $this->setColumnAlign('H', 'H', 2, \PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+        $this->setColumnAlign('C', 'C', 2);
+        $this->setColumnAlign('F', 'G', 2);
+
         ////////////////////////////////////////////////////
         if ($this->is_add_behaviours) {
             $this->addBehavioursSheet($simulations);
@@ -813,8 +862,7 @@ class AnalyticalFileGenerator {
 
         $this->addColumn('Тип оценки', 40);
         $this->addColumn('Оценка', 14);
-        $this->addColumn('Текст', 20);
-        $this->setBorderBold();
+        $this->addColumn('Текст', 26);
         ////////////////////////////////////////////////////
         if (Yii::app() instanceof CConsoleApplication) {
             echo "\r\n";
@@ -829,28 +877,28 @@ class AnalyticalFileGenerator {
             $this->setInfoBySimulation($simulation);
             $this->addRow();
             $this->addColumn('Управленческие навыки');
-            $this->addColumnRight(round($data['management']['total'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+            $this->addColumnRight($data['management']['total']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
             $this->addColumn(str_replace(['(', ')'], '', $dataText['popup']['management']['short_text']), null, true);
 
             $this->addRow();
             $this->addColumn('Результативность');
-            $this->addColumnRight(round($data['performance']['total'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+            $this->addColumnRight($data['performance']['total']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
             $this->addColumn(str_replace(['(', ')'], '', $dataText['popup']['performance']['short_text']), null, true);
 
             $this->addRow();
             $this->addColumn('Эффективность использования времени');
-            $this->addColumnRight(round($data['time']['total'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+            $this->addColumnRight($data['time']['total']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
             $this->addColumn(str_replace(['(', ')'], '', $dataText['popup']['time']['short_text']), null, true);
 
             $this->addRow();
             $this->addColumn('Итоговый рейтинг');
-            $this->addColumnRight(round($data['overall'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+            $this->addColumnRight($data['overall']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
             $this->addColumn('-', null, true);
 
             $this->addRow();
             $this->addColumn('Процентиль');
-            if(isset($data['percentile'])) {
-                $this->addColumnRight(round($data['percentile']['total'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+            if (isset($data['percentile'])) {
+                $this->addColumnRight($data['percentile']['total']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
             } else {
                 /* @var $assessmentRecord AssessmentOverall */
                 $assessmentRecord = AssessmentOverall::model()->findByAttributes([
@@ -858,13 +906,13 @@ class AnalyticalFileGenerator {
                     'sim_id'                   => $simulation->id
                 ]);
                 if( null !== $assessmentRecord ) {
-                    $this->addColumnRight(round($assessmentRecord->value, 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+                    $this->addColumnRight($assessmentRecord->value/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
                 }else{
                     $this->addColumnRight('--', PHPExcel_Style_NumberFormat::FORMAT_TEXT);
                 }
             }
             $this->addColumn('-', null, true);
-            /////////////////////////////////////////////////////
+
             $this->setBorderBold();
         }
 
@@ -875,12 +923,12 @@ class AnalyticalFileGenerator {
 
         $this->addColumn('Группа навыков', 42);
         $this->addColumn('Навык', 50);
-        $this->addColumn('Шкала оценки', 14);
-        $this->addColumn('Навык, оценка (0-100%)', 18);
-        $this->addColumn('Текст', 30);
-        $this->addColumn('Текстовая рекомендация', 50);
+        $this->addColumn('Шкала оценки', 15);
+        $this->addColumn('Навык, оценка (0-100%)', 16);
+        $this->addColumn('Текст', 26);
+        $this->addColumn('Текстовая рекомендация', 120);
 
-        $this->setBorderBold();
+        //$this->setBorderBold();
 
         ////////////////////////////////////////////////
         if (Yii::app() instanceof CConsoleApplication) {
@@ -901,7 +949,7 @@ class AnalyticalFileGenerator {
                 $this->addColumn('1. Управление задачами с учётом приоритетов');
                 $this->addColumn('1.1 Определение приоритетов');
                 $this->addColumn('positive');
-                $this->addColumnRight(round($data['management'][1]['1_1']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+                $this->addColumnRight($data['management'][1]['1_1']['+']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
                 $this->addColumn('-');
                 $this->addColumn('-', null, true);
 
@@ -909,7 +957,7 @@ class AnalyticalFileGenerator {
                 $this->addColumn('1. Управление задачами с учётом приоритетов');
                 $this->addColumn('1.2 Использование планирования в течение дня');
                 $this->addColumn('positive');
-                $this->addColumnRight(round($data['management'][1]['1_1']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+                $this->addColumnRight($data['management'][1]['1_1']['+']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
                 $this->addColumn('-');
                 $this->addColumn('-', null, true);
 
@@ -917,7 +965,7 @@ class AnalyticalFileGenerator {
                 $this->addColumn('1. Управление задачами с учётом приоритетов');
                 $this->addColumn('1.2 Использование планирования в течение дня');
                 $this->addColumn('negative');
-                $this->addColumnRight(round($data['management'][1]['1_2']['-'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+                $this->addColumnRight($data['management'][1]['1_2']['-']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
                 $this->addColumn('-');
                 $this->addColumn('-', null, true);
 
@@ -925,7 +973,7 @@ class AnalyticalFileGenerator {
                 $this->addColumn('1. Управление задачами с учётом приоритетов');
                 $this->addColumn('1.3 Правильное определение приоритетов задач при планировании');
                 $this->addColumn('positive');
-                $this->addColumnRight(round($data['management'][1]['1_3']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+                $this->addColumnRight($data['management'][1]['1_3']['+']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
                 $this->addColumn('-');
                 $this->addColumn('-', null, true);
 
@@ -933,7 +981,7 @@ class AnalyticalFileGenerator {
                 $this->addColumn('1. Управление задачами с учётом приоритетов');
                 $this->addColumn('1.3 Правильное определение приоритетов задач при планировании');
                 $this->addColumn('negative');
-                $this->addColumnRight(round($data['management'][1]['1_3']['-'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+                $this->addColumnRight($data['management'][1]['1_3']['-']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
                 $this->addColumn('-');
                 $this->addColumn('-', null, true);
 
@@ -941,7 +989,7 @@ class AnalyticalFileGenerator {
                 $this->addColumn('1. Управление задачами с учётом приоритетов');
                 $this->addColumn('1.4 Прерывание при выполнении задач');
                 $this->addColumn('positive');
-                $this->addColumnRight(round($data['management'][1]['1_4']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+                $this->addColumnRight($data['management'][1]['1_4']['+']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
                 $this->addColumn('-');
                 $this->addColumn('-', null, true);
 
@@ -949,7 +997,7 @@ class AnalyticalFileGenerator {
                 $this->addColumn('1. Управление задачами с учётом приоритетов');
                 $this->addColumn('1.4 Прерывание при выполнении задач');
                 $this->addColumn('negative');
-                $this->addColumnRight(round($data['management'][1]['1_4']['-'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+                $this->addColumnRight($data['management'][1]['1_4']['-']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
                 $this->addColumn('-');
                 $this->addColumn('-', null, true);
 
@@ -962,7 +1010,7 @@ class AnalyticalFileGenerator {
                 $this->addColumn('1. Управление задачами с учётом приоритетов');
                 $this->addColumn('1.5 Завершение начатых задач');
                 $this->addColumn('negative');
-                $this->addColumnRight(round($data['management'][1]['1_5']['-'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+                $this->addColumnRight($data['management'][1]['1_5']['-']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
                 $this->addColumn('-');
                 $this->addColumn('-', null, true);
 
@@ -971,7 +1019,7 @@ class AnalyticalFileGenerator {
                 $this->addColumn('1. Управление задачами с учётом приоритетов');
                 $this->addColumn('1.1 Использование планирования в течение дня');
                 $this->addColumn('positive');
-                $this->addColumnRight(round($data['management'][1]['1_2']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+                $this->addColumnRight($data['management'][1]['1_2']['+']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
                 $this->addColumn($dataText['popup']['management.task_managment.day_planing']['short_text_positive']);
                 $this->addColumn($dataText['popup']['management.task_managment.day_planing']['text_positive'], null, true);
 
@@ -979,7 +1027,7 @@ class AnalyticalFileGenerator {
                 $this->addColumn('1. Управление задачами с учётом приоритетов');
                 $this->addColumn('1.1 Использование планирования в течение дня');
                 $this->addColumn('negative');
-                $this->addColumnRight(round($data['management'][1]['1_2']['-'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+                $this->addColumnRight($data['management'][1]['1_2']['-']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
                 $this->addColumn($dataText['popup']['management.task_managment.day_planing']['short_text_negative']);
                 $this->addColumn($dataText['popup']['management.task_managment.day_planing']['text_negative'], null, true);
 
@@ -987,7 +1035,7 @@ class AnalyticalFileGenerator {
                 $this->addColumn('1. Управление задачами с учётом приоритетов');
                 $this->addColumn('1.2 Правильное определение приоритетов задач при планировании');
                 $this->addColumn('positive');
-                $this->addColumnRight(round($data['management'][1]['1_3']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+                $this->addColumnRight($data['management'][1]['1_3']['+']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
                 $this->addColumn($dataText['popup']['management.task_managment.tasks_priority_planing']['short_text_positive']);
                 $this->addColumn($dataText['popup']['management.task_managment.tasks_priority_planing']['text_positive'], null, true);
 
@@ -995,7 +1043,7 @@ class AnalyticalFileGenerator {
                 $this->addColumn('1. Управление задачами с учётом приоритетов');
                 $this->addColumn('1.2 Правильное определение приоритетов задач при планировании');
                 $this->addColumn('negative');
-                $this->addColumnRight(round($data['management'][1]['1_3']['-'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+                $this->addColumnRight($data['management'][1]['1_3']['-']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
                 $this->addColumn($dataText['popup']['management.task_managment.tasks_priority_planing']['short_text_negative']);
                 $this->addColumn($dataText['popup']['management.task_managment.tasks_priority_planing']['text_negative'], null, true);
 
@@ -1003,7 +1051,7 @@ class AnalyticalFileGenerator {
                 $this->addColumn('1. Управление задачами с учётом приоритетов');
                 $this->addColumn('1.3 Выполнение задач в соответствии с приоритетами');
                 $this->addColumn('positive');
-                $this->addColumnRight(round($data['management'][1]['1_4']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+                $this->addColumnRight($data['management'][1]['1_4']['+']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
                 $this->addColumn($dataText['popup']['management.task_managment.tasks_priority_execution']['short_text_positive']);
                 $this->addColumn($dataText['popup']['management.task_managment.tasks_priority_execution']['text_positive'], null, true);
 
@@ -1011,7 +1059,7 @@ class AnalyticalFileGenerator {
                 $this->addColumn('1. Управление задачами с учётом приоритетов');
                 $this->addColumn('1.3 Выполнение задач в соответствии с приоритетами');
                 $this->addColumn('negative');
-                $this->addColumnRight(round($data['management'][1]['1_4']['-'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+                $this->addColumnRight($data['management'][1]['1_4']['-']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
                 $this->addColumn($dataText['popup']['management.task_managment.tasks_priority_execution']['short_text_negative']);
                 $this->addColumn($dataText['popup']['management.task_managment.tasks_priority_execution']['text_negative'], null, true);
 
@@ -1032,7 +1080,7 @@ class AnalyticalFileGenerator {
                 $this->addColumn('1. Управление задачами с учётом приоритетов');
                 $this->addColumn('1.4 Прерывание при выполнении задач');
                 $this->addColumn('negative');
-                $this->addColumnRight(round($data['management'][1]['1_5']['-'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+                $this->addColumnRight($data['management'][1]['1_5']['-']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
                 $this->addColumn(str_replace(['(',')'], '', $dataText['popup']['management.task_managment.tasks_interruprion']['short_text']));
                 $this->addColumn($dataText['popup']['management.task_managment.tasks_interruprion']['text'], null, true);
             }
@@ -1041,7 +1089,7 @@ class AnalyticalFileGenerator {
             $this->addColumn('1. Управление задачами с учётом приоритетов');
             $this->addColumn('ИТОГО');
             $this->addColumn('combined');
-            $this->addColumnRight(round($data['management'][1]['total'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+            $this->addColumnRight($data['management'][1]['total']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
             $this->addColumn('-');
             $this->addColumn('-', null, true);
 
@@ -1050,7 +1098,7 @@ class AnalyticalFileGenerator {
             $this->addColumn('2. Управление людьми');
             $this->addColumn('2.1 Использование делегирования для управления объемом задач');
             $this->addColumn('positive');
-            $this->addColumnRight(round($data['management'][2]['2_1']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+            $this->addColumnRight($data['management'][2]['2_1']['+']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
             $this->addColumn($dataText['popup']['management.people_managment.delegation']['short_text_positive']);
             $this->addColumn($dataText['popup']['management.people_managment.delegation']['text_positive'], null, true);
 
@@ -1058,7 +1106,7 @@ class AnalyticalFileGenerator {
             $this->addColumn('2. Управление людьми');
             $this->addColumn('2.1 Использование делегирования для управления объемом задач');
             $this->addColumn('negative');
-            $this->addColumnRight(round($data['management'][2]['2_1']['-'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+            $this->addColumnRight($data['management'][2]['2_1']['-']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
             $this->addColumn($dataText['popup']['management.people_managment.delegation']['short_text_negative']);
             $this->addColumn($dataText['popup']['management.people_managment.delegation']['text_negative'], null, true);
 
@@ -1066,7 +1114,7 @@ class AnalyticalFileGenerator {
             $this->addColumn('2. Управление людьми');
             $this->addColumn('2.2 Управление ресурсами различной квалификации');
             $this->addColumn('positive');
-            $this->addColumnRight(round($data['management'][2]['2_2']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+            $this->addColumnRight($data['management'][2]['2_2']['+']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
             $this->addColumn($dataText['popup']['management.people_managment.resource_quality']['short_text_positive']);
             $this->addColumn($dataText['popup']['management.people_managment.resource_quality']['text_positive'], null, true);
 
@@ -1074,7 +1122,7 @@ class AnalyticalFileGenerator {
             $this->addColumn('2. Управление людьми');
             $this->addColumn('2.2 Управление ресурсами различной квалификации');
             $this->addColumn('negative');
-            $this->addColumnRight(round($data['management'][2]['2_2']['-'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+            $this->addColumnRight($data['management'][2]['2_2']['-']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
             $this->addColumn($dataText['popup']['management.people_managment.resource_quality']['short_text_negative']);
             $this->addColumn($dataText['popup']['management.people_managment.resource_quality']['text_negative'], null, true);
 
@@ -1082,7 +1130,7 @@ class AnalyticalFileGenerator {
             $this->addColumn('2. Управление людьми');
             $this->addColumn('2.3 Использование обратной связи');
             $this->addColumn('positive');
-            $this->addColumnRight(round($data['management'][2]['2_3']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+            $this->addColumnRight($data['management'][2]['2_3']['+']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
             $this->addColumn($dataText['popup']['management.people_managment.feedback']['short_text_positive']);
             $this->addColumn($dataText['popup']['management.people_managment.feedback']['text_positive'], null, true);
 
@@ -1090,7 +1138,7 @@ class AnalyticalFileGenerator {
             $this->addColumn('2. Управление людьми');
             $this->addColumn('2.3 Использование обратной связи');
             $this->addColumn('negative');
-            $this->addColumnRight(round($data['management'][2]['2_3']['-'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+            $this->addColumnRight($data['management'][2]['2_3']['-']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
             $this->addColumn($dataText['popup']['management.people_managment.feedback']['short_text_negative']);
             $this->addColumn($dataText['popup']['management.people_managment.feedback']['text_negative'], null, true);
 
@@ -1098,7 +1146,7 @@ class AnalyticalFileGenerator {
             $this->addColumn('2. Управление людьми');
             $this->addColumn('ИТОГО');
             $this->addColumn('combined');
-            $this->addColumnRight(round($data['management'][2]['total'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+            $this->addColumnRight($data['management'][2]['total']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
             $this->addColumn('-');
             $this->addColumn('-', null, true);
 
@@ -1108,7 +1156,7 @@ class AnalyticalFileGenerator {
             $this->addColumn('3. Управление коммуникациями');
             $this->addColumn('3.1 Оптимальное использование каналов коммуникации');
             $this->addColumn('positive');
-            $this->addColumnRight(round($data['management'][3]['3_1']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+            $this->addColumnRight($data['management'][3]['3_1']['+']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
             $this->addColumn(str_replace(['(', ')'], '', $dataText['popup']['management.communication_managment.comunication_channel']['short_text']));
             $this->addColumn($dataText['popup']['management.communication_managment.comunication_channel']['text'], null, true);
 
@@ -1124,7 +1172,7 @@ class AnalyticalFileGenerator {
             $this->addColumn('3. Управление коммуникациями');
             $this->addColumn('3.2 Эффективная работа с почтой');
             $this->addColumn('positive');
-            $this->addColumnRight(round($data['management'][3]['3_2']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+            $this->addColumnRight($data['management'][3]['3_2']['+']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
             $this->addColumn($dataText['popup']['management.communication_managment.effective_mail']['short_text_positive']);
             $this->addColumn($dataText['popup']['management.communication_managment.effective_mail']['text_positive'], null, true);
 
@@ -1132,7 +1180,7 @@ class AnalyticalFileGenerator {
             $this->addColumn('3. Управление коммуникациями');
             $this->addColumn('3.2 Эффективная работа с почтой');
             $this->addColumn('negative');
-            $this->addColumnRight(round($data['management'][3]['3_2']['-'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+            $this->addColumnRight($data['management'][3]['3_2']['-']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
             $this->addColumn($dataText['popup']['management.communication_managment.effective_mail']['short_text_negative']);
             $this->addColumn($dataText['popup']['management.communication_managment.effective_mail']['text_negative'], null, true);
 
@@ -1140,7 +1188,7 @@ class AnalyticalFileGenerator {
             $this->addColumn('3. Управление коммуникациями');
             $this->addColumn('3.3 Эффективная работа со звонками');
             $this->addColumn('positive');
-            $this->addColumnRight(round($data['management'][3]['3_3']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+            $this->addColumnRight($data['management'][3]['3_3']['+']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
             $this->addColumn(str_replace(['(', ')'], '', $dataText['popup']['management.communication_managment.effective_calls']['short_text']));
             $this->addColumn($dataText['popup']['management.communication_managment.effective_calls']['text'], null, true);
 
@@ -1156,7 +1204,7 @@ class AnalyticalFileGenerator {
             $this->addColumn('3. Управление коммуникациями');
             $this->addColumn('3.4 Эффективное управление встречами');
             $this->addColumn('positive');
-            $this->addColumnRight(round($data['management'][3]['3_4']['+'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+            $this->addColumnRight($data['management'][3]['3_4']['+']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
             $this->addColumn($dataText['popup']['management.communication_managment.effective_meetings']['short_text_positive']);
             $this->addColumn($dataText['popup']['management.communication_managment.effective_meetings']['text_positive'], null, true);
 
@@ -1164,7 +1212,7 @@ class AnalyticalFileGenerator {
             $this->addColumn('3. Управление коммуникациями');
             $this->addColumn('3.4 Эффективное управление встречами');
             $this->addColumn('negative');
-            $this->addColumnRight(round($data['management'][3]['3_4']['-'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+            $this->addColumnRight($data['management'][3]['3_4']['-']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
             $this->addColumn($dataText['popup']['management.communication_managment.effective_meetings']['short_text_negative']);
             $this->addColumn($dataText['popup']['management.communication_managment.effective_meetings']['text_negative'], null, true);
 
@@ -1172,7 +1220,7 @@ class AnalyticalFileGenerator {
             $this->addColumn('3. Управление коммуникациями');
             $this->addColumn('ИТОГО');
             $this->addColumn('combined');
-            $this->addColumnRight(round($data['management'][3]['total'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+            $this->addColumnRight($data['management'][3]['total']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
             $this->addColumn('-');
             $this->addColumn('-', null, true);
 
@@ -1184,10 +1232,9 @@ class AnalyticalFileGenerator {
         $this->addRow();
         $this->addColumn('Группа задач', 20);
         $this->addColumn('Результативность, оценка (0-100%)', 20);
-        $this->addColumn('Текст', 30);
-        $this->addColumn('Текстовая рекомендация', 50);
+        $this->addColumn('Текст', 26);
+        $this->addColumn('Текстовая рекомендация', 120);
 
-        $this->setBorderBold();
         ///////////////////////////////////////////////////////////
         if (Yii::app() instanceof CConsoleApplication) {
             echo  "\r\n";
@@ -1233,11 +1280,11 @@ class AnalyticalFileGenerator {
         $this->addRow();
         $this->addColumn('Группа параметров', 55);
         $this->addColumn('Параметр', 45);
-        $this->addColumn('Эффективность использования времени, оценка', 14);
-        $this->addColumn('Текст', 30);
-        $this->addColumn('Текстовая рекомендация', 50);
+        $this->addColumn('Эффективность использования времени, оценка', 24);
+        $this->addColumn('Текст', 26);
+        $this->addColumn('Текстовая рекомендация', 120);
 
-        $this->setBorderBold();
+        //$this->setBorderBold();
         ////////////////////////////////////////////////////
         if (Yii::app() instanceof CConsoleApplication) {
             echo  "\r\n";
@@ -1254,98 +1301,98 @@ class AnalyticalFileGenerator {
             $this->addRow();
             $this->addColumn('1. Распределение времени, %');
             $this->addColumn('Продуктивное время (выполнение приоритетных задач)');
-            $this->addColumnRight(round($data['time']['time_spend_for_1st_priority_activities'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+            $this->addColumnRight($data['time']['time_spend_for_1st_priority_activities']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
             $this->addColumn(str_replace(['(', ')'], '', $dataText['popup']['time.productive_time']['short_text']));
             $this->addColumn($dataText['popup']['time.productive_time']['text'], null, true);
 
             $this->addRow();
             $this->addColumn('1. Распределение времени, %');
             $this->addColumn('Непродуктивное время (иные действия, не связанные с приоритетами)');
-            $this->addColumnRight(round($data['time']['time_spend_for_non_priority_activities'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+            $this->addColumnRight($data['time']['time_spend_for_non_priority_activities']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
             $this->addColumn(str_replace(['(', ')'], '', $dataText['popup']['time.not_productive_time']['short_text']));
             $this->addColumn($dataText['popup']['time.not_productive_time']['text'], null, true);
 
             $this->addRow();
             $this->addColumn('1. Распределение времени, %');
             $this->addColumn('Время ожидания и бездействия');
-            $this->addColumnRight(round($data['time']['time_spend_for_inactivity'], 2).'%', PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
+            $this->addColumnRight($data['time']['time_spend_for_inactivity']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
             $this->addColumn(str_replace(['(', ')'], '', $dataText['popup']['time.waiting_time']['short_text']));
             $this->addColumn($dataText['popup']['time.waiting_time']['text'], null, true);
 
             $this->addRow();
             $this->addColumn('2. Сверхурочное время (минуты)');
             $this->addColumn('Сверхурочное время');
-            $this->addColumnRight(round($data['time']['workday_overhead_duration'], 2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
+            $this->addColumnRight($data['time']['workday_overhead_duration'], PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
             $this->addColumn(str_replace(['(', ')'], '', $dataText['popup']['time.over_time']['short_text']));
             $this->addColumn($dataText['popup']['time.over_time']['text'], null, true);
 
             $this->addRow();
             $this->addColumn('1.1 Продуктивное время (выполнение приоритетных задач, минуты)');
             $this->addColumn('Работа с документами');
-            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_DOCUMENTS],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
+            $this->addColumnRight($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_DOCUMENTS], PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
             $this->addColumn('-');
             $this->addColumn('-', null, true);
 
             $this->addRow();
             $this->addColumn('1.1 Продуктивное время (выполнение приоритетных задач, минуты)');
             $this->addColumn('Встречи');
-            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_MEETINGS],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
+            $this->addColumnRight($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_MEETINGS], PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
             $this->addColumn('-');
             $this->addColumn('-', null, true);
 
             $this->addRow();
             $this->addColumn('1.1 Продуктивное время (выполнение приоритетных задач, минуты)');
             $this->addColumn('Звонки');
-            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_PHONE_CALLS],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
+            $this->addColumnRight($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_PHONE_CALLS], PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
             $this->addColumn('-');
             $this->addColumn('-', null, true);
 
             $this->addRow();
             $this->addColumn('1.1 Продуктивное время (выполнение приоритетных задач, минуты)');
             $this->addColumn('Работа с почтой');
-            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_MAIL],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
+            $this->addColumnRight($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_MAIL], PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
             $this->addColumn('-');
             $this->addColumn('-', null, true);
 
             $this->addRow();
             $this->addColumn('1.1 Продуктивное время (выполнение приоритетных задач, минуты)');
             $this->addColumn('Планирование');
-            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_PLANING],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
+            $this->addColumnRight($data['time'][TimeManagementAggregated::SLUG_1ST_PRIORITY_PLANING], PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
             $this->addColumn('-');
             $this->addColumn('-', null, true);
 
             $this->addRow();
             $this->addColumn('1.2 Непродуктивное время (иные действия, не связанные с приоритетами)');
             $this->addColumn('Работа с документами');
-            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_DOCUMENTS],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
+            $this->addColumnRight($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_DOCUMENTS], PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
             $this->addColumn('-');
             $this->addColumn('-', null, true);
 
             $this->addRow();
             $this->addColumn('1.2 Непродуктивное время (иные действия, не связанные с приоритетами)');
             $this->addColumn('Встречи');
-            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_MEETINGS],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
+            $this->addColumnRight($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_MEETINGS], PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
             $this->addColumn('-');
             $this->addColumn('-', null, true);
 
             $this->addRow();
             $this->addColumn('1.2 Непродуктивное время (иные действия, не связанные с приоритетами)');
             $this->addColumn('Звонки');
-            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_PHONE_CALLS],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
+            $this->addColumnRight($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_PHONE_CALLS], PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
             $this->addColumn('-');
             $this->addColumn('-', null, true);
 
             $this->addRow();
             $this->addColumn('1.2 Непродуктивное время (иные действия, не связанные с приоритетами)');
             $this->addColumn('Работа с почтой');
-            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_MAIL],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
+            $this->addColumnRight($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_MAIL], PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
             $this->addColumn('-');
             $this->addColumn('-', null, true);
 
             $this->addRow();
             $this->addColumn('1.2 Непродуктивное время (иные действия, не связанные с приоритетами)');
             $this->addColumn('Планирование');
-            $this->addColumnRight(round($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_PLANING],2), PHPExcel_Style_NumberFormat::FORMAT_NUMBER_00);
+            $this->addColumnRight($data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_PLANING], PHPExcel_Style_NumberFormat::FORMAT_NUMBER);
             $this->addColumn('-');
             $this->addColumn('-', null, true);
 
@@ -1371,8 +1418,8 @@ class AnalyticalFileGenerator {
             $this->addColumn('Номер требуемого поведения', 14);
             $this->addColumn('Номер цели обучения', 14);
             $this->addColumn('Наименование цели обучения', 30);
-            $this->addColumn('Наименование требуемого поведения', 30);
-            $this->addColumn('Оценка полученная в симуляции', 14);
+            $this->addColumn('Наименование требуемого поведения', 80);
+            $this->addColumn('Оценка полученная в симуляции', 24);
         }
         //////////////////////////////////////////////////
         if (Yii::app() instanceof CConsoleApplication) {
@@ -1409,7 +1456,22 @@ class AnalyticalFileGenerator {
                     $this->addColumn('-');
                 }
             }
+
+            $this->setBorderBold();
         }
+
+        $this->setBorderAll('A', 'F');
+
+        $this->setBorderTop('A', 'F');
+        $this->setBorderLeft('A', 'A');
+        $this->setBorderRight('H', 'H');
+        $this->setBorderBold();
+
+        $this->setTitle('A', 'H');
+
+        $this->setColumnAlign('A', 'H', 2);
+        $this->setColumnAlign('A', 'B', 2, \PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+        $this->setColumnAlign('F', 'G', 2, \PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
     }
 
     /**
@@ -1420,10 +1482,225 @@ class AnalyticalFileGenerator {
      */
     public function getPerformanceCategory($performance, $category)
     {
-        if(isset($performance[$category])){
-            return round($performance[$category], 2).'%';
+        if (isset($performance[$category])){
+            return $performance[$category]/100;
         } else {
-            return '0'.'%';
+            return 0;
         }
     }
-} 
+
+    /**
+     * Добавляет автофильтры для всех колонок всех листов
+     */
+    public function setAutoFilters() {
+        // надо знать на каждом листе имя поледней колонки
+        // но, $sheet->getHighestColumn() - не подходит, она возвращает "Y"
+        // @link: http://http://stackoverflow.com/questions/5577856/phpexcel-column-loop
+        $lastColumns = ['F', 'I', 'G', 'H', 'H'];
+
+        $n = 0;
+        foreach ($this->sheets as $sheet) {
+            // @link: setAutoFilter() http://phpexcel.codeplex.com/workitem/15399
+            $sheet->setAutoFilter(sprintf('A1:%s%s', $lastColumns[$n], $sheet->getHighestRow()));
+            $n ++;
+        }
+    }
+
+    /**
+     * @param int $column
+     * @param string $BGcolor
+     */
+    public function setColumnBgColor($column1 = 'A', $column2 = 'A',$BGcolor = 'FFFF99') {
+        /* @var $sheet PHPExcel_Worksheet */
+        $sheet = $this->sheets[$this->sheet_number];
+
+        $diapason = sprintf('%s2:%s%s', $column1, $column2, $sheet->getHighestRow());
+
+        $sheet->getStyle($diapason)->applyFromArray(
+            [
+                'fill' => [
+                    'type'       => \PHPExcel_Style_Fill::FILL_SOLID,
+                    'startcolor' => ['rgb' => $BGcolor],
+                ]
+            ]
+        );
+    }
+
+    /**
+     * @param int $column
+     * @param string $BGcolor
+     */
+    public function setBorderRight($column1 = 'A', $column2 = 'A', $border = 'medium') {
+        /* @var $sheet PHPExcel_Worksheet */
+        $sheet = $this->sheets[$this->sheet_number];
+
+        $diapason = sprintf('%s2:%s%s', $column1, $column2, $sheet->getHighestRow());
+
+        $sheet->getStyle($diapason)->applyFromArray(
+            [
+                'borders' => [
+                    'right' => [
+                        'style' => $border,
+                    ],
+                ]
+            ]
+        );
+    }
+
+    /**
+     * @param int $column
+     * @param string $BGcolor
+     */
+    public function setBorderLeft($column1 = 'A', $column2 = 'A', $border = 'medium') {
+        /* @var $sheet PHPExcel_Worksheet */
+        $sheet = $this->sheets[$this->sheet_number];
+
+        $diapason = sprintf('%s2:%s%s', $column1, $column2, $sheet->getHighestRow());
+
+        $sheet->getStyle($diapason)->applyFromArray(
+            [
+                'borders' => [
+                    'left' => [
+                        'style' => $border,
+                    ],
+                ]
+            ]
+        );
+    }
+
+    /**
+     * @param int $column
+     * @param string $BGcolor
+     */
+    public function setBorderBottom($column1 = 'A', $column2 = 'Z', $start = 1, $end = 1, $border = 'medium') {
+        /* @var $sheet PHPExcel_Worksheet */
+        $sheet = $this->sheets[$this->sheet_number];
+
+        $diapason = sprintf('%s%s:%s%s', $column1, $start, $column2, $end);
+
+        $sheet->getStyle($diapason)->applyFromArray(
+            [
+                'borders' => [
+                    'bottom' => [
+                        'style' => $border,
+                    ],
+                ]
+            ]
+        );
+    }
+
+    /**
+     * @param int $column
+     * @param string $BGcolor
+     */
+    public function setBorderTop($column1 = 'A', $column2 = 'A', $start = 1, $end = 1, $border = 'medium') {
+        /* @var $sheet PHPExcel_Worksheet */
+        $sheet = $this->sheets[$this->sheet_number];
+
+        $diapason = sprintf('%s%s:%s%s', $column1, $start, $column2, $end);
+
+        $sheet->getStyle($diapason)->applyFromArray(
+            [
+                'borders' => [
+                    'top' => [
+                        'style' => $border,
+                    ],
+                ]
+            ]
+        );
+    }
+
+    /**
+     * @param int $column
+     * @param string $BGcolor
+     */
+    public function setBorderAll($column1 = 'A', $column2 = 'A', $border = 'thin') {
+        /* @var $sheet PHPExcel_Worksheet */
+        $sheet = $this->sheets[$this->sheet_number];
+
+        $diapason = sprintf('%s2:%s%s', $column1, $column2, $sheet->getHighestRow());
+
+        $sheet->getStyle($diapason)->applyFromArray(
+            [
+                'borders' => [
+                    'left' => [
+                        'style' => $border,
+                    ],
+                    'right' => [
+                        'style' => $border,
+                    ],
+                    'top' => [
+                        'style' => $border,
+                    ],
+                    'bottom' => [
+                        'style' => $border,
+                    ],
+                ]
+            ]
+        );
+    }
+
+    /**
+     * @param string $column1
+     * @param string $column2
+     * @param bool $wrap
+     * @param string $horizontal
+     * @param string $vertical
+     */
+    public function setColumnAlign($column1 = 'A', $column2 = 'A', $startRow = '1',
+        $horizontal = 'center', $vertical = 'center', $wrap = true) {
+        /* @var $sheet PHPExcel_Worksheet */
+        $sheet = $this->sheets[$this->sheet_number];
+
+        $diapason = sprintf('%s%s:%s%s', $column1, $startRow, $column2, $sheet->getHighestRow());
+
+        $sheet->getStyle($diapason)->applyFromArray(
+            [
+                'alignment' => array(
+                    'wrap'       => $wrap,
+                    'horizontal' => $horizontal,
+                    'vertical'   => $vertical
+                ),
+            ]
+        );
+    }
+
+    /**
+     * @param string $column1
+     * @param string $column2
+     * @param bool $wrap
+     * @param string $horizontal
+     * @param string $vertical
+     */
+    public function setTitle($column1 = 'A', $column2 = 'A',
+        $horizontal = 'center', $vertical = 'center', $wrap = true) {
+        /* @var $sheet PHPExcel_Worksheet */
+        $sheet = $this->sheets[$this->sheet_number];
+
+        $diapason = sprintf('%s1:%s1', $column1, $column2);
+
+        $sheet->getStyle($diapason)->applyFromArray(
+            [
+                'alignment' => array(
+                    'wrap'       => $wrap,
+                    'horizontal' => $horizontal,
+                    'vertical'   => $vertical
+                ),
+                'borders' => [
+                    'right' => [
+                        'style' => \PHPExcel_Style_Border::BORDER_MEDIUM,
+                    ],
+                    'left' => [
+                        'style' => \PHPExcel_Style_Border::BORDER_MEDIUM,
+                    ],
+                    'top' => [
+                        'style' => \PHPExcel_Style_Border::BORDER_MEDIUM,
+                    ],
+                    'bottom' => [
+                        'style' => \PHPExcel_Style_Border::BORDER_MEDIUM,
+                    ],
+                ]
+            ]
+        );
+    }
+}
