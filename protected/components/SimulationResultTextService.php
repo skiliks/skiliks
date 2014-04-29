@@ -115,7 +115,6 @@ class SimulationResultTextService {
             $right_direction = trim($pocket->right_direction);
 
             if(self::$left_direction($pocket->left, $value_1) && self::$right_direction($pocket->right, $value_1)) {
-
                 $return = [
                     'text' => $pocket->text,
                     'short_text' => $with_brackets?'('.$pocket->short_text.')':$pocket->short_text,
@@ -208,22 +207,12 @@ class SimulationResultTextService {
      * @param $value
      * @return bool
      */
-    public static function greater_equal($direction, $value, $is_float = false) {
-        if($is_float){
-            return (float)$direction <= (float)$value;
-        }else{
-            return (int)$direction <= (int)$value;
-        }
-
+    public static function greater_equal($direction, $value) {
+        return (float)$direction <= (float)$value;
     }
 
-    public static function greater($direction, $value, $is_float = false) {
-        if($is_float){
-            return (float)$direction < (float)$value;
-        }else{
-            return (int)$direction < (int)$value;
-        }
-
+    public static function greater($direction, $value) {
+        return (float)$direction < (float)$value;
     }
 
     /**
@@ -232,12 +221,8 @@ class SimulationResultTextService {
      * @param $value
      * @return bool
      */
-    public static function less($direction, $value, $is_float = false) {
-        if($is_float){
-            return (float)$direction > (float)$value;
-        }else{
-            return (int)$direction > (int)$value;
-        }
+    public static function less($direction, $value) {
+        return (float)$direction > (float)$value;
     }
 
     /**
@@ -246,12 +231,8 @@ class SimulationResultTextService {
      * @param $value
      * @return bool
      */
-    public static function less_equal($direction, $value, $is_float = false) {
-        if($is_float){
-            return (float)$direction >= (float)$value;
-        }else{
-            return (int)$direction >= (int)$value;
-        }
+    public static function less_equal($direction, $value) {
+        return (float)$direction >= (float)$value;
     }
 
     /**

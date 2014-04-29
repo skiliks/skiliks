@@ -721,6 +721,9 @@ class AnalyticalFileGenerator {
 
             // ---
 
+            var_dump($dataText['popup']['time.not_productive_time']['short_text']);
+            var_dump($dataText['popup']['time.not_productive_time']['text']);
+
             $this->addRow();
             $this->addColumn('1. Распределение времени, %');
             $this->addColumn('Непродуктивное время (иные действия, не связанные с приоритетами)');

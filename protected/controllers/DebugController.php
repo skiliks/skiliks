@@ -761,16 +761,16 @@ class DebugController extends SiteBaseController
          * @var Simulation $simulations1
          * @var Simulation $simulations2
          */
-        $simulations1 = [Simulation::model()->findByPk(6258)];  // v1
-        $simulations2 = [Simulation::model()->findByPk(12023)]; // v2
+        $simulations1 = [];  // v1 // Simulation::model()->findByPk(6258)
+        $simulations2 = Simulation::model()->findAllByPk([9152, 10805]); // v2
 
-        $simulations1 = Simulation::model()->with('invite')->findAll(
-            "invite.owner_id = 1237 and t.end is not null and t.popup_tests_cache is not null and t.results_popup_partials_path like '%v1%'"
-        ); // v1
-
-        $simulations2 = Simulation::model()->with('invite')->findAll(
-            "invite.owner_id = 1237 and t.end is not null and t.popup_tests_cache is not null and t.results_popup_partials_path like '%v2%'"
-        ); // v2
+//        $simulations1 = Simulation::model()->with('invite')->findAll(
+//            "invite.owner_id = 1237 and t.end is not null and t.popup_tests_cache is not null and t.results_popup_partials_path like '%v1%'"
+//        ); // v1
+//
+//        $simulations2 = Simulation::model()->with('invite')->findAll(
+//            "invite.owner_id = 1237 and t.end is not null and t.popup_tests_cache is not null and t.results_popup_partials_path like '%v2%'"
+//        ); // v2
 
 //        $simulation3 = Simulation::model()->findByPk(5014);   // v1
 //
@@ -786,11 +786,15 @@ class DebugController extends SiteBaseController
 //        ]);
 //        $simulation3->save(false, ['popup_tests_cache']);
 
-//        $simulation2->popup_tests_cache = serialize([
-//            'popup'          => SimulationResultTextService::generate($simulation2, 'popup'),
-//            'recommendation' => SimulationResultTextService::generate($simulation2, 'recommendation', true),
-//        ]);
-//        $simulation2->save(false, ['popup_tests_cache']);
+        foreach ($simulations2 as $simulation) {
+            $simulation->popup_tests_cache = serialize([
+                'popup'          => SimulationResultTextService::generate($simulation, 'popup'),
+                'recommendation' => SimulationResultTextService::generate($simulation, 'recommendation', true),
+            ]);
+            $simulation->save(false, ['popup_tests_cache']);
+        }
+        $simulations2 = Simulation::model()->findAllByPk([9152, 10805]);
+
 
         $generator = new AnalyticalFileGenerator();
         $generator->is_add_behaviours = false;
