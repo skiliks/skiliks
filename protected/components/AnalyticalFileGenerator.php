@@ -454,7 +454,7 @@ class AnalyticalFileGenerator {
             $this->addColumn('ИТОГО');
             $this->addColumn('combined');
             $this->addColumnRight($data['management'][1]['total']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
-            $this->addColumn('-');
+            $this->addColumn($dataText['popup']['management.task_managment']['short_text']);
             $this->addColumn('-', null, true);
 
             // ---
@@ -524,7 +524,7 @@ class AnalyticalFileGenerator {
             $this->addColumn('ИТОГО');
             $this->addColumn('combined');
             $this->addColumnRight($data['management'][2]['total']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
-            $this->addColumn('-');
+            $this->addColumn($dataText['popup']['management.people_managment']['short_text']);
             $this->addColumn('-', null, true);
 
             // ---
@@ -614,7 +614,7 @@ class AnalyticalFileGenerator {
             $this->addColumn('ИТОГО');
             $this->addColumn('combined');
             $this->addColumnRight($data['management'][3]['total']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
-            $this->addColumn('-');
+            $this->addColumn($dataText['popup']['management.communication_managment']['short_text']);
             $this->addColumn('-', null, true);
 
             $this->setBorderBold();
@@ -691,6 +691,7 @@ class AnalyticalFileGenerator {
         $this->setBorderRight('G', 'G');
 
         $this->setBorderTop('A', 'G');
+        $this->setBorderBold();
 
         $this->setTitle('A', 'G');
 
@@ -720,9 +721,6 @@ class AnalyticalFileGenerator {
             $this->addColumn($dataText['popup']['time.productive_time']['text'], null, true);
 
             // ---
-
-            var_dump($dataText['popup']['time.not_productive_time']['short_text']);
-            var_dump($dataText['popup']['time.not_productive_time']['text']);
 
             $this->addRow();
             $this->addColumn('1. Распределение времени, %');
@@ -1093,7 +1091,7 @@ class AnalyticalFileGenerator {
             $this->addColumn('ИТОГО');
             $this->addColumn('combined');
             $this->addColumnRight($data['management'][1]['total']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
-            $this->addColumn('-');
+            $this->addColumn($dataText['popup']['management.task_managment']['short_text']);
             $this->addColumn('-', null, true);
 
             // 2.x) ###############################################
@@ -1150,7 +1148,7 @@ class AnalyticalFileGenerator {
             $this->addColumn('ИТОГО');
             $this->addColumn('combined');
             $this->addColumnRight($data['management'][2]['total']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
-            $this->addColumn('-');
+            $this->addColumn($dataText['popup']['management.people_managment']['short_text']);
             $this->addColumn('-', null, true);
 
 
@@ -1224,7 +1222,7 @@ class AnalyticalFileGenerator {
             $this->addColumn('ИТОГО');
             $this->addColumn('combined');
             $this->addColumnRight($data['management'][3]['total']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
-            $this->addColumn('-');
+            $this->addColumn($dataText['popup']['management.communication_managment']['short_text']);
             $this->addColumn('-', null, true);
 
             $this->setBorderBold();
@@ -1564,27 +1562,6 @@ class AnalyticalFileGenerator {
             [
                 'borders' => [
                     'left' => [
-                        'style' => $border,
-                    ],
-                ]
-            ]
-        );
-    }
-
-    /**
-     * @param int $column
-     * @param string $BGcolor
-     */
-    public function setBorderBottom($column1 = 'A', $column2 = 'Z', $start = 1, $end = 1, $border = 'medium') {
-        /* @var $sheet PHPExcel_Worksheet */
-        $sheet = $this->sheets[$this->sheet_number];
-
-        $diapason = sprintf('%s%s:%s%s', $column1, $start, $column2, $end);
-
-        $sheet->getStyle($diapason)->applyFromArray(
-            [
-                'borders' => [
-                    'bottom' => [
                         'style' => $border,
                     ],
                 ]

@@ -761,8 +761,8 @@ class DebugController extends SiteBaseController
          * @var Simulation $simulations1
          * @var Simulation $simulations2
          */
-        $simulations1 = [];  // v1 // Simulation::model()->findByPk(6258)
-        $simulations2 = Simulation::model()->findAllByPk([9152, 10805]); // v2
+        $simulations1 = Simulation::model()->findAllByPk([6258]);  // v1 //
+        $simulations2 = Simulation::model()->findAllByPk([10805]); // v2 9152,
 
 //        $simulations1 = Simulation::model()->with('invite')->findAll(
 //            "invite.owner_id = 1237 and t.end is not null and t.popup_tests_cache is not null and t.results_popup_partials_path like '%v1%'"
@@ -793,6 +793,15 @@ class DebugController extends SiteBaseController
             ]);
             $simulation->save(false, ['popup_tests_cache']);
         }
+        foreach ($simulations1 as $simulation) {
+            $simulation->popup_tests_cache = serialize([
+                'popup'          => SimulationResultTextService::generate($simulation, 'popup'),
+                'recommendation' => SimulationResultTextService::generate($simulation, 'recommendation', true),
+            ]);
+            $simulation->save(false, ['popup_tests_cache']);
+        }
+
+        $simulations1 = Simulation::model()->findAllByPk([6258]);
         $simulations2 = Simulation::model()->findAllByPk([9152, 10805]);
 
 
