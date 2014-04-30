@@ -202,7 +202,7 @@ class SimulationResultTextService {
     }
 
     /**
-     * Больше равно
+     * $value больше равно
      * @param $direction
      * @param $value
      * @return bool
@@ -211,12 +211,18 @@ class SimulationResultTextService {
         return (float)$direction <= (float)$value;
     }
 
+    /**
+     * $value больше
+     * @param $direction
+     * @param $value
+     * @return bool
+     */
     public static function greater($direction, $value) {
         return (float)$direction < (float)$value;
     }
 
     /**
-     * Меньше
+     * $value меньше
      * @param $direction
      * @param $value
      * @return bool
@@ -226,7 +232,7 @@ class SimulationResultTextService {
     }
 
     /**
-     * Меньше равно
+     * $value меньше равно
      * @param $direction
      * @param $value
      * @return bool
