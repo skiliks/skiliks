@@ -118,6 +118,7 @@ class GenerateReport3Command extends CConsoleCommand
         $generator->runAssessment_v1($realUserSimulationsV1, 'v1_to_v2');
         echo "\r\nV2:";
         $generator->runAssessment_v2($realUserSimulationsV2);
+        $generator->setAutoFilters();
         $generator->save('','full_report');
 
         echo "Done ".(count($realUserSimulationsV1) + count($realUserSimulationsV2))." \r\n";
