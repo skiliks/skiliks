@@ -239,6 +239,8 @@ class AnalyticalFileGenerator {
      * в файл по адресу self::createPathForAnalyticsFile()
      */
     public function save($assessment_version, $filename = 'custom') {
+        $this->document->setActiveSheetIndexByName("Итоговый рейтинг");
+
         $excelWriter = new PHPExcel_Writer_Excel2007($this->document);
         $path = SimulationService::createPathForAnalyticsFile($filename, $assessment_version);
         $excelWriter->save($path);
@@ -321,7 +323,7 @@ class AnalyticalFileGenerator {
                 $data['overall']/100,
                 PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00
             );
-            $this->addColumn('-', null, true);
+            $this->addColumn(str_replace(['(', ')'], '', $dataText['popup']['overall']['short_text']), null, true);
 
             // ---
 
@@ -351,8 +353,8 @@ class AnalyticalFileGenerator {
         $this->setTitle('A', 'F');
 
         $this->setColumnAlign('A', 'D', 2, \PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
-        $this->setColumnAlign('E', 'E', 2);
-        $this->setColumnAlign('F', 'F', 2);
+        $this->setColumnAlign('C', 'C', 2);
+        $this->setColumnAlign('E', 'F', 2);
 
         // } Итоговый рейтинг
 
@@ -894,7 +896,7 @@ class AnalyticalFileGenerator {
             $this->addRow();
             $this->addColumn('Итоговый рейтинг');
             $this->addColumnRight($data['overall']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
-            $this->addColumn('-', null, true);
+            $this->addColumn(str_replace(['(', ')'], '', $dataText['popup']['overall']['short_text']), null, true);
 
             $this->addRow();
             $this->addColumn('Процентиль');

@@ -110,6 +110,9 @@ class GenerateReport3Command extends CConsoleCommand
         var_dump(date('H:i:s', time()));
         echo "Calc ".(count($realUserSimulationsV1) + count($realUserSimulationsV2))." \r\n";
 
+        ksort($realUserSimulationsV1);
+        ksort($realUserSimulationsV2);
+
         // непосредственно генерация
         $generator = new AnalyticalFileGenerator();
         $generator->is_add_behaviours = true;

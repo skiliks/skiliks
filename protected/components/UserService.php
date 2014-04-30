@@ -1210,6 +1210,10 @@ class UserService {
 
         }
         sort($simulationsId);
+
+        ksort($realUserSimulationsV1);
+        ksort($realUserSimulationsV2);
+
         if(implode(',', $simulationsId) !== $user->account_corporate->cache_full_report) {
             // непосредственно генерация
             $generator = new AnalyticalFileGenerator();
