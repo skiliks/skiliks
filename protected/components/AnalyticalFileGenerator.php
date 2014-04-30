@@ -454,7 +454,7 @@ class AnalyticalFileGenerator {
             $this->addColumn('ИТОГО');
             $this->addColumn('combined');
             $this->addColumnRight($data['management'][1]['total']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
-            $this->addColumn($dataText['popup']['management.task_managment']['short_text']);
+            $this->addColumn(str_replace(['(', ')'], '', $dataText['popup']['management.task_managment']['short_text']));
             $this->addColumn('-', null, true);
 
             // ---
@@ -524,7 +524,7 @@ class AnalyticalFileGenerator {
             $this->addColumn('ИТОГО');
             $this->addColumn('combined');
             $this->addColumnRight($data['management'][2]['total']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
-            $this->addColumn($dataText['popup']['management.people_managment']['short_text']);
+            $this->addColumn(str_replace(['(', ')'], '', $dataText['popup']['management.people_managment']['short_text']));
             $this->addColumn('-', null, true);
 
             // ---
@@ -614,7 +614,7 @@ class AnalyticalFileGenerator {
             $this->addColumn('ИТОГО');
             $this->addColumn('combined');
             $this->addColumnRight($data['management'][3]['total']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
-            $this->addColumn($dataText['popup']['management.communication_managment']['short_text']);
+            $this->addColumn(str_replace(['(', ')'], '', $dataText['popup']['management.communication_managment']['short_text']));
             $this->addColumn('-', null, true);
 
             $this->setBorderBold();
@@ -1091,7 +1091,7 @@ class AnalyticalFileGenerator {
             $this->addColumn('ИТОГО');
             $this->addColumn('combined');
             $this->addColumnRight($data['management'][1]['total']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
-            $this->addColumn($dataText['popup']['management.task_managment']['short_text']);
+            $this->addColumn(str_replace(['(', ')'], '', $dataText['popup']['management.task_managment']['short_text']));
             $this->addColumn('-', null, true);
 
             // 2.x) ###############################################
@@ -1148,7 +1148,7 @@ class AnalyticalFileGenerator {
             $this->addColumn('ИТОГО');
             $this->addColumn('combined');
             $this->addColumnRight($data['management'][2]['total']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
-            $this->addColumn($dataText['popup']['management.people_managment']['short_text']);
+            $this->addColumn(str_replace(['(', ')'], '', $dataText['popup']['management.people_managment']['short_text']));
             $this->addColumn('-', null, true);
 
 
@@ -1222,7 +1222,7 @@ class AnalyticalFileGenerator {
             $this->addColumn('ИТОГО');
             $this->addColumn('combined');
             $this->addColumnRight($data['management'][3]['total']/100, PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00);
-            $this->addColumn($dataText['popup']['management.communication_managment']['short_text']);
+            $this->addColumn(str_replace(['(', ')'], '', $dataText['popup']['management.communication_managment']['short_text']));
             $this->addColumn('-', null, true);
 
             $this->setBorderBold();
