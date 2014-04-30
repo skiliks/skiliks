@@ -756,12 +756,13 @@ class DebugController extends SiteBaseController
     }
 
     public function actionXxx() {
+        echo "<pre>";
         $time = time();
         /**
          * @var Simulation $simulations1
          * @var Simulation $simulations2
          */
-        $simulations1 = Simulation::model()->findAllByPk([6258]);  // v1 //
+        $simulations1 = Simulation::model()->findAllByPk([5350]);  // v1 // 6258
         $simulations2 = Simulation::model()->findAllByPk([10805]); // v2 9152,
 
 //        $simulations1 = Simulation::model()->with('invite')->findAll(
@@ -786,19 +787,28 @@ class DebugController extends SiteBaseController
 //        ]);
 //        $simulation3->save(false, ['popup_tests_cache']);
 
-        foreach ($simulations2 as $simulation) {
-            $simulation->popup_tests_cache = serialize([
-                'popup'          => SimulationResultTextService::generate($simulation, 'popup'),
-                'recommendation' => SimulationResultTextService::generate($simulation, 'recommendation', true),
-            ]);
-            $simulation->save(false, ['popup_tests_cache']);
-        }
+//        foreach ($simulations2 as $simulation) {
+//            $simulation->popup_tests_cache = serialize([
+//                'popup'          => SimulationResultTextService::generate($simulation, 'popup'),
+//                'recommendation' => SimulationResultTextService::generate($simulation, 'recommendation', true),
+//            ]);
+//            $simulation->save(false, ['popup_tests_cache']);
+//        }
+
+        /**
+         * @var Simulation $simulation
+         */
+
         foreach ($simulations1 as $simulation) {
-            $simulation->popup_tests_cache = serialize([
-                'popup'          => SimulationResultTextService::generate($simulation, 'popup'),
-                'recommendation' => SimulationResultTextService::generate($simulation, 'recommendation', true),
-            ]);
-            $simulation->save(false, ['popup_tests_cache']);
+
+            print_r(unserialize($simulation->results_popup_cache));
+            die;
+
+//            $simulation->popup_tests_cache = serialize([
+//                'popup'          => SimulationResultTextService::generate($simulation, 'popup'),
+//                'recommendation' => SimulationResultTextService::generate($simulation, 'recommendation', true),
+//            ]);
+//            $simulation->save(false, ['popup_tests_cache']);
         }
 
         $simulations1 = Simulation::model()->findAllByPk([6258]);
@@ -808,7 +818,7 @@ class DebugController extends SiteBaseController
         $generator = new AnalyticalFileGenerator();
         $generator->is_add_behaviours = false;
         $generator->createDocument();
-        echo "<pre>\n 1:";
+        echo "\n 1:";
         echo (time() - $time);
         $generator->runAssessment_v1($simulations1, 'v1_to_v2');
         echo "\n 2:";
