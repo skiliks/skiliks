@@ -72,7 +72,7 @@ class FixTimeEfficCommand extends CConsoleCommand
                 $data['time']['non_priority_planning'] = $data['time']['non_priority_planning'] / 2;
             }
 
-            if (8421 == $simulation->id && 349 < $data['time']['1st_priority_mail']) {
+            if (8421 == $simulation->id && 349 < $data['time']['1st_priority_planning']) {
                 $data['time']['1st_priority_documents'] = $data['time']['1st_priority_documents'] / 3;
                 $data['time']['1st_priority_meetings'] = $data['time']['1st_priority_meetings'] / 3;
                 $data['time']['1st_priority_phone_calls'] = $data['time']['1st_priority_phone_calls'] / 3;
