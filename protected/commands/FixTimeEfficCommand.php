@@ -13,7 +13,27 @@ class FixTimeEfficCommand extends CConsoleCommand
         $simulations = Simulation::model()->findAll(" results_popup_cache is not null
             and scenario_id = 2 and start > '2013-08-01 00:00:00' and status = 'complete' ");
 
-        echo "\n";
+//        echo  "sim_id, code , value \n";
+//
+//        foreach ($simulations as $simulation) {
+//            $aggregatedValues = PerformanceAggregated::model()->findAllByAttributes(['sim_id' => $simulation->id]);
+//            $arr = [
+//                '0' => 0,
+//                '1' => 0,
+//                '2' => 0,
+//                '2_min' => 0,
+//            ];
+//
+//            foreach ($aggregatedValues as $aggregatedValue) {
+//                $arr[$aggregatedValue->category->code] = $aggregatedValue->value;
+//            };
+//
+//            foreach ($arr as $code => $value) {
+//                echo $simulation->id, ",", $code, ",", $value, "\n";
+//            }
+//        }
+//
+//        echo "\n";
 
         $negative_1_3_behaviours_ids = [];
 
