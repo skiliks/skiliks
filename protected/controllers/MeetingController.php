@@ -7,7 +7,8 @@ class MeetingController extends SimulationBaseController {
         /** @var Simulation $simulation */
         $simulation = $this->getSimulationEntity();
 
-        // после 18:00game_type
+        // после 18:00 game_type надо переключать флаги, даже есть getState() ещё не дошел
+        // для https://skiliks.atlassian.net/browse/SKILIKS-5994
         if ($simulation->game_type->scenario_config->game_end_workday_timestamp < $simulation->getGameTime()) {
             FlagsService::checkFlagsDelay($simulation);
         }
