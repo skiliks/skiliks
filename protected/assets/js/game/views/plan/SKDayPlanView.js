@@ -82,6 +82,8 @@ define([
 
             if (true === $.browser['mozilla'] && $.browser.version < 29) {
                 $('.planner-book-head').width($('#plannerBookToday').width()- 2);
+            } else {
+                $('.planner-book-head').width($('#plannerBookToday').width()- 1);
             }
 
             if (true === $.browser['chrome'] && $('#plannerBookToday').width() < maxPlannerDayWidth) {
