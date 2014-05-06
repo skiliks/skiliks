@@ -80,7 +80,7 @@ define([
                 $('.planner-book-head').width($('#plannerBookToday').width()- 0.5);
             }
 
-            if (true === $.browser['mozilla']) {
+            if (true === $.browser['mozilla'] && $.browser.version < 29) {
                 $('.planner-book-head').width($('#plannerBookToday').width()- 2);
             }
 
