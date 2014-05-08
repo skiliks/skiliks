@@ -328,6 +328,16 @@ class FixTimeEfficCommand extends CConsoleCommand
 //                $data['management'][1]['1_2']['-'] = $data['management'][1]['1_3']['-'];
 //                $data['management'][1]['1_3']['-'] = $data['management'][1]['1_4']['-'];
 //                $data['management'][1]['1_4']['-'] = '100.00';
+
+                $data['management'][1]['1_1']['+'] = "54.54";
+                $data['management'][1]['1_2']['+'] = "34.75";
+                $data['management'][1]['1_3']['+'] = "62.61";
+                $data['management'][1]['1_4']['+'] = '0.00';
+
+                $data['management'][1]['1_1']['-'] = "0.00";
+                $data['management'][1]['1_2']['-'] = "40.00";
+                $data['management'][1]['1_3']['-'] = "33.33";
+                $data['management'][1]['1_4']['-'] = '100.00';
             }
 
             $value_1_1_positive = ($data['management'][1]['1_1']['+'] / 100) * 5.5;
