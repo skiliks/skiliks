@@ -17,7 +17,7 @@ class FixTimeEfficCommand extends CConsoleCommand
 // x.4
 //         $simulations = Simulation::model()->findAll(" id = 5224 ");
 //         $simulations = Simulation::model()->findAll(" id = 8802 ");
-//         $simulations = Simulation::model()->findAll(" id = 9515 ");
+         $simulations = Simulation::model()->findAll(" id = 9515 ");
 
 // x.2. {
 //        $simulations = Simulation::model()->findAll(" results_popup_cache is null
@@ -319,15 +319,15 @@ class FixTimeEfficCommand extends CConsoleCommand
 
             // managerial 1 {
             if (9515 == $simulation->id) {
-                $data['management'][1]['1_1']['+'] = $data['management'][1]['1_2']['+'];
-                $data['management'][1]['1_2']['+'] = $data['management'][1]['1_3']['+'];
-                $data['management'][1]['1_3']['+'] = $data['management'][1]['1_4']['+'];
-                $data['management'][1]['1_4']['+'] = '0.00';
-
-                $data['management'][1]['1_1']['-'] = $data['management'][1]['1_2']['-'];
-                $data['management'][1]['1_2']['-'] = $data['management'][1]['1_3']['-'];
-                $data['management'][1]['1_3']['-'] = $data['management'][1]['1_4']['-'];
-                $data['management'][1]['1_4']['-'] = '100.00';
+//                $data['management'][1]['1_1']['+'] = $data['management'][1]['1_2']['+'];
+//                $data['management'][1]['1_2']['+'] = $data['management'][1]['1_3']['+'];
+//                $data['management'][1]['1_3']['+'] = $data['management'][1]['1_4']['+'];
+//                $data['management'][1]['1_4']['+'] = '0.00';
+//
+//                $data['management'][1]['1_1']['-'] = $data['management'][1]['1_2']['-'];
+//                $data['management'][1]['1_2']['-'] = $data['management'][1]['1_3']['-'];
+//                $data['management'][1]['1_3']['-'] = $data['management'][1]['1_4']['-'];
+//                $data['management'][1]['1_4']['-'] = '100.00';
             }
 
             $value_1_1_positive = ($data['management'][1]['1_1']['+'] / 100) * 5.5;
@@ -463,6 +463,8 @@ class FixTimeEfficCommand extends CConsoleCommand
                 }
             }
             // managerial 1 }
+
+            var_dump($data['management'][1]);
 
             // managerial 2 {
 //            $value_2_1_positive = ($data['management'][2]['2_1']['+'] / 100) * 12;
