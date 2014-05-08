@@ -318,25 +318,15 @@ class FixTimeEfficCommand extends CConsoleCommand
             // productivity }
 
             // managerial 1 {
-            if (9515 == $simulation->id) {
-//                $data['management'][1]['1_1']['+'] = $data['management'][1]['1_2']['+'];
-//                $data['management'][1]['1_2']['+'] = $data['management'][1]['1_3']['+'];
-//                $data['management'][1]['1_3']['+'] = $data['management'][1]['1_4']['+'];
-//                $data['management'][1]['1_4']['+'] = '0.00';
-//
-//                $data['management'][1]['1_1']['-'] = $data['management'][1]['1_2']['-'];
-//                $data['management'][1]['1_2']['-'] = $data['management'][1]['1_3']['-'];
-//                $data['management'][1]['1_3']['-'] = $data['management'][1]['1_4']['-'];
-//                $data['management'][1]['1_4']['-'] = '100.00';
-
-                $data['management'][1]['1_1']['+'] = "54.54";
-                $data['management'][1]['1_2']['+'] = "34.75";
-                $data['management'][1]['1_3']['+'] = "62.61";
+            if (9515 == $simulation->id && 0 !=  $data['management'][1]['1_4']['+']) {
+                $data['management'][1]['1_1']['+'] = $data['management'][1]['1_2']['+'];
+                $data['management'][1]['1_2']['+'] = $data['management'][1]['1_3']['+'];
+                $data['management'][1]['1_3']['+'] = $data['management'][1]['1_4']['+'];
                 $data['management'][1]['1_4']['+'] = '0.00';
 
-                $data['management'][1]['1_1']['-'] = "0.00";
-                $data['management'][1]['1_2']['-'] = "40.00";
-                $data['management'][1]['1_3']['-'] = "33.33";
+                $data['management'][1]['1_1']['-'] = $data['management'][1]['1_2']['-'];
+                $data['management'][1]['1_2']['-'] = $data['management'][1]['1_3']['-'];
+                $data['management'][1]['1_3']['-'] = $data['management'][1]['1_4']['-'];
                 $data['management'][1]['1_4']['-'] = '100.00';
             }
 
@@ -473,8 +463,6 @@ class FixTimeEfficCommand extends CConsoleCommand
                 }
             }
             // managerial 1 }
-
-            var_dump($data['management'][1]);
 
             // managerial 2 {
 //            $value_2_1_positive = ($data['management'][2]['2_1']['+'] / 100) * 12;
