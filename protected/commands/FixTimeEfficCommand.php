@@ -10,8 +10,33 @@ class FixTimeEfficCommand extends CConsoleCommand
 {
     public function actionIndex($is_fix = 'false') // 7 days
     {
+        /** @var Simulation $simulation */
         $simulations = Simulation::model()->findAll(" results_popup_cache is not null
             and scenario_id = 2 and start > '2013-08-01 00:00:00' and status = 'complete' ");
+
+// x.2. {
+//        $simulations = Simulation::model()->findAll(" results_popup_cache is null
+//            and scenario_id = 2 and start > '2013-08-01 00:00:00' and status = 'complete' ");
+//
+//        foreach ($simulations as $simulation) {
+//            echo $simulation->id, "\n";
+//            echo $simulation->start , "\n";
+//            echo $simulation->invite->email , "\n";
+//        }
+//        die;
+// x.2 }
+
+// x.1 {
+//        $simulations = Simulation::model()->findAll(" id in (7358,13252,13303,13357,13472,13488,13497,13526,13553,13558,13579,13597,13618,13621) ");
+//        $simulations = Simulation::model()->findAll(" id in (5158, 5224, 5350, 5364) ");
+//
+//        foreach ($simulations as $simulation) {
+//            echo $simulation->id, "\n";
+//            echo $simulation->results_popup_partials_path , "\n";
+//            echo $simulation->start , "\n";
+//        }
+//        die;
+// x.1 }
 
 //        echo  "sim_id, code , value \n";
 //
@@ -45,6 +70,38 @@ class FixTimeEfficCommand extends CConsoleCommand
             $negative_1_3_behaviours_ids[] = $behaviour->id;
         }
         unset($tmpArray);
+
+// х.3 суммарый негатив по 1.3 { negative.csv
+//        $simulations = Simulation::model()->findAll(" scenario_id = 2 and start > '2013-08-01 00:00:00' and status = 'complete' ");
+//
+//        echo "sim_id, negative value \n";
+//        foreach ($simulations as $simulation) {
+//            if ('tatiana@skiliks.com' == $simulation->user->profile->email
+//                || 'tony@skiliks.com' == $simulation->user->profile->email
+//                || 'vladimir@skiliks.com' == $simulation->user->profile->email
+//                || 'andrey.sarnavskiy@skiliks.com' == $simulation->user->profile->email) {
+//                continue;
+//            }
+//
+//            $value_1_3_negative_db = AssessmentAggregated::model()->findAllByAttributes([
+//                'sim_id'   => $simulation->id,
+//                'point_id' => $negative_1_3_behaviours_ids,
+//            ]);
+//            $value_1_3_negative = 0;
+//
+//            foreach ($value_1_3_negative_db as $value) {
+//                $value_1_3_negative += abs($value->value);
+//            }
+//
+//            if (120 < $value_1_3_negative) {
+//                $value_1_3_negative = 120;
+//            }
+//
+//            echo $simulation->id, ',', $value_1_3_negative, "\n";
+//        }
+//
+//        die;
+// х.3 суммарый негатив по 1.3 }
 
         $efficiencyN = 0;
         $firstPriorityN = 0;
@@ -193,8 +250,8 @@ class FixTimeEfficCommand extends CConsoleCommand
 
             if ($otherValue != $data['time']['time_spend_for_inactivity']
                 && round($otherValue) != $data['time']['time_spend_for_inactivity']
-                && round($otherValue) + 1 != $data['time']['time_spend_for_inactivity']
-                && round($otherValue) - 1 != $data['time']['time_spend_for_inactivity']) {
+                /*&& round($otherValue) + 1 != $data['time']['time_spend_for_inactivity']*/
+                /*&& round($otherValue) - 1 != $data['time']['time_spend_for_inactivity']*/) {
                 echo '|', $simulation->id, '| otherPriority |' , $otherValue,
                 '|', $data['time']['time_spend_for_inactivity'],
                 '|', $simulation->end, '|', $simulation->user->profile->email, '|';
