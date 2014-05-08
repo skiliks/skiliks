@@ -505,11 +505,6 @@ class FixTimeEfficCommand extends CConsoleCommand
             // managerial 2 }
 
             // 3.2 {
-            if ('true' == $is_fix) {
-                $simulation->results_popup_cache = serialize($data);
-                $simulation->save(false);
-            }
-
             $value_3_2_negative_db = AssessmentAggregated::model()->findAllByAttributes([
                 'sim_id'   => $simulation->id,
                 'point_id' => $negative_3_2_behaviours_ids,
@@ -521,10 +516,10 @@ class FixTimeEfficCommand extends CConsoleCommand
 
 
             if ('//simulation_details_popup/v1' == $simulation->results_popup_partials_path) {
-                $new_3_2_negative = ($value_3_2_negative*100/4);
+                $new_3_2_negative = number_format($value_3_2_negative*100/4, 2);
                 $type = 'v1';
             } else {
-                $new_3_2_negative = ($value_3_2_negative*100/8);
+                $new_3_2_negative = number_format($value_3_2_negative*100/8, 2);
                 $type = 'v2';
             }
 
@@ -584,7 +579,13 @@ class FixTimeEfficCommand extends CConsoleCommand
 
                 $data['management'][3]['total'] = $managerial_3_value;
             }
-            //     managerial 3 }
+            // managerial 3 }
+
+            // save
+            if ('true' == $is_fix) {
+                $simulation->results_popup_cache = serialize($data);
+                $simulation->save(false);
+            }
         }
 
         echo $efficiencyN;
