@@ -18,6 +18,7 @@ class FixManagement3Command extends CConsoleCommand
 //         $simulations = Simulation::model()->findAll(" id = 8802 ");
 //           $simulations = Simulation::model()->findAll(" id = 9515 ");
 //         $simulations = Simulation::model()->findAll(" id = 6995 ");
+//         $simulations = Simulation::model()->findAll(" id in(5350, 5406, 5418, 6995, 8421)  ");
 
         $negative_3_2_behaviours_ids = [];
         $tmpArray_3_2_negative = HeroBehaviour::model()->findAllByAttributes([
@@ -37,6 +38,10 @@ class FixManagement3Command extends CConsoleCommand
                 || 'andrey.sarnavskiy@skiliks.com' == $simulation->user->profile->email) {
                 continue;
             }
+
+//            echo $simulation->id, "\n";
+//            echo $simulation->results_popup_partials_path, "\n";
+//            $simulation->results_popup_partials_path = '//simulation_details_popup/v2';
 
             $data = unserialize($simulation->results_popup_cache);
 
@@ -106,6 +111,8 @@ class FixManagement3Command extends CConsoleCommand
             }
 
             $managerial_3_value = round( $managerial_3_value * 100, 2);
+
+//            echo $managerial_3_value, "\n";
 
             if ($managerial_3_value != $data['management'][3]['total']
                 && round($managerial_3_value, 0) != round($data['management'][3]['total'], 0)
