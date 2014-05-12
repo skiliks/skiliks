@@ -21,6 +21,7 @@ class FixProductivityCommand extends CConsoleCommand
 //        $simulations = Simulation::model()->findAll(" id = 4995 ");
 //        $simulations = Simulation::model()->findAll(" id = 9766 ");
 //        $simulations = Simulation::model()->findAll(" id = 5154 ");
+//        $simulations = Simulation::model()->findAll(" id = 4997 ");
 
         $performanceN = 0;
 
@@ -95,23 +96,23 @@ class FixProductivityCommand extends CConsoleCommand
             }
 
             if (0 != $sim_perf_data['0']
-                && $sim_perf_data['0'] != $data['performance']['0']) {
-                $data['performance']['0'] = $sim_perf_data['0'];
+                && $sim_perf_data['0']*100/80 != $data['performance']['0']) {
+                $data['performance']['0'] = $sim_perf_data['0']*100/80;
                 $check[$simulation->id] = true;
             }
             if (0 != $sim_perf_data['1']
-                && $sim_perf_data['1'] != $data['performance']['1']) {
-                $data['performance']['1'] = $sim_perf_data['1'];
+                && $sim_perf_data['1']*100/35 != $data['performance']['1']) {
+                $data['performance']['1'] = $sim_perf_data['1']*100/35;
                 $check[$simulation->id] = true;
             }
             if (0 != $sim_perf_data['2']
-                && $sim_perf_data['2'] != $data['performance']['2']) {
-                $data['performance']['2'] = $sim_perf_data['2'];
+                && $sim_perf_data['2']*100/19 != $data['performance']['2']) {
+                $data['performance']['2'] = $sim_perf_data['2']*100/19;
                 $check[$simulation->id] = true;
             }
             if (0 != $sim_perf_data['2_min']
-                && $sim_perf_data['2_min'] != $data['performance']['2_min']) {
-                $data['performance']['2_min'] = $sim_perf_data['2_min'];
+                && $sim_perf_data['2_min']*100/49 != $data['performance']['2_min']) {
+                $data['performance']['2_min'] = $sim_perf_data['2_min']*100/49;
                 $check[$simulation->id] = true;
             }
 
@@ -126,7 +127,7 @@ class FixProductivityCommand extends CConsoleCommand
 
 //            var_dump($sim_perf_data);
 //            var_dump($performanceTotalValue);
-//            var_dump($data['performance']['total']);
+//            var_dump($data['performance']);
 //            die;
 
             if ($performanceTotalValue != $data['performance']['total']
