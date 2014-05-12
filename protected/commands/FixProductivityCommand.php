@@ -21,7 +21,7 @@ class FixProductivityCommand extends CConsoleCommand
 //        $simulations = Simulation::model()->findAll(" id = 4995 ");
 //        $simulations = Simulation::model()->findAll(" id = 9766 ");
 //        $simulations = Simulation::model()->findAll(" id = 5154 ");
-//        $simulations = Simulation::model()->findAll(" id = 6995 ");
+//        $simulations = Simulation::model()->findAll(" id = 6491 ");
 
         $performanceN = 0;
 
@@ -68,14 +68,16 @@ class FixProductivityCommand extends CConsoleCommand
                 '2' => 0,
                 '2_min' => 0,
             ];
+            $userRules = [];
             foreach ($performancePoints as $performancePoint) {
-                // баллы дублируются, по крайней мере за результативность
-                if (6995 == $simulation->id && 3071 < $performancePoint->id) {
+
+                if (in_array($performancePoint->performanceRule->code, $userRules)) {
                     continue;
                 }
 
                 // 41-го нет в новом сценарии
                 if (41 != $performancePoint->performanceRule->code) {
+                    $userRules[] = $performancePoint->performanceRule->code;
                     $sim_perf_data[$performancePoint->performanceRule->category->code] += $performancePoint->performanceRule->value;
                 }
 
