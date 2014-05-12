@@ -21,7 +21,7 @@ class FixProductivityCommand extends CConsoleCommand
 //        $simulations = Simulation::model()->findAll(" id = 4995 ");
 //        $simulations = Simulation::model()->findAll(" id = 9766 ");
 //        $simulations = Simulation::model()->findAll(" id = 5154 ");
-//        $simulations = Simulation::model()->findAll(" id = 4997 ");
+//        $simulations = Simulation::model()->findAll(" id = 6995 ");
 
         $performanceN = 0;
 
@@ -69,12 +69,17 @@ class FixProductivityCommand extends CConsoleCommand
                 '2_min' => 0,
             ];
             foreach ($performancePoints as $performancePoint) {
+                // баллы дублируются, по крайней мере за результативность
+                if (6995 == $simulation->id && 3071 < $performancePoint->id) {
+                    continue;
+                }
+
                 // 41-го нет в новом сценарии
                 if (41 != $performancePoint->performanceRule->code) {
                     $sim_perf_data[$performancePoint->performanceRule->category->code] += $performancePoint->performanceRule->value;
                 }
 
-                // echo $performancePoint->performanceRule->code, ' : ', $performancePoint->performanceRule->category->code, ' - ' , $performancePoint->performanceRule->value, "\n";
+//                echo $performancePoint->id, ' . ', $performancePoint->performanceRule->code, ' : ', $performancePoint->performanceRule->category->code, ' - ' , $performancePoint->performanceRule->value, "\n";
             }
 
 //            $productivityZero = 80 * ((isset($data['performance']['0'])) ? $data['performance']['0'] : 0 );
@@ -130,8 +135,7 @@ class FixProductivityCommand extends CConsoleCommand
 //            var_dump($data['performance']);
 //            die;
 
-            if ($performanceTotalValue != $data['performance']['total']
-                /* && abs($performanceTotalValue - $data['performance']['total']) > 0.01*/) {
+            if ($performanceTotalValue != $data['performance']['total']) {
 //                echo $simulation->id, ': performance total :' , $performanceTotalValue,
 //                ',', $data['performance']['total'],
 //                ',', $simulation->end, ',', $simulation->user->profile->email;
