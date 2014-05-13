@@ -18,7 +18,8 @@ class FixTimeEfficCommand extends CConsoleCommand
 //         $simulations = Simulation::model()->findAll(" id = 5224 ");
 //         $simulations = Simulation::model()->findAll(" id = 8802 ");
 //           $simulations = Simulation::model()->findAll(" id = 9515 ");
-//         $simulations = Simulation::model()->findAll(" id = 6995 ");
+//         $simulations = Simulation::model()->findAll(" id IN (7852, 9515) ");
+//         $simulations = Simulation::model()->findAll(" id = 9515 ");
 
 // x.2. {
 //        $simulations = Simulation::model()->findAll(" results_popup_cache is null
@@ -89,7 +90,7 @@ class FixTimeEfficCommand extends CConsoleCommand
 // х.3 суммарый негатив по 1.3 { negative.csv
 //        $simulations = Simulation::model()->findAll(" scenario_id = 2 and start > '2013-08-01 00:00:00' and status = 'complete' ");
 //
-//        echo "sim_id, negative value \n";
+//        echo "sim_id; negative value \n";
 //        foreach ($simulations as $simulation) {
 //            if ('tatiana@skiliks.com' == $simulation->user->profile->email
 //                || 'tony@skiliks.com' == $simulation->user->profile->email
@@ -100,7 +101,7 @@ class FixTimeEfficCommand extends CConsoleCommand
 //
 //            $value_1_3_negative_db = AssessmentAggregated::model()->findAllByAttributes([
 //                'sim_id'   => $simulation->id,
-//                'point_id' => $negative_1_3_behaviours_ids,
+//                'point_id' => array_merge($negative_1_3_behaviours_ids, $negative_1_4_behaviours_ids),
 //            ]);
 //            $value_1_3_negative = 0;
 //
@@ -108,11 +109,7 @@ class FixTimeEfficCommand extends CConsoleCommand
 //                $value_1_3_negative += abs($value->value);
 //            }
 //
-//            if (120 < $value_1_3_negative) {
-//                $value_1_3_negative = 120;
-//            }
-//
-//            echo $simulation->id, ',', $value_1_3_negative, "\n";
+//            echo $simulation->id, '; ', $value_1_3_negative, "\n";
 //        }
 //
 //        die;
@@ -141,6 +138,23 @@ class FixTimeEfficCommand extends CConsoleCommand
 
             if (5153 == $simulation->id && 103 < $data['time']['non_priority_mail'] ) {
                 $data['time']['non_priority_mail'] = $data['time']['non_priority_mail'] - 103;
+            }
+
+            if (7852 == $simulation->id ) {
+                $data['management'][1]['1_1']['+'] = 100;
+                $data['management'][1]['1_2']['+'] = 37.81;
+                $data['management'][1]['1_3']['+'] = 56.91;
+                $data['management'][1]['1_4']['+'] = 69.63;
+
+                $data['management'][1]['1_1']['-'] = 0;
+                $data['management'][1]['1_2']['-'] = 0;
+                $data['management'][1]['1_3']['-'] = 5;
+                $data['management'][1]['1_4']['-'] = 53.33;
+                $data['management'][1]['1_5']['-'] = 118 - 53.33;
+            }
+
+            if (9515 == $simulation->id ) {
+                $data['management'][1]['1_5']['-'] = 100;
             }
 
             if ((6491 == $simulation->id && 168 == $data['time']['1st_priority_planning'])
@@ -294,17 +308,17 @@ class FixTimeEfficCommand extends CConsoleCommand
             // efficiency }
 
             // managerial 1 {
-            if (9515 == $simulation->id && 0 !=  $data['management'][1]['1_4']['+']) {
-                $data['management'][1]['1_1']['+'] = $data['management'][1]['1_2']['+'];
-                $data['management'][1]['1_2']['+'] = $data['management'][1]['1_3']['+'];
-                $data['management'][1]['1_3']['+'] = $data['management'][1]['1_4']['+'];
-                $data['management'][1]['1_4']['+'] = '0.00';
-
-                $data['management'][1]['1_1']['-'] = $data['management'][1]['1_2']['-'];
-                $data['management'][1]['1_2']['-'] = $data['management'][1]['1_3']['-'];
-                $data['management'][1]['1_3']['-'] = $data['management'][1]['1_4']['-'];
-                $data['management'][1]['1_4']['-'] = '100.00';
-            }
+//            if (9515 == $simulation->id && 0 !=  $data['management'][1]['1_4']['+']) {
+//                $data['management'][1]['1_1']['+'] = $data['management'][1]['1_2']['+'];
+//                $data['management'][1]['1_2']['+'] = $data['management'][1]['1_3']['+'];
+//                $data['management'][1]['1_3']['+'] = $data['management'][1]['1_4']['+'];
+//                $data['management'][1]['1_4']['+'] = '0.00';
+//
+//                $data['management'][1]['1_1']['-'] = $data['management'][1]['1_2']['-'];
+//                $data['management'][1]['1_2']['-'] = $data['management'][1]['1_3']['-'];
+//                $data['management'][1]['1_3']['-'] = $data['management'][1]['1_4']['-'];
+//                $data['management'][1]['1_4']['-'] = '100.00';
+//            }
 
             $value_1_1_positive = ($data['management'][1]['1_1']['+'] / 100) * 5.5;
             $value_1_2_positive = ($data['management'][1]['1_2']['+'] / 100) * 15;
@@ -349,13 +363,17 @@ class FixTimeEfficCommand extends CConsoleCommand
                 $value_1_2_negative = ($data['management'][1]['1_3']['-'] / 100) * 20;
             }
 
+//            var_dump($value_1_1_positive * (1 - $value_1_1_negative/4));
+//            var_dump($value_1_2_positive * (1 - $value_1_2_negative/20));
+//            var_dump($value_1_3_positive * (1 - $value_1_3_total_negative/120));
+
             $managerial_1_value = (
                     $value_1_1_positive * (1 - $value_1_1_negative/4)
                     + $value_1_2_positive * (1 - $value_1_2_negative/20)
                     + $value_1_3_positive * (1 - $value_1_3_total_negative/120)
                 ) / 45;
 
-            $managerial_1_value = round( $managerial_1_value * 100, 2);
+            $managerial_1_value = round($managerial_1_value * 100, 2);
 
             // 1.x
             if ($managerial_1_value != $data['management'][1]['total'] &&

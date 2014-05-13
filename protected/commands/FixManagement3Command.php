@@ -60,7 +60,8 @@ class FixManagement3Command extends CConsoleCommand
             }
 
 
-            if ('//simulation_details_popup/v1' == $simulation->results_popup_partials_path) {
+            if ('//simulation_details_popup/v1' == $simulation->results_popup_partials_path
+                && 5217 != $simulation->id) {
                 $new_3_2_negative = number_format($value_3_2_negative*100/4, 2);
                 $type = 'v1';
             } else {
