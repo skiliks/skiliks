@@ -49,7 +49,6 @@ class FixProductivityCommand extends CConsoleCommand
                 || 'vladimir1@skiliks.com' == $simulation->user->profile->email
                 || 'tetyana.grybok@skiliks.com' == $simulation->user->profile->email
                 || 'sarnavskyi89@gmail.com' == $simulation->user->profile->email
-                || 'sarnavskyi89@gmail.com' == $simulation->user->profile->email
                 || 'andrey.sarnavskiy@skiliks.com' == $simulation->user->profile->email) {
                 continue;
             }
