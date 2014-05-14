@@ -430,7 +430,6 @@ class FixTimeEfficCommand extends CConsoleCommand
                 if ($new_1_4 != $data['management'][1]['1_5']['-'] &&
                     round($new_1_4, 0) != round($data['management'][1]['1_5']['-'], 0)
                     && abs(round($new_1_4, 0) - round($data['management'][1]['1_5']['-'], 0)) > 0.5
-                    && $simulation->id != 7852
                 ) {
                     echo '| ', $simulation->id, '| 1.4 (v1) |', $new_1_4,
                     ' | ', $data['management'][1]['1_5']['-'],
