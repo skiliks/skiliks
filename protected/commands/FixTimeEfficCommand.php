@@ -143,7 +143,7 @@ class FixTimeEfficCommand extends CConsoleCommand
                 $data['time']['non_priority_mail'] = $data['time']['non_priority_mail'] - 103;
             }
 
-            if (7852 == $simulation->id ) {
+            if (7852 == $simulation->id && $data['management'][1]['1_5']['-'] < 100 ) {
 //                $data['management'][1]['1_1']['+'] = 100;
 //                $data['management'][1]['1_2']['+'] = 37.81;
 //                $data['management'][1]['1_3']['+'] = 56.91;
@@ -153,10 +153,10 @@ class FixTimeEfficCommand extends CConsoleCommand
 //                $data['management'][1]['1_2']['-'] = 0;
 //                $data['management'][1]['1_3']['-'] = 5;
 //                $data['management'][1]['1_4']['-'] = 53.33;
-                $data['management'][1]['1_5']['-'] = 118 - 53.33;
+                $data['management'][1]['1_5']['-'] = 100;
             }
 
-            if (9515 == $simulation->id ) {
+            if (9515 == $simulation->id && $data['management'][1]['1_5']['-'] < 100  ) {
                 $data['management'][1]['1_5']['-'] = 100;
             }
 
@@ -435,6 +435,7 @@ class FixTimeEfficCommand extends CConsoleCommand
                     ' | ', $data['management'][1]['1_5']['-'],
                     ' | ', $simulation->end, ' | ', $simulation->user->profile->email, ' |';
                     echo "\n";
+                    $managerial_1_N++;
 
                     $data['management'][1]['1_5']['-'] = $new_1_4;
                 }
