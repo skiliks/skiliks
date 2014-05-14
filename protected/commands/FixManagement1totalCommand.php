@@ -19,7 +19,7 @@ class FixManagement1totalCommand extends CConsoleCommand
 //           $simulations = Simulation::model()->findAll(" id = 9515 ");
 //         $simulations = Simulation::model()->findAll(" id = 13229 ");
 //         $simulations = Simulation::model()->findAll(" id = 4995 ");
-         $simulations = Simulation::model()->findAll(" id in(4995, 4997, 5009, 9508)  ");
+//         $simulations = Simulation::model()->findAll(" id in(4995, 4997, 5009, 9508)  ");
 
         $negative_1_3_behaviours_ids = [];
         $negative_1_4_behaviours_ids = [];
