@@ -55,7 +55,7 @@
             <br/>
             <a class="button-white button-white-XL button-white-hover inter-active label icon-arrow-blue"
                href="/payment/order?ordered=3">
-                <?= Yii::t('site', 'Buy') ?>
+                <?= Yii::t('site', 'Subscribe') ?>
             </a>
         </span>
 
@@ -147,7 +147,7 @@
             <br/>
             <a class="button-white button-white-hover inter-active label icon-arrow-blue"
                href="/payment/order?ordered=20">
-                <?= Yii::t('site', 'Buy') ?>
+                <?= Yii::t('site', 'Subscribe') ?>
             </a>
         </span>
 
@@ -194,7 +194,7 @@
             <br/>
             <a class="button-white button-white-hover inter-active label icon-arrow-blue"
                href="/payment/order?ordered=50">
-                <?= Yii::t('site', 'Buy') ?>
+                <?= Yii::t('site', 'Subscribe') ?>
             </a>
         </span>
     </span>
