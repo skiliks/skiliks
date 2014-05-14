@@ -418,11 +418,12 @@ class FixTimeEfficCommand extends CConsoleCommand
                 }
 
                 if (false == isset($data['management'][1]['1_5'])) {
-                    var_dump($data['management'][1]);
-                    var_dump($simulation->results_popup_partials_path);
-                    var_dump($simulation->id);
-                    var_dump($simulation->user->profile->email);
-                    die;
+                    $data['management'][1]['1_5']['-'] = 0;
+//                    var_dump($data['management'][1]);
+//                    var_dump($simulation->results_popup_partials_path);
+//                    var_dump($simulation->id);
+//                    var_dump($simulation->user->profile->email);
+//                    die;
                 }
 
                 // [1][4][-]
