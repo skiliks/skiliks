@@ -18,7 +18,28 @@ class FixManagement1totalCommand extends CConsoleCommand
 //         $simulations = Simulation::model()->findAll(" id = 8802 ");
 //           $simulations = Simulation::model()->findAll(" id = 9515 ");
 //         $simulations = Simulation::model()->findAll(" id = 13229 ");
-//         $simulations = Simulation::model()->findAll(" id in(5350, 5406, 5418, 6995, 8421)  ");
+//         $simulations = Simulation::model()->findAll(" id = 4995 ");
+         $simulations = Simulation::model()->findAll(" id in(4995, 4997, 5009, 9508)  ");
+
+        $negative_1_3_behaviours_ids = [];
+        $negative_1_4_behaviours_ids = [];
+
+        $tmpArrayD = HeroBehaviour::model()->findAllByAttributes([
+            'scenario_id' => 2,
+            'code'        => ['214d5', '214d6', '214d8'],
+        ]);
+        $tmpArrayG = HeroBehaviour::model()->findAllByAttributes([
+            'scenario_id' => 2,
+            'code'        => ['214g0', '214g1'],
+        ]);
+
+        foreach ($tmpArrayD as $behaviour) {
+            $negative_1_3_behaviours_ids[] = $behaviour->id;
+        }
+
+        foreach ($tmpArrayG as $behaviour) {
+            $negative_1_4_behaviours_ids[] = $behaviour->id;
+        }
 
         $managerial_1_N = 0;
 
@@ -33,36 +54,25 @@ class FixManagement1totalCommand extends CConsoleCommand
                 continue;
             }
 
-//            echo $simulation->id, "\n";
-//            echo $simulation->results_popup_partials_path, "\n";
-//            $simulation->results_popup_partials_path = '//simulation_details_popup/v2';
-
             $data = unserialize($simulation->results_popup_cache);
 
             if ($data instanceof stdClass) {
                 $data = json_decode(json_encode($data), true);
             }
 
+            $value_1_3_negative_db = AssessmentAggregated::model()->findAllByAttributes([
+                'sim_id'   => $simulation->id,
+                'point_id' => array_merge($negative_1_3_behaviours_ids, $negative_1_4_behaviours_ids),
+            ]);
+            $value_1_3_negative = 0;
+
+            foreach ($value_1_3_negative_db as $value) {
+                $value_1_3_negative += abs($value->value);
+            }
 
             if ('//simulation_details_popup/v1' == $simulation->results_popup_partials_path) {
 
                 // V1 {
-                $lgg = LearningGoalGroup::model()->findAllByAttributes([
-                    'scenario_id' => 2, // full
-                    'code' => ['1_4', '1_5'],
-                ]);
-
-                $areas = [];
-                $value_1_3_negative = 0;
-
-                foreach ($lgg as $lgg_row) {
-                    $area = SimulationLearningGoalGroup::model()->findByAttributes([
-                        'learning_goal_group_id' => $lgg_row->id,
-                        'sim_id' => $simulation->id,
-                    ]);
-                    $areas[$lgg_row->code] = $area;
-                    $value_1_3_negative += abs($area->total_negative);
-                }
 
                 $value_1_3_negative = $value_1_3_negative/120; // 60 за 1.3 плюс 60 за 1.4
 
@@ -79,23 +89,6 @@ class FixManagement1totalCommand extends CConsoleCommand
             } else {
 
                 // V2 {
-
-                $lgg = LearningGoalGroup::model()->findAllByAttributes([
-                    'scenario_id' => 2, // full
-                    'code' => ['1_3', '1_4'],
-                ]);
-
-                $areas = [];
-                $value_1_3_negative = 0;
-
-                foreach ($lgg as $lgg_row) {
-                    $area = SimulationLearningGoalGroup::model()->findByAttributes([
-                        'learning_goal_group_id' => $lgg_row->id,
-                        'sim_id' => $simulation->id,
-                    ]);
-                    $areas[$lgg_row->code] = $area;
-                    $value_1_3_negative += abs($area->total_negative);
-                }
 
                 $value_1_3_negative = $value_1_3_negative/120; // 60 за 1.3 плюс 60 за 1.4
 
@@ -120,6 +113,8 @@ class FixManagement1totalCommand extends CConsoleCommand
                 + ($data['management'][3]['3_4']['+']/100)*7*(1 - $data['management'][3]['3_4']['-']/100), 2);
 
             $management_total = $part1 + $part2 + $part3;
+
+            //var_dump($part1, $part2, $part3);
 
             if ($management_total != $data['management']['total']
                 && abs($management_total - $data['management']['total']) > 0.03) {
