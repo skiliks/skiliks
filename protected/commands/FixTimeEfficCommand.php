@@ -141,15 +141,15 @@ class FixTimeEfficCommand extends CConsoleCommand
             }
 
             if (7852 == $simulation->id ) {
-                $data['management'][1]['1_1']['+'] = 100;
-                $data['management'][1]['1_2']['+'] = 37.81;
-                $data['management'][1]['1_3']['+'] = 56.91;
-                $data['management'][1]['1_4']['+'] = 69.63;
-
-                $data['management'][1]['1_1']['-'] = 0;
-                $data['management'][1]['1_2']['-'] = 0;
-                $data['management'][1]['1_3']['-'] = 5;
-                $data['management'][1]['1_4']['-'] = 53.33;
+//                $data['management'][1]['1_1']['+'] = 100;
+//                $data['management'][1]['1_2']['+'] = 37.81;
+//                $data['management'][1]['1_3']['+'] = 56.91;
+//                $data['management'][1]['1_4']['+'] = 69.63;
+//
+//                $data['management'][1]['1_1']['-'] = 0;
+//                $data['management'][1]['1_2']['-'] = 0;
+//                $data['management'][1]['1_3']['-'] = 5;
+//                $data['management'][1]['1_4']['-'] = 53.33;
                 $data['management'][1]['1_5']['-'] = 118 - 53.33;
             }
 
@@ -412,6 +412,12 @@ class FixTimeEfficCommand extends CConsoleCommand
                     echo "\n";
 
                     $data['management'][1]['1_4']['-'] = $new_1_3;
+                }
+
+                if (false == isset($data['management'][1]['1_5'])) {
+                    var_dump($data['management'][1]);
+                    var_dump($simulation->results_popup_partials_path);
+                    die;
                 }
 
                 // [1][4][-]
