@@ -126,6 +126,9 @@ class FixTimeEfficCommand extends CConsoleCommand
             if ('tatiana@skiliks.com' == $simulation->user->profile->email
                 || 'tony@skiliks.com' == $simulation->user->profile->email
                 || 'vladimir@skiliks.com' == $simulation->user->profile->email
+                || 'vladimir1@skiliks.com' == $simulation->user->profile->email
+                || 'tetyana.grybok@skiliks.com' == $simulation->user->profile->email
+                || 'sarnavskyi89@gmail.com' == $simulation->user->profile->email
                 || 'andrey.sarnavskiy@skiliks.com' == $simulation->user->profile->email) {
                 continue;
             }
@@ -418,6 +421,7 @@ class FixTimeEfficCommand extends CConsoleCommand
                     var_dump($data['management'][1]);
                     var_dump($simulation->results_popup_partials_path);
                     var_dump($simulation->id);
+                    var_dump($simulation->user->profile->email);
                     die;
                 }
 
