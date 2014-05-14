@@ -417,6 +417,7 @@ class FixTimeEfficCommand extends CConsoleCommand
                 if (false == isset($data['management'][1]['1_5'])) {
                     var_dump($data['management'][1]);
                     var_dump($simulation->results_popup_partials_path);
+                    var_dump($simulation->id);
                     die;
                 }
 
