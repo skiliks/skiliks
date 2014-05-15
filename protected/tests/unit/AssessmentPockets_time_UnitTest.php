@@ -1,15 +1,27 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: slavka
- * Date: 5/13/14
- * Time: 2:14 PM
+ * Группа тестов проверяет карманы для:
+ * - Продуктивное время (выполнение приоритетных задач)
+ * - Непродуктивное время (иные действия, не связанные с приоритетами)
+ * - Время ожидания и бездействия
+ * - Сверхурочное время
+ * - Срочно
+ * - Высокий приоритет
+ * - Средний приоритет
+ * - Двухминутные задачи
+ * - 1. Управление задачами с учётом приоритетов
+ * - 2. Управление людьми
+ * - 3. Управление коммуникациями
+ * - Управленческие навыки
+ * - Результативность
+ * - Эффективность использования времени
+ * - Итоговый рейтинг
+ *
  */
 
 class AssessmentPockets_time_UnitTest extends CDbTestCase {
 
     /**
-     * Проверяем менеджерские навыки - они имеют комбинированные тексты "позитив+негатив"
      * 1. 1й карман - позитив, позитив по нулям
      */
     public function testTextForInfoGraphic_1() {
@@ -127,22 +139,22 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
 
         $results = SimulationResultTextService::generate($simulation, 'popup');
 
-//        $this->gerArray($results, 'time.productive_time');
-//        $this->gerArray($results, 'time.waiting_time');
-//        $this->gerArray($results, 'time.over_time');
+//        $this->getArray($results, 'time.productive_time');
+//        $this->getArray($results, 'time.waiting_time');
+//        $this->getArray($results, 'time.over_time');
 //
-//        $this->gerArray($results, 'performance.urgent');
-//        $this->gerArray($results, 'performance.high');
-//        $this->gerArray($results, 'performance.middle');
-//        $this->gerArray($results, 'performance.two_minutes');
+//        $this->getArray($results, 'performance.urgent');
+//        $this->getArray($results, 'performance.high');
+//        $this->getArray($results, 'performance.middle');
+//        $this->getArray($results, 'performance.two_minutes');
 //
-//        $this->gerArray($results, 'management.task_managment');
-//        $this->gerArray($results, 'management.people_managment');
-//        $this->gerArray($results, 'management.communication_managment');
-//        $this->gerArray($results, 'management');
-//        $this->gerArray($results, 'performance');
-//        $this->gerArray($results, 'time');
-//        $this->gerArray($results, 'overall');
+//        $this->getArray($results, 'management.task_managment');
+//        $this->getArray($results, 'management.people_managment');
+//        $this->getArray($results, 'management.communication_managment');
+//        $this->getArray($results, 'management');
+//        $this->getArray($results, 'performance');
+//        $this->getArray($results, 'time');
+//        $this->getArray($results, 'overall');
 
         $this->assertEquals(
             $results['time.productive_time'],
@@ -314,7 +326,6 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
     }
 
     /**
-     * Проверяем менеджерские навыки - они имеют комбинированные тексты "позитив+негатив"
      * 2. верхняя граница 1го кармана, позитив
      */
     public function testTextForInfoGraphic_2() {
@@ -432,22 +443,22 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
 
         $results = SimulationResultTextService::generate($simulation, 'popup');
 
-//        $this->gerArray($results, 'time.productive_time');
-//        $this->gerArray($results, 'time.waiting_time');
-//        $this->gerArray($results, 'time.over_time');
+//        $this->getArray($results, 'time.productive_time');
+//        $this->getArray($results, 'time.waiting_time');
+//        $this->getArray($results, 'time.over_time');
 //
-//        $this->gerArray($results, 'performance.urgent');
-//        $this->gerArray($results, 'performance.high');
-//        $this->gerArray($results, 'performance.middle');
-//        $this->gerArray($results, 'performance.two_minutes');
+//        $this->getArray($results, 'performance.urgent');
+//        $this->getArray($results, 'performance.high');
+//        $this->getArray($results, 'performance.middle');
+//        $this->getArray($results, 'performance.two_minutes');
 //
-//        $this->gerArray($results, 'management.task_managment');
-//        $this->gerArray($results, 'management.people_managment');
-//        $this->gerArray($results, 'management.communication_managment');
-//        $this->gerArray($results, 'management');
-//        $this->gerArray($results, 'performance');
-//        $this->gerArray($results, 'time');
-//        $this->gerArray($results, 'overall');
+//        $this->getArray($results, 'management.task_managment');
+//        $this->getArray($results, 'management.people_managment');
+//        $this->getArray($results, 'management.communication_managment');
+//        $this->getArray($results, 'management');
+//        $this->getArray($results, 'performance');
+//        $this->getArray($results, 'time');
+//        $this->getArray($results, 'overall');
 //
 //      die();
 
@@ -621,7 +632,6 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
     }
 
     /**
-     * Проверяем менеджерские навыки - они имеют комбинированные тексты "позитив+негатив"
      * 3. нижняя граница 2го кармана, позитив
      */
     public function testTextForInfoGraphic_3() {
@@ -739,22 +749,22 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
 
         $results = SimulationResultTextService::generate($simulation, 'popup');
 
-//        $this->gerArray($results, 'time.productive_time');
-//        $this->gerArray($results, 'time.waiting_time');
-//        $this->gerArray($results, 'time.over_time');
+//        $this->getArray($results, 'time.productive_time');
+//        $this->getArray($results, 'time.waiting_time');
+//        $this->getArray($results, 'time.over_time');
 //
-//        $this->gerArray($results, 'performance.urgent');
-//        $this->gerArray($results, 'performance.high');
-//        $this->gerArray($results, 'performance.middle');
-//        $this->gerArray($results, 'performance.two_minutes');
+//        $this->getArray($results, 'performance.urgent');
+//        $this->getArray($results, 'performance.high');
+//        $this->getArray($results, 'performance.middle');
+//        $this->getArray($results, 'performance.two_minutes');
 //
-//        $this->gerArray($results, 'management.task_managment');
-//        $this->gerArray($results, 'management.people_managment');
-//        $this->gerArray($results, 'management.communication_managment');
-//        $this->gerArray($results, 'management');
-//        $this->gerArray($results, 'performance');
-//        $this->gerArray($results, 'time');
-//        $this->gerArray($results, 'overall');
+//        $this->getArray($results, 'management.task_managment');
+//        $this->getArray($results, 'management.people_managment');
+//        $this->getArray($results, 'management.communication_managment');
+//        $this->getArray($results, 'management');
+//        $this->getArray($results, 'performance');
+//        $this->getArray($results, 'time');
+//        $this->getArray($results, 'overall');
 //
 //        die();
 
@@ -928,7 +938,6 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
     }
 
     /**
-     * Проверяем менеджерские навыки - они имеют комбинированные тексты "позитив+негатив"
      * 4. верхняя граница 2го кармана, позитив
      */
     public function testTextForInfoGraphic_4() {
@@ -1046,22 +1055,22 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
 
         $results = SimulationResultTextService::generate($simulation, 'popup');
 
-//        $this->gerArray($results, 'time.productive_time');
-//        $this->gerArray($results, 'time.waiting_time');
-//        $this->gerArray($results, 'time.over_time');
+//        $this->getArray($results, 'time.productive_time');
+//        $this->getArray($results, 'time.waiting_time');
+//        $this->getArray($results, 'time.over_time');
 //
-//        $this->gerArray($results, 'performance.urgent');
-//        $this->gerArray($results, 'performance.high');
-//        $this->gerArray($results, 'performance.middle');
-//        $this->gerArray($results, 'performance.two_minutes');
+//        $this->getArray($results, 'performance.urgent');
+//        $this->getArray($results, 'performance.high');
+//        $this->getArray($results, 'performance.middle');
+//        $this->getArray($results, 'performance.two_minutes');
 //
-//        $this->gerArray($results, 'management.task_managment');
-//        $this->gerArray($results, 'management.people_managment');
-//        $this->gerArray($results, 'management.communication_managment');
-//        $this->gerArray($results, 'management');
-//        $this->gerArray($results, 'performance');
-//        $this->gerArray($results, 'time');
-//        $this->gerArray($results, 'overall');
+//        $this->getArray($results, 'management.task_managment');
+//        $this->getArray($results, 'management.people_managment');
+//        $this->getArray($results, 'management.communication_managment');
+//        $this->getArray($results, 'management');
+//        $this->getArray($results, 'performance');
+//        $this->getArray($results, 'time');
+//        $this->getArray($results, 'overall');
 //
 //        die();
 
@@ -1235,7 +1244,6 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
     }
 
     /**
-     * Проверяем менеджерские навыки - они имеют комбинированные тексты "позитив+негатив"
      * 5. нижняя граница 3го кармана, позитив
      */
     public function testTextForInfoGraphic_5() {
@@ -1352,22 +1360,22 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
 
         $results = SimulationResultTextService::generate($simulation, 'popup');
 
-//        $this->gerArray($results, 'time.productive_time');
-//        $this->gerArray($results, 'time.waiting_time');
-//        $this->gerArray($results, 'time.over_time');
+//        $this->getArray($results, 'time.productive_time');
+//        $this->getArray($results, 'time.waiting_time');
+//        $this->getArray($results, 'time.over_time');
 //
-//        $this->gerArray($results, 'performance.urgent');
-//        $this->gerArray($results, 'performance.high');
-//        $this->gerArray($results, 'performance.middle');
-//        $this->gerArray($results, 'performance.two_minutes');
+//        $this->getArray($results, 'performance.urgent');
+//        $this->getArray($results, 'performance.high');
+//        $this->getArray($results, 'performance.middle');
+//        $this->getArray($results, 'performance.two_minutes');
 //
-//        $this->gerArray($results, 'management.task_managment');
-//        $this->gerArray($results, 'management.people_managment');
-//        $this->gerArray($results, 'management.communication_managment');
-//        $this->gerArray($results, 'management');
-//        $this->gerArray($results, 'performance');
-//        $this->gerArray($results, 'time');
-//        $this->gerArray($results, 'overall');
+//        $this->getArray($results, 'management.task_managment');
+//        $this->getArray($results, 'management.people_managment');
+//        $this->getArray($results, 'management.communication_managment');
+//        $this->getArray($results, 'management');
+//        $this->getArray($results, 'performance');
+//        $this->getArray($results, 'time');
+//        $this->getArray($results, 'overall');
 //
 //        die();
 
@@ -1541,7 +1549,6 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
     }
 
     /**
-     * Проверяем менеджерские навыки - они имеют комбинированные тексты "позитив+негатив"
      * 6. верхняя граница 3го кармана, позитив
      */
     public function testTextForInfoGraphic_6() {
@@ -1658,22 +1665,22 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
 
         $results = SimulationResultTextService::generate($simulation, 'popup');
 
-//        $this->gerArray($results, 'time.productive_time');
-//        $this->gerArray($results, 'time.waiting_time');
-//        $this->gerArray($results, 'time.over_time');
+//        $this->getArray($results, 'time.productive_time');
+//        $this->getArray($results, 'time.waiting_time');
+//        $this->getArray($results, 'time.over_time');
 //
-//        $this->gerArray($results, 'performance.urgent');
-//        $this->gerArray($results, 'performance.high');
-//        $this->gerArray($results, 'performance.middle');
-//        $this->gerArray($results, 'performance.two_minutes');
+//        $this->getArray($results, 'performance.urgent');
+//        $this->getArray($results, 'performance.high');
+//        $this->getArray($results, 'performance.middle');
+//        $this->getArray($results, 'performance.two_minutes');
 //
-//        $this->gerArray($results, 'management.task_managment');
-//        $this->gerArray($results, 'management.people_managment');
-//        $this->gerArray($results, 'management.communication_managment');
-//        $this->gerArray($results, 'management');
-//        $this->gerArray($results, 'performance');
-//        $this->gerArray($results, 'time');
-//        $this->gerArray($results, 'overall');
+//        $this->getArray($results, 'management.task_managment');
+//        $this->getArray($results, 'management.people_managment');
+//        $this->getArray($results, 'management.communication_managment');
+//        $this->getArray($results, 'management');
+//        $this->getArray($results, 'performance');
+//        $this->getArray($results, 'time');
+//        $this->getArray($results, 'overall');
 //
 //        die();
 
@@ -1847,7 +1854,6 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
     }
 
     /**
-     * Проверяем менеджерские навыки - они имеют комбинированные тексты "позитив+негатив"
      * 7. нижняя граница 4го кармана, позитив
      */
     public function testTextForInfoGraphic_7() {
@@ -1964,22 +1970,22 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
 
         $results = SimulationResultTextService::generate($simulation, 'popup');
 
-//        $this->gerArray($results, 'time.productive_time');
-//        $this->gerArray($results, 'time.waiting_time');
-//        $this->gerArray($results, 'time.over_time');
+//        $this->getArray($results, 'time.productive_time');
+//        $this->getArray($results, 'time.waiting_time');
+//        $this->getArray($results, 'time.over_time');
 //
-//        $this->gerArray($results, 'performance.urgent');
-//        $this->gerArray($results, 'performance.high');
-//        $this->gerArray($results, 'performance.middle');
-//        $this->gerArray($results, 'performance.two_minutes');
+//        $this->getArray($results, 'performance.urgent');
+//        $this->getArray($results, 'performance.high');
+//        $this->getArray($results, 'performance.middle');
+//        $this->getArray($results, 'performance.two_minutes');
 //
-//        $this->gerArray($results, 'management.task_managment');
-//        $this->gerArray($results, 'management.people_managment');
-//        $this->gerArray($results, 'management.communication_managment');
-//        $this->gerArray($results, 'management');
-//        $this->gerArray($results, 'performance');
-//        $this->gerArray($results, 'time');
-//        $this->gerArray($results, 'overall');
+//        $this->getArray($results, 'management.task_managment');
+//        $this->getArray($results, 'management.people_managment');
+//        $this->getArray($results, 'management.communication_managment');
+//        $this->getArray($results, 'management');
+//        $this->getArray($results, 'performance');
+//        $this->getArray($results, 'time');
+//        $this->getArray($results, 'overall');
 //
 //        die();
 
@@ -2153,7 +2159,6 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
     }
 
     /**
-     * Проверяем менеджерские навыки - они имеют комбинированные тексты "позитив+негатив"
      * 8. верхняя граница 4го кармана, позитив
      */
     public function testTextForInfoGraphic_8() {
@@ -2270,22 +2275,22 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
 
         $results = SimulationResultTextService::generate($simulation, 'popup');
 
-//        $this->gerArray($results, 'time.productive_time');
-//        $this->gerArray($results, 'time.waiting_time');
-//        $this->gerArray($results, 'time.over_time');
+//        $this->getArray($results, 'time.productive_time');
+//        $this->getArray($results, 'time.waiting_time');
+//        $this->getArray($results, 'time.over_time');
 //
-//        $this->gerArray($results, 'performance.urgent');
-//        $this->gerArray($results, 'performance.high');
-//        $this->gerArray($results, 'performance.middle');
-//        $this->gerArray($results, 'performance.two_minutes');
+//        $this->getArray($results, 'performance.urgent');
+//        $this->getArray($results, 'performance.high');
+//        $this->getArray($results, 'performance.middle');
+//        $this->getArray($results, 'performance.two_minutes');
 //
-//        $this->gerArray($results, 'management.task_managment');
-//        $this->gerArray($results, 'management.people_managment');
-//        $this->gerArray($results, 'management.communication_managment');
-//        $this->gerArray($results, 'management');
-//        $this->gerArray($results, 'performance');
-//        $this->gerArray($results, 'time');
-//        $this->gerArray($results, 'overall');
+//        $this->getArray($results, 'management.task_managment');
+//        $this->getArray($results, 'management.people_managment');
+//        $this->getArray($results, 'management.communication_managment');
+//        $this->getArray($results, 'management');
+//        $this->getArray($results, 'performance');
+//        $this->getArray($results, 'time');
+//        $this->getArray($results, 'overall');
 //
 //        die();
 
@@ -2462,7 +2467,7 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
      * @param array $results, возвращается из SimulationResultTextService::generate()
      * @param string $label
      */
-    public function gerArray($results, $label) {
+    public function getArray($results, $label) {
         echo sprintf(
             '       $this->assertEquals(
                 $results[\'%s\'],
