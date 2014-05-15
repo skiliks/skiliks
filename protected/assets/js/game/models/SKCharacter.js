@@ -38,6 +38,8 @@ define([], function() {
         email: undefined,
 
         /**
+         * Возвращает строку в формате "name <email>, name <email>, ..."
+         *
          * @method getFormatedForMailToName
          * @return string
          */
@@ -52,6 +54,8 @@ define([], function() {
         },
         
         /**
+         * Возвращает строку в формате "name <email>"
+         *
          * @method getFormattedRecipientLabel
          * @return string
          */

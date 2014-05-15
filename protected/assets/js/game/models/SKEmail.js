@@ -166,6 +166,8 @@ define([] ,function() {
         mail_prefix:undefined,
 
         /**
+         * Валидатор
+         *
          * @method isSubjectValid
          * @returns {boolean}
          */
@@ -194,6 +196,8 @@ define([] ,function() {
 
 
         /**
+         * Обновляет статус о наличии вложения у письма
+         *
          * @method updateStatusPropertiesAccordingObjects: function() {
          * @return void
          */
@@ -210,6 +214,8 @@ define([] ,function() {
         },
 
         /**
+         * Форматирует senderNameString и senderEmailString для отображения в интерфейсе планировщика
+         *
          * @method setSenderEmailAndNameStrings
          * @param string
          * @return void
@@ -442,6 +448,7 @@ define([] ,function() {
         },
 
         /**
+         *
          * @method getFormattedRecipientsString
          * @returns {string}
          */
