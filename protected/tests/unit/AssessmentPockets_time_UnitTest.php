@@ -11,7 +11,6 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
     /**
      * Проверяем менеджерские навыки - они имеют комбинированные тексты "позитив+негатив"
      * 1. 1й карман - позитив, позитив по нулям
-     * нижняя граница 2го кармана по негативу
      */
     public function testTextForInfoGraphic_1() {
 
@@ -83,31 +82,31 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
                           "total":"0"
                        },
                        "performance":{
-                          "0":"0",
-                          "1":"0",
-                          "2":"0",
-                          "total":"0",
-                          "2_min":"0"
+                          "0":     "0",
+                          "1":     "0",
+                          "2":     "0",
+                          "total": "0",
+                          "2_min": "0"
                        },
                        "time":{
-                          "total":"0",
-                          "workday_overhead_duration":"0",
-                          "time_spend_for_1st_priority_activities":"0",
-                          "time_spend_for_non_priority_activities":"0",
-                          "time_spend_for_inactivity":"0",
-                          "1st_priority_documents":"0",
-                          "1st_priority_meetings":"0",
-                          "1st_priority_phone_calls":"0",
-                          "1st_priority_mail":"0",
-                          "1st_priority_planning":"0",
-                          "non_priority_documents":"0",
-                          "non_priority_meetings":"0",
-                          "non_priority_phone_calls":"0",
-                          "non_priority_mail":"0",
-                          "non_priority_planning":"0",
-                          "efficiency":"0"
+                          "total":                                  "0",
+                          "workday_overhead_duration":              "0",
+                          "time_spend_for_1st_priority_activities": "0",
+                          "time_spend_for_non_priority_activities": "0",
+                          "time_spend_for_inactivity":              "0",
+                          "1st_priority_documents":                 "0",
+                          "1st_priority_meetings":                  "0",
+                          "1st_priority_phone_calls":               "0",
+                          "1st_priority_mail":                      "0",
+                          "1st_priority_planning":                  "0",
+                          "non_priority_documents":                 "0",
+                          "non_priority_meetings":                  "0",
+                          "non_priority_phone_calls":               "0",
+                          "non_priority_mail":                      "0",
+                          "non_priority_planning":                  "0",
+                          "efficiency":                             "0"
                        },
-                       "overall":"0",
+                       "overall": "0",
                        "percentile":{
                           "total":"0"
                        },
@@ -128,17 +127,31 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
 
         $results = SimulationResultTextService::generate($simulation, 'popup');
 
-        print_r($results);
-        die;
+//        $this->gerArray($results, 'time.productive_time');
+//        $this->gerArray($results, 'time.waiting_time');
+//        $this->gerArray($results, 'time.over_time');
+//
+//        $this->gerArray($results, 'performance.urgent');
+//        $this->gerArray($results, 'performance.high');
+//        $this->gerArray($results, 'performance.middle');
+//        $this->gerArray($results, 'performance.two_minutes');
+//
+//        $this->gerArray($results, 'management.task_managment');
+//        $this->gerArray($results, 'management.people_managment');
+//        $this->gerArray($results, 'management.communication_managment');
+//        $this->gerArray($results, 'management');
+//        $this->gerArray($results, 'performance');
+//        $this->gerArray($results, 'time');
+//        $this->gerArray($results, 'overall');
 
         $this->assertEquals(
             $results['time.productive_time'],
             [
-                'text'                => 'Менеджер многократно (более 8 раз) прерывался при выполнении задач высокой и средней категории, отвлекаясь на внешние раздражители и задачи низкой категории.',
-                'short_text'          => '(есть ошибки)',
-                'pocket'               => [
-                    'left'  => 40,
-                    'right' => 100,
+                'text'       => 'Недостаточно времени симуляции (менее 70%) было выделено на выполнение приоритетных задач, обеспечивающих достижение результата',
+                'short_text' => '(низкий уровень)',
+                'pocket'     => [
+                    'left'  => 0,
+                    'right' => 55,
                 ]
             ]
         );
@@ -146,11 +159,11 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
         $this->assertEquals(
             $results['time.waiting_time'],
             [
-                'text'                => 'Менеджер многократно (более 8 раз) прерывался при выполнении задач высокой и средней категории, отвлекаясь на внешние раздражители и задачи низкой категории.',
-                'short_text'          => '(есть ошибки)',
-                'pocket'               => [
-                    'left'  => 40,
-                    'right' => 100,
+                'text'       => 'Менее 15% времени симуляции менеджер бездействовал (знакомился с интерфейсом и обдумывал последующие шаги)',
+                'short_text' => '(очень высокий уровень)',
+                'pocket'     => [
+                    'left'  => 0,
+                    'right' => 7.5,
                 ]
             ]
         );
@@ -158,23 +171,11 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
         $this->assertEquals(
             $results['time.over_time'],
             [
-                'text'                => 'Менеджер многократно (более 8 раз) прерывался при выполнении задач высокой и средней категории, отвлекаясь на внешние раздражители и задачи низкой категории.',
-                'short_text'          => '(есть ошибки)',
-                'pocket'               => [
-                    'left'  => 40,
-                    'right' => 100,
-                ]
-            ]
-        );
-
-        $this->assertEquals(
-            $results['time.over_time'],
-            [
-                'text'                => 'Менеджер многократно (более 8 раз) прерывался при выполнении задач высокой и средней категории, отвлекаясь на внешние раздражители и задачи низкой категории.',
-                'short_text'          => '(есть ошибки)',
-                'pocket'               => [
-                    'left'  => 40,
-                    'right' => 100,
+                'text'       => 'Не было использовано сверхурочное время (симуляция завершена в 18.00) или было использовано до 30 игровых минут сверхурочного времени для завершения приоритетных задач',
+                'short_text' => '(очень высокий уровень)',
+                'pocket'     => [
+                    'left'  => 0,
+                    'right' => 15,
                 ]
             ]
         );
@@ -182,11 +183,11 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
         $this->assertEquals(
             $results['performance.urgent'],
             [
-                'text'                => 'Менеджер многократно (более 8 раз) прерывался при выполнении задач высокой и средней категории, отвлекаясь на внешние раздражители и задачи низкой категории.',
-                'short_text'          => '(есть ошибки)',
-                'pocket'               => [
-                    'left'  => 40,
-                    'right' => 100,
+                'text'       => 'Не была определена и выполнена задача самого высокого приоритета (по матрице срочно/важно)',
+                'short_text' => '(низкий уровень)',
+                'pocket'     => [
+                    'left'  => 0,
+                    'right' => 40,
                 ]
             ]
         );
@@ -194,11 +195,11 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
         $this->assertEquals(
             $results['performance.high'],
             [
-                'text'                => 'Менеджер многократно (более 8 раз) прерывался при выполнении задач высокой и средней категории, отвлекаясь на внешние раздражители и задачи низкой категории.',
-                'short_text'          => '(есть ошибки)',
-                'pocket'               => [
-                    'left'  => 40,
-                    'right' => 100,
+                'text'       => 'Не была определена и выполнена задача первого приоритета (по матрице срочно/важно)',
+                'short_text' => '(низкий уровень)',
+                'pocket'     => [
+                    'left'  => 0,
+                    'right' => 40,
                 ]
             ]
         );
@@ -206,11 +207,11 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
         $this->assertEquals(
             $results['performance.middle'],
             [
-                'text'                => 'Менеджер многократно (более 8 раз) прерывался при выполнении задач высокой и средней категории, отвлекаясь на внешние раздражители и задачи низкой категории.',
-                'short_text'          => '(есть ошибки)',
-                'pocket'               => [
-                    'left'  => 40,
-                    'right' => 100,
+                'text'       => 'Не была определена и выполнена задача второго приоритета (по матрице срочно/важно)',
+                'short_text' => '(низкий уровень)',
+                'pocket'     => [
+                    'left'  => 0,
+                    'right' => 40,
                 ]
             ]
         );
@@ -218,11 +219,11 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
         $this->assertEquals(
             $results['performance.two_minutes'],
             [
-                'text'                => 'Менеджер многократно (более 8 раз) прерывался при выполнении задач высокой и средней категории, отвлекаясь на внешние раздражители и задачи низкой категории.',
-                'short_text'          => '(есть ошибки)',
-                'pocket'               => [
-                    'left'  => 40,
-                    'right' => 100,
+                'text'       => 'Было идентифицировано и выполнено менее 60% двухминутных задач (в основном - из почты)',
+                'short_text' => '(низкий уровень)',
+                'pocket'     => [
+                    'left'  => 0,
+                    'right' => 40,
                 ]
             ]
         );
@@ -230,11 +231,11 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
         $this->assertEquals(
             $results['management.task_managment'],
             [
-                'text'                => 'Менеджер многократно (более 8 раз) прерывался при выполнении задач высокой и средней категории, отвлекаясь на внешние раздражители и задачи низкой категории.',
-                'short_text'          => '(есть ошибки)',
-                'pocket'               => [
-                    'left'  => 40,
-                    'right' => 100,
+                'text'       => '(низкий уровень)',
+                'short_text' => '(низкий уровень)',
+                'pocket'     => [
+                    'left'  => 0,
+                    'right' => 33,
                 ]
             ]
         );
@@ -242,11 +243,11 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
         $this->assertEquals(
             $results['management.people_managment'],
             [
-                'text'                => 'Менеджер многократно (более 8 раз) прерывался при выполнении задач высокой и средней категории, отвлекаясь на внешние раздражители и задачи низкой категории.',
-                'short_text'          => '(есть ошибки)',
-                'pocket'               => [
-                    'left'  => 40,
-                    'right' => 100,
+                'text'       => '(низкий уровень)',
+                'short_text' => '(низкий уровень)',
+                'pocket'     => [
+                    'left'  => 0,
+                    'right' => 40,
                 ]
             ]
         );
@@ -254,11 +255,11 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
         $this->assertEquals(
             $results['management.communication_managment'],
             [
-                'text'                => 'Менеджер многократно (более 8 раз) прерывался при выполнении задач высокой и средней категории, отвлекаясь на внешние раздражители и задачи низкой категории.',
-                'short_text'          => '(есть ошибки)',
-                'pocket'               => [
-                    'left'  => 40,
-                    'right' => 100,
+                'text'       => '(низкий уровень)',
+                'short_text' => '(низкий уровень)',
+                'pocket'     => [
+                    'left'  => 0,
+                    'right' => 33,
                 ]
             ]
         );
@@ -266,11 +267,11 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
         $this->assertEquals(
             $results['management'],
             [
-                'text'                => 'Менеджер многократно (более 8 раз) прерывался при выполнении задач высокой и средней категории, отвлекаясь на внешние раздражители и задачи низкой категории.',
-                'short_text'          => '(есть ошибки)',
-                'pocket'               => [
-                    'left'  => 40,
-                    'right' => 100,
+                'text'       => '(низкий уровень)',
+                'short_text' => '(низкий уровень)',
+                'pocket'     => [
+                    'left'  => 0,
+                    'right' => 33,
                 ]
             ]
         );
@@ -278,11 +279,11 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
         $this->assertEquals(
             $results['performance'],
             [
-                'text'                => 'Менеджер многократно (более 8 раз) прерывался при выполнении задач высокой и средней категории, отвлекаясь на внешние раздражители и задачи низкой категории.',
-                'short_text'          => '(есть ошибки)',
-                'pocket'               => [
-                    'left'  => 40,
-                    'right' => 100,
+                'text'       => '(низкий уровень)',
+                'short_text' => '(низкий уровень)',
+                'pocket'     => [
+                    'left'  => 0,
+                    'right' => 40,
                 ]
             ]
         );
@@ -290,11 +291,11 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
         $this->assertEquals(
             $results['time'],
             [
-                'text'                => 'Менеджер многократно (более 8 раз) прерывался при выполнении задач высокой и средней категории, отвлекаясь на внешние раздражители и задачи низкой категории.',
-                'short_text'          => '(есть ошибки)',
-                'pocket'               => [
-                    'left'  => 40,
-                    'right' => 100,
+                'text'       => '(низкий уровень)',
+                'short_text' => '(низкий уровень)',
+                'pocket'     => [
+                    'left'  => 0,
+                    'right' => 55,
                 ]
             ]
         );
@@ -302,11 +303,11 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
         $this->assertEquals(
             $results['overall'],
             [
-                'text'                => 'Менеджер многократно (более 8 раз) прерывался при выполнении задач высокой и средней категории, отвлекаясь на внешние раздражители и задачи низкой категории.',
-                'short_text'          => '(есть ошибки)',
-                'pocket'               => [
-                    'left'  => 40,
-                    'right' => 100,
+                'text'       => '(низкий уровень)',
+                'short_text' => '(низкий уровень)',
+                'pocket'     => [
+                    'left'  => 0,
+                    'right' => 33,
                 ]
             ]
         );
@@ -315,7 +316,6 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
     /**
      * Проверяем менеджерские навыки - они имеют комбинированные тексты "позитив+негатив"
      * 2. верхняя граница 1го кармана, позитив
-     * Верхняя граница 2го кармана, негатив
      */
     public function testTextForInfoGraphic_2() {
 
@@ -332,86 +332,86 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
                     {
                        "management":{
                           "1":{
-                             "total":"0",
+                             "total":"32",
                              "1_1":{
-                                "+":"39",
-                                "-":"100"
+                                "+":"0",
+                                "-":"40"
                              },
                              "1_2":{
-                                "+":"39",
-                                "-":"100"
+                                "+":"0",
+                                "-":"40"
                              },
                              "1_3":{
-                                "+":"59",
-                                "-":"100"
+                                "+":"0",
+                                "-":"40"
                              },
                              "1_4":{
                                 "+":"0",
-                                "-":"100"
+                                "-":"40"
                              }
                           },
                           "2":{
-                             "total":"0",
+                             "total":"39",
                              "2_1":{
-                                "+":"39",
-                                "-":"100"
+                                "+":"0",
+                                "-":"30"
                              },
                              "2_2":{
-                                "+":"39",
-                                "-":"100"
+                                "+":"0",
+                                "-":"30"
                              },
                              "2_3":{
-                                "+":"39",
-                                "-":"100"
+                                "+":"0",
+                                "-":"20"
                              }
                           },
                           "3":{
-                             "total":"0",
+                             "total":"32",
                              "3_1":{
-                                "+":"39",
-                                "-":"100"
+                                "+":"0",
+                                "-":"40"
                              },
                              "3_2":{
-                                "+":"32",
-                                "-":"100"
+                                "+":"0",
+                                "-":"40"
                              },
                              "3_3":{
-                                "+":"39",
-                                "-":"100"
+                                "+":"0",
+                                "-":"40"
                              },
                              "3_4":{
-                                "+":"39",
-                                "-":"100"
+                                "+":"0",
+                                "-":"40"
                              }
                           },
-                          "total":"0"
+                          "total":"32"
                        },
                        "performance":{
-                          "0":"0",
-                          "1":"0",
-                          "2":"0",
-                          "total":"0",
-                          "2_min":"0"
+                          "0":     "39",
+                          "1":     "39",
+                          "2":     "39",
+                          "2_min": "39",
+                          "total": "39"
                        },
                        "time":{
-                          "total":"0",
-                          "workday_overhead_duration":"0",
-                          "time_spend_for_1st_priority_activities":"0",
-                          "time_spend_for_non_priority_activities":"0",
-                          "time_spend_for_inactivity":"0",
-                          "1st_priority_documents":"0",
-                          "1st_priority_meetings":"0",
-                          "1st_priority_phone_calls":"0",
-                          "1st_priority_mail":"0",
-                          "1st_priority_planning":"0",
-                          "non_priority_documents":"0",
-                          "non_priority_meetings":"0",
-                          "non_priority_phone_calls":"0",
-                          "non_priority_mail":"0",
-                          "non_priority_planning":"0",
-                          "efficiency":"0"
+                          "total":                                  "54",
+                          "workday_overhead_duration":              "14",
+                          "time_spend_for_1st_priority_activities": "54",
+                          "time_spend_for_non_priority_activities": "0",
+                          "time_spend_for_inactivity":              "7,49",
+                          "1st_priority_documents":                 "0",
+                          "1st_priority_meetings":                  "0",
+                          "1st_priority_phone_calls":               "0",
+                          "1st_priority_mail":                      "0",
+                          "1st_priority_planning":                  "0",
+                          "non_priority_documents":                 "0",
+                          "non_priority_meetings":                  "0",
+                          "non_priority_phone_calls":               "0",
+                          "non_priority_mail":                      "0",
+                          "non_priority_planning":                  "0",
+                          "efficiency":                             "0"
                        },
-                       "overall":"0",
+                       "overall": "32",
                        "percentile":{
                           "total":"0"
                        },
@@ -432,98 +432,67 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
 
         $results = SimulationResultTextService::generate($simulation, 'popup');
 
-        //print_r($results);
+//        $this->gerArray($results, 'time.productive_time');
+//        $this->gerArray($results, 'time.waiting_time');
+//        $this->gerArray($results, 'time.over_time');
+//
+//        $this->gerArray($results, 'performance.urgent');
+//        $this->gerArray($results, 'performance.high');
+//        $this->gerArray($results, 'performance.middle');
+//        $this->gerArray($results, 'performance.two_minutes');
+//
+//        $this->gerArray($results, 'management.task_managment');
+//        $this->gerArray($results, 'management.people_managment');
+//        $this->gerArray($results, 'management.communication_managment');
+//        $this->gerArray($results, 'management');
+//        $this->gerArray($results, 'performance');
+//        $this->gerArray($results, 'time');
+//        $this->gerArray($results, 'overall');
+//
+//      die();
 
         $this->assertEquals(
-            $results['management.task_managment.day_planing'],
+            $results['time.productive_time'],
             [
-                'text'                => 'Было запланировано менее 60% или более 100% рабочего времени или менеджер не приступал к планированию в начале рабочего дня. При этом менеджер не планировал свой рабочий день вообще.',
-                'short_text'          => '(низкий уровень, есть ошибки)',
-                'text_positive'       => 'Было запланировано менее 60% или более 100% рабочего времени или менеджер не приступал к планированию в начале рабочего дня.',
-                'text_negative'       => 'При этом менеджер не планировал свой рабочий день вообще.',
-                'short_text_positive' => 'низкий уровень',
-                'short_text_negative' => 'есть ошибки'
-            ]
-        );
-
-        $this->assertEquals(
-            $results['management.task_managment.tasks_priority_planing'],
-            [
-                'text'                => 'Не учтены категории задач по матрице важно/срочно при их постановке в план. При этом в работе были допущена две или более грубых ошибок по планированию: задачи низкой категории (по матрице срочно/важно) запланированы к выполнению ранее задач высокой категории.',
-                'short_text'          => '(низкий уровень, есть ошибки)',
-                'text_positive'       => 'Не учтены категории задач по матрице важно/срочно при их постановке в план.',
-                'text_negative'       => 'При этом в работе были допущена две или более грубых ошибок по планированию: задачи низкой категории (по матрице срочно/важно) запланированы к выполнению ранее задач высокой категории.',
-                'short_text_positive' => 'низкий уровень',
-                'short_text_negative' => 'есть ошибки'
-            ]
-        );
-
-        $this->assertEquals(
-            $results['management.task_managment.tasks_priority_execution'],
-            [
-                'text'                => 'При выполнении задач в ходе дня менеджер многократно неверно интерпретирует категорию поступившей задачи и выполняет менее приоритетные задачи перед более приоритетными. При этом при выполнении задач в ходе дня были допущены пять или более грубых ошибок: задача очень низкой категории была выполнена ранее задачи очень высокого приоритета.',
-                'short_text'          => '(низкий уровень, есть ошибки)',
-                'text_positive'       => 'При выполнении задач в ходе дня менеджер многократно неверно интерпретирует категорию поступившей задачи и выполняет менее приоритетные задачи перед более приоритетными.',
-                'text_negative'       => 'При этом при выполнении задач в ходе дня были допущены пять или более грубых ошибок: задача очень низкой категории была выполнена ранее задачи очень высокого приоритета.',
-                'short_text_positive' => 'низкий уровень',
-                'short_text_negative' => 'есть ошибки'
-            ]
-        );
-
-        $this->assertEquals(
-            $results['management.task_managment.tasks_interruprion'],
-            [
-                'text'                => 'Менеджер многократно (более 8 раз) прерывался при выполнении задач высокой и средней категории, отвлекаясь на внешние раздражители и задачи низкой категории.',
-                'short_text'          => '(есть ошибки)',
-                'pocket'               => [
-                    'left'  => 40,
-                    'right' => 100,
+                'text'       => 'Недостаточно времени симуляции (менее 70%) было выделено на выполнение приоритетных задач, обеспечивающих достижение результата',
+                'short_text' => '(низкий уровень)',
+                'pocket'     => [
+                    'left'  => 0,
+                    'right' => 55,
                 ]
             ]
         );
 
         $this->assertEquals(
-            $results['management.people_managment.delegation'],
+            $results['time.waiting_time'],
             [
-                'text'                => 'Были неправильно делегированы задачи, исходя из требуемой для их выполнения квалификации и загрузки сотрудников. При этом была допущена одна или более грубых ошибок при определении задач для делегирования.',
-                'short_text'          => '(низкий уровень, есть ошибки)',
-                'text_positive'       => 'Были неправильно делегированы задачи, исходя из требуемой для их выполнения квалификации и загрузки сотрудников.',
-                'text_negative'       => 'При этом была допущена одна или более грубых ошибок при определении задач для делегирования.',
-                'short_text_positive' => 'низкий уровень',
-                'short_text_negative' => 'есть ошибки'
+                'text'       => 'Менее 15% времени симуляции менеджер бездействовал (знакомился с интерфейсом и обдумывал последующие шаги)',
+                'short_text' => '(очень высокий уровень)',
+                'pocket'     => [
+                    'left'  => 0,
+                    'right' => 7.5,
+                ]
             ]
         );
 
         $this->assertEquals(
-            $results['management.people_managment.resource_quality'],
+            $results['time.over_time'],
             [
-                'text'                => 'Менеджер не понял, что имеет дело с сотрудниками разной квалификации, не адаптировал свои методы управления и контроля для разных сотрудников. При этом была допущена одна или более грубых ошибок при контроле сотрудников, например, менеджер многократно контролирует Крутько, не дождавшись результата.',
-                'short_text'          => '(низкий уровень, есть ошибки)',
-                'text_positive'       => 'Менеджер не понял, что имеет дело с сотрудниками разной квалификации, не адаптировал свои методы управления и контроля для разных сотрудников.',
-                'text_negative'       => 'При этом была допущена одна или более грубых ошибок при контроле сотрудников, например, менеджер многократно контролирует Крутько, не дождавшись результата.',
-                'short_text_positive' => 'низкий уровень',
-                'short_text_negative' => 'есть ошибки'
+                'text'       => 'Не было использовано сверхурочное время (симуляция завершена в 18.00) или было использовано до 30 игровых минут сверхурочного времени для завершения приоритетных задач',
+                'short_text' => '(очень высокий уровень)',
+                'pocket'     => [
+                    'left'  => 0,
+                    'right' => 15,
+                ]
             ]
         );
 
         $this->assertEquals(
-            $results['management.people_managment.feedback'],
+            $results['performance.urgent'],
             [
-                'text'                => 'Менеджер не использовал возможность дать сотруднику позитивную и конструктивную обратную связь при выполнении задач и обсуждении результата. При этом были допущены грубые ошибки при использовании обратной связи, а именно: оценочная обратная связь и избегание обратной связи там, где она крайне необходима.',
-                'short_text'          => '(низкий уровень, есть ошибки)',
-                'text_positive'       => 'Менеджер не использовал возможность дать сотруднику позитивную и конструктивную обратную связь при выполнении задач и обсуждении результата.',
-                'text_negative'       => 'При этом были допущены грубые ошибки при использовании обратной связи, а именно: оценочная обратная связь и избегание обратной связи там, где она крайне необходима.',
-                'short_text_positive' => 'низкий уровень',
-                'short_text_negative' => 'есть ошибки'
-            ]
-        );
-
-        $this->assertEquals(
-            $results['management.communication_managment.comunication_channel'],
-            [
-                'text'                => 'Многократно были выбраны и  использованы каналы коммуникаций, не самым оптимальным образом соответствующие специфике задачи, и/или неэкономные по времени.',
-                'short_text'          => '(низкий уровень)',
-                'pocket'               => [
+                'text'       => 'Не была определена и выполнена задача самого высокого приоритета (по матрице срочно/важно)',
+                'short_text' => '(низкий уровень)',
+                'pocket'     => [
                     'left'  => 0,
                     'right' => 40,
                 ]
@@ -531,23 +500,11 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
         );
 
         $this->assertEquals(
-            $results['management.communication_managment.effective_mail'],
+            $results['performance.high'],
             [
-                'text'                => 'Значимую часть времени менеджер провел в почте, читая и отвечая на письма низкого приоритета. При этом были допущены грубые ошибки при работе с почтой, а именно: планирование задач из почты, которые являются информацией, а не задачами.',
-                'short_text'          => '(низкий уровень, есть ошибки)',
-                'text_positive'       => 'Значимую часть времени менеджер провел в почте, читая и отвечая на письма низкого приоритета.',
-                'text_negative'       => 'При этом были допущены грубые ошибки при работе с почтой, а именно: планирование задач из почты, которые являются информацией, а не задачами.',
-                'short_text_positive' => 'низкий уровень',
-                'short_text_negative' => 'есть ошибки'
-            ]
-        );
-
-        $this->assertEquals(
-            $results['management.communication_managment.effective_calls'],
-            [
-                'text'                => 'Менеджер отвечал на большую часть звонков, не учитывая их категорию. Надолго оставался во второстепенном диалоге даже при наличии выхода из него.',
-                'short_text'          => '(низкий уровень)',
-                'pocket'               => [
+                'text'       => 'Не была определена и выполнена задача первого приоритета (по матрице срочно/важно)',
+                'short_text' => '(низкий уровень)',
+                'pocket'     => [
                     'left'  => 0,
                     'right' => 40,
                 ]
@@ -555,14 +512,110 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
         );
 
         $this->assertEquals(
-            $results['management.communication_managment.effective_meetings'],
+            $results['performance.middle'],
             [
-                'text'                => 'Менеджер соглашался на большую часть встреч, не учитывая их категорию. Надолго оставался во второстепенном диалоге даже при наличии выхода из него. При этом была допущена одна или более грубых ошибок при встречах, например, была проведена незапланированная низкоприоритетная встреча.',
-                'short_text'          => '(низкий уровень, есть ошибки)',
-                'text_positive'       => 'Менеджер соглашался на большую часть встреч, не учитывая их категорию. Надолго оставался во второстепенном диалоге даже при наличии выхода из него.',
-                'text_negative'       => 'При этом была допущена одна или более грубых ошибок при встречах, например, была проведена незапланированная низкоприоритетная встреча.',
-                'short_text_positive' => 'низкий уровень',
-                'short_text_negative' => 'есть ошибки'
+                'text'       => 'Не была определена и выполнена задача второго приоритета (по матрице срочно/важно)',
+                'short_text' => '(низкий уровень)',
+                'pocket'     => [
+                    'left'  => 0,
+                    'right' => 40,
+                ]
+            ]
+        );
+
+        $this->assertEquals(
+            $results['performance.two_minutes'],
+            [
+                'text'       => 'Было идентифицировано и выполнено менее 60% двухминутных задач (в основном - из почты)',
+                'short_text' => '(низкий уровень)',
+                'pocket'     => [
+                    'left'  => 0,
+                    'right' => 40,
+                ]
+            ]
+        );
+
+        $this->assertEquals(
+            $results['management.task_managment'],
+            [
+                'text'       => '(низкий уровень)',
+                'short_text' => '(низкий уровень)',
+                'pocket'     => [
+                    'left'  => 0,
+                    'right' => 33,
+                ]
+            ]
+        );
+
+        $this->assertEquals(
+            $results['management.people_managment'],
+            [
+                'text'       => '(низкий уровень)',
+                'short_text' => '(низкий уровень)',
+                'pocket'     => [
+                    'left'  => 0,
+                    'right' => 40,
+                ]
+            ]
+        );
+
+        $this->assertEquals(
+            $results['management.communication_managment'],
+            [
+                'text'       => '(низкий уровень)',
+                'short_text' => '(низкий уровень)',
+                'pocket'     => [
+                    'left'  => 0,
+                    'right' => 33,
+                ]
+            ]
+        );
+
+        $this->assertEquals(
+            $results['management'],
+            [
+                'text'       => '(низкий уровень)',
+                'short_text' => '(низкий уровень)',
+                'pocket'     => [
+                    'left'  => 0,
+                    'right' => 33,
+                ]
+            ]
+        );
+
+        $this->assertEquals(
+            $results['performance'],
+            [
+                'text'       => '(низкий уровень)',
+                'short_text' => '(низкий уровень)',
+                'pocket'     => [
+                    'left'  => 0,
+                    'right' => 40,
+                ]
+            ]
+        );
+
+        $this->assertEquals(
+            $results['time'],
+            [
+                'text'       => '(низкий уровень)',
+                'short_text' => '(низкий уровень)',
+                'pocket'     => [
+                    'left'  => 0,
+                    'right' => 55,
+                ]
+            ]
+        );
+
+        $this->assertEquals(
+            $results['overall'],
+            [
+                'text'       => '(низкий уровень)',
+                'short_text' => '(низкий уровень)',
+                'pocket'     => [
+                    'left'  => 0,
+                    'right' => 33,
+                ]
             ]
         );
     }
@@ -570,7 +623,6 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
     /**
      * Проверяем менеджерские навыки - они имеют комбинированные тексты "позитив+негатив"
      * 3. нижняя граница 2го кармана, позитив
-     * Верхняя граница 2го кармана, негатив
      */
     public function testTextForInfoGraphic_3() {
 
@@ -587,86 +639,86 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
                     {
                        "management":{
                           "1":{
-                             "total":"0",
+                             "total":"33",
                              "1_1":{
-                                "+":"40",
-                                "-":"100"
+                                "+":"0",
+                                "-":"0"
                              },
                              "1_2":{
-                                "+":"40",
-                                "-":"100"
+                                "+":"0",
+                                "-":"0"
                              },
                              "1_3":{
-                                "+":"60",
-                                "-":"100"
+                                "+":"0",
+                                "-":"0"
                              },
                              "1_4":{
                                 "+":"0",
-                                "-":"100"
+                                "-":"0"
                              }
                           },
                           "2":{
-                             "total":"0",
+                             "total":"40",
                              "2_1":{
-                                "+":"40",
-                                "-":"100"
+                                "+":"0",
+                                "-":"0"
                              },
                              "2_2":{
-                                "+":"40",
-                                "-":"100"
+                                "+":"0",
+                                "-":"0"
                              },
                              "2_3":{
-                                "+":"40",
-                                "-":"100"
+                                "+":"0",
+                                "-":"0"
                              }
                           },
                           "3":{
-                             "total":"0",
+                             "total":"33",
                              "3_1":{
-                                "+":"40",
-                                "-":"100"
+                                "+":"0",
+                                "-":"0"
                              },
                              "3_2":{
-                                "+":"33",
-                                "-":"100"
+                                "+":"0",
+                                "-":"0"
                              },
                              "3_3":{
-                                "+":"40",
-                                "-":"100"
+                                "+":"0",
+                                "-":"0"
                              },
                              "3_4":{
-                                "+":"40",
-                                "-":"100"
+                                "+":"0",
+                                "-":"0"
                              }
                           },
-                          "total":"0"
+                          "total":"33"
                        },
                        "performance":{
-                          "0":"0",
-                          "1":"0",
-                          "2":"0",
-                          "total":"0",
-                          "2_min":"0"
+                          "0":     "40",
+                          "1":     "40",
+                          "2":     "40",
+                          "2_min": "40",
+                          "total": "40"
                        },
                        "time":{
-                          "total":"0",
-                          "workday_overhead_duration":"0",
-                          "time_spend_for_1st_priority_activities":"0",
-                          "time_spend_for_non_priority_activities":"0",
-                          "time_spend_for_inactivity":"0",
-                          "1st_priority_documents":"0",
-                          "1st_priority_meetings":"0",
-                          "1st_priority_phone_calls":"0",
-                          "1st_priority_mail":"0",
-                          "1st_priority_planning":"0",
-                          "non_priority_documents":"0",
-                          "non_priority_meetings":"0",
-                          "non_priority_phone_calls":"0",
-                          "non_priority_mail":"0",
-                          "non_priority_planning":"0",
-                          "efficiency":"0"
+                          "total":                                  "55",
+                          "workday_overhead_duration":              "15",
+                          "time_spend_for_1st_priority_activities": "55",
+                          "time_spend_for_non_priority_activities": "0",
+                          "time_spend_for_inactivity":              "7.5",
+                          "1st_priority_documents":                 "0",
+                          "1st_priority_meetings":                  "0",
+                          "1st_priority_phone_calls":               "0",
+                          "1st_priority_mail":                      "0",
+                          "1st_priority_planning":                  "0",
+                          "non_priority_documents":                 "0",
+                          "non_priority_meetings":                  "0",
+                          "non_priority_phone_calls":               "0",
+                          "non_priority_mail":                      "0",
+                          "non_priority_planning":                  "0",
+                          "efficiency":                             "0"
                        },
-                       "overall":"0",
+                       "overall": "33",
                        "percentile":{
                           "total":"0"
                        },
@@ -687,101 +739,67 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
 
         $results = SimulationResultTextService::generate($simulation, 'popup');
 
-//        print_r($results);
-//        die;
+//        $this->gerArray($results, 'time.productive_time');
+//        $this->gerArray($results, 'time.waiting_time');
+//        $this->gerArray($results, 'time.over_time');
+//
+//        $this->gerArray($results, 'performance.urgent');
+//        $this->gerArray($results, 'performance.high');
+//        $this->gerArray($results, 'performance.middle');
+//        $this->gerArray($results, 'performance.two_minutes');
+//
+//        $this->gerArray($results, 'management.task_managment');
+//        $this->gerArray($results, 'management.people_managment');
+//        $this->gerArray($results, 'management.communication_managment');
+//        $this->gerArray($results, 'management');
+//        $this->gerArray($results, 'performance');
+//        $this->gerArray($results, 'time');
+//        $this->gerArray($results, 'overall');
+//
+//        die();
 
         $this->assertEquals(
-            $results['management.task_managment.day_planing'],
+            $results['time.productive_time'],
             [
-                'text'                => 'Было запланировано менее 60% или более 100% рабочего времени или менеджер не приступал к планированию в начале рабочего дня. При этом менеджер не планировал свой рабочий день вообще.',
-                'short_text'          => '(средний уровень, есть ошибки)',
-                'text_positive'       => 'Было запланировано менее 60% или более 100% рабочего времени или менеджер не приступал к планированию в начале рабочего дня.',
-                'text_negative'       => 'При этом менеджер не планировал свой рабочий день вообще.',
-                'short_text_positive' => 'средний уровень',
-                'short_text_negative' => 'есть ошибки'
-            ]
-        );
-
-        $this->assertEquals(
-            $results['management.task_managment.tasks_priority_planing'],
-            [
-                'text'                => 'Не учтены категории задач по матрице важно/срочно при их постановке в план. При этом в работе были допущена две или более грубых ошибок по планированию: задачи низкой категории (по матрице срочно/важно) запланированы к выполнению ранее задач высокой категории.',
-                'short_text'          => '(средний уровень, есть ошибки)',
-                'text_positive'       => 'Не учтены категории задач по матрице важно/срочно при их постановке в план.',
-                'text_negative'       => 'При этом в работе были допущена две или более грубых ошибок по планированию: задачи низкой категории (по матрице срочно/важно) запланированы к выполнению ранее задач высокой категории.',
-                'short_text_positive' => 'средний уровень',
-                'short_text_negative' => 'есть ошибки'
-            ]
-        );
-
-        $this->assertEquals(
-            $results['management.task_managment.tasks_priority_execution'],
-            [
-                'text'                => 'При выполнении задач в ходе дня менеджер многократно неверно интерпретирует категорию поступившей задачи и выполняет менее приоритетные задачи перед более приоритетными. При этом при выполнении задач в ходе дня были допущены пять или более грубых ошибок: задача очень низкой категории была выполнена ранее задачи очень высокого приоритета.',
-                'short_text'          => '(средний уровень, есть ошибки)',
-                'text_positive'       => 'При выполнении задач в ходе дня менеджер многократно неверно интерпретирует категорию поступившей задачи и выполняет менее приоритетные задачи перед более приоритетными.',
-                'text_negative'       => 'При выполнении задач в ходе дня было допущено менее пяти грубых ошибок: задача очень низкой категории была выполнена ранее задачи очень высокого приоритета.',
-                'short_text_positive' => 'средний уровень',
-                'short_text_negative' => 'есть ошибки'
-            ]
-        );
-
-        // 1.4.-.
-        $this->assertEquals(
-            $results['management.task_managment.tasks_interruprion'],
-            [
-                'text'                => 'Менеджер многократно (более 8 раз) прерывался при выполнении задач высокой и средней категории, отвлекаясь на внешние раздражители и задачи низкой категории.',
-                'short_text'          => '(есть ошибки)',
-                'pocket'               => [
-                    'left'  => 40,
-                    'right' => 100,
+                'text'       => 'Недостаточно времени симуляции (менее 70%) было выделено на выполнение приоритетных задач, обеспечивающих достижение результата',
+                'short_text' => '(средний уровень)',
+                'pocket'     => [
+                    'left'  => 55,
+                    'right' => 70,
                 ]
             ]
         );
 
         $this->assertEquals(
-            $results['management.people_managment.delegation'],
+            $results['time.waiting_time'],
             [
-                'text'                => 'Были неправильно делегированы задачи, исходя из требуемой для их выполнения квалификации и загрузки сотрудников. При этом была допущена одна или более грубых ошибок при определении задач для делегирования.',
-                'short_text'          => '(средний уровень, есть ошибки)',
-                'text_positive'       => 'Были неправильно делегированы задачи, исходя из требуемой для их выполнения квалификации и загрузки сотрудников.',
-                'text_negative'       => 'При этом была допущена одна или более грубых ошибок при определении задач для делегирования.',
-                'short_text_positive' => 'средний уровень',
-                'short_text_negative' => 'есть ошибки'
+                'text'       => 'Менее 15% времени симуляции менеджер бездействовал (знакомился с интерфейсом и обдумывал последующие шаги)',
+                'short_text' => '(высокий уровень)',
+                'pocket'     => [
+                    'left'  => 7.5,
+                    'right' => 15,
+                ]
             ]
         );
 
         $this->assertEquals(
-            $results['management.people_managment.resource_quality'],
+            $results['time.over_time'],
             [
-                'text'                => 'Менеджер не понял, что имеет дело с сотрудниками разной квалификации, не адаптировал свои методы управления и контроля для разных сотрудников. При этом была допущена одна или более грубых ошибок при контроле сотрудников, например, менеджер многократно контролирует Крутько, не дождавшись результата.',
-                'short_text'          => '(средний уровень, есть ошибки)',
-                'text_positive'       => 'Менеджер не понял, что имеет дело с сотрудниками разной квалификации, не адаптировал свои методы управления и контроля для разных сотрудников.',
-                'text_negative'       => 'При этом была допущена одна или более грубых ошибок при контроле сотрудников, например, менеджер многократно контролирует Крутько, не дождавшись результата.',
-                'short_text_positive' => 'средний уровень',
-                'short_text_negative' => 'есть ошибки'
+                'text'       => 'Не было использовано сверхурочное время (симуляция завершена в 18.00) или было использовано до 30 игровых минут сверхурочного времени для завершения приоритетных задач',
+                'short_text' => '(высокий уровень)',
+                'pocket'     => [
+                    'left'  => 15,
+                    'right' => 30,
+                ]
             ]
         );
 
         $this->assertEquals(
-            $results['management.people_managment.feedback'],
+            $results['performance.urgent'],
             [
-                'text'                => 'Менеджер не использовал возможность дать сотруднику позитивную и конструктивную обратную связь при выполнении задач и обсуждении результата. При этом были допущены грубые ошибки при использовании обратной связи, а именно: оценочная обратная связь и избегание обратной связи там, где она крайне необходима.',
-                'short_text'          => '(средний уровень, есть ошибки)',
-                'text_positive'       => 'Менеджер не использовал возможность дать сотруднику позитивную и конструктивную обратную связь при выполнении задач и обсуждении результата.',
-                'text_negative'       => 'При этом были допущены грубые ошибки при использовании обратной связи, а именно: оценочная обратная связь и избегание обратной связи там, где она крайне необходима.',
-                'short_text_positive' => 'средний уровень',
-                'short_text_negative' => 'есть ошибки'
-            ]
-        );
-
-        // 3.1.+.
-        $this->assertEquals(
-            $results['management.communication_managment.comunication_channel'],
-            [
-                'text'                => 'Многократно были выбраны и  использованы каналы коммуникаций, не самым оптимальным образом соответствующие специфике задачи, и/или неэкономные по времени.',
-                'short_text'          => '(средний уровень)',
-                'pocket'               => [
+                'text'       => 'Не была определена и выполнена задача самого высокого приоритета (по матрице срочно/важно)',
+                'short_text' => '(средний уровень)',
+                'pocket'     => [
                     'left'  => 40,
                     'right' => 60,
                 ]
@@ -789,24 +807,11 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
         );
 
         $this->assertEquals(
-            $results['management.communication_managment.effective_mail'],
+            $results['performance.high'],
             [
-                'text'                => 'Значимую часть времени менеджер провел в почте, читая и отвечая на письма низкого приоритета. При этом были допущены грубые ошибки при работе с почтой, а именно: планирование задач из почты, которые являются информацией, а не задачами.',
-                'short_text'          => '(средний уровень, есть ошибки)',
-                'text_positive'       => 'Значимую часть времени менеджер провел в почте, читая и отвечая на письма низкого приоритета.',
-                'text_negative'       => 'При этом были допущены грубые ошибки при работе с почтой, а именно: планирование задач из почты, которые являются информацией, а не задачами.',
-                'short_text_positive' => 'средний уровень',
-                'short_text_negative' => 'есть ошибки'
-            ]
-        );
-
-        // 3.3.+.
-        $this->assertEquals(
-            $results['management.communication_managment.effective_calls'],
-            [
-                'text'                => 'Менеджер отвечал на большую часть звонков, не учитывая их категорию. Надолго оставался во второстепенном диалоге даже при наличии выхода из него.',
-                'short_text'          => '(средний уровень)',
-                'pocket'               => [
+                'text'       => 'Не была определена и выполнена задача первого приоритета (по матрице срочно/важно)',
+                'short_text' => '(средний уровень)',
+                'pocket'     => [
                     'left'  => 40,
                     'right' => 60,
                 ]
@@ -814,14 +819,110 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
         );
 
         $this->assertEquals(
-            $results['management.communication_managment.effective_meetings'],
+            $results['performance.middle'],
             [
-                'text'                => 'Менеджер соглашался на большую часть встреч, не учитывая их категорию. Надолго оставался во второстепенном диалоге даже при наличии выхода из него. При этом была допущена одна или более грубых ошибок при встречах, например, была проведена незапланированная низкоприоритетная встреча.',
-                'short_text'          => '(средний уровень, есть ошибки)',
-                'text_positive'       => 'Менеджер соглашался на большую часть встреч, не учитывая их категорию. Надолго оставался во второстепенном диалоге даже при наличии выхода из него.',
-                'text_negative'       => 'При этом была допущена одна или более грубых ошибок при встречах, например, была проведена незапланированная низкоприоритетная встреча.',
-                'short_text_positive' => 'средний уровень',
-                'short_text_negative' => 'есть ошибки'
+                'text'       => 'Не была определена и выполнена задача второго приоритета (по матрице срочно/важно)',
+                'short_text' => '(средний уровень)',
+                'pocket'     => [
+                    'left'  => 40,
+                    'right' => 60,
+                ]
+            ]
+        );
+
+        $this->assertEquals(
+            $results['performance.two_minutes'],
+            [
+                'text'       => 'Было идентифицировано и выполнено менее 60% двухминутных задач (в основном - из почты)',
+                'short_text' => '(средний уровень)',
+                'pocket'     => [
+                    'left'  => 40,
+                    'right' => 60,
+                ]
+            ]
+        );
+
+        $this->assertEquals(
+            $results['management.task_managment'],
+            [
+                'text'       => '(средний уровень)',
+                'short_text' => '(средний уровень)',
+                'pocket'     => [
+                    'left'  => 33,
+                    'right' => 50,
+                ]
+            ]
+        );
+
+        $this->assertEquals(
+            $results['management.people_managment'],
+            [
+                'text'       => '(средний уровень)',
+                'short_text' => '(средний уровень)',
+                'pocket'     => [
+                    'left'  => 40,
+                    'right' => 60,
+                ]
+            ]
+        );
+
+        $this->assertEquals(
+            $results['management.communication_managment'],
+            [
+                'text'       => '(средний уровень)',
+                'short_text' => '(средний уровень)',
+                'pocket'     => [
+                    'left'  => 33,
+                    'right' => 50,
+                ]
+            ]
+        );
+
+        $this->assertEquals(
+            $results['management'],
+            [
+                'text'       => '(средний уровень)',
+                'short_text' => '(средний уровень)',
+                'pocket'     => [
+                    'left'  => 33,
+                    'right' => 50,
+                ]
+            ]
+        );
+
+        $this->assertEquals(
+            $results['performance'],
+            [
+                'text'       => '(средний уровень)',
+                'short_text' => '(средний уровень)',
+                'pocket'     => [
+                    'left'  => 40,
+                    'right' => 60,
+                ]
+            ]
+        );
+
+        $this->assertEquals(
+            $results['time'],
+            [
+                'text'       => '(средний уровень)',
+                'short_text' => '(средний уровень)',
+                'pocket'     => [
+                    'left'  => 55,
+                    'right' => 70,
+                ]
+            ]
+        );
+
+        $this->assertEquals(
+            $results['overall'],
+            [
+                'text'       => '(средний уровень)',
+                'short_text' => '(средний уровень)',
+                'pocket'     => [
+                    'left'  => 33,
+                    'right' => 50,
+                ]
             ]
         );
     }
@@ -829,7 +930,6 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
     /**
      * Проверяем менеджерские навыки - они имеют комбинированные тексты "позитив+негатив"
      * 4. верхняя граница 2го кармана, позитив
-     * Верхняя граница 2го кармана, негатив
      */
     public function testTextForInfoGraphic_4() {
 
@@ -839,93 +939,93 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
         $simulation->assessment_version === Simulation::ASSESSMENT_VERSION_2;
         $simulation->game_type = $scenarioFull;
 
-        // 1.Менеджерские навыки. - 1.Всё по нулям.
+        
         $simulation->results_popup_cache = serialize(
             json_decode(
                 str_replace([' ', "\n"], '' ,'
                     {
                        "management":{
                           "1":{
-                             "total":"0",
+                             "total":"49",
                              "1_1":{
-                                "+":"59",
-                                "-":"100"
+                                "+":"0",
+                                "-":"0"
                              },
                              "1_2":{
-                                "+":"59",
-                                "-":"100"
+                                "+":"0",
+                                "-":"0"
                              },
                              "1_3":{
-                                "+":"69",
-                                "-":"100"
+                                "+":"0",
+                                "-":"0"
                              },
                              "1_4":{
                                 "+":"0",
-                                "-":"100"
+                                "-":"0"
                              }
                           },
                           "2":{
-                             "total":"0",
+                             "total":"59",
                              "2_1":{
-                                "+":"59",
-                                "-":"100"
+                                "+":"0",
+                                "-":"0"
                              },
                              "2_2":{
-                                "+":"59",
-                                "-":"100"
+                                "+":"0",
+                                "-":"0"
                              },
                              "2_3":{
-                                "+":"59",
-                                "-":"100"
+                                "+":"0",
+                                "-":"0"
                              }
                           },
                           "3":{
-                             "total":"0",
+                             "total":"49",
                              "3_1":{
-                                "+":"59",
-                                "-":"100"
+                                "+":"0",
+                                "-":"0"
                              },
                              "3_2":{
-                                "+":"49",
-                                "-":"100"
+                                "+":"0",
+                                "-":"0"
                              },
                              "3_3":{
-                                "+":"59",
-                                "-":"100"
+                                "+":"0",
+                                "-":"0"
                              },
                              "3_4":{
-                                "+":"59",
-                                "-":"100"
+                                "+":"0",
+                                "-":"0"
                              }
                           },
-                          "total":"0"
+                          "total":"49"
                        },
                        "performance":{
-                          "0":"0",
-                          "1":"0",
-                          "2":"0",
-                          "total":"0",
-                          "2_min":"0"
+                          "0":     "59",
+                          "1":     "59",
+                          "2":     "59",
+                          "2_min": "59",
+                          "total": "59"
                        },
                        "time":{
-                          "total":"0",
-                          "workday_overhead_duration":"0",
-                          "time_spend_for_1st_priority_activities":"0",
-                          "time_spend_for_non_priority_activities":"0",
-                          "time_spend_for_inactivity":"0",
-                          "1st_priority_documents":"0",
-                          "1st_priority_meetings":"0",
-                          "1st_priority_phone_calls":"0",
-                          "1st_priority_mail":"0",
-                          "1st_priority_planning":"0",
-                          "non_priority_documents":"0",
-                          "non_priority_meetings":"0",
-                          "non_priority_phone_calls":"0",
-                          "non_priority_mail":"0",
-                          "non_priority_planning":"0",
-                          "efficiency":"0"
+                          "total":                                  "69",
+                          "workday_overhead_duration":              "29",
+                          "time_spend_for_1st_priority_activities": "69",
+                          "time_spend_for_non_priority_activities": "0",
+                          "time_spend_for_inactivity":              "14",
+                          "1st_priority_documents":                 "0",
+                          "1st_priority_meetings":                  "0",
+                          "1st_priority_phone_calls":               "0",
+                          "1st_priority_mail":                      "0",
+                          "1st_priority_planning":                  "0",
+                          "non_priority_documents":                 "0",
+                          "non_priority_meetings":                  "0",
+                          "non_priority_phone_calls":               "0",
+                          "non_priority_mail":                      "0",
+                          "non_priority_planning":                  "0",
+                          "efficiency":                             "0"
                        },
-                       "overall":"0",
+                       "overall": "74",
                        "percentile":{
                           "total":"0"
                        },
@@ -946,103 +1046,67 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
 
         $results = SimulationResultTextService::generate($simulation, 'popup');
 
-//        print_r($results);
-//        die;
+//        $this->gerArray($results, 'time.productive_time');
+//        $this->gerArray($results, 'time.waiting_time');
+//        $this->gerArray($results, 'time.over_time');
+//
+//        $this->gerArray($results, 'performance.urgent');
+//        $this->gerArray($results, 'performance.high');
+//        $this->gerArray($results, 'performance.middle');
+//        $this->gerArray($results, 'performance.two_minutes');
+//
+//        $this->gerArray($results, 'management.task_managment');
+//        $this->gerArray($results, 'management.people_managment');
+//        $this->gerArray($results, 'management.communication_managment');
+//        $this->gerArray($results, 'management');
+//        $this->gerArray($results, 'performance');
+//        $this->gerArray($results, 'time');
+//        $this->gerArray($results, 'overall');
+//
+//        die();
 
         $this->assertEquals(
-            $results['management.task_managment.day_planing'],
+            $results['time.productive_time'],
             [
-                'text'                => 'Было запланировано менее 60% или более 100% рабочего времени или менеджер не приступал к планированию в начале рабочего дня. При этом менеджер не планировал свой рабочий день вообще.',
-                'short_text'          => '(средний уровень, есть ошибки)',
-                'text_positive'       => 'Было запланировано менее 60% или более 100% рабочего времени или менеджер не приступал к планированию в начале рабочего дня.',
-                'text_negative'       => 'При этом менеджер не планировал свой рабочий день вообще.',
-                'short_text_positive' => 'средний уровень',
-                'short_text_negative' => 'есть ошибки'
-            ]
-        );
-
-        $this->assertEquals(
-            $results['management.task_managment.tasks_priority_planing'],
-            [
-                'text'                => 'Не учтены категории задач по матрице важно/срочно при их постановке в план. При этом в работе были допущена две или более грубых ошибок по планированию: задачи низкой категории (по матрице срочно/важно) запланированы к выполнению ранее задач высокой категории.',
-                'short_text'          => '(средний уровень, есть ошибки)',
-                'text_positive'       => 'Не учтены категории задач по матрице важно/срочно при их постановке в план.',
-                'text_negative'       => 'При этом в работе были допущена две или более грубых ошибок по планированию: задачи низкой категории (по матрице срочно/важно) запланированы к выполнению ранее задач высокой категории.',
-                'short_text_positive' => 'средний уровень',
-                'short_text_negative' => 'есть ошибки'
-            ]
-        );
-
-        // var_dump($results['management.task_managment.tasks_priority_execution']); die;
-
-        $this->assertEquals(
-            $results['management.task_managment.tasks_priority_execution'],
-            [
-                'text'                => 'При выполнении задач в ходе дня менеджер многократно неверно интерпретирует категорию поступившей задачи и выполняет менее приоритетные задачи перед более приоритетными. При этом при выполнении задач в ходе дня были допущены пять или более грубых ошибок: задача очень низкой категории была выполнена ранее задачи очень высокого приоритета.',
-                'short_text'          => '(средний уровень, есть ошибки)',
-                'text_positive'       => 'При выполнении задач в ходе дня менеджер многократно неверно интерпретирует категорию поступившей задачи и выполняет менее приоритетные задачи перед более приоритетными.',
-                'text_negative'       => 'При этом при выполнении задач в ходе дня были допущены пять или более грубых ошибок: задача очень низкой категории была выполнена ранее задачи очень высокого приоритета.',
-                'short_text_positive' => 'средний уровень',
-                'short_text_negative' => 'есть ошибки'
-            ]
-        );
-
-        // 1.4.-.
-        $this->assertEquals(
-            $results['management.task_managment.tasks_interruprion'],
-            [
-                'text'                => 'Менеджер многократно (более 8 раз) прерывался при выполнении задач высокой и средней категории, отвлекаясь на внешние раздражители и задачи низкой категории.',
-                'short_text'          => '(есть ошибки)',
-                'pocket'               => [
-                    'left'  => 40,
-                    'right' => 100,
+                'text'       => 'Недостаточно времени симуляции (менее 70%) было выделено на выполнение приоритетных задач, обеспечивающих достижение результата',
+                'short_text' => '(средний уровень)',
+                'pocket'     => [
+                    'left'  => 55,
+                    'right' => 70,
                 ]
             ]
         );
 
         $this->assertEquals(
-            $results['management.people_managment.delegation'],
+            $results['time.waiting_time'],
             [
-                'text'                => 'Были неправильно делегированы задачи, исходя из требуемой для их выполнения квалификации и загрузки сотрудников. При этом была допущена одна или более грубых ошибок при определении задач для делегирования.',
-                'short_text'          => '(средний уровень, есть ошибки)',
-                'text_positive'       => 'Были неправильно делегированы задачи, исходя из требуемой для их выполнения квалификации и загрузки сотрудников.',
-                'text_negative'       => 'При этом была допущена одна или более грубых ошибок при определении задач для делегирования.',
-                'short_text_positive' => 'средний уровень',
-                'short_text_negative' => 'есть ошибки'
+                'text'       => 'Менее 15% времени симуляции менеджер бездействовал (знакомился с интерфейсом и обдумывал последующие шаги)',
+                'short_text' => '(высокий уровень)',
+                'pocket'     => [
+                    'left'  => 7.5,
+                    'right' => 15,
+                ]
             ]
         );
 
         $this->assertEquals(
-            $results['management.people_managment.resource_quality'],
+            $results['time.over_time'],
             [
-                'text'                => 'Менеджер не понял, что имеет дело с сотрудниками разной квалификации, не адаптировал свои методы управления и контроля для разных сотрудников. При этом была допущена одна или более грубых ошибок при контроле сотрудников, например, менеджер многократно контролирует Крутько, не дождавшись результата.',
-                'short_text'          => '(средний уровень, есть ошибки)',
-                'text_positive'       => 'Менеджер не понял, что имеет дело с сотрудниками разной квалификации, не адаптировал свои методы управления и контроля для разных сотрудников.',
-                'text_negative'       => 'При этом была допущена одна или более грубых ошибок при контроле сотрудников, например, менеджер многократно контролирует Крутько, не дождавшись результата.',
-                'short_text_positive' => 'средний уровень',
-                'short_text_negative' => 'есть ошибки'
+                'text'       => 'Не было использовано сверхурочное время (симуляция завершена в 18.00) или было использовано до 30 игровых минут сверхурочного времени для завершения приоритетных задач',
+                'short_text' => '(высокий уровень)',
+                'pocket'     => [
+                    'left'  => 15,
+                    'right' => 30,
+                ]
             ]
         );
 
         $this->assertEquals(
-            $results['management.people_managment.feedback'],
+            $results['performance.urgent'],
             [
-                'text'                => 'Менеджер не использовал возможность дать сотруднику позитивную и конструктивную обратную связь при выполнении задач и обсуждении результата. При этом были допущены грубые ошибки при использовании обратной связи, а именно: оценочная обратная связь и избегание обратной связи там, где она крайне необходима.',
-                'short_text'          => '(средний уровень, есть ошибки)',
-                'text_positive'       => 'Менеджер не использовал возможность дать сотруднику позитивную и конструктивную обратную связь при выполнении задач и обсуждении результата.',
-                'text_negative'       => 'При этом были допущены грубые ошибки при использовании обратной связи, а именно: оценочная обратная связь и избегание обратной связи там, где она крайне необходима.',
-                'short_text_positive' => 'средний уровень',
-                'short_text_negative' => 'есть ошибки'
-            ]
-        );
-
-        // 3.1.+.
-        $this->assertEquals(
-            $results['management.communication_managment.comunication_channel'],
-            [
-                'text'                => 'Многократно были выбраны и  использованы каналы коммуникаций, не самым оптимальным образом соответствующие специфике задачи, и/или неэкономные по времени.',
-                'short_text'          => '(средний уровень)',
-                'pocket'               => [
+                'text'       => 'Не была определена и выполнена задача самого высокого приоритета (по матрице срочно/важно)',
+                'short_text' => '(средний уровень)',
+                'pocket'     => [
                     'left'  => 40,
                     'right' => 60,
                 ]
@@ -1050,24 +1114,11 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
         );
 
         $this->assertEquals(
-            $results['management.communication_managment.effective_mail'],
+            $results['performance.high'],
             [
-                'text'                => 'Значимую часть времени менеджер провел в почте, читая и отвечая на письма низкого приоритета. При этом были допущены грубые ошибки при работе с почтой, а именно: планирование задач из почты, которые являются информацией, а не задачами.',
-                'short_text'          => '(средний уровень, есть ошибки)',
-                'text_positive'       => 'Значимую часть времени менеджер провел в почте, читая и отвечая на письма низкого приоритета.',
-                'text_negative'       => 'При этом были допущены грубые ошибки при работе с почтой, а именно: планирование задач из почты, которые являются информацией, а не задачами.',
-                'short_text_positive' => 'средний уровень',
-                'short_text_negative' => 'есть ошибки'
-            ]
-        );
-
-        // 3.3.+.
-        $this->assertEquals(
-            $results['management.communication_managment.effective_calls'],
-            [
-                'text'                => 'Менеджер отвечал на большую часть звонков, не учитывая их категорию. Надолго оставался во второстепенном диалоге даже при наличии выхода из него.',
-                'short_text'          => '(средний уровень)',
-                'pocket'               => [
+                'text'       => 'Не была определена и выполнена задача первого приоритета (по матрице срочно/важно)',
+                'short_text' => '(средний уровень)',
+                'pocket'     => [
                     'left'  => 40,
                     'right' => 60,
                 ]
@@ -1075,14 +1126,110 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
         );
 
         $this->assertEquals(
-            $results['management.communication_managment.effective_meetings'],
+            $results['performance.middle'],
             [
-                'text'                => 'Менеджер соглашался на большую часть встреч, не учитывая их категорию. Надолго оставался во второстепенном диалоге даже при наличии выхода из него. При этом была допущена одна или более грубых ошибок при встречах, например, была проведена незапланированная низкоприоритетная встреча.',
-                'short_text'          => '(средний уровень, есть ошибки)',
-                'text_positive'       => 'Менеджер соглашался на большую часть встреч, не учитывая их категорию. Надолго оставался во второстепенном диалоге даже при наличии выхода из него.',
-                'text_negative'       => 'При этом была допущена одна или более грубых ошибок при встречах, например, была проведена незапланированная низкоприоритетная встреча.',
-                'short_text_positive' => 'средний уровень',
-                'short_text_negative' => 'есть ошибки'
+                'text'       => 'Не была определена и выполнена задача второго приоритета (по матрице срочно/важно)',
+                'short_text' => '(средний уровень)',
+                'pocket'     => [
+                    'left'  => 40,
+                    'right' => 60,
+                ]
+            ]
+        );
+
+        $this->assertEquals(
+            $results['performance.two_minutes'],
+            [
+                'text'       => 'Было идентифицировано и выполнено менее 60% двухминутных задач (в основном - из почты)',
+                'short_text' => '(средний уровень)',
+                'pocket'     => [
+                    'left'  => 40,
+                    'right' => 60,
+                ]
+            ]
+        );
+
+        $this->assertEquals(
+            $results['management.task_managment'],
+            [
+                'text'       => '(средний уровень)',
+                'short_text' => '(средний уровень)',
+                'pocket'     => [
+                    'left'  => 33,
+                    'right' => 50,
+                ]
+            ]
+        );
+
+        $this->assertEquals(
+            $results['management.people_managment'],
+            [
+                'text'       => '(средний уровень)',
+                'short_text' => '(средний уровень)',
+                'pocket'     => [
+                    'left'  => 40,
+                    'right' => 60,
+                ]
+            ]
+        );
+
+        $this->assertEquals(
+            $results['management.communication_managment'],
+            [
+                'text'       => '(средний уровень)',
+                'short_text' => '(средний уровень)',
+                'pocket'     => [
+                    'left'  => 33,
+                    'right' => 50,
+                ]
+            ]
+        );
+
+        $this->assertEquals(
+            $results['management'],
+            [
+                'text'       => '(средний уровень)',
+                'short_text' => '(средний уровень)',
+                'pocket'     => [
+                    'left'  => 33,
+                    'right' => 50,
+                ]
+            ]
+        );
+
+        $this->assertEquals(
+            $results['performance'],
+            [
+                'text'       => '(средний уровень)',
+                'short_text' => '(средний уровень)',
+                'pocket'     => [
+                    'left'  => 40,
+                    'right' => 60,
+                ]
+            ]
+        );
+
+        $this->assertEquals(
+            $results['time'],
+            [
+                'text'       => '(средний уровень)',
+                'short_text' => '(средний уровень)',
+                'pocket'     => [
+                    'left'  => 55,
+                    'right' => 70,
+                ]
+            ]
+        );
+
+        $this->assertEquals(
+            $results['overall'],
+            [
+                'text'       => '(высокий уровень)',
+                'short_text' => '(высокий уровень)',
+                'pocket'     => [
+                    'left'  => 50,
+                    'right' => 75,
+                ]
             ]
         );
     }
@@ -1090,7 +1237,6 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
     /**
      * Проверяем менеджерские навыки - они имеют комбинированные тексты "позитив+негатив"
      * 5. нижняя граница 3го кармана, позитив
-     * Верхняя граница 2го кармана, негатив
      */
     public function testTextForInfoGraphic_5() {
 
@@ -1100,93 +1246,92 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
         $simulation->assessment_version === Simulation::ASSESSMENT_VERSION_2;
         $simulation->game_type = $scenarioFull;
 
-        // 1.Менеджерские навыки. - 1.Всё по нулям.
         $simulation->results_popup_cache = serialize(
             json_decode(
                 str_replace([' ', "\n"], '' ,'
                     {
                        "management":{
                           "1":{
-                             "total":"0",
+                             "total":"50",
                              "1_1":{
-                                "+":"60",
-                                "-":"100"
+                                "+":"0",
+                                "-":"0"
                              },
                              "1_2":{
-                                "+":"60",
-                                "-":"100"
+                                "+":"0",
+                                "-":"0"
                              },
                              "1_3":{
-                                "+":"70",
-                                "-":"100"
+                                "+":"0",
+                                "-":"0"
                              },
                              "1_4":{
                                 "+":"0",
-                                "-":"100"
+                                "-":"0"
                              }
                           },
                           "2":{
-                             "total":"0",
+                             "total":"60",
                              "2_1":{
-                                "+":"60",
-                                "-":"100"
+                                "+":"0",
+                                "-":"0"
                              },
                              "2_2":{
-                                "+":"60",
-                                "-":"100"
+                                "+":"0",
+                                "-":"0"
                              },
                              "2_3":{
-                                "+":"60",
-                                "-":"100"
+                                "+":"0",
+                                "-":"0"
                              }
                           },
                           "3":{
-                             "total":"0",
+                             "total":"50",
                              "3_1":{
-                                "+":"60",
-                                "-":"100"
+                                "+":"0",
+                                "-":"0"
                              },
                              "3_2":{
-                                "+":"50",
-                                "-":"100"
+                                "+":"0",
+                                "-":"0"
                              },
                              "3_3":{
-                                "+":"60",
-                                "-":"100"
+                                "+":"0",
+                                "-":"0"
                              },
                              "3_4":{
-                                "+":"60",
-                                "-":"100"
+                                "+":"0",
+                                "-":"0"
                              }
                           },
-                          "total":"0"
+                          "total":"50"
                        },
                        "performance":{
-                          "0":"0",
-                          "1":"0",
-                          "2":"0",
-                          "total":"0",
-                          "2_min":"0"
+                          "0":     "60",
+                          "1":     "60",
+                          "2":     "60",
+                          "2_min": "60",
+                          "total": "60"
                        },
                        "time":{
-                          "total":"0",
-                          "workday_overhead_duration":"0",
-                          "time_spend_for_1st_priority_activities":"0",
-                          "time_spend_for_non_priority_activities":"0",
-                          "time_spend_for_inactivity":"0",
-                          "1st_priority_documents":"0",
-                          "1st_priority_meetings":"0",
-                          "1st_priority_phone_calls":"0",
-                          "1st_priority_mail":"0",
-                          "1st_priority_planning":"0",
-                          "non_priority_documents":"0",
-                          "non_priority_meetings":"0",
-                          "non_priority_phone_calls":"0",
-                          "non_priority_mail":"0",
-                          "non_priority_planning":"0",
-                          "efficiency":"0"
+                          "total":                                  "70",
+                          "workday_overhead_duration":              "30",
+                          "time_spend_for_1st_priority_activities": "70",
+                          "time_spend_for_non_priority_activities": "0",
+                          "time_spend_for_inactivity":              "15",
+                          "1st_priority_documents":                 "0",
+                          "1st_priority_meetings":                  "0",
+                          "1st_priority_phone_calls":               "0",
+                          "1st_priority_mail":                      "0",
+                          "1st_priority_planning":                  "0",
+                          "non_priority_documents":                 "0",
+                          "non_priority_meetings":                  "0",
+                          "non_priority_phone_calls":               "0",
+                          "non_priority_mail":                      "0",
+                          "non_priority_planning":                  "0",
+                          "efficiency":                             "0"
                        },
-                       "overall":"0",
+                       "overall": "50",
                        "percentile":{
                           "total":"0"
                        },
@@ -1207,101 +1352,67 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
 
         $results = SimulationResultTextService::generate($simulation, 'popup');
 
-//        print_r($results);
-//        die;
+//        $this->gerArray($results, 'time.productive_time');
+//        $this->gerArray($results, 'time.waiting_time');
+//        $this->gerArray($results, 'time.over_time');
+//
+//        $this->gerArray($results, 'performance.urgent');
+//        $this->gerArray($results, 'performance.high');
+//        $this->gerArray($results, 'performance.middle');
+//        $this->gerArray($results, 'performance.two_minutes');
+//
+//        $this->gerArray($results, 'management.task_managment');
+//        $this->gerArray($results, 'management.people_managment');
+//        $this->gerArray($results, 'management.communication_managment');
+//        $this->gerArray($results, 'management');
+//        $this->gerArray($results, 'performance');
+//        $this->gerArray($results, 'time');
+//        $this->gerArray($results, 'overall');
+//
+//        die();
 
         $this->assertEquals(
-            $results['management.task_managment.day_planing'],
+            $results['time.productive_time'],
             [
-                'text'                => 'Менеджер запланировал свой рабочий день утром, было запланировано более 60% и менее 80% рабочего времени с временными интервалами между задачами. При этом менеджер не планировал свой рабочий день вообще.',
-                'short_text'          => '(высокий уровень, есть ошибки)',
-                'text_positive'       => 'Менеджер запланировал свой рабочий день утром, было запланировано более 60% и менее 80% рабочего времени с временными интервалами между задачами.',
-                'text_negative'       => 'При этом менеджер не планировал свой рабочий день вообще.',
-                'short_text_positive' => 'высокий уровень',
-                'short_text_negative' => 'есть ошибки'
-            ]
-        );
-
-        $this->assertEquals(
-            $results['management.task_managment.tasks_priority_planing'],
-            [
-                'text'                => 'В целом задачи поставлены в план с учетом их категорий по матрице важно/срочно. При этом в работе были допущена две или более грубых ошибок по планированию: задачи низкой категории (по матрице срочно/важно) запланированы к выполнению ранее задач высокой категории.',
-                'short_text'          => '(высокий уровень, есть ошибки)',
-                'text_positive'       => 'В целом задачи поставлены в план с учетом их категорий по матрице важно/срочно.',
-                'text_negative'       => 'При этом в работе были допущена две или более грубых ошибок по планированию: задачи низкой категории (по матрице срочно/важно) запланированы к выполнению ранее задач высокой категории.',
-                'short_text_positive' => 'высокий уровень',
-                'short_text_negative' => 'есть ошибки'
-            ]
-        );
-
-        $this->assertEquals(
-            $results['management.task_managment.tasks_priority_execution'],
-            [
-                'text'                => 'При выполнении задач в ходе дня менеджер многократно верно интерпретирует категорию поступившей задачи и выполняет более приоритетные задачи перед менее приоритетными. При этом при выполнении задач в ходе дня были допущены пять или более грубых ошибок: задача очень низкой категории была выполнена ранее задачи очень высокого приоритета.',
-                'short_text'          => '(высокий уровень, есть ошибки)',
-                'text_positive'       => 'При выполнении задач в ходе дня менеджер многократно верно интерпретирует категорию поступившей задачи и выполняет более приоритетные задачи перед менее приоритетными.',
-                'text_negative'       => 'При этом при выполнении задач в ходе дня были допущены пять или более грубых ошибок: задача очень низкой категории была выполнена ранее задачи очень высокого приоритета.',
-                'short_text_positive' => 'высокий уровень',
-                'short_text_negative' => 'есть ошибки'
-            ]
-        );
-
-        // 1.4.-.
-        $this->assertEquals(
-            $results['management.task_managment.tasks_interruprion'],
-            [
-                'text'                => 'Менеджер многократно (более 8 раз) прерывался при выполнении задач высокой и средней категории, отвлекаясь на внешние раздражители и задачи низкой категории.',
-                'short_text'          => '(есть ошибки)',
-                'pocket'               => [
-                    'left'  => 40,
-                    'right' => 100,
+                'text'       => 'Значительная часть времени симуляции (от 70% и выше) была посвящена выполнению приоритетных задач, обеспечивающих достижение результата',
+                'short_text' => '(высокий уровень)',
+                'pocket'     => [
+                    'left'  => 70,
+                    'right' => 85,
                 ]
             ]
         );
 
         $this->assertEquals(
-            $results['management.people_managment.delegation'],
+            $results['time.waiting_time'],
             [
-                'text'                => 'Были корректно определены и делегированы задачи, корректно интерпретирована и использована информация о команде. При этом была допущена одна или более грубых ошибок при определении задач для делегирования.',
-                'short_text'          => '(высокий уровень, есть ошибки)',
-                'text_positive'       => 'Были корректно определены и делегированы задачи, корректно интерпретирована и использована информация о команде.',
-                'text_negative'       => 'При этом была допущена одна или более грубых ошибок при определении задач для делегирования.',
-                'short_text_positive' => 'высокий уровень',
-                'short_text_negative' => 'есть ошибки'
+                'text'       => 'Более 15% времени симуляции менеджер бездействовал (знакомился с интерфейсом и обдумывал последующие шаги)',
+                'short_text' => '(средний уровень)',
+                'pocket'     => [
+                    'left'  => 15,
+                    'right' => 30,
+                ]
             ]
         );
 
         $this->assertEquals(
-            $results['management.people_managment.resource_quality'],
+            $results['time.over_time'],
             [
-                'text'                => 'Менеджер усвоил и корректно использовал информацию об уровне квалификации своих сотрудников, использовал контроль по результату для профессионального сотрудника и промежуточный контроль для слабого сотрудника. При этом была допущена одна или более грубых ошибок при контроле сотрудников, например, менеджер многократно контролирует Крутько, не дождавшись результата.',
-                'short_text'          => '(высокий уровень, есть ошибки)',
-                'text_positive'       => 'Менеджер усвоил и корректно использовал информацию об уровне квалификации своих сотрудников, использовал контроль по результату для профессионального сотрудника и промежуточный контроль для слабого сотрудника.',
-                'text_negative'       => 'При этом была допущена одна или более грубых ошибок при контроле сотрудников, например, менеджер многократно контролирует Крутько, не дождавшись результата.',
-                'short_text_positive' => 'высокий уровень',
-                'short_text_negative' => 'есть ошибки'
+                'text'       => 'Было использовано сверхурочное время (более 30 игровых минут)',
+                'short_text' => '(средний уровень)',
+                'pocket'     => [
+                    'left'  => 30,
+                    'right' => 60,
+                ]
             ]
         );
 
         $this->assertEquals(
-            $results['management.people_managment.feedback'],
+            $results['performance.urgent'],
             [
-                'text'                => 'Менеджер давал сотруднику позитивную и конструктивную обратную связь при выполнении задач и обсуждении результата. При этом были допущены грубые ошибки при использовании обратной связи, а именно: оценочная обратная связь и избегание обратной связи там, где она крайне необходима.',
-                'short_text'          => '(высокий уровень, есть ошибки)',
-                'text_positive'       => 'Менеджер давал сотруднику позитивную и конструктивную обратную связь при выполнении задач и обсуждении результата.',
-                'text_negative'       => 'При этом были допущены грубые ошибки при использовании обратной связи, а именно: оценочная обратная связь и избегание обратной связи там, где она крайне необходима.',
-                'short_text_positive' => 'высокий уровень',
-                'short_text_negative' => 'есть ошибки'
-            ]
-        );
-
-        // 3.1.+.
-        $this->assertEquals(
-            $results['management.communication_managment.comunication_channel'],
-            [
-                'text'                => 'Многократно были выбраны и  использованы каналы коммуникаций, наилучшим образом соответствующие специфике задачи, и/или экономные по времени.',
-                'short_text'          => '(высокий уровень)',
-                'pocket'               => [
+                'text'       => 'Как минимум, была определена и выполнена в значительной степени задача самого высокого приоритета (по матрице срочно/важно)',
+                'short_text' => '(высокий уровень)',
+                'pocket'     => [
                     'left'  => 60,
                     'right' => 80,
                 ]
@@ -1309,24 +1420,11 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
         );
 
         $this->assertEquals(
-            $results['management.communication_managment.effective_mail'],
+            $results['performance.high'],
             [
-                'text'                => 'Менеджер читал и отвечал на письма высокого и среднего приоритета. При этом были допущены грубые ошибки при работе с почтой, а именно: планирование задач из почты, которые являются информацией, а не задачами.',
-                'short_text'          => '(высокий уровень, есть ошибки)',
-                'text_positive'       => 'Менеджер читал и отвечал на письма высокого и среднего приоритета.',
-                'text_negative'       => 'При этом были допущены грубые ошибки при работе с почтой, а именно: планирование задач из почты, которые являются информацией, а не задачами.',
-                'short_text_positive' => 'высокий уровень',
-                'short_text_negative' => 'есть ошибки'
-            ]
-        );
-
-        // 3.3.+.
-        $this->assertEquals(
-            $results['management.communication_managment.effective_calls'],
-            [
-                'text'                => 'Менеджер избирательно отвечал и совершал звонки, учитывая личность и статус визави, а также категорию задач, которая может от него исходить.',
-                'short_text'          => '(высокий уровень)',
-                'pocket'               => [
+                'text'       => 'Как минимум, была определена и выполнена в значительной степени задача первого приоритета (по матрице срочно/важно)',
+                'short_text' => '(высокий уровень)',
+                'pocket'     => [
                     'left'  => 60,
                     'right' => 80,
                 ]
@@ -1334,14 +1432,110 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
         );
 
         $this->assertEquals(
-            $results['management.communication_managment.effective_meetings'],
+            $results['performance.middle'],
             [
-                'text'                => 'Менеджер избирательно соглашался на встречи, учитывая личность и статус визави, а также категорию задач, которая может от него исходить. При этом была допущена одна или более грубых ошибок при встречах, например, была проведена незапланированная низкоприоритетная встреча.',
-                'short_text'          => '(высокий уровень, есть ошибки)',
-                'text_positive'       => 'Менеджер избирательно соглашался на встречи, учитывая личность и статус визави, а также категорию задач, которая может от него исходить.',
-                'text_negative'       => 'При этом была допущена одна или более грубых ошибок при встречах, например, была проведена незапланированная низкоприоритетная встреча.',
-                'short_text_positive' => 'высокий уровень',
-                'short_text_negative' => 'есть ошибки'
+                'text'       => 'Как минимум, была определена и выполнена задача второго приоритета (по матрице срочно/важно)',
+                'short_text' => '(высокий уровень)',
+                'pocket'     => [
+                    'left'  => 60,
+                    'right' => 80,
+                ]
+            ]
+        );
+
+        $this->assertEquals(
+            $results['performance.two_minutes'],
+            [
+                'text'       => 'Было идентифицировано и выполнено более 60% двухминутных задач (в основном - из почты)',
+                'short_text' => '(высокий уровень)',
+                'pocket'     => [
+                    'left'  => 60,
+                    'right' => 80,
+                ]
+            ]
+        );
+
+        $this->assertEquals(
+            $results['management.task_managment'],
+            [
+                'text'       => '(высокий уровень)',
+                'short_text' => '(высокий уровень)',
+                'pocket'     => [
+                    'left'  => 50,
+                    'right' => 75,
+                ]
+            ]
+        );
+
+        $this->assertEquals(
+            $results['management.people_managment'],
+            [
+                'text'       => '(высокий уровень)',
+                'short_text' => '(высокий уровень)',
+                'pocket'     => [
+                    'left'  => 60,
+                    'right' => 80,
+                ]
+            ]
+        );
+
+        $this->assertEquals(
+            $results['management.communication_managment'],
+            [
+                'text'       => '(высокий уровень)',
+                'short_text' => '(высокий уровень)',
+                'pocket'     => [
+                    'left'  => 50,
+                    'right' => 75,
+                ]
+            ]
+        );
+
+        $this->assertEquals(
+            $results['management'],
+            [
+                'text'       => '(высокий уровень)',
+                'short_text' => '(высокий уровень)',
+                'pocket'     => [
+                    'left'  => 50,
+                    'right' => 75,
+                ]
+            ]
+        );
+
+        $this->assertEquals(
+            $results['performance'],
+            [
+                'text'       => '(высокий уровень)',
+                'short_text' => '(высокий уровень)',
+                'pocket'     => [
+                    'left'  => 60,
+                    'right' => 80,
+                ]
+            ]
+        );
+
+        $this->assertEquals(
+            $results['time'],
+            [
+                'text'       => '(высокий уровень)',
+                'short_text' => '(высокий уровень)',
+                'pocket'     => [
+                    'left'  => 70,
+                    'right' => 85,
+                ]
+            ]
+        );
+
+        $this->assertEquals(
+            $results['overall'],
+            [
+                'text'       => '(высокий уровень)',
+                'short_text' => '(высокий уровень)',
+                'pocket'     => [
+                    'left'  => 50,
+                    'right' => 75,
+                ]
             ]
         );
     }
@@ -1349,7 +1543,6 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
     /**
      * Проверяем менеджерские навыки - они имеют комбинированные тексты "позитив+негатив"
      * 6. верхняя граница 3го кармана, позитив
-     * Верхняя граница 2го кармана, негатив
      */
     public function testTextForInfoGraphic_6() {
 
@@ -1359,93 +1552,92 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
         $simulation->assessment_version === Simulation::ASSESSMENT_VERSION_2;
         $simulation->game_type = $scenarioFull;
 
-        // 1.Менеджерские навыки. - 1.Всё по нулям.
         $simulation->results_popup_cache = serialize(
             json_decode(
                 str_replace([' ', "\n"], '' ,'
                     {
                        "management":{
                           "1":{
-                             "total":"0",
+                             "total":"74",
                              "1_1":{
-                                "+":"79",
-                                "-":"100"
+                                "+":"0",
+                                "-":"0"
                              },
                              "1_2":{
-                                "+":"79",
-                                "-":"100"
+                                "+":"0",
+                                "-":"0"
                              },
                              "1_3":{
-                                "+":"79",
-                                "-":"100"
+                                "+":"0",
+                                "-":"0"
                              },
                              "1_4":{
                                 "+":"0",
-                                "-":"100"
+                                "-":"0"
                              }
                           },
                           "2":{
-                             "total":"0",
+                             "total":"79",
                              "2_1":{
-                                "+":"79",
-                                "-":"100"
+                                "+":"0",
+                                "-":"0"
                              },
                              "2_2":{
-                                "+":"79",
-                                "-":"100"
+                                "+":"0",
+                                "-":"0"
                              },
                              "2_3":{
-                                "+":"79",
-                                "-":"100"
+                                "+":"0",
+                                "-":"0"
                              }
                           },
                           "3":{
-                             "total":"0",
+                             "total":"74",
                              "3_1":{
-                                "+":"79",
-                                "-":"100"
+                                "+":"0",
+                                "-":"0"
                              },
                              "3_2":{
-                                "+":"74",
-                                "-":"100"
+                                "+":"0",
+                                "-":"0"
                              },
                              "3_3":{
-                                "+":"79",
-                                "-":"100"
+                                "+":"0",
+                                "-":"0"
                              },
                              "3_4":{
-                                "+":"79",
-                                "-":"100"
+                                "+":"0",
+                                "-":"0"
                              }
                           },
-                          "total":"0"
+                          "total":"74"
                        },
                        "performance":{
-                          "0":"0",
-                          "1":"0",
-                          "2":"0",
-                          "total":"0",
-                          "2_min":"0"
+                          "0":     "79",
+                          "1":     "79",
+                          "2":     "79",
+                          "2_min": "79",
+                          "total": "79"
                        },
                        "time":{
-                          "total":"0",
-                          "workday_overhead_duration":"0",
-                          "time_spend_for_1st_priority_activities":"0",
-                          "time_spend_for_non_priority_activities":"0",
-                          "time_spend_for_inactivity":"0",
-                          "1st_priority_documents":"0",
-                          "1st_priority_meetings":"0",
-                          "1st_priority_phone_calls":"0",
-                          "1st_priority_mail":"0",
-                          "1st_priority_planning":"0",
-                          "non_priority_documents":"0",
-                          "non_priority_meetings":"0",
-                          "non_priority_phone_calls":"0",
-                          "non_priority_mail":"0",
-                          "non_priority_planning":"0",
-                          "efficiency":"0"
+                          "total":                                  "84",
+                          "workday_overhead_duration":              "59",
+                          "time_spend_for_1st_priority_activities": "84",
+                          "time_spend_for_non_priority_activities": "0",
+                          "time_spend_for_inactivity":              "29",
+                          "1st_priority_documents":                 "0",
+                          "1st_priority_meetings":                  "0",
+                          "1st_priority_phone_calls":               "0",
+                          "1st_priority_mail":                      "0",
+                          "1st_priority_planning":                  "0",
+                          "non_priority_documents":                 "0",
+                          "non_priority_meetings":                  "0",
+                          "non_priority_phone_calls":               "0",
+                          "non_priority_mail":                      "0",
+                          "non_priority_planning":                  "0",
+                          "efficiency":                             "0"
                        },
-                       "overall":"0",
+                       "overall": "74",
                        "percentile":{
                           "total":"0"
                        },
@@ -1466,101 +1658,67 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
 
         $results = SimulationResultTextService::generate($simulation, 'popup');
 
-//        print_r($results);
-//        die;
+//        $this->gerArray($results, 'time.productive_time');
+//        $this->gerArray($results, 'time.waiting_time');
+//        $this->gerArray($results, 'time.over_time');
+//
+//        $this->gerArray($results, 'performance.urgent');
+//        $this->gerArray($results, 'performance.high');
+//        $this->gerArray($results, 'performance.middle');
+//        $this->gerArray($results, 'performance.two_minutes');
+//
+//        $this->gerArray($results, 'management.task_managment');
+//        $this->gerArray($results, 'management.people_managment');
+//        $this->gerArray($results, 'management.communication_managment');
+//        $this->gerArray($results, 'management');
+//        $this->gerArray($results, 'performance');
+//        $this->gerArray($results, 'time');
+//        $this->gerArray($results, 'overall');
+//
+//        die();
 
         $this->assertEquals(
-            $results['management.task_managment.day_planing'],
+            $results['time.productive_time'],
             [
-                'text'                => 'Менеджер запланировал свой рабочий день утром, было запланировано более 60% и менее 80% рабочего времени с временными интервалами между задачами. При этом менеджер не планировал свой рабочий день вообще.',
-                'short_text'          => '(высокий уровень, есть ошибки)',
-                'text_positive'       => 'Менеджер запланировал свой рабочий день утром, было запланировано более 60% и менее 80% рабочего времени с временными интервалами между задачами.',
-                'text_negative'       => 'При этом менеджер не планировал свой рабочий день вообще.',
-                'short_text_positive' => 'высокий уровень',
-                'short_text_negative' => 'есть ошибки'
-            ]
-        );
-
-        $this->assertEquals(
-            $results['management.task_managment.tasks_priority_planing'],
-            [
-                'text'                => 'В целом задачи поставлены в план с учетом их категорий по матрице важно/срочно. При этом в работе были допущена две или более грубых ошибок по планированию: задачи низкой категории (по матрице срочно/важно) запланированы к выполнению ранее задач высокой категории.',
-                'short_text'          => '(высокий уровень, есть ошибки)',
-                'text_positive'       => 'В целом задачи поставлены в план с учетом их категорий по матрице важно/срочно.',
-                'text_negative'       => 'При этом в работе были допущена две или более грубых ошибок по планированию: задачи низкой категории (по матрице срочно/важно) запланированы к выполнению ранее задач высокой категории.',
-                'short_text_positive' => 'высокий уровень',
-                'short_text_negative' => 'есть ошибки'
-            ]
-        );
-
-        $this->assertEquals(
-            $results['management.task_managment.tasks_priority_execution'],
-            [
-                'text'                => 'При выполнении задач в ходе дня менеджер многократно верно интерпретирует категорию поступившей задачи и выполняет более приоритетные задачи перед менее приоритетными. При этом при выполнении задач в ходе дня были допущены пять или более грубых ошибок: задача очень низкой категории была выполнена ранее задачи очень высокого приоритета.',
-                'short_text'          => '(высокий уровень, есть ошибки)',
-                'text_positive'       => 'При выполнении задач в ходе дня менеджер многократно верно интерпретирует категорию поступившей задачи и выполняет более приоритетные задачи перед менее приоритетными.',
-                'text_negative'       => 'При этом при выполнении задач в ходе дня были допущены пять или более грубых ошибок: задача очень низкой категории была выполнена ранее задачи очень высокого приоритета.',
-                'short_text_positive' => 'высокий уровень',
-                'short_text_negative' => 'есть ошибки'
-            ]
-        );
-
-        // 1.4.-.
-        $this->assertEquals(
-            $results['management.task_managment.tasks_interruprion'],
-            [
-                'text'                => 'Менеджер многократно (более 8 раз) прерывался при выполнении задач высокой и средней категории, отвлекаясь на внешние раздражители и задачи низкой категории.',
-                'short_text'          => '(есть ошибки)',
-                'pocket'               => [
-                    'left'  => 40,
-                    'right' => 100,
+                'text'       => 'Значительная часть времени симуляции (от 70% и выше) была посвящена выполнению приоритетных задач, обеспечивающих достижение результата',
+                'short_text' => '(высокий уровень)',
+                'pocket'     => [
+                    'left'  => 70,
+                    'right' => 85,
                 ]
             ]
         );
 
         $this->assertEquals(
-            $results['management.people_managment.delegation'],
+            $results['time.waiting_time'],
             [
-                'text'                => 'Были корректно определены и делегированы задачи, корректно интерпретирована и использована информация о команде. При этом была допущена одна или более грубых ошибок при определении задач для делегирования.',
-                'short_text'          => '(высокий уровень, есть ошибки)',
-                'text_positive'       => 'Были корректно определены и делегированы задачи, корректно интерпретирована и использована информация о команде.',
-                'text_negative'       => 'При этом была допущена одна или более грубых ошибок при определении задач для делегирования.',
-                'short_text_positive' => 'высокий уровень',
-                'short_text_negative' => 'есть ошибки'
+                'text'       => 'Более 15% времени симуляции менеджер бездействовал (знакомился с интерфейсом и обдумывал последующие шаги)',
+                'short_text' => '(средний уровень)',
+                'pocket'     => [
+                    'left'  => 15,
+                    'right' => 30,
+                ]
             ]
         );
 
         $this->assertEquals(
-            $results['management.people_managment.resource_quality'],
+            $results['time.over_time'],
             [
-                'text'                => 'Менеджер усвоил и корректно использовал информацию об уровне квалификации своих сотрудников, использовал контроль по результату для профессионального сотрудника и промежуточный контроль для слабого сотрудника. При этом была допущена одна или более грубых ошибок при контроле сотрудников, например, менеджер многократно контролирует Крутько, не дождавшись результата.',
-                'short_text'          => '(высокий уровень, есть ошибки)',
-                'text_positive'       => 'Менеджер усвоил и корректно использовал информацию об уровне квалификации своих сотрудников, использовал контроль по результату для профессионального сотрудника и промежуточный контроль для слабого сотрудника.',
-                'text_negative'       => 'При этом была допущена одна или более грубых ошибок при контроле сотрудников, например, менеджер многократно контролирует Крутько, не дождавшись результата.',
-                'short_text_positive' => 'высокий уровень',
-                'short_text_negative' => 'есть ошибки'
+                'text'       => 'Было использовано сверхурочное время (более 30 игровых минут)',
+                'short_text' => '(средний уровень)',
+                'pocket'     => [
+                    'left'  => 30,
+                    'right' => 60,
+                ]
             ]
         );
 
         $this->assertEquals(
-            $results['management.people_managment.feedback'],
+            $results['performance.urgent'],
             [
-                'text'                => 'Менеджер давал сотруднику позитивную и конструктивную обратную связь при выполнении задач и обсуждении результата. При этом были допущены грубые ошибки при использовании обратной связи, а именно: оценочная обратная связь и избегание обратной связи там, где она крайне необходима.',
-                'short_text'          => '(высокий уровень, есть ошибки)',
-                'text_positive'       => 'Менеджер давал сотруднику позитивную и конструктивную обратную связь при выполнении задач и обсуждении результата.',
-                'text_negative'       => 'При этом были допущены грубые ошибки при использовании обратной связи, а именно: оценочная обратная связь и избегание обратной связи там, где она крайне необходима.',
-                'short_text_positive' => 'высокий уровень',
-                'short_text_negative' => 'есть ошибки'
-            ]
-        );
-
-        // 3.1.+.
-        $this->assertEquals(
-            $results['management.communication_managment.comunication_channel'],
-            [
-                'text'                => 'Многократно были выбраны и  использованы каналы коммуникаций, наилучшим образом соответствующие специфике задачи, и/или экономные по времени.',
-                'short_text'          => '(высокий уровень)',
-                'pocket'               => [
+                'text'       => 'Как минимум, была определена и выполнена в значительной степени задача самого высокого приоритета (по матрице срочно/важно)',
+                'short_text' => '(высокий уровень)',
+                'pocket'     => [
                     'left'  => 60,
                     'right' => 80,
                 ]
@@ -1568,24 +1726,11 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
         );
 
         $this->assertEquals(
-            $results['management.communication_managment.effective_mail'],
+            $results['performance.high'],
             [
-                'text'                => 'Менеджер читал и отвечал на письма высокого и среднего приоритета. При этом были допущены грубые ошибки при работе с почтой, а именно: планирование задач из почты, которые являются информацией, а не задачами.',
-                'short_text'          => '(высокий уровень, есть ошибки)',
-                'text_positive'       => 'Менеджер читал и отвечал на письма высокого и среднего приоритета.',
-                'text_negative'       => 'При этом были допущены грубые ошибки при работе с почтой, а именно: планирование задач из почты, которые являются информацией, а не задачами.',
-                'short_text_positive' => 'высокий уровень',
-                'short_text_negative' => 'есть ошибки'
-            ]
-        );
-
-        // 3.3.+.
-        $this->assertEquals(
-            $results['management.communication_managment.effective_calls'],
-            [
-                'text'                => 'Менеджер избирательно отвечал и совершал звонки, учитывая личность и статус визави, а также категорию задач, которая может от него исходить.',
-                'short_text'          => '(высокий уровень)',
-                'pocket'               => [
+                'text'       => 'Как минимум, была определена и выполнена в значительной степени задача первого приоритета (по матрице срочно/важно)',
+                'short_text' => '(высокий уровень)',
+                'pocket'     => [
                     'left'  => 60,
                     'right' => 80,
                 ]
@@ -1593,14 +1738,110 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
         );
 
         $this->assertEquals(
-            $results['management.communication_managment.effective_meetings'],
+            $results['performance.middle'],
             [
-                'text'                => 'Менеджер избирательно соглашался на встречи, учитывая личность и статус визави, а также категорию задач, которая может от него исходить. При этом была допущена одна или более грубых ошибок при встречах, например, была проведена незапланированная низкоприоритетная встреча.',
-                'short_text'          => '(высокий уровень, есть ошибки)',
-                'text_positive'       => 'Менеджер избирательно соглашался на встречи, учитывая личность и статус визави, а также категорию задач, которая может от него исходить.',
-                'text_negative'       => 'При этом была допущена одна или более грубых ошибок при встречах, например, была проведена незапланированная низкоприоритетная встреча.',
-                'short_text_positive' => 'высокий уровень',
-                'short_text_negative' => 'есть ошибки'
+                'text'       => 'Как минимум, была определена и выполнена задача второго приоритета (по матрице срочно/важно)',
+                'short_text' => '(высокий уровень)',
+                'pocket'     => [
+                    'left'  => 60,
+                    'right' => 80,
+                ]
+            ]
+        );
+
+        $this->assertEquals(
+            $results['performance.two_minutes'],
+            [
+                'text'       => 'Было идентифицировано и выполнено более 60% двухминутных задач (в основном - из почты)',
+                'short_text' => '(высокий уровень)',
+                'pocket'     => [
+                    'left'  => 60,
+                    'right' => 80,
+                ]
+            ]
+        );
+
+        $this->assertEquals(
+            $results['management.task_managment'],
+            [
+                'text'       => '(высокий уровень)',
+                'short_text' => '(высокий уровень)',
+                'pocket'     => [
+                    'left'  => 50,
+                    'right' => 75,
+                ]
+            ]
+        );
+
+        $this->assertEquals(
+            $results['management.people_managment'],
+            [
+                'text'       => '(высокий уровень)',
+                'short_text' => '(высокий уровень)',
+                'pocket'     => [
+                    'left'  => 60,
+                    'right' => 80,
+                ]
+            ]
+        );
+
+        $this->assertEquals(
+            $results['management.communication_managment'],
+            [
+                'text'       => '(высокий уровень)',
+                'short_text' => '(высокий уровень)',
+                'pocket'     => [
+                    'left'  => 50,
+                    'right' => 75,
+                ]
+            ]
+        );
+
+        $this->assertEquals(
+            $results['management'],
+            [
+                'text'       => '(высокий уровень)',
+                'short_text' => '(высокий уровень)',
+                'pocket'     => [
+                    'left'  => 50,
+                    'right' => 75,
+                ]
+            ]
+        );
+
+        $this->assertEquals(
+            $results['performance'],
+            [
+                'text'       => '(высокий уровень)',
+                'short_text' => '(высокий уровень)',
+                'pocket'     => [
+                    'left'  => 60,
+                    'right' => 80,
+                ]
+            ]
+        );
+
+        $this->assertEquals(
+            $results['time'],
+            [
+                'text'       => '(высокий уровень)',
+                'short_text' => '(высокий уровень)',
+                'pocket'     => [
+                    'left'  => 70,
+                    'right' => 85,
+                ]
+            ]
+        );
+
+        $this->assertEquals(
+            $results['overall'],
+            [
+                'text'       => '(высокий уровень)',
+                'short_text' => '(высокий уровень)',
+                'pocket'     => [
+                    'left'  => 50,
+                    'right' => 75,
+                ]
             ]
         );
     }
@@ -1608,7 +1849,6 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
     /**
      * Проверяем менеджерские навыки - они имеют комбинированные тексты "позитив+негатив"
      * 7. нижняя граница 4го кармана, позитив
-     * Верхняя граница 2го кармана, негатив
      */
     public function testTextForInfoGraphic_7() {
 
@@ -1618,93 +1858,92 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
         $simulation->assessment_version === Simulation::ASSESSMENT_VERSION_2;
         $simulation->game_type = $scenarioFull;
 
-        // 1.Менеджерские навыки. - 1.Всё по нулям.
         $simulation->results_popup_cache = serialize(
             json_decode(
                 str_replace([' ', "\n"], '' ,'
                     {
                        "management":{
                           "1":{
-                             "total":"0",
+                             "total":"75",
                              "1_1":{
-                                "+":"80",
-                                "-":"100"
+                                "+":"0",
+                                "-":"0"
                              },
                              "1_2":{
-                                "+":"80",
-                                "-":"100"
+                                "+":"0",
+                                "-":"0"
                              },
                              "1_3":{
-                                "+":"80",
-                                "-":"100"
+                                "+":"0",
+                                "-":"0"
                              },
                              "1_4":{
                                 "+":"0",
-                                "-":"100"
+                                "-":"0"
                              }
                           },
                           "2":{
-                             "total":"0",
+                             "total":"80",
                              "2_1":{
-                                "+":"80",
-                                "-":"100"
+                                "+":"0",
+                                "-":"0"
                              },
                              "2_2":{
-                                "+":"80",
-                                "-":"100"
+                                "+":"0",
+                                "-":"0"
                              },
                              "2_3":{
-                                "+":"80",
-                                "-":"100"
+                                "+":"0",
+                                "-":"0"
                              }
                           },
                           "3":{
-                             "total":"0",
+                             "total":"75",
                              "3_1":{
-                                "+":"80",
-                                "-":"100"
+                                "+":"0",
+                                "-":"0"
                              },
                              "3_2":{
-                                "+":"75",
-                                "-":"100"
+                                "+":"0",
+                                "-":"0"
                              },
                              "3_3":{
-                                "+":"80",
-                                "-":"100"
+                                "+":"0",
+                                "-":"0"
                              },
                              "3_4":{
-                                "+":"80",
-                                "-":"100"
+                                "+":"0",
+                                "-":"0"
                              }
                           },
-                          "total":"0"
+                          "total":"75"
                        },
                        "performance":{
-                          "0":"0",
-                          "1":"0",
-                          "2":"0",
-                          "total":"0",
-                          "2_min":"0"
+                          "0":     "80",
+                          "1":     "80",
+                          "2":     "80",
+                          "2_min": "80",
+                          "total": "80"
                        },
                        "time":{
-                          "total":"0",
-                          "workday_overhead_duration":"0",
-                          "time_spend_for_1st_priority_activities":"0",
-                          "time_spend_for_non_priority_activities":"0",
-                          "time_spend_for_inactivity":"0",
-                          "1st_priority_documents":"0",
-                          "1st_priority_meetings":"0",
-                          "1st_priority_phone_calls":"0",
-                          "1st_priority_mail":"0",
-                          "1st_priority_planning":"0",
-                          "non_priority_documents":"0",
-                          "non_priority_meetings":"0",
-                          "non_priority_phone_calls":"0",
-                          "non_priority_mail":"0",
-                          "non_priority_planning":"0",
-                          "efficiency":"0"
+                          "total":                                  "85",
+                          "workday_overhead_duration":              "60",
+                          "time_spend_for_1st_priority_activities": "85",
+                          "time_spend_for_non_priority_activities": "0",
+                          "time_spend_for_inactivity":              "30",
+                          "1st_priority_documents":                 "0",
+                          "1st_priority_meetings":                  "0",
+                          "1st_priority_phone_calls":               "0",
+                          "1st_priority_mail":                      "0",
+                          "1st_priority_planning":                  "0",
+                          "non_priority_documents":                 "0",
+                          "non_priority_meetings":                  "0",
+                          "non_priority_phone_calls":               "0",
+                          "non_priority_mail":                      "0",
+                          "non_priority_planning":                  "0",
+                          "efficiency":                             "0"
                        },
-                       "overall":"0",
+                       "overall": "75",
                        "percentile":{
                           "total":"0"
                        },
@@ -1725,101 +1964,67 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
 
         $results = SimulationResultTextService::generate($simulation, 'popup');
 
-//        print_r($results);
-//        die;
+//        $this->gerArray($results, 'time.productive_time');
+//        $this->gerArray($results, 'time.waiting_time');
+//        $this->gerArray($results, 'time.over_time');
+//
+//        $this->gerArray($results, 'performance.urgent');
+//        $this->gerArray($results, 'performance.high');
+//        $this->gerArray($results, 'performance.middle');
+//        $this->gerArray($results, 'performance.two_minutes');
+//
+//        $this->gerArray($results, 'management.task_managment');
+//        $this->gerArray($results, 'management.people_managment');
+//        $this->gerArray($results, 'management.communication_managment');
+//        $this->gerArray($results, 'management');
+//        $this->gerArray($results, 'performance');
+//        $this->gerArray($results, 'time');
+//        $this->gerArray($results, 'overall');
+//
+//        die();
 
         $this->assertEquals(
-            $results['management.task_managment.day_planing'],
+            $results['time.productive_time'],
             [
-                'text'                => 'Менеджер запланировал свой рабочий день утром, было запланировано более 60% и менее 80% рабочего времени с временными интервалами между задачами. При этом менеджер не планировал свой рабочий день вообще.',
-                'short_text'          => '(очень высокий уровень, есть ошибки)',
-                'text_positive'       => 'Менеджер запланировал свой рабочий день утром, было запланировано более 60% и менее 80% рабочего времени с временными интервалами между задачами.',
-                'text_negative'       => 'При этом менеджер не планировал свой рабочий день вообще.',
-                'short_text_positive' => 'очень высокий уровень',
-                'short_text_negative' => 'есть ошибки'
-            ]
-        );
-
-        $this->assertEquals(
-            $results['management.task_managment.tasks_priority_planing'],
-            [
-                'text'                => 'В целом задачи поставлены в план с учетом их категорий по матрице важно/срочно. При этом в работе были допущена две или более грубых ошибок по планированию: задачи низкой категории (по матрице срочно/важно) запланированы к выполнению ранее задач высокой категории.',
-                'short_text'          => '(очень высокий уровень, есть ошибки)',
-                'text_positive'       => 'В целом задачи поставлены в план с учетом их категорий по матрице важно/срочно.',
-                'text_negative'       => 'При этом в работе были допущена две или более грубых ошибок по планированию: задачи низкой категории (по матрице срочно/важно) запланированы к выполнению ранее задач высокой категории.',
-                'short_text_positive' => 'очень высокий уровень',
-                'short_text_negative' => 'есть ошибки'
-            ]
-        );
-
-        $this->assertEquals(
-            $results['management.task_managment.tasks_priority_execution'],
-            [
-                'text'                => 'При выполнении задач в ходе дня менеджер многократно верно интерпретирует категорию поступившей задачи и выполняет более приоритетные задачи перед менее приоритетными. При этом при выполнении задач в ходе дня были допущены пять или более грубых ошибок: задача очень низкой категории была выполнена ранее задачи очень высокого приоритета.',
-                'short_text'          => '(очень высокий уровень, есть ошибки)',
-                'text_positive'       => 'При выполнении задач в ходе дня менеджер многократно верно интерпретирует категорию поступившей задачи и выполняет более приоритетные задачи перед менее приоритетными.',
-                'text_negative'       => 'При этом при выполнении задач в ходе дня были допущены пять или более грубых ошибок: задача очень низкой категории была выполнена ранее задачи очень высокого приоритета.',
-                'short_text_positive' => 'очень высокий уровень',
-                'short_text_negative' => 'есть ошибки'
-            ]
-        );
-
-        // 1.4.-.
-        $this->assertEquals(
-            $results['management.task_managment.tasks_interruprion'],
-            [
-                'text'                => 'Менеджер многократно (более 8 раз) прерывался при выполнении задач высокой и средней категории, отвлекаясь на внешние раздражители и задачи низкой категории.',
-                'short_text'          => '(есть ошибки)',
-                'pocket'               => [
-                    'left'  => 40,
+                'text'       => 'Значительная часть времени симуляции (от 70% и выше) была посвящена выполнению приоритетных задач, обеспечивающих достижение результата',
+                'short_text' => '(очень высокий уровень)',
+                'pocket'     => [
+                    'left'  => 85,
                     'right' => 100,
                 ]
             ]
         );
 
         $this->assertEquals(
-            $results['management.people_managment.delegation'],
+            $results['time.waiting_time'],
             [
-                'text'                => 'Были корректно определены и делегированы задачи, корректно интерпретирована и использована информация о команде. При этом была допущена одна или более грубых ошибок при определении задач для делегирования.',
-                'short_text'          => '(очень высокий уровень, есть ошибки)',
-                'text_positive'       => 'Были корректно определены и делегированы задачи, корректно интерпретирована и использована информация о команде.',
-                'text_negative'       => 'При этом была допущена одна или более грубых ошибок при определении задач для делегирования.',
-                'short_text_positive' => 'очень высокий уровень',
-                'short_text_negative' => 'есть ошибки'
+                'text'       => 'Более 15% времени симуляции менеджер бездействовал (знакомился с интерфейсом и обдумывал последующие шаги)',
+                'short_text' => '(низкий уровень)',
+                'pocket'     => [
+                    'left'  => 30,
+                    'right' => 100,
+                ]
             ]
         );
 
         $this->assertEquals(
-            $results['management.people_managment.resource_quality'],
+            $results['time.over_time'],
             [
-                'text'                => 'Менеджер усвоил и корректно использовал информацию об уровне квалификации своих сотрудников, использовал контроль по результату для профессионального сотрудника и промежуточный контроль для слабого сотрудника. При этом была допущена одна или более грубых ошибок при контроле сотрудников, например, менеджер многократно контролирует Крутько, не дождавшись результата.',
-                'short_text'          => '(очень высокий уровень, есть ошибки)',
-                'text_positive'       => 'Менеджер усвоил и корректно использовал информацию об уровне квалификации своих сотрудников, использовал контроль по результату для профессионального сотрудника и промежуточный контроль для слабого сотрудника.',
-                'text_negative'       => 'При этом была допущена одна или более грубых ошибок при контроле сотрудников, например, менеджер многократно контролирует Крутько, не дождавшись результата.',
-                'short_text_positive' => 'очень высокий уровень',
-                'short_text_negative' => 'есть ошибки'
+                'text'       => 'Было использовано сверхурочное время (более 30 игровых минут)',
+                'short_text' => '(низкий уровень)',
+                'pocket'     => [
+                    'left'  => 60,
+                    'right' => 120,
+                ]
             ]
         );
 
         $this->assertEquals(
-            $results['management.people_managment.feedback'],
+            $results['performance.urgent'],
             [
-                'text'                => 'Менеджер давал сотруднику позитивную и конструктивную обратную связь при выполнении задач и обсуждении результата. При этом были допущены грубые ошибки при использовании обратной связи, а именно: оценочная обратная связь и избегание обратной связи там, где она крайне необходима.',
-                'short_text'          => '(очень высокий уровень, есть ошибки)',
-                'text_positive'       => 'Менеджер давал сотруднику позитивную и конструктивную обратную связь при выполнении задач и обсуждении результата.',
-                'text_negative'       => 'При этом были допущены грубые ошибки при использовании обратной связи, а именно: оценочная обратная связь и избегание обратной связи там, где она крайне необходима.',
-                'short_text_positive' => 'очень высокий уровень',
-                'short_text_negative' => 'есть ошибки'
-            ]
-        );
-
-        // 3.1.+.
-        $this->assertEquals(
-            $results['management.communication_managment.comunication_channel'],
-            [
-                'text'                => 'Многократно были выбраны и  использованы каналы коммуникаций, наилучшим образом соответствующие специфике задачи, и/или экономные по времени.',
-                'short_text'          => '(очень высокий уровень)',
-                'pocket'               => [
+                'text'       => 'Как минимум, была определена и выполнена в значительной степени задача самого высокого приоритета (по матрице срочно/важно)',
+                'short_text' => '(очень высокий уровень)',
+                'pocket'     => [
                     'left'  => 80,
                     'right' => 100,
                 ]
@@ -1827,24 +2032,11 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
         );
 
         $this->assertEquals(
-            $results['management.communication_managment.effective_mail'],
+            $results['performance.high'],
             [
-                'text'                => 'Менеджер читал и отвечал на письма высокого и среднего приоритета. При этом были допущены грубые ошибки при работе с почтой, а именно: планирование задач из почты, которые являются информацией, а не задачами.',
-                'short_text'          => '(очень высокий уровень, есть ошибки)',
-                'text_positive'       => 'Менеджер читал и отвечал на письма высокого и среднего приоритета.',
-                'text_negative'       => 'При этом были допущены грубые ошибки при работе с почтой, а именно: планирование задач из почты, которые являются информацией, а не задачами.',
-                'short_text_positive' => 'очень высокий уровень',
-                'short_text_negative' => 'есть ошибки'
-            ]
-        );
-
-        // 3.3.+.
-        $this->assertEquals(
-            $results['management.communication_managment.effective_calls'],
-            [
-                'text'                => 'Менеджер избирательно отвечал и совершал звонки, учитывая личность и статус визави, а также категорию задач, которая может от него исходить.',
-                'short_text'          => '(очень высокий уровень)',
-                'pocket'               => [
+                'text'       => 'Как минимум, была определена и выполнена в значительной степени задача первого приоритета (по матрице срочно/важно)',
+                'short_text' => '(очень высокий уровень)',
+                'pocket'     => [
                     'left'  => 80,
                     'right' => 100,
                 ]
@@ -1852,14 +2044,110 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
         );
 
         $this->assertEquals(
-            $results['management.communication_managment.effective_meetings'],
+            $results['performance.middle'],
             [
-                'text'                => 'Менеджер избирательно соглашался на встречи, учитывая личность и статус визави, а также категорию задач, которая может от него исходить. При этом была допущена одна или более грубых ошибок при встречах, например, была проведена незапланированная низкоприоритетная встреча.',
-                'short_text'          => '(очень высокий уровень, есть ошибки)',
-                'text_positive'       => 'Менеджер избирательно соглашался на встречи, учитывая личность и статус визави, а также категорию задач, которая может от него исходить.',
-                'text_negative'       => 'При этом была допущена одна или более грубых ошибок при встречах, например, была проведена незапланированная низкоприоритетная встреча.',
-                'short_text_positive' => 'очень высокий уровень',
-                'short_text_negative' => 'есть ошибки'
+                'text'       => 'Как минимум, была определена и выполнена задача второго приоритета (по матрице срочно/важно)',
+                'short_text' => '(очень высокий уровень)',
+                'pocket'     => [
+                    'left'  => 80,
+                    'right' => 100,
+                ]
+            ]
+        );
+
+        $this->assertEquals(
+            $results['performance.two_minutes'],
+            [
+                'text'       => 'Было идентифицировано и выполнено более 60% двухминутных задач (в основном - из почты)',
+                'short_text' => '(очень высокий уровень)',
+                'pocket'     => [
+                    'left'  => 80,
+                    'right' => 100,
+                ]
+            ]
+        );
+
+        $this->assertEquals(
+            $results['management.task_managment'],
+            [
+                'text'       => '(очень высокий уровень)',
+                'short_text' => '(очень высокий уровень)',
+                'pocket'     => [
+                    'left'  => 75,
+                    'right' => 100,
+                ]
+            ]
+        );
+
+        $this->assertEquals(
+            $results['management.people_managment'],
+            [
+                'text'       => '(очень высокий уровень)',
+                'short_text' => '(очень высокий уровень)',
+                'pocket'     => [
+                    'left'  => 80,
+                    'right' => 100,
+                ]
+            ]
+        );
+
+        $this->assertEquals(
+            $results['management.communication_managment'],
+            [
+                'text'       => '(очень высокий уровень)',
+                'short_text' => '(очень высокий уровень)',
+                'pocket'     => [
+                    'left'  => 75,
+                    'right' => 100,
+                ]
+            ]
+        );
+
+        $this->assertEquals(
+            $results['management'],
+            [
+                'text'       => '(очень высокий уровень)',
+                'short_text' => '(очень высокий уровень)',
+                'pocket'     => [
+                    'left'  => 75,
+                    'right' => 100,
+                ]
+            ]
+        );
+
+        $this->assertEquals(
+            $results['performance'],
+            [
+                'text'       => '(очень высокий уровень)',
+                'short_text' => '(очень высокий уровень)',
+                'pocket'     => [
+                    'left'  => 80,
+                    'right' => 100,
+                ]
+            ]
+        );
+
+        $this->assertEquals(
+            $results['time'],
+            [
+                'text'       => '(очень высокий уровень)',
+                'short_text' => '(очень высокий уровень)',
+                'pocket'     => [
+                    'left'  => 85,
+                    'right' => 100,
+                ]
+            ]
+        );
+
+        $this->assertEquals(
+            $results['overall'],
+            [
+                'text'       => '(очень высокий уровень)',
+                'short_text' => '(очень высокий уровень)',
+                'pocket'     => [
+                    'left'  => 75,
+                    'right' => 100,
+                ]
             ]
         );
     }
@@ -1867,7 +2155,6 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
     /**
      * Проверяем менеджерские навыки - они имеют комбинированные тексты "позитив+негатив"
      * 8. верхняя граница 4го кармана, позитив
-     * Верхняя граница 2го кармана, негатив
      */
     public function testTextForInfoGraphic_8() {
 
@@ -1877,93 +2164,92 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
         $simulation->assessment_version === Simulation::ASSESSMENT_VERSION_2;
         $simulation->game_type = $scenarioFull;
 
-        // 1.Менеджерские навыки. - 1.Всё по нулям.
         $simulation->results_popup_cache = serialize(
             json_decode(
                 str_replace([' ', "\n"], '' ,'
                     {
                        "management":{
                           "1":{
-                             "total":"0",
+                             "total":"100",
                              "1_1":{
-                                "+":"100",
-                                "-":"100"
+                                "+":"0",
+                                "-":"0"
                              },
                              "1_2":{
-                                "+":"100",
-                                "-":"100"
+                                "+":"0",
+                                "-":"0"
                              },
                              "1_3":{
-                                "+":"100",
-                                "-":"100"
+                                "+":"0",
+                                "-":"0"
                              },
                              "1_4":{
                                 "+":"0",
-                                "-":"100"
+                                "-":"0"
                              }
                           },
                           "2":{
-                             "total":"0",
+                             "total":"100",
                              "2_1":{
-                                "+":"100",
-                                "-":"100"
+                                "+":"0",
+                                "-":"0"
                              },
                              "2_2":{
-                                "+":"100",
-                                "-":"100"
+                                "+":"0",
+                                "-":"0"
                              },
                              "2_3":{
-                                "+":"100",
-                                "-":"100"
+                                "+":"0",
+                                "-":"0"
                              }
                           },
                           "3":{
-                             "total":"0",
+                             "total":"100",
                              "3_1":{
-                                "+":"100",
-                                "-":"100"
+                                "+":"0",
+                                "-":"0"
                              },
                              "3_2":{
-                                "+":"100",
-                                "-":"100"
+                                "+":"0",
+                                "-":"0"
                              },
                              "3_3":{
-                                "+":"100",
-                                "-":"100"
+                                "+":"0",
+                                "-":"0"
                              },
                              "3_4":{
-                                "+":"100",
-                                "-":"100"
+                                "+":"0",
+                                "-":"0"
                              }
                           },
-                          "total":"0"
+                          "total":"100"
                        },
                        "performance":{
-                          "0":"0",
-                          "1":"0",
-                          "2":"0",
-                          "total":"0",
-                          "2_min":"0"
+                          "0":     "100",
+                          "1":     "100",
+                          "2":     "100",
+                          "2_min": "100",
+                          "total": "100"
                        },
                        "time":{
-                          "total":"0",
-                          "workday_overhead_duration":"0",
-                          "time_spend_for_1st_priority_activities":"0",
-                          "time_spend_for_non_priority_activities":"0",
-                          "time_spend_for_inactivity":"0",
-                          "1st_priority_documents":"0",
-                          "1st_priority_meetings":"0",
-                          "1st_priority_phone_calls":"0",
-                          "1st_priority_mail":"0",
-                          "1st_priority_planning":"0",
-                          "non_priority_documents":"0",
-                          "non_priority_meetings":"0",
-                          "non_priority_phone_calls":"0",
-                          "non_priority_mail":"0",
-                          "non_priority_planning":"0",
-                          "efficiency":"0"
+                          "total":                                  "100",
+                          "workday_overhead_duration":              "1000",
+                          "time_spend_for_1st_priority_activities": "100",
+                          "time_spend_for_non_priority_activities": "100",
+                          "time_spend_for_inactivity":              "100",
+                          "1st_priority_documents":                 "0",
+                          "1st_priority_meetings":                  "0",
+                          "1st_priority_phone_calls":               "0",
+                          "1st_priority_mail":                      "0",
+                          "1st_priority_planning":                  "0",
+                          "non_priority_documents":                 "0",
+                          "non_priority_meetings":                  "0",
+                          "non_priority_phone_calls":               "0",
+                          "non_priority_mail":                      "0",
+                          "non_priority_planning":                  "0",
+                          "efficiency":                             "0"
                        },
-                       "overall":"0",
+                       "overall": "100",
                        "percentile":{
                           "total":"0"
                        },
@@ -1984,101 +2270,67 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
 
         $results = SimulationResultTextService::generate($simulation, 'popup');
 
-//        print_r($results);
-//        die;
+//        $this->gerArray($results, 'time.productive_time');
+//        $this->gerArray($results, 'time.waiting_time');
+//        $this->gerArray($results, 'time.over_time');
+//
+//        $this->gerArray($results, 'performance.urgent');
+//        $this->gerArray($results, 'performance.high');
+//        $this->gerArray($results, 'performance.middle');
+//        $this->gerArray($results, 'performance.two_minutes');
+//
+//        $this->gerArray($results, 'management.task_managment');
+//        $this->gerArray($results, 'management.people_managment');
+//        $this->gerArray($results, 'management.communication_managment');
+//        $this->gerArray($results, 'management');
+//        $this->gerArray($results, 'performance');
+//        $this->gerArray($results, 'time');
+//        $this->gerArray($results, 'overall');
+//
+//        die();
 
         $this->assertEquals(
-            $results['management.task_managment.day_planing'],
+            $results['time.productive_time'],
             [
-                'text'                => 'Менеджер запланировал свой рабочий день утром, было запланировано более 60% и менее 80% рабочего времени с временными интервалами между задачами. При этом менеджер не планировал свой рабочий день вообще.',
-                'short_text'          => '(очень высокий уровень, есть ошибки)',
-                'text_positive'       => 'Менеджер запланировал свой рабочий день утром, было запланировано более 60% и менее 80% рабочего времени с временными интервалами между задачами.',
-                'text_negative'       => 'При этом менеджер не планировал свой рабочий день вообще.',
-                'short_text_positive' => 'очень высокий уровень',
-                'short_text_negative' => 'есть ошибки'
-            ]
-        );
-
-        $this->assertEquals(
-            $results['management.task_managment.tasks_priority_planing'],
-            [
-                'text'                => 'В целом задачи поставлены в план с учетом их категорий по матрице важно/срочно. При этом в работе были допущена две или более грубых ошибок по планированию: задачи низкой категории (по матрице срочно/важно) запланированы к выполнению ранее задач высокой категории.',
-                'short_text'          => '(очень высокий уровень, есть ошибки)',
-                'text_positive'       => 'В целом задачи поставлены в план с учетом их категорий по матрице важно/срочно.',
-                'text_negative'       => 'При этом в работе были допущена две или более грубых ошибок по планированию: задачи низкой категории (по матрице срочно/важно) запланированы к выполнению ранее задач высокой категории.',
-                'short_text_positive' => 'очень высокий уровень',
-                'short_text_negative' => 'есть ошибки'
-            ]
-        );
-
-        $this->assertEquals(
-            $results['management.task_managment.tasks_priority_execution'],
-            [
-                'text'                => 'При выполнении задач в ходе дня менеджер многократно верно интерпретирует категорию поступившей задачи и выполняет более приоритетные задачи перед менее приоритетными. При этом при выполнении задач в ходе дня были допущены пять или более грубых ошибок: задача очень низкой категории была выполнена ранее задачи очень высокого приоритета.',
-                'short_text'          => '(очень высокий уровень, есть ошибки)',
-                'text_positive'       => 'При выполнении задач в ходе дня менеджер многократно верно интерпретирует категорию поступившей задачи и выполняет более приоритетные задачи перед менее приоритетными.',
-                'text_negative'       => 'При этом при выполнении задач в ходе дня были допущены пять или более грубых ошибок: задача очень низкой категории была выполнена ранее задачи очень высокого приоритета.',
-                'short_text_positive' => 'очень высокий уровень',
-                'short_text_negative' => 'есть ошибки'
-            ]
-        );
-
-        // 1.4.-.
-        $this->assertEquals(
-            $results['management.task_managment.tasks_interruprion'],
-            [
-                'text'                => 'Менеджер многократно (более 8 раз) прерывался при выполнении задач высокой и средней категории, отвлекаясь на внешние раздражители и задачи низкой категории.',
-                'short_text'          => '(есть ошибки)',
-                'pocket'               => [
-                    'left'  => 40,
+                'text'       => 'Значительная часть времени симуляции (от 70% и выше) была посвящена выполнению приоритетных задач, обеспечивающих достижение результата',
+                'short_text' => '(очень высокий уровень)',
+                'pocket'     => [
+                    'left'  => 85,
                     'right' => 100,
                 ]
             ]
         );
 
         $this->assertEquals(
-            $results['management.people_managment.delegation'],
+            $results['time.waiting_time'],
             [
-                'text'                => 'Были корректно определены и делегированы задачи, корректно интерпретирована и использована информация о команде. При этом была допущена одна или более грубых ошибок при определении задач для делегирования.',
-                'short_text'          => '(очень высокий уровень, есть ошибки)',
-                'text_positive'       => 'Были корректно определены и делегированы задачи, корректно интерпретирована и использована информация о команде.',
-                'text_negative'       => 'При этом была допущена одна или более грубых ошибок при определении задач для делегирования.',
-                'short_text_positive' => 'очень высокий уровень',
-                'short_text_negative' => 'есть ошибки'
+                'text'       => 'Более 15% времени симуляции менеджер бездействовал (знакомился с интерфейсом и обдумывал последующие шаги)',
+                'short_text' => '(низкий уровень)',
+                'pocket'     => [
+                    'left'  => 30,
+                    'right' => 100,
+                ]
             ]
         );
 
         $this->assertEquals(
-            $results['management.people_managment.resource_quality'],
+            $results['time.over_time'],
             [
-                'text'                => 'Менеджер усвоил и корректно использовал информацию об уровне квалификации своих сотрудников, использовал контроль по результату для профессионального сотрудника и промежуточный контроль для слабого сотрудника. При этом была допущена одна или более грубых ошибок при контроле сотрудников, например, менеджер многократно контролирует Крутько, не дождавшись результата.',
-                'short_text'          => '(очень высокий уровень, есть ошибки)',
-                'text_positive'       => 'Менеджер усвоил и корректно использовал информацию об уровне квалификации своих сотрудников, использовал контроль по результату для профессионального сотрудника и промежуточный контроль для слабого сотрудника.',
-                'text_negative'       => 'При этом была допущена одна или более грубых ошибок при контроле сотрудников, например, менеджер многократно контролирует Крутько, не дождавшись результата.',
-                'short_text_positive' => 'очень высокий уровень',
-                'short_text_negative' => 'есть ошибки'
+                'text'       => 'Было использовано сверхурочное время (более 30 игровых минут)',
+                'short_text' => '(низкий уровень)',
+                'pocket'     => [
+                    'left'  => 60,
+                    'right' => 120,
+                ]
             ]
         );
 
         $this->assertEquals(
-            $results['management.people_managment.feedback'],
+            $results['performance.urgent'],
             [
-                'text'                => 'Менеджер давал сотруднику позитивную и конструктивную обратную связь при выполнении задач и обсуждении результата. При этом были допущены грубые ошибки при использовании обратной связи, а именно: оценочная обратная связь и избегание обратной связи там, где она крайне необходима.',
-                'short_text'          => '(очень высокий уровень, есть ошибки)',
-                'text_positive'       => 'Менеджер давал сотруднику позитивную и конструктивную обратную связь при выполнении задач и обсуждении результата.',
-                'text_negative'       => 'При этом были допущены грубые ошибки при использовании обратной связи, а именно: оценочная обратная связь и избегание обратной связи там, где она крайне необходима.',
-                'short_text_positive' => 'очень высокий уровень',
-                'short_text_negative' => 'есть ошибки'
-            ]
-        );
-
-        // 3.1.+.
-        $this->assertEquals(
-            $results['management.communication_managment.comunication_channel'],
-            [
-                'text'                => 'Многократно были выбраны и  использованы каналы коммуникаций, наилучшим образом соответствующие специфике задачи, и/или экономные по времени.',
-                'short_text'          => '(очень высокий уровень)',
-                'pocket'               => [
+                'text'       => 'Как минимум, была определена и выполнена в значительной степени задача самого высокого приоритета (по матрице срочно/важно)',
+                'short_text' => '(очень высокий уровень)',
+                'pocket'     => [
                     'left'  => 80,
                     'right' => 100,
                 ]
@@ -2086,24 +2338,11 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
         );
 
         $this->assertEquals(
-            $results['management.communication_managment.effective_mail'],
+            $results['performance.high'],
             [
-                'text'                => 'Менеджер читал и отвечал на письма высокого и среднего приоритета. При этом были допущены грубые ошибки при работе с почтой, а именно: планирование задач из почты, которые являются информацией, а не задачами.',
-                'short_text'          => '(очень высокий уровень, есть ошибки)',
-                'text_positive'       => 'Менеджер читал и отвечал на письма высокого и среднего приоритета.',
-                'text_negative'       => 'При этом были допущены грубые ошибки при работе с почтой, а именно: планирование задач из почты, которые являются информацией, а не задачами.',
-                'short_text_positive' => 'очень высокий уровень',
-                'short_text_negative' => 'есть ошибки'
-            ]
-        );
-
-        // 3.3.+.
-        $this->assertEquals(
-            $results['management.communication_managment.effective_calls'],
-            [
-                'text'                => 'Менеджер избирательно отвечал и совершал звонки, учитывая личность и статус визави, а также категорию задач, которая может от него исходить.',
-                'short_text'          => '(очень высокий уровень)',
-                'pocket'               => [
+                'text'       => 'Как минимум, была определена и выполнена в значительной степени задача первого приоритета (по матрице срочно/важно)',
+                'short_text' => '(очень высокий уровень)',
+                'pocket'     => [
                     'left'  => 80,
                     'right' => 100,
                 ]
@@ -2111,15 +2350,136 @@ class AssessmentPockets_time_UnitTest extends CDbTestCase {
         );
 
         $this->assertEquals(
-            $results['management.communication_managment.effective_meetings'],
+            $results['performance.middle'],
             [
-                'text'                => 'Менеджер избирательно соглашался на встречи, учитывая личность и статус визави, а также категорию задач, которая может от него исходить. При этом была допущена одна или более грубых ошибок при встречах, например, была проведена незапланированная низкоприоритетная встреча.',
-                'short_text'          => '(очень высокий уровень, есть ошибки)',
-                'text_positive'       => 'Менеджер избирательно соглашался на встречи, учитывая личность и статус визави, а также категорию задач, которая может от него исходить.',
-                'text_negative'       => 'При этом была допущена одна или более грубых ошибок при встречах, например, была проведена незапланированная низкоприоритетная встреча.',
-                'short_text_positive' => 'очень высокий уровень',
-                'short_text_negative' => 'есть ошибки'
+                'text'       => 'Как минимум, была определена и выполнена задача второго приоритета (по матрице срочно/важно)',
+                'short_text' => '(очень высокий уровень)',
+                'pocket'     => [
+                    'left'  => 80,
+                    'right' => 100,
+                ]
             ]
+        );
+
+        $this->assertEquals(
+            $results['performance.two_minutes'],
+            [
+                'text'       => 'Было идентифицировано и выполнено более 60% двухминутных задач (в основном - из почты)',
+                'short_text' => '(очень высокий уровень)',
+                'pocket'     => [
+                    'left'  => 80,
+                    'right' => 100,
+                ]
+            ]
+        );
+
+        $this->assertEquals(
+            $results['management.task_managment'],
+            [
+                'text'       => '(очень высокий уровень)',
+                'short_text' => '(очень высокий уровень)',
+                'pocket'     => [
+                    'left'  => 75,
+                    'right' => 100,
+                ]
+            ]
+        );
+
+        $this->assertEquals(
+            $results['management.people_managment'],
+            [
+                'text'       => '(очень высокий уровень)',
+                'short_text' => '(очень высокий уровень)',
+                'pocket'     => [
+                    'left'  => 80,
+                    'right' => 100,
+                ]
+            ]
+        );
+
+        $this->assertEquals(
+            $results['management.communication_managment'],
+            [
+                'text'       => '(очень высокий уровень)',
+                'short_text' => '(очень высокий уровень)',
+                'pocket'     => [
+                    'left'  => 75,
+                    'right' => 100,
+                ]
+            ]
+        );
+
+        $this->assertEquals(
+            $results['management'],
+            [
+                'text'       => '(очень высокий уровень)',
+                'short_text' => '(очень высокий уровень)',
+                'pocket'     => [
+                    'left'  => 75,
+                    'right' => 100,
+                ]
+            ]
+        );
+
+        $this->assertEquals(
+            $results['performance'],
+            [
+                'text'       => '(очень высокий уровень)',
+                'short_text' => '(очень высокий уровень)',
+                'pocket'     => [
+                    'left'  => 80,
+                    'right' => 100,
+                ]
+            ]
+        );
+
+        $this->assertEquals(
+            $results['time'],
+            [
+                'text'       => '(очень высокий уровень)',
+                'short_text' => '(очень высокий уровень)',
+                'pocket'     => [
+                    'left'  => 85,
+                    'right' => 100,
+                ]
+            ]
+        );
+
+        $this->assertEquals(
+            $results['overall'],
+            [
+                'text'       => '(очень высокий уровень)',
+                'short_text' => '(очень высокий уровень)',
+                'pocket'     => [
+                    'left'  => 75,
+                    'right' => 100,
+                ]
+            ]
+        );
+    }
+
+    /**
+     * @param array $results, возвращается из SimulationResultTextService::generate()
+     * @param string $label
+     */
+    public function gerArray($results, $label) {
+        echo sprintf(
+            '       $this->assertEquals(
+                $results[\'%s\'],
+                [
+                    \'text\'       => \'%s\',
+                    \'short_text\' => \'%s\',
+                    \'pocket\'     => [
+                        \'left\'  => %s,
+                        \'right\' => %s,
+                    ]
+                ]
+            );'."\n"."\n",
+            $label,
+            $results[$label]['text'],
+            $results[$label]['short_text'],
+            $results[$label]['pocket']['left'],
+            $results[$label]['pocket']['right']
         );
     }
 } 
