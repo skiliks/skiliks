@@ -1,6 +1,6 @@
 <?php
     $priceLite = Price::model()->findByAttributes(['alias' => Price::ALIAS_LITE]);
-    $priceStarted = Price::model()->findByAttributes(['alias' => Price::ALIAS_STARTED]);
+    $priceStarter = Price::model()->findByAttributes(['alias' => Price::ALIAS_STARTED]);
     $priceProfessional = Price::model()->findByAttributes(['alias' => Price::ALIAS_PROFESSIONAL]);
     $priceBusiness = Price::model()->findByAttributes(['alias' => Price::ALIAS_BUSINESS]);
 
@@ -55,13 +55,13 @@
             <br/>
             <a class="button-white button-white-XL button-white-hover inter-active label icon-arrow-blue"
                href="/payment/order?ordered=3">
-                <?= Yii::t('site', 'Buy') ?>
+                <?= Yii::t('site', 'Subscribe') ?>
             </a>
         </span>
 
         <span class="nice-border background-yellow border-radius-standard us-tariff-box margin-left-18">
             <div class="pull-content-center us-price-title color-ffffff">
-                Started
+                Starter
             </div>
             <div class="us-price-box">
                 <span class="us-icon-currency"
@@ -71,17 +71,17 @@
                 <span class="us-price-thousands color-ffffff">
                     <?php
                     $counter = 10;
-                    $priceStartedThousands = ('ru' == Yii::app()->language)
-                        ? floor($priceStarted->in_RUB*$counter/1000)
-                        : floor($priceStarted->in_USD*$counter/1000)
+                    $priceStarterThousands = ('ru' == Yii::app()->language)
+                        ? floor($priceStarter->in_RUB*$counter/1000)
+                        : floor($priceStarter->in_USD*$counter/1000)
                     ?>
-                    <?php echo (1 <= $priceStartedThousands) ? $priceStartedThousands : ' '; ?>
+                    <?php echo (1 <= $priceStarterThousands) ? $priceStarterThousands : ' '; ?>
                 </span>
                 <span class="us-price-hundreds color-ffffff"
-                    style="<?php echo (1 <= $priceStartedThousands) ? '' : 'padding-top: 8px;' ?>">
+                    style="<?php echo (1 <= $priceStarterThousands) ? '' : 'padding-top: 8px;' ?>">
                     <?= ((('ru' == Yii::app()->language)
-                        ? $priceStarted->in_RUB*$counter
-                        : $priceStarted->in_USD*$counter) - $priceStartedThousands*1000)
+                        ? $priceStarter->in_RUB*$counter
+                        : $priceStarter->in_USD*$counter) - $priceStarterThousands*1000)
                     ?>
                 </span>
             </div>
@@ -99,7 +99,7 @@
             <br/>
             <a class="button-white button-white-XL button-white-hover inter-active label icon-arrow-blue"
                href="/payment/order?ordered=10">
-                <?= Yii::t('site', 'Buy') ?>
+                <?= Yii::t('site', 'Subscribe') ?>
             </a>
         </span>
 
@@ -147,7 +147,7 @@
             <br/>
             <a class="button-white button-white-hover inter-active label icon-arrow-blue"
                href="/payment/order?ordered=20">
-                <?= Yii::t('site', 'Buy') ?>
+                <?= Yii::t('site', 'Subscribe') ?>
             </a>
         </span>
 
@@ -194,7 +194,7 @@
             <br/>
             <a class="button-white button-white-hover inter-active label icon-arrow-blue"
                href="/payment/order?ordered=50">
-                <?= Yii::t('site', 'Buy') ?>
+                <?= Yii::t('site', 'Subscribe') ?>
             </a>
         </span>
     </span>
@@ -202,9 +202,8 @@
     <div class="us-feedback-margin">
         <?php if ('ru' == Yii::app()->language) : ?>
             <br/>
-            <span class="pull-content-left color-3D4041" style="margin-bottom: 10px; font-size: 1.15em;">
-                При покупке любого тарифного пакета Вы можете приобрести дополнительные симуляции поштучно.<br/>
-                Цена 1 штуки рассчитывается исходя из выбранного тарифного плана.
+            <span class="pull-content-left color-3D4041" style="margin-bottom: 10px; font-size: 1.08em; width: 930px;">
+                При покупке любого тарифного плана вы можете приобрести дополнительные симуляции поштучно по стоимости, соответствующей вашему тарифному плану.
             </span>
         <?php endif; ?>
         <br/>
