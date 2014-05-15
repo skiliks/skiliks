@@ -50,15 +50,17 @@ define(["game/collections/SKSheetCollection"], function (SKSheetCollection) {
         getCssId: function() {
             return 'doc-' + this.id;
         }
-    },
-    {
-        /**
-         * @parameter _excel_cache
-         * @type array of string
-         * @default []
-         */
-        _excel_cache: _excel_cache
-    });
+    }
+//        ,
+//    {
+//        /**
+//         * @parameter _excel_cache
+//         * @type array of string
+//         * @default []
+//         */
+//        _excel_cache: _excel_cache
+//    }
+    );
 
     return SKDocument;
 });

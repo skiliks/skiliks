@@ -1,5 +1,8 @@
 /*
+ * Класс-валидатор.
+ * В данный момен используется исключительно при проверки допустима ли операция вставки в екселе.
  *
+ * 1. Вставка недопустима, если в вставляемом куске упоминается название текущего листа.
  */
 var SKDocumentsManager;
 (function() {
@@ -9,10 +12,10 @@ var SKDocumentsManager;
      * @augments Backbone.Model
      */
     SKDocumentsManager = Backbone.Model.extend({
-        initialize: function() {
 
-        },
-
+        /**
+         * Отображает предупреждение если вставка недопустима.
+         */
         checkIsPasteOperationAllowedInExcel: function() {
             var me = this;
             if (false === me.isPasteOperationAllowedInExcel()) {
@@ -30,6 +33,10 @@ var SKDocumentsManager;
             }
         },
 
+        /**
+         *
+         * @returns {boolean}
+         */
         isPasteOperationAllowedInExcel: function() {
             var pastedPiece = SocialCalc.Clipboard.clipboard;
             var currentSheetName = $('.sim-window-id-'

@@ -66,5 +66,6 @@ define([], function() {
             return '';
         }
     });
+
     return SKAttachment;
 });

@@ -65,5 +65,6 @@ define([], function() {
             }
         }
     });
+
     return window.SKCharacter;
 });

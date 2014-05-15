@@ -76,9 +76,9 @@ define([
                 var me = this;
                 SKApp.server.requests_timeout = SKApp.get("simStopTimeout");
                 SKApp.server.api('simulation/stop', {}, function () {
-                    $.each(SKDocument._excel_cache, function(id, url){
-                        $('#excel-preload-' + id).remove();
-                    });
+//                    $.each(SKDocument._excel_cache, function(id, url){
+//                        $('#excel-preload-' + id).remove();
+//                    });
 
                     me.trigger('before-stop');
                     me.trigger('user-agree-with-sim-stop');

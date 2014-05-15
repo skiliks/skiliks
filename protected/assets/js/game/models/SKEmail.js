@@ -365,8 +365,9 @@ define([] ,function() {
         },
         
         /**
+         * Используется 0/1, так как true/false всё равно превратится в строку, при передаче в шаблинизатор
          * @method getIsHasAttachment
-         * @return string, CSS style
+         * @return string, 0/1
          */
         getIsHasAttachment: function() {
             try {
@@ -383,6 +384,9 @@ define([] ,function() {
         },
         
         /**
+         * Возвращает разные CSS стили для иконки сложения в интерфейсе письма,
+         * в зависимости от того, есть вложение у письма или нет.
+         *
          * @method getIsHasAttachmentCss
          * @return string, CSS style
          */

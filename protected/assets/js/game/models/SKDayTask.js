@@ -24,6 +24,7 @@ define([], function () {
                         options.success(data);
                     });
                 }
+
                 if ('delete' === method) {
                     model.set('uniqueId', undefined);
                     SKApp.server.api('dayPlan/delete', model.toJSON(), function (data) {

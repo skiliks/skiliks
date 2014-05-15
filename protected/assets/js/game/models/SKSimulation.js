@@ -208,7 +208,7 @@ define([
                         doc;
                     if (me.dayPlanDocId) {
                         doc = _.first(me.documents.where({id: me.dayPlanDocId}));
-                        delete SKDocument._excel_cache[me.dayPlanDocId];
+                        //delete SKDocument._excel_cache[me.dayPlanDocId];
                         me.documents.remove(doc);
                     }
 
@@ -536,11 +536,11 @@ define([
                             document.cookie = 'display_result_for_simulation_id=' + SKApp.simulation.id + '; path = /;';
                         }
 
-                        $.each(SKDocument._excel_cache, function(id, url){
-                            // @todo: ruge - but efficient. We didn`t care about
-                            $('#excel-preload-' + id).remove();
-
-                        });
+//                        $.each(SKDocument._excel_cache, function(id, url){
+//                            // @todo: ruge - but efficient. We didn`t care about
+//                            $('#excel-preload-' + id).remove();
+//
+//                        });
                         me.trigger('before-stop');
                         me.trigger('stop');
 
