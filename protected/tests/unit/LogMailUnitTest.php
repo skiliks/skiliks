@@ -10,10 +10,11 @@
 class LogMailUnitTest extends PHPUnit_Framework_TestCase
 {
     use UnitLoggingTrait;
+    use UnitTestBaseTrait;
 
     public function testActivityOverflow()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;

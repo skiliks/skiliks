@@ -6,6 +6,8 @@
  */
 class EmailAnalyzerUnitTest extends CDbTestCase
 {
+    use UnitTestBaseTrait;
+
     /**
      * Тест оценки 3313:
      * - все письма прочтены
@@ -15,7 +17,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         //$this->markTestSkipped();
         
         // init simulation
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -68,7 +70,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         //$this->markTestSkipped();
         
         // init simulation
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -109,7 +111,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         //$this->markTestSkipped();
         
         // init simulation
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -170,7 +172,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         //$this->markTestSkipped();
         
         // init simulation
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -222,7 +224,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         //$this->markTestSkipped();
         
         // init simulation
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -296,7 +298,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         //$this->markTestSkipped();
         
         // init simulation
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -352,7 +354,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         //$this->markTestSkipped();
         
         // init simulation
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -391,7 +393,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
      */
     public function test_3323_reply_2min()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -431,7 +433,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         $this->assertEquals(3, $point->value);
 
         //good M71
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -458,7 +460,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
 
         //good M47 and M71
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -484,7 +486,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         $this->assertEquals('0', $point->value);
 
         //good M71
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -517,7 +519,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
      */
     public function test_3311_case1()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -597,7 +599,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
      */
     public function test_3311_case2()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -654,7 +656,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
      */
     public function test_3311_case3()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -717,7 +719,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
      */
     public function test_3332_case1()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -758,7 +760,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
      */
     public function test_3332_case2()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -791,7 +793,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
      */
     public function test_3332_case3()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -811,7 +813,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
      */
     public function test_3332_case4()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -860,7 +862,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
      */
     public function test_3332_case5()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -916,7 +918,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
      */
     public function test_3332_case6()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -947,7 +949,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         //$this->markTestSkipped();
 
         // init simulation
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -1032,7 +1034,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         //$this->markTestSkipped();
 
         // init simulation
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -1091,7 +1093,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         //$this->markTestSkipped();
 
         // init simulation
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -1132,7 +1134,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         //$this->markTestSkipped();
 
         // init simulation
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -1205,7 +1207,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         //$this->markTestSkipped();
 
         // init simulation
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -1286,7 +1288,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         //$this->markTestSkipped();
 
         // init simulation
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -1376,7 +1378,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         //s//$this->markTestSkipped();
 
         // init simulation
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -1462,7 +1464,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         //$this->markTestSkipped();
 
         // init simulation
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -1531,7 +1533,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
     public function testCalculateAggregatedPointsFor3333_OK_case1()
     {
         // init simulation
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -1577,7 +1579,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
     public function testCalculateAggregatedPointsFor3333_bad_case1()
     {
         // init simulation
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -1630,7 +1632,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
     public function testEmailAnalyzerAssessmentForLiteSim()
     {
         // init simulation
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;

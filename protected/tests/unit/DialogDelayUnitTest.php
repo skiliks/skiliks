@@ -10,6 +10,8 @@
 class DialogDelayUnitTest extends CDbTestCase
 {
 
+    use UnitTestBaseTrait;
+
     /**
      *
      */
@@ -18,7 +20,7 @@ class DialogDelayUnitTest extends CDbTestCase
         $transaction = Yii::app()->db->beginTransaction();
         try {
 
-            $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+            $user = $this->initTestUserAsd();
             $invite = new Invite();
             $invite->scenario = new Scenario();
             $invite->receiverUser = $user;

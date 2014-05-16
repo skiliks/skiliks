@@ -17,7 +17,7 @@ class LogUnitTest extends CDbTestCase
     {
         //$this->markTestSkipped();
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -178,7 +178,7 @@ class LogUnitTest extends CDbTestCase
     {
         //$this->markTestSkipped();
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -285,7 +285,7 @@ class LogUnitTest extends CDbTestCase
     {
         //$this->markTestSkipped();
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -374,7 +374,7 @@ class LogUnitTest extends CDbTestCase
 
         //$this->markTestSkipped();
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -415,7 +415,7 @@ class LogUnitTest extends CDbTestCase
      */
     public function testLogM8Forward()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -492,7 +492,7 @@ class LogUnitTest extends CDbTestCase
      */
     public function testLogActivity()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -613,7 +613,7 @@ class LogUnitTest extends CDbTestCase
         //$this->markTestSkipped();
 
         // init simulation
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -772,7 +772,7 @@ class LogUnitTest extends CDbTestCase
     {
         $this->markTestSkipped();
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;

@@ -4,7 +4,7 @@ class AggregationUnitTest extends CDbTestCase
 {
     public function testCommunicationAggregationSpecificCase()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -50,7 +50,7 @@ class AggregationUnitTest extends CDbTestCase
     public function testActivityActionAgregationSpecificCase()
     {
         // init simulation
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -358,7 +358,7 @@ class AggregationUnitTest extends CDbTestCase
      */
     public function testMatrixPointsAggregation()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;

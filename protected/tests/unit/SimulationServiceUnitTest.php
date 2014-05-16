@@ -8,6 +8,7 @@ class SimulationServiceUnitTest extends CDbTestCase
 {
     use UnitLoggingTrait;
     use UnitTestBaseTrait;
+
     /**
      * Проверяет что в результат запуска чимуляции:
      * 1. Проверяет что инициализируются флаги
@@ -17,7 +18,7 @@ class SimulationServiceUnitTest extends CDbTestCase
         //$this->markTestSkipped();
 
         // init simulation
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -40,7 +41,7 @@ class SimulationServiceUnitTest extends CDbTestCase
      */
     public function testSimulationPause()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -65,7 +66,7 @@ class SimulationServiceUnitTest extends CDbTestCase
      */
     public function testLiteSimulationStop()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -87,7 +88,7 @@ class SimulationServiceUnitTest extends CDbTestCase
         $this->markTestSkipped();
 
         // init simulation
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -445,7 +446,7 @@ class SimulationServiceUnitTest extends CDbTestCase
     public function testActionsAgregationMechanism_2()
     {
         // init simulation
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite                 = new Invite();
         $invite->scenario       = new Scenario();
         $invite->receiverUser   = $user;
@@ -624,7 +625,7 @@ class SimulationServiceUnitTest extends CDbTestCase
 
     public function testSimulationPerformanceRules()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -697,7 +698,7 @@ class SimulationServiceUnitTest extends CDbTestCase
     {
         $this->markTestSkipped();
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -780,7 +781,7 @@ class SimulationServiceUnitTest extends CDbTestCase
         // в данный момент StressRules не оцениваются
         $this->markTestSkipped();
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -894,7 +895,7 @@ class SimulationServiceUnitTest extends CDbTestCase
      */
     public function testPerformanceAggregation_case_1()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -936,7 +937,7 @@ class SimulationServiceUnitTest extends CDbTestCase
      */
     public function testPerformanceAggregation_case_2()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -971,7 +972,7 @@ class SimulationServiceUnitTest extends CDbTestCase
 
     /* SK-2608 */
     /*public function testInviteMark() {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $fullScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_FULL]);
         $invite->owner_id = $user->id;
@@ -1008,7 +1009,7 @@ class SimulationServiceUnitTest extends CDbTestCase
 
     public function testEmptyInviteForDev()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $scenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_FULL]);
 
         $invite = new Invite();

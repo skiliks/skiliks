@@ -8,7 +8,7 @@ class SiteUnitTest extends CDbTestCase
             $this->markTestSkipped();
         }
 
-        $url = 'http://www.skiliks.com';
+        $url = 'http://loc.skiliks.com';
         $handler = curl_init($url);
         curl_setopt($handler, CURLOPT_RETURNTRANSFER, true);
         $response = curl_exec($handler);

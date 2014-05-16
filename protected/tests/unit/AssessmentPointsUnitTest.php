@@ -3,13 +3,15 @@
 class AssessmentPointsUnitTest extends CDbTestCase
 {
     use UnitLoggingTrait;
+    use UnitTestBaseTrait;
+
 
     /**
      * Checks that user gains points for sent mail only once
      */
     public function testMailPointUnique()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -51,7 +53,7 @@ class AssessmentPointsUnitTest extends CDbTestCase
      */
     public function testUpdateAggregatedAssessmentsByNegativeScaleRule()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;

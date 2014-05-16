@@ -2,6 +2,8 @@
 
 class FlagCommunicationThemeDependenceUnitTest extends PHPUnit_Framework_TestCase {
 
+    use UnitTestBaseTrait;
+
     public function findPhoneThemeByName($themes, $name) {
         foreach($themes as $theme){
             if($theme['themeTitle'] === $name){
@@ -23,7 +25,7 @@ class FlagCommunicationThemeDependenceUnitTest extends PHPUnit_Framework_TestCas
     public function testPhoneServiceGetThemesBlocking() {
 
         /** @var $user YumUser */
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -40,7 +42,7 @@ class FlagCommunicationThemeDependenceUnitTest extends PHPUnit_Framework_TestCas
     public function testPhoneServiceGetThemesNotBlocking() {
 
         /** @var $user YumUser */
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -60,7 +62,7 @@ class FlagCommunicationThemeDependenceUnitTest extends PHPUnit_Framework_TestCas
     public function testMailBoxServiceGetThemesBlocking() {
 
         /** @var $user YumUser */
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -77,7 +79,7 @@ class FlagCommunicationThemeDependenceUnitTest extends PHPUnit_Framework_TestCas
     public function testMailBoxServiceGetThemesNotBlocking() {
 
         /** @var $user YumUser */
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -93,7 +95,7 @@ class FlagCommunicationThemeDependenceUnitTest extends PHPUnit_Framework_TestCas
 
     public function testMailBoxReFwdNotBlocking() {
         /** @var $user YumUser */
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -109,7 +111,7 @@ class FlagCommunicationThemeDependenceUnitTest extends PHPUnit_Framework_TestCas
 
     public function testMailBoxFantasticNotBlocking() {
         /** @var $user YumUser */
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -134,7 +136,7 @@ class FlagCommunicationThemeDependenceUnitTest extends PHPUnit_Framework_TestCas
     public function testMailGetThemesNotMSBlocking() {
 
         /** @var $user YumUser */
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;

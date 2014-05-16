@@ -10,6 +10,7 @@
 class TimeManagementAssessmentUnitTest extends CDbTestCase
 {
     use UnitLoggingTrait;
+    use UnitTestBaseTrait;
 
     /**
      * Каждого типа лога по 1 штуке
@@ -17,7 +18,7 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
     public function testTimeManagementAssessment_case1()
     {
         // init simulation
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -512,7 +513,7 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
     public function testTimeManagementAssessment_case2()
     {
         // init simulation
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -624,7 +625,7 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
 
     public function testEfficiency_workday_ended_1800() {
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -702,7 +703,7 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
 
     public function testEfficiency_workday_ended_1900() {
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -780,7 +781,7 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
 
     public function testEfficiency_workday_ended_2000() {
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;

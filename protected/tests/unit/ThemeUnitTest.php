@@ -49,7 +49,7 @@ class ThemeUnitTest extends CDbTestCase
      */
     public function testPhoneUse()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;

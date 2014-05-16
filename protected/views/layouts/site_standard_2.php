@@ -61,6 +61,10 @@ $cs->registerCssFile($assetsUrl . "/css/site/styles-1280.css");
 $cs->registerCssFile($assetsUrl . "/css/site/styles-1024.css");
 $cs->registerCssFile($assetsUrl . "/css/site/partials/site-heart.css");
 
+if (false == isset($_SERVER['HTTP_USER_AGENT'])) {
+    $_SERVER['HTTP_USER_AGENT'] = 'empty';
+}
+
 if(preg_match('/(?i)Chrome/',$_SERVER['HTTP_USER_AGENT']))
 {
     $cs->registerCssFile($assetsUrl . "/css/site/browsers/chrome-1280.css");
