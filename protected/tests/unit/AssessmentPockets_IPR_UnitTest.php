@@ -8,6 +8,8 @@
 
 class AssessmentPockets_IPR_UnitTest extends CDbTestCase {
 
+    use UnitTestBaseTrait;
+
     /**
      * Нижняя гарница первого кармана - 'плохо'
      */

@@ -8,6 +8,8 @@
  */
 class ImportUnitTest extends CDbTestCase
 {
+    use UnitTestBaseTrait;
+
     /**
      * Проверяет результаты импорта:
      * 1. Создание событий для планировщика

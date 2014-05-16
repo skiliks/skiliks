@@ -5,6 +5,8 @@
  */
 class UserServiceUnitTest extends CDbTestCase
 {
+    use UnitTestBaseTrait;
+
     public function testAddNotifyMeEmail()
     {
         $goodEmail = 'test@test.com';

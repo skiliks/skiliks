@@ -2,6 +2,8 @@
 
 class SiteUnitTest extends CDbTestCase
 {
+    use UnitTestBaseTrait;
+
     public function testGoogleAnalyticsExists()
     {
         if (!extension_loaded('curl')) {

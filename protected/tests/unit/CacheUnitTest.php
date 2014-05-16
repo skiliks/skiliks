@@ -8,11 +8,12 @@
  */
 class CacheUnitTest extends CDbTestCase
 {
+    use UnitTestBaseTrait;
+
     public function test_cache() {
         $key = 'test' . time();
         Yii::app()->cache->set($key, 'ok');
         $this->assertEquals('ok', Yii::app()->cache->get($key));
 
     }
-
 }

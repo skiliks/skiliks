@@ -2,6 +2,8 @@
 
 class AggregationUnitTest extends CDbTestCase
 {
+    use UnitTestBaseTrait;
+
     public function testCommunicationAggregationSpecificCase()
     {
         $user = $this->initTestUserAsd();

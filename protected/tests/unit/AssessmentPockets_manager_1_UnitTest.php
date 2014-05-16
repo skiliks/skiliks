@@ -20,6 +20,8 @@
 
 class AssessmentPockets_manager_1_UnitTest extends CDbTestCase {
 
+    use UnitTestBaseTrait;
+
     /**
      * Проверяем менеджерские навыки - они имеют комбинированные тексты "позитив+негатив"
      * 1. 1й карман - позитив, позитив по нулям

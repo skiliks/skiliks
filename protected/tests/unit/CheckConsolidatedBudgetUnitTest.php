@@ -7,8 +7,7 @@
  * To change this template use File | Settings | File Templates.
  */
 
-class CheckConsolidatedBudgetUnitTest extends CDbTestCase
-{
+class CheckConsolidatedBudgetUnitTest extends CDbTestCase {
 
     use UnitTestBaseTrait;
 

@@ -21,6 +21,8 @@
 
 class AssessmentPockets_time_UnitTest extends CDbTestCase {
 
+    use UnitTestBaseTrait;
+
     /**
      * 1. 1й карман - позитив, позитив по нулям
      */

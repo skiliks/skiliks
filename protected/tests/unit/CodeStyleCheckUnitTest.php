@@ -1,6 +1,8 @@
 <?php
 class CodeStyleCheckUnitTest  extends CDbTestCase
 {
+    use UnitTestBaseTrait;
+
     /**
      *
      */

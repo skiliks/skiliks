@@ -5,7 +5,6 @@ class AssessmentPointsUnitTest extends CDbTestCase
     use UnitLoggingTrait;
     use UnitTestBaseTrait;
 
-
     /**
      * Checks that user gains points for sent mail only once
      */
