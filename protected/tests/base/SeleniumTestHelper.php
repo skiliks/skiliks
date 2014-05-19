@@ -84,9 +84,13 @@ class SeleniumTestHelper extends CWebTestCase
         $this->open('/cheat/quick-start/full');
 
         //waiting for loading all images, css and js and waiting for dev panel is visible below the simulation desktop
-        $this->waitingLongMethod(
-            "!!! FAIL: simulation does not start, because there isn't desktop at the screen!!!",
-            "css=.btn.btn-simulation-stop");
+        for ($second = 0; ; $second++) {
+            if ($second >= 600) $this->fail("!!! FAIL: simulation does not start, because there isn't desktop at the screen!!!");
+            try {
+                if ($this->isVisible("css=.btn.btn-simulation-stop")) break;
+            } catch (Exception $e) {}
+            usleep(100000);
+        }
 
         // short js code for closing all alerts
         $this->getEval('var window = this.browserbot.getUserWindow(); window.$(window).off("beforeunload")');
@@ -127,7 +131,7 @@ class SeleniumTestHelper extends CWebTestCase
 
         // stop the simulation and wait for popup of the ending of the simulation
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
-        
+
         for ($second = 0; ; $second++) {
             if ($second >= 900) $this->fail("!!! FAIL: not found button 'Go' to the results!!!");
             try {
