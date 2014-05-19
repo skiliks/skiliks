@@ -38,8 +38,32 @@ class SeleniumTestHelper extends CWebTestCase
     }
 
     /**
-     * start_simulation - это метод, который включает стандартные действия при начале симуляции
-     * (начиная с открытия окна браузера до самого входа в dev-режим).
+     * waitingLongMethod - method for explicit waiting for the element or page was loaded.
+     * Is using for waiting for the start of the simulation and for the stop of the simulation
+     * @param $message - the message for logging if some element wasn't found
+     * @param $locator - the element wat test if looking for
+     * @return int
+     */
+    protected function waitingLongMethod($message, $locator)
+    {
+        for ($second = 0; ; $second++) {
+            if ($second >= 900) $this->fail($message);
+            try {
+                if ($this->isVisible($locator)) break;
+                return $second;
+            } catch (Exception $e) {
+            }
+            return $second;
+            usleep(100000);
+        }
+        return $second;
+    }
+
+    /**
+     * start_simulation - method for all precondition needs for starting simulation without login at the site.
+     * Includes opening browser, login with cookies and starting dev-mode simulation.
+     * @testName - name of test-case method for logging to database
+     * @user - type of user (user = 0 - user for functional tests ,user = 1 - user for assessment tests)
      */
     protected function start_simulation($testName, $user=0)
     {
