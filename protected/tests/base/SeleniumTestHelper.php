@@ -50,12 +50,12 @@ class SeleniumTestHelper extends CWebTestCase
             if ($second >= 900) $this->fail($message);
             try {
                 if ($this->isVisible($locator)) break;
-                // return $second;
+                return $second;
             } catch (Exception $e) { }
-            //return $second;
+            return $second;
             usleep(100000);
         }
-        //return $second;
+        return $second;
     }
 
     /**
@@ -84,7 +84,9 @@ class SeleniumTestHelper extends CWebTestCase
         $this->open('/cheat/quick-start/full');
 
         //waiting for loading all images, css and js and waiting for dev panel is visible below the simulation desktop
-        $this->waitingLongMethod("!!! FAIL: simulation does not start, because there isn't desktop at the screen!!!","css=.btn.btn-simulation-stop");
+        $this->waitingLongMethod(
+            "!!! FAIL: simulation does not start, because there isn't desktop at the screen!!!",
+            "css=.btn.btn-simulation-stop");
 
         // short js code for closing all alerts
         $this->getEval('var window = this.browserbot.getUserWindow(); window.$(window).off("beforeunload")');
@@ -122,13 +124,28 @@ class SeleniumTestHelper extends CWebTestCase
     protected function simulation_showLogs()
     {
         $inv_id = $this->invite_id;
+
         // stop the simulation and wait for popup of the ending of the simulation
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
-        $this->waitingLongMethod("!!! FAIL: not found button 'Go' to the results!!!","css=.mail-popup-button");
+        
+        for ($second = 0; ; $second++) {
+            if ($second >= 900) $this->fail("!!! FAIL: not found button 'Go' to the results!!!");
+            try {
+                if ($this->isVisible("css=.mail-popup-button")) break;
+            } catch (Exception $e) {}
+            usleep(100000);
+        }
 
         $this->optimal_click("css=.mail-popup-button");
+
         // waiting the dev page with logs and score of the simulation
-        $this->waitingLongMethod("!!! FAIL: not found button 'universal log' at the page!!!","id=universal-log");
+        for ($second = 0; ; $second++) {
+            if ($second >= 900) $this->fail("!!! FAIL: not found button 'universal log' at the page!!!");
+            try {
+                if ($this->isVisible("id=universal-log")) break;
+            } catch (Exception $e) {}
+            usleep(100000);
+        }
 
         $this->waitForVisible("id=simulation-points");
         //logging
