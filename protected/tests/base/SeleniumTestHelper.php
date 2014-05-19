@@ -81,10 +81,18 @@ class SeleniumTestHelper extends CWebTestCase
             $this->createCookie("cook_dev_ejbfksbfeksfesfbefbjbbooisnsddsjkfsfnesgjsf=adeshflewfvgiu3428dfgfgdgfg32fgdfgghfgh34e324rfqvf4g534hg54gh5", "path=/, expires=365");
         }
 
-// short url for start dev mode simulation
+        // short url for start dev mode simulation
         $this->open('/cheat/quick-start/full');
 
-//waiting for loading all images, css and js and waiting for dev panel is visible below the simulation desktop
+        for ($second = 0; ; $second++) {
+            if ($second >= 600) $this->fail("!!! FAIL: simulation does not start, because there isn't desktop at the screen!!!");
+            try {
+                if ($this->isVisible("css=.btn.btn-simulation-stop")) break;
+            } catch (Exception $e) {}
+            usleep(100000);
+        }
+
+        //waiting for loading all images, css and js and waiting for dev panel is visible below the simulation desktop
         $this->waitingLongMethod("!!! FAIL: simulation does not start, because there isn't desktop at the screen!!!","css=.btn.btn-simulation-stop");
 
 
@@ -92,14 +100,14 @@ class SeleniumTestHelper extends CWebTestCase
 
 
 
-// short js code for closing all alerts
+        // short js code for closing all alerts
         $this->getEval('var window = this.browserbot.getUserWindow(); window.$(window).off("beforeunload")');
 
-// logging the start of the simulation
+        // logging the start of the simulation
         $this->invite_id = $this->getInviteId();
         $this->logTestResult("start ". $testName. "\n", true, $this->invite_id);
 
-//clear all queue of events at simulation
+        //clear all queue of events at simulation
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['clear_queue']);
     }
 
