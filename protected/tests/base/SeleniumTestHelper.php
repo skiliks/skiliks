@@ -79,9 +79,10 @@ class SeleniumTestHelper extends CWebTestCase
             $this->createCookie("cook_dev_ejbfksbfeksfesfbefbjbbooisnsddsjkfsfnesgjsf=adeshflewfvgiu3428dfgfgdgfg32fgdfgghfgh34e324rfqvf4g534hg54gh5", "path=/, expires=365");
         }
 
-
+        // short url for start dev mode simulation
         $this->open('/cheat/quick-start/full');
 
+        //waiting for loading all images, css and js and waiting for dev panel is visible below the simulation desktop
         for ($second = 0; ; $second++) {
             if ($second >= 600) $this->fail("!!! FAIL: simulation does not start, because there isn't desktop at the screen!!!");
             try {
@@ -90,19 +91,19 @@ class SeleniumTestHelper extends CWebTestCase
             usleep(100000);
         }
 
-
+        // short js code for closing all alerts
         $this->getEval('var window = this.browserbot.getUserWindow(); window.$(window).off("beforeunload")');
 
-
+        // logging the start of the simulation
         $this->invite_id = $this->getInviteId();
         $this->logTestResult("start ". $testName. "\n", true, $this->invite_id);
 
-
+        //clear all queue of events at simulation
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['clear_queue']);
     }
 
     /**
-     * simulation_stop - это метод, который завершает обычную симуляцию.
+     * simulation_stop -  method for stop the standard full simulation without checking the results, after deleting results of the simulation if it was successful
      */
     protected function simulation_stop()
     {
@@ -112,22 +113,24 @@ class SeleniumTestHelper extends CWebTestCase
         $this->simulation_delete(Yii::app()->params['deleteSeleniumResults']);
     }
 
-
-
-
+    /**
+     * simulation_stop_demo - method for stop demo simulation
+     */
     protected function simulation_stop_demo()
     {
         $this->optimal_click("css=.btn.btn-simulation-stop");
     }
 
     /**
-     * simulation_showLogs - это метод, который завершает симуляцию и открывате логи и результаты симуляции
+     * simulation_showLogs - method to stop simulation and check logs of the simulation
      */
     protected function simulation_showLogs()
     {
         $inv_id = $this->invite_id;
 
+        // stop the simulation and wait for popup of the ending of the simulation
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
+
         for ($second = 0; ; $second++) {
             if ($second >= 900) $this->fail("!!! FAIL: not found button 'Go' to the results!!!");
             try {
@@ -136,6 +139,8 @@ class SeleniumTestHelper extends CWebTestCase
             usleep(100000);
         }
         $this->optimal_click("css=.mail-popup-button");
+
+        // waiting the dev page with logs and score of the simulation
         for ($second = 0; ; $second++) {
             if ($second >= 900) $this->fail("!!! FAIL: not found button 'universal log' at the page!!!");
             try {
@@ -145,18 +150,22 @@ class SeleniumTestHelper extends CWebTestCase
         }
         $this->waitForVisible("id=simulation-points");
 
+        //logging
         $this->logTestResult("simStop and showLogs. Test is successful\n", false, $inv_id);
 
+        //deleting the results of this simulation
         $this->simulation_delete(Yii::app()->params['deleteSeleniumResults']);
     }
 
     /**
-     * simulation_delete - это метод, который удаляет результаты симуляции, если в конфиге проставлено true
+     * simulation_delete - method which can delete the results of the simulation if in config is true
+     * @$deleteSuccessfulSimulation - test result attribute
      */
-    protected function simulation_delete($deleteSuccesfullSimulation)
+    protected function simulation_delete($deleteSuccessfulSimulation)
     {
         $inv_id = $this->invite_id;
-        if ($deleteSuccesfullSimulation === true)
+
+        if ($deleteSuccessfulSimulation === true)
         {
             if ($this->wasCrashed===false)
             {
@@ -173,11 +182,10 @@ class SeleniumTestHelper extends CWebTestCase
     }
 
     /**
-     * run_event - это метод для запуска события по его event_code.
-     * next_event - это локатор следующего события(звонок телефона или приход письма), которого мы ожидаем и должны что-то с ним сделать после
-     * after - если надо что-то с этим локатором сделать после, то сюда пишем click, а если нет - то можно что-то другое написать. Оно расспознает пока только click
-     * запустили event = ET1.1 -> next_event = css=li.icon-active.phone a (звонок телефона) -> after = click (мы кликаем по иконке телефона)
-     * если еще что-то надо, то можно дописать в switch
+     * run_event - method for start event with its event_code
+     * @event - the string with the name of event (from scenario)
+     * @next_event - the string with the locator of element which became visible after event starts
+     * @after - activity which we need to do with the locator after event was started. F.e. click on the phone icon when we started the event ET1.1
      */
     protected function run_event($event, $next_event="xpath=(//*[contains(text(),'октября')])", $after='-')
     {
@@ -189,7 +197,7 @@ class SeleniumTestHelper extends CWebTestCase
             try{
                 if ($this->isVisible($next_event))
                 {
-                    // switch чтобы была возможность расширить дополнительными действиями (кроме клика), а default - если никакие действия не нужны
+                    // switch чтобы была возможность расширить дополнительными действиями (кроме клика), а default - если никакие действия не нужны// switch чтобы была возможность расширить дополнительными действиями (кроме клика), а default - если никакие действия не нужны
                     switch ($after) {
                         case 'click':
                         {
@@ -209,8 +217,9 @@ class SeleniumTestHelper extends CWebTestCase
     }
 
     /**
-     * call_phone - это метод для звонка по телефону, когда телефон не активен (иконка не движется).
-     * Где whom - это адресат письма, а theme - тема звонка.
+     * call_phone - method for call when the phone icon isn't active
+     * @whom - contact name
+     * @theme - theme for calling
      */
     protected function call_phone ($whom, $theme)
     {
