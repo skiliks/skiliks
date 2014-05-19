@@ -44,26 +44,25 @@ class SeleniumTestHelper extends CWebTestCase
      * @param $locator - the element wat test if looking for
      * @return int
      */
-    public function waitingLongMethod($message, $locator)
+    protected function waitingLongMethod($message, $locator)
     {
-        for ($second = 0; ; $second++) {
-            if ($second >= 900) $this->fail($message);
+        for ($second = 0; true; $second++) {
+            if ($second >= 900) {
+                $this->fail($message);
+            }
             try {
-                if ($this->isVisible($locator)) break;
+                if ($this->isVisible($locator)) {
+                    break;
+                }
                 return $second;
             } catch (Exception $e) { }
             return $second;
             usleep(100000);
         }
+
         return $second;
     }
 
-    /**
-     * start_simulation - method for all precondition needs for starting simulation without login at the site.
-     * Includes opening browser, login with cookies and starting dev-mode simulation.
-     * @testName - name of test-case method for logging to database
-     * @user - type of user (user = 0 - user for functional tests ,user = 1 - user for assessment tests)
-     */
     protected function start_simulation($testName, $user=0)
     {
         $this->setUp();
@@ -80,10 +79,9 @@ class SeleniumTestHelper extends CWebTestCase
             $this->createCookie("cook_dev_ejbfksbfeksfesfbefbjbbooisnsddsjkfsfnesgjsf=adeshflewfvgiu3428dfgfgdgfg32fgdfgghfgh34e324rfqvf4g534hg54gh5", "path=/, expires=365");
         }
 
-        // short url for start dev mode simulation
+
         $this->open('/cheat/quick-start/full');
 
-        //waiting for loading all images, css and js and waiting for dev panel is visible below the simulation desktop
         for ($second = 0; ; $second++) {
             if ($second >= 600) $this->fail("!!! FAIL: simulation does not start, because there isn't desktop at the screen!!!");
             try {
@@ -92,19 +90,19 @@ class SeleniumTestHelper extends CWebTestCase
             usleep(100000);
         }
 
-        // short js code for closing all alerts
+
         $this->getEval('var window = this.browserbot.getUserWindow(); window.$(window).off("beforeunload")');
 
-        // logging the start of the simulation
+
         $this->invite_id = $this->getInviteId();
         $this->logTestResult("start ". $testName. "\n", true, $this->invite_id);
 
-        //clear all queue of events at simulation
+
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['clear_queue']);
     }
 
     /**
-     * simulation_stop - method for stop the usual full simulation without checking the results, after deleting results of the simulation if it was successful
+     * simulation_stop - это метод, который завершает обычную симуляцию.
      */
     protected function simulation_stop()
     {
@@ -114,24 +112,22 @@ class SeleniumTestHelper extends CWebTestCase
         $this->simulation_delete(Yii::app()->params['deleteSeleniumResults']);
     }
 
-    /**
-     * simulation_stop_demo - method for stop demo simulation
-     */
+
+
+
     protected function simulation_stop_demo()
     {
         $this->optimal_click("css=.btn.btn-simulation-stop");
     }
 
     /**
-     * simulation_showLogs - method to stop simulation and check logs of the simulation
+     * simulation_showLogs - это метод, который завершает симуляцию и открывате логи и результаты симуляции
      */
     protected function simulation_showLogs()
     {
         $inv_id = $this->invite_id;
 
-        // stop the simulation and wait for popup of the ending of the simulation
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
-
         for ($second = 0; ; $second++) {
             if ($second >= 900) $this->fail("!!! FAIL: not found button 'Go' to the results!!!");
             try {
@@ -139,10 +135,7 @@ class SeleniumTestHelper extends CWebTestCase
             } catch (Exception $e) {}
             usleep(100000);
         }
-
         $this->optimal_click("css=.mail-popup-button");
-
-        // waiting the dev page with logs and score of the simulation
         for ($second = 0; ; $second++) {
             if ($second >= 900) $this->fail("!!! FAIL: not found button 'universal log' at the page!!!");
             try {
@@ -150,11 +143,10 @@ class SeleniumTestHelper extends CWebTestCase
             } catch (Exception $e) {}
             usleep(100000);
         }
-
         $this->waitForVisible("id=simulation-points");
-        //logging
+
         $this->logTestResult("simStop and showLogs. Test is successful\n", false, $inv_id);
-        //deleting the results of this simulation
+
         $this->simulation_delete(Yii::app()->params['deleteSeleniumResults']);
     }
 
