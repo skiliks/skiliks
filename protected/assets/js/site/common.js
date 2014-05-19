@@ -518,7 +518,7 @@ window.authenticateValidation = function authenticateValidation(form, data, hasE
 
     if (!hasError
         && 'undefined' == typeof data.YumUserLogin_form
-        && 'undefined' == data.YumUserLogin_bruteforce) {
+        && 'undefined' == typeof data.YumUserLogin_bruteforce) {
         location.href = '/dashboard';
     }
 
