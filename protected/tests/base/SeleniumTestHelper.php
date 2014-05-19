@@ -71,6 +71,7 @@ class SeleniumTestHelper extends CWebTestCase
         $this->deleteAllVisibleCookies();
         $this->windowMaximize();
         $this->open('/ru');
+
         if ($user==0)
         {
             $this->createCookie("cook_dev_ladskasdasddaxczxpoicuwcnzmcnzdewedjbkscuds=dsiucskcmnxkcjzhxciaowi2039ru948fysuhfiefds8v7sd8djkedbjsaicu9", "path=/, expires=365");
@@ -80,24 +81,30 @@ class SeleniumTestHelper extends CWebTestCase
             $this->createCookie("cook_dev_ejbfksbfeksfesfbefbjbbooisnsddsjkfsfnesgjsf=adeshflewfvgiu3428dfgfgdgfg32fgdfgghfgh34e324rfqvf4g534hg54gh5", "path=/, expires=365");
         }
 
+// short url for start dev mode simulation
         $this->open('/cheat/quick-start/full');
 
-        for ($second = 0; ; $second++) {
-            if ($second >= 600) $this->fail("!!! FAIL: simulation does not start, because there isn't desktop at the screen!!!");
-            try {
-                if ($this->isVisible("css=.btn.btn-simulation-stop")) break;
-            } catch (Exception $e) {}
-            usleep(100000);
-        }
+//waiting for loading all images, css and js and waiting for dev panel is visible below the simulation desktop
+        $this->waitingLongMethod("!!! FAIL: simulation does not start, because there isn't desktop at the screen!!!","css=.btn.btn-simulation-stop");
 
+
+
+
+
+
+// short js code for closing all alerts
         $this->getEval('var window = this.browserbot.getUserWindow(); window.$(window).off("beforeunload")');
+
+// logging the start of the simulation
         $this->invite_id = $this->getInviteId();
         $this->logTestResult("start ". $testName. "\n", true, $this->invite_id);
+
+//clear all queue of events at simulation
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['clear_queue']);
     }
 
     /**
-     * simulation_stop - это метод, который завершает обычную симуляцию.
+     * simulation_stop - method for stop the usual full simulation without checking the results, after deleting results of the simulation if it was successful
      */
     protected function simulation_stop()
     {
@@ -107,35 +114,32 @@ class SeleniumTestHelper extends CWebTestCase
         $this->simulation_delete(Yii::app()->params['deleteSeleniumResults']);
     }
 
+    /**
+     * simulation_stop_demo - method for stop demo simulation
+     */
     protected function simulation_stop_demo()
     {
         $this->optimal_click("css=.btn.btn-simulation-stop");
     }
 
     /**
-     * simulation_showLogs - это метод, который завершает симуляцию и открывате логи и результаты симуляции
+     * simulation_showLogs - method to stop simulation and check logs of the simulation
      */
     protected function simulation_showLogs()
     {
         $inv_id = $this->invite_id;
+        // stop the simulation and wait for popup of the ending of the simulation
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
-        for ($second = 0; ; $second++) {
-            if ($second >= 900) $this->fail("!!! FAIL: not found button 'Go' to the results!!!");
-            try {
-                if ($this->isVisible("css=.mail-popup-button")) break;
-            } catch (Exception $e) {}
-            usleep(100000);
-        }
+        $this->waitingLongMethod("!!! FAIL: not found button 'Go' to the results!!!","css=.mail-popup-button");
+
         $this->optimal_click("css=.mail-popup-button");
-        for ($second = 0; ; $second++) {
-            if ($second >= 900) $this->fail("!!! FAIL: not found button 'universal log' at the page!!!");
-            try {
-                if ($this->isVisible("id=universal-log")) break;
-            } catch (Exception $e) {}
-            usleep(100000);
-        }
+        // waiting the dev page with logs and score of the simulation
+        $this->waitingLongMethod("!!! FAIL: not found button 'universal log' at the page!!!","id=universal-log");
+
         $this->waitForVisible("id=simulation-points");
+        //logging
         $this->logTestResult("simStop and showLogs. Test is successful\n", false, $inv_id);
+        //deleting the results of this simulation
         $this->simulation_delete(Yii::app()->params['deleteSeleniumResults']);
     }
 
