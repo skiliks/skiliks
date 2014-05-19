@@ -1,0 +1,64 @@
+.assessment-results-type-switcher {
+    padding-bottom: 4px;
+}
+
+.ui-dialog #feedback-form #Feedback_email {
+    width: 414px;
+}
+
+#DeclineExplanation_reason_id label {
+    height: 23px;
+}
+
+.skiliks.action-controller-recovery-static-userAuth .us-auth-box {
+    width: 635px; /* 650, исправлено из-за бага на странице востановлении пароля */
+}
+
+.action-controller-login-auth .error-place {
+    margin-left: 2px;
+}
+
+.action-controller-login-auth .us-first-input {
+    width: 245px;
+}
+
+.mangrlresultstitle {
+    margin-left: 27px;
+}
+
+.twobarstitles .barstitle:first-child {
+    margin-left: 0;
+}
+
+.skiliks.action-controller-corporatePersonalData-static-profile .unstandard-personal-data-height {
+    height: 274px;
+}
+
+.skiliks .company-info-height {
+    height: 377px;
+}
+
+.skiliks.action-controller-corporateVacancies-static-profile .profile-right-side .button-white {
+    line-height: 2.4em;
+}
+
+.skiliks input.button-white {
+    line-height: 2.2em;
+}
+
+.skiliks.action-corporateVacancies .profile-right-side {
+    min-height: 141px;
+}
+
+.action-controller-personalPassword-static-profile .us-password-personal-height {
+    height: 315px;
+}
+
+.action-controller-personalPersonalData-static-profile .unstandard-personal-data-height {
+    height: 400px;
+}
+
+.width-1024.skiliks #feedback-form input.button-standard {
+    padding-bottom: 12px;
+    padding-top: 13px;
+}

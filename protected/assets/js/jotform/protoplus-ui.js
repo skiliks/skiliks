@@ -61,7 +61,7 @@ Object.extend(document, {
         background:'#FFFFFF',
         top:'25%',        // Top location
         left:'25%',       // Left location
-        winZindex: 10001,
+        winZindex: 1003,
         borderWidth:10,   // Width of the surrounding transparent border
         borderColor:'#000', // Color of the surrounding transparent border
         titleTextColor: '#777',
@@ -78,7 +78,7 @@ Object.extend(document, {
         modal:true, // Same as dim
         dimColor:'#fff', // color of the dimming surface
         dimOpacity:0.8, // opacity of the dimming surface
-        dimZindex: 10000,
+        dimZindex: 1002,
         dynamic: true, // Update the window dynamically while dragging
         contentPadding: '8',
         closeTo:false,

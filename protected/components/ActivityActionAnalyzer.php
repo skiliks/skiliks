@@ -2,15 +2,45 @@
 /*
  * @property []UniversalLog $universal_log
  */
+/**
+ * Class ActivityActionAnalyzer
+ */
 class ActivityActionAnalyzer {
+    /**
+     * @var Simulation
+     */
     public $simulation;
-    public $universal_log;
+    /**
+     * @var
+     */
+    public $universal_log = [];
+    /**
+     * @var
+     */
     public $activities;
+    /**
+     * @var
+     */
     public $activity_categories;
+    /**
+     * @var
+     */
     public $parent_ending;
+    /**
+     * @var
+     */
     public $mail_box;
+    /**
+     * @var
+     */
     public $activity_action;
+    /**
+     * @var
+     */
     public $windows;
+    /**
+     * @var
+     */
     public $documents;
 
     /**
@@ -132,6 +162,12 @@ class ActivityActionAnalyzer {
         }
     }
 
+    /**
+     * Ищет совпадение логов в LegAction Detail
+     * @param UniversalLog $log
+     * @return array ActivityAction
+     * @throws Exception
+     */
     public function findActivityActionByLog(UniversalLog $log) {
         if(null !== $log->mail_id) {
             $mail_box = $this->mail_box[$log->mail_id];
@@ -167,7 +203,13 @@ class ActivityActionAnalyzer {
         throw new Exception("activity action not found");
     }
 
-    public function excludeParentComplete($activityActions, UniversalLog $universal_log) {
+    /**
+     * Исключает Перенты что завершились
+     * @param array $activityActions
+     * @param UniversalLog $universal_log
+     * @return mixed
+     */
+    public function excludeParentComplete(array $activityActions, UniversalLog $universal_log) {
         /* @var $activityActions []ActivityAction */
         /* @var $activityAction ActivityAction */
         foreach($activityActions as $key => $activityAction) {
@@ -181,7 +223,14 @@ class ActivityActionAnalyzer {
 
     }
 
-    public function getHighPriorityCategory($activityActions, UniversalLog $universal_log) {
+    /**
+     * Берёт самую приоритетную категорию
+     * @param ActivityAction[] $activityActions
+     * @param UniversalLog $universal_log
+     * @return ActivityAction
+     * @throws Exception
+     */
+    public function getHighPriorityCategory(array $activityActions, UniversalLog $universal_log) {
 
         $priority = [];
         /* @var $this->activities[$activityAction->activity_id] Activity */
@@ -206,6 +255,10 @@ class ActivityActionAnalyzer {
         }
     }
 
+    /**
+     * Добавляет UniversalLog в массив логов
+     * @param UniversalLog $universal_log
+     */
     public function appendUniversalLog(UniversalLog $universal_log) {
 
         if((strtotime($universal_log->end_time) - strtotime($universal_log->start_time)) !== 0){
@@ -213,6 +266,11 @@ class ActivityActionAnalyzer {
         }
     }
 
+    /**
+     * Сохраняет лог действий пользователя ввиде LogActivityAction
+     * @param ActivityAction $activityAction
+     * @param UniversalLog $universal_log
+     */
     public function saveLogActivityAction(ActivityAction $activityAction, UniversalLog $universal_log) {
         $logActivityAction = new LogActivityAction(); //new LogActivityAction();
         $logActivityAction->sim_id = $this->simulation->id;
@@ -227,8 +285,5 @@ class ActivityActionAnalyzer {
         $logActivityAction->save(false);
     }
 
-    /*public function debugExclude(UniversalLog $log, $arr){
-        return in_array($log->start_time.'-'.$log->end_time, $arr);
-    }*/
 
 } 

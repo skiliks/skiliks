@@ -1,6 +1,5 @@
 <?php
 
-// Team 'Develop - live.skiliks.com'
 $sentryDsn = 'https://41680afc32f344d88ab67eef43254684:e4265582b811477089af672d368c93bf@app.getsentry.com/15804';
 
 define(YII_DEBUG, false);
@@ -25,6 +24,10 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
         'log'=>array(
             'class'=>'CLogRouter',
             'routes'=>array(
+//                array(
+//                    'class'     => 'ext.yii-debug-toolbar.YiiDebugToolbarRoute',
+//                    'ipFilters' => array('127.0.0.1', '176.36.151.66'),
+//                ),
                 array(
                     // Team 'Develop - live.skiliks.com'
                     'class'  => 'application.components.yii-sentry-log.RSentryLog',
@@ -33,13 +36,19 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
                 ),
             ),
         ),
+        'session' => array(
+            'timeout'                => 60*60*24*7, // 7дней
+        ),
     ),
     'params'=>array(
-        'isBlockGhostLogin' => false,
-        'isUseStrictRulesForGhostLogin'=>false,
-        'server_name'    => 'http://live.skiliks.com/',
-        'frontendUrl'    => 'http://live.skiliks.com/',
-        'runMigrationOn' => 'live',
+        'isBlockGhostLogin'  => false,
+        'server_name'        => 'http://live.skiliks.com/',
+        'server_domain_name' => 'live.skiliks.com',
+        'frontendUrl'        => 'http://live.skiliks.com/',
+        'runMigrationOn'     => 'live',
+
+        'isUseStrictRulesForGhostLogin' => false,
+
         'sentry' => [
             'dsn' => $sentryDsn,
         ],

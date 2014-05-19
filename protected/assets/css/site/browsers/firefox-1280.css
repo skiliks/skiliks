@@ -1,0 +1,50 @@
+.action-controller-corporatePassword-static-profile .unstandard-personal-data-height {
+    height: 300px;
+}
+
+.estmfooter {
+    width: 980px;
+}
+
+.skiliks .sh_btn .sh_btn_char {
+    height: 14px;
+    margin-top: -1px;
+}
+
+.action-registrationSingleAccount .inline-error-first {
+    vertical-align: top;
+    margin-top: 15px;
+}
+
+.action-registrationSingleAccount .inline-error-second {
+    margin-top: -5px;
+}
+
+.skiliks input.button-standard {
+    padding-bottom: 15px;
+    padding-top: 16px;
+}
+
+.skiliks #feedback-form input.button-standard {
+    padding-bottom: 15px;
+    padding-top: 16px;
+}
+
+.action-controller-corporatePersonalData-static-profile input.button-standard,
+.action-controller-corporatePassword-static-profile input.button-standard,
+.action-controller-corporateCompanyInfo-static-profile input.button-standard,
+.action-controller-corporateVacancies-static-profile input.button-standard {
+    padding-bottom: 15px;
+    padding-top: 16px;
+}
+
+.skiliks.action-registrationSingleAccount input.button-standard {
+    padding-bottom: 14px;
+    padding-top: 15px;
+}
+
+.skiliks.action-registerByLink input.button-standard,
+.skiliks.background-image-book input.button-standard {
+    padding-bottom: 15px;
+    padding-top: 16px;
+}

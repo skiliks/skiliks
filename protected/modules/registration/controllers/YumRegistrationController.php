@@ -116,13 +116,12 @@ class YumRegistrationController extends YumController {
 					'{username}' => $user->username,
 					'{activation_url}' => $activation_url));
 
-		$mail = array(
-				'from' => Yum::module('registration')->registrationEmail,
-				'to' => $user->profile->email,
-				'subject' => strtr($this->textActivationSubject, array(
-						'{username}' => $user->username)),
-				'body' => $body,
-				);
+		$mail = new SiteEmailOptions();
+        $mail->from = Yum::module('registration')->registrationEmail;
+		$mail->to = $user->profile->email;
+		$mail->subject = strtr($this->textActivationSubject, array(
+						'{username}' => $user->username));
+		$mail->body = $body;
 		$sent = MailHelper::addMailToQueue($mail);
 
 		return $sent;
@@ -145,20 +144,23 @@ class YumRegistrationController extends YumController {
 
 		// If everything is set properly, let the model handle the Validation
 		// and do the Activation
-		$status = YumUser::activate($email, $key);
+		$user = YumUser::activate($email, $key);
 
-		if($status instanceof YumUser) {
+		if($user instanceof YumUser) {
 			if(Yum::module('registration')->loginAfterSuccessfulActivation) {
-				$login = new YumUserIdentity($status->username, false); 
-				$login->authenticate(true);
-				Yii::app()->user->login($login);	
+
+                UserService::authenticate($user);
+
+//				$login = new YumUserIdentity($user->username, false);
+//				$login->authenticate(true);
+//				Yii::app()->user->login($login);
 			}
 
             $this->redirect('/dashboard');
 		}
 		else {}
 			$this->render(Yum::module('registration')->activationFailureView, array(
-						'error' => $status));
+						'error' => $user));
 	}
 
 	/**
@@ -184,9 +186,12 @@ class YumRegistrationController extends YumController {
 							$user->activationKey = YumEncrypt::encrypt(microtime() . $passwordform->password, $user->salt);
 							$user->save();
 							if(Yum::module('registration')->loginAfterSuccessfulRecovery) {
-								$login = new YumUserIdentity($user->username, false); 
-								$login->authenticate(true);
-								Yii::app()->user->login($login);
+
+                                UserService::authenticate($user);
+
+//								$login = new YumUserIdentity($user->username, false);
+//								$login->authenticate(true);
+//								Yii::app()->user->login($login);
 								$this->redirect(Yii::app()->homeUrl);
 							}
 							else {
@@ -227,15 +232,14 @@ class YumRegistrationController extends YumController {
 										'{recovery_url}' => $recovery_url,
 										'{username}' => $form->user->username)));
 
-						$mail = array(
-								'from' => Yii::app()->params['adminEmail'],
-								'to' => $form->user->profile->email,
-								'subject' => 'You requested a new password',
-								'body' => strtr(
+						$mail = new SiteEmailOptions();
+						$mail->from = Yii::app()->params['adminEmail'];
+						$mail->to = $form->user->profile->email;
+						$mail->subject = 'You requested a new password';
+						$mail->body = strtr(
 									'You have requested a new password. Please use this URL to continue: {recovery_url}', array(
-										'{recovery_url}' => $recovery_url)),
-								);
-						$sent = MailHelper::addMailToQueue($mail);
+										'{recovery_url}' => $recovery_url));
+						MailHelper::addMailToQueue($mail);
 						Yum::setFlash(
 								'Instructions have been sent to you. Please check your email.');
 					} else

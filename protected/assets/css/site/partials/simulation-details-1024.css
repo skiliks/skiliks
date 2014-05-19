@@ -1,0 +1,497 @@
+.width-1024 .labels {
+    width: 285px;
+}
+
+.width-1024 #time-management-detail .labels {
+    width: 140px;
+}
+
+.width-1024 .mangrlresults .labels a {
+    max-width: 220px;
+}
+
+.width-1024 .thelabel {
+    max-width: 260px;
+}
+
+.width-1024 .chart-gauge {
+    background: url(../../../img/site/1280/assessment/gauge-164.png) no-repeat center bottom;
+}
+
+.width-1024 .signmore {
+    /*-moz-transform: scale(0.8);*/
+    /*-o-transform: scale(0.8);*/
+    -webkit-transform: scale(0.8);
+    transform: scale(0.8);
+}
+
+.width-1024 .product-bullet-charts,
+.width-1024 .regicon {
+    /*-moz-transform: scale(0.9);*/
+    /*-o-transform: scale(0.9);*/
+    /*-webkit-transform: scale(0.9);*/
+    transform: scale(0.9);
+}
+
+.width-1024 .chart-pie {
+    /*-moz-transform: scale(0.8);*/
+    /*-o-transform: scale(0.8);*/
+    /*-webkit-transform: scale(0.8);*/
+    transform: scale(0.8);
+}
+
+.width-1024 .timedetail .testtime,
+.width-1024 .valuetitle {
+    /*-moz-transform: scale(0.7);*/
+    /*-o-transform: scale(0.7);*/
+    /*-webkit-transform: scale(0.7);*/
+    transform: scale(0.7);
+}
+
+.width-1024 .allsummry {
+    background-position: center 77px;
+    background-size: 65%;
+}
+
+.width-1024 .uprnavprcnt {
+    left: 180px;
+}
+
+.width-1024 .resultprcnt {
+    left: 366px;
+}
+
+.width-1024 .timeprcnt {
+    left: 548px;
+}
+
+.width-1024 .blockvalue {
+    height: 24px;
+    line-height: 24px;
+    top: -7px;
+}
+
+.width-1024 .simulation-result-popup {
+    padding-bottom: 18px;
+}
+
+.width-1024 .simulation-details .navigation {
+    margin-bottom: 16px;
+}
+
+.width-1024 .simulation-details-pop-up h1 {
+    margin-top: -6px;
+}
+
+.width-1024 .signmore {
+    padding-left: 6px;
+}
+
+.width-1024 .mangrlresults .labelwrap:first-child .list-counter,
+.width-1024 .mangrlresults .labelwrap:first-child .list-text {
+    margin-top: -6px;
+}
+
+.width-1024 #managerial-skills-1 .mangrlresults .labelwrap .list-text,
+.width-1024 #managerial-skills-2 .mangrlresults .labelwrap .list-text,
+.width-1024 #managerial-skills-3 .mangrlresults .labelwrap .list-text {
+    width: 225px;
+}
+
+.width-1024 .simulation-details .navigation {
+    margin-bottom: 18px;
+}
+
+.width-1024 .levellabels {
+    width: 705px;
+}
+
+.width-1024 .levellabels h3 {
+    padding: 5px 5px 0;
+}
+
+.width-1024 .labels .row {
+    height: 24px;
+    margin-top: 40px;
+}
+
+.width-1024 .labels .row:first-child {
+    margin-top: 8px;
+}
+
+.width-1024 .labels .labelwrap:first-child {
+    margin-top: 11px;
+}
+
+.width-1024 .rateslist .numlist {
+    width: 180px;
+}
+
+.width-1024 .timedetail .labels p:first-child {
+    margin-top: 22px;
+}
+
+.width-1024 .timedetail .labelwrap {
+    margin-top: 13px;
+}
+
+.width-1024 .legend {
+    padding: 8px 20px 16px;
+}
+
+.width-1024 .legendvalue {
+    margin-top: 2px;
+}
+
+.width-1024 .mangrlresults .chartbar,
+.width-1024 .mangrlresults .chartproblem {
+    margin-bottom: 14px;
+}
+
+.width-1024 .extrasidepads,
+.width-1024 .section {
+    padding: 0;
+}
+
+.width-1024 .labels {
+    margin-top: 6px;
+}
+
+.width-1024 .labelwrap {
+    margin-top: 14px;
+}
+
+.width-1024 .high-labels .thelabel {
+    height: 35px;
+}
+
+.width-1024 .mangrlresults .display-ib {
+    width: 175px;
+}
+
+.width-1024 .managerialmain .chartbar,
+.width-1024 .managerialmain .chartproblem {
+    margin-bottom: 25px;
+}
+
+.width-1024 .mangrlresults .twocharts:last-child > *,
+.width-1024 .mangrlresults .chartbar:last-child,
+.width-1024 .mangrlresults .chartproblem:last-child,
+.width-1024 .managerialmain .chartbar:last-child,
+.width-1024 .managerialmain .chartproblem:last-child {
+    margin-bottom: 0;
+}
+
+.width-1024 .barswrap {
+    width: 495px;
+}
+
+.width-1024 .mangrlresultstitle {
+    margin-left: 11px;
+}
+
+.width-1024 .twobarstitles .barstitle:first-child {
+    margin-left: 0;
+    width: 286px;
+}
+
+.width-1024 .twobarstitles .barstitle:nth-child(2) {
+    margin-left: 10px;
+}
+
+.width-1024 .twocharts .chartbar {
+    width: 285px;
+}
+
+.width-1024 .twocharts .chartproblem {
+    margin-left: 16px;
+    width: 194px;
+}
+
+.width-1024 .thelabel {
+    height: 24px;
+    line-height: 110%;
+}
+
+.width-1024 .resultslegend,
+.width-1024 .legendmargin {
+    margin-left: 292px;
+}
+
+.width-1024 .estmtileswrap .widthblock,
+.width-1024 .rateslist .widthblock {
+    width: 260px;
+    min-width: 260px;
+    padding: 0;
+}
+
+.width-1024 .rateslist .widthblock {
+    width: 260px;
+    min-width: 260px;
+    max-width: 260px;
+}
+
+/* переопределяем параметры из вёрстки под 1280 */
+.width-1024 .estmtileswrap .widthblock:first-child,
+.width-1024 .estmtileswrap .widthblock:last-child {
+    width: 230px;
+    min-width: 230px;
+    max-width: 230px;
+
+    /* Надо укоротить площадь под надписи. */
+    /* А то кружок со стрелкой переносится на следующую строку. */
+    padding: 0 15px;
+}
+
+.width-1024 .simulation-result-popup .levellabels h6 {
+    width: 260px;
+}
+
+.width-1024 .chart-gauge:first-child {
+    margin-left: 23px;
+}
+
+.width-1024 .resultlabeltitle {
+    padding-left: 313px;
+}
+
+.width-1024 .product .widthblock {
+    width: 255px;
+}
+
+.width-1024 .iv.percentil_text_product,
+.width-1024 div.percentil_text {
+    margin-right: 12px;
+    margin-top: 2px;
+}
+
+.width-1024 .percentil_dashboard_container {
+    width: 110px;
+    background-position: top left;
+    background-size: 110px 30px;
+    height: 18px;
+}
+
+.width-1024 .percentil_base,
+.width-1024 .percentil_overall {
+    background-position: 0 -18px;
+    background-size: 68px 36px;
+}
+
+.width-1024 .percentil_overall {
+    background-position: 0 0;
+}
+
+.width-1024 #dashboard-skills-box .percentil_overall {
+    background-position: 0 0;
+    background-size: 48px 24px;
+    height: 12px;
+}
+
+.width-1024 #dashboard-skills-box .percentil_base {
+    float: left;
+    display: inline;
+    width: 50px;
+    background-position: 0 -12px;
+    background-size: 48px 24px;
+    height: 12px;
+}
+
+.width-1024 #dashboard-skills-box .link-go-percentile {
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+.width-1024 #dashboard-skills-box .percentile_dashboard_value {
+    display: block;
+    float: right;
+    margin-right: 10px;
+    margin-top: 0;
+}
+
+.width-1024 #dashboard-skills-box .percentil_dashboard_container {
+    width: 100px;
+    background-position: top left;
+    background-size: 100px 27px;
+    height: 16px;
+    margin-right: 0;
+}
+
+.width-1024 .estmfooter {
+    width: 803px;
+}
+
+.width-1024 .gauge-charts,
+.width-1024 .levellabels {
+    margin: 0 auto;
+    overflow: visible;
+    width: 843px;
+}
+
+.width-1024 .chart-gauge .pointer {
+    left: 20px;
+}
+
+.width-1024 .product .chart-gauge .pointer {
+    left: 22px;
+}
+
+.width-1024 .gauge-charts .chart-value {
+    margin-left: -6px;
+}
+
+.width-1024 .chart-bar,
+.width-1024.chart-bar .chart-value,
+.width-1024 .chartbar .chart-value,
+.width-1024 .emptychart .chart-value {
+    height: 24px;
+    line-height: 24px;
+}
+
+.width-1024 .simulation-details {
+    overflow: hidden;
+}
+
+.width-1024 .product .maincharts {
+    height: 100px;
+}
+
+.width-1024 .product .maincharts .widthblock h3 {
+    margin-top: -10px;
+}
+
+.width-1024 .product .levellabels {
+    display: table;
+    margin-bottom: 10px;
+    margin-top: -20px;
+}
+
+.width-1024 .product .bluelist li {
+    padding-left: 10px;
+}
+
+.width-1024 .chart-gauge,
+.width-1024 .maincharts .product-bullet-charts,
+.width-1024 .maincharts .bullet-charts {
+    height: 106px;
+    width: 226px;
+}
+
+.width-1024 .chart-gauge {
+    margin: 0 23px;
+}
+
+.width-1024 .chart-gauge {
+    background-size: contain;
+}
+
+.width-1024 .chart-gauge,
+.width-1024 .signmore {
+    /*-moz-transform: scale(0.8);*/
+    /*-o-transform: scale(0.8);*/
+    /*-webkit-transform: scale(0.8);*/
+    transform: scale(0.8);
+}
+
+.width-1024 .product-bullet-charts,
+.width-1024 .regicon {
+    /*-moz-transform: scale(0.9)*/
+    transform: scale(0.9);
+}
+
+.width-1024 .chart-pie {
+    /*-moz-transform: scale(0.8);*/
+    /*-o-transform: scale(0.8);*/
+    /*-webkit-transform: scale(0.8);*/
+    transform: scale(0.8);
+}
+
+.width-1024 .timedetail .testtime,
+.width-1024 .valuetitle {
+    /*-moz-transform: scale(0.7);*/
+    /*-o-transform: scale(0.7);*/
+    -webkit-transform: scale(0.7);
+    transform: scale(0.7);
+}
+
+.width-1024 .questn {
+    background-size: contain;
+    height: 24px;
+    margin-left: 6px;
+    margin-top: -1px;
+    width: 24px;
+}
+
+.width-1024  #productivity .questn {
+    height: 25px;
+    margin-top: 1px;
+    width: 25px;
+}
+
+.width-1024 .valuetitle {
+    margin-left: -10px;
+    margin-right: 5px;
+}
+
+.width-1024 .timeblock {
+    padding: 10px;
+}
+
+.width-1024 .simulation-details .navigation li a {
+    height: 24px;
+    line-height: 24px;
+}
+
+.width-1024 .legendcolor {
+    height: 24px;
+    width: 24px;
+}
+
+.width-1024 .timedetail .labels {
+    margin-top: 10px;
+}
+
+.width-1024 .timedetail .timebars {
+    width: 190px;
+}
+
+.width-1024 .timedetail .resulttitele {
+    width: 266px;
+}
+
+.width-1024 .timeblock .chart-bar {
+    margin-top: 13px;
+}
+
+.width-1024 .estmfooter a {
+    line-height: 26px;
+}
+
+.width-1024 #managerial-skills-3-4 .list-text {
+    width: 188px;
+}
+
+.width-1024 .labels .row {
+    padding: 0;
+}
+
+.width-1024 #time-management-detail .labels {
+    margin-top: 21px;
+}
+
+.width-1024.skiliks .ui-dialog #time-management-detail p {
+    margin-bottom: 14px;
+}
+
+.width-1024 .percentil_overall_container .percentil_text {
+    margin-right: 12px;
+}
+
+.width-1024 #managerial-skills-2 .list-text {
+    width: 233px;
+}
+
+.width-1024 #managerial-skills .labels {
+    margin-top: 5px;
+}
+

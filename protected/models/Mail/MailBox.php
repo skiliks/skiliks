@@ -1,47 +1,118 @@
 <?php
-
-
-
 /**
  * Собственно сам почтовый ящик в рамках конкретной симуляции. Все что сюда
  * попадает то и видит пользователь в своей симуляции.
  *
- * @property mixed group_id
- * @property mixed sender_id
- * @property mixed subject_id
- * @property int receiver_id
- * @property mixed sending_date
- * @property int readed
- * @property mixed sim_id
- * @property mixed letter_type
- * @property MailTemplate template
- * @property Simulation simulation
- * @property CommunicationTheme subject_obj
- * @property MailAttachment $attachment
- * @property MailBox $parentMail
- * @property MailFolder $folder
+ * @property integer $id
+ * @property integer $group_id, mail_group.id
+ * @property integer $sender_id, characters.id
+ * @property integer $receiver_id, characters.id
+ * @property string  $sent_at, datetime
+ * @property string  $message
+ * @property integer $sim_id, simulations.id
+ * @property integer $message_id, mail_box.id .Если текущее письмо это ответ, то message_id - это id исходного письма.
+ * @property integer $template_id, mail_template.id
+ * @property string  $letter_type
+ * @property string | NULL $coincidence_type, тип совпадения - смотри self::COINCIDENCE_xxx
+ * @property string | NULL $coincidence_mail_code, MS1, MS2 etc.
+ * @property string  $theme_id
+ * @property string  $mail_prefix
+ * @property string  $constructor_code
+ * @property string  $theme_text
+ *
+ * @property integer (bool) $readed, is readed
+ * @property integer (bool) $plan, is planed
+ *
+ * Столбец нужен для типа сообщения
+ *  1 - Входящие,
+ *  2 - Исходящие,
+ *  3 - Входящие(доставлен),
+ *  4 - Исходящие(доставлен)
+ * @property integer $type
+ *
+ * Code, 'M1', 'MS8' ...
+ * MS - mail sended by hero
+ * MY - ? mail sended by hero yesterday
+ * M - mail received during game
+ * MY - mail in inbox when game starts
+ * @property string  $code
+ *
+ * @property MailTemplate       $template
+ * @property Simulation         $simulation
+ * @property MailAttachment     $attachment
+ * @property MailBox            $parentMail
+ * @property MailFolder         $folder
+ * @property Theme              $theme
  *
  */
 class MailBox extends CActiveRecord
 {
+    /**
+     *
+     */
     const COINCIDENCE_FULL   = 'full';
+    /**
+     *
+     */
     const COINCIDENCE_PART_1 = 'part1';
+    /**
+     *
+     */
     const COINCIDENCE_PART_2 = 'part2';
-    
+
+    /**
+     *
+     */
     const FOLDER_INBOX_ID  = 1;
+    /**
+     *
+     */
     const FOLDER_DRAFTS_ID = 2;
+    /**
+     *
+     */
     const FOLDER_OUTBOX_ID = 3;
+    /**
+     *
+     */
     const FOLDER_TRASH_ID  = 4;
+    /**
+     *
+     */
     const FOLDER_NOT_RECEIVED_EMAILS_ID  = 5;
 
+    /**
+     *
+     */
     const FOLDER_INBOX_ALIAS  = 'inbox';
+    /**
+     *
+     */
     const FOLDER_DRAFTS_ALIAS = 'drafts';
+    /**
+     *
+     */
     const FOLDER_OUTBOX_ALIAS = 'outbox';
+    /**
+     *
+     */
     const FOLDER_TRASH_ALIAS  = 'trash';
+    /**
+     *
+     */
     const FOLDER_NOT_RECEIVED_ALIAS  = 'not received';
 
+    /**
+     *
+     */
     const TYPE_FORWARD   = 'forward';
+    /**
+     *
+     */
     const TYPE_REPLY     = 'reply';
+    /**
+     *
+     */
     const TYPE_REPLY_ALL = 'replyAll';
 
     /**
@@ -55,119 +126,27 @@ class MailBox extends CActiveRecord
         self::FOLDER_TRASH_ID  => self::FOLDER_TRASH_ALIAS,
         self::FOLDER_NOT_RECEIVED_EMAILS_ID => self::FOLDER_NOT_RECEIVED_ALIAS
     );
-    
-    /**
-     * @var integer
-     */
-    public $id;
-    
-    /**
-     * mail_template.id
-     * @var int
-     */
-    public $template_id;
-    
-    /**
-     * simulations.id
-     * @var int
-     */
-    public $sim_id;
-    
-    /**
-     * mail_group.id
-     * @var int
-     */
-    public $group_id;
-    
-    /**
-     * characters.id
-     * @var int
-     */
-    public $sender_id;    
-    
-    /**
-     * characters.id
-     * @var int
-     */
-    public $receiver_id;
 
     /**
-     * @var datetime
+     * @var array
      */
-    public $sent_at;
-    
-    /**
-     * @var string
-     */
-    public $subject;
-
-    /**
-     * @var string
-     */
-    public $message;
-    
-    /**
-     * is readed
-     * @var int (bool)
-     */
-    public $readed; 
-    
-    /**
-     * mail_themes.id
-     * @var int
-     */
-    public $subject_id;
-    
-    /**
-     * Code, 'M1', 'MS8' ...
-     * 
-     * MS - mail sended by hero
-     * MY - ? mail sended by hero yesterday
-     * M - mail received during game
-     * MY - mail in inbox when game starts
-     * 
-     * @var string
-     */
-    public $code;
-
-    /**
-     * @var int
-     */
-    public $type; // ?
-    
-    /**
-     * is planed
-     * @var int (bool)
-     */
-    public $plan; 
-    
-    /**
-     * is replied
-     * @var int (bool)
-     */
-    public $reply; 
-    
-    /**
-     * mail_box.id
-     * If current email is reply, message_id = id of source email
-     * @var int
-     */
-    public $message_id;
-    
-    /**
-     * @var string | NULL
-     */
-    public $coincidence_type;
-    
-    /**
-     * Like MS1, MS2 etc.
-     * @var string
-     */
-    public $coincidence_mail_code;
-
+    public $mailPrefix = [
+        'fwd' => 'Fwd: ',
+        'fwdfwd' => 'Fwd: Fwd: ',
+        'fwdre' => 'Fwd: Re: ',
+        'fwdrefwd' => 'Fwd: Re: Fwd: ',
+        'fwdrere' => 'Fwd: Re: Re: ',
+        'fwdrerere' => 'Fwd: Re: Re: Re: ',
+        're' => 'Re: ',
+        'refwd' => 'Re: Fwd: ',
+        'rere' => 'Re: Re: ',
+        'rerefwd' => 'Re: Re: Fwd: ',
+        'rerere' => 'Re: Re: Re: ',
+        'rererere' => 'Re:: Re: Re: Re: '
+    ];
 
     /** ------------------------------------------------------------------------------------------------------------ **/
-    
+
     public function markReplied()
     {
         $this->reply = 1;
@@ -179,7 +158,7 @@ class MailBox extends CActiveRecord
      */
     public function isRight()
     {
-        return CommunicationTheme::SLUG_RIGHT == $this->subject_obj->wr;
+        return OutboxMailTheme::SLUG_RIGHT == $this->getWR();
     }
 
     /**
@@ -204,6 +183,9 @@ class MailBox extends CActiveRecord
         return true === (bool)$this->plan;
     }
 
+    /**
+     * @return array of string
+     */
     public function getCopyCharacterCodes()
     {
         $copies = MailCopy::model()->findAllByAttributes(['mail_id' => $this->id]);
@@ -217,8 +199,6 @@ class MailBox extends CActiveRecord
         return $res;
     }
 
-    /** ------------------------------------------------------------------------------------------------------------ **/
-    
     /**
      * @return bool
      */
@@ -238,12 +218,72 @@ class MailBox extends CActiveRecord
         }        
         
         return $type === $this->coincidence_type;
-    }    
-    
+    }
+
+    /**
+     * @return array of string
+     */
     public function getCoincidenceTypes()
     {
         return array(self::COINCIDENCE_FULL, self::COINCIDENCE_PART_1, self::COINCIDENCE_PART_2);
     }
+
+    /**
+     * @return string the associated database table name
+     */
+    public function tableName()
+    {
+        return 'mail_box';
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGroupName() {
+        return self::$folderIdToAlias[$this->group_id];
+    }
+
+    /**
+     * @return bool
+     */
+    public function isOutBox(){
+        return ($this->group_id === '2' || $this->group_id === '3');
+    }
+
+    /**
+     * @return bool
+     */
+    public function isInBox(){
+        return ($this->group_id === '1' || $this->group_id === '4');
+    }
+
+    /**
+     * @return string
+     */
+    public function getRecipientsCode(){
+        $recipients = MailRecipient::model()->findAllByAttributes(['mail_id'=>$this->id]);
+        $codes = [];
+        /* @var $recipient MailRecipient */
+        foreach($recipients as $recipient){
+            $codes[] = $recipient->receiver->code;
+        }
+        return implode(',',$codes);
+    }
+
+    /**
+     * @return string
+     */
+    public function getCopiesCode(){
+        $copies = MailCopy::model()->findAllByAttributes(['mail_id'=>$this->id]);
+        $codes = [];
+        /* @var $copy MailCopy */
+        foreach($copies as $copy){
+            $codes[] = $copy->recipient->code;
+        }
+        return implode(',',$codes);
+    }
+
+    /* ------------------------------------------------------------------------------------------------------------ */
 
     /**
      *
@@ -260,133 +300,65 @@ class MailBox extends CActiveRecord
      */
     public function relations() {
         return array(
-            'subject_obj' => array(self::BELONGS_TO, 'CommunicationTheme', 'subject_id'),
             'template'    => array(self::BELONGS_TO, 'MailTemplate', 'template_id'),
             'simulation'    => array(self::BELONGS_TO, 'Simulation', 'sim_id'),
             'attachment'    => array(self::HAS_ONE, 'MailAttachment', 'mail_id'),
             'parentMail'    => array(self::BELONGS_TO, 'MailBox', 'message_id'),
             'folder'        => array(self::BELONGS_TO, 'MailFolder', 'group_id'),
+            'theme'         => [self::BELONGS_TO, 'Theme', 'theme_id']
         );
     }
 
     /**
-     * @return string the associated database table name
+     * Возвращает отформатированую тему с очётом префиксов
+     * @param string $prefix префикс например 're', 'fwd', 'rere' ...
+     * @return string
      */
-    public function tableName()
-    {
-            return 'mail_box';
-    }
+    public function getFormattedTheme($prefix = '') {
+        $prefix = ($prefix === null ? '' : $prefix);
+        $this->mail_prefix = ($this->mail_prefix === null) ? '' : $this->mail_prefix;
 
-    /**
-     * Выбрать по заданной папкe
-     * @param int $folderId
-     * @return MailBox 
-     */
-    public function byFolder($folderId)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "group_id = {$folderId}"
-        ));
-        return $this;
-    }
-    
-    /**
-     * Выбрать по заданному получателю
-     * @param int $receiverId
-     * @return MailBox 
-     */
-    public function byReceiver($receiverId)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "receiver_id = {$receiverId}"
-        ));
-        return $this;
-    }
-
-    /**
-     * Выбрать по отправителю
-     * @param int $senderId
-     * @return MailBox 
-     */
-    public function bySender($senderId)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "sender_id = {$senderId}"
-        ));
-        return $this;
-    }
-    
-    /**
-     * Выбрать конкретное письмо
-     * @param int $id
-     * @return MailBox 
-     */
-    public function byId($id)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "id = {$id}"
-        ));
-        return $this;
-    }
-    
-    /**
-     * Выбрать письмо по коду
-     * @param string $code
-     * @return MailBox 
-     */
-    public function byCode($code)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "code = '{$code}'"
-        ));
-        return $this;
-    }
-    
-    /**
-     * Сортировать по заданному полю в заданном направлении
-     * @param string $fieldName
-     * @param string $direction
-     * @return MailBox 
-     */
-    public function orderBy($fieldName, $direction)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'order' => "$fieldName $direction"
-        ));
-        return $this;
-    }
-
-    public function getGroupName() {
-        return self::$folderIdToAlias[$this->group_id];
-    }
-
-    public function isOutBox(){
-        return ($this->group_id === '2' || $this->group_id === '3');
-    }
-
-    public function isInBox(){
-        return ($this->group_id === '1' || $this->group_id === '4');
-    }
-
-    public function getRecipientsCode(){
-        $recipients = MailRecipient::model()->findAllByAttributes(['mail_id'=>$this->id]);
-        $codes = [];
-        /* @var $recipient MailRecipient */
-        foreach($recipients as $recipient){
-            $codes[] = $recipient->receiver->code;
+        if (null == $this->theme) {
+            throw new Exception('Theme in null in email '.$this->id.' ,code '.$this->code.', template_id '. $this->template_id);
         }
-        return implode(',',$codes);
-    }
-    public function getCopiesCode(){
-        $copies = MailCopy::model()->findAllByAttributes(['mail_id'=>$this->id]);
-        $codes = [];
-        /* @var $copy MailCopy */
-        foreach($copies as $copy){
-            $codes[] = $copy->recipient->code;
-        }
-        return implode(',',$codes);
+
+        return str_replace(
+            ['re', 'fwd'],
+            ['Re: ', 'Fwd: '],
+            $prefix . $this->mail_prefix
+        ) . $this->theme->text;
     }
 
+    /**
+     * Возвращает текст письма по получител и теме(с префиксом)
+     * @return string
+     */
+    public function getMessageByReceiverAndTheme() {
+        return $this->simulation->game_type->
+            getMailTemplate(
+            [
+                'receiver_id' => $this->receiver_id,
+                'theme_id'    => $this->theme_id,
+                'mail_prefix' => $this->mail_prefix
+            ])->message;
+    }
+
+    /**
+     * Возвращает W/R/N
+     * @return string
+     */
+    public function getWR() {
+        $outbox_theme = $this->simulation->game_type->getOutboxMailTheme([
+            'character_to_id' => $this->receiver_id,
+            'theme_id'        => $this->theme_id,
+            'mail_prefix'     => $this->mail_prefix
+        ]);
+
+        if(null === $outbox_theme){
+            return OutboxMailTheme::SLUG_WRONG;
+        }
+        return $outbox_theme->wr;
+    }
 }
 
 

@@ -1,0 +1,76 @@
+
+.skiliks input.us-button-submit {
+    padding-top: 19px;
+    padding-bottom: 16px;
+    margin-top: 0;
+}
+
+.skiliks .company-info-height {
+    height: 378px;
+}
+
+.skiliks .button-add-vacancy {
+    margin-top: 0;
+    top: 8px;
+}
+
+.skiliks input.button-white,
+.skiliks .ui-widget input.button-white {
+    line-height: 2.1em;
+}
+
+.action-controller-corporateVacancies-static-profile .profile-right-side .button-white {
+    line-height: 2.5em;
+}
+
+.skiliks nav ul li.menu-item span,
+.skiliks nav ul li.menu-item a {
+    padding-top: 6px;
+    padding-bottom: 2px;
+}
+
+.skiliks .blockvalue {
+    line-height: 32px;
+}
+
+.us-remember-me-margin {
+    margin-top: -1px;
+    vertical-align: top;
+}
+
+.skiliks .system-mistmatch .button-white {
+    line-height: 2.5em;
+}
+
+.skiliks.action-controller-corporatePassword-static-profile .unstandard-personal-data-height {
+    height: 299px;
+}
+
+.skiliks #DeclineExplanation_reason_id label {
+    height: 18px;
+    margin-top: 3px;
+    vertical-align: top;
+}
+
+#form-decline-explanation .button-standard {
+    padding-top: 18px;
+    padding-bottom: 16px;
+}
+
+.skiliks input.inputs-wide-height {
+    margin-top: 1px;
+}
+
+.skiliks .items .button-white {
+    line-height: 2.7em;
+}
+
+.skiliks #feedback-form .button-standard {
+    padding-top: 19px;
+    padding-bottom: 16px;
+}
+
+.action-index .us-homepage-content .button-standard {
+    padding-top: 17px;
+    padding-bottom: 18px;
+}

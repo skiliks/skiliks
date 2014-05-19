@@ -35,7 +35,6 @@ define([], function () {
          * @return {'phone'|'immediate-phone'|'immediate-visit'|'visit'}
          */
         getTypeSlug: function () {
-
             try {
 
                 if (this.get('type') === 1) {
@@ -73,8 +72,14 @@ define([], function () {
                 var replicas = this.get('data');
                 var remote_replica = null;
                 replicas.forEach(function (replica) {
-                    if (replica.ch_to === '1') {
-                        remote_replica = replica;
+                    try {
+                        if (replica.ch_to === '1') {
+                            remote_replica = replica;
+                        }
+                    } catch(exception) {
+                        if (window.Raven) {
+                            window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                        }
                     }
                 });
                 return remote_replica;
@@ -97,8 +102,14 @@ define([], function () {
                 var my_replicas = [];
 
                 replicas.forEach(function (replica) {
-                    if (replica.ch_to !== '1') {
-                        my_replicas.push(replica);
+                    try {
+                        if (replica.ch_to !== '1') {
+                            my_replicas.push(replica);
+                        }
+                    } catch(exception) {
+                        if (window.Raven) {
+                            window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                        }
                     }
                 });
 
@@ -142,9 +153,17 @@ define([], function () {
             }
         },
 
+        /**
+         * Возвращает картинку для <video poster="xxx">
+         * @param string|undefined video_src
+         * @returns string|null
+         */
         getPosterSrc: function (video_src) {
             try {
-                if($.browser['msie'] == true) {
+                if ('undefined' == typeof video_src) {
+                    return null;
+                }
+                if($.browser['msie'] == true || $.browser['safari']) {
                     return video_src.replaceAll('mp4', 'jpeg');
                 }else{
                     return video_src.replaceAll('webm', 'jpeg');
@@ -191,11 +210,17 @@ define([], function () {
                 SKApp.server.api('dialog/get', {
                     'dialogId': replica_id
                 }, function (data) {
-                    if (data.result === 1) {
-                        if (cb) {
-                            cb(data);
+                    try {
+                        if (data.result === 1) {
+                            if (cb) {
+                                cb(data);
+                            }
+                            SKApp.simulation.parseNewEvents(data.events, 'dialog/get');
                         }
-                        SKApp.simulation.parseNewEvents(data.events, 'dialog/get');
+                    } catch(exception) {
+                        if (window.Raven) {
+                            window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                        }
                     }
                 });
             } catch(exception) {
@@ -210,7 +235,13 @@ define([], function () {
          * @return {'completed'|'in progress'|'waiting'}
          */
         getStatus: function () {
-            return this.status || 'waiting';
+            try {
+                return this.status || 'waiting';
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
+            }
         },
 
         /**
@@ -255,9 +286,15 @@ define([], function () {
                 SKApp.server.api('dialog/get', {
                     'dialogId': dialogId
                 }, function (data) {
-                    SKApp.simulation.parseNewEvents(data.events, 'dialog/get');
-                    if (cb !== undefined) {
-                        cb();
+                    try {
+                        SKApp.simulation.parseNewEvents(data.events, 'dialog/get');
+                        if (cb !== undefined) {
+                            cb();
+                        }
+                    } catch(exception) {
+                        if (window.Raven) {
+                            window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                        }
                     }
                 });
             } catch(exception) {
@@ -280,13 +317,19 @@ define([], function () {
                 SKApp.server.api('dialog/get', {
                     'dialogId': replica_id
                 }, function (data) {
-                    if (data.result === 1) {
-                        if (me.getStatus() !== 'completed') {
-                            me.complete();
-                            cb();
+                    try {
+                        if (data.result === 1) {
+                            if (me.getStatus() !== 'completed') {
+                                me.complete();
+                                cb();
+                            }
+                            SKApp.simulation.parseNewEvents(data.events, 'dialog/get');
+                            SKApp.simulation.getNewEvents();
                         }
-                        SKApp.simulation.parseNewEvents(data.events, 'dialog/get');
-                        SKApp.simulation.getNewEvents();
+                    } catch(exception) {
+                        if (window.Raven) {
+                            window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                        }
                     }
                 });
             } catch(exception) {

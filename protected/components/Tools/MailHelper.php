@@ -1,27 +1,32 @@
 <?php
 
+/**
+ * Class MailHelper
+ */
 class MailHelper
 {
     /**
-     * @param array $email
+     * Добавление письма в очередь
+     * @param SiteEmailOptions $email
      * @return bool
      */
-    public static function addMailToQueue(array $email)
+    public static function addMailToQueue(SiteEmailOptions $email)
     {
         $queue = new EmailQueue();
-        $queue->sender_email = $email['from'];
-        $queue->recipients = $email['to'];
+        $queue->sender_email = $email->from;
+        $queue->recipients = $email->to;
         $queue->copies = '';
-        $queue->subject = $email['subject'];
-        $queue->body = $email['body'];
+        $queue->subject = $email->subject;
+        $queue->body = $email->body;
         $queue->created_at = (new DateTime('now'))->format("Y-m-d H:i:s");
         $queue->status = EmailQueue::STATUS_PENDING;
-        $queue->attachments = json_encode(empty($email['embeddedImages'])?[]:$email['embeddedImages']);
+        $queue->attachments = json_encode(empty($email->embeddedImages)?[]:$email->embeddedImages);
         return $queue->save();
     }
 
     /**
-     * @param array $email
+     * Добавление писем в очередь
+     * @param SiteEmailOptions[] $emails
      * @return bool
      */
     public static function addMailsToQueue(array $emails)
@@ -33,9 +38,21 @@ class MailHelper
         return $return;
     }
 
-    public static function sendMailFromQueue()
+    /**
+     * Отправка писем с очереди
+     *
+     * @parameter integer $limit, количество писем, которое будет отправлено за один проход
+     * цифра заивсит от частоты крона, у нас крон на отправку писем выполняется каждую минуту
+     * - и 10 писем, это оптимальный вариант
+     *
+     * @return array
+     */
+    public static function sendMailFromQueue($limit = 500)
     {
-        $mails = EmailQueue::model()->findAll("status = :status order by id desc limit 10", ['status' => EmailQueue::STATUS_PENDING]);
+        $mails = EmailQueue::model()->findAll(
+            ' status = :status order by id desc limit ' . $limit,
+            ['status' => EmailQueue::STATUS_PENDING]
+        );
 
         /* @var $mail EmailQueue */
         $result = ['done'=>0, 'fail'=>0];
@@ -46,6 +63,7 @@ class MailHelper
         }
 
         foreach($mails as $mail) {
+            $mail->errors = null; // очистка поля на случай повторной отпраки письма.
             try{
                 $sent = YumMailer::send([
                     'from'=>$mail->sender_email,
@@ -72,74 +90,10 @@ class MailHelper
         return $result;
     }
 
-    public static function sendNoticeEmail(YumUser $user) {
-
-        if($user->isCorporate() && $user->account_corporate->corporate_email !== null && $user->profile->email !== $user->account_corporate->corporate_email) {
-            $personal_email =  $user->profile->email;
-            $tmp_emails[$user->id] = $personal_email;
-
-            $corporate_email =  $user->account_corporate->corporate_email;
-
-            $inviteEmailTemplate = Yii::app()->basePath . '/views/global_partials/mails/noticeEmail.php';
-            $body = CController::renderInternal($inviteEmailTemplate, [
-                'corporate_email' => $corporate_email,
-                'personal_email' => $personal_email,
-                'firstname' => $user->profile->firstname
-            ], true);
-
-            $mail = array(
-                'from' => Yum::module('registration')->registrationEmail,
-                'to' => $personal_email,
-                'subject' => 'Обновление регистрации skiliks.com',
-                'body' => $body,
-                'embeddedImages' => [
-                [
-                    'path'     => Yii::app()->basePath.'/assets/img/mail-top.png',
-                    'cid'      => 'mail-top',
-                    'name'     => 'mailtop',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],[
-                    'path'     => Yii::app()->basePath.'/assets/img/mail-top-2.png',
-                    'cid'      => 'mail-top-2',
-                    'name'     => 'mailtop2',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],[
-                    'path'     => Yii::app()->basePath.'/assets/img/mail-right-1.png',
-                    'cid'      => 'mail-right-1',
-                    'name'     => 'mailright1',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],[
-                    'path'     => Yii::app()->basePath.'/assets/img/mail-right-2.png',
-                    'cid'      => 'mail-right-2',
-                    'name'     => 'mailright2',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],[
-                    'path'     => Yii::app()->basePath.'/assets/img/mail-right-3.png',
-                    'cid'      => 'mail-right-3',
-                    'name'     => 'mailright3',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],[
-                    'path'     => Yii::app()->basePath.'/assets/img/mail-bottom.png',
-                    'cid'      => 'mail-bottom',
-                    'name'     => 'mailbottom',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],
-            ]
-            );
-            MailHelper::addMailToQueue($mail);
-
-            $user->profile->email = strtolower($corporate_email);
-            $user->profile->update();
-        }
-
-    }
-
+    /**
+     * Обновление email'а инвайта
+     * @param Invite $invite
+     */
     public static function updateInviteEmail(Invite $invite){
         if($invite->ownerUser->profile->email !== $invite->email){
             $invite->email = $invite->ownerUser->profile->email;
@@ -147,76 +101,54 @@ class MailHelper
         }
     }
 
+    /**
+     * Создание ссылки с именем хоста
+     * @param string $path url
+     * @return string ссылка
+     */
     public static function createUrlWithHostname($path) {
         return Yii::app()->params['server_name'].ltrim($path, '/');
     }
 
-    public static function sendEmailIfSuspiciousActivity(Invite $invite) {
+    /**
+     * Отпрвка письма о подозрительной активности
+     * @param Invite $invite
+     */
+    public static function sendEmailAboutActivityToStudySimulation(Invite $invite) {
 
-        if($invite->owner_id === $invite->receiver_id && null !== $invite->receiverUser && false == $invite->receiverUser->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE && $invite->scenario->slug === Scenario::TYPE_FULL)) {
+        if($invite->owner_id === $invite->receiver_id
+            && null !== $invite->receiverUser
+            && false == $invite->receiverUser->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)
+            && $invite->scenario->slug === Scenario::TYPE_FULL) {
+
             $scenario = Scenario::model()->findByAttributes(['slug'=>Scenario::TYPE_FULL]);
-            $count = (int)Invite::model()->count("receiver_id = :user_id and owner_id = :user_id and scenario_id = :scenario_id and (status = :in_progress or status = :completed)", [
-                'user_id'=>$invite->owner_id,
+
+            $count = (int)Invite::model()->count(
+                "receiver_id = :user_id AND owner_id = :user_id AND scenario_id = :scenario_id "
+                ." AND (status = :in_progress OR status = :completed)", [
+                'user_id'     =>$invite->owner_id,
                 'in_progress' => Invite::STATUS_IN_PROGRESS,
-                'completed' => Invite::STATUS_COMPLETED,
-                'scenario_id'=>$scenario->id
+                'completed'   => Invite::STATUS_COMPLETED,
+                'scenario_id' =>$scenario->id
             ]);
+
             if($count >= 2) {
-                $inviteEmailTemplate = Yii::app()->params['emails']['ifSuspiciousActivity'];
+                $mailOptions = new SiteEmailOptions();
+                $mailOptions->from = Yum::module('registration')->registrationEmail;
+                $mailOptions->to = 'support@skiliks.com';
+                $mailOptions->subject = 'Внимание! Подозрительная активность от аккаунта '.$invite->ownerUser->profile->email
+                    .' на '.Yii::app()->params['server_domain_name'];
+                $mailOptions->h1      = '';
+                $mailOptions->text1   = '
+                    <p  style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
+                        Есть подозрение, что аккаунт <a
+                        href="' . MailHelper::createUrlWithHostname("admin_area/user/".$invite->receiver_id."/details") .'"></a>
+                        '. $invite->email .', пытается изучить фул симуляцию.
+                    </p>
+                ';
 
-                $body = (new CController("DebugController"))->renderPartial($inviteEmailTemplate, [
-                    'invite' => $invite
-                ], true);
-
-                $mail = array(
-                    'from' => Yum::module('registration')->registrationEmail,
-                    'to' => 'support@skiliks.com',
-                    'subject' => 'Внимание! Подозрительная активность от аккаунта '.$invite->ownerUser->profile->email.' на '.Yii::app()->params['server_name'],
-                    'body' => $body,
-                    'embeddedImages' => [
-                        [
-                            'path'     => Yii::app()->basePath.'/assets/img/mail-top.png',
-                            'cid'      => 'mail-top',
-                            'name'     => 'mailtop',
-                            'encoding' => 'base64',
-                            'type'     => 'image/png',
-                        ],[
-                            'path'     => Yii::app()->basePath.'/assets/img/mail-top-2.png',
-                            'cid'      => 'mail-top-2',
-                            'name'     => 'mailtop2',
-                            'encoding' => 'base64',
-                            'type'     => 'image/png',
-                        ],[
-                            'path'     => Yii::app()->basePath.'/assets/img/mail-right-1.png',
-                            'cid'      => 'mail-right-1',
-                            'name'     => 'mailright1',
-                            'encoding' => 'base64',
-                            'type'     => 'image/png',
-                        ],[
-                            'path'     => Yii::app()->basePath.'/assets/img/mail-right-2.png',
-                            'cid'      => 'mail-right-2',
-                            'name'     => 'mailright2',
-                            'encoding' => 'base64',
-                            'type'     => 'image/png',
-                        ],[
-                            'path'     => Yii::app()->basePath.'/assets/img/mail-right-3.png',
-                            'cid'      => 'mail-right-3',
-                            'name'     => 'mailright3',
-                            'encoding' => 'base64',
-                            'type'     => 'image/png',
-                        ],[
-                            'path'     => Yii::app()->basePath.'/assets/img/mail-bottom.png',
-                            'cid'      => 'mail-bottom',
-                            'name'     => 'mailbottom',
-                            'encoding' => 'base64',
-                            'type'     => 'image/png',
-                        ],
-                    ]
-                );
-                MailHelper::addMailToQueue($mail);
-
+                UserService::addStandardEmailToQueue($mailOptions, SiteEmailOptions::TEMPLATE_FIKUS);
             }
-      }
-
+        }
     }
 } 

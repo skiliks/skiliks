@@ -37,15 +37,15 @@ define([] ,function() {
         text: undefined,
 
         /**
-         * @property previouseEmailText
+         * @property previousEmailText
          * @type string, 'M1', 'MS2'
          * @default undefined
          */
-        previouseEmailText: undefined,
+        previousEmailText: undefined,
 
         /**
          * @property subject
-         * @type SkMAilSubject
+         * @type SKMailSubject
          * @default undefined
          */
         subject: undefined,
@@ -161,23 +161,28 @@ define([] ,function() {
         letterType: undefined,
 
         /**
+         * Префикс для темы
+         */
+        mail_prefix:undefined,
+
+        /**
          * @method isSubjectValid
          * @returns {boolean}
          */
         isSubjectValid: function() {
             try {
                 // keep not strong compartion in non strong way!
-                if (undefined === this.subject) { console.log('this.subject is undefined!') };
-                if (undefined === this.subject.characterSubjectId) { console.log('this.subject.characterSubjectId is undefined!') };
-                if (0 === this.subject.characterSubjectId) { console.log('this.subject.characterSubjectId = 0 !') };
-                if ('0' === this.subject.characterSubjectId) { console.log('this.subject.characterSubjectId is "0"!') };
-                if ('' === this.subject.text) { console.log('this.subject.text is empty text!') };
-                if (undefined === this.subject.text) { console.log('this.subject.text is undefined!') };
+                if (undefined === this.subject) { console.log('this.subject is undefined!') }
+                if (undefined === this.subject.themeId) { console.log('this.subject.themeId is undefined!') }
+                if (0 === this.subject.themeId) { console.log('this.subject.themeId = 0 !') }
+                if ('0' === this.subject.themeId) { console.log('this.subject.themeId is "0"!') }
+                if ('' === this.subject.text) { console.log('this.subject.text is empty text!') }
+                if (undefined === this.subject.text) { console.log('this.subject.text is undefined!') }
 
                 return (undefined !== this.subject &&
-                    undefined !== this.subject.characterSubjectId &&
-                    '0' !== this.subject.characterSubjectId &&
-                    0 !== this.subject.characterSubjectId &&
+                    undefined !== this.subject.themeId &&
+                    '0' !== this.subject.themeId &&
+                    0 !== this.subject.themeId &&
                     '' !== this.subject.text &&
                     undefined !== this.subject.text );
             } catch(exception) {
@@ -418,9 +423,8 @@ define([] ,function() {
          * @returns {string}
          */
         getRecipientIdsString: function() {
-            var string = '';
-
             try {
+                var string = '';
                 for (var i in this.recipients) {
                     string += this.recipients[i].get('id') + ',';
                 }
@@ -438,9 +442,8 @@ define([] ,function() {
          * @returns {string}
          */
         getFormattedRecipientsString: function() {
-            var string = '';
-
             try {
+                var string = '';
                 for (var i in this.recipients) {
                     string += this.recipients[i].getFormattedRecipientLabel();
                 }
@@ -462,9 +465,8 @@ define([] ,function() {
          * @returns {string}
          */
         getCopyToIdsString: function() {
-            var string = '';
-
             try {
+                var string = '';
                 for (var i in this.copyTo) {
                     string += this.copyTo[i].get('id') + ',';
                 }
@@ -482,9 +484,8 @@ define([] ,function() {
          * @returns {string}
          */
         getPhrasesIdsString: function() {
-            var string = '';
-
             try {
+                var string = '';
                 for (var i in this.phrases) {
                     string += this.phrases[i].mySqlId + ',';
                 }

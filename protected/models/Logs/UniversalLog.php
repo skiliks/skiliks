@@ -90,18 +90,18 @@ class UniversalLog extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'sim_id' => 'Sim',
-			'window_id' => 'Window',
-			'mail_id' => 'Mail',
-			'file_id' => 'File',
-			'replica_id' => 'Replica',
-			'last_dialog_id' => 'Last Dialog',
+			'id'                 => 'ID',
+			'sim_id'             => 'Sim',
+			'window_id'          => 'Window',
+			'mail_id'            => 'Mail',
+			'file_id'            => 'File',
+			'replica_id'         => 'Replica',
+			'last_dialog_id'     => 'Last Dialog',
 			'activity_action_id' => 'Activity Action',
-			'start_time' => 'Start Time',
-			'end_time' => 'End Time',
-			'meeting_id' => 'Meeting',
-			'window_uid' => 'Window Uid',
+			'start_time'         => 'Start Time',
+			'end_time'           => 'End Time',
+			'meeting_id'         => 'Meeting',
+			'window_uid'         => 'Window Uid',
 		);
 	}
 

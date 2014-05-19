@@ -24,13 +24,13 @@
  */
 class ActivityAction extends CActiveRecord
 {
-    const LEG_TYPE_WINDOW = 'Window';
-    const LEG_TYPE_INBOX = 'Inbox_leg';
-    const LEG_TYPE_OUTBOX = 'Outbox_leg';
-    const LEG_TYPE_DOCUMENTS = 'Documents_leg';
+    const LEG_TYPE_WINDOW      = 'Window';
+    const LEG_TYPE_INBOX       = 'Inbox_leg';
+    const LEG_TYPE_OUTBOX      = 'Outbox_leg';
+    const LEG_TYPE_DOCUMENTS   = 'Documents_leg';
     const LEG_TYPE_MANUAL_DIAL = 'Manual_dial_leg';
     const LEG_TYPE_SYSTEM_DIAL = 'System_dial_leg';
-    const LEG_TYPE_MEETING = 'Meeting';
+    const LEG_TYPE_MEETING     = 'Meeting';
 
     public function isPlan()
     {

@@ -1,0 +1,135 @@
+
+.width-1024 nav ul li.menu-item span,
+.width-1024 nav ul li.menu-item a {
+    margin: 0 0 0 0px;
+    padding: 5px 7px 3px 7px;
+}
+
+.width-1024 header nav ul li.menu-item .profile-icon {
+    padding-left: 34px;
+}
+
+.width-1024 header nav ul li.menu-item .icon-profile-personal,
+.width-1024 header nav ul li.menu-item .icon-profile-corporate {
+    background-position: 8px 5px;
+    background-size: 13px auto;
+}
+
+.width-1024 .copyright-box {
+    height: 23px;
+}
+
+.width-1024 .copyright-box span {
+    height: 23px;
+    line-height: 23px;
+}
+
+.width-1024 .share-buttons-box {
+    margin-right: 222px;
+}
+
+.width-1024 .copyright {
+    margin-left: 197px;
+}
+
+.width-1024 .icon-circle-with-blue-arrow {
+    background-position: 6px center;
+    padding-left: 25px;
+}
+
+.width-1024 header nav.account-links {
+    height: 41px;
+}
+
+.width-1024 header nav.account-links ul {
+    margin-top: 8px;
+    margin-right: 5px;
+}
+
+.width-1024 header nav.static-page-links {
+    height: 66px;
+}
+
+.width-1024 header nav.static-page-links ul {
+    margin-top: 20px;
+    margin-right: 5px;
+}
+
+.width-1024 footer nav.static-page-links {
+    height: 95px;
+}
+
+.width-1024 .footer-clear-fix {
+    height: 126px;
+}
+
+.width-1024 .logo-footer-link {
+    height: 38px;
+    width: 144px;
+}
+
+.width-1024 .link-to-top {
+    padding-top: 16px;
+}
+
+.width-1024 footer .footer-logo {
+    margin-top: 28px;
+}
+
+.width-1024 footer .static-page-links ul {
+    margin-top: 36px;
+}
+
+/* --- */
+
+.width-1024 .ui-dialog.popup-form textarea {
+    height: 110px;
+    width: 478px;
+}
+
+.width-1024 .ui-dialog.popup-form-wide textarea {
+    width: 515px;
+}
+
+.width-1024 .ui-dialog #feedback-form #Feedback_email {
+    margin-right: 16px;
+    padding-left: 16px;
+    padding-right: 16px;
+    width: 316px;
+}
+
+.width-1024 .ui-dialog #feedback-form #Feedback_message {
+    max-height: 110px;
+    min-height: 110px;
+    max-width: 488px;
+    min-width: 488px;
+}
+
+.width-1024 nav ul li.menu-item span.not-started-simulations {
+    height: 19px;
+    line-height: 19px;
+    padding-top: 0px;
+    top: -13px;
+    width: 6px;
+}
+
+.width-1024 #DeclineExplanation_description {
+    width: 505px;
+}
+
+.width-1024 header nav ul li.menu-item .log-out-link-separator {
+    height: 18px;
+    margin: 0 0px -5px 0;
+    padding: 0;
+}
+
+.width-1024 .us-remember-me-margin {
+    margin-top: 1px;
+}
+
+.width-1024.skiliks footer .us-button-registration {
+    padding-top: 11px;
+    padding-bottom: 10px;
+    margin-top: 30px;
+    margin-left: 80px;
+}

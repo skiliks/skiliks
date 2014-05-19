@@ -19,7 +19,18 @@ class SimulationController extends SimulationBaseController
 
         // check invite if it setted {
         $invite_id = Yii::app()->request->getParam('invite_id');
+        /* @var $invite Invite */
         $invite = Invite::model()->findByPk($invite_id);
+        if(null !== $invite) {
+            if((int)$invite->status === Invite::STATUS_PENDING){
+                $invite->status = Invite::STATUS_ACCEPTED;
+                $invite->save(false);
+            }
+            if(false === in_array((int)$invite->status, [Invite::STATUS_IN_PROGRESS,Invite::STATUS_ACCEPTED ])){
+                Yii::app()->user->setFlash('error', 'Статус вашего приглашения "'.strtolower(Invite::$statusTextRus[(int)$invite->status]).'", а начать симуляцию можно только в статусах "принято" или "в ожидании"');
+                $this->sendJSON(['redirect' => '/dashboard']);
+            }
+        }
 
         $scenarioName = null;
 
@@ -162,11 +173,11 @@ class SimulationController extends SimulationBaseController
         $user = $this->getSimulationEntity()->user;
 
         // protect against real user-cheater
-        if (false == $user->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)) {
+        /*if (false == $user->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)) {
             return [
                 'result' => 0
             ];
-        }
+        }*/
 
         try {
             $newHours = (int)Yii::app()->request->getParam('hour', 0);

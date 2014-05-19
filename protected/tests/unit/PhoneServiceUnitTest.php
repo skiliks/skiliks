@@ -5,6 +5,7 @@
  */
 class PhoneServiceUnitTest extends CDbTestCase
 {
+    use UnitTestBaseTrait;
 
     /**
      * Проверяет правильность имени персонажа при пропущеном звонке
@@ -12,29 +13,28 @@ class PhoneServiceUnitTest extends CDbTestCase
     public function testGetMissedCalls()
     {
         // init simulation
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
         $invite->scenario->slug = Scenario::TYPE_FULL;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 
+        $heroId = $simulation->game_type->getCharacter(['code' => Character::HERO_CODE])->primaryKey;
 
         // init test data {
         $toCharacter = Character::model()->find([
             'condition' => 'id NOT IN (:id) AND scenario_id = '.$simulation->scenario_id,
-            'params' => [
-                'id' => $simulation->game_type->getCharacter(['code' => Character::HERO_ID])->primaryKey
-            ]
+            'params'    => ['id' => $heroId]
         ]);
 
         $time = '11:00:00';
 
-        $phoneCallHistoryRecord = new PhoneCall();
-        $phoneCallHistoryRecord->sim_id = $simulation->id;
+        $phoneCallHistoryRecord            = new PhoneCall();
+        $phoneCallHistoryRecord->sim_id    = $simulation->id;
         $phoneCallHistoryRecord->call_type = PhoneCall::MISSED_CALL;
-        $phoneCallHistoryRecord->from_id = $toCharacter->id;
-        $phoneCallHistoryRecord->to_id = Character::HERO_ID;
+        $phoneCallHistoryRecord->from_id   = $toCharacter->id;
+        $phoneCallHistoryRecord->to_id     = $heroId;
         $phoneCallHistoryRecord->call_time = $time;
         $phoneCallHistoryRecord->save();
         // init test data }
@@ -62,7 +62,7 @@ class PhoneServiceUnitTest extends CDbTestCase
     public function testSetCallHistory()
     {
         // init simulation
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -129,7 +129,7 @@ class PhoneServiceUnitTest extends CDbTestCase
      */
     public function testOutgoingCall()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -142,16 +142,11 @@ class PhoneServiceUnitTest extends CDbTestCase
 
         $character = $simulation->game_type->getCharacter(['code' => $characterCode]);
 
-        $theme = CommunicationTheme::model()->findByAttributes([
-            'scenario_id'  => $simulation->scenario_id,
-            'text'         => 'Задача отдела логистики: статус',
-            'phone'        => 1,
-            'character_id' => $character->primaryKey
-        ]);
-
-        $this->assertInstanceOf('CommunicationTheme', $theme);
+        /** @var Theme $theme */
+        $theme = $simulation->game_type->getTheme(['text' => 'Задача отдела логистики: статус']);
 
         $result = PhoneService::call($simulation, $theme->id, $characterCode, $time);
+
         $this->assertEquals(1, $result['result']);
         $this->assertEquals(1, $result['events'][0]['result']);
         $this->assertEquals(3, $result['events'][0]['data'][0]['ch_from']);
@@ -165,31 +160,27 @@ class PhoneServiceUnitTest extends CDbTestCase
         $this->assertEquals(562, $result['events'][0]['data'][1]['excel_id']);
     }
 
+    /**
+     * Проверяет что нельзя 2 раза позвонить по однйо и той же теме
+     */
     public function testOnlyUniqueCall()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
         $invite->scenario->slug = Scenario::TYPE_FULL;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 
-
         $character = $simulation->game_type->getCharacter(['fio' => 'Денежная Р.Р.']);
         FlagsService::setFlag($simulation, 'F32', 1);
 
-        $theme_id = CommunicationTheme::model()
-            ->findByAttributes([
-                'scenario_id'  => $simulation->scenario_id,
-                'text' => 'Перенос сроков сдачи сводного бюджета',
-                'character_id' => $character->id,
-                'phone' => 1
-            ])->id;
+        $theme = $simulation->game_type->getTheme(['text' => 'Перенос сроков сдачи сводного бюджета']);
 
-        $data = PhoneService::call($simulation, $theme_id, $character->code, '10:00');
+        $data = PhoneService::call($simulation, $theme->id, $character->code, '10:00');
 
         $this->assertNotEquals([], $data['events']);
-        $data = PhoneService::call($simulation, $theme_id, $character->code, '10:10');
+        $data = PhoneService::call($simulation, $theme->id, $character->code, '10:10');
 
         $this->assertEquals(
             "already_call",
@@ -202,7 +193,7 @@ class PhoneServiceUnitTest extends CDbTestCase
      */
     public function testGetThemes()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;

@@ -42,7 +42,7 @@ $cs->registerCssFile($assetsUrl . "/css/static.css");
         <div class="grid-container">
             <div class="container-3 container">
                 <div class="grid1">
-                    <a href="/" class="brand-footer"><img src="<?php echo $assetsUrl?>/img/logo-footer-min.png" alt="Skiliks" title="Skiliks"/></a>
+                    <a href="/" class="brand-footer"><img src="<?php echo $assetsUrl?>/img/1280/logo-footer-min.png" alt="Skiliks" title="Skiliks"/></a>
                 </div>
                 <div class="grid2">
                     <nav class="menu-site menu-botm">

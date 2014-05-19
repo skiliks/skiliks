@@ -8,11 +8,12 @@ use application\components\Logging\LogTableList as LogTableList;
 class SimulationService
 {
     /**
+     * Сохранение оценок по почтовику
      * Save results of "work with emails"
      *
-     * @param integer $simId
+     * @param Simulation $simulation
      */
-    public static function saveEmailsAnalyze($simulation)
+    public static function saveEmailsAnalyze(Simulation $simulation)
     {
         // init emails in analyzer
         $emailAnalyzer = new EmailAnalyzer($simulation);
@@ -168,8 +169,9 @@ class SimulationService
     }
 
     /**
+     * Возвращает HeroBehavour в агрегированом виде
      * @param integer $simId
-     * @return array of BehaviourCounter
+     * @return array of HeroBehavour
      */
     public static function getAggregatedPoints($simId)
     {
@@ -200,6 +202,7 @@ class SimulationService
     }
 
     /**
+     * Схраняет Агрегиированные оценки для симуляции
      * @param integer $simId
      */
     public static function saveAggregatedPoints($simId)
@@ -235,9 +238,10 @@ class SimulationService
     }
 
     /**
+     *
      * @param integer $simId
      */
-    public static function copyMailInboxOutboxScoreToAssessmentAggregated($simId)
+    public static function copyScoreToAssessmentAggregated($simId)
     {
         // add mail inbox/outbox points
         foreach (AssessmentCalculation::model()->findAllByAttributes(['sim_id' => $simId]) as $emailBehaviour) {
@@ -309,11 +313,12 @@ class SimulationService
                     /** @var Replica $replica */
                     $replica = Replica::model()->findByPk($condition->replica_id);
 
-                    $satisfies = LogDialog::model()
-                        ->bySimulationId($simulation->id)
-                        ->byLastReplicaId($replica->excel_id)
-                        ->exists();
-
+                    $satisfies = LogDialog::model()->exists(
+                        ' sim_id = :sim_id AND last_id = :last_id ',
+                        [
+                            'sim_id'  => $simulation->id,
+                            'last_id' => $replica->excel_id
+                        ]);
                 } elseif ($condition->mail_id) {
                     /** @var MailBox $mail */
                     $mail = MailBox::model()->findByAttributes([
@@ -322,10 +327,12 @@ class SimulationService
                     ]);
 
                     $satisfies = $mail ?
-                        LogMail::model()
-                            ->bySimId($simulation->id)
-                            ->byMailBoxId($mail->id)
-                            ->exists() :
+                        LogMail::model()->exists(
+                            ' sim_id = :sim_id AND mail_id = :mail_id ',
+                            [
+                                'sim_id'  => $simulation->id,
+                                'mail_id' => $mail->id
+                            ]) :
                         false;
                 } elseif ($condition->excel_formula_id) {
 
@@ -358,6 +365,9 @@ class SimulationService
         }
     }
 
+    /**
+     * @param Simulation $simulation
+     */
     public static function calculatePerformanceRate(Simulation $simulation)
     {
         $is40or41ruleUsed = false;
@@ -438,11 +448,13 @@ class SimulationService
                 ]);
 
                 $satisfies = $mail ?
-                    LogMail::model()
-                        ->bySimId($simulation->id)
-                        ->byMailBoxId($mail->id)
-                        ->exists() :
-                    false;
+                    LogMail::model()->exists(
+                        ' sim_id = :sim_id AND mail_id = :mail_id ',
+                        [
+                            'sim_id'  => $simulation->id,
+                            'mail_id' => $mail->id
+                        ]
+                    ) : false;
             }
 
             if (!empty($satisfies)) {
@@ -464,12 +476,13 @@ class SimulationService
     public static function initEventTriggers($simulation)
     {
         $events = EventSample::model()
-            ->byNotDocumentCode()
-            ->byNotPlanTaskCode()
-            ->byNotSentTodayEmailCode()
-            ->byNotSentYesterdayEmailCode()
-            ->byNotTerminatorCode()
-            ->findAllByAttributes(['scenario_id' => $simulation->game_type->getPrimaryKey()]);
+            ->findAll(
+                "code NOT LIKE 'D%' AND code NOT LIKE 'P%' AND code NOT LIKE 'MS%' AND code NOT LIKE 'MY%'".
+                " AND code != 'T' AND scenario_id = :scenario_id ",
+                [
+                    'scenario_id' => $simulation->game_type->getPrimaryKey()
+                ]
+            );
 
         if (count($events) > 0) {
             $sql = [];
@@ -552,7 +565,8 @@ class SimulationService
         $simulation->mode = Simulation::MODE_DEVELOPER_LABEL === $simulationMode ? Simulation::MODE_DEVELOPER_ID : Simulation::MODE_PROMO_ID;
         $simulation->scenario_id = Scenario::model()->findByAttributes(['slug' => $scenarioType])->primaryKey;
         $simulation->status = Simulation::STATUS_IN_PROGRESS;
-        $simulation->save();
+        $simulation->ipv4 = isset($_SERVER['REMOTE_ADDR'])?$_SERVER['REMOTE_ADDR']:null;
+        $simulation->save(false);
         $_POST['simId'] = $simulation->id;
         // save simulation ID to user session
         Yii::app()->session['simulation'] = $simulation->id;
@@ -656,6 +670,7 @@ class SimulationService
             if (null !== $simulation->invite && $simulation->isTutorial() === false) {
                 $invite_status = $simulation->invite->status;
                 $simulation->invite->status = Invite::STATUS_COMPLETED;
+                $simulation->invite->updated_at = (new DateTime('now', new DateTimeZone('Europe/Moscow')))->format("Y-m-d H:i:s");
                 $simulation->invite->save(false);
                 InviteService::logAboutInviteStatus($simulation->invite, "При завершении симуляции статус инвайта изменился с ".Invite::getStatusNameByCode($invite_status)." на ".Invite::getStatusNameByCode($simulation->invite->status));
             }
@@ -732,7 +747,7 @@ class SimulationService
 
                 // @todo: this is trick
                 // write all mail outbox/inbox scores to AssessmentAggregate directly
-                SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
+                SimulationService::copyScoreToAssessmentAggregated($simulation->id);
 
                 $learningGoalAnalyzer = new LearningGoalAnalyzer($simulation);
                 $learningGoalAnalyzer->run();
@@ -746,6 +761,8 @@ class SimulationService
                 $simulation->saveLogsAsExcel();
 
                 $simulation->calculatePercentile();
+
+                self::saveBehavioursCache($simulation);
 
                 self::logAboutSim($simulation, sprintf(
                     'sim stop: assessment calculated. Overall: %s, Percentile  %s.',
@@ -779,9 +796,7 @@ class SimulationService
                 if ('D1' !== $document->template->code && file_exists($document->getFilePath())) {
                     unlink($document->getFilePath());
                 }
-
                 // remove all files except D1 }
-
             }
 
             EventTrigger::model()->deleteAllByAttributes(['sim_id' => $simulation->id]);
@@ -790,18 +805,25 @@ class SimulationService
             $simulation->status = Simulation::STATUS_COMPLETE;
             $simulation->save(false);
             $simulation->refresh();
-            $simulation->getAssessmentDetails();
             $assessment_engine_version = Yii::app()->params['assessment_engine_version'];
             $simulation->results_popup_partials_path = '//simulation_details_popup/'.$assessment_engine_version;
             $simulation->assessment_version = $assessment_engine_version;
+            $simulation->getAssessmentDetails();
+            $simulation->save(false);
+
+            $simulation->popup_tests_cache = serialize([
+                'popup' => SimulationResultTextService::generate($simulation, 'popup'),
+                'recommendation' => SimulationResultTextService::generate($simulation, 'recommendation', true)
+            ]);
             $simulation->save(false);
 
     }
 
     /**
+     * Пауза симуляции
      * @param Simulation $simulation
      */
-    public static function pause($simulation)
+    public static function pause(Simulation $simulation)
     {
         if (empty($simulation->paused)) {
             $simulation->paused = GameTime::setNowDateTime();
@@ -809,18 +831,24 @@ class SimulationService
         }
     }
 
+
     /**
-     * @param Simulation $simulation
+     * Обновлении симуляции
+     * @param $simulation
+     * @param $skipped
      */
-    public static function update($simulation, $skipped)
+    public static function update(Simulation $simulation, $skipped)
     {
         $simulation->skipped = $simulation->skipped + $skipped;
         $simulation->paused = null;
         $simulation->save();
     }
 
+
     /**
-     * @param Simulation $simulation
+     * Обновлении времени после паузы
+     * @param $simulation
+     * @param bool $ignoreTimeShift
      */
     public static function resume($simulation, $ignoreTimeShift = false)
     {
@@ -864,6 +892,7 @@ class SimulationService
     }
 
     /**
+     * Расчет AssessmentAggregated 7141
      * @param $simulation
      */
     public static function stressResistance($simulation) {
@@ -896,7 +925,8 @@ class SimulationService
     }
 
     /**
-     * @param $simId
+     * Пересчет оценки
+     * @param $simId ид симуляции
      * @param $email
      * @throws Exception
      */
@@ -918,8 +948,8 @@ class SimulationService
         }
 
         LogActivityAction::model()->deleteAllByAttributes(['sim_id' => $simId]);
-        LogActivityActionAgregated::model()->deleteAllByAttributes(['sim_id' => $simId]);
-        LogActivityActionAgregated214d::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        LogActivityActionAggregated::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        LogActivityActionAggregated214d::model()->deleteAllByAttributes(['sim_id' => $simId]);
         TimeManagementAggregated::model()->deleteAllByAttributes(['sim_id' => $simId]);
         AssessmentCalculation::model()->deleteAllByAttributes(['sim_id' => $simId]);
         DayPlanLog::model()->deleteAllByAttributes(['sim_id' => $simId, 'snapshot_time' => DayPlanLog::ON_18_00]);
@@ -1014,6 +1044,7 @@ class SimulationService
      *
      * @param YumUser $user
      * @param Simulation $simulation
+     * @param int $simId
      * @return bool
      */
     public static function removeSimulationData($user, $simulation, $simId = null)
@@ -1063,10 +1094,9 @@ class SimulationService
         TimeManagementAggregated::model()->deleteAllByAttributes(['sim_id' => $simId]);
 
         LogActivityAction::model()->deleteAllByAttributes(['sim_id' => $simId]);
-        LogActivityActionAgregated::model()->deleteAllByAttributes(['sim_id' => $simId]);
-        LogActivityActionAgregated214d::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        LogActivityActionAggregated::model()->deleteAllByAttributes(['sim_id' => $simId]);
+        LogActivityActionAggregated214d::model()->deleteAllByAttributes(['sim_id' => $simId]);
         LogAssessment214g::model()->deleteAllByAttributes(['sim_id' => $simId]);
-        LogCommunicationThemeUsage::model()->deleteAllByAttributes(['sim_id' => $simId]);
         LogDialog::model()->deleteAllByAttributes(['sim_id' => $simId]);
         LogDocument::model()->deleteAllByAttributes(['sim_id' => $simId]);
         LogIncomingCallSoundSwitcher::model()->deleteAllByAttributes(['sim_id' => $simId]);
@@ -1087,6 +1117,11 @@ class SimulationService
         $simulation->delete();
     }
 
+    /**
+     * Сохранение логов для Антона
+     * @param array $simulations
+     * @return bool
+     */
     public static function saveLogsAsExcelReport1($simulations = array()) {
         if(!empty($simulations)) {
             $logTableList = new LogTableList();
@@ -1101,6 +1136,12 @@ class SimulationService
         }
     }
 
+    /**
+     * Сохранение аналитического файла
+     * @param array $simulations
+     * @param array $account
+     * @return null|string
+     */
     public static function saveLogsAsExcelReport2($simulations = array(), $account = null) {
         if(!empty($simulations)) {
             $logTableList = new LogTableList();
@@ -1125,10 +1166,22 @@ class SimulationService
         return null;
     }
 
+    /**
+     * Путь к аналитическому файлу
+     * @param $user_id
+     * @param $assessment_version
+     * @return string
+     */
     public static function createPathForAnalyticsFile($user_id, $assessment_version) {
         return __DIR__.'/../system_data/analytic_files_2/'.$user_id.'_'.$assessment_version.'.xlsx';
     }
 
+    /**
+     * Сохранение файла с оценками(аналитический)
+     * @param UserAccountCorporate $account
+     * @param $assessment_version
+     * @return null|string
+     */
     public static function saveLogsAsExcelReport2ForCorporateUser(UserAccountCorporate $account, $assessment_version) {
         $invites = Invite::model()->findAllByAttributes(['owner_id'=>$account->user_id]);
         $simulations = [];
@@ -1148,15 +1201,66 @@ class SimulationService
         return self::saveLogsAsExcelReport2($simulations, $account);
     }
 
+    /**
+     * Возвращает список всех персонажей игры
+     * с характеристиками необходимыми для:
+     * - написания писем
+     * - построения списка контактов для исходящих звонков
+     * - подписывания писем
+     * - полписывания истории в телефоне
+     *
+     * @param Simulation $simulation
+     *
+     * @return string[]
+     */
+    public static function getCharactersList(Simulation $simulation)
+    {
+        $characters = $simulation->game_type->getCharacters([]);
+
+        $list = [];
+
+        foreach ($characters as $character) {
+            $characterData = $character->getAttributes([
+                'id', 'title', 'fio', 'email', 'code', 'phone',
+            ]);
+
+            // этот метод вызывается 1 раз за игру, поэтому проще поместить запросы в базк сюда,
+            // чем наращивать колонки в БД
+
+            if (Scenario::TYPE_FULL == $simulation->game_type->slug) {
+                // has_mail_theme отвечает за список людей при написании НОВОГО письма
+                // любые re и fwd нам тут не нужны
+                $characterData['has_mail_theme'] = (int) (0 < OutboxMailTheme::model()->countByAttributes([
+                    'mail_prefix'     => null,
+                    'character_to_id' => $characterData['id'],
+                    'scenario_id'     => $simulation->game_type->id,
+                ]));
+            } else {
+                $characterData['has_mail_theme'] = 0;
+            }
+
+
+            $list[] = $characterData;
+        }
+
+        return $list;
+
+    }
+
     public static function saveAssessmentPDFFilesOnDisk(Simulation $simulation){
 
-        //$simulation = Simulation::model()->findByPk('10264');
-        $path = __DIR__."/../system_data/prb_bank/pdf_slices/".$simulation->id;
+        $folderName = ucfirst(StringTools::CyToEn($simulation->user->profile->lastname)).'_'.ucfirst(StringTools::CyToEn($simulation->user->profile->firstname));
+
+        $path = __DIR__."/../system_data/prb_bank/pdf_slices/".$folderName;
+        $path = str_replace(' ', '', $path);
         $data = json_decode($simulation->getAssessmentDetails(), true);
         if(!is_dir($path)){
             mkdir($path);
         }
         $path.= '/';
+
+        // ------------------------------------------
+
         $pdf = new AssessmentPDF();
         $pdf->setImagesDir('simulation_details_v2_for_bank/images/');
         // 1. Спидометры и прочее
@@ -1166,7 +1270,14 @@ class SimulationService
         $pdf->addSpeedometer(78.4, 58.5, $data['performance']['total']);
         $pdf->addSpeedometer(147.3, 58.5, $data['management']['total']);
 
-        $pdf->saveOnDisk($path.'bank_1');
+        $pdf->saveOnDisk(sprintf(
+            '%sp1_%s_%s_overall',
+            $path,
+            $simulation->id,
+            ucfirst(StringTools::CyToEn($simulation->user->profile->lastname))
+        ));
+
+        // ---------------------------------------
 
         $pdf = new AssessmentPDF();
         $pdf->setImagesDir('simulation_details_v2_for_bank/images/');
@@ -1182,9 +1293,17 @@ class SimulationService
         );
         $pdf->addOvertime(145.2, 63.8, $data['time']['workday_overhead_duration']);
 
-        $pdf->saveOnDisk($path.'bank_2');
+        $pdf->saveOnDisk(sprintf(
+            '%sp2_%s_%s_time',
+            $path,
+            $simulation->id,
+            ucfirst(StringTools::CyToEn($simulation->user->profile->lastname))
+        ));
+
+        // ---------------------------------------
 
         $pdf = new AssessmentPDF();
+        $pdf->pdf->SetMargins(0,0,0, true);
         $pdf->setImagesDir('simulation_details_v2_for_bank/images/');
         $pdf->setEpsSize(204, 110);
         $pdf->addSinglePage('bank_3', 0, 0, 204, 110);
@@ -1197,8 +1316,11 @@ class SimulationService
             23.5
         ); //Продуктивное время
 
-
-        $pdf->addPercentMiddleInfo($data['time'][TimeManagementAggregated::SLUG_GLOBAL_TIME_SPEND_FOR_NON_PRIORITY_ACTIVITIES], 183.5, 23.5);//Не продуктивное время
+        $pdf->addPercentMiddleInfo(
+            $data['time'][TimeManagementAggregated::SLUG_GLOBAL_TIME_SPEND_FOR_NON_PRIORITY_ACTIVITIES],
+            182.5,
+            23.5
+        );//Не продуктивное время
 
         //Positive
         $x_positive = 31;
@@ -1238,28 +1360,43 @@ class SimulationService
         //План
         $pdf->addTimeBarUnproductive($y_positive, 87, $data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_PLANING], $max_negative);
 
+        $pdf->saveOnDisk(sprintf(
+            '%sp3_%s_%s_time_detail',
+            $path,
+            $simulation->id,
+            ucfirst(StringTools::CyToEn($simulation->user->profile->lastname))
+        ));
 
-        $pdf->saveOnDisk($path.'bank_3');
+        return;
 
-        $pdf = new AssessmentPDF();
-        $pdf->setImagesDir('simulation_details_v2_for_bank/images/');
-        $pdf->setEpsSize(164, 202);
-        $pdf->addSinglePage('bank_4', 0, 0, 177, 206);
-        $pdf->addPercentSmallInfo($data['performance']['total'], 46, 11);
+        // ---------------------------------------
 
-        //Срочно
-        $pdf->addUniversalBar(45.5, 30.8, $pdf->getPerformanceCategory($data['performance'], '0'), 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);
+//        $pdf = new AssessmentPDF();
+//        $pdf->setImagesDir('simulation_details_v2_for_bank/images/');
+//        $pdf->setEpsSize(164, 202);
+//        $pdf->addSinglePage('bank_4', 0, 0, 177, 206);
+//        $pdf->addPercentSmallInfo($data['performance']['total'], 46, 11);
+//
+//        //Срочно
+//        $pdf->addUniversalBar(45.5, 30.8, $pdf->getPerformanceCategory($data['performance'], '0'), 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);
+//
+//        //Высокий приоритет
+//        $pdf->addUniversalBar(45.5, 41.3, $pdf->getPerformanceCategory($data['performance'], '1'), 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);
+//
+//        //Средний приоритет
+//        $pdf->addUniversalBar(45.5, 51.9, $pdf->getPerformanceCategory($data['performance'], '2'), 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);
+//
+//        //Двухминутные задачи
+//        $pdf->addUniversalBar(45.5, 62.5, $pdf->getPerformanceCategory($data['performance'], '2_min'), 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);
+//
+//        $pdf->saveOnDisk(sprintf(
+//            '%sp4_1_%s_%s_productivity',
+//            $path,
+//            $simulation->id,
+//            ucfirst(StringTools::CyToEn($simulation->user->profile->lastname))
+//        ));
 
-        //Высокий приоритет
-        $pdf->addUniversalBar(45.5, 41.3, $pdf->getPerformanceCategory($data['performance'], '1'), 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);
-
-        //Средний приоритет
-        $pdf->addUniversalBar(45.5, 51.9, $pdf->getPerformanceCategory($data['performance'], '2'), 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);
-
-        //Двухминутные задачи
-        $pdf->addUniversalBar(45.5, 62.5, $pdf->getPerformanceCategory($data['performance'], '2_min'), 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);
-
-        $pdf->saveOnDisk($path.'bank_4');
+        // ---------------------------------------
 
         $pdf = new AssessmentPDF();
         $pdf->setImagesDir('simulation_details_v2_for_bank/images/');
@@ -1273,7 +1410,14 @@ class SimulationService
         $pdf->addUniversalBar(61, 43.3, $data['management'][3]['total'], 128.7, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);//3
 
 
-        $pdf->saveOnDisk($path.'bank_5');
+        $pdf->saveOnDisk(sprintf(
+            '%sp5_%s_%s_skills_overall',
+            $path,
+            $simulation->id,
+            ucfirst(StringTools::CyToEn($simulation->user->profile->lastname))
+        ));
+
+        // ---------------------------------------
 
         $pdf = new AssessmentPDF();
         $pdf->setImagesDir('simulation_details_v2_for_bank/images/');
@@ -1291,7 +1435,14 @@ class SimulationService
         $pdf->addUniversalBar(150, 47.5, $data['management'][1]['1_3']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//1.3 negative
         $pdf->addUniversalBar(150, 57.5, $data['management'][1]['1_4']['-'], 54.14, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_NEGATIVE);//1.4 negative
 
-        $pdf->saveOnDisk($path.'bank_6');
+        $pdf->saveOnDisk(sprintf(
+            '%sp6_%s_%s_skills_planing',
+            $path,
+            $simulation->id,
+            ucfirst(StringTools::CyToEn($simulation->user->profile->lastname))
+        ));
+
+        // ---------------------------------------
 
         $pdf = new AssessmentPDF();
         $pdf->setImagesDir('simulation_details_v2_for_bank/images/');
@@ -1308,7 +1459,14 @@ class SimulationService
         $pdf->addUniversalBar(150, 38, $data['management'][2]['2_2']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//2.2 negative
         $pdf->addUniversalBar(150, 48, $data['management'][2]['2_3']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//2.3 negative
 
-        $pdf->saveOnDisk($path.'bank_7');
+        $pdf->saveOnDisk(sprintf(
+            '%sp7_%s_%s_skills_delegation',
+            $path,
+            $simulation->id,
+            ucfirst(StringTools::CyToEn($simulation->user->profile->lastname))
+        ));
+
+        // ---------------------------------------
 
         $pdf = new AssessmentPDF();
         $pdf->setImagesDir('simulation_details_v2_for_bank/images/');
@@ -1327,7 +1485,14 @@ class SimulationService
         $pdf->addUniversalBar(150, 48, $data['management'][3]['3_3']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//3.3 negative
         $pdf->addUniversalBar(150, 58, $data['management'][3]['3_4']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//3.4 negative
 
-        $pdf->saveOnDisk($path.'bank_8');
+        $pdf->saveOnDisk(sprintf(
+            '%sp8_%s_%s_skills_communication',
+            $path,
+            $simulation->id,
+            ucfirst(StringTools::CyToEn($simulation->user->profile->lastname))
+        ));
+
+        // ---------------------------------------
 
         $pdf = new AssessmentPDF();
         $pdf->setImagesDir('simulation_details_v2_for_bank/images/');
@@ -1347,6 +1512,86 @@ class SimulationService
         //Двухминутные задачи
         $pdf->addUniversalBar(47, 63.9, $pdf->getPerformanceCategory($data['performance'], '2_min'), 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);
 
-        $pdf->saveOnDisk($path.'bank_9');
+        $pdf->saveOnDisk(sprintf(
+            '%sp4_%s_%s_productivity',
+            $path,
+            $simulation->id,
+            ucfirst(StringTools::CyToEn($simulation->user->profile->lastname))
+        ));
+    }
+
+    public static function getFileNameForAnalyticalFile(YumUser $user){
+        $latinCompanyOwnership = StringTools::CyToEnWithUppercase($user->getAccount()->ownership_type);
+        $latinCompanyName = StringTools::CyToEnWithUppercase($user->getAccount()->company_name);
+
+        $latinCompanyOwnership = preg_replace("/[^a-zA-Z0-9]/", "", $latinCompanyOwnership);
+        $latinCompanyName = preg_replace("/[^a-zA-Z0-9]/", "", $latinCompanyName);
+
+        $zipFilename = 'analitics_' . date('dmy');
+        // формируем имя для файла-архива }
+
+        // добавляем имя компании к имени файла спереди, но только если имя компании не пустое
+        if ('' != $latinCompanyName) {
+            $zipFilename = $latinCompanyName . '_' . $zipFilename;
+        }
+        if ('' != $latinCompanyOwnership) {
+            $zipFilename = $latinCompanyOwnership . '_' . $zipFilename;
+        }
+        return $zipFilename;
+    }
+
+    /**
+     * Выбирает из базы все данные по симуляции, которые необходимо занести в кеш
+     * и сохраняет их в оговореном формате (серилизованными) в симуляцию.
+     *
+     * @param Simulation $simulation
+     */
+    public static function saveBehavioursCache(Simulation $simulation)
+    {
+        $cache = [];
+        $behaviours = AssessmentAggregated::model()->findAllByAttributes(['sim_id'=>$simulation->id]);
+        /* @var $behaviours AssessmentAggregated[] */
+        foreach($behaviours as $behaviour) {
+            if($behaviour->point !== null) {
+                $cache[$behaviour->point->code] = $behaviour->value;
+            }
+        }
+
+        $points = $simulation->game_type->getHeroBehavours([]);
+        /* @var $points HeroBehaviour[] */
+        foreach($points as $point) {
+            if(!isset($cache[$point->code])) {
+                $cache[$point->code] = 0;
+            }
+        }
+
+        $simulation->behaviours_cache = serialize($cache);
+        $simulation->save(false);
+    }
+
+    /**
+     * Генерирует текстовый кеш для Рекоммендаций по зарвитию менеджерских навыков (ИПР)
+     * Для всех завершенных симуляций, пройденных после 1 августа 2013
+     */
+    public static function generateBehavioursCache()
+    {
+        ini_set('memory_limit', '-1');
+        ini_set('max_execution_time', '180');
+
+        $scenario = Scenario::model()->findByAttributes(['slug'=>Scenario::TYPE_FULL]);
+
+        /* @var Simulation[] $simulations */
+        $simulations = Simulation::model()->findAll(
+            "scenario_id = :scenario_id and results_popup_cache is not null and end >= '2013-08-01 00:00:00'",
+            [
+                'scenario_id' => $scenario->id
+            ]
+        );
+        $count = count($simulations);
+
+        foreach($simulations as $simulation) {
+            SimulationService::saveBehavioursCache($simulation);
+            $count--;
+        }
     }
 }

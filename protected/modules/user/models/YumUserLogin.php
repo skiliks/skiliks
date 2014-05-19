@@ -39,6 +39,8 @@ class YumUserLogin extends YumFormModel {
 
     public function beforeValidate() {
         $this->username = trim($this->username);
+        $this->rememberMe = (bool)$this->rememberMe;
+
         return true;
     }
 
@@ -60,6 +62,15 @@ class YumUserLogin extends YumFormModel {
             if(null !== $this->user) {
                 if($this->user->is_password_bruteforce_detected === YumUser::IS_PASSWORD_BRUTEFORCE_DETECTED){
                     $this->addError('username', Yum::t('Неправильный логин или пароль'));
+                    return false;
+                }
+                $existProfile = YumProfile::model()->findByAttributes([
+                    'email' => strtolower($this->username)
+                ]);
+
+                if ($existProfile !== NULL && false == $existProfile->user->isActive() && false == $existProfile->user->isBanned()) {
+                    $this->addError('not_activated', Yii::t('site',  'Email already exists, but not activated.')
+                    . CHtml::link(Yii::t('site','Send activation again'),'/activation/resend/' . $existProfile->id));
                     return false;
                 }
                 if(YumEncrypt::encrypt($this->password, $this->user->salt) === $this->user->password){

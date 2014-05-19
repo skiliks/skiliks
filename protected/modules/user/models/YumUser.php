@@ -35,32 +35,94 @@
  */
 class YumUser extends YumActiveRecord
 {
+    use PasswordValidationTrait;
+
+    /**
+     *
+     */
     const STATUS_INACTIVE = 0;
+    /**
+     *
+     */
     const STATUS_ACTIVE = 1;
+    /**
+     *
+     */
     const STATUS_BANNED = -1;
+    /**
+     *
+     */
     const STATUS_REMOVED = -2;
 
+    /**
+     *
+     */
     const CHECK = 1;
+    /**
+     *
+     */
     const NOT_CHECK = 0;
+    /**
+     *
+     */
     const ACCOUNT_TYPE_PERSONAL  = 'Personal';
+    /**
+     *
+     */
     const ACCOUNT_TYPE_CORPORATE = 'Corporate';
+    /**
+     *
+     */
     const AGREEMENT_MADE = 'yes';
 
+    /**
+     *
+     */
     const IS_ADMIN = '1';
 
+    /**
+     *
+     */
     const IS_PASSWORD_BRUTEFORCE_DETECTED = '1';
 
+    /**
+     *
+     */
     const IS_NOT_PASSWORD_BRUTEFORCE = '0';
 
+    /**
+     *
+     */
     const PASSWORD_BRUTEFORCE_IT_IS_ME = 'it_is_me';
 
+    /**
+     *
+     */
     const PASSWORD_BRUTEFORCE_IT_IS_NOT_ME = 'it_is_not_me';
 
+    /**
+     * @var
+     */
     public $username;
+    /**
+     * @var
+     */
     public $password;
+    /**
+     * @var
+     */
     public $password_again; // for registration form only
+    /**
+     * @var
+     */
     public $salt;
+    /**
+     * @var
+     */
     public $activationKey;
+    /**
+     * @var bool
+     */
     public $password_changed = false;
     // ------------------------------------------------------------------------------------------------------------
 
@@ -102,6 +164,9 @@ class YumUser extends YumActiveRecord
         }
     }
 
+    /**
+     * @return null|string
+     */
     public function getAccountType() {
         if (null !== $this->account_personal) {
             return self::ACCOUNT_TYPE_PERSONAL;
@@ -130,6 +195,9 @@ class YumUser extends YumActiveRecord
         return $this->status == YumUser::STATUS_ACTIVE;
     }
 
+    /**
+     * @return bool
+     */
     public function isBanned()
     {
         return $this->status == YumUser::STATUS_BANNED;
@@ -162,21 +230,9 @@ class YumUser extends YumActiveRecord
     }
 
     /**
-     * @return integer
+     * @return string
+     * @throws Exception
      */
-    public function getInvitesLeft() {
-        if($this->isCorporate()) {
-            if(strtotime($this->account_corporate->tariff_expired_at) > time()) {
-                return $this->account_corporate->getTotalAvailableInvitesLimit();
-            }
-            else {
-                return $this->account_corporate->referrals_invite_limit;
-            }
-        }
-        return 0;
-    }
-
-
     public function getAccountName() {
         if($this->isPersonal()){
             return 'персональный';
@@ -189,6 +245,9 @@ class YumUser extends YumActiveRecord
         }
     }
 
+    /**
+     * @return bool
+     */
     public function isAdmin() {
         return $this->is_admin === self::IS_ADMIN?true:false;
     }
@@ -230,6 +289,9 @@ class YumUser extends YumActiveRecord
 
     // ------------------------------------------------------------------------------------------------------------
 
+    /**
+     * @return array
+     */
     public function behaviors()
     {
         return array(
@@ -237,11 +299,18 @@ class YumUser extends YumActiveRecord
                 'class' => 'application.modules.user.components.CAdvancedArBehavior'));
     }
 
+    /**
+     * @param string $className
+     * @return CActiveRecord
+     */
     public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }
 
+    /**
+     * @return bool
+     */
     public function delete()
     {
         if (Yum::module()->trulyDelete) {
@@ -254,6 +323,9 @@ class YumUser extends YumActiveRecord
         }
     }
 
+    /**
+     *
+     */
     public function afterDelete()
     {
         if (Yum::hasModule('profiles') && $this->profile !== null)
@@ -265,6 +337,9 @@ class YumUser extends YumActiveRecord
         return parent::afterDelete();
     }
 
+    /**
+     * @return bool
+     */
     public function isOnline()
     {
         return $this->lastaction > time() - Yum::module()->offlineIndicationTime;
@@ -272,6 +347,9 @@ class YumUser extends YumActiveRecord
 
     // If Online status is enabled, we need to set the timestamp of the
     // last action when a user does something
+    /**
+     * @return bool
+     */
     public function setLastAction()
     {
         if (!Yii::app()->user->isGuest && !$this->isNewRecord) {
@@ -280,6 +358,9 @@ class YumUser extends YumActiveRecord
         }
     }
 
+    /**
+     * @return mixed
+     */
     public function getLogins()
     {
         $sql = "select count(*) from activities where user_id = {$this->id} and action = 'login'";
@@ -287,6 +368,9 @@ class YumUser extends YumActiveRecord
         return $result[0]['count(*)'];
     }
 
+    /**
+     *
+     */
     public function logout()
     {
         if (Yum::module()->enableOnlineStatus && !Yii::app()->user->isGuest) {
@@ -297,6 +381,9 @@ class YumUser extends YumActiveRecord
 
 
     // This function tries to generate a as human-readable password as possible
+    /**
+     * @return string
+     */
     public static function generatePassword()
     {
         $consonants = array("b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "r", "s", "t", "v", "w", "x", "y", "z");
@@ -315,6 +402,9 @@ class YumUser extends YumActiveRecord
     }
 
     // Which memberships are bought by the user
+    /**
+     * @return array
+     */
     public function getActiveMemberships()
     {
         if (!Yum::hasModule('membership'))
@@ -334,6 +424,9 @@ class YumUser extends YumActiveRecord
         return $roles;
     }
 
+    /**
+     * @return CActiveDataProvider
+     */
     public function search()
     {
         $criteria = new CDbCriteria;
@@ -364,6 +457,9 @@ class YumUser extends YumActiveRecord
         ));
     }
 
+    /**
+     * @return bool
+     */
     public function beforeValidate()
     {
         if ($this->isNewRecord) {
@@ -378,6 +474,11 @@ class YumUser extends YumActiveRecord
         return true;
     }
 
+    /**
+     * @param $password
+     * @param null $salt
+     * @return $this
+     */
     public function setPassword($password, $salt = null)
     {
         if ($password) {
@@ -402,6 +503,9 @@ class YumUser extends YumActiveRecord
         }
     }
 
+    /**
+     *
+     */
     public function afterSave()
     {
         if (Yum::hasModule('profile') && Yum::module('profile')->enablePrivacySetting) {
@@ -438,6 +542,9 @@ class YumUser extends YumActiveRecord
         return $this->_tableName;
     }
 
+    /**
+     * @return array
+     */
     public function rules()
     {
         $usernameRequirements = Yum::module()->usernameRequirements;
@@ -501,29 +608,15 @@ class YumUser extends YumActiveRecord
         }
 
 
-
+        $rules[] = array('password',  'length', 'max' => 50);
+        $rules[] = array('password',  'isJustPassword', 'on' => array('insert', 'registration'));
         return $rules;
     }
 
     /**
-     * @param string $attribute, attribute name
-     * @param mixed array $params
+     * @param $role_title
+     * @return bool
      */
-    public function passwordCyrillicStringMin($attribute, $params)
-    {
-        $strLength = iconv_strlen($this->$attribute, 'UTF-8');
-
-        if($strLength < $params['limit']) {
-            $this->addError(
-                $attribute,
-                sprintf(
-                    Yii::t('site', 'Type %s symbols at least.'),
-                    $params['limit']
-                )
-            );
-        }
-    }
-
     public function hasRole($role_title)
     {
         if (!Yum::hasModule('role'))
@@ -547,6 +640,9 @@ class YumUser extends YumActiveRecord
         return false;
     }
 
+    /**
+     * @return string
+     */
     public function getRoles()
     {
         if (Yum::hasModule('role')) {
@@ -565,6 +661,9 @@ class YumUser extends YumActiveRecord
     // 1.) All direct given permissions ($this->permissions)
     // 2.) All direct given permissions to a role the user belongs
     // 3.) All active memberships
+    /**
+     * @return array
+     */
     public function getPermissions()
     {
         if (!Yum::hasModule('role') || !$this->id)
@@ -593,6 +692,10 @@ class YumUser extends YumActiveRecord
         return $permissions;
     }
 
+    /**
+     * @param $action
+     * @return bool
+     */
     public function can($action)
     {
         foreach ($this->getPermissions() as $permission)
@@ -604,6 +707,9 @@ class YumUser extends YumActiveRecord
 
     // possible relations are cached because they depend on the active submodules
     // and it takes many expensive milliseconds to evaluate them all the time
+    /**
+     * @return array|mixed
+     */
     public function relations()
     {
         Yii::import('application.modules.profile.models.*');
@@ -681,6 +787,10 @@ class YumUser extends YumActiveRecord
         return $relations;
     }
 
+    /**
+     * @param $invited_id
+     * @return bool
+     */
     public function isFriendOf($invited_id)
     {
         foreach ($this->getFriendships() as $friendship) {
@@ -691,6 +801,9 @@ class YumUser extends YumActiveRecord
         return false;
     }
 
+    /**
+     * @return array|CActiveRecord|mixed|null
+     */
     public function getFriendships()
     {
         $condition = 'inviter_id = :uid or friend_id = :uid';
@@ -700,6 +813,10 @@ class YumUser extends YumActiveRecord
     // Friends can not be retrieve via the relations() method because a friend
     // can either be in the invited_id or in the friend_id column.
     // set $everything to true to also return pending and rejected friendships
+    /**
+     * @param bool $everything
+     * @return array
+     */
     public function getFriends($everything = false)
     {
         if ($everything)
@@ -738,6 +855,13 @@ class YumUser extends YumActiveRecord
     }
 
     // Registers a user
+    /**
+     * @param null $username
+     * @param null $password
+     * @param null $profile
+     * @param null $salt
+     * @return $this|bool
+     */
     public function register($username = null,
          $password = null,
          $profile = null,
@@ -774,6 +898,7 @@ class YumUser extends YumActiveRecord
 
         if ($this->validate() && $profile->validate(['email'])) {
             $this->save();
+
             $profile->user_id = $this->id;
             $profile->save(false);
             $this->profile = $profile;
@@ -854,13 +979,6 @@ class YumUser extends YumActiveRecord
         ) {
 
             if ($user = $profile->user) {
-                //var_dump($user->status);
-
-//                if ($user->status != self::STATUS_INACTIVE)
-//                    return -1;
-
-                //die('3');
-                //var_dump($user->activationKey, $key); die;
                 if ($user->activationKey == $key) {
                     $user->activationKey = $user->generateActivationKey(true);
                     $user->status = self::STATUS_ACTIVE;
@@ -912,6 +1030,9 @@ class YumUser extends YumActiveRecord
         return $this->activationKey;
     }
 
+    /**
+     * @return array
+     */
     public function attributeLabels()
     {
         return array(
@@ -931,6 +1052,10 @@ class YumUser extends YumActiveRecord
         );
     }
 
+    /**
+     * @param $roles
+     * @return $this
+     */
     public function withRoles($roles)
     {
         if (!is_array($roles))
@@ -941,6 +1066,9 @@ class YumUser extends YumActiveRecord
         return $this;
     }
 
+    /**
+     * @return array
+     */
     public function scopes()
     {
         return array(
@@ -954,6 +1082,11 @@ class YumUser extends YumActiveRecord
         );
     }
 
+    /**
+     * @param $type
+     * @param null $code
+     * @return bool
+     */
     public static function itemAlias($type, $code = NULL)
     {
         $_items = array(
@@ -999,11 +1132,18 @@ class YumUser extends YumActiveRecord
         return $returnarray;
     }
 
+    /**
+     * @return string
+     */
     public function getGravatarHash()
     {
         return md5(strtolower(trim($this->profile->email)));
     }
 
+    /**
+     * @param bool $thumb
+     * @return string
+     */
     public function getAvatar($thumb = false)
     {
         if (Yum::hasModule('avatar') && $this->profile) {
@@ -1035,9 +1175,18 @@ class YumUser extends YumActiveRecord
         }
     }
 
+    /**
+     * Newer user?
+     *
+     * @param $password
+     * @param int $duration
+     * @return bool|null|YumUser|YumUserLogin
+     */
     public function authenticate($password, $duration = 10000)
     {
-        $identity = new YumUserIdentity($this->username, $password);
+        UserService::authenticate($this, $password, $duration);
+
+        /*$identity = new YumUserIdentity($this->username, $password);
         $identity->authenticate();
 
         switch($identity->errorCode) {
@@ -1051,9 +1200,9 @@ class YumUser extends YumActiveRecord
         throw new CHttpException(200, 'Аккаунт удалён.');
             case YumUserIdentity::ERROR_PASSWORD_INVALID:
         throw new CHttpException(200, 'Неправильное имя пользователя или пароль.');
-        }
+        }*/
 
-        Yii::app()->user->login($identity, $duration);
+        //Yii::app()->user->login($identity, $duration);
         //Yii::app()->session['uid'] = $this->id;
     }
 
@@ -1062,11 +1211,9 @@ class YumUser extends YumActiveRecord
      * Banning the user
      */
     public function banUser() {
-        $this->getAccount()->banUser();
+        // $this->getAccount()->banUser();
         $this->status = self::STATUS_BANNED;
         $isSaved = $this->save(false);
-        $tariff = Tariff::model()->findByAttributes(['slug'=>Tariff::SLUG_FREE]);
-        $this->account_corporate->setTariff($tariff, true);
 
         if($isSaved) {
             $this->sendBannedEmail();
@@ -1077,44 +1224,52 @@ class YumUser extends YumActiveRecord
         }
     }
 
-    private function sendBannedEmail() {
-        $body = Yii::app()->controller->renderPartial('//global_partials/mails/ban', ['email' => $this->profile->email], true);
+    /**
+     * Banning the user
+     */
+    public function unBanUser() {
+        // $this->getAccount()->banUser();
+        $this->status = self::STATUS_ACTIVE;
+        return $this->save(false);
 
-        $mail = [
-            'from' => Yum::module('registration')->recoveryEmail,
-            'to' => $this->profile->email,
-            'subject' => 'Ваш аккаунт на skiliks.com заблокирован', //Yii::t('site', 'You requested a new password'),
-            'body' => $body,
-            'embeddedImages' => [
-                [
-                    'path'     => Yii::app()->basePath.'/assets/img/mailtopclean.png',
-                    'cid'      => 'mail-top-clean',
-                    'name'     => 'mailtopclean',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],[
-                    'path'     => Yii::app()->basePath.'/assets/img/mailchair.png',
-                    'cid'      => 'mail-chair',
-                    'name'     => 'mailchair',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],[
-                    'path'     => Yii::app()->basePath.'/assets/img/mail-bottom.png',
-                    'cid'      => 'mail-bottom',
-                    'name'     => 'mailbottom',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],
-            ],
-        ];
+    }
 
-        $sent = MailHelper::addMailToQueue($mail);
+    /**
+     * Добавляет в очередь писем мипьмо пользователю ($this), что его аккаунт заблокирован
+     *
+     * @return bool
+     */
+    private function sendBannedEmail()
+    {
+        $mailOptions = new SiteEmailOptions();
+        $mailOptions->from = Yum::module('registration')->recoveryEmail;
+        $mailOptions->to = $this->profile->email;
+        $mailOptions->subject = 'Ваш аккаунт на ' . Yii::app()->params['server_domain_name'] . ' заблокирован';
+        $mailOptions->h1      = 'Добрый день!';
+        $mailOptions->text1   = '
+            <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
+                Наша служба безопасности обнаружила, что Вы зарегистрировали
+                корпоративный профиль с некорпоративым адресом электронной почты ' . $this->profile->email . '.
+            </p>
+
+            <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
+                Аккаунт связанный с данной почтой заблокирован. Все приглашения
+                отправленные в этом аккаунте являются недействительными.
+            </p>
+
+            <p style="margin:0 0 15px 0;color:#555545;font-family:Tahoma, Geneva, sans-serif;font-size:14px;text-align:justify;line-height:20px;">
+                Используйте корпоративную почту.
+            </p>
+        ';
+
+        $sent = UserService::addStandardEmailToQueue($mailOptions, SiteEmailOptions::TEMPLATE_ANJELA);
 
         return $sent;
     }
 
-
-
+    /**
+     * @return string
+     */
     public function getStatusLabel()
     {
         switch ($this->status) {
@@ -1125,7 +1280,7 @@ class YumUser extends YumActiveRecord
                 return 'активен';
                 break;
             case self::STATUS_BANNED:
-                return 'в бане';
+                return 'banned';
                 break;
             case self::STATUS_REMOVED:
                 return 'удалён';
@@ -1133,6 +1288,9 @@ class YumUser extends YumActiveRecord
         }
     }
 
+    /**
+     * @return string
+     */
     public function getPasswordChangeUrl() {
         return ($this->isCorporate())?'/profile/corporate/password':'/profile/personal/password';
     }

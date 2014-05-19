@@ -1,0 +1,75 @@
+.width-1024 header header nav.account-links ul,
+.width-1024 header nav.static-page-links ul {
+    margin-right: -8px; /* fixed for dashboad corporate */
+}
+
+.width-1024 header nav.account-links ul {
+    margin-right: 15px;
+}
+
+.width-1024 #DeclineExplanation_reason_id label {
+    height: 20px;
+}
+
+.width-1024 .estmfooter {
+    width: 799px;
+}
+
+.width-1024.skiliks #managerial-skills .labels {
+    margin-top: 7px;
+}
+
+.width-1024.action-controller-corporateVacancies-static-profile .profile-right-side .button-white {
+    line-height: 2.1em;
+}
+
+.width-1024.skiliks.action-personalPassword .us-password-height {
+    height: 292px;
+}
+
+.width-1024.skiliks #feedback-form input.button-standard {
+    padding-top: 11px;
+    padding-bottom: 12px;
+}
+
+.width-1024 #action-subscribe-form .inputs-wide-height {
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+.width-1024.action-registrationSingleAccount .inline-error-first {
+    margin-top: 17px;
+}
+
+.width-1024.action-registrationSingleAccount .inline-error-second {
+    margin-top: 0;
+}
+
+.width-1024 .company-info-height {
+    height: 362px;
+}
+
+.width-1024.action-controller-personalPassword-static-profile .us-password-personal-height {
+    height: 310px;
+}
+
+.width-1024.action-controller-personalPersonalData-static-profile .unstandard-personal-data-height {
+    /*height: 377px;*/
+}
+
+.width-1024.action-controller-corporatePersonalData-static-profile .button-standard,
+.width-1024.action-controller-corporatePassword-static-profile .button-standard,
+.width-1024.action-controller-corporateCompanyInfo-static-profile .button-standard,
+.width-1024.action-controller-corporateVacancies-static-profile .button-standard {
+    font-size: 1.1em;
+}
+
+.width-1024.skiliks .background-image-book input.button-standard {
+    padding-bottom: 12px;
+    padding-top: 13px;
+}
+
+.width-1024.action-controller-personalPersonalData-static-profile .error .error-place {
+    height: 18px;
+    margin-top: -18px;
+}

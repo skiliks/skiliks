@@ -54,7 +54,9 @@ define([], function () {
          */
         initialize: function () {
             try {
-
+                var message = "SKWindow.initialize " + this.get('subname')
+                    + " cid: " + this.cid
+                    + ". game time: " + SKApp.simulation.getGameTime();
                 // иногда обьект SKWindow приходит с id - что удивительно {
                 // и mainScreen и subname == undefined
                 // причину этого бага мы пока не нашли,
@@ -62,8 +64,6 @@ define([], function () {
                 //
                 // - поэтому лечим последствия
                 if ('undefined' == typeof this.get('name') && 'undefined' == typeof this.get('subname')) {
-                    console.error('Warning! SKWindow name and subname is undefined. Id is ' + this.get('id'));
-
                     if ('mainScreen' == this.get('id')) {
                         this.set('name', 'mainScreen');
                         this.set('subname', 'mainScreen');
@@ -71,21 +71,6 @@ define([], function () {
                     if ('manual' == this.get('id')) {
                         this.set('name', 'mainScreen');
                         this.set('subname', 'manual');
-                    }
-                        var tmp_name = this.get('name');
-                        var tmp_subname = this.get('subname');
-                        console.log("tmp_name");
-                        console.log(tmp_name);
-                        console.log("tmp_subname");
-                        console.log(tmp_subname);
-
-                    console.log("SKApp.simulation.window_set");
-                    console.log(SKApp.simulation.window_set);
-
-                    if (window.Raven) {
-                        window.Raven.captureMessage(
-                            'Warning! SKWindow name and subname is undefined. Id is ' + this.get('id')
-                        );
                     }
                 }
                 // иногда обьект SKWindow приходит с id - что удивительно }
@@ -108,6 +93,7 @@ define([], function () {
                 this.updateUid();
 
                 this.is_opened = false;
+
                 this.simulation = SKApp.simulation;
             } catch(exception) {
                 if (window.Raven) {
@@ -173,6 +159,7 @@ define([], function () {
                     throw new Error ("Window is already opened");
                 }
                 me.is_opened = true;
+
                 me.simulation.window_set.showWindow(me);
                 /**
                  * Вызывается в момент открытия окна. View должен отрисовать окно в этот момент
@@ -191,17 +178,33 @@ define([], function () {
          */
         close: function() {
             try {
-                if (!this.is_opened) {
-                    throw new Error ("Window is already closed");
+                var me = this;
+
+                if (!me.is_opened) {
+                    var message = "Window is already closed. Name: " + this.get('name')
+                        + " subname: " + this.get('subname')
+                        + " id: " + this.get('id')
+                        + ". game time: " + SKApp.simulation.getGameTime();
                 }
-                this.trigger('pre_close');
-                if (this.prevent_close === true) {
-                    delete this.prevent_close;
+
+                // пока это мобытие слушает только MailClient
+                me.trigger('pre_close');
+
+                if (me.prevent_close === true) {
+                    delete me.prevent_close;
+
+                    if (window.Raven) {
+                        window.Raven.captureMessage('L. prevent_close ' + SKApp.simulation.is);
+                    }
+
                     return;
                 }
-                this.is_opened = false;
+
+                me.is_opened = false;
+
                 SKApp.simulation.window_set.hideWindow(this);
-                this.trigger('close');
+
+                me.trigger('close');
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -248,6 +251,13 @@ define([], function () {
 
                 if (!params.silent) {
                     this.trigger('deactivate');
+                }
+                if (undefined == typeof this.simulation) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage('simulation is undefined for ' + JSON.stringify(this));
+                    }
+
+                    this.simulation = SKApp.simulation;
                 }
                 this.simulation.windowLog.deactivate(this);
             } catch(exception) {

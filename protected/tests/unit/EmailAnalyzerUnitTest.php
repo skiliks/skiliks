@@ -6,6 +6,8 @@
  */
 class EmailAnalyzerUnitTest extends CDbTestCase
 {
+    use UnitTestBaseTrait;
+
     /**
      * Тест оценки 3313:
      * - все письма прочтены
@@ -15,7 +17,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         //$this->markTestSkipped();
         
         // init simulation
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -68,7 +70,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         //$this->markTestSkipped();
         
         // init simulation
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -109,7 +111,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         //$this->markTestSkipped();
         
         // init simulation
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -170,7 +172,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         //$this->markTestSkipped();
         
         // init simulation
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -222,7 +224,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         //$this->markTestSkipped();
         
         // init simulation
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -296,7 +298,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         //$this->markTestSkipped();
         
         // init simulation
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -352,7 +354,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         //$this->markTestSkipped();
         
         // init simulation
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -391,7 +393,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
      */
     public function test_3323_reply_2min()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -431,7 +433,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         $this->assertEquals(3, $point->value);
 
         //good M71
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -458,7 +460,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
 
         //good M47 and M71
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -484,7 +486,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         $this->assertEquals('0', $point->value);
 
         //good M71
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -517,7 +519,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
      */
     public function test_3311_case1()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -533,7 +535,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         ])->getPrimaryKey();
 
         // лог {
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id = $simulation->id;
         $log->leg_type = 'Inbox_leg';
         $log->leg_action = 'MY1';
@@ -597,7 +599,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
      */
     public function test_3311_case2()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -614,7 +616,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
 
         // лог {
         // 2 лога - чтобы проверить что их длительность просуммируется
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id = $simulation->id;
         $log->leg_type = ActivityAction::LEG_TYPE_INBOX;
         $log->leg_action = 'MY1';
@@ -624,7 +626,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         $log->duration = '00:00:20';
         $log->save();
 
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id = $simulation->id;
         $log->leg_type = ActivityAction::LEG_TYPE_INBOX;
         $log->leg_action = 'MY1';
@@ -654,7 +656,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
      */
     public function test_3311_case3()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -680,7 +682,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         // лог {
         // 2 лога - чтобы проверить что их длительность просуммируется
         for ($i = 0; $i < 2; $i++) {
-            $log = new LogActivityActionAgregated();
+            $log = new LogActivityActionAggregated();
             $log->sim_id = $simulation->id;
             $log->leg_type = ActivityAction::LEG_TYPE_INBOX;
             $log->leg_action = 'MY1';
@@ -690,7 +692,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
             $log->duration = '01:00:00';
             $log->save();
 
-            $log = new LogActivityActionAgregated();
+            $log = new LogActivityActionAggregated();
             $log->sim_id = $simulation->id;
             $log->leg_type = ActivityAction::LEG_TYPE_DOCUMENTS;
             $log->leg_action = 'AD2';
@@ -717,7 +719,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
      */
     public function test_3332_case1()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -727,13 +729,10 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         // prepare data {
         $sample = null;
 
-        $rightMsEmails = MailTemplate::model()
-            ->with('subject_obj')
-            ->findAll(sprintf(
-                " t.code LIKE 'MS%s' AND subject_obj.wr = 'R' AND t.scenario_id = %s",
-                '%',
-                $simulation->scenario_id
-            ));
+        $rightMsEmails = [];
+        foreach($simulation->game_type->getOutboxMailThemes(['wr'=>OutboxMailTheme::SLUG_RIGHT]) as $outboxMailTheme) {
+            $rightMsEmails[] = $simulation->game_type->getMailTemplate(['code' => $outboxMailTheme->mail_code]);
+        }
 
         $count = 0;
         foreach ($rightMsEmails as $rightMsEmail) {
@@ -761,7 +760,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
      */
     public function test_3332_case2()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -769,13 +768,10 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
 
         // prepare data {
-        $rightMsEmails = MailTemplate::model()
-            ->with('subject_obj')
-            ->findAll(sprintf(
-                " t.code LIKE 'MS%s' AND subject_obj.wr = 'R' AND t.scenario_id = %s",
-                '%',
-                $simulation->scenario_id
-            ));
+        $rightMsEmails = [];
+        foreach($simulation->game_type->getOutboxMailThemes(['wr'=>OutboxMailTheme::SLUG_RIGHT]) as $outboxMailTheme) {
+            $rightMsEmails[] = $simulation->game_type->getMailTemplate(['code' => $outboxMailTheme->mail_code]);
+        }
 
         foreach ($rightMsEmails as $rightMsEmail) {
             if (0 < MailTemplateCopy::model()->count(sprintf('mail_id = %s ', $rightMsEmail->id))) {
@@ -797,7 +793,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
      */
     public function test_3332_case3()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -817,7 +813,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
      */
     public function test_3332_case4()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -827,13 +823,10 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         // prepare data {
         $sample = null;
 
-        $rightMsEmails = MailTemplate::model()
-            ->with('subject_obj')
-            ->findAll(sprintf(
-                " t.code LIKE 'MS%s' AND subject_obj.wr = 'R' AND t.scenario_id = %s",
-                '%',
-                $simulation->scenario_id
-            ));
+        $rightMsEmails = [];
+        foreach($simulation->game_type->getOutboxMailThemes(['wr'=>OutboxMailTheme::SLUG_RIGHT]) as $outboxMailTheme) {
+            $rightMsEmails[] = $simulation->game_type->getMailTemplate(['code' => $outboxMailTheme->mail_code]);
+        }
 
         $count = 0;
         foreach ($rightMsEmails as $rightMsEmail) {
@@ -869,7 +862,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
      */
     public function test_3332_case5()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -879,13 +872,10 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         // prepare data {
         $sample = null;
 
-        $rightMsEmails = MailTemplate::model()
-            ->with('subject_obj')
-            ->findAll(sprintf(
-                " t.code LIKE 'MS%s' AND subject_obj.wr = 'R' AND t.scenario_id = %s",
-                '%',
-                $simulation->scenario_id
-            ));
+        $rightMsEmails = [];
+        foreach($simulation->game_type->getOutboxMailThemes(['wr'=>OutboxMailTheme::SLUG_RIGHT]) as $outboxMailTheme) {
+            $rightMsEmails[] = $simulation->game_type->getMailTemplate(['code' => $outboxMailTheme->mail_code]);
+        }
 
         $count = 0;
         foreach ($rightMsEmails as $rightMsEmail) {
@@ -928,7 +918,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
      */
     public function test_3332_case6()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -959,7 +949,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         //$this->markTestSkipped();
 
         // init simulation
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -1013,7 +1003,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
 
         // calculate point total scores
         SimulationService::saveEmailsAnalyze($simulation);
-        SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
+        SimulationService::copyScoreToAssessmentAggregated($simulation->id);
 
         // check calculation
         $assessments = AssessmentAggregated::model()->findAll('sim_id =:id',[
@@ -1044,7 +1034,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         //$this->markTestSkipped();
 
         // init simulation
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -1072,7 +1062,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
 
         // calculate point total scores
         SimulationService::saveEmailsAnalyze($simulation);
-        SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
+        SimulationService::copyScoreToAssessmentAggregated($simulation->id);
 
         // check calculation
         $assessments = AssessmentAggregated::model()->findAll('sim_id =:id',[
@@ -1103,7 +1093,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         //$this->markTestSkipped();
 
         // init simulation
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -1113,7 +1103,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
 
         // calculate point total scores
         SimulationService::saveEmailsAnalyze($simulation);
-        SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
+        SimulationService::copyScoreToAssessmentAggregated($simulation->id);
 
         // check calculation
         $assessments = AssessmentAggregated::model()->findAll('sim_id =:id',[
@@ -1144,7 +1134,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         //$this->markTestSkipped();
 
         // init simulation
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -1186,7 +1176,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
 
         // calculate point total scores
         SimulationService::saveEmailsAnalyze($simulation);
-        SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
+        SimulationService::copyScoreToAssessmentAggregated($simulation->id);
 
         // check calculation
         $assessments = AssessmentAggregated::model()->findAll('sim_id =:id',[
@@ -1217,7 +1207,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         //$this->markTestSkipped();
 
         // init simulation
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -1267,7 +1257,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
 
         // calculate point total scores
         SimulationService::saveEmailsAnalyze($simulation);
-        SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
+        SimulationService::copyScoreToAssessmentAggregated($simulation->id);
 
         // check calculation
         $assessments = AssessmentAggregated::model()->findAll('sim_id =:id',[
@@ -1298,7 +1288,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         //$this->markTestSkipped();
 
         // init simulation
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -1357,7 +1347,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
 
         // calculate point total scores
         SimulationService::saveEmailsAnalyze($simulation);
-        SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
+        SimulationService::copyScoreToAssessmentAggregated($simulation->id);
 
         // check calculation
         $assessments = AssessmentAggregated::model()->findAll('sim_id =:id',[
@@ -1388,7 +1378,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         //s//$this->markTestSkipped();
 
         // init simulation
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -1443,7 +1433,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
 
         // calculate point total scores
         SimulationService::saveEmailsAnalyze($simulation);
-        SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
+        SimulationService::copyScoreToAssessmentAggregated($simulation->id);
 
         // check calculation
         $assessments = AssessmentAggregated::model()->findAll('sim_id =:id',[
@@ -1474,7 +1464,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         //$this->markTestSkipped();
 
         // init simulation
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -1513,7 +1503,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
 
         // calculate point total scores
         SimulationService::saveEmailsAnalyze($simulation);
-        SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
+        SimulationService::copyScoreToAssessmentAggregated($simulation->id);
 
         // check calculation
         $assessments = AssessmentAggregated::model()->findAll('sim_id =:id',[
@@ -1543,7 +1533,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
     public function testCalculateAggregatedPointsFor3333_OK_case1()
     {
         // init simulation
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -1560,7 +1550,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
 
         // calculate point total scores
         SimulationService::saveEmailsAnalyze($simulation);
-        SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
+        SimulationService::copyScoreToAssessmentAggregated($simulation->id);
 
         $heroBehaviour = $simulation->game_type->getHeroBehaviour(['code' => '3333']);
 
@@ -1589,7 +1579,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
     public function testCalculateAggregatedPointsFor3333_bad_case1()
     {
         // init simulation
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -1616,7 +1606,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
 
         // calculate point total scores
         SimulationService::saveEmailsAnalyze($simulation);
-        SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
+        SimulationService::copyScoreToAssessmentAggregated($simulation->id);
 
         // check calculation
         $assessments = AssessmentAggregated::model()->findAll('sim_id =:id',[
@@ -1642,7 +1632,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
     public function testEmailAnalyzerAssessmentForLiteSim()
     {
         // init simulation
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -1662,10 +1652,11 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         // email-1 {
         $mailM71 = MailBox::model()->findByAttributes(['sim_id' => $simulation->id, 'code' => 'M71']);
         $characterLudovkina = $simulation->game_type->getCharacter(['code' => 13]);
-        $subjectForCharacter13 = $simulation->game_type->getCommunicationTheme([
-            'character_id'  => $characterLudovkina->id,
-            'letter_number' => 'MS63',
+        $subjectForCharacter13 = $simulation->game_type->getOutboxMailTheme([
+            'character_to_id'  => $characterLudovkina->id,
+            'mail_code'        => 'MS63',
         ]);
+
         $sendMailOptions = new SendMailOptions($simulation);
         $sendMailOptions->setRecipientsArray($characterSomebody->id); // Неизвестная
         $sendMailOptions->groupId    = MailBox::FOLDER_DRAFTS_ID;
@@ -1673,7 +1664,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         $sendMailOptions->time       = '09:01';
         $sendMailOptions->copies     = '';
         $sendMailOptions->phrases    = '';
-        $sendMailOptions->subject_id = $subjectForCharacter13->id;
+        $sendMailOptions->themeId    = $subjectForCharacter13->theme_id;
         $sendMailOptions->messageId  = $mailM71->id;
 
         MailBoxService::sendMessagePro($sendMailOptions);
@@ -1682,9 +1673,9 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         // email-2 {
         $mailM71 = MailBox::model()->findByAttributes(['sim_id' => $simulation->id, 'code' => 'M71']);
         $characterLudovkina = $simulation->game_type->getCharacter(['code' => 13]);
-        $subjectForCharacter13 = $simulation->game_type->getCommunicationTheme([
-            'character_id'  => $characterLudovkina->id,
-            'letter_number' => 'MS63',
+        $subjectForCharacter13 = $simulation->game_type->getOutboxMailTheme([
+            'character_to_id'  => $characterLudovkina->id,
+            'mail_code' => 'MS63',
         ]);
         $sendMailOptions = new SendMailOptions($simulation);
         $sendMailOptions->setRecipientsArray($characterSomebody->id); // Неизвестная
@@ -1693,7 +1684,8 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         $sendMailOptions->time       = '09:02';
         $sendMailOptions->copies     = '';
         $sendMailOptions->phrases    = '';
-        $sendMailOptions->subject_id = $subjectForCharacter13->id;
+        $sendMailOptions->themeId = $subjectForCharacter13->theme_id;
+        $sendMailOptions->mailPrefix = $subjectForCharacter13->mail_prefix;
         $sendMailOptions->messageId  = $mailM71->id;
 
         MailBoxService::sendMessagePro($sendMailOptions);
@@ -1702,8 +1694,7 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         // email-3 {
         $mailM47 = MailBox::model()->findByAttributes(['sim_id' => $simulation->id, 'code' => 'M47']);
         $characterWife = $simulation->game_type->getCharacter(['code' => 25]);
-        $subjectForCharacter25 = $simulation->game_type->getCommunicationTheme([
-            'character_id' => $characterWife->id,
+        $subjectForCharacter25 = $simulation->game_type->getTheme([
             'text'         => 'данные по рынку, срочно нужна помощь!',
         ]);
         $sendMailOptions = new SendMailOptions($simulation);
@@ -1713,14 +1704,12 @@ class EmailAnalyzerUnitTest extends CDbTestCase
         $sendMailOptions->time       = '09:03';
         $sendMailOptions->copies     = '';
         $sendMailOptions->phrases    = '';
-        $sendMailOptions->subject_id = $subjectForCharacter25->id;
+        $sendMailOptions->themeId = $subjectForCharacter25->id;
+        $sendMailOptions->mailPrefix = null;
         $sendMailOptions->messageId  = $mailM47->id;
 
         MailBoxService::sendMessagePro($sendMailOptions);
         // email-3 }
-
-//        var_dump($simulation->id);
-//        die;
 
         SimulationService::simulationStop($simulation);
     }

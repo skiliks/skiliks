@@ -1,0 +1,95 @@
+.width-1024.skiliks .us-auth-box {
+    width: 544px;
+}
+
+.width-1024.skiliks .us-error-bottom {
+    width: 540px;
+}
+
+.width-1024.skiliks .us-user-auth-page-form #YumUserChangePassword_password,
+.width-1024.skiliks .us-user-auth-page-form #YumUserChangePassword_verifyPassword {
+    width: 134px;
+}
+
+.width-1024.action-controller-recovery-static-userAuth .us-first-input,
+.width-1024.action-controller-recovery-static-userAuth .us-second-input {
+    width: 145px;
+}
+
+.width-1024 .mangrlresultstitle {
+    margin-left: 10px;
+}
+
+.width-1024 .button-add-vacancy {
+    top: 6px;
+}
+
+.width-1024.skiliks.action-controller-personalPersonalData-static-profile .unstandard-personal-data-height {
+    /*height: 364px; /* fixed */
+}
+
+.width-1024.skiliks.action-controller-corporatePassword-static-profile .unstandard-personal-data-height {
+    /*height: 277px;*/
+}
+
+.width-1024 nav ul li.menu-item span,
+.width-1024 nav ul li.menu-item a {
+    margin: 0 0 0 0px;
+    padding: 5px 7px;
+}
+
+.width-1024.skiliks input.button-white,
+.width-1024.skiliks .ui-widget input.button-white {
+    line-height: 2.2em;
+}
+
+.width-1024 .us-remember-me-margin {
+    margin-top: 0px;
+}
+
+.width-1024.controller-static-profile .button-standard {
+    padding-top: 10px;
+    line-height: 1.1em;
+}
+
+.width-1024.skiliks input.button-standard {
+    padding-top: 13px;
+    padding-bottom: 13px;
+}
+
+.width-1024 #action-subscribe-form .inputs-wide-height {
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+.width-1024.action-registrationSingleAccount .inline-error-first {
+    vertical-align: top;
+    margin-top: 16px;
+}
+
+.width-1024.action-registrationSingleAccount .inline-error-second {
+    margin-top: -1px;
+}
+
+.width-1024 .company-info-height {
+    height: 360px;
+}
+
+.width-1024.action-controller-personalPassword-static-profile .us-password-personal-height {
+    height: 310px;
+}
+
+.width-1024.action-controller-personalPersonalData-static-profile.skiliks input.button-standard,
+.width-1024.action-controller-personalPassword-static-profile.skiliks input.button-standard {
+    padding-bottom: 13px;
+    padding-top: 14px;
+}
+
+.width-1024.skiliks.action-corporatePassword .us-password-height {
+    height: 294px;
+}
+
+.width-1024.action-controller-personalPersonalData-static-profile .error .error-place {
+    height: 18px;
+    margin-top: -18px;
+}

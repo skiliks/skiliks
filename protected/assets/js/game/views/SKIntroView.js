@@ -68,21 +68,20 @@ define([
                             subname: 'manual',
                             required: true
                         });
-                        windowManual.set('name', 'mainScreen');
-                        windowManual.set('subname', 'manual');
-                        console.log('windowManual 1 : ', windowManual, ',', windowManual.id);
                     var warning;
 
                     appView.drawDesktop();
 
-                    if (app.isTutorial()) {
+                    if (SKApp.isTutorial()) {
                         windowManual.on('close', function() {
-                            appView.frame._hidePausedScreen();
-                            appView.frame._toggleClockFreeze(false);
+                            window.AppView.frame._hidePausedScreen();
+                            window.AppView.frame._toggleClockFreeze(false);
                             me.stopPause();
                         });
-                        appView.frame._showPausedScreen();
+                        window.AppView.frame._showPausedScreen();
+
                         windowManual.open();
+
                     } else if(!app.isLite()) {
                         if(false === SKApp.simulation.isDebug()) {
                             $('.time').addClass("paused");
@@ -109,7 +108,7 @@ define([
                                 }]
                             });
                         }
-                    }else{
+                    } else {
                         me.stopPause();
                     }
                 };
@@ -126,52 +125,6 @@ define([
             this.$el.find('#skiliks_intro').trigger('ended');
         },
         resize: function() {
-//            console.log("Test cache");
-//            var intro = $('#skiliks_intro');
-//            var height = 800; //высота видео
-//            var width = 1280; //ширина видео
-//            var scale_height = $(window).height() / height; //коефициент маштабирования по высоте
-//            var scale_width = $(window).width() / width; //коефициент маштабирования по ширине
-//
-//            //очищаем маштабирование
-//            intro.css("margin-left", '');
-//            intro.css('height', '');
-//            intro.css('width', '');
-//
-//            //проверяем как маштабируеться высота по коефициенту ширины
-//            if(scale_height * width >= $(window).width()) {
-//                console.log('yes height');
-//
-//                //если высота больше высоты видео то меняем
-//                if($(window).height() > height){
-//                    intro.height($(window).height());
-//                }
-//
-//                //если ширина меньше ширины видео то маштабируем по ширине
-//                if($(window).width() < width) {
-//                    intro.css('margin-left', ($(window).width()-width)/2);
-//                }
-//                console.log('$(window).width()',$(window).width());
-//                return true;
-//            }
-//
-//            //проверяем как маштабируеться ширина по коефициенту высоты
-//            if(scale_width*height >= $(window).height()) {
-//
-//
-//                //если ширина больше ширины видео то меняем
-//                if($(window).width() > width) {
-//                    intro.width($(window).width());
-//                }
-//
-//                //если ширина меньше ширины видео то маштабируем по ширине
-//                if($(window).width() < width) {
-//                    intro.css('margin-left', ($(window).width()-width)/2);
-//                }
-//                console.log('yes width');
-//                return true;
-//            }
-
             var intro = $('#skiliks_intro');
             var minimalHeight = 800; // минимальная высота видео
 

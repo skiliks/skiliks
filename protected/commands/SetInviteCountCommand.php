@@ -31,8 +31,8 @@ class SetInviteCountCommand extends CConsoleCommand
         $result = $account->save(false);
 
         UserService::logCorporateInviteMovementAdd(
-            sprintf('Количество доступных симуляций установлено в Х консольной командой, из них за рефераллов Х.',
-                $account->invites_limit, $account->referrals_invite_limit),
+            sprintf('Количество доступных симуляций установлено в Х консольной командой',
+                $account->invites_limit),
             $account,
             $initValue
         );

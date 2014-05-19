@@ -2,54 +2,19 @@
 /**
  * Шаблон документов. Потом нужные документы отсюда копируются в рамках симуляции 
  * в таблицу my_documents
+ *
+ * @property integer $id
+ * @property integer $hidden (boolean), is hidden
+ * @property string  $fileName
+ * @property string  $code
+ * @property string  $srcFile
+ * @property string  $format, 'xml', 'doc', 'ptt'
+ * @property string  $type, '-', 'new', 'start'
+ * @property string  $import_id
  */
 class DocumentTemplate extends CActiveRecord implements IGameAction
 {
     const CONSOLIDATED_BUDGET_ID = 33;
-    
-    /**
-     * @var integer
-     */
-    public $id;
-    
-    /**
-     * @var string
-     */
-    public $fileName;
-    
-    /**
-     * is hidden
-     * @var integer, (boolean)
-     */
-    public $hidden;
-    
-    /**
-     * Code, '','' ...
-     * @var string
-     */
-    public $code;
-    
-    /**
-     * @var string
-     */
-    public $srcFile;
-    
-    /**
-     * 'xml', 'doc', 'ptt'
-     * @var string
-     */
-    public $format;
-    
-    /**
-     * '-', 'new', 'start'
-     * @var string
-     */
-    public $type;
-    
-    /**
-     * @var string
-     */
-    public $import_id;
 
     protected static $mimeMap = [
         'docx' => 'application/msword',
@@ -58,8 +23,6 @@ class DocumentTemplate extends CActiveRecord implements IGameAction
         'xls' => 'application/vnd.ms-excel'
     ];
     
-    /** ------------------------------------------------------------------------------------------------------------ **/
-
     /**
      * @return string
      */
@@ -72,74 +35,17 @@ class DocumentTemplate extends CActiveRecord implements IGameAction
             StringTools::CyToEn( $filename. '.sc');
     }
 
-    /** ------------------------------------------------------------------------------------------------------------ **/
-
     /**
-     *
-     * @param type $className
-     * @return DocumentTemplate
+     * @return string
      */
-    public static function model($className=__CLASS__)
-    {
-        return parent::model($className);
-    }
-
-    /**
-     * @return string the associated database table name
-     */
-    public function tableName()
-    {
-            return 'my_documents_template';
-    }
-    
-    /**
-     * Выбрать документ по коду
-     * @param string $code
-     * @return DocumentTemplate
-     */
-    public function byCode($code)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "code = '{$code}'"
-        ));
-        return $this;
-    }
-    
-    /**
-     * Выбрать заданный документ
-     * @param int $id
-     * @return DocumentTemplate
-     */
-    public function byId($id)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "id = {$id}"
-        ));
-        return $this;
-    }
-
-
     public function getCode()
     {
         return $this->code;
     }
 
     /**
-     * Выбрать по заданному набору шаблонов документов
-     * @param array $ids
-     * @return DocumentTemplate
+     * @return mixed|string
      */
-    public function byIds($ids)
-    {
-        if (count($ids) == 0) return $this;
-        $ids = implode(',', $ids);
-        
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "id in ({$ids})"
-        ));
-        return $this;
-    }
-
     public function getMimeType() {
         // tweak for not ready files, in ready project we willn`t need it any more
         if (in_array($this->srcFile, ['TP', 'MG'])) {
@@ -156,11 +62,18 @@ class DocumentTemplate extends CActiveRecord implements IGameAction
         return $mime;
     }
 
+    /**
+     * @return string
+     */
     public function getFilePath()
     {
         return $this->getPathFromName($this->srcFile);
     }
 
+    /**
+     * @return array
+     * @throws Exception
+     */
     public function getPages() {
         if($this->format === 'docx' || $this->format === 'pptx') {
             $pdf_dir = str_replace('.pdf', '', $this->srcFile);
@@ -180,6 +93,10 @@ class DocumentTemplate extends CActiveRecord implements IGameAction
         }
     }
 
+    /**
+     * @param $name
+     * @return string
+     */
     public function getPathFromName($name)
     {
         if (-1 < (strstr($name, '.xls'))) {
@@ -188,6 +105,26 @@ class DocumentTemplate extends CActiveRecord implements IGameAction
 
         // JPGs: doc, ptt
         return __DIR__."/../../../protected/assets/img/documents/templates/".$name;
+    }
+
+    /** ------------------------------------------------------------------------------------------------------------ **/
+
+    /**
+     *
+     * @param type $className
+     * @return DocumentTemplate
+     */
+    public static function model($className=__CLASS__)
+    {
+        return parent::model($className);
+    }
+
+    /**
+     * @return string the associated database table name
+     */
+    public function tableName()
+    {
+        return 'my_documents_template';
     }
 }
 

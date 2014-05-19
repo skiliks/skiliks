@@ -26,7 +26,8 @@ class GameTime
     }
 
     /**
-     * @param $time
+     * @param $time, '11:00'
+     *
      * @return string
      */
     public static function setTimeToday(Simulation $simulation, $time)

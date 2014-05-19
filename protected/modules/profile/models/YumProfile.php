@@ -62,7 +62,8 @@ class YumProfile extends YumActiveRecord
         return Yii::t('site',  'Email already exists, but not activated.')
             . CHtml::link(
                 Yii::t('site','Send activation again'),
-                '/activation/resend/' . $id
+                '/activation/resend/' . $id,
+                ['class' => 'color-146672']
             );
     }
 
@@ -235,6 +236,7 @@ class YumProfile extends YumActiveRecord
 
         $rules[] = array('firstname', 'length', 'max' => 50);
         $rules[] = array('lastname',  'length', 'max' => 50);
+        $rules[] = array('email',  'length', 'max' => 50);
 
 		return $rules;
 	}
@@ -248,7 +250,10 @@ class YumProfile extends YumActiveRecord
         }
         if ($existProfile !== NULL && !$existProfile->user->isActive()) {
                 $error = Yii::t('site',  'Email already exists, but not activated.')
-                    . CHtml::link(Yii::t('site','Send activation again'),'/activation/resend/' . $existProfile->id);
+                    . CHtml::link(
+                        Yii::t('site','Send activation again'),
+                        '/activation/resend/' . $existProfile->id
+                    );
                 $this->addError('not_activated', $error);
         }
     }
@@ -266,7 +271,7 @@ class YumProfile extends YumActiveRecord
     }
 
     public function getAccountBannedErrorMessage() {
-        return $error = Yii::t('site',  'Ваш аккаунт заблокирован');
+        return $error = Yii::t('site',  sprintf('Аккаунт %s заблокирован', $this->email));
     }
 
 
@@ -278,7 +283,10 @@ class YumProfile extends YumActiveRecord
 
         if ($existProfile !== NULL && !$existProfile->user->isActive()) {
             return Yii::t('site',  'Email already exists, but not activated.')
-                . CHtml::link(Yii::t('site','Send activation again'),'/activation/resend/' . $existProfile->id);
+                . CHtml::link(
+                    Yii::t('site','Send activation again'),
+                    '/activation/resend/' . $existProfile->id
+                );
         }
         return false;
     }

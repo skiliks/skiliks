@@ -8,7 +8,10 @@
 /protected/logs/
 /protected/system_data/analytic_files_2/
 /protected/system_data/prb_bank/pdf_slices/
+/protected/system_data/simulation_details/
 /protected/documents/social_templates/
 protected/views/static/applicationcache/manifest.php
 /protected/views/static/applicationcache/manifest.php
 /protected/views/static/applicationcache/preload_images.php
+/protected/system_data/simulation_details/
+

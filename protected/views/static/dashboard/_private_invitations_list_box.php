@@ -26,7 +26,10 @@
                 case Invite::STATUS_ACCEPTED :
                 case Invite::STATUS_IN_PROGRESS :
                     return sprintf(
-                        "<a class=\"start-full-simulation start-full-simulation-button\" data-href=\"/simulation/promo/%s/%s\" href=\"#\">Начать</a>",
+                        '<span class=" button-white button-white-hover inter-active label icon-arrow-blue reset-margin
+                            action-open-full-simulation-popup accept-invite-button-width"
+                            data-href="/simulation/promo/%s/%s"
+                            >Начать</span>',
                         $invite->scenario->slug,
                         $invite->id
                     );
@@ -36,9 +39,6 @@
                     return '<div style="line-height: 30px;">отклонено<div>';
                     break;
 
-                case Invite::STATUS_EXPIRED :
-                    return '<div style="line-height: 30px;">просрочено<div>';
-                    break;
                 case Invite::STATUS_DELETED :
                     return '<div style="line-height: 30px;">удалено<div>';
                     break;
@@ -58,6 +58,9 @@
         ),
         'summaryText' => '',
         'emptyText' => '',
+        'htmlOptions' => [
+            'class' => 'contrast-table locator-contrast-table'
+        ],
         'pager' => [
             'header'        => false,
             'firstPageLabel' => '<< начало',
@@ -71,9 +74,9 @@
             ['header' => Yii::t('site', Yii::t('site', 'Оценка')) , 'value' => '"Базовый менеджмент"'],
             [
                 'header' => Yii::t('site', Yii::t('site', 'Дата')),
-                'name' => 'sent_time',
-                'value' => '$data->getUpdatedTime()->format("j/m/y")',
-                'type' => 'raw'
+                'name'   => 'sent_time',
+                'value'  => '$data->getDateForDashboard()',
+                'type'   => 'raw'
             ],
             ['header' => Yii::t('site', Yii::t('site', 'Статус')) , 'value' => $scoreRender, 'type' => 'raw'],
         ]
@@ -86,45 +89,5 @@
 <!-- accept-form } -->
 
 <!-- decline-form { -->
-<div id="invite-decline-form"></div>
+<div class="locator-invite-decline-box"></div>
 <!-- decline-form } -->
-
-<script type="text/javascript">
-    $(function(){
-        // setup sub-menu switcher behaviour
-        $('.invites-smallmenu-switcher').click(function(){
-            $(this).next().toggle();
-            /*Cufon.refresh();*/
-        });
-
-        // decline dialog {
-        $.ajax({
-            url: '/dashboard/decline-invite/validation',
-            type: 'POST',
-            success: function(data) {
-                $('#invite-decline-form').html(data.html).hide();
-
-                /*
-                $('#invite-decline-form').dialog({
-                    width: 500,
-                    modal: true
-                });
-                */
-
-                //$('#invite-decline-form').parent().addClass('nice-border');
-                //$('#invite-decline-form').parent().addClass('backgroud-rich-blue');
-
-                //$('#invite-decline-form').dialog('close');
-
-                $('.decline-link').click(function(event){
-                    event.preventDefault();
-                    $('#invite-decline-form').find('input#DeclineExplanation_invite_id').val($(this).attr('title'));
-
-                    $('#invite-decline-form').show();
-                    //$('#invite-decline-form').dialog('open');
-                });
-            }
-        })
-        // decline dialog }
-     });
-</script>

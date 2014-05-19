@@ -34,7 +34,7 @@ var fixLogotypes = function() {
 
         // render simulation details pop-up {
         $('.dashboard').append($('<div id="simulation-details-pop-up"></div>'));
-        var simulation_popup = $('#simulation-details-pop-up');
+        var simulation_popup = $('locator-simulation-details-popup');
 
         simulation_popup.dialog({
             dialogClass: 'simulation-result-popup',
@@ -106,40 +106,7 @@ var fixLogotypes = function() {
             return false;
         });
 
-        $('.accept-invite').click(function(e) {
-            var link = $(this).attr('href');
-            var simStartLink = $(this).attr('data-accept-link');
 
-            // удлиннить окно чтоб футер был ниже нижнего края попапа
-            $('.content').css('margin-bottom', '600px');
-
-            $('#invite-accept-form').dialog({
-                dialogClass: 'accept-invite-warning-popup full-simulation-info-popup margin-top-popup',
-                modal:       true,
-                autoOpen:    true,
-                resizable:   false,
-                draggable:   false,
-                width:       881,
-                maxHeight:   600,
-                position: {
-                    my: "left top",
-                    at: "left bottom",
-                    of: $("header h1")
-                },
-                open: function( event, ui ) {
-                    $(this).find('.accept-requirements').attr('href', link);
-                    $(this).find('.start-full-simulation').attr('data-href', simStartLink);
-                }
-            });
-
-            // hack {
-            $('.accept-invite-warning-popup full-simulation-info-popup').css('top', '50px');
-            $(window).scrollTop('.narrow-contnt');
-
-            // hack }
-
-            return false;
-        });
 
         $('.show-simulation-rules span').click(function(e) {
 
@@ -168,7 +135,7 @@ var fixLogotypes = function() {
             });
 
             // hack {
-            $('.accept-invite-warning-popup full-simulation-info-popup').css('top', '50px');
+            $('.accept-invite-warning-popup .full-simulation-info-popup').css('top', '50px');
             $(window).scrollTop('.narrow-contnt');
 
             // hack }
@@ -248,31 +215,6 @@ var fixLogotypes = function() {
             return false;
         });
 
-        // попап перед стартом лайт симуляции в кабинетах
-        $('.start-lite-simulation-btn').click(function(event) {
-            event.preventDefault('.start-lite-simulation-btn');
-            console.log(".start-lite-simulation-btn");
-            // get URL for lite simulation
-            var href = $(this).attr('data-href');
-
-            $(".lite-simulation-info-popup").dialog({
-                closeOnEscape: true,
-                dialogClass: 'popup-before-start-sim lite-simulation-info-dialog',
-                minHeight: 220,
-                modal: true,
-                resizable: false,
-                width:881,
-                draggable: false,
-                open: function( event, ui ) {
-                    //Cufon.refresh();
-                    $('.start-lite-simulation-now').click(function() {
-                        location.assign(href);
-                    });
-                }
-            });
-            return false;
-        });
-
         // product page, test results - sub list hide/show switcher
         $('.hassubmenu a.sub-menu-switcher').click(function () {
             if ($(this).parent().hasClass('subisopen')) {
@@ -281,30 +223,7 @@ var fixLogotypes = function() {
                 $(this).parent().addClass('subisopen');
             }
         });
-        $('a.feedback').on('click', function (e) {
-            var selected = $(this).attr('data-selected');
-            $('#feedback-dialog').dialog({
-                width: 706,
-                dialogClass: 'popup-primary popup-site feedbackwrap',
-                modal: true,
-                resizable: false,
-                draggable: false,
-                open: function( event, ui ) {
-                    if(selected !== undefined) {
-                        $('#feedback-form').find('.sbOptions').find('li').each(function(index, element){
-                            var a = $(element).find('a');
-                            if(a.attr('rel') === selected){
-                                a.click();
-                            }
-                        });
-                    }
 
-                    //Cufon.refresh();
-                }
-            });
-
-            e.stopPropagation();
-        });
 
         window.feedbackSubmit = function feedbackSubmit(form, data, hasError) {
             if (!hasError) {
@@ -348,13 +267,6 @@ var fixLogotypes = function() {
             return false;
         };
 
-        window.addVacancyValidation = function addVacancyValidation(form, data, hasError) {
-            if (!hasError) {
-                window.location.href = form.attr('data-url');
-            }
-            return false;
-        };
-
         window.paymentSubmit = function paymentSubmit(form, data, hasError) {
             if (!hasError) {
                 $("#cash-month-selected").val($("#month-selected").val());
@@ -371,28 +283,6 @@ var fixLogotypes = function() {
             }
             return false;
         };
-
-        window.inviteFriend = function inviteFriend(form, data, hasError) {
-            $(".sendReferralInviteSubmitButton").val("Отправить");
-            if (!hasError) {
-                window.location.href = "/dashboard";
-            }
-            else {
-                var k = data.ReferralsInviteForm_emails;
-                $("#ReferralsInviteForm_emails_em_").css("position", "static");
-                $("#ReferralsInviteForm_emails_em_").html("<ul></ul>");
-                for (var i in k) {
-                    $("#ReferralsInviteForm_emails_em_ ul").append("<li>"+k[i]+"</li>");
-                }
-            }
-            return false;
-        }
-
-        window.changeInviteReferralSubmitButton = function changeInviteReferralSubmitButton() {
-            $(".sendReferralInviteSubmitButton").val("Идёт проверка данных");
-            return true;
-        }
-
         // Ajax Validation }
 
         // delete vacancy {
@@ -438,168 +328,112 @@ var fixLogotypes = function() {
             return false;
         });
 
-        var pre_simulation_popup = $(".dashboard .full-simulation-info-popup");
+//        var pre_simulation_popup = $(".dashboard .full-simulation-info-popup");
+//
+//        pre_simulation_popup.dialog({
+//            closeOnEscape: true,
+//            autoOpen : false,
+//            dialogClass: 'popup-before-start-sim',
+//            minHeight: 220,
+//            modal: true,
+//            resizable: false,
+//            width:881
+//        });
 
-        pre_simulation_popup.dialog({
-            closeOnEscape: true,
-            autoOpen : false,
-            dialogClass: 'popup-before-start-sim',
-            minHeight: 220,
-            modal: true,
-            resizable: false,
-            width:881
-        });
+//        function infoPopup_aboutFullSimulation(href){
+//            pre_simulation_popup.dialog('open');
+//            $('.start-full-simulation-next').attr('data-href', href);
+//        }
 
-        function infoPopup_aboutFullSimulation(href){
-            pre_simulation_popup.dialog('open');
-            $('.start-full-simulation-next').attr('data-href', href);
-        }
 
-        function getInviteId(url){
-            return parseInt(url.replace('/simulation/promo/full/', ''), 0);
-        }
-        $('.start-full-simulation').click(function(event){
+//        $('.start-full-simulation').click(function(event){
+//
+//            $('#invite-accept-form').dialog('close');
+//
+//            var href = $(this).attr('data-href');
+//            event.preventDefault();
+//            // удлиннить окно чтоб футер был ниже нижнего края попапа
+//            $('.content').css('margin-bottom', '80px');
+//
+//            $.ajax({
+//                url:'/simulationIsStarted',
+//                dataType:  "json",
+//                data:{invite_id:getInviteId(href)},
+//                success:function(data) {
+//                    var dataGlobal = data;
+//                    // проверка наличия незавершенных фулл симуляций самому-себе
+//                    if (0 < parseInt(data.count_self_to_self_invites_in_progress)) {
+//                        $(".exists-self-to-self-simulation-warning-popup").dialog({
+//                            closeOnEscape: true,
+//                            dialogClass: 'popup-before-start-sim',
+//                            minHeight: 220,
+//                            modal: true,
+//                            resizable: false,
+//                            width:881,
+//                            open: function( event, ui ) {
+//                                //Cufon.refresh();
+//
+//                                // пользователь выбирает не прерывать текущую симуляцию
+//                                $('.exists-self-to-self-simulation-warning-popup .back-button').click(function(){
+//                                    $('.exists-self-to-self-simulation-warning-popup').dialog('close');
+//                                });
+//
+//                                // пользователь выбирает начать новую симуляцию, не смотря на наличие незавершенных
+//                                $('.exists-self-to-self-simulation-warning-popup .go-ahead-button').click(function(){
+//
+//                                    // закрыть текущий попап
+//                                    $('.exists-self-to-self-simulation-warning-popup').dialog('close');
+//
+//                                    // запрос на удаление всех незавершенных фулл симуляций самому-себе
+//                                    $.ajax({ url: '/static/break-simulations-for-self-to-self-invites'});
+//
+//                                    // отображаем свтупительный попап
+//                                    displaySimulationInfoPopUp(href, dataGlobal);
+//                                });
+//                            }
+//                        });
+//                    } else {
+//                        // незавершенных симуляций нет
+//                        displaySimulationInfoPopUp(href, dataGlobal);
+//                    }
+//                }
+//            });
+//
+//            // hack {
+//            $('.popup-before-start-sim').css('top', '50px');
+//            $(window).scrollTop('body');
+//            // hack }
+//
+//            return false;
+//        });
 
-            $('#invite-accept-form').dialog('close');
-
-            var href = $(this).attr('data-href');
-            event.preventDefault();
-            // удлиннить окно чтоб футер был ниже нижнего края попапа
-            $('.content').css('margin-bottom', '80px');
-
-            $.ajax({
-                url:'/simulationIsStarted',
-                dataType:  "json",
-                data:{invite_id:getInviteId(href)},
-                success:function(data) {
-                    var dataGlobal = data;
-                    // проверка наличия незавершенных фулл симуляций самому-себе
-                    if (0 < parseInt(data.count_self_to_self_invites_in_progress)) {
-                        $(".exists-self-to-self-simulation-warning-popup").dialog({
-                            closeOnEscape: true,
-                            dialogClass: 'popup-before-start-sim',
-                            minHeight: 220,
-                            modal: true,
-                            resizable: false,
-                            width:881,
-                            open: function( event, ui ) {
-                                //Cufon.refresh();
-
-                                // пользователь выбирает не прерывать текущую симуляцию
-                                $('.exists-self-to-self-simulation-warning-popup .back-button').click(function(){
-                                    $('.exists-self-to-self-simulation-warning-popup').dialog('close');
-                                });
-
-                                // пользователь выбирает начать новую симуляцию, не смотря на наличие незавершенных
-                                $('.exists-self-to-self-simulation-warning-popup .go-ahead-button').click(function(){
-
-                                    // закрыть текущий попап
-                                    $('.exists-self-to-self-simulation-warning-popup').dialog('close');
-
-                                    // запрос на удаление всех незавершенных фулл симуляций самому-себе
-                                    $.ajax({ url: '/static/break-simulations-for-self-to-self-invites'});
-
-                                    // отображаем свтупительный попап
-                                    displaySimulationInfoPopUp(href, dataGlobal);
-                                });
-                            }
-                        });
-                    } else {
-                        // незавершенных симуляций нет
-                        displaySimulationInfoPopUp(href, dataGlobal);
-                    }
-                }
-            });
-
-            // hack {
-            $('.popup-before-start-sim').css('top', '50px');
-            $(window).scrollTop('body');
-            // hack }
-
-            return false;
-        });
-
-        var displaySimulationInfoPopUp =  function(href, data) {
-            // в случае если пользователь выбрал начать новую симуляцию,
-            // не смотря на наличие незавершенных сам-себе
-            // то предупреждение будет дублирующим,
-            // а если он пытает начать фулл симуляцию по приглашению от работодателя второй раз,
-            // то предупреждение нужно
-            if(data.user_try_start_simulation_twice &&
-                0 == parseInt(data.count_self_to_self_invites_in_progress)) {
-                // предупреждение о попытке повторного начала симуляции
-                $(".pre-start-popup").dialog({
-                    closeOnEscape: true,
-                    dialogClass: 'popup-before-start-sim',
-                    minHeight: 220,
-                    modal: true,
-                    resizable: false,
-                    width:881,
-                    open: function( event, ui ) {
-                        $('.start-full-simulation-next').attr('data-href', href);
-                        //Cufon.refresh();
-                    }
-                });
-            } else {
-                // информауия про ключевые моменты в сценарии фулл симуляции
-                // что я? где я? сотрудники, цели.
-                infoPopup_aboutFullSimulation(href);
-            }
-        }
-
-        $('.subscribe-ti-tariff').click(function(event) {
-            //event.preventDefault();
-            var me = this;
-            if($(this).hasClass('go-to-link')) {
-                console.log('переход');
-                return true;
-            }
-            var slug = $(me).find('a').attr('data-tariff-slug');
-            $.ajax({
-                url: "/dashboard/change-tariff",
-                data:{tariff_slug:slug},
-                success: function (data) {
-                    if(data.type === 'link') {
-                        location.assign("/payment/order/"+slug);
-                    }else if(data.type === 'popup') {
-                        $("."+data.popup_class).dialog({
-                            closeOnEscape: true,
-                            dialogClass: 'popup-before-start-sim',
-                            minHeight: 220,
-                            modal: true,
-                            resizable: false,
-                            draggable:false,
-                            width:881,
-                            open: function( event, ui ) { //invite_limits
-                                $("."+data.popup_class).find('.tariff_label').text(data.tariff_label);
-                                $("."+data.popup_class).find('.tariff_limits').text(data.tariff_limits);
-                                $("."+data.popup_class).find('.tariff_start').text(data.tariff_start);
-                                $("."+data.popup_class).find('.tariff_end').text(data.tariff_end);
-                                $("."+data.popup_class).find('.tariff-link').attr('href', "/payment/order/"+slug);
-                                $("."+data.popup_class).find('.invite_limits').text(data.invite_limits);
-                                //Cufon.refresh();
-                            }
-                        });
-                    } else {
-                        throw new Error("Не верный тип действия");
-                    }
-                }
-            });
-            //extend-tariff-popup
-            //tariff-already-booked-popup
-            //tariff-replace-now-popup
-
-            return false;
-        });
-
-        $('.subscribe-ti-tariff-close').click(function(event) {
-            //event.preventDefault();
-            var data_class = $(this).attr('data-class');
-            console.log(data_class)
-            $("."+data_class).dialog('close');
-            return false;
-        });
-
+//        var displaySimulationInfoPopUp =  function(href, data) {
+//            // в случае если пользователь выбрал начать новую симуляцию,
+//            // не смотря на наличие незавершенных сам-себе
+//            // то предупреждение будет дублирующим,
+//            // а если он пытает начать фулл симуляцию по приглашению от работодателя второй раз,
+//            // то предупреждение нужно
+//            if(data.user_try_start_simulation_twice &&
+//                0 == parseInt(data.count_self_to_self_invites_in_progress)) {
+//                // предупреждение о попытке повторного начала симуляции
+//                $(".pre-start-popup").dialog({
+//                    closeOnEscape: true,
+//                    dialogClass: 'popup-before-start-sim',
+//                    minHeight: 220,
+//                    modal: true,
+//                    resizable: false,
+//                    width:881,
+//                    open: function( event, ui ) {
+//                        $('.start-full-simulation-next').attr('data-href', href);
+//                        //Cufon.refresh();
+//                    }
+//                });
+//            } else {
+//                // информауия про ключевые моменты в сценарии фулл симуляции
+//                // что я? где я? сотрудники, цели.
+//                infoPopup_aboutFullSimulation(href);
+//            }
+//        }
         $('.start-full-simulation-passed').click(function(event){
             event.preventDefault();
             var href = $(this).attr('data-href');
@@ -617,12 +451,12 @@ var fixLogotypes = function() {
             return false;
         });
 
-        $('.start-full-simulation-now').click(function(event){
-            event.preventDefault();
-            var href = $(this).attr('data-href');
-            location.assign(href);
-            return false;
-        });
+//        $('.start-full-simulation-now').click(function(event){
+//            event.preventDefault();
+//            var href = $(this).attr('data-href');
+//            location.assign(href);
+//            return false;
+//        });
 
         $('.sign-in-link-in-popup').click(function(event){
             event.preventDefault();
@@ -633,31 +467,31 @@ var fixLogotypes = function() {
         });
         // show/hide sign-in box }
 
-        $('#corporate-dashboard-add-vacancy').click(function(event) {
-            event.preventDefault();
-            $(".form-vacancy").dialog({
-                dialogClass: 'add-vacancy-popup popup-primary popup-site title-bold submit-primry',
-                closeOnEscape: true,
-                minHeight: 350,
-                modal: true,
-                resizable: false,
-                draggable: false,
-                title: '',
-                width: 584,
-                position: {
-                    my: "left top",
-                    at: "left top",
-                    of: $('#corporate-invitations-list-box .items')
-                },
-                open: function () {
-                    // This is fix render for IE10
-                    // z-index правильный, но затемнение отрысовывается над попапом!
-                    $(window).trigger('resize');
-                }
-            });
-            $(".form-vacancy").dialog('open');
-            //Cufon.refresh();
-        });
+//        $('#corporate-dashboard-add-vacancy').click(function(event) {
+//            event.preventDefault();
+//            $(".form-vacancy").dialog({
+//                dialogClass: 'add-vacancy-popup popup-primary popup-site title-bold submit-primry',
+//                closeOnEscape: true,
+//                minHeight: 350,
+//                modal: true,
+//                resizable: false,
+//                draggable: false,
+//                title: '',
+//                width: 584,
+//                position: {
+//                    my: "left top",
+//                    at: "left top",
+//                    of: $('#corporate-invitations-list-box .items')
+//                },
+//                open: function () {
+//                    // This is fix render for IE10
+//                    // z-index правильный, но затемнение отрысовывается над попапом!
+//                    $(window).trigger('resize');
+//                }
+//            });
+//            $(".form-vacancy").dialog('open');
+//            //Cufon.refresh();
+//        });
 
         // password recovery {
         $(".link-recovery").click(function(){
@@ -689,7 +523,7 @@ var fixLogotypes = function() {
             if(localStorage.getItem('lastGetState') === null){
                 return true;
             } else if(lastGetState.getTime() <= (parseInt(localStorage.getItem('lastGetState')) +30000)) {
-                if (window.confirm("У вас есть незавершённая симуляция. Выйдя вы потеряете все данные")) {
+                if (window.confirm("У вас есть незавершенная симуляция. Если вы выйдете из аккаунта, то потеряете все результаты")) {
                     //window.alert("Ок");
                     return true;
                 } else {
@@ -733,14 +567,7 @@ var fixLogotypes = function() {
                 $(this).css('color', '#555742');
                 $(this).removeClass("active");
             }
-            //Cufon.refresh();
         })
-
-        $(".change-simulation-result-render").click(function() {
-            $.post("/dashboard/switchAssessmentResultsRenderType").done(function() {
-                location.reload();
-            })
-        });
 
         $(".showDialogRejected").click(function(e){
             e.preventDefault();
@@ -837,7 +664,17 @@ var fixLogotypes = function() {
             $(this).addClass("active");
             var popoverStatus =  $(this).find('.popover-status');
             popoverStatus.addClass("active");
-            popoverStatus.css("margin-top", - popoverStatus.height()/2 - 4);
+
+
+            popoverStatus.css("margin-top", - popoverStatus.height()/2 - 2);
+
+            if($(window).width() < 1140)
+            {
+
+                popoverStatus.css("margin-left", -52);
+            }else{
+                popoverStatus.css("margin-left", '');
+            }
             $(this).find('.popover-triangle').css("top", (popoverStatus.height() - 16)/2);
         });
 
@@ -849,73 +686,73 @@ var fixLogotypes = function() {
         });
         // invite-status-tooltip-toggle }
 
-        if($("#corporate-invitations-list-box").length != 0) {
-
-            $('.items td a').hide();
-
-            // append pop-up sub-menu
-            if (2 < $('.items tr').length || '' != $('.items tr:eq(1) td:eq(3)').text()) { //fix for empty list
-                $('.items tr').each(function(){
-                    $(this).find('td:eq(0)').html(
-                        '<a class="invites-smallmenu-switcher"></a><div class="invites-smallmenu-item" ></div><span class="topline"></span>'
-                    );
-                });
-            }
+//        if($("#corporate-invitations-list-box").length != 0) {
+//
+//            $('.items td a').hide();
+//
+//            // append pop-up sub-menu
+//            if (2 < $('.items tr').length || '' != $('.items tr:eq(1) td:eq(3)').text()) { //fix for empty list
+//                $('.items tr').each(function(){
+//                    $(this).find('td:eq(0)').html(
+//                        '<a class="invites-smallmenu-switcher"></a><div class="invites-smallmenu-item" ></div><span class="topline"></span>'
+//                    );
+//                });
+//            }
 
             // remove last 3 TH
-            $('.items').find('th:eq(7)').remove();
-            $('.items').find('th:eq(6)').remove();
+//            $('.items').find('th:eq(7)').remove();
+//            $('.items').find('th:eq(6)').remove();
 
-            $('.invites-smallmenu-switcher').each(function(){
-                // move links from last 3 TD to pop-up sub-menu
-                $(this).next().append(
-                    $(this).parent().parent().find('td:eq(6)').html()
-                        + $(this).parent().parent().find('td:eq(7)').html()
-                );
-
-                // remove last 3 TD
-                $(this).parent().parent().find('td:eq(7)').remove();
-                $(this).parent().parent().find('td:eq(6)').remove();
-
-                // make links (now they in pop-up sub-menu) visible
-                $('.items td a').show();
-
-            });
-
-            // setup sub-menu switcher behaviour
-            $('.invites-smallmenu-switcher').click(function(){
-
-                var isVisible = $(this).next().is(":visible");
-
-                // click must close all other open "small-menu"
-                $('tr.selected-sk .invites-smallmenu-item').hide();
-                $('tr.selected-sk').removeClass('selected-sk');
-
-                // after removeClass('selected-sk') and hide(), function this.toggle() will always shown element,
-                // so I store menu state before I hide all menus and use isVisible to determine show or hide current menu
-                if (isVisible) {
-                    var a = $(this).next().hide();
-                    $(this).parent().parent().removeClass('selected-sk');
-                } else {
-                    var a = $(this).next().toggle();
-                    $(this).parent().parent().toggleClass('selected-sk');
-                }
-                //Cufon.refresh();
-            });
-
-            $('.invites-smallmenu-item').click(function(){
-                $(this).hide();
-                $(this).parent().parent().removeClass('selected-sk');
-            });
-
-            $(document).click(function(e) {
-                if(!$(e.target).is('.invites-smallmenu-switcher')) {
-                    var visibleMenu = $(".invites-smallmenu-item:visible");
-                    visibleMenu.parents("tr").removeClass('selected-sk');
-                    visibleMenu.hide();
-                }
-            });
-        }
+//            $('.invites-smallmenu-switcher').each(function(){
+//                // move links from last 3 TD to pop-up sub-menu
+//                $(this).next().append(
+//                    $(this).parent().parent().find('td:eq(6)').html()
+//                        + $(this).parent().parent().find('td:eq(7)').html()
+//                );
+//
+//                // remove last 3 TD
+//                $(this).parent().parent().find('td:eq(7)').remove();
+//                $(this).parent().parent().find('td:eq(6)').remove();
+//
+//                // make links (now they in pop-up sub-menu) visible
+//                $('.items td a').show();
+//
+//            });
+//
+//            // setup sub-menu switcher behaviour
+//            $('.invites-smallmenu-switcher').click(function(){
+//
+//                var isVisible = $(this).next().is(":visible");
+//
+//                // click must close all other open "small-menu"
+//                $('tr.selected-sk .invites-smallmenu-item').hide();
+//                $('tr.selected-sk').removeClass('selected-sk');
+//
+//                // after removeClass('selected-sk') and hide(), function this.toggle() will always shown element,
+//                // so I store menu state before I hide all menus and use isVisible to determine show or hide current menu
+//                if (isVisible) {
+//                    var a = $(this).next().hide();
+//                    $(this).parent().parent().removeClass('selected-sk');
+//                } else {
+//                    var a = $(this).next().toggle();
+//                    $(this).parent().parent().toggleClass('selected-sk');
+//                }
+//                //Cufon.refresh();
+//            });
+//
+//            $('.invites-smallmenu-item').click(function(){
+//                $(this).hide();
+//                $(this).parent().parent().removeClass('selected-sk');
+//            });
+//
+//            $(document).click(function(e) {
+//                if(!$(e.target).is('.invites-smallmenu-switcher')) {
+//                    var visibleMenu = $(".invites-smallmenu-item:visible");
+//                    visibleMenu.parents("tr").removeClass('selected-sk');
+//                    visibleMenu.hide();
+//                }
+//            });
+//        }
 
         /**
          * Ссылки "Результаты" (скачать аналитический файл) и "Инструкция по оценке"
@@ -938,7 +775,7 @@ var fixLogotypes = function() {
             }, 30*1000);
 
             window.location.href = url;
-        })
+        });
 
     });
 })(jQuery);

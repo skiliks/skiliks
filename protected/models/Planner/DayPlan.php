@@ -23,6 +23,19 @@ class DayPlan extends CActiveRecord
 
     protected static $allowedDays = ['day-1', 'day-2', 'after-vacation', 'todo'];
 
+    /**
+     * @param string $day
+     * @return bool
+     */
+    public function isDayAllowed($day)
+    {
+        if (!in_array($this->day, self::$allowedDays)) {
+            $this->addError('day', Yii::t('site', 'Неверный день'));
+        }
+    }
+
+    /* -------------------------------------------------------------------------------------------------------- */
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -107,15 +120,4 @@ class DayPlan extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
-
-    /**
-     * @param string $day
-     * @return bool
-     */
-    public function isDayAllowed($day)
-    {
-        if (!in_array($this->day, self::$allowedDays)) {
-            $this->addError('day', Yii::t('site', 'Неверный день'));
-        }
-    }
 }

@@ -4,176 +4,48 @@ class PaymentController extends SiteBaseController
 {
     const SYSTEM_ERROR = 'Ошибка системы. Обратитесь к владельцам сайта для уточнения причины.';
 
-    public function actionOrder($tariffType = null)
+    public function actionOrder()
     {
         /** @var YumUser $user */
         $user = Yii::app()->user->data();
 
         if (!$user->isAuth() || !$user->isCorporate()) {
             Yii::app()->user->setFlash('error', sprintf(
-                'Тарифные планы доступны корпоративным пользователям. Пожалуйста, <a href="/logout/registration">зарегистрируйте</a> корпоративный аккаунт и получите доступ.'
+                'Оплата доступна корпоративным пользователям. Пожалуйста, <a href="/logout/registration" class="color-428290">зарегистрируйте</a> корпоративный аккаунт и получите доступ.'
             ));
             $this->redirect('/');
         }
 
-        if(!in_array($this->request->urlReferrer, [$this->request->hostInfo.'/static/tariffs', $this->request->hostInfo.'/profile/corporate/tariff']))
-        {
+        $this->layout = 'site_standard_2';
 
-            Yii::app()->user->setFlash('error', 'Вы должны переходить на страницу "Оформление заказа" только через страницы <a href="/static/tariffs">"Цены и Тарифы"</a> и <a href="/profile/corporate/tariff">"Тарифы"</a> в "Мой профиль"');
+        $this->addSiteCss('/pages/order-1280.css');
+        $this->addSiteCss('/pages/order-1024.css');
+        $this->addSiteJs('_page-payment.js');
 
-            $this->redirect('/static/tariffs');
-        }
+        $minSimulationSelected = self::getMinSimulationsForOrder($user, Yii::app()->request->getParam('ordered'));
 
-        $tariff = null === $tariffType ?
-           $user->account_corporate->tariff :
-           Tariff::model()->findByAttributes(['slug' => $tariffType]);
+        $json = [
+            'minSimulationSelected' => $minSimulationSelected
+        ];
 
-        if ( null === $tariff ) {
-            Yii::app()->user->setFlash('error', sprintf(self::SYSTEM_ERROR));
-            $this->redirect('/');
-        }
-
-        if ( UserService::isAllowOrderTariff($tariff, $user->account_corporate) === false ) {
-            Yii::app()->user->setFlash('error', sprintf(self::SYSTEM_ERROR));
-            $this->redirect('/');
+        foreach(Price::model()->findAll() as $price){
+            /* @var $price Price */
+            $json['prices'][] = [
+                'name' => $price->name,
+                'to' => $price->to,
+                'from' => $price->from,
+                'alias' => $price->alias,
+                'in_RUB' => $price->in_RUB,
+                'in_USD' => $price->in_USD,
+            ];
         }
 
         $this->render('order', [
             'account' => $user->account_corporate,
-            'tariff' => $tariff,
             'paymentMethodCash'      => new CashPaymentMethod(),
-            'paymentMethodRobokassa' => new RobokassaPaymentMethod()
-        ]);
-    }
-
-    public function actionDo()
-    {
-        /** @var YumUser $user */
-        $user = Yii::app()->user->data();
-
-        if (!Yii::app()->request->getIsAjaxRequest() || !$user->isAuth() || !$user->isCorporate()) {
-            echo 'false';
-            Yii::app()->end();
-        }
-
-        $UserAccountCorporate = Yii::app()->request->getParam('UserAccountCorporate');
-        $Invoice = Yii::app()->request->getParam('Invoice');
-        $Tariff = Yii::app()->request->getParam('Tariff');
-        $account = $user->account_corporate;
-
-        if (null !== $UserAccountCorporate && null !== $Tariff) {
-            $account->preference_payment_method = $method = $UserAccountCorporate['preference_payment_method'];
-
-            if ($method === UserAccountCorporate::PAYMENT_METHOD_INVOICE && null !== $Invoice) {
-                $invoice = new Invoice();
-
-                $account->inn                 = $invoice->inn     = $Invoice['inn'];
-                $account->cpp                 = $invoice->cpp     = $Invoice['cpp'];
-                $account->bank_account_number = $invoice->account = $Invoice['account'];
-                $account->bic                 = $invoice->bic     = $Invoice['bic'];
-
-                $invoice->user_id = $user->id;
-                $invoice->tariff_id = $Tariff['id'];
-                $invoice->status = Invoice::STATUS_PENDING;
-
-                $errors = CActiveForm::validate($invoice);
-
-                if (Yii::app()->request->getParam('ajax') === 'payment-form') {
-                    echo $errors;
-                } elseif (!$account->hasErrors()) {
-                    $account->save();
-                    $invoice->save();
-
-                    echo sprintf(
-                        Yii::t('site', 'Thanks for your order, Invoice was sent to %s. Plan will be available upon receipt of payment'),
-                        $user->profile->email
-                    );
-                }
-            }
-        } else {
-            echo 'false';
-        }
-    }
-
-    public function actionChangeTariff($type = null)
-    {
-        $user = Yii::app()->user->data();
-        $type = Yii::app()->request->getParam('type');
-
-        $tariff = Tariff::model()->findByAttributes(['slug' => $type]);
-
-        // is Tariff exist
-        if (null == $tariff) {
-            $this->redirect('/static/tariff');
-        }
-
-       // is user authenticated
-        if (false == $user->isAuth()) {
-            $this->redirect('/registration');
-        }
-
-        // is Personal account
-        if ($user->isPersonal()) {
-            Yii::app()->user->setFlash('error',
-                "Выбор тарифа доступен только для корпоративных пользователей.<br/><br/>  ".
-                "Вы можете <a href='/logout/registration'>зарегистрировать</a> корпоративный профиль"
-            );
-            $this->redirect('/static/tariffs');
-        }
-
-        // is Corporate account
-        if($user->isCorporate()) {
-            // prevent cheating
-            if($user->getAccount()->tariff_id == $tariff->id) {
-                $this->redirect('/profile/corporate/tariff');
-            }
-
-            // update account tariff
-            $user->getAccount()->setTariff($tariff, true);
-
-            if($user->getAccount()->tariff_id == $tariff->id) {
-                $this->redirect('/profile/corporate/tariff');
-            }
-
-            $this->redirect("/profile/corporate/tariff");
-        }
-
-        // other undefined errors
-        Yii::app()->user->setFlash('error', sprintf(self::SYSTEM_ERROR));
-        $this->redirect('/static/tariff');
-    }
-
-    // -----------
-
-    public function actionOrderNew($tariffType = null)
-    {
-        /** @var YumUser $user */
-        $user = Yii::app()->user->data();
-
-        if (!$user->isAuth() || !$user->isCorporate()) {
-            Yii::app()->user->setFlash('error', sprintf(
-                'Тарифные планы доступны корпоративным пользователям. Пожалуйста, <a href="/logout/registration">зарегистрируйте</a> корпоративный аккаунт и получите доступ.'
-            ));
-            $this->redirect('/');
-        }
-
-        $tariff = null === $tariffType ?
-            $user->account_corporate->tariff :
-            Tariff::model()->findByAttributes(['slug' => $tariffType]);
-
-        if (null === $tariff) {
-            Yii::app()->user->setFlash('error', sprintf(self::SYSTEM_ERROR));
-            $this->redirect('/');
-        }
-
-        $invoice = new Invoice();
-
-        $this->layout = 'site_standard';
-
-        $this->render('//new/order', [
-            'account' => $user->account_corporate,
-            'invoice' => $invoice,
-            'tariff' => $tariff
+            'paymentMethodRobokassa' => new RobokassaPaymentMethod(),
+            'minSimulationSelected' => $minSimulationSelected,
+            'paymentData' => $json
         ]);
     }
 
@@ -204,21 +76,10 @@ class PaymentController extends SiteBaseController
         } elseif ($errors == "[]" && !$account->hasErrors()) {
             $account->save();
 
-
-            $tariffType = Yii::app()->request->getParam('tariff-label');
-            $months = 1; //Yii::app()->request->getParam('cash-month-selected');
-
-            if( !isset($months) || $months === null || (int)$months == 0) {
-                throw new Exception("Invoice has to be created for at least one month");
-            }
-
-            $tariff = null === $tariffType ?
-                $user->account_corporate->tariff :
-                Tariff::model()->findByAttributes(['slug' => $tariffType]);
-
-            if (null === $tariff) {
-                Yii::app()->user->setFlash('error', sprintf(self::SYSTEM_ERROR));
-                $this->redirect('/');
+            $simulation_selected = Yii::app()->request->getParam('simulation-selected');
+            $minSimulationSelected = self::getMinSimulationsForOrder($user);
+            if( !isset($simulation_selected) || $simulation_selected === null || (int)$simulation_selected < $minSimulationSelected) {
+                throw new Exception("Случилась ошибка, поле simulation-selected не валидное");
             }
 
             $invoice = new Invoice();
@@ -228,7 +89,7 @@ class PaymentController extends SiteBaseController
                                                      "account" => $paymentMethod->account,
                                                      "bic" => $paymentMethod->bic]);
             // setting months that user selected, after it create an invoice and save it
-            $invoice->createInvoice($user, $tariff, $months);
+            $invoice->createInvoice($user, $simulation_selected);
 
             // send booker email
             if($paymentMethod->sendBookerEmail($invoice, $user)) {
@@ -243,35 +104,25 @@ class PaymentController extends SiteBaseController
 
         if (!$user->isAuth() || !$user->isCorporate()) {
             Yii::app()->user->setFlash('error', sprintf(
-                'Тарифные планы доступны корпоративным пользователям. Пожалуйста, <a href="/logout/registration">зарегистрируйте</a> корпоративный аккаунт и получите доступ.'
+                '2 Тарифные планы доступны корпоративным пользователям. Пожалуйста, <a href="/logout/registration" class="color-428290">зарегистрируйте</a> корпоративный аккаунт и получите доступ.'
             ));
             $this->redirect('/');
         }
 
-        $tariffType = Yii::app()->request->getParam('tariffType');
-        $months = Yii::app()->request->getParam('monthSelected');
-
-        if( !isset($months) || $months === null || (int)$months == 0) {
-            throw new Exception("Invoice has to be created for at least one month");
-        }
-
-        $tariff = null === $tariffType ?
-            $user->account_corporate->tariff :
-            Tariff::model()->findByAttributes(['slug' => $tariffType]);
-
-        if (null === $tariff) {
-            Yii::app()->user->setFlash('error', sprintf(self::SYSTEM_ERROR));
-            $this->redirect('/');
+        $simulation_selected = Yii::app()->request->getParam('simulation-selected');
+        $minSimulationSelected = self::getMinSimulationsForOrder($user);
+        if( !isset($simulation_selected) || $simulation_selected === null || (int)$simulation_selected < $minSimulationSelected) {
+            throw new Exception("Случилась ошибка, поле simulation-selected не валидное");
         }
 
         $invoice = new Invoice();
         $invoice->payment_system = "robokassa";
         // setting months that user selected, after it create an invoice and save it
-        $invoice->createInvoice($user, $tariff, $months);
+        $invoice->createInvoice($user, $simulation_selected);
 
         $robokassa = new RobokassaPaymentMethod();
-        $robokassa->setDescription($tariff, $user, $invoice);
-        $formData = $robokassa->generateJsonBackData($invoice, $tariff);
+        $robokassa->setDescription($user, $simulation_selected);
+        $formData = $robokassa->generateJsonBackData($invoice);
         echo json_encode($formData);
     }
 
@@ -280,13 +131,13 @@ class PaymentController extends SiteBaseController
 
         if (!$user->isAuth() || !$user->isCorporate()) {
             Yii::app()->user->setFlash('error', sprintf(
-                'Тарифные планы доступны корпоративным пользователям. Пожалуйста, <a href="/logout/registration">зарегистрируйте</a> корпоративный аккаунт и получите доступ.'
+                '3 Тарифные планы доступны корпоративным пользователям. Пожалуйста, <a href="/logout/registration" class="color-428290">зарегистрируйте</a> корпоративный аккаунт и получите доступ.'
             ));
             $this->redirect('/');
         }
 
         Yii::app()->user->setFlash('error', sprintf(
-            'Оплата прошла успешно, спасибо!'
+            'Оплата прошла успешно, спасибо'
         ));
         $this->redirect('/dashboard');
     }
@@ -296,7 +147,7 @@ class PaymentController extends SiteBaseController
 
         if (!$user->isAuth() || !$user->isCorporate()) {
             Yii::app()->user->setFlash('error', sprintf(
-                'Тарифные планы доступны корпоративным пользователям. Пожалуйста, <a href="/logout/registration">зарегистрируйте</a> корпоративный аккаунт и получите доступ.'
+                '4 Тарифные планы доступны корпоративным пользователям. Пожалуйста, <a href="/logout/registration" class="color-428290">зарегистрируйте</a> корпоративный аккаунт и получите доступ.'
             ));
             $this->redirect('/');
         }
@@ -310,7 +161,7 @@ class PaymentController extends SiteBaseController
         if(null != $invoice) {
 
             Yii::app()->user->setFlash('error', sprintf(
-                'Извините, оплата прошла неуспешно.'
+                'Извините, оплата прошла неуспешно'
             ));
             $this->redirect('/static/tariffs');
         }
@@ -323,7 +174,7 @@ class PaymentController extends SiteBaseController
         $criteria = new CDbCriteria();
         $criteria->compare('id', $invoiceId);
 
-
+        /* @var $invoice Invoice */
         $invoice = Invoice::model()->find($criteria);
 
         if($invoice !== null && $invoice->paid_at == null) {
@@ -339,8 +190,8 @@ class PaymentController extends SiteBaseController
 
                     $initValue = $invoice->user->getAccount()->getTotalAvailableInvitesLimit();
 
-                    UserService::logCorporateInviteMovementAdd(sprintf("Принята оплата по счёт-фактуре номер %s, на тарифный план %s. Количество доступных симуляций установлено в %s из них за рефераллов %s.",
-                        $invoice->id, $invoice->tariff->label, $initValue, $invoice->user->getAccount()->referrals_invite_limit), $invoice->user->getAccount(), 0);
+                    UserService::logCorporateInviteMovementAdd(sprintf("Принята оплата по счёт-фактуре номер %s. Количество доступных симуляций установлено в %s.",
+                        $invoice->id, $initValue), $invoice->user->getAccount(), 0);
                 }
                 else throw new Exception("Invoice is not complete");
             }
@@ -360,15 +211,33 @@ class PaymentController extends SiteBaseController
 
         if (!$user->isAuth() || !$user->isCorporate()) {
             Yii::app()->user->setFlash('error', sprintf(
-                'Тарифные планы доступны корпоративным пользователям. Пожалуйста, <a href="/logout/registration">зарегистрируйте</a> корпоративный аккаунт и получите доступ.'
+                '5 Тарифные планы доступны корпоративным пользователям. Пожалуйста, <a href="/logout/registration" class="color-428290">зарегистрируйте</a> корпоративный аккаунт и получите доступ.'
             ));
             $this->redirect('/');
         }
 
         Yii::app()->user->setFlash('error', sprintf(
-            'Ваш заказ принят, в течении дня вам на почту придёт счёт фактура для оплаты выбранного тарифного плана.'
+            'Ваш заказ принят. В течении дня вам на почту придёт счёт фактура для оплаты выбранного тарифного плата'
         ));
         $this->redirect('/dashboard');
+    }
+
+    /**
+     * Возвращает минимально доступное для выбока количество симуляций,
+     * применяется для валидации значения на странице оформить заказ.
+     *
+     * @param YumUser $user
+     *
+     * @return int
+     */
+    public static function getMinSimulationsForOrder(YumUser $user) {
+        if (0 === (int)Invoice::model()->count('user_id = '.$user->id.' and paid_at is not null')) {
+            $amount = Yii::app()->params['minimumOrderForTheFirstTime'];
+        } else {
+            $amount = 1;
+        }
+
+        return $amount;
     }
 
 }

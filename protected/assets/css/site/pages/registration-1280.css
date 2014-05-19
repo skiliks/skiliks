@@ -1,0 +1,108 @@
+
+.us-registration-header {
+    background-image: url('../../../img/site/1280/registration/top.png');
+    background-repeat: no-repeat;
+    background-position: top center;
+    height: 125px;
+    margin-top: -15px;
+    margin-left: -15px;
+    width: auto;
+    border-radius: 8px 8px 0 0;
+}
+
+.us-registration-by-link-body,
+.us-registration-body {
+    background-image: url('../../../img/site/1280/registration/cactus.png');
+    background-repeat: no-repeat;
+    background-position: 520px 60px; /* x, y */
+}
+
+.us-registration-by-link-body {
+    background-position: 530px 10px;
+}
+
+.us-registration-window label {
+    width: 150px;
+}
+
+#registration-by-link-form .error .error-place {
+    height: 16px;
+    padding-left: 171px;
+}
+
+.us-registration-window input[type="checkbox"] {
+    vertical-align: middle;
+    padding-left: 0;
+    margin-left: 0;
+}
+
+#YumUser_agree_with_terms {
+    margin-top: 1px;
+    padding-top: 0;
+}
+
+.us-i-agree-label {
+    line-height: 1.2em;
+}
+
+.skiliks .us-activation-email-notice {
+    background-image: url('../../../img/site/1280/registration/envelop.png');
+    background-repeat: no-repeat;
+    background-position: 40px;
+    height: 123px; /* envelop.png height */
+    padding: 40px;
+}
+
+.us-activation-email-content {
+    margin-left: 166px; /* envelop.png width + 40px (padding 40px) */
+}
+
+.us-link-register,
+.us-activation-email-content span {
+    font-size: 1.4em;
+}
+
+.us-error-place.error .error-place {
+    padding-top: 30px;
+    padding-bottom: 15px;
+}
+
+.us-registration-window .error .error-place {
+    height: 16px;
+    padding-left: 171px;
+}
+
+/* надо разобраться почему тут и в персональном рабочем кабинете */
+/* , при одинаковой ширине, - фактическая ширина разная */
+
+.skiliks .column-2-3-fixed {
+    width: 719px;
+}
+
+.inline-error-first {
+    width: 227px;
+}
+
+.inline-error-second {
+    margin-left: 234px;
+    margin-top: -3px;
+    vertical-align: top;
+}
+
+.action-registerByLink .inline-error-second {
+    margin-left: 0;
+    margin-top: 10px;
+    vertical-align: middle;
+}
+
+textarea, input[type="text"], input[type="password"] {
+    width: 200px;
+}
+
+.skiliks .us-UserAccountCorporate_industry_id .sbHolder {
+    width: 442px;
+}
+
+#YumProfile_email {
+    width: 434px;
+}

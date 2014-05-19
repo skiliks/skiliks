@@ -45,6 +45,8 @@ define(
 
             renderContent: function (content) {
                 try {
+                    // не показывать крестик закрытия в справке,
+                    // пока пользователь не долистает до последней страницы.
                     var required = this.options.model_instance.get('required');
 
                     content.html(_.template(frame, {
@@ -56,7 +58,7 @@ define(
                     });
 
                     this.pages = content.find('.page');
-                    this.closeBtn = content.find('.close-window');
+                    this.closeBtn = content.find('.close-window-manual');
                     content.find('.pages .total').html(this.pages.length).prev('.current').html(1);
 
                     if (required) {
@@ -87,9 +89,10 @@ define(
                             return content.find('.tooltip[data-tooltip="' + tooltipId + '"]').html();
                         }
                     });
-                    if(SKApp.isTutorial() && !SKApp.simulation.manual_is_first_closed){
-                        this.$el.css('zIndex', 50000);
+                    if(SKApp.isTutorial() && !SKApp.simulation.manual_is_first_closed) {
+                        this.$el.css('zIndex', 1001); // у DIV-затемнения индекс 1000
                     }
+
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -104,8 +107,8 @@ define(
                     var page = $(e.currentTarget).attr('data-refer-page');
                     var index = this.pages.addClass('hidden').filter('[data-page=' + page + ']').removeClass('hidden').index();
 
-                    this.$el.find('.pages .current').html(index + 1);
-                    if (index + 1 === this.pages.length) {
+                    this.$el.find('.pages .current').html(index);
+                    if (index === this.pages.length) {
                         this.closeBtn.show();
                     }
                     if (index > 0) {

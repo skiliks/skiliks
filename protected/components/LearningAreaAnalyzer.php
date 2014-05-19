@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Class LearningAreaAnalyzer
+ */
 class LearningAreaAnalyzer {
 
     /**
@@ -7,11 +10,17 @@ class LearningAreaAnalyzer {
      */
     public $simulation;
 
-    public function __construct($simulation)
+    /**
+     * @param Simulation $simulation
+     */
+    public function __construct(Simulation $simulation)
     {
         $this->simulation = $simulation;
     }
 
+    /**
+     * Запуск расчета областей
+     */
     public function run()
     {
         // Management skills
@@ -30,6 +39,11 @@ class LearningAreaAnalyzer {
         $this->attentiveness();
     }
 
+    /**
+     * Расчет области обучения по коду
+     * @param $code
+     * @return int
+     */
     protected function calcLearningArea($code)
     {
         $scenario = $this->simulation->game_type;
@@ -43,6 +57,13 @@ class LearningAreaAnalyzer {
         return $aggregated ? $aggregated->value : 0;
     }
 
+    /**
+     * Расчет максрейта
+     * @param $code hero_behaviour_code или learning_goal_code
+     * @param $assessment агрегированая оценка по повидению
+     * @return float|int
+     * @throws Exception
+     */
     protected function calcMaxRate($code, $assessment)
     {
         $scenario = $this->simulation->game_type;
@@ -72,6 +93,12 @@ class LearningAreaAnalyzer {
         }
     }
 
+    /**
+     * Расчет весов
+     * @param $code
+     * @param $value
+     * @return float
+     */
     protected function calcWeight($code, $value)
     {
         $scenario = $this->simulation->game_type;
@@ -83,6 +110,11 @@ class LearningAreaAnalyzer {
         return $weight->value * $value;
     }
 
+    /**
+     * Сохраняет область обучения
+     * @param string $code код области
+     * @param string $value процены
+     */
     protected function saveLearningArea($code, $value)
     {
         $learningArea = $this->simulation->game_type->getLearningArea(['code' => $code]);
@@ -96,6 +128,11 @@ class LearningAreaAnalyzer {
         }
     }
 
+    /**
+     * Комбинирование оценок по целям обучений
+     * @param string $learningAreaCode код обучения
+     * @return array
+     */
     protected function calcCombinedSkillsByGoalGroup($learningAreaCode)
     {
         $scenario = $this->simulation->game_type;
@@ -103,8 +140,6 @@ class LearningAreaAnalyzer {
         $total = 0;
         $maxRate = 0;
         $ids = [];
-
-        $except = HeroBehaviour::getExcludedFromAssessmentBehavioursCodes();
 
         $area = $scenario->getLearningArea(['code' => $learningAreaCode]);
         if ($area) {
@@ -136,7 +171,7 @@ class LearningAreaAnalyzer {
         foreach ($behaviours as $behaviour) {
             // TODO: Anton decision
             // Remove out second condition
-            if ($behaviour->type_scale == 1 && !in_array($behaviour->code, $except)) {
+            if ($behaviour->type_scale == 1) {
                 $maxRate += $behaviour->scale;
             }
         }
@@ -144,6 +179,11 @@ class LearningAreaAnalyzer {
         return ['maxRate'=>$maxRate, 'total'=>$total]; //$maxRate ? $total / $maxRate : 0;
     }
 
+    /**
+     * Комбинирование оценок по целям обучений с учётом приоритетов
+     * @param string $learningAreaCode
+     * @return array maxRate - максрейт для группы целей и total - позитивная оценка по этой группе
+     */
     protected function calcCombinedSkillsByGoalGroupPriority($learningAreaCode)
     {
         $scenario = $this->simulation->game_type;
@@ -156,7 +196,6 @@ class LearningAreaAnalyzer {
         $group_1_3_negative = 0;
         $group_1_3_max_negative = 0;
         $group_1_3 = null;
-        //$except = HeroBehaviour::getExcludedFromAssessmentBehavioursCodes();
 
         $area = $scenario->getLearningArea(['code' => $learningAreaCode]);
         if ($area) {
@@ -225,7 +264,7 @@ class LearningAreaAnalyzer {
     }
 
 
-    /*
+    /**
      * Следование приоритетам
      */
     public function followPriorities()
@@ -234,7 +273,7 @@ class LearningAreaAnalyzer {
         $this->saveLearningAreaByGoal(1, $value);
     }
 
-    /*
+    /**
      * Управление задачами
      */
     public function communicationManagement()
@@ -243,7 +282,7 @@ class LearningAreaAnalyzer {
         $this->saveLearningAreaByGoal(3, $value);
     }
 
-    /*
+    /**
      * Управление людьми
      */
     public function peopleManagement()
@@ -252,7 +291,7 @@ class LearningAreaAnalyzer {
         $this->saveLearningAreaByGoal(2, $value);
     }
 
-    /*
+    /**
      * Стрессоустойчивость
      */
     public function stressResistance()
@@ -263,7 +302,7 @@ class LearningAreaAnalyzer {
         $this->saveLearningArea(9, $learningArea);
     }
 
-    /*
+    /**
      * Устойчивость к манипуляциям и давлению
      */
     public function stability()
@@ -274,7 +313,7 @@ class LearningAreaAnalyzer {
         $this->saveLearningArea(10, $learningArea);
     }
 
-    /*
+    /**
      * Ответственность
      */
     public function responsibility()
@@ -286,7 +325,7 @@ class LearningAreaAnalyzer {
         $this->saveLearningArea(12, $learningArea);
     }
 
-    /*
+    /**
      * Ориентация на результат
      */
     public function resultOrientation()
@@ -297,7 +336,7 @@ class LearningAreaAnalyzer {
         $this->saveLearningArea(14, $learningArea);
     }
 
-    /*
+    /**
      * Конструктивность
      */
     public function constructibility()
@@ -308,7 +347,7 @@ class LearningAreaAnalyzer {
         $this->saveLearningArea(15, $learningArea);
     }
 
-    /*
+    /**
      * Гибкость
      */
     public function flexibility()
@@ -319,7 +358,7 @@ class LearningAreaAnalyzer {
         $this->saveLearningArea(16, $learningArea);
     }
 
-    /*
+    /**
      * Принятие решений
      */
     public function adoptionOfDecisions()
@@ -349,7 +388,7 @@ class LearningAreaAnalyzer {
         $this->saveLearningArea(13, $weight_8311 + $weight_8331 + $weight_8341 + $weight_8351 + $weight_8361);
     }
 
-    /*
+    /**
      * Внимательность
      */
     public function attentiveness()
@@ -360,6 +399,11 @@ class LearningAreaAnalyzer {
         $this->saveLearningArea(11, $learningArea);
     }
 
+    /**
+     * Сохранение области обучений
+     * @param string $code код обалсти
+     * @param array $params  maxRate и total
+     */
     protected function saveLearningAreaByGoal($code, $params)
     {
         $learningArea = $this->simulation->game_type->getLearningArea(['code' => $code]);

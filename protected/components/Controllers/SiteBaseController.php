@@ -1,13 +1,21 @@
 <?php
 
+/**
+ * Базовый контроллер для страниц сайта
+ */
 class SiteBaseController extends CController {
 
     /**
      * @var $user YumUser
      */
     public $user;
+    /**
+     * Нужно удалить это
+     * @var bool
+     */
     public $is_test = false;
     /**
+     * ОбЪект запроса
      * @var CHttpRequest
      */
     public $request;
@@ -18,6 +26,17 @@ class SiteBaseController extends CController {
     public $app;
 
     /**
+     * @var string
+     */
+    public $assetsUrl;
+
+    /**
+     * @var CClientScript
+     */
+    public $clientScripts;
+
+    /**
+     * Определение языка, задание некоторых параметров сайта
      * @param CAction $action
      * @return bool
      */
@@ -58,9 +77,16 @@ class SiteBaseController extends CController {
             Yii::app()->request->cookies['_lang'] = $cookie;
         }
 
+        $this->assetsUrl = $this->getAssetsUrl();
+        $this->clientScripts = Yii::app()->getClientScript();
+
         return true;
     }
 
+    /**
+     * Возвращает путь к ассертам
+     * @return string
+     */
     public function getAssetsUrl()
     {
         if(Yii::app()->params['disableAssets']) {
@@ -69,14 +95,16 @@ class SiteBaseController extends CController {
             return Yii::app()->getAssetManager()
                 ->publish(
                     Yii::getPathOfAlias('application.assets'),
-                    true, // check assets folder modifiedAs when generate assets folder hash
-                    -1
+                    false, // check assets folder modifiedAs when generate assets folder hash
+                    -1,
+                    true
                 );
         }
 
     }
 
     /**
+     * Проверка на то что пользователь авторизирован и получение объекта YumUser
      * Is user authenticated
      */
     public function checkUser()
@@ -89,6 +117,7 @@ class SiteBaseController extends CController {
     }
 
     /**
+     * Проверка что человек авторизирован как разработчик
      * Is user authenticated and has DEV rights
      */
     public function checkUserDeveloper()
@@ -107,6 +136,7 @@ class SiteBaseController extends CController {
     }
 
     /**
+     * Перенаправление на нужную страницу аккаунта
      * Base user verification
      */
     public function accountPagesBase()
@@ -114,7 +144,7 @@ class SiteBaseController extends CController {
         $user = Yii::app()->user;
         if (null === $user->id) {
             //Yii::app()->user->setFlash('error', 'Авторизируйтесь.');
-            $this->redirect('/registration');
+            $this->redirect('/registration/single-account');
         }
 
         /**
@@ -123,7 +153,7 @@ class SiteBaseController extends CController {
         $user = $user->data();  //YumWebUser -> YumUser
 
         if (null === Yii::app()->user->data()->getAccount()) {
-            $this->redirect('/registration');
+            $this->redirect('/registration/single-account');
         }
 
         if ($user->isCorporate()) {
@@ -140,6 +170,7 @@ class SiteBaseController extends CController {
     }
 
     /**
+     * Отправка  json
      * @method void send JSON Writes JSON to output
      */
     protected function sendJSON($data, $status = 200)
@@ -148,7 +179,7 @@ class SiteBaseController extends CController {
     }
 
     /**
-     *
+     * Отправка ответа от сервера
      * @param integer $status, 2xx, 3xx, 4xx, 5xx
      * @param string $body
      * @param string $content_type
@@ -169,11 +200,55 @@ class SiteBaseController extends CController {
         Yii::app()->end();
     }
 
+    /**
+     * Получение ответа от фронтенда
+     * @param $name
+     * @param null $defaultValue
+     * @return mixed|null
+     */
     public function getParam($name, $defaultValue = null) {
         return Yii::app()->request->getParam($name, $defaultValue);
     }
 
+    /**
+     * Получение конфига по имени
+     * @param $name
+     * @return mixed
+     */
     public function getConfig($name) {
         return Yii::app()->params[$name];
+    }
+
+    /**
+     * Добавляет CSS в список файлов подгружаемых со страницей
+     * @param string $path, like '_page-dashboard.css'
+     */
+    public function addSiteCss($path) {
+        $this->clientScripts->registerCssFile($this->assetsUrl.'/css/site/'.$path);
+    }
+
+    /**
+     * @param string $path, like '_page-dashboard.js'
+     */
+    public function addSiteJs($path) {
+        $this->clientScripts->registerScriptFile(
+            $this->assetsUrl.'/js/site/'.$path,
+            CClientScript::POS_END
+        );
+    }
+
+    /**
+     * Позволяет кратко добавить CSS стиль 'error' или ''
+     * в зависимости от того имеет ли поле $fieldName ошибку валидации.
+     * Используется в местах где автодобавление класса не работае само-собой
+     *
+     * @param CActiveForm $form
+     * @param mixed $model, object
+     * @param string $fieldName
+     *
+     * @return string
+     */
+    public function hasErrors($form, $model, $fieldName) {
+        return (null == $form->error($model, $fieldName)) ? '' : 'error';
     }
 }

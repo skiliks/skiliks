@@ -1,0 +1,201 @@
+
+body {
+    overflow-x: hidden;
+}
+
+body.action-controller-index-static-pages header {
+    background-image: url("../../../img/site/1280/team/bg-top-team.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center bottom;
+    height: 530px;
+}
+
+body.action-controller-index-static-pages {
+    background-image: none;
+    background-color: #E8F7F7;
+}
+
+.us-column-full {
+    width: 950px;
+}
+
+.skiliks .us-homepage-content {
+    height: 770px;
+    margin-top: -380px;
+}
+
+.list-white li {
+    color: #FFFFFF;
+    font-family: "ProximaNova-Regular";
+    font-size: 1.2em;
+    margin-bottom: 7px;
+    min-height: 18px;
+    padding-left: 27px;
+    text-shadow: 0 0 8px rgba(0, 0, 0, 0.14);
+}
+
+.list-white {
+    list-style: none outside none;
+    margin-top: 24px;
+}
+
+.features h1 {
+    width: 750px;
+}
+
+.us-homepage-angela {
+    display: inline;
+    left: 700px;
+    position: relative;
+    top: -440px;
+}
+
+.us-angela-comment {
+    left: 980px;
+    position: relative;
+    transform: rotate(-27deg);
+    -moz-transform: rotate(-27deg);
+    -ms-transform: rotate(-27deg);
+    -webkit-transform: rotate(-27deg);
+    -o-transform: rotate(-27deg);
+    top: 200px;
+}
+
+.us-trudyakin-comment {
+    left: -150px;
+    position: relative;
+    transform: rotate(30deg);
+    -moz-transform: rotate(30deg);
+    -ms-transform: rotate(30deg);
+    -webkit-transform: rotate(30deg);
+    -o-transform: rotate(30deg);
+    top: -165px;
+}
+
+.us-comment  {
+    color: rgba(20, 102, 114, 0.6);
+    font: 12px/22px 'SegoePrint';
+    width: 190px;
+}
+
+.us-bottom-content {
+    margin-top: -820px;
+}
+
+.us-homepage-trudyakin {
+    display: inline;
+    left: -70px;
+    position: relative;
+    top: 125px
+}
+
+.us-middle-content {
+    height: 360px;
+    margin-top: -570px;
+    margin-left: 300px;
+    width: 400px;
+}
+
+.us-our-client h2,
+.us-middle-content h2 {
+    color: #146672;
+    margin-bottom: 10px;
+    margin-top: 15px;
+}
+.us-our-client h2 {
+    margin-bottom: 20px;
+}
+
+.us-middle-content li {
+    list-style-type: none;
+    line-height: 1.4em;
+}
+
+.us-our-client {
+    margin-top: 110px;
+    width: 500px;
+}
+
+.us-our-client li {
+    height: 95px;
+    list-style-type: none;
+    display: inline-block;
+    width: 160px;
+}
+
+.us-homepage-heroes-group {
+    left: 425px;
+    position: relative;
+    top: -43px;
+}
+
+.skiliks .clearfix {
+    height: 0px;
+}
+
+.us-column-2-3 {
+    height: 274px;
+    width: 394px;
+}
+
+.us-column-1-3 {
+    width: 318px;
+}
+
+p.us-success-text {
+    color: #146672;
+    font: 2.144em/1.5em "ProximaNova-Regular";
+}
+
+#action-subscribe-form.error .error-place .errorMessage,
+#action-subscribe-form.error .error-place {
+    height: 17px;
+}
+
+.us-start-demo {
+    height: 26px;
+    font-size: 1.21em;
+    left: 6px;
+    padding-top: 5px;
+    padding-bottom: 3px;
+    position: relative;
+    top: -79px;
+}
+
+.us-start-demo-box {
+   position: relative;
+   z-index: 1;
+}
+
+/* popup-video { */
+
+.popup-video {
+    background: none repeat scroll 0 0 #146672;
+    border: medium none;
+    border-radius: 8px;
+    box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
+    margin: 0 auto;
+    overflow: hidden;
+    padding: 0;
+}
+
+.popup-video.ui-dialog .iframe-video.ui-dialog-content {
+    overflow: hidden;
+}
+
+.popup-video .iframe-video iframe {
+    border-radius: 5px;
+    height: 478px;
+    width: 100%;
+}
+
+
+.skiliks .popup-video .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick {
+    margin-top: -18px;
+}
+
+.us-homepage-content .button-standard {
+    padding-top: 14px;
+    padding-bottom: 14px;
+}

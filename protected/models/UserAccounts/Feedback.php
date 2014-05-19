@@ -10,14 +10,24 @@
  * @property string $email
  * @property string $addition
  * @property string $ip_address
+ * @property string $is_processed
+ * @property string $comment
  */
 class Feedback extends CActiveRecord
 {
     public static function getFeedbackSubjects()
     {
-        $arr = ['Product features', 'Registration and authorization', 'Corporate dashboard',
-            'Private dashboard', 'Simulation workflow', 'Assessment results', 'Help', 'Pricing and plans',
-            'Other'];
+        $arr = [
+            'Product features',
+            'Registration and authorization',
+            'Corporate dashboard',
+            'Private dashboard',
+            'Simulation workflow',
+            'Assessment results',
+            'Help',
+            'Pricing and plans',
+            'Other'
+        ];
 
         $results = [];
 
@@ -71,12 +81,13 @@ class Feedback extends CActiveRecord
 			array('message', 'required', 'message' => Yii::t('site', 'Message is required')),
 			array('email', 'required', 'message' => Yii::t('site', 'Email is required')),
 			array('theme', 'length', 'max'=>200),
-			array('email', 'length', 'max'=>100),
+			array('email', 'length', 'max'=>50),
 			array('email', 'email', 'message' => Yii::t('site', 'Wrong email')),
 			array('message', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, theme, message, email', 'safe', 'on'=>'search'),
+            array('message', 'length', 'max'=>1500),
 		);
 	}
 

@@ -18,10 +18,6 @@
 class UserAccountPersonal extends CActiveRecord
 {
 
-    public function getTariffLabel()
-    {
-        return null;
-    }
 
     /* ---------------------------------------------------------------------------------------------------- */
 
@@ -53,11 +49,11 @@ class UserAccountPersonal extends CActiveRecord
 		return array(
 			array('location'                 , 'length'   , 'max'=>255),
             array('industry_id', 'numerical', 'integerOnly'=>true),
-			array('birthday'                 , 'date'   , 'format'=>'yyyy-M-d'),
+			array('birthday'                 , 'date'   , 'format'=>'yyyy-M-d', 'message' => 'Неправильный формат поля Дата рождения'),
             array('birthday', 'validBirthday', 'type' => 'date', 'message' => '{attribute}: is not a date!', 'dateFormat' => 'yyyy-MM-dd'),
             array('user_id'     , 'required', 'on' => ['personal', 'insert']),
             array('professional_status_id' , 'numerical', 'integerOnly'=>true, 'on' => ['personal', 'insert']),
-            array('professional_status_id' , 'required', 'on' => ['personal', 'insert'], 'message' => Yii::t('site', 'Выберите профессиональный статус')),
+            // array('professional_status_id' , 'required', 'on' => ['personal', 'insert'], 'message' => Yii::t('site', 'Выберите профессиональный статус')),
             array('user_id'     , 'length'   , 'max'=>10, 'on' => ['personal', 'insert']),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
@@ -128,30 +124,39 @@ class UserAccountPersonal extends CActiveRecord
         }
     }
 
+    /**
+     * @param $date
+     */
     public function setBirthdayDate($date)
     {
         $this->birthday = $date['year'].'-'.$date['month'].'-'.$date['day'];
     }
 
+    /**
+     * @param $attribute
+     * @param $params
+     * @return bool
+     */
     public function validBirthday($attribute, $params) {
+        // YYYY-MM-DD
+        $date = explode('-', $this->attributes[$attribute]);
 
-            $date = explode('-', $this->attributes[$attribute]);
-            if(checkdate((int)$date[1], (int)$date[2], (int)$date[0])){
-                if(strtotime($this->attributes[$attribute]) >= strtotime('1910-01-01') && strtotime($this->attributes[$attribute]) <= strtotime('2010-01-01')) {
-                    return true;
-                }else{
-                    $this->birthday = null;
-                    $this->addError('birthday[day]', Yii::t('site', 'Incorrect birthday'));
-                    $this->addError('birthday[month]', Yii::t('site', 'Incorrect birthday'));
-                    $this->addError('birthday[year]', Yii::t('site', 'Incorrect birthday'));
-                }
-            }else{
+        if(isset($date[0]) && isset($date[1]) && isset($date[2])
+            && checkdate((int)$date[1], (int)$date[2], (int)$date[0])){
+            if (strtotime($this->attributes[$attribute]) >= strtotime('1910-01-01')
+                && strtotime($this->attributes[$attribute]) <= strtotime('2010-01-01')) {
+                return true;
+            } else {
                 $this->birthday = null;
-                $this->addError('birthday[day]', Yii::t('site', 'Incorrect birthday'));
-                $this->addError('birthday[month]', Yii::t('site', 'Incorrect birthday'));
-                $this->addError('birthday[year]', Yii::t('site', 'Incorrect birthday'));
-
+                $this->addError('birthday[day]', Yii::t('site', 'Incorrect birthday 1'));
+                $this->addError('birthday[month]', Yii::t('site', 'Incorrect birthday 1'));
+                $this->addError('birthday[year]', Yii::t('site', 'Incorrect birthday 1'));
             }
-
+        } else {
+            $this->birthday = null;
+            $this->addError('birthday[day]', Yii::t('site', 'Incorrect birthday 2'));
+            $this->addError('birthday[month]', Yii::t('site', 'Incorrect birthday 2'));
+            $this->addError('birthday[year]', Yii::t('site', 'Incorrect birthday 2'));
+        }
     }
 }

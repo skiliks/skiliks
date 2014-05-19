@@ -2,6 +2,8 @@
 
 class FlagCommunicationThemeDependenceUnitTest extends PHPUnit_Framework_TestCase {
 
+    use UnitTestBaseTrait;
+
     public function findPhoneThemeByName($themes, $name) {
         foreach($themes as $theme){
             if($theme['themeTitle'] === $name){
@@ -23,7 +25,7 @@ class FlagCommunicationThemeDependenceUnitTest extends PHPUnit_Framework_TestCas
     public function testPhoneServiceGetThemesBlocking() {
 
         /** @var $user YumUser */
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -40,7 +42,7 @@ class FlagCommunicationThemeDependenceUnitTest extends PHPUnit_Framework_TestCas
     public function testPhoneServiceGetThemesNotBlocking() {
 
         /** @var $user YumUser */
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -60,7 +62,7 @@ class FlagCommunicationThemeDependenceUnitTest extends PHPUnit_Framework_TestCas
     public function testMailBoxServiceGetThemesBlocking() {
 
         /** @var $user YumUser */
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -69,7 +71,7 @@ class FlagCommunicationThemeDependenceUnitTest extends PHPUnit_Framework_TestCas
 
         $character = $simulation->game_type->getCharacter(['fio'=>'Крутько М.']);
 
-        $themes = MailBoxService::getThemes($simulation, $character->id);
+        $themes = MailBoxService::getThemes($simulation, $character->id, null, null);
 
         $this->assertFalse($this->findMailThemeByName($themes, 'Сводный бюджет: файл'));
     }
@@ -77,7 +79,7 @@ class FlagCommunicationThemeDependenceUnitTest extends PHPUnit_Framework_TestCas
     public function testMailBoxServiceGetThemesNotBlocking() {
 
         /** @var $user YumUser */
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -86,31 +88,30 @@ class FlagCommunicationThemeDependenceUnitTest extends PHPUnit_Framework_TestCas
 
         $character = $simulation->game_type->getCharacter(['fio'=>'Крутько М.']);
         FlagsService::setFlag($simulation, 'F32', 1);
-        $themes = MailBoxService::getThemes($simulation, $character->id);
+        $themes = MailBoxService::getThemes($simulation, $character->id, null, null);
 
         $this->assertTrue($this->findMailThemeByName($themes, 'Сводный бюджет: файл'));
     }
 
     public function testMailBoxReFwdNotBlocking() {
         /** @var $user YumUser */
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
         $invite->scenario->slug = Scenario::TYPE_FULL;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
-        $flags = $simulation->game_type->getFlagCommunicationThemeDependencies([]);
-        foreach($flags as $flag){
-            /* @var $flag FlagCommunicationThemeDependence */
-            if(!empty($flag->communicationTheme->mail_prefix) && $flag->communicationTheme->mail === '1') {
-                $this->assertFalse($flag->communicationTheme->isBlockedByFlags($simulation));
+        $flags = $simulation->game_type->getFlagOutboxMailThemeDependencies([]);
+        foreach($flags as $flag) {
+            if(null !== $flag->outboxMailTheme->mail_prefix) {
+                $this->assertFalse($flag->outboxMailTheme->isBlockedByFlags($simulation));
             }
         }
     }
 
     public function testMailBoxFantasticNotBlocking() {
         /** @var $user YumUser */
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -124,13 +125,9 @@ class FlagCommunicationThemeDependenceUnitTest extends PHPUnit_Framework_TestCas
             /* @var $replica Replica */
             if(substr($replica->next_event_code, 0, 2) === "MS" && false === in_array($replica->next_event_code, $ms) && false === in_array($replica->next_event_code, $fantastic)){
                 $ms[] = $replica->next_event_code;
-                /* @var $theme CommunicationTheme */
-                $theme = $simulation->game_type->getCommunicationTheme(['letter_number'=>$replica->next_event_code]);
-                $this->assertNotNull($theme);
-                if($theme->isBlockedByFlags($simulation) === true){
-                    echo $replica->next_event_code;
-                }
-                $this->assertFalse($theme->isBlockedByFlags($simulation));
+                $outboxMailTheme = $simulation->game_type->getOutboxMailTheme(['mail_code'=>$replica->next_event_code]);
+                $this->assertNotNull($outboxMailTheme);
+                $this->assertFalse($outboxMailTheme->isBlockedByFlags($simulation), $replica->next_event_code);
             }
         }
 
@@ -139,7 +136,7 @@ class FlagCommunicationThemeDependenceUnitTest extends PHPUnit_Framework_TestCas
     public function testMailGetThemesNotMSBlocking() {
 
         /** @var $user YumUser */
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -148,18 +145,17 @@ class FlagCommunicationThemeDependenceUnitTest extends PHPUnit_Framework_TestCas
 
         $character = $simulation->game_type->getCharacter(['fio'=>'Трутнев С.']);
 
-        /* @var $mail_theme CommunicationTheme */
-        $mail_theme = $simulation->game_type->getCommunicationTheme(['character_id'=>$character->id, 'letter_number'=>'MS106']);
+        $mail_theme = $simulation->game_type->getOutboxMailTheme(['character_to_id'=>$character->id, 'mail_code'=>'MS106']);
 
-        $themes = MailBoxService::getThemes($simulation, $character->id);
+        $themes = MailBoxService::getThemes($simulation, $character->id, null, null);
 
-        $this->assertFalse($this->findMailThemeByName($themes, $mail_theme->text));
+        $this->assertFalse($this->findMailThemeByName($themes, $mail_theme->theme->text));
 
         FlagsService::setFlag($simulation, 'F38_3', 1);
 
-        $themes = MailBoxService::getThemes($simulation, $character->id);
+        $themes = MailBoxService::getThemes($simulation, $character->id, null, null);
 
-        $this->assertTrue($this->findMailThemeByName($themes, $mail_theme->text));
+        $this->assertTrue($this->findMailThemeByName($themes, $mail_theme->theme->text));
     }
 
 

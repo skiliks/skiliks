@@ -79,7 +79,13 @@ define(["game/models/SKEvent"], function () {
                         this.trigger('blocking:start');
                     } else {
                         event.on('in progress', function () {
-                            this.trigger('blocking:start');
+                            try {
+                                this.trigger('blocking:start');
+                            } catch(exception) {
+                                if (window.Raven) {
+                                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                                }
+                            }
                         }, this);
                     }
 
@@ -88,7 +94,13 @@ define(["game/models/SKEvent"], function () {
                          * Конец блокировки новых событий
                          * @event blocking:end
                          */
-                        this.trigger('blocking:end');
+                        try {
+                            this.trigger('blocking:end');
+                        } catch(exception) {
+                            if (window.Raven) {
+                                window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                            }
+                        }
                     }, this);
                 } catch(exception) {
                     if (window.Raven) {
@@ -106,12 +118,18 @@ define(["game/models/SKEvent"], function () {
                 try {
                     var me = this;
                     SKApp.server.api('mail/getInboxUnreadCount', {}, function (data) {
-                        if (parseInt(data.result, 10) === 1) {
-                            var counter = parseInt(data.unreaded, 10);
-                            me.unread_mail_count = counter;
-                            me.trigger('mail:counter:update', me.unread_mail_count);
-                            if (cb !== undefined) {
-                                cb(counter);
+                        try {
+                            if (parseInt(data.result, 10) === 1) {
+                                var counter = parseInt(data.unreaded, 10);
+                                me.unread_mail_count = counter;
+                                me.trigger('mail:counter:update', me.unread_mail_count);
+                                if (cb !== undefined) {
+                                    cb(counter);
+                                }
+                            }
+                        } catch(exception) {
+                            if (window.Raven) {
+                                window.Raven.captureMessage(exception.message + ',' + exception.stack);
                             }
                         }
                     });
@@ -139,14 +157,7 @@ define(["game/models/SKEvent"], function () {
                         return true;
                     }
                     var me = this;
-                    /*var res = true;
-                    this.each(function (ev) {
-                        if (ev.getTypeSlug().match(/(phone|visit)$/) &&
-                            (ev.getStatus() === 'in progress' || ev.getStatus() === 'waiting') &&
-                            ev.get('data')[0].code !== event.get('data')[0].code) {
-                            res = false;
-                        }
-                    });*/
+
                     return !(me.isNowDialogInProgress(event));
                 } catch(exception) {
                     if (window.Raven) {
@@ -163,12 +174,18 @@ define(["game/models/SKEvent"], function () {
                 var me = this;
                 var result = false;
                 me.each(function (ev) {
-                    if (ev.getTypeSlug().match(/(phone|visit)$/) &&
-                        (ev.getStatus() === 'in progress' || ev.getStatus() === 'waiting')
-                        ) {
-                        if ((null != event && ev.get('data')[0].code !== event.get('data')[0].code) ||
-                            null == event ) {
-                            result = true;
+                    try {
+                        if (ev.getTypeSlug().match(/(phone|visit)$/) &&
+                            (ev.getStatus() === 'in progress' || ev.getStatus() === 'waiting')
+                            ) {
+                            if ((null != event && ev.get('data')[0].code !== event.get('data')[0].code) ||
+                                null == event ) {
+                                result = true;
+                            }
+                        }
+                    } catch(exception) {
+                        if (window.Raven) {
+                            window.Raven.captureMessage(exception.message + ',' + exception.stack);
                         }
                     }
                 });
@@ -227,12 +244,24 @@ define(["game/models/SKEvent"], function () {
                 }
             },
             'unlockEvents' : function() {
-                this.isLock = false;
-                this.unLockUrl = '';
+                try {
+                    this.isLock = false;
+                    this.unLockUrl = '';
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             },
             'lockEvents' : function(url) {
-                this.unLockUrl = url;
-                this.isLock = true;
+                try {
+                    this.unLockUrl = url;
+                    this.isLock = true;
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             }
         });
 

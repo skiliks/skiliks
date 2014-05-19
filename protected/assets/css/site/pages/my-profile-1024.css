@@ -1,0 +1,39 @@
+
+.width-1024 .font-always-14px {
+    font-size: 1.2em;
+}
+
+.width-1024.action-corporateVacancies .profile-right-side {
+    min-height: 147px;
+}
+
+.width-1024.action-controller-corporatePersonalData-static-profile .button-standard,
+.width-1024.action-controller-corporatePassword-static-profile .button-standard,
+.width-1024.action-controller-corporateCompanyInfo-static-profile .button-standard,
+.width-1024.action-controller-corporateVacancies-static-profile .button-standard {
+    font-size: 1.17em;
+}
+
+.width-1024.action-controller-corporateVacancies-static-profile .profile-right-side .button-white {
+    line-height: 2.2em;
+}
+
+.width-1024.action-controller-corporatePersonalData-static-profile .unstandard-personal-data-height {
+    height: 264px;
+}
+
+.width-1024.action-controller-personalPersonalData-static-profile .unstandard-personal-data-height {
+    height: 405px;
+}
+
+.width-1024.action-controller-corporatePassword-static-profile .us-password-height {
+    height: 292px;
+}
+
+.width-1024.action-controller-personalPassword-static-profile .button-standard {
+    font-size: 1.1em;
+}
+
+.width-1024.action-controller-personalPersonalData-static-profile  .error-place {
+    font-size: 1.1em;
+}

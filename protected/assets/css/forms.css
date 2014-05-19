@@ -440,6 +440,7 @@ span.required {
 #UserAccountCorporate_company_description {
     height: 100px;
     width: 392px;
+    max-width: 392px;
 }
 .profileform {
     background: #f3ffff;

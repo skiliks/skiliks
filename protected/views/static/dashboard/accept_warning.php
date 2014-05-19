@@ -1,43 +1,90 @@
-<div id="invite-accept-form" style="display: none;">
-    <h2 class="title"><?= Yii::t('site', 'Simulation rules') ?></h2>
+<div class="locator-invite-accept-popup hide invite-accept-popup">
+    <h1 class="pull-content-center"><?= Yii::t('site', 'Simulation rules') ?></h1>
 
-    <ul class="list-ordered">
-        <li><strong class="grid-cell">1.</strong><p class="grid-cell">Прохождение симуляции занимает 2 часа.  Всего с учётом подготовки и ознакомления с документами вам может потребоваться до 3 часов.</p></li>
-        <li><strong class="grid-cell">2.</strong><p class="grid-cell">Cимуляцию остановить нельзя, пауз и перерывов не предусмотрено. Выберите удобное время для прохождения симуляции, чтобы вас никто не отвлекал.</p></li>
-        <li><strong class="grid-cell">3.</strong><p class="grid-cell">До начала симуляции вам будет дополнительно предоставлено 30 минут для ознакомления с командой, коллегами, поставленными задачами, имеющимися документами, а также интерфейсом игры.</p></li>
-        <li><strong class="grid-cell">4.</strong><p class="grid-cell">Не прибегайте к чужой помощи для прохождения симуляции. Это не поможет и сформирует вам соответствующую репутацию у работодателя. </p></li>
-    </ul>
-    <h2 class="title"><?= Yii::t('site', 'Preparation for the simulation') ?> </h2>
-
-    <div class="container-4">
-        <div class="grid1"><div class="popup-icons icon-inet"></div><h4>Интернет</h4><p class="line-xheight font-large">Обеспечьте хорошее Интернет соединение. Симуляция не запустится при скорости менее 1Мб в секунду.</p></div>
-        <div class="grid1"><div class="popup-icons icon-browser"></div><h4>Браузер</h4><p class="line-xheight font-large">Убедитесь, что у вас установлен браузер Firefox (от 18 версии) или Chrome (от 22 версии). При необходимости установите последние версии данных браузеров.</p></div>
-        <div class="grid1"><div class="popup-icons icon-progs"></div><h4>Лишние программы</h4><p class="line-xheight font-large">Перед прохождением симуляции мы рекомендуем закрыть все приложения, кроме браузера.</p></div>
-        <div class="grid1"><div class="popup-icons icon-demo"></div><h4>Демо</h4><p class="line-xheight font-large">Пройдите демо-версию симуляции. Это позволит вам легче ориентироваться в новом интерфейсе.</p></div>
+    <div class="row">
+        <span class="unstandard-list-number">1.</span>
+        <span class="unstandard-list-description unstandard-list-description-text">Прохождение симуляции занимает 2 часа.
+            Всего с учётом подготовки и ознакомления с документами вам может
+            потребоваться до 3 часов.</span>
     </div>
 
-    <div class="text-center accept-requirements-div">
-        <a class='bigbtnsubmt accept-requirements' href='#'><?= Yii::t('site', 'Начать позже') ?></a>
-        <a class='bigbtnsubmt start-full-simulation start-simulation-from-popup' href='#'><?= Yii::t('site', 'Начать сейчас') ?></a>
+    <div class="row">
+        <span class="unstandard-list-number pull-left">2.</span>
+        <span class="unstandard-list-description unstandard-list-description-text">Cимуляцию остановить нельзя, пауз и перерывов не предусмотрено.
+            Выберите удобное время для прохождения симуляции, чтобы вас никто не отвлекал.</span>
+    </div>
+
+    <div class="row">
+        <span class="unstandard-list-number pull-left">3.</span>
+        <span class="unstandard-list-description unstandard-list-description-text">До начала симуляции вам будет дополнительно предоставлено
+            30 минут для ознакомления с командой, коллегами, поставленными задачами,
+            имеющимися документами, а также интерфейсом игры.</span>
+    </div>
+
+    <div class="row margin-bottom-standard">
+        <span class="unstandard-list-number pull-left">4.</span>
+        <span class="unstandard-list-description unstandard-list-description-text">Не прибегайте к чужой помощи для прохождения симуляции.
+            Это не поможет и сформирует вам соответствующую репутацию у работодателя.</span>
+    </div>
+
+    <br/>
+
+    <h1 class="pull-content-center margin-bottom-standard">
+        <?= Yii::t('site', 'Preparation for the simulation') ?>
+    </h1>
+
+    <div class="row unstandard-simulation-requirements unstandard-list-description-text">
+        <span class="column-1-4 pull-content-center">
+            <img src="<?= $this->assetsUrl.'/img/site/1280/popups/internet.png' ?>"><br/>
+            <label>Интернет</label><br/>
+            <span class="pull-content-left">
+                Обеспечьте хорошее Интернет соединение.
+                Симуляция не запустится при скорости менее 1Мб в секунду.
+            </span>
+        </span>
+
+        <span class="column-1-4 pull-content-center">
+            <img src="<?= $this->assetsUrl.'/img/site/1280/popups/browser.png' ?>"><br/>
+            <label>Браузер</label><br/>
+            <span class="pull-content-left">
+                Убедитесь, что у вас установлен браузер
+                Firefox (от 18 версии) или Chrome (от 22 версии).
+                При необходимости установите последние версии данных браузеров.
+            </span>
+        </span>
+
+        <span class="column-1-4 pull-content-center">
+            <img src="<?= $this->assetsUrl.'/img/site/1280/popups/other-programs.png' ?>"><br/>
+            <label>Лишние программы</label><br/>
+            <span class="pull-content-left">
+                Перед прохождением
+                симуляции мы рекомендуем закрыть все приложения, кроме браузера.
+            </span>
+        </span>
+
+        <span class="column-1-4 pull-content-center">
+            <img src="<?= $this->assetsUrl.'/img/site/1280/popups/game-demo.png' ?>"><br/>
+            <label>Демо</label><br/>
+            <span class="pull-content-left">
+                Пройдите демо-версию симуляции.
+                Это позволит вам легче ориентироваться в новом интерфейсе.
+            </span>
+        </span>
+
+    </div>
+
+    <div class="row pull-content-center margin-bottom-standard">
+        <!-- bigbtnsubmt accept-requirements  -->
+        <a class='background-dark-blue icon-circle-with-blue-arrow-big
+               button-standard icon-padding-standard locator-start-later'>
+            <?= Yii::t('site', 'Начать позже') ?>
+        </a>
+
+        <!-- bigbtnsubmt start-full-simulation start-simulation-from-popup -->
+        <span class='background-dark-blue icon-circle-with-blue-arrow-big
+               button-standard icon-padding-standard inter-active
+               locator-start-now action-open-full-simulation-popup'>
+            <?= Yii::t('site', 'Начать сейчас') ?>
+        </span>
     </div>
 </div>
-
-<script type="text/javascript">
-    $(function() {
-        var browserNames = {
-            'chrome':  'Google Chrome',
-            'mozilla': 'Mozilla Firefox',
-            'safari':  'Apple Safari',
-            'opera':   'Opera',
-            'msie':    'Internet Explorer'
-        };
-
-        for (var code in browserNames) {
-            if ($.browser[code]) {
-                $('.browser-name').html(browserNames[code]);
-                $('.browser-version').html($.browser.version);
-                break;
-            }
-        }
-    });
-</script>

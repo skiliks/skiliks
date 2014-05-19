@@ -68,17 +68,23 @@ define([
                         id: SKApp.simulation.mailClient.activeEmail.mySqlId
                     },
                     function (response) {
-                        SKApp.simulation.mailClient.availaleActiveEmailTasks = [];
-                        response.data.forEach(function (task_obj) {
-                            var task = new SKMailTask();
-                            task.mySqlId = task_obj.id;
-                            task.label = task_obj.name;
-                            task.duration = task_obj.duration;
+                        try {
+                            SKApp.simulation.mailClient.availaleActiveEmailTasks = [];
+                            response.data.forEach(function (task_obj) {
+                                var task = new SKMailTask();
+                                task.mySqlId = task_obj.id;
+                                task.label = task_obj.name;
+                                task.duration = task_obj.duration;
 
-                            SKApp.simulation.mailClient.availaleActiveEmailTasks.push(task);
-                        });
+                                SKApp.simulation.mailClient.availaleActiveEmailTasks.push(task);
+                            });
 
-                        me.continueRender();
+                            me.continueRender();
+                        } catch(exception) {
+                            if (window.Raven) {
+                                window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                            }
+                        }
                     }
                 );
             } catch(exception) {
@@ -115,11 +121,17 @@ define([
                 var mailTasks = SKApp.simulation.mailClient.availaleActiveEmailTasks; // to keep code shorter
 
                 mailTasks.forEach(function (mailTask) {
-                    listHtml += _.template(add_to_plan_item, {
-                        id:      mailTask.mySqlId,
-                        text:    mailTask.label,
-                        duration:mailTask.getFormatedDuration()
-                    });
+                    try {
+                        listHtml += _.template(add_to_plan_item, {
+                            id:      mailTask.mySqlId,
+                            text:    mailTask.label,
+                            duration:mailTask.getFormatedDuration()
+                        });
+                    } catch(exception) {
+                        if (window.Raven) {
+                            window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                        }
+                    }
                 });
                 // generate mail tasks list }
 
@@ -130,12 +142,18 @@ define([
                             {
                                 'value':'Ок',
                                 'onclick':function () {
-                                    delete SKApp.simulation.mailClient.message_window;
-                                    me.close();
-                                    SKApp.simulation.mailClient.setWindowsLog(
-                                        'mailMain',
-                                        SKApp.simulation.mailClient.getActiveEmailId()
-                                    );
+                                    try {
+                                        delete SKApp.simulation.mailClient.message_window;
+                                        me.close();
+                                        SKApp.simulation.mailClient.setWindowsLog(
+                                            'mailMain',
+                                            SKApp.simulation.mailClient.getActiveEmailId()
+                                        );
+                                    } catch(exception) {
+                                        if (window.Raven) {
+                                            window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                                        }
+                                    }
                                 }
                             }
                         ]
@@ -228,7 +246,13 @@ define([
                             {
                                 'value':'Ок',
                                 'onclick':function () {
-                                    delete addToPlanDialog.message_window;
+                                    try {
+                                        delete addToPlanDialog.message_window;
+                                    } catch(exception) {
+                                        if (window.Raven) {
+                                            window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                                        }
+                                    }
                                 }
                             }
                         ]
@@ -248,17 +272,21 @@ define([
                         messageId: SKApp.simulation.mailClient.activeEmail.mySqlId
                     },
                     function (response) {
-                        // add to plan {
-                        SKApp.simulation.todo_tasks.fetch({update: true});
-                        // add to plan }
-                        SKApp.simulation.mailClient.setTaskId(addToPlanDialog.selectedMailTask.mySqlId);
+                        try {
+                            // add to plan {
+                            SKApp.simulation.todo_tasks.fetch({update: true});
+                            // add to plan }
+                            SKApp.simulation.mailClient.setTaskId(addToPlanDialog.selectedMailTask.mySqlId);
 
-                        SKApp.simulation.mailClient.setWindowsLog(
-                            'mailMain',
-                            SKApp.simulation.mailClient.getActiveEmailId()
-                        );
-
-//                        SKApp.simulation.window_set.toggle('plan', 'plan'); // for logging
+                            SKApp.simulation.mailClient.setWindowsLog(
+                                'mailMain',
+                                SKApp.simulation.mailClient.getActiveEmailId()
+                            );
+                        } catch(exception) {
+                            if (window.Raven) {
+                                window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                            }
+                        }
                     }
                 );
             } catch(exception) {

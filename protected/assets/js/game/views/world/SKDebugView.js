@@ -13,7 +13,8 @@ define(["text!game/jst/simulation/debug.jst"], function (debug_template) {
             'submit .trigger-event': 'doEventTrigger',
             'click .btn-load-documents': 'doLoadDocs',
             'click .btn-simulation-stop-logs': 'doSimStopAndShowLogs',
-            'click .clean-event-trigger-queue': 'doCleanEventTriggerQueue'
+            'click .clean-event-trigger-queue': 'doCleanEventTriggerQueue',
+            'click .action-run-speed-test': 'doRunSpeedTest'
         },
 
         /**
@@ -212,6 +213,11 @@ define(["text!game/jst/simulation/debug.jst"], function (debug_template) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);
                 }
             }
+        },
+
+        doRunSpeedTest: function() {
+            var processorTestResult = jsBogoMips.getAveragedJsBogoMips(3);
+            alert(processorTestResult.average);
         }
 
     });

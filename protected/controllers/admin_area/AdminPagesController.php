@@ -177,7 +177,6 @@ class AdminPagesController extends SiteBaseController {
                 Invite::STATUS_ACCEPTED    => true,
                 Invite::STATUS_IN_PROGRESS => true,
                 Invite::STATUS_COMPLETED   => true,
-                Invite::STATUS_EXPIRED     => false,
                 Invite::STATUS_DECLINED    => false,
                 Invite::STATUS_DELETED     => false,
             ];
@@ -361,7 +360,6 @@ class AdminPagesController extends SiteBaseController {
                     Invite::STATUS_ACCEPTED    => true,
                     Invite::STATUS_IN_PROGRESS => true,
                     Invite::STATUS_COMPLETED   => true,
-                    Invite::STATUS_EXPIRED     => false,
                     Invite::STATUS_DECLINED    => false,
                     Invite::STATUS_DELETED     => false,
                 ];
@@ -681,6 +679,9 @@ class AdminPagesController extends SiteBaseController {
         echo $xls;
     }
 
+    /**
+     * @throws LogicException
+     */
     public function actionResetInvite() {
 
         $invite_id = Yii::app()->request->getParam('invite_id', null);
@@ -689,19 +690,32 @@ class AdminPagesController extends SiteBaseController {
         if (empty($invite)) {
             throw new LogicException('Invite does not exist');
         }
-
+        InviteService::logAboutInviteStatus($invite, 'Админ '.$this->user->profile->email.' начал откат приглашения id = '.$invite_id);
         $result = $invite->resetInvite();
         if(false === $result){
             throw new LogicException("The operation is not successful");
         }
-
-        $this->redirect("/admin_area/invites");
+        InviteService::logAboutInviteStatus($invite, 'Админ '.$this->user->profile->email.' откатил приглашение id = '.$invite_id);
+        Yii::app()->user->setFlash('success', "Успешно");
+        $this->redirect($this->request->urlReferrer);
     }
 
+    /**
+     * Список заказов
+     */
     public function actionOrders()
     {
-        // pager {
+        $isEmptyFilters =
+            false === Yii::app()->request->getParam('email', false)
+            && false === Yii::app()->request->getParam('cash', false)
+            && false === Yii::app()->request->getParam('robokassa', false)
+            && false === Yii::app()->request->getParam('notDone', false)
+            && false === Yii::app()->request->getParam('isTestPayment', false)
+            && false === Yii::app()->request->getParam('isRealPayment', false);
+        // если вс фильтры пусты - то надо задать значение по умолчанию
+        // в true все чекбоксы кроме isTestPayment.
 
+        // pager {
         $page = Yii::app()->request->getParam('page');
 
         if (null === $page) {
@@ -724,9 +738,7 @@ class AdminPagesController extends SiteBaseController {
             $this->redirect($session["order_address"]);
         }
 
-
         $session["order_address"] = $request_uri;
-
 
         $criteria = new CDbCriteria;
 
@@ -741,27 +753,46 @@ class AdminPagesController extends SiteBaseController {
         }
 
         // appying payment method filters
-        $filterCash = Yii::app()->request->getParam('cash', null);
-        $filterRobokassa = Yii::app()->request->getParam('robokassa', null);
+        $filterCash = Yii::app()->request->getParam('cash', $isEmptyFilters);
+        $filterRobokassa = Yii::app()->request->getParam('robokassa', $isEmptyFilters);
 
-        if($filterCash !== null && $filterRobokassa === null) {
+        if($filterCash !== false && $filterRobokassa === false) {
             $criteria->compare("payment_system", 'cash');
         }
-        elseif($filterCash === null && $filterRobokassa !== null) {
+        elseif($filterCash === false && $filterRobokassa !== false) {
             $criteria->compare("t.payment_system", 'robokassa');
         }
         // if both are not null we taking everything
 
+        // applying done / not done filters
+        $done = Yii::app()->request->getParam('done', $isEmptyFilters);
+        $notDone = Yii::app()->request->getParam('notDone', $isEmptyFilters);
+
+        if($done !== false && $notDone === false) {
+            $criteria->addCondition("t.paid_at IS NOT NULL");
+        } elseif ($done === false && $notDone !== false) {
+            $criteria->addCondition("t.paid_at IS NULL");
+        }
+        // if both are not null we taking everything
 
         // applying done / not done filters
-        $done = Yii::app()->request->getParam('done', null);
-        $notDone = Yii::app()->request->getParam('notDone', null);
+        $isTestPayment = Yii::app()->request->getParam('isTestPayment', false);
+        $isRealPayment = Yii::app()->request->getParam('isRealPayment', $isEmptyFilters);
 
-        if($done !== null && $notDone === null) {
-            $criteria->addCondition("t.paid_at IS NOT NULL");
+        if ('on' == $isTestPayment) {
+            $isTestPayment = true;
         }
-        elseif($done === null && $notDone !== null) {
-            $criteria->addCondition("t.paid_at IS NULL");
+
+        if ('on' == $isRealPayment) {
+            $isRealPayment = true;
+        }
+
+        if($isTestPayment && false == $isRealPayment) {
+            $criteria->addCondition("t.is_test_payment = 1");
+        } elseif (false == $isTestPayment && $isRealPayment) {
+            $criteria->addCondition("t.is_test_payment = 0");
+        } elseif (false == $isTestPayment && false == $isRealPayment) {
+            $criteria->addCondition("t.is_test_payment IS NULL");
         }
         // if both are not null we taking everything
 
@@ -770,24 +801,14 @@ class AdminPagesController extends SiteBaseController {
         // checking if submit button wasn't pushed
         $formSended = Yii::app()->request->getParam('form-send', null);
 
-        if($formSended !== null) {
-            $appliedFilters = ["email"     =>$filterEmail,
-                               "robokassa" =>$filterRobokassa,
-                               "cash"      =>$filterCash,
-                               "done"      =>$done,
-                               "notDone"   =>$notDone
-                              ];
-        }
-        else {
-            // generationg the all filters to be checked
-            $appliedFilters = ["email"     => null,
-                               "robokassa" => "set",
-                               "cash"      => "set",
-                               "done"      => "set",
-                               "notDone"   => "set"
-            ];
-        }
-
+        $appliedFilters = ["email"           => $filterEmail,
+            "robokassa"       => $filterRobokassa,
+            "cash"            => $filterCash,
+            "done"            => $done,
+            "notDone"         => $notDone,
+            "isTestPayment"   => $isTestPayment,
+            "isRealPayment"   => $isRealPayment,
+        ];
 
         // counting objects to make the pagination
         $totalItems = count(Invoice::model()->findAll($criteria));
@@ -797,7 +818,6 @@ class AdminPagesController extends SiteBaseController {
         $pager->applyLimit($criteria);
         $pager->route = 'admin_area/AdminPages/Orders';
         // pager }
-
 
         // building criteria
         $criteria->order = "created_at desc" ;
@@ -818,12 +838,9 @@ class AdminPagesController extends SiteBaseController {
         ]);
     }
 
-    public function actionReferralsList() {
-        $dataProvider = UserReferral::model()->searchReferrals();
-        $this->layout = '/admin_area/layouts/admin_main';
-        $this->render('/admin_area/pages/referrals_list', ['dataProvider' => $dataProvider]);
-    }
-
+    /**
+     *
+     */
     public function actionCompleteInvoice() {
         $invoiceId = Yii::app()->request->getParam('invoice_id');
 
@@ -844,14 +861,17 @@ class AdminPagesController extends SiteBaseController {
             $invoice->completeInvoice($user->profile->email);
 
             UserService::logCorporateInviteMovementAdd(sprintf(
-                    "Принята оплата по счёт-фактуре номер %s, на тарифный план %s. Количество доступных симуляций установлено в %s из них за рефераллов %s. Админ %s.",
-                    $invoice->id, $invoice->tariff->label, $invoice->tariff->simulations_amount, $invoice->user->getAccount()->referrals_invite_limit, $admin->profile->email
+                    "Принята оплата по счёт-фактуре номер %s. Админ %s.",
+                    $invoice->id, $admin->profile->email
                 ),  $invoice->user->getAccount(), $initValue);
 
             echo json_encode(["return" => true, "paidAt" => $invoice->paid_at]);
         }
     }
 
+    /**
+     *
+     */
     public function actionDisableInvoice() {
         $invoiceId = Yii::app()->request->getParam('invoice_id');
 
@@ -879,6 +899,9 @@ class AdminPagesController extends SiteBaseController {
 
     }
 
+    /**
+     *
+     */
     public function actionCommentInvoice() {
         $invoiceId = Yii::app()->request->getParam('invoice_id');
         $criteria = new CDbCriteria();
@@ -897,6 +920,9 @@ class AdminPagesController extends SiteBaseController {
         }
     }
 
+    /**
+     *
+     */
     public function actionGetInvoiceLog() {
         $invoiceId = Yii::app()->request->getParam('invoice_id');
         $criteria = new CDbCriteria();
@@ -915,6 +941,35 @@ class AdminPagesController extends SiteBaseController {
         echo json_encode(["log" => $returnData]);
     }
 
+    /**
+     * Меняет значение invoice->is_test_payment на противоположное
+     */
+    public function actionOrderToggleIsTest($invoiceId)
+    {
+        /** @var Invoice $invoice */
+        $invoice = Invoice::model()->findByPk($invoiceId);
+
+        if (null !== $invoice) {
+            $invoice->is_test_payment = abs($invoice->is_test_payment - 1);
+            $invoice->save();
+
+            $label = (1 == $invoice->is_test_payment) ? 'тестовый' : 'реальный' ;
+
+            Yii::app()->user->setFlash('success',
+                sprintf(
+                    'Заказа #%s конвертирован в "%s".',
+                    $invoiceId,
+                    $label
+                )
+            );
+        } else {
+            Yii::app()->user->setFlash('error', sprintf('Заказа #%s нет в базе данных.', $invoiceId));
+        }
+    }
+
+    /**
+     * @throws Exception
+     */
     public function actionOrderChecked() {
 
         $order_id = Yii::app()->request->getParam('order_id', null);
@@ -946,6 +1001,9 @@ class AdminPagesController extends SiteBaseController {
         $this->redirect("/admin_area/orders");
     }
 
+    /**
+     * @throws Exception
+     */
     public function actionOrderActionStatus() {
 
         $order_id = Yii::app()->request->getParam('order_id', null);
@@ -996,6 +1054,9 @@ class AdminPagesController extends SiteBaseController {
         $this->redirect("/admin_area/invites");
     }
 
+    /**
+     *
+     */
     public function actionInviteCalculateTheEstimate() {
 
         $simId = Yii::app()->request->getParam('sim_id', null);
@@ -1005,6 +1066,9 @@ class AdminPagesController extends SiteBaseController {
         $this->redirect("/admin_area/invites");
     }
 
+    /**
+     *
+     */
     public function actionSiteLogs() {
         $invite_id = Yii::app()->request->getParam('invite_id', null);
         $invite = Invite::model()->findByPk($invite_id);
@@ -1044,6 +1108,9 @@ class AdminPagesController extends SiteBaseController {
         ]);
     }
 
+    /**
+     * @param $simId
+     */
     public function actionSimulationSetEmergency($simId)
     {
         /** @var Simulation $simulation */
@@ -1224,6 +1291,7 @@ class AdminPagesController extends SiteBaseController {
 
         if (null !== $newPassword) {
             if ($siteUser->setPassword($newPassword, YumEncrypt::generateSalt())) {
+                UserService::logAccountAction($siteUser, $_SERVER['REMOTE_ADDR'], 'Пароль для пользователя '.$siteUser->profile->email.' был изменён админом '.$this->user->profile->email);
                 Yii::app()->user->setFlash('success', 'Пароль обновлён.');
             } else {
                 Yii::app()->user->setFlash('error', 'Пароль не обновлён.');
@@ -1383,6 +1451,20 @@ class AdminPagesController extends SiteBaseController {
 
     public function actionFeedBacksList()
     {
+        if($this->getParam('is_ajax') === 'yes'){
+            $feedback = Feedback::model()->findByPk($this->getParam('id'));
+            $feedback->comment = $this->getParam('message');
+            $feedback->save(false);
+            Yii::app()->user->setFlash('success', "Успешно");
+            return;
+        }
+        if($this->getParam('is_action') === 'yes'){
+            $feedback = Feedback::model()->findByPk($this->getParam('id'));
+            $feedback->is_processed = $this->getParam('is_processed');
+            $feedback->save(false);
+            Yii::app()->user->setFlash('success', "Успешно");
+            $this->redirect('/admin_area/feedbacks');
+        }
         $this->pageTitle = 'Админка: Список отзывов';
         $this->layout = '//admin_area/layouts/admin_main';
 
@@ -1409,7 +1491,7 @@ class AdminPagesController extends SiteBaseController {
     public function actionUserDetailsByEmail() {
         $email = Yii::app()->request->getParam('email');
         $email = trim($email);
-        $profile = YumProfile::model()->findByAttributes(['email' => urldecode($email)]);
+        $profile = YumProfile::model()->findByAttributes(['email' => $email]);
 
         if (null === $profile) {
             Yii::app()->user->setFlash('error', sprintf('Не найден пользователь с email "%s".' ,$email));
@@ -1421,6 +1503,7 @@ class AdminPagesController extends SiteBaseController {
 
     public function actionUserDetails($userId)
     {
+        /* @var $user YumUser */
         $user = YumUser::model()->findByPk($userId);
 
         if (null === $user) {
@@ -1429,16 +1512,53 @@ class AdminPagesController extends SiteBaseController {
         }
 
         if($user->isCorporate()) {
-            $isSwitchShowReferralInfoPopup = Yii::app()->request->getParam("switchReferralInfoPopup", null);
-            if($isSwitchShowReferralInfoPopup !== null) {
-                $user->account_corporate->is_display_referrals_popup = !$user->account_corporate->is_display_referrals_popup;
-                $user->account_corporate->save();
+
+            if($this->getParam('save_form') === 'true'){
+
+                if($user->account_corporate->industry_for_sales !== $this->getParam('industry_for_sales')){
+                    $user->account_corporate->industry_for_sales = $this->getParam('industry_for_sales');
+                    UserService::logAccountAction($user, $_SERVER['REMOTE_ADDR'], 'Админ '.$this->user->profile->email.' указал Отрасль для пользователя '.$this->getParam('industry_for_sales').' для пользователя '.$user->profile->email);
+                }
+                if($user->account_corporate->company_name_for_sales !== $this->getParam('company_name_for_sales')) {
+                    $user->account_corporate->company_name_for_sales = $this->getParam('company_name_for_sales');
+                    UserService::logAccountAction($user, $_SERVER['REMOTE_ADDR'], 'Админ '.$this->user->profile->email.' указал Название компании для пользователя '.$this->getParam('company_name_for_sales').' для пользователя '.$user->profile->email);
+                }
+                if($user->account_corporate->site !== $this->getParam('site')) {
+                    $user->account_corporate->site = $this->getParam('site');
+                    UserService::logAccountAction($user, $_SERVER['REMOTE_ADDR'], 'Админ '.$this->user->profile->email.' указал Сайт '.$this->getParam('site').' для пользователя '.$user->profile->email);
+                }
+                if($user->account_corporate->description_for_sales !== $this->getParam('description_for_sales')){
+                    $user->account_corporate->description_for_sales = $this->getParam('description_for_sales');
+                    UserService::logAccountAction($user, $_SERVER['REMOTE_ADDR'], 'Админ '.$this->user->profile->email.' указал Описание компании для пользователя '.$this->getParam('description_for_sales').' для пользователя '.$user->profile->email);
+                }
+                if($user->account_corporate->contacts_for_sales !== $this->getParam('contacts_for_sales')) {
+                    UserService::logAccountAction($user, $_SERVER['REMOTE_ADDR'], 'Админ '.$this->user->profile->email.' указал Контактный телефон для пользователя '.$this->getParam('contacts_for_sales').' для пользователя '.$user->profile->email);
+                    $user->account_corporate->contacts_for_sales = $this->getParam('contacts_for_sales');
+                }
+                if($user->account_corporate->status_for_sales !== $this->getParam('status_for_sales')){
+                    UserService::logAccountAction($user, $_SERVER['REMOTE_ADDR'], 'Админ '.$this->user->profile->email.' указал Статус контактного лица для пользователя '.$this->getParam('status_for_sales').' для пользователя '.$user->profile->email);
+                    $user->account_corporate->status_for_sales = $this->getParam('status_for_sales');
+                }
+                $user->account_corporate->save(false);
+
             }
 
-            $isSwitchTariffExpiredPopup = Yii::app()->request->getParam("switchTariffExpiredPopup", null);
-            if($isSwitchTariffExpiredPopup !== null) {
-                $user->account_corporate->is_display_tariff_expire_pop_up = !$user->account_corporate->is_display_tariff_expire_pop_up;
-                $user->account_corporate->save();
+            if($this->getParam('discount_form') === 'true') {
+                $user->account_corporate->discount = $this->getParam('discount');
+                $user->account_corporate->start_discount = $this->getParam('start_discount');
+                $user->account_corporate->end_discount = $this->getParam('end_discount');
+                if($user->account_corporate->validate(['discount', 'start_discount', 'end_discount'])){
+                    $user->account_corporate->save(false);
+                    UserService::logAccountAction($user, $_SERVER['REMOTE_ADDR'], 'Админ '.$this->user->profile->email.' назначил скидку '.$this->getParam('discount').' с '.$this->getParam('start_discount').' до '.$this->getParam('end_discount').' для пользователя '.$user->profile->email);
+                    Yii::app()->user->setFlash('success', 'Сохранено успешно');
+                }else{
+                    $error_message = '';
+                    foreach($user->account_corporate->getErrors() as $error){
+                        $error_message .= implode('<br>', $error).'<br>';
+                    }
+                    Yii::app()->user->setFlash('error', $error_message);
+                }
+
             }
         }
 
@@ -1446,65 +1566,6 @@ class AdminPagesController extends SiteBaseController {
         $this->render('/admin_area/pages/user_details', [
             'user' => $user,
         ]);
-    }
-
-    public function actionUserSetTariff($userId, $label)
-    {
-        /* @var $user YumUser */
-        $user = YumUser::model()->findByPk($userId);
-        if (null === $user ) {
-            Yii::app()->user->setFlash('error', sprintf(
-                'Не найден пользователь с номером "%s".',
-                $userId
-            ));
-            $this->redirect('/admin_area/dashboard');
-        }
-
-        if (false == $user->isCorporate()) {
-            Yii::app()->user->setFlash('error', sprintf(
-                'Не найден пользователь "%s %s" не является корпоративным пользователем.',
-                $user->profile->firstname,
-                $user->profile->lastname,
-                $userId
-            ));
-            $this->redirect('/admin_area/user/'.$userId.'/details');
-        }
-
-        $tariff = Tariff::model()->findByAttributes(['slug' => $label]);
-
-        if (null == $tariff) {
-            Yii::app()->user->setFlash('error', sprintf(
-                'Не найден тариф "%s".',
-                $label
-            ));
-            $this->redirect('/admin_area/dashboard');
-        }
-
-        // set Tariff {
-        $user->getAccount()->setTariff($tariff, true);
-        // set Tariff }
-
-        $admin = Yii::app()->user->data();
-
-        $user->getAccount()->referrals_invite_limit;
-
-        UserService::logCorporateInviteMovementAdd(
-            sprintf('Тарифный план для %s сменён на %s из админ области. Количество доступных симуляций установлено в %s из них за рефераллов %s. Админ %s.',
-                $user->profile->email, $tariff->label, $user->getAccount()->invites_limit,
-                $user->getAccount()->referrals_invite_limit, $admin->profile->email
-            ),
-            $user->getAccount(),
-            $user->getAccount()->getTotalAvailableInvitesLimit()
-        );
-
-        Yii::app()->user->setFlash('success', sprintf(
-            'Активирован тарифный план "%s" для "%s %s".',
-            ucfirst($label),
-            $user->profile->firstname,
-            $user->profile->lastname
-        ));
-
-        $this->redirect('/admin_area/user/'.$userId.'/details');
     }
 
     public function actionUserAddRemoveInvitations($userId, $value)
@@ -1629,7 +1690,7 @@ class AdminPagesController extends SiteBaseController {
 
     public function actionRegistrationList() {
         // getting registration by day
-        $userCounter = new countRegisteredUsers();
+        $userCounter = new СountRegisteredUsers();
         $userCounter->getAllUserForDays();
         $userCounter->getNonActiveUsersForDays();
 
@@ -1653,7 +1714,7 @@ class AdminPagesController extends SiteBaseController {
         }
 
         // getting registration by month
-        $userCounter = new countRegisteredUsers();
+        $userCounter = new СountRegisteredUsers();
         $userCounter->getAllUserForMonths();
         $userCounter->getNonActiveUsersForMonths();
 
@@ -1675,7 +1736,7 @@ class AdminPagesController extends SiteBaseController {
         }
 
         // getting registration by year
-        $userCounter = new countRegisteredUsers();
+        $userCounter = new СountRegisteredUsers();
         $userCounter->getAllUserForYears();
         $userCounter->getNonActiveUserForYears();
 
@@ -1690,12 +1751,21 @@ class AdminPagesController extends SiteBaseController {
         $registrationsByYear[$day]['totalNonActivePersonals'] = isset($userCounter->totalNonActivePersonals[$day]) ? $userCounter->totalNonActivePersonals[$day] : 0;
         $registrationsByYear[$day]['totalNonActiveCorporate'] = isset($userCounter->totalNonActiveCorporate[$day]) ? $userCounter->totalNonActiveCorporate[$day] : 0;
 
+        $registrationsByYearOld = [];
+        $day--;
+        $registrationsByYearOld[$day]['period'] = $day;
+        $registrationsByYearOld[$day]['totalRegistrations'] = isset($userCounter->totalRegistrations[$day]) ? $userCounter->totalRegistrations[$day] : 0;
+        $registrationsByYearOld[$day]['totalPersonals'] = isset($userCounter->totalPersonals[$day]) ? $userCounter->totalPersonals[$day] : 0;
+        $registrationsByYearOld[$day]['totalCorporate'] = isset($userCounter->totalCorporate[$day]) ? $userCounter->totalCorporate[$day] : 0;
+        $registrationsByYearOld[$day]['totalNonActivePersonals'] = isset($userCounter->totalNonActivePersonals[$day]) ? $userCounter->totalNonActivePersonals[$day] : 0;
+        $registrationsByYearOld[$day]['totalNonActiveCorporate'] = isset($userCounter->totalNonActiveCorporate[$day]) ? $userCounter->totalNonActiveCorporate[$day] : 0;
         $this->layout = '//admin_area/layouts/admin_main';
         $this->render('/admin_area/pages/registrationCounterList',
             [
                 'registrationsByDay'     => $registrationsByDay,
                 'registrationsByMonth'   => $registrationsMonth,
                 'registrationsByYear'    => $registrationsByYear,
+                'registrationsByYearOld'    => $registrationsByYearOld,
             ]
         );
     }
@@ -1731,17 +1801,6 @@ class AdminPagesController extends SiteBaseController {
         }
     }
 
-    public function actionUserReferrals($userId = false) {
-        if($userId) {
-            $user = YumUser::model()->findByPk($userId);
-            $totalReferrals = UserReferral::model()->countUserReferrals($user->id);
-            $this->layout = '/admin_area/layouts/admin_main';
-            $dataProvider = UserReferral::model()->searchUserReferrals($user->id);
-            $this->render('/admin_area/pages/user_referrals_list', ['totalRefers'=>$totalReferrals, 'user'=>$user,
-                    'dataProvider' => $dataProvider]);
-        }
-    }
-
     public function actionEmailQueue()
     {
         $formFilters = Yii::app()->session['admin_email_queue_filter_form'];
@@ -1762,12 +1821,7 @@ class AdminPagesController extends SiteBaseController {
 
         // applying filters
         // sender_email {
-        if (isset($formFilters['sender_email'])) {
-            $filterSenderEmail = $formFilters['sender_email'];
-        } else {
-            $filterSenderEmail = Yii::app()->request->getParam('sender_email', null);
-            $formFilters['sender_email'] = $filterSenderEmail;
-        }
+        $filterSenderEmail = Yii::app()->request->getParam('sender_email', null);
 
         if($filterSenderEmail !== null) {
             $filterSenderEmail = trim($filterSenderEmail);
@@ -1775,13 +1829,7 @@ class AdminPagesController extends SiteBaseController {
         }
         // sender_email }
 
-        // recipients {
-        if (isset($formFilters['recipients'])) {
-            $filterRecipients = $formFilters['recipients'];
-        } else {
-            $filterRecipients = Yii::app()->request->getParam('recipients', null);
-            $formFilters['recipients'] = $filterRecipients;
-        }
+        $filterRecipients = Yii::app()->request->getParam('recipients', null);
 
         if($filterRecipients !== null) {
             $filterRecipients = trim($filterRecipients);
@@ -1863,7 +1911,29 @@ class AdminPagesController extends SiteBaseController {
 
     public function actionEmailText($id = null) {
         if(null !== $id) {
-            $email = EmailQueue::model()->findByPk($id);
+                    $email = EmailQueue::model()->findByPk($id);
+
+            $assetsUrl = $this->getAssetsUrl();
+
+            // подмена путей к картинкам на настоящие
+            $email->body = str_replace('cid:anjela_long',     $assetsUrl . '/img/site/emails/anjela_long.png',    $email->body);
+            $email->body = str_replace('cid:bottom_long',     $assetsUrl . '/img/site/emails/bottom_long.png',    $email->body);
+            $email->body = str_replace('cid:denejnaia_long',  $assetsUrl . '/img/site/emails/denejnaia_long.png', $email->body);
+            $email->body = str_replace('cid:fikus_long',      $assetsUrl . '/img/site/emails/fikus_long.png',     $email->body);
+            $email->body = str_replace('cid:jeleznij_long',   $assetsUrl . '/img/site/emails/jeleznij_long.png',  $email->body);
+            $email->body = str_replace('cid:trudiakin_long',  $assetsUrl . '/img/site/emails/trudiakin_long.png', $email->body);
+            $email->body = str_replace('cid:krutko_long',     $assetsUrl . '/img/site/emails/krutko_long.png', $email->body);
+
+            $email->body = str_replace('cid:anjela',     $assetsUrl . '/img/site/emails/anjela.png',        $email->body);
+            $email->body = str_replace('cid:bottom',     $assetsUrl . '/img/site/emails/bottom.png',        $email->body);
+            $email->body = str_replace('cid:denejnaia',  $assetsUrl . '/img/site/emails/denejnaia.png',     $email->body);
+            $email->body = str_replace('cid:fikus',      $assetsUrl . '/img/site/emails/fikus.png',         $email->body);
+            $email->body = str_replace('cid:jeleznij',   $assetsUrl . '/img/site/emails/jeleznij.png',      $email->body);
+            $email->body = str_replace('cid:trudiakin',  $assetsUrl . '/img/site/emails/trudiakin.png',     $email->body);
+            $email->body = str_replace('cid:krutko',     $assetsUrl . '/img/site/emails/krutko.png',     $email->body);
+
+            $email->body = str_replace('cid:top-left',   $assetsUrl . '/img/site/emails/top-left.png',      $email->body);
+            $email->body = str_replace('cid:skiliks_ny', $assetsUrl . '/img/site/emails/ny/skiliks_ny.jpg', $email->body);
 
             $this->layout = '/admin_area/layouts/admin_main';
             $this->render('/admin_area/pages/email_text', [
@@ -1878,7 +1948,7 @@ class AdminPagesController extends SiteBaseController {
             '',
             AssessmentCategory::PERCENTILE
         );
-
+        /* @var $assessments AssessmentOverall[] */
         $assessments = AssessmentOverall::model()->with('sim', 'sim.user', 'sim.user.profile') ->findAll([
             'condition' => $condition,
             'order'     => ' t.value DESC '
@@ -1886,7 +1956,9 @@ class AdminPagesController extends SiteBaseController {
 
         $simulations = [];
         foreach ($assessments as $assessment) {
-            $simulations[] = $assessment->sim;
+            if($assessment->sim->invite !== null) {
+                $simulations[] = $assessment->sim;
+            }
         }
 
         $this->layout = '/admin_area/layouts/admin_main';
@@ -1920,6 +1992,7 @@ class AdminPagesController extends SiteBaseController {
         $worksheet->setCellValueByColumnAndRow(5, 1, "Время конца симуляции");
         $worksheet->setCellValueByColumnAndRow(6, 1, "Сценарий: статус");
         $worksheet->setCellValueByColumnAndRow(7, 1, "Оценка звёзды");
+        $worksheet->setCellValueByColumnAndRow(7, 1, "Оценка звёзды");
         $worksheet->setCellValueByColumnAndRow(8, 1, "Процентиль");
 
         $i = 3;
@@ -1939,16 +2012,6 @@ class AdminPagesController extends SiteBaseController {
         header('Content-type: application/vnd.ms-excel');
         header("Content-Disposition: attachment; filename=\"percentile.xlsx\"");
         $doc->save('php://output');
-    }
-
-    public function actionSendNotice() {
-        $user_id = Yii::app()->request->getParam('user_id');
-        $user = YumUser::model()->findByPk($user_id);
-        /* @var YumUser $user */
-        $before_email = $user->profile->email;
-        MailHelper::sendNoticeEmail($user);
-        $user->refresh();
-        echo "Before - ".$before_email.' and After - '.$user->profile->email;
     }
 
     public function actionUpdateInviteEmail() {
@@ -1990,23 +2053,31 @@ class AdminPagesController extends SiteBaseController {
         }
 
         // непосредственно "пере-аутентификация"
-        $identity = new YumUserIdentity($user->username, false);
-
-        $identity->authenticate(true);
-
-        Yii::app()->user->login($identity);
+        UserService::authenticate($user);
+//        $identity = new YumUserIdentity($user->username, false);
+//        $identity->authenticate(true);
+//        Yii::app()->user->login($identity);
 
         $this->redirect('/dashboard');
     }
 
-    public function actionBanUser($userId) {
-
+    public function actionBanUser($userId, $action) {
+        /* @var YumUser $banUser */
         $banUser = YumUser::model()->findByPk($userId);
 
         if($banUser->isCorporate()) {
-            $isBanned = $banUser->banUser();
-            if($isBanned) {
-                Yii::app()->user->setFlash('success', 'Аккаунт '. $banUser->profile->email .' успешно заблокирован.');
+            if($action === 'ban') {
+                $isBanned = $banUser->banUser();
+                if($isBanned) {
+                    UserService::logAccountAction($banUser, $_SERVER['REMOTE_ADDR'], 'Пользователь '.$banUser->profile->email.' был за банен (статус "banned") админом '.$this->user->profile->email);
+                    Yii::app()->user->setFlash('success', 'Аккаунт '. $banUser->profile->email .' успешно заблокирован.');
+                }
+            }else{
+                $isUnBanned = $banUser->unBanUser();
+                if($isUnBanned) {
+                    UserService::logAccountAction($banUser, $_SERVER['REMOTE_ADDR'], 'Пользователь '.$banUser->profile->email.' был разбанен админом '.$this->user->profile->email);
+                    Yii::app()->user->setFlash('success', 'Аккаунт '. $banUser->profile->email .' успешно раблокирован.');
+                }
             }
         }
     }
@@ -2023,68 +2094,6 @@ class AdminPagesController extends SiteBaseController {
 
         $this->layout = '/admin_area/layouts/admin_main';
         $this->render('/admin_area/pages/not_corporate_emails', ['dataProvider' => $dataProvider, 'email'=>$email]);
-    }
-
-    public function actionSetInviteExpiredAt() {
-
-            $expired_at = $this->getParam('expired_at');
-            $invite_id = $this->getParam('invite_id');
-            if($expired_at !== null && $invite_id !== null){
-                /* @var $invite Invite */
-                $invite = Invite::model()->findByPk($invite_id);
-                $invite->expired_at = $expired_at;
-                $invite->save(false);
-            }
-        $this->redirect($this->request->urlReferrer);
-    }
-
-    public function actionExpireInvitesAndTariffPlans() {
-
-        $expiredInvites = InviteService::makeExpiredInvitesExpired();
-        $expiredAccounts = UserService::tariffExpired();
-        $expiredSoonAccounts = UserService::tariffExpiredInTreeDays();
-
-
-        $this->layout = '/admin_area/layouts/admin_main';
-        $this->render('/admin_area/pages/expired-invites-and-tariff-plans', [
-            'expiredInvites'      => $expiredInvites,
-            'expiredAccounts'     => $expiredAccounts,
-            'expiredSoonAccounts' => $expiredSoonAccounts,
-        ]);
-    }
-
-    public function actionChangeInviteExpireRule() {
-
-        $rule = $this->getParam('rule');
-        $user_id = $this->getParam('user_id');
-        if($rule !== null && $user_id !== null){
-            /* @var $user YumUser */
-            $user = YumUser::model()->findByPk($user_id);
-            $user->account_corporate->expire_invite_rule = $rule;
-            $user->account_corporate->save(false);
-        }
-        $this->redirect($this->request->urlReferrer);
-    }
-
-    public function actionListTariffPlan() {
-        $user = YumUser::model()->findByPk($this->getParam('user_id'));
-        $this->layout = '/admin_area/layouts/admin_main';
-        $this->render('/admin_area/pages/list-tariff-plan', ['user'=>$user]);
-    }
-
-    public function actionUpdateTariffPlan() {
-        if(null !== $this->getParam('finished_at') &&
-           null !== $this->getParam('started_at') &&
-           null !== $this->getParam('tariff_plan_id')
-          ) {
-
-            $tariff_plan = TariffPlan::model()->findByPk($this->getParam('tariff_plan_id'));
-            $tariff_plan->started_at = $this->getParam('started_at');
-            $tariff_plan->finished_at = $this->getParam('finished_at');
-            $tariff_plan->save(false);
-        }
-
-        $this->redirect($this->request->urlReferrer);
     }
 
     public function actionChangeSecurityRisk() {
@@ -2127,6 +2136,9 @@ class AdminPagesController extends SiteBaseController {
         $user = YumUser::model()->findByPk($user_id);
         $user->is_password_bruteforce_detected = $set;
         $user->save(false);
+        $action = ($set === YumUSer::IS_PASSWORD_BRUTEFORCE_DETECTED)?'заблокирована':'разблокирована';
+
+        UserService::logAccountAction($user, $_SERVER['REMOTE_ADDR'], 'У пользователь '.$user->profile->email.' была '.$action.' авторизация админом '.$this->user->profile->email);
 
         $this->redirect(Yii::app()->request->urlReferrer);
     }
@@ -2151,5 +2163,176 @@ class AdminPagesController extends SiteBaseController {
         $this->layout = '/admin_area/layouts/admin_main';
 
         $this->render('//admin_area/pages/users_managament/blocked-authorization-list', ['users'=>$users]);
+    }
+
+    public function actionExportAllCorporateUserXLSX() {
+        $export = new CorporateAccountExport();
+        $export->export();
+    }
+
+    public function actionSendInvites($userId) {
+
+        /* @var YumUser $user */
+            $user = YumUser::model()->findByPk($userId);
+            $this->layout = '/admin_area/layouts/admin_main';
+            $render = ['user'=>$user];
+            $list = [];
+            $invites = [];
+            $hasErrors = false;
+            $isValid = false;
+            $isSend = false;
+            $valid_emails = [];
+            $no_valid_emails = [];
+            $invite_limit_error = false;
+
+            if( $this->getParam('valid_form') === 'true' ) {
+                $isValid = true;
+                $data = $this->getParam('data');
+                $data['hide_result'] = isset($data['hide_result'])?$data['hide_result']:0;
+                $list_email = preg_split("/[\s,]+/", $data['email'], null, PREG_SPLIT_NO_EMPTY);
+                $list_first_name = preg_split("/[\s,]+/", $data['first_name'], null, PREG_SPLIT_NO_EMPTY);
+                $list_last_name = preg_split("/[\s,]+/", $data['last_name'], null, PREG_SPLIT_NO_EMPTY);
+                $list_iteration = count(max($list_email, $list_first_name, $list_last_name));
+
+                for ($i = 0; $i < $list_iteration; $i++) {
+                    $email = isset($list_email[$i])?$list_email[$i]:'';
+                    if(!empty($email)) {
+                        if(in_array($email, $valid_emails)){
+                            $no_valid_emails[] = $email;
+                        }else{
+                            $valid_emails[] = $email;
+                        }
+                    }
+
+                    $invite = new Invite();
+                    $invite->vacancy_id = $data['vacancy'];
+                    $invite->email = isset($list_email[$i])?$list_email[$i]:'';
+                    $invite->lastname = isset($list_last_name[$i])?$list_last_name[$i]:'';
+                    $invite->firstname = isset($list_first_name[$i])?$list_first_name[$i]:'';
+                    $invite->message = $data['message'];
+                    $profile = YumProfile::model()->findByAttributes(['email' => strtolower($invite->email)]);
+
+                    if($this->getParam('send_form') === 'true') {
+                        $isSend = true;
+                        $profile_personal = $profile;
+
+                        if(null === $profile_personal) {
+                            $password = UserService::generatePassword(8);
+                            $user_personal  = new YumUser('registration');
+                            $user_personal->setAttributes(['password'=>$password, 'password_again'=>$password, 'agree_with_terms'=>'yes']);
+                            $profile_personal  = new YumProfile('registration');
+                            $profile_personal->setAttributes(['firstname'=>$invite->lastname, 'lastname'=>$invite->firstname, 'email'=>$invite->email]);
+                            $account_personal = new UserAccountPersonal('personal');
+
+                            if(UserService::createPersonalAccount($user_personal, $profile_personal, $account_personal)){
+
+                                YumUser::activate($profile_personal->email, $user_personal->activationKey);
+                                try{
+                                    if(UserService::sendInvite($user, $invite, $data['hide_result'])){
+                                        UserService::sendEmailInviteAndRegistration($invite, $password);
+                                    }
+                                } catch(RedirectException $e) {
+                                    $invite_limit_error = true;
+
+                                }
+                            }
+                        } else {
+                            try{
+                                if(UserService::sendInvite($user, $invite, $data['hide_result'])){
+                                    UserService::sendEmailInvite($invite);
+                                }
+                            } catch(RedirectException $e) {
+                                $invite_limit_error = true;
+                            }
+                        }
+                    } else {
+                        try{
+                            UserService::sendInvite($user, $invite, $data['hide_result'], false);
+                        } catch(RedirectException $e) {
+                            $invite_limit_error = true;
+                        }
+                    }
+                    if($invite->hasErrors()){
+                        $hasErrors = true;
+                    }
+                    $invites[] = $invite;
+                }
+
+                $render['data'] = (object)$data;
+            } else {
+                $render['data'] = (object)['email'=>'','first_name'=>'','last_name'=>'','vacancy'=>'','hide_result'=>'','message'=>$user->account_corporate->default_invitation_mail_text];
+            }
+
+        if(count($no_valid_emails) !== 0) {
+            $hasErrors = true;
+        }
+
+        $render['list'] = $list;
+        $render['invites'] = $invites;
+        $render['has_errors'] = $hasErrors;
+        $render['isValid'] = $isValid;
+        $render['isSend'] = $isSend;
+
+        if($hasErrors) {
+            if(count($no_valid_emails) !== 0) {
+                Yii::app()->user->setFlash('error', 'Дублирование email-ов '.implode(', ', $no_valid_emails));
+            }else{
+                Yii::app()->user->setFlash('error', Yii::t('site', 'Исправьте ошибки'));
+            }
+        }else{
+            if($isValid) {
+                if($isSend){
+                    Yii::app()->user->setFlash('success', Yii::t('site', 'Все приглашения отправлены в очередь писем'));
+                } else {
+                    if(count($invites) === 0 && $isValid) {
+                        $render['has_errors'] = true;
+                        Yii::app()->user->setFlash('error', Yii::t('site', 'У вас нет адресатов'));
+                    }elseif($user->account_corporate->getTotalAvailableInvitesLimit() < count($invites)){
+                        $invite_limit_error = true;
+                    }else{
+                        Yii::app()->user->setFlash('success', Yii::t('site', 'Все поля правильные'));
+                    }
+                }
+            }
+        }
+        if($invite_limit_error){
+            $render['has_errors'] = true;
+            Yii::app()->user->setFlash('error', Yii::t('site', 'У вас недостаточно инвайтов(сейчас '.$user->account_corporate->getTotalAvailableInvitesLimit().' - нужно '.count($invites).')'));
+        }
+        if($invite_limit_error === false && $hasErrors === false && $isSend && $isValid) {
+            UserService::logAccountAction($user, $_SERVER['REMOTE_ADDR'], 'Админ '.$this->user->profile->email.' отправил приглашения от имени '.$user->profile->email.' для '.implode(',', $valid_emails));
+        }
+        $this->render('//admin_area/pages/user_send_invites', $render);
+    }
+
+    /**
+     * Позволяет пользователю скачать
+     * protected/system_data/analytic_files_2/full_report_.xlsx
+     */
+    public function actionDownloadFullAnalyticFile() {
+        /**
+         * @link: http://filext.com/faq/office_mime_types.php
+         */
+
+        $filename = 'analitics_'.date('Ymd').'_admin_version.xlsx';
+
+        header('Content-Type:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=utf-8');
+        header('Content-Disposition: attachment; filename="'.$filename.'"');
+
+        echo file_get_contents(
+            Yii::app()->basePath.'/system_data/analytic_files_2/full_report_.xlsx'
+        );
+        Yii::app()->end();
+    }
+
+    public function actionExcludedFromMailing(){
+        if(null !== $this->getParam('set') && null !== $this->getParam('user_id')) {
+
+            $account = UserAccountCorporate::model()->findByAttributes(['user_id'=>$this->getParam('user_id')]);
+            $account->excluded_from_mailing= $this->getParam('set');
+            $account->save(false);
+        }
+
+        $this->redirect($this->request->urlReferrer);
     }
 }

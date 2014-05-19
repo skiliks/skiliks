@@ -1,60 +1,72 @@
-<?php $assetsUrl = $this->getAssetsUrl(); ?>
-<style>
-    .editable {
-        cursor: pointer;
-    }
-    .editable:after {
-        content: "";
-        display: inline-block;
-        width: 13px;
-        height: 16px;
-        margin-left: 10px;
-        background: url(<?= $assetsUrl; ?>/img/icon-pen.png) no-repeat;
-    }
-</style>
 
-<h2 class="thetitle"><?php echo Yii::t('site', 'Profile') ?></h2>
+<section class="page-title-box column-full pull-content-center">
+    <h1 class="margin-bottom-standard"><?php echo Yii::t('site', 'Profile') ?></h1>
+</section>
 
-<div class="transparent-boder profilewrap">
+<section class="pull-content-left nice-border reset-padding us-profile-width pull-center font-always-14px
+    shadow-14 border-radius-standard background-transparent-20 unstandard-personal-data-height">
 
-<?php $this->renderPartial('_menu_corporate', ['active' => ['personal-data' => true]]) ?>
+    <!--div class="transparent-boder profilewrap"-->
+    <aside class="inline-block background-yellow border-radius-standard vertical-align-top">
+        <?php $this->renderPartial('_menu_corporate', ['active' => ['personal-data' => true]]) ?>
+    </aside>
 
-    <div class="form profileform radiusthree">
+    <section class="inline-block border-radius-standard background-F3FFFF
+         pull-right pull-content-left vertical-align-top profile-right-side">
+        <div class="">
 
-        <?php $form = $this->beginWidget('CActiveForm', array(
-            'id' => 'account-corporate-personal-form'
-        )); ?>
+            <?php $form = $this->beginWidget('CActiveForm', array(
+                'id' => 'account-corporate-personal-form'
+            )); ?>
 
-        <div class="row">
-            <?php echo $form->labelEx($profile, 'Имя'); ?>
-            <?php echo $form->textField($profile, 'firstname', ['id' => 'profile_firstname']); ?><?php echo $form->error($profile, 'firstname'); ?>
-            <?php echo $form->textField($profile, 'lastname', ['id' => 'profile_lastname']); ?><?php echo $form->error($profile, 'lastname'); ?>
+            <div class="row <?= $this->hasErrors($form, $profile, 'firstname') ?> <?= $this->hasErrors($form, $profile, 'lastname') ?>">
+                <span class="error-place">
+                    <span class="unstandard-error-firstname">
+                        <?php echo $form->error($profile, 'firstname'); ?>
+                    </span>
+                    <span class="unstandard-error-lastname">
+                        <?php echo $form->error($profile, 'lastname'); ?>
+                    </span>
+                </span>
+
+                <?php echo $form->labelEx($profile, 'Имя'); ?>
+
+                <?php echo $form->textField($profile, 'firstname', [
+                    'id'          => 'profile_firstname',
+                    'placeholder' => 'Введите имя',
+                    'style'       => 'margin-right: 25px;'
+                ]); ?>
+
+                <?php echo $form->textField($profile, 'lastname', [
+                    'id'          => 'profile_lastname',
+                    'placeholder' => 'Введите фамилию'
+                ]); ?>
+            </div>
+
+            <div class="row" style="margin-top: 9px;">
+                <?php echo $form->labelEx($profile, 'Корпоративный email'); ?>
+                <span class="value" style="font-family: ProximaNova-Bold; font-size: 1.1em">
+                    <?php echo $profile->email; ?>
+                </span>
+            </div>
+
+            <div class="row cposwrap" style="margin-top: 10px;">
+                <?php echo $form->labelEx($account , 'Должность'); ?>
+                <span class="error-place">
+                    <?php echo $form->error($account , 'position_id'); ?>
+                </span>
+                <?php echo $form->dropDownList($account, 'position_id', $positions); ?>
+            </div>
+
+            <div class="row buttons">
+                <?php echo CHtml::submitButton(Yii::t('site', 'Сохранить изменения'), [
+                    'name'  => 'save',
+                    'class' => 'background-dark-blue icon-circle-with-blue-arrow-big button-standard icon-padding-standard',
+                    'style' => 'margin-top: 22px;',
+                ]); ?>
+            </div>
+
+            <?php $this->endWidget(); ?>
         </div>
-
-        <div class="row">
-            <?php echo $form->labelEx($profile, 'email'); ?>
-            <span class="value"><?php echo $profile->email; ?></span>
-        </div>
-
-        <div class="row cposwrap">
-            <?php echo $form->labelEx($account     , 'Должность'); ?>
-            <?php echo $form->dropDownList($account, 'position_id', $positions); ?><?php echo $form->error($account       , 'position_id'); ?>
-        </div>
-
-        <div class="row buttons">
-            <?php echo CHtml::submitButton(Yii::t('site', 'Сохранить изменения'), ['name' => 'save']); ?>
-        </div>
-
-        <?php $this->endWidget(); ?>
-    </div>
-</div>
-<script>
-    $(document).ready(function(){
-        var errors = $(".errorMessage");
-        for (var i=0; i < errors.length;i++) {
-            var inp = $(errors[i]).prev("input.error");
-            $(inp).css({"border":"2px solid #bd2929"});
-            $(errors[i]).addClass($(inp).attr("id"));
-        }
-    });
-</script>
+    </section>
+</section>

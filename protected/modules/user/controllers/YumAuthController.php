@@ -24,6 +24,8 @@ class YumAuthController extends YumController {
 	 */
 	public function loginByLdap()
 	{
+        throw new Exception('Мы не используем такой метод');
+        /*
 		if (!Yum::module()->loginType & UserModule::LOGIN_BY_LDAP)
 			throw new Exception('login by ldap was called, but is not activated in application configuration');
 
@@ -60,10 +62,12 @@ class YumAuthController extends YumController {
 		}
 
 		return false;
+        */
 	}
 
 	public function loginByFacebook() {
-		if (!Yum::module()->loginType & UserModule::LOGIN_BY_FACEBOOK)
+        throw new Exception('Мы не используем такой метод');
+		/*if (!Yum::module()->loginType & UserModule::LOGIN_BY_FACEBOOK)
 			throw new Exception('actionFacebook was called, but is not activated in application configuration');
 
 		Yii::app()->user->logout();
@@ -134,17 +138,18 @@ class YumAuthController extends YumController {
 				}
 				return false;
 			} catch (FacebookApiException $e) {
-				/* FIXME: Workaround for avoiding the 'Error validating access token.'
-				 * inmediatly after a user logs out. This is nasty. Any other
-				 * approach to solve this issue is more than welcomed.
-				 */
+//				 FIXME: Workaround for avoiding the 'Error validating access token.'
+//				  inmediatly after a user logs out. This is nasty. Any other
+//				  approach to solve this issue is more than welcomed.
 
 				Yum::log('Failed login attempt for ' . $user->username . ' via facebook', 'error');
 				return false;
 			}
 		}
-		else
-			return false;
+		else {
+            return false;
+        }
+        */
 	}
 
 	public function loginByUsername() {
@@ -180,11 +185,21 @@ class YumAuthController extends YumController {
 	}
 
 	public function authenticate($user) {
-		$identity = new YumUserIdentity($user->username, $this->loginForm->password);
+        return UserService::authenticate(
+            $user,
+            $this->loginForm->password,
+            Yii::app()->getSession()->getTimeout(),
+            $this->loginForm
+        );
+
+		/*$identity = new YumUserIdentity($user->username, $this->loginForm->password);
 		$identity->authenticate();
 		switch($identity->errorCode) {
 			case YumUserIdentity::ERROR_NONE:
-				$duration = $this->loginForm->rememberMe ? 3600*24*30 : 0; // 30 days
+				$duration = $this->loginForm->rememberMe ?
+                    Yii::app()->getSession()->getTimeout()
+                    : 0;
+
 				Yii::app()->user->login($identity,$duration);
 				if($user->failedloginattempts > 0)
 					Yum::setFlash(Yum::t(
@@ -214,7 +229,7 @@ class YumAuthController extends YumController {
 					$this->loginForm->addError("password", Yii::t('site', 'Wrong email or password'));
 				break;
 				return false;
-		}
+		}*/
 	}
 
 	public function loginByEmail() {
@@ -232,14 +247,15 @@ class YumAuthController extends YumController {
 	}
 
 	public function loginByOpenid() {
-		if (!Yum::module()->loginType & UserModule::LOGIN_BY_OPENID)
+        throw new Exception('Мы не используем такой метод');
+		/*if (!Yum::module()->loginType & UserModule::LOGIN_BY_OPENID)
 			throw new Exception('login by Open Id was called, but is not activated in application configuration');
 
 		Yii::app()->user->logout();
 		Yii::import('application.modules.user.vendors.openid.*');
 		$openid = new EOpenID;
 		$openid->authenticate($this->loginForm->username);
-		return Yii::app()->user->login($openid);
+		return Yii::app()->user-> login($openid);*/
 	}
 
 	public function loginByTwitter() {
@@ -288,6 +304,9 @@ class YumAuthController extends YumController {
     }
     // GET user/auth
 	public function actionLogin() {
+
+        $this->addSiteJs('_start_demo.js');
+
         $form = 'login-form';
 		// If the user is already logged in send them to the return Url 
 		if (!Yii::app()->user->isGuest && isset($_POST['ajax']) && $_POST['ajax'] == $form) {
@@ -375,7 +394,7 @@ class YumAuthController extends YumController {
                     }
                 }
                 UserService::addAuthorizationLog($_POST['YumUserLogin']['username'], null, SiteLogAuthorization::SUCCESS_AUTH, $success->id, SiteLogAuthorization::USER_AREA);
-				$this->redirectUser($success);
+                $this->redirect('/dashboard');
 			} else {
                 UserService::addAuthorizationLog($_POST['YumUserLogin']['username'], $_POST['YumUserLogin']['password'], SiteLogAuthorization::FAIL_AUTH, null, SiteLogAuthorization::USER_AREA);
                 if ($t & UserModule::LOGIN_BY_EMAIL) {
@@ -397,13 +416,17 @@ class YumAuthController extends YumController {
 
 
                     } else {
-                        $this->loginForm->addError('username', Yii::t('site', 'Wrong email or password'));
+                        //$this->loginForm->addError('username', Yii::t('site', 'Wrong email or password'));
                     }
                 } else {
                     $this->loginForm->addError('username', Yii::t('site', 'Wrong email or password'));
                 }
             }
 		}
+
+        $this->layout = '//layouts/site_standard_2';
+
+        $this->addSiteCss('pages/page-auth.css');
 
 		$this->render(Yum::module()->loginView, array(
 					'model' => $this->loginForm));

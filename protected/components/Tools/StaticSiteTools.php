@@ -54,7 +54,12 @@ class StaticSiteTools
             $results .= " inner";
         }
 
-        $results .= ' ' . Yii::app()->params['css-theme'];
+        // CSS класс "режим разработки" - активирует подстветку структуры вёрстки страницы"
+        if (null !== $request->getParam('dev')) {
+            $results .= ' develop-mode ';
+        }
+
+        $results .= ' ' . $request->getParam('css-theme');
 
         $results .= ' language-' . Yii::app()->language;
 
@@ -438,5 +443,16 @@ class StaticSiteTools
         $day = $datetime->format("d");
         $month = Yii::t('site', $datetime->format("M"));
         return $day.' '.$month.' '.$year;
+    }
+
+    /**
+     * Проверяет является ли URL в $path путём к странице registration/by-link/
+     *
+     * @param string $path
+     * @return bool
+     */
+    public static function isRegisterByLinkPage($path)
+    {
+        return 0 < strpos($path, 'by-link');
     }
 }

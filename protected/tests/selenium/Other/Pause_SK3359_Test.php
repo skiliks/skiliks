@@ -40,11 +40,11 @@ class Pause_SK3359_Test extends SeleniumTestHelper
         $this->windowMaximize();
         $this->open('/ru');
 
-        $this->optimal_click("css=.sign-in-link");
-        $this->waitForVisible("css=.login>input");
-        $this->type("css=.login>input", "selenium.engine@skiliks.com");
-        $this->type("css=.password>input", "123123");
-        $this->optimal_click("css=.submit>input");
+        $this->optimal_click("css=.action-sign-in");
+        $this->waitForVisible("css=#YumUserLogin_username");
+        $this->type("css=#YumUserLogin_username", "selenium.engine@skiliks.com");
+        $this->type("css=#YumUserLogin_password", "skiliks123123");
+        $this->optimal_click("name=yt0");
         for ($second = 0; ; $second++) {
             if ($second >= 600) $this->fail("timeout");
             try {

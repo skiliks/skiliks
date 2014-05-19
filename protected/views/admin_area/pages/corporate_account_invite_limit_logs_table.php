@@ -1,8 +1,7 @@
 <?php $titles = [
     'Дата',
     'Транзакция',
-    'Место спровоцировавцее транзакцию (в коде проекта)',
-    'Приглашения <br/>тариф / рефералы<br/>в итоге',
+    'Место спровоцировавцее транзакцию (в коде проекта)'
 ] ?>
 <div class="row fix-top">
 
@@ -16,10 +15,6 @@
     <br/>
 
     <table class="table table-bordered" style="width: 50%">
-        <tr>
-            <td>Текущий тарифный план</td>
-            <td><?= $account->tariff->label ?></td>
-        </tr>
         <tr>
             <td>Текущее количество доступных приглашений</td>
             <td><?= $account->getTotalAvailableInvitesLimit() ?></td>
@@ -58,11 +53,8 @@
             <?php endif ?>
             <tr class="orders-row">
                 <td><?= $log->date ?></td>
-                <td><?= $log->amount ?> <?= $log->direction ?> до <?= ($log->limit_after_transaction+$log->invites_limit_referrals) ?></td>
+                <td><?= $log->amount ?> <?= $log->direction ?> до <?= ($log->limit_after_transaction) ?></td>
                 <td><?= $log->message ?></td>
-                <td>
-                    <?= $log->limit_after_transaction ?> / <?= $log->invites_limit_referrals ?>
-                </td>
             </tr>
         <?php endforeach ?>
         </tbody>

@@ -1,0 +1,553 @@
+
+/* CSS styles just to reset any non standard browser defaults */
+
+@font-face {font-family: 'ProximaNova-Regular';src: url('../../fonts/24F05C_4_0.eot');src: url('../../fonts/24F05C_4_0.eot?#iefix') format('embedded-opentype'),url('../../fonts/24F05C_4_0.woff') format('woff'),url('../../fonts/24F05C_4_0.ttf') format('truetype');}
+@font-face {font-family: 'ProximaNova-Bold';src: url('../../fonts/24F05C_5_0.eot');src: url('../../fonts/24F05C_5_0.eot?#iefix') format('embedded-opentype'),url('../../fonts/24F05C_5_0.woff') format('woff'),url('../../fonts/24F05C_5_0.ttf') format('truetype');}
+@font-face {font-family: 'SegoePrint';src: url('../../fonts/25D0FC_0_0.eot');src: url('../../fonts/25D0FC_0_0.eot?#iefix') format('embedded-opentype'),url('../../fonts/25D0FC_0_0.woff') format('woff'),url('../../fonts/25D0FC_0_0.ttf') format('truetype');}
+
+html {
+    font-family: sans-serif;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+}
+
+body {
+    font-family: "ProximaNova-Regular", sans-serif;
+    font-size: 14px; /* 1em  for 1280+ */
+    line-height: 1.428571429;
+}
+
+html {
+    height: 100%;
+    min-height: 600px;
+    position: relative;
+}
+
+body {
+    height: 100%;
+}
+
+h1 {
+    min-height: 1em;
+}
+header {
+    height: 131px;
+    min-width: 1024px;
+}
+
+
+section.main-content {
+    min-height: 570px; /* 1080px - 130px (header) - 380px (footer) */
+    position: relative;
+}
+
+footer {
+    bottom: 0;
+}
+
+footer.main-content {
+    background-image: url('../../img/site/1280/general-style/site-footer.png');
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 381px;
+    left: 0;
+    margin-top: -200px;
+    position: relative;
+    min-width: 1024px;
+    width: 100%;
+}
+
+body,h1, h2, h3, h4, h5, h6, b, strong, small, img, table, a, p, div, span, ul, li,
+label, article, aside, details, figcaption, figure, footer, header, hgroup,
+main, nav, section, summary {
+    margin: 0;
+    padding: 0;
+}
+
+article, aside, details, figcaption, figure, footer, header, hgroup, main, nav,
+section, summary {
+    display: block;
+}
+
+/* --- */
+
+h1 {
+    font: 2.7em "ProximaNova-Bold";
+    line-height: 1em; /* это значит line-height === font-size (не 1em!) */
+}
+
+h2 {
+    font: 2.3em "ProximaNova-Bold";
+    line-height: 1em;
+}
+
+h3 {
+    font: 2.0em "ProximaNova-Bold";
+    line-height: 1em;
+}
+
+h4 {
+    font: 1.7em "ProximaNova-Bold";
+    line-height: 1em;
+}
+
+h5 {
+    font: 1.4em "ProximaNova-Bold";
+    line-height: 1em;
+}
+
+h6 {
+    font: 1.1em "ProximaNova-Bold";
+    line-height: 1em;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #ffffff;
+}
+
+.background-yellow h1,
+.background-yellow h2,
+.background-yellow h3,
+.background-yellow h4,
+.background-yellow h5,
+.background-yellow h6,
+.background-white h1,
+.background-white h2,
+.background-white h3,
+.background-white h4,
+.background-white h5,
+.background-white h6,
+.background-sky-blue h1,
+.background-sky-blue h2,
+.background-sky-blue h3,
+.background-sky-blue h4,
+.background-sky-blue h5,
+.background-sky-blue h6,
+.background-sky h1,
+.background-sky h2,
+.background-sky h3,
+.background-sky h4,
+.background-sky h5,
+.background-sky h6 {
+    color: #3D4041;
+}
+
+/* --- */
+
+li {
+    display: list-item;
+}
+
+ul, ol, a, span, i, label {
+    display: inline-block;
+}
+
+b, strong, .bold {
+    font-family: "ProximaNova-Bold", sans-serif;
+    font-weight: normal;
+}
+
+small {
+    font-size: 80%;
+}
+
+img {
+    border: 0;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+a {
+    background: transparent;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+span.required {
+    display: none;
+}
+
+textarea,
+input[type='text'],
+input[type='password'] {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #3E5259;
+    border-radius: 5px;
+    box-shadow: 10px 4px 10px rgba(0, 0, 0, 0.1) inset;
+    color: #146672;
+    font-family: 'ProximaNova-Regular';
+    height: 26px;
+    line-height: 1em;
+    font-size: 1em;
+    line-height: 1em;
+    padding: 4px 2px 0px 6px;
+}
+
+input[type='checkbox'] {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #3E5259;
+    border-radius: 5px;
+    padding: 2px 4px;
+}
+
+textarea {
+    min-height: 78px; /* 26*3 */
+    line-height: 1.3em; /* приемлемый отступ между строками */
+    padding: 12px;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/* RESET .ui-dialog                               */
+/* Standard pop-up                                */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+.skiliks .ui-dialog {
+    background-image: none;
+    border: 0;
+    font-size: 1em;
+    line-height: 1.2em; /* работает как line-height = font-size*1.2 */
+    margin: 0;
+    overflow: visible;
+    padding: 0;
+    position: relative;
+}
+
+.skiliks .ui-dialog.popup-information {
+
+}
+
+.skiliks .ui-dialog ul.after-p {
+    margin-top: -20px; /* чтоб компенсировать отступ от .skiliks .ui-dialog p */
+}
+
+.skiliks .ui-dialog p {
+    margin-bottom: 20px;
+}
+
+.skiliks .ui-dialog .button-standard {
+    font-size: 1.3em; /* тут шрифи меряется уже относительно .skiliks .ui-dialog */
+}
+
+.skiliks .ui-dialog .ui-dialog-titlebar-close,
+.skiliks .ui-dialog .ui-dialog-titlebar-close:focus,
+.skiliks .ui-dialog .ui-dialog-content {
+    margin: 0;
+    padding: 0;
+}
+
+.skiliks .popup-information .ui-dialog-content {
+    padding: 40px 110px;
+    position: static;
+}
+
+.skiliks .popup-form-wide .ui-dialog-content,
+.skiliks .popup-form .ui-dialog-content {
+    padding: 35px;
+}
+
+.skiliks .popup-form-wide .ui-dialog-content,
+.skiliks .popup-form .ui-dialog-content {
+    padding: 20px 35px 35px 20px; /* 15 0 0 15 даёт .nice-border, в сумме по 35px с каждой стороны */
+}
+
+.hide-ui-dialog-content .ui-dialog-content {
+    overflow: hidden;
+}
+
+.skiliks .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick {
+    background: url("../../img/site/1280/popups/close-modal.png") no-repeat 0 0;
+    display: block;
+    height: 27px;
+    margin: -33px 0 0 10px;
+    width: 27px;
+}
+
+.skiliks .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick:hover {
+    background-position: 0 -27px;
+    border: none;
+}
+
+.skiliks .ui-state-hover {
+    background: none;
+    border: none;
+}
+
+.skiliks .ui-dialog-titlebar {
+    background: none;
+    border: 0;
+    font-size: 0;
+    line-height: 0;
+    margin: 0;
+    padding: 0;
+    height: 0px;
+}
+
+button,
+input,
+.skiliks .ui-widget input,
+.skiliks .ui-widget button,
+.skiliks .ui-widget textarea {
+    font-family: 'ProximaNova-Regular';
+    font-size: 1em;
+}
+
+.skiliks .ui-widget-overlay {
+    background-image: none;
+    background-color: rgba(0, 0, 0, 0.55);
+    opacity: 1;
+    position: fixed;
+}
+
+.skiliks .ui-widget-content {
+    background-image: none;
+    position: static;
+}
+
+.skiliks .ui-widget-content .background-dark-blue {
+    color: #fff;
+}
+
+.skiliks .ui-widget {
+    font-family: ProximaNova-Regular;
+    font-size: 1em;
+}
+
+.skiliks .ui-dialog.background-image-lamp,
+.background-image-lamp {
+    background-image: url('../../img/site/1280/popups/lamp.png');
+    background-repeat: repeat;
+    background-position: right top;
+}
+
+.skiliks .ui-dialog.background-image-two-lamps,
+.background-image-two-lamps {
+    background-image: url('../../img/site/1280/popups/two-lamps.png');
+    background-repeat: repeat;
+    background-position: left top;
+}
+
+.skiliks .ui-dialog.background-image-book,
+.background-image-book {
+    background-image: url('../../img/site/1280/popups/book.png');
+    background-repeat: repeat;
+    background-position: left top;
+}
+
+.skiliks .ui-dialog.background-image-book-2,
+.background-image-book-2 {
+    background-image: url('../../img/site/1280/popups/book-2.png');
+    background-repeat: repeat;
+    background-position: left top;
+}
+
+.skiliks .ui-dialog.background-image-lamp,
+.background-image-lamp,
+.skiliks .ui-dialog.background-image-two-lamps,
+.background-image-two-lamps,
+.skiliks .ui-dialog.background-image-book,
+.background-image-book {
+    font-size: 1em;
+    background-color: #9BC8CE;
+}
+
+/* --- */
+
+.popup-form h3,
+.popup-form-wide h3,
+.popup-form label,
+.popup-form-wide label {
+    color: #0E4750;
+}
+
+.skiliks .ui-dialog.background-image-book .button-standard,
+.skiliks .ui-dialog.background-image-lamp .button-standard {
+    font-size: 1.28em;
+}
+
+.ui-dialog form label {
+    font-family: 'ProximaNova-Bold';
+    font-weight: normal;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/* специальная маркировка для облегчения анализа структуры страницы */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+.mark-up-label,
+.partial-label,
+.mark-up-label {
+    display: none;
+}
+
+.develop-mode .partial {
+    border: 1px solid #ff0000;
+    margin-top: 10px;
+    text-align: left;
+}
+
+/* в левом верхнем углу находится красный или салатовый квадрат. */
+.develop-mode .mark-up-label,
+.develop-mode .partial-label {
+    background-color: #ffAAAA;
+    color: #ffAAAA;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: bold;
+    opacity: 0.8;
+    overflow: hidden;
+    padding: 4px 10px;
+    position: relative;
+    vertical-align: top;
+    top: -1px;
+    left: 0;
+    height: 16px;
+    width: 4px;
+}
+
+/* При наведении мыши на квадрат, он удлинняется, чтобы показать имя файла-паршиала или блока */
+.develop-mode .mark-up-label:hover,
+.develop-mode .partial-label:hover {
+    color: #000;
+    width: auto;
+}
+
+.develop-mode .mark-up-label {
+    float: left;
+    background-color: #00ff00;
+    color:  #00ff00;
+}
+
+.develop-mode .mark-up-block {
+    border: 1px solid #00ff00;
+}
+
+/* Form errors */
+
+.error-place .errorMessage,
+form .error-place {
+    display: none;
+}
+
+.error .error-place .errorMessage,
+.error .error-place {
+    display: block;
+    height: 14px;
+    margin-top: -17px; /* this.margin-top немного более this.height*/
+}
+
+.error select,
+.error textarea,
+.error input[type='text'],
+.error input[type='password'],
+.error input[type='checkbox'],
+.skiliks .error .sbHolder {
+    border : 1px solid #bd2929;
+    /*background-color: #FFF3E5;*/
+}
+
+.error .errorMessage {
+    color: #bd2929;
+}
+
+.error input.button-standard {
+    border : 0 none;
+}
+
+.button-standard.icon-padding-standard {
+    background-position: 16px center;
+    padding-left: 48px;
+}
+
+.button-standard {
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 1.3em;
+    font-weight: bold;
+    padding: 19px 20px;
+}
+
+input.button-standard {
+    height: auto;
+    padding-top: 17px; /* было 11 /* у span отступы больше */
+    padding-bottom: 15px; /* было 11  /* у span отступы больше */
+}
+
+.button-standard:hover {
+    background-color: #BD2929;
+}
+
+.background-dark-blue.no-hover:hover {
+    background-color: #146672;
+}
+
+.skiliks .reset-to-regular {
+    font-family: ProximaNova-Regular;
+}
+
+/* pager: */
+
+.pager-place {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.skiliks ul.yiiPager .first,
+.skiliks ul.yiiPager .last {
+    display: none;
+}
+
+.skiliks ul.yiiPager .previous a,
+.skiliks ul.yiiPager .next a {
+    background-color: #6CAAB3;
+    border: none;
+    margin-left: 15px;
+    margin-right: 15px;
+    padding: 7px 10px;
+}
+
+.skiliks ul.yiiPager .previous a:hover,
+.skiliks ul.yiiPager .next a:hover {
+    background-color:  #146672;
+}
+
+.skiliks ul.yiiPager a:visited,
+.skiliks ul.yiiPager .hidden a,
+.skiliks ul.yiiPager .page a:link,
+.skiliks ul.yiiPager .next a:visited,
+.skiliks ul.yiiPager .next a:link,
+.skiliks ul.yiiPager a:link {
+    color: #FFFFFF;
+    font: 14px "ProximaNova-Bold";
+}
+
+.skiliks ul.yiiPager .page a,
+.skiliks ul.yiiPager .page a:link,
+.skiliks ul.yiiPager .page a:visited {
+    border: medium none;
+    margin: 0 4px;
+    padding: 0;
+    text-decoration: none;
+}
+
+.skiliks ul.yiiPager .selected a,
+.skiliks ul.yiiPager .selected a:link,
+.skiliks ul.yiiPager .selected a:visited {
+    color: #146672;
+    background-color: transparent;
+}
+
+.skiliks ul.yiiPager li,
+.skiliks ul.yiiPager li a {
+    display: inline-block;
+}
+
+.skiliks .grid-view-loading {
+    background-image: none;
+}

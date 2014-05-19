@@ -455,7 +455,7 @@ i.excel-icon {
     width: 18px;
 }
 
-i.doc-icon {
+iicon.doc-icon {
     background: url('../img/documents/doc.png');
     background-size: 18px, 18px;
     display: inline-block;
@@ -3612,6 +3612,7 @@ ul.profile-menu li {
     top: -10px;
     width: 20px;
 }
+
 .view-simulation-details-pop-up{
     cursor: pointer;
 }
@@ -4098,7 +4099,7 @@ body.action-controller-corporateReferrals-static-profile .popup-before-start-sim
         padding: 6px 4px 6px 6px;
     }
     #simulations-counter-box strong {
-        font-size: 14px;
+        font-size: 13px;
     }
     .brightblock {
         font-size: 15px;
@@ -4940,6 +4941,9 @@ body.action-controller-corporateReferrals-static-profile .popup-before-start-sim
 
 .action-controller-login-auth .enter_form .nice-border {
     background-color: #D1E8EA;
+}
+.action-controller-login-auth .enter_form .nice-border.has-errors {
+    padding-top: 12px;
 }
 
 .sign-in-box #yum-login-global-errors {
@@ -5908,13 +5912,10 @@ ul.default li:hover {
     cursor: pointer;
 }
 
-/*#corporate-invitations-list-box #yw0_c0 {
-    background-image: none;
-    padding-right: 0;
+.partial-label {
+    display: none;
 }
 
-#corporate-invitations-list-box thead,
-#corporate-invitations-list-box thead tr,
-#corporate-invitations-list-box .grid-view .items tr:last-child {
-    background-color: #146672;
-}*/
+.hide {
+    display: none;
+}

@@ -18,6 +18,12 @@
             <?= (null == $email->sended_at) ? 'не отправлено' : $email->sended_at ?>
         </td>
     </tr>
+    <tr>
+        <td>Ошибки при отправке</td>
+        <td>
+            <?= (null == $email->errors) ? 'нет' : $email->errors ?>
+        </td>
+    </tr>
 </table>
 
 <br/>

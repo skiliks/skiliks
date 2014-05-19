@@ -1,8 +1,5 @@
 <?php
-
 /**
- * This is the model class for table "flag_block_replica".
- *
  * The followings are the available columns in table 'flag_run_email':
  * @property string $flag_code
  * @property integer $replica_id
@@ -28,6 +25,9 @@ class FlagBlockReplica extends CActiveRecord
 		return 'flag_block_replica';
 	}
 
+    /**
+     * @return array of string
+     */
     public function primaryKey() {
         return array('flag_code', 'replica_id');
     }
@@ -37,8 +37,6 @@ class FlagBlockReplica extends CActiveRecord
 	 */
 	public function relations()
 	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
 		return array(
             'replica' => array(self::BELONGS_TO, 'Replica', 'replica_id'),
 		);

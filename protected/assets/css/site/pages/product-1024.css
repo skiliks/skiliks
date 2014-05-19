@@ -1,0 +1,115 @@
+.skiliks.width-1024 .us-nice-border {
+    width: 405px;
+}
+
+.skiliks.width-1024 .us-box-title {
+    background-position: center bottom;
+    height: 80px;
+    padding-top: 50px;
+    width: 405px;
+}
+
+.width-1024 .us-box-content {
+    height: 849px;
+    width: 355px;
+}
+
+.width-1024.action-controller-product-static-pages .us-box-content {
+    height: 1027px;
+}
+
+.width-1024 .us-speedometers {
+    margin-left: -20px;
+}
+
+.width-1024 .us-product-gauge-charts {
+    margin-left: 70px;
+}
+
+.width-1024 .levellabels h6 {
+    width: 220px;
+}
+
+.width-1024.skiliks .us-levellabels {
+    margin-left: 10px;
+    padding-left: 23px;
+    padding-right: 0;
+}
+
+.skiliks .widthblock:first-child {
+    margin-left: 25px;
+    margin-right: 10px;
+}
+
+.width-1024.skiliks .widthblock:nth-child(1) h6 {
+    margin-left: 57px;
+}
+
+.width-1024.skiliks .widthblock:nth-child(2) h6 {
+    margin-left: 42px;
+}
+
+.width-1024.skiliks .widthblock:nth-child(3) h6 {
+    margin-left: 59px;
+}
+
+.width-1024.skiliks .us-rateslist {
+    margin-left: -20px;
+}
+
+.width-1024 .chart-gauge .chart-value {
+    margin-left: 0;
+}
+
+.width-1024 .widthblock:nth-child(1) ol {
+    margin-left: 5px;
+}
+
+.width-1024 .widthblock:nth-child(2) ol {
+    margin-left: -45px;
+}
+
+.width-1024 .widthblock:nth-child(3) ol {
+    margin-left: -5px;
+}
+
+.width-1024.skiliks .blockvalue {
+    top: -6px;
+}
+
+/* .action-controller-productDiagnostic-static-pages: */
+
+.width-1024.action-controller-productDiagnostic-static-pages .us-box-content {
+    height: 220px;
+}
+
+.width-1024 .product-company-diagnostic-charts-container {
+    padding-right: 20px;
+    width: 800px;
+}
+
+.width-1024.action-controller-productDiagnostic-static-pages .allsummry {
+    background-position: center 31px;
+}
+
+.width-1024.skiliks.action-controller-productDiagnostic-static-pages .us-levellabels {
+    width: 820px;
+}
+
+.width-1024.skiliks.action-controller-productDiagnostic-static-pages .us-rateslist {
+    margin-left: -10px;
+}
+
+.width-1024.skiliks .us-legend {
+    margin-top: 15px;
+    margin-left: 64px;
+    width: 760px;
+}
+
+.width-1024 .us-legend-text {
+    width: 187px;
+}
+
+.width-1024 .us-legend-text label {
+    margin-top: 2px;
+}

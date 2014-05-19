@@ -16,7 +16,22 @@ try {
                 var minSupport = {
                     mozilla: 18,
                     chrome: 27,
-                    msie: 10
+                    msie: 10,
+                    safari: 6
+                };
+
+                var maxSupport = {
+                    mozilla: 29,
+                    chrome: 34,
+                    msie: 11,
+                    safari: 7
+                };
+
+                var maxSupportTitle = {
+                    mozilla: "Mozilla Firefox "+maxSupport['mozilla'],
+                    chrome: "Google Chrome "+maxSupport['chrome'],
+                    msie: "Internet Explorer "+maxSupport['msie'],
+                    safari: "Safari "+maxSupport['safari']
                 };
 
                 /**
@@ -24,7 +39,18 @@ try {
                  * Она нужна -- потому что в IE8, текущая JS проверка валится.
                  */
 
-                if (window.httpUserAgent.indexOf('YaBrowser') != -1) {
+                if (window.httpUserAgent.indexOf('YaBrowser') != -1 || // -1 != -1 = false
+                    window.httpUserAgent.indexOf('MRCHROME') != -1 ||
+                    window.httpUserAgent.indexOf('IceDragon') != -1 ||
+                    window.httpUserAgent.indexOf('Maxthon') != -1 ||
+                    window.httpUserAgent.indexOf('PaleMoon') != -1 ||
+                    window.httpUserAgent.indexOf('PB0.') != -1 ||
+                    window.httpUserAgent.indexOf('QIPSurf') != -1 ||
+                    window.httpUserAgent.indexOf('Sleipnir') != -1 ||
+                    window.httpUserAgent.indexOf('SlimBrowser') != -1 ||
+                    window.httpUserAgent.indexOf('Nichrome') != -1 ||
+                    window.httpUserAgent.indexOf('Mobile') != -1
+                ) {
                     location.href = cfg.oldBrowserUrl;
                     return false;
                 }
@@ -33,6 +59,12 @@ try {
                     if (minSupport.hasOwnProperty(name)) {
                         if ($.browser[name]) {
                             if (parseFloat($.browser.version) >= minSupport[name] && this.isAllowOS(cfg.isSkipOsCheck, ['Windows', 'MacOS'])) {
+                                if(parseFloat($.browser.version) > maxSupport[name]) {
+                                    if(confirm("Похоже, вы используете бета-версию браузера. Симуляция может работать нестабильно. Рекомендуем использовать "+maxSupportTitle[name]) === false){
+                                        location.href = '/dashboard';
+                                        return false;
+                                    }
+                                }
                                 updateImageLoaderBar('Проверка совместимости браузера... OK!', 0.85, true);
                                 return true;
                             } else {
@@ -82,10 +114,15 @@ try {
                 else {
                     // Spike to make alert ok works fine
                     // TODO: refactor all dialog views to one style
-                    if (alert('Мы сожалеем, но конфигурация Вашего компьютера ниже минимально допустимой. ' +
-                        'Минимальные системный требования для комфортной игры двухядерный процессор (2х1,1ГГц)'+
-                        ' и 2 Гб оперативной памяти. Попробуйте запустить игру на другом компьютере. ' +
-                        'Производительность вашего компьютера ' + processorTestResult.average + ' баллов.')) {
+                    if (alert("Конфигурация вашего компьютера ниже минимально допустимой. \n" +
+                        "Уровень производительности менее 1 балла (" + processorTestResult.average + ").\n"+
+                        "Минимальные системные требования для комфортной игры: \n"+
+                        "\n"+
+                        "   • двухъядерный процессор (2х1,1 ГГц);\n"+
+                        "   • 2 Гб оперативной памяти.\n"+
+                        "\n"+
+                        "Попробуйте запустить игру в другом браузере или на другом компьютере"
+                    )) {
                         location.href = '/dashboard';
                         return false;
                     }

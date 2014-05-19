@@ -1,0 +1,57 @@
+
+.system-mistmatch .chrome .ico {
+    background-image: url("../../../img/site/1280/browsers/chrome.png");
+}
+
+.system-mistmatch .firefox .ico {
+    background-image: url("../../../img/site/1280/browsers/firefox.png");
+}
+
+.system-mistmatch .internet-explorer .ico {
+    background-image: url("../../../img/site/1280/browsers/ie.png");
+}
+
+.system-mistmatch .safari .ico {
+    background-image: url("../../../img/site/1280/browsers/safari.png");
+}
+
+.system-mistmatch .ico {
+    background-size: 100% 100%;
+    height: 86px;
+    margin: 20px auto 0;
+    width: 86px;
+}
+
+.system-mistmatch .browser {
+    width: 160px;
+}
+
+.system-mistmatch label {
+    padding: 30px 0 0;
+}
+
+.system-mistmatch .or {
+    position: relative;
+    top: -75px;
+}
+
+.system-mistmatch span {
+    font-size: 1.2em;
+}
+
+.system-mistmatch .button-white {
+    font-size: 0.83em;
+    margin-left: 0px;
+}
+
+.width-1024 .system-mistmatch .button-white {
+    line-height: 2.5em;
+}
+
+.system-mistmatch .button-white {
+    line-height: 2.2em;
+}
+
+.action-controller-systemMismatch-static-pages .color-3D4041 {
+    color: #fff;
+}

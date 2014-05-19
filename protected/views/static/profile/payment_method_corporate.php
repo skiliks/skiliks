@@ -1,4 +1,6 @@
 
+<?php // в данный момент не используется ?>
+
 <h2 class="thetitle"><?php echo Yii::t('site', 'Profile') ?></h2>
 <div class="transparent-boder profilewrap">
 <?php $this->renderPartial('_menu_corporate', ['active' => ['payment-method' => true]]) ?>

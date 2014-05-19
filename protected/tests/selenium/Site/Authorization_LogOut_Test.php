@@ -9,40 +9,74 @@
 class Authorization_LogOut_SK3222_Test extends SeleniumTestHelper
 {
     /**
-     * test_Authorization_LogOut_SK3222() тестирует задачу SKILIKS-3222.
+     * test_Authorization_LogOut_SK3222() тестирует задачу SKILIKS-3222 попап Вход
      */
     public function test_Authorization_LogOut_SK3222()
     {
         $this->deleteAllVisibleCookies();
         $this->windowMaximize();
+
+        $this->clear_blocked_auth_users();
+
         $this->open('/ru');
-
         // проверка наличия попапа Входа
-        $this->optimal_click(Yii::app()->params['test_mappings']['site']['logIn']); // кликаем на кнопку по xpath
+        $this->optimal_click(Yii::app()->params['test_mappings']['site']['logIn']);
 
-        $this->assertTextPresent('Запомнить меня'); // проверяем, что есть особый текст
-        $this->optimal_click("css=.submit>input");
-        $this->assertTextPresent('Введите логин');
+        $this->waitForTextPresent('Запомнить меня'); // проверяем, что есть особый текст
+
+        //пустые значения
+        $this->optimal_click(Yii::app()->params['test_mappings']['site']['enter']);
+        $this->waitForTextPresent('Введите логин');
         $this->assertTextPresent('Введите пароль');
 
-        $this->type("xpath=//*[@id='YumUserLogin_username']","asdskiliks.com");
-        $this->type("xpath=//*[@id='YumUserLogin_password']","123123");
-        $this->optimal_click("css=.submit>input");
-        $this->assertTextPresent('Email введён неверно');
+        $this->loginPopup("asdskiliks.com","123123",'Email введён неверно');
+        $this->loginPopup("selenium.engine@skiliks.com","not correct password",'Неверный пароль');
+        $this->loginPopup("selenium111@skiliks.com","123123",'Неверный логин');
+        $this->loginPopup("selenium.engine@skiliks.com","111",'Неверный пароль');
+        $this->loginPopup("emailForBaned@skiliks.com","123123",'заблокирован'); //неправильный текст - потом поменять
+        //$this->loginPopup("emailNotActivated@skiliks.com","123123",'не активирован');
+    }
 
-        $this->type("xpath=//*[@id='YumUserLogin_username']","selenium.engine@skiliks.com");
-        $this->type("xpath=//*[@id='YumUserLogin_password']","not correct password");
-        $this->optimal_click("css=.submit>input");
-        $this->assertTextPresent('Неверный пароль');
+    /**
+     * test_UserAuth_Authorization_SK5187() тестирует задачу SKILIKS-5187 (страница /user/auth)
+     */
+    public function test_UserAuth_Authorization_SK5187()
+    {
+        $this->deleteAllVisibleCookies();
+        $this->windowMaximize();
 
-        $this->type("xpath=//*[@id='YumUserLogin_username']","selenium111@skiliks.com");
-        $this->type("xpath=//*[@id='YumUserLogin_password']","123123");
-        $this->optimal_click("css=.submit>input");
-        $this->assertTextPresent('Неверный логин');
+        $this->clear_blocked_auth_users();
 
-        $this->type("xpath=//*[@id='YumUserLogin_username']","selenium.engine@skiliks.com");
-        $this->type("xpath=//*[@id='YumUserLogin_password']","111");
-        $this->optimal_click("css=.submit>input");
-        $this->assertTextPresent('Неверный пароль');
+        $this->open('/user/auth');
+
+        $this->waitForVisible(Yii::app()->params['test_mappings']['user_auth']['email']);
+
+        //пустые значения
+        $this->optimal_click(Yii::app()->params['test_mappings']['user_auth']['login']);
+        $this->waitForTextPresent('Введите логин (email)');
+        $this->assertTextPresent('Введите пароль');
+
+        $this->loginUserAuth("asdskiliks.com", "123123", 'Email введён неверно' );
+        $this->loginUserAuth("selenium.engine@skiliks.com", "not correct password", 'Неверный пароль' );
+        $this->loginUserAuth("selenium111@skiliks.com", "123123", 'Неверный логин' );
+        $this->loginUserAuth("selenium.engine@skiliks.com", "111", 'Неверный пароль' );
+        $this->loginUserAuth("emailForBaned@skiliks.com", "111111", 'заблокирован' ); //неправильный текст - потом поменять
+        /*$this->loginUserAuth("emailNotActivated@skiliks.com", "123123", 'не активирован' );*/
+    }
+
+    public function loginPopup($email, $password, $message)
+    {
+        $this->type(Yii::app()->params['test_mappings']['site']['username'], $email);
+        $this->type(Yii::app()->params['test_mappings']['site']['userpass'], $password);
+        $this->optimal_click(Yii::app()->params['test_mappings']['site']['enter']);
+        $this->waitForVisible("xpath=(//*[contains(text(),'".$message."')])");
+    }
+
+    public function loginUserAuth($email, $password, $message)
+    {
+        $this->type(Yii::app()->params['test_mappings']['user_auth']['email'], $email);
+        $this->type(Yii::app()->params['test_mappings']['user_auth']['password'], $password);
+        $this->optimal_click(Yii::app()->params['test_mappings']['user_auth']['login']);
+        $this->waitForVisible("xpath=(//*[contains(text(),'".$message."')])");
     }
 }

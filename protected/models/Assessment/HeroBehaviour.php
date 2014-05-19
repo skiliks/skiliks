@@ -24,16 +24,6 @@ class HeroBehaviour extends CActiveRecord
     const TYPE_SLUG_PERSONAL = 'personal';
 
     /**
-     * @return array
-     */
-    public static function getExcludedFromAssessmentBehavioursCodes()
-    {
-        return [/*'214g2', '214g3', '214g4', '32110', '32112', '32113',
-            '32114', '3335', '341a1', '341c1', '341c2', '371a1',
-            '371a2', '371a3', '371a4', '371a5', '371b1', '371b2', '371b3', '8211'*/];
-    }
-
-    /**
      * @param $typeScalaCode
      * @return string
      */
@@ -104,12 +94,12 @@ class HeroBehaviour extends CActiveRecord
     
     /**
      *
-     * @param type $className
+     * @param string $className
      * @return HeroBehaviour
      */
     public static function model($className=__CLASS__)
     {
-            return parent::model($className);
+        return parent::model($className);
     }
 
     /**
@@ -117,7 +107,7 @@ class HeroBehaviour extends CActiveRecord
      */
     public function tableName()
     {
-            return 'hero_behaviour';
+        return 'hero_behaviour';
     }
 
     /**

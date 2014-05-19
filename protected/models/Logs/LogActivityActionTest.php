@@ -8,20 +8,43 @@
  * @property integer $sim_id
  * @property integer $activity_action_id
  * @property integer $window
- * @property string $window_uid
- * @property string $start_time
- * @property string $end_time
+ * @property string  $window_uid
+ * @property string  $start_time
+ * @property string  $end_time
  * @property integer $is_final_activity
  *
  * The followings are the available model relations:
- * @property Simulation $sim
+ * @property Simulation     $sim
  * @property ActivityAction $activityAction
- * @property mixed mail_id, MailBox id
- * @property mixed document_id, MyDocument id
- * @property int $meeting_id
+ * @property mixed          $mail_id, MailBox id
+ * @property mixed          $document_id, MyDocument id
+ * @property int            $meeting_id
  */
 class LogActivityActionTest extends CActiveRecord
 {
+    /**
+     * Prints all needed info in one row.
+     * Используется только в тестах.
+     */
+    public function dump() {
+        return $this . "\n";
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return sprintf("%-9s %-9s %-15s %-10s",
+            $this->start_time,
+            $this->end_time !== null ? $this->end_time : '—',
+            $this->activityAction->activity->code,
+            $this->activityAction->mail !== null ? $this->activityAction->mail->code : '—'
+        );
+    }
+
+    /* --------------------------------------------------------------------------------- */
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -86,13 +109,6 @@ class LogActivityActionTest extends CActiveRecord
 	}
 
     /**
-     * Prints all needed info in one row
-     */
-    public function dump() {
-        return $this . "\n";
-    }
-
-    /**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
@@ -114,40 +130,4 @@ class LogActivityActionTest extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
-
-    /**
-     * @param int $simulationId
-     * @deprecated
-     * @return LogActivityAction
-     */
-    public function bySimulationId($simulationId)
-    {
-        $criteria = new CDbCriteria();
-        $criteria->compare('sim_id', $simulationId);
-        $this->getDbCriteria()->mergeWith($criteria);
-        return $this;
-    }
-
-    public function __toString()
-    {
-        return sprintf("%-9s %-9s %-15s %-10s",
-            $this->start_time,
-            $this->end_time !== null ? $this->end_time : '—',
-            $this->activityAction->activity->code,
-            $this->activityAction->mail !== null ? $this->activityAction->mail->code : '—'
-        );
-    }
-
-    /**
-     * @param int $mailId
-     * @deprecated
-     * @return LogActivityAction
-     */
-    public function byMailId($mailId)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "mail_id = {$mailId}"
-        ));
-        return $this;
-    }
 }

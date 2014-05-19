@@ -8,13 +8,14 @@
     }
 
     var fnMap = {
-            "СУММ": "SUM"
+            "СУММ": "SUM",
+            "сумм": "SUM"
         },
         origFn = SocialCalc.Formula.CalculateFunction;
 
     SocialCalc.Formula.CalculateFunction = function(fname, operand, sheet) {
-        if (fnMap[fname]) {
-            fname = fnMap[fname];
+        if (fnMap[fname.toUpperCase()]) {
+            fname = fnMap[fname.toUpperCase()];
         }
 
         origFn.call(this, fname, operand, sheet);

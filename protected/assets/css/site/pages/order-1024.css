@@ -1,0 +1,38 @@
+
+.width-1024 .us-box-order-method {
+    width: 260px;
+}
+
+.width-1024 #payment-form .row label {
+    width: 92px;
+}
+
+.width-1024 .us-order-header {
+    height: 220px;
+}
+
+.width-1024 textarea,
+.width-1024 input[type='text'],
+.width-1024 input[type='password'] {
+    min-width: 150px;
+}
+
+.width-1024 .width-1024.us-without-commission {
+    margin-top: 2px;
+}
+
+.width-1024.skiliks .us-order-preview {
+    margin-right: 48px;
+}
+
+.width-1024.skiliks .error .error-place {
+    height: 13px;
+    margin-top: 4px;
+    margin-left: 96px;
+}
+
+.width-1024 .us-order-description-row.error .error-place {
+    margin-top: -13px;
+    margin-left: 254px;
+    width: 330px;
+}

@@ -58,10 +58,14 @@ define([
             sc_interval_id:null,
 
             useSCHotkeys:true,
+
             /**
-             * Тип симуляции. 'real' — real-режим, 'developer' — debug-режим
-             * @attribute stype
+             * Интерфейс лочится при фпантастическом приёме и отправке почты
+             *
+             * @var boolean isInterfaceWasLocked
              */
+            isInterfaceWasLocked: false,
+
             /**;
              * Constructor
              * @method initialize
@@ -95,8 +99,6 @@ define([
                     this.phone_history = new SKPhoneHistoryCollection();
                     this.handleEvents();
 
-                    this.loadDocsDialog = null;
-
                     this.set('scenarioName', null);
 
                     this.on('tick', function () {
@@ -115,6 +117,10 @@ define([
                         }
 
                         me.trigger('time:' + hours + '-' + (minutes < 10 ? '0' : '') + minutes);
+                        if(me.getGameMinutes() >= 11*60) {
+                            me.trigger('time:11-00');
+
+                        }
 
                         minutes += 5;
                         if (minutes >= 60) {
@@ -149,18 +155,9 @@ define([
                         SKApp.server.api('dayPlan/CopyPlan', {
                             minutes:me.getGameMinutes()
                         }, function () {
+
                         });
                     });
-
-//                  это, вроде, только для Zoho надо?
-//                    $(window).on('message', function(event) {
-//                        event = event.originalEvent;
-//                        if (event.data) {
-//                            if ('DocumentLoaded' === event.data.type) {
-//                                me.onDocumentLoaded(event);
-//                            }
-//                        }
-//                    });
 
                     this.bindEmergencyHotkey();
 
@@ -319,6 +316,7 @@ define([
                 try {
                     var me = this;
                     var current_time_string = me.paused_time || new Date();
+
                     var game_start_time = me.timeStringToMinutes(this.get('app').get('start')) * 60;
                     return game_start_time + (me.start_time ?
                         Math.floor(
@@ -380,7 +378,7 @@ define([
                         } else if (event.data[0].code !== 'None' && event.eventTime) {
                             me.events.wait(event.data[0].code, event.eventTime);
                         } else {
-                            throw new Error('parseNewEvents. System can`t add event and can`t event.data[0].code !== None.');
+                            throw new Error('parseNewEvents error. ' + SKApp.simulation.getGameTime(true) + ' ' + JSON.stringify(event));
                         }
                     });
                 } catch(exception) {
@@ -412,12 +410,10 @@ define([
                         if (undefined !== data && null !== data && undefined !== data.flagsState && undefined !== data.serverTime) {
                             me.updateFlagsForDev(data.flagsState, data.serverTime);
                             me.updateEventsListTableForDev(data.eventsQueue);
+                            me.updateServerInfoForDev(data.serverInfo);
                         }
 
-                        console.log(data);
-
                         if (undefined !== data && null !== data && undefined !== data.serverInfo && null !== data.serverInfo) {
-                            console.log('1: '), data.serverInfo;
                             me.updateServerInfoForDev(data.serverInfo);
                         }
 
@@ -480,10 +476,7 @@ define([
                         localStorage.setItem('lastGetState', nowDate.getTime());
 
                         me.window = new SKWindow({name:'mainScreen', subname:'mainScreen'});
-                        me.window.set('name', 'mainScreen');
-                        me.window.set('subname', 'mainScreen');
                         win = me.window;
-                        console.log('win 1 : ', win, ' , ', me.window, ' , ', me.window.id);
                         win.open();
 
                         me.todo_tasks.fetch();
@@ -574,7 +567,9 @@ define([
                     var me = this;
 
                     me._stopTimer();
-                    me.paused_time = new Date();
+                    if(me.start_time !== undefined){
+                        me.paused_time = new Date();
+                    }
                     me.trigger('pause:start');
                     me.is_paused = true;
                     if (typeof callback === 'function') {
@@ -603,8 +598,14 @@ define([
                             me._startTimer();
                             me.skipped_seconds -= (new Date() - me.paused_time) / 1000;
                             delete me.paused_time;
+
                             me.trigger('pause:stop');
 
+                            if (typeof callback === 'function') {
+                                callback();
+                            }
+                        } else if( me.start_time === undefined ) {
+                            me.trigger('pause:stop');
                             if (typeof callback === 'function') {
                                 callback();
                             }
@@ -794,7 +795,6 @@ define([
             updateServerInfoForDev : function (serverInfo) {
                 try {
                     //if (this.isDebug()) {
-                        console.log('2');
                         $('#server-info-ip-code').text(serverInfo.ip_code);
                         $('#server-info-ip-db').text(serverInfo.ip_db);
                     //}
@@ -939,7 +939,7 @@ define([
                 if (media_src !== null && media_type !== type) {
                     media_src = null;
                 }else{
-                    if($.browser['msie'] == true) {
+                    if($.browser['msie'] == true || $.browser['safari'] == true) {
                         if(type === 'wav'){
                             media_type = 'mp3';
                         }else if(type === 'webm'){
@@ -951,7 +951,7 @@ define([
             },
 
             getMediaFile : function(media_src, media_type) {
-                if(media_type === 'webm' && $.browser['msie']){
+                if(media_type === 'webm' && ($.browser['msie'] || $.browser['safari'])){
                     media_type = 'mp4';
                 }
                 if(media_type === 'wav' && $.browser['msie']){

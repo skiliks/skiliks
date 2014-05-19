@@ -25,7 +25,19 @@ class SiteController extends SiteBaseController
         {
             $this->redirect('/system-mismatch');
         }
-
+        $scenario = Scenario::model()->findByAttributes(['slug'=>Scenario::TYPE_FULL]);
+        /* @var $user YumUser */
+        $user = Yii::app()->user->data();
+        $startedInvites = Invite::model()->countByAttributes([
+            'owner_id' => $user->id,
+            'receiver_id' => $user->id,
+            'status' => Invite::STATUS_IN_PROGRESS,
+            'scenario_id' => $scenario->id
+        ]);
+        if($type !== Scenario::TYPE_LITE && $user->isCorporate() && 0 === (int)$user->account_corporate->getTotalAvailableInvitesLimit() && 0 === (int)$startedInvites) {
+            Yii::app()->user->setFlash('error', Yii::t('site', 'У вас закончились приглашения'));
+            $this->redirect('/dashboard');
+        }
 
         $start = Yii::app()->request->getParam('start');
         $user = Yii::app()->user->data();
@@ -47,6 +59,10 @@ class SiteController extends SiteBaseController
      */
     public function actionError()
     {
+        $this->layout = '//layouts/site_standard_2';
+
+        $this->addSiteJs('_start_demo.js');
+
         $this->returnErrorMessage(Yii::app()->errorHandler->error);
     }
 
@@ -63,19 +79,16 @@ class SiteController extends SiteBaseController
      */
     public function actionError404()
     {
+        $this->addSiteJs('_start_demo.js');
+
+        $this->layout = '//layouts/site_standard_2';
+
         $error = Yii::app()->errorHandler->error;
 
         if( $error )
         {
             $this->render('error404');
         }
-    }
-
-    public function actionWatchVideo() {
-        if ('en' == $this->getParam('_lang')) {
-            Yii::app()->language = 'en';
-        }
-        $this->render('watchVideo');
     }
 
     public function actionIsStarted()
@@ -127,14 +140,25 @@ class SiteController extends SiteBaseController
                 UserService::logCorporateInviteMovementAdd(sprintf("Симуляция номер %s прервана ( приглашение номер %s). В аккаунт возвращена одна симуляция.",
                     $invite->simulation->id,$invite->id), $user->getAccount(), $initValue);
 
+            } else {
+
+                $initValue = $user->getAccount()->getTotalAvailableInvitesLimit();
+                $user->getAccount()->invites_limit++;
+
+                UserService::logCorporateInviteMovementAdd(sprintf("Приглашение номер %s. В аккаунт возвращена одна симуляция.",
+                    $invite->id), $user->getAccount(), $initValue);
+
             }
             $invite->status = Invite::STATUS_DELETED;
             $invite->save(false);
         }
 
-        $user->getAccount()->save();
+        $user->getAccount()->save(false);
     }
 
+    /**
+     *
+     */
     public function actionUserStartSecondSimulation() {
 
         $invite_id = Yii::app()->request->getParam('invite_id');
@@ -144,6 +168,9 @@ class SiteController extends SiteBaseController
         }
     }
 
+    /**
+     *
+     */
     public function actionUserRejectStartSecondSimulation() {
         $invite_id = Yii::app()->request->getParam('invite_id');
         if(null!==$invite_id){
@@ -170,10 +197,22 @@ class SiteController extends SiteBaseController
         $invite->scenario = $scenario;
         $invite->scenario_id = $scenario->id;
         $invite->is_display_simulation_results = 1;
-        //$invite->setExpiredAt();
         $invite->save(false);
 
         $this->redirect('/simulation/promo/lite/'.$invite->id);
+    }
+
+    /**
+     * Показывает видео с Vimeo "Как удобно пользоваться Скиликсом для найма сотрудников".
+     */
+    public function actionWatchVideo()
+    {
+        $this->layout = '//layouts/site_standard_2';
+
+        if ('en' == $this->getParam('_lang')) {
+            Yii::app()->language = 'en';
+        }
+        $this->render('watchVideo');
     }
 }
 

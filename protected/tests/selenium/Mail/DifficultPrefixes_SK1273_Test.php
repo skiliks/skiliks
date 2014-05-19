@@ -94,7 +94,6 @@ class DifficultPrefixes_SK1273_Test extends SeleniumTestHelper
         $this->simulation_stop();
     }
 
-
     /**
      * testSK1273_Case2() по задаче SKILIKS-1273
      *

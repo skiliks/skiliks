@@ -301,7 +301,7 @@
 			sbHolder.insertAfter($target);
 			
 			$("html").live('mousedown', function(e) {
-				e.stopPropagation();          
+				e.stopPropagation();
 				$("select").selectbox('close'); 
 			});
 			$([".", inst.settings.classHolder, ", .", inst.settings.classSelector].join("")).mousedown(function(e) {    

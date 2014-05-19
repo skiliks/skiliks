@@ -1,0 +1,377 @@
+.profile-menu {
+    width: 100%;
+}
+
+.profile-menu li {
+    background: url("../../../img/site/1280/profile/menu-top-bg.png") repeat-x 0 49px;
+    list-style-type: none;
+}
+
+.profile-menu li:last-child {
+    background-image: none;
+}
+
+.profile-menu li a {
+    background: url("../../../img/site/1280/profile/menu-arrows.png") no-repeat 227px -65px;
+    color: #555742;
+    font-size: 1.3em;
+    padding: 12px 20px 12px 12px;
+    width: 100%;
+}
+
+.action-controller-corporatePersonalData-static-profile .profile-menu li a,
+.action-controller-corporatePassword-static-profile .profile-menu li a,
+.action-controller-corporateCompanyInfo-static-profile .profile-menu li a,
+.action-controller-corporateVacancies-static-profile .profile-menu li a {
+    background-position: 242px -65px;
+}
+
+.profile-menu li.active a,
+.profile-menu li a:hover {
+    background-position: 242px 17px;
+    color: #245057;
+}
+
+.action-personalPersonalData .profile-menu li.active a,
+.action-personalPassword .profile-menu li.active a {
+    background-position: 227px -65px;
+}
+
+.action-personalPersonalData .profile-menu li a:hover,
+.action-personalPassword .profile-menu li a:hover {
+    background-position: 227px 17px;
+}
+
+.action-personalPersonalData .profile-menu li a,
+.action-personalPassword .profile-menu li a {
+    min-height: 26px;
+}
+
+.profile-menu li.active {
+    background-color: #ffffff;
+}
+
+.profile-right-side {
+    padding: 3px 21px 35px 21px;
+    width: 586px; /* padding 42! */
+}
+
+.action-controller-corporatePassword-static-profile .profile-right-side {
+    padding-bottom: 22px;
+}
+
+.action-controller-corporateCompanyInfo-static-profile .profile-right-side {
+    padding-bottom: 29px;
+}
+
+.action-controller-personalPersonalData-static-profile .profile-right-side,
+.action-controller-personalPassword-static-profile .profile-right-side {
+    padding-left: 31px;
+    width: 576px; /* padding 52! */
+}
+.action-controller-personalPersonalData-static-profile .profile-right-side {
+    padding-bottom: 25px;
+}
+
+/* --- */
+
+.profile-right-side label {
+    font-size: 1.1em;
+    width: 240px;
+}
+
+.action-controller-corporatePersonalData-static-profile .profile-right-side label {
+    width: 188px;
+}
+
+.action-controller-corporatePassword-static-profile .profile-right-side label {
+    width: 158px;
+}
+
+.action-controller-corporatePassword-static-profile input[type='password'] {
+    width: 216px;
+}
+
+.action-controller-corporateCompanyInfo-static-profile .profile-right-side label {
+    width: 177px;
+}
+
+.action-controller-corporateVacancies-static-profile .items {
+    font-size: 1.27em;
+    margin-bottom: 25px;
+}
+
+.action-controller-personalPersonalData-static-profile label {
+    width: 188px;
+}
+
+.action-controller-personalPassword-static-profile .profile-right-side label {
+    width: 158px;
+}
+
+.action-controller-personalPassword-static-profile .controller-static-profile .error-place {
+    padding-left: 162px;
+}
+/* --- */
+
+#YumProfile_firstname,
+#YumProfile_lastname {
+    width: 159px;
+}
+#YumProfile_lastname {
+    margin-left: 25px;
+}
+
+
+.skiliks .us-company-form {
+    width: 110px;
+}
+
+.skiliks .us-company-name {
+    margin-left: 10px;
+    width: 261px;
+}
+
+#add-vacancy-form .button-standard {
+    float: left;
+    margin-top: 15px;
+}
+
+.controller-static-profile .column-2-3-fixed .sbSelector,
+.controller-static-profile .column-2-3-fixed .sbHolder {
+    font-size: 0.9em;
+}
+
+textarea,
+input[type='text'],
+input[type='password'] {
+    resize: none;
+    width: 164px;
+}
+
+#UserAccountPersonal_birthday_day,
+#UserAccountPersonal_birthday_month {
+    width: 26px;
+}
+
+#UserAccountPersonal_birthday_year {
+    width: 37px;
+}
+
+#add-vacancy-form .sbSelector,
+#add-vacancy-form .sbHolder {
+    width: 452px;
+}
+
+.action-controller-corporateVacancies-static-profile #add-vacancy-form .sbSelector,
+.action-controller-corporateVacancies-static-profile #add-vacancy-form .sbHolder {
+    width: 340px;
+}
+
+#UserAccountCorporate_company_description {
+    width: 379px;
+}
+
+#add-vacancy-form input[type="text"] {
+    width: 332px;
+}
+
+.skiliks.controller-static-profile .sbHolder {
+    width: 366px;
+}
+
+.action-controller-personalPersonalData-static-profile .skiliks.controller-static-profile .sbHolder {
+    width: 360px;
+}
+
+.skiliks.controller-static-profile.action-controller-corporateCompanyInfo-static-profile .sbHolder {
+    width: 205px;
+}
+
+.data strong,
+.data small {
+    display: block;
+}
+
+.data strong {
+    color: #245057;
+    font-size: 1.42em;
+    font-weight: normal;
+}
+
+.data small {
+    color: #959595;
+    font-family: "ProximaNova-Regular";
+}
+
+.action-controller-corporateTariff-static-profile label {
+    padding-top: 5px;
+}
+
+.action-controller-corporateTariff-static-profile small {
+    margin-top: -10px
+}
+
+.unstandard-second-column {
+    width: 150px;
+}
+
+.contrast-table {
+    font-size: 0.9em;
+}
+
+.contrast-table th a {
+    /*font-size: 0. 8em;*/
+}
+
+.action-controller-corporateReferrals-static-profile .column-2-3-fixed {
+    padding-bottom: 0;
+}
+
+.action-controller-corporateReferrals-static-profile .table-footer,
+.contrast-table table {
+    margin-left: -30px;
+    width: 759px;
+}
+
+.contrast-table table.items tr th:nth-child(1),
+.contrast-table table.items tr td:nth-child(1) {
+    padding-left: 30px;
+}
+
+.company-info-height {
+    height: 374px;
+}
+
+.unstandard-error-firstname {
+    display: inline-block;
+    width: 225px;
+}
+
+.action-controller-personalPersonalData-static-profile .unstandard-error-firstname {
+    width: 170px;
+}
+
+.action-controller-corporatePersonalData-static-profile .unstandard-error-firstname {
+    width: 169px;
+}
+
+.unstandard-error-lastname {
+    margin-left: 30px;
+}
+
+.action-controller-personalPersonalData-static-profile  .error-place {
+    padding-left: 191px;
+}
+
+.action-controller-personalPassword-static-profile  .error-place {
+    padding-left: 162px;
+}
+
+.action-controller-corporateVacancies-static-profile .error-place {
+    padding-left: 244px;
+}
+
+.action-controller-corporatePersonalData-static-profile .error-place {
+    padding-left: 191px;
+}
+
+.action-controller-corporatePassword-static-profile .error-place {
+    padding-left: 160px;
+}
+
+.unstandard-personal-data-height {
+    height: 412px;
+}
+
+#UserAccountPersonal_location {
+    width: 356px;
+}
+
+.action-controller-personalPersonalData-static-profile .unstandard-personal-data-height {
+    height: 401px; /* f */
+}
+
+.action-controller-corporatePersonalData-static-profile .unstandard-personal-data-height {
+    height: 274px; /*  248px */
+}
+
+.action-controller-personalPassword-static-profile .unstandard-personal-data-height {
+    height: 300px;
+}
+
+.action-controller-corporatePassword-static-profile .unstandard-personal-data-height {
+    height: 302px;
+}
+
+.skiliks .error .error-place {
+    height: 16px;
+}
+
+.action-controller-corporateVacancies-static-profile table.items td:nth-child(2),
+.action-controller-corporateVacancies-static-profile table.items td:nth-child(3){
+    max-width: 305px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.action-controller-corporatePassword-static-profile .us-password-height {
+    height: 302px;
+}
+
+.us-password-personal-height {
+    height: 298px;
+}
+
+.action-controller-personalPassword-static-profile .us-password-personal-height {
+    height: 316px;
+}
+
+.skiliks .pager {
+    text-align: center;
+}
+
+.skiliks ul.yiiPager {
+    display: inline-block;
+    margin-top: 12px;
+}
+
+.skiliks ul.yiiPager li.page {
+    background-color: #6CAAB3;
+    padding: 7px;
+}
+
+.action-controller-corporateVacancies-static-profile .light-list-table table {
+    width: 100%;
+}
+
+.us-profile-width {
+    width: 927px;
+}
+
+.action-personalPersonalData .us-profile-width,
+.action-personalPassword .us-profile-width {
+    width: 955px;
+}
+
+aside {
+    width: 275px;
+}
+
+.action-personalPersonalData aside,
+.action-personalPassword aside {
+    width: 254px;
+}
+
+.action-corporateVacancies .profile-right-side {
+    min-height: 145px;
+}
+
+.action-personalPersonalData .profile-right-side,
+.action-personalPassword .profile-right-side{
+    width: 619px;
+}
+
+.skiliks #profile_lastname {
+    width: 155px;
+}

@@ -43,6 +43,17 @@
     text-align: center;
   }
 
+  .tabs li.close-window:before,
+  .tabs li.close-window:after {
+    background: none;
+    bottom: 0;
+    content: none;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 0;
+  }
+
   .tabs {
     position: absolute;
     margin: 0;
@@ -53,9 +64,9 @@
     font-size: 14px;
 
     @media (max-width: 1280px), (max-height: 750px) {
-      height: 17px;
+      height: 26px;
       top: -17px;
-      right: 0px;
+      right: 12px; /* s */
       font-size: 12px;
     }
 
@@ -91,21 +102,6 @@
       a, a:hover {
         color: #dad6d1;
         text-decoration: none;
-      }
-    }
-
-    .close-window {
-      width: 12px;
-
-      .win-close {
-        background: url(../img/manual/icon-close2.png) 0 0 no-repeat;
-        height: 12px;
-        width:12px;
-        border: medium none;
-
-        &:hover {
-          background-position: 0px -12px;
-        }
       }
     }
 
@@ -182,6 +178,8 @@
       background: url(../img/manual/right-page.png) 510px 12px no-repeat;
       padding-left: 15px;
     }
+
+
 
     &:last-child {
       background: url(../img/manual/left-page.png) 25px 11px no-repeat,
@@ -268,6 +266,36 @@
       margin: 30px 0 5px 40px;
     }
 
+    .company {
+      h2 {
+        text-align: left;
+      }
+    }
+
+    .team {
+      h2 {
+        text-align: left;
+      }
+    }
+
+    .plan {
+      h2 {
+        text-align: left;
+      }
+    }
+
+    .next-steps {
+      h2 {
+        text-align: left;
+      }
+    }
+
+    .next-steps {
+      h2 {
+        width: 925px;
+      }
+    }
+
     .left-page > h2, .right-page > h2 {
       margin: 25px 0 12px;
       &.center {
@@ -296,7 +324,7 @@
         line-height: 100%;
       }
       p {
-        font-size:19px;
+        font-size: 18px;
         margin: 0 0 12px;
         text-align: justify;
         line-height: 120%;
@@ -311,7 +339,9 @@
       padding: 22px 14px 10px 14px;
       border-radius: 6px;
       border-bottom: 1px solid #9a9382;
+      font-size: 16px;
       margin-top: 19px;
+      text-align: left;
 
       h4 {
         margin-bottom: 6px;
@@ -345,7 +375,7 @@
       .aboutgame {
         p {
           margin: 0 0 9px;
-          font-size: 16px;
+          font-size: 14px;
           line-height: 113%;
         }
 
@@ -378,6 +408,7 @@
       .line {
         margin-top: 18px;
         overflow: hidden;
+        text-align: left;
       }
 
       .picture {
@@ -926,9 +957,10 @@
 
       h3 {
         font-size: 22px;
+        font-weight: normal;
         line-height: 20px;
         margin-bottom: 5px;
-        font-weight: normal;
+        text-align: left;
       }
       p {
         overflow: hidden;
@@ -960,86 +992,6 @@
         &.intinfo {
           .draw-picture(9);
         }
-
-      /*
-        &.plan-day {
-          .draw-picture(10);
-        }
-        &.plan-quarter {
-          .draw-picture(11);
-        }
-        &.plan-to-do {
-          .draw-picture(12);
-        }
-        &.plan-count {
-          .draw-picture(13);
-        }
-        &.plan-nav {
-          .draw-picture(14);
-        }
-        &.plan-close, &.mail-close, &.docs-close, &.phone-close {
-          .draw-picture(15);
-        }
-        &.mail-inbox {
-          .draw-picture(16);
-        }
-        &.mail-outbox {
-          .draw-picture(17);
-        }
-        &.mail-draft {
-          .draw-picture(18);
-        }
-        &.mail-trash {
-          .draw-picture(19);
-        }
-        &.mail-new {
-          .draw-picture(20);
-        }
-        &.mail-planner {
-          .draw-picture(21);
-        }
-        &.mail-settings {
-          .draw-picture(22);
-        }
-        &.docs-folder {
-          .draw-picture(23);
-        }
-        &.docs-ppt {
-          .draw-picture(24);
-        }
-        &.docs-doc {
-          .draw-picture(25);
-        }
-        &.docs-xls {
-          .draw-picture(26);
-        }
-        &.docs-mail {
-          .draw-picture(27);
-        }
-        &.phone-income {
-          .draw-picture(28);
-        }
-        &.phone-contacts {
-          .draw-picture(29);
-        }
-        &.phone-call {
-          .draw-picture(30);
-        }
-        &.phone-history {
-          .draw-picture(31);
-        }
-        &.menu-manual {
-          .draw-picture(32);
-        }
-        &.menu-time {
-          .draw-picture(33);
-        }
-        &.menu-battery {
-          .draw-picture(34);
-        }
-        &.menu-stop {
-          .draw-picture(35);
-        }*/
       }
     }
 
@@ -1209,4 +1161,57 @@
 }
 .relative-content {
   position: relative;
+}
+
+.close-window-manual {
+  background-image: url("../img/manual/icon-close5.png");
+  display: inline-block;
+  float: right;
+  height: 28px;
+  margin-right: 80px;
+  margin-top: -16px;
+  vertical-align: top;
+  width: 28px;
+}
+
+@media (max-width: 1280px), (max-height: 750px) {
+  .close-window-manual {
+    height: 25px;
+    margin-right: 58px;
+    margin-top: -18px;
+  }
+}
+
+.close-window-manual:hover {
+  background-position: 0 -30px;
+}
+
+.manual-window .page.manual-first-page {
+  background: url(../img/manual/right-page.png) 510px 12px no-repeat;
+  padding-left: 15px;
+}
+
+@media (max-width: 1280px), (max-height: 750px) {
+  .manual-window .page.manual-first-page {
+    background: url(../img/manual/right-page-small.png) 407px 6px no-repeat;
+    padding-left: 10px;
+  }
+}
+
+.person-info-tooltip {
+  text-align: left;
+}
+
+.next-steps ol {
+  text-align: left;
+}
+
+.manual-window .page .next-steps .warning-block {
+  font-size: 20px;
+}
+
+@media (max-width: 1280px), (max-height: 750px) {
+  .manual-window .page .next-steps .warning-block {
+    font-size: 16px;
+  }
 }

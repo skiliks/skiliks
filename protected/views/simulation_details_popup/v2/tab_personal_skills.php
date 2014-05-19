@@ -1,5 +1,5 @@
 <div class="page">
-    <div class="textcener"><h2 class="total">Личностные характеристики</h2></div>
+    <div class="pull-content-center"><h2 class="total">Личностные характеристики</h2></div>
 
     <div class="personallabels">
         <div class="smalltitle">Ориентация на результат<a href="#" class="questn"></a></div>
@@ -12,32 +12,22 @@
         <div class="smalltitle">Стрессоустойчивость<a href="#" class="questn"></a></div>
     </div>
 
-    <div class="barswrap personalbars">
-        <!--<div class="shortIndicator">
-            <div class="shortindvalue">
-                <div class="bullet highlevel"></div><
-                <div class="bar"></div>
-            </div>
-            <div class="shortchartvalue">продемонстрирован высокий уровень</div>
-        </div><!-- stressResistance -->
-    </div>
+    <div class="barswrap personalbars"></div>
 </div>
 <script type="text/javascript">
     $(function() {
-        var result = AR.personal,
-            r = Math.round,
-            val,
+        var val,
             codes = [14, 11, 12, 10, 15, 16, 13, 9];
 
         for (var i = 0; i < codes.length; i++) {
-            val = result[codes[i]] || 0;
+            val = AR.personal[codes[i]] || 0;
             if (codes[i] == 9) {
                 val = val > 50 ? 100 : 0;
             }
 
             new charts.Bullet(
                 '.personalbars',
-                r(val),
+                Math.round(val),
                 codes[i] == 9 ? {class: 'short'} : {class: 'small', displayValue: true}
             );
 

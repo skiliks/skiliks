@@ -206,12 +206,45 @@ $(document).ready(function(){
     })
 
     $(".ban-corporate-user").click(function() {
-        if(confirm("Вы точно хотите забанить аккаунт " + $(this).attr("data-email"))) {
-        $.post("/admin_area/ban_user/" + $(this).attr("data-id")).
+        if(confirm("Вы точно хотите разбанить аккаунт " + $(this).attr("data-email"))) {
+        $.post("/admin_area/ban_user/" + $(this).attr("data-id")+'/ban').
             done(function() {
                     window.location.reload();
                 });
         }
     });
 
+    $(".unban-corporate-user").click(function() {
+        if(confirm("Вы точно хотите забанить аккаунт " + $(this).attr("data-email"))) {
+            $.post("/admin_area/ban_user/" + $(this).attr("data-id")+'/unban').
+                done(function() {
+                    window.location.reload();
+                });
+        }
+    });
+
+    $('.action-toggle-is-test').click(function(){
+        $.post('/admin_area/order/' + $(this).attr("data-invoice-id") + '/toggle-is-test/').
+            done(function() {
+                window.location.reload();
+            });
+    });
+
+    $('.feedback-edit-button').click(function() {
+        var feedback_comment = $(this).parents('tr').find('.feedback-comment');
+        var message = feedback_comment.text();
+        feedback_comment.html('<textarea>' + message + '</textarea>');
+        $(this).parent().html('<a class="btn btn-success feedback-save-button">Сохранить</a>');
+    });
+
+    $('.feedback-save-button').live('click', function() {
+        console.log('cac');
+        var feedback_comment = $(this).parents('tr').find('.feedback-comment');
+        var message = feedback_comment.find('textarea').val();
+        console.log(message);
+        var id = feedback_comment.data('feedback-id');
+        $.post( "/admin_area/feedbacks", {message : message, id:id, is_ajax:'yes'}, function( data ) {
+            window.location.assign('/admin_area/feedbacks');
+        });
+    });
 });

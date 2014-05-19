@@ -9,6 +9,7 @@
 class AssessmentGlobalUnitTest extends CDbTestCase
 {
     use UnitLoggingTrait;
+    use UnitTestBaseTrait;
 
     /**
      * 100% efficiency of managerial skills test
@@ -18,7 +19,7 @@ class AssessmentGlobalUnitTest extends CDbTestCase
     {
         // $this->markTestSkipped(); // wait for new assessment scheme
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -187,7 +188,7 @@ class AssessmentGlobalUnitTest extends CDbTestCase
 
     public function testAssessment_Goals_Areas_Overals_case2()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -399,7 +400,7 @@ class AssessmentGlobalUnitTest extends CDbTestCase
     {
         //$this->markTestSkipped(); // wait for new assessment scheme
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -580,7 +581,7 @@ class AssessmentGlobalUnitTest extends CDbTestCase
 
     public function testAssessment_Goals_Areas_Overals_case4()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;

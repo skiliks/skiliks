@@ -60,10 +60,16 @@ define([], function() {
             try {
                 var result = false;
                 this.emails.forEach(function (email) {
-                    if (parseInt(email.mySqlId, 10) === oldId) {
-                        email.mySqlId = newId;
+                    try {
+                        if (parseInt(email.mySqlId, 10) === oldId) {
+                            email.mySqlId = newId;
 
-                        result = true;
+                            result = true;
+                        }
+                    } catch(exception) {
+                        if (window.Raven) {
+                            window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                        }
                     }
                 });
 

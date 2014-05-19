@@ -42,7 +42,10 @@ define([
                 'click #plannerBookQuarterPlan':                                     'doPlannerBookQuarterPlan',
                 'click #plannerBookDayPlan':                                         'doPlannerBookDayPlan',
                 'click .save-day-plan':                                              'doSaveTomorrowPlan',
-                'webkitTransitionEnd .plan-todo':                                    'doTransitionEnd',
+                'webkitTransitionEnd .plan-todo':                                    'doTransitionEnd', //transitionend msTransitionEnd oTransitionEnd
+                'transitionend .plan-todo':                                          'doTransitionEnd',
+                'msTransitionEnd .plan-todo':                                        'doTransitionEnd',
+                'oTransitionEnd .plan-todo':                                         'doTransitionEnd',
                 'mouseout .planner-book-timetable-event-fl .day-plan-todo-task.day-plan-task-active':'hideHint',
                 'mouseout .planner-book-timetable-afterv-fl .day-plan-todo-task.day-plan-task-active':'hideHint'
 
@@ -59,9 +62,13 @@ define([
 
             // 45 - магическое число. Установленное просто замером,
             // в вёрстке плана поле для задачи именно на столько уже самой колонки дня
-            $('.planner-book-timetable-event-fl').width(
-                $('.planner-book-today-head').width() - 45
-            );
+            if( true !== $.browser['safari'] ) {
+                $('.planner-book-timetable-event-fl').width(
+                    $('.planner-book-today-head').width() - 45
+                );
+            }else{
+                $('.planner-book-timetable-event-fl').css('width', '100%');
+            }
             // IE10-fix }
 
             // что-то случилось с шириной колонкой '.planner-book-head',
@@ -73,8 +80,10 @@ define([
                 $('.planner-book-head').width($('#plannerBookToday').width()- 0.5);
             }
 
-            if (true === $.browser['mozilla']) {
+            if (true === $.browser['mozilla'] && $.browser.version < 29) {
                 $('.planner-book-head').width($('#plannerBookToday').width()- 2);
+            } else {
+                $('.planner-book-head').width($('#plannerBookToday').width()- 1);
             }
 
             if (true === $.browser['chrome'] && $('#plannerBookToday').width() < maxPlannerDayWidth) {
@@ -108,7 +117,13 @@ define([
                     scroll:true,
                     snap:'td.planner-book-timetable-event-fl',
                     snapMode:'inner',
-                    snapTolerance:12,
+
+                    // SKILIKS-5819
+                    // В сафари едет вёрстка на листа "Завтра"
+                    // и неторорые строчки становятся меньше 12рх
+                    // из-за чево при snapTolerance = 12 в них невозможно поставить задачи
+                    snapTolerance: ($.browser['safari']) ? 5 : 12,
+
                     stack:".planner-book",
                     start:function () {
                         me.showDayPlanSlot($(this));
@@ -211,13 +226,14 @@ define([
                 prev_cell
                     .attr('rowspan', duration/15);
                 prev_cell.find('.day-plan-todo-task').height(Math.ceil(duration / 15) * 11);
-                var prevRow = task_el.parents('tr');
-                for (var j = 0; j < duration - 15; j += 15) {
+                /* Решение бага 2 задачи SKILIKS-5253 */
+                //var prevRow = task_el.parents('tr');
+                /*for (var j = 0; j < duration - 15; j += 15) {
                     prevRow = prevRow.next();
                     prevRow
                         .find('.planner-book-timetable-event-fl, .planner-book-timetable-afterv-fl')
                         .hide();
-                }
+                }*/
                 return task_el;
             } catch(exception) {
                 if (window.Raven) {
@@ -232,7 +248,7 @@ define([
          * @returns {*}
          */
         showDayPlanSlot:function (task_el) {
-            try {
+             try {
                 var duration = parseInt(task_el.attr('data-task-duration'), 10);
                 var prev_cell = task_el.parents('td');
                 prev_cell.height(11);
@@ -293,12 +309,10 @@ define([
 
                 // add title attribute to HTMl with full code
                 drop_td.attr('title', drop_td.find('.title').text());
-                //drop_td.attr('title', model.get('title'));
 
                 var max_height = Math.ceil(duration / 15) * 10;
                 setTimeout(function () {
                     me.overflowText(drop_td.find('.title'), max_height, drop_td.find('.title'));
-                    //me.overflowText(model.get('title'), max_height, model.get('title'));
                 }, 0);
                 var todo_el = drop_td.find('.day-plan-todo-task');
 
@@ -309,7 +323,11 @@ define([
                 var currentRow = drop_td.parents('tr');
                 for (var i = 0; i < duration - 15; i += 15) {
                     currentRow = currentRow.next();
-                    currentRow.find('.planner-book-timetable-event-fl, .planner-book-timetable-afterv-fl').hide();
+
+                    // в Safari 6/7 привоит к неправильному расчёту высоты ячейки в которуюдобавлена задача
+                    if (true != $.browser['safari']) {
+                        currentRow.find('.planner-book-timetable-event-fl, .planner-book-timetable-afterv-fl').hide();
+                    }
                 }
 
                 // Updating draggable element list
@@ -329,10 +347,10 @@ define([
          */
         calculateTaskHeigth: function(duration) {
         	if (duration > 30){
-        		return duration / 15 * 11;
+        		return Math.ceil(duration) / 15 * 11;
         	}
             else{
-            	return (duration / 15 * 11) - 2;
+            	return (Math.ceil(duration) / 15 * 11) - 2;
             }
         },
 
@@ -407,11 +425,7 @@ define([
                         me.$('td.planner-book-timetable-event-fl').removeClass('drop-hover');
 
                         // go last tr under dragged task {
-
                         var currentRow = $(this).parents('tr');
-
-    //                    var index = Math.round((ui.offset.top - $(this).find('table').offset().top) / 12);
-    //                    var currentRow = $(event.target).find('tr:eq(' + index + ')');
 
                         var duration = parseInt(ui.draggable.attr('data-task-duration'), 10);
                         for (var i = 0; i < duration; i += 15) {
@@ -540,6 +554,7 @@ define([
                     var todo_task = $(_.template(todo_task_template, {task:model, type:'todo'}));
                     me.$('.plan-todo-wrap .plan-todo-inner').prepend(todo_task);
                 });
+                me.$('.plan-todo-wrap .plan-todo-inner').append('<div style="height: 60px;"></div>');
                 this.setupDraggable();
                 this.$('.plan-todo-wrap').mCustomScrollbar("update");
             } catch(exception) {
@@ -650,7 +665,9 @@ define([
                     model.isNewTask = false;
                     me.addDayPlanTask(model);
                 });
-                me.listenTo(SKApp.simulation, 'tick', me.disableOldSlots);
+                if(!SKApp.isTutorial()) {
+                    me.listenTo(SKApp.simulation, 'tick', me.disableOldSlots);
+                }
                 setTimeout(function () {
                     me.disableOldSlots();
                     me.$('.planner-book-timetable,.planner-book-afterv-table').mCustomScrollbar({autoDraggerLength:false, updateOnContentResize: true});
@@ -661,9 +678,14 @@ define([
                         me.$('.plan-todo-wrap').mCustomScrollbar("scrollTo", ".day-plan-todo-task[data-task-id="+previousToActive+"]");
                     }
                 }, 0);
-
                 this.setupDroppable();
                 Hyphenator.run();
+                //Нужно для того чтоб решить задачу SKILIKS-5253
+                if($.browser['safari']){
+                    setTimeout(function(){
+                        $('.plan-todo-wrap div.mCustomScrollBox.mCS-light').css('position', 'absolute');
+                    }, 1000);
+                }
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -748,17 +770,17 @@ define([
                 this.$('.plan-todo-wrap').mCustomScrollbar("update");
                 var task_id = $(e.currentTarget).attr('data-task-id');
                 var task = SKApp.simulation.dayplan_tasks.get(task_id);
-                if(parseInt(task.get("type"),10) !== 1) {
-                    SKApp.simulation.dayplan_tasks.get(task_id).destroy();
-                    SKApp.simulation.todo_tasks.create({
-                        title:task.get("title"),
-                        date:task.get("date"),
-                        taskFromPlan: false,
-                        id:task.get("task_id"),
-                        duration:task.get("duration"),
-                        day:task.get("day")
-                    });
-                }
+
+                SKApp.simulation.dayplan_tasks.get(task_id).destroy();
+                SKApp.simulation.todo_tasks.create({
+                    title:task.get("title"),
+                    date:task.get("date"),
+                    taskFromPlan: false,
+                    id:task.get("task_id"),
+                    duration:task.get("duration"),
+                    day:task.get("day")
+                });
+
                 var last_model = SKApp.simulation.todo_tasks.at(SKApp.simulation.todo_tasks.length - 1);
                 $('.day-plan-task-active').removeClass('day-plan-task-active');
                 last_model.isNewTask = false;
@@ -879,6 +901,7 @@ define([
                 this.$('.planner-book-afterv-table').mCustomScrollbar("update");
                 this.$('.planner-book-timetable').mCustomScrollbar("update");
                 this.$('.plan-todo-wrap').mCustomScrollbar("update");
+
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);

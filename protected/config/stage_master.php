@@ -33,7 +33,8 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
     ),
     'params'=>array(
         'frontendUrl' => 'http://master.skiliks.com/',
-        'server_name' => 'http://master.skiliks.com/',
+        'server_name'        => 'http://master.skiliks.com/', // формат 'http://domain.com/'
+        'server_domain_name' => 'master.skiliks.com', // формат 'domain.com'
         'isUseStrictRulesForGhostLogin'=>false,
         'public' => [],
         'sentry' => [
@@ -41,7 +42,7 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
         ],
         'robokassa' => [
             'url'            => 'https://auth.robokassa.ru/Merchant/Index.aspx',
-            'MrchLogin'      => 'leah',
+            'MerchantLogin'  => 'leah',
             'sMerchantPass1' => 'as24ED4rFdrG456Dsd0d9f7gjec3',
             'sMerchantPass2' => 'd89DCs6d9ft66ygfr8iexmv67werd'
         ],

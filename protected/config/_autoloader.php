@@ -22,6 +22,7 @@ return [
         'application.components.Report2.*',
         'application.components.debug.*',
         'application.components.tcpdf.*',
+        'application.components.Exceptions.*',//Exceptions
 
         /* Controllers */
         'application.controllers.static.*',
@@ -30,6 +31,7 @@ return [
         'application.extensions.*',
         'application.extensions.PHPExcel.*',
         'application.extensions.phpmailer.*',
+        'application.extensions.debugToolbar.*',
         'application.vendors.*',
 
         /* Models  */
@@ -49,7 +51,6 @@ return [
         'application.models.Documents.*',
         'application.models.GameEvents.*',
         'application.models.Interfaces.*',
-        'application.models.Referrals.*',
 
         /* Modules */
         'application.modules.user.models.*',

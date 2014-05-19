@@ -35,6 +35,7 @@ class ChangeMailThemes_SK1253_Test extends SeleniumTestHelper
 
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['del_recipient']);
         sleep(2);
+
         $this->addTheme("xpath=(//*[contains(text(),'Отчет по 3 кварталу')])");
 
         $this->assertFalse($this->isTextPresent('Срочно жду бюджет логистики'));
@@ -53,6 +54,8 @@ class ChangeMailThemes_SK1253_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['del_recipient']);
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['button_to_continue']);
         sleep(2);
+
+        $this->optimal_click("xpath=//*[@id='MailClient_NewLetterSubject']/div/a");
         $this->addTheme("xpath=(//*[contains(text(),'Отчет по 3 кварталу')])");
 
         $this->assertFalse($this->isTextPresent('Срочно жду бюджет логистики'));

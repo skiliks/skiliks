@@ -9,44 +9,16 @@ class SimulationExcelPoint extends CActiveRecord
 {
     // Place your specific code there
 
-    // ---------------------------------------------------------------------------------------------------
-
-    /**
-     * Выбрать по заданной формуле
-     * @param int $formulaId
-     * @return SimulationExcelPoint
-     */
-    public function byFormula($formulaId)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "formula_id = {$formulaId}"
-        ));
-        return $this;
-    }
-
-    /**
-     * Выбрать по заданной формуле
-     * @param int $formulaId
-     * @return SimulationExcelPoint
-     */
-    public function byExistsValue()
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "value != 0"
-        ));
-        return $this;
-    }
-    
     /** ------------------------------------------------------------------------------------------------------------ **/
     
     /**
      *
-     * @param type $className
+     * @param string $className
      * @return SimulationExcelPoint
      */
     public static function model($className=__CLASS__)
     {
-            return parent::model($className);
+         return parent::model($className);
     }
 
     /**
@@ -54,7 +26,7 @@ class SimulationExcelPoint extends CActiveRecord
      */
     public function tableName()
     {
-            return 'simulations_excel_points';
+        return 'simulations_excel_points';
     }
 }
 

@@ -1,7 +1,5 @@
 <?php
 
-
-
 /**
  * Сервис по работе с событиями
  *
@@ -59,7 +57,13 @@ class EventService
             
             // проверим а есть ли такой триггер
             /** @var $eventsTriggers EventTrigger */
-            $eventsTriggers = EventTrigger::model()->bySimIdAndEventId($simulation->id, $event->id)->find();
+            $eventsTriggers = EventTrigger::model()->find(
+                "sim_id = :sim_id AND event_id = :event_id",
+                [
+                    'sim_id'   => $simulation->id,
+                    'event_id' => $event->id,
+                ]
+            );
             if ($eventsTriggers) {
                 $eventsTriggers->trigger_time = $eventTime;
                 $eventsTriggers->force_run = $force_run;
@@ -77,7 +81,8 @@ class EventService
     }
 
     /**
-     * @param $code
+     * Удаляет событие по коду
+     * @param $code string код события
      * @param Simulation $simulation
      * @return bool
      */
@@ -91,7 +96,13 @@ class EventService
             return false;
         } // нет у нас такого события
         
-        $eventsTriggers = EventTrigger::model()->bySimIdAndEventId($simulation->id, $event->id)->find();
+        $eventsTriggers = EventTrigger::model()->find(
+                "sim_id = :sim_id AND event_id = :event_id",
+                [
+                    'sim_id'   => $simulation->id,
+                    'event_id' => $event->id,
+                ]
+            );
         if (!$eventsTriggers) {
             return false;
         }
@@ -131,7 +142,7 @@ class EventService
         $result = false;
         if ($type == 'MY') {
             // отдать письмо по коду
-            $mailModel = MailBox::model()->byCode($code)->find();
+            $mailModel = MailBox::model()->findByAttributes(['code' => $code]);
             if ($mailModel) {
                 // если входящее письмо УЖЕ пришло (кодировка MY - Message Yesterday)
                 //  - то в списке писем должно быть выделено именно это письмо
@@ -150,7 +161,7 @@ class EventService
             return array('result' => 1, 'id' => $mailModel->id, 'fantastic' => !!$fantasticResult, 'eventType' => $type);
         } else if ($type == 'MSY') {
             // отдать письмо по коду
-            $mailModel = MailBox::model()->byCode($code)->find();
+            $mailModel = MailBox::model()->findByAttributes(['code' => $code]);
             if ($mailModel) {
                 // если исходящее письмо уже отправлено  (кодировка MSY - Message Sent Yesterday)
                 //  - то в списке писем должно быть выделено именно это письмо
@@ -169,15 +180,18 @@ class EventService
                 } else {
                     $attachmentId = null;
                 }
+
                 $parentTemplate = $mailTemplate->getParent();
                 $data['mailFields'] = [
                     'receiver_id'  => $mailTemplate->receiver_id,
-                    'subjectId'    => $mailTemplate->subject_id,
-                    'attachmentId' =>  $attachmentId,
-                    'subject'      => $mailTemplate->subject_obj->text,
+                    'themeId'      => $mailTemplate->theme_id,
+                    'attachmentId' => $attachmentId,
+                    'mailPrefix'   => $mailTemplate->mail_prefix,
+                    'theme'        => $mailTemplate->theme->text,
+                    'parent_code'  => (null != $parentTemplate) ? $parentTemplate->code : '',
                     'phrases'      => [
                         'message'          => $mailTemplate->message,
-                        'previouseMessage' => $parentTemplate ? $parentTemplate->message : ''
+                        'previousMessage' => (null != $parentTemplate) ? $parentTemplate->message : ''
                     ]
                 ];
             }
@@ -216,7 +230,7 @@ class EventService
     }
 
     /**
-     *
+     * Выводит очередь событий в дев. режиме
      */
     public static function getEventsQueueForJs(Simulation $simulation, $eventsQueueDepth = 0)
     {
@@ -254,7 +268,7 @@ class EventService
                                 '<strong>from:</strong> %s, <strong>to:</strong> %s, <strong>subject:</strong> %s',
                                 $mail->sender->fio,
                                 $mail->recipient->fio,
-                                $mail->subject_obj->text.', ID #'.$event->id
+                                $mail->theme->getFormattedTheme().', ID #'.$event->id
                             );
                         }
                     }

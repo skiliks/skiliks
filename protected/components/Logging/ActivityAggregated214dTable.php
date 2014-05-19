@@ -35,7 +35,7 @@ class ActivityAggregated214dTable extends LogTable
     }
 
     /**
-     * @param \LogActivityActionAgregated214d $row
+     * @param \LogActivityActionAggregated214d $row
      * @return array
      */
     protected function getRow($row)
@@ -54,8 +54,8 @@ class ActivityAggregated214dTable extends LogTable
             $row->parent,
             (null === $row->activityAction)?'':$row->activityAction->activity->grandparent,
             $row->category,
-            ($row->keep_last_category_initial === \LogActivityActionAgregated214d::KEEP_LAST_CATEGORY_YES)?'yes':'no',
-            ($row->keep_last_category_after === \LogActivityActionAgregated214d::KEEP_LAST_CATEGORY_YES)?'yes':'no',
+            ($row->keep_last_category_initial === \LogActivityActionAggregated214d::KEEP_LAST_CATEGORY_YES)?'yes':'no',
+            ($row->keep_last_category_after === \LogActivityActionAggregated214d::KEEP_LAST_CATEGORY_YES)?'yes':'no',
             $row->start_time,
             $row->end_time,
             $row->duration,

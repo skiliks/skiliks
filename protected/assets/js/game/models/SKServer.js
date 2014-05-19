@@ -34,6 +34,8 @@ define([
 
             is_connected:true,
 
+            is_active_game:true,
+
             try_connect:false,
 
             error_dialog:null,
@@ -92,7 +94,7 @@ define([
                                 callback:callback,
                                 is_repeat_request:false,
                                 ajax:null,
-                                status:'padding'
+                                status:'pending'
                             }));
                         } else if(_.first(models).get('is_repeat_request')) {
 
@@ -110,36 +112,44 @@ define([
                         },
                         timeout: parseInt(me.requests_timeout),
                         success:  function (data, textStatus, jqXHR) {
-                            if( data.uniqueId !== undefined ) {
 
-                                if( url !== me.api_root + me.connectPath ) {
-                                    var models = SKApp.server.requests_queue.where({uniqueId:data.uniqueId});
-                                    if(false === $.isEmptyObject(models)) {
-                                        SKApp.server.requests_queue.remove(_.first(models));
-                                    } else {
-                                        if (!window.testMode) {
-                                            throw new Error("Not found model by - " + data.uniqueId);
+                            if(typeof data.redirect === 'string') {
+                                $(window).off('beforeunload');
+                                location.assign('/dashboard');
+                            } else {
+                                if( data.uniqueId !== undefined ) {
+
+                                    if( url !== me.api_root + me.connectPath ) {
+                                        var models = SKApp.server.requests_queue.where({uniqueId:data.uniqueId});
+                                        if(false === $.isEmptyObject(models)) {
+                                            SKApp.server.requests_queue.remove(_.first(models));
+                                        } else {
+                                            if (!window.testMode) {
+                                                throw new Error("Not found model by - " + data.uniqueId);
+                                            }
                                         }
                                     }
-                                }
-                                if(undefined !== callback){
-                                    if(data.simulation_status !== 'interrupted'){
-                                        //if(me.last_200_request.push(data.uniqueId)) //me.last_200_request.push(data.uniqueId);
-                                        if(me.isRunCallBack(data.uniqueId)) {
-                                            callback(data, textStatus, jqXHR);
+                                    if(undefined !== callback){
+
+                                        if(data.simulation_status !== 'interrupted'){
+                                            //if(me.last_200_request.push(data.uniqueId)) //me.last_200_request.push(data.uniqueId);
+                                            if(me.isRunCallBack(data.uniqueId)) {
+                                                callback(data, textStatus, jqXHR);
+                                            }
+                                        }else{
+                                            $(window).off('beforeunload');
+                                            location.assign('/simulation/exit');
                                         }
-                                    }else{
-                                        $(window).off('beforeunload');
-                                        location.assign('/simulation/exit');
+                                    } else {
+                                        if(data.simulation_status == 'interrupted') {
+                                            $(window).off('beforeunload');
+                                            location.assign('/simulation/exit');
+                                        }
                                     }
                                 } else {
-                                    if(data.simulation_status == 'interrupted') {
-                                        location.assign('/simulation/exit');
+                                    if (!window.testMode) {
+                                        throw new Error("uniqueId is not found");
                                     }
-                                }
-                            } else {
-                                if (!window.testMode) {
-                                    throw new Error("uniqueId is not found");
                                 }
                             }
                         },
@@ -150,7 +160,7 @@ define([
                                 if( url !== me.api_root + me.connectPath && me.try_connect === false) {
                                     var request = _.first(SKApp.server.requests_queue.where({uniqueId:params.uniqueId}));
                                     request.set('status', 'failed');
-                                    var requests = SKApp.server.requests_queue.where({status:'padding'});
+                                    var requests = SKApp.server.requests_queue.where({status:'pending'});
                                         requests.forEach(function(request){
                                             if(request.get('ajax') !== null){
                                                 request.get('ajax').abort();
@@ -158,6 +168,16 @@ define([
                                         });
 
                                         if(me.error_dialog === null) {
+
+                                            // если была фантастическая отправка, то интерфейс заблокирован
+                                            SKApp.simulation.isInterfaceWasLoсked = false;
+                                            if (0 < $('.display-lock').length) {
+                                                SKApp.simulation.trigger('input-lock:stop');
+                                                SKApp.simulation.isInterfaceWasLoсked = true;
+                                            }
+                                            //Чтоб заблокировать ввод с клавиатуры в SocialCalc при розрыве интеренета
+                                            //SocialCalc.Keyboard.passThru = true;
+                                            me.is_active_game = false;
                                             me.error_dialog = new SKDialogView({
                                                 'message': "Пропало Интернет соединение. <br> Симуляция поставлена на паузу.<br>"+
                                                     "Пожалуйста, проверьте Интернет соединение.<br>"+
@@ -165,6 +185,11 @@ define([
                                                 'modal': true,
                                                 'buttons': []
                                             });
+
+                                            // SKILIKS-5449
+                                            // Сообщения про пропажу интернета не видно под сообщением
+                                            // про расчёт итогов симуляции
+                                            me.error_dialog.$el.css('z-index', 1220);
                                         }
                                         $('.time').addClass('paused');
                                         SKApp.simulation.startPause();
@@ -175,8 +200,10 @@ define([
                                 if( url === me.api_root + me.connectPath ) {
                                     me.is_connected = true;
                                     me.stopTryConnect();
-                                    me.error_dialog.remove();
-                                    delete me.error_dialog;
+                                    if(null !== me.error_dialog) {
+                                        me.error_dialog.remove();
+                                        delete me.error_dialog;
+                                    }
                                     me.success_dialog = new SKDialogView({
                                         'message': 'Соединение с интернет востановлено!',
                                         'modal': true,
@@ -187,10 +214,18 @@ define([
                                                     // Если происхои митинг - то не надо снимать игру с паузы
                                                     // а то вермя пойдёт, а игрок не заметит
                                                     // (на екране ведь затемнение "Ушел на встречу, вернусь в ХХ:ХХ.")
+                                                    //Чтоб розблокировать ввод с клавиатуры в SocialCalc
+                                                    //SocialCalc.Keyboard.passThru = null;
+                                                    // если интерфейс был залочен отправкой/приёмом письма фантастическим образом
+                                                    // надо вернуть блокировку
+                                                    if (SKApp.simulation.isInterfaceWasLoсked) {
+                                                        SKApp.simulation.trigger('input-lock:start');
+                                                    }
+
                                                     var restoreAbortedRequests = function() {
                                                         SKApp.server.requests_queue.each(function(request) {
                                                             request.set('is_repeat_request', true);
-                                                            request.set('status', 'padding');
+                                                            request.set('status', 'pending');
                                                             if(request.get('url') === '/index.php/events/getState' || request.get('url') !== '/index.php/simulation/stop'){
                                                                 SKApp.server.apiQueue(request.get('url'), request.get('data'), request.get('callback'));
                                                             }else{
@@ -210,6 +245,8 @@ define([
                                                             restoreAbortedRequests();
                                                         });
                                                     }
+
+                                                    me.is_active_game = true;
                                                 }
                                             }
                                         ]

@@ -1,6 +1,5 @@
 <?php
 /**
- *
  * @property float value
  * @property int point_id
  * @property int id
@@ -8,7 +7,6 @@
  *
  * @property HeroBehaviour point
  *
- * @author slavka
  */
 class AssessmentAggregated extends CActiveRecord
 {
@@ -30,7 +28,7 @@ class AssessmentAggregated extends CActiveRecord
      */
     public function tableName()
     {
-            return 'assessment_aggregated';
+        return 'assessment_aggregated';
     }
     
     public function relations()

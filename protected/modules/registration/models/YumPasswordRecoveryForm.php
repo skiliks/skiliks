@@ -56,7 +56,7 @@ class YumPasswordRecoveryForm extends YumFormModel {
     public function isBanned($attribute, $params) {
         if(!$this->hasErrors()) {
             if($this->user !== null && $this->user->isBanned()) {
-                $this->addError('email', Yii::t('site', 'Your account has been locked'));
+                $this->addError('email', Yii::t('site', 'Ваш аккаунт заблокирован'));
             }
         //return;
         }

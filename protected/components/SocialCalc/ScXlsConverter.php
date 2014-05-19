@@ -1,16 +1,29 @@
 <?php
 
+/**
+ * Class ScXlsConverter
+ */
 class ScXlsConverter
 {
+    /**
+     * Тип xls
+     */
     const TYPE_XLS = 'xls';
 
+    /**
+     * Тип sc
+     */
     const TYPE_SC = 'sc';
 
+    /**
+     * Серелизация
+     */
     const TYPE_SERIALIZE = 'serialize';
 
     /**
+     * Сохраняет файл xls в sc
      * @param PHPExcel|string $xls
-     * @return array
+     * @return array структуру sc
      * @throws RuntimeException
      */
     public static function xls2sc($xls)
@@ -37,8 +50,12 @@ class ScXlsConverter
         return $result;
     }
 
+
     /**
+     * Конвертация sc документа в xls
      * @param array $sheetsData
+     * @param null $xlsPath
+     * @return PHPExcel
      */
     public static function sc2xls(array $sheetsData, $xlsPath = null)
     {
@@ -55,7 +72,32 @@ class ScXlsConverter
                 continue;
             }
 
-            $sheetData['name'] = str_replace('СУММ', 'SUM', $sheetData['name']);
+            $sheetData['content'] = str_ireplace(
+                [
+                    ':СУММ(',
+                    ':сумм(',
+                    ':Сумм(',
+                    ':сУмм(',
+                    ':суМм(',
+                    ':СУмМ(',
+                    ':СУМм(',
+                    ':сУММ(',
+                    ':СуММ(',
+                    ':СУмМ(',
+                    ':СумМ(',
+                    ':СуМм(',
+                    ':сУмМ(',
+                    ':Сумм(',
+                    ':сУмм(',
+                    ':суМм(',
+                    ':сумМ(',
+                    ':СУмм(',
+                    ':сУМм(',
+                    ':суММ(',
+                ]
+                , ':SUM(',
+                $sheetData['content']
+            );
 
             $sheet = $excel->getSheetByName($sheetData['name']) ?: $excel->createSheet();
             _sheetnode_phpexcel_export_sheet($sheet, $sheetData['name'], socialcalc_parse($sheetData['content']));
@@ -76,6 +118,11 @@ class ScXlsConverter
         return $excel;
     }
 
+    /**
+     *
+     * @param $filePath
+     * @return null|string
+     */
     public static function getType($filePath)
     {
         if (is_file($filePath)) {

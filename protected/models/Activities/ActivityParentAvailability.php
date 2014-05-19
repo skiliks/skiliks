@@ -16,7 +16,7 @@
 class ActivityParentAvailability extends CActiveRecord
 {
     const MUST_PRESENT_FOR_214D_YES = '1';
-    const MUST_PRESENT_FOR_214D_NO = '0';
+    const MUST_PRESENT_FOR_214D_NO  = '0';
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -41,14 +41,10 @@ class ActivityParentAvailability extends CActiveRecord
 	 */
 	public function rules()
 	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
 		return array(
 			array('code, category, available_at', 'required'),
 			array('code, category', 'length', 'max'=>10),
 			array('import_id', 'length', 'max'=>14),
-			// The following rule is used by search().
-			// Please remove those attributes that should not be searched.
 			array('id, code, category, available_at, import_id', 'safe', 'on'=>'search'),
 		);
 	}
@@ -58,10 +54,7 @@ class ActivityParentAvailability extends CActiveRecord
 	 */
 	public function relations()
 	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
-		return array(
-		);
+		return array();
 	}
 
 	/**
@@ -70,11 +63,11 @@ class ActivityParentAvailability extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'code' => 'Code',
-			'category' => 'Category',
+			'id'           => 'ID',
+			'code'         => 'Code',
+			'category'     => 'Category',
 			'available_at' => 'Available At',
-			'import_id' => 'Import',
+			'import_id'    => 'Import',
 		);
 	}
 
@@ -84,11 +77,7 @@ class ActivityParentAvailability extends CActiveRecord
 	 */
 	public function search()
 	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
-
 		$criteria=new CDbCriteria;
-
 		$criteria->compare('id',$this->id);
 		$criteria->compare('code',$this->code,true);
 		$criteria->compare('category',$this->category,true);

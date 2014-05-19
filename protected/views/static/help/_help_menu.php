@@ -1,18 +1,25 @@
-<div class="help-container">
-    <section class="dashboard corpdashboard">
 
-    <h2 class="thetitle bigtitle">Помощь</h2><br/>
 
-    <a href="/help/general" class="help-top-header <?php if (isset($active['faq'])){ echo 'active-question-header'; } ?>" id="help-top-header-general">
-        FAQ
+<h1 class="">Помощь</h1>
+<br/>
+
+<div class="column-full us-margin-bottom">
+
+    <a href="/help/general"
+       class="nice-border border-radius-standard us-column-1-3 pull-content-center
+           <?= (isset($active['faq'])) ? 'background-dark-blue' : 'background-dark-blue-transparent-40-hovered' ?>">
+       <h4>FAQ</h4>
     </a>
 
-    <a href="/help/corporate" class="help-top-header <?php if (isset($active['corporate'])){ echo 'active-question-header'; } ?>" id="help-top-header-corporate">
-        Корпоративный<br/>профиль
+    <a href="/help/corporate"
+       class="nice-border border-radius-standard margin-left-18 us-column-1-3 pull-content-center
+           <?= (isset($active['corporate'])) ? 'background-dark-blue' : 'background-dark-blue-transparent-40-hovered' ?> ?>">
+       <h4>Корпоративный<br/>профиль</h4>
     </a>
 
-    <a href="/help/personal"  class="help-top-header <?php if (isset($active['personal'])){ echo 'active-question-header'; } ?>">
-        Индивидуальный<br/>профиль
+    <a href="/help/personal"
+       class="nice-border border-radius-standard margin-left-18 us-column-1-3 pull-content-center
+           <?= (isset($active['personal'])) ? 'background-dark-blue' : 'background-dark-blue-transparent-40-hovered' ?> ?>">
+       <h4>Индивидуальный<br/>профиль</h4>
     </a>
-
-    <div class="div-questions-container">
+</div>

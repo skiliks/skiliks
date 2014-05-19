@@ -2,11 +2,14 @@
 
 $cs = Yii::app()->clientScript;
 $assetsUrl = $this->getAssetsUrl();
+
 $cs->scriptMap=array(
-    'jquery.js'=>$assetsUrl . '/js/jquery/jquery-1.9.1.min.js',
-    'jquery.min.js'=>$assetsUrl . '/js/jquery/jquery-1.9.1.min.js',
-    'jquery.ba-bbq.js'=>$assetsUrl . '/js/jquery/jquery.ba-bbq.js',
+    'jquery.js'        => $assetsUrl . '/js/site/jquery/jquery-1.10.2.js',
+    'jquery-min.js'    => false,
+    'jquery.ba-bbq.js' => false, /* не обновляется с 2010 года! @link http://benalman.com/code/projects/jquery-bbq/docs/files/jquery-ba-bbq-js.html */
+    'jquery.yiilistview.js' => false
 );
+
 $cs->registerCoreScript('jquery');
 $cs->registerScriptFile($assetsUrl . "/js/jquery/jquery.browser.js");
 $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery-migrate-1.1.1.min.js');
@@ -15,6 +18,7 @@ $cs->registerScriptFile($assetsUrl . '/js/niceCheckbox.js');
 $cs->registerScriptFile($assetsUrl . '/js/jquery.selectbox-0.2.js');
 $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.jeditable.js');
 $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.cookies.js');
+$cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.textchange.js');
 $cs->registerScriptFile($assetsUrl . '/js/d3-master/d3.v3.js');
 $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery-ui-1.8.24.custom.js', CClientScript::POS_BEGIN);
 //$cs->registerScriptFile($assetsUrl . '/js/cufon-yui.js');
@@ -86,12 +90,12 @@ if(preg_match('/(?i)Firefox/',$_SERVER['HTTP_USER_AGENT']))
                 </h1>
 
                 <nav id="account-links">
-                    <?php $this->renderPartial('//global_partials/_account_links', [
+                    <?php $this->renderPartial('//global_partials/_static_pages_links',[
                         'isDisplayAccountLinks' => true
                     ]) ?>
                 </nav>
 				<nav id="static-page-links">
-                    <?php $this->renderPartial('//global_partials/_static_pages_links') ?>
+                    <?php $this->renderPartial('//global_partials/_account_links') ?>
 				</nav>
 
                 <br/>
@@ -194,7 +198,7 @@ if(preg_match('/(?i)Firefox/',$_SERVER['HTTP_USER_AGENT']))
                     <?php $this->renderPartial('//global_partials/addthis', ['force' => false]) ?>
                     <div class="backtotop"><a href="#top"><?php echo Yii::t('site', 'Back to top') ?></a></div>
                     <div class="logo"><a href="/">Skiliks</a></div>
-                    <p class="copyright">Copyright - Skiliks  - 2013</p>
+                    <p class="copyright">Copyright - Skiliks  - 2014</p>
                     <?php if ('ru' == Yii::app()->getlanguage()): ?>
                         <span class="help-contact-us">
                             Свяжитесь с нами: <a href="mailto:support@skiliks.com">support@skiliks.com</a>
@@ -207,7 +211,7 @@ if(preg_match('/(?i)Firefox/',$_SERVER['HTTP_USER_AGENT']))
                         </a>
                     <?php endif ?>
                 <nav id="footer-menu">
-                    <?php $this->renderPartial('//global_partials/_account_links', [
+                    <?php $this->renderPartial('//global_partials/_static_pages_links', [
                         'isDisplayAccountLinks' => false,
                         'disableDemo' => true
                     ]) ?>
@@ -234,12 +238,6 @@ if(preg_match('/(?i)Firefox/',$_SERVER['HTTP_USER_AGENT']))
                     hcc.src = ("https:" === document.location.protocol ? "https" : "http")+"://widget.siteheart.com/apps/js/sh.js?v=2";
                     var s = document.head;
                     s.parentNode.insertBefore(hcc, null);
-
-//                    setTimeout(function() {
-//                        $('.sh_button_back').click();
-//                        $('input.shc').eq(1).click();
-//                        $('.sh_button_back').click();
-//                    }, 2000);
                 });
             </script>
         <?php endif; ?>

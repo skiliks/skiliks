@@ -145,11 +145,11 @@ define(["text!game/jst/window.jst"],
                     me.remove();
                 });
                 this.listenTo(this.options.model_instance, 'change:zindex', function () {
-                    me.$el.css('zIndex', me.options.model_instance.get('zindex') * 20);
+                    me.$el.css('zIndex', me.options.model_instance.get('zindex') * 10);
                 });
 
                 me.resize();
-                me.$el.css('zIndex', me.options.model_instance.get('zindex') * 20);
+                me.$el.css('zIndex', me.options.model_instance.get('zindex') * 10);
                 me.renderWindow(me.$el);
 
                 this.resize();
@@ -233,13 +233,9 @@ define(["text!game/jst/window.jst"],
          */
         doWindowClose: function (event) {
             try {
-// иногда игрок не может закрыть Window - получается заблокированная игра
-//                if($(event.currentTarget).attr('data-disabled') !== 'true'){
-//                    $(event.currentTarget).attr('data-disabled', 'true');
-                    this.onWindowClose();
-                    this.options.model_instance.close();
-//                } else {
-//                }
+                // иногда игрок не может закрыть Window - получается заблокированная игра
+                this.onWindowClose();
+                this.options.model_instance.close();
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);

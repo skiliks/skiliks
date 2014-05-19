@@ -1,4 +1,5 @@
-<ul class="profile-menu">
+<!-- profile-menu -->
+<ul class="profile-menu pull-left rounded-list">
     <li class="<?php if (isset($active['personal-data'])){ echo 'active'; }?>">
         <a href="/profile/corporate/personal-data">
             Личные данные
@@ -20,18 +21,6 @@
     <li class="<?php if (isset($active['vacancies'])){ echo 'active'; }?>">
         <a href="/profile/corporate/vacancies">
             Позиции
-        </a>
-    </li>
-
-    <li class="<?php if (isset($active['tariff'])){ echo 'active'; } ?>">
-        <a href="/profile/corporate/tariff">
-            Тариф
-        </a>
-    </li>
-
-    <li class="<?php if (isset($active['referrals'])){ echo 'active'; } ?>">
-        <a href="/profile/corporate/referrals">
-            Бонусы
         </a>
     </li>
 

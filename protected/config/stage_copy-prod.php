@@ -1,7 +1,7 @@
 <?php
 
-// Team 'Develop - live.skiliks.com'
-$sentryDsn = 'https://41680afc32f344d88ab67eef43254684:e4265582b811477089af672d368c93bf@app.getsentry.com/15804';
+// Team 'Develop - copy-prod.skiliks.com'
+$sentryDsn = 'https://952c65e5350746718e2d71a9cae64b10:7f82ba92be494d73aceea74cc2e3b1ff@app.getsentry.com/17167';
 
 define(YII_DEBUG, false);
 return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
@@ -35,9 +35,10 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
         ),
     ),
     'params'=>array(
-        'server_name'    => 'http://copy-prod.skiliks.com/',
-        'frontendUrl'    => 'http://copy-prod.skiliks.com/',
-        'isBlockGhostLogin' => false,
+        'server_name'        => 'http://copy-prod.skiliks.com/',
+        'server_domain_name' => 'copy-prod.skiliks.com',
+        'frontendUrl'        => 'http://copy-prod.skiliks.com/',
+        'isBlockGhostLogin'  => false,
         'isUseStrictRulesForGhostLogin'=>false,
         'runMigrationOn' => 'live',
         'sentry' => [

@@ -28,11 +28,19 @@ $assetsUrl = $this->getAssetsUrl();
     <i class="icon icon-pencil icon-white"></i>&nbsp;
     Изменить пароль</a>
 <?php if ($user->isCorporate()): ?>
+
     &nbsp; &nbsp;
-    <a class="btn btn-success ban-corporate-user" data-id="<?= $user->id ?>" data-email="<?= $user->profile->email ?>">
+    <?php if($user->isBanned()) : ?>
+    <a class="btn btn-success unban-corporate-user" data-id="<?= $user->id ?>" data-email="<?= $user->profile->email ?>">
         <i class="icon icon-ban-circle icon-white"></i>
-        Забанить аккаунт
+        Разбанить аккаунт
     </a>
+    <?php else : ?>
+        <a class="btn btn-success ban-corporate-user" data-id="<?= $user->id ?>" data-email="<?= $user->profile->email ?>">
+            <i class="icon icon-ban-circle icon-white"></i>
+            Забанить аккаунт
+        </a>
+    <?php endif ?>
 <?php endif; ?>
 
 &nbsp; &nbsp;
@@ -50,7 +58,7 @@ $assetsUrl = $this->getAssetsUrl();
 <?php if($user->is_password_bruteforce_detected === YumUser::IS_PASSWORD_BRUTEFORCE_DETECTED) : ?>
     &nbsp; &nbsp;
     <a class="btn btn-success" href="/admin_area/user-bruteforce/?user_id=<?= $user->id ?>&set=<?=YumUser::IS_NOT_PASSWORD_BRUTEFORCE?>">
-        Розблокировать авторизацию
+        Разблокировать авторизацию
     </a>
 <?php else : ?>
     &nbsp; &nbsp;
@@ -68,26 +76,31 @@ $assetsUrl = $this->getAssetsUrl();
 </a>
 
 <?php if($user->isCorporate()) : ?>
-    &nbsp; &nbsp;
-    <a class="btn btn-info"
-       href="<?= $this->createAbsoluteUrl('admin_area/AdminPages/UserReferrals', ['userId' => $user->id]) ?>">
-        <i class="icon icon-gift icon-white"></i>&nbsp;
-        Рефераллы</a>
-    &nbsp; &nbsp;
     <a class="btn btn-info" href="/admin_area/corporate-account/<?= $user->id ?>/invite-limit-logs">
         <i class="icon icon-list icon-white"></i>
         Логи списания/зачисления симуляций
-    </a>
-    &nbsp; &nbsp;
-    <a class="btn btn-info" href="/admin_area/list-tariff-plan?user_id=<?= $user->id ?>">
-        <strong>$</strong>
-        Тарифные планы
     </a>
     &nbsp; &nbsp;
     <a class="btn btn-info" href="/admin_area/invites?page=1&owner_email_for_filtration=<?= urlencode($user->profile->email) ?>&invite_statuses[0]=on&invite_statuses[1]=on&invite_statuses[5]=on&invite_statuses[2]=on&invite_statuses[4]=on&invite_statuses[3]=on&invite_status[]=on&filter_scenario_id=&is_invite_crashed=">
             <i class="icon icon-arrow-up icon-white"></i>
             Приглашения от меня
     </a>
+    &nbsp; &nbsp;
+    <a class="btn btn-success" href="/admin_area/user/<?= $user->id ?>/send-invites">
+        <i class="icon icon-envelope icon-white"></i>
+        Отправить приглашения
+    </a>
+    <?php if($user->account_corporate->excluded_from_mailing === UserAccountCorporate::EXCLUDED_FROM_MAILING_YES) : ?>
+        &nbsp; &nbsp;
+        <a class="btn btn-success" href="/admin_area/excluded_from_mailing?user_id=<?= $user->id ?>&set=<?=UserAccountCorporate::EXCLUDED_FROM_MAILING_NO?>">
+            Включить почту
+        </a>
+    <?php else : ?>
+        &nbsp; &nbsp;
+        <a class="btn btn-danger" href="/admin_area/excluded_from_mailing/?user_id=<?= $user->id ?>&set=<?=UserAccountCorporate::EXCLUDED_FROM_MAILING_YES?>">
+            Исключить почту
+        </a>
+    <?php endif ?>
 <?php endif ?>
 
 <br/>
@@ -159,44 +172,14 @@ $assetsUrl = $this->getAssetsUrl();
     </tr>
     <tr>
         <?php if ($user->isCorporate()) : ?>
-            <td>Текущий тарифный план</td>
-            <td>
-                <?= $user->getAccount()->getActiveTariff()->label ?>
-
-                &nbsp;&nbsp;
-
-                <div class="btn-group">
-                    <a class=" btn btn-success dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="icon icon-refresh icon-white"></i>
-                        Сменить на:
-                        <span class="caret"></span>
-                    </a>
-                    <ul class="dropdown-menu pull-right">
-                        <?php foreach (Tariff::$tarifs as $tariff): ?>
-                            <?php if (strtolower($user->getAccount()->tariff->label) == strtolower($tariff)) {
-                                continue;
-                            } ?>
-                            <li>
-                                <a href="/admin_area/user/<?= $user->id ?>/set-tariff/<?= $tariff ?>">
-                                    <?= ucfirst(Yii::t('site', $tariff)); ?>
-                                </a>
-                            </li>
-                        <?php endforeach ?>
-                    </ul>
-                </div>
-            </td>
             <td>Количество доступных приглашений</td>
             <td>
-                <?= $user->getAccount()->invites_limit.' / '.$user->getAccount()->referrals_invite_limit.'(за рефералов)' ?>
+                <?= $user->getAccount()->invites_limit ?>
             </td>
         <?php endif; ?>
     </tr>
     <tr>
         <?php if ($user->isCorporate()) : ?>
-            <td>Тариф истекает</td>
-            <td>
-                <?= $user->getAccount()->getActiveTariffPlan()->finished_at ?>
-            </td>
             <td>
                 Добавить симуляции в аккаунт
                 <br/>
@@ -213,91 +196,59 @@ $assetsUrl = $this->getAssetsUrl();
         <?php endif; ?>
     </tr>
     <tr>
-        <td>Показывать попап что тарифный план истёк </td>
-        <td>
-            <?php if ($user->isCorporate() && $user->getAccount()->is_display_tariff_expire_pop_up) : ?>
-                <i class="icon icon-eye-open"></i> Да
-            <?php else : ?>
-                <i class="icon icon-eye-close"></i> Нет
-            <?php endif ?>
-            <form action="/admin_area/user/<?= $user->id ?>/details/"
-                  method="post" style="display: inline-block;">
-
-                <button class="btn btn-success" name="switchTariffExpiredPopup" type="submit">
-                    <i class="icon icon-refresh icon-white"></i> Сменить
-                </button>
-            </form>
-        </td>
         <td> Вид оценки</td>
         <td>
             <?= $user->profile->assessment_results_render_type ?>
         </td>
     </tr>
-
-        <?php if ($user->isCorporate()) : ?>
-            <tr>
-                <td>Показывать попап рефералов </td>
-                <td>
-                    <?php if ($user->account_corporate->is_display_referrals_popup) : ?>
-                        <i class="icon icon-eye-open"></i> Да
-                    <?php else : ?>
-                        <i class="icon icon-eye-close"></i> Нет
-                    <?php endif ?>
-                        <form action="/admin_area/user/<?= $user->id ?>/details/"
-                              method="post" style="display: inline-block;">
-
-                            <button class="btn btn-success" name="switchReferralInfoPopup" type="submit">
-                                <i class="icon icon-refresh icon-white"></i> Сменить
-                            </button>
-                        </form>
-
-                </td>
-                <?php if ($user->isCorporate()) : ?>
-                    <td>Правило для срока годности приглашения</td>
-                    <td>
-                        <?= $user->getAccount()->expire_invite_rule ?>
-
-                        &nbsp;&nbsp;
-
-                        <div class="btn-group">
-                            <a class=" btn btn-success dropdown-toggle" data-toggle="dropdown" href="#">
-                                <i class="icon icon-refresh icon-white"></i>
-                                Сменить на:
-                                <span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu pull-right">
-                                <?php if($user->getAccount()->expire_invite_rule === 'standard') : ?>
-                                    <li>
-                                        <a href="/admin_area/change-invite-expire-rule/?user_id=<?= $user->id ?>&rule=by_tariff">
-                                            By Tariff
-                                        </a>
-                                    </li>
-                                <?php else : ?>
-                                    <li>
-                                        <a href="/admin_area/change-invite-expire-rule/?user_id=<?= $user->id ?>&rule=standard">
-                                            Standard
-                                        </a>
-                                    </li>
-                                <?php endif ?>
-                            </ul>
-                        </div>
-                    </td>
-                <?php else : ?>
-                    <td></td>
-                    <td></td>
-                <?php endif ?>
-            </tr>
-        <?php endif ?>
     <tr>
         <td>IP Address</td>
         <td><?= ($user->ip_address !== null) ? $user->ip_address : "-"; ?></td>
-        <?php if ($user->isCorporate()) : ?>
-        <td>Tariff Plan id</td>
-        <td><?= $user->account_corporate->getActiveTariffPlan()->id ?></td>
-        <?php else: ?>
         <td></td>
         <td></td>
-        <?php endif ?>
     </tr>
 
 </table>
+<?php if ($user->isCorporate()) : ?>
+    <form class="form-inline" method="post">
+        <label>Изменить скидку (%)</label>
+        <input type="text" name="discount" class="input-small" placeholder="Скидка" value="<?= $user->account_corporate->discount ?>">
+        <label>Дата начала</label>
+        <input type="text" name="start_discount" class="input-large" placeholder="пример - 2013-10-04" value="<?= $user->account_corporate->start_discount ?>">
+        <label>Дата конца</label>
+        <input type="text" name="end_discount" class="input-large" placeholder="пример - 2013-11-24" value="<?= $user->account_corporate->end_discount ?>">
+        <button type="submit" name="discount_form" class="btn btn-success" value="true">Изменить</button>
+    </form>
+    <form class="form" method="post">
+    <table class="table">
+        <tr>
+            <td>Сайт</td>
+            <td>Описание для продаж</td>
+        </tr>
+        <tr>
+            <td><textarea name="site" style="width: 90%;"><?= $user->account_corporate->site ?></textarea></td>
+            <td><textarea name="description_for_sales" style="width: 90%;"><?= $user->account_corporate->description_for_sales ?></textarea></td>
+        </tr>
+        <tr>
+            <td>Телефоны для продаж</td>
+            <td>Статус для продаж</td>
+        </tr>
+        <tr>
+            <td><textarea name="contacts_for_sales" style="width: 90%;"><?= $user->account_corporate->contacts_for_sales ?></textarea></td>
+            <td><textarea name="status_for_sales" style="width: 90%;"><?= $user->account_corporate->status_for_sales ?></textarea></td>
+        </tr>
+        <tr>
+            <td>Название компании</td>
+            <td>Отрасль компании</td>
+        </tr>
+        <tr>
+            <td><textarea name="company_name_for_sales" style="width: 90%;"><?= $user->account_corporate->company_name_for_sales ?></textarea></td>
+            <td><textarea name="industry_for_sales" style="width: 90%;"><?= $user->account_corporate->industry_for_sales ?></textarea></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><button type="submit" name="save_form" value="true" class="btn btn-success">Сохранить</button></td>
+        </tr>
+    </table>
+    </form>
+<?php endif ?>

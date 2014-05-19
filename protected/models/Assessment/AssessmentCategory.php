@@ -46,13 +46,9 @@ class AssessmentCategory extends CActiveRecord
 	 */
 	public function rules()
 	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
 		return array(
 			array('code', 'required'),
 			array('code', 'length', 'max'=>50),
-			// The following rule is used by search().
-			// Please remove those attributes that should not be searched.
 			array('code', 'safe', 'on'=>'search'),
 		);
 	}
@@ -62,8 +58,6 @@ class AssessmentCategory extends CActiveRecord
 	 */
 	public function relations()
 	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
 		return array(
 			'assessmentOveralls' => array(self::HAS_MANY, 'AssessmentOverall', 'assessment_category_code'),
 			'weights' => array(self::HAS_MANY, 'Weight', 'assessment_category_code'),
@@ -86,13 +80,8 @@ class AssessmentCategory extends CActiveRecord
 	 */
 	public function search()
 	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
-
 		$criteria=new CDbCriteria;
-
 		$criteria->compare('code',$this->code,true);
-
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));

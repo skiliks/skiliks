@@ -1,95 +1,65 @@
 <?php /** @var DeclineExplanation $declineExplanation */ ?>
-<div class="blackout"></div>
-<div class="form form-decline-explanation">
-    <a href="javascript:void(0);" class="close"></a>
 
+<!-- blackout -->
+<div class=""></div>
+
+<!-- form form-decline-explanation -->
+<div class="">
     <?php $form = $this->beginWidget('CActiveForm', array(
         'id'     => 'form-decline-explanation',
-        'action' => $action
+        //'htmlOptions' => ['data-url' => $action],
+        'action' => $action,
+        //'enableAjaxValidation' => true,
+        'clientOptions' => array(
+            'validateOnSubmit' => true,
+            'validateOnChange' => false,
+            'afterValidate'    => 'js:addDeclineReasonValidation',
+        )
+
     )); ?>
 
     <?php echo $form->hiddenField($declineExplanation, 'invite_id'); ?>
     <?php echo $form->error($declineExplanation, 'invite_id'); ?>
 
-    <h2>
+    <h3>
         Пожалуйста, укажите причину отказа
-    </h2>
+    </h3>
 
-    <div class="row form-decline-explanation-reason-row">
-        <?php echo $form->labelEx($declineExplanation        , 'reason_id'); ?>
-        <?php echo $form->RadioButtonList($declineExplanation, 'reason_id', $reasons); ?>
-        <div class="error_wrap main">
-            <?php echo $form->error($declineExplanation          , 'reason_id'); ?>
+    <span class="locator-form-fields">
+        <div class="row <?= $this->hasErrors($form, $declineExplanation, 'reason_id'); ?>">
+            <span class="error-place">
+                <?php echo $form->error($declineExplanation, 'reason_id'); ?>
+            </span>
+            <?php echo $form->RadioButtonList($declineExplanation, 'reason_id', $reasons); ?>
         </div>
+
+        <div class="row <?= $this->hasErrors($form, $declineExplanation, 'description'); ?>">
+            <span class="error-place">
+                <?php echo $form->error($declineExplanation, 'description') ?>
+            </span>
+            <?php echo $form->textArea($declineExplanation, 'description', [
+                'placeholder' => Yii::t("site","Failure cause")
+            ]); ?>
+        </div>
+    </span>
+
+    <div class="row pull-content-center">
+        <!-- chancel-decline -->
+        <span class = 'background-dark-blue icon-circle-with-blue-arrow-big
+            button-standard icon-padding-standard inter-active
+            action-close-popup'>
+            <?= $user->isAuth() ? 'Вернуться к приглашению' : 'Вернуться к регистрации' ?>
+        </span>
+
+        <!-- confirm-decline -->
+        <span class = 'background-dark-blue icon-circle-with-blue-arrow-big
+            button-standard icon-padding-standard inter-active margin-left-18
+            action-confirm-decline'>
+            Отказаться
+        </span>
     </div>
-
-    <br/>
-    <br/>
-
-    <div class="row form-decline-explanation-description-row">
-        <?php echo $form->labelEx($declineExplanation  , 'description'); ?>
-        <?php echo $form->textArea($declineExplanation, 'description', ['placeholder'=>Yii::t("site","Failure cause")]); ?>
-        <?php echo !$declineExplanation->hasErrors('reason_id') ? $form->error($declineExplanation, 'description') : ''; ?>
-    </div>
-
-    <div class="row buttons">
-        <?php echo CHtml::submitButton($user->isAuth() ? 'Вернуться к приглашению' : 'Вернуться к регистрации', ['name' => 'return', 'class' => 'chancel-decline']); ?>
-        <?php echo CHtml::submitButton('Отказаться', ['name' => 'decline', 'class' => 'confirm-decline']); ?>
-    </div>
-
-    <!--
-    <br/>
-    <br/>
-
-    * Поля обязательные для заполнения
-       -->
     <?php $this->endWidget(); ?>
 </div>
-<script type="text/javascript">
 
-    $("#invite-decline-form").prependTo("body");
-    $("#invite-decline-form .close").click(function(){
-        $("#invite-decline-form").hide();
-    });
-    $("#invite-decline-form .chancel-decline").click(function(){
-        $("#invite-decline-form").hide();
-    });
+<div class="locator-box-for-validation-response hide"></div>
 
-    $('.chancel-decline').click(function(event){
-        event.preventDefault();
-    });
-
-    $('.form-decline-explanation-reason-row input').click(function(){
-        if ($(this).val() == '<?php echo $reasonOtherId ?>') {
-            $('.form-decline-explanation-description-row').show();
-            var errors = $(".errorMessage");
-            for (var i=0;i<errors.length;i++) {
-                var inp = $(errors[i]).prev(".error");
-                $(inp).css({"border":"2px solid #bd2929"});
-                $(errors[i]).addClass($(inp).attr("id"));
-            }
-        } else {
-            $('.form-decline-explanation-description-row textarea').text('');
-        }
-    });
-
-    $('.confirm-decline').click(function(event){
-        event.preventDefault();
-
-        var data = $('#invite-decline-form form').serializeArray();
-
-        $.ajax({
-            url: '/dashboard/decline-invite/validation',
-            data: data,
-            type: 'POST',
-            success: function(data) {
-                if (true === data.isValid) {
-                    $('#invite-decline-form').html(data.html);
-                    $('#invite-decline-form form').submit();
-                } else {
-                    $('#invite-decline-form').html(data.html);
-                }
-            }
-        });
-    });
-</script>

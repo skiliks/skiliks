@@ -41,15 +41,11 @@ class LearningArea extends CActiveRecord
 	 */
 	public function rules()
 	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
 		return array(
 			array('code', 'required'),
 			array('code', 'length', 'max'=>10),
 			array('import_id', 'length', 'max'=>14),
 			array('title', 'safe'),
-			// The following rule is used by search().
-			// Please remove those attributes that should not be searched.
 			array('code, title, import_id', 'safe', 'on'=>'search'),
 		);
 	}
@@ -59,8 +55,6 @@ class LearningArea extends CActiveRecord
 	 */
 	public function relations()
 	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
 		return array(
 			'learningGoals' => array(self::HAS_MANY, 'LearningGoal', 'learning_area_code'),
             'learningGoalGroups' => array(self::HAS_MANY, 'LearningGoalGroup', 'learning_area_id'),
@@ -73,8 +67,8 @@ class LearningArea extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'code' => 'Code',
-			'title' => 'Title',
+			'code'      => 'Code',
+			'title'     => 'Title',
 			'import_id' => 'Import',
 		);
 	}
@@ -85,11 +79,7 @@ class LearningArea extends CActiveRecord
 	 */
 	public function search()
 	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
-
 		$criteria=new CDbCriteria;
-
 		$criteria->compare('code',$this->code);
 		$criteria->compare('title',$this->title);
 		$criteria->compare('import_id',$this->import_id);

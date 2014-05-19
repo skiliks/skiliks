@@ -1,23 +1,62 @@
 <?php
 
+/**
+ * Class LogHelper
+ */
 class LogHelper
 {
-    const ACTION_CLOSE = "0"; //Закрытие окна
-    const ACTION_OPEN = "1"; //Открытие окна
-    const ACTION_SWITCH = "2"; //Переход в рамках окна
+    /**
+     * Закрытие окна
+     */
+    const ACTION_CLOSE = "0";
+    /**
+     * Открытие окна
+     */
+    const ACTION_OPEN = "1";
+    /**
+     * Переход в рамках окна
+     */
+    const ACTION_SWITCH = "2";
 
-    const ACTION_ACTIVATED = "activated"; //Активация окна
-    const ACTION_DEACTIVATED = "deactivated"; //Деактивация окна
+    /**
+     * Активация окна
+     */
+    const ACTION_ACTIVATED = "activated";
+    /**
+     * Деактивация окна
+     */
+    const ACTION_DEACTIVATED = "deactivated";
 
-    const RETURN_DATA = 'json'; //Тип возвращаемого значения JSON
-    const RETURN_CSV = 'csv'; //Тип возвращаемого значения CSV
+    /**
+     * Тип возвращаемого значения JSON
+     */
+    const RETURN_DATA = 'json';
+    /**
+     * Тип возвращаемого значения CSV
+     */
+    const RETURN_CSV = 'csv';
 
-    const LOGIN = false; //Писать лог в файл? true - да, false - нет
+    /**
+     * Писать лог в файл? true - да, false - нет
+     */
+    const LOGIN = false;
 
+    /**
+     * Кода окон документов
+     * @var array
+     */
     protected static $codes_documents = array(40, 41, 42);
 
+    /**
+     * Коды окон почтовика
+     * @var array
+     */
     protected static $codes_mail = array(10, 11, 12, 13, 14);
 
+    /**
+     * Соответствие кодов и слагов окон
+     * @var array
+     */
     protected static $screens = array(
         1 => 'main screen',
         3 => 'plan',
@@ -27,13 +66,32 @@ class LogHelper
         40 => 'documents'
     );
 
+    /**
+     * Главно окно почтового клиента
+     */
     const MAIL_MAIN = 'mail main';
+    /**
+     * Окно просмотра письма
+     */
     const MAIL_PREVIEW = 'mail preview';
+    /**
+     * Окно написания письма
+     */
     const MAIL_NEW = 'mail new';
+    /**
+     * Окно планирования задач в почтивке
+     */
     const MAIL_PLAN = 'mail plan';
 
+    /**
+     * ИД написания нового письма
+     */
     const MAIL_NEW_WINDOW_TYPE_ID = 13;
 
+    /**
+     * Соответсвие кодов окон и подокон слагам
+     * @var array
+     */
     protected static $subScreens = array(
         1 =>  'main screen',
         2 =>  'manual',
@@ -53,6 +111,10 @@ class LogHelper
         42 => 'documents files'
     );
 
+    /**
+     * Действия окон (закрытие, открытие, активация, деактивация)
+     * @var array
+     */
     protected static $actions = array(
         0 => 'close',
         1 => 'open',
@@ -61,30 +123,13 @@ class LogHelper
         'deactivated' => 'deactivated',
     );
 
-    private function __construct()
-    {
-
-    }
-
+    /**
+     * Гктткр для $subScreens
+     * @return array $subScreens
+     */
     public static function getSubScreensArr()
     {
         return self::$subScreens;
-    }
-
-
-
-    private static function order($order_col, $columns, $order_type = "asc")
-    {
-        if (is_array($columns)) {
-
-        } else {
-            throw new Exception('Параметр $columns не задан!');
-        }
-        if (in_array($order_type, array('asc', 'desc'))) {
-            return "{$order_col} {$order_type}";
-        } else {
-            throw new Exception("Тип сортировки '$order_type' неизвестен!");
-        }
     }
 
     /**
@@ -105,6 +150,7 @@ class LogHelper
     }
 
     /**
+     * Логирование выбраной реплики
      * @param Replica $replica
      * @param Simulation $simulation
      */
@@ -118,6 +164,13 @@ class LogHelper
     }
 
 
+    /**
+     * Логирования документов
+     * @param $simId
+     * @param $logs
+     * @return bool
+     * @throws Exception
+     */
     public static function setDocumentsLog($simId, $logs)
     {
 
@@ -159,6 +212,13 @@ class LogHelper
     }
 
 
+    /**
+     * Запись дайствий в почтовике
+     * @param $simId
+     * @param $logs
+     * @return bool
+     * @throws Exception
+     */
     public static function setMailLog($simId, $logs)
     {
         $simulation = Simulation::model()->findByPk($simId);
@@ -281,6 +341,12 @@ class LogHelper
         return true;
     }
 
+    /**
+     * Логирование митингов
+     * @param $simId
+     * @param $logs
+     * @return bool
+     */
     public static function setMeetingLog($simId, $logs)
     {
         if (!is_array($logs)) {
@@ -327,6 +393,12 @@ class LogHelper
         return true;
     }
 
+    /**
+     * Нужно удалить на рефакторинге
+     * @param $simId
+     * @param $logs
+     * @return bool
+     */
     public static function setWindowsLog($simId, $logs)
     {
 //        if (!is_array($logs)) return false;
@@ -380,6 +452,13 @@ class LogHelper
         return true;
     }
 
+    /**
+     * Логирование диалогов
+     * @param $simId
+     * @param $logs
+     * @return bool
+     * @throws CException
+     */
     public static function setDialogs($simId, $logs)
     {
         if (!is_array($logs)) return false;
@@ -537,7 +616,7 @@ class LogHelper
             if (NULL === $aggregatedActivity) {
                 // init new aggregatedActivity at first iteration
                 $diff_time = (new DateTime($activityAction->start_time))->diff(new DateTime($activityAction->end_time))->format('%H:%I:%S');
-                $aggregatedActivity = new LogActivityActionAgregated();
+                $aggregatedActivity = new LogActivityActionAggregated();
 
                 $aggregatedActivity->sim_id =                $simulation->id;
                 $aggregatedActivity->leg_type =              $activityAction->activityAction->leg_type;
@@ -603,7 +682,7 @@ class LogHelper
                     $aggregatedActivity->save();
 
                     // init new aggregatedActivity for new activity
-                    $aggregatedActivity = new LogActivityActionAgregated();
+                    $aggregatedActivity = new LogActivityActionAggregated();
 
                     $aggregatedActivity->sim_id =                $simulation->id;
                     $aggregatedActivity->leg_type =              $activityAction->activityAction->leg_type;
@@ -626,27 +705,22 @@ class LogHelper
     }
 
     /**
-     * @return string
-     */
-    private static function getFormattedTheme($text, $prefix)
-    {
-        return str_replace(['re', 'fwd'], ['Re: ', 'Fwd: '], $prefix) . '' . $text;
-    }
-
-    /**
-     * @param $simulation
+     * Запись универсального лога действий в игре (диалоги, документы, почта и тп)
+     * @param Simulation $simulation
      * @param $logs
      * @return bool
      * @throws CException
      */
-    public static function setUniversalLog($simulation, $logs)    {
+    public static function setUniversalLog(Simulation $simulation, $logs)    {
 
         if (!is_array($logs)) return false;
         foreach ($logs as $log) {
 
             if (self::ACTION_OPEN == (string)$log[2] || self::ACTION_ACTIVATED == (string)$log[2]) {
-                if (UniversalLog::model()->countByAttributes(array('end_time' => '00:00:00', 'sim_id' => $simulation->id))) {
-                    throw(new CException('Previous window is still activated'));
+                /** @var UniversalLog $previousLog **/
+                $previousLog = UniversalLog::model()->findByAttributes(array('end_time' => '00:00:00', 'sim_id' => $simulation->id));
+                if (null !== $previousLog) {
+                    throw(new CException(sprintf('Previous window %s.%s is still activated', $previousLog->window->type, $previousLog->window->subtype)));
                 }
 
                 $universal_log = new UniversalLog(); //new UniversalLog();
@@ -688,6 +762,13 @@ class LogHelper
         return true;
     }
 
+    /**
+     * Логирование переключения звука в телефоне и почтовике
+     * @param Simulation $simulation
+     * @param $is_play вкл или выкл
+     * @param $sound_alias тип интерфейса
+     * @throws LogicException
+     */
     public static function soundSwitcher(Simulation $simulation, $is_play, $sound_alias) {
 
         $log = new LogIncomingCallSoundSwitcher();
@@ -701,9 +782,14 @@ class LogHelper
     }
 
 
+    /**
+     * Комбинирует агрегированый лог почты
+     * @param Simulation $simulation
+     * @return array
+     */
     public static function getMailBoxAggregated(Simulation $simulation) {
 
-       $mail_templates = MailTemplate::model()->findAll("scenario_id = :scenario_id and type = :type_m or type = :type_my",
+        $mail_templates = MailTemplate::model()->findAll("scenario_id = :scenario_id and type = :type_m or type = :type_my",
             [
                 'type_my' => 3,
                 'type_m' => 1,
@@ -729,7 +815,7 @@ class LogHelper
                     'plan'   => ((int)$mail->plan === 1)?'Да':'Нет',
                     'reply'  =>((int)$mail->reply === 1)?'Да':'Нет',
                     'mail_box'=>$mail->id,
-                    'type_of_importance'=>$mail->template->type_of_impportance
+                    'type_of_importance'=>$mail->template->type_of_importance
                 ];
         }
         unset($mail_box);
@@ -743,7 +829,7 @@ class LogHelper
                     'plan'   => 'Нет',
                     'reply'  => 'Нет',
                     'mail_box' => 0,
-                    'type_of_importance'=>$template->type_of_impportance
+                    'type_of_importance'=>$template->type_of_importance
                 ];
             }
         }
@@ -779,6 +865,10 @@ class LogHelper
         return $data;
     }
 
+    /**
+     * Проставляет mail_id по window_uid
+     * @param Simulation $simulation
+     */
     public static function updateUniversalLog(Simulation $simulation) {
         $window = Window::model()->findByAttributes(['subtype'=>'mail new']);
         $universal_log = UniversalLog::model()->findAllByAttributes(['sim_id'=>$simulation->id, 'window_id'=>$window->id]);

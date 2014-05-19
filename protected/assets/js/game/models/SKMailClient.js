@@ -213,6 +213,15 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
             availablePhrases:[],
 
             // @var array of SKMailPhrase
+            activeConstructorCode: null,
+
+            // @var string
+            activeMailPrefix: null,
+
+            // @var integer
+            activeParentEmailMyQslId: null,
+
+            // @var array of SKMailPhrase
             // this is ',', '.', ':' etc. - symbols for any phrases set
             availableAdditionalPhrases:[],
 
@@ -223,7 +232,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
             newEmailAttachment:undefined,
 
             // @var array of SKMailSubject
-            newEmailSubjectId:undefined,
+            newEmailThemeId:undefined,
 
             // @var undefined | SKEmail
             lastNotSavedEmail:undefined,
@@ -409,46 +418,52 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                     this.folders[folderAlias].emails = [];
 
                     _.forEach(emailsData, function(emailData) {
-                        var subject                = new SKMailSubject();
-                        subject.text               = emailData.subject;
-                        subject.id                 = emailData.subjectId;
-                        subject.characterSubjectId = emailData.subjectId;
+                        try {
+                            var subject                = new SKMailSubject();
+                            subject.text               = emailData.subject;
+                            subject.themeId            = emailData.themeId;
+                            subject.mailPrefix         = emailData.mailPrefix;
 
-                        var email               = new SKEmail();
-                        email.folderAlias       = folderAlias;
-                        email.letterType        = emailData.letterType;
-                        email.mySqlId           = emailData.id;
-                        email.text              = emailData.text;
-                        email.is_readed         = (1 === parseInt(emailData.readed, 10));
-                        email.is_has_attachment = (1 === parseInt(emailData.attachments, 10));
-                        email.sendedAt          = emailData.sentAt;
-                        email.subject           = subject;
-                        email.phrases           = emailData.phraseOrder || [];
-                        email.setSenderEmailAndNameStrings(emailData.sender);
+                            var email               = new SKEmail();
+                            email.folderAlias       = folderAlias;
+                            email.letterType        = emailData.letterType;
+                            email.mySqlId           = emailData.id;
+                            email.text              = emailData.text;
+                            email.is_readed         = (1 === parseInt(emailData.readed, 10));
+                            email.is_has_attachment = (1 === parseInt(emailData.attachments, 10));
+                            email.sendedAt          = emailData.sentAt;
+                            email.subject           = subject;
+                            email.phrases           = emailData.phraseOrder || [];
+                            email.setSenderEmailAndNameStrings(emailData.sender);
 
-                        var attachment = new SKAttachment();
-                        attachment.label       = emailData.attachmentName;
-                        attachment.fileMySqlId = emailData.attachmentFileId;
+                            var attachment = new SKAttachment();
+                            attachment.label       = emailData.attachmentName;
+                            attachment.fileMySqlId = emailData.attachmentFileId;
 
-                        email.attachment = attachment;
+                            email.attachment = attachment;
 
-                        var recipiens = emailData.receiver.split(',');
-                        $.each(recipiens, function(index){
-                            email.addRecipientEmailAndNameStrings(recipiens[index]);
-                        });
-
-                        if (emailData.copy !== undefined) {
-                            var copies = emailData.copy.split(',');
-                            $.each(copies, function(index){
-                                email.addCopyEmailAndNameStrings(copies[index]);
+                            var recipiens = emailData.receiver.split(',');
+                            $.each(recipiens, function(index){
+                                email.addRecipientEmailAndNameStrings(recipiens[index]);
                             });
-                        }
 
-                        if (undefined !== emailData.reply) {
-                            email.previouseEmailText = emailData.reply;
-                        }
+                            if (emailData.copy !== undefined) {
+                                var copies = emailData.copy.split(',');
+                                $.each(copies, function(index){
+                                    email.addCopyEmailAndNameStrings(copies[index]);
+                                });
+                            }
 
-                        me.folders[folderAlias].emails.push(email);
+                            if (undefined !== emailData.reply) {
+                                email.previousEmailText = emailData.reply;
+                            }
+
+                            me.folders[folderAlias].emails.push(email);
+                        } catch(exception) {
+                            if (window.Raven) {
+                                window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                            }
+                        }
                     });
                 } catch(exception) {
                     if (window.Raven) {
@@ -485,10 +500,16 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                             id:mailClient.activeEmail.mySqlId
                         },
                         function (response) {
-                            if (1 == response.result) {
-                                cb(response);
-                            } else {
-                                throw new Error ("Can`t initialize responce email. Model. #1");
+                            try {
+                                if (1 == response.result) {
+                                    cb(response);
+                                } else {
+                                    throw new Error ("Can`t initialize responce email. Model. #1");
+                                }
+                            } catch(exception) {
+                                if (window.Raven) {
+                                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                                }
                             }
                         }
                     );
@@ -513,10 +534,16 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                             id:mailClient.activeEmail.mySqlId
                         },
                         function (response) {
-                            if (1 === response.result) {
-                                cb(response);
-                            } else {
-                                throw new Error ("Can`t initialize responce email. Model. #2");
+                            try {
+                                if (1 === response.result) {
+                                    cb(response);
+                                } else {
+                                    throw new Error ("Can`t initialize responce email. Model. #2");
+                                }
+                            } catch(exception) {
+                                if (window.Raven) {
+                                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                                }
                             }
                         }
                     );
@@ -541,10 +568,16 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                             id:mailClient.activeEmail.mySqlId
                         },
                         function (response) {
-                            if (1 === response.result) {
-                                return cb(response);
-                            } else {
-                                throw new Error ("Can`t initialize responce email. Model. #3");
+                            try {
+                                if (1 === response.result) {
+                                    return cb(response);
+                                } else {
+                                    throw new Error ("Can`t initialize responce email. Model. #3");
+                                }
+                            } catch(exception) {
+                                if (window.Raven) {
+                                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                                }
                             }
                         }
                     );
@@ -565,11 +598,17 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                     this.folders[this.aliasFolderInbox].isActive = true;
                     var folder_to_load = 4;
                     var onSent = function () {
-                        folder_to_load -= 1;
-                        if (folder_to_load === 0) {
-                            me.trigger('init_completed');
+                        try {
+                            folder_to_load -= 1;
+                            if (folder_to_load === 0) {
+                                me.trigger('init_completed');
+                            }
+                            return folder_to_load;
+                        } catch(exception) {
+                            if (window.Raven) {
+                                window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                            }
                         }
-                        return folder_to_load;
                     };
 
                     this.getInboxFolderEmails(onSent);
@@ -600,9 +639,15 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                             order_type:1
                         },
                         function (responce) {
-                            me.updateInboxFolderEmails(responce.messages);
-                            if (undefined !== cb) {
-                                cb();
+                            try {
+                                me.updateInboxFolderEmails(responce.messages);
+                                if (undefined !== cb) {
+                                    cb();
+                                }
+                            } catch(exception) {
+                                if (window.Raven) {
+                                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                                }
                             }
                         }
                     );
@@ -627,9 +672,15 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                             order_type:1
                         },
                         function (responce) {
-                            SKApp.simulation.mailClient.updateDraftsFolderEmails(responce.messages);
-                            if (undefined !== cb) {
-                                cb();
+                            try {
+                                SKApp.simulation.mailClient.updateDraftsFolderEmails(responce.messages);
+                                if (undefined !== cb) {
+                                    cb();
+                                }
+                            } catch(exception) {
+                                if (window.Raven) {
+                                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                                }
                             }
                         }
                     );
@@ -655,11 +706,17 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                             order_type: 1
                         },
                         function (responce) {
-                            MailClientModel.updateSendedFolderEmails(responce.messages);
-                            if (undefined !== cb) {
-                                cb();
+                            try {
+                                MailClientModel.updateSendedFolderEmails(responce.messages);
+                                if (undefined !== cb) {
+                                    cb();
+                                }
+                                MailClientModel.trigger('outbox:updated');
+                            } catch(exception) {
+                                if (window.Raven) {
+                                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                                }
                             }
-                            MailClientModel.trigger('outbox:updated');
                         }
                     );
                 } catch(exception) {
@@ -683,9 +740,15 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                             order_type:1
                         },
                         function (responce) {
-                            SKApp.simulation.mailClient.updateTrashFolderEmails(responce.messages);
-                            if (undefined !== cb) {
-                                cb();
+                            try {
+                                SKApp.simulation.mailClient.updateTrashFolderEmails(responce.messages);
+                                if (undefined !== cb) {
+                                    cb();
+                                }
+                            } catch(exception) {
+                                if (window.Raven) {
+                                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                                }
                             }
                         }
                     );
@@ -786,9 +849,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                                 {
                                     id:email.mySqlId
                                 },
-                                function () {
-
-                                }
+                                function() {}
                             );
                         }
                         email.is_readed = true;
@@ -810,10 +871,16 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
             setActiveFolder:function (alias) {
                 try {
                     var me = this;
-                    $.each(me.folders, function(i){
-                        me.folders[i].isActive = false;
-                        if (alias === i) {
-                            me.folders[i].isActive = true;
+                    $.each(me.folders, function(i) {
+                        try {
+                            me.folders[i].isActive = false;
+                            if (alias === i) {
+                                me.folders[i].isActive = true;
+                            }
+                        } catch(exception) {
+                            if (window.Raven) {
+                                window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                            }
                         }
                     });
                 } catch(exception) {
@@ -968,27 +1035,39 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                         attachmentId:attachmentId
                     },
                     function (response) {
-                        // and display message for user
-                        if (response.result === 1) {
-                            if (response.status === true) {
-                                AppView.frame.icon_view.doSoundSaveAttachment();
-                            }
+                        try {
+                            // and display message for user
+                            if (response.result === 1) {
+                                if (response.status === true) {
+                                    AppView.frame.icon_view.doSoundSaveAttachment();
+                                }
 
-                            SKApp.simulation.documents.fetch();
-                            SKApp.simulation.documents.once('afterReset', function() {
-                                new SKDialogView({
-                                    'message':'Файл был успешно сохранён в папку Мои документы.',
-                                    'buttons':[
-                                        {
-                                            'value':'Ок'
+                                SKApp.simulation.documents.fetch();
+                                SKApp.simulation.documents.once('afterReset', function() {
+                                    try {
+                                        new SKDialogView({
+                                            'message':'Файл был успешно сохранён в папку Мои документы.',
+                                            'buttons':[
+                                                {
+                                                    'value':'Ок'
+                                                }
+                                            ]
+                                        });
+
+                                        me.trigger('attachment:saved');
+                                    } catch(exception) {
+                                        if (window.Raven) {
+                                            window.Raven.captureMessage(exception.message + ',' + exception.stack);
                                         }
-                                    ]
+                                    }
                                 });
-
-                                me.trigger('attachment:saved');
-                            });
-                        } else {
-                            throw new Error ('Can not add document');
+                            } else {
+                                throw new Error ('Can not add document');
+                            }
+                        } catch(exception) {
+                            if (window.Raven) {
+                                window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                            }
                         }
                     });
                 } catch(exception) {
@@ -1070,6 +1149,8 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
             },
 
             /**
+             * При написании нового письма вскрывать всех, у кого нет осмысленных тем.
+             * И без них адрессатов 2 десятка - тяжело ориентироваться.
              * @method
              * @returns {Array}
              */
@@ -1077,18 +1158,18 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 try {
                     var list = [];
                     for (var i in this.defaultRecipients) {
-                        // non strict "!=" is important!
-                        if(this.activeScreen !== 'SCREEN_WRITE_NEW_EMAIL'){
-                            if ('' !== this.defaultRecipients[i].get('fio') && '' !== this.defaultRecipients[i].get('email')) {
+                        if(this.activeScreen === 'SCREEN_WRITE_NEW_EMAIL') {
+                            if ('' !== this.defaultRecipients[i].get('fio')
+                                && '' !== this.defaultRecipients[i].get('email')
+                                && parseInt(this.defaultRecipients[i].get('has_mail_theme')) === 1) {
                                 list.push(this.defaultRecipients[i].getFormatedForMailToName());
                             }
-                        }else{
-                            if ('' !== this.defaultRecipients[i].get('fio') && '' !== this.defaultRecipients[i].get('email') && parseInt(this.defaultRecipients[i].get('has_mail_theme')) === 1) {
+                        } else {
+                            if ('' !== this.defaultRecipients[i].get('fio')
+                                && '' !== this.defaultRecipients[i].get('email')) {
                                 list.push(this.defaultRecipients[i].getFormatedForMailToName());
                             }
                         }
-
-
                     }
 
                     return list;
@@ -1108,26 +1189,60 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
             reloadSubjectsWithWarning:function (recipientIds, action, parent_subject, callback, el_tag, updateSubject) {
                 try {
                     var mailClient = this;
+                    var recipientIdByTagText = mailClient.findRecipientByName($(el_tag).text().replace(/\s\((.*)\)/g, ''));
+
+                    var isFwdEmail = (action == 'add_fwd' ||  action == 'delete_fwd');
+                    var isFirsRecipientRemoved = (_.first(recipientIds) === recipientIdByTagText);
+
+                    // for NEW email
+                    var isRecipientChanged = (0 !== mailClient.availablePhrases.length && isFirsRecipientRemoved && this.isNotEmptySubject());
 
                     // display warning only if user add extra recipients
-                    if (0 !== mailClient.availablePhrases.length && _.first(recipientIds) === mailClient.findRecipientByName($(el_tag).text().replace(/\s\((.*)\)/g, '')) &&  this.isNotEmptySubject()) {
-                        if(action !== 'add_fwd' && action !== 'delete_fwd') {
+                    if (isRecipientChanged || (isFwdEmail) && isFirsRecipientRemoved) {
                         this.message_window = new SKDialogView({
                             'message':'Если вы измените список адресатов, то поменяются доступные Вам темы письма, очистится список доступных фраз и тескт письма.',
                             'buttons':[
                                 {
                                     'value':'Продолжить',
                                     'onclick':function () {
-                                        delete mailClient.message_window;
-                                        if(recipientIds.length !== 0){mailClient.reloadSubjects(recipientIds, parent_subject);}
-                                        $("#mailEmulatorNewLetterText").html('');
-                                        if ('add' === action || 'add_fwd' === action) {
-                                            callback();
-                                        }else if('delete'){
-                                            $("#MailClient_RecipientsList")[0].removeTag(el_tag);
-                                            if(typeof updateSubject === 'function'){
-                                                updateSubject();
-                                                $("#mailEmulatorNewLetterTextVariants").html('');
+                                        try {
+                                            delete mailClient.message_window;
+
+                                            if(false == isFwdEmail) {
+                                                if(recipientIds.length !== 0){
+                                                    mailClient.reloadSubjects(recipientIds, parent_subject);
+                                                }
+                                            } else {
+                                                if (action == 'delete_fwd' && isFirsRecipientRemoved) {
+
+                                                    // надо запросить фразы для второго персонажа, в списке аддресатов
+                                                    // ведь первого мы удаляем
+                                                    // есди получатель один - передаём на сервер NULL
+                                                    var currentRecipientId = null;
+                                                    if (undefined != typeof recipientIds[1]) {
+                                                        var currentRecipientId = recipientIds[1];
+                                                    }
+                                                    mailClient.getAvailablePhrases(
+                                                        currentRecipientId ,
+                                                        mailClient.activeEmail.subject.themeId
+                                                    );
+                                                }
+                                            }
+
+                                            $("#mailEmulatorNewLetterText").html('');
+
+                                            if ('add' === action) {
+                                                callback();
+                                            } else {
+                                                $("#MailClient_RecipientsList")[0].removeTag(el_tag);
+                                                if(typeof updateSubject === 'function'){
+                                                    updateSubject();
+                                                    $("#mailEmulatorNewLetterTextVariants").html('');
+                                                }
+                                            }
+                                        } catch(exception) {
+                                            if (window.Raven) {
+                                                window.Raven.captureMessage(exception.message + ',' + exception.stack);
                                             }
                                         }
                                     }
@@ -1135,15 +1250,11 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                                 {
                                     'value':'Вернуться',
                                     'onclick':function () {
-                                        //mailClient.trigger('mail:return_last_subject');
                                         delete mailClient.message_window;
-
                                     }
                                 }
-                            ]
-                        });}else{
-                            if(action === 'delete_fwd' || action === 'add_fwd'){return true;}
-                        }
+                            ]});
+
                         return false;
                     } else {
                         return true;
@@ -1173,32 +1284,44 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                         'mail/getThemes',
                         {
                             receivers:recipientIds.join(','), // implode()
-                            parentSubjectId: subject !== undefined ? subject.parentMySqlId : undefined
+                            parentThemeId: subject !== undefined ? subject.parentMySqlId : undefined,
+                            mailPrefix:me.activeMailPrefix
                         },
                         function (response) {
-                            if (undefined !== response.data) {
-                                // clean up list
-                                SKApp.simulation.mailClient.availableSubjects = [];
+                            try {
+                                if (undefined !== response.data) {
+                                    // clean up list
+                                    SKApp.simulation.mailClient.availableSubjects = [];
 
-                                // clean up phrases {
-                                if (SKApp.simulation.mailClient.activeEmail) {
-                                    SKApp.simulation.mailClient.activeEmail.phrases = [];
+                                    // clean up phrases {
+                                    if (SKApp.simulation.mailClient.activeEmail) {
+                                        SKApp.simulation.mailClient.activeEmail.phrases = [];
+                                    }
+                                    // clean up phrases }
+
+                                    $.each(response.data, function(themeId, text) {
+                                        try {
+                                            var subject = new SKMailSubject();
+                                            subject.themeId = themeId;
+                                            subject.text = text;
+
+                                            SKApp.simulation.mailClient.availableSubjects.push(subject);
+                                        } catch(exception) {
+                                            if (window.Raven) {
+                                                window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                                            }
+                                        }
+                                    });
+
+                                    if(typeof callback == 'function'){
+                                        callback();
+                                    }
+                                    me.trigger('mail:subject_list_in_model_updated');
                                 }
-                                // clean up phrases }
-
-                                for (var i in response.data) {
-                                    var string = response.data[i];
-
-                                    var subject = new SKMailSubject();
-                                    subject.characterSubjectId = i;
-                                    subject.text = response.data[i];
-
-                                    SKApp.simulation.mailClient.availableSubjects.push(subject);
+                            } catch(exception) {
+                                if (window.Raven) {
+                                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
                                 }
-                                if(typeof callback == 'function'){
-                                    callback();
-                                }
-                                me.trigger('mail:subject_list_in_model_updated');
                             }
                         }
                     );
@@ -1259,31 +1382,42 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
              * Receives and updates phrase list and message for email
              *
              * @method
-             * @param subjectId
+             * @param characterId
+             * @param themeId
              * @param callback
              */
-            getAvailablePhrases:function (subjectId, callback) {
+            getAvailablePhrases:function (characterId, themeId, callback) {
                 try {
                     var mailClient = this;
                     SKApp.server.api(
                         'mail/getPhrases',
                         {
-                            id:subjectId
+                            characterId:characterId,
+                            themeId:themeId,
+                            mailPrefix:mailClient.activeMailPrefix
                         },
                         function (response) {
-                            if (undefined !== response.data) {
-                                mailClient.setRegularAvailablePhrases(response.data);
+                            try {
+                                if (undefined !== response.data) {
 
-                                mailClient.setAdditionalAvailablePhrases(response.addData);
+                                    mailClient.activeConstructorCode = response.constructorCode;
+                                    mailClient.setRegularAvailablePhrases(response.data);
 
-                                mailClient.messageForNewEmail = response.message;
+                                    mailClient.setAdditionalAvailablePhrases(response.addData);
 
-                                if(typeof callback === 'function'){
-                                    callback();
+                                    mailClient.messageForNewEmail = response.message;
+
+                                    if(typeof callback === 'function'){
+                                        callback();
+                                    }
+
                                 }
-
+                                mailClient.trigger('mail:available_phrases_reloaded');
+                            } catch(exception) {
+                                if (window.Raven) {
+                                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                                }
                             }
-                            mailClient.trigger('mail:available_phrases_reloaded');
                         }
                     );
                 } catch(exception) {
@@ -1358,17 +1492,23 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                         'myDocuments/getList',
                         {},
                         function (response) {
-                            if (undefined !== response.data) {
-                                SKApp.simulation.mailClient.availableAttachments = [];
-                                for (var i in response.data) {
+                            try {
+                                if (undefined !== response.data) {
+                                    SKApp.simulation.mailClient.availableAttachments = [];
+                                    for (var i in response.data) {
 
-                                    var attach = new SKAttachment();
-                                    attach.fileMySqlId = response.data[i].id;
-                                    attach.label = response.data[i].name;
+                                        var attach = new SKAttachment();
+                                        attach.fileMySqlId = response.data[i].id;
+                                        attach.label = response.data[i].name;
 
-                                    SKApp.simulation.mailClient.availableAttachments.push(attach);
+                                        SKApp.simulation.mailClient.availableAttachments.push(attach);
+                                    }
+                                    callback();
                                 }
-                                callback();
+                            } catch(exception) {
+                                if (window.Raven) {
+                                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                                }
                             }
                         }
                     );
@@ -1384,7 +1524,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
              * @param id
              * @returns {*}
              */
-            getCharacterById:function (id) {
+            getCharacterById: function (id) {
                 try {
                     return SKApp.simulation.characters.get(id);
                 } catch(exception) {
@@ -1395,15 +1535,17 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
             },
 
             /**
-             * What is it?
+             * Метод создаёт JSON для отправки сереру комманд
+             * сохранить и отправить письмо
              *
              * @method
              * @param emailToSave
              * @return {Object}
              */
-            combineMailDataByEmailObject:function (emailToSave) {
+            combineMailDataByEmailObject: function (emailToSave) {
                 try {
                     var mailId = '';
+                    var me = this;
                     if (this.activeScreen === this.screenWriteForward ||
                         this.activeScreen === this.screenWriteReply ||
                         this.activeScreen === this.screenWriteReplyAll) {
@@ -1426,15 +1568,19 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                         type = 'forward';
                     }
 
+                    var mailPrefix = (null === this.activeMailPrefix) ? '' : this.activeMailPrefix;
+
                     return {
                         id:         emailToSave.mySqlId,
                         copies:     emailToSave.getCopyToIdsString(),
                         fileId:     emailToSave.getAttachmentId(),
-                        messageId:  mailId,
+                        messageId:  me.activeParentEmailMyQslId,
                         phrases:    emailToSave.getPhrasesIdsString(),
                         receivers:  emailToSave.getRecipientIdsString(),
-                        subject:    emailToSave.subject.characterSubjectId,
-                        letterType: type
+                        themeId:    emailToSave.subject.themeId,
+                        letterType: type,
+                        mailPrefix: mailPrefix,
+                        constructorCode: this.activeConstructorCode
                     };
                 } catch(exception) {
                     if (window.Raven) {
@@ -1461,32 +1607,50 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                         'mail/sendMessage',
                         this.combineMailDataByEmailObject(emailToSave),
                         function (response) {
-                            var windows = SKApp.simulation.window_set.where({name: 'mailEmulator'});
-                            windows[0].setOnTop();
-                            if (1 === response.result) {
-                                var window = me.getSimulationMailClientWindow();
-                                window.set('params', {'mailId': response.messageId});
-                                me.trigger('mail:sent');
-                                me.getSendedFolderEmails(function () {
-                                    if (callback !== undefined) {
-                                        callback();
-                                    }
-                                    me.trigger('process:finish');
-                                }); // callback is usually 'render active folder'
-                            } else {
-                                me.trigger('process:finish');
-                                me.message_window =
-                                    me.message_window || new SKDialogView({
-                                        'message':'Не удалось отправить письмо.',
-                                        'buttons':[
-                                            {
-                                                'value':'Ок',
-                                                'onclick':function () {
-                                                    delete SKApp.simulation.mailClient.message_window;
-                                                }
+                            try {
+                                var windows = SKApp.simulation.window_set.where({name: 'mailEmulator'});
+                                windows[0].setOnTop();
+                                if (1 === response.result) {
+                                    var window = me.getSimulationMailClientWindow();
+                                    window.set('params', {'mailId': response.messageId});
+                                    me.trigger('mail:sent');
+                                    me.getSendedFolderEmails(function () {
+                                        try {
+                                            if (callback !== undefined) {
+                                                callback();
                                             }
-                                        ]
-                                    });
+                                            me.trigger('process:finish');
+                                        } catch(exception) {
+                                            if (window.Raven) {
+                                                window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                                            }
+                                        }
+                                    }); // callback is usually 'render active folder'
+                                } else {
+                                    me.trigger('process:finish');
+                                    me.message_window =
+                                        me.message_window || new SKDialogView({
+                                            'message':'Не удалось отправить письмо.',
+                                            'buttons':[
+                                                {
+                                                    'value':'Ок',
+                                                    'onclick':function () {
+                                                        try {
+                                                            delete SKApp.simulation.mailClient.message_window;
+                                                        } catch(exception) {
+                                                            if (window.Raven) {
+                                                                window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        });
+                                }
+                            } catch(exception) {
+                                if (window.Raven) {
+                                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                                }
                             }
                         }
                     );
@@ -1515,7 +1679,13 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                                 {
                                     'value':'Ок',
                                     'onclick':function () {
-                                        delete mailClient.message_window;
+                                        try {
+                                            delete mailClient.message_window;
+                                        } catch(exception) {
+                                            if (window.Raven) {
+                                                window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                                            }
+                                        }
                                     }
                                 }
                             ]
@@ -1531,7 +1701,13 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                                 {
                                     'value':'Ок',
                                     'onclick':function () {
-                                        delete mailClient.message_window;
+                                        try {
+                                            delete mailClient.message_window;
+                                        } catch(exception) {
+                                            if (window.Raven) {
+                                                window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                                            }
+                                        }
                                     }
                                 }
                             ]
@@ -1567,28 +1743,40 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                         'mail/saveDraft',
                         mailClient.combineMailDataByEmailObject(emailToSave),
                         function (responce) {
-                            // keep non strict comparsion
-                            if (1 == responce.result) {
-                                var window = mailClient.getSimulationMailClientWindow();
-                                window.set('params', {'mailId': responce.messageId});
-                                mailClient.getDraftsFolderEmails();
-                                cb();
-                            } else {
-                                mailClient.message_window = new SKDialogView({
-                                    'message':'Не удалось сохранить письмо.',
-                                    'buttons':[
-                                        {
-                                            'value':'Ок',
-                                            'onclick':function () {
-                                                delete mailClient.message_window;
+                            try {
+                                // keep non strict comparsion
+                                if (1 == responce.result) {
+                                    var window = mailClient.getSimulationMailClientWindow();
+                                    window.set('params', {'mailId': responce.messageId});
+                                    mailClient.getDraftsFolderEmails();
+                                    cb();
+                                } else {
+                                    mailClient.message_window = new SKDialogView({
+                                        'message':'Не удалось сохранить письмо.',
+                                        'buttons':[
+                                            {
+                                                'value':'Ок',
+                                                'onclick':function () {
+                                                    try {
+                                                        delete mailClient.message_window;
+                                                    } catch(exception) {
+                                                        if (window.Raven) {
+                                                            window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                                                        }
+                                                    }
+                                                }
                                             }
-                                        }
-                                    ]
-                                });
-                            }
+                                        ]
+                                    });
+                                }
 
-                            mailClient.draftToEditEmailId = undefined;
-                            mailClient.trigger('process:finish');
+                                mailClient.draftToEditEmailId = undefined;
+                                mailClient.trigger('process:finish');
+                            } catch(exception) {
+                                if (window.Raven) {
+                                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                                }
+                            }
                         }
                     );
                 } catch(exception) {

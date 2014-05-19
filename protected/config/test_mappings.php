@@ -208,68 +208,73 @@ return [
     ],
 
     'site' => [
-        'logIn' => "css=.sign-in-link",
-        'logOut' => "css=.log-out-link",
-        'notRegDemo'=>"css=.start-lite-simulation-btn.main-menu-demo",
-        'recovery' => "css=.link-recovery",
+        'logIn' => "css=.action-sign-in",
+        'logOut' => "css=.locator-log-out-link",
+        'notRegDemo'=>"css=.start-lite-simulation-btn",
+        'recovery' => "css=.action-password-recovery",
         'recovery_email' => "css=#YumPasswordRecoveryForm_email",
-        'recovery_button' => "css=.row.buttons>input",
+        'recovery_button' => "name=yt1",
         'change_pass' => "css=#YumUserChangePassword_password",
         'verify_pass' => "css=#YumUserChangePassword_verifyPassword",
-        'save_new_pass' => "xpath=//*[@id='change-password-form']/div[3]/input",
-        'logo_img' => "xpath=//*[@id='top']/header/h1/a/img",
+        'save_new_pass' => "css=.us-button-submit",
+        'logo_img' => "css=.locator-logo-head",
         'username' => "css=#YumUserLogin_username",
         'userpass' => "css=#YumUserLogin_password",
-        'enter' => "css=.submit>input"
+        'enter' => "name=yt0"
     ],
 
     'site_register' =>
     [
-        'free_access1' => "xpath=//*[@id='top']/div[2]/section[1]/a",
-        'free_access2' => "xpath=//*[@id='top']/div[4]/footer/a",
-        'register_popup' => "css=.registration-popup",
+        'registration_button' => "xpath=//section/section[1]/div/span[1]/a",
+        'registration_link_header' => "xpath=//*[@id='yw0']/li[3]/a",
+        'registration_link_popup' => "css=.unstandard-registration-link",
         'userName' => 'css=#YumProfile_firstname',
         'userSurname' => 'css=#YumProfile_lastname',
         'userEmail' => 'css=#YumProfile_email',
         'password1' => 'css=#YumUser_password',
         'password2' => 'css=#YumUser_password_again',
-        'register_button' => "xpath=(//*[contains(text(),'Зарегистрироваться')])",
-        'checkbox_terms' => 'css=#YumUser_agree_with_terms',
-        'link_terms' => 'css=.terms',
-        'close_terms' => 'css=.ui-icon.ui-icon-closethick'
+        'register_button' => "xpath=//*[@id='registration-form']/div[8]/input",
+        'checkbox_terms' => "xpath=//*[@id='YumUser_agree_with_terms']",
+        'link_terms' => 'css=.action-show-terms-pop-up',
+        'close_terms' => 'xpath=//div[4]/div[1]/a/span'
     ],
 
     'personal' =>
     [
-        'dashboard' => "xpath=//*[@id='yw2']/li[1]/a",
-        'my_profile' => "xpath=//*[@id='yw2']/li[2]/a",
-        'username' => "css=.top-profile.top-profile-persn",
-        'feedback' => "css=.light-btn.feedback",
-        'last_result' => "css=.link-go.view-simulation-details-pop-up",
-        'change_result_view' => "xpath=//*[@id='dashboard-skills-box']/span",
-        'demo_sim' => "//*[@id='top']/div[1]/section/div/a",
-        'sim_rules' => "css=.show-simulation-rules>span",
-        'prof_name' => "css=#YumProfile_firstname",
-        'prof_surname' => "css=#YumProfile_lastname",
-        'accept_invite' => "css=.blue-btn.accept-invite",
-        'decline_invite' => "css=.decline-link"
+        'dashboard' => "xpath=//*[@id='yw3']/li[1]/a",
+        'my_profile' => "xpath=//*[@id='yw3']/li[2]/a",
+        'username' => "css=.icon-profile-personal",
+        'feedback' => "css=.action-feedback",
+        'last_result' => "css=.action-display-simulation-details-popup",
+        'change_result_view' => "css=.action-switch-assessment-results-render-type",
+        'demo_sim' => "css=.action-open-lite-simulation-popup",
+        'accept_invite' => "css=.action-accept-invite",
+        'decline_invite' => "css=.action-decline-invite"
     ],
 
     'corporate' =>
     [
-        'username' => "css=.top-profile.top-profile-corp",
-        'startLite' => "css=.start-lite-simulation-btn.light-btn",
-        'startFull' => "css=.start-full-simulation.start-full-simulation-btn.light-btn",
-        'changeResultPresentation' => "css=.change-simulation-result-render.percentile-hover-toggle-span.percentile-toggle-on",
+        'username' => "css=.profile-icon.icon-profile-corporate",
+        'startLite' => "css=.action-open-lite-simulation-popup",
+        'startFull' => "css=.action-open-full-simulation-popup",
+        'changeResultPresentation' => "css=.assessment-results-type-switcher",
         'inviteName' => "css=#Invite_firstname",
         'inviteSurname' => "css=#Invite_lastname",
         'inviteEmail' => "css=#Invite_email",
-        'addVacancy' => "css=#corporate-dashboard-add-vacancy",
-        'sendInvite' => "css=.row.buttons>input",
-        'invites_limit' => "xpath=//div/section/aside/div[2]/div/span"
+        'addVacancy' => "css=.action-add-vacancy.button-add-vacancy",
+        'sendInvite' => "css=.selenium-button-send-invite",
+        'invites_limit' => "css=.selenium-simulations-amount",
+        'profile'=>"xpath=//*[@id='yw3']/li[2]/a",
     ],
 
-    'popup_send_invite' =>
+    'corporate_profile' =>
+    [
+        'name'=>"css=#profile_firstname",
+        'lastname'=>"css=#profile_lastname",
+        'email'=>"xpath=//*[@id='account-corporate-personal-form']/div[2]/span"
+    ],
+
+    'popup_send_invite' =>  /// ничего еще не меняла из локаторов
     [
         'fullName' => "css=#Invite_fullname",
         'send' => "css=input[name='send']",
@@ -278,32 +283,46 @@ return [
 
     'register_by_link' =>
     [
-        'enter_for_registered' => "css=.text-right>a",
         'invite_name' => "css=#YumProfile_firstname",
         'invite_surname' => "css=#YumProfile_lastname",
-        'choose_status' => "link=Выберите статус",
         'password' => "css=#YumUser_password",
         'password_again' => "css=#YumUser_password_again",
         'checkbox_terms' => "css=#YumUser_agree_with_terms",
-        'link_terms' => "css=.terms",
-        // на test.skiliks.com 5й див, а на лайве и локально 6й, так как есть чат тех поддержки
-        'close_terms_popup' => "xpath=//body/div[5]/div[1]/a/span",
-        'register_button' => "css=.registration-form .blue-submit-button",
-        'decline_register' => "css=.decline-link",
-        'error_name' => "css=.errorMessage.YumProfile_firstname",
-        'error_surname' => "css=.errorMessage.YumProfile_lastname",
-        'error_status' => "xpath=//*[@id='registration-by-link-form']/div[2]/div[2]",
-        'error_password' => "css=.errorMessage.YumUser_password",
-        'error_password_again' => "css=.errorMessage.YumUser_password_again",
-        'error_terms' => "xpath=//*[@id='registration-by-link-form']/div[5]/div",
+        'link_terms' => "css=.action-show-terms-pop-up",
+        'close_terms_popup' => "xpath=//div[3]/div[1]/a/span",  // локально будет 4й див
+        'register_button' => "xpath=//*[@id='registration-by-link-form']/div[6]/input",
+        'decline_register' => "css=.action-decline-invite",
         'decline_reason_0' => "css=#DeclineExplanation_reason_id_0",
         'decline_reason_1' => "css=#DeclineExplanation_reason_id_1",
         'decline_reason_2' => "css=#DeclineExplanation_reason_id_2",
         'decline_reason_3' => "css=#DeclineExplanation_reason_id_3",
-        'close_decline_popup' => "xpath=//*[@id='invite-decline-form']/div[2]/a",
-        'back_to_registration' => "css=.chancel-decline",
-        'confirm_decline_invite' => "css=.confirm-decline",
-        'input_area_for_reason' => "css=#DeclineExplanation_description",
-        'error_msg_for_reason' => "xpath=//*[@id='form-decline-explanation']/div[1]/div/div"
+        'close_decline_popup' => "xpath=//div[3]/div[1]/a/span", // локально будет 6й див, потому что локально есть еще и сайтхарт
+        'back_to_registration' => "css=.action-close-popup",
+        'confirm_decline_invite' => "css=.action-confirm-decline",
+        'input_area_for_reason' => "css=#DeclineExplanation_description"
     ],
+
+    'user_auth' =>
+    [
+        'email' => "xpath=//section/div/form/div//..//*[@id='YumUserLogin_username']",
+        'password'=>"xpath=//section/div/form/div//..//*[@id='YumUserLogin_password']",
+        'login' => "xpath=//section/section/div/form/div/div[1]/input[3]"
+    ],
+
+    'site_urls' =>
+    [
+        'en-ru' => "/ru",
+        'ru-en' => "/en",
+        'home' => "/",
+        'about_us'=>"/static/team",
+        'about_product' => "/static/product",
+        'tariffs'=>"/static/tariffs",
+        'registration' => "/registration/single-account",
+        'old_registration' => "/registration",
+        'help'=>"/help/general",
+        '404' => "/404",
+        'user_auth'=>"/user/auth",
+        'after_registration' => "/userAuth/afterRegistration",
+    ],
+
 ];

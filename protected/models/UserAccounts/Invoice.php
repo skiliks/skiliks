@@ -6,137 +6,60 @@
  * The followings are the available columns in table 'invoice':
  * @property integer $id
  * @property string $user_id
- * @property integer $tariff_id
- * @property string $amount
+ * @property integer $amount
  * @property string $create_date
  * @property string $paid_at
  * @property string $payment_system
  * @property string $additional_data
  * @property string $comment
  * @property integer $month_selected
+ * @property integer $simulation_selected
+ * @property integer $is_test_payment, 1 - yes, it is test payment; 0 - no, this is true order
  *
  * The followings are the available model relations:
- * @property Tariff $tariff
  * @property YumUser $user
  */
 class Invoice extends CActiveRecord
 {
-
     /**
-     * Returns the static model of the specified AR class.
-     * @param string $className active record class name.
-     * @return Invoice the static model class
-     */
-    public static function model($className=__CLASS__)
-    {
-        return parent::model($className);
-    }
-
-    /**
-     * @return string the associated database table name
-     */
-    public function tableName()
-    {
-        return 'invoice';
-    }
-
-    public function getStatuses() {
-        return [self::STATUS_PENDING, self::STATUS_PAID, self::STATUS_EXPIRED, self::STATUS_REJECTED];
-    }
-
-    /**
-     * @return array validation rules for model attributes.
-     */
-    public function rules()
-    {
-        // NOTE: you should only define rules for those attributes that
-        // will receive user inputs.
-        return array(
-            array('user_id, tariff_id', 'required'),
-            //array('user_id', 'checkHavingInvites'),
-            array('user_id, tariff_id', 'safe', 'on'=>'search'),
-        );
-    }
-
-    /**
-     * @return array relational rules.
-     */
-    public function relations()
-    {
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
-        return array(
-            'tariff' => array(self::BELONGS_TO, 'Tariff', 'tariff_id'),
-            'user' => array(self::BELONGS_TO, 'YumUser', 'user_id'),
-        );
-    }
-
-    public function checkHavingInvites() {
-        if($this->user->getInvitesLeft() > 0 && $this->id === null) {
-            $this->addError('inn', Yii::t('site', 'You have invites left'));
-        }
-    }
-
-     /**
-     * Retrieves a list of models based on the current search/filter conditions.
-     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
-     */
-    public function search()
-    {
-        // Warning: Please modify the following code to remove attributes that
-        // should not be searched.
-
-        $criteria=new CDbCriteria;
-
-        $criteria->compare('id',$this->id);
-        $criteria->compare('user_id',$this->user_id,true);
-        $criteria->compare('tariff_id',$this->tariff_id);
-        $criteria->compare('amount',$this->amount,true);
-        $criteria->compare('created_at',$this->created_at,true);
-        $criteria->compare('payment_system',$this->payment_system,true);
-        $criteria->compare('paid_at',$this->paid_at,true);
-
-        return new CActiveDataProvider($this, array(
-            'criteria'=>$criteria,
-        ));
-    }
-
-
-    /**
-     *
-     * @param int $user_id
-     * @param int $tariff_id
-     * @param int $amount
-     *
-     * @return int|bool new invoice id or false
-     *
      * Method need for creating an invoice and storing it do db
      */
-
-    public function createInvoice($user = null, Tariff $tariff = null, $months = null) {
-        if($user !== null && $tariff !== null) {
+    public function createInvoice($user = null, $simulation_selected = null) {
+        if($user !== null) {
             $this->created_at = date('Y-m-d H:i:s');
             $this->user        = $user;
-            $this->tariff      = $tariff;
             $this->user_id     = $user->id;
-            $this->tariff_id   = $tariff->id;
-            $this->amount      = ($tariff->price * $months) / 2;
-            $this->month_selected = $months;
+            $this->amount      = $this->calculateAmount($simulation_selected);
+            $this->simulation_selected = $simulation_selected;
             $this->save();
             $invoice_log = new LogPayments();
-            $invoice_log->log($this, "Заказ тарифа ".$this->tariff->label." на ".$this->month_selected." месяц(ев), создан для ".$user->profile->email.".");
+            $invoice_log->log($this, "Заказ");
             return $this->id;
         }
         else return false;
     }
 
+    /**
+     * @param integer $simulationsAmount
+     *
+     * @return float
+     */
+    public function calculateAmount($simulationsAmount) {
+        // ищем цену соответствующую количеству заказанных пользователем симуляций
+        foreach(Price::model()->findAll() as $price) {
+            /* @var $price Price */
+            if($price->from <= $simulationsAmount && $simulationsAmount < $price->to) {
+                return ($price->in_RUB * $simulationsAmount) * ( 100 - $this->user->account_corporate->getDiscount() ) / 100;
+            }
+        }
+
+    }
 
     /**
      * @return bool
      *
      * Method checks if invoice is complete
      */
-
     public function isComplete() {
         if($this->paid_at !== null) {
             return true;
@@ -149,8 +72,6 @@ class Invoice extends CActiveRecord
      *
      * Method sets the name of the payment method to array
      */
-
-
     public function setPaymentMethod($ps = false) {
         if($ps) {
             $this->payment_system = $ps;
@@ -165,7 +86,6 @@ class Invoice extends CActiveRecord
      *
      * Method sets the additional data of payment method to an invoice
      */
-
     public function setAdditionalData($ad_data = false) {
         if($ad_data) {
             $this->additional_data = $ad_data;
@@ -181,29 +101,10 @@ class Invoice extends CActiveRecord
     public function completeInvoice($isAdmin = null) {
         if(!$this->isComplete()) {
 
-            //$date->add(new DateInterval('P'.$this->month_selected.'M')); N month
-            // Setting tariff invites
             $account = $this->user->account_corporate;
-            /* @var $tariff Tariff */
-            $tariff = Tariff::model()->findByAttributes(['id'=>$this->tariff_id]);
-            if(0 === (int)$account->invites_limit) {
-                $account->setTariff($tariff, true);
-                $account->setInvoiceOnTariffPlan($this, $account->getActiveTariffPlan());
-            } else {
-                if($account->getActiveTariff()->weight >= $tariff->weight) {
-                    $account->addPendingTariff($tariff);
-                    $account->setInvoiceOnTariffPlan($this, $account->getPendingTariffPlan());
-                } else {
-                    $account->setTariff($tariff, true);
-                    $account->setInvoiceOnTariffPlan($this, $account->getActiveTariffPlan());
-                }
-            }
-            // Setting referral invites
-            $account->referrals_invite_limit =
-                UserReferral::model()->countUserRegisteredReferrals($this->user->id);
 
             $this->paid_at = date('Y-m-d H:i:s');
-
+            $account->invites_limit += $this->simulation_selected;
             $account->save(false);
             $this->save(false);
 
@@ -225,6 +126,10 @@ class Invoice extends CActiveRecord
         }
     }
 
+    /**
+     * @param $isAdmin
+     * @return bool
+     */
     public function disableInvoice($isAdmin) {
         $this->paid_at = null;
         $this->save();
@@ -233,46 +138,25 @@ class Invoice extends CActiveRecord
         return true;
     }
 
-    public function sendCompleteEmailToUser() {
-
-        $inviteEmailTemplate = Yii::app()->params['emails']['completeInvoiceUserEmail'];
-
-        // TODO Remake email to send referrer invites
-        $body = UserService::renderEmailPartial($inviteEmailTemplate, [
-            'invoice' => $this, 'user' => $this->user, 'user_invites' => $this->user->getAccount()->invites_limit
-        ]);
-
-
-        $mail = [
-            'from'        => Yum::module('registration')->registrationEmail,
-            'to'          => $this->user->profile->email,
-            'subject'     => 'Оплата на skiliks.com',
-            'body'        => $body,
-            'embeddedImages' => [
-                [
-                    'path'     => Yii::app()->basePath.'/assets/img/mailtopclean.png',
-                    'cid'      => 'mail-top-clean',
-                    'name'     => 'mailtopclean',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],[
-                    'path'     => Yii::app()->basePath.'/assets/img/mailchair.png',
-                    'cid'      => 'mail-chair',
-                    'name'     => 'mailchair',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],[
-                    'path'     => Yii::app()->basePath.'/assets/img/mail-bottom.png',
-                    'cid'      => 'mail-bottom',
-                    'name'     => 'mailbottom',
-                    'encoding' => 'base64',
-                    'type'     => 'image/png',
-                ],
-            ],
-        ];
+    /**
+     * Ставит в очередь писем письмо пользователю, о том что данный заказ оплачен.
+     *
+     * @return EmailQueue|null
+     */
+    public function sendCompleteEmailToUser()
+    {
+        $mailOptions          = new SiteEmailOptions();
+        $mailOptions->from    = Yum::module('registration')->registrationEmail;
+        $mailOptions->to      = $this->user->profile->email;
+        $mailOptions->subject = 'Оплата на ' . Yii::app()->params['server_domain_name'];
+        $mailOptions->h1      = sprintf('Приветствуем, %s!', $this->user->profile->firstname);
+        $mailOptions->text1   = '
+            Благодарим вас за оплату работы skiliks!<br/>, на вашем счету '
+            . $this->user->getAccount()->invites_limit . ' симуляций.<br/>
+        ';
 
         try {
-            $sent = MailHelper::addMailToQueue($mail);
+            $sent = UserService::addStandardEmailToQueue($mailOptions, SiteEmailOptions::TEMPLATE_FIKUS);
             $invoice_log = new LogPayments();
             $invoice_log->log($this, "Письмо об обновлении тарифного плана отправлено пользователю на " . $this->user->profile->email);
         } catch (phpmailerException $e) {
@@ -283,5 +167,71 @@ class Invoice extends CActiveRecord
         }
         return $sent;
     }
+    /* ---------------------------------------------------------------------------- */
+    /**
+     * Returns the static model of the specified AR class.
+     * @param string $className active record class name.
+     * @return Invoice the static model class
+     */
+    public static function model($className=__CLASS__)
+    {
+        return parent::model($className);
+    }
 
+    /**
+     * @return string the associated database table name
+     */
+    public function tableName()
+    {
+        return 'invoice';
+    }
+
+    /**
+     * @return array validation rules for model attributes.
+     */
+    public function rules()
+    {
+        // NOTE: you should only define rules for those attributes that
+        // will receive user inputs.
+        return array(
+            array('user_id', 'required'),
+            //array('user_id', 'checkHavingInvites'),
+            array('user_id', 'safe', 'on'=>'search'),
+        );
+    }
+
+    /**
+     * @return array relational rules.
+     */
+    public function relations()
+    {
+        // NOTE: you may need to adjust the relation name and the related
+        // class name for the relations automatically generated below.
+        return array(
+            'user' => array(self::BELONGS_TO, 'YumUser', 'user_id'),
+        );
+    }
+
+     /**
+     * Retrieves a list of models based on the current search/filter conditions.
+     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+     */
+    public function search()
+    {
+        // Warning: Please modify the following code to remove attributes that
+        // should not be searched.
+
+        $criteria=new CDbCriteria;
+
+        $criteria->compare('id',$this->id);
+        $criteria->compare('user_id',$this->user_id,true);
+        $criteria->compare('amount',$this->amount,true);
+        $criteria->compare('created_at',$this->created_at,true);
+        $criteria->compare('payment_system',$this->payment_system,true);
+        $criteria->compare('paid_at',$this->paid_at,true);
+
+        return new CActiveDataProvider($this, array(
+            'criteria'=>$criteria,
+        ));
+    }
 }

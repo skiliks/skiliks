@@ -3,7 +3,7 @@
 /**
  * @author slavka
  * @property Scenario $scenario
- * @property mixed scenario_slug
+ * @property string scenario_slug
  */
 class ImportGameDataService
 {
@@ -374,13 +374,25 @@ class ImportGameDataService
             if ($phrase === null) {
                 $phrase = new MailPhrase();
             }
-            $phrase->code = 'SYS';
+            //$phrase->code = 'SYS'; что это за код???? как это работало? *_*
             $phrase->name = $sign;
             $phrase->import_id = $this->import_id;
             $phrase->constructor_id = $constructor->getPrimaryKey();
             $phrase->scenario_id = $this->scenario->primaryKey;
             $phrase->save();
         }
+
+        $constructor = MailConstructor::model()
+            ->findByAttributes(['code' => 'TXT',
+                'scenario_id' => $this->scenario->primaryKey]);
+
+        if ($constructor === null) {
+            $constructor = new MailConstructor();
+            $constructor->code = 'TXT';
+        }
+        $constructor->import_id = $this->import_id;
+        $constructor->scenario_id = $this->scenario->primaryKey;
+        $constructor->save();
 
         // delete old unused data {
         MailPhrase::model()->deleteAll(
@@ -649,7 +661,7 @@ class ImportGameDataService
             $must_present_for_214d = $this->getCellValue($sheet, 'Must_present_for_214d', $i);
             $keep_last_category = $this->getCellValue($sheet, 'Keep last category', $i);
             $entity->category = $this->getCellValue($sheet, 'Категория', $i);
-            $entity->is_keep_last_category = ($keep_last_category === 'yes')?LogActivityActionAgregated::KEEP_LAST_CATEGORY_YES:LogActivityActionAgregated::KEEP_LAST_CATEGORY_NO;
+            $entity->is_keep_last_category = ($keep_last_category === 'yes')?LogActivityActionAggregated::KEEP_LAST_CATEGORY_YES:LogActivityActionAggregated::KEEP_LAST_CATEGORY_NO;
             $entity->must_present_for_214d = ($must_present_for_214d === 'must')?ActivityParentAvailability::MUST_PRESENT_FOR_214D_YES:ActivityParentAvailability::MUST_PRESENT_FOR_214D_NO;
             $entity->available_at = PHPExcel_Style_NumberFormat::toFormattedString($this->getCellValue($sheet, $time_index, $i), 'hh:mm:ss');
             $entity->import_id = $this->import_id;
@@ -691,7 +703,6 @@ class ImportGameDataService
 
         $this->columnNoByName = [];
         $this->setColumnNumbersByNames($sheet, 2);
-        // load sheet }
 
         $counter = array(
             'all'        => 0,
@@ -730,13 +741,6 @@ class ImportGameDataService
             $existsMailTemplate[$mailTemplate->code] = $mailTemplate;
         }
         // Get all mail_templates }
-
-        // Get all exist system mail_themes to avoid SQL queries againts each request {
-        $existsMailThemes = array();
-        foreach ($this->scenario->getCommunicationThemes([]) as $mailTheme) {
-            $existsMailThemes[$mailTheme->text] = $mailTheme;
-        }
-        // Get all mail_themes }
 
         $exists = array();
 
@@ -851,58 +855,20 @@ class ImportGameDataService
             if ($themePrefix === '-') {
                 $themePrefix = null;
             }
-            // themes update {
-            // for MSx
-            $subjectEntity = $this->scenario->getCommunicationTheme([
-                'code'         => $subject_id,
-                'character_id' => $toId,
-                'mail_prefix'  => $themePrefix,
-                'theme_usage'  => CommunicationTheme::USAGE_OUTBOX,
-            ]);
-
-            // for MSYx
-            if ($subjectEntity === null) {
-                $subjectEntity = $this->scenario->getCommunicationTheme([
-                    'code'         => $subject_id,
-                    'character_id' => $toId,
-                    'mail_prefix'  => $themePrefix,
-                    'theme_usage'  => CommunicationTheme::USAGE_OUTBOX_OLD,
-                ]);
-            }
-
-            // for Mx
-            if ($subjectEntity === null) {
-                $subjectEntity = $this->scenario->getCommunicationTheme([
-                    'code'         => $subject_id,
-                    'character_id' => $toId,
-                    'mail_prefix'  => $themePrefix,
-                    'theme_usage'  => CommunicationTheme::USAGE_INBOX,
-                ]);
-            }
-
-            if ($subjectEntity === null) {
-                $subjectEntity = $this->scenario->getCommunicationTheme([
-                    'code'         => $subject_id,
-                    'character_id' => null,
-                    'mail_prefix'  => $themePrefix,
-                ]);
-            }
-
-            if ($subjectEntity === null) {
-                throw new Exception('No subject for mail code ' . $code . ', theme id ' . $subject_id . ' prefix ' . $themePrefix);
-            }
-            $emailSubjectsIds[] = $subjectEntity->primaryKey;
-            // themes update }
 
             $emailTemplateEntity = $this->scenario->getMailTemplate(['code' => $code]);
             if ($emailTemplateEntity === null) {
                 $emailTemplateEntity = new MailTemplate();
                 $emailTemplateEntity->code = $code;
             }
+
+            $theme = $this->scenario->getTheme(['theme_code'=>$subject_id]);
+
             $emailTemplateEntity->group_id = $group;
             $emailTemplateEntity->sender_id = $fromId;
             $emailTemplateEntity->receiver_id = $toId;
-            $emailTemplateEntity->subject_id = $subjectEntity->id;
+            $emailTemplateEntity->theme_id = $theme->id;
+            $emailTemplateEntity->mail_prefix = $themePrefix;
             $emailTemplateEntity->message = $message;
             $emailTemplateEntity->sent_at = $sendingDate . ' ' . $sendingTime;
             $emailTemplateEntity->type = $type;
@@ -911,7 +877,7 @@ class ImportGameDataService
             $emailTemplateEntity->scenario_id = $this->scenario->primaryKey;
             $emailTemplateEntity->flag_to_switch = (empty($flag))?null:$flag;
 
-            $emailTemplateEntity->save();
+            $emailTemplateEntity->save(false);
             $emailIds[] = $emailTemplateEntity->id;
 
             // учтем поинты (оценки, marks)
@@ -962,8 +928,10 @@ class ImportGameDataService
 
                 // Проверяется не значится ли у нас для такого письма уже такой получатель и если нет то добавляем запись
                 // todo: use scenario_id!
-                $mrt = MailTemplateRecipient::model()->byMailId($emailTemplateEntity->id)
-                    ->byReceiverId($receiverId)->find();
+                $mrt = MailTemplateRecipient::model()->findByAttributes([
+                        'mail_id'     => $emailTemplateEntity->id,
+                        'receiver_id' => $receiverId
+                    ]);
                 if (null === $mrt) {
                     $mrt = new MailTemplateRecipient();
                     $mrt->mail_id = $emailTemplateEntity->id;
@@ -986,10 +954,11 @@ class ImportGameDataService
 
                 // todo: use scenario_id!
                 $mct = MailTemplateCopy::model()
-                    ->byMailId($emailTemplateEntity->id)
-                    ->byReceiverId($characterId)
-                    ->findByAttributes(['scenario_id' => $this->scenario->getPrimaryKey()]);
-
+                    ->findByAttributes([
+                        'mail_id'     => $emailTemplateEntity->id,
+                        'receiver_id' => $characterId,
+                        'scenario_id' => $this->scenario->getPrimaryKey(),
+                    ]);
 
                 if (null === $mct) {
                     $mct = new MailTemplateCopy();
@@ -1079,7 +1048,6 @@ class ImportGameDataService
             $counter['mark-1']
         );
         MailTemplate::model()->deleteAll('import_id<>:import_id AND scenario_id = :scenario_id', array('import_id' => $this->import_id, 'scenario_id' => $this->scenario->primaryKey));
-        CommunicationTheme::model()->deleteAll('import_id<>:import_id AND scenario_id = :scenario_id', array('import_id' => $this->import_id, 'scenario_id' => $this->scenario->primaryKey));
 
         $this->logEnd();
 
@@ -1096,7 +1064,7 @@ class ImportGameDataService
      * @throws Exception
      * @return array
      */
-    public function importCommunicationThemes()
+    public function importAllThemes()
     {
         $this->logStart();
 
@@ -1118,272 +1086,122 @@ class ImportGameDataService
             $characters[$characterItem->code] = $characterItem->id;
         }
 
-        $nullCharacter = new Character();
-        $charactersList[] = $nullCharacter;
-
-        $mailPrefixes = [];
-        foreach (MailPrefix::model()->findAll() as $prefix) {
-            $mailPrefixes[$prefix->code] = $prefix->title;
-        }
-
         $html = '';
-
+        $themes_unique = []; //Уникальные темы без повторения
         for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
-            $themeId = $this->getCellValue($sheet, 'Original_Theme_id', $i); // A
-            if (null === $themeId) {
+
+            $theme_usage = $this->getCellValue($sheet, 'Theme_usage', $i); //phone , mail_outbox, mail_inbox, mail_
+            //Импортируем только темы для телефона и исходящых писем
+            if (false === in_array($theme_usage, ['phone', 'mail_outbox', 'mail_outbox_old', 'mail_inbox'])) {
                 continue;
             }
-            // Определение кода персонажа
-            $characterCode = $this->getCellValue($sheet, 'To_code', $i); // A
-            if ($characterCode === '' || $characterCode === '-' || NULL == $characterCode) {
-                $characterCode = null;
-                $characterId = null;
-            } else {
-                $characterId = $characters[$characterCode];
-                assert($characterId);
+            $theme_code = $this->getCellValue($sheet, 'Original_Theme_id', $i); // A
+            if (null === $theme_code) {
+                continue;
             }
-            // Определим тему письма
-            $subjectText = $this->getCellValue($sheet, 'Original_Theme_text', $i);
-            //$subjectText = StringTools::fixReAndFwd($subjectText);
-            // Phone
-            $themeUsage = $this->getCellValue($sheet, 'Theme_usage', $i);
-            $phone = $themeUsage === 'phone';
-            // Phone W/R
-            $phoneWr = $this->getCellValue($sheet, 'Phone W/R', $i);
-            // Phone dialogue number
-            $phoneDialogNumber = $this->getCellValue($sheet, 'Phone dialogue number', $i);
-            // Mail
-            $mail = $themeUsage === CommunicationTheme::USAGE_OUTBOX || $themeUsage === CommunicationTheme::USAGE_INBOX;
-            // Mail letter number
-            $mailCode = $this->getCellValue($sheet, 'Mail letter number', $i);
-            if ($mailCode === 'НЕ исход. письмо' || $mailCode === 'MS не найдено') {
-                $mailCode = null;
+
+            //Если такая тема уже есть то не добавляем её ещё раз
+            if (false === isset($themes_unique[$theme_code])) {
+
+                // Theme {
+                $theme = $this->scenario->getTheme(['theme_code'=>$theme_code]);
+                if($theme === null) {
+                    $theme = new Theme();
+                    $theme->theme_code = $theme_code;
+                }
+                $theme->text = $this->getCellValue($sheet, 'Original_Theme_text', $i);
+                $theme->import_id = $this->import_id;
+                $theme->scenario_id = $this->scenario->id;
+                $theme->save(false);
+                $themes_unique[$theme_code] = $theme->id;
+                // Theme }
             }
-            $mailCode = ('' !== $mailCode) ? $mailCode : null;
-            $mailPrefix = $this->getCellValue($sheet, 'Theme_prefix', $i);
-            if ($mailPrefix === '' || $mailPrefix === '-') {
-                $mailPrefix = null;
+
+            $theme_id = $themes_unique[$theme_code];
+            $character_code = $this->getCellValue($sheet, 'To_code', $i);
+
+            // OutgoingPhoneTheme {
+            if ('phone' === $theme_usage) {
+                $character_id = $characters[$character_code];
+                $phone_theme = $this->scenario->getOutgoingPhoneTheme(['theme_id' => $theme_id, 'character_to_id' => $character_id]);
+                if(null === $phone_theme) {
+                    $phone_theme = new OutgoingPhoneTheme();
+                    $phone_theme->theme_id = $theme_id;
+                    $phone_theme->character_to_id = $character_id;
+                }
+                // Phone dialogue number
+
+                $dialog_code = $this->getCellValue($sheet, 'Phone dialogue number', $i);
+                if(empty($dialog_code)){
+                    $dialog_code = null;
+                }
+                // Phone W/R
+                $phone_wr = $this->getCellValue($sheet, 'Phone W/R', $i);
+                if (empty($phone_wr)) {
+                    $phone_wr = null;
+                }
+                $phone_theme->wr = $phone_wr;
+                $phone_theme->dialog_code = $dialog_code;
+                $phone_theme->import_id = $this->import_id;
+                $phone_theme->scenario_id = $this->scenario->id;
+                $phone_theme->save(false);
             }
-            // Mail W/R
-            $wr = $this->getCellValue($sheet, 'Mail W/R', $i);
-            // Mail constructor number
-            $constructorNumber = $this->getCellValue($sheet, 'Mail constructor number', $i);
+            // OutgoingPhoneTheme }
 
-            $constructorCounter = MailConstructor::model()->countByAttributes([
-                'code'        => $constructorNumber,
-                'scenario_id' => $this->scenario->id,
-            ]);
+            // OutboxMailTheme {
+            if ('mail_outbox' === $theme_usage) {
 
-            if (1 != $constructorCounter && null != $constructorNumber && 'TXT' != $constructorNumber) {
-                throw new Exception('"'.$constructorNumber.'": '.$constructorCounter.' constructors!');
-            }
-            // Source of outbox email
-            $source = $this->getCellValue($sheet, 'Source', $i);
+                $character_id = $characters[$character_code];
 
-            $usage = $this->getCellValue($sheet, 'Theme_usage', $i);
+                $mail_prefix = $this->getCellValue($sheet, 'Theme_prefix', $i);
+                if(empty($mail_prefix) || $mail_prefix === '-') {
+                    $mail_prefix = null;
+                }
 
-            /**
-             * @var CommunicationTheme $communicationTheme
-             */
-            $communicationTheme = $this->scenario->getCommunicationTheme(
-                [
-                    'code' => $themeId,
-                    'character_id' => $characterId,
-                    'mail_prefix' => $mailPrefix,
-                    'theme_usage' => $themeUsage
+                $mail_theme = $this->scenario->getOutboxMailTheme([
+                    'theme_id'        => $theme_id,
+                    'character_to_id' => $character_id,
+                    'mail_prefix'     => $mail_prefix,
                 ]);
 
-            if (null === $communicationTheme) {
-                $communicationTheme = new CommunicationTheme();
-            }
-
-            $communicationTheme->text = $subjectText;
-            $communicationTheme->letter_number = $mailCode;
-            $communicationTheme->character_id = $characterId;
-            $communicationTheme->wr = $wr;
-            $communicationTheme->constructor_number = $constructorNumber;
-            $communicationTheme->phone = $phone;
-            $communicationTheme->phone_wr = $phoneWr;
-            $communicationTheme->phone_dialog_number = $phoneDialogNumber;
-            $communicationTheme->mail = $mail;
-            $communicationTheme->mail_prefix = $mailPrefix;
-            $communicationTheme->code = $themeId;
-            $communicationTheme->source = $source;
-            $communicationTheme->theme_usage = $usage;
-            $communicationTheme->import_id = $this->import_id;
-            $communicationTheme->scenario_id = $this->scenario->primaryKey;
-
-            assert($communicationTheme->save());
-            unset($communicationTheme);
-        }
-
-        foreach (CommunicationTheme::model()->findAllByAttributes(['import_id' => $this->import_id, 'scenario_id' => $this->scenario->primaryKey]) as $communicationTheme) {
-            if ($communicationTheme->mail) {
-                // add fwd for all themes without fwd {
-                foreach ($charactersList as $character) {
-                    if (false === isset($mailPrefixes[sprintf('fwd%s', $communicationTheme->mail_prefix)])) {
-                        throw new Exception('MailPrefix ' . 'fwd' . $communicationTheme->mail_prefix . ' not found.');
-                    }
-                    $goodTheme = $this->scenario->getCommunicationTheme([
-                        'code'         => $communicationTheme->code,
-                        'character_id' => $character->primaryKey,
-                        'mail_prefix'  => sprintf('fwd%s', $communicationTheme->mail_prefix),
-                    ]);
-                    if ($goodTheme !== null) {
-                        $goodTheme->import_id = $this->import_id;
-                        $goodTheme->scenario_id = $this->scenario->primaryKey;
-                        $goodTheme->save();
-                        continue;
-                    }
-
-                    $wrongTheme = new CommunicationTheme();
-                    $wrongTheme->mail = 1;
-                    $wrongTheme->mail_prefix = sprintf('fwd%s', $communicationTheme->mail_prefix);
-                    assert($wrongTheme->mail_prefix !== null);
-                    $wrongTheme->wr = 'W';
-                    $wrongTheme->code = $communicationTheme->code;
-                    $wrongTheme->text = $communicationTheme->text;
-                    $wrongTheme->constructor_number = 'B1';
-                    $wrongTheme->character_id = $character->primaryKey;
-                    $wrongTheme->import_id = $this->import_id;
-                    $wrongTheme->scenario_id = $this->scenario->primaryKey;
-                    $wrongTheme->theme_usage = CommunicationTheme::USAGE_OUTBOX;
-                    $wrongTheme->save();
+                if(null === $mail_theme){
+                    $mail_theme = new OutboxMailTheme();
+                    $mail_theme->theme_id        = $theme_id;
+                    $mail_theme->character_to_id = $character_id;
+                    $mail_theme->mail_prefix     = $mail_prefix;
                 }
 
-                // add fwd: for NULl character - server returns it when you press "write forward" and character already unknown
-                $wrongTheme = new CommunicationTheme();
-                $wrongTheme->mail = 1;
-                $wrongTheme->mail_prefix = sprintf('fwd%s', $communicationTheme->mail_prefix);
-                assert($wrongTheme->mail_prefix !== null);
-                $wrongTheme->wr = 'W';
-                $wrongTheme->code = $communicationTheme->code;
-                $wrongTheme->text = $communicationTheme->text;
-                $wrongTheme->constructor_number = 'B1';
-                $wrongTheme->character_id = NULL;
-                $wrongTheme->import_id = $this->import_id;
-                $wrongTheme->scenario_id = $this->scenario->primaryKey;
-                $wrongTheme->theme_usage = CommunicationTheme::USAGE_OUTBOX;
-                $wrongTheme->save();
-                // add fwd: for NULl character }
+                // Mail constructor number
+                $mail_constructor_number = $this->getCellValue($sheet, 'Mail constructor number', $i);
 
-                // add fwd for all themes without fwd }
+                if(empty($mail_constructor_number)){
 
-                // add re for all themes without fwd {
-                foreach ($charactersList as $character) {
-                    if (false === isset($mailPrefixes[sprintf('fwd%s', $communicationTheme->mail_prefix)])) {
-                        continue;
-                    }
-                    $goodTheme = $this->scenario->getCommunicationTheme([
-                        'code'         => $communicationTheme->code,
-                        'character_id' => $character->primaryKey,
-                        'mail_prefix'  => sprintf('re%s', $communicationTheme->mail_prefix),
-                    ]);
-                    if ($goodTheme !== null) {
-                        $goodTheme->import_id = $this->import_id;
-                        $goodTheme->scenario_id = $this->scenario->primaryKey;
-                        $goodTheme->save();
-                        continue;
-                    }
-
-
-                    $wrongTheme = new CommunicationTheme();
-                    $wrongTheme->mail = 1;
-                    $wrongTheme->mail_prefix = sprintf('re%s', $communicationTheme->mail_prefix);
-                    assert($wrongTheme->mail_prefix !== null);
-                    $wrongTheme->wr = 'W';
-                    $wrongTheme->code = $communicationTheme->code;
-                    $wrongTheme->text = $communicationTheme->text;
-                    $wrongTheme->constructor_number = 'B1';
-                    $wrongTheme->character_id = $character->primaryKey;
-                    $wrongTheme->import_id = $this->import_id;
-                    $wrongTheme->scenario_id = $this->scenario->primaryKey;
-                    $wrongTheme->theme_usage = CommunicationTheme::USAGE_OUTBOX;
-                    $wrongTheme->save();
+                    $mail_theme->mail_constructor_id = null;
+                } else {
+                    $mail_theme->mail_constructor_id = $this->scenario->getMailConstructor(['code'=>$mail_constructor_number])->id;
                 }
-                // add re for all themes without fwd }
-            }
-
-            // add wrong forwards for each character, except 'R' {
-            foreach ($charactersList as $character) {
-                if (!MailPrefix::model()->findByPk(sprintf('fwd%s', $communicationTheme->mail_prefix))) {
-                    throw new Exception('MailPrefix ' . 'fwd' . $communicationTheme->mail_prefix . ' not found.');
-                }
-                $goodTheme = $this->scenario->getCommunicationTheme([
-                    'code'         => $communicationTheme->code,
-                    'character_id' => $character->primaryKey,
-                    'mail_prefix'  => sprintf('fwd%s', $communicationTheme->mail_prefix),
-                    'theme_usage'  => CommunicationTheme::USAGE_OUTBOX,
-                ]);
-                if ($goodTheme !== null) {
-                    $goodTheme->import_id = $this->import_id;
-                    $goodTheme->scenario_id = $this->scenario->primaryKey;
-                    $goodTheme->save();
-                    continue;
+                // Mail W/R
+                $mail_wr = $this->getCellValue($sheet, 'Mail W/R', $i);
+                if (empty($mail_wr)) {
+                    $mail_wr = null;
                 }
 
-                $wrongTheme = new CommunicationTheme();
-                $wrongTheme->mail = 1;
-                $wrongTheme->mail_prefix = sprintf('fwd%s', $communicationTheme->mail_prefix);
-                assert($wrongTheme->mail_prefix !== null);
-                $wrongTheme->wr = 'W';
-                $wrongTheme->code = $communicationTheme->code;
-                $wrongTheme->text = $communicationTheme->text;
-                $wrongTheme->constructor_number = 'B1';
-                $wrongTheme->character_id = $character->primaryKey;
-                $wrongTheme->import_id = $this->import_id;
-                $wrongTheme->scenario_id = $this->scenario->primaryKey;
-                $wrongTheme->theme_usage = CommunicationTheme::USAGE_OUTBOX;
-                $wrongTheme->save();
+                $mail_code = $this->getCellValue($sheet, 'Mail letter number', $i);
+                if(empty($mail_code) || $mail_code === 'MS не найдено') {
+                    $mail_code = null;
+                }
+                $mail_theme->mail_code   = $mail_code;
+                $mail_theme->wr          = $mail_wr;
+                $mail_theme->import_id   = $this->import_id;
+                $mail_theme->scenario_id = $this->scenario->id;
+                $mail_theme->save(false);
             }
-            // add wrong forwards for each character, except 'R' }
-        }
-
-        $my_characters = $this->scenario->getCharacters([]);
-
-        foreach($my_characters as $my_character) {
-            /* @var $my_character Character */
-            $mail_count = (int)CommunicationTheme::model()->countByAttributes([
-                'character_id' => $my_character->id,
-                'mail'=> 1,
-                'scenario_id'=>$this->scenario->id,
-                'mail_prefix'=>null,
-                'import_id'=>$this->import_id
-            ]);
-
-            $phone_count = (int)CommunicationTheme::model()->countByAttributes([
-                'character_id' => $my_character->id,
-                'phone'=> 1,
-                'scenario_id'=>$this->scenario->id,
-                'import_id'=>$this->import_id
-            ]);
-
-            assert(is_int($mail_count));
-            assert(is_int($phone_count));
-
-            if($mail_count === 0){
-                $char = Character::model()->findByPk($my_character->id);
-                $char->has_mail_theme = 0;
-                $char->update();
-            }else{
-                $char = Character::model()->findByPk($my_character->id);
-                $char->has_mail_theme = 1;
-                $char->update();
-            }
-            unset($char);
-            if($phone_count === 0){
-                $char = Character::model()->findByPk($my_character->id);
-                $char->has_phone_theme = 0;
-                $char->update();
-            }else{
-                $char = Character::model()->findByPk($my_character->id);
-                $char->has_phone_theme = 1;
-                $char->update();
-            }
-            unset($char);
+            // OutboxMailTheme }
         }
         // remove all old, unused characterMailThemes after import {
-        CommunicationTheme::model()->deleteAll('import_id<>:import_id AND scenario_id = :scenario_id', array('import_id' => $this->import_id, 'scenario_id' => $this->scenario->primaryKey));
+        Theme::model()->deleteAll('import_id<>:import_id AND scenario_id = :scenario_id', array('import_id' => $this->import_id, 'scenario_id' => $this->scenario->primaryKey));
+        OutgoingPhoneTheme::model()->deleteAll('import_id<>:import_id AND scenario_id = :scenario_id', array('import_id' => $this->import_id, 'scenario_id' => $this->scenario->primaryKey));
+        OutboxMailTheme::model()->deleteAll('import_id<>:import_id AND scenario_id = :scenario_id', array('import_id' => $this->import_id, 'scenario_id' => $this->scenario->primaryKey));
 
         $html .= "Email from characters import finished! <br/>";
 
@@ -1491,10 +1309,10 @@ class ImportGameDataService
 
             // try to find exists entity
             // todo: use scenario_id!
-            $mailTask = MailTask::model()
-                ->byMailId($mail->id)
-                ->byName($this->getCellValue($sheet, 'Task', $i))
-                ->find();
+            $mailTask = MailTask::model()->findByAttributes([
+                'mail_id' => $mail->id,
+                'name' => $this->getCellValue($sheet, 'Task', $i)
+            ]);
 
             // create entity if not exists {
             if (null === $mailTask) {
@@ -1651,10 +1469,14 @@ class ImportGameDataService
             $fileId = $documents[$attache];
 
             // todo: use scenario_id!
-            $attacheModel = MailAttachmentTemplate::model()->byMailId($mail->id)->byFileId($fileId)->find();
+            $attacheModel = $this->scenario->getMailAttachmentTemplate([
+                'mail_id' => $mail->id,
+                'file_id' => $fileId
+            ]);
             if ($attacheModel === null) {
                 $attacheModel = new MailAttachmentTemplate();
             }
+
             $attacheModel->mail_id = $mail->id;
             $attacheModel->file_id = $fileId;
             $attacheModel->import_id = $this->import_id;
@@ -2614,7 +2436,7 @@ class ImportGameDataService
             } elseif ($type == 'outbox' || $type == 'inbox') {
                 $entity = $this->scenario->getMailTemplate(['code' => $code]);
             } elseif ($type == 'excel') {
-                $entity = ExcelPointFormula::model()->byFormulaID($code)->find();
+                $entity = ExcelPointFormula::model()->findByPk($code);
             } else {
                 $entity = null;
             }
@@ -3038,6 +2860,103 @@ class ImportGameDataService
         );
     }
 
+    public function importParagraphsAndPockets()
+    {
+        //return;
+        $this->logStart();
+
+        // load sheet {
+        $excel = $this->getExcel();
+        $sheet = $excel->getSheetByName('Paragraphs');
+        if (!$sheet) {
+            $this->logEnd('WARNING: no sheet');
+            return ['error' => 'no sheet'];
+        }
+        // load sheet }
+
+        $this->setColumnNumbersByNames($sheet);
+
+        $items = 0;
+        $order_number = 1;
+        for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
+            $paragraph = $this->scenario->getParagraph([
+                'alias'=>trim($this->getCellValue($sheet, 'alias', $i)),
+                'type'=>trim($this->getCellValue($sheet, 'type', $i))]
+            );
+            if (null === $paragraph) {
+                $paragraph = new Paragraph();
+                $paragraph->alias = trim($this->getCellValue($sheet, 'alias', $i));
+                $paragraph->type = trim($this->getCellValue($sheet, 'type', $i));
+            }
+            $paragraph->order_number = $order_number;
+            $paragraph->label = trim($this->getCellValue($sheet, 'label', $i));
+            $paragraph->value_1 = trim($this->getCellValue($sheet, 'value_1', $i));
+            $paragraph->value_2 = trim($this->getCellValue($sheet, 'value_2', $i));
+            $paragraph->value_3 = trim($this->getCellValue($sheet, 'value_3', $i));
+            $paragraph->method = trim($this->getCellValue($sheet, 'method', $i));
+            $paragraph->scenario_id = $this->scenario->primaryKey;
+            $paragraph->import_id = $this->import_id;
+            $paragraph->save(false);
+            $items++;
+            $order_number++;
+        }
+
+        $sheet = $excel->getSheetByName('Pockets');
+        if (!$sheet) {
+            $this->logEnd('WARNING: no sheet');
+            return ['error' => 'no sheet'];
+        }
+        // load sheet }
+
+        $this->setColumnNumbersByNames($sheet);
+
+        for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
+            $paragraph = $this->scenario->getParagraphPocket([
+                'paragraph_alias'=>$this->getCellValue($sheet, 'paragraph_alias', $i),
+                'behaviour_alias'=>$this->getCellValue($sheet, 'behaviour_alias', $i),
+                'left_direction'=>$this->getCellValue($sheet, 'left_direction', $i),
+                'left'=>$this->getCellValue($sheet, 'left', $i),
+                'right_direction'=>$this->getCellValue($sheet, 'right_direction', $i),
+                'right'=>$this->getCellValue($sheet, 'right', $i),
+            ]);
+            if (null === $paragraph) {
+                $paragraph = new ParagraphPocket();
+                $paragraph->paragraph_alias = trim($this->getCellValue($sheet, 'paragraph_alias', $i));
+                $paragraph->behaviour_alias = trim($this->getCellValue($sheet, 'behaviour_alias', $i));
+                $paragraph->left_direction = trim($this->getCellValue($sheet, 'left_direction', $i));
+                $paragraph->left = trim($this->getCellValue($sheet, 'left', $i));
+                $paragraph->right_direction = trim($this->getCellValue($sheet, 'right_direction', $i));
+                $paragraph->right = trim($this->getCellValue($sheet, 'right', $i));
+            }
+            $paragraph->text = trim($this->getCellValue($sheet, 'text', $i));
+            $paragraph->short_text = trim($this->getCellValue($sheet, 'short_text', $i));
+            $paragraph->scenario_id = $this->scenario->primaryKey;
+            $paragraph->import_id = $this->import_id;
+            $paragraph->save(false);
+            $items++;
+        }
+
+        // update scenario object TIME options }
+
+        // delete old unused data {
+        Paragraph::model()->deleteAll(
+            'import_id <> :import_id AND scenario_id = :scenario_id',
+            array('import_id' => $this->import_id, 'scenario_id' => $this->scenario->primaryKey)
+        );
+        ParagraphPocket::model()->deleteAll(
+            'import_id <> :import_id AND scenario_id = :scenario_id',
+            array('import_id' => $this->import_id, 'scenario_id' => $this->scenario->primaryKey)
+        );
+        // delete old unused data }
+
+        $this->logEnd();
+
+        return array(
+            'items' => $items,
+            'errors'    => false,
+        );
+    }
+
     /**
      * @param $result
      * @return mixed
@@ -3057,7 +2976,7 @@ class ImportGameDataService
         $result['my_documents'] = $this->importMyDocuments();
         $result['character_points'] = $this->importDialogPoints();
         $result['constructor'] = $this->importMailConstructor();
-        $result['email_subjects'] = $this->importCommunicationThemes();
+        $result['email_subjects'] = $this->importAllThemes();
         $result['emails'] = $this->importEmails();
         $result['mail_attaches'] = $this->importMailAttaches();
         $result['mail_events'] = $this->importMailEvents();
@@ -3074,6 +2993,8 @@ class ImportGameDataService
         $result['weights'] = $this->importWeights();
         $result['activity_parent_availability'] = $this->importActivityParentAvailability();
         $result['flag_time_switch'] = $this->importFlagTimeSwitch();
+        $result['paragraphs_and_pockets'] = $this->importParagraphsAndPockets();
+
         return $result;
     }
 
@@ -3150,31 +3071,31 @@ class ImportGameDataService
         }
 
         /* Создание зависимости ком. тем от флагов для тем в почте */
-        $importedCommunicationTheme = 0;
+        $importedOutboxMailThemeDependence = 0;
         $importedFlagToRunOutboxMailRows = 0;
         for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
             if ('mail_outbox' != $this->getCellValue($sheet, 'Flag_run_type', $i)) {
                 continue;
             }
-            /* Создание зависимости тем от флагов для реплик в телефоне */
-            $communicationTheme = $this->scenario->getCommunicationTheme(['mail'=> 1, 'letter_number'=>$this->getCellValue($sheet, 'Run_code', $i)]);
-            if(null === $communicationTheme) {
+            /* Создание зависимости тем от флагов для реплик в почте */
+            $outboxMailTheme = $this->scenario->getOutboxMailTheme(['mail_code'=>$this->getCellValue($sheet, 'Run_code', $i)]);
+            if(null === $outboxMailTheme) {
                 continue;
             }
-            $flagCommunicationThemeDependence = $this->scenario->getFlagCommunicationThemeDependence(['communication_theme_id'=>$communicationTheme->id, 'flag_code' => $this->getCellValue($sheet, 'Flag_code', $i)]);
-            if(null === $flagCommunicationThemeDependence) {
-                $flagCommunicationThemeDependence = new FlagCommunicationThemeDependence();
-                $flagCommunicationThemeDependence->communication_theme_id = $communicationTheme->id;
-                $flagCommunicationThemeDependence->flag_code = $this->getCellValue($sheet, 'Flag_code', $i);
+            $flagOutboxMailThemeDependence = $this->scenario->getFlagOutboxMailThemeDependence(['outbox_mail_theme_id'=>$outboxMailTheme->id, 'flag_code' => $this->getCellValue($sheet, 'Flag_code', $i)]);
+            if(null === $flagOutboxMailThemeDependence) {
+                $flagOutboxMailThemeDependence = new FlagOutboxMailThemeDependence();
+                $flagOutboxMailThemeDependence->outbox_mail_theme_id = $outboxMailTheme->id;
+                $flagOutboxMailThemeDependence->flag_code = $this->getCellValue($sheet, 'Flag_code', $i);
             }
-            $flagCommunicationThemeDependence->value = $this->getCellValue($sheet, 'Flag_value_to_run', $i);
-            $flagCommunicationThemeDependence->scenario_id = $this->scenario->primaryKey;
-            $flagCommunicationThemeDependence->import_id = $this->import_id;
-            $flagCommunicationThemeDependence->save();
-            unset($communicationTheme);
-            unset($flagCommunicationThemeDependence);
+            $flagOutboxMailThemeDependence->value = $this->getCellValue($sheet, 'Flag_value_to_run', $i);
+            $flagOutboxMailThemeDependence->scenario_id = $this->scenario->primaryKey;
+            $flagOutboxMailThemeDependence->import_id = $this->import_id;
+            $flagOutboxMailThemeDependence->save();
+            unset($outboxMailTheme);
+            unset($flagOutboxMailThemeDependence);
             $importedFlagToRunOutboxMailRows++;
-            $importedCommunicationTheme++;
+            $importedOutboxMailThemeDependence++;
         }
 
 
@@ -3237,45 +3158,24 @@ class ImportGameDataService
             $flagBlockDialog->save();
 
             /* Создание зависимости тем от флагов для диалогов в телефоне */
-            $communicationTheme = $this->scenario->getCommunicationTheme(['phone'=> 1, 'phone_dialog_number'=>$this->getCellValue($sheet, 'Run_code', $i)]);
-            if(null === $communicationTheme) {
+            $outgoingPhoneTheme = $this->scenario->getOutgoingPhoneTheme(['dialog_code'=>$this->getCellValue($sheet, 'Run_code', $i)]);
+            if(null === $outgoingPhoneTheme) {
                 continue;
             }
-            $flagCommunicationThemeDependence = $this->scenario->getFlagCommunicationThemeDependence(['communication_theme_id'=>$communicationTheme->id, 'flag_code' => $this->getCellValue($sheet, 'Flag_code', $i)]);
-            if(null === $flagCommunicationThemeDependence) {
-                $flagCommunicationThemeDependence = new FlagCommunicationThemeDependence();
-                $flagCommunicationThemeDependence->communication_theme_id = $communicationTheme->id;
-                $flagCommunicationThemeDependence->flag_code = $this->getCellValue($sheet, 'Flag_code', $i);
+            $flagOutgoingPhoneThemeDependence = $this->scenario->getFlagOutgoingPhoneThemeDependence(['outgoing_phone_theme_id'=>$outgoingPhoneTheme->id, 'flag_code' => $this->getCellValue($sheet, 'Flag_code', $i)]);
+            if(null === $flagOutgoingPhoneThemeDependence) {
+                $flagOutgoingPhoneThemeDependence = new FlagOutgoingPhoneThemeDependence();
+                $flagOutgoingPhoneThemeDependence->outgoing_phone_theme_id = $outgoingPhoneTheme->id;
+                $flagOutgoingPhoneThemeDependence->flag_code = $this->getCellValue($sheet, 'Flag_code', $i);
             }
-            $flagCommunicationThemeDependence->value = $this->getCellValue($sheet, 'Flag_value_to_run', $i);
-            $flagCommunicationThemeDependence->scenario_id = $this->scenario->primaryKey;
-            $flagCommunicationThemeDependence->import_id = $this->import_id;
-            $flagCommunicationThemeDependence->save();
-            unset($flagCommunicationThemeDependence);
+            $flagOutgoingPhoneThemeDependence->value = $this->getCellValue($sheet, 'Flag_value_to_run', $i);
+            $flagOutgoingPhoneThemeDependence->scenario_id = $this->scenario->primaryKey;
+            $flagOutgoingPhoneThemeDependence->import_id = $this->import_id;
+            $flagOutgoingPhoneThemeDependence->save();
+            unset($flagOutgoingPhoneThemeDependence);
 
-            $importedCommunicationTheme++;
             $importedFlagBlockDialog++;
-            /*  */
-            $communicationTheme = $this->scenario->getCommunicationTheme(['mail'=> 1, 'text' => $communicationTheme->text, 'character_id' => $communicationTheme->character_id, 'mail_prefix'=>null]);
-            if(null === $communicationTheme) {
-                $this->logging("Mail fail " . $this->getCellValue($sheet, 'Run_code', $i));
-                continue;
-            }
 
-            $flagCommunicationThemeDependence = $this->scenario->getFlagCommunicationThemeDependence(['communication_theme_id'=>$communicationTheme->id, 'flag_code' => $this->getCellValue($sheet, 'Flag_code', $i)]);
-            if(null === $flagCommunicationThemeDependence) {
-                $flagCommunicationThemeDependence = new FlagCommunicationThemeDependence();
-                $flagCommunicationThemeDependence->communication_theme_id = $communicationTheme->id;
-                $flagCommunicationThemeDependence->flag_code = $this->getCellValue($sheet, 'Flag_code', $i);
-            }
-            $flagCommunicationThemeDependence->value = $this->getCellValue($sheet, 'Flag_value_to_run', $i);
-            $flagCommunicationThemeDependence->scenario_id = $this->scenario->primaryKey;
-            $flagCommunicationThemeDependence->import_id = $this->import_id;
-            $flagCommunicationThemeDependence->save();
-            unset($communicationTheme);
-            unset($flagCommunicationThemeDependence);
-            $importedFlagToRunOutboxMailRows++;
-            $importedCommunicationTheme++;
         }
         // for Dialogs }
 
@@ -3330,7 +3230,11 @@ class ImportGameDataService
             array('import_id' => $this->import_id, 'scenario_id' => $this->scenario->primaryKey)
         );
 
-        FlagCommunicationThemeDependence::model()->deleteAll(
+        FlagOutboxMailThemeDependence::model()->deleteAll(
+            'import_id<>:import_id AND scenario_id = :scenario_id',
+            array('import_id' => $this->import_id, 'scenario_id' => $this->scenario->primaryKey)
+        );
+        FlagOutgoingPhoneThemeDependence::model()->deleteAll(
             'import_id<>:import_id AND scenario_id = :scenario_id',
             array('import_id' => $this->import_id, 'scenario_id' => $this->scenario->primaryKey)
         );
@@ -3347,7 +3251,7 @@ class ImportGameDataService
             'imported_Flag_to_run_mail'          => $importedFlagToRunMailRows,
             'imported_Flag_block_replica'        => $importedFlagBlockReplica,
             'imported_Flag_block_dialog'         => $importedFlagBlockDialog,
-            'imported_Flag_communication_theme'  => $importedCommunicationTheme,
+            'imported_Flag_to_outbox_mail'       => $importedOutboxMailThemeDependence,
             'imported_Flag_allow_meeting'        => $importedFlagAllowMeeting,
             'errors'                             => false,
         ];

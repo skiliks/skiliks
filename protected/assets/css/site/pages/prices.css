@@ -1,0 +1,97 @@
+
+.skiliks .us-tariff-box {
+    background-image: url('../../../../img/site/1280/prices/price-box-background.jpg');
+    background-repeat: no-repeat;
+    height: 410px;
+    padding: 0;
+    margin: 0;
+    width: 221px;
+}
+
+.us-feedback-margin {
+    margin-left: 100px;
+}
+
+.us-price-title {
+    font-family: ProximaNova-Bold;
+    font-size: 1.4em;
+    line-height: 1em;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    border: 1px solid #69A7B0;
+    border-width: 0 0 1px 0;
+}
+
+.us-price-box {
+    border: 1px solid #1C5962;
+    border-width: 1px 0 0 0;
+    height: 73px;
+}
+
+.us-price-thousands {
+    line-height: 1.3em;
+    font-size: 4.14em;
+}
+
+.us-price-hundreds {
+    font-size: 3.28em;
+}
+
+.us-icon-currency {
+    padding-top: 10px;
+    vertical-align: top;
+}
+
+.us-safe-amount {
+    background-color: #51C1D2;
+    border-radius: 6px;
+    clear: both;
+    display: inline-block;
+    font-size: 1.2em;
+    line-height: 1em;
+    font-family: ProximaNova-Bold;
+    padding: 7px 9px;
+}
+
+.skiliks .us-amount {
+    background-color: #FEFEEC;
+    border-radius: 6px;
+    clear: both;
+    display: inline-block;
+    font-size: 1.28em;
+    line-height: 1em;
+    font-family: ProximaNova-Bold;
+    margin-top: 21px;
+    padding: 9px;
+}
+
+.us-description {
+    height: 92px; /* 77px */
+    font-size: 1.14em;
+    font-family: ProximaNova-Bold;
+    line-height: 1.1em;
+    padding-top: 28px;
+    text-decoration: underline;
+}
+
+a.us-description:hover {
+    color: #175a64;
+}
+
+.skiliks .us-tariff-box .button-white {
+    margin-left: 0;
+}
+
+.action-controller-tariffs-static-pages .us-price-box {
+    height: 60px;
+}
+
+/* --- width-1024 --- */
+
+.width-1024 .us-feedback-margin {
+    margin-left: 20px;
+}
+
+.width-1024.action-controller-tariffs-static-pages .us-price-box {
+    height: 64px;
+}

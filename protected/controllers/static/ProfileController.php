@@ -54,8 +54,8 @@ class ProfileController extends SiteBaseController implements AccountPageControl
             $isProfileValid = $profile->validate(['firstname', 'lastname']);
 
             if ($isProfileValid && $isAccountValid) {
-                $profile->save();
-                $account->save();
+                $profile->save(false);
+                $account->save(false);
             }
         }
 
@@ -69,6 +69,11 @@ class ProfileController extends SiteBaseController implements AccountPageControl
             $industries[$industry->id] = $industry->label;
         }
 
+        $this->layout = 'site_standard_2';
+
+        $this->addSiteCss('pages/my-profile-1280.css');
+        $this->addSiteCss('pages/my-profile-1024.css');
+        $this->addSiteJs('_page-my-profile.js');
 
         $this->render('personal_data_personal', [
             'account' => $account,
@@ -106,11 +111,11 @@ class ProfileController extends SiteBaseController implements AccountPageControl
             $UserAccountCorporate = Yii::app()->request->getParam('UserAccountCorporate');
             $account->position_id = $UserAccountCorporate['position_id'];
 
-            $isAccountValid = $account->validate();
+            $isAccountValid = $account->validate(['position_id']);
 
             if ($isProfileValid && $isAccountValid) {
-                $profile->save();
-                $account->save();
+                $profile->save(false);
+                $account->save(false);
             }
         }
 
@@ -118,6 +123,12 @@ class ProfileController extends SiteBaseController implements AccountPageControl
         foreach (Position::model()->findAll() as $position) {
             $positions[$position->id] = $position->label;
         }
+
+        $this->layout = 'site_standard_2';
+
+        $this->addSiteCss('pages/my-profile-1280.css');
+        $this->addSiteCss('pages/my-profile-1024.css');
+        $this->addSiteJs('_page-my-profile.js');
 
         $this->render('personal_data_corporate', [
             'profile'   => $profile,
@@ -131,8 +142,6 @@ class ProfileController extends SiteBaseController implements AccountPageControl
      */
     public function actionPassword()
     {
-
-
         $this->getBaseViewPath = 'Password';
 
         $this->accountPagesBase();
@@ -167,7 +176,14 @@ class ProfileController extends SiteBaseController implements AccountPageControl
                 //$this->redirect();
             }
         }
+
         $profile = YumProfile::model()->findByAttributes(['user_id'=>$this->user->id]);
+
+        $this->layout = 'site_standard_2';
+
+        $this->addSiteCss('pages/my-profile-1280.css');
+        $this->addSiteCss('pages/my-profile-1024.css');
+        $this->addSiteJs('_page-my-profile.js');
 
         $this->render('password_corporate', [
             'passwordForm' => $passwordForm,
@@ -204,7 +220,15 @@ class ProfileController extends SiteBaseController implements AccountPageControl
                 $is_done = true;
             }
         }
+
         $profile = YumProfile::model()->findByAttributes(['user_id'=>$this->user->id]);
+
+        $this->layout = 'site_standard_2';
+
+        $this->addSiteCss('pages/my-profile-1280.css');
+        $this->addSiteCss('pages/my-profile-1024.css');
+        $this->addSiteJs('_page-my-profile.js');
+
         $this->render('password_personal', [
             'passwordForm' => $passwordForm,
             'is_done' => $is_done,
@@ -251,8 +275,8 @@ class ProfileController extends SiteBaseController implements AccountPageControl
             $account->company_size_id      = $UserAccountCorporate['company_size_id'];
             $account->company_description  = $UserAccountCorporate['company_description'];
 
-            if ($account->validate()) {
-                $account->save();
+            if ($account->validate(['ownership_type','company_name','industry_id','company_size_id','company_description'])) {
+                $account->save(false, ['ownership_type','company_name','industry_id','company_size_id','company_description']);
             }
         }
 
@@ -265,6 +289,12 @@ class ProfileController extends SiteBaseController implements AccountPageControl
         foreach (CompanySize::model()->findAll() as $size) {
             $sizes[$size->id] = $size->label;
         }
+
+        $this->layout = 'site_standard_2';
+
+        $this->addSiteCss('pages/my-profile-1280.css');
+        $this->addSiteCss('pages/my-profile-1024.css');
+        $this->addSiteJs('_page-my-profile.js');
 
         $this->render('company_info_corporate', [
             'account' => $account,
@@ -301,6 +331,7 @@ class ProfileController extends SiteBaseController implements AccountPageControl
         if(!$this->user->isCorporate()){
             $this->redirect('/dashboard');
         }
+
         $vacancy = new Vacancy();
 
         if (null !== Yii::app()->request->getParam('id')) {
@@ -309,13 +340,15 @@ class ProfileController extends SiteBaseController implements AccountPageControl
                 $vacancy = new Vacancy();
             }
         }
+
         $specializations = StaticSiteTools::formatValuesArrayLite(
-                'ProfessionalSpecialization',
-                'id',
-                'label',
-                "",
-                'Выберите специализацию'
-            );
+            'ProfessionalSpecialization',
+            'id',
+            'label',
+            "",
+            'Выберите специализацию'
+        );
+
         $positionLevels = StaticSiteTools::formatValuesArrayLite(
             'PositionLevel',
             'slug',
@@ -323,6 +356,12 @@ class ProfileController extends SiteBaseController implements AccountPageControl
             '',
             'Выберите уровень позиции'
         );
+
+        $this->layout = 'site_standard_2';
+
+        $this->addSiteCss('pages/my-profile-1280.css');
+        $this->addSiteCss('pages/my-profile-1024.css');
+        $this->addSiteJs('_page-my-profile.js');
 
         $this->render('vacancies_corporate', [
             'vacancy'         => $vacancy,
@@ -379,61 +418,24 @@ class ProfileController extends SiteBaseController implements AccountPageControl
     /**
      *
      */
-    public function actionTariff()
-    {
-        $this->getBaseViewPath = 'Tariff';
-
-        $this->accountPagesBase();
-    }
-
-    /**
-     *
-     */
-    public function actionCorporateTariff()
-    {
-        $this->checkUser();
-
-        if(!$this->user->isCorporate()){
-            $this->redirect('/dashboard');
-        }
-
-        $this->render('tariff_corporate', ['user'=>$this->user]);
-    }
-
-    public function actionCorporateReferrals() {
-        $this->checkUser();
-
-        if(!$this->user->isCorporate()){
-            $this->redirect('/dashboard');
-        }
-
-        $dataProvider = UserReferral::model()->searchUserReferrals($this->user->id);
-
-        $totalReferrals = UserReferral::model()->countUserReferrals($this->user->id);
-        $this->render('referrals_corporate', ["totalReferrals"=>$totalReferrals, 'dataProvider' => $dataProvider]);
-    }
+//    public function actionPaymentMethod()
+//    {
+//        $this->getBaseViewPath = 'PaymentMethod';
+//
+//        $this->accountPagesBase();
+//    }
 
     /**
      *
      */
-    public function actionPaymentMethod()
-    {
-        $this->getBaseViewPath = 'PaymentMethod';
-        
-        $this->accountPagesBase();
-    }
-
-    /**
-     *
-     */
-    public function actionCorporatePaymentMethod()
-    {
-        $this->checkUser();
-        if(!$this->user->isCorporate()){
-            $this->redirect('/dashboard');
-        }
-        $this->render('payment_method_corporate', []);
-    }
+//    public function actionCorporatePaymentMethod()
+//    {
+//        $this->checkUser();
+//        if(!$this->user->isCorporate()){
+//            $this->redirect('/dashboard');
+//        }
+//        $this->render('payment_method_corporate', []);
+//    }
 
     /* ---------------- */
 
@@ -498,202 +500,13 @@ class ProfileController extends SiteBaseController implements AccountPageControl
             'vacancy_id' => $vacancy->id,
         ]);
         if (0 < $counter) {
-            Yii::app()->user->setFlash('error', 'Вы не можете удалить позицию с которой уже связаны приглашения.');
+            Yii::app()->user->setFlash('error', 'Вы не можете удалить позицию, с которой уже связаны приглашения');
             $this->redirect($this->createUrl('profile/corporate/vacancies/' ));
         }
 
         $vacancy->delete();
 
         $this->redirect($this->createUrl('profile/corporate/vacancies/' ));
-    }
-
-    // ----- NEW:
-
-    /**
-     * temporary action
-     */
-    public function actionCorporateTariffNew() {
-        $this->checkUser();
-        $this->layout = 'site_standard';
-
-        $this->render('//new/tariff_corporate', []);
-    }
-
-    /**
-     * temporary action
-     */
-    public function actionCorporateCompanyInfoNew()
-    {
-        $this->checkUser();
-
-        if(!$this->user->isCorporate()){
-            $this->redirect('/dashboard');
-        }
-
-        $account = $this->user->account_corporate;
-
-        if (null !== Yii::app()->request->getParam('save')) {
-            $UserAccountCorporate = Yii::app()->request->getParam('UserAccountCorporate');
-            $account->ownership_type       = $UserAccountCorporate['ownership_type'];
-            $account->company_name         = $UserAccountCorporate['company_name'];
-            $account->industry_id          = $UserAccountCorporate['industry_id'];
-            $account->company_size_id      = $UserAccountCorporate['company_size_id'];
-            $account->company_description  = $UserAccountCorporate['company_description'];
-
-            if ($account->validate()) {
-                $account->save();
-            }
-        }
-
-        $industries = [];
-        foreach (Industry::model()->findAll() as $industry) {
-            $industries[$industry->id] = $industry->label;
-        }
-
-        $sizes = [];
-        foreach (CompanySize::model()->findAll() as $size) {
-            $sizes[$size->id] = $size->label;
-        }
-
-        $this->layout = 'site_standard';
-
-        $this->render('//new/company_info_corporate', [
-            'account' => $account,
-            'industries' => $industries,
-            'sizes' => $sizes
-        ]);
-    }
-
-    /**
-     * temporary action
-     */
-    public function actionCorporatePersonalDataNew()
-    {
-        $this->checkUser();
-
-        if(!$this->user->isCorporate()){
-            $this->redirect('/dashboard');
-        }
-
-        if (false === $this->user->isActive()) {
-            $this->redirect('/');
-        }
-
-        $profile = $this->user->profile;
-        $account = $this->user->account_corporate;
-
-        if (null !== Yii::app()->request->getParam('save')) {
-            $YumProfile = Yii::app()->request->getParam('YumProfile');
-            $profile->firstname = $YumProfile['firstname'];
-            $profile->lastname  = $YumProfile['lastname'];
-
-            $isProfileValid     = $profile->validate(['firstname', 'lastname']);
-
-            $UserAccountCorporate = Yii::app()->request->getParam('UserAccountCorporate');
-            $account->position_id = $UserAccountCorporate['position_id'];
-
-            $isAccountValid = $account->validate();
-
-            if ($isProfileValid && $isAccountValid) {
-                $profile->save();
-                $account->save();
-            }
-        }
-
-        $positions = [];
-        foreach (Position::model()->findAll() as $position) {
-            $positions[$position->id] = $position->label;
-        }
-
-        $this->layout = 'site_standard';
-
-        $this->render('//new/personal_data_corporate', [
-            'profile'   => $profile,
-            'account'   => $account,
-            'positions' => $positions
-        ]);
-    }
-
-    /**
-     *
-     */
-    public function actionCorporatePasswordNew()
-    {
-        $this->checkUser();
-
-        if(!$this->user->isCorporate()){
-            $this->redirect('/dashboard');
-        }
-
-        $passwordForm = new YumUserChangePassword;
-        $passwordForm->scenario = 'user_request';
-        $YumUserChangePassword = Yii::app()->request->getParam('YumUserChangePassword');
-        $is_done = false;
-        if (null !== $YumUserChangePassword) {
-            $passwordForm->attributes = $YumUserChangePassword;
-            $passwordForm->validate();
-
-            if (!YumEncrypt::validate_password($passwordForm->currentPassword, $this->user->password, $this->user->salt)) {
-                $passwordForm->addError('currentPassword', Yii::t('site', 'Wrong current password'));
-            }
-
-            if (!$passwordForm->hasErrors()) {
-                $this->user->setPassword($passwordForm->password, $this->user->salt);
-                $is_done = true;
-                //$this->redirect();
-            }
-        }
-        $profile = YumProfile::model()->findByAttributes(['user_id'=>$this->user->id]);
-
-        $this->layout = 'site_standard';
-
-        $this->render('//new/password_corporate', [
-            'passwordForm' => $passwordForm,
-            'is_done' => $is_done,
-            'profile'=>$profile
-        ]);
-    }
-
-    /**
-     *
-     */
-    public function actionCorporateVacanciesNew()
-    {
-        $this->checkUser();
-
-        if(!$this->user->isCorporate()){
-            $this->redirect('/dashboard');
-        }
-        $vacancy = new Vacancy();
-
-        if (null !== Yii::app()->request->getParam('id')) {
-            $vacancy = Vacancy::model()->findByPk(Yii::app()->request->getParam('id'));
-            if (null === $vacancy) {
-                $vacancy = new Vacancy();
-            }
-        }
-        $specializations = StaticSiteTools::formatValuesArrayLite(
-            'ProfessionalSpecialization',
-            'id',
-            'label',
-            "",
-            'Выберите специализацию'
-        );
-        $positionLevels = StaticSiteTools::formatValuesArrayLite(
-            'PositionLevel',
-            'slug',
-            'label',
-            '',
-            'Выберите уровень позиции'
-        );
-
-        $this->layout = 'site_standard';
-
-        $this->render('//new/vacancies_corporate', [
-            'vacancy'         => $vacancy,
-            'specializations' => $specializations,
-            'positionLevels'  => $positionLevels,
-        ]);
     }
 
     /**
@@ -726,7 +539,7 @@ class ProfileController extends SiteBaseController implements AccountPageControl
 
             $pathToZip = __DIR__ . '/../../system_data/analytic_files_2/analitic_file_' . $this->user->id . '.zip';
 
-            $zip = new ZipArchive;
+            $zip = new ZipArchive();
 
             if (file_exists($pathToZip)) {
                 $zip->open($pathToZip, ZIPARCHIVE::OVERWRITE);
@@ -736,27 +549,12 @@ class ProfileController extends SiteBaseController implements AccountPageControl
 
             if ($path1 == null && $path2 == null) {
                 Yii::app()->user->setFlash('error',
-                    'У вас нет пройденных симуляций, чтобы сгенерировать на их основе анатический файл');
+                    'У вас нет пройденных симуляций, чтобы сгенерировать на их основе аналитический файл');
                 $this->redirect('/dashboard');
             } else {
 
                 // формируем имя для файла-архива {
-                $latinCompanyOwnership = StringTools::CyToEnWithUppercase($this->user->getAccount()->ownership_type);
-                $latinCompanyName = StringTools::CyToEnWithUppercase($this->user->getAccount()->company_name);
-
-                $latinCompanyOwnership = preg_replace("/[^a-zA-Z0-9]/", "", $latinCompanyOwnership);
-                $latinCompanyName = preg_replace("/[^a-zA-Z0-9]/", "", $latinCompanyName);
-
-                $zipFilename = 'analitics_' . date('dmy');
-                // формируем имя для файла-архива }
-
-                // добавляем имя компании к имени файла спереди, но только если имя компании не пустое
-                if ('' != $latinCompanyName) {
-                    $zipFilename = $latinCompanyName . '_' . $zipFilename;
-                }
-                if ('' != $latinCompanyOwnership) {
-                    $zipFilename = $latinCompanyOwnership . '_' . $zipFilename;
-                }
+                $zipFilename = SimulationService::getFileNameForAnalyticalFile($this->user);
 
                 if (null !== $path1) {
                     // задаём псевдоним, чтоб не палить структуру папок нашего сервера
@@ -787,40 +585,120 @@ class ProfileController extends SiteBaseController implements AccountPageControl
         }
     }
 
+    /*
+     * Восстанавливает возможность автиризироваться,
+     * после того как пользователь несколько на (5 раз) ввёл неправильный пароль
+     */
     public function actionRestoreAuthorization() {
+
+        /**
+         * @var int
+         */
         $user_id = $this->getParam('user_id');
-        $key = $this->getParam('key');
-        $type = $this->getParam('type');
+
+        /**
+         * verification key
+         * @var string
+         */
+        $key     = $this->getParam('key');
+
+        /**
+         * is it me or not (it was hacker)?
+         * @var string
+         */
+        $type    = $this->getParam('type');
+
+        /*
+         * Если не заданы основные параметры, дажене пытаемся восстановить возможность авторизации
+         */
         if($user_id !== null && $key !== null && $type !== null) {
-            /* @var YumUser $user */
+
+            /**
+             * А такой пользователь вобще существует?
+             * @var YumUser $user
+             */
             $user = YumUser::model()->findByPk($user_id);
             if(null !== $user) {
+
+                /*
+                 * Попытка взлома зафиксирована?
+                 */
                 if($user->is_password_bruteforce_detected === YumUser::IS_PASSWORD_BRUTEFORCE_DETECTED) {
+                    /*
+                     * Ключ правильный?
+                     */
                     if($user->authorization_after_bruteforce_key === $key) {
                         if($type === YumUser::PASSWORD_BRUTEFORCE_IT_IS_ME) {
+                            /*
+                             * "Это я свой пароль забыл..."
+                             */
                             UserService::authenticate($user);
                             UserService::logAccountAction($user, $this->request->getUserHostAddress(), 'Пользователь забыл пароль и 5 раз пытался ввести неправильный пароль.');
                             $user->is_password_bruteforce_detected = YumUser::IS_NOT_PASSWORD_BRUTEFORCE;
                             $user->save(false);
                             $this->redirect('/dashboard');
+
                         } else if($type === YumUser::PASSWORD_BRUTEFORCE_IT_IS_NOT_ME){
+                            /**
+                             * "Это взлом!"
+                             */
                             UserService::authenticate($user);
                             UserService::logAccountAction($user, $this->request->getUserHostAddress(), 'Была попытка подобрать пароль к аккаунту пользователя пользователя. По словам пользователя, это не он.');
                             $user->is_password_bruteforce_detected = YumUser::IS_NOT_PASSWORD_BRUTEFORCE;
                             $user->save(false);
-                            Yii::app()->user->setFlash('error', 'Смените, пожалуйста, свой пароль, если он простой.');
+                            Yii::app()->user->setFlash('error', 'Смените, пожалуйста, свой пароль, если он простой');
                             $this->redirect($user->getPasswordChangeUrl());
-                        }else{
+                        } else {
+                            /**
+                             * На всякий случай, вероятно, это уже взлом сситемы разблокировки
+                             */
                             UserService::logAccountAction($user, $this->request->getUserHostAddress(), 'Человек пытался ввести неверный тип розблокировки!');
                         }
                     } else {
+                        /*
+                         * Ключ НЕ правильный
+                         */
                         UserService::logAccountAction($user, $this->request->getUserHostAddress(), 'Человек пытался ввести неверный ключ розблокировки!');
                     }
                 } else {
-                    UserService::logAccountAction($user, $this->request->getUserHostAddress(), 'Человек пытался розблокировать аккаунт повторно!');
+                    /*
+                     * Попытка взлома НЕ зафиксирована
+                     */
+                    UserService::logAccountAction($user, $this->request->getUserHostAddress(), 'Человек пытался разблокировать аккаунт повторно!');
                 }
             }
         }
         $this->redirect('/');
+    }
+
+    public function actionSaveFullAssessmentAnalyticFile() {
+        $this->checkUser();
+
+        if (!$this->user->isCorporate()) {
+            $this->redirect('/dashboard');
+        } else {
+
+            // Собираем процентили }
+
+            if(false === UserService::generateFullAssessmentAnalyticFile($this->user)){
+                Yii::app()->user->setFlash('error',
+                'У вас нет пройденных симуляций, чтобы сгенерировать на их основе аналитический файл');
+                $this->redirect('/dashboard');
+            }
+            // Собираем и группируем симуляции }
+            $path = SimulationService::createPathForAnalyticsFile('full_report', 'user_id_'.$this->user->id);
+            if(file_exists($path)) {
+                $Filename = SimulationService::getFileNameForAnalyticalFile($this->user);
+                $Filename.='_full_report';
+                header('Content-Type: application/vnd.ms-excel; charset=utf-8');
+                header('Content-Disposition: attachment; filename="' . $Filename . '.xlsx"');
+                $File = file_get_contents($path);
+                echo $File;
+            }else{
+                Yii::app()->user->setFlash('error', 'Файл не найден');
+                $this->redirect('/dashboard');
+            }
+
+        }
     }
 }

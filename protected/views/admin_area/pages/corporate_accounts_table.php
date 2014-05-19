@@ -7,13 +7,19 @@
     'Тип компании',
     'Название компании',
     'Количество приглашений',
-    'Тарифный план',
+    'Количество оплаченных заказов',
+    'Количество отправленных приглашений',
+    'Количество пройденных полных симуляций "сам-себе"',
+    'Количество пройденных полных симуляций "для людей"',
     'Дата регистрации',
     'Дата последнего посещения',
 ] ?>
 <div class="row fix-top">
     <h2>Корпоративные аккаунты</h2>
-
+    <a class="btn btn-info" style="float: right; margin-right: 100px;" href="/admin_area/export-all-corporate-account-xlsx">
+        <i class="icon icon-download-alt icon-white"></i>
+        Скачать список корпоративных аккаунтов (xlsx)
+    </a>
     <?php $this->widget('CLinkPager',array(
         'header'         => '',
         'pages'          => $pager,
@@ -69,9 +75,10 @@
                 <td><?=$account->ownership_type ?></td>
                 <td>"<?= $account->company_name ?>"</td>
                 <td style="text-align: center;"><?= $account->invites_limit ?></td>
-                <td style="width: 150px;">
-                    <?= $account->getActiveTariffPlan()->tariff->label ?>
-                </td>
+                <td style="text-align: center;"><?= $account->getNumberOfPaidOrders() ?></td>
+                <td style="text-align: center;"><?= $account->getNumberOfInvitationsSent() ?></td>
+                <td style="text-align: center;"><?= $account->getNumberOfFullSimulationsForSelf() ?></td>
+                <td style="text-align: center;"><?= $account->getNumberOfFullSimulationsForPeople() ?></td>
                 <td style="width: 140px;">
                     <?= date('Y-m-d H:i:s', $account->user->createtime) ?>
                 </td>

@@ -2,9 +2,11 @@
 
 class CalculateCustomAssessmentsServiceUnitTest extends PHPUnit_Framework_TestCase {
 
+    use UnitTestBaseTrait;
+
     public function test_check_3312_341a8()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;

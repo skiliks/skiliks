@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This is the model class for table "log_activity_action".
  *
@@ -22,6 +21,26 @@
  */
 class LogActivityAction extends CActiveRecord
 {
+    /**
+     * Prints all needed info in one row.
+     * Используется только в тестах.
+     */
+    public function dump() {
+        return $this . "\n";
+    }
+
+    public function __toString()
+    {
+        return sprintf("%-9s %-9s %-15s %-10s",
+            $this->start_time,
+            $this->end_time !== null ? $this->end_time : '—',
+            $this->activityAction->activity->code,
+            $this->activityAction->mail !== null ? $this->activityAction->mail->code : '—'
+        );
+    }
+
+    /* --------------------------------------------------------------------------------------- */
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -86,13 +105,6 @@ class LogActivityAction extends CActiveRecord
 	}
 
     /**
-     * Prints all needed info in one row
-     */
-    public function dump() {
-        return $this . "\n";
-    }
-
-    /**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
@@ -114,40 +126,4 @@ class LogActivityAction extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
-
-    /**
-     * @param int $simulationId
-     * @deprecated
-     * @return LogActivityAction
-     */
-    public function bySimulationId($simulationId)
-    {
-        $criteria = new CDbCriteria();
-        $criteria->compare('sim_id', $simulationId);
-        $this->getDbCriteria()->mergeWith($criteria);
-        return $this;
-    }
-
-    public function __toString()
-    {
-        return sprintf("%-9s %-9s %-15s %-10s",
-            $this->start_time,
-            $this->end_time !== null ? $this->end_time : '—',
-            $this->activityAction->activity->code,
-            $this->activityAction->mail !== null ? $this->activityAction->mail->code : '—'
-        );
-    }
-
-    /**
-     * @param int $mailId
-     * @deprecated
-     * @return LogActivityAction
-     */
-    public function byMailId($mailId)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "mail_id = {$mailId}"
-        ));
-        return $this;
-    }
 }

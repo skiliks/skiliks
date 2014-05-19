@@ -31,8 +31,6 @@ class DisplayMailText_SK1370_Test extends SeleniumTestHelper
         $this->checkFields("Крутько М.", "Федоров А.В.", "По ценовой политике", "Ценовая политика_v1.pptx");
 
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['new_letter']);
-        $this->optimal_click(Yii::app()->params['test_mappings']['mail']['to_whom']);
-        sleep(5);
 
         //добавляем адресата
         $this->addRecipient("xpath=(//*[contains(text(),'Крутько')])");

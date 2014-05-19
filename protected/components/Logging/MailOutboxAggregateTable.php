@@ -37,12 +37,13 @@ class MailOutboxAggregateTable extends LogTable
      */
     protected function getRow($mail) {
 
+        /** var @MailBox $mail */
         return [
             $mail->id,
             ($mail->isSended())?'да':'нет',
             $mail->getRecipientsCode(),
             $mail->getCopiesCode(),
-            $mail->subject_obj->text,
+            $mail->getFormattedTheme(),
             (empty($mail->attachment->myDocument->template->code))?'-':$mail->attachment->myDocument->template->code,
             (empty($mail->code))?'-':$mail->code,
             (empty($mail->coincidence_type))?'-':$mail->coincidence_type,

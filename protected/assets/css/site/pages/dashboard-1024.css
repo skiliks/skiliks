@@ -1,0 +1,177 @@
+/* Corporate Dashboard - Имя */
+.width-1024.action-controller-corporate-static-dashboard .contrast-table tr td:nth-child(2) {
+    max-width: 130px;
+    width: 130px;
+}
+
+/* Corporate Dashboard - Позиция */
+.width-1024.action-controller-corporate-static-dashboard .contrast-table tr td:nth-child(3) {
+    max-width: 110px;
+    width: 110px;
+}
+
+/* Personal Dashboard - Компания */
+.width-1024.action-controller-personal-static-dashboard .contrast-table tr td:nth-child(1) {
+    width: 140px;
+    min-width: 140px; /* for text-overflow: ellipsis; */
+    max-width: 140px; /* for text-overflow: ellipsis; */
+}
+
+/* Personal Dashboard - Позиция */
+.width-1024.action-controller-personal-static-dashboard .contrast-table tr td:nth-child(2) {
+    width: 110px;
+    min-width: 110px; /* for text-overflow: ellipsis; */
+    max-width: 110px; /* for text-overflow: ellipsis; */
+}
+
+/* Personal Dashboard - Дата */
+.width-1024.action-controller-personal-static-dashboard .contrast-table tr td:nth-child(4) {
+    width: 64px;
+    max-width: 64px;
+    min-width: 64px;
+}
+
+/* Personal Dashboard - Дата */
+.width-1024.action-controller-personal-static-dashboard .contrast-table tr td:nth-child(5) {
+    width: 150px;
+    max-width: 150px;
+    min-width: 150px;
+}
+
+.width-1024 #send-invite-message-form input[type="text"] {
+    width: 614px;
+}
+
+.width-1024.controller-static-dashboard #invite-form label {
+    width: 50px;
+}
+
+.width-1024 #Invite_email {
+    width: 195px;
+}
+
+.width-1024 #Invite_firstname {
+    width: 80px;
+}
+
+.width-1024 #Invite_lastname {
+    width: 98px;
+}
+
+.width-1024 #invite-form .sbHolder,
+.width-1024 #invite-form .sbHolder li a,
+.width-1024 #invite-form select {
+    width: 177px;
+}
+
+.width-1024 .row {
+    padding: 12px 0 0;
+}
+
+.width-1024 .ui-dialog form .sbHolder,
+.width-1024 .ui-dialog form .sbOptions {
+    width: 276px;
+}
+
+.width-1024 .ui-dialog form input[type="text"] {
+    width: 308px;
+}
+
+.width-1024 #send-invite-message-form input[type="text"] {
+    width: 495px;
+}
+
+.width-1024 #invite-form .button-white {
+    margin-left: 60px;
+}
+
+.width-1024.controller-static-dashboard .inner-popover {
+    left: 755px;
+}
+
+.width-1024 .hint-assessment-results-type-switcher {
+    margin-left: 0px;
+}
+
+.width-1024.action-controller-personal-static-dashboard .hint-assessment-results-type-switcher {
+    margin-left: -596px;
+}
+
+.width-1024 .assessment-results-type-switcher {
+    margin-top: -2px;
+    padding-bottom: 1px;
+}
+
+.width-1024 #invite-form .error-place {
+    padding-left: 59px;
+}
+
+.width-1024 .unstandard-firstname-error {
+    width: 94px;
+}
+
+.width-1024 .unstandard-secondname-error {
+    margin-left: 98px;
+    margin-top: -1px;
+    vertical-align: top;
+}
+
+.width-1024 .invite-people-box {
+    height: 225px;
+}
+
+.width-1024 .ui-dialog form#add-vacancy-form .error-place {
+    padding-left: 244px;
+}
+
+.width-1024.controller-static-dashboard .skills-box .skills-title {
+    width: 70px;
+    line-height: 1.2em;
+}
+
+.width-1024.controller-static-dashboard .skills-box-percentile .skills-title {
+    width: 90px;
+}
+
+.width-1024.controller-static-dashboard .skills-box .icon-circle-with-blue-arrow {
+    padding-left: 15px;
+}
+
+.width-1024.controller-static-dashboard .skills-box .icon-21x21-empty {
+    vertical-align: top;
+}
+
+.width-1024.action-controller-personal-static-dashboard .page-title-box h3 {
+    margin-left: 81px;
+}
+
+.width-1024 #Invite_message {
+    width: 475px;
+    min-width: 475px;
+    max-width: 475px;
+}
+
+.width-1024 .button-add-vacancy {
+    background: url("../../../img/site/1280/buttons/plus.png") no-repeat scroll 50% 50% #DDDDDD;
+    height: 17px;
+    line-height: 17px;
+    margin-top: -2px;
+    top: 5px;
+}
+
+.width-1024 .invite-accept-popup .unstandard-list-description {
+    width: 638px;
+}
+
+.width-1024 .unstandard-simulation-requirements .column-1-4 {
+    width: 150px;
+}
+
+.width-1024 .popup-information .ui-dialog-content {
+    overflow: hidden;
+}
+
+.width-1024 .unstandard-simulation-requirements .column-1-4 {
+    padding-right: 15px;
+}
+

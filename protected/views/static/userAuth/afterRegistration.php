@@ -1,24 +1,41 @@
-<h2 class="thetitle text-center">На указанный вами email <?=Yii::app()->session->get("email");?> отправлено письмо</h2>
-<div class="form registrationform">
-    <div class="transparent-boder">
-        <div class="radiusthree yellowbg">
-            <div class="registerpads">
-                <a class="regicon icon-mail"></a>
-                <h3>Активация</h3>
-                <ul>
-                    <li>Пожалуйста, пройдите по ссылке в письме, </li>
-                    <li>чтобы активировать аккаунт</li>
-                </ul>
-            </div>
-        </div>
+
+<br/>
+<br/>
+
+<h1 class="pull-content-center">
+    На указанный вами email
+    <?= (isset(Yii::app()->request->cookies['registration_email']))
+        ? Yii::app()->request->cookies['registration_email']->value
+        : '';
+    ?>
+    <br/>
+    отправлено письмо
+</h1>
+
+<br/>
+<br/>
+
+<div class="nice-border column-2-3-fixed pull-center pull-content-center
+    border-radius-standard background-yellow us-activation-email-notice">
+    <div class="pull-content-left us-activation-email-content">
+        <h3 class="margin-bottom-half-standard">Активация</h3>
+        <span>Пожалуйста, пройдите по ссылке в письме,<br/>
+            чтобы активировать аккаунт</span>
     </div>
 </div>
+
+<br/>
+<br/>
+
 <?php if (!empty($isGuest)): ?>
-<p class="text-center">
-    <a href="/registration/" class="whitelink nodecorlink link-xxlarge">Начать регистрацию заново</a>
-    <?php if(null != $profile) : ?>
-        &nbsp;&nbsp;
-        <a href="/activation/resend/<?= $profile->id ?>" class="whitelink nodecorlink link-xxlarge">Выслать активационное письмо повторно</a>
-    <?php endif; ?>
-</p>
-<?php endif; ?>
+    <div class="pull-content-center">
+        <a href="/registration/single-account"
+           class="us-link-register">Начать регистрацию заново</a>
+        <?php /*if(null != $profile) : ?>
+            <br/>
+            <a href="/activation/resend/<?= $profile->id ?>" class="whitelink nodecorlink link-xxlarge">Выслать активационное письмо повторно</a>
+        <?php endif;*/ ?>
+    </div>
+ <?php endif; ?>
+
+<div class="clearfix"></div>

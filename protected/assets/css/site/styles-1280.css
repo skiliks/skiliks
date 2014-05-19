@@ -1,0 +1,387 @@
+
+/* any CSS styles for all screen resolutions */
+/* Currently 1280+ (Х) and 1280- (Х * 0,82) */
+
+/* ссылки меню в хедере и футере */
+nav ul li.menu-item span,
+nav ul li.menu-item a {
+    display: inline-block;
+    padding-top: 5px;
+    padding-bottom: 3px;
+}
+
+header nav ul li.menu-item .profile-icon {
+    padding-left: 41px;
+}
+
+header nav ul li.menu-item .icon-profile-corporate {
+    background-position: 10px 3px;
+}
+
+.copyright-box {
+    color: #ffffff;
+    font-size: 0.9em;
+    height: 27px;
+}
+
+.copyright-box span {
+    height: 27px;
+    line-height: 27px;
+}
+
+.copyright {
+    margin-left: 240px; /* $('.help-email-link').width() */
+}
+
+.icon-blue-arrow {
+    background-image: url("../../img/site/1280/buttons/icon-blue-arrow.png");
+    background-repeat: no-repeat;
+}
+
+.icon-gift {
+    background-image: url("../../img/site/1280/buttons/icon-gift.png");
+    background-repeat: no-repeat;
+}
+
+.icon-padding-condensed {
+    background-position: 7px center;
+    padding-left: 31px !important;
+}
+
+
+
+.icon-blue-arrow:hover {
+    background-image: url("../../img/site/1280/buttons/icon-gray-arrow.png");
+}
+
+.icon-circle-with-blue-arrow {
+    background-image: url("../../img/site/1280/buttons/icon-blue-arrow.png");
+    background-repeat: no-repeat;
+    /*background-position: 6px center;*/
+    /*padding-left: 25px;*/
+}
+
+.icon-circle-with-blue-arrow:hover {
+    background-image: url("../../img/site/1280/buttons/icon-gray-arrow.png");
+}
+
+.icon-circle-with-blue-arrow-big {
+    background-image: url("../../img/site/1280/buttons/icon-with-arrow-big.png");
+    background-repeat: no-repeat;
+    background-position: 6px center;
+    padding-left: 25px;
+}
+
+header nav.account-links {
+    height: 50px;
+    padding-right: 16px;
+}
+
+header nav.account-links ul {
+    margin-top: 10px;
+}
+
+header nav.static-page-links {
+    height: 80px;
+    font-size: 1.28em;
+}
+
+header nav.static-page-links ul {
+    margin-top: 24px;
+}
+
+header nav.account-links ul,
+header nav.static-page-links ul {
+    margin-right: -12px; /* fixed for dashboad corporate */
+}
+
+footer nav.static-page-links {
+    height: 116px;
+}
+
+.footer-clear-fix {
+    height: 153px;
+}
+
+.logo-footer-link {
+    height: 46px;
+    width:  175px;
+}
+
+.link-to-top {
+    padding-top: 20px;
+}
+
+footer .footer-logo {
+    margin-top: 34px;
+}
+
+footer .static-page-links ul {
+    margin-top: 44px;
+}
+
+
+
+/* popover */
+
+.inner-popover {
+    border-radius: 7px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    color: #000000;
+    cursor: auto;
+    font-weight: normal;
+    line-height: 1;
+    left: 0px;
+    width: 220px;
+    position: absolute;
+    transition: opacity 0.25s linear 0s;
+}
+
+.inner-popover.active {
+    opacity: 1;
+    z-index: 5;
+}
+
+.popover-triangle {
+    background: url("../../img/site/1280/general-style/tooltip-blue-arrow.png") no-repeat right center;
+    float: left;
+    font-size: 0;
+    height: 16px;
+    left: -16px;
+    line-height: 0;
+    position: absolute;
+    top: 21px;
+    width: 16px;
+}
+
+.popover-triangle-upper {
+    border-color: rgba(0, 0, 0, 0) rgba(0, 0, 0, 0) #FDFBC6;
+    border-style: solid;
+    border-width: 8px;
+    float: left;
+    font-size: 0;
+    left: 107px;
+    line-height: 0;
+    position: absolute;
+    top: -16px;
+    width: 0;
+}
+
+.popover-wrapper {
+    padding: 0;
+    min-width: 200px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    text-align: center;
+}
+
+.popover-content {
+    font-family: "ProximaNova-Regular";
+    font-size: 1em;
+    line-height: 15px;
+    padding: 15px 10px;
+    text-align: center;
+    width: 200px;
+    max-width: 240px;
+}
+
+/* ratings: */
+
+.rating-percentile-container {
+    background-position: -15px 0px;  /* чтоб небыло видно голубой стрелки на .button-white */
+    height: 18px;
+    width: 118px;
+    padding: 6px;
+}
+
+.rating-percentile-container label {
+    color: #000;
+    float: right;
+    font-size: 1.1em;
+    line-height: 1.35em;
+}
+
+.skills-box {
+    font-size: 0.9em; /* в таблице приглашенй тоже font-size для букв уменьшен */
+}
+
+.rating-percentile-indicator {
+    background: url("../../img/site/1280/assessment/percentile.png") no-repeat 0 -18px;
+    height: 18px;
+    width: 74px;
+}
+
+.rating-percentile-indicator-level {
+    background: url("../../img/site/1280/assessment/percentile.png") no-repeat 0 0;
+    display: block;
+    height: 18px;
+}
+
+/* -- */
+
+.rating-stars-container {
+    height: 14px;
+    width: 118px;
+    padding: 6px;
+}
+
+.rating-stars-container label {
+    float: right;
+    line-height: 1.32em;
+}
+
+.rating-stars-indicator {
+    background-image: url("../../img/site/1280/assessment/stars.png");
+    background-repeat: no-repeat;
+    height: 14px;
+    width: 85px;
+}
+
+.rating-stars-indicator-level {
+    background-image: url("../../img/site/1280/assessment/stars.png");
+    background-position: 0 -14px;
+    background-repeat: no-repeat;
+    height: 14px;
+}
+
+.ui-dialog.popup-form textarea {
+    height: 90px;
+    width: 606px;
+}
+
+.ui-dialog.popup-form-wide textarea {
+    height: 90px;
+    width: 655px;
+}
+
+/* feedback */
+
+.ui-dialog #feedback-form h3 {
+    margin-bottom: 30px;
+}
+
+.ui-dialog #feedback-form textarea {
+    font-size: 1.3em;
+    margin-bottom: 15px;
+    padding: 20px;
+}
+
+.ui-dialog #feedback-form #Feedback_email {
+    font-size: 1.3em;
+    margin-right: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    width: 418px
+}
+
+.ui-dialog #feedback-form #Feedback_message {
+    max-height: 110px;
+    min-height: 110px;
+    max-width: 610px;
+    min-width: 610px;
+}
+
+.unstandard-message-row {
+    margin-top: 20px;
+}
+
+/* --- */
+
+.link-recovery {
+    float: right;
+    padding-right: 21px;
+}
+
+#YumUserLogin_username,
+#YumUserLogin_password,
+#YumPasswordRecoveryForm_email {
+    width: 256px;
+}
+
+.unstandard-password-recovery,
+.unstandard-registration-link {
+    padding-right: 15px;
+}
+
+.flash-password-recovery {
+    margin: 75px 0 0;
+}
+
+.skiliks nav ul li.menu-item span.not-started-simulations {
+    background-color: #CF1919;
+    border-radius: 4px;
+    font-family: ProximaNova-Bold;
+    font-size: 0.67em;
+    height: 20px;
+    left: -11px; /* 0 */
+    line-height: 17px;
+    margin-right: -19px;
+    padding-top: 2px;
+    padding-bottom: 0;
+    position: relative;
+    text-align: center;
+    top: -15px;
+    vertical-align: top;
+    width: 21px;
+}
+
+.error .error-place.us-error-place-sing-in,
+.error .error-place.us-error-place-sing-in .errorMessage {
+    margin-top: 0;
+}
+
+/* тут совсем неочевидная ссылка - выделим её подчёркиванием */
+#YumUserLogin_not_activate_em_ a {
+    text-decoration: underline;
+}
+
+#DeclineExplanation_reason_id label {
+    font-family: ProximaNova-Regular;
+    font-size: 1.3em;
+    height: 22px;
+    vertical-align: middle;
+}
+
+#DeclineExplanation_description {
+    resize: none;
+    width: 645px;
+}
+
+header nav ul li.menu-item .log-out-link-separator {
+    border-left: 1px solid #d6e9eb;
+    border-radius: 0;
+    height: 20px;
+    margin: 0 0 -5px 0;
+    padding: 0;
+    width: 0;
+}
+
+#login-form .error .error-place .errorMessage,
+#login-form .error .error-place {
+    height: 14px;
+    margin-top: -14px;
+}
+
+#login-form .error-place #YumUserLogin_not_activate_em_.errorMessage {
+    margin-top: 14px;
+    max-width: 280px;
+}
+
+.us-remember-me-margin {
+    margin-top: 2px;
+}
+
+.skiliks footer .us-button-registration {
+    background-color: #ffffff;
+    background-image: url("../../img/site/1280/buttons/icon-blue-arrow-big.png");
+    color: #146672;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-top: 35px;
+    margin-left: 100px;
+}
+
+.skiliks footer .us-button-registration:hover {
+    background-color: #48B5C6;
+    color: #ffffff;
+}

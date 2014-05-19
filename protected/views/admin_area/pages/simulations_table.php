@@ -4,6 +4,7 @@
     'Email соискателя',
     'Время начала симуляции',
     'Время конца симуляции',
+    'IPv4',
     'Сценарий',
     'Cтатус',
     'Оценка',
@@ -161,6 +162,9 @@
                 </td>
                 <td>
                     <?= (empty($simulation->end) ? '--' : $simulation->end) ?>
+                </td>
+                <td>
+                    <?= (empty($simulation->ipv4) ? '--' : $simulation->ipv4) ?>
                 </td>
                 <td>
                     <span class="label <?= $simulation->game_type->getSlugCss() ?>">

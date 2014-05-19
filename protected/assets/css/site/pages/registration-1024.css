@@ -1,0 +1,28 @@
+
+.width-1024 .us-registration-by-link-body {
+    background-position: 468px 10px;
+}
+
+.width-1024 .inline-error-first {
+    width: 200px;
+}
+
+.width-1024 .inline-error-second {
+    margin-left: 200px;
+    margin-top: 0;
+    vertical-align: top;
+}
+
+.width-1024 textarea,
+.width-1024 input[type="text"],
+.width-1024 input[type="password"] {
+    width: 170px;
+}
+
+.width-1024.skiliks .us-UserAccountCorporate_industry_id .sbHolder {
+    width: 379px;
+}
+
+.width-1024 #YumProfile_email {
+    width: 372px;
+}

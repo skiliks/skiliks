@@ -7,6 +7,9 @@
 class StringTools
 {
     /* this code contains MacOS Unicode magic */
+    /**
+     * @var array
+     */
     public static $CyToEn = array(
         "А" => "a", "Б" => "b", "В" => "v", "Г" => "g", "Д" => "d",
         "Е" => "e", "Ё" => "yo", "Ж" => "zh", "З" => "z", "И" => "i",
@@ -26,6 +29,9 @@ class StringTools
     );
 
     /* this code contains MacOS Unicode magic */
+    /**
+     * @var array
+     */
     public static $CyToEnWithUppercase = array(
         "А" => "A", "Б" => "B", "В" => "V", "Г" => "G", "Д" => "D",
         "Е" => "E", "Ё" => "YO", "Ж" => "ZH", "З" => "Z", "И" => "I",
@@ -44,6 +50,11 @@ class StringTools
         "я" => "ya"
     );
 
+    /**
+     * Транслит русский строк
+     * @param $string
+     * @return string
+     */
     public static function CyToEn($string)
     {
         foreach (self::$CyToEn as $ruChar => $enChar) {
@@ -53,6 +64,11 @@ class StringTools
         return $string;
     }
 
+    /**
+     * Транслит русский строк
+     * @param $string
+     * @return string
+     */
     public static function CyToEnWithUppercase($string)
     {
         foreach (self::$CyToEnWithUppercase as $ruChar => $enChar) {
@@ -63,6 +79,7 @@ class StringTools
     }
 
     /**
+     * Логирование ошибок
      * @param Exception $e
      */
     public static function logException($e)
@@ -72,11 +89,19 @@ class StringTools
         Yii::log($e->getTraceAsString());
     }
 
+    /**
+     * Обрезает строку до максимальной величины
+     * @param $max_length
+     * @param $string
+     * @return string
+     */
     public static function getMaxLength($max_length, $string) {
 
-        if(strlen($string) <= $max_length){
+        if ('' == $string) {
+            return '&nbsp;';
+        } elseif (strlen($string) <= $max_length){
             return $string;
-        }else{
+        } else {
             return substr($string, 0, $max_length).'...';
         }
     }
@@ -97,6 +122,10 @@ class StringTools
         }
     }
 
+    /**
+     * @param $number
+     * @return int
+     */
     private static function digitLastLetter($number) {  // Function, if number has more than one digit
         if($number>9 && $number<21) {
             return 2;

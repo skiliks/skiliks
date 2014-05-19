@@ -4,69 +4,25 @@
 /**
  * Модель персонажей. Хранит информацию о персонажах.
  *
- * @param string sex, 'M' - male, 'F' - female, '-' - undefined
+ * @param integer $id
+ * @param string  $title
+ * @param string  $fio
+ * @param string  $email
+ * @param integer $code
+ * @param string  $skype
+ * @param string  $phone
+ * @param string  $import_id
+ * @param string  $sex, 'M' - male, 'F' - female, '-' - undefined
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class Character extends CActiveRecord
 {
-    const SEX_MALE = 'M';
-
+    const SEX_MALE   = 'M';
     const SEX_FEMALE = 'F';
 
-    const HERO_ID = 1;
+    const HERO_CODE = 1;
 
-    /**
-     * @var integer
-     */
-    public $id;
-    
-    /**
-     * @var string
-     */
-    public $title;
-    
-    /**
-     * @var string
-     */
-    public $fio;
-    
-    /**
-     * @var string
-     */
-    public $email;
-    
-    /**
-     * @var integer
-     */
-    public $code;
-    
-    /**
-     * @var string
-     */
-    public $skype;
-    
-    /**
-     * @var string
-     */
-    public $phone;
-    
-    /**
-     * @var string
-     */
-    public $import_id;
-
-    /**
-     * @var string
-     */
-    public $has_mail_theme;
-
-    /**
-     * @var string
-     */
-    public $has_phone_theme;
-
-    
     /* -------------------------------------------------------------------------------------- */
 
     /**
@@ -121,7 +77,7 @@ class Character extends CActiveRecord
 
     /* ---------------------------------------------------------------------- */
 
-   /**
+    /**
      *
      * @param type $className
      * @return Character
@@ -137,46 +93,6 @@ class Character extends CActiveRecord
     public function tableName()
     {
             return 'characters';
-    }
-    
-    /**
-     * Ограничивает выборку па заданному набору персонажей
-     * @param array $ids набор персонажей
-     * @return Character
-     */
-    public function byIds($ids)
-    {
-        $list = implode(',', $ids);
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "id in ({$list})"
-        ));
-        return $this;
-    }
-    
-    /**
-     * Ограничивает выборку по коду персонажа
-     * @param string $code
-     * @return Character
-     */
-    public function byCode($code)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "code = '{$code}'"
-        ));
-        return $this;
-    }
-    
-    /**
-     * Выборка по конкретному коду персонажа.
-     * @param int $id идентификатор персонажа
-     * @return Character
-     */
-    public function byId($id)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "id = {$id}"
-        ));
-        return $this;
     }
 }
 

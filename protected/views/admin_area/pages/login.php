@@ -22,7 +22,7 @@
     <?php endif ?>
 
     <label class="checkbox">
-        <input type="checkbox" value="remember-me"> Запомнить меня
+        <input type="checkbox" name="YumUserLogin[remember_me]"> Запомнить меня
     </label>
 
     <?= CHtml::submitButton('Войти', ['class'=>'btn btn-large btn-primary']); ?>

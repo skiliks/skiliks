@@ -8,6 +8,7 @@ class SimulationServiceUnitTest extends CDbTestCase
 {
     use UnitLoggingTrait;
     use UnitTestBaseTrait;
+
     /**
      * Проверяет что в результат запуска чимуляции:
      * 1. Проверяет что инициализируются флаги
@@ -17,7 +18,7 @@ class SimulationServiceUnitTest extends CDbTestCase
         //$this->markTestSkipped();
 
         // init simulation
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -40,7 +41,7 @@ class SimulationServiceUnitTest extends CDbTestCase
      */
     public function testSimulationPause()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -65,7 +66,7 @@ class SimulationServiceUnitTest extends CDbTestCase
      */
     public function testLiteSimulationStop()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -81,12 +82,13 @@ class SimulationServiceUnitTest extends CDbTestCase
      * (оценивание обычным способом, лог писем пуст) 
      * оценка = максимальный_балл * (количество_правильных_проявления / количество_проявления_по_поведения_в_целом)
      */
-    public function testCalculateAgregatedPointsFor1122() 
+    public function testCalculateAggregatedPointsFor1122()
     {
+        // за 1122 сейчас нет баллов в сценарии, ни '1', ни '0'
         $this->markTestSkipped();
 
         // init simulation
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -356,7 +358,7 @@ class SimulationServiceUnitTest extends CDbTestCase
         // init activity actions Aggregated log
         LogHelper::combineLogActivityAgregated($simulation);
 
-        $aggregatedLogs = LogActivityActionAgregated::model()->findAllByAttributes([
+        $aggregatedLogs = LogActivityActionAggregated::model()->findAllByAttributes([
             'sim_id' => $simulation->id
         ]);
 
@@ -444,7 +446,7 @@ class SimulationServiceUnitTest extends CDbTestCase
     public function testActionsAgregationMechanism_2()
     {
         // init simulation
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite                 = new Invite();
         $invite->scenario       = new Scenario();
         $invite->receiverUser   = $user;
@@ -599,7 +601,7 @@ class SimulationServiceUnitTest extends CDbTestCase
 
         LogHelper::combineLogActivityAgregated($simulation, $data);
 
-        $aggregatedLogs = LogActivityActionAgregated::model()->findAllByAttributes([
+        $aggregatedLogs = LogActivityActionAggregated::model()->findAllByAttributes([
             'sim_id' => $simulation->id
         ]);
 
@@ -623,7 +625,7 @@ class SimulationServiceUnitTest extends CDbTestCase
 
     public function testSimulationPerformanceRules()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -633,8 +635,8 @@ class SimulationServiceUnitTest extends CDbTestCase
         $eventsManager = new EventsManager();
 
         // Action for rule id 1
-        $first = Replica::model()->byExcelId(516)->find();
-        $last = Replica::model()->byExcelId(523)->find();
+        $first = Replica::model()->findByAttributes(['excel_id' => 516]);
+        $last = Replica::model()->findByAttributes(['excel_id' => 523]);
         $dialogLog = [
             [1, 1, 'activated', 32400, 'window_uid' => 1],
             [1, 1, 'deactivated', 32401, 'window_uid' => 1],
@@ -663,7 +665,7 @@ class SimulationServiceUnitTest extends CDbTestCase
 
         // Alternative action for rule id 8
         $first = $simulation->game_type->getReplica(['excel_id' => 549]);
-        $last = Replica::model()->byExcelId(560)->find();
+        $last = Replica::model()->findByAttributes(['excel_id' => 560]);
         $dialogLog = [
             [1, 1, 'deactivated', 32610, 'window_uid' => 1],
             [20, 23, 'activated', 32610, ['dialogId' => $first->id], 'window_uid' => 4],
@@ -680,7 +682,7 @@ class SimulationServiceUnitTest extends CDbTestCase
 
         SimulationService::simulationStop($simulation);
 
-        $executedRules = PerformancePoint::model()->bySimId($simulation->id)->findAll();
+        $executedRules = PerformancePoint::model()->findAllByAttributes(['sim_id' => $simulation->id]);
         $list = array_map(function($rule) {
             return $rule->performanceRule->code;
         }, $executedRules);
@@ -696,7 +698,7 @@ class SimulationServiceUnitTest extends CDbTestCase
     {
         $this->markTestSkipped();
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -743,7 +745,7 @@ class SimulationServiceUnitTest extends CDbTestCase
 
         // This calls fill assessment aggregated data
         SimulationService::saveAggregatedPoints($simulation->id);
-        SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
+        SimulationService::copyScoreToAssessmentAggregated($simulation->id);
 
         $points = $simulation->assessment_points;
         $calculations = $simulation->assessment_calculation;
@@ -771,14 +773,15 @@ class SimulationServiceUnitTest extends CDbTestCase
             $delta[$scaleType] = abs(round($details[$scaleType], 2) - round($aggregatedCalculated[$scaleType], 2));
         }
 
-        var_dump($delta); die;
-
         $this->assertEquals(10, array_sum($delta)); #personal, no matter
     }
 
     public function testStressRules()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        // в данный момент StressRules не оцениваются
+        $this->markTestSkipped();
+
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -804,7 +807,7 @@ class SimulationServiceUnitTest extends CDbTestCase
 
         // Action for rule id 13
         FlagsService::setFlag($simulation, 'F38_3', 1);
-        $theme = $simulation->game_type->getCommunicationTheme(['phone_dialog_number' => 'T7.4']);
+        $theme = $simulation->game_type->getTheme(['text' => 'Задача отдела логистики: жду итоговый файл']);
         PhoneService::call($simulation, $theme->id, 3, '12:03');
         // end rule 13
 
@@ -818,7 +821,7 @@ class SimulationServiceUnitTest extends CDbTestCase
 
         SimulationService::simulationStop($simulation);
 
-        $executedRules = StressPoint::model()->bySimId($simulation->id)->findAll();
+        $executedRules = StressPoint::model()->findAllByAttributes(['sim_id' => $simulation->id]);
         $list = array_map(function($rule) {
             return $rule->stressRule->code;
         }, $executedRules);
@@ -892,7 +895,7 @@ class SimulationServiceUnitTest extends CDbTestCase
      */
     public function testPerformanceAggregation_case_1()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -934,7 +937,7 @@ class SimulationServiceUnitTest extends CDbTestCase
      */
     public function testPerformanceAggregation_case_2()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -969,7 +972,7 @@ class SimulationServiceUnitTest extends CDbTestCase
 
     /* SK-2608 */
     /*public function testInviteMark() {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $fullScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_FULL]);
         $invite->owner_id = $user->id;
@@ -1006,7 +1009,7 @@ class SimulationServiceUnitTest extends CDbTestCase
 
     public function testEmptyInviteForDev()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $scenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_FULL]);
 
         $invite = new Invite();

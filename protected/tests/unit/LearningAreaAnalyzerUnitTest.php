@@ -2,6 +2,8 @@
 
 class LearningAreaAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
 
+    use UnitTestBaseTrait;
+
     public function addValueByCode($simulation, $code, $value) {
 
         /* @var $simulation Simulation */
@@ -21,7 +23,7 @@ class LearningAreaAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
 
     public function testAdoptionOfDecisions() {
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -46,7 +48,7 @@ class LearningAreaAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
 
     public function testAdoptionOfDecisionsBad() {
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -64,7 +66,7 @@ class LearningAreaAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
 
     public function testAdoptionOfDecisionsSK1390() {
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;

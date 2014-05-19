@@ -14,6 +14,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
 
     public function actionCorporate()
     {
+        $isDisplayStandardInvitationMailTopText = true;
         $this->checkUser();
 
         if (false === $this->user->isCorporate() ||  false === $this->user->isActive()){
@@ -28,6 +29,9 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         $cookie = (Yii::app()->request->cookies['dashboard_page'] !== null) ? Yii::app()->request->cookies['dashboard_page']->value : null;
 
         if($request_uri == "/dashboard" && $cookie != null && $cookie != $request_uri) {
+            if(Yii::app()->user->hasFlash('error')){
+                Yii::app()->user->setFlash('error', Yii::app()->user->getFlash('error'));
+            }
             $this->redirect($cookie);
         }
 
@@ -45,7 +49,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             // check and add trial lite version }
 
         $vacancies = [];
-        $vacancyList = Vacancy::model()->byUser($this->user->id)->findAll();
+        $vacancyList = Vacancy::model()->findAllByAttributes(['user_id' => $this->user->id]);
         foreach ($vacancyList as $vacancy) {
             $vacancies[$vacancy->id] = Yii::t('site', $vacancy->label);
         }
@@ -56,8 +60,6 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         if (null !== Yii::app()->request->getParam('prevalidate')) {
             $invite->attributes = Yii::app()->request->getParam('Invite');
             $invite->owner_id = $this->user->id;
-            $invite->setExpiredAt();
-
             // show result to user by default have to be false
             $invite->is_display_simulation_results = false;
             $invite->email = strtolower(trim($invite->email));
@@ -67,7 +69,10 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             $validPrevalidate = $invite->validate(['firstname', 'lastname', 'email', 'invitations']);
 
             if ($profile) {
+                $isDisplayStandardInvitationMailTopText = false;
                 $invite->receiver_id = $profile->user->id;
+            }else{
+                $isDisplayStandardInvitationMailTopText = true;
             }
 
             if (null == $invite->vacancy && empty($vacancies)) {
@@ -103,36 +108,28 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         }
 
         // handle send invitation {
+        //Отправка Инвайта
         if (null !== Yii::app()->request->getParam('send')) {
-            $invite->setAttributes($this->getParam('Invite'));
             $profile = YumProfile::model()->findByAttributes(['email' => strtolower($invite->email)]);
-            if($profile === null && $this->user->profile->email === 'dmkrivonos@prbb.ru') {
-                $password = UserService::generatePassword(8);
-                $user_personal  = new YumUser('registration');
-                $user_personal->setAttributes(['password'=>$password, 'password_again'=>$password, 'agree_with_terms'=>'yes']);
-                $profile_personal  = new YumProfile('registration');
-                $profile_personal->setAttributes(['firstname'=>$invite->lastname, 'lastname'=>$invite->firstname, 'email'=>$invite->email]);
-                $account_personal = new UserAccountPersonal('personal');
-                $account_personal->setAttributes(['professional_status_id'=>ProfessionalStatus::model()->findByAttributes(['label'=>'Функциональный менеджер'])->id]);
-                if(UserService::createPersonalAccount($user_personal, $profile_personal, $account_personal)){
-                    YumUser::activate($profile_personal->email, $user_personal->activationKey);
-                    $is_send = UserService::sendInvite($this->user, $profile_personal, $invite, $this->getParam('Invite')['is_display_simulation_results']);
-                    if(true === $is_send) {
-                        UserService::sendEmailInviteAndRegistration($invite, $password);
-                        $this->redirect('/dashboard');
-                    } elseif(false === $is_send) {
-                        $validPrevalidate = false;
-                    }
-                }
-
-            } else {
-                $is_send = UserService::sendInvite($this->user, $profile, $invite, $this->getParam('Invite')['is_display_simulation_results']);
-                if(true === $is_send){
+            if($profile === null){
+                $isDisplayStandardInvitationMailTopText = true;
+            }
+            $invite->setAttributes($this->getParam('Invite'));
+            $is_send = false;
+            try {
+                $is_send = UserService::sendInvite($this->user, $invite, $this->getParam('Invite')['is_display_simulation_results']);
+                if ($is_send) {
+                    $invite->refresh();
                     UserService::sendEmailInvite($invite);
-                    $this->redirect('/dashboard');
-                }elseif(false === $is_send) {
-                    $validPrevalidate = false;
                 }
+            } catch (RedirectException $e) {
+                Yii::app()->user->setFlash('error', Yii::t('site', 'У вас закончились приглашения'));
+                $this->redirect("static/tariffs");
+            }
+            if(true === $is_send){
+                $this->redirect('/dashboard');
+            }elseif(false === $is_send) {
+                $validPrevalidate = false;
             }
         }
         // handle send invitation }
@@ -172,9 +169,17 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             unset(Yii::app()->request->cookies['display_result_for_simulation_id']);
         }
 
-        // Getting popup properties
-        $is_display_tariff_expire_pop_up = $this->user->getAccount()->is_display_tariff_expire_pop_up;
-        $is_display_user_referral_popup  = $this->user->getAccount()->is_display_referrals_popup;
+        $this->layout = 'site_standard_2';
+
+        $this->addSiteCss('pages/dashboard-1280.css');
+        $this->addSiteCss('pages/dashboard-1024.css');
+        $this->addSiteCss('partials/simulation-details-1280.css');
+        $this->addSiteCss('partials/simulation-details-1024.css');
+
+        $this->addSiteJs('_page-dashboard.js');
+        $this->addSiteJs('_start_demo.js');
+        $this->addSiteJs('libs/d3.v3.js');
+        $this->addSiteJs('libs/charts.js');
 
         $this->render('dashboard_corporate', [
             'invite'              => $invite,
@@ -185,9 +190,8 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             'display_results_for' => $simulationToDisplayResults,
             'notUsedLiteSimulationInvite' => $notUsedLiteSimulations[0],
             'notUsedFullSimulationInvite' => $notUsedFullSimulations[0],
-            'show_user_referral_popup' =>  $is_display_user_referral_popup,
-            'is_display_tariff_expire_pop_up' => $is_display_tariff_expire_pop_up,
-            'user'                => $this->user
+            'user'                => $this->user,
+            'isDisplayStandardInvitationMailTopText'=>$isDisplayStandardInvitationMailTopText
         ]);
     }
 
@@ -196,7 +200,6 @@ class DashboardController extends SiteBaseController implements AccountPageContr
      */
     public function actionPersonal()
     {
-
         $this->checkUser();
         // check and add trial lite version {
         $liteScenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_LITE]);
@@ -217,6 +220,20 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             );
             unset(Yii::app()->request->cookies['display_result_for_simulation_id']);
         }
+
+        $this->layout = 'site_standard_2';
+
+        $this->addSiteCss('pages/dashboard-1280.css');
+        $this->addSiteCss('pages/dashboard-1024.css');
+        $this->addSiteCss('partials/simulation-details-1280.css');
+        $this->addSiteCss('partials/simulation-details-1024.css');
+
+        $this->addSiteJs('_page-dashboard.js');
+        $this->addSiteJs('_start_demo.js');
+        $this->addSiteJs('_decline-invite.js');
+
+        $this->addSiteJs('libs/d3.v3.js');
+        $this->addSiteJs('libs/charts.js');
 
         $this->render('dashboard_personal', [
             'simulation' => $simulation,
@@ -248,48 +265,51 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         // owner only can delete his invite
         if ($user->id !== $invite->owner_id) {
             Yii::app()->user->setFlash('success', sprintf(
-                "Нельзя удалить чужое приглашение!"
+                "Нельзя удалить чужое приглашение"
             ));
             $this->redirect(Yii::app()->request->urlReferrer);
         }
 
-
-        if ($invite->isAccepted()) {
+        // in progress
+        if ($invite->isStarted() && $invite->isUserInGame()) {
             Yii::app()->user->setFlash('success', sprintf(
-                "Нельзя удалить приглашение которое находится в статусе 'Подтверждено'."
+                "В данный момент пользователь проходит симуляцию.
+                 Вы сможете удалить приглашение, если пользователь прервет прохождение."
             ));
             $this->redirect(Yii::app()->request->urlReferrer);
         }
 
-        if ($invite->isStarted()) {
-            Yii::app()->user->setFlash('success', sprintf(
-                "Нельзя удалить приглашение которое находится в статусе 'Начато'."
-            ));
-            $this->redirect(Yii::app()->request->urlReferrer);
-        }
-
+        // complete
         if ($invite->isCompleted()) {
             Yii::app()->user->setFlash('success', sprintf(
-                "Нельзя удалить приглашение которое находится в статусе 'Готово'."
+                "Нельзя удалить приглашение, которое находится в статусе \"Готово\""
             ));
             $this->redirect(Yii::app()->request->urlReferrer);
         }
 
-        if((int)$invite->status === Invite::STATUS_PENDING) {
-
-            if($user->account_corporate->getActiveTariffPlan()->id === $invite->tariff_plan_id){
+        if($invite->status == Invite::STATUS_PENDING
+            || $invite->status == Invite::STATUS_ACCEPTED
+            || ($invite->isStarted() && false === $invite->isUserInGame())) {
 
                 $status = $invite->status;
                 $initValue = $user->account_corporate->getTotalAvailableInvitesLimit();
 
                 $user->account_corporate->increaseLimit($invite);
 
+                $invite->refresh();
+
+                // надо прервать начатую симуляцию, от неё 4 часа нет вестей
+                if ($invite->isStarted() && null !== $invite->simulation) {
+                    $invite->simulation->refresh();
+                    $invite->simulation->status = Simulation::STATUS_INTERRUPTED;
+                    $invite->simulation->save(false);
+                }
+
                 UserService::logCorporateInviteMovementAdd(
-                    'Ивайт удален пользователем в статусе '.Invite::getStatusNameByCode($status),
+                    'Ивайт удален пользователем в статусе "'.Invite::getStatusNameByCode($status).'"',
                     $this->user->getAccount(),
                     $initValue
                 );
-            }
         }
 
         $invite->deleteInvite();
@@ -313,15 +333,12 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         }
 
         if (null === $invite) {
-            //Yii::app()->user->setFlash('success', sprintf(
-            //    "Такого приглашения не существует"
-            //));
-            $this->redirect('/dashboard');
+              $this->redirect('/dashboard');
         }
 
         if (Invite::STATUS_PENDING !== (int)$invite->status) {
             Yii::app()->user->setFlash('success', sprintf(
-                nl2br("Только приглашение \n со статусом \"%s\" можно отправить ещё раз."),
+                nl2br("Только приглашение \n со статусом \"%s\" можно отправить ещё раз"),
                 Yii::t('site', Invite::$statusText[Invite::STATUS_PENDING])
             ));
             $this->redirect(Yii::app()->request->urlReferrer);
@@ -332,7 +349,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         // you can`t delete other (corporate) user invite
         if ($user->id !== $invite->owner_id) {
             Yii::app()->user->setFlash('success', sprintf(
-                "Нельзя продлить чужое приглашение!"
+                "Нельзя продлить чужое приглашение"
             ));
             $this->redirect('/');
         }
@@ -359,11 +376,6 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         /* @var $invite Invite */
         if (null == $invite) {
             $this->redirect('/dashboard');
-        }
-
-        if((int)$invite->status === Invite::STATUS_EXPIRED){
-            Yii::app()->user->setFlash('error', 'У симуляции истек срок давности');
-            $this->redirect('/');
         }
 
         if((int)$invite->status !== Invite::STATUS_PENDING){
@@ -409,14 +421,14 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         $invite = Invite::model()->findByPk($id);
 
         if (null === $invite) {
-            Yii::app()->user->setFlash('success', 'Выбранного к отмене приглашения не существует.');
+            Yii::app()->user->setFlash('success', 'Выбранного к отмене приглашения не существует');
             $this->redirect('/dashboard');
         }
 
         if (Yii::app()->user->data()->id !== $invite->receiver_id &&
             Yii::app()->user->data()->id !== $invite->owner_id) {
 
-            Yii::app()->user->setFlash('success', 'Вы не можете удалить чужое приглашение.');
+            Yii::app()->user->setFlash('success', 'Вы не можете удалить чужое приглашение');
             $this->redirect('/dashboard');
         }
 
@@ -445,7 +457,9 @@ class DashboardController extends SiteBaseController implements AccountPageContr
     {
         $declineExplanation = new DeclineExplanation();
         $declineExplanation->attributes = Yii::app()->request->getParam('DeclineExplanation');
+
         $result = InviteService::declineInvite(Yii::app()->user->data(), $declineExplanation);
+
         if( null !== $result ) {
             $this->redirect( $result );
         } else {
@@ -502,6 +516,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         $this->sendJSON([
             'isValid' => $isValid,
             'html'    => $html,
+            'errors'  => json_encode($declineExplanation->getErrors()),
          ]);
     }
 
@@ -518,7 +533,6 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             if ($user->id !== $simulation->invite->owner_id &&
                 $user->id !== $simulation->invite->receiver_id) {
                 //echo 'Вы не можете просматривать результаты чужих симуляций.';
-
                 Yii::app()->end(); // кошерное die;
             }
         }
@@ -540,91 +554,6 @@ class DashboardController extends SiteBaseController implements AccountPageContr
         ]);
     }
 
-    public function actionInviteReferrals() {
-        /** @var YumUser $user */
-        $user = Yii::app()->user->data();
-
-        if(!$user->isAuth() || !$user->isCorporate()) {
-            $this->redirect("dashboard");
-        }
-
-
-        if(!Yii::app()->request->getIsAjaxRequest()) {
-            $referralInviteModel = new ReferralsInviteForm();
-            $this->render("invite_referrals", ['user'=>$user, 'referralInviteModel' => $referralInviteModel]);
-        }
-        else {
-            $referralForm = new ReferralsInviteForm();
-
-            $referralInviteText   = Yii::app()->request->getParam('ReferralsInviteForm')['text'];
-
-            $referralForm->emails = strtolower(Yii::app()->request->getParam('emails')) ;
-            $referralForm->text   = Yii::app()->request->getParam('text');
-
-            $errors = CActiveForm::validate($referralForm);
-
-            if ($errors && $errors != "[]") {
-                echo $errors;
-            }
-            else {
-
-                foreach($referralForm->validatedEmailsArray as $referAddress) {
-                    $refer = new UserReferral();
-                    $refer->referral_email = strtolower($referAddress);
-                    if(UserService::addReferralUser($user, $refer)) {
-                        $refer->sendInviteReferralEmail($referralInviteText);
-                    }
-                }
-
-                $message = (count($referralForm->validatedEmailsArray) > 1) ?  "Приглашения для " : "Приглашение для ";
-                $emails = implode($referralForm->validatedEmailsArray, ", ");
-                $message .= $emails;
-                $message .= (count($referralForm->validatedEmailsArray) > 1) ?  " успешно отправлены." : " успешно отправлено.";
-                Yii::app()->user->setFlash('success', $message);
-            }
-        }
-    }
-
-
-    function actionSendReferralEmail() {
-        $user = Yii::app()->user->data();
-        if (!$user->isAuth()) {
-            Yii::app()->user->setFlash('success', $this->renderPartial('_thank_you_form', [], true));
-            $this->redirect('/');
-        } elseif ($user->isPersonal()) {
-            $this->redirect('/dashboard');
-        }
-
-        else {
-
-            $this->redirect('/dashboard');
-        }
-    }
-
-    function actionDontShowInviteReferralsPopup() {
-
-        $user = Yii::app()->user->data();
-
-        if ($user->isPersonal()) {
-            Yii::app()->end();
-        }
-
-        $user->getAccount()->is_display_referrals_popup = 0;
-        $user->getAccount()->save();
-    }
-
-    function actionDontShowTariffExpirePopup() {
-
-        $user = Yii::app()->user->data();
-
-        if ($user->isPersonal()) {
-            Yii::app()->end();
-        }
-
-        $user->getAccount()->is_display_tariff_expire_pop_up = 0;
-        $user->getAccount()->save();
-    }
-
     public function actionSwitchAssessmentResultsRenderType() {
         $profile = Yii::app()->user->data()->profile;
 
@@ -633,12 +562,4 @@ class DashboardController extends SiteBaseController implements AccountPageContr
 
         Yii::app()->end();
     }
-
-    public function actionChangeTariff() {
-
-        $this->checkUser();
-        $result = UserService::getActionOnPopup($this->user->account_corporate, $this->getParam('tariff_slug'));
-        $this->sendJSON($result);
-    }
-
 }

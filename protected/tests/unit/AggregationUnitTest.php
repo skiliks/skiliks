@@ -2,9 +2,11 @@
 
 class AggregationUnitTest extends CDbTestCase
 {
+    use UnitTestBaseTrait;
+
     public function testCommunicationAggregationSpecificCase()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -50,7 +52,7 @@ class AggregationUnitTest extends CDbTestCase
     public function testActivityActionAgregationSpecificCase()
     {
         // init simulation
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -66,7 +68,7 @@ class AggregationUnitTest extends CDbTestCase
             'activity_id' => $activity_d1->id,
             'document_id' => $doc_d2->id
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id = $simulation->id;
         $log->leg_type = ActivityAction::LEG_TYPE_SYSTEM_DIAL;
         $log->leg_action = 'T2';
@@ -88,7 +90,7 @@ class AggregationUnitTest extends CDbTestCase
             'activity_id' => $activity_d14->id,
             'document_id' => $doc_d14->id
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id = $simulation->id;
         $log->leg_type = ActivityAction::LEG_TYPE_DOCUMENTS;
         $log->leg_action = 'D14';
@@ -110,7 +112,7 @@ class AggregationUnitTest extends CDbTestCase
             'activity_id' => $activity_RS1->id,
             'dialog_id' => $replica_RS1->id
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id = $simulation->id;
         $log->leg_type = ActivityAction::LEG_TYPE_MANUAL_DIAL;
         $log->leg_action = 'T3.1';
@@ -132,7 +134,7 @@ class AggregationUnitTest extends CDbTestCase
             'activity_id' => $activity_RS1->id,
             'dialog_id' => $replica_RS1->id
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id = $simulation->id;
         $log->leg_type = ActivityAction::LEG_TYPE_MANUAL_DIAL;
         $log->leg_action = 'ARS1';
@@ -154,7 +156,7 @@ class AggregationUnitTest extends CDbTestCase
             'mail_id'     => null,
             'document_id' => null,
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id = $simulation->id;
         $log->leg_type = ActivityAction::LEG_TYPE_MANUAL_DIAL;
         $log->leg_action = 'plan';
@@ -180,7 +182,7 @@ class AggregationUnitTest extends CDbTestCase
             'activity_id' => $activity_M2->id,
             'mail_id' => $template_M2->id
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id = $simulation->id;
         $log->leg_type = ActivityAction::LEG_TYPE_MANUAL_DIAL;
         $log->leg_action = 'AM2';
@@ -202,7 +204,7 @@ class AggregationUnitTest extends CDbTestCase
             'activity_id' => $activity_MY2->id,
             'mail_id' => $template_MY2->id
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id = $simulation->id;
         $log->leg_type = ActivityAction::LEG_TYPE_INBOX;
         $log->leg_action = 'AMY2';
@@ -224,7 +226,7 @@ class AggregationUnitTest extends CDbTestCase
             'activity_id' => $activity_S1_2->id,
             'dialog_id' => $replica_S1_2->id
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id = $simulation->id;
         $log->leg_type = ActivityAction::LEG_TYPE_SYSTEM_DIAL;
         $log->leg_action = 'AE1';
@@ -246,7 +248,7 @@ class AggregationUnitTest extends CDbTestCase
             'activity_id' => $activity_AE3->id,
             'dialog_id' => $replica_AE3->id
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id = $simulation->id;
         $log->leg_type = ActivityAction::LEG_TYPE_WINDOW;
         $log->leg_action = 'AE3';
@@ -268,7 +270,7 @@ class AggregationUnitTest extends CDbTestCase
             'activity_id' => $activity_A_wait->id,
             'window_id'   => $window->id
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id = $simulation->id;
         $log->leg_type = ActivityAction::LEG_TYPE_SYSTEM_DIAL;
         $log->leg_action = null;
@@ -290,7 +292,7 @@ class AggregationUnitTest extends CDbTestCase
             'activity_id' => $activity_A_wrong_call->id,
             'leg_type'    => ActivityAction::LEG_TYPE_MANUAL_DIAL
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id = $simulation->id;
         $log->leg_type = ActivityAction::LEG_TYPE_MANUAL_DIAL;
         $log->leg_action = null;
@@ -310,7 +312,7 @@ class AggregationUnitTest extends CDbTestCase
             'activity_id' => $activity_A_not_sent->id,
             'leg_type'    => ActivityAction::LEG_TYPE_OUTBOX,
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id = $simulation->id;
         $log->leg_type = ActivityAction::LEG_TYPE_OUTBOX;
         $log->leg_action = null;
@@ -330,7 +332,7 @@ class AggregationUnitTest extends CDbTestCase
             'activity_id' => $activity_A_incorrect_sent->id,
             'leg_type'    => ActivityAction::LEG_TYPE_OUTBOX,
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id = $simulation->id;
         $log->leg_type = ActivityAction::LEG_TYPE_OUTBOX;
         $log->leg_action = null;
@@ -358,7 +360,7 @@ class AggregationUnitTest extends CDbTestCase
      */
     public function testMatrixPointsAggregation()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;

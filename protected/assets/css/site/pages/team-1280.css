@@ -1,0 +1,111 @@
+
+body.action-controller-team-static-pages {
+    /*background-image: none;*/
+    background-image: url("../../../img/site/1280/team/bg-team.png");
+    background-color: #e8f7f7;
+
+    /* @todo: сделать длинее нижний фон с предметами */
+    /* тогда можно будет задать 100% auto */
+    background-size: 120% auto;
+}
+
+body.action-controller-team-static-pages header {
+    background-image: url("../../../img/site/1280/team/bg-top-team.jpg");
+    background-position: center bottom;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 800px;
+}
+
+.action-controller-team-static-pages h1 {
+    height: 80px;
+}
+
+section.main-content {
+    margin-top: -650px;
+}
+
+.condensed-column {
+    width: 720px;
+    margin: 0 auto;
+}
+
+/* --- */
+
+.text-for-article {
+    font-size: 1.08em;
+}
+
+/* --- */
+
+.text-for-article-small {
+    color: #000;
+    font-size: 0.90em;
+}
+
+/* --- */
+
+.page-team-tab h4 {
+
+}
+
+.tab-marina {
+    background-image: url("../../../img/site/1280/team/bg-team-maria.png");
+}
+
+.tab-leah {
+    background-image: url("../../../img/site/1280/team/bg-team-alyona.png");
+}
+
+.tab-tony {
+    background-image: url("../../../img/site/1280/team/bg-team-tony.png");
+}
+
+.tab-others {
+    background-image: url("../../../img/site/1280/team/bg-team-others.png");
+}
+
+.page-team-tab {
+    height: 153px;
+    margin: 0 5px 4px;
+    padding: 36px 0 0 30px;
+    text-align: left;
+    vertical-align: top;
+    width: 448px;
+}
+
+.team-values {
+    padding-top: 160px;
+    width: 400px;
+}
+
+.action-controller-team-static-pages h1 {
+    font: 2.7em "ProximaNova-Bold";
+}
+
+.action-controller-team-static-pages h2 {
+    color: #146672;
+    font: 1.4em "ProximaNova-Bold";
+}
+
+.action-controller-team-static-pages h2.big {
+    color: #146672;
+    font: 2.6em "ProximaNova-Bold";
+}
+
+.team-values ul li:first-child {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+    padding-top: 0;
+}
+
+.team .team-values ul li {
+    background: url("../../../img/site/1280/team/bg-team-values-item.png") no-repeat scroll center 0 rgba(0, 0, 0, 0);
+    color: #29313D;
+    font-size: 1.071em;
+    line-height: 1.333em;
+    margin-top: 15px;
+    padding-top: 84px;
+    list-style: none outside none;
+}
+
+

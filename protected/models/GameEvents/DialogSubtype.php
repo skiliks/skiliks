@@ -1,12 +1,12 @@
 <?php
-
-
 /**
  * Содержит типы диалогов.
  *
- * @parameter string $slug
+ * @property integer $id
+ * @property integer $type_id, dialog_types.id
+ * @property string  $slug
+ * @property string  $title
  *
- * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class DialogSubtype extends CActiveRecord
 {
@@ -16,21 +16,7 @@ class DialogSubtype extends CActiveRecord
     const SLUG_MEETING     = 'meeting';
     const SLUG_KNOCK_KNOCK = 'knock_knock';
 
-    /**
-     * @var integer
-     */
-    public $id;
-    
-    /**
-     * dialog_type.id
-     * @var int
-     */
-    public $type_id ;   
-    
-    /**
-     * @var string
-     */
-    public $title;
+    /* --------------------------------------------------------------------------------------------- */
 
     /**
      * @return bool
@@ -52,7 +38,7 @@ class DialogSubtype extends CActiveRecord
     
     public static function model($className=__CLASS__)
     {
-            return parent::model($className);
+        return parent::model($className);
     }
 
     /**
@@ -60,7 +46,7 @@ class DialogSubtype extends CActiveRecord
      */
     public function tableName()
     {
-            return 'dialog_subtypes';
+        return 'dialog_subtypes';
     }
 }
 

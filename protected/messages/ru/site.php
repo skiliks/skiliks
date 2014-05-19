@@ -22,7 +22,7 @@ return array(
     'There was an error sending recovery email' => 'Произошла ошибка при отправке email по восстановлению пароля. Пожалуйста повторите запрос',
     'Thank you! See you soon!' => 'Спасибо! До скорого!',
     '2-hours game' => '2 часовая игра',
-    'A tool to assess candidates and employees' => 'Отличный инструмент для оценки кандидатов<br/> и сотрудников',
+    'A tool to assess candidates and employees' => 'Отличный инструмент для оценки кандидатов и сотрудников',
     'Back to top' => 'Наверх',
     'Based on best working practices' => 'Основан на лучшей управленческой практике',
     'Based on mathematical methods not just feelings' => 'Использует математические методы анализа<br />поведения, а не субъективные ощущения ',
@@ -48,9 +48,8 @@ return array(
     'Please enter a valid email address' => 'Пожалуйста, введите валидный емейл',
     'Results can be obtained and used immediately' => 'Моментально предоставляет готовые для использования результаты оценки',
     'Saves your time' => 'Экономит время',
-    'Simulation aimed at testing basic manager’s skills'
-        => 'Деловая симуляция, позволяющая оценить ключевые управленческие навыки',
-    'Easy &amp; reliable way to discover your people management skills!' => 'Простой и надежный способ проверить навыки менеджеров!',
+    'Simulation aimed at testing basic manager’s skills' => 'Деловая симуляция, позволяющая оценить базовые менеджерские навыки',
+    'Easy &amp; reliable way to discover your people management skills!' => 'Простой и надежный способ проверить<br>навыки менеджеров!',
     'Uses real work environment, tasks and decision<br />making situations' => 'Максимально приближен к реальному деловому окружению, задачам и ситуациям',
 
     'Русский' => 'English',
@@ -59,6 +58,8 @@ return array(
     'Product' => 'О продукте',
     'My office' => 'Мой офис',
     'Help' => 'Помощь',
+
+    'Buy' => 'Купить',
 
     'en' => 'ru',
     'ru' => 'en',
@@ -77,11 +78,11 @@ return array(
     'Unlimited number of applicants in any part of the world.' => 'Позволяет тестировать любое количество людей в любой точке мира',
     'No limits! Use the simulation for managers from anywhere in the world. Assess as many people as you need.' => 'Никаких ограничений! Используйте симуляцию для оценки менеджеров в любой точке мира. Оценивайте столько людей, сколько вам необходимо!',
     'No hard-, soft- or any-ware required! Just make  sure you and your managers are on line!' => 'Не требует затрат на софт, оборудование или помещения! Просто убедитесь, что вы онлайн.',
-    '<strong>NO NEED</strong> to  buy computers' => '<strong>НЕ нужно</strong> покупать дополнительные компьютеры.',
-    '<strong>NO NEED</strong> to buy/distribute/integrate any soft' => '<strong>НЕ нужно</strong> покупать/устанавливать/интегрировать новое программное обеспечение',
-    '<strong>NO NEED</strong> to lease additional office space' => '<strong>НЕ нужно</strong> расширять офис и выделять специальные места для тестирования',
+    'NO NEED to  buy computers' => 'НЕ нужно покупать дополнительные компьютеры.',
+    'NO NEED to buy/distribute/integrate any soft' => 'НЕ нужно покупать/устанавливать/интегрировать новое программное обеспечение',
+    'NO NEED to lease additional office space' => 'НЕ нужно расширять офис и выделять специальные места для тестирования',
     'Results can be used immediately' => 'Моментально предоставляет готовые для использования результаты оценки',
-    '<strong>NO NEED</strong> to call experts to interpret the results! Just open your Skiliks Office and use the managers’ assessment data to make the decision!' => 'Не требуются эксперты для интерпретации результатов! Просто зайдите в ваш офис на skiliks.com и используйте информацию для принятия решения.',
+    'NO NEED to call experts to interpret the results! Just open your Skiliks Office and use the managers’ assessment data to make the decision!' => 'Не требуются эксперты для интерпретации результатов! Просто зайдите в ваш офис на skiliks.com и используйте информацию для принятия решения.',
     'Focused on the practical skills' => 'Оценивает ключевые для бизнеса практические навыки',
     'We focus the simulation on measuring  real managerial skills – their ability to bring value from the first working day. Skill itself is the mastered capacity to carry out pre-determined results with minimum resources.' => 'Навык - управляемая способность человека приносить конкретные результаты, затрачивая минимум ресурсов. Мы настроили симуляцию на оценку только ключевых базовых навыков менеджера, мы не рекомендуем использовать её для оценки менеджеров высокого уровня, поскольку технические навыки управления только частично влияют на их успешность.',
     'Based on best working practices' => 'Основан на лучшей управленческой практике',
@@ -93,7 +94,7 @@ return array(
     'We collect and analyse the data of hundreds of participants to manage the simulation.' => 'Мы собираем и анализируем данные сотен участников, чтобы  корректно настроить симуляцию.',
     'We give you the possibility to compare candidates using clear quantitative criteria.' => 'Наш инструментарий дает четкие количественные критерии для оценки и сравнения кандидатов.',
     'Meet the Team' => 'Познакомьтесь – наша команда',
-    'As managers we know the issue of hiring and developing professionals. As consultants and continuous improvement practitioners we know the way this issue can be solved. So we decided to create the product that would help managers of any level in any business to build their teams with much more confidence and without time-consuming assessment process.' => 'Будучи менеджерами мы хорошо понимаем, как сложно найти и воспитать профессионала. Будучи консультантами по управлению и практиками в области постоянного совершенствования мы знаем, как решить эту проблему. Наши знания и успешный опыт легли в основу продукта, который помогает любому менеджеру создавать свою команду с большей уверенностью и меньшими затратами.',
+    'As managers we know the issue of hiring and developing professionals. As consultants and continuous improvement practitioners we know the way this issue can be solved. So we decided to create the product that would help managers of any level in any business to build their teams with much more confidence and without time-consuming assessment process.' => 'Будучи менеджерами, мы хорошо понимаем, как сложно найти и воспитать профессионала. Будучи консультантами по управлению и практиками в области постоянного совершенствования, мы знаем, как решить эту проблему. Наши знания и успешный опыт легли в основу продукта, который помогает любому менеджеру создавать свою команду с большей уверенностью и меньшими затратами.',
     'Maria Gorina' => 'Мария Горина',
     'Effectiveness champion<br />Mentor to everyone<br />Structure wizard<br /><span class=dots>simply The Boss &amp; Visionary</span>' => 'Чемпион по эффективности<br />Наставник для каждого, кто есть рядом<br />Маг структурирования<br /><span class=dots>просто Босс и Визионер</span>',
     'Leah Levin' => 'Лея Левин',
@@ -243,7 +244,7 @@ return array(
     'Managerial skills' => 'Управленческие навыки',
     'Personal qualities' => 'Личностные характеристики',
     'Activation did not work' => 'Активация не сработала',
-    'The user is already activated' => 'Данный email уже активирован',
+    'The user is already activated' => 'Аккаунт уже активирован',
     'Profile found, but no associated user. Possible database inconsistency. Please contact the System administrator with this error message, thank you' => 'С Вашим профилем не проассоциирован ни олин пользователь. Обратитесь к администрации сайта чтобы решить эту проблему.',
     'Your account has been activated' => 'Ваш аккаунт успешно активирован',
     'Professional occupation' => 'Професcиональная область',
@@ -380,6 +381,8 @@ return array(
     'Trial "Lite version"' => 'Пробная "Lite" симуляция',
 
     'Pricing & Plans Monthly Rates' => 'Тарифные планы: цена подписки в месяц',
+    '50% discount for all tariffs till March 31' => 'Скидка 50% на весь 2014 год при оплате до 31 марта',
+    'Tariff plans 2014' => 'Тарифные планы 2014',
     '1 Month free' => 'Месяц бесплатно',
     'Save ' => 'Экономия ',
     'Free' => 'Бесплатно',
@@ -413,7 +416,7 @@ return array(
     'positive' => 'Положительная',
     'negative' => 'Отрицательная',
     'personal' => 'Персональная',
-    'Please contact us' => 'Пожалуйста свяжитесь с нами',
+    'Please, contact us' => 'Пожалуйста, свяжитесь с нами',
 
     'Thanks for your order, Invoice was sent to %s. Plan will be available upon receipt of payment' => 'Спасибо за ваш заказ, на %s отправлен счет. Тарифный план будет доступен после получения оплаты',
     'Accept terms of conditions' => 'Вы должны согласиться с условиями',
@@ -436,5 +439,7 @@ return array(
     'www.skiliks.com - online simulation aimed at testing management skills' => 'www.skiliks.com - онлайн симуляция для оценки навыков менеджеров',
     'This user\'s name already exists.' => 'Такое имя пользователя уже занято.',
     'Additional simulations' => 'Дополнительные симуляции',
-    'Your account has been locked' => 'Ваш аккаунт заблокирован'
+    'Your account has been locked' => 'Ваш аккаунт заблокирован',
+
+    'Register now' => 'Зарегистрироваться сейчас',
 );

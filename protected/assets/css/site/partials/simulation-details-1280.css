@@ -1,0 +1,1364 @@
+.skiliks .ui-dialog.simulation-result-popup {
+    padding: 20px 10px 26px;
+}
+
+/* забобратсья! крестик "закрыть" должет быть на месте сам собой */
+.skiliks .ui-dialog.simulation-result-popup .ui-dialog-titlebar-close span.ui-icon.ui-icon-closethick {
+    margin-top: -35px;
+    margin-left: 17px;
+}
+
+#simulation-details-pop-up {
+    overflow: hidden;
+}
+
+.simulation-details {
+    overflow: visible;
+    padding-bottom: 30px;
+}
+
+.action-controller-personal-static-dashboard #simulation-details-pop-up,
+.action-controller-corporate-static-dashboard #simulation-details-pop-up,
+.action-controller-corporate-static-dashboard #simulation-details-pop-up,
+.action-corporate #simulation-details-pop-up,
+.action-registration #simulation-details-pop-up {
+    padding: 0;
+}
+
+#simulation-details-pop-up h1,
+#simulation-details-pop-up h2  {
+    color: #3d4041;
+}
+
+#simulation-details-pop-up h1 {
+    padding: 0 10px 6px 3px;
+}
+
+#simulation-details-pop-up .ui-widget-content {
+    background-color: #e8f7f7;
+    border:none;
+    margin-top: 50px;
+    padding: 0;
+}
+
+.simulation-details .navigation {
+    background: none;
+    border: none;
+    float:right;
+    margin-bottom: 26px;
+    padding: 0;
+    text-align: right;
+}
+
+#tab-main {
+    clear:both;
+}
+
+.simulation-details .navigation li {
+    float: left;
+    margin-left:10px;
+    list-style-type: none;
+    outline: none;
+}
+
+.simulation-details .navigationli:focus {
+    outline: none;
+}
+
+.simulation-details .navigation li:first-child {
+    margin-right: 0;
+}
+
+.simulation-details .navigation a {
+    background-color: #7eb2b9;
+    background-image: none;
+    border:none;
+    border-radius: 3px;
+}
+
+.simulation-details .navigation a.active {
+    background:#3c818b;
+}
+
+.simulation-details .navigation a,
+.simulation-details .navigation a:visited {
+    background-image: none;
+    display: block;
+    line-height: 28px;
+    padding: 0 10px;
+}
+
+.simulation-details .navigation a, .simulation-details .navigation a:visited, .simulation-details .navigation a:focus {
+    color: #fff;
+    outline: none;
+    text-decoration: none;
+}
+
+.action-controller-personal-static-dashboard #simulation-details-pop-up {
+    padding: 0;
+}
+
+.chart-gauge {
+    float: left;
+}
+
+.navigatnwrap {
+    margin-top: 15px;
+}
+
+.gauge-charts:after,
+.page:after,
+.simulation-details .navigation:after,
+.clearfix-simulation-results:after,
+.navigatnwrap:after,
+.legendvalue:after,
+.twocharts:after,
+.twobarstitles:after,
+.estmfooter:after {
+    content: "";
+    display: block;
+    height: 0;
+    clear: both;
+}
+
+.skiliks .gauge-charts {
+    margin-top: 6px;
+}
+
+.product .maincharts {
+    margin-top: -34px;
+}
+
+.percentil_overall_container .percentil_text {
+    float: right;
+    margin-right: 9px;
+    margin-top: 0;
+}
+
+.allratebg {
+    background: url("../../../img/site/1280/assessment/stars-big.png") no-repeat left top;
+}
+
+.allratebg, .allrating {
+    display: inline-block;
+    height: 24px;
+    width: 135px;
+}
+
+.allrating {
+    background: url("../../../img/site/1280/assessment/stars-big.png") no-repeat left bottom;
+}
+
+.overall {
+    text-align: center;
+    vertical-align: top;
+}
+
+.overall div, .overall .allratebg {
+    text-align: left;
+    margin-right: 10px;
+}
+
+.percentil_base, .percentil_overall {
+    width: 74px;
+    height: 18px;
+    background-image: url(../../../img/site/1280/assessment/percentile.png);
+    display: inline-block;
+    background-position: 0 -18px;
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: rgba(0, 0, 0, 0);
+    background-origin: padding-box;
+    background-repeat: no-repeat;
+    background-size: auto auto;
+}
+
+.percentil_base {
+    margin-left: 6px;
+}
+
+.percentil_overall {
+    background-position: 0 0;
+    float: left;
+}
+
+.percentil_overall_container {
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: rgba(0, 0, 0, 0);
+    background-image: url("../../../img/site/1280/assessment/percentile-background.png");
+    background-origin: padding-box;
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-size: auto auto;
+    height: 31px;
+    margin-bottom: 0;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 0;
+    padding-bottom: 6px;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 6px;
+    text-align: left;
+    width: 135px;
+}
+
+.percentil_dashboard_container {
+    width:118px;
+    background-position: top left;
+    background-size: 118px 30px;
+    height:18px;
+}
+
+.percentile_dashboard_value {
+    margin-right: 5px;
+    display: block;
+    margin-top:1px;
+    float:right;
+}
+
+#dashboard-skills-box .percentile_dashboard_value {
+    margin-top: 2px;
+    margin-right: 2px;
+}
+
+.percentil_text {
+    font-size: 1.2em;
+    font-family: ProximaNova-Bold;
+}
+
+.percentil_overall_container_product {
+    background-size: 110px 32px;
+    width:110px;
+}
+
+.estmtresults {
+    height:130px;
+}
+
+.allsummry {
+    background: url("../../../img/site/1280/assessment/results-distribution-lines.png") no-repeat center 79px;
+    margin-top: 30px;
+}
+
+.allseprtwrap {
+    position: relative;
+}
+
+.uprnavprcnt {
+    left:236px;
+}
+
+.resultprcnt {
+    left:464px;
+}
+
+.timeprcnt {
+    left:692px;
+}
+
+.estmtileswrap {
+    margin-top: 8px;
+}
+
+.product-estmtileswrap {
+    margin-top: 55px;
+}
+
+.estmtileswrap h4 a {
+    color: #3D4041;
+    text-decoration: none;
+}
+
+.estmtileswrap h2 {
+    margin: 0 auto;
+}
+
+.estmtileswrap .widthblock,
+.rateslist .widthblock {
+    vertical-align: top;
+    margin-right: 5px;
+    margin-left: 5px;
+    width: 316px;
+    min-width: 316px;
+}
+
+.estmtileswrap .widthblock {
+    height: 67px;
+}
+
+.widthblock:first-child {
+    margin-left: 10px;
+}
+
+.estmtileswrap .widthblock:first-child,
+.estmtileswrap .widthblock:last-child {
+    width: 276px;
+    min-width: 276px;
+
+    /* Надо укоротить площадь под надписи. */
+    /* А то кружок со стрелкой переносится на следующую строку. */
+    padding: 0 20px;
+}
+
+.estmtileswrap .widthshort,
+.rateslist .widthshort {
+    width:264px;
+}
+
+.estmtileswrap h2, .estmtileswrap h2 a, .estmtileswrap h2 a:visited {
+    color: #3d4041;
+}
+
+.estmtileswrap h2,
+.simulation-result-popup .levellabels h3,
+.product .levellabels h3  {
+    color:#3d4041;
+    line-height: 90%;
+    text-align:center;
+}
+
+.simulation-result-popup .levellabels h3 {
+    margin-top: 15px;
+}
+
+.product .estmtileswrap h2, .product h2, .product h2 a, .product h2 a:visited, .product h3, .product .levellabels h3 {
+    color: #fff;
+}
+
+.product .estmtileswrap h2, .product .estmtileswrap h2 a {
+    font-size: 24px;
+    margin-bottom: 10px;
+    margin-left: 3px;
+}
+
+.product .lastwidthblock h2, .product .lastwidthblock h3 {
+    margin-left:20px;
+}
+
+.simulation-details .estmtileswrap .widthblock:nth-child(2) h2 {
+    padding-bottom: 21px;
+}
+
+.levellabels h6 {
+    display: inline-block;
+    min-height: 40px;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 15px;
+    vertical-align: top;
+    width: 316px;
+}
+
+.levellabels h6:first-child {
+    margin-left: 10px;
+}
+
+.widthblock {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    width: 308px;
+}
+
+.widthshort {
+    width: 236px;
+}
+
+.product .widthblock {
+    width: 316px;
+}
+
+.gauge-charts,
+.levellabels {
+    margin: 0 auto;
+    overflow: visible;
+}
+
+.product .levellabels {
+    width:auto;
+}
+
+.maincharts .bullet-charts, .maincharts .product-bullet-charts {
+    float: right;
+    margin: 0;
+    padding: 0;
+    width: 250px;
+}
+
+.maincharts .product-bullet-charts {
+    width: 237px;
+}
+
+.rateslist {
+    margin: 16px auto 20px;
+}
+
+.rateslist h3 {
+    font-size: 17px;
+    line-height: 105%;
+    margin-bottom: 14px;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.numlist {
+    margin-left: 20px;
+    padding-left: 0;
+    margin-top: 0;
+}
+
+.rateslist .numlist {
+    width:254px;
+}
+
+.numlist a {
+    display: block;
+}
+
+.nobultslist li {
+    list-style-type: none;
+}
+
+.bluelist li {
+    line-height: 120%;
+    margin: 0;
+    padding: 0;
+    padding-bottom: 7px;
+}
+
+.bluelist li,
+.bluelist li a,
+.bluelist li a:visited {
+    color: #2d7b91;
+    font-family: "ProximaNova-Regular";
+    text-decoration: none;
+}
+
+.product .bluelist li {
+    list-style-type: none;
+    padding-bottom: 10px;
+    padding-left: 12px;
+}
+
+.product .bluelist li, .product .bluelist a {
+    color: #fff;
+    font-size: 1.043em;
+    line-height: 110%;
+}
+
+.product .bluelist a {
+    min-height: 18px;
+}
+
+.product .bluelist li:last-child {
+    padding-bottom: 0;
+}
+
+.product .bluelist li:last-child li:last-child {
+    padding-bottom: 8px;
+}
+
+.product .bluelist ul {
+    display: none;
+}
+
+.product .bluelist .subisopen ul {
+    display: block;
+}
+
+.product .hassubmenu>a {
+    background:url("../../../img/site/1280/buttons/plus-minus.png") no-repeat right 2px;
+    display:block;
+    padding-right: 26px;
+}
+
+.product .subisopen>a {
+    background-position: right -76px;
+}
+
+.product .subisopen ul {
+    margin-top: 8px;
+}
+
+.resulttitele,
+.resulttitele a,
+.resulttitele a:visited {
+    color:#3d4041;
+    font-weight: normal;
+    text-decoration: none;
+}
+
+.resulttitele.smallerfont {
+    padding-top: 5px;
+    vertical-align: top;
+}
+
+.resulttitelevalue {
+    margin-top: -10px;
+}
+
+.mangrlresults+.resulttitele {
+    margin-top: 0;
+}
+
+.labels {
+    float: left;
+    margin-top: -3px;
+    width: 295px;
+}
+
+#managerial-skills-1-2 .labels,
+#managerial-skills-3-4 .labels {
+    margin-top: 1px;
+}
+
+#time-management-detail .labels {
+    margin-top: 17px;
+}
+
+.labels .row {
+    height: 30px;
+    margin-top: 25px;
+}
+
+.labels .row:first-child {
+    margin-top: 5px;
+}
+
+.bars .chart-bar:first-child  {
+    margin-top: 0;
+}
+
+.labels .resulttitele {
+    display: inline-block;
+}
+
+.labels a, .labels li, .labels p, .labels div {
+    font-family: "ProximaNova-Regular";
+}
+
+.barswrap {
+    background: #ddf0f0;
+    float: right;
+    padding: 16px;
+    width: 647px;
+    /*-webkit-border-radius: 8px;*/
+    /*-moz-border-radius: 8px;*/
+    border-radius: 8px;
+}
+
+.bars .chart-bar {
+    margin: 40px 0 0 0;
+}
+
+.managerial-skills .otherskills .chartbar {
+    width: 300px;
+}
+
+.barstitle {
+    color:#3d4041;
+    font: 1.2em 'ProximaNova-Bold';
+    margin-bottom: 10px;
+}
+
+.resultlabeltitle {
+    padding-left: 330px;
+}
+
+.totalwithresult {
+    /*padding-left: 52px;*/
+    position: relative;
+}
+
+.managerial-skills .totalwithresult,
+#time-management .totalwithresult {
+    padding-left: 57px;
+}
+
+#productivity .totalwithresult {
+    padding-right: 5px;
+}
+
+.time-management .totalwithresult {
+   padding-right: 2px;
+}
+
+.blockvalue {
+    background: #146672;
+    /*-webkit-border-radius: 3px;*/
+    /*-moz-border-radius: 3px;*/
+    border-radius: 3px;
+    color: #fff;
+    display: inline-block;
+    height: 28px;
+    line-height: 28px;
+    margin-left: 4px;
+    padding: 0 10px;
+    position: relative;
+    top:-5px;
+}
+
+.blockvalue {
+    font-family: ProximaNova-Regular;
+    font-size: 0.5em;
+}
+
+.blockvalue.managerial-skills,
+.blockvalue.productivity-total,
+.blockvalue.time-total {
+    height: 29px;
+    line-height: 29px;
+    top: -5px;
+}
+
+/* парвая страница, значение абсолютного рейтинга */
+.estmtresults .blockvalue {
+    font-size: 1em;
+}
+
+.legendwrap {
+    background: #e0f1f1;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    margin-top: 20px; /* 30 */
+    padding: 10px;
+}
+
+.lessmargintop {
+    margin-top: 16px;
+}
+
+.legend {
+    background: #fff;
+    /*-webkit-border-radius: 3px;*/
+    /*-moz-border-radius: 3px;*/
+    border-radius: 3px;
+    padding: 10px 20px 20px;
+}
+
+.managerialmain .legend, #productivity .legend {
+    min-height: 70px;
+    padding-bottom: 10px;
+}
+
+.legendcolor {
+    display: inline-block;
+    /*-webkit-border-radius: 3px;*/
+    /*-moz-border-radius: 3px;*/
+    border-radius: 3px;
+    float:left;
+    height: 28px;
+    margin-right: 10px;
+    width: 28px;
+}
+
+.legendtitle {
+    display: table-cell;
+    height: 28px;
+    line-height:108%;
+    vertical-align: middle;
+}
+
+.colormax {
+    background: #b5d4d7;
+}
+
+.colordone {
+    background: #146672;
+}
+
+.colorwarn {
+    background: #e11a1a;
+}
+
+.resultslegend, .legendmargin {
+    margin-left: 313px;
+}
+
+.legendvalue {
+    margin-top: 8px;
+}
+
+.legendvalue:first-child {
+    margin-top: 0;
+}
+
+.resultslegend .legendvalue {
+    display: inline-block;
+    margin-top: 0;
+    width: 340px;
+}
+
+.resultslegend .shortlegend {
+    width: 240px;
+}
+
+.questn {
+    background: url(../../../img/site/1280/buttons/icon-question.png) no-repeat left bottom;
+    display: inline-block;
+    height:30px;
+    float: right;
+    width: 31px;
+}
+
+.signmore {
+    background: url(../../../img/site/1280/assessment/icon-circle-with-arow.png) no-repeat right top;
+    height: 21px;
+    padding-left: 10px;
+    vertical-align: middle;
+    width: 21px;
+}
+
+.widthblock h4 .signmore {
+    float: none;
+    vertical-align: middle;
+}
+
+#managerialmain {
+    display: inline-block;
+}
+
+.shortchartdesc {
+    float: left;
+    position: relative;
+    top: 1px;
+    margin-left: 10px;
+    font-size: 15px;
+}
+
+.sections > div {
+    display: none;
+}
+
+.sections > div.active {
+    display: block;
+}
+
+.estmfooter {
+    bottom: 0;
+    padding: 0 10px 0 10px;
+    margin: 0 0 20px;
+    position: absolute;
+    width: 980px;
+    text-align: center;
+}
+
+.estmfooter .prev {
+    float: left;
+}
+
+.estmfooter .next {
+    float: right;
+}
+
+.estmfooter a {
+    display: inline-block;
+    line-height: 30px;
+    padding: 0 10px;
+    text-decoration: none;
+}
+
+.estmfooter a, .estmfooter a:hover, .estmfooter a:visited, .estmfooter a:link {
+    color:#fff;
+    outline: none;
+}
+
+.estmfooter .prev, .estmfooter .fullreport, .estmfooter .next {
+    background: #66a3ab;
+}
+
+.estmfooter .prev:hover, .estmfooter .fullreport:hover, .estmfooter .next:hover {
+    background: #146672;
+}
+
+.extrasidepads, .section {
+    padding: 0 0 0 10px;
+}
+
+.timeblock {
+    background: #e8f7f7;
+    border-radius: 8px 8px 8px 8px;
+    border: 10px solid #c2dddf;
+    display: table-cell;
+    padding: 20px;
+    width: 426px;
+}
+
+.timeblock .resulttitele {
+    margin-bottom: 5px;
+}
+
+.timedetail .timeblock  .resulttitele {
+    margin-bottom: 0;
+}
+
+.blockseprt {
+    display: table-cell;
+    width: 10px;
+}
+
+.time-distribution, .over-time {
+    width: 300px;
+    margin: 0 auto;
+}
+
+.timediagr {
+    background:url("../../../img/site/1280/assessment/time-distribution.png") no-repeat;
+    height:351px;
+    position:relative;
+    width:351px;
+}
+
+.tziferblat {
+    overflow:hidden;
+}
+
+.timepart {
+    border-style: solid;
+    width: 0;
+    height: 0;
+    position:absolute;
+}
+
+.timeinactv {
+    border-width: 170px 50px 0 50px;
+    border-color: #91bac0 transparent transparent transparent;
+    left:90px;
+    top:10px;
+    /*-moz-transform: rotate(-15deg);*/
+    /*-ms-transform: rotate(-15deg);*/
+    /*-webkit-transform: rotate(-15deg);*/
+    /*-o-transform: rotate(-15deg);*/
+    transform: rotate(-15deg);
+}
+
+.timeactv {
+    border-width: 170px 210px 0 210px;
+    border-color: #146672 transparent transparent transparent;
+    right: -88px;
+    top: 40px;
+    /*-moz-transform: rotate(52deg);*/
+    /*-ms-transform: rotate(52deg);*/
+    /*-webkit-transform: rotate(52deg);*/
+    /*-o-transform: rotate(52deg);*/
+    transform: rotate(52deg);
+}
+
+.timepart.timecritical {
+    border-width: 190px 0 190px 190px;
+    border-color: transparent transparent transparent #e11a1a ;
+    left: 0;
+    bottom:-83px;
+    /*-ms-transform: rotate(-45deg);*/
+    /*-o-transform: rotate(-45deg);*/
+    /*-moz-transform: rotate(-45deg);*/
+    /*-webkit-transform: rotate(-45deg);*/
+    transform: rotate(-45deg);
+}
+
+.timecritical:after {
+    content: "";
+    border-style: solid;
+    width: 0;
+    height: 0;
+    position:absolute;
+    top: -2px;
+    left: -178px;
+    border-width: 0 170px 200px 170px;
+    border-color: transparent transparent #e11a1a transparent;
+    /*-ms-transform: rotate(5deg);*/
+    /*-o-transform: rotate(5deg);*/
+    /*-moz-transform: rotate(5deg);*/
+    /*-webkit-transform: rotate(5deg);*/
+    transform: rotate(5deg);
+}
+
+.timecritical:before {
+    content: "";
+    border-style: solid;
+    width: 0;
+    height: 0;
+    position:absolute;
+    top:-198px;
+    left:-124px;
+    border-width: 108px 0 108px 200px;
+    border-color: transparent transparent transparent #e11a1a;
+    /*-ms-transform: rotate(74deg);*/
+    /*-o-transform: rotate(74deg);*/
+    /*-moz-transform: rotate(74deg);*/
+    /*-webkit-transform: rotate(74deg);*/
+    transform: rotate(74deg);
+}
+
+.inactvalue {
+    left:130px;
+    top:60px;
+}
+
+.actvalue {
+    right:90px;
+    top:120px;
+}
+
+.criticalvalue {
+    left:100px;
+    top:190px;
+}
+
+.timeblock .chart-bar {
+    margin-top: 18px;
+}
+
+.timeblock .chart-bar:first-child {
+    margin-top: 0;
+}
+
+.mangrlresults .chartbar, .emptychart {
+    margin-bottom: 18px;
+}
+
+.mangrlresults .chartbar, .mangrlresults .chartproblem {
+    margin-bottom: 18px;
+}
+
+.managerialmain .chartbar, .managerialmain .chartproblem {
+    margin-bottom: 40px;
+}
+
+.mangrlresults .chartbar:last-child, .mangrlresults .twocharts:last-child > *,
+.barswrap .emptychart:last-child {
+    margin-bottom: 0;
+}
+
+.mangrlresults .labels {
+    padding-left: 0;
+}
+
+.mangrlresults .labels a {
+    color: #3d4041;
+    font-size: 12px;
+    text-decoration: none;
+    max-width: 225px;
+}
+
+#managerial-skills-1-2 .mangrlresults .labels a,
+#managerial-skills-3-4 .mangrlresults .labels a {
+    float: right;
+}
+
+#managerial-skills .labels {
+    margin-top: 10px;
+}
+
+.display-ib {
+    display: inline-block;
+}
+
+.mangrlresults .labelwrap:first-child .list-text  {
+    width: 176px; /* строка длиннаяб и хоть слово переновится - есть справа пустое прозрачное место. Укоротим его. */
+}
+
+.list-counter,
+.list-text {
+    display: table-cell;
+    font-size: 12px;
+}
+
+#managerial-skills-1-2 .list-counter,
+#managerial-skills-1-2 .list-text,
+#managerial-skills-3-4 .list-counter,
+#managerial-skills-3-4 .list-text {
+    display: inline-block;
+}
+
+.list-counter {
+    padding-right: 2px;
+    vertical-align: top;
+    min-width:16px;
+    max-width:100px;
+}
+
+.managerialmain .list-counter, .managerialmain .list-text {
+    padding-top:3px;
+    vertical-align: top;
+}
+
+.managerialmain {
+    min-width:14px;
+}
+
+.labeltitles {
+    float: left;
+    width: 300px;
+}
+
+.toplabelmargin {
+    margin-top: 18px;
+}
+
+.mangrlresultstitle {
+    float: left;
+    margin-left:20px;
+    margin-bottom: 20px;
+    padding-top: 11px;
+}
+
+.labelwrap {
+    margin-top:18px; /* 11 */
+}
+
+.labels .labelwrap:first-child {
+    margin-top: 19px;
+}
+
+.high-labels .labelwrap, .high-labels .labelwrap:first-child {
+    margin-top:11px;
+}
+
+.timedetail .labelwrap {
+    margin-top:18px;
+    margin-bottom: 18px;
+}
+
+.timedetail .labels p:first-child {
+    margin-top:14px;
+}
+
+.thelabel {
+    display: inline-block;
+    height: 30px;
+    font-size: 13px;
+    max-width: 300px;
+    position: relative;
+    vertical-align: top;
+}
+
+.high-labels .thelabel {
+    height: 59px;
+    vertical-align: top;
+}
+
+.labelhack {
+    padding-top:5px;
+}
+
+.mangrlresults .labels p:first-child {
+    margin-top:12px;
+}
+
+.managerialmain .mangrlresults .labels p:first-child {
+    margin-top:8px;
+}
+
+.mangrlresults ol li {
+    list-style-type: decimal;
+}
+
+.labels1 {
+    counter-reset: list1;
+}
+
+.labels1 li:before {
+    counter-increment: list1;
+    content: "1." counter(list1);
+}
+
+.valuetitle {
+    background: #ffffff;
+    /*-webkit-border-radius: 40px;*/
+    /*-moz-border-radius:40px;*/
+    border-radius:40px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    color: #146672;
+    display: inline-block;
+    font-weight: normal;
+    height: 72px;
+    line-height: 77px;
+    margin-right: 16px;
+    text-align: center;
+    width: 72px;
+}
+
+.twocharts .chartbar {
+    float: left;
+    width: 372px;
+}
+
+.twocharts .chartproblem {
+    float: right;
+    margin-left: 20px;
+    width:250px;
+}
+
+.iv.percentil_text_product {
+    float:right;
+    margin-right: 10px;
+    font-weight: bold;
+    margin-top:2px;
+}
+
+.chartproblem .chart-value,
+.bad .chart-bar .chart-value {
+    background: #e11a1a;
+}
+
+.twobarstitle {
+    margin-top: -10px;
+}
+
+.twobarstitles .barstitle {
+    display: inline-block;
+}
+
+.twobarstitles .barstitle:first-child {
+    margin-left: 12px;
+    width: 385px;
+}
+
+.twobarstitles .barstitle:nth-child(2) {
+    margin-left: 7px;
+}
+
+.timedetail .resulttitele {
+    float: left;
+    font-size:22px;
+    line-height: 100%;
+    padding-top: 10px;
+    width: 345px;
+}
+
+.timedetail .testtime {
+    float: right;
+    margin: 0;
+    margin-right: -14px;
+    padding-top: 29px;
+}
+
+.timedetail .testtime strong {
+    font-size: 30px;
+}
+
+.resulttitele  small {
+    display:block;
+    color: #3d4041;
+    font: 0.8em 'ProximaNova-Bold';
+    margin-bottom: 10px;
+}
+
+.timedetail .labels {
+    width: 115px;
+}
+
+.timedetail .timebars {
+    width:255px;
+}
+
+.timedetail .thelabel {
+    color: #3d4041;
+    font-family: "ProximaNova-Bold";
+    line-height: 90%;
+}
+
+.emptychart,
+.emptychart .chart-value {
+    border-radius: 5px 0 0 5px;
+}
+
+.chart-gauge {
+    background: url(../../../img/site/1280/assessment/gauge.png) no-repeat center bottom;
+    position: relative;
+    width: 240px;
+    height: 120px;
+    margin: 0 7px;
+    overflow: visible;
+    width: 316px;
+}
+
+.chart-gauge:first-child {
+    margin-left: 10px;
+}
+
+.chart-gauge:after {
+    content: '';
+    position: absolute;
+    z-index: 2;
+    width: 34px;
+    height: 34px;
+    bottom: -8px;
+    left: 50%;
+    margin-left: -17px;
+    background: url(../../../img/site/1280/assessment/bullet.png) no-repeat;
+}
+
+.chart-gauge .pointer {
+    position: absolute;
+    z-index: 1;
+    width: 105px;
+    height: 20px;
+    bottom: 2px;
+    left: 63px;
+    background: url(../../../img/site/1280/assessment/arrow.png) no-repeat;
+
+    -webkit-transform-origin: 92px 11px;
+    /*-moz-transform-origin: 92px 11px;*/
+    /*-ms-transform-origin: 92px 11px;*/
+    transform-origin: 92px 11px;
+}
+
+.chart-gauge .chart-value {
+    color:#3d4041;
+    position: absolute;
+    left: 0;
+    margin-left: 35px;
+    bottom: 0;
+    z-index: 1000;
+}
+
+.chart-bar {
+    overflow: hidden;
+    height: 30px;
+    border-radius: 5px;
+    background-color: #b5d4d7;
+}
+
+.chart-bar.max-hidden {
+    background: transparent;
+}
+
+.chart-bar .chart-value,
+.chartbar .chart-value,
+.emptychart .chart-value {
+    display: block;
+    overflow: hidden;
+    width: 0;
+    height: 30px;
+    background-color: #146672;
+    text-align: center;
+    color: white;
+    line-height: 1.8em;
+
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.chart-bar .chart-value {
+    /*padding-right: 10px;*/
+}
+
+.chart-value {
+    font-size: 1.2em;
+}
+
+.chart-bar.redbar .chart-value{
+    background-color: #e11a1a;
+}
+
+.chart-pie {
+    position: relative;
+    background: url(../../../img/site/1280/assessment/pie-simple.png) no-repeat 50% 50%;
+    width: 300px;
+    height: 300px;
+}
+
+.chart-pie.scaled {
+    background: url(../../../img/site/1280/assessment/pie-scale.png) no-repeat 50% 60%,
+    url(../../../img/site/1280/assessment/pie-simple.png) no-repeat 50% 50%;
+}
+
+.chart-pie:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url(../../../img/site/1280/assessment/pie-glance.png) no-repeat 50% 25%;
+}
+
+.testtime {
+    background: url("../../../img/site/1280/assessment/clock-small.png") no-repeat;
+    color: #146672;
+    float: right;
+    font-family: "ProximaNova-Bold";
+    height: 56px;
+    margin:-54px 20px 0 0;
+    padding: 17px 4px 10px 8px;
+    text-align: center;
+    width:70px;
+}
+
+.testtime strong {
+    color: #146672;
+    font: 2.6em "ProximaNova-Bold";
+    line-height: 90%;
+    margin-left: 0;
+    overflow: hidden;
+}
+
+#managerial-skills .list-text,
+#managerial-skills .list-counter {
+    display: inline-block;
+}
+
+#managerial-skills-3-4 .list-text {
+    width: 225px;
+}
+
+#time-management .extrasidepads,
+#time-management-detail .extrasidepads {
+    margin-top: 20px;
+}
+
+.skiliks #productivity .inner-popover,
+.skiliks #managerial-skills-1 .inner-popover,
+.skiliks #managerial-skills-2 .inner-popover,
+.skiliks #managerial-skills-3 .inner-popover {
+    left: 18px;
+    margin-top: 44px;
+    width: 240px;
+    z-index: 1;
+}
+
+.skiliks #productivity .popover-content ,
+.skiliks #managerial-skills-1 .popover-content ,
+.skiliks #managerial-skills-2 .popover-content ,
+.skiliks #managerial-skills-3 .popover-content {
+    width: 220px;
+}
+
+#main .bluelist {
+    margin-left: 56px;
+    width: 200px;
+}
+
+#managerial-skills-2 .list-text {
+    width: 241px;
+}
+
+.simulation-result-popup h1.name {
+    max-width: 700px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.mangrlresults .labelwrap:first-child .list-counter,
+.mangrlresults .labelwrap:first-child .list-text {
+    margin-top: -10px;
+}
+
+#managerial-skills-1 .mangrlresults .labelwrap .list-text,
+#managerial-skills-2 .mangrlresults .labelwrap .list-text,
+#managerial-skills-3 .mangrlresults .labelwrap .list-text {
+    width: 240px;
+}

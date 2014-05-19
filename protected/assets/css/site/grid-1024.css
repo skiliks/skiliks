@@ -1,0 +1,118 @@
+
+.width-1024 .column-full {
+    min-width: 948px;
+    width: 948px;
+}
+
+.width-1024 .column-1-3-condensed {
+    width: 275px;
+}
+
+.width-1024 .column-2-3-fixed {
+    width: 600px;
+}
+
+.width-1024 input.inputs-wide-height {
+    height: 38px;
+}
+
+.width-1024.skiliks .popup-information .button-standard,
+.width-1024.skiliks .background-image-book-2 .button-standard {
+    padding-bottom: 15px;
+    padding-top: 15px;
+}
+
+.width-1024.skiliks .button-standard,
+.width-1024.skiliks input.button-standard {
+    padding-bottom: 11px;
+    padding-top: 12px;
+}
+
+.width-1024 .static-page-links .label a {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.width-1024 .button-standard {
+    padding-right: 20px;
+}
+
+.width-1024 .menu-item.label {
+    margin-left: 2px;
+    margin-right: 8px;
+}
+
+.width-1024 .button-white {
+    line-height: 2.5em;
+    margin-left: 0px;
+}
+
+.width-1024 .contrast-table .button-white {
+    font-size: 1.15em;
+}
+
+/* --- contrast-table --- */
+
+.width-1024 .contrast-table table.items th,
+.width-1024 .contrast-table table.items th a {
+    line-height: 1.1em;
+}
+
+/* --- */
+
+.width-1024 .page-title-box {
+    margin: 0 0 32px;
+}
+
+.width-1024 .row-32 {
+    height: 27px;
+}
+
+.width-1024 .row-26 {
+    height: 23px;
+}
+
+.width-1024 .row-13 {
+    height: 11px;
+}
+
+/* ---- */
+
+.width-1024 header nav ul li.menu-item span.icon-sub-menu {
+    background-position: 98px 11px;
+    padding-right: 25px;
+}
+
+.width-1024 header nav ul li.menu-item .icon-sub-menu.open {
+    background-position: 96px 13px;
+}
+
+.width-1024 header nav ul.sub-menu-1 li.menu-item a {
+    width: 304px;
+}
+
+.width-1024 header .sub-menu-1 {
+    top: 77px;
+    width: 337px;
+}
+
+.width-1024 footer nav ul li.menu-item .icon-sub-menu {
+    background-position: 77px 9px;
+}
+
+.width-1024 footer nav ul li.menu-item .icon-sub-menu.open {
+    background-position: 75px 12px;
+}
+
+.width-1024 footer nav ul li.menu-item .icon-sub-menu {
+    padding-right: 25px;
+}
+
+.width-1024 footer nav ul li.menu-item .sub-menu-1 {
+    top: 199px;
+    width: 290px;
+}
+
+.width-1024 footer nav ul.sub-menu-1 li.menu-item a {
+    width: 260px;
+}

@@ -2,6 +2,8 @@
 
 class FlagServiceUnitTest extends CDbTestCase
 {
+    use UnitTestBaseTrait;
+
     /**
      * Service method
      *
@@ -30,7 +32,7 @@ class FlagServiceUnitTest extends CDbTestCase
         //$this->markTestSkipped();
 
         /** @var $user Users */
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -68,7 +70,7 @@ class FlagServiceUnitTest extends CDbTestCase
      */
     public function testFlagMailTimeSet()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -116,49 +118,15 @@ class FlagServiceUnitTest extends CDbTestCase
     {
         //$this->markTestSkipped();
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
         $invite->scenario->slug = Scenario::TYPE_FULL;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 
-
-        // null prefix
-        $receiverId = Character::model()->findByAttributes([
-            'code' => '12',
-            'scenario_id'  => $simulation->scenario_id,
-        ])->primaryKey;
-
-        $msgParams = new SendMailOptions($simulation);
-        $msgParams->simulation = $simulation;
-        $msgParams->subject_id = CommunicationTheme::model()->findByAttributes([
-            'code'         => 55,
-            'character_id' => $receiverId,
-            'mail_prefix'  => null,
-            'scenario_id'  => $simulation->scenario_id,
-        ])->primaryKey; // 55?
-        $msgParams->setRecipientsArray($receiverId);
-        $msgParams->groupId = MailBox::FOLDER_OUTBOX_ID;
-        $msgParams->time = '11:00';
-        $msgParams->messageId = 0;
-        $msgParams->copies = '';
-        $msgParams->phrases = '';
-
-        $mail = MailBoxService::sendMessagePro($msgParams);
-        MailBoxService::updateMsCoincidence($mail->id, $simulation->id);
-
-        // RE: RE:
-        $msgParams->subject_id = CommunicationTheme::model()->findByAttributes([
-            'code'         => 55,
-            'character_id' => $receiverId,  // 55?
-            'mail_prefix'  => 'rere',
-            'theme_usage'  => CommunicationTheme::USAGE_OUTBOX,
-            'scenario_id'  => $simulation->scenario_id,
-        ])->primaryKey;
-
-        $mail = MailBoxService::sendMessagePro($msgParams);
-        MailBoxService::updateMsCoincidence($mail->id, $simulation->id);
+        LibSendMs::sendMs($simulation, 'MS30');
+        LibSendMs::sendMs($simulation, 'MS32');
 
         $flags = FlagsService::getFlagsState($simulation);
 
@@ -175,7 +143,7 @@ class FlagServiceUnitTest extends CDbTestCase
         //$this->markTestSkipped();
 
         /** @var $user Users */
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -226,7 +194,7 @@ class FlagServiceUnitTest extends CDbTestCase
     {
         //$this->markTestSkipped(); // S
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -261,7 +229,7 @@ class FlagServiceUnitTest extends CDbTestCase
     {
         //$this->markTestSkipped();
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -289,7 +257,7 @@ class FlagServiceUnitTest extends CDbTestCase
     {
         ////$this->markTestSkipped();
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -323,7 +291,7 @@ class FlagServiceUnitTest extends CDbTestCase
     {
         //$this->markTestSkipped();
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -385,7 +353,7 @@ class FlagServiceUnitTest extends CDbTestCase
      */
 
     public function testNewFlagsRules() {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -407,7 +375,7 @@ class FlagServiceUnitTest extends CDbTestCase
      */
 
     public function testNewFlagsRulesByDialogGet() {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -428,7 +396,7 @@ class FlagServiceUnitTest extends CDbTestCase
      * и делаю это вовремя
      */
     public function testFlagToSwitch2() {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -452,13 +420,12 @@ class FlagServiceUnitTest extends CDbTestCase
         $this->setTime($simulation, 11, 47);
         FlagsService::checkFlagsDelay($simulation);
         $flag = FlagsService::getFlag($simulation, "F38_3");
-        //var_dump($flag->flag);
         $this->assertEquals('1', $flag->value);
     }
 
     public function testMeetingFlags()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;

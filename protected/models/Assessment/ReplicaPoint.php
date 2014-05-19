@@ -43,14 +43,10 @@ class ReplicaPoint extends CActiveRecord
      */
     public function rules()
     {
-        // NOTE: you should only define rules for those attributes that
-        // will receive user inputs.
         return array(
             array('dialog_id, point_id, add_value', 'required'),
             array('dialog_id, point_id, add_value', 'numerical', 'integerOnly'=>true),
             array('import_id', 'length', 'max'=>14),
-            // The following rule is used by search().
-            // Please remove those attributes that should not be searched.
             array('id, dialog_id, point_id, add_value, import_id', 'safe', 'on'=>'search'),
         );
     }
@@ -60,8 +56,6 @@ class ReplicaPoint extends CActiveRecord
      */
     public function relations()
     {
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
         return array(
             'replica' => array(self::BELONGS_TO, 'Replica', 'dialog_id'),
             'point'   => array(self::BELONGS_TO, 'HeroBehaviour', 'point_id'),
@@ -74,9 +68,9 @@ class ReplicaPoint extends CActiveRecord
     public function attributeLabels()
     {
         return array(
-            'id' => 'ID',
+            'id'        => 'ID',
             'dialog_id' => 'Dialog',
-            'point_id' => 'Point',
+            'point_id'  => 'Point',
             'add_value' => 'Add Value',
             'import_id' => 'Import',
         );
@@ -88,11 +82,7 @@ class ReplicaPoint extends CActiveRecord
      */
     public function search()
     {
-        // Warning: Please modify the following code to remove attributes that
-        // should not be searched.
-
         $criteria=new CDbCriteria;
-
         $criteria->compare('id',$this->id);
         $criteria->compare('dialog_id',$this->dialog_id);
         $criteria->compare('point_id',$this->point_id);

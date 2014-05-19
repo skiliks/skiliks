@@ -1,0 +1,536 @@
+
+.controller-static-dashboard aside {
+    margin-left: 7px;
+    margin-right: 14px; /* число найдено подбором */
+}
+
+.controller-static-dashboard #invite-form h2 {
+    font-size: 1.78em;
+}
+
+.controller-static-dashboard #invite-form label {
+    display: inline-block;
+    padding-right: 6px;
+    width: 60px;
+}
+
+/* --- */
+
+/* Форма отправки приглашений */
+
+#Invite_firstname {
+    width: 106px;
+}
+
+#Invite_lastname {
+    margin-left: 4px;
+    width: 120px;
+}
+
+#Invite_email {
+    width: 245px;
+}
+
+#invite-form .sbHolder,
+#invite-form select {
+    width: 228px;
+}
+
+.invite-people-box {
+    height: 243px;
+}
+
+.button-add-vacancy {
+    background: url("../../../img/site/1280/buttons/plus.png") no-repeat scroll 50% 50% #DDDDDD;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-block;
+    font-family: "ProximaNova-Bold";
+    font-size: 18px;
+    font-weight: bold;
+    height: 22px;
+    line-height: 22px;
+    padding: 0 6px;
+    position: relative;
+    text-align: center;
+    top: 7px;
+    width: 10px;
+}
+
+#invite-form .button-white {
+    margin-left: 71px;
+}
+
+.action-controller-corporate-static-dashboard .button-white.rating-percentile-container {
+    margin-left : 0;
+    margin-right: 8px;
+}
+
+/* --- */
+
+.simulations-counter-box {
+    height: 38px;
+}
+
+.counter {
+    height: 30px;
+}
+
+.counter strong {
+    color: #3D4041;
+    font-family: "ProximaNova-Bold";
+    font-size: 1.21em;
+    font-weight: normal;
+    margin-right: 20px;
+}
+
+.counter .label {
+    color: #fff;
+    font-family: "ProximaNova-Bold";
+    font-size: 1.21em;
+    font-weight: normal;
+}
+
+/* --- */
+
+.corporate-invitations-list-box table {
+    width: 100%;
+}
+
+.corporate-invitations-list-box{
+    margin-bottom: 100px;
+}
+
+/* --- redefine /framework/zii/widgets/assets/gridview/styles.css { */
+
+.action-controller-corporate-static-dashboard .contrast-table tr th:nth-child(1) {
+    width: 30px;
+}
+
+/* Corporate Dashboard - Имя */
+.action-controller-corporate-static-dashboard .contrast-table tr th:nth-child(2),
+.action-controller-corporate-static-dashboard .contrast-table tr td:nth-child(2) {
+    width: 190px;
+    max-width: 190px; /* for text-overflow: ellipsis; */
+}
+
+/* Corporate Dashboard - Позиция */
+.action-controller-corporate-static-dashboard .contrast-table tr th:nth-child(3),
+.action-controller-corporate-static-dashboard .contrast-table tr td:nth-child(3) {
+    width: 170px;
+    max-width: 170px; /* for text-overflow: ellipsis; */
+}
+
+/* Corporate Dashboard - Статус */
+.action-controller-corporate-static-dashboard .contrast-table tr th:nth-child(4),
+.action-controller-corporate-static-dashboard .contrast-table tr td:nth-child(4) {
+    width: 90px;
+}
+
+/* Corporate Dashboard - Дата */
+.action-controller-corporate-static-dashboard .contrast-table tr th:nth-child(5),
+.action-controller-corporate-static-dashboard .contrast-table tr td:nth-child(5) {
+    width: 80px;
+}
+
+/* Corporate Dashboard - Рейтинг */
+.action-controller-corporate-static-dashboard .contrast-table tr th:nth-child(6),
+.action-controller-corporate-static-dashboard .contrast-table tr td:nth-child(6) {
+    width: 150px;
+}
+
+/* --- */
+
+/* Personal Dashboard - Компания */
+.action-controller-personal-static-dashboard .contrast-table tr th:nth-child(1) {
+    padding-left: 8px;
+}
+
+/* Personal Dashboard - Компания */
+.action-controller-personal-static-dashboard .contrast-table tr td:nth-child(1) {
+    width: 180px;
+    max-width: 180px; /* for text-overflow: ellipsis; */
+}
+
+/* Personal Dashboard - Позиция */
+.action-controller-personal-static-dashboard .contrast-table tr td:nth-child(2) {
+    width: 140px;
+    max-width: 140px; /* for text-overflow: ellipsis; */
+}
+
+/* Personal Dashboard - Оценка (Официальное название сценария) */
+.action-controller-personal-static-dashboard .contrast-table tr td:nth-child(3) {
+    width: 110px;
+    max-width: 110px; /* for text-overflow: ellipsis; */
+}
+
+/* Personal Dashboard - Дата */
+.action-controller-personal-static-dashboard .contrast-table tr td:nth-child(4) {
+    width: 80px;
+    max-width: 80px;
+    min-width: 80px;
+}
+
+/* Personal Dashboard - Статус */
+.action-controller-personal-static-dashboard .contrast-table tr td:nth-child(5) {
+    width: 200px;
+    max-width: 200px;
+    min-width: 200px;
+}
+
+.action-controller-personal-static-dashboard .contrast-table tr td:nth-child(5) section {
+    display: inline-block;
+}
+
+/* стрелки сортировки */
+
+/* } redefine /framework/zii/widgets/assets/gridview/styles.css --- */
+
+/* шестерёнка */
+
+.table-menu-switcher {
+    background: url("../../../img/site/1280/buttons/icon-gear.png") no-repeat left top;
+    position: relative;
+    height: 22px;
+    width: 22px;
+    z-index: 4;
+}
+
+.selected-sk .table-menu-switcher {
+    background-position: right top;
+    z-index: 6;
+}
+
+.table-menu {
+    background: linear-gradient(to bottom, #A5A385 0%, #8A896C 100%) repeat;
+    border: 1px solid #717059;
+    border-radius: 0 7px 7px;
+    display: none;
+    margin: -7px 0 0;
+    padding: 15px 20px 10px 22px;
+    position: absolute;
+    z-index: 5;
+}
+
+.table-menu span,
+.table-menu a {
+    display: block;
+    color: #FFFFFF;
+    font-family: "ProximaNova-Regular";
+    font-weight: normal;
+    padding: 0 0 10px 6px;
+    text-decoration: none;
+}
+
+.table-menu span:hover,
+.table-menu a:hover {
+    color: #000;
+}
+
+.invitations-table {
+    margin-bottom: 15px;
+}
+/* --- *
+
+/* смещение подсказки о статусе прглашения */
+.controller-static-dashboard .inner-popover {
+    left: 910px;
+}
+
+/* --- */
+
+.percentile-hover-toggle-span {
+    cursor: pointer;
+    display: inline-block;
+    height: 14px;
+    margin-left: 10px;
+    position: relative;
+    /*top: 14px;*/
+    width: 35px;
+}
+
+.percentile-selected {
+    background: url("../../../img/site/1280/dashboard/percentile-selected.png") no-repeat;
+}
+
+.stars-selected {
+    background: url("../../../img/site/1280/dashboard/stars-selected.png") no-repeat;
+}
+
+.assessment-results-type-switcher {
+    height: 14px;
+    margin-left: 10px;
+    padding-bottom: 4px;
+    vertical-align: bottom;
+    width: 35px;
+}
+
+.action-controller-personal-static-dashboard .assessment-results-type-switcher {
+    margin-top: 10px;
+    padding-left: 15px;
+}
+
+/* --- */
+
+i.icon {
+    background-size: 18px 17px;
+    height: 17px;
+    margin-top: 6px;
+    width: 18px;
+}
+
+i.icon-excel {
+    background-image: url("../../../img/site/1280/buttons/icon-xls.png");
+}
+
+i.icon-doc {
+    background-image: url("../../../img/site/1280/buttons/icon-doc.png");
+}
+
+.link-with-background label{
+    height: 20px;
+    line-height: 1em;
+    margin-left: 4px;
+    vertical-align: middle;
+}
+
+.ui-dialog form label {
+    width: 240px;
+}
+
+.ui-dialog form input[type="text"] {
+    width: 390px;
+}
+
+.ui-dialog form .sbHolder {
+    position: absolute;
+}
+
+.ui-dialog form .sbHolder,
+.ui-dialog form .sbOptions {
+    width: 410px;
+}
+
+.ui-dialog form#add-vacancy-form .error-place {
+    padding-left: 244px;
+}
+
+#invite-form .error-place {
+    padding-left: 70px;
+}
+
+#invite-form .error .error-place .errorMessage,
+#invite-form .error .error-place {
+    height: 18px;
+    margin-top: -16px; /* this.margin-top + 2px === this.height, 2px - отступ под текстом об ошибке */
+}
+
+.unstandard-box-with-blue-border {
+    border: 1px solid #374F52;
+    margin-top: 15px;
+    padding: 20px 10px 0px 10px;
+}
+
+/* --- */
+
+.ui-dialog form#add-vacancy-form .sbHolder {
+    margin-left: 4px;
+}
+
+#add-vacancy-form .button-standard {
+    margin-top: 35px;
+}
+
+#send-invite-message-form h3 {
+    margin-top: -20px;
+}
+
+#send-invite-message-form input[type='text'],
+#send-invite-message-form textarea {
+    border: 0;
+    box-shadow: none;
+    overflow-x: hidden;
+}
+
+#send-invite-message-form input[type='text'] {
+    width: 624px;
+}
+
+.skiliks .ui-dialog #send-invite-message-form a {
+    color: #2d7b91;
+}
+
+.skiliks .ui-dialog #send-invite-message-form p {
+    color: #0e4750;
+    margin-bottom: 15px;
+}
+
+.ui-dialog form#send-invite-message-form label {
+    margin-top: 10px;
+    margin-bottom: 22px;
+    width: 400px;
+}
+
+#Invite_is_display_simulation_results {
+    margin-bottom: 4px;
+    vertical-align: middle;
+}
+
+.ui-dialog form#send-invite-message-form .row {
+    height: auto;
+}
+
+/* ----- personal ----- */
+
+.action-controller-personal-static-dashboard .page-title-box h3 {
+    margin-top: 6px;
+    margin-left: 102px;
+}
+
+.unstandard-decline {
+    margin-left: 8px;
+}
+
+.skills-box {
+    margin-top: 20px;
+    padding-bottom: 20px;
+}
+
+.skills-box-stars label.skills-title {
+    margin-right: 20px;
+}
+
+.controller-static-dashboard .skills-box-stars .skills-title,
+.controller-static-dashboard .skills-box-stars .icon-21x21-empty {
+    height: 26px;
+    line-height: 28px;
+    margin-left: 5px;
+}
+
+.controller-static-dashboard .skills-box-percentile .skills-title,
+.controller-static-dashboard .skills-box-percentile .icon-21x21-empty {
+    height: 32px;
+    line-height: 34px;
+    margin-left: 5px;
+}
+
+.controller-static-dashboard .skills-title {
+    vertical-align: top;
+}
+
+.controller-static-dashboard .icon-21x21-empty {
+    vertical-align: middle;
+}
+
+.invite-accept-popup .unstandard-list-number {
+    font-family: ProximaNova-Bold;
+    font-size: 2em;
+    height: 32px;
+    padding-top: 5px;
+    vertical-align: top;
+    width: 37px;
+}
+
+.invite-accept-popup .unstandard-list-description {
+    height: 37px;
+    width: 838px;
+}
+
+.unstandard-simulation-requirements label {
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.unstandard-simulation-requirements .column-1-4 {
+    width: 193px;
+    vertical-align: top;
+    padding-right: 30px;
+}
+
+.unstandard-simulation-requirements .column-1-4:last-child {
+    padding-right: 0px;
+}
+
+.unstandard-list-description-text {
+    font-size: 1.3em;
+    line-height: 1.2em;
+}
+
+.action-controller-corporate-static-dashboard .table-footer {
+    /*margin-top: -5px;*/
+}
+
+.hint-assessment-results-type-switcher {
+    /*font-size: 0.8em; /* область находится внутри блока 1.2 em */
+    margin-left: 14px;
+    top: 114px;
+}
+
+.action-controller-personal-static-dashboard .hint-assessment-results-type-switcher {
+    font-size: 0.9em;
+    margin-left: -692px;
+    top: 118px;
+}
+
+.unstandard-firstname-error {
+    display: inline-block;
+    width: 120px;
+}
+
+.unstandard-secondname-error {
+    margin-left: 125px;
+    margin-top: -4px;
+    vertical-align: top;
+}
+
+#invite-form .unstandard-position-error {
+    padding-top: 11px;
+}
+
+#invite-form .unstandard-position-error .error-place {
+    height: 11px;
+    margin-top: -11px;
+}
+
+.us-hint-assessment-type {
+    font-size: 0.9em;
+}
+
+.skiliks .contrast-table .button-white {
+    margin-left: 0px;
+}
+
+#Invite_message {
+    width: 605px;
+    min-width: 605px;
+    max-width: 605px;
+    height: 85px;
+    min-height: 85px;
+    max-height: 85px;
+}
+
+/* Надо скрыть пейджер, пока он не будет перемещён на правильное место: */
+.contrast-table .pager {
+    display: none;
+}
+
+.controller-static-dashboard .page-title-box .button-white:last-child {
+    margin-right: 8px;
+}
+
+.us-column-1-3-min-height {
+    min-height: 87px;
+}
+
+.skiliks .ui-dialog.background-image-book .ui-dialog-content,
+.skiliks .ui-dialog.popup-information .ui-dialog-content {
+    overflow: hidden;
+}
+
+.items td {
+    color: #29313D;
+    font-family: ProximaNova-Bold;
+}
+

@@ -56,18 +56,23 @@ return CMap::mergeArray(
                 'connectionID' => 'db',
                 'autoCreateCacheTable' => false
             ),
+            /** @link: http://www.yiiframework.com/doc/api/1.1/CWebUser */
+            'user' => array(
+                'class'           => 'application.modules.user.components.YumWebUser',
+
+                // whether to enable cookie-based login.
+                'allowAutoLogin'  => true,
+
+                // whether to automatically renew the identity cookie each time a page is requested.
+                'autoRenewCookie' => true,
+            ),
             'session' => array(
                 'class'                  => 'CDbHttpSession',
                 'autoCreateSessionTable' => false,
                 'connectionID'           => 'db',
                 'sessionName'            => 'sid',
                 'cookieMode'             => 'allow',
-                'timeout'                => 60*60*24*31, // 1 mouth
-            ),
-            'user' => array(
-                'class'          => 'application.modules.user.components.YumWebUser',
-                'allowAutoLogin' => true,
-                // 'loginUrl'    => array('//user/user/login'),
+                'timeout'                => 60*60*24*7, // 7 days
             ),
             'excel'=>array(
                 'class' => 'application.extensions.PHPExcel',
@@ -77,9 +82,10 @@ return CMap::mergeArray(
                 'fileExtension' => '.tpl',
             ),
             'clientScript' => array(
-                'class' => 'ext.yii-less-extension.components.YiiLessCClientScript',
-                'cache' => true,
-                'basePath' => realpath(dirname(__FILE__) . '/../..')
+                'class'              => 'ext.yii-less-extension.components.YiiLessCClientScript',
+                'cache'              => true,
+                'basePath'           => realpath(dirname(__FILE__) . '/../..'),
+                'coreScriptPosition' => CClientScript::POS_END,
             ),
             'errorHandler'=>array(
                 'errorAction' => 'static/site/error404'
@@ -93,8 +99,8 @@ return CMap::mergeArray(
         // using Yii::app()->params['paramName']
         'params' => array(
             // имя сервера, стоб понимать с какого сервера пришли письма про подозрительную активность
-            // формат 'http://domain.com/'
-            'server_name'                   => 'не задан',
+            'server_name'        => 'не задан', // формат 'http://domain.com/'
+            'server_domain_name' => 'не задан', // формат 'domain.com'
 
             // просто подпись на сайте, вынесена в конфиг - чтоб было проще править
             'demoDuration'                  => 5, // min
@@ -111,8 +117,8 @@ return CMap::mergeArray(
             // Максимальная длинна имени
             'userNameInHeaderMaxLength'     => 30,
 
-            // четвёртое приглашение значит что, 3 приглашения отправлены или пройдены в режиме сам-себе
-            'countOfInvitesToShowReferralPopup'     => 4,
+            // Максимальная длинна имени
+            'minimumOrderForTheFirstTime'   => 3,
 
             // точно используется?
             'vacancyLinkInProfileMaxLength' => 50,
@@ -129,9 +135,6 @@ return CMap::mergeArray(
 
             // количество симуляций, которое даётся корпоративному пользователю после регистрации
             'initialSimulationsAmount'      => 3,
-
-
-            'inviteExpired'                 => 5,
 
             // Блокирует/разрещает использование админами входа на сайт от именю любого пользователя
             'isBlockGhostLogin'             => false,
@@ -151,25 +154,7 @@ return CMap::mergeArray(
             'emails' => [
                 'isDisplayStandardInvitationMailTopText' => true, // 'Вопросы относительно вакансии вы можете задать по адресу %s, куратор вакансии - %s.'
 
-                'inviteEmailTemplate'        => 'invite_default',
-
-                'tariffExpiredSoonTemplate'  => 'tariff_expired_soon',
-
-                'tariffExpiredTodayTemplate' => 'tariff_expired_today',
-
                 'newInvoiceToBooker'         => '//global_partials/mails/new_invoice',
-
-                'completeInvoiceUserEmail'   => 'completeInvoiceUserEmail',
-
-                'referrerInviteEmail'        => '//global_partials/mails/referrerEmail',
-
-                'noticeEmail'                => '//global_partials/mails/noticeEmail',
-
-                'newFeedback'                => '//global_partials/mails/newFeedback',
-
-                'ifSuspiciousActivity'       => '//global_partials/mails/ifSuspiciousActivity',
-
-                'newThingsInProject'         => 'newThingsInProject',
 
                 // Емейл бухгалтера
                 'bookerEmail' => 'invoice@skiliks.com',
@@ -188,13 +173,9 @@ return CMap::mergeArray(
             ],
 
             'imagesForPreLoad' => [
-                'img/papka-small.png',
                 'img/pause.png',
-                'img/phone-small.png',
-                'img/plan-small.png',
-                'img/pochta-small.png',
-                'img/workplace-small.png',
-                'img/doc-icons.png',
+                'img/simulation/icon-pause.png' ,
+                'img/simulation/icon-fullscreen.png' ,
                 'img/doc-icons-mini.png',
                 'img/window-title-dots.png',
                 'img/main-screen/bg-main-light.jpg',
@@ -260,28 +241,27 @@ return CMap::mergeArray(
                 'SiteHeartWidgetTitle'               => 'Онлайн помощь', // chat Skiliks(test mode): 626464, chat TechHelp (production mode): 633075
             ],
             'cron' => [
-                // через сколько секунд устаревает приглашение
-                'InviteExpired'=> 60*60*24*5,
             ],
 
             'initial_data' => [
                 'users' => [
                     /* is_admin = 1 -- user will be admin */
-                    ['username' => 'slavka'    , 'email' => 'slavka@skiliks.com'            ,'password' => '123123'         ,'is_admin' => 1],
-                    ['username' => 'slavka1'   , 'email' => 'slavka1@skiliks.com'           ,'password' => '123123'         ,'is_admin' => 0],
-                    ['username' => 'asd'       , 'email' => 'asd@skiliks.com'               ,'password' => '123123'         ,'is_admin' => 1],
-                    ['username' => 'seleniumEngine'  , 'email' => 'selenium.engine@skiliks.com'          ,'password' => '123123'         ,'is_admin' => 1],
-                    ['username' => 'listepo'   , 'email' => 'ivan@skiliks.com'              ,'password' => '123123'         ,'is_admin' => 1],
-                    ['username' => 'tony'      , 'email' => 'tony@skiliks.com'              ,'password' => '123123'         ,'is_admin' => 1],
-                    ['username' => 'leah'      , 'email' => 'leah.levin@skiliks.com'        ,'password' => '123123'         ,'is_admin' => 1],
-                    ['username' => 'masha'     , 'email' => 'masha@skiliks.com'             ,'password' => '123123'         ,'is_admin' => 1],
-                    ['username' => 'tatiana'   , 'email' => 'tetyana.grybok@skiliks.com'           ,'password' => '123123'         ,'is_admin' => 1],
-                    ['username' => 'andrew'    , 'email' => 'andrey.sarnavskiy@skiliks.com' ,'password' => '123123'         ,'is_admin' => 1],
-                    ['username' => 'seleniumAssessment'  , 'email' => 'selenium.assessment@skiliks.com'          ,'password' => '123123'         ,'is_admin' => 1]
+                    ['username' => 'slavka'    , 'email' => 'slavka@skiliks.com'            ,'password' => 'skiliks123123'         ,'is_admin' => 1],
+                    ['username' => 'slavka1'   , 'email' => 'slavka1@skiliks.com'           ,'password' => 'skiliks123123'         ,'is_admin' => 0],
+                    ['username' => 'asd'       , 'email' => 'asd@skiliks.com'               ,'password' => 'skiliks123123'         ,'is_admin' => 1],
+                    ['username' => 'seleniumEngine'  , 'email' => 'selenium.engine@skiliks.com'          ,'password' => 'skiliks123123'         ,'is_admin' => 1],
+                    ['username' => 'listepo'   , 'email' => 'ivan@skiliks.com'              ,'password' => 'skiliks123123'         ,'is_admin' => 1],
+                    ['username' => 'tony'      , 'email' => 'tony@skiliks.com'              ,'password' => 'skiliks123123'         ,'is_admin' => 1],
+                    ['username' => 'leah'      , 'email' => 'leah.levin@skiliks.com'        ,'password' => 'skiliks123123'         ,'is_admin' => 1],
+                    ['username' => 'masha'     , 'email' => 'masha@skiliks.com'             ,'password' => 'skiliks123123'         ,'is_admin' => 1],
+                    ['username' => 'tatiana'   , 'email' => 'tetyana.grybok@skiliks.com'           ,'password' => 'skiliks123123'         ,'is_admin' => 1],
+                    ['username' => 'andrew'    , 'email' => 'andrey.sarnavskiy@skiliks.com' ,'password' => 'skiliks123123'         ,'is_admin' => 1],
+                    ['username' => 'seleniumAssessment'  , 'email' => 'selenium.assessment@skiliks.com'          ,'password' => 'skiliks123123'         ,'is_admin' => 1]
                 ]
             ],
 
             'test_mappings' => require(dirname(__FILE__) . '/test_mappings.php'),
+            'test_admin_mappings' => require(dirname(__FILE__) . '/test_admin_mappings.php'),
 
             'analizer' => array(
                 // данные для анализа екселя
@@ -315,8 +295,8 @@ return CMap::mergeArray(
             ),
             'robokassa' => [
                 'url'            => 'http://test.robokassa.ru/Index.aspx',
-                'MrchLogin'      => 'skiliks_dev',
-                'Desc'           => 'Оплата согласно...',
+                'MerchantLogin'  => 'skiliks_dev',
+                'Description'    => 'Оплата согласно...',
                 'sMerchantPass1' => 'dcZz6P318a',
                 'sMerchantPass2' => 'S358oP0ikj'
             ],
@@ -325,8 +305,8 @@ return CMap::mergeArray(
     //            Test robokassa
     //            [
     //                'url'            => 'http://test.robokassa.ru/Index.aspx',
-    //                'MrchLogin'      => 'skiliks_dev',
-    //                'Desc'           => 'Оплата согласно...',
+    //                'MerchantLogin'  => 'skiliks_dev',
+    //                'Description'    => 'Оплата согласно...',
     //                'sMerchantPass1' => 'dcZz6P318a',
     //                'sMerchantPass2' => 'S358oP0ikj'
     //            ]

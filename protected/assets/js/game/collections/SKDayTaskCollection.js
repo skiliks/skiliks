@@ -48,9 +48,16 @@ define(["game/models/SKDayTask"], function () {
                 var start_minute = time.split(':')[1];
                 var start_time = parseInt(start_hour, 10) * 60 + parseInt(start_minute, 10);
                 var end_time = start_time + parseInt(duration, 10);
-                if (day === 'day-1' && start_time < SKApp.simulation.getGameMinutes()) {
-                    return false;
+                if(SKApp.isTutorial()){
+                    if (day === 'day-1' && ((9 * 60 + 45) > start_time)) {
+                        return false;
+                    }
+                }else{
+                    if (day === 'day-1' && start_time < SKApp.simulation.getGameMinutes()) {
+                        return false;
+                    }
                 }
+
                 if (day !== 'after-vacation' && end_time > 22 * 60) {
                     return false;
                 }
@@ -89,11 +96,16 @@ define(["game/models/SKDayTask"], function () {
 
             try {
                 var planed_time = parseInt(time.split(':')[0], 0)*60+parseInt(time.split(':')[1], 0);
-                var current_time = SKApp.simulation.getGameMinutes();
+                var current_time;
+                if(SKApp.isTutorial()){
+                    current_time = 9*60+45;
+                }else{
+                    current_time = SKApp.simulation.getGameMinutes();
+                }
                 if(day !== 'day-1'){
                     return true;
                 }else{
-                    if(planed_time > current_time){
+                    if(planed_time >= current_time){
                         return true;
                     }
                     return false;

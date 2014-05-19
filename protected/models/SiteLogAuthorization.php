@@ -11,7 +11,7 @@
  * @property string $date
  * @property string $login
  * @property string $password
- * @property string $referral_url
+ * @property string $referer_url
  * @property string $user_id
  * @property string $type_auth
  *
@@ -25,6 +25,17 @@ class SiteLogAuthorization extends CActiveRecord
 
     const SUCCESS_AUTH = '1';
     const FAIL_AUTH = '0';
+
+    /**
+     * @return string
+     */
+    public function getStatus()
+    {
+        return ($this->is_success === self::SUCCESS_AUTH) ? 'Успешная' : 'Не успешная';
+    }
+
+    /* --------------------------------------------------------------------------------------------------- */
+
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
@@ -56,10 +67,10 @@ class SiteLogAuthorization extends CActiveRecord
             array('user_agent, login, password', 'length', 'max'=>255),
             array('user_id', 'length', 'max'=>10),
             array('type_auth', 'length', 'max'=>20),
-            array('date, referral_url', 'safe'),
+            array('date, referer_url', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('id, ip, is_success, user_agent, date, login, password, referral_url, user_id, type_auth', 'safe', 'on'=>'search'),
+            array('id, ip, is_success, user_agent, date, login, password, referer_url, user_id, type_auth', 'safe', 'on'=>'search'),
         );
     }
 
@@ -88,7 +99,7 @@ class SiteLogAuthorization extends CActiveRecord
             'date' => 'Date',
             'login' => 'Login',
             'password' => 'Password',
-            'referral_url' => 'Referral Url',
+            'referer_url' => 'Referral Url',
             'user_id' => 'User',
             'type_auth' => 'Type Auth',
         );
@@ -112,7 +123,7 @@ class SiteLogAuthorization extends CActiveRecord
         $criteria->compare('date',$this->date,true);
         $criteria->compare('login',$this->login,true);
         $criteria->compare('password',$this->password,true);
-        $criteria->compare('referral_url',$this->referral_url,true);
+        $criteria->compare('referer_url',$this->referer_url,true);
         $criteria->compare('user_id',$this->user_id,true);
         $criteria->compare('type_auth',$this->type_auth,true);
 
@@ -121,6 +132,9 @@ class SiteLogAuthorization extends CActiveRecord
         ));
     }
 
+    /**
+     * @return CActiveDataProvider
+     */
     public function searchSiteLogs() {
 
         $criteria = new CDbCriteria();
@@ -152,9 +166,5 @@ class SiteLogAuthorization extends CActiveRecord
                 'pageVar' => 'page'
             ]
         ]);
-    }
-
-    public function getStatus() {
-        return ($this->is_success === self::SUCCESS_AUTH)?'Успешная':'Не успешная';
     }
 }

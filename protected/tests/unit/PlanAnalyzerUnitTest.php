@@ -5,6 +5,8 @@
 
 class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
 
+    use UnitTestBaseTrait;
+
     protected function addToPlan(Simulation $simulation, $code, $day, $time = null) {
         $task = $simulation->game_type->getTask(['code'=>$code]);
         return DayPlanService::addTask($simulation, $task->id, $day, $time);
@@ -12,7 +14,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
 
     protected function addLog(PlanAnalyzer $pa, Simulation $simulation, $log, $is_ending = false) {
         $parent = $simulation->game_type->getActivityParentAvailability(['code'=>$log['parent']]);
-        $var_214d = new LogActivityActionAgregated214d();
+        $var_214d = new LogActivityActionAggregated214d();
         $var_214d->sim_id = $simulation->id;
         $var_214d->leg_type = null;
         $var_214d->leg_action = null;
@@ -41,7 +43,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
      */
     public function test_check_214a1_0(){
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -65,7 +67,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
      */
     public function test_check_214a1_33_3(){
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -100,7 +102,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
      */
     public function test_check_214a1_66_7(){
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -135,7 +137,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
      */
     public function test_check_214a1_100(){
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -172,7 +174,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
      */
     public function test_check_214a3_0(){
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -201,7 +203,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
      */
     public function test_check_214a3_1(){
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -236,7 +238,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
      */
     public function test_check_214a4_0() {
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -265,7 +267,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
      */
     public function test_check_214a4_100() {
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -298,7 +300,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
      */
     public function test_check_214a5_0(){
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -324,7 +326,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
      */
     public function test_check_214a5_1(){
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -355,7 +357,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
      */
     public function test_check_214a8_1(){
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -380,7 +382,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
      */
     public function test_check_214a8_0(){
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -405,7 +407,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
      */
     public function test_check_214b_case1()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -691,7 +693,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
      */
     public function test_check_214b_case2()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -977,7 +979,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
 
     public function test_check_214b_case_my()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -1014,7 +1016,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
 
     public function test_check_214b_case_nothing_was_planing()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -1078,7 +1080,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
 
     public function test_check_214b_case3_from_scenario()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -1213,7 +1215,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
 
     public function test_check_214d_case_1()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -1227,7 +1229,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
             'activity_id' => $activity->id,
             'window_id'   => $window->id,
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id                = $simulation->id;
         $log->leg_type              = ActivityAction::LEG_TYPE_WINDOW;
         $log->leg_action            = 'main screen';
@@ -1245,7 +1247,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $activityAction = $simulation->game_type->getActivityAction([
             'activity_id' => $activity->id,
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id                = $simulation->id;
         $log->leg_type              = ActivityAction::LEG_TYPE_WINDOW;
         $log->leg_action            = 'plan';
@@ -1265,7 +1267,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
             'activity_id' => $activity->id,
             'window_id'   => $window->id,
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id                = $simulation->id;
         $log->leg_type              = ActivityAction::LEG_TYPE_WINDOW;
         $log->leg_action            = 'main screen';
@@ -1289,7 +1291,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
             'activity_id' => $activity->id,
             'document_id' => $template->id,
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id                = $simulation->id;
         $log->leg_type              = ActivityAction::LEG_TYPE_DOCUMENTS;
         $log->leg_action            = 'D1';
@@ -1311,7 +1313,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
             'activity_id' => $activity->id,
             'dialog_id'   => $replica->id,
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id                = $simulation->id;
         $log->leg_type              = ActivityAction::LEG_TYPE_SYSTEM_DIAL;
         $log->leg_action            = 'RS1';
@@ -1333,7 +1335,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
             'activity_id' => $activity->id,
             'document_id' => $template->id,
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id                = $simulation->id;
         $log->leg_type              = ActivityAction::LEG_TYPE_SYSTEM_DIAL;
         $log->leg_action            = 'D1';
@@ -1355,7 +1357,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
             'activity_id' => $activity->id,
             'window_id'   => $window->id,
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id                = $simulation->id;
         $log->leg_type              = ActivityAction::LEG_TYPE_WINDOW;
         $log->leg_action            = 'phone main';
@@ -1377,7 +1379,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
             'activity_id' => $activity->id,
             'dialog_id'   => $replica->id,
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id                = $simulation->id;
         $log->leg_type              = ActivityAction::LEG_TYPE_MANUAL_DIAL;
         $log->leg_action            = 'phone main';
@@ -1397,7 +1399,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
             'activity_id' => $activity->id,
             'window_id'   => $window->id,
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id                = $simulation->id;
         $log->leg_type              = ActivityAction::LEG_TYPE_WINDOW;
         $log->leg_action            = 'main screen';
@@ -1419,7 +1421,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
             'activity_id' => $activity->id,
             'document_id' => $template->id,
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id                = $simulation->id;
         $log->leg_type              = ActivityAction::LEG_TYPE_SYSTEM_DIAL;
         $log->leg_action            = 'D17';
@@ -1441,7 +1443,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
             'activity_id' => $activity->id,
             'document_id' => $template->id,
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id                = $simulation->id;
         $log->leg_type              = ActivityAction::LEG_TYPE_SYSTEM_DIAL;
         $log->leg_action            = 'D1';
@@ -1463,7 +1465,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
             'activity_id' => $activity->id,
             'document_id' => $template->id,
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id                = $simulation->id;
         $log->leg_type              = ActivityAction::LEG_TYPE_SYSTEM_DIAL;
         $log->leg_action            = 'D17';
@@ -1485,7 +1487,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
             'activity_id' => $activity->id,
             'window_id'   => $window->id,
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id                = $simulation->id;
         $log->leg_type              = ActivityAction::LEG_TYPE_WINDOW;
         $log->leg_action            = 'phone main';
@@ -1505,7 +1507,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
             'activity_id' => $activity->id,
             'window_id'   => $window->id,
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id                = $simulation->id;
         $log->leg_type              = ActivityAction::LEG_TYPE_WINDOW;
         $log->leg_action            = 'main screen';
@@ -1527,7 +1529,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
             'activity_id' => $activity->id,
             'document_id' => $template->id,
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id                = $simulation->id;
         $log->leg_type              = ActivityAction::LEG_TYPE_SYSTEM_DIAL;
         $log->leg_action            = 'D1';
@@ -1549,7 +1551,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
             'activity_id' => $activity->id,
             'dialog_id'   => $replica->id,
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id                = $simulation->id;
         $log->leg_type              = ActivityAction::LEG_TYPE_SYSTEM_DIAL;
         $log->leg_action            = 'RS1';
@@ -1571,7 +1573,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
             'activity_id' => $activity->id,
             'document_id' => $template->id,
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id                = $simulation->id;
         $log->leg_type              = ActivityAction::LEG_TYPE_SYSTEM_DIAL;
         $log->leg_action            = 'D1';
@@ -1593,7 +1595,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
             'activity_id' => $activity->id,
             'document_id' => $template->id,
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id                = $simulation->id;
         $log->leg_type              = ActivityAction::LEG_TYPE_SYSTEM_DIAL;
         $log->leg_action            = 'D2';
@@ -1615,7 +1617,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
             'activity_id' => $activity->id,
             'document_id' => $template->id,
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id                = $simulation->id;
         $log->leg_type              = ActivityAction::LEG_TYPE_SYSTEM_DIAL;
         $log->leg_action            = 'D1';
@@ -1635,7 +1637,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
             'activity_id' => $activity->id,
             'window_id'   => $window->id,
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id                = $simulation->id;
         $log->leg_type              = ActivityAction::LEG_TYPE_WINDOW;
         $log->leg_action            = 'main screen';
@@ -1657,7 +1659,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
             'activity_id' => $activity->id,
             'dialog_id'   => $replica->id,
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id                = $simulation->id;
         $log->leg_type              = ActivityAction::LEG_TYPE_SYSTEM_DIAL;
         $log->leg_action            = 'E2';
@@ -1677,7 +1679,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
             'activity_id' => $activity->id,
             'window_id'   => $window->id,
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id                = $simulation->id;
         $log->leg_type              = ActivityAction::LEG_TYPE_WINDOW;
         $log->leg_action            = 'main screen';
@@ -1698,7 +1700,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
             'activity_id' => $activity->id,
             'mail_id'     => $mail->id,
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id                = $simulation->id;
         $log->leg_type              = ActivityAction::LEG_TYPE_INBOX;
         $log->leg_action            = 'M76';
@@ -1719,7 +1721,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
             'activity_id' => $activity->id,
             'mail_id'     => $mail->id,
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id                = $simulation->id;
         $log->leg_type              = ActivityAction::LEG_TYPE_OUTBOX;
         $log->leg_action            = 'M76';
@@ -1740,7 +1742,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
             'activity_id' => $activity->id,
             'mail_id'     => $mail->id,
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id                = $simulation->id;
         $log->leg_type              = ActivityAction::LEG_TYPE_INBOX;
         $log->leg_action            = 'M76';
@@ -1761,7 +1763,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
             'activity_id' => $activity->id,
             'mail_id'     => $mail->id,
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id                = $simulation->id;
         $log->leg_type              = ActivityAction::LEG_TYPE_OUTBOX;
         $log->leg_action            = 'M20';
@@ -1782,7 +1784,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
             'activity_id' => $activity->id,
             'mail_id'     => $mail->id,
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id                = $simulation->id;
         $log->leg_type              = ActivityAction::LEG_TYPE_INBOX;
         $log->leg_action            = 'M76';
@@ -1803,7 +1805,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
             'activity_id' => $activity->id,
             'mail_id'     => $mail->id,
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id                = $simulation->id;
         $log->leg_type              = ActivityAction::LEG_TYPE_OUTBOX;
         $log->leg_action            = 'M62';
@@ -1824,7 +1826,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
             'activity_id' => $activity->id,
             'mail_id'     => $mail->id,
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id                = $simulation->id;
         $log->leg_type              = ActivityAction::LEG_TYPE_INBOX;
         $log->leg_action            = 'M76';
@@ -2037,7 +2039,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
 
     public function testParentEnding() {
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -2056,7 +2058,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $log_mail->window = 13;
         $log_mail->window_uid = '34';
         $log_mail->save();
-        //var_dump($mail['events'][0]['id']);
 
         // log 2 {
         $replica = $simulation->game_type->getReplica(['code' => 'T7.3']);
@@ -2065,7 +2066,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
             'activity_id' => $activity->id,
             'dialog_id'   => $replica->id,
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id                = $simulation->id;
         $log->leg_type              = ActivityAction::LEG_TYPE_SYSTEM_DIAL;
         $log->leg_action            = 'T7.3';
@@ -2084,7 +2085,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
             'activity_id' => $activity->id,
             'dialog_id'   => $replica->id,
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id                = $simulation->id;
         $log->leg_type              = ActivityAction::LEG_TYPE_SYSTEM_DIAL;
         $log->leg_action            = 'T7.5';
@@ -2103,7 +2104,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
             'activity_id' => $activity->id,
             'mail_id'     => $mail->id,
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id                = $simulation->id;
         $log->leg_type              = ActivityAction::LEG_TYPE_OUTBOX;
         $log->leg_action            = 'M76';
@@ -2117,7 +2118,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         // log 6 }
         unset($log);
         $pn = new PlanAnalyzer($simulation);
-        //var_dump($pn->logActivityActionsAggregatedGroupByParent);
         $log = $pn->logActivityActionsAggregatedGroupByParent[1];
         $this->assertEquals('14:10:55', $log['available']);
         $log = $pn->logActivityActionsAggregatedGroupByParent[2];
@@ -2127,7 +2127,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
 
     public function testParentEndingHard() {
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -2141,7 +2141,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
             'activity_id' => $activity->id,
             'dialog_id'   => $replica->id,
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id                = $simulation->id;
         $log->leg_type              = ActivityAction::LEG_TYPE_SYSTEM_DIAL;
         $log->leg_action            = 'T7.5';
@@ -2160,7 +2160,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
             'activity_id' => $activity->id,
             'mail_id'     => $mail->id,
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id                = $simulation->id;
         $log->leg_type              = ActivityAction::LEG_TYPE_OUTBOX;
         $log->leg_action            = 'M76';
@@ -2174,7 +2174,6 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         // log 6 }
         unset($log);
         $pn = new PlanAnalyzer($simulation);
-        //var_dump($pn->logActivityActionsAggregatedGroupByParent);
         $log = $pn->logActivityActionsAggregatedGroupByParent[0];
         $this->assertEquals('11:45:00', $log['available']);
         $log = $pn->logActivityActionsAggregatedGroupByParent[1];
@@ -2186,7 +2185,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
      */
     public function testParentEndingTM8_case_2() {
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -2202,7 +2201,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
             'activity_id' => $activity->id,
             'dialog_id'   => $replica->id,
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id                = $simulation->id;
         $log->leg_type              = ActivityAction::LEG_TYPE_SYSTEM_DIAL;
         $log->leg_action            = 'T7.5';
@@ -2221,7 +2220,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
             'activity_id' => $activity->id,
             'mail_id'     => $m8->template->id,
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id                = $simulation->id;
         $log->leg_type              = ActivityAction::LEG_TYPE_OUTBOX;
         $log->leg_action            = 'M8';
@@ -2249,7 +2248,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
             'activity_id' => $activity->id,
             'mail_id'     => $mail->id,
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id                = $simulation->id;
         $log->leg_type              = ActivityAction::LEG_TYPE_OUTBOX;
         $log->leg_action            = 'MS20';
@@ -2283,7 +2282,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testLegD24(){
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -2296,7 +2295,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
             'activity_id' => $activity->id,
             'document_id'     => $document->id,
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id                = $simulation->id;
         $log->leg_type              = ActivityAction::LEG_TYPE_DOCUMENTS;
         $log->leg_action            = 'D24';
@@ -2314,7 +2313,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
     }
 
     public function test214g0() {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -2369,7 +2368,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $pa = new PlanAnalyzer($simulation);
 
         // hack - будем считать что это тест не чёрного, а белого ящика ;) {
-        $pa->logAggregated214d = LogActivityActionAgregated214d::model()->findAllByAttributes([
+        $pa->logAggregated214d = LogActivityActionAggregated214d::model()->findAllByAttributes([
             'sim_id' => $simulation->id,
         ]);
         // hack }
@@ -2385,7 +2384,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
     }
 
     public function test214g1() {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -2436,7 +2435,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
 
     public function test214g_for_sim_id_267()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -2526,7 +2525,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
         $analyzer->check_214g('214g0', '0', []);
         $analyzer->check_214g('214g1', '1', ['0']);
 
-        $_214gLogs = LogActivityActionAgregated214d::model()->findAllByAttributes([
+        $_214gLogs = LogActivityActionAggregated214d::model()->findAllByAttributes([
             'sim_id' => $simulation->id
         ]);
 
@@ -2544,7 +2543,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
                 'start'       => $_214gLog->start_time,
                 'end'         => $_214gLog->end_time,
                 'available'   => $analyzer->calculateParentAvailability($parentAvailability, $groupedLog),
-                'keepLastCategoryAfter60sec' => LogActivityActionAgregated214d::KEEP_LAST_CATEGORY_YES ===
+                'keepLastCategoryAfter60sec' => LogActivityActionAggregated214d::KEEP_LAST_CATEGORY_YES ===
                     $analyzer->calcKeepLastCategoryAfter(
                         $_214gLog->start_time,
                         $_214gLog->end_time,
@@ -2594,7 +2593,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
 
     public function test_214_d4_6_8__ARS5_case()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -2608,7 +2607,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
             'activity_id' => $activity->id,
             'window_id'   => $window->id,
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id                = $simulation->id;
         $log->leg_type              = ActivityAction::LEG_TYPE_WINDOW;
         $log->leg_action            = 'main screen';
@@ -2631,7 +2630,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
             'activity_id' => $activity->id,
             'document_id' => $template->id,
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id                = $simulation->id;
         $log->leg_type              = ActivityAction::LEG_TYPE_DOCUMENTS;
         $log->leg_action            = 'D1';
@@ -2651,7 +2650,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
             'activity_id' => $activity->id,
             'dialog_id'   => $replica->id,
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id                = $simulation->id;
         $log->leg_type              = ActivityAction::LEG_TYPE_SYSTEM_DIAL;
         $log->leg_action            = 'RS1';
@@ -2671,7 +2670,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
             'activity_id' => $activity->id,
             'dialog_id'   => $replica->id,
         ]);
-        $log = new LogActivityActionAgregated();
+        $log = new LogActivityActionAggregated();
         $log->sim_id                = $simulation->id;
         $log->leg_type              = ActivityAction::LEG_TYPE_SYSTEM_DIAL;
         $log->leg_action            = 'RS5';

@@ -10,7 +10,7 @@
  * @property string $label
  * @property string $link
  * @property string $import_id
- * @property integer $user_account_corporate_id
+ * @property integer $user_id
  * @property string position_level_slug
  *
  * The followings are the available model relations:
@@ -20,6 +20,14 @@
  */
 class Vacancy extends CActiveRecord
 {
+    /**
+     * Возвращает обрезанный до максимальной длинны URL ссылки на вакансию
+     * @return string
+     */
+    public function getCroppedUrl() {
+        return StringTools::getMaxLength(Yii::app()->params['vacancyLinkInProfileMaxLength'], $this->link);
+    }
+
     /** ------------------------------------------------------------------------------------------- */
 
 	/**
@@ -54,8 +62,10 @@ class Vacancy extends CActiveRecord
 			array('professional_specialization_id', 'required', 'message' => Yii::t('site', 'Specialization is required')),
 			array('professional_occupation_id, professional_specialization_id', 'numerical', 'integerOnly'=>true),
             array('professional_occupation_id',  'numerical', 'min' => 1, 'message' => '{attribute} cannot be blank.'),
-			array('label', 'length', 'max' => 120),
+			array('label', 'length', 'max' => 50),
+			array('label', 'uniqueInAccountValidator'),
 			array('import_id', 'length', 'max' => 60),
+            array('link', 'length', 'max' => 1000),
 			//array('link', 'safe'),
             //array('link', 'default', 'setOnEmpty' => null),
             array('link', 'url', 'defaultScheme' => 'http', 'allowEmpty'=>true, 'message' => 'Не является правильным URL'),
@@ -64,6 +74,24 @@ class Vacancy extends CActiveRecord
 			array('id, professional_occupation_id, professional_specialization_id, label, link, import_id', 'safe', 'on'=>'search'),
 		);
 	}
+
+    /**
+     * Проверяет что такой вакансии ещё нет
+     *
+     * @param $attribute
+     * @param $params
+     */
+    function uniqueInAccountValidator($attribute, $params) {
+        $existVacancies = self::model()->count(' label = :label and user_id = :user_id and id != :id ', [
+            'label'   => $this->label,
+            'user_id' => Yii::app()->user->data()->id,
+            'id'      => (int)$this->id
+        ]);
+
+        if (0 < $existVacancies) {
+            $this->addError($attribute, 'Такое название уже используется');
+        }
+    }
 
 	/**
 	 * @return array relational rules.
@@ -118,22 +146,9 @@ class Vacancy extends CActiveRecord
 		return new CActiveDataProvider($this, [
 			'criteria'   => $criteria,
             'pagination' => [
-                'pageSize' => 20,
+                'pageSize' => 10,
                 'pageVar'  => 'page'
             ]
 		]);
 	}
-
-    public function byUser($userId)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => 'user_id = :userId',
-            'params' => ['userId' => $userId]
-        ));
-        return $this;
-    }
-
-    public function getMaxLink() {
-        return StringTools::getMaxLength(Yii::app()->params['vacancyLinkInProfileMaxLength'], $this->link);
-    }
 }

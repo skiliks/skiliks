@@ -24,11 +24,9 @@
  * @property string $tutorial_displayed_at
  * @property string $tutorial_finished_at
  * @property integer $can_be_reloaded
- * @property integer $tariff_plan_id
  * @property boolean $is_display_simulation_results
  * @property string $stacktrace
  * @property bolean $is_crashed
- * @property string $expired_at
  *
  * The followings are the available model relations:
  * @property YumUser $ownerUser
@@ -44,7 +42,6 @@ class Invite extends CActiveRecord
     const STATUS_ACCEPTED    = 1;
     const STATUS_COMPLETED   = 2;
     const STATUS_DECLINED    = 3;
-    const STATUS_EXPIRED     = 4;
     const STATUS_IN_PROGRESS = 5;
     const STATUS_DELETED     = 6;
 
@@ -54,18 +51,16 @@ class Invite extends CActiveRecord
         self::STATUS_ACCEPTED    => 'Accepted',
         self::STATUS_IN_PROGRESS => 'In Progress', // after sim start
         self::STATUS_COMPLETED   => 'Completed', // after sim start
-        self::STATUS_EXPIRED     => 'Expired',
         self::STATUS_DELETED     => 'Deleted'
     ];
 
     public static $statusTextRus = [
-        self::STATUS_PENDING     => 'В ожидании',
-        self::STATUS_DECLINED    => 'Отклонено',
-        self::STATUS_ACCEPTED    => 'Принятый',
-        self::STATUS_IN_PROGRESS => 'В процессе', // after sim start
-        self::STATUS_COMPLETED   => 'Завершенный', // after sim start
-        self::STATUS_EXPIRED     => 'Истекший',
-        self::STATUS_DELETED     => 'Удален'
+        self::STATUS_PENDING     => 'в ожидании',
+        self::STATUS_DECLINED    => 'отклонено',
+        self::STATUS_ACCEPTED    => 'принятый',
+        self::STATUS_IN_PROGRESS => 'в ожидании', // after sim start
+        self::STATUS_COMPLETED   => 'завершено', // after sim start
+        self::STATUS_DELETED     => 'удален'
     ];
 
     public static $statusId = [
@@ -74,7 +69,6 @@ class Invite extends CActiveRecord
         'Accepted'    => self::STATUS_ACCEPTED,
         'In Progress' => self::STATUS_IN_PROGRESS,
         'Completed'   => self::STATUS_COMPLETED,
-        'Expired'     => self::STATUS_EXPIRED,
         'InProgress'  => self::STATUS_IN_PROGRESS,
     ];
 
@@ -84,15 +78,15 @@ class Invite extends CActiveRecord
         self::STATUS_ACCEPTED    => 'Приглашённый зарегистрировался на сайте и принял приглашение на прохождение симуляции',
         self::STATUS_IN_PROGRESS => 'Приглашённый начал прохождение симуляции',
         self::STATUS_COMPLETED   => 'Симуляция пройдена, доступны результаты',
-        self::STATUS_EXPIRED     => 'Прошли 5 дней с момента отправки приглашения, а приглашённый не предпринял никаких действий',
         self::STATUS_DELETED     => ''
     ];
 
-    const EXPIRED_TIME = 604800; // 7days
 
     /* ------------------------------------------------------------------------------------------------------------ */
 
     /**
+     * Полное имя пользователя, для писем и попапов на сайте
+     *
      * @return string
      */
     public function getReceiverUserName()
@@ -108,31 +102,14 @@ class Invite extends CActiveRecord
         return 'Ваше имя';
     }
 
+    /**
+     * @return string
+     */
     public function getReceiverFirstName()
     {
 
         return (null !== $this->receiverUser && $this->receiverUser->isActive() && $this->receiverUser->getAccountType() !== null)
                ? $this->receiverUser->profile->firstname : $this->firstname;
-    }
-
-    /**
-     * Устанавливает дату до которой приглашение пожет быть принято согластно конфигу
-     */
-    public function setExpiredAt($days = null)
-    {
-        if (null === $days) {
-            $days = Yii::app()->params['inviteExpired'];
-        }
-        $account = UserAccountCorporate::model()->findByAttributes(['user_id'=>$this->owner_id]);
-        /* @var $account UserAccountCorporate */
-        if($account->expire_invite_rule === UserAccountCorporate::EXPIRE_INVITE_RULE_BY_TARIFF) {
-
-            $this->expired_at = (new DateTime($account->getActiveTariffPlan()->finished_at))->modify('+'.$days.' days')->format("Y-m-d H:i:s");
-
-        } else {
-
-            $this->expired_at = (new DateTime())->modify('+'.$days.' days')->format("Y-m-d H:i:s");
-        }
     }
 
     /**
@@ -194,7 +171,7 @@ class Invite extends CActiveRecord
     }
 
     /**
-     *
+     * Иправляет дату создания и изменения, используется при отправки приглашения повторно
      */
     public function markAsSendToday()
     {
@@ -204,15 +181,6 @@ class Invite extends CActiveRecord
         if (null === $this->status) {
             $this->status = self::STATUS_PENDING;
         }
-    }
-
-    /**
-     *
-     */
-    public function getExpiredDate()
-    {
-        $time = time($this->sent_time) + self::EXPIRED_TIME;
-        return Yii::t('site', date('F', $time)).date(' d, Y', $time);
     }
 
     /**
@@ -302,7 +270,6 @@ class Invite extends CActiveRecord
             self::STATUS_ACCEPTED => 'label-warning',
             self::STATUS_COMPLETED => 'label-success',
             self::STATUS_DECLINED => 'label-danger',
-            self::STATUS_EXPIRED => 'label-danger',
             self::STATUS_IN_PROGRESS => 'label-info',
         ];
 
@@ -344,10 +311,8 @@ class Invite extends CActiveRecord
         $invite->status      = Invite::STATUS_ACCEPTED;
         $invite->sent_time   = date("Y-m-d H:i:s");
         if($scenario->isFull()) {
-            $invite->setExpiredAt();
             $invite->tutorial_scenario_id = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_TUTORIAL])->id;
             $invite->is_display_simulation_results = 1;
-            $invite->setTariffPlan();
         }
         $invite->updated_at = (new DateTime('now', new DateTimeZone('Europe/Moscow')))->format("Y-m-d H:i:s");
         $invite->email = strtolower($user->profile->email);
@@ -358,6 +323,12 @@ class Invite extends CActiveRecord
         return $invite;
     }
 
+    /**
+     * Проверка, моет ли соискатель просмотривать попап с оценкой и шкалу с оценкой
+     * @param YumUser $user, пользователь соискателя
+     *
+     * @return bool
+     */
     public function isAllowedToSeeResults(YumUser $user)
     {
         // просто проверка
@@ -384,8 +355,126 @@ class Invite extends CActiveRecord
         return false;
     }
 
+    /**
+     * @return bool
+     */
+    public function canUserSimulationStart() {
+        if ($this->receiver_id === null) {
+            return true;
+        }
+
+        if ((int)$this->receiver_id === (int)$this->receiverUser->id) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * @return array|mixed|null
+     */
+    public function getOverall() {
+        $assessment = AssessmentOverall::model()->findByAttributes([
+            'sim_id'=>$this->simulation_id,
+            'assessment_category_code' => AssessmentCategory::OVERALL
+        ]);
+        if(null === $assessment){
+            return null;
+        }else{
+            return $assessment->value;
+        }
+    }
+
+    /**
+     * @return array|mixed|null
+     */
+    public function getPercentile() {
+        $assessment = AssessmentOverall::model()->findByAttributes([
+            'sim_id' => $this->simulation_id,
+            'assessment_category_code' => AssessmentCategory::PERCENTILE
+        ]);
+        if(null === $assessment){
+            return null;
+        }else{
+            return $assessment->value;
+        }
+    }
+
+    /**
+     * @return bool
+     */
+    public function resetInvite() {
+        $invite_status = $this->status;
+        $this->status = Invite::STATUS_ACCEPTED;
+        $simulation = Simulation::model()->findByPk($this->simulation_id);
+        if($simulation !== null) {
+            $simulation->end = gmdate("Y-m-d H:i:s", time());
+            $simulation->save(false);
+        }
+        $this->simulation_id = null;
+        $result = $this->save(false);
+
+        InviteService::logAboutInviteStatus($this, 'Сменился статус с '.Invite::getStatusNameByCode($invite_status)." на ".Invite::getStatusNameByCode($this->status));
+        return $result;
+    }
+
+    /**
+     * Sets invites status to deleted and saves it
+     */
+    public function deleteInvite() {
+        $invite_status = $this->status;
+        $this->status = Invite::STATUS_DELETED;
+        $result = $this->save(false);
+
+        InviteService::logAboutInviteStatus($this, 'Сменился статус с '.Invite::getStatusNameByCode($invite_status)." на ".Invite::getStatusNameByCode($this->status));
+        return $result;
+    }
+
+    /**
+     * @param $code
+     * @return string
+     */
+    public static function getStatusNameByCode($code) {
+        if(empty($code)){
+            return "не задано";
+        }
+        return self::$statusTextRus[$code];
+    }
+
+    /**
+     * Если по симуляции (связаннйо с приглашением)
+     * 4 часа нет логов - игрок точно не игарет
+     *
+     * @return bool
+     */
+    public function isUserInGame() {
+        if (null == $this->simulation_id) {
+            return false;
+        }
+
+        $today = strtotime(date('Y-m-d h:i:s'));
+
+        $lastLog = LogServerRequest::model()->find(
+            ' sim_id = :sim_id and :date < real_time', [
+            'sim_id' => (int)$this->simulation_id,
+            'date'   =>  date('Y-m-d h:i:s', $today - 60*60*4)
+        ]);
+
+        if (null == $lastLog) {
+            return false;
+        }
+
+        return true;
+    }
+
     /* ------------------------------------------------------------------------------------------------------------ */
 
+    /**
+     * Валидатор
+     *
+     * @param $attribute
+     * @param $params
+     */
     public function uniqueEmail($attribute, $params)
     {
         if ($this->getIsNewRecord() && null !== self::model()->findByAttributes([
@@ -397,55 +486,25 @@ class Invite extends CActiveRecord
         }
     }
 
+
+
     /**
+     * HTML код кнопки "Принять" (приглашение)
      *
-     */
-    public function inviteExpired()
-    {
-        if (Invite::STATUS_IN_PROGRESS == $this->status && null !== $this->simulation) {
-            $lastLog = LogServerRequest::model()->find([
-                'order' => 'real_time DESC',
-                'condition' => 'sim_id = '.$this->simulation->id
-            ]);
-
-            $last_request_time = strtotime($lastLog->real_time);
-            $expired_time = strtotime('-1 hour');
-            // проверяем что последний лог пришел посже чем час назад
-            if ($lastLog !== null && $last_request_time > $expired_time) {
-                // если последний лог пришел посже чем час назад - то инвайт не делаем просроченным
-                return false;
-            }
-        }
-        $invite_status = $this->status;
-        $this->status = Invite::STATUS_EXPIRED;
-        $this->save(false);
-
-        InviteService::logAboutInviteStatus($this, 'Сменился статус с '.Invite::getStatusNameByCode($invite_status)." на ".Invite::getStatusNameByCode($this->status));
-        $account = UserAccountCorporate::model()->findByAttributes(['user_id' => $this->owner_id]);
-
-        if (null === $account) {
-            return false;
-        }
-        /* @var $account UserAccountCorporate */
-        if($account->getActiveTariffPlan()->id === $this->tariff_plan_id) {
-            $account->invites_limit++;
-            $account->save(false);
-        }
-
-        return true;
-    }
-
-    /**
      * @return null|string
      */
     public function getAcceptActionTag()
     {
         if (in_array($this->status, [self::STATUS_PENDING])) {
             return sprintf(
-                '<a class=\'blue-btn accept-invite\' data-accept-link=\'' .sprintf('/simulation/promo/%s/%s',
-                    $this->scenario->slug,
-                    $this->id) . '\' href=\'/dashboard/accept-invite/%s\'>%s</a>',
-                $this->id,
+                '<span class="button-white button-white-hover inter-active label icon-arrow-blue reset-margin
+                    action-accept-invite accept-invite-button-width"
+                    data-link-start-now="/simulation/promo/%s/%s"
+                    data-link-start-later="/dashboard/accept-invite/%s"
+                    >%s</span>',
+                $this->scenario->slug, /* data-link-start */
+                $this->id,  /* data-link-start */
+                $this->id, /* data-link-accept */
                 Yii::t('site', 'Принять')
             );
         }
@@ -454,13 +513,17 @@ class Invite extends CActiveRecord
     }
 
     /**
+     * HTML код ссылки "Отклонить" (приглашение)
+     *
      * @return null|string
      */
     public function getDeclineActionTag()
     {
         if (in_array($this->status, [self::STATUS_PENDING])) {
             return sprintf(
-                '<a class=\'decline-link\' title=\'%1$s\' href=\'/dashboard/decline-invite/%1$s\'>%2$s</a>',
+                '<span class=\'table-link unstandard-decline action-decline-invite inter-active\'
+                    data-href=\'/dashboard/decline-invite/%s\' data-invite-id="%s">%s</a>',
+                $this->id,
                 $this->id,
                 Yii::t('site', 'Отклонить')
             );
@@ -470,6 +533,8 @@ class Invite extends CActiveRecord
     }
 
     /**
+     * HTML код ссылки "удалить" (приглашение)
+     *
      * @return null|string
      */
     public function getSoftRemoveActionTag()
@@ -485,9 +550,29 @@ class Invite extends CActiveRecord
         return null;
     }
 
+    /**
+     * URL ссылки "регистрация по ссылке"
+     *
+     * @return string
+     */
     public function getInviteLink()
     {
-        return Yii::app()->createAbsoluteUrl($this->receiver_id ? '/dashboard' : '/registration/by-link/' . $this->code);
+        return Yii::app()->createAbsoluteUrl(
+            $this->receiver_id ?
+                '/dashboard' :
+                '/registration/by-link/' . $this->code);
+    }
+
+    /**
+     * @return string
+     */
+    public function getDateForDashboard() {
+        return sprintf(
+            '%s/%s/%s',
+            $this->getUpdatedTime()->format("j"),
+            Yii::t('site', $this->getUpdatedTime()->format("M")),
+            $this->getUpdatedTime()->format("o")
+        );
     }
 
     /* ------------------------------------------------------------------------------------------------------------ */
@@ -522,33 +607,49 @@ class Invite extends CActiveRecord
             array('firstname', 'required', 'message' => Yii::t('site', 'First name is required')),
             array('lastname', 'required', 'message' => Yii::t('site', 'Last name is required')),
             array('email', 'required', 'message' => Yii::t('site', 'Email is required')),
-            array('email', 'checkSendYourself'),
             array('vacancy_id', 'required', 'message' => Yii::t('site', 'Vacancy is required')),
 			array('owner_id, receiver_id, vacancy_id, status', 'length', 'max'=>10),
-			array('firstname, lastname', 'length', 'max'=>100),
-			array('email, signature', 'length', 'max'=>255),
+			array('firstname, lastname', 'length', 'max'=>50),
+			array('email, signature', 'length', 'max'=>50),
 			array('code', 'length', 'max'=>50),
             array('email', 'email', 'message' => Yii::t('site', 'Wrong email')),
             array('owner_id, email', 'uniqueEmail', 'message' => "Приглашение уже отправлено"),
 			array('message, signature, status, sent_time, updated_at', 'safe'),
 			array('simulation_id, scenario_id, tutorial_scenario_id, tutorial_displayed_at', 'safe'),
 			array('tutorial_finished_at, can_be_reloaded, is_display_simulation_results', 'safe'),
-			array('stacktrace, is_crashed, expired_at', 'safe'),
-			array('fullname', 'length', 'max' => 50, 'allowEmpty' => true),
+			array('stacktrace, is_crashed', 'safe'),
+			array('fullname', 'length', 'max' => 101, 'allowEmpty' => true), /* firstname+ lastname + 1 */
+            array('email', 'checkRegisteredCorporate', 'message' => Yii::t('site', 'Вы можете отправлять
+                     приглашения только персональным и незарегистрированным пользователям')),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, owner_id, receiver_id, firstname, lastname, email, message, signature, code, vacancy_id, status, sent_time', 'safe', 'on'=>'search'),
 		);
 	}
 
-    public function checkSendYourself()
+    public function checkRegisteredCorporate()
     {
-        if ($this->ownerUser &&
+        if($this->ownerUser &&
             $this->ownerUser->account_corporate &&
             $this->email &&
-            strtolower($this->ownerUser->profile->email) == strtolower($this->email)
-        ) {
+            strtolower($this->ownerUser->profile->email) == strtolower($this->email)) {
+            $this->clearErrors();
             $this->addError('email', Yii::t('site', 'Действие невозможно'));
+
+        } else {
+            if ($this->owner_id !== $this->receiver_id && $this->receiverUser !== null && $this->receiverUser->isCorporate()) {
+                $this->clearErrors();
+                $this->addError('email', Yii::t('site',
+                    'Данный пользователь с e-mail: '.$this->email.' является корпоративным. Вы можете отправлять
+                     приглашения только персональным и незарегистрированным пользователям'));
+            }
+        }
+    }
+
+    public function checkInviteLimits()
+    {
+        if($this->ownerUser->account_corporate->getTotalAvailableInvitesLimit() <= 0) {
+            $this->addError('email', 'У вас недостаточно приглашений');
         }
     }
 
@@ -656,7 +757,6 @@ class Invite extends CActiveRecord
      * Retrieves a list of models based on the current search/filter conditions.
      * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
      */
-
     public function searchCorporateInvites($ownerId = null)
     {
         // Warning: Please modify the following code to remove attributes that
@@ -688,7 +788,7 @@ class Invite extends CActiveRecord
         return new CActiveDataProvider($this, [
             'criteria' => $criteria,
             'sort' => [
-                'defaultOrder' => 'sent_time',
+                'defaultOrder' => 'sent_time DESC',
                 'sortVar' => 'sort',
                 'attributes' => [
                     'name' => [
@@ -749,7 +849,7 @@ class Invite extends CActiveRecord
 		return new CActiveDataProvider($this, [
 			'criteria' => $criteria,
             'sort' => [
-                'defaultOrder' => 'sent_time',
+                'defaultOrder' => 'sent_time DESC',
                 'sortVar' => 'sort',
                 'attributes' => [
                     'name' => [
@@ -815,7 +915,7 @@ class Invite extends CActiveRecord
         return new CActiveDataProvider($this, [
             'criteria' => $criteria,
             'sort' => [
-                'defaultOrder' => 'sent_time',
+                'defaultOrder' => 'sent_time DESC',
                 'sortVar' => 'sort',
                 'attributes' => [
                     'name' => [
@@ -897,94 +997,15 @@ class Invite extends CActiveRecord
         ]);
     }
 
-    /**
-     * @param string $code
-     * @return Invite|null
-     */
-    public function findByCode($code)
-    {
-        return $this->findByAttributes([
-            'code' => $code
-        ]);
-    }
-
-    public function canUserSimulationStart() {
-
-        if($this->receiver_id === null){
-            return true;
-        }
-        if((int)$this->receiver_id === (int)$this->receiverUser->id){
-            return true;
-        }else{
-            return false;
-        }
-
-    }
-
-    /**
-     * @return array|mixed|null
-     */
-    public function getOverall() {
-        $assessment = AssessmentOverall::model()->findByAttributes([
-            'sim_id'=>$this->simulation_id,
-            'assessment_category_code' => AssessmentCategory::OVERALL
-        ]);
-        if(null === $assessment){
-            return null;
-        }else{
-            return $assessment->value;
+    public function getStatusValidationOrSend($isSend) {
+        if(count($this->getErrors())) {
+            $error_message = '';
+            foreach($this->getErrors() as $error) {
+                $error_message .= implode('<br>', $error).'<br>';
+            }
+            return $error_message;
+        } else {
+            return $isSend?'Отправлено':'Ok';
         }
     }
-
-    /**
-     * @return array|mixed|null
-     */
-    public function getPercentile() {
-        $assessment = AssessmentOverall::model()->findByAttributes([
-            'sim_id' => $this->simulation_id,
-            'assessment_category_code' => AssessmentCategory::PERCENTILE
-        ]);
-        if(null === $assessment){
-            return null;
-        }else{
-            return $assessment->value;
-        }
-    }
-
-    public function resetInvite() {
-        $invite_status = $this->status;
-        $this->status = Invite::STATUS_ACCEPTED;
-        $this->simulation->end = gmdate("Y-m-d H:i:s", time());
-        $this->simulation->update();
-        $this->simulation_id = null;
-        $result = $this->save(false);
-
-        InviteService::logAboutInviteStatus($this, 'Сменился статус с '.Invite::getStatusNameByCode($invite_status)." на ".Invite::getStatusNameByCode($this->status));
-        return $result;
-    }
-
-    /**
-     * Sets invites status to deleted and saves it
-     */
-
-    public function deleteInvite() {
-        $invite_status = $this->status;
-        $this->status = Invite::STATUS_DELETED;
-        $result = $this->save(false);
-
-        InviteService::logAboutInviteStatus($this, 'Сменился статус с '.Invite::getStatusNameByCode($invite_status)." на ".Invite::getStatusNameByCode($this->status));
-        return $result;
-    }
-
-    public static function getStatusNameByCode($code) {
-        if(empty($code)){
-            return "не задано";
-        }
-        return self::$statusTextRus[$code];
-    }
-
-    public function setTariffPlan() {
-        $this->tariff_plan_id = $this->ownerUser->account_corporate->getActiveTariffPlan()->id;
-    }
-
 }

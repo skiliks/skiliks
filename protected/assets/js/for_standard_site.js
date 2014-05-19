@@ -213,6 +213,8 @@ var fixLogotypes = function() {
 
         window.addVacancyValidation = function addVacancyValidation(form, data, hasError) {
             if (!hasError) {
+                $('<span class="send-vacancy-loader"></span>').insertAfter('.send-vacancy');
+                $('.send-vacancy').remove();
                 window.location.href = form.attr('data-url');
             }
             return false;
@@ -329,7 +331,7 @@ var fixLogotypes = function() {
             if(localStorage.getItem('lastGetState') === null){
                return true;
             } else if(lastGetState.getTime() <= (parseInt(localStorage.getItem('lastGetState')) +30000)) {
-                if (window.confirm("У вас есть незавершённая симуляция. Выйдя вы потеряете все данные")) {
+                if (window.confirm("У вас есть незавершенная симуляция. Если вы выйдете из аккаунта, то потеряете все результаты")) {
                     //window.alert("Ок");
                     return true;
                 } else {
