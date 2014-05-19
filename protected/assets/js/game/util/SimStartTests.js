@@ -10,7 +10,7 @@ try {
             browser: function(cfg) {
                 updateImageLoaderBar('Проверка совместимости браузера...');
                 if (cfg.isSkipBrowserCheck) {
-                    // return true;
+                    return true;
                 }
 
                 var minSupport = {
