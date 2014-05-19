@@ -64,8 +64,7 @@ $(document).ready(function () {
     // @link http://www.bulgaria-web-developers.com/projects/javascript/selectbox/
     $("select").selectbox();
 
-    // 3) feedback
-    $('.action-feedback').on('click', function (e) {
+    window.displayFeedbackDialog = function (e) {
         var selected = $(this).attr('data-selected');
         $('.locator-feedback-dialog').dialog({
             width: getDialogWindowWidth_2of3(),
@@ -83,7 +82,10 @@ $(document).ready(function () {
             $('.locator-feedback-dialog').dialog('option', 'width', getDialogWindowWidth_2of3());
             $('.locator-feedback-dialog').dialog('option', 'position', 'center center');
         });
-    });
+    };
+
+    // 3) feedback
+    $('.action-feedback').on('click', window.displayFeedbackDialog);
 
     // 4) flash messages
     $('.locator-flash').dialog({
@@ -420,6 +422,71 @@ window.feedbackSubmit = function feedbackSubmit(form, data, hasError) {
     return false;
 };
 
+// SKILIKS-6025
+// Предупреждение что аккаунт забанен
+window.displayYourAccountBannedFlashMessage = function() {
+    $('body').append(
+        '<div class="locator-account-banned hide">Ваш аккаунт заблокирован (более 10 неудачных попыток авторизации). <br/>'
+            + 'Вам на почту ' + window.userEmail
+            + ' отправлено письмо с инструкциями по восстановлению аккаунта. <br/>'
+            + 'Если вы испытываете затруднения - свяжитесь пожалуйста со '
+            + '<strong class="action-feedback-banned inter-active color-146672">службой поддержки</strong>.</div>'
+    );
+    if (1 == $(".locator-account-banned").length) {
+        var dialog = $(".locator-account-banned");
+
+        dialog.dialog({
+            closeOnEscape: true,
+            dialogClass: "background-sky popup-form pull-content-center",
+            minHeight: 50,
+            modal: true,
+            resizable: false,
+            width: getDialogWindowWidth_2of3(),
+            position: {
+                my: 'center top',
+                at: 'center bottom',
+                of: $('header.main-content')
+            },
+            open: function() {
+                $('.locator-account-banned').removeClass('hide');
+                stickyFooterAndBackground();
+            }
+        });
+    }
+
+    // autoOpen переписан нами, и теперь центритует dialog по высоте
+    // а флеш-сообщения надо по высоте тавнять с низом header
+    $(".locator-account-banned").dialog('open');
+
+    $(window).resize(function(){
+        $('.locator-account-banned').dialog('option', 'width', getDialogWindowWidth_2of3());
+        $('.locator-account-banned').dialog('option', 'position', 'center center');
+    });
+
+    dialog.dialog("open");
+
+    // навешиваем псевдо ссылку, для удобства пользователей
+    $('.action-feedback-banned').click(function() {
+        // закрываем предуареждение - чтоб  не негромождать окон
+        $('.locator-account-banned').dialog('close');
+
+        // открываем диалог обратной связи
+        window.displayFeedbackDialog();
+
+        // выбираем для жалобы правильный пункт меню, вместо пользователей
+        // http://www.bulgaria-web-developers.com/projects/javascript/selectbox/
+        $('#Feedback_theme').selectbox('change', 'Регистрация и авторизация', 'Регистрация и авторизация');
+
+        // и емейл пользователя мы тоже знаем:
+        $('#Feedback_email').val(window.userEmail);
+    })
+}
+
+// для страницы user/auth
+if (true == window.yourAccountBanned) {
+    window.displayYourAccountBannedFlashMessage();
+}
+
 // 5) authentication Validation
 window.authenticateValidation = function authenticateValidation(form, data, hasError) {
 
@@ -436,19 +503,22 @@ window.authenticateValidation = function authenticateValidation(form, data, hasE
     }
 
     // аккаунт забанен
-    if (undefined != data.YumUserLogin_form) {
-        hasError = true;
-        $('#YumUserLogin_not_activate_em_').html(data.YumUserLogin_form);
-        $('#YumUserLogin_not_activate_em_').parent().parent().addClass('error');
-        $('#YumUserLogin_not_activate_em_').parent().css('vertical-align', 'middle');
-        $('#YumUserLogin_not_activate_em_').parent().parent().removeClass('hide');
-        $('#YumUserLogin_not_activate_em_').show();
+    if (undefined != data.YumUserLogin_bruteforce) {
+        // специальное уведомление в случае если "аккаунт забанен":
+        // SKILIKS-6025 {
+        window.userEmail = '' + $('#YumUserLogin_username').val();
+        $('.locator-box-sign-in').dialog('close');
+
+        window.displayYourAccountBannedFlashMessage();
+        // SKILIKS-6025 }
     } else {
         $('#YumUserLogin_not_activate_em_').parent().parent().removeClass('error');
         $('#YumUserLogin_not_activate_em_').parent().parent().addClass('hide');
     }
 
-    if (!hasError && 'undefined' == typeof data.YumUserLogin_form) {
+    if (!hasError
+        && 'undefined' == typeof data.YumUserLogin_form
+        && 'undefined' == data.YumUserLogin_bruteforce) {
         location.href = '/dashboard';
     }
 
@@ -457,7 +527,16 @@ window.authenticateValidation = function authenticateValidation(form, data, hasE
 
 // 6)
 window.passwordRecoverySubmit = function passwordRecoverySubmit(form, data, hasError) {
-    if (!hasError) {
+
+    if (undefined != data. YumPasswordRecoveryForm_bruteforce) {
+        // специальное уведомление в случае если "аккаунт забанен":
+        // SKILIKS-6025 {
+        window.userEmail = $('#YumPasswordRecoveryForm_email').val();
+        $('.locator-password-recovery').dialog('close');
+
+        window.displayYourAccountBannedFlashMessage();
+        // SKILIKS-6025 }
+    } else if (!hasError) {
         location.reload();
     }
 

@@ -80,6 +80,13 @@ $module = Yum::module();
 
             <br/>
 
+            <?php if ($model->getError('bruteforce')) : ?>
+                <script type="text/javascript">
+                    // обрабатівается в common.js
+                    window.yourAccountBanned = true;
+                </script>
+            <?php endif; ?>
+
         </div>
     </div>
 

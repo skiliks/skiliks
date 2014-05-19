@@ -33,7 +33,11 @@ class YumPasswordRecoveryForm extends YumFormModel {
 			'email'=>Yum::t('Email'),
 		);
 	}
-	
+
+    /**
+     * @param string $attribute, attribute name
+     * @param array $params
+     */
 	public function checkexists($attribute, $params) {
 		$user = null;
 
@@ -53,12 +57,19 @@ class YumPasswordRecoveryForm extends YumFormModel {
 		}
 	}
 
+    /**
+     * @param string $attribute, attribute name
+     * @param array $params
+     */
     public function isBanned($attribute, $params) {
         if(!$this->hasErrors()) {
-            if($this->user !== null && $this->user->isBanned()) {
+            if($this->user !== null && YumUser::STATUS_ACTIVE != $this->user->status) {
                 $this->addError('email', Yii::t('site', 'Ваш аккаунт заблокирован'));
             }
-        //return;
+
+            if($this->user !== null && $this->user->is_password_bruteforce_detected) {
+                $this->addError('bruteforce', Yii::t('site', 'Ваш аккаунт заблокирован'));
+            }
         }
     }
 }
