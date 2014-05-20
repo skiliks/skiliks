@@ -139,7 +139,7 @@ $cs->compileLess($assetsUrl . '/less/documents.less',  $assetsUrl . '/compiled_c
         </script>
     <?php endif ?>
 
-    <?php if(preg_match('/(?i)Firefox/',$_SERVER['HTTP_USER_AGENT'])): ?>
+    <?php if(preg_match('/(?i)Firefox\/(18|19|20|21|22|23|24|25|26|27|28)/',$_SERVER['HTTP_USER_AGENT'])): ?>
         <script type="text/javascript">
             preLoadImages.push("<?= $assetsUrl . '/css/firefox_simulation.css'; ?>");
         </script>

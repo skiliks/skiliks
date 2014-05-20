@@ -5,7 +5,7 @@ class m140328_154518_update_prices extends CDbMigration
 	public function up()
 	{
         $priceLite = Price::model()->findByAttributes(['alias' => Price::ALIAS_LITE]);
-        $priceStarted = Price::model()->findByAttributes(['alias' => Price::ALIAS_STARTED]);
+        $priceStarter = Price::model()->findByAttributes(['alias' => Price::ALIAS_STARTED]);
         $priceProfessional = Price::model()->findByAttributes(['alias' => Price::ALIAS_PROFESSIONAL]);
         $priceBusiness = Price::model()->findByAttributes(['alias' => Price::ALIAS_BUSINESS]);
 
@@ -13,9 +13,9 @@ class m140328_154518_update_prices extends CDbMigration
         $priceLite->in_USD = 130;
         $priceLite->save();
 
-        $priceStarted->in_RUB = 3490;
-        $priceStarted->in_USD = 99;
-        $priceStarted->save();
+        $priceStarter->in_RUB = 3490;
+        $priceStarter->in_USD = 99;
+        $priceStarter->save();
 
         $priceProfessional->in_RUB = 3245;
         $priceProfessional->in_USD = 179/2;

@@ -2,9 +2,11 @@
 
 class DayPlanAndTodoUnitTest extends CDbTestCase
 {
+    use UnitTestBaseTrait;
+
     public function testGetTodoTasksList()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -22,7 +24,7 @@ class DayPlanAndTodoUnitTest extends CDbTestCase
 
     public function testAddTask()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -57,7 +59,7 @@ class DayPlanAndTodoUnitTest extends CDbTestCase
 
     public function testDayPlanSave()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;

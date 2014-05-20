@@ -480,39 +480,6 @@ class UserAuthController extends YumController
     }
 
     /**
-     * Display simulation result marks
-     */
-//    public function actionResults()
-//    {
-//        // check is user authenticated
-//        if (Yii::app()->user->isGuest) {
-//            $this->redirect(['registration/error/sign-in-or-register']);
-//        }
-//
-//        $this->user = Yii::app()->user->data();
-//
-//        $results = [];
-//
-//        $simulation = Simulation::model()->findByAttributes([
-//            'user_id' => $this->user->id
-//        ],
-//        [
-//            'order' => 'id DESC'
-//        ]);
-//
-//        if (null !== $simulation) {
-//            $results = AssessmentAggregated::model()->findAllByAttributes([
-//                'sim_id' => $simulation->id
-//            ]);
-//        }
-//
-//        // all checks passed - render simulation results
-//        $this->render('results', [
-//            'results' => $results
-//        ]);
-//    }
-
-    /**
      * Восстановление пароля
      *
      * @param string $email, null - значение по умолчанию необходимо
@@ -584,15 +551,14 @@ class UserAuthController extends YumController
                 }
             }
 
-            if ($recoveryForm->validate() && $recoveryForm->user instanceof YumUser && $recoveryForm->user->status > 0) {
+            // Заблокированный пользователь не должен мочь восстановить пароль
+            // При попытке восстановить пароль - он видит флеш сообщение о том что его аккаунт заблокирован
+            if ($recoveryForm->validate()
+                && $recoveryForm->user instanceof YumUser
+                && $recoveryForm->user->status == YumUser::STATUS_ACTIVE) {
                 $user = $recoveryForm->user;
 
-                if($recoveryForm->user->isBanned()) {
-                    Yii::app()->user->setFlash('error', 'Ваш аккаунт заблокирован');
-                    $this->redirect('/');
-                }
-
-                $user->generateActivationKey();
+                 $user->generateActivationKey();
                 $result = $this->sendPasswordRecoveryEmail($user);
 
                 if ($result) {

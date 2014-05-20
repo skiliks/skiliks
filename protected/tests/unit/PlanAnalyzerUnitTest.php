@@ -5,6 +5,8 @@
 
 class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
 
+    use UnitTestBaseTrait;
+
     protected function addToPlan(Simulation $simulation, $code, $day, $time = null) {
         $task = $simulation->game_type->getTask(['code'=>$code]);
         return DayPlanService::addTask($simulation, $task->id, $day, $time);
@@ -41,7 +43,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
      */
     public function test_check_214a1_0(){
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -65,7 +67,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
      */
     public function test_check_214a1_33_3(){
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -100,7 +102,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
      */
     public function test_check_214a1_66_7(){
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -135,7 +137,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
      */
     public function test_check_214a1_100(){
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -172,7 +174,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
      */
     public function test_check_214a3_0(){
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -201,7 +203,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
      */
     public function test_check_214a3_1(){
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -236,7 +238,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
      */
     public function test_check_214a4_0() {
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -265,7 +267,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
      */
     public function test_check_214a4_100() {
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -298,7 +300,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
      */
     public function test_check_214a5_0(){
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -324,7 +326,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
      */
     public function test_check_214a5_1(){
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -355,7 +357,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
      */
     public function test_check_214a8_1(){
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -380,7 +382,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
      */
     public function test_check_214a8_0(){
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -405,7 +407,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
      */
     public function test_check_214b_case1()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -691,7 +693,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
      */
     public function test_check_214b_case2()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -977,7 +979,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
 
     public function test_check_214b_case_my()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -1014,7 +1016,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
 
     public function test_check_214b_case_nothing_was_planing()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -1078,7 +1080,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
 
     public function test_check_214b_case3_from_scenario()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -1213,7 +1215,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
 
     public function test_check_214d_case_1()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -2037,7 +2039,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
 
     public function testParentEnding() {
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -2125,7 +2127,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
 
     public function testParentEndingHard() {
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -2183,7 +2185,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
      */
     public function testParentEndingTM8_case_2() {
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -2280,7 +2282,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testLegD24(){
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -2311,7 +2313,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
     }
 
     public function test214g0() {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -2382,7 +2384,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
     }
 
     public function test214g1() {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -2433,7 +2435,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
 
     public function test214g_for_sim_id_267()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -2591,7 +2593,7 @@ class PlanAnalyzerUnitTest extends PHPUnit_Framework_TestCase {
 
     public function test_214_d4_6_8__ARS5_case()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;

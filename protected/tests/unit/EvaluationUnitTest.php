@@ -2,13 +2,14 @@
 
 class EvaluationUnitTest extends PHPUnit_Framework_TestCase {
 
+    use UnitTestBaseTrait;
 
     /**
      * @todo: описать что проверяет тест, улучшить тест
      */
     public function testBadEvaluation() {
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;

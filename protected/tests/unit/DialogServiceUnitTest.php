@@ -9,11 +9,12 @@
 
 class DialogServiceUnitTest extends PHPUnit_Framework_TestCase
 {
+    use UnitTestBaseTrait;
 
     public function testDialogGet()
     {
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -44,7 +45,7 @@ class DialogServiceUnitTest extends PHPUnit_Framework_TestCase
 
     public function testDialogGetForDialogAndPlan()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;

@@ -8,7 +8,9 @@
  */
 
 class PerformanceRuleUnitTest extends CDbTestCase {
+
     use UnitLoggingTrait;
+    use UnitTestBaseTrait;
 
     public function addExcelPoints($simulation){
         /* @var SimulationExcelPoint $point  */
@@ -39,7 +41,7 @@ class PerformanceRuleUnitTest extends CDbTestCase {
      */
     public function testAssessment1()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -74,7 +76,7 @@ class PerformanceRuleUnitTest extends CDbTestCase {
 
     public function testExcelTrue() {
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -120,7 +122,7 @@ class PerformanceRuleUnitTest extends CDbTestCase {
 
     public function testExcelFasle(){
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -139,7 +141,7 @@ class PerformanceRuleUnitTest extends CDbTestCase {
 
     public function testRules() {
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;

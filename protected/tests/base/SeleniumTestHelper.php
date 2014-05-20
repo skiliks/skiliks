@@ -4,8 +4,8 @@
  * @{
  */
 /**
- * Framework for Selenium-test for site and simulation needs
- */
+* Framework for Selenium-test for site and simulation needs
+*/
 class SeleniumTestHelper extends CWebTestCase
 {
     protected $captureScreenshotOnFailure = TRUE;
@@ -16,10 +16,10 @@ class SeleniumTestHelper extends CWebTestCase
 
     public static $browsers = array(
         array(
-            'name'    => 'Firefox',
+            'name' => 'Firefox',
             'browser' => '*firefox',
-            'host'    => 'localhost',
-            'port'    => 4444,
+            'host' => 'localhost',
+            'port' => 4444,
             'timeout' => 30000,
         )
     );
@@ -46,25 +46,24 @@ class SeleniumTestHelper extends CWebTestCase
      */
     protected function waitingLongMethod($message, $locator)
     {
-        for ($second = 0; ; $second++) {
-            if ($second >= 900) $this->fail($message);
-            try {
-                if ($this->isVisible($locator)) break;
-                return $second;
-            } catch (Exception $e) {
-            }
-            return $second;
+        for ($second = 0; true; $second++) {
+            if ($second >= 900) {
+                $this->assertTrue(false, $message);
+
+                // $this->fail($message) cause "Call to undefined method PHPUnit_Framework_Warning::setupSpecificBrowser() in /usr/share/php/PHPUnit/Extensions/SeleniumBrowserSuite.php on line 95"
+            } try {
+                if ($this->isVisible($locator)) {
+                    break;
+                }
+                //return $second;
+            } catch (Exception $e) { }
+            //return $second;
             usleep(100000);
         }
-        return $second;
+
+        //return $second;
     }
 
-    /**
-     * start_simulation -  method for all precondition needs for starting simulation without login at the site.
-     * Includes opening browser, login with cookies and starting dev-mode simulation.
-     * @testName - name of test-case method for logging to database
-     * @user - type of user (user = 0 - user for functional tests ,user = 1 - user for assessment tests)
-     */
     protected function start_simulation($testName, $user=0)
     {
         $this->setUp();
@@ -85,7 +84,17 @@ class SeleniumTestHelper extends CWebTestCase
         $this->open('/cheat/quick-start/full');
 
         //waiting for loading all images, css and js and waiting for dev panel is visible below the simulation desktop
-        $this->waitingLongMethod("!!! FAIL: simulation does not start, because there isn't desktop at the screen!!!","css=.btn.btn-simulation-stop");
+        $this->waitingLongMethod(
+            "!!! FAIL: simulation does not start, because there isn't desktop at the screen!!!",
+            "css=.btn.btn-simulation-stop"
+        );
+//        for ($second = 0; ; $second++) {
+//            if ($second >= 600) $this->fail("!!! FAIL: simulation does not start, because there isn't desktop at the screen!!!");
+//            try {
+//                if ($this->isVisible("css=.btn.btn-simulation-stop")) break;
+//            } catch (Exception $e) {}
+//            usleep(100000);
+//        }
 
         // short js code for closing all alerts
         $this->getEval('var window = this.browserbot.getUserWindow(); window.$(window).off("beforeunload")');
@@ -99,7 +108,7 @@ class SeleniumTestHelper extends CWebTestCase
     }
 
     /**
-     * simulation_stop - method for stop the usual full simulation without checking the results, after deleting results of the simulation if it was successful
+     * simulation_stop -  method for stop the standard full simulation without checking the results, after deleting results of the simulation if it was successful
      */
     protected function simulation_stop()
     {
@@ -123,15 +132,32 @@ class SeleniumTestHelper extends CWebTestCase
     protected function simulation_showLogs()
     {
         $inv_id = $this->invite_id;
+
         // stop the simulation and wait for popup of the ending of the simulation
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
-        $this->waitingLongMethod("!!! FAIL: not found button 'Go' to the results!!!","css=.mail-popup-button");
+
+        for ($second = 0; ; $second++) {
+            if ($second >= 900) $this->fail("!!! FAIL: not found button 'Go' to the results!!!");
+            try {
+                if ($this->isVisible("css=.mail-popup-button")) break;
+            } catch (Exception $e) {}
+            usleep(100000);
+        }
         $this->optimal_click("css=.mail-popup-button");
+
         // waiting the dev page with logs and score of the simulation
-        $this->waitingLongMethod("!!! FAIL: not found button 'universal log' at the page!!!","id=universal-log");
+        for ($second = 0; ; $second++) {
+            if ($second >= 900) $this->fail("!!! FAIL: not found button 'universal log' at the page!!!");
+            try {
+                if ($this->isVisible("id=universal-log")) break;
+            } catch (Exception $e) {}
+            usleep(100000);
+        }
         $this->waitForVisible("id=simulation-points");
+
         //logging
         $this->logTestResult("simStop and showLogs. Test is successful\n", false, $inv_id);
+
         //deleting the results of this simulation
         $this->simulation_delete(Yii::app()->params['deleteSeleniumResults']);
     }
@@ -143,6 +169,7 @@ class SeleniumTestHelper extends CWebTestCase
     protected function simulation_delete($deleteSuccessfulSimulation)
     {
         $inv_id = $this->invite_id;
+
         if ($deleteSuccessfulSimulation === true)
         {
             if ($this->wasCrashed===false)
@@ -175,13 +202,14 @@ class SeleniumTestHelper extends CWebTestCase
             try{
                 if ($this->isVisible($next_event))
                 {
+                    // switch чтобы была возможность расширить дополнительными действиями (кроме клика), а default - если никакие действия не нужны// switch чтобы была возможность расширить дополнительными действиями (кроме клика), а default - если никакие действия не нужны
                     switch ($after) {
                         case 'click':
-                            {
-                                sleep(1);
-                                $this->click($next_event);
-                                break;
-                            }
+                        {
+                            sleep(1);
+                            $this->click($next_event);
+                            break;
+                        }
                         default:
                             break;
                     }
@@ -282,6 +310,10 @@ class SeleniumTestHelper extends CWebTestCase
      */
     protected function optimal_click ($loc)
     {
+<<<<<<< HEAD
+=======
+        sleep (1);
+>>>>>>> ed498530176d7e0914c4e92a1ec1407df3694078
         try
         {
             $this->waitForVisible($loc);
@@ -291,6 +323,10 @@ class SeleniumTestHelper extends CWebTestCase
         {
             $this->fail("!!! FAIL: not found ". $loc);
         }
+<<<<<<< HEAD
+=======
+        sleep (1);
+>>>>>>> ed498530176d7e0914c4e92a1ec1407df3694078
     }
 
     /**
@@ -310,14 +346,14 @@ class SeleniumTestHelper extends CWebTestCase
      */
     protected function transfer_time ($differ)
     {
-        $time_array=$this->how_much_time(); //determine the transfer_time
-        $time_array[1]=$time_array[1]+$differ;
-        if ($time_array[1]>=60)
-        {
-            $time_array[0]=$time_array[0]+1;
-            $time_array[1]=$time_array[1]-60;
+        $time_array=$this->how_much_time(); //запускаем определение текущего времени
+        $time_array[1]=$time_array[1]+$differ;  // к минутам приплюсовываем необходимую разницу времени
+        if ($time_array[1]>=60) // проверяем выходим ли мы за рамки по минутам
+        {                                              // если выходим за рамки 60 минут, то
+            $time_array[0]=$time_array[0]+1;  // увеличиваем количество часов на 1
+            $time_array[1]=$time_array[1]-60; // изменяем количество минут
         }
-        // changing the time
+        // меняем поточное время
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], $time_array[0]);
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], $time_array[1]);
         $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
@@ -327,7 +363,7 @@ class SeleniumTestHelper extends CWebTestCase
     /**
      * verify_flag - method for verifing the value of flag
      * @num_flag - number of flag
-     * @ver_value -  value of flag
+     * @ver_value - value of flag
      */
     protected function verify_flag ($num_flag, $ver_value)
     {
@@ -354,8 +390,10 @@ class SeleniumTestHelper extends CWebTestCase
     }
 
     /**
-     * incoming_counter - check number of incoming emails
-     * @count - number of emails what should be in mail client
+     * incoming_counter - это метод для проверки, что количество писем = count.
+     * count - количество писем, которые мы ожидаем увидеть во "входящих" на момент указанного времени (время устанавливаем перед вызовом этого метода).
+     * Возвращаем true, если количество ожидаемых писем и реальных входящих совпадают
+     * возвращаем false, если нет
      */
     protected function incoming_counter ($count)
     {
@@ -390,7 +428,7 @@ class SeleniumTestHelper extends CWebTestCase
         $numb_of_incoming = 0;
         if ($was_changed==true)
         {
-             $numb_of_incoming = (int)($this->getText("//*[@id='icons_email']/span"));
+            $numb_of_incoming = (int)($this->getText("//*[@id='icons_email']/span"));
             if ($numb_of_incoming == $count)
             {
                 $same_number=true;
@@ -400,7 +438,7 @@ class SeleniumTestHelper extends CWebTestCase
     }
 
     /**
-     * write_email - method for writing email when mail client is not active
+     * метод для начала написания письма из чистой симуляции
      */
     protected function write_email ()
     {
@@ -409,8 +447,8 @@ class SeleniumTestHelper extends CWebTestCase
     }
 
     /**
-     * addRecipient - method for adding recipient to new email
-     * @address - locator of the recipient
+     * метод добавления получателя к письму
+     * @param $address - locator of the recipient
      */
     protected function addRecipient ($address)
     {
@@ -446,7 +484,9 @@ class SeleniumTestHelper extends CWebTestCase
     }
 
     /**
-     * clearEventQueueBeforeEleven - method for cleaning the queue of events and mails in the game
+     * метод для очистки не нужных событий из очереди событий
+     * параметром нужно написать начальный event, например RST1
+     *
      * @event - name of event (e.g. RST1 and RST1.1)
      */
     protected function clearEventQueueBeforeEleven($event)
@@ -539,6 +579,8 @@ class SeleniumTestHelper extends CWebTestCase
      */
     protected function setUserDetails ($account_type)
     {
+        //$account_type = 0 - personal
+        //$account_type = 1 - corporate
         $name = "testName";
         $name .=  (string)rand(100, 300)+(string)rand(20,50)-(string)rand(10,30);
         $surname = "testSurname";
@@ -600,7 +642,5 @@ class SeleniumTestHelper extends CWebTestCase
         }
         $this->optimal_click(Yii::app()->params['test_admin_mappings']['home_page']['logout']);
     }
-
-
 }
-
+ 

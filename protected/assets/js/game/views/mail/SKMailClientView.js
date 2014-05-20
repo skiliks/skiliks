@@ -938,7 +938,7 @@ define([
                         });
 
                         // SKILIKS-4940 {
-                        if ($.browser['mozilla'] == true) {
+                        if ($.browser['mozilla'] == true && $.browser.version < 29) {
                             $('.folder-list').height($('#mail-window').height() - 315);
                         }
                         // SKILIKS-4940 }

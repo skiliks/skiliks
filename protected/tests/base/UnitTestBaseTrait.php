@@ -23,6 +23,8 @@ trait UnitTestBaseTrait {
     {
         $profile = YumProfile::model()->findByAttributes(['email' => 'asd@skiliks.com']);
         $this->user = $profile->user;
+
+        return $this->user;
     }
 
     /**

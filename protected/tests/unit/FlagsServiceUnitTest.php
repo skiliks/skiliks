@@ -2,6 +2,8 @@
 
 class FlagServiceUnitTest extends CDbTestCase
 {
+    use UnitTestBaseTrait;
+
     /**
      * Service method
      *
@@ -30,7 +32,7 @@ class FlagServiceUnitTest extends CDbTestCase
         //$this->markTestSkipped();
 
         /** @var $user Users */
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -68,7 +70,7 @@ class FlagServiceUnitTest extends CDbTestCase
      */
     public function testFlagMailTimeSet()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -116,7 +118,7 @@ class FlagServiceUnitTest extends CDbTestCase
     {
         //$this->markTestSkipped();
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -141,7 +143,7 @@ class FlagServiceUnitTest extends CDbTestCase
         //$this->markTestSkipped();
 
         /** @var $user Users */
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -192,7 +194,7 @@ class FlagServiceUnitTest extends CDbTestCase
     {
         //$this->markTestSkipped(); // S
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -227,7 +229,7 @@ class FlagServiceUnitTest extends CDbTestCase
     {
         //$this->markTestSkipped();
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -255,7 +257,7 @@ class FlagServiceUnitTest extends CDbTestCase
     {
         ////$this->markTestSkipped();
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -289,7 +291,7 @@ class FlagServiceUnitTest extends CDbTestCase
     {
         //$this->markTestSkipped();
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -351,7 +353,7 @@ class FlagServiceUnitTest extends CDbTestCase
      */
 
     public function testNewFlagsRules() {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -373,7 +375,7 @@ class FlagServiceUnitTest extends CDbTestCase
      */
 
     public function testNewFlagsRulesByDialogGet() {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -394,7 +396,7 @@ class FlagServiceUnitTest extends CDbTestCase
      * и делаю это вовремя
      */
     public function testFlagToSwitch2() {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -423,7 +425,7 @@ class FlagServiceUnitTest extends CDbTestCase
 
     public function testMeetingFlags()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;

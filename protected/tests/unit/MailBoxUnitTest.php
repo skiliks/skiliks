@@ -22,7 +22,7 @@ class MailBoxUnitTest extends CDbTestCase
     {
         //$this->markTestSkipped();
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -103,7 +103,7 @@ class MailBoxUnitTest extends CDbTestCase
      */
     public function testSubjectForNewEmail() 
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -155,7 +155,7 @@ class MailBoxUnitTest extends CDbTestCase
     {
         //$this->markTestSkipped();
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -215,7 +215,7 @@ class MailBoxUnitTest extends CDbTestCase
     public function testForward() 
     {
         // init simulation
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -294,7 +294,7 @@ class MailBoxUnitTest extends CDbTestCase
      */
     public function testGetPhrases()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -337,7 +337,7 @@ class MailBoxUnitTest extends CDbTestCase
      */
     public function testPunctuationSignsExist()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -356,7 +356,7 @@ class MailBoxUnitTest extends CDbTestCase
     public function testGetPhrasesFWD()
     {
         //$this->markTestSkipped();
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -398,7 +398,7 @@ class MailBoxUnitTest extends CDbTestCase
         //$this->markTestSkipped();
         
         // init simulation
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -470,7 +470,7 @@ class MailBoxUnitTest extends CDbTestCase
     public function testSubjectForMS60()
     {
         // init simulation
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -511,7 +511,7 @@ class MailBoxUnitTest extends CDbTestCase
     public function testGetMessage()
     {
         // init simulation
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -570,7 +570,7 @@ class MailBoxUnitTest extends CDbTestCase
     public function testSendMessagePro()
     {
         // init simulation
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -643,7 +643,7 @@ class MailBoxUnitTest extends CDbTestCase
     public function testMessageBoxCounter()
     {
         // init simulation
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -671,7 +671,7 @@ class MailBoxUnitTest extends CDbTestCase
      */
     public function testUpdateMessage() {
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -778,7 +778,7 @@ class MailBoxUnitTest extends CDbTestCase
 
     public function testParentActivityCompletedOnSend()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -851,7 +851,7 @@ class MailBoxUnitTest extends CDbTestCase
     }
 
     public function testFlagSwitchEmpty(){
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;

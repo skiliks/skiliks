@@ -301,7 +301,7 @@ return CMap::mergeArray(
                 'sMerchantPass2' => 'S358oP0ikj'
             ],
             'assessment_engine_version' => 'v2', //версия оценки(используеться в выводе попапа с оценкой)
-            'max_auth_failed_attempt' => 5, //Максимальное число попыток авторизации
+            'max_auth_failed_attempt' => 10, //Максимальное число попыток авторизации
     //            Test robokassa
     //            [
     //                'url'            => 'http://test.robokassa.ru/Index.aspx',

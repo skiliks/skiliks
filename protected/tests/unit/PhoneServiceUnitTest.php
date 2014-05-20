@@ -5,13 +5,15 @@
  */
 class PhoneServiceUnitTest extends CDbTestCase
 {
+    use UnitTestBaseTrait;
+
     /**
      * Проверяет правильность имени персонажа при пропущеном звонке
      */
     public function testGetMissedCalls()
     {
         // init simulation
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -60,7 +62,7 @@ class PhoneServiceUnitTest extends CDbTestCase
     public function testSetCallHistory()
     {
         // init simulation
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -127,7 +129,7 @@ class PhoneServiceUnitTest extends CDbTestCase
      */
     public function testOutgoingCall()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -163,7 +165,7 @@ class PhoneServiceUnitTest extends CDbTestCase
      */
     public function testOnlyUniqueCall()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -191,7 +193,7 @@ class PhoneServiceUnitTest extends CDbTestCase
      */
     public function testGetThemes()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;

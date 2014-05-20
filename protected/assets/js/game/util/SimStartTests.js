@@ -21,17 +21,17 @@ try {
                 };
 
                 var maxSupport = {
-                    mozilla: 28,
+                    mozilla: 29,
                     chrome: 34,
                     msie: 11,
                     safari: 7
                 };
 
-                var maxSupportTitle = {
-                    mozilla: "Mozilla Firefox "+maxSupport['mozilla'],
-                    chrome: "Google Chrome "+maxSupport['chrome'],
-                    msie: "Internet Explorer "+maxSupport['msie'],
-                    safari: "Safari "+maxSupport['safari']
+                var supportText = {
+                    mozilla: "Mozilla Firefox " + minSupport['mozilla'] + '-' + maxSupport['mozilla'],
+                    chrome:  "Google Chrome " + minSupport['chrome'] + '-' + maxSupport['chrome'],
+                    msie:    "Internet Explorer " + minSupport['msie'] + '-' + maxSupport['msie'],
+                    safari:  "Safari " + minSupport['safari'] + '-' + maxSupport['safari']
                 };
 
                 /**
@@ -60,7 +60,26 @@ try {
                         if ($.browser[name]) {
                             if (parseFloat($.browser.version) >= minSupport[name] && this.isAllowOS(cfg.isSkipOsCheck, ['Windows', 'MacOS'])) {
                                 if(parseFloat($.browser.version) > maxSupport[name]) {
-                                    if(confirm("Похоже, вы используете бета-версию браузера. Симуляция может работать нестабильно. Рекомендуем использовать "+maxSupportTitle[name]) === false){
+
+                                    var oldBrowserText = "Похоже вы используете бета-версию браузера."
+                                        + "Стабильность работы не гарантируется."
+                                        + "Рекомендуем использовать следующие версии браузеров (";
+
+                                    for(var index in supportText) {
+                                        oldBrowserText += supportText[index];
+
+                                        // 'safari' последний, после него запятая не нужна
+                                        if ('safari' != index) {
+                                            oldBrowserText += ', ';
+                                        }
+                                    }
+
+                                    oldBrowserText += ').';
+
+                                    if (alert(oldBrowserText)) {
+                                        location.href = '/dashboard';
+                                        return false;
+                                    } else {
                                         location.href = '/dashboard';
                                         return false;
                                     }
@@ -110,8 +129,7 @@ try {
                 if(processorTestResult.average > 0.69) {
                     updateImageLoaderBar('Проверка текущего быстродействия... OK!', 0.90, true);
                     return true;
-                }
-                else {
+                } else {
                     // Spike to make alert ok works fine
                     // TODO: refactor all dialog views to one style
                     if (alert("Конфигурация вашего компьютера ниже минимально допустимой. \n" +

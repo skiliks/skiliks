@@ -3,6 +3,8 @@
 class EventServiceUnitTest extends PHPUnit_Framework_TestCase
 {
 
+    use UnitTestBaseTrait;
+
     public function testAddByCode()
     {
 
@@ -11,7 +13,7 @@ class EventServiceUnitTest extends PHPUnit_Framework_TestCase
             ['code' => 'S1.2', 'time' => '11:10:00', 'standard_time' => '11:20:00']
         ];
 
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -39,7 +41,7 @@ class EventServiceUnitTest extends PHPUnit_Framework_TestCase
      */
     public function testImmediateMail()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
@@ -78,7 +80,7 @@ class EventServiceUnitTest extends PHPUnit_Framework_TestCase
         $transaction = Yii::app()->db->beginTransaction();
         try {
 
-            $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+            $user = $this->initTestUserAsd();
             $invite = new Invite();
             $invite->scenario = new Scenario();
             $invite->receiverUser = $user;
@@ -120,7 +122,7 @@ class EventServiceUnitTest extends PHPUnit_Framework_TestCase
      */
     public function testEventNotStart()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = $this->initTestUserAsd();
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;

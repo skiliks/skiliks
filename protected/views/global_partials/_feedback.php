@@ -1,8 +1,3 @@
-<?php
-//$cs = Yii::app()->clientScript;
-//$assetsUrl = $this->getAssetsUrl();
-// $cs->registerLessFile($assetsUrl . "/less/feedback.less", $assetsUrl . '/compiled_css/feedback.css');
-?>
 
 <div class="locator-feedback-dialog" style="display: none;">
     <?php

@@ -61,6 +61,10 @@ $cs->registerCssFile($assetsUrl . "/css/site/styles-1280.css");
 $cs->registerCssFile($assetsUrl . "/css/site/styles-1024.css");
 $cs->registerCssFile($assetsUrl . "/css/site/partials/site-heart.css");
 
+if (false == isset($_SERVER['HTTP_USER_AGENT'])) {
+    $_SERVER['HTTP_USER_AGENT'] = 'empty';
+}
+
 if(preg_match('/(?i)Chrome/',$_SERVER['HTTP_USER_AGENT']))
 {
     $cs->registerCssFile($assetsUrl . "/css/site/browsers/chrome-1280.css");
@@ -188,11 +192,13 @@ if(preg_match('/(?i)Chrome/',$_SERVER['HTTP_USER_AGENT']))
                 <img src="<?php echo $assetsUrl?>/img/site/1280/logotypes/logo-footer.png" alt="Skiliks"/>
             </a>
 
-            <a href="/registration/single-account"
-               class="background-dark-blue icon-circle-with-blue-arrow-big pull-left us-button-registration
-                               button-standard icon-padding-standard">
-                <?= Yii::t('site', 'Register now') ?>
-            </a>
+            <?php if (Yii::app()->user->isGuest): ?>
+                <a href="/registration/single-account"
+                   class="background-dark-blue icon-circle-with-blue-arrow-big pull-left us-button-registration
+                                   button-standard icon-padding-standard">
+                    <?= Yii::t('site', 'Register now') ?>
+                </a>
+            <?php endif ?>
 
             <?php $this->renderPartial('//global_partials/_static_pages_links', [
                 'isDisplayAccountLinks' => false,
