@@ -236,7 +236,7 @@ class SeleniumTestHelper extends CWebTestCase
     }
 
     /**
-     * reply_call - это метод для ответа на входящий звонок, когда телефон активен (иконка движется).
+     * reply_call - method for answering the phone call, when the phone is active (it's moving on)
      */
     protected function reply_call ()
     {
@@ -245,7 +245,7 @@ class SeleniumTestHelper extends CWebTestCase
     }
 
     /**
-     * no_reply_call - это метод для игнора входящего звонка, когда телефон активен (иконка движется).
+     * no_reply_call - method for not answering the phone call, when the phone is active (it's moving on)
      */
     protected function no_reply_call ()
     {
@@ -254,7 +254,7 @@ class SeleniumTestHelper extends CWebTestCase
     }
 
     /**
-     * write_mail_active - это метод для создания письма, когда мейл-клиент активен (иконка мигает).
+     * write_mail_active - method for writing the new email, when the mail is active (it's moving on)
      */
     protected function write_mail_active()
     {
@@ -263,7 +263,7 @@ class SeleniumTestHelper extends CWebTestCase
     }
 
     /**
-     * write_mail_unidentified - это метод для создания письма, когда непонятно по ситуации в каком виде находится почтовик.
+     * write_mail_unidentified - method for writing the new email, when we don't know about mail-client status
      */
     protected function write_mail_unidentified()
     {
@@ -300,7 +300,8 @@ class SeleniumTestHelper extends CWebTestCase
     }
 
     /**
-     * optimal_click - это метод для корректного нажатия на элемент (ожидание элемента и только потом нажатие).
+     * optimal_click - method for correct waiting and clicking at the element
+     * @loc - locator of the element on which we want to click
      */
     protected function optimal_click ($loc)
     {
@@ -318,10 +319,8 @@ class SeleniumTestHelper extends CWebTestCase
     }
 
     /**
-     * how_much_time - это метод для определения поточного игрового времени.
-     * Метод возвращает массив, где первый элемент - это поточное количество часов, а второй элемент -
-     * поточное количество минут.
-     * Пример использования - метод transfer_time (см. ниже)
+     * how_much_time - method for determine the game time.
+     * return int [] , the first element of the array - is number of hours, second - number of minutes
      */
     protected function how_much_time ()
     {
@@ -331,9 +330,8 @@ class SeleniumTestHelper extends CWebTestCase
     }
 
     /**
-     * transfer_time - это метод для переноса времени на differ минут.
-     * Метод стоит использовать для коректного изменения времени для выполнения событий,
-     * которые должны происходить с задержкой, где differ -это колличество минут задежки.
+     * transfer_time - method for changing time
+     * @differ - number of minutes in which we need to make transfer
      */
     protected function transfer_time ($differ)
     {
@@ -352,14 +350,12 @@ class SeleniumTestHelper extends CWebTestCase
     }
 
     /**
-     * verify_flag - это метод для проверки, что значение флага num_flag поменялось
-     * и соответсвует значению ver_value.
-     * Возвращаем true, если поменялось значение флага и
-     * возвращаем false, если не изменилось.
+     * verify_flag - method for verifing the value of flag
+     * @num_flag - number of flag
+     * @ver_value - value of flag
      */
     protected function verify_flag ($num_flag, $ver_value)
     {
-        //sleep(5);
         $was_changed=false;
         $current_value='0';
         for ($second = 0; ; $second++) {
@@ -430,14 +426,19 @@ class SeleniumTestHelper extends CWebTestCase
         return $same_number;
     }
 
-    // метод для начала написания письма из чистой симуляции  
+    /**
+     * метод для начала написания письма из чистой симуляции
+     */
     protected function write_email ()
     {
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
         $this->optimal_click("xpath=(//*[contains(text(),'новое письмо')])");
     }
 
-    // метод добавления получателя к письму   
+    /**
+     * метод добавления получателя к письму
+     * @param $address - locator of the recipient
+     */
     protected function addRecipient ($address)
     {
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['add_recipient']);
@@ -448,7 +449,10 @@ class SeleniumTestHelper extends CWebTestCase
         sleep(2);
     }
 
-    // метод добавления темы к письму   
+    /**
+     * addTheme - method for adding theme to new email
+     * @theme - name of theme
+     */
     protected function addTheme($theme)
     {
         $this->waitForVisible("xpath=//*[@id='MailClient_NewLetterSubject']/div/a");
@@ -456,7 +460,10 @@ class SeleniumTestHelper extends CWebTestCase
         $this->click($theme);
     }
 
-    // метод добавления атача к письму   
+    /**
+     * addAttach - method for adding attachment to new email
+     * @filename - name of attachment
+     */
     protected function addAttach($filename)
     {
         $this->click("xpath=//*[@id='MailClient_NewLetterAttachment']/div/div/a");
@@ -465,8 +472,12 @@ class SeleniumTestHelper extends CWebTestCase
         $this->click("xpath=(//*[contains(text(), '$filename')])");
     }
 
-    // метод для очистки не нужных событий из очереди событий
-    // параметром нужно написать начальный event, например RST1  
+    /**
+     * метод для очистки не нужных событий из очереди событий
+     * параметром нужно написать начальный event, например RST1
+     *
+     * @event - name of event (e.g. RST1 and RST1.1)
+     */
     protected function clearEventQueueBeforeEleven($event)
     {
         $this->run_event($event, Yii::app()->params['test_mappings']['icons_active']['phone'], 'click');
