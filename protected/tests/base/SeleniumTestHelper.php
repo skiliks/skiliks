@@ -48,6 +48,7 @@ class SeleniumTestHelper extends CWebTestCase
     {
         for ($second = 0; true; $second++) {
             if ($second >= 900) {
+                $this->assertTrue(false, $message);
                 // $this->fail($message);
             } try {
                 if ($this->isVisible($locator)) {
