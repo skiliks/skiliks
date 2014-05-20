@@ -488,248 +488,22 @@ class SeleniumTestHelper extends CWebTestCase
         $this->logTestResult("delete from event queue ". $event. "\n", true, $this->invite_id);
     }
 
-    //*****************************************************
-    // БЛОК ДЛЯ РАБОТЫ С ЛОГАМИ ПОСЛЕ ОКОНЧАНИЯ СИМУЛЯЦИИ
-    // пример работы с всевозможными логами можно посмотреть в Others/Logging_Case_SK1278_Test.php
-    // особенно, если выдает ошибку офсета - нужно смотреть пример в этом файле (строки 61-78)
-    //*****************************************************
-
-    // для проверки целосности логов в таблице Universal
-    protected function Universal ($array_of_values, $size_of_array)
-    {
-        $this->optimal_click(Yii::app()->params['test_mappings']['log']['universal']);
-        $new_size = $this->size_of_logs("xpath=//div[2]/table[1]/tbody/tr[", "]/td[4]");
-        if ($new_size==$size_of_array)
-        {
-            $a = $this->time_values("xpath=//div[2]/table[1]/tbody/tr[", "]/td[4]", "xpath=//div[2]/table[1]/tbody/tr[", "]/td[3]" );
-            $b = $this->active_windows($array_of_values, "xpath=//div[2]/table[1]/tbody/tr[", "]/td[1]", "xpath=//div[2]/table[1]/tbody/tr[", "]/td[2]");
-            if (($a==True)&&($b==True))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    // для проверки целосности логов в таблице Mail_log
-    protected function Mail_log ($array_of_values, $size_of_array)
-    {
-        $this->optimal_click(Yii::app()->params['test_mappings']['log']['mail_log']);
-        $new_size = $this->size_of_logs("xpath=//div[2]/table[7]/tbody/tr[", "]/td[4]");
-        if ($new_size==$size_of_array)
-        {
-            $a = $this->active_windows($array_of_values,"xpath=//div[2]/table[7]/tbody/tr[", "]/td[3]", "xpath=//div[2]/table[7]/tbody/tr[", "]/td[5]" );
-            if ($a==True)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    // для проверки целосности логов в таблице Leg_actions_detail
-    protected function Leg_actions_detail()
-    {
-        $this->optimal_click(Yii::app()->params['test_mappings']['log']['leg_actions_detail']);
-        $this->assertTrue($this->time_values("xpath=//div[2]/table[10]/tbody/tr[", "]/td[2]", "xpath=//div[2]/table[10]/tbody/tr[", "]/td[1]" ));
-    }
-
-    // для проверки целосности логов в таблице Leg_actions_aggregated
-    protected function Leg_actions_aggregated()
-    {
-        $this->optimal_click(Yii::app()->params['test_mappings']['log']['leg_actions_aggregated']);
-        $this->assertTrue($this->time_values("xpath=//div[2]/table[11]/tbody/tr[", "]/td[9]", "xpath=//div[2]/table[11]/tbody/tr[", "]/td[8]" ));
-    }
-
-    // метод для проверки величины лога (определенной таблицы, у которой первая ячейка передается в локаторах 1 и 2)
-    protected function size_of_logs ($loc1,$loc2)
-    {
-        $i = 1;
-        while (true)
-        {
-            $result = "";
-            $result .= $loc1;
-            $result .= (string)$i;
-            $result .= $loc2;
-            if ($this->isElementPresent($result)==true)
-            {
-                $i++;
-            }
-            else
-            {
-                break;
-            }
-        }
-        return ($i-1);
-    }
-
-    // метод для корректного считывания времени из ячеек и перевода в нужный формат
-    protected function time_values ($a1, $b1, $a2, $b2)
-    {
-        $count = 1;
-        $i = 1;
-        while (true)
-        {
-            $result = "";
-            $result .= $a1;
-            $result .= (string)$count;
-            $result .= $b1;
-
-            $result2 = "";
-            $result2 .= $a2;
-            $result2 .= (string)($count+1);
-            $result2 .= $b2;
-
-            if (($this->isElementPresent($result)==true)&&($this->isElementPresent($result2)==true))
-            {
-                $first_time = trim($this->getText($result));
-                $second_time = trim($this->getText($result2));
-
-                $parsed_time_1 = explode(":", $first_time);
-                $parsed_time_2 = explode(":", $second_time);
-
-                $time1_in_sec = $parsed_time_1[0]*3600+$parsed_time_1[1]*60+$parsed_time_1[2];
-                $time2_in_sec = $parsed_time_2[0]*3600+$parsed_time_2[1]*60+$parsed_time_2[2];
-
-                if (($time2_in_sec>=$time1_in_sec)&&(($time2_in_sec-$time1_in_sec)<=2))
-                {
-                    $count++;
-                }
-                else
-                {
-                    break;
-                }
-                $i++;
-            }
-            else
-            {
-                break;
-            }
-        }
-        return $i==$count;
-    }
-
-    // для проверки разницы между началом действия события до его окончания
-    protected function difference_of_time ($a1, $b1, $a2, $b2)
-    {
-        $count = 1;
-        $i = 1;
-        while (true)
-        {
-            $result = "";
-            $result .= $a1;
-            $result .= (string)$count;
-            $result .= $b1;
-
-            $result2 = "";
-            $result2 .= $a2;
-            $result2 .= (string)$count;
-            $result2 .= $b2;
-
-            if (($this->isElementPresent($result)==true)&&($this->isElementPresent($result2)==true))
-            {
-                $first_time = trim($this->getText($result));
-                $second_time = trim($this->getText($result2));
-
-                $parsed_time_1 = explode(":", $first_time);
-                $parsed_time_2 = explode(":", $second_time);
-
-                $time1_in_sec = $parsed_time_1[0]*3600+$parsed_time_1[1]*60+$parsed_time_1[2];
-                $time2_in_sec = $parsed_time_2[0]*3600+$parsed_time_2[1]*60+$parsed_time_2[2];
-
-                $time_differ[$count] = $time2_in_sec - $time1_in_sec;
-                $count++;
-            }
-            else
-            {
-                break;
-            }
-        }
-        return $time_differ;
-    }
-
-    // для проверки 2 колонок в определенной таблице с значениями массива, который передали
-    protected function active_windows($array_of_values, $a1, $b1, $a2, $b2 )
-    {
-        $match = 1;
-        $i=1;
-        while (true)
-        {
-            $result = "";
-            $result .= $a1;
-            $result .= (string)$i;
-            $result .= $b1;
-
-            $result2 = "";
-            $result2 .= $a2;
-            $result2 .= (string)$i;
-            $result2 .= $b2;
-
-            if (($this->isElementPresent($result)==true)&&($this->isElementPresent($result2)==true))
-            {
-                if ($array_of_values[1][($i-1)]==trim($this->getText($result)))
-                {
-                    if ($array_of_values[0][($i-1)]==trim($this->getText($result2)))
-                    {
-                        $match++;
-                    }
-                }
-            }
-            else
-            {
-                break;
-            }
-            $i++;
-        }
-        return $i==$match;
-    }
-
-    //********************************************
-    // БЛОК ДЛЯ ПРОВЕРКИ ОЦЕНОК ЗА СИМУЛЯЦИЮ
-    //********************************************
-
+    /**
+     * checkSimPoints - method for checking points of the positive and negative behaviours
+     * @positive - value of the positive
+     * @negative - value of the negative
+     */
     protected function checkSimPoints ($positive,$negative)
     {
         $this->assertText(Yii::app()->params['test_mappings']['log']['admm_positive'],"$positive");
         $this->assertText(Yii::app()->params['test_mappings']['log']['admm_negative'],"$negative");
     }
 
-    // для проверки оценок по Целям обучения (личностные характеристики - пока выпилили - переделываем)
-    protected function checkLearningArea($personal10,$personal11,$personal12,$personal13,$personal14,$personal15,$personal16)
-    {
-        $this->waitForVisible(Yii::app()->params['test_mappings']['log']['personal10'],"$personal10");
-        $this->assertText(Yii::app()->params['test_mappings']['log']['personal10'],"$personal10");
-        $this->waitForVisible(Yii::app()->params['test_mappings']['log']['personal11'],"$personal11");
-        $this->assertText(Yii::app()->params['test_mappings']['log']['personal11'],"$personal11");
-        $this->waitForVisible(Yii::app()->params['test_mappings']['log']['personal12'],"$personal12");
-        $this->assertText(Yii::app()->params['test_mappings']['log']['personal12'],"$personal12");
-        $this->waitForVisible(Yii::app()->params['test_mappings']['log']['personal13'],"$personal13");
-        $this->assertText(Yii::app()->params['test_mappings']['log']['personal13'],"$personal13");
-        $this->waitForVisible(Yii::app()->params['test_mappings']['log']['personal14'],"$personal14");
-        $this->assertText(Yii::app()->params['test_mappings']['log']['personal14'],"$personal14");
-        $this->waitForVisible(Yii::app()->params['test_mappings']['log']['personal15'],"$personal15");
-        $this->assertText(Yii::app()->params['test_mappings']['log']['personal15'],"$personal15");
-        $this->waitForVisible(Yii::app()->params['test_mappings']['log']['personal16'],"$personal16");
-        $this->assertText(Yii::app()->params['test_mappings']['log']['personal16'],"$personal16");
-    }
-
-    //********************************************
-    // БЛОК ДЛЯ ПРОВЕРКИ РАБОТЫ САЙТА
-    //********************************************
+    /**
+     * check_all_urls - method for checking the url, text and link of all buttons for not registered user
+     * @all_buttons - array of all
+     * @text - value of the negative
+     */
     protected function check_all_urls ($all_buttons, $text)   // для перехода по всем юрл по циклу
     {
         for ($i = 0; $i<sizeof($all_buttons[0])-1 ; $i++) {
@@ -745,11 +519,20 @@ class SeleniumTestHelper extends CWebTestCase
         }
     }
 
+    /**
+     * getInviteId - method for reading invite id from dev panel in dev mode simulation
+     */
     protected function getInviteId()
     {
         return $this->getText('id=invite-id');
     }
 
+    /**
+     * logTestResult - method for write log of tests in DB
+     * @text - text to write in log of test
+     * @isFailed - value with the result of the simulation ( was it failed od not)
+     * @invite_id - invite id of current simulation
+     */
     protected function logTestResult ($text='test_text', $isFailed=true, $invite_id)
     {
         try {
@@ -763,6 +546,10 @@ class SeleniumTestHelper extends CWebTestCase
         }
     }
 
+    /**
+     * getActivationKeyByEmail - method for reading the email activation key for registration from DB
+     * @emailU - user email wich was used for registration
+     */
     protected function getActivationKeyByEmail ($emailU)
     {
         /* @var YumProfile $profile */
@@ -775,6 +562,10 @@ class SeleniumTestHelper extends CWebTestCase
         return "/registration/registration/activation/key/". $key. "/email/". $email;
     }
 
+    /**
+     * setUserDetails - method for generating account details for registration
+     * @account_type - value (0 or 1) of account type. 0 - personal and 1 - corporate
+     */
     protected function setUserDetails ($account_type)
     {
         //$account_type = 0 - personal
@@ -799,6 +590,10 @@ class SeleniumTestHelper extends CWebTestCase
         return $UserDetails;
     }
 
+    /**
+     * getInviteLink - method for getting the invite link from DB
+     * @emailU - email of invited person
+     */
     protected function getInviteLink ($emailU)
     {
         /* @var Invite $invite */
@@ -812,7 +607,9 @@ class SeleniumTestHelper extends CWebTestCase
         return "/registration/by-link/". $key;
     }
 
-
+    /**
+     * clear_blocked_auth_users - method for unblock user authorization. It's useful for site tests with password test-cases
+     */
     protected function clear_blocked_auth_users()
     {
         $this->open('/ru');
