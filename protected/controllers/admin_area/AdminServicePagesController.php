@@ -64,7 +64,7 @@ class AdminServicePagesController extends SiteBaseController {
              * @var CheckAssessmentResults $component
              */
             $component = new CheckAssessmentResults();
-            $component->checkAndFix($userSimulations, true);
+            $component->checkAndFix($userSimulations, false);
         }
 
         $this->layout = '/admin_area/layouts/admin_main';
