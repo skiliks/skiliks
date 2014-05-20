@@ -84,6 +84,10 @@
                 'url'   => ['admin_area/AdminPages/ImportsList'],
                 'visible' => true,
             ], [
+                'label' => 'Проверка итоговых оценок',
+                'url'   => ['admin_area/AdminServicePages/CheckAssessmentResults'],
+                'visible' => true,
+            ], [
                 'label' => 'Статистика',
                 'url'   => ['admin_area/AdminPages/Statistics'],
                 'visible' => true,

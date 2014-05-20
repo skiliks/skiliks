@@ -49,7 +49,8 @@ class SeleniumTestHelper extends CWebTestCase
         for ($second = 0; true; $second++) {
             if ($second >= 900) {
                 $this->assertTrue(false, $message);
-                // $this->fail($message);
+
+                // $this->fail($message) cause "Call to undefined method PHPUnit_Framework_Warning::setupSpecificBrowser() in /usr/share/php/PHPUnit/Extensions/SeleniumBrowserSuite.php on line 95"
             } try {
                 if ($this->isVisible($locator)) {
                     break;

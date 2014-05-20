@@ -11,7 +11,7 @@
  * @property string $result
  *
  * The followings are the available model relations:
- * @property User $startedBy
+ * @property YumUser $startedBy
  */
 class SiteLogCheckResults extends CActiveRecord
 {
@@ -57,7 +57,7 @@ class SiteLogCheckResults extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'startedBy' => array(self::BELONGS_TO, 'User', 'started_by_id'),
+			'startedBy' => array(self::BELONGS_TO, 'YumUser', 'started_by_id'),
 		);
 	}
 
@@ -67,11 +67,11 @@ class SiteLogCheckResults extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'started_at' => 'Started At',
-			'finished_at' => 'Finished At',
+			'id'            => 'ID',
+			'started_at'    => 'Started At',
+			'finished_at'   => 'Finished At',
 			'started_by_id' => 'Started By',
-			'result' => 'Result',
+			'result'        => 'Result',
 		);
 	}
 

@@ -11,7 +11,7 @@ class m140519_173926_add_check_results_table extends CDbMigration
                 'started_at'    => 'datetime',
                 'finished_at'   => 'datetime',
                 'started_by_id' => 'int(10) UNSIGNED',
-                'result'        => 'blob',
+                'result'        => 'LONGTEXT',
             ]
         );
 
