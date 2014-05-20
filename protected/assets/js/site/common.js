@@ -426,11 +426,13 @@ window.feedbackSubmit = function feedbackSubmit(form, data, hasError) {
 // Предупреждение что аккаунт забанен
 window.displayYourAccountBannedFlashMessage = function() {
     $('body').append(
-        '<div class="locator-account-banned hide">Ваш аккаунт заблокирован (более 10 неудачных попыток авторизации). <br/>'
+        '<div class="locator-account-banned flash-data hide">'
+            + 'Ваш аккаунт заблокирован (более 10 неудачных попыток авторизации). '
             + 'Вам на почту ' + window.userEmail
-            + ' отправлено письмо с инструкциями по восстановлению аккаунта. <br/>'
+            + ' отправлено письмо с инструкциями по восстановлению аккаунта. '
             + 'Если вы испытываете затруднения - свяжитесь пожалуйста со '
-            + '<strong class="action-feedback-banned inter-active color-146672">службой поддержки</strong>.</div>'
+            + '<span class="action-feedback-banned inter-active color-146672">службой поддержки</span>.'
+      + '</div>'
     );
     if (1 == $(".locator-account-banned").length) {
         var dialog = $(".locator-account-banned");
