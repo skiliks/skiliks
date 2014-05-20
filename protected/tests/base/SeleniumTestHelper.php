@@ -48,19 +48,18 @@ class SeleniumTestHelper extends CWebTestCase
     {
         for ($second = 0; true; $second++) {
             if ($second >= 900) {
-                $this->fail($message);
-            }
-            try {
+                // $this->fail($message);
+            } try {
                 if ($this->isVisible($locator)) {
                     break;
                 }
-                return $second;
+                //return $second;
             } catch (Exception $e) { }
-            return $second;
+            //return $second;
             usleep(100000);
         }
 
-        return $second;
+        //return $second;
     }
 
     protected function start_simulation($testName, $user=0)
@@ -83,13 +82,17 @@ class SeleniumTestHelper extends CWebTestCase
         $this->open('/cheat/quick-start/full');
 
         //waiting for loading all images, css and js and waiting for dev panel is visible below the simulation desktop
-        for ($second = 0; ; $second++) {
-            if ($second >= 600) $this->fail("!!! FAIL: simulation does not start, because there isn't desktop at the screen!!!");
-            try {
-                if ($this->isVisible("css=.btn.btn-simulation-stop")) break;
-            } catch (Exception $e) {}
-            usleep(100000);
-        }
+        $this->waitingLongMethod(
+            "!!! FAIL: simulation does not start, because there isn't desktop at the screen!!!",
+            "css=.btn.btn-simulation-stop"
+        );
+//        for ($second = 0; ; $second++) {
+//            if ($second >= 600) $this->fail("!!! FAIL: simulation does not start, because there isn't desktop at the screen!!!");
+//            try {
+//                if ($this->isVisible("css=.btn.btn-simulation-stop")) break;
+//            } catch (Exception $e) {}
+//            usleep(100000);
+//        }
 
         // short js code for closing all alerts
         $this->getEval('var window = this.browserbot.getUserWindow(); window.$(window).off("beforeunload")');
