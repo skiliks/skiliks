@@ -42,6 +42,23 @@ class SiteBaseController extends CController {
      */
     protected function beforeAction($action)
     {
+        // SKILIKS-6030, redirect for IE9/8 {
+        if (false == isset($_SERVER['HTTP_USER_AGENT'])) {
+            $_SERVER['HTTP_USER_AGENT'] = '';
+        }
+
+        if (
+              preg_match('/(?i)MSIE 6/',$_SERVER['HTTP_USER_AGENT'])
+            || preg_match('/(?i)MSIE 7/',$_SERVER['HTTP_USER_AGENT'])
+            || preg_match('/(?i)MSIE 8/',$_SERVER['HTTP_USER_AGENT'])
+            || preg_match('/(?i)MSIE 9/',$_SERVER['HTTP_USER_AGENT'])
+        ) {
+            if ('/system-mismatch' != Yii::app()->request->url) {
+                $this->redirect('/system-mismatch');
+            }
+        }
+        // SKILIKS-6030, redirect for IE9/8 }
+
         $this->request = &Yii::app()->request;
         if(Yii::app()->params['disableAssets']) {
             /* @var CAssetManager $manager */

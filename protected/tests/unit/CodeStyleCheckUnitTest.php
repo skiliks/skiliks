@@ -55,6 +55,8 @@ class CodeStyleCheckUnitTest  extends CDbTestCase
         foreach ($folders as $folder) {
             $dir = Yii::app()->getBasePath().$folder;
             $filesList = [];
+
+            // exceptions
             getFilesList($dir, $filesList, [
                 'yiic.php',
                 'ImportGameDataService.php',
@@ -65,7 +67,8 @@ class CodeStyleCheckUnitTest  extends CDbTestCase
                 'tcpdf_barcodes_2d.php',
                 'tcpdf_import.php',
                 'AnalyticalFileGenerator.php',
-                'SimulationResultTextService.php'
+                'SimulationResultTextService.php',
+                'CheckAssessmentResults.php'
             ]);
 
             foreach ($filesList as $filename) {

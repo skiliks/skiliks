@@ -155,9 +155,16 @@ if(preg_match('/(?i)Chrome/',$_SERVER['HTTP_USER_AGENT']))
 
     <header class="main-content">
         <!-- ACCOUNTS LINKS -->
-        <nav class="column-full inline-list pull-content-right account-links">
-            <?php $this->renderPartial('//global_partials/_account_links') ?>
-        </nav>
+        <?php if (
+               (false === preg_match('/(?i)MSIE 6/',$_SERVER['HTTP_USER_AGENT']))
+            && (false === preg_match('/(?i)MSIE 7/',$_SERVER['HTTP_USER_AGENT']))
+            && (false === preg_match('/(?i)MSIE 8/',$_SERVER['HTTP_USER_AGENT']))
+            && (false === preg_match('/(?i)MSIE 9/',$_SERVER['HTTP_USER_AGENT']))
+        ) : ?>
+            <nav class="column-full inline-list pull-content-right account-links">
+                <?php $this->renderPartial('//global_partials/_account_links') ?>
+            </nav>
+        <?php endif ?>
 
         <!-- SITE PAGES NAVIGATION -->
         <nav class="column-full inline-list pull-content-right static-page-links">
@@ -192,12 +199,19 @@ if(preg_match('/(?i)Chrome/',$_SERVER['HTTP_USER_AGENT']))
                 <img src="<?php echo $assetsUrl?>/img/site/1280/logotypes/logo-footer.png" alt="Skiliks"/>
             </a>
 
-            <?php if (Yii::app()->user->isGuest): ?>
-                <a href="/registration/single-account"
-                   class="background-dark-blue icon-circle-with-blue-arrow-big pull-left us-button-registration
-                                   button-standard icon-padding-standard">
-                    <?= Yii::t('site', 'Register now') ?>
-                </a>
+            <?php if (
+                   (false === preg_match('/(?i)MSIE 6/',$_SERVER['HTTP_USER_AGENT']))
+                && (false === preg_match('/(?i)MSIE 7/',$_SERVER['HTTP_USER_AGENT']))
+                && (false === preg_match('/(?i)MSIE 8/',$_SERVER['HTTP_USER_AGENT']))
+                && (false === preg_match('/(?i)MSIE 9/',$_SERVER['HTTP_USER_AGENT']))
+            ) : ?>
+                <?php if (Yii::app()->user->isGuest): ?>
+                    <a href="/registration/single-account"
+                       class="background-dark-blue icon-circle-with-blue-arrow-big pull-left us-button-registration
+                                       button-standard icon-padding-standard">
+                        <?= Yii::t('site', 'Register now') ?>
+                    </a>
+                <?php endif ?>
             <?php endif ?>
 
             <?php $this->renderPartial('//global_partials/_static_pages_links', [
