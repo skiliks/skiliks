@@ -46,22 +46,18 @@ class SeleniumTestHelper extends CWebTestCase
      */
     protected function waitingLongMethod($message, $locator)
     {
-        for ($second = 0; true; $second++) {
+        for ($second = 0; true; $second++)
+        {
             if ($second >= 900) {
                 $this->assertTrue(false, $message);
-
-                // $this->fail($message) cause "Call to undefined method PHPUnit_Framework_Warning::setupSpecificBrowser() in /usr/share/php/PHPUnit/Extensions/SeleniumBrowserSuite.php on line 95"
             } try {
-                if ($this->isVisible($locator)) {
+                if ($this->isVisible($locator))
+                {
                     break;
                 }
-                //return $second;
             } catch (Exception $e) { }
-            //return $second;
             usleep(100000);
         }
-
-        //return $second;
     }
 
     protected function start_simulation($testName, $user=0)
@@ -88,13 +84,6 @@ class SeleniumTestHelper extends CWebTestCase
             "!!! FAIL: simulation does not start, because there isn't desktop at the screen!!!",
             "css=.btn.btn-simulation-stop"
         );
-//        for ($second = 0; ; $second++) {
-//            if ($second >= 600) $this->fail("!!! FAIL: simulation does not start, because there isn't desktop at the screen!!!");
-//            try {
-//                if ($this->isVisible("css=.btn.btn-simulation-stop")) break;
-//            } catch (Exception $e) {}
-//            usleep(100000);
-//        }
 
         // short js code for closing all alerts
         $this->getEval('var window = this.browserbot.getUserWindow(); window.$(window).off("beforeunload")');
@@ -312,8 +301,10 @@ class SeleniumTestHelper extends CWebTestCase
     {
         try
         {
+            sleep(1);
             $this->waitForVisible($loc);
             $this->click($loc);
+            sleep(1);
         }
         catch (Exception $e)
         {
