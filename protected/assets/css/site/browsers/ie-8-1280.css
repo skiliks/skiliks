@@ -1,0 +1,96 @@
+input[type='checkbox'] {
+    border-radius: 0;
+    padding: 0;
+}
+
+#DeclineExplanation_reason_id label {
+    height: 23px;
+}
+
+.skiliks .us-auth-box {
+    width: 630px;
+}
+
+.skiliks .us-error-bottom {
+    width: 626px;
+}
+
+.skiliks .us-user-auth-page-form #YumUserChangePassword_password,
+.skiliks .us-user-auth-page-form #YumUserChangePassword_verifyPassword {
+    width: 162px;
+}
+
+.action-controller-recovery-static-userAuth .us-first-input,
+.action-controller-recovery-static-userAuth .us-second-input  {
+    width: 176px;
+}
+
+.mangrlresultstitle {
+    margin-left: 31px;
+}
+
+.twobarstitles .barstitle:first-child {
+    margin-left: 0;
+}
+
+#YumUserLogin_not_activate_em_ a {
+    display: block;
+}
+
+nav ul li.menu-item span,
+nav ul li.menu-item a {
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+.skiliks input.button-white,
+.skiliks .ui-widget input.button-white {
+    line-height: 1.8em;
+}
+
+.skiliks .ui-dialog form#add-vacancy-form .sbHolder {
+    margin-left: 0px;
+}
+
+.us-remember-me-margin {
+    margin-top: 1px;
+}
+
+.skiliks.action-controller-product-static-pages .blockvalue {
+    top: -4px;
+}
+
+.skiliks #YumUser_agree_with_terms {
+    margin-top: -4px;
+}
+
+.skiliks .sh_btn .sh_btn_char {
+    height: 14px;
+    margin-top: -1px;
+}
+
+.action-registrationSingleAccount .inline-error-first {
+    vertical-align: top;
+    margin-top: 16px;
+}
+
+.action-registrationSingleAccount .inline-error-second {
+    margin-top: -4px;
+}
+
+.company-info-height {
+    height: 372px;
+}
+
+.action-controller-personalPassword-static-profile .us-password-personal-height {
+    height: 314px;
+}
+
+.action-controller-personalPersonalData-static-profile .unstandard-personal-data-height {
+    height: 409px;
+}
+
+.skiliks .us-homepage-content .button-standard {
+    padding-top: 17px;
+    padding-bottom: 17px;
+}

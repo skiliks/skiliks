@@ -156,10 +156,10 @@ if(preg_match('/(?i)Chrome/',$_SERVER['HTTP_USER_AGENT']))
     <header class="main-content">
         <!-- ACCOUNTS LINKS -->
         <?php if (
-               (false === preg_match('/(?i)MSIE 6/',$_SERVER['HTTP_USER_AGENT']))
-            && (false === preg_match('/(?i)MSIE 7/',$_SERVER['HTTP_USER_AGENT']))
-            && (false === preg_match('/(?i)MSIE 8/',$_SERVER['HTTP_USER_AGENT']))
-            && (false === preg_match('/(?i)MSIE 9/',$_SERVER['HTTP_USER_AGENT']))
+               (false == preg_match('/(?i)MSIE 6/',$_SERVER['HTTP_USER_AGENT']))
+            && (false == preg_match('/(?i)MSIE 7/',$_SERVER['HTTP_USER_AGENT']))
+            && (false == preg_match('/(?i)MSIE 8/',$_SERVER['HTTP_USER_AGENT']))
+            && (false == preg_match('/(?i)MSIE 9/',$_SERVER['HTTP_USER_AGENT']))
         ) : ?>
             <nav class="column-full inline-list pull-content-right account-links">
                 <?php $this->renderPartial('//global_partials/_account_links') ?>
