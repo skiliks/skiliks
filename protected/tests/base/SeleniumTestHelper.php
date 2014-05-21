@@ -310,10 +310,6 @@ class SeleniumTestHelper extends CWebTestCase
      */
     protected function optimal_click ($loc)
     {
-<<<<<<< HEAD
-=======
-        sleep (1);
->>>>>>> ed498530176d7e0914c4e92a1ec1407df3694078
         try
         {
             $this->waitForVisible($loc);
@@ -323,10 +319,6 @@ class SeleniumTestHelper extends CWebTestCase
         {
             $this->fail("!!! FAIL: not found ". $loc);
         }
-<<<<<<< HEAD
-=======
-        sleep (1);
->>>>>>> ed498530176d7e0914c4e92a1ec1407df3694078
     }
 
     /**
