@@ -343,10 +343,10 @@ class UserService {
             // send invitation
             if ($invite->validate() && 0 < $user->getAccount()->getTotalAvailableInvitesLimit()) {
                 $invite->markAsSendToday();
-                $user->account_corporate->default_invitation_mail_text = $invite->message.'<br>';
-                $invite->message = preg_replace('/(\r\n)/', '<br>', $invite->message);
-                $invite->message = preg_replace('/(\n\r)/', '<br>', $invite->message);
-                $invite->message = preg_replace('/\\n|\\r/', '<br>', $invite->message);
+                $user->account_corporate->default_invitation_mail_text = $invite->message;
+                $invite->message = preg_replace('/(\r\n)/', '<br>', $invite->message.'<br>');
+                $invite->message = preg_replace('/(\n\r)/', '<br>', $invite->message.'<br>');
+                $invite->message = preg_replace('/\\n|\\r/', '<br>', $invite->message.'<br>');
                 $invite->is_display_simulation_results = (int) !$is_display_results;
 
                 if($send_invite) {

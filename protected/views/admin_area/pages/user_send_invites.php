@@ -6,7 +6,7 @@
 </h3>
 <br>
 <a href="/admin_area/user/<?= $user->id ?>/details">
-    &lt;- Вернутья назад
+    &lt;- Вернуться назад
 </a>
 <br>
 <br>
@@ -80,7 +80,7 @@
 <?php endif ?>
 <?php if(!$isSend) : ?>
 <br>
-<form class="form" method="post">
+<form class="form" method="post" id="bulk-send-invites">
     <table class="table">
         <tr>
             <th style="width: 15%;">Email</th>
@@ -103,7 +103,12 @@
                     <?php endforeach ?>
                 </select>
                 <br>
-                Скрыть результаты &nbsp;&nbsp;<input <? if($data->hide_result == 1) : ?> checked="checked" <? endif ?> type="checkbox" name="data[hide_result]" value="1">
+                Скрыть результаты &nbsp;
+                <input <? if($data->hide_result == 1) : ?> checked="checked" <? endif ?>
+                    id="hide-sim-results"
+                    type="checkbox"
+                    name="data[hide_result]"
+                    value="1">
             </td>
         </tr>
         <tr>
@@ -125,3 +130,16 @@
     </table>
 </form>
 <?php endif ?>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#bulk-send-invites').submit(function(){
+            if ('checked' != $('#hide-sim-results').attr('checked')) {
+                if (confirm('Может надо скрыть результаты симуляции от соискателей?')) {
+                    // не отправляет данные формы
+                    return false;
+                }
+            }
+        })
+    });
+</script>

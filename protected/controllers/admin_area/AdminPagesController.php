@@ -2221,7 +2221,11 @@ class AdminPagesController extends SiteBaseController {
                             $user_personal  = new YumUser('registration');
                             $user_personal->setAttributes(['password'=>$password, 'password_again'=>$password, 'agree_with_terms'=>'yes']);
                             $profile_personal  = new YumProfile('registration');
-                            $profile_personal->setAttributes(['firstname'=>$invite->lastname, 'lastname'=>$invite->firstname, 'email'=>$invite->email]);
+                            $profile_personal->setAttributes([
+                                'firstname' => $invite->firstname,
+                                'lastname'  => $invite->lastname,
+                                'email'     => $invite->email
+                            ]);
                             $account_personal = new UserAccountPersonal('personal');
 
                             if(UserService::createPersonalAccount($user_personal, $profile_personal, $account_personal)){
