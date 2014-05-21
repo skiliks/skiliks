@@ -21,7 +21,7 @@ try {
                 };
 
                 var maxSupport = {
-                    mozilla: 29,
+                    mozilla: 25, //29,
                     chrome: 34,
                     msie: 11,
                     safari: 7
@@ -61,8 +61,8 @@ try {
                             if (parseFloat($.browser.version) >= minSupport[name] && this.isAllowOS(cfg.isSkipOsCheck, ['Windows', 'MacOS'])) {
                                 if(parseFloat($.browser.version) > maxSupport[name]) {
 
-                                    var oldBrowserText = "Похоже вы используете бета-версию браузера."
-                                        + "Стабильность работы не гарантируется."
+                                    var oldBrowserText = "Похоже вы используете бета-версию браузера. "
+                                        + "Стабильность работы не гарантируется. "
                                         + "Рекомендуем использовать следующие версии браузеров (";
 
                                     for(var index in supportText) {
