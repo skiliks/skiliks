@@ -1,3 +1,12 @@
+<?php if (
+    (preg_match('/(?i)MSIE 6/',$_SERVER['HTTP_USER_AGENT']))
+    || (preg_match('/(?i)MSIE 7/',$_SERVER['HTTP_USER_AGENT']))
+    || (preg_match('/(?i)MSIE 8/',$_SERVER['HTTP_USER_AGENT']))
+    || (preg_match('/(?i)MSIE 9/',$_SERVER['HTTP_USER_AGENT']))
+) {
+    return '';
+}; ?>
+
 <section class="partial">
     <label class="partial-label"><?= __FILE__ ?></label>
         <?php
