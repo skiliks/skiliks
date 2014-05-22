@@ -173,7 +173,7 @@ return CMap::mergeArray(
             ],
 
             'imagesForPreLoad' => [
-                'img/pause.png',
+                /*'img/simulation/pause.png',*/
                 'img/simulation/icon-pause.png' ,
                 'img/simulation/icon-fullscreen.png' ,
                 'img/doc-icons-mini.png',
