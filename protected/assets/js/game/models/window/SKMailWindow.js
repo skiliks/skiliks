@@ -12,8 +12,8 @@ define(["game/models/window/SKWindow"],function () {
         /**
          * Constructor
          * @method initialize
-         * @param subname
-         * @param mailId
+         * @param String subname
+         * @param Number mailId
          */
         'initialize':function (subname, mailId) {
             try {
@@ -29,7 +29,7 @@ define(["game/models/window/SKWindow"],function () {
         /**
          * Deactivates old window and activates new
          * @method switchMessage
-         * @param mailId int message identifier
+         * @param Number mailId. int message identifier
          */
         'switchMessage':function (mailId) {
             try {
@@ -47,7 +47,7 @@ define(["game/models/window/SKWindow"],function () {
          * Sets plan element ID
          *
          * @method setPlan
-         * @param planId
+         * @param Number planId
          */
         'setPlan': function (planId) {
             try {
@@ -63,7 +63,7 @@ define(["game/models/window/SKWindow"],function () {
 
         /**
          * @method setMessage
-         * @param mailId
+         * @param Number mailId
          */
         'setMessage':function (mailId) {
             try {

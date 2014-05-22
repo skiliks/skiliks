@@ -33,7 +33,7 @@ define(["game/models/window/SKWindow"], function (SKWindow) {
          * Deactivates old window and activates new
          *
          * @method switchDialog
-         * @param dialogId
+         * @param Number dialogId
          * @return void
          */
         'switchDialog': function (dialogId) {
@@ -53,7 +53,7 @@ define(["game/models/window/SKWindow"], function (SKWindow) {
 
         /**
          * @method setDialog
-         * @param dialogId
+         * @param Number dialogId
          * @return void
          */
         'setDialog': function (dialogId) {
@@ -71,7 +71,7 @@ define(["game/models/window/SKWindow"], function (SKWindow) {
 
         /**
          * @method setLastDialog
-         * @param dialogId
+         * @param Number dialogId
          * @return void
          */
         'setLastDialog': function (dialogId) {

@@ -4,6 +4,11 @@ define([], function () {
     "use strict";
 
     /**
+     * number .id
+     * string .label
+     */
+
+    /**
      * @class SKMeetingSubject
      * @augments Backbone.Model
      */

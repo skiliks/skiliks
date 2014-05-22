@@ -189,16 +189,6 @@ define([], function () {
             }
         },
 
-        getAudioMime: function () {
-            try {
-                return SKApp.simulation.getPathForMedia(this.get('data'), 'wav');
-            } catch(exception) {
-                if (window.Raven) {
-                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
-                }
-            }
-        },
-
         /**
          * @method
          * @deprecated use selectReplica

@@ -10,7 +10,7 @@ define([] ,function() {
     SKEmail = Backbone.Model.extend({
         /**
          * @property mySqlId
-         * @type integer
+         * @type number
          * @default undefined
          */
         mySqlId: undefined,
@@ -402,7 +402,7 @@ define([] ,function() {
 
          /**
          * @method getAttachmentId
-         * @returns {an empty string|integer}
+         * @returns {an empty string|number}
          */
         getAttachmentId: function() {
             try {

@@ -132,7 +132,6 @@ define([
                                     if(undefined !== callback){
 
                                         if(data.simulation_status !== 'interrupted'){
-                                            //if(me.last_200_request.push(data.uniqueId)) //me.last_200_request.push(data.uniqueId);
                                             if(me.isRunCallBack(data.uniqueId)) {
                                                 callback(data, textStatus, jqXHR);
                                             }
@@ -211,7 +210,7 @@ define([
                                             {
                                                 'value': 'Продолжить игру',
                                                 'onclick': function () {
-                                                    // Если происхои митинг - то не надо снимать игру с паузы
+                                                    // Если происходит митинг - то не надо снимать игру с паузы
                                                     // а то вермя пойдёт, а игрок не заметит
                                                     // (на екране ведь затемнение "Ушел на встречу, вернусь в ХХ:ХХ.")
                                                     //Чтоб розблокировать ввод с клавиатуры в SocialCalc

@@ -9,10 +9,16 @@ var SKDocumentsManager;
      * @augments Backbone.Model
      */
     SKDocumentsManager = Backbone.Model.extend({
-        initialize: function() {
 
-        },
+        /**
+         * Empty construtor
+         */
+        initialize: function() { },
 
+        /**
+         * Обёртка для isPasteOperationAllowedInExcel
+         * - отображает окно-предупреждение
+         */
         checkIsPasteOperationAllowedInExcel: function() {
             var me = this;
             if (false === me.isPasteOperationAllowedInExcel()) {
@@ -30,6 +36,10 @@ var SKDocumentsManager;
             }
         },
 
+        /**
+         * Вставлять нельзя, если в копируемом текстк просутствует название текущего листа ексель
+         * @returns {boolean}
+         */
         isPasteOperationAllowedInExcel: function() {
             var pastedPiece = SocialCalc.Clipboard.clipboard;
             var currentSheetName = $('.sim-window-id-'

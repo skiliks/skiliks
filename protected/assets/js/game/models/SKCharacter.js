@@ -11,14 +11,14 @@ define([], function() {
 
         /**
          * @property mySqlId
-         * @type integer
+         * @type number
          * @default undefined
          */
         mySqlId: undefined,
 
         /**
          * @property excelId
-         * @type integer
+         * @type number
          * @default undefined
          */
         excelId: undefined,

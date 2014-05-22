@@ -47,6 +47,9 @@ define(["game/collections/SKSheetCollection"], function (SKSheetCollection) {
             }
         },
 
+        /**
+         * @returns {string}
+         */
         getCssId: function() {
             return 'doc-' + this.id;
         }

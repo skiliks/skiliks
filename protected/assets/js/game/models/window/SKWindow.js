@@ -2,7 +2,10 @@
 
 var SKWindow;
 define([], function () {
+
     "use strict";
+
+    /** @var Array */
     var screens = {
         'mainScreen':1,
         'plan':3,
@@ -12,6 +15,8 @@ define([], function () {
         'documents':40,
         'browser': 50
     };
+
+    /** @var Array */
     var screensSub = {
         'mainScreen':1,
         'manual':2,
@@ -30,6 +35,7 @@ define([], function () {
         'documents':41,
         'documentsFiles':42
     };
+
     /**
      * Окно, открывается, закрывается, ведет за собой логи
      * @augments Backbone.Model
@@ -37,14 +43,19 @@ define([], function () {
      */
     SKWindow = Backbone.Model.extend({
 
+        /** @var Boolean */
         single: true,
 
+        /** @var String */
         name: undefined,
 
+        /** @var String */
         subname: undefined,
 
+        /** @var Array */
         window_set: {},
 
+        /** @var Number */
         window_uid: undefined,
 
         /**
@@ -103,8 +114,7 @@ define([], function () {
         },
 
         /**
-         * @method
-         * @returns {*}
+         * @returns {Number}
          */
         'getWindowId': function () {
             try {
@@ -117,8 +127,7 @@ define([], function () {
         },
 
         /**
-         * @method
-         * @returns {*}
+         * @returns {Number}
          */
         'getSubwindowId': function () {
             try {
@@ -131,7 +140,7 @@ define([], function () {
         },
 
         /**
-         * @method
+         * Генерирует window_uid
          */
         'updateUid': function() {
             try {
@@ -144,8 +153,7 @@ define([], function () {
         },
 
         /**
-         * Opens a window
-         * @method open
+         * Вызывается перед открытием окна
          */
         open: function() {
             try {
@@ -169,7 +177,7 @@ define([], function () {
         },
 
         /**
-         * @method
+         * Вызывается перед закрытием окна
          */
         close: function() {
             try {
@@ -208,7 +216,8 @@ define([], function () {
         },
 
         /**
-         * @method
+         * Служебный сетод, вызывется при открытии окна,
+         * меняет z-index так чтобы окно стало самым верхним
          */
         setOnTop:function () {
             try {
@@ -237,8 +246,8 @@ define([], function () {
 
         /**
          * Деактивирует окно (посылает лог об этом)
-         * @param params
-         * @method deactivate
+         *
+         * @param Array params, по сути params.silent
          */
         deactivate: function (params) {
             try {
@@ -265,8 +274,7 @@ define([], function () {
         /**
          * Активирует окно и пишет об этом в лог
          *
-         * @param params
-         * @method activate
+         * @param Array params, по сути params.silent
          */
         activate: function (params) {
             try {

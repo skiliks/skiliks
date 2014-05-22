@@ -10,9 +10,17 @@ define([
     "use strict";
 
     SKTutorial = SKSimulation.extend({
+
+        /** @var number */
         timerSpeed: 6000,
 
-        getNewEvents: function (cb) {
+        /**
+         * В тутириале нет флагов, дев режима, прочее
+         * - упрощаем приём событий чтоб не эмулировать всё чего нет
+         *
+         * @param function callback
+         */
+        getNewEvents: function (callbackb) {
             try {
                 this.windowLog.getAndClear();
                 var me = this;
@@ -21,14 +29,10 @@ define([
                     logs:             [],
                     timeString:       this.getGameMinutes(),
                     eventsQueueDepth: $("#events-queue-depth").val()
-                }, function (data) {
-                    if (undefined !== data && null !== data && undefined !== data.serverInfo && null !== data.serverInfo) {
-                        me.updateServerInfoForDev(data.serverInfo);
-                    }
-                });
+                }, function (data) {});
 
-                if (cb) {
-                    cb();
+                if (callback) {
+                    callback();
                 }
             } catch(exception) {
                 if (window.Raven) {
@@ -37,6 +41,14 @@ define([
             }
         },
 
+        /**
+         * Делаем основные часы недвижимимы, на чих всегда 9:45.
+         * Можно было бы просто вернуть 9:45, а не считать,
+         * но время когда "стартует" может быть изменено в сценарии
+         *
+         * @param boolean is_seconds
+         * @returns {string}
+         */
         getGameTime: function(is_seconds) {
             try {
                 var sh = this.timeStringToMinutes(this.get('app').get('start')) * 60;
@@ -47,6 +59,7 @@ define([
                 if (m < 10) { m = "0" + m; }
                 if (s < 10) { s = "0" + s; }
                 return h + ':' + m + (is_seconds ? ':' + s : '');
+                return h + ':' + m + (is_seconds ? ':' + s : '');
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -54,6 +67,13 @@ define([
             }
         },
 
+        /**
+         * Для реализации таймера используется стандартный метод this.getGameSeconds(),
+         * но так как это всемя идёт в сторону увеличения, то нам нужно "развернуть"
+         * для таймера обратного отсчёта
+         *
+         * @returns {string}
+         */
         getTutorialTime: function() {
             try {
                 var passed = this.getGameSeconds() - this.timeStringToMinutes(this.get('app').get('start')) * 60,
@@ -71,6 +91,9 @@ define([
             }
         },
 
+        /**
+         * В туториале симстоп проще
+         */
         stop: function () {
             try {
                 var me = this;
@@ -92,8 +115,15 @@ define([
             }
         },
 
+        /**
+         * В 18:00 ничего не происхлдит, это примерно 7:00 по таймеру
+         */
         onEndTime: function() {},
 
+        /**
+         * 0:00
+         * Игроку не предоставляется никакого выбора
+         */
         onFinishTime: function() {
             try {
                 this._stopTimer();
