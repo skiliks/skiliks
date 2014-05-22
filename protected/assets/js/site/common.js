@@ -425,6 +425,11 @@ window.feedbackSubmit = function feedbackSubmit(form, data, hasError) {
 // SKILIKS-6025
 // Предупреждение что аккаунт забанен
 window.displayYourAccountBannedFlashMessage = function() {
+
+    if ('undefined' == typeof window.userEmail) {
+        window.userEmail = $('#YumUserLogin_username').val();
+    }
+
     $('body').append(
         '<div class="locator-account-banned flash-data hide">'
             + 'Ваш аккаунт заблокирован (более 10 неудачных попыток авторизации). '
@@ -452,6 +457,9 @@ window.displayYourAccountBannedFlashMessage = function() {
             open: function() {
                 $('.locator-account-banned').removeClass('hide');
                 stickyFooterAndBackground();
+            },
+            close: function() {
+                $('.locator-account-banned').addClass('hide');
             }
         });
     }
@@ -499,6 +507,21 @@ window.authenticateValidation = function authenticateValidation(form, data, hasE
         $('#YumUserLogin_not_activate_em_').parent().parent().addClass('error');
         $('#YumUserLogin_not_activate_em_').parent().parent().removeClass('hide');
         $('#YumUserLogin_not_activate_em_').show();
+        return false;
+    } else {
+        $('#YumUserLogin_not_activate_em_').parent().parent().removeClass('error');
+        $('#YumUserLogin_not_activate_em_').parent().parent().addClass('hide');
+    }
+
+    // Account banned
+    if (undefined != data.YumUserLogin_form) {
+        hasError = true;
+        $('#YumUserLogin_not_activate_em_').html(data.YumUserLogin_form);
+        $('#YumUserLogin_not_activate_em_').parent().parent().addClass('error');
+        $('#YumUserLogin_not_activate_em_').parent().css('vertical-align', 'middle');
+        $('#YumUserLogin_not_activate_em_').parent().parent().removeClass('hide');
+        $('#YumUserLogin_not_activate_em_').show();
+        return false;
     } else {
         $('#YumUserLogin_not_activate_em_').parent().parent().removeClass('error');
         $('#YumUserLogin_not_activate_em_').parent().parent().addClass('hide');
