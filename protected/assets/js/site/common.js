@@ -430,39 +430,40 @@ window.displayYourAccountBannedFlashMessage = function() {
         window.userEmail = $('#YumUserLogin_username').val();
     }
 
-    $('body').append(
-        '<div class="locator-account-banned flash-data hide">'
-            + 'Ваш аккаунт заблокирован (более 10 неудачных попыток авторизации). '
-            + 'Вам на почту ' + window.userEmail
-            + ' отправлено письмо с инструкциями по восстановлению аккаунта. '
-            + 'Если вы испытываете затруднения - свяжитесь пожалуйста со '
-            + '<span class="action-feedback-banned inter-active color-146672">службой поддержки</span>.'
-      + '</div>'
-    );
-    if (1 == $(".locator-account-banned").length) {
-        var dialog = $(".locator-account-banned");
-
-        dialog.dialog({
-            closeOnEscape: true,
-            dialogClass: "background-sky popup-form pull-content-center",
-            minHeight: 50,
-            modal: true,
-            resizable: false,
-            width: getDialogWindowWidth_2of3(),
-            position: {
-                my: 'center top',
-                at: 'center bottom',
-                of: $('header.main-content')
-            },
-            open: function() {
-                $('.locator-account-banned').removeClass('hide');
-                stickyFooterAndBackground();
-            },
-            close: function() {
-                $('.locator-account-banned').addClass('hide');
-            }
-        });
+    if (0 == $(".locator-account-banned").length) {
+        $('body').append(
+            '<div class="locator-account-banned flash-data hide">'
+                + 'Ваш аккаунт заблокирован (более 10 неудачных попыток авторизации). '
+                + 'Вам на почту ' + window.userEmail
+                + ' отправлено письмо с инструкциями по восстановлению аккаунта. '
+                + 'Если вы испытываете затруднения - свяжитесь пожалуйста со '
+                + '<span class="action-feedback-banned inter-active color-146672">службой поддержки</span>.'
+          + '</div>'
+        );
     }
+
+    var dialog = $(".locator-account-banned");
+
+    dialog.dialog({
+        closeOnEscape: true,
+        dialogClass: "background-sky popup-form pull-content-center",
+        minHeight: 50,
+        modal: true,
+        resizable: false,
+        width: getDialogWindowWidth_2of3(),
+        position: {
+            my: 'center top',
+            at: 'center bottom',
+            of: $('header.main-content')
+        },
+        open: function() {
+            $('.locator-account-banned').removeClass('hide');
+            stickyFooterAndBackground();
+        },
+        close: function() {
+            $('.locator-account-banned').addClass('hide');
+        }
+    });
 
     // autoOpen переписан нами, и теперь центритует dialog по высоте
     // а флеш-сообщения надо по высоте тавнять с низом header
