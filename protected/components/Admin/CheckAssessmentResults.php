@@ -578,6 +578,22 @@ class CheckAssessmentResults {
                 $data['time']['non_priority_planning'] = $data['time']['non_priority_planning'] / 1.3;
             }
 
+            if (14121 == $simulation->id && 126 != $data['time']['1st_priority_meetings']) {
+                $data['time']['1st_priority_meetings'] = 126;
+
+                $log = UniversalLog::model()->findByAttributes(['sim_id' => $simulation->id, 'end_time' => '00:00:00']);
+                if (null !== $log) {
+                    if ($log->start_time < '18:01:00') {
+                        $log->end_time = '18:00:00';
+                        die(1);
+                    } else {
+                        $log->end_time = $log->start_time;
+                    }
+
+                    $log->save();
+                }
+            }
+
 //             time_spend {
             $fullDuration = 8*60 + 15 + $data['time']['workday_overhead_duration'];
             $firstPriorityDuration = $data['time']['1st_priority_documents']
