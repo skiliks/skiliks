@@ -8,7 +8,6 @@
  * @property string $started_at
  * @property string $finished_at
  * @property string $started_by_id
- * @property string $status
  * @property string $result
  */
 class SiteLogGenerateConsolidatedAnalyticFile extends CActiveRecord
@@ -160,7 +159,6 @@ class SiteLogGenerateConsolidatedAnalyticFile extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('started_by_id', 'length', 'max'=>10),
-			array('status', 'length', 'max'=>30),
 			array('started_at, finished_at, result', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
@@ -190,7 +188,6 @@ class SiteLogGenerateConsolidatedAnalyticFile extends CActiveRecord
 			'started_at' => 'Started At',
 			'finished_at' => 'Finished At',
 			'started_by_id' => 'Started By',
-			'status' => 'Status',
 			'result' => 'Result',
 		);
 	}
@@ -210,7 +207,6 @@ class SiteLogGenerateConsolidatedAnalyticFile extends CActiveRecord
 		$criteria->compare('started_at',$this->started_at,true);
 		$criteria->compare('finished_at',$this->finished_at,true);
 		$criteria->compare('started_by_id',$this->started_by_id,true);
-		$criteria->compare('status',$this->status,true);
 		$criteria->compare('result',$this->result,true);
 
 		return new CActiveDataProvider($this, array(
