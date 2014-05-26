@@ -17,20 +17,28 @@ define([],
          */
         initialize: function () {},
 
+        /**
+         * Базовый HTML DOM контейнер, должен быть уникальным
+         * @var jQuery el
+         */
         'el': '.form-flags',
 
+        /**
+         * События DOM на которые должна реагировать данная view
+         * @var Array events
+         */
         'events':{
             'click a': 'doSwitchFlag'
         },
 
         /**
-         * @method
-         * @param e
+         * Переключает флаг, с 0 на 1, с 1 на 0.
+         * @param Event event, onClickEvent
          */
-        doSwitchFlag: function(e) {
+        doSwitchFlag: function(event) {
             try {
-                e.preventDefault(e);
-                e.stopPropagation(e);
+                event.preventDefault(event);
+                event.stopPropagation(event);
 
                 // to prevent doubled requests
                 if (SKApp.simulation.isFlagsUpdated) {
@@ -40,8 +48,8 @@ define([],
                 SKApp.simulation.isFlagsUpdated = true;
 
                 var me = this;
-                var flagName = $(e.currentTarget).attr('data-flag-code');
-                var flagValue = $(e.currentTarget).attr('data-flag-value');
+                var flagName = $(event.currentTarget).attr('data-flag-code');
+                var flagValue = $(event.currentTarget).attr('data-flag-value');
                 if (1 == flagValue) {
                     flagValue = 0;
                 } else {
@@ -51,7 +59,7 @@ define([],
                 SKApp.server.api(
                     'events/switchFlag',
                     {
-                        flagName: $(e.currentTarget).attr('data-flag-code')
+                        flagName: $(event.currentTarget).attr('data-flag-code')
                     },
                     function (response) {
                         if (response.result) {
@@ -85,8 +93,9 @@ define([],
         },
 
         /**
-         * @method
-         * @param flagsState
+         * Обновляет таблицу значений флагов в дев режиме
+         *
+         * @param Array.<String> flagsState
          */
         updateValues: function(flagsState) {
             try {
@@ -143,6 +152,16 @@ define([],
                 }
             }
         },
+
+        /**
+         * Используется для заполнения ячеек таблицы значений флагов, в дев режиме
+         * Для флагов, которые должны будут переключиться по времени, возвращает текущее значение и время,
+         * когда они будут переключены,
+         * для остальных флагов - просто текущее значение флага
+         *
+         * @param Array.<String> data
+         * @returns {String}, '0'/'1' or '0 18:00'/'1 18:00'
+         */
         getFlagData: function(data){
             try {
                 if(data.time === null){

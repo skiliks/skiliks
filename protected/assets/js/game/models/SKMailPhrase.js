@@ -8,7 +8,7 @@ define([], function() {
      * @augments Backbone.Model
      */
     window.SKMailPhrase = Backbone.Model.extend({
-        // @var integer
+        // @var number
         mySqlId : undefined,
 
         // @var string, 
@@ -23,8 +23,6 @@ define([], function() {
 
         /**
          * Constructor
-         *
-         * @method initialize
          */
         initialize: function() {
             try {

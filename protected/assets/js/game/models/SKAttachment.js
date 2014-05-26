@@ -25,7 +25,7 @@ define([], function() {
 
         /**
          * @property fileMySqlId
-         * @type integer
+         * @type number
          * @default undefined
          */
         fileMySqlId: undefined,

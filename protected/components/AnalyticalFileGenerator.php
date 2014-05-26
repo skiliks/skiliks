@@ -90,6 +90,14 @@ class AnalyticalFileGenerator {
     public $behaviourObjects = [];
 
     /**
+     * Переменная нужна для отображения проглесса при генерации сводного аналитического файла.
+     * Без листа с поведениями она равна 1/4, с ним 1/5;
+     *
+     * @var float
+     */
+    public $oneStepProgress = 0.25;
+
+    /**
      * Создаёт объект ексель документа
      */
     public function createDocument() {
@@ -268,9 +276,10 @@ class AnalyticalFileGenerator {
     }
 
     /**
-     *
+     * @param array Simulation $simulations
+     * @param SiteLogGenerateConsolidatedAnalyticFile $log
      */
-    public function runAssessment_v2(array $simulations) {
+    public function runAssessment_v2(array $simulations, $log) {
         /* @var $simulations Simulation[] */
 
         $this->addSheet("Итоговый рейтинг");
@@ -278,6 +287,7 @@ class AnalyticalFileGenerator {
         if (Yii::app() instanceof CConsoleApplication) {
             echo  "\r\n";
         }
+        $counter = 0;
         foreach($simulations as $simulation) {
             if (Yii::app() instanceof CConsoleApplication) {
                 echo '.'; // каждая точка - это одна симуляция
@@ -336,6 +346,19 @@ class AnalyticalFileGenerator {
             $this->addColumn('-', null, true);
 
             $this->setBorderBold();
+
+            $counter++;
+            if (null != $log) {
+                // это четверть от прогресса по simulations v1 + прогресс по второй четверти simulations v1
+                $log->result = round(
+                    (
+                        ($this->totalV1SimsAmount + $this->totalV2SimsAmount * $this->oneStepProgress * 0 +  $counter * $this->oneStepProgress)
+                        / ($this->totalV1SimsAmount + $this->totalV2SimsAmount)
+                    ) * 100,
+                2) . '%';
+
+                $log->save();
+            }
         }
 
         $this->setColumnBgColor('E', 'F');
@@ -363,6 +386,7 @@ class AnalyticalFileGenerator {
         if (Yii::app() instanceof CConsoleApplication) {
             echo  "\r\n";
         }
+        $counter = 0;
         foreach($simulations as $simulation) {
             if (Yii::app() instanceof CConsoleApplication) {
                 echo '.'; // каждая точка - это одна симуляция
@@ -620,6 +644,19 @@ class AnalyticalFileGenerator {
             $this->addColumn('-', null, true);
 
             $this->setBorderBold();
+
+            $counter++;
+            if (null != $log) {
+                // это четверть от прогресса по simulations v1 + прогресс по второй четверти simulations v1
+                $log->result = round(
+                    (
+                        ($this->totalV1SimsAmount + $this->totalV2SimsAmount * $this->oneStepProgress * 1 +  $counter * $this->oneStepProgress)
+                        / ($this->totalV1SimsAmount + $this->totalV2SimsAmount)
+                    ) * 100,
+                2) . '%';
+
+                $log->save();
+            }
         }
 
         $this->setColumnBgColor('G', 'H');
@@ -648,6 +685,7 @@ class AnalyticalFileGenerator {
         if (Yii::app() instanceof CConsoleApplication) {
             echo  "\r\n";
         }
+        $counter = 0;
         foreach($simulations as $simulation) {
             if (Yii::app() instanceof CConsoleApplication) {
                 echo '.'; // каждая точка - это одна симуляция
@@ -681,6 +719,19 @@ class AnalyticalFileGenerator {
             $this->addColumn($dataText['popup']['performance.two_minutes']['text'], null, true);
 
             $this->setBorderBold();
+
+            $counter++;
+            if (null != $log) {
+                // это четверть от прогресса по simulations v1 + прогресс по второй четверти simulations v1
+                $log->result = round(
+                    (
+                        ($this->totalV1SimsAmount + $this->totalV2SimsAmount * $this->oneStepProgress * 2 +  $counter * $this->oneStepProgress)
+                        / ($this->totalV1SimsAmount + $this->totalV2SimsAmount)
+                    ) * 100,
+                2) . '%';
+
+                $log->save();
+            }
         }
 
         $this->setColumnBgColor('E', 'F');
@@ -707,6 +758,7 @@ class AnalyticalFileGenerator {
         if (Yii::app() instanceof CConsoleApplication) {
             echo  "\r\n";
         }
+        $counter = 0;
         foreach($simulations as $simulation) {
             if (Yii::app() instanceof CConsoleApplication) {
                 echo '.'; // каждая точка - это одна симуляция
@@ -822,6 +874,19 @@ class AnalyticalFileGenerator {
             $this->addColumn('-', null, true);
 
             $this->setBorderBold();
+
+            $counter++;
+            if (null != $log) {
+                // это четверть от прогресса по simulations v1 + прогресс по второй четверти simulations v1
+                $log->result = round(
+                        (
+                            ($this->totalV1SimsAmount + $this->totalV2SimsAmount * $this->oneStepProgress * 3 +  $counter * $this->oneStepProgress)
+                            / ($this->totalV1SimsAmount + $this->totalV2SimsAmount)
+                        ) * 100,
+                        2) . '%';
+
+                $log->save();
+            }
         }
 
         $this->setColumnBgColor('F', 'G');
@@ -846,7 +911,7 @@ class AnalyticalFileGenerator {
 
         ////////////////////////////////////////////////////
         if ($this->is_add_behaviours) {
-            $this->addBehavioursSheet($simulations);
+            $this->addBehavioursSheet($simulations, $log, $this->totalV1SimsAmount);
         }
     }
 
@@ -854,9 +919,11 @@ class AnalyticalFileGenerator {
      * @param Simulation[] $simulations
      *
      * Задаёт преобразование оценоа 1.1-1.5 в 1.1-1.5 или 1.1-1.4
+     * @param array of Simulation $simulations
      * @param string $management_interpretation_mode ['va_to_v1';'v1_to_v2']
+     * @param SiteLogGenerateConsolidatedAnalyticFile $log
      */
-    public function runAssessment_v1(array $simulations, $management_interpretation_mode = 'v1_to_v1') {
+    public function runAssessment_v1(array $simulations, $management_interpretation_mode = 'v1_to_v1', $log = null) {
         /* @var $simulations Simulation[] */
 
         $this->addSheet("Итоговый рейтинг");
@@ -870,6 +937,7 @@ class AnalyticalFileGenerator {
         if (Yii::app() instanceof CConsoleApplication) {
             echo "\r\n";
         }
+        $counter = 0;
         foreach($simulations as $simulation) {
             if (Yii::app() instanceof CConsoleApplication) {
                 echo '.'; // каждая точка - это одна симуляция
@@ -917,6 +985,16 @@ class AnalyticalFileGenerator {
             $this->addColumn('-', null, true);
 
             $this->setBorderBold();
+            $counter++;
+            if (null != $log) {
+                // это только часть прогресса по simulations v1
+                $log->result = round((
+                        $counter * $this->oneStepProgress /
+                        ($this->totalV1SimsAmount + $this->totalV2SimsAmount)) * 100
+                    , 2) . '%';
+
+                $log->save();
+            }
         }
 
 
@@ -937,6 +1015,7 @@ class AnalyticalFileGenerator {
         if (Yii::app() instanceof CConsoleApplication) {
             echo  "\r\n";
         }
+        $counter = 0;
         foreach($simulations as $simulation) {
             if (Yii::app() instanceof CConsoleApplication) {
                 echo '.'; // каждая точка - это одна симуляция
@@ -1228,6 +1307,19 @@ class AnalyticalFileGenerator {
             $this->addColumn('-', null, true);
 
             $this->setBorderBold();
+
+            $counter++;
+            if (null != $log) {
+                // часть прогресса по simulations v1 уже выполнена + прогресс по второй четверти simulations v1
+                $log->result = round(
+                    (
+                        ($this->totalV1SimsAmount * $this->oneStepProgress +  $counter * $this->oneStepProgress)
+                        / ($this->totalV1SimsAmount + $this->totalV2SimsAmount)
+                    ) * 100,
+                2) . '%';
+
+                $log->save();
+            }
         }
         ////////////////////////////////////////////////
         $this->addSheet("Результативность");
@@ -1242,6 +1334,7 @@ class AnalyticalFileGenerator {
         if (Yii::app() instanceof CConsoleApplication) {
             echo  "\r\n";
         }
+        $counter = 0;
         foreach($simulations as $simulation) {
             if (Yii::app() instanceof CConsoleApplication) {
                 echo '.'; // каждая точка - это одна симуляция
@@ -1276,6 +1369,19 @@ class AnalyticalFileGenerator {
             $this->addColumn($dataText['popup']['performance.two_minutes']['text'], null, true);
 
             $this->setBorderBold();
+
+            $counter++;
+            if (null != $log) {
+                // это четверть от прогресса по simulations v1 + прогресс по второй четверти simulations v1
+                $log->result = round(
+                    (
+                        ($this->totalV1SimsAmount * $this->oneStepProgress * 2 +  $counter * $this->oneStepProgress)
+                        / ($this->totalV1SimsAmount + $this->totalV2SimsAmount)
+                    ) * 100,
+                2) . '%';
+
+                $log->save();
+            }
         }
         //////////////////////////////////////////////////////////
         $this->addSheet("Эффект. использования времени");
@@ -1292,6 +1398,7 @@ class AnalyticalFileGenerator {
         if (Yii::app() instanceof CConsoleApplication) {
             echo  "\r\n";
         }
+        $counter = 0;
         foreach($simulations as $simulation) {
             if (Yii::app() instanceof CConsoleApplication) {
                 echo '.'; // каждая точка - это одна симуляция
@@ -1400,17 +1507,32 @@ class AnalyticalFileGenerator {
             $this->addColumn('-', null, true);
 
             $this->setBorderBold();
+
+            $counter++;
+            if (null != $log) {
+                // это четверть от прогресса по simulations v1 + прогресс по второй четверти simulations v1
+                $log->result = round(
+                    (
+                        ($this->totalV1SimsAmount * $this->oneStepProgress * 3 +  $counter * $this->oneStepProgress)
+                        / ($this->totalV1SimsAmount + $this->totalV2SimsAmount)
+                    ) * 100,
+                2) . '%';
+
+                $log->save();
+            }
         }
         ////////////////////////////////////////////////////
         if ($this->is_add_behaviours) {
-            $this->addBehavioursSheet($simulations);
+            $this->addBehavioursSheet($simulations, $log);
         }
     }
 
     /**
      * @param Simulation[] $simulations
+     * @param SiteLogGenerateConsolidatedAnalyticFile $log
+     * @param integer $amount, amount of already generated v1 simulations
      */
-    public function addBehavioursSheet($simulations) {
+    public function addBehavioursSheet($simulations, $log, $amount = 0) {
 
         $this->initBehavioursData();
 
@@ -1428,6 +1550,8 @@ class AnalyticalFileGenerator {
         if (Yii::app() instanceof CConsoleApplication) {
             echo  "\r\n";
         }
+        $counter = 0;
+        $simulationsAmount = count($simulations);
         foreach($simulations as $simulation) {
             if (Yii::app() instanceof CConsoleApplication) {
                 echo '.'; // каждая точка - это одна симуляция
@@ -1461,6 +1585,19 @@ class AnalyticalFileGenerator {
             }
 
             $this->setBorderBold();
+
+            $counter++;
+            if (null != $log) {
+                // это четверть от прогресса по simulations v1 + прогресс по второй четверти simulations v1
+                $log->result = round(
+                    (
+                        ($amount + $simulationsAmount * $this->oneStepProgress * 4 +  $counter * $this->oneStepProgress)
+                        / ($this->totalV1SimsAmount + $this->totalV2SimsAmount)
+                    ) * 100,
+                 2) . '%';
+
+                $log->save();
+            }
         }
 
         $this->setBorderAll('A', 'F');

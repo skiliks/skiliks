@@ -47,12 +47,17 @@ define([
                     + '  line-height: 0px; '
             },
 
+            /**
+             * События DOM на которые должна реагировать данная view
+             * @var Array events
+             */
             'events':          {
                 'click .btn-simulation-stop': 'doSimulationStop',
                 'click .fullscreen':          'doToggleFullscreen',
                 'click .start':               'doStartFullSimulation',
                 'click .pause-control, .paused-screen .resume, .finish > a': 'doTogglePause'
             },
+
             'window_views':    {
                 'mainScreen/manual':       SKManualView,
                 'plan/plan':               SKDayPlanView,

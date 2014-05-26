@@ -3,6 +3,10 @@
 define([], function () {
     "use strict";
     var SKSheet = Backbone.Model.extend({
+
+        /**
+         * Constructor
+         */
         initialize: function () {
             try {
                 this.on('change:content', function () {
@@ -15,7 +19,10 @@ define([], function () {
                 }
             }
         },
-        
+
+        /**
+         * Меняем инфу о том какой лист активен в данном ексель документе.
+         */
         activate: function () {
             try {
                 var me = this;
@@ -35,6 +42,12 @@ define([], function () {
             }
         },
 
+        /**
+         * Синхронизация обьякта с бекендом
+         * @param String method
+         * @param SkSheetCollection collection
+         * @param Array options
+         */
         sync: function (method, collection, options) {
             try {
                 var me = this;

@@ -29,9 +29,8 @@ define([], function() {
         },
 
         /**
-         * @method
          * @param mySqlId
-         * @returns {*}
+         * @returns {SkEmail}
          */
         getEmailByMySqlId: function(mySqlId) {
             try {
@@ -51,7 +50,6 @@ define([], function() {
         },
 
         /**
-         * @method
          * @param oldId
          * @param newId
          * @returns {boolean}
@@ -82,8 +80,7 @@ define([], function() {
         },
 
         /**
-         * @method
-         * @returns {*}
+         * @returns {SkEmail}
          */
         getFirstEmail: function() {
             try {
@@ -96,7 +93,6 @@ define([], function() {
         },
 
         /**
-         * @method
          * @returns {number}
          */
         countUnreaded: function() {

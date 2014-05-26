@@ -35,7 +35,7 @@ define(["game/models/window/SKWindow"],function (SKWindow) {
          * Deactivates old window and activates new
          *
          * @method switchFile
-         * @param fileId int file identifier
+         * @param Number fileId. int file identifier
          * @return void
          */
         'switchFile':function (fileId) {
@@ -52,7 +52,7 @@ define(["game/models/window/SKWindow"],function (SKWindow) {
 
         /**
          * @method setFile
-         * @param fileId
+         * @param Number fileId
          * @return void
          */
         'setFile':function (fileId) {

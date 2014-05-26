@@ -205,7 +205,10 @@ return [
                 'admin_area/downloadFullAnalyticFile' => 'admin_area/AdminPages/DownloadFullAnalyticFile',
 
                 'admin_area/service/check-assessment-results-list'        => 'admin_area/AdminServicePages/CheckAssessmentResults',
-                'admin_area/service/check-assessment-results'        => 'admin_area/AdminServicePages/CheckAssessmentResultsAjax',
+
+                'admin_area/service/generate-consolidated-assessment-file'
+                    => 'admin_area/AdminServicePages/GenerateConsolidatedAnalyticFileResults',
+
                 'admin_area/simulations/rating/csv'                       => 'admin_area/AdminPages/SimulationsRatingCsv',
                 'admin_area/simulations/rating'                           => 'admin_area/AdminPages/SimulationsRating',
                 'admin_area/export-all-corporate-account-xlsx'            => 'admin_area/AdminPages/ExportAllCorporateUserXLSX',

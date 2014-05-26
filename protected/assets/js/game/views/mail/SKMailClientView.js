@@ -81,6 +81,10 @@ define([
 
             parentSubject: undefined,
 
+            /**
+             * События DOM на которые должна реагировать данная view
+             * @var Array events
+             */
             events: _.defaults({
                 'click .NEW_EMAIL': 'renderWriteCustomNewEmailScreen',
                 'click .REPLY_EMAIL': 'renderReplyScreen',

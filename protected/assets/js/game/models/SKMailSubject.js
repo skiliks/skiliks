@@ -11,13 +11,13 @@ define([], function() {
         // @var string
         code : undefined,
         
-        // @var integer
+        // @var number
         id : undefined,
         
-        // @var integer
+        // @var number
         mySqlId : undefined,
         
-        // @var integer
+        // @var number
         parentMySqlId : undefined,
 
         // @var string, 
@@ -27,8 +27,7 @@ define([], function() {
         themeId: undefined,
 
         /**
-         * @method
-         * @returns {*}
+         * @returns {string}
          */
         getText: function() {
             return this.text;

@@ -9,7 +9,7 @@ var SKMailTask;
      * @augments Backbone.Model
      */
     SKMailTask = Backbone.Model.extend({
-        // @var integer
+        // @var number
         mySqlId : undefined,
 
         // @var string, 
@@ -22,7 +22,6 @@ var SKMailTask;
         minuteslabel: 'мин',
 
         /**
-         * @method
          * @returns {string}
          */
         getFormatedDuration: function() {

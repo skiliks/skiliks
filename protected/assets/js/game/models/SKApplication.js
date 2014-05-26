@@ -46,16 +46,6 @@ define([
                 }
             },
 
-            run: function() {
-                try {
-                    this.simulation.start();
-                } catch(exception) {
-                    if (window.Raven) {
-                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
-                    }
-                }
-            },
-
             /**
              * Очищает текущего пользователя симуляции
              * @method clearUser
@@ -72,6 +62,9 @@ define([
                 }
             },
 
+            /**
+             * @returns {boolean}
+             */
             isLite: function() {
                 try {
                     return this.get('type') === 'lite';
@@ -82,6 +75,9 @@ define([
                 }
             },
 
+            /**
+             * @returns {boolean}
+             */
             isFull: function() {
                 try {
                     return this.get('type') === 'full';
@@ -92,6 +88,9 @@ define([
                 }
             },
 
+            /**
+             * @returns {boolean}
+             */
             isTutorial: function() {
                 try {
                     return this.get('type') === 'tutorial';

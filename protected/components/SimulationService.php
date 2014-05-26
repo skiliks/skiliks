@@ -685,7 +685,6 @@ class SimulationService
             self::resume($simulation);
 
             if($simulation->isCalculateTheAssessment()) {
-
                 if ($simulation->isDevelopMode() ||
                     true === Yii::app()->params['public']['isUseStrictAssertsWhenSimStop']
                 ) {
@@ -964,6 +963,24 @@ class SimulationService
         SimulationLearningGoalGroup::model()->deleteAllByAttributes(['sim_id' => $simId]);
         AssessmentOverall::model()->deleteAllByAttributes(['sim_id' => $simId]);
         LogAssessment214g::model()->deleteAllByAttributes(['sim_id' => $simId]);
+
+        $simulation->status = Simulation::STATUS_COMPLETE;
+        $simulation->results_popup_cache = null;
+        $simulation->behaviours_cache = null;
+        $simulation->popup_tests_cache = null;
+        $simulation->save();
+        $simulation->refresh();
+
+        $log = UniversalLog::model()->findByAttributes(['sim_id' => $simulation->id, 'end_time' => '00:00:00']);
+        if (null !== $log) {
+            if ($log->start_time < '18:01:00') {
+                $log->end_time = '18:00:00';
+            } else {
+                $log->end_time = $log->start_time;
+            }
+
+            $log->save();
+        }
 
         SimulationService::simulationStop($simulation, [], true);
     }

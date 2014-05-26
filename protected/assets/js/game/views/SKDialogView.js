@@ -15,8 +15,11 @@ define([
      * @augments Backbone.View
      */
     SKDialogView = Backbone.View.extend({
-        
-        // dialog`s root DOM element
+
+        /**
+         * Базовый HTML DOM контейнер, должен быть уникальным
+         * @var jQuery $el
+         */
         $el: undefined,
 
         container: '.windows-container',
@@ -25,6 +28,10 @@ define([
         
         isCloseWhenClickNotOnDialog: false,
 
+        /**
+         * События DOM на которые должна реагировать данная view
+         * @var Array events
+         */
         'events': {
             'click .mail-popup-button': 'handleClick',
             'click .dialog-close': 'doDialogClose'

@@ -16,7 +16,17 @@ define([
      * @augments Backbone.View
      */
     SKLoginView = Backbone.View.extend({
+
+        /**
+         * Базовый HTML DOM контейнер, должен быть уникальным
+         * @var jQuery el
+         */
         'el': 'body',
+
+        /**
+         * События DOM на которые должна реагировать данная view
+         * @var Array events
+         */
         'events': {
             'submit form.login-form': 'doSubmit'
         },

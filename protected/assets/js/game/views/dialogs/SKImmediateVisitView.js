@@ -19,14 +19,40 @@ define([
     SKImmediateVisitView = SKWindowView.extend(
         /** @lends SKImmediateVisitView.prototype */
         {
+            /**
+             * Делает окно с визитом уникальным для поиска по CSS
+             *
+             * @var String addClass
+             */
             addClass: 'visitor-window',
-            'el':'body .visitor-container',
 
+            /**
+             * Базовый HTML DOM контейнер, должен быть уникальным
+             * @var jQuery el
+             */
+            'el': 'body .visitor-container',
+
+            /**
+             * События DOM на которые должна реагировать данная view
+             * @var Array events
+             */
             'events':_.defaults({
                 'click .replica-select':'doSelectReplica'
             }, SKWindowView.prototype.events),
 
+            /**
+             * Используется для мастабирования видео.
+             * В данный момент все видеовставки для диалогов имеют только 1 размер 1280х800.
+             */
+
+            /**
+             * @var Number video_width_original
+             */
             video_width_original : 1280,
+
+            /**
+             * @var Number video_height_original
+             */
             video_height_original : 800,
 
             /**
@@ -48,6 +74,9 @@ define([
                 }
             },
 
+            /**
+             * Центрирование видео
+             */
             center: function() {
                 try {
                     $(".sim-window.visitor-window").css('height', '100%');
@@ -60,8 +89,7 @@ define([
             },
 
             /**
-             * @method
-             * @param el
+             * @param jQuery el, 'body .visitor-container'
              */
             'renderWindow':function (el) {
                 try {
@@ -70,16 +98,16 @@ define([
                         my_replicas = event.getMyReplicas(),
                         video_src = event.getVideoSrc(),
                         image_src = event.getImgSrc(),
-                        remote_replica = event.getRemoteReplica(),
+                        remote_replica = event.getRemoteReplica(), // generated in php: DialogService.dialogToArray()
                         poster_src = event.getPosterSrc(video_src),
                         text;
 
                     text =  _.template(visitTpl, {
                         'remote_replica': remote_replica,
-                        'my_replicas': my_replicas,
-                        'video_src': video_src,
-                        'img_src': image_src,
-                        'poster_src':poster_src
+                        'my_replicas':    my_replicas,
+                        'video_src':      video_src,
+                        'img_src':        image_src,
+                        'poster_src':     poster_src
                     });
 
                     var is_first_replica = !el.html();
@@ -121,6 +149,11 @@ define([
                     }
                 }
 
+                /**
+                 * Отрисовывает картинку или видео, входящую реплику к персонажу и реплики-ответы. ()
+                 *
+                 * @param Object remote_replica, generated in php: DialogService.dialogToArray()
+                 */
                 function renderFn(remote_replica) {
                     try {
                         var remote_replica_id = remote_replica?remote_replica.id : 0;
@@ -195,17 +228,21 @@ define([
             },
 
             /**
-             * @method
-             * @param e
+             * @param OnClockEvent e
              */
             'doSelectReplica':function (e) {
                 try {
                     var me = this;
                     e.preventDefault();
                     if("true" !== $(e.currentTarget).attr('data-disabled')) {
+
+                        // Когда пользователь кликнул по реплике - данные о выбранной реплике передаются на сервер.
+                        // Но пока придёт ответ пользователь успеет кликнуть несколько раз,
+                        // поэтому мы блокируем обработку всех кликов по репликам-ответам, после первого клика
                         $('#dialogControllerAnswers li').each(function(index, element) {
                             $(element).find('a').attr('data-disabled', 'true');
                         });
+
                         var dialog_id = $(e.currentTarget).attr('data-id');
                         var is_final = $(e.currentTarget).attr('data-is-final');
                         me.options.model_instance.get('sim_event').selectReplica(dialog_id, function () {
@@ -224,6 +261,9 @@ define([
                 }
             },
 
+            /**
+             * Используется как реаукия на изменение размеров окна браузера
+             */
             'doResizeVideo' : function () {
                 var me = this;
                 me.$('.visit-background-container').width($(window).width());
@@ -248,6 +288,9 @@ define([
                 }
             },
 
+            /**
+             * При изменении размера окна, надо смасштабировать видео под новый размер окна.
+             */
             onResize : function() {
                 var me = this;
                 window.SKWindowView.prototype.onResize.apply(this);

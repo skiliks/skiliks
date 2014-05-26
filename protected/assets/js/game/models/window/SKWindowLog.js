@@ -16,8 +16,7 @@ define([],function () {
         },
 
         /**
-         * @method
-         * @param window
+         * @param SkWindow window
          */
         'activate': function (window) {
             try {
@@ -44,8 +43,7 @@ define([],function () {
         },
 
         /**
-         * @method
-         * @param window
+         * @param SkWindow window
          */
         'deactivate': function (window) {
             try {
@@ -73,7 +71,6 @@ define([],function () {
         },
 
         /**
-         * @method
          * @returns {Array}
          */
         'getAndClear': function () {

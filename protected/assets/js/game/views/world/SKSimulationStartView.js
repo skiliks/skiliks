@@ -17,7 +17,17 @@ define([
      * @augments Backbone.View
      */
     SKSimulationStartView = Backbone.View.extend({
+
+        /**
+         * Базовый HTML DOM контейнер, должен быть уникальным
+         * @var jQuery el
+         */
         'el': 'body',
+
+        /**
+         * События DOM на которые должна реагировать данная view
+         * @var Array events
+         */
         'events': {
             //'click .btn.simulation-start': 'doSimulationStart',
             //'click .settings': 'doSettings',

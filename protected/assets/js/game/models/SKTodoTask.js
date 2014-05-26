@@ -8,13 +8,21 @@ define([], function () {
      */
     window.SKTodoTask = Backbone.Model.extend({
 
+        /**
+         * String title
+         * String date
+         * Number id
+         * Number duration, в игровіх минутах
+         * String day, 'day-1 - сегодня, 'day-2' - завтра, 'after-vacation'
+         */
+
+        /** @var boolean */
         isNewTask: false,
 
         /**
-         * @method
-         * @param method
-         * @param model
-         * @param options
+         * @param String method: 'create', 'update', 'delete'
+         * @param SKTodoTask model
+         * @param Array options
          */
         sync: function (method, model, options) {
             try {

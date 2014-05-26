@@ -43,21 +43,37 @@ define([
         /** @lends SKSimulation.prototype */
         {
 
+            /** @var Number */
             timerSpeed: 60000,
 
+            /** @vat string */
             constTutorialScenario: 'tutorial',
 
+            /**
+             * @var Object {end, finish}
+             * */
             popups: {},
 
-            system_options:null,
+            /** @var Array */
+            system_options: null,
 
-            is_paused:false,
+            /**
+             * Игра на паузе
+             * @var boolean
+             */
+            is_paused: false,
 
-            is_stopped:false,
+            /**
+             * Игра остановлена из-зи разрыва соединения интернет
+             * @var boolean
+             */
+            is_stopped: false,
 
-            sc_interval_id:null,
+            /** @var number */
+            sc_interval_id: null,
 
-            useSCHotkeys:true,
+            /** @var boolean */
+            useSCHotkeys: true,
 
             /**
              * Интерфейс лочится при фпантастическом приёме и отправке почты
@@ -176,6 +192,9 @@ define([
                 }
             },
 
+            /**
+             * Рефреш папки с документами, при добавлении документа в неё
+             */
             onAddDocument:function() {
                 try {
                     if (window.elfinderInstace !== undefined) {
@@ -188,6 +207,10 @@ define([
                 }
             },
 
+            /**
+             * @param String str, '11:36'
+             * @returns {number}
+             */
             timeStringToMinutes: function(str) {
                 try {
                     if (str === undefined) {
@@ -202,6 +225,12 @@ define([
                 }
             },
 
+            /**
+             * ПО сценарию игрок может сохрарить план как документ
+             * (это надо для отправки письма Денежной в 17-55)
+             *
+             * @param function callback
+             */
             savePlan: function(callback) {
                 try {
                     var me = this,
@@ -226,6 +255,13 @@ define([
                 }
             },
 
+            /**
+             * Уведомления о запланированных задачах
+             *
+             * @todo: Код надо переместить в коллекцию SKDayTaskCollection
+             *
+             * @param SkDaytask task
+             */
             showTaskNotification: function(task) {
                 try {
                     if (SKApp.isTutorial()) {
@@ -252,8 +288,6 @@ define([
 
             /**
              * Returns number of minutes past from the start of game
-             *
-             * @method getGameMinutes
              */
             'getGameMinutes':function () {
                 try {
@@ -270,8 +304,6 @@ define([
              *
              * 1. Если приходит событие плана — обновляем список задач в ToDo
              * 2. Если приходит событие почты — заново запрашиваем список событий (чтобы почта приходила быстро)
-             *
-             * @method handleEvents
              */
             handleEvents: function () {
                 try {
@@ -309,7 +341,6 @@ define([
             /**
              * Return game time in seconds
              *
-             * @method getGameSeconds
              * @return {Number}
              */
             'getGameSeconds':function () {
@@ -332,7 +363,6 @@ define([
             /**
              * Returns game time in human readable format (e.g. 09:00)
              *
-             * @method getGameTime
              * @optional @param {boolean} is_seconds show seconds
              * @return {string}
              */
@@ -357,7 +387,6 @@ define([
             /**
              * Parses new events and adds them to event collection
              *
-             * @method parseNewEvents
              * @param events
              */
             parseNewEvents:function (events, url) {
@@ -392,9 +421,9 @@ define([
              * Запрашивает список новых событий, обновляет флаги и вызывает метод parseNewEvents для парсинга ада с
              * сервера
              *
-             * @method getNewEvents
+             * @param function callback
              */
-            'getNewEvents':function (cb) {
+            'getNewEvents':function (callback) {
                 try {
                     var nowDate = new Date();
                     localStorage.setItem('lastGetState', nowDate.getTime());
@@ -410,18 +439,13 @@ define([
                         if (undefined !== data && null !== data && undefined !== data.flagsState && undefined !== data.serverTime) {
                             me.updateFlagsForDev(data.flagsState, data.serverTime);
                             me.updateEventsListTableForDev(data.eventsQueue);
-                            me.updateServerInfoForDev(data.serverInfo);
-                        }
-
-                        if (undefined !== data && null !== data && undefined !== data.serverInfo && null !== data.serverInfo) {
-                            me.updateServerInfoForDev(data.serverInfo);
                         }
 
                         if (null !== data && data.result === 1 && data.events !== undefined) {
                             me.parseNewEvents(data.events, 'events/getState');
                         }
-                        if (cb !== undefined) {
-                            cb();
+                        if (callback !== undefined) {
+                            callback();
                         }
                     });
                 } catch(exception) {
@@ -438,7 +462,7 @@ define([
              * 2. Время устанавливается в текущее
              * 3. Запускается таймер
              *
-             * @method start
+             * @param function onDocsLoad
              * @async
              */
             'start':function (onDocsLoad) {
@@ -511,7 +535,6 @@ define([
              * Симуляцию второй раз запускать нельзя после этого — нужно создать новый объект (что логично). Проверки вё
              * коде на это нет
              *
-             * @method stop
              * @async
              */
             'stop':function () {
@@ -559,7 +582,7 @@ define([
             /**
              * Ставит симуляцию на паузу, останавливает таймер, скрывает интерфейс
              *
-             * @method startPause
+             * @param function callback
              * @async
              */
             startPause: function(callback) {
@@ -586,7 +609,7 @@ define([
             /**
              * Возобновляет установленную на паузу симуляцию
              *
-             * @method stopPause
+             * @param function callback
              * @async
              */
             stopPause: function(callback) {
@@ -617,6 +640,9 @@ define([
                 }
             },
 
+            /**
+             * @returns {boolean}
+             */
             isPaused:function() {
               return this.is_paused;
             },
@@ -650,9 +676,9 @@ define([
             /**
              * Обновляет время в симуляции и вызывает событие tick по завершению
              *
-             * @method setTime
-             * @param hour
-             * @param minute
+             * @param String hour
+             * @param String minute
+             *
              * @async
              */
             'setTime':function (hour, minute) {
@@ -675,7 +701,7 @@ define([
             },
 
             /**
-             * @method isDebug
+             * Инициализация игрового таймера
              * @protected
              */
             _startTimer: function() {
@@ -702,6 +728,11 @@ define([
                 }
             },
 
+            /**
+             * Остановка игрового таймера
+             *
+             * @private
+             */
             _stopTimer: function() {
                 try {
                     if (this.events_timer) {
@@ -715,6 +746,9 @@ define([
                 }
             },
 
+            /**
+             * Событие в 18:00
+             */
             onEndTime: function() {
                 try {
                     if (!this.popups.end) {
@@ -729,6 +763,9 @@ define([
                 }
             },
 
+            /**
+             * Событие в 20:00
+             */
             onFinishTime: function() {
                 try {
                     if (!this.popups.finish) {
@@ -743,7 +780,6 @@ define([
             },
 
             /**
-             * @method isDebug
              * @returns {boolean}
              */
             'isDebug':function () {
@@ -757,11 +793,11 @@ define([
             },
 
             /**
-             * Код, который обновляет флаги. TODO: превратить его в события
+             * Код, который обновляет флаги. TODO: превратить его в события.
+             * Используется только в дев режиме
              *
-             * @method
-             * @param flagsState
-             * @param serverTime
+             * @param Array flagsState
+             * @param String serverTime
              */
             updateFlagsForDev:function (flagsState, serverTime) {
                 try {
@@ -778,7 +814,9 @@ define([
             },
 
             /**
+             * Используется только в дев режиме
              *
+             * @param Array eventsQueue
              */
             updateEventsListTableForDev:function (eventsQueue) {
                 try {
@@ -792,19 +830,11 @@ define([
                 }
             },
 
-            updateServerInfoForDev : function (serverInfo) {
-                try {
-                    //if (this.isDebug()) {
-                        $('#server-info-ip-code').text(serverInfo.ip_code);
-                        $('#server-info-ip-db').text(serverInfo.ip_db);
-                    //}
-                } catch(exception) {
-                    if (window.Raven) {
-                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
-                    }
-                }
-            },
-
+            /**
+             * Горячие клавиши сошиал калка работали не во всех браузерах.
+             * Код там так запутан, что исправить его не удалось, но удалось отключить.
+             * данный метод использует кроссбраузерный перехват горячих клавиш.
+             */
             initSocialcalcHotkeys: function() {
                     try {
                         var me = this;
@@ -863,6 +893,10 @@ define([
                 }
             },
 
+            /**
+             * Служебный метод - код клика по кнопке в текущем окне social calc довольно объёмный, вот и вынесли.
+             * @param String selector
+             */
             clickSCButton:function(selector){
                 if(SKApp.simulation.window_set.hasActiveXLSWindow() && SKApp.simulation.useSCHotkeys){
                     var event = document.createEvent("MouseEvents");
@@ -877,27 +911,9 @@ define([
                 }
             },
 
-            initSystemHotkeys: function() {
-                try {
-                    var me = this;
-                    $(window).bind('keydown', 'esc', function() {
-                        var sim_window = $('.sim-window-id-' + SKApp.simulation.window_set.getActiveWindow().window_uid);
-                        if(sim_window.length === 0) {
-                            throw new Error("Window not found!");
-                        }
-                        var win_close = sim_window.find('.win-close');
-                        if(win_close.length !== 0){
-                            win_close.click();
-                        }
-                        return false;
-                    });
-                } catch(exception) {
-                    if (window.Raven) {
-                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
-                    }
-                }
-            },
-
+            /**
+             * Перехват 'ctrl+k' для отображения "екстренной панели".
+             */
             bindEmergencyHotkey: function() {
                 //PC
                 this.showCrashPanel('ctrl+k');
@@ -905,6 +921,11 @@ define([
                 this.showCrashPanel('meta+k');
             },
 
+            /**
+             * Отображение экстренной панели
+             *
+             * @param String hotkey
+             */
             showCrashPanel:function(hotkey) {
                 var me = this;
                 $(window).bind('keydown', hotkey, function() {
@@ -929,6 +950,11 @@ define([
                 });
             },
 
+            /**
+             * @param array replicas
+             * @param string type
+             * @returns {string}
+             */
             getPathForMedia : function(replicas, type) {
                 var media_src = null;
                 var media_type = null;
@@ -950,6 +976,11 @@ define([
                 return media_src ? SKApp.get('storageURL') + '/' + media_type+ '/standard/' + media_src + '.' + media_type : undefined;
             },
 
+            /**
+             * @param String media_src
+             * @param String media_type
+             * @returns {string}
+             */
             getMediaFile : function(media_src, media_type) {
                 if(media_type === 'webm' && ($.browser['msie'] || $.browser['safari'])){
                     media_type = 'mp4';

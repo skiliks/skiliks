@@ -34,6 +34,11 @@ define([
         windowName:'phone',
         addClass: 'phone-window',
         addId: 'phone-window',
+
+        /**
+         * События DOM на которые должна реагировать данная view
+         * @var Array events
+         */
         events:_.defaults({
             'click .phone_get_contacts': 'getContacts',
             'click .phone_get_history':  'getHistory',

@@ -87,6 +87,10 @@
                 'label' => 'Проверка итоговых оценок',
                 'url'   => ['admin_area/AdminServicePages/CheckAssessmentResults'],
                 'visible' => true,
+            ],  [
+                'label' => 'Генерация сводного аналитического файла',
+                'url'   => ['admin_area/AdminServicePages/GenerateConsolidatedAnalyticFileResults'],
+                'visible' => true,
             ], [
                 'label' => 'Статистика',
                 'url'   => ['admin_area/AdminPages/Statistics'],

@@ -31,6 +31,10 @@ define([
             maxHeight: 700
         },
 
+        /**
+         * События DOM на которые должна реагировать данная view
+         * @var Array events
+         */
         'events':_.defaults(
             {
                 'click .day-plan-todo-task':                                         'onActivateTodo',

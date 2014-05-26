@@ -20,7 +20,12 @@ define([
      */
     SKApplicationView = Backbone.View.extend({
 
+        /**
+         * Базовый HTML DOM контейнер, должен быть уникальным
+         * @var jQuery el
+         */
         'el':'body',
+
         /**
          * Constructor
          * @method initialize

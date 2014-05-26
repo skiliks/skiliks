@@ -85,8 +85,7 @@ class SiteController extends SiteBaseController
 
         $error = Yii::app()->errorHandler->error;
 
-        if( $error )
-        {
+        if( $error ) {
             $this->render('error404');
         }
     }

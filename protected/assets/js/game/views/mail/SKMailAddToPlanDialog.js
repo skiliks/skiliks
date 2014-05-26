@@ -28,6 +28,10 @@ define([
 
         isCloseWhenClickNotOnDialog:true,
 
+        /**
+         * События DOM на которые должна реагировать данная view
+         * @var Array events
+         */
         events:{
             'click #MailClient_AddToPlanPopUp .mail-plan-btn' : 'doAddToPlan',
             'click .mail-plan-item':                            'doSelectItem'
