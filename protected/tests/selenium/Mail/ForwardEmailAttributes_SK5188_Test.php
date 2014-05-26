@@ -31,8 +31,10 @@ class ForwardEmailAttributes_SK5188_Test extends SeleniumTestHelper
         $this->assertTextPresent('Форма выгрузки данных для логистов_чистая.xls');
 
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_main']['forward_email']);
+        // проверка правильная ли тема у форварда и есть ли документ
         $this->waitForTextPresent('Fwd: форма по задаче от логистики, срочно!');
         $this->waitForTextPresent('Форма выгрузки данных для логистов_чистая.xls');
+        // проверка можно ли добавить адресата
         $this->addRecipient(Yii::app()->params['test_mappings']['mail_contacts']['trutnev']);
 
         $this->simulation_stop();

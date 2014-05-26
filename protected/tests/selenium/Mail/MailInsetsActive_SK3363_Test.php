@@ -10,7 +10,6 @@ class MailInsetsActive_SK3363_Test extends SeleniumTestHelper
 {
     public function test_MailInsetsActive_SK3363()
     {
-        //$this->markTestIncomplete();
         $this->start_simulation("MailInsetsActive_SK3363_Test");
         sleep(3);
 

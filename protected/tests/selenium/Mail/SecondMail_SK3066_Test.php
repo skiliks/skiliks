@@ -10,7 +10,6 @@ class SecondMail_SK3066_Test extends SeleniumTestHelper
 {
     public function test_SecondMail_SK3066()
     {
-        //$this->markTestIncomplete();
         $this->start_simulation("SecondMail_SK3066_Test");
         $this->write_email();
         // Пишем письмо с темой правильной MS
