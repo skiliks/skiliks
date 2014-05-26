@@ -23,6 +23,10 @@ define([
 
     SKMeetingView = SKWindowView.extend({
 
+        /**
+         * События DOM на которые должна реагировать данная view
+         * @var Array events
+         */
         'events':_.defaults({
             'click .meeting-subject': 'leave'
         }, SKWindowView.prototype.events),

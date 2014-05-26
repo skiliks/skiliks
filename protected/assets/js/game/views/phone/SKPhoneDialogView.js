@@ -31,7 +31,11 @@ define([
             width: 872,
             height: 560
         },
-        
+
+        /**
+         * События DOM на которые должна реагировать данная view
+         * @var Array events
+         */
         'events':_.defaults({
             'click .phone-draw-menu': 'getMenu',
             'click .replica-select' : 'doSelectReplica'

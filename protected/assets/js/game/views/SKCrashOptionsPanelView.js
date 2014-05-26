@@ -12,6 +12,11 @@ define([
      * @augments Backbone.View
      */
     SKCrashOptionsPanelView = SKDialogView.extend({
+
+        /**
+         * События DOM на которые должна реагировать данная view
+         * @var Array events
+         */
         'events': {
             'click .crash.close-mail': 'doCloseMail',
             'click .crash.close-phone': 'doClosePhone',

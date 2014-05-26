@@ -20,18 +20,36 @@ define([
     SKPDFDisplayView = SKWindowView.extend(
         /** @lends SKPDFDisplayView.prototype */
         {
-            isDisplaySettingsButton:false,
             /**
-             * @property {string} title
+             * Переопределение поведения SKWindowView
+             * @var Boolean
+             */
+            isDisplaySettingsButton:false,
+
+            /**
+             * Переопределение поведения SKWindowView
+             * @var String
              */
             title:'Просмотр документа',
+
+            /**
+             * Переопределение поведения SKWindowView
+             * @var String
+             */
             addClass: 'document-window',
 
+            /**
+             * Переопределение поведения SKWindowView
+             * @var Array.<Number>
+             */
             dimensions: {
                 width: 851,
                 height: 648
             },
 
+            /**
+             * Constructor
+             */
             initialize: function () {
                 try {
                     SKWindowView.prototype.initialize.call(this);
@@ -44,9 +62,9 @@ define([
             },
 
             /**
-             * @method
-             * @param pdf
-             * @param page_num
+             * Рекурсивно отрисовывает все страницы документа
+             * @param ? (Object) pdf
+             * @param Number page_num
              */
             renderPage:function (pdf, page_num) {
                 try {
@@ -92,8 +110,7 @@ define([
             },
 
             /**
-             * @method
-             * @param el
+             * @param jQuery el
              */
             renderContent:function (el) {
                 try {

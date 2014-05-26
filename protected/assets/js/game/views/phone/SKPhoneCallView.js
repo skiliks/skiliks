@@ -34,6 +34,10 @@ define([
             height: 560
         },
 
+        /**
+         * События DOM на которые должна реагировать данная view
+         * @var Array events
+         */
         events:_.defaults({
             'click .phone_get_menu' : 'getMenu',
             'click #phone_reply'    : 'reply',

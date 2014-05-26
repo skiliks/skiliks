@@ -18,24 +18,48 @@ define([
      */
     var SKXLSDisplayView = SKWindowView.extend({
 
+        /**
+         * Переопределение поведения SKWindowView
+         * @var Boolean
+         */
         isDisplaySettingsButton:false,
 
+        /**
+         * Переопределение поведения SKWindowView
+         * @var String
+         */
         title:'Мои документы',
+
+        /**
+         * Переопределение поведения SKWindowView
+         * @var String
+         */
         addClass: 'document-window document-excel',
 
-        dimensions: {},
+//         dimensions: {},
+
+        /**
+         * События DOM на которые должна реагировать данная view
+         * @var Array events
+         */
         events: _.defaults({
             'click .sheet-tabs li': 'doSelectTab',
             'click .xls-container': 'doActivateRedirect'
         }, SKWindowView.prototype.events),
 
+        /**
+         * Если false - документ будет удалён из списка окон игры, SKApp.simulation.window_set.
+         * @var Boolean
+         */
         isRender: true,
 
+        /**
+         * @var Array.<SKSheetView>
+         */
         sheets:[],
 
         /*
         * Constructor
-        * @method initialize
         */
         initialize: function () {
             try {
@@ -55,8 +79,8 @@ define([
 
 
         /**
-         * @method
-         * @param el
+         * @param jQUery el
+         * @param SKWindowView windowObject
          */
         renderContent:function (el, windowObject) {
             try {

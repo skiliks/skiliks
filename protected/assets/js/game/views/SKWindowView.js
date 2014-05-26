@@ -15,10 +15,18 @@ define(["text!game/jst/window.jst"],
      */
     SKWindowView = Backbone.View.extend({
 
+        /**
+         * Базовый HTML DOM контейнер, должен быть уникальным
+         * @var String container
+         */
         container: '.windows-container',
 
         windowName:null,
 
+        /**
+         * События DOM на которые должна реагировать данная view
+         * @var Array events
+         */
         'events': {
             'click .win-close': 'doWindowClose',
             'mousedown':        'doActivate',

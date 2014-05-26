@@ -10,16 +10,15 @@ define(["game/views/SKWindowView", "game/models/window/SKDocumentsWindow"], func
     "use strict";
     var SKElFinderTransport = {
         /**
-         *
-         * @param fm
+         * Constructor
+         * @param ? fm, FileManager?
          */
         init: function (fm) {
             this.fm = fm;
         },
 
         /**
-         * @method
-         * @param options
+         * @param Array. options
          * @returns {{done: Function, fail: Function}}
          */
         send: function (options) {
@@ -89,25 +88,44 @@ define(["game/views/SKWindowView", "game/models/window/SKDocumentsWindow"], func
         }
     };
 
-    /**
-     *
-     * @type {*}
-     */
     SKDocumentsListView = SKWindowView.extend(
         /** @lends SKDocumentsListView.prototype */
         {
+            /**
+             * Переопределение поведения SKWindowView
+             * @var Boolean
+             */
             isDisplaySettingsButton:false,
+
+            /**
+             * Переопределение поведения SKWindowView
+             * @var String
+             */
             title: 'Мои документы',
+
+            /**
+             * Переопределение поведения SKWindowView
+             * @var String
+             */
             addClass: 'documents-list documents-window',
+
+            /**
+             * Переопределение поведения SKWindowView
+             * @var String
+             */
             addId: 'documents-window',
+
+            /**
+             * Переопределение поведения SKWindowView
+             * @var Array.<Number>
+             */
             dimensions: {
-                width: 800,
+                width:  800,
                 height: 400
             },
 
             /**
-             * @method
-             * @param {jQuery} el
+             * @param jQuery el
              */
             renderContent: function (el) {
                 try {

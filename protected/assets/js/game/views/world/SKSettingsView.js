@@ -20,6 +20,11 @@ define([
         'initialize': function () {
             this.render();
         },
+
+        /**
+         * События DOM на которые должна реагировать данная view
+         * @var Array events
+         */
         'events': {
             'submit form' : 'doSubmit'
         },

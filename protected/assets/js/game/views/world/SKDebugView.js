@@ -7,6 +7,11 @@ define(["text!game/jst/simulation/debug.jst"], function (debug_template) {
      * @augments Backbone.View
      */
     SKDebugView = Backbone.View.extend({
+
+        /**
+         * События DOM на которые должна реагировать данная view
+         * @var Array events
+         */
         'events': {
             'click .set-time': 'doSetTime',
             'submit .form-set-time': 'doFormSetTime',

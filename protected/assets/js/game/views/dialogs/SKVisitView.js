@@ -23,7 +23,11 @@ define([
             isDisplayCloseWindowsButton: false,
 
             deny_timeout_id:null,
-            
+
+            /**
+             * События DOM на которые должна реагировать данная view
+             * @var Array events
+             */
             'events':_.defaults({
                     "click .visitor-allow":'allow',
                     "click .visitor-deny":'deny'
@@ -45,8 +49,7 @@ define([
             },
 
             /**
-             * @method
-             * @param el
+             * @param DomElement el
              */
             renderWindow:function (el) {
                 try {
@@ -80,12 +83,11 @@ define([
             },
 
             /**
-             * @method
-             * @param e
+             * @param Event e, OnClickEvent
              */
-            allow:function (e) {
+            allow:function (event) {
                 try {
-                    var dialogId = $(e.currentTarget).attr('data-dialog-id');
+                    var dialogId = $(event.currentTarget).attr('data-dialog-id');
                     var me = this;
                     if (this.timer) {
                         clearTimeout(this.timer);
@@ -105,12 +107,12 @@ define([
 
             /**
              *
-             * @param e
+             * @param Event event, OnClickEvent
              */
             deny:function (e) {
                 try {
                     var me = this;
-                    var dialogId = $(e.currentTarget).attr('data-dialog-id');
+                    var dialogId = $(event.currentTarget).attr('data-dialog-id');
                     SKApp.simulation.trigger('audio-door-knock-stop');
                     this.options.model_instance.get('sim_event').selectReplica(dialogId, function () {
                         me.options.model_instance.setLastDialog(dialogId);

@@ -21,6 +21,10 @@ define([
         SKIconPanelView = Backbone.View.extend({
             /** @lends SKIconPanelView.prototype */
 
+            /**
+             * События DOM на которые должна реагировать данная view
+             * @var Array events
+             */
             events: {
                 'click .icons-panel .phone.icon-active span': 'doPhoneTalkStart',
                 'click .icons-panel .door.icon-active span':  'doDialogStart',

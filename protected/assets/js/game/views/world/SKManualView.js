@@ -30,6 +30,10 @@ define(
 
             addClass: 'manual-window',
 
+            /**
+             * События DOM на которые должна реагировать данная view
+             * @var Array events
+             */
             'events': _.defaults(
                 {
                     'click a[data-refer-page]': 'doOpenPage'

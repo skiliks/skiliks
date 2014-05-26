@@ -1,11 +1,25 @@
 /*global SocialCalc, _*/
 define([], function () {
     "use strict";
+
+    /**
+     * Используется для вызова нескольких функций обработки листа подряд.
+     * На мой взгляд - это усложнение на пустом месте.
+     *
+     * @type {*|jQuery|HTMLElement}
+     */
     var loadQueue = $({});
+
+    /** @var SocialCalc sc, SocialCalc instance */
     var sc = new SocialCalc.SpreadsheetControl();
 
     var SKSheetView = Backbone.View.extend({
-        initialize:      function () {
+
+        /**
+         * Constructor
+         * @method initialize
+         */
+        initialize: function () {
             try {
                 var sheet = this.options.sheet;
 
@@ -40,12 +54,15 @@ define([], function () {
                 }
             }
         },
-        updateRelatedSheets: function () {
 
-        },
+        /**
+         * Вызывается при переключении вкладок екселя
+         */
         deactivateSheet: function () {
             try {
                 var me = this;
+                // зачем так сложно, чедь можно просто вызвать me.rootView.hide() ?
+                // но ладно
                 loadQueue.queue('fx', function () {
                     me.rootView.hide();
                     loadQueue.dequeue('fx');
@@ -56,6 +73,10 @@ define([], function () {
                 }
             }
         },
+
+        /**
+         * Вызывается после каждой правки на листе
+         */
         recalcSheet:     function () {
             try {
                 var me = this;
@@ -87,6 +108,10 @@ define([], function () {
                 }
             }
         },
+
+        /**
+         * Вызывается при переключении вкладок екселя
+         */
         activateSheet:   function () {
             try {
                 var me = this;
@@ -118,9 +143,9 @@ define([], function () {
                 }
             }
         },
+
         /**
-         *
-         * @param {SKSheet} sheet
+         * Рендер {this.options.sheet} листа ексель
          */
         render: function () {
             try {
