@@ -50,3 +50,10 @@
     <?php endforeach; ?>
     </tbody>
 </table>
+
+<?php // обновляем страницу автоматически, но только если есть "активная" проверка ?>
+<?php if (null != $generatedFile) : ?>
+    <script type="text/javascript">
+        setTimeout('location.reload(false)', 15*1000); // 15 sec
+    </script>
+<?php endif; ?>
