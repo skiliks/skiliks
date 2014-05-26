@@ -582,7 +582,7 @@ function stickyFooterAndBackground() {
 
     console.log(footerBottom + ', ' + windowHeight);
 
-    if (footerBottom < windowHeight && windowHeight < 1040) {
+    if (1040 <  windowHeight || footerBottom < windowHeight) {
         $('footer').css('position', 'absolute');
     } else {
         $('footer').css('position', 'relative');
