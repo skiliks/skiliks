@@ -28,6 +28,9 @@ class AdminServicePagesController extends SiteBaseController {
         return true;
     }
 
+    /**
+     * Проверка оценок по всем симуляция на внутреннюю консистентность
+     */
     public function actionCheckAssessmentResults() {
 
         $currentCheck = SiteLogCheckResults::model()->findByAttributes(['finished_at' => null]);
@@ -72,6 +75,34 @@ class AdminServicePagesController extends SiteBaseController {
             'user'         => $this->user,
             'currentCheck' => $currentCheck,
             'allCheckLogs' => $allCheckLogs,
+        ]);
+    }
+
+    /**
+     * Генерация сводного аналитического файлы по всем симуляциям
+     */
+    public function actionGenerateConsolidatedAnalyticFileResults() {
+
+        $generatedFile = SiteLogGenerateConsolidatedAnalyticFile::model()->findByAttributes(['finished_at' => null]);
+        $allFiles      = SiteLogGenerateConsolidatedAnalyticFile::model()->findAll(['order' => 'id DESC']);
+
+        if (null == $generatedFile && 'generate' == Yii::app()->request->getParam('action')) {
+            /** @var SiteLogGenerateConsolidatedAnalyticFile $log */
+            $log = new SiteLogGenerateConsolidatedAnalyticFile();
+            $log->started_at = date('Y-m-d H:i:s');
+            $log->started_by_id = $this->user->id;
+            $log->save();
+
+            SiteLogGenerateConsolidatedAnalyticFile::generate('v2', $log);
+            $log->finished_at = date('Y-m-d H:i:s');
+            $log->save();
+        }
+
+        $this->layout = '/admin_area/layouts/admin_main';
+        $this->render('/admin_area/pages/service/generate_consolidated_assessment_file', [
+            'user'          => $this->user,
+            'generatedFile' => $generatedFile,
+            'allFiles'      => $allFiles,
         ]);
     }
 }
