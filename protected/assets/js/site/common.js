@@ -580,6 +580,8 @@ function stickyFooterAndBackground() {
         return;
     }
 
+    console.log(footerBottom + ', ' + windowHeight);
+
     if (footerBottom < windowHeight) {
         $('footer').css('position', 'absolute');
     } else {
