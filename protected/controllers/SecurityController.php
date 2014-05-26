@@ -538,7 +538,7 @@ class SecurityController extends SiteBaseController {
             $log->isStrange = true;
         }
 
-        if (-1 < strstr($log->line, 'storage.skiliks.com')
+        if (-1 < strstr($log->line, 'storage2.skiliks.com')
             && -1 < strstr($log->line, 'GET / HTTP/1.1 403')) {
             $log->isStrange = true;
         }
