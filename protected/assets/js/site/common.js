@@ -583,11 +583,11 @@ function stickyFooterAndBackground() {
     console.log(footerBottom + ', ' + windowHeight);
     console.log(1000 <  windowHeight);
 
-    //if ( footerBottom < windowHeight) {
-    //    $('footer').css('position', 'absolute');
-    //} else {
+    if (footerBottom < windowHeight || 1005 < windowHeight) {
+        $('footer').css('position', 'absolute');
+    } else {
         $('footer').css('position', 'relative');
-    //}
+    }
 
     // Background
     if (1600 < $(window).width()) {
