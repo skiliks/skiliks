@@ -11,21 +11,23 @@ class Pause_SK3359_Test extends SeleniumTestHelper
     //for end of simulation
     public function test_Pause_Case1_SK3359()
     {
-        //$this->markTestIncomplete();
         $this->start_simulation("test_Pause_Case1_SK3359");
         sleep(3);
+        // перемотать время на 18:00
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], '18');
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], '00');
         $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
         sleep(5);
+        // считать текущее время
         $time=$this->how_much_time();
         sleep(30);
+        // сичтать время, пока игра стоит на паузе ( и проверить что время не меняется)
         $time1=$this->how_much_time();
 
         $this->assertTrue($time==$time1);
 
         $this->optimal_click("xpath=(//*[contains(text(), 'Продолжить работу')])");
-
+        // проверить, что сразу после продолжения работы время такое же как и во время показа попапа о завершении игры
         $time2=$this->how_much_time();
         $this->assertTrue($time==$time2);
 
@@ -39,7 +41,7 @@ class Pause_SK3359_Test extends SeleniumTestHelper
         $this->deleteAllVisibleCookies();
         $this->windowMaximize();
         $this->open('/ru');
-
+        // логинимся и запускаем демо-версию
         $this->optimal_click("css=.action-sign-in");
         $this->waitForVisible("css=#YumUserLogin_username");
         $this->type("css=#YumUserLogin_username", "selenium.engine@skiliks.com");
@@ -65,10 +67,11 @@ class Pause_SK3359_Test extends SeleniumTestHelper
         }
         $this->getEval('var window = this.browserbot.getUserWindow(); window.$(window).off("beforeunload")');
         sleep(10);
-
+        // ставим игру на паузу
         $time3=$this->how_much_time();
         $this->optimal_click("css=.pause");
         sleep(30);
+        // пока игра на паузе считываем время и проверяем, что оно не изменилось
         $time4=$this->how_much_time();
         $this->assertTrue($time3==$time4);
 

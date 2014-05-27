@@ -17,6 +17,7 @@ class Add_User_SK5854_Test extends SeleniumTestHelper
         $this->windowMaximize();
 
         $this->open('/ru');
+        // логинимся как админ-пользователь
         $this->optimal_click(Yii::app()->params['test_mappings']['site']['logIn']);
         $this->waitForVisible(Yii::app()->params['test_mappings']['site']['username']);
         $this->type(Yii::app()->params['test_mappings']['site']['username'],'tetyana.grybok@skiliks.com');
@@ -25,13 +26,13 @@ class Add_User_SK5854_Test extends SeleniumTestHelper
         $this->waitForVisible(Yii::app()->params['test_mappings']['corporate']['username']);
 
         $this->open('/admin_area/dashboard');
-
+        // будем создавать аккаунт для забаненого пользователя
         $email = "emailForBaned@skiliks.com";
-
+        // проверяем в админке, что такого пользователя не существует
         $this->type(Yii::app()->params['test_admin_mappings']['home_page']['quick_view_email'], $email);
         $this->optimal_click(Yii::app()->params['test_admin_mappings']['home_page']['quick_view_find']);
         sleep(2);
-
+        // если не существует, то создаем (идем на регистрацию и регистрируем, потом заходим под админом и баним)
         if ($this->isElementPresent("css=.alert.alert-error"))
         {
             //регистрация пользователя и его активация и бан
@@ -68,16 +69,6 @@ class Add_User_SK5854_Test extends SeleniumTestHelper
 
             $this->optimal_click(Yii::app()->params['test_admin_mappings']['corporate_info']['account_ban']);
             $this->waitForVisible("css=.alert.alert-success");
-
-            /*$this->optimal_click(Yii::app()->params['test_admin_mappings']['home_page']['logout']);
-
-            // проверить авторизация работает или нет?
-            $this->open('/ru');
-            $this->optimal_click(Yii::app()->params['test_mappings']['site']['logIn']);
-            $this->type(Yii::app()->params['test_mappings']['site']['username'], $email);
-            $this->type(Yii::app()->params['test_mappings']['site']['userpass'], "skiliks123123");
-            $this->optimal_click(Yii::app()->params['test_mappings']['site']['enter']);
-            $this->waitForVisible("xpath=(//*[contains(text(),'заблокирован')])");*/
         }
     }
 
@@ -88,7 +79,7 @@ class Add_User_SK5854_Test extends SeleniumTestHelper
     {
         $this->deleteAllVisibleCookies();
         $this->windowMaximize();
-
+        // логинимся как админ-пользователь
         $this->open('/ru');
         $this->optimal_click(Yii::app()->params['test_mappings']['site']['logIn']);
         $this->waitForVisible(Yii::app()->params['test_mappings']['site']['username']);
@@ -98,13 +89,13 @@ class Add_User_SK5854_Test extends SeleniumTestHelper
         $this->waitForVisible(Yii::app()->params['test_mappings']['corporate']['username']);
 
         $this->open('/admin_area/dashboard');
-
+        // будем создавать аккаунт для неактивированного пользователя
         $email = "emailNotActivated@skiliks.com";
-
+        // проверяем в админке, что такого пользователя не существует
         $this->type(Yii::app()->params['test_admin_mappings']['home_page']['quick_view_email'],$email);
         $this->optimal_click(Yii::app()->params['test_admin_mappings']['home_page']['quick_view_find']);
         sleep(2);
-
+        // если не существует, то создаем (идем на регистрацию и регистрируем, но не активируем)
         if ($this->isElementPresent("css=.alert.alert-error"))
         {
             $this->optimal_click(Yii::app()->params['test_admin_mappings']['home_page']['logout']);
@@ -121,13 +112,6 @@ class Add_User_SK5854_Test extends SeleniumTestHelper
             $this->optimal_click(Yii::app()->params['test_mappings']['site_register']['checkbox_terms']);
             $this->optimal_click(Yii::app()->params['test_mappings']['site_register']['register_button']);
             $this->waitForVisible("xpath=(//*[contains(text(),'На указанный вами email')])");
-
-            /*$this->open('/ru');
-            $this->optimal_click(Yii::app()->params['test_mappings']['site']['logIn']);
-            $this->type(Yii::app()->params['test_mappings']['site']['username'], $email);
-            $this->type(Yii::app()->params['test_mappings']['site']['userpass'], "skiliks123123");
-            $this->optimal_click(Yii::app()->params['test_mappings']['site']['enter']);
-            $this->waitForVisible("xpath=(//*[contains(text(),'не активирован')])");*/
         }
     }
 }

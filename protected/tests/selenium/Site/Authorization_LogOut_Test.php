@@ -69,6 +69,7 @@ class Authorization_LogOut_SK3222_Test extends SeleniumTestHelper
         $this->type(Yii::app()->params['test_mappings']['site']['username'], $email);
         $this->type(Yii::app()->params['test_mappings']['site']['userpass'], $password);
         $this->optimal_click(Yii::app()->params['test_mappings']['site']['enter']);
+        // проверка на наличие сообщения об ошибке
         $this->waitForVisible("xpath=(//*[contains(text(),'".$message."')])");
     }
 
@@ -77,6 +78,7 @@ class Authorization_LogOut_SK3222_Test extends SeleniumTestHelper
         $this->type(Yii::app()->params['test_mappings']['user_auth']['email'], $email);
         $this->type(Yii::app()->params['test_mappings']['user_auth']['password'], $password);
         $this->optimal_click(Yii::app()->params['test_mappings']['user_auth']['login']);
+        // проверка на наличие сообщения об ошибке
         $this->waitForVisible("xpath=(//*[contains(text(),'".$message."')])");
     }
 }
