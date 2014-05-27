@@ -1,10 +1,8 @@
 <?php
 
-class AdminPagesController extends SiteBaseController {
+class AdminPagesController extends BaseAdminController {
 
     public $itemsOnPage = 100;
-
-    public $user;
 
     public function beforeAction($action) {
 

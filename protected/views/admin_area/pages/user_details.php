@@ -23,6 +23,10 @@ $assetsUrl = $this->getAssetsUrl();
 <br/>
 <br/>
 
+<!-- Управление аккаунтом ------------------------------------------ -->
+
+<h3>Управление аккаунтом</h3>
+
 <a class="btn btn-success"
    href="<?= $this->createAbsoluteUrl('admin_area/AdminPages/UpdatePassword', ['userId' => $user->id]) ?>">
     <i class="icon icon-pencil icon-white"></i>&nbsp;
@@ -67,7 +71,7 @@ $assetsUrl = $this->getAssetsUrl();
     </a>
 <?php endif ?>
 
-<!-- разделитель кнопок -->
+<!-- разделитель кнопок 1 -->
 <p>&nbsp; &nbsp;</p>
 
 <a class="btn btn-info" href="/admin_area/invites?page=1&receiver-email-for-filtration=<?= urlencode($user->profile->email) ?>&invite_statuses[0]=on&invite_statuses[1]=on&invite_statuses[5]=on&invite_statuses[2]=on&invite_statuses[4]=on&invite_statuses[3]=on&invite_status[]=on&filter_scenario_id=&is_invite_crashed=">
@@ -76,6 +80,7 @@ $assetsUrl = $this->getAssetsUrl();
 </a>
 
 <?php if($user->isCorporate()) : ?>
+    &nbsp; &nbsp;
     <a class="btn btn-info" href="/admin_area/corporate-account/<?= $user->id ?>/invite-limit-logs">
         <i class="icon icon-list icon-white"></i>
         Логи списания/зачисления симуляций
@@ -90,24 +95,40 @@ $assetsUrl = $this->getAssetsUrl();
         <i class="icon icon-envelope icon-white"></i>
         Отправить приглашения
     </a>
+
+    <!-- разделитель кнопок 2 -->
+    <p>&nbsp; &nbsp;</p>
+
     <?php if($user->account_corporate->excluded_from_mailing === UserAccountCorporate::EXCLUDED_FROM_MAILING_YES) : ?>
-        &nbsp; &nbsp;
         <a class="btn btn-success" href="/admin_area/excluded_from_mailing?user_id=<?= $user->id ?>&set=<?=UserAccountCorporate::EXCLUDED_FROM_MAILING_NO?>">
             Включить почту
         </a>
     <?php else : ?>
-        &nbsp; &nbsp;
         <a class="btn btn-danger" href="/admin_area/excluded_from_mailing/?user_id=<?= $user->id ?>&set=<?=UserAccountCorporate::EXCLUDED_FROM_MAILING_YES?>">
-            Исключить почту
+            Исключить почту из рассылки
         </a>
     <?php endif ?>
+
+    &nbsp; &nbsp;
+
+    <a href="/admin_area/user/<?= $user->id ?>/vacancies-list" class="btn btn-info">
+        <i class="icon icon-briefcase icon-white"></i>
+        Список позиций
+    </a>
 <?php endif ?>
 
 <br/>
 <br/>
 <br/>
 
+<!-- Личные данные ------------------------------------------ -->
+
+<h3>Личные данные</h3>
+
 <table class="table">
+
+    <!-- --- -->
+
     <tr>
         <td style="width: 25%">Имя и Фамилия</td>
         <td style="width: 25%"><span style='text-label-200px'><?= $user->profile->firstname ?></span> <span style='text-label-200px'><?= $user->profile->lastname ?></span></td>
@@ -117,6 +138,9 @@ $assetsUrl = $this->getAssetsUrl();
             <span style='text-label-200px'><?= $user->profile->email ?></span>
         </td>
     </tr>
+
+    <!-- --- -->
+
     <tr>
         <td style="width: 25%">Дата регистрации</td>
         <td style="width: 25%"><?= date('Y-m-d H:i:s', $user->createtime) ?></td>
@@ -124,20 +148,7 @@ $assetsUrl = $this->getAssetsUrl();
         <td style="width: 25%"><?= date('Y-m-d H:i:s', $user->lastvisit) ?></td>
     </tr>
 
-    <!-- key { -->
-    <?php if (1 != $user->activationKey): ?>
-    <tr>
-        <td>Ключь</td>
-        <td>
-            <div style="max-width: 400px; overflow: auto;">
-                <?= $user->activationKey ?>
-            </div>
-        </td>
-        <td></td>
-        <td></td>
-    </tr>
-    <?php endif ?>
-    <!-- key } -->
+    <!-- --- -->
 
     <tr>
         <td>Тип аккаунта</td>
@@ -170,16 +181,28 @@ $assetsUrl = $this->getAssetsUrl();
             </td>
         <?php endif; ?>
     </tr>
+
+    <!-- --- -->
+
     <tr>
-        <?php if ($user->isCorporate()) : ?>
+        <td> Вид оценки</td>
+        <td>
+            <?= $user->profile->assessment_results_render_type ?>
+        </td>
+        <td>IP Address</td>
+        <td><?= ($user->ip_address !== null) ? $user->ip_address : "-"; ?></td>
+
+    </tr>
+
+    <!-- --- -->
+
+    <?php if ($user->isCorporate()) : ?>
+        <tr>
             <td>Количество доступных приглашений</td>
             <td>
                 <?= $user->getAccount()->invites_limit ?>
             </td>
-        <?php endif; ?>
-    </tr>
-    <tr>
-        <?php if ($user->isCorporate()) : ?>
+
             <td>
                 Добавить симуляции в аккаунт
                 <br/>
@@ -193,61 +216,103 @@ $assetsUrl = $this->getAssetsUrl();
                     <input class="btn btn-success" id="add_invites_button" type="submit" value="Добавить/списать">
                 </form>
             </td>
-        <?php endif; ?>
-    </tr>
-    <tr>
-        <td> Вид оценки</td>
-        <td>
-            <?= $user->profile->assessment_results_render_type ?>
-        </td>
-    </tr>
-    <tr>
-        <td>IP Address</td>
-        <td><?= ($user->ip_address !== null) ? $user->ip_address : "-"; ?></td>
-        <td></td>
-        <td></td>
-    </tr>
+        </tr>
+    <?php endif; ?>
+
+    <!-- key { -->
+
+    <?php if (1 != $user->activationKey): ?>
+        <tr>
+            <td>Ключь</td>
+            <td colspan="3">
+                <div style="max-width: 900px; overflow: auto;">
+                    <?= $user->activationKey ?>
+                </div>
+            </td>
+        </tr>
+    <?php endif ?>
+
+    <!-- key } -->
 
 </table>
+
 <?php if ($user->isCorporate()) : ?>
+
+    <!-- Скидка ------------------------------------------ -->
+
+    <h3>Скидка:</h3>
+
     <form class="form-inline" method="post">
-        <label>Изменить скидку (%)</label>
-        <input type="text" name="discount" class="input-small" placeholder="Скидка" value="<?= $user->account_corporate->discount ?>">
-        <label>Дата начала</label>
-        <input type="text" name="start_discount" class="input-large" placeholder="пример - 2013-10-04" value="<?= $user->account_corporate->start_discount ?>">
-        <label>Дата конца</label>
-        <input type="text" name="end_discount" class="input-large" placeholder="пример - 2013-11-24" value="<?= $user->account_corporate->end_discount ?>">
-        <button type="submit" name="discount_form" class="btn btn-success" value="true">Изменить</button>
+        <table class="table">
+            <tr>
+                <td>Задать скидку в размере</td>
+                <td>
+                    <input type="text" name="discount" class="input-small" placeholder="Скидка"
+                           value="<?= $user->account_corporate->discount ?>">
+                    (0.00 ~ 100.00%).
+                </td>
+            </tr>
+            <tr>
+                <td>Дата начала действия скидки</td>
+                <td>
+                    <input type="text" name="start_discount" class="input-large" placeholder="пример - 2013-10-04"
+                           value="<?= $user->account_corporate->start_discount ?>">
+                </td>
+            </tr>
+            <tr>
+                <td>Дата окончания действия скидки</td>
+                <td>
+                    <input type="text" name="end_discount" class="input-large" placeholder="пример - 2013-11-24"
+                           value="<?= $user->account_corporate->end_discount ?>">
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="2">
+                    <button type="submit" name="discount_form" class="btn btn-success" value="true" style="font-weight: bold;">
+                        Изменить параменты скидки для аккаунта <?= $user->profile->email ?>
+                    </button>
+                </td>
+            </tr>
+        </table>
     </form>
+
+    <h3>Данные для менеджеров по продажам</h3>
+
     <form class="form" method="post">
     <table class="table">
         <tr>
-            <td>Сайт</td>
-            <td>Описание для продаж</td>
+            <td style="width: 200px;">Сайт</td>
+            <td><textarea name="site" style="width: 90%;"><?= $user->account_corporate->site ?></textarea></td>
+
         </tr>
         <tr>
-            <td><textarea name="site" style="width: 90%;"><?= $user->account_corporate->site ?></textarea></td>
+            <td>Описание для продаж</td>
             <td><textarea name="description_for_sales" style="width: 90%;"><?= $user->account_corporate->description_for_sales ?></textarea></td>
         </tr>
         <tr>
             <td>Телефоны для продаж</td>
-            <td>Статус для продаж</td>
+            <td><textarea name="contacts_for_sales" style="width: 90%;"><?= $user->account_corporate->contacts_for_sales ?></textarea></td>
         </tr>
         <tr>
-            <td><textarea name="contacts_for_sales" style="width: 90%;"><?= $user->account_corporate->contacts_for_sales ?></textarea></td>
+            <td>Статус для продаж</td>
             <td><textarea name="status_for_sales" style="width: 90%;"><?= $user->account_corporate->status_for_sales ?></textarea></td>
         </tr>
         <tr>
             <td>Название компании</td>
-            <td>Отрасль компании</td>
+            <td><textarea name="company_name_for_sales" style="width: 90%;"><?= $user->account_corporate->company_name_for_sales ?></textarea></td>
         </tr>
         <tr>
-            <td><textarea name="company_name_for_sales" style="width: 90%;"><?= $user->account_corporate->company_name_for_sales ?></textarea></td>
+            <td>Отрасль компании</td>
             <td><textarea name="industry_for_sales" style="width: 90%;"><?= $user->account_corporate->industry_for_sales ?></textarea></td>
         </tr>
         <tr>
             <td></td>
-            <td><button type="submit" name="save_form" value="true" class="btn btn-success">Сохранить</button></td>
+            <td>
+                <button type="submit" name="save_form" value="true" class="btn btn-success" style="font-weight: bold;">
+                    Сохранить данные об аккаунте <?= $user->profile->email ?>, для менеджеров по продажам
+                </button>
+            </td>
         </tr>
     </table>
     </form>

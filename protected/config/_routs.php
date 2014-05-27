@@ -224,9 +224,13 @@ return [
                 'admin_area/statistics/statistic-mail'                    => 'admin_area/AdminPages/StatisticMail',
                 'admin_area/statistics/free-disk-space'                   => 'admin_area/AdminPages/StatisticFreeDiskSpace',
                 'admin_area/invite/<inviteId:\w+>/switch-can-be-reloaded' => 'admin_area/AdminPages/InviteSwitchCanBeReloaded',
-                'admin_area/ban_user/<userId:\d+>/<action:\w+>'                        => 'admin_area/AdminPages/BanUser',
+                'admin_area/ban_user/<userId:\d+>/<action:\w+>'           => 'admin_area/AdminPages/BanUser',
                 'admin_area/user/<userId:\d+>/send-invites'               => 'admin_area/AdminPages/SendInvites',
                 'admin_area/order/<invoiceId:\d+>/toggle-is-test'         => 'admin_area/AdminPages/OrderToggleIsTest',
+                'admin_area/user/<userId:\d+>/vacancies-list'             => 'admin_area/AdminAccounts/AccountVacanciesList',
+                'admin_area/user/<userId:\d+>/vacancy/add'                => 'admin_area/AdminAccounts/addVacancy',
+
+                'admin_area/user/<userId:\d+>/vacancy/<vacancyId:\d+>/remove' => 'admin_area/AdminAccounts/RemoveVacancy',
 
                 'admin_area/corporate-accounts'                   => 'admin_area/AdminPages/CorporateAccountList',
                 'admin_area/order/action/status'                  => 'admin_area/AdminPages/OrderActionStatus',
@@ -241,7 +245,7 @@ return [
                 'admin_area/simulation/<simId:\w+>/requests'      => 'admin_area/AdminPages/SimulationRequests',
                 'admin_area/AdminPages/SubscribersList'           => 'admin_area/AdminPages/SubscribersList',
                 'admin_area/user/<userId:\w+>/details'            => 'admin_area/AdminPages/UserDetails',
-                'admin_area/user/by-email'                => 'admin_area/AdminPages/UserDetailsByEmail',
+                'admin_area/user/by-email'                        => 'admin_area/AdminPages/UserDetailsByEmail',
                 'admin_area/login/ghost/<userId:\d+>'             => 'admin_area/AdminPages/GhostLogin',
 
                 'admin_area/user/<userId:\w+>/set-invites-limit/<value:[\w\-]+>' => 'admin_area/AdminPages/UserAddRemoveInvitations',
