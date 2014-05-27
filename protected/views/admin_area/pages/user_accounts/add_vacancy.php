@@ -93,21 +93,21 @@
             <?= $form->textField($vacancy, 'label'); ?>
         </div>
 
-        <span class="error-place">
+        <span class="help-inline">
             <?= $form->error($vacancy , 'label'); ?>
         </span>
     </div>
 
     <!-- Ссылка -->
 
-    <div class="control-group <?= $this->hasErrors($form, $vacancy, 'label') ?>">
+    <div class="control-group <?= $this->hasErrors($form, $vacancy, 'link') ?>">
         <?= $form->labelEx($vacancy  , 'link', ['class' => 'control-label']); ?>
 
         <div class="controls">
             <?= $form->textField($vacancy, 'link', ['class' => 'span5']); ?>
         </div>
 
-        <span class="error-place">
+        <span class="help-inline">
             <?= $form->error($vacancy , 'link'); ?>
         </span>
     </div>
