@@ -27,6 +27,7 @@ return [
 
         /* Controllers */
         'application.controllers.static.*',
+        'application.controllers.admin_area.*',
 
         /* Extensions */
         'application.extensions.*',
