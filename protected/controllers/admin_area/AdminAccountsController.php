@@ -48,9 +48,12 @@ class AdminAccountsController extends BaseAdminController {
 
         // Пользователь нажал <button> "Сохранить"
         if (null != $action) {
+            $vacancy->attributes = Yii::app()->request->getParam('Vacancy');
+            
             if ($vacancy->validate()) {
                 $vacancy->user_id = $user->id;
                 $vacancy->save();
+                Yii::app()->user->setFlash('success', 'Позиция "'.$vacancy->label.'" успешно обнослена (создана).');
                 $this->redirect('/admin_area/user/' . $user->id . '/vacancies-list');
             }
         }
