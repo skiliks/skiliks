@@ -8,6 +8,7 @@
  * @property integer $comment
  * @property string  $invoice_id
  * @property integer $text
+ * @property string created_at, datetime
  */
 class LogPayments extends CActiveRecord
 {

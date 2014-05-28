@@ -12,7 +12,6 @@
  * @property string $payment_system
  * @property string $additional_data
  * @property string $comment
- * @property integer $month_selected
  * @property integer $simulation_selected
  * @property integer $is_test_payment, 1 - yes, it is test payment; 0 - no, this is true order
  *

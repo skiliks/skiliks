@@ -122,11 +122,6 @@ class CashPaymentMethod extends CFormModel {
                     <tr>
 
                     <tr>
-                        <td>Количество месяцев</td>
-                        <td>' . $invoice->month_selected . '</td>
-                    </tr>
-                
-                    <tr>
                         <td>Компания</td>
                         <td>' . $user->account_corporate->ownership_type .' ' . $user->account_corporate->company_name . '</td>
                     </tr>

@@ -115,7 +115,16 @@ $(document).ready(function(){
 
     $(".complete-invoice").click(function() {
         var clickedButton = $(this);
-        if(confirm("Вы действительно подтверждаете оплату инвойса №"+clickedButton.attr("data-invoice-id")+"("+ "Заказ тарифа "+clickedButton.attr("data-tariff")+", на "+clickedButton.attr("data-months")+" месяц(ев) создан для "+clickedButton.attr("data-user-email")+")"+"?")) {
+        if(confirm(
+            "Вы действительно подтверждаете оплату инвойса №"
+            + clickedButton.attr("data-invoice-id")
+            + " (Заказано "
+            + clickedButton.attr("data-simulations")
+            + " симуляций на сумму "
+            + clickedButton.attr("data-amount")
+            + " руб. для аккаунта "
+            + clickedButton.attr("data-user-email")+")?"
+        )) {
             clickedButton.addClass("disabled");
             $.getJSON( "/admin_area/completeInvoice", {invoice_id : clickedButton.attr("data-invoice-id")})
                 .done(function(data) {
@@ -132,7 +141,16 @@ $(document).ready(function(){
 
     $(".disable-invoice").click(function() {
         var clickedButton = $(this);
-        if(confirm("Вы действительно хотите отменить оплату инвойса №"+clickedButton.attr("data-invoice-id")+"("+ "Заказ тарифа "+clickedButton.attr("data-tariff")+", на "+clickedButton.attr("data-months")+" месяц(ев) создан для "+clickedButton.attr("data-user-email")+")"+"?")) {
+        if(confirm(
+            "Вы действительно хотите отменить оплату инвойса №"
+            + clickedButton.attr("data-invoice-id")
+            + " (Заказано "
+            + clickedButton.attr("data-simulations")
+            + " симуляций на сумму "
+            + clickedButton.attr("data-amount")
+            + " руб. для аккаунта "
+            + clickedButton.attr("data-user-email")+")?")
+        ) {
             clickedButton.addClass("disabled");
             $.getJSON( "/admin_area/disableInvoice", {invoice_id : clickedButton.attr("data-invoice-id")})
                 .done(function(data) {
@@ -147,20 +165,46 @@ $(document).ready(function(){
         }
     });
 
-    $(".change-comment-button").click(function() {
+    $(".change-invoice-comment-action").click(function() {
         var clickedButton = $(this);
         changedTextarea = clickedButton.closest("tr").find(".invoice-comment");
         clickedButton.addClass("disabled");
         changedTextarea.addClass("disabled");
-        $.post( "/admin_area/invoiceComment", {invoice_id : clickedButton.attr("data-invoice-id"), invoice_comment : changedTextarea.val()})
-            .done(function() {
+
+        $.post( "/admin_area/invoiceComment", {
+            invoice_id : clickedButton.attr("data-invoice-id"),
+            invoice_comment : changedTextarea.val()
+        }).done(function() {
+            clickedButton.html("Сохранено");
+            clickedButton.addClass('btn-success');
+            setTimeout(function() {
+                clickedButton.html("Сохранить");
+                clickedButton.removeClass('btn-success');
                 clickedButton.removeClass("disabled");
+                }, 1500)
+        }) .fail(function() {
+            alert("В процессе обработки возникла ошибка.");
+        });
+    });
+
+    $('.change-invoice-price-action').click(function() {
+        var clickedButton = $(this);
+        changedTextarea = clickedButton.closest("tr").find(".invoice-price");
+        clickedButton.addClass("disabled");
+        changedTextarea.addClass("disabled");
+
+        $.post( "/admin_area/invoicePriceUpdate", {
+            invoice_id : clickedButton.attr("data-invoice-id"),
+            invoice_amount : changedTextarea.val()
+        }).done(function() {
                 clickedButton.html("Сохранено");
+                clickedButton.addClass('btn-success');
                 setTimeout(function() {
-                    clickedButton.html("Сохранить");
-                    }, 1500)
-            })
-            .fail(function() {
+                    clickedButton.html("Изменить");
+                    clickedButton.removeClass('btn-success');
+                    clickedButton.removeClass("disabled");
+                }, 2000)
+            }) .fail(function() {
                 alert("В процессе обработки возникла ошибка.");
             });
     });

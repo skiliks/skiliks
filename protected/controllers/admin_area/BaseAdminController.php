@@ -2,6 +2,8 @@
 
 class BaseAdminController extends SiteBaseController {
 
+    public $itemsOnPage = 100;
+
     /**
      * @param CAction $action
      * @return bool

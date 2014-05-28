@@ -106,7 +106,7 @@
         </tr>
         </thead>
         <tbody>
-        <?php /* @var $model Invoice */ ?>
+        <?php /* @var Invoice $model */ ?>
         <?php $step = 9; $i = 0; ?>
         <?php foreach($models as $model) : ?>
         <?php $i++ ?>
@@ -120,11 +120,11 @@
         <?php endif ?>
         <tr class="orders-row">
             <!-- order id    -->
-            <td><?=$model->id?></td>
+            <td><?= $model->id?></td>
 
             <td>
                 <!-- email -->
-                <a href="/admin_area/user/<?=$model->user->profile->id ?>/details" target="_blank"><i class="icon-user"></i></a>
+                <a href="/admin_area/user/<?= $model->user->profile->id ?>/details" target="_blank"><i class="icon-user"></i></a>
                 <?= (empty($model->user->profile->email)) ? 'Не найден' : $model->user->profile->email ?>
             </td>
 
@@ -148,7 +148,7 @@
             <!-- toggle is_test_payment value -->
             <td>
                 <a class="btn action-toggle-is-test btn-success"
-                   data-invoice-id="<?=$model->id?>">
+                   data-invoice-id="<?= $model->id?>">
                        сделать <?= (1 == $model->is_test_payment) ? 'Реальным' : 'Тестовым' ?>
                    </a>
             </td>
@@ -171,16 +171,28 @@
             <td>
                 <a class="btn btn-success complete-invoice"
                    style="<?= (null == $model->paid_at) ? '' : 'display : none;'; ?>"
-                   data-invoice-id="<?=$model->id?>" data-months="<?=$model->month_selected ?>"
-                   data-user-email="<?=$model->user->profile->email?>">Подтвердить</a>
+                   data-invoice-id="<?= $model->id ?>" data-simulations="<?= $model->simulation_selected ?>"
+                   data-user-email="<?= $model->user->profile->email ?>" data-amount="<?= $model->amount ?>"
+                    >Подтвердить</a>
 
                 <a class="btn btn-warning disable-invoice"
                    style="<?= (null == $model->paid_at) ? 'display : none;' : ''; ?>"
-                   data-invoice-id="<?=$model->id?>" data-months="<?=$model->month_selected ?>"
-                   data-user-email="<?=$model->user->profile->email?>">Откатить</a>
+                   data-invoice-id="<?= $model->id ?>" data-simulations="<?= $model->simulation_selected ?>"
+                   data-user-email="<?= $model->user->profile->email ?>" data-amount="<?= $model->amount ?>"
+                    >Откатить</a>
             </td>
 
-            <td><?= Yii::app()->numberFormatter->formatCurrency($model->amount, "RUR") ?></td>
+            <!-- Price -->
+            <td>
+                <textarea class="invoice-price" rows="1" style="height: 18px; width: 80px;"><?php
+                    echo $model->amount
+                ?></textarea>&nbsp;руб.
+                <br/>
+                <span class="btn change-invoice-price-action" data-invoice-id="<?= $model->id?>" style="width: 120px">
+                    Изменить
+                </span>
+
+            </td>
 
             <td><?= $model->payment_system?></td>
 
@@ -195,13 +207,20 @@
                 <td></td>
             <?php endif; ?>
 
+            <!-- Комментарий -->
             <td>
-                <textarea class="invoice-comment""><?=$model->comment ?></textarea>
-                <br/><a class="btn change-comment-button" data-invoice-id="<?=$model->id?>">Сохранить</a>
+                <textarea class="invoice-comment""><?= $model->comment ?></textarea>
+                <br/>
+                <span class="btn change-invoice-comment-action" data-invoice-id="<?= $model->id?>">
+                    Сохранить
+                </span>
             </td>
 
+            <!-- Скачать лог -->
             <td>
-                <a href="#" class="btn btn-info view-payment-log" data-invoice-id="<?=$model->id?>">Лог</a>
+                <span href="#" class="btn btn-info view-payment-log" data-invoice-id="<?= $model->id?>">
+                    Лог
+                </span>
             </td>
 
         </tr>
@@ -215,7 +234,7 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
         <h3 id="myModalLabel">Log model</h3>
     </div>
-    <div class="modal-body" id="myModalBody">
+    <div class="modal-body" id="myModalBody" style="height: 300px; overflow: scroll;">
         <p>One fine body…</p>
     </div>
     <div class="modal-footer">
