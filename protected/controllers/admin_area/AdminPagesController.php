@@ -1724,11 +1724,24 @@ class AdminPagesController extends BaseAdminController {
             $this->redirect('/admin_area/users');
         }
 
+        $adminUser = Yii::app()->user->data();
         // непосредственно "пере-аутентификация"
         UserService::authenticate($user);
-//        $identity = new YumUserIdentity($user->username, false);
-//        $identity->authenticate(true);
-//        Yii::app()->user->login($identity);
+
+        // логируем факт авторизации в лог аккаунта пользователя сайта
+        UserService::logAccountAction(
+            $user,
+            $_SERVER['REMOTE_ADDR'],
+            'Администратор '.$adminUser->profile->email.' авторизировался в аккаунте '.$user->profile->email
+        );
+
+        UserService::addAuthorizationLog(
+            $user->profile->email,
+            '--',
+            SiteLogAuthorization::SUCCESS_AUTH,
+            $user->id,
+            SiteLogAuthorization::ADMIN_AREA
+        );
 
         $this->redirect('/dashboard');
     }
@@ -1753,6 +1766,7 @@ class AdminPagesController extends BaseAdminController {
             }
         }
     }
+
     public function actionNotCorporateEmails(){
         $email = new FreeEmailProvider();
         if (Yii::app()->request->isPostRequest) {

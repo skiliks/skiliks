@@ -299,6 +299,7 @@ class DashboardController extends SiteBaseController implements AccountPageContr
             || ($invite->isStarted() && false === $invite->isUserInGame())) {
 
                 $status = $invite->status;
+                $oldId = $invite->id;
                 $initValue = $user->account_corporate->getTotalAvailableInvitesLimit();
 
                 $user->account_corporate->increaseLimit($invite);
@@ -313,7 +314,8 @@ class DashboardController extends SiteBaseController implements AccountPageContr
                 }
 
                 UserService::logCorporateInviteMovementAdd(
-                    'Ивайт удален пользователем в статусе "'.Invite::getStatusNameByCode($status).'"',
+                    'Инвайт № ' . $oldId . ' в статусе "'.Invite::getStatusNameByCode($status).'" удален пользователем '
+                        . $this->user->profile->email,
                     $this->user->getAccount(),
                     $initValue
                 );
