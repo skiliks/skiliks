@@ -585,6 +585,8 @@ function stickyFooterAndBackground() {
         var helpHeight = $('.question-container').height();
     }
 
+    console.log('helpHeight : ', helpHeight );
+
     if (footerBottom < windowHeight && helpHeight < 800) {
         $('footer').css('position', 'absolute');
     } else {
