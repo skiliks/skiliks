@@ -14,3 +14,7 @@ header.main-content {
 .system-mistmatch .chrome .ico {
     filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../../../img/site/1280/browsers/chrome.png', sizingMethod='scale');
 }
+
+.help-email-link {
+    vertical-align: top;
+}
