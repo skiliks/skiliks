@@ -580,9 +580,12 @@ function stickyFooterAndBackground() {
         return;
     }
 
-    console.log(footerBottom, windowHeight);
+    var helpHeight = 0;
+    if (0 < $('.question-container').length) {
+        var helpHeight = $('.question-container').height();
+    }
 
-    if (footerBottom < windowHeight) {
+    if (footerBottom < windowHeight && helpHeight < 800) {
         $('footer').css('position', 'absolute');
     } else {
         $('footer').css('position', 'relative');
