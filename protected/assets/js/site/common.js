@@ -575,15 +575,15 @@ function stickyFooterAndBackground() {
     var bodyHeight = $('body').height();
     var windowHeight = $(window).height();
     var footerBottom = $('footer').offset().top + $('footer').height();
+    var contentHeight = $('main-content').offset().top + $('footer').height();
 
     if (footerBottom == windowHeight) {
         return;
     }
 
-    console.log(footerBottom + ', ' + windowHeight);
-    console.log(1000 <  windowHeight);
+    console.log('contentHeight: ', contentHeight);
 
-    if (footerBottom < windowHeight && windowHeight < 1005) {
+    if (footerBottom < windowHeight && contentHeight < 1005) {
         $('footer').css('position', 'absolute');
     } else {
         $('footer').css('position', 'relative');
