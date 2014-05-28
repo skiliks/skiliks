@@ -11,6 +11,6 @@ $(document).ready(function() {
             $(this).removeClass("active");
         }
 
-        stickyFooterAndBackground();
+        setTimeout(stickyFooterAndBackground, 1000);
     })
 });
