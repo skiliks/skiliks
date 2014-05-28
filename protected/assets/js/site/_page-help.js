@@ -1,7 +1,6 @@
 
 $(document).ready(function() {
     $(".action-toggle-help-paragraph").click(function() {
-        console.log('0');
         if (!$(this).children("div").is(":visible")) {
             $(this).children("div").slideDown("fast");
             $(this).css('color', '#146672');
@@ -12,8 +11,6 @@ $(document).ready(function() {
             $(this).removeClass("active");
         }
 
-        console.log('1');
         stickyFooterAndBackground();
-        console.log('2');
     })
 });
