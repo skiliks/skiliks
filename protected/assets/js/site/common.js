@@ -577,7 +577,7 @@ function stickyFooterAndBackground() {
     var windowHeight = $(window).height();
     var footerBottom = $('footer').offset().top + $('footer').height();
 
-    var helpHeight = 0;
+    var helpHeight = null;
     if (0 < $('.question-container').length) {
         console.log('sf-1');
         var helpHeight = $('.question-container').height();
@@ -590,7 +590,7 @@ function stickyFooterAndBackground() {
 
     console.log('helpHeight : ', helpHeight );
 
-    if (footerBottom < windowHeight && helpHeight < 800) {
+    if (footerBottom < windowHeight || (null != helpHeight && helpHeight < 800)) {
         $('footer').css('position', 'absolute');
     } else {
         $('footer').css('position', 'relative');
