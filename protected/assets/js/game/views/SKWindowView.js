@@ -314,7 +314,6 @@ define(["text!game/jst/window.jst"],
                     specifiedHeight = height || standardDimensions.height || standardDimensions.maxHeight || '100%',
                     maxWidth, maxHeight, minWidth, minHeight;
 
-                console.log('standardDimensions: ', standardDimensions);
 
                 if (standardDimensions.width) {
                     standardDimensions.minWidth = standardDimensions.maxWidth = standardDimensions.width;

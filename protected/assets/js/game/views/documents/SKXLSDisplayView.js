@@ -36,7 +36,19 @@ define([
          */
         addClass: 'document-window document-excel',
 
-         dimensions: {},
+        /**
+         * У родительского объекта данный параметр тоже присутствует,
+         * но если убрать dimensions из SKXLSDisplayView то maxWidth и maxHeight вычисляются неверно/
+         * Странно.
+         *
+         * @var Array {
+         *  height:    Number,
+         *  width:     Number,
+         *  maxHeight: Number,
+         *  maxWidth:  Number
+         * }
+         */
+        dimensions: {},
 
         /**
          * События DOM на которые должна реагировать данная view
