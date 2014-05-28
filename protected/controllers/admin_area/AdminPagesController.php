@@ -1740,7 +1740,7 @@ class AdminPagesController extends BaseAdminController {
             '--',
             SiteLogAuthorization::SUCCESS_AUTH,
             $user->id,
-            SiteLogAuthorization::ADMIN_AREA
+            SiteLogAuthorization::ADMIN_TO_USER
         );
 
         $this->redirect('/dashboard');

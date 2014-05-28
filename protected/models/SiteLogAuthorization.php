@@ -20,8 +20,9 @@
  */
 class SiteLogAuthorization extends CActiveRecord
 {
-    const USER_AREA = 'user_area';
+    const USER_AREA  = 'user_area';
     const ADMIN_AREA = 'admin_area';
+    const ADMIN_TO_USER = 'admin_to_user';
 
     const SUCCESS_AUTH = '1';
     const FAIL_AUTH = '0';
