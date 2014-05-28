@@ -575,15 +575,14 @@ function stickyFooterAndBackground() {
     var bodyHeight = $('body').height();
     var windowHeight = $(window).height();
     var footerBottom = $('footer').offset().top + $('footer').height();
-    var contentHeight = $('.main-content').offset().top + $('footer').height();
 
     if (footerBottom == windowHeight) {
         return;
     }
 
-    console.log('contentHeight: ', contentHeight);
+    console.log(footerBottom, windowHeight);
 
-    if (footerBottom < windowHeight && contentHeight < 1005) {
+    if (footerBottom < windowHeight) {
         $('footer').css('position', 'absolute');
     } else {
         $('footer').css('position', 'relative');
