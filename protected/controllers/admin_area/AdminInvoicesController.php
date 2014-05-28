@@ -124,7 +124,7 @@ class AdminInvoicesController extends BaseAdminController {
         $pager = new CustomPagination($totalItems);
         $pager->pageSize = $this->itemsOnPage;
         $pager->applyLimit($criteria);
-        $pager->route = 'admin_area/AdminPages/Orders';
+        $pager->route = 'admin_area/AdminInvoices/Orders';
         // pager }
 
         // building criteria

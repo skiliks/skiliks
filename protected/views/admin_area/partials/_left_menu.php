@@ -43,7 +43,7 @@
 
             ], [
                 'label' => 'Заказы',
-                'url'   => ['admin_area/AdminPages/Orders'],
+                'url'   => ['admin_area/AdminInvoices/Orders'],
                 'visible' => true,
 
             ], [
