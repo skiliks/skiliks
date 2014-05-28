@@ -21,7 +21,7 @@ body.action-controller-index-static-pages {
 }
 
 .skiliks .us-homepage-content {
-    height: 770px;
+    height: 1070px;
     margin-top: -380px;
 }
 
@@ -97,12 +97,15 @@ body.action-controller-index-static-pages {
     width: 400px;
 }
 
+.us-our-partners h2,
 .us-our-client h2,
 .us-middle-content h2 {
     color: #146672;
     margin-bottom: 10px;
     margin-top: 15px;
 }
+
+.us-our-partners h2,
 .us-our-client h2 {
     margin-bottom: 20px;
 }
@@ -113,15 +116,23 @@ body.action-controller-index-static-pages {
 }
 
 .us-our-client {
-    margin-top: 110px;
+    margin-top: 100px;
     width: 500px;
 }
 
+.us-our-partners {
+    margin-top: 30px;
+    width: 500px;
+}
+
+.us-our-partners li,
 .us-our-client li {
+    display: table-cell;
     height: 95px;
     list-style-type: none;
-    display: inline-block;
-    width: 160px;
+
+    text-align: center;
+    vertical-align: middle;    width: 160px;
 }
 
 .us-homepage-heroes-group {
