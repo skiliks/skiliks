@@ -571,18 +571,21 @@ window.passwordRecoverySubmit = function passwordRecoverySubmit(form, data, hasE
 
 // 7)
 function stickyFooterAndBackground() {
+    console.log('sf-0');
     // Footer
     var bodyHeight = $('body').height();
     var windowHeight = $(window).height();
     var footerBottom = $('footer').offset().top + $('footer').height();
 
-    if (footerBottom == windowHeight) {
-        return;
-    }
-
     var helpHeight = 0;
     if (0 < $('.question-container').length) {
+        console.log('sf-1');
         var helpHeight = $('.question-container').height();
+    }
+
+    if (footerBottom == windowHeight && 0 == helpHeight) {
+        console.log('sf-2');
+        return;
     }
 
     console.log('helpHeight : ', helpHeight );
