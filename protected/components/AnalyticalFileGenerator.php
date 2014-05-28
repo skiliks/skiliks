@@ -279,7 +279,7 @@ class AnalyticalFileGenerator {
      * @param array Simulation $simulations
      * @param SiteLogGenerateConsolidatedAnalyticFile $log
      */
-    public function runAssessment_v2(array $simulations, $log) {
+    public function runAssessment_v2(array $simulations, $log = null) {
         /* @var $simulations Simulation[] */
 
         $this->addSheet("Итоговый рейтинг");
