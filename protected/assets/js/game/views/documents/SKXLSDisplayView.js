@@ -36,7 +36,7 @@ define([
          */
         addClass: 'document-window document-excel',
 
-//         dimensions: {},
+         dimensions: {},
 
         /**
          * События DOM на которые должна реагировать данная view
