@@ -575,7 +575,7 @@ function stickyFooterAndBackground() {
     var bodyHeight = $('body').height();
     var windowHeight = $(window).height();
     var footerBottom = $('footer').offset().top + $('footer').height();
-    var contentHeight = $('main-content').offset().top + $('footer').height();
+    var contentHeight = $('.main-content').offset().top + $('footer').height();
 
     if (footerBottom == windowHeight) {
         return;
