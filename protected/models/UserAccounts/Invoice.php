@@ -150,8 +150,8 @@ class Invoice extends CActiveRecord
         $mailOptions->subject = 'Оплата на ' . Yii::app()->params['server_domain_name'];
         $mailOptions->h1      = sprintf('Приветствуем, %s!', $this->user->profile->firstname);
         $mailOptions->text1   = '
-            Благодарим вас за оплату работы skiliks!<br/>, на вашем счету '
-            . $this->user->getAccount()->invites_limit . ' симуляций.<br/>
+            Благодарим вас за оплату работы skiliks!<br/>
+            На вашем счету ' . $this->user->getAccount()->invites_limit . ' симуляций.<br/>
         ';
 
         try {
