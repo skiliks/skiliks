@@ -297,55 +297,64 @@ define(["text!game/jst/window.jst"],
             return +value;
         },
 
+        /**
+         *
+         * @param Number width
+         * @param Number height
+         * @returns {height: Number, width: Number }
+         * @private
+         */
         _calculateDimensions: function(width, height) {
             try {
-                var sd = this.dimensions,
-                    rd = {},
+                var standardDimensions = this.dimensions,
+                    realDimensions = {},
                     containerWidth = this.$container.width(),
                     containerHeight = this.$container.height(),
-                    specifiedWidth = width || sd.width || sd.maxWidth || '100%',
-                    specifiedHeight = height || sd.height || sd.maxHeight || '100%',
+                    specifiedWidth = width || standardDimensions.width || standardDimensions.maxWidth || '100%',
+                    specifiedHeight = height || standardDimensions.height || standardDimensions.maxHeight || '100%',
                     maxWidth, maxHeight, minWidth, minHeight;
 
-                if (sd.width) {
-                    sd.minWidth = sd.maxWidth = sd.width;
+                console.log('standardDimensions: ', standardDimensions);
+
+                if (standardDimensions.width) {
+                    standardDimensions.minWidth = standardDimensions.maxWidth = standardDimensions.width;
                 } else if (width) {
-                    sd.minWidth = sd.maxWidth = width;
+                    standardDimensions.minWidth = standardDimensions.maxWidth = width;
                 }
 
-                if (sd.height) {
-                    sd.minHeight = sd.maxHeight = sd.height;
+                if (standardDimensions.height) {
+                    standardDimensions.minHeight = standardDimensions.maxHeight = standardDimensions.height;
                 } else if (height) {
-                    sd.minHeight = sd.maxHeight = height;
+                    standardDimensions.minHeight = standardDimensions.maxHeight = height;
                 }
 
-                rd.width = this.percent2px(containerWidth, specifiedWidth);
-                rd.height = this.percent2px(containerHeight, specifiedHeight);
+                realDimensions.width = this.percent2px(containerWidth, specifiedWidth);
+                realDimensions.height = this.percent2px(containerHeight, specifiedHeight);
 
-                rd.width = containerWidth < rd.width ? containerWidth : rd.width;
-                rd.height = containerHeight < rd.height ? containerHeight : rd.height;
+                realDimensions.width = containerWidth < realDimensions.width ? containerWidth : realDimensions.width;
+                realDimensions.height = containerHeight < realDimensions.height ? containerHeight : realDimensions.height;
 
-                if (sd.maxWidth && sd.maxWidth !== specifiedWidth) {
-                    maxWidth = this.percent2px(containerWidth, sd.maxWidth);
-                    rd.width = rd.width > maxWidth ? maxWidth : rd.width;
+                if (standardDimensions.maxWidth && standardDimensions.maxWidth !== specifiedWidth) {
+                    maxWidth = this.percent2px(containerWidth, standardDimensions.maxWidth);
+                    realDimensions.width = realDimensions.width > maxWidth ? maxWidth : realDimensions.width;
                 }
 
-                if (sd.maxHeight && sd.maxHeight !== specifiedHeight) {
-                    maxHeight = this.percent2px(containerHeight, sd.maxHeight);
-                    rd.height = rd.height > maxHeight ? maxHeight : rd.height;
+                if (standardDimensions.maxHeight && standardDimensions.maxHeight !== specifiedHeight) {
+                    maxHeight = this.percent2px(containerHeight, standardDimensions.maxHeight);
+                    realDimensions.height = realDimensions.height > maxHeight ? maxHeight : realDimensions.height;
                 }
 
-                if (sd.minWidth) {
-                    minWidth = this.percent2px(containerWidth, sd.minWidth);
-                    rd.width = rd.width < minWidth ? minWidth : rd.width;
+                if (standardDimensions.minWidth) {
+                    minWidth = this.percent2px(containerWidth, standardDimensions.minWidth);
+                    realDimensions.width = realDimensions.width < minWidth ? minWidth : realDimensions.width;
                 }
 
-                if (sd.minHeight) {
-                    minHeight = this.percent2px(containerHeight, sd.minHeight);
-                    rd.height = rd.height < minHeight ? minHeight : rd.height;
+                if (standardDimensions.minHeight) {
+                    minHeight = this.percent2px(containerHeight, standardDimensions.minHeight);
+                    realDimensions.height = realDimensions.height < minHeight ? minHeight : realDimensions.height;
                 }
 
-                return rd;
+                return realDimensions;
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);
