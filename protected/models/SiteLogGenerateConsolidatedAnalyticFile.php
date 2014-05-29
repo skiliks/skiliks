@@ -46,9 +46,24 @@ class SiteLogGenerateConsolidatedAnalyticFile extends CActiveRecord
 
         foreach($allSimulations as $simulation) {
 
+            if (
+                $simulation->user->profile->email == 'tatiana@skiliks.com'
+                || $simulation->user->profile->email == 'gty1991+01@gmail.com'
+                || $simulation->user->profile->email == 'andrey.sarnavskiy@skiliks.com'
+                || $simulation->user->profile->email == 'slavka@skiliks.com'
+                || $simulation->user->profile->email == 'ivan@skiliks.com'
+                || $simulation->user->profile->email == 'tony@skiliks.com'
+                || $simulation->user->profile->email == 'tetyana.grybok+testff29@skiliks.com'
+                || $simulation->user->profile->email == 'stas@skiliks.com'
+                || $simulation->user->profile->email == 'tetyana.grybok+testnewff@skiliks.com'
+                || $simulation->user->profile->email == 'gty1991+testnewff@gmail.com'
+            ) {
+                continue;
+            }
+
             /* @var Simulation $simulation */
             if(isset($simulationPercentiles[$simulation->id])
-                && $simulationPercentiles[$simulation->id] != 0
+                //&& $simulationPercentiles[$simulation->id] != 0
                 && empty($simulation->results_popup_cache) === false) {
 
                 /* @var Simulation $simulation */
@@ -62,15 +77,7 @@ class SiteLogGenerateConsolidatedAnalyticFile extends CActiveRecord
                     $realUserSimulationsV2[$simulation->id] = $simulation;
                 }
             }
-
-            if (12935 == $simulation->id) {
-                var_dump($simulation->assessment_version);
-                var_dump(isset($realUserSimulationsV1[$simulation->id]));
-                var_dump(isset($realUserSimulationsV2[$simulation->id]));
-                die('1');
-            }
         }
-        die('2');
         // Собираем и группируем симуляции }
 
         // также нам нужны симуляции от e.sarnova@august-bel.by {
