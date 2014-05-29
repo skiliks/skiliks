@@ -19,10 +19,9 @@
         <tr>
             <th>ID</th>
             <th>Начата в</th>
-            <th>Статус</th>
             <th>Завершена в</th>
+            <th>Статус</th>
             <th>Инициатор</th>
-            <th><!-- Показать/скрыть лог --></th>
             <th>Результирующий лог</th>
         </tr>
     </thead>
@@ -39,6 +38,9 @@
                     <?= $checkLog->started_at ?>
                 </td>
                 <td>
+                    <?= $checkLog->finished_at ?>
+                </td>
+                <td>
                     <?php if (null == $checkLog->finished_at) : ?>
                         <span class="label">В прогрессе</span>
                     <?php else: ?>
@@ -48,9 +50,6 @@
                             <span class="label label-important"> <i class="icon icon-warning-sign icon-white"></i> Есть ошибки</span>
                         <?php endif; ?>
                     <?php endif; ?>
-                </td>
-                <td>
-                    <?= $checkLog->finished_at ?>
                 </td>
                 <td>
                     <?= $checkLog->startedBy->profile->email ?>
