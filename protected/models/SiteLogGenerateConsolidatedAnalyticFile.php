@@ -62,7 +62,12 @@ class SiteLogGenerateConsolidatedAnalyticFile extends CActiveRecord
                     $realUserSimulationsV2[$simulation->id] = $simulation;
                 }
             }
+
+            if (12935 == $simulation->id) {
+                die('1');
+            }
         }
+        die('2');
         // Собираем и группируем симуляции }
 
         // также нам нужны симуляции от e.sarnova@august-bel.by {
