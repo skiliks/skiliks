@@ -203,65 +203,65 @@
 
                 <ul>
                     <li>
-                        <a href="http://eksmo.ru">
+                        <a target="_blank" href="http://eksmo.ru">
                             <?= CHtml::image("$assetsUrl/img/site/1280/homepage/eksmo.png")?>
                         </a>
                     </li>
                     <li>
-                        <a href="http://life-group.ru">
+                        <a target="_blank" href="http://life-group.ru">
                             <?= CHtml::image("$assetsUrl/img/site/1280/homepage/fg-life.png")?>
                         </a>
                     </li>
                     <li>
-                        <a href="http://strategy.ru">
+                        <a target="_blank" href="http://strategy.ru">
                             <?= CHtml::image("$assetsUrl/img/site/1280/homepage/strategy-partners-group.png")?>
                         </a>
                     </li>
                     <br/>
                     <li>
-                        <a href="http://novaport.ru/ru">
+                        <a target="_blank" href="http://novaport.ru/ru">
                             <?= CHtml::image("$assetsUrl/img/site/1280/homepage/nova-port.png")?>
                         </a>
                     </li>
                     <li>
-                        <a href="http://prbb.ru">
+                        <a target="_blank" href="http://prbb.ru">
                             <?= CHtml::image("$assetsUrl/img/site/1280/homepage/prom-invets-bank.png")?>
                         </a>
                     </li>
                     <li>
-                        <a href="http://www.220-volt.ru">
+                        <a target="_blank" href="http://www.220-volt.ru">
                             <?= CHtml::image("$assetsUrl/img/site/1280/homepage/220v-2.png")?>
                         </a>
                     </li>
                     <br/>
                     <li>
-                        <a href="http://hipway.ru">
-                            <?= CHtml::image("$assetsUrl/img/site/1280/homepage/hipway.png")?></a>
+                        <a target="_blank" href="http://exiclub.ru">
+                            <?= CHtml::image("$assetsUrl/img/site/1280/homepage/exiclub.png")?>
                         </a>
                     </li>
                     <li>
-                        <a href="http://www.mann-ivanov-ferber.ru">
+                        <a target="_blank" href="http://www.mann-ivanov-ferber.ru">
                             <?= CHtml::image("$assetsUrl/img/site/1280/homepage/mif.png")?>
                         </a>
                     </li>
                     <li>
-                        <a href="http://wikimart.ru">
+                        <a target="_blank" href="http://wikimart.ru">
                             <?= CHtml::image("$assetsUrl/img/site/1280/homepage/wikimart.png")?>
                         </a>
                     </li>
                     <br/>
                     <li>
-                        <a href="http://moscow-consulting.com">
+                        <a target="_blank" href="http://moscow-consulting.com">
                             <?= CHtml::image("$assetsUrl/img/site/1280/homepage/mcg.png")?>
                         </a>
                     </li>
                     <li>
-                        <a href="http://www.fabrikaokon.ru">
+                        <a target="_blank" href="http://www.fabrikaokon.ru">
                             <?= CHtml::image("$assetsUrl/img/site/1280/homepage/fabrica-ocon.png")?>
                         </a>
                     </li>
                     <li>
-                        <a href="http://www.nettrader.ru">
+                        <a target="_blank" href="http://www.nettrader.ru">
                             <?= CHtml::image("$assetsUrl/img/site/1280/homepage/nettrader.png")?>
                         </a>
                     </li>
@@ -269,22 +269,6 @@
             </article>
         </section>
         <!--clients end-->
-
-        <!--partners-->
-        <section class="pull-content-left">
-            <article class="us-our-partners color-29313D">
-                <h2><?=Yii::t('site', 'Our Partners')?></h2>
-
-                <ul>
-                    <li>
-                        <a href="http://exiclub.ru">
-                            <?= CHtml::image("$assetsUrl/img/site/1280/homepage/exiclub.png")?>
-                        </a>
-                    </li>
-                </ul>
-            </article>
-        </section>
-        <!--partners end-->
 
     </section>
 

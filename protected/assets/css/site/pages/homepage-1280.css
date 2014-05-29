@@ -21,7 +21,7 @@ body.action-controller-index-static-pages {
 }
 
 .skiliks .us-homepage-content {
-    height: 1070px;
+    height: 817px;
     margin-top: -380px;
 }
 
@@ -128,9 +128,8 @@ body.action-controller-index-static-pages {
 .us-our-partners li,
 .us-our-client li {
     display: table-cell;
-    height: 95px;
+    height: 55px;
     list-style-type: none;
-
     text-align: center;
     vertical-align: middle;    width: 160px;
 }
