@@ -64,6 +64,7 @@ class SiteLogGenerateConsolidatedAnalyticFile extends CActiveRecord
             }
 
             if (12935 == $simulation->id) {
+                var_dump($simulation->assessment_version);
                 var_dump(isset($realUserSimulationsV1[$simulation->id]));
                 var_dump(isset($realUserSimulationsV2[$simulation->id]));
                 die('1');
