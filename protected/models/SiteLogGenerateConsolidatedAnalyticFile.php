@@ -9,6 +9,8 @@
  * @property string $finished_at
  * @property string $started_by_id
  * @property string $result
+ *
+ * @property YumUser $startedBy
  */
 class SiteLogGenerateConsolidatedAnalyticFile extends CActiveRecord
 {

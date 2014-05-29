@@ -37,10 +37,10 @@
                 <?= $log->started_at ?>
             </td>
             <td>
-                <?= $log->started_at ?>
+                <?= $log->finished_at ?>
             </td>
             <td>
-                <?= $log->finished_at ?>
+                <?= $log->startedBy->profile->email ?>
             </td>
             <td>
                 <?= $log->result ?>
