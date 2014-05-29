@@ -135,6 +135,12 @@ body.action-controller-index-static-pages {
     vertical-align: middle;    width: 160px;
 }
 
+.us-our-partners a,
+.us-our-client a {
+    position: relative;
+    z-index: 20;
+}
+
 .us-homepage-heroes-group {
     left: 425px;
     position: relative;
