@@ -30,6 +30,10 @@ define([
         'events': {
             'click .pass-video': 'handleClick'
         },
+
+        /**
+         * Стандартный метод Backbone
+         */
         show: function() {
             try{
                 var me = this;
@@ -58,6 +62,9 @@ define([
             }
         },
 
+        /**
+         * Инициализация приложения и симуляции
+         */
         appLaunch: function() {
             try {
                 var app = window.SKApp,
@@ -131,9 +138,16 @@ define([
             }
         },
 
+        /**
+         * Обработчик кнопки "Пропустить симуляцию"
+         */
         handleClick: function(){
             this.$el.find('#skiliks_intro').trigger('ended');
         },
+
+        /**
+         * Особые правила маштабирования, это не для окна
+         */
         resize: function() {
             var intro = $('#skiliks_intro');
             var minimalHeight = 800; // минимальная высота видео
@@ -170,5 +184,6 @@ define([
             intro.css('margin-left', marginLeft);
         }
     });
+
     return SKIntroView;
 });

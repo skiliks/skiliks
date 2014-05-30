@@ -31,11 +31,17 @@ define([
             'click .meeting-subject': 'leave'
         }, SKWindowView.prototype.events),
 
+        /**
+         * Стандартный родительский метод
+         */
         dimensions: {
             width: 700,
             height: 500
         },
 
+        /**
+         * Конструктор
+         */
         initialize: function() {
             try {
                 this.listenTo(this.options.model_instance, 'close', function() {
@@ -50,6 +56,9 @@ define([
             }
         },
 
+        /**
+         * Стандартный родительский метод
+         */
         'renderWindow': function (el) {
             try {
                 AppView.frame._showPausedScreen();
@@ -77,8 +86,15 @@ define([
             }
         },
 
+        /**
+         * Стандартный родительский метод
+         */
         doActivate: function () {},
 
+        /**
+         * Обработка клика Уйти на митинг "ХХХ".
+         * @param OnClickEvent e
+         */
         'leave': function (e) {
             try {
                 var subjectId = $(e.currentTarget).attr('data-subject-id'),

@@ -110,7 +110,8 @@ define([
             },
 
             /**
-             * @param jQuery el
+             * Стандартный родительский метод
+             * @param {jQuery} el
              */
             renderContent:function (el) {
                 try {

@@ -28,17 +28,32 @@ define([
 
             }, SKWindowView.prototype.events),
 
+        /**
+         * Стандартный родительский метод
+         */
         isDisplaySettingsButton: false,
 
+        /**
+         * Стандартный родительский метод
+         */
         isDisplayCloseWindowsButton: false,
 
+        /**
+         * Стандартный родительский метод
+         */
         title: 'Системное сообщение',
 
+        /**
+         * Стандартный родительский метод
+         */
         dimensions: {
             width: 600,
             height: 270
         },
 
+        /**
+         * Конструктор
+         */
         initialize: function() {
             try {
                 this.listenTo(this.options.model_instance, 'close', function() {
@@ -53,6 +68,11 @@ define([
             }
         },
 
+        /**
+         * Стандартный родительский метод
+         *
+         * @param {jQuery} el
+         */
         renderContent: function ($el) {
             try {
                 var subject = this.options.model_instance.get('subject'),
@@ -90,6 +110,9 @@ define([
             }
         },
 
+        /**
+         * Стандартный родительский метод
+         */
         render: function () {
             try {
                 var me = this;
@@ -112,6 +135,11 @@ define([
             }
         },
 
+        /**
+         * Обработка клика "Вернуться со встречи"
+         *
+         * @param OnClickEvent e
+         */
         doProceedWork: function(e) {
             try {
                 var simulation = SKApp.simulation,

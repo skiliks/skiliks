@@ -46,13 +46,14 @@ define([
                 'click #plannerBookQuarterPlan':                                     'doPlannerBookQuarterPlan',
                 'click #plannerBookDayPlan':                                         'doPlannerBookDayPlan',
                 'click .save-day-plan':                                              'doSaveTomorrowPlan',
-                'webkitTransitionEnd .plan-todo':                                    'doTransitionEnd', //transitionend msTransitionEnd oTransitionEnd
+                'mouseout .planner-book-timetable-event-fl .day-plan-todo-task.day-plan-task-active':'hideHint',
+                'mouseout .planner-book-timetable-afterv-fl .day-plan-todo-task.day-plan-task-active':'hideHint',
+
+                // Transition End - конец анимации сворачивания разворачивания списка Сделать
+                'webkitTransitionEnd .plan-todo':                                    'doTransitionEnd', //transitionEnd msTransitionEnd oTransitionEnd
                 'transitionend .plan-todo':                                          'doTransitionEnd',
                 'msTransitionEnd .plan-todo':                                        'doTransitionEnd',
-                'oTransitionEnd .plan-todo':                                         'doTransitionEnd',
-                'mouseout .planner-book-timetable-event-fl .day-plan-todo-task.day-plan-task-active':'hideHint',
-                'mouseout .planner-book-timetable-afterv-fl .day-plan-todo-task.day-plan-task-active':'hideHint'
-
+                'oTransitionEnd .plan-todo':                                         'doTransitionEnd'
             },
             SKWindowView.prototype.events
         ),
@@ -247,9 +248,11 @@ define([
         },
 
         /**
-         * @method
-         * @param task_el
-         * @returns {*}
+         * Отображает строки в листах планировщика, на месте задач которые перемещены
+         * назад в список Сделать
+         *
+         * @param jQuery task_el
+         * @returns {jQuery}
          */
         showDayPlanSlot:function (task_el) {
              try {
@@ -277,7 +280,7 @@ define([
         },
 
         /**
-         * @method
+         * Удаляет задачу из листа-"дня"
          * @param task
          */
         removeDayPlanTask:function (task) {
@@ -293,10 +296,10 @@ define([
         },
 
         /**
-         * @method
-         * @param model
+         * Добавляет задачу из Сделать на один из листов "дней"
+         * @param SKTask model
          */
-        addDayPlanTask:function (model) {
+        addDayPlanTask: function (model) {
             try {
                 var me = this;
                 var duration = parseInt(model.get('duration'), 10);
@@ -345,8 +348,9 @@ define([
         },
 
         /**
-         * @method
-         * @param duration
+         * Возвращает высоту задачи, сообразно длительности этой задачи
+         *
+         * @param Number duration
          * @returns {number}
          */
         calculateTaskHeigth: function(duration) {
@@ -359,10 +363,10 @@ define([
         },
 
         /**
-         * @method
-         * @param model
+         * Удаляет задачу из списка сделать
+         * @param SKTask model
          */
-        removeTodoTask:function (model) {
+        removeTodoTask: function (model) {
             try {
                 this.$('.plan-todo div[data-task-id=' + model.id + ']').remove();
             } catch(exception) {
@@ -373,7 +377,7 @@ define([
         },
 
         /**
-         * @method
+         * Делает все "задачи" перетаскиваемыми
          */
         setupDroppable:function () {
             try {
@@ -547,20 +551,28 @@ define([
         },
 
         /**
-         * @method
+         * Очищает и заново наполняет список Сделать,
+         * а также реинициализирует его скролл
          */
         updateTodos:function () {
             try {
                 var me = this;
+
                 this.$('.dayPlanTodoNum').html('(' + SKApp.simulation.todo_tasks.length + ')');
+
                 me.$('.plan-todo-wrap .plan-todo-inner').html('');
+
                 SKApp.simulation.todo_tasks.each(function (model) {
                     var todo_task = $(_.template(todo_task_template, {task:model, type:'todo'}));
                     me.$('.plan-todo-wrap .plan-todo-inner').prepend(todo_task);
                 });
+
                 me.$('.plan-todo-wrap .plan-todo-inner').append('<div style="height: 60px;"></div>');
+
                 this.setupDraggable();
+
                 this.$('.plan-todo-wrap').mCustomScrollbar("update");
+
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -603,10 +615,8 @@ define([
         },
 
         /**
-         * Renders title
-         *
-         * @method
-         * @param title_el
+         * Стандартный родительский метод
+         * @param {jQuery} el
          */
         renderTitle: function (title_el) {
             try {
@@ -621,15 +631,13 @@ define([
         },
 
         /**
-         * Renders inner part of the window
-         *
-         * @method
-         * @param window_el
+         * Стандартный родительский метод
+         * @param {jQuery} el
          */
-        renderContent:function (window_el) {
+        renderContent:function (el) {
             try {
                 var me = this;
-                window_el.html(_.template(plan_content_template, {isDisplaySettingsButton:this.isDisplaySettingsButton}));
+                el.html(_.template(plan_content_template, {isDisplaySettingsButton:this.isDisplaySettingsButton}));
                 this.updateTodos();
 
                 me.listenTo(SKApp.simulation.todo_tasks, 'add remove reset', function () {
@@ -698,32 +706,14 @@ define([
         },
 
         /**
-         * @method
-         * @param e
+         * Вызывается при одинарном клике на задачу
+         *
+         * @param OnClickEvent e
          */
-        onActivateTodo: function(e) {
+        doActivateTodo: function(e) {
             try {
                 var taskId = this.$(e.currentTarget).attr('data-task-id');
-                this.doActivateTodo(taskId, e);
-            } catch(exception) {
-                if (window.Raven) {
-                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
-                }
-            }
-        },
-
-        doActivateTodo:function (taskId, e) {
-            try {
-                var $task = this.$('.day-plan-todo-task[data-task-id=' + taskId + ']'),
-                    active = $task.hasClass('day-plan-task-active');
-
-                this.$('.day-plan-task-active').removeClass('day-plan-task-active');
-                $task.toggleClass('day-plan-task-active', !active);
-
-                if(_.isEmpty($task.attr('data-task-day')) === false){
-                    // SKILIKS-3628
-                    // this.showHint($task);
-                }
+                this.activateTodo(taskId, e);
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);
@@ -732,10 +722,30 @@ define([
         },
 
         /**
-         * @method
-         * @param e
+         * Подсвечивает задачу
+         *
+         * @param Number taskId
+         * @param OnClickEvent e
          */
-        doSetTask:function (e) {
+        activateTodo:function (taskId, e) {
+            try {
+                var $task = this.$('.day-plan-todo-task[data-task-id=' + taskId + ']'),
+                    active = $task.hasClass('day-plan-task-active');
+
+                this.$('.day-plan-task-active').removeClass('day-plan-task-active');
+                $task.toggleClass('day-plan-task-active', !active);
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
+            }
+        },
+
+        /**
+         * Перенесения задачи из списка Сделать в самый ранний слот
+         * @param OnDoubleClickEvent e
+         */
+        doSetTask: function (e) {
             try {
                 this.$('.plan-todo-wrap').mCustomScrollbar("update");
                 var me = this;
@@ -766,10 +776,10 @@ define([
         },
 
         /**
-         * @method
-         * @param e
+         * Перенесения задачи из списков Сегодня, Завтра, После отпуска в список Сделать
+         * @param OnDoubleClickEvent e
          */
-        doUnSetTask:function (e) {
+        doUnSetTask: function (e) {
             try {
                 this.$('.plan-todo-wrap').mCustomScrollbar("update");
                 var task_id = $(e.currentTarget).attr('data-task-id');
@@ -796,9 +806,10 @@ define([
         },
 
         /**
-         * @method
+         * Максимизация списка Сделать в среднее положение
+         * @param OnClickEvent e
          */
-        doMinimizeTodo:function () {
+        doMinimizeTodo: function (e) {
             try {
                 this.$('.plan-todo').removeClass('open middle').addClass('closed');
                 this.$('.planner-book-afterv-table').removeClass('closed half').addClass('full');
@@ -810,9 +821,10 @@ define([
         },
 
         /**
-         * @method
+         * Максимизация списка Сделать в среднее положение
+         * @param OnClickEvent e
          */
-        doMaximizeTodo:function () {
+        doMaximizeTodo: function (e) {
             try {
                 this.$('.plan-todo').removeClass('closed middle').addClass('open');
                 this.$('.planner-book-afterv-table').removeClass('full half').addClass('closed');
@@ -824,16 +836,17 @@ define([
         },
 
         /**
-         * @method
+         * Возвращение списка Сделать в среднее положение
+         * @param OnClickEvent e
          */
-        doRestoreTodo:function () {
+        doRestoreTodo: function (e) {
             this.$('.plan-todo').removeClass('closed open').addClass('middle');
             this.$('.planner-book-afterv-table').removeClass('closed full').addClass('half');
         },
 
         /**
-         * @method
-         * @param e
+         * Переключение на вкладку квартального плана
+         * @param OnClickEvent e
          */
         doPlannerBookQuarterPlan:function(e) {
             try {
@@ -858,10 +871,11 @@ define([
         },
 
         /**
-         * @method
-         * @param e
+         * Переключение на вкладку недельного плана
+         *
+         * @param OnClickEvent e
          */
-        doPlannerBookDayPlan:function(e) {
+        doPlannerBookDayPlan: function(e) {
             try {
                 if(!$(e.currentTarget).hasClass('is-active-plan-tab')){
                     var tab = $('.is-active-plan-tab');
@@ -882,6 +896,9 @@ define([
             }
         },
 
+        /**
+         * Действие системы при нажатии кнопки Сохранить план на завтра (дискеты)
+         */
         doSaveTomorrowPlan: function() {
             try {
                 SKApp.simulation.savePlan(function() {
@@ -900,7 +917,10 @@ define([
             }
         },
 
-        doTransitionEnd:function() {
+        /**
+         * Реакция системы после сворачивания/разворачивания списка Сделать
+         */
+        doTransitionEnd: function() {
             try {
                 this.$('.planner-book-afterv-table').mCustomScrollbar("update");
                 this.$('.planner-book-timetable').mCustomScrollbar("update");
@@ -913,7 +933,11 @@ define([
             }
         },
 
-        showHint:function($task) {
+        /**
+         * Показывает подсказку о запланированном событии
+         * @param jQuery $task
+         */
+        showHint: function($task) {
             try {
                 var position = $task.parent().offset();
                 var width = $task.parent().width();
@@ -937,10 +961,17 @@ define([
             }
         },
 
-        hideHint:function(e) {
+        /**
+         * Метод закрывает всплывающее окно подсказки о запланированном событии
+         * @param OnClickEvent e
+         */
+        hideHint: function(e) {
             $('.plan_hint_tooltip').remove();
         },
 
+        /**
+         * В IE надо исправлять высоту для ячеек в квартальном плане
+         */
         fixQuarterPlanMarkUp: function() {
             if ($.browser['msie']) {
                 $('.plan-unit').height(
@@ -949,6 +980,9 @@ define([
             }
         },
 
+        /**
+         * Стандартный родительский метод
+         */
         onResize: function() {
             try {
                 window.SKWindowView.prototype.onResize.call(this);

@@ -31,6 +31,9 @@ define([
             'click .dialog-close': 'doDialogClose'
         },
 
+        /**
+         * Стандартный родительский метод
+         */
         render: function () {
             try {
                 this.logAction('Open crash options dialog');
@@ -75,6 +78,9 @@ define([
             }
         },
 
+        /**
+         * Стандартный родительский метод
+         */
         remove: function() {
             try {
                 SKApp.server.api('simulation/emergencyClosed', {}, function () {});
@@ -86,6 +92,11 @@ define([
             }
         },
 
+        /**
+         * Метод закрытия почтовика
+         * @param OnClickEvent e
+         * @returns {boolean}
+         */
         doCloseMail:function(e){
             this.logAction($(e.currentTarget).text());
             var mailEmulators = SKApp.simulation.window_set.where({name: "mailEmulator"});
@@ -97,6 +108,11 @@ define([
             return false;
         },
 
+        /**
+         * Метод закрытия телефона
+         * @param OnClickEvent e
+         * @returns {boolean}
+         */
         doClosePhone:function(e){
             this.logAction($(e.currentTarget).text());
             var phones = SKApp.simulation.window_set.where({name: "phone"});
@@ -114,6 +130,11 @@ define([
             return false;
         },
 
+        /**
+         * Метод закрытия планировщика
+         * @param OnClickEvent e
+         * @returns {boolean}
+         */
         doClosePlan:function(e){
             this.logAction($(e.currentTarget).text());
             var planners = SKApp.simulation.window_set.where({name: "plan"});
@@ -125,6 +146,11 @@ define([
             return false;
         },
 
+        /**
+         * Метод закрытия папки мои документы
+         * @param OnClickEvent e
+         * @returns {boolean}
+         */
         doCloseMyDocuments:function(e){
             this.logAction($(e.currentTarget).text());
             var my_documents = SKApp.simulation.window_set.where({subname: "documents"});
@@ -136,6 +162,11 @@ define([
             return false;
         },
 
+        /**
+         * Метод закрытия документов
+         * @param OnClickEvent e
+         * @returns {boolean}
+         */
         doCloseDocuments:function(e){
             this.logAction($(e.currentTarget).text());
             var documents = SKApp.simulation.window_set.where({name: "documents"});
@@ -149,6 +180,11 @@ define([
             return false;
         },
 
+        /**
+         * Метод закрытия визитов (звонки, визиты)
+         * @param OnClickEvent e
+         * @returns {boolean}
+         */
         doCloseVisit:function(e){
             this.logAction($(e.currentTarget).text());
             var visitors = SKApp.simulation.window_set.where({name: "visitor"});
@@ -169,10 +205,19 @@ define([
             return false;
         },
 
+        /**
+         * Логирование креша игры
+         * @param String action
+         */
         logAction:function(action) {
             SKApp.server.api('simulation/logCrashAction', {action:action}, function () {});
         },
 
+        /**
+         * Метод завершает мимуляцию
+         * @param OnClickEvent e
+         * @returns {boolean}
+         */
         doStopSimulation:function(e) {
             this.logAction($(e.currentTarget).text());
             this.remove();
@@ -180,6 +225,11 @@ define([
             return false;
         },
 
+        /**
+         * Метод завершает все начатые события
+         * @param OnClickEvent e
+         * @returns {boolean}
+         */
         doRestoreEvents:function(e) {
             this.logAction($(e.currentTarget).text());
             $.each(SKApp.simulation.events.models, function(index, event) {
@@ -191,6 +241,11 @@ define([
             return false;
         },
 
+        /**
+         * Метод отображает все скрытые реплики
+         * @param OnClickEvent e
+         * @returns {boolean}
+         */
         doShowReplicas: function(e) {
             window.netSpeedVerbose = 'slow';
 
@@ -204,5 +259,6 @@ define([
             return false;
         }
     });
+
     return SKCrashOptionsPanelView; //SKDialogView;
 });

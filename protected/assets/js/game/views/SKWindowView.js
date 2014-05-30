@@ -105,6 +105,7 @@ define(["text!game/jst/window.jst"],
         },
 
         /**
+         * Должен задавать текстовый заголовок в окнах "программ" (почта, ексель, ворд...) игры
          * @abstract
          * @param {jQuery} el
          */
@@ -112,10 +113,20 @@ define(["text!game/jst/window.jst"],
             // Do nothing
         },
 
+        /**
+         * Должен наполнять содержимое окна "программ" (почта, ексель, ворд...) игры
+         * @abstract
+         * @param {jQuery} el, DOM-node которая должна будет содержать контент окна
+         */
         renderContent: function (el) {
             throw new Error ('You need to override it');
         },
 
+        /**
+         * Удаление окна, при закрытии его.
+         *
+         * Также выполняются сопутстующие действия для освобождения памяти.
+         */
         remove: function () {
             var me = this;
             try {
@@ -130,6 +141,15 @@ define(["text!game/jst/window.jst"],
             }
         },
 
+        /**
+         * Отображение HTML кода "окна" по шаблону templateHtml,
+         * на основе данных userData,
+         * в DOM-node element
+         *
+         * @param jQuery element
+         * @param String templateHtml
+         * @param Array userData
+         */
         renderTPL: function (element, templateHtml, userData) {
             try {
                 var systemData = {assetsUrl: SKApp.get('assetsUrl')};
@@ -142,9 +162,9 @@ define(["text!game/jst/window.jst"],
                 }
             }
         },
-        /**
-         Creates window
 
+        /**
+         * Стандартный родительский метод
          */
         render: function () {
             try {
@@ -174,9 +194,12 @@ define(["text!game/jst/window.jst"],
         },
 
         /**
+         * Мастабирует окно
+         * (этот метод должен вызываться для каждого игрового "окна", при изменении размеров окна браузера)
          *
-         * @param width (optional)
-         * @param height (optional)
+         *
+         * @param Number width, in pixels
+         * @param Number height, in pixels
          */
         resize: function(width, height) {
             try {
@@ -192,6 +215,9 @@ define(["text!game/jst/window.jst"],
             }
         },
 
+        /**
+         * Центрирование "окна" SKWindowView
+         */
         center: function() {
             try {
                 this.$el.css({
@@ -205,6 +231,11 @@ define(["text!game/jst/window.jst"],
             }
         },
 
+        /**
+         * Ограничения, которые не позволяют "окну" быть
+         *  - меньще допустимого размера
+         *  - больще области отведённой под окна в интерфейсе игры
+         */
         constrain: function() {
             try {
                 var position = this.$el.position(),
@@ -236,12 +267,11 @@ define(["text!game/jst/window.jst"],
         },
 
         /**
-         *
-         * @param event
+         * Вызывается при нажатии на крестик закрытия "окна"
+         * @param OnClickEvent event
          */
         doWindowClose: function (event) {
             try {
-                // иногда игрок не может закрыть Window - получается заблокированная игра
                 this.onWindowClose();
                 this.options.model_instance.close();
             } catch(exception) {
@@ -252,7 +282,8 @@ define(["text!game/jst/window.jst"],
         },
 
         /**
-         *
+         * Вызывается при нажатии элемент, который открывает(иконка) "окно"
+         * или активирует (любая часть окна) "окно"
          */
         doActivate: function () {
             try {
@@ -265,6 +296,10 @@ define(["text!game/jst/window.jst"],
             }
         },
 
+        /**
+         * Блокирует окно затемнением.
+         * Нужно для блокирования окна почты, при отправке почты, к примеру
+         */
         block: function() {
             try {
                 if (!this.$('.overlay').length) {
@@ -279,6 +314,10 @@ define(["text!game/jst/window.jst"],
             }
         },
 
+        /**
+         * Разблокирует затемнение окна.
+         * Нужно для блокирования окна почты, при отправке почты, к примеру
+         */
         unBlock: function() {
             try {
                 this.$('.menu_bar').show();
@@ -290,14 +329,27 @@ define(["text!game/jst/window.jst"],
             }
         },
 
+        /**
+         * Служебрый метод конвертации процентов (ширины/высоты) и пиксели
+         * Если в строке valueнет символа "%",
+         * то строка value интепритируется как значения в пикселях, а не в "value".
+         *
+         * @param number relation, 100% в пикселях
+         * @param String value, '43%' - размер в %
+         *
+         * @returns {number}
+         */
         percent2px: function (relation, value) {
             if (typeof value === 'string' && value.charAt(value.length - 1) === '%') {
                 return relation / 100 * value.slice(0, -1);
             }
-            return +value;
+
+            return parseFloat(value);
         },
 
         /**
+         * Расчёт размеров окна, в зависимости парамертов высоты и ширины по умолчанию
+         * и текущего размера окна браузера.
          *
          * @param Number width
          * @param Number height
@@ -361,12 +413,16 @@ define(["text!game/jst/window.jst"],
             }
         },
 
+        /**
+         * Отображает меню при нажатии на шестерёнку.
+         * @param OnClickEvent event
+         */
         doSettingsMenu:function(event) {
             try {
                 var me = this;
-                if(me.$('.sim-window-settings').css('display') === 'none') {
+                if (me.$('.sim-window-settings').css('display') === 'none') {
                     me.$('.sim-window-settings').css('display', 'block');
-                }else{
+                } else{
                     me.$('.sim-window-settings').css('display', 'none');
                 }
             } catch(exception) {
@@ -376,41 +432,45 @@ define(["text!game/jst/window.jst"],
             }
         },
 
-        doVolumeChange:function(event) {
+        /**
+         * Переключает звук в меню окна
+         * @param event
+         */
+        doVolumeChange: function(event) {
             try {
                 event.preventDefault();
                 event.stopPropagation();
-                if($(event.currentTarget).hasClass('volume-on')){
+                if ($(event.currentTarget).hasClass('volume-on')) {
                     $(event.currentTarget).text("Выкл.");
-                    if($(event.currentTarget).hasClass('control-mail')) {
+                    if ($(event.currentTarget).hasClass('control-mail')) {
                         $(event.currentTarget).removeClass('volume-on');
                         $(event.currentTarget).addClass('volume-off');
                         SKApp.simulation.isPlayIncomingMailSound = false;
-                        SKApp.server.api('LogService/SoundSwitcher', {sound_alias:'incoming_mail', is_play:0}, function(){});
-                    }else if($(event.currentTarget).hasClass('control-phone')){
+                        SKApp.server.api('LogService/SoundSwitcher', {sound_alias:'incoming_mail', is_play:0}, function() {});
+                    } else if ($(event.currentTarget).hasClass('control-phone')) {
                         $(event.currentTarget).removeClass('volume-on');
                         $(event.currentTarget).addClass('volume-off');
                         SKApp.simulation.isPlayIncomingCallSound = false;
-                        SKApp.server.api('LogService/SoundSwitcher', {sound_alias:'incoming_call', is_play:0}, function(){});
-                    }else{
+                        SKApp.server.api('LogService/SoundSwitcher', {sound_alias:'incoming_call', is_play:0}, function() {});
+                    } else{
                         throw new Error("Must be has class control-mail or control-phone");
                     }
-                }else if($(event.currentTarget).hasClass('volume-off')) {
+                } else if ($(event.currentTarget).hasClass('volume-off')) {
                     $(event.currentTarget).text("Вкл.");
-                    if($(event.currentTarget).hasClass('control-mail')) {
+                    if ($(event.currentTarget).hasClass('control-mail')) {
                         $(event.currentTarget).removeClass('volume-off');
                         $(event.currentTarget).addClass('volume-on');
                         SKApp.simulation.isPlayIncomingMailSound = true;
-                        SKApp.server.api('LogService/SoundSwitcher', {sound_alias:'incoming_mail', is_play:1}, function(){});
-                    }else if($(event.currentTarget).hasClass('control-phone')){
+                        SKApp.server.api('LogService/SoundSwitcher', {sound_alias:'incoming_mail', is_play:1}, function() {});
+                    } else if ($(event.currentTarget).hasClass('control-phone')) {
                         $(event.currentTarget).removeClass('volume-off');
                         $(event.currentTarget).addClass('volume-on');
                         SKApp.simulation.isPlayIncomingCallSound = true;
-                        SKApp.server.api('LogService/SoundSwitcher', {sound_alias:'incoming_call', is_play:1}, function(){});
-                    }else{
+                        SKApp.server.api('LogService/SoundSwitcher', {sound_alias:'incoming_call', is_play:1}, function() {});
+                    } else{
                         throw new Error("Must has class 'control-mail' or 'control-phone'");
                     }
-                }else{
+                } else{
                     throw new Error("Must has class 'volume-off' or 'volume-on'");
                 }
             } catch(exception) {
@@ -420,7 +480,11 @@ define(["text!game/jst/window.jst"],
             }
         },
 
-        onResize : function() {
+        /**
+         * Изменяет размеры окна и проверяет их на соответствие
+         * ограничениям минимальных и максимальных габаритов окон
+         */
+        onResize: function() {
             try {
                 this.resize();
                 this.constrain();
@@ -431,8 +495,11 @@ define(["text!game/jst/window.jst"],
             }
         },
 
-        onWindowClose: function() {
-        }
+        /**
+         * Должен вызываться при нажатии на крестик закрытия окна
+         * @abstract
+         */
+        onWindowClose: function() {        }
 
     });
     return SKWindowView;

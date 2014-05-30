@@ -56,7 +56,7 @@ define([
          */
         events: _.defaults({
             'click .sheet-tabs li': 'doSelectTab',
-            'click .xls-container': 'doActivateRedirect'
+            'click .xls-container': 'doActivate'
         }, SKWindowView.prototype.events),
 
         /**
@@ -91,6 +91,7 @@ define([
 
 
         /**
+         * Стандартный родительский метод
          * @param jQUery el
          * @param SKWindowView windowObject
          */
@@ -157,6 +158,9 @@ define([
             }
         },
 
+        /**
+         * @param OnClickEvent event
+         */
         doSelectTab: function doSelectTab (event) {
             try {
                 var doc = this.options.model_instance.get('document');
@@ -170,6 +174,9 @@ define([
             }
         },
 
+        /**
+         * @param OnClickEvent isResize
+         */
         resizeActiveTab: function(isResize) {
             try {
                 var doc = this.options.model_instance.get('document');
@@ -226,6 +233,9 @@ define([
             }
         },
 
+        /**
+         * Изменение размеров окна екселя в игре, при изменении размеров окна браузера
+         */
         onResize: function() {
             try {
                 window.SKWindowView.prototype.onResize.call(this);
@@ -239,6 +249,9 @@ define([
             }
         },
 
+        /**
+         * Стандартный родительский метод
+         */
         remove: function () {
             try {
                 this.sheets = [];
@@ -250,16 +263,9 @@ define([
             }
         },
 
-        doActivateRedirect: function() {
-            try {
-                this.windowObject.doActivate();
-            } catch(exception) {
-                if (window.Raven) {
-                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
-                }
-            }
-        },
-
+        /**
+         * Надписи в кнопках (меню екселя) должны подсвечиваться
+         */
         doHoverMenuIcon:function() {
             $('.button_menu li').hover(function(){
                 $(this).find('a.grid-row').css('text-decoration', 'underline');

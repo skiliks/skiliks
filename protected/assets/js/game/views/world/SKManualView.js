@@ -43,27 +43,35 @@ define(
 
             is_first_closed : false,
 
+            /**
+             * Стандартный родительский метод
+             * @param {jQuery} el
+             */
             renderTitle: function (title) {
                 $(title).hide();
             },
 
-            renderContent: function (content) {
+            /**
+             * Стандартный родительский метод
+             * @param {jQuery} el
+             */
+            renderContent: function (el) {
                 try {
                     // не показывать крестик закрытия в справке,
                     // пока пользователь не долистает до последней страницы.
                     var required = this.options.model_instance.get('required');
 
-                    content.html(_.template(frame, {
+                    el.html(_.template(frame, {
                         'required': required
                     }));
 
                     [contents, page2, page4, page6, page8].forEach(function(tpl) {
-                        content.find('.flyleaf').append(_.template(tpl));
+                        el.find('.flyleaf').append(_.template(tpl));
                     });
 
-                    this.pages = content.find('.page');
-                    this.closeBtn = content.find('.close-window-manual');
-                    content.find('.pages .total').html(this.pages.length).prev('.current').html(1);
+                    this.pages = el.find('.page');
+                    this.closeBtn = el.find('.close-window-manual');
+                    el.find('.pages .total').html(this.pages.length).prev('.current').html(1);
 
                     if (required) {
                         this.closeBtn.hide();
@@ -90,7 +98,7 @@ define(
                         content: function() {
                             var tooltipId = $(this).attr('data-refer-tooltip');
 
-                            return content.find('.tooltip[data-tooltip="' + tooltipId + '"]').html();
+                            return el.find('.tooltip[data-tooltip="' + tooltipId + '"]').html();
                         }
                     });
                     if(SKApp.isTutorial() && !SKApp.simulation.manual_is_first_closed) {
@@ -139,6 +147,10 @@ define(
                     }
                 }
             },
+
+            /**
+             * Стандартный родительский метод
+             */
             onWindowClose: function() {
                 SKApp.simulation.manual_is_first_closed = true;
             }

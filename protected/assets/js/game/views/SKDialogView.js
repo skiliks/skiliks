@@ -22,10 +22,20 @@ define([
          */
         $el: undefined,
 
+        /**
+         * @var String container, стандартный метод определения $el
+         */
         container: '.windows-container',
-        
+
+        /**
+         * @var Query preventOtherClicksElement
+         */
         preventOtherClicksElement: undefined,
-        
+
+        /**
+         * Окно закрывается кликом по любому элементу или только по кнопке закрыть
+         * true - закрывать кликом по любому элементу
+         */
         isCloseWhenClickNotOnDialog: false,
 
         /**
@@ -37,6 +47,9 @@ define([
             'click .dialog-close': 'doDialogClose'
         },
 
+        /**
+         * Отрисовывать ли кнопку закрытия
+         */
         addCloseButton: false,
 
         /**
@@ -69,7 +82,7 @@ define([
         },
 
         /**
-         * @method
+         * Системные сообщения могут быть модальными
          */
         renderPreventClickElement: function() {
             try {
@@ -98,7 +111,7 @@ define([
         },
 
         /**
-         * @method
+         * Стандартный родительский метод
          */
         'render': function () {
             try {
@@ -147,7 +160,7 @@ define([
 
         /**
          * @method
-         * @param event
+         * @param OnClickEvent event
          */
         'handleClick': function (event) {
             try {
@@ -169,7 +182,7 @@ define([
         },
 
         /**
-         * @method
+         * Полная очистка DOM от диалога
          */
         cleanUpDOM: function() {
             try {
@@ -184,6 +197,9 @@ define([
             }
         },
 
+        /**
+         * Стандартный родительский метод
+         */
         remove: function() {
             try {
                 this.cleanUpDOM();
@@ -196,10 +212,16 @@ define([
             }
         },
 
+        /**
+         * Обёртка для закрытия окна
+         */
         doDialogClose: function() {
             this.remove();
         },
 
+        /**
+         * Стандартный родительский метод
+         */
         center: function() {
             try {
                 this.$el.css({

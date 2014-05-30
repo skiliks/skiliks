@@ -208,7 +208,7 @@ define([
             },
 
             /**
-             * @method
+             * Стандартный родительский метод
              */
             'render':  function () {
                 try {

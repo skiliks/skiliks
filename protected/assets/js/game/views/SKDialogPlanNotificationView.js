@@ -16,8 +16,9 @@ define([
      * @augments Backbone.View
      */
     SKDialogPlanNotificationView = SKDialogView.extend({
+
         /**
-         * @method
+         * Стандартный родительский метод
          */
         'render': function () {
             try {
@@ -56,5 +57,6 @@ define([
             }
         }
     });
+
     return SKDialogPlanNotificationView;
 });

@@ -17,18 +17,49 @@ define([
      */
     SKPhoneCallView = SKWindowView.extend({
 
+        /**
+         * Стандартный родительский метод
+         */
         isDisplaySettingsButton:true,
-        isDisplayCloseButton:false,
-        title: "Телефон",
-        windowName:'phone',
-        countMaxView: 1,
-        addClass: "phone-call",
-        windowClass: "phoneMainDiv",
-        deny_timeout_id:null,
 
+        /**
+         * Стандартный родительский метод
+         */
+        isDisplayCloseButton:false,
+
+        /**
+         * Стандартный родительский метод
+         */
+        title: "Телефон",
+
+        /**
+         * Стандартный родительский метод
+         */
+        windowName:'phone',
+
+        /**
+         * Стандартный родительский метод
+         */
+        addClass: "phone-call",
+
+        /**
+         * Стандартный родительский метод
+         */
+        windowClass: "phoneMainDiv",
+
+        /**
+         * @param function deny_timeout_id
+         */
+        deny_timeout_id: null,
+
+        /**
+         * Стандартный родительский метод
+         */
         windowID: '',
 
-
+        /**
+         * Стандартный родительский метод
+         */
         dimensions: {
             width: 371,
             height: 560
@@ -39,7 +70,6 @@ define([
          * @var Array events
          */
         events:_.defaults({
-            'click .phone_get_menu' : 'getMenu',
             'click #phone_reply'    : 'reply',
             'click #phone_no_reply' : 'noReply'
         },SKWindowView.prototype.events),
@@ -64,15 +94,16 @@ define([
         },
 
         /**
-         * @method
-         * @param window_el
+         * Стандартный родительский метод
+         *
+         * @param {jQuery} el
          */
-        renderContent: function (window_el) {
+        renderContent: function (el) {
             try {
                 SKApp.simulation.trigger('audio-phone-call-start');
 
                 var me = this;
-                window_el.html(_.template(call_template, {
+                el.html(_.template(call_template, {
                     call: this.options.event.get('data'),
                     isDisplaySettingsButton:this.isDisplaySettingsButton,
                     windowName:this.windowName
@@ -104,32 +135,9 @@ define([
         },
 
         /**
-         * @method
-         * @param event
-         */
-        getMenu: function(event){
-            //Todo: уточнить возможность у Антона
-            //var id = $(event.currentTarget).attr('window_id');
-            //this.renderTPL('<xxx>', {windowID:id});
-        },
-
-        /**
-         * @method
-         * @returns {Number|jQuery}
-         */
-        getCountViews: function(){
-            try {
-                return $('.' + this.windowClass).length;
-            } catch(exception) {
-                if (window.Raven) {
-                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
-                }
-            }
-        },
-
-        /**
-         * @method
-         * @param event
+         * Обработка события "Ответить"
+         *
+         * @param OnClickEvent event
          */
         reply: function(event) {
             try {

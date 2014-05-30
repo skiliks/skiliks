@@ -17,16 +17,36 @@ define([
      */
     SKPhoneDialogView = SKWindowView.extend({
 
-        isDisplaySettingsButton:true,
-        
+        /**
+         * Стандартное родительское свойство
+         */
+        isDisplaySettingsButton: true,
+
+        /**
+         * Стандартное родительское свойство
+         */
         title: "Телефон",
 
-        windowName:'phone',
-        
+        /**
+         * Стандартное родительское свойство
+         */
+        windowName: 'phone',
+
+        /**
+         * Стандартное родительское свойство
+         */
         isDisplayCloseWindowsButton: false,
-        
+
+        /**
+         * Определяет может ли пользователь самовольно завершить звонок
+         *
+         * @param Boolean isUserCanFinalizeCall
+         */
         isUserCanFinalizeCall: false,
 
+        /**
+         * Стандартный родительский метод
+         */
         dimensions: {
             width: 872,
             height: 560
@@ -61,7 +81,7 @@ define([
         },
 
         /**
-         * @method
+         * Стандартный родительский метод
          */
         remove: function () {
             try {
@@ -79,20 +99,16 @@ define([
         },
 
         /**
-         * @method
-         * @param window_el
+         * Стандартный родительский метод
+         * @param {jQuery} el
          */
-        renderContent:function (window_el) {
+        renderContent:function (el) {
             try {
                 var event = this.options.model_instance.get('sim_event'),
                     me = this,
                     my_replicas = event.getMyReplicas(),
                     remote_replica = event.getRemoteReplica();
 
-                // if several replics come from server - hide FinalizeCallButton
-                // else display FinalizeCallButton
-                // this.isUserCanFinalizeCall = false by default
-                //event.get('data').length < 2
                 if (event.get('data')[0].code === 'None' || event.get('data')[0].code === 'Auto') {
                     var timeout = setTimeout(function(){
                         if(me.options.model_instance.is_opened === true){
@@ -118,7 +134,7 @@ define([
                     windowName:this.windowName
                 });
 
-                window_el.html(callInHtml);
+                el.html(callInHtml);
 
                     var duration = (SKApp.simulation.isDebug() || null === remote_replica) ?
                         0 : parseInt(remote_replica.duration, 0)*1000;
@@ -141,12 +157,12 @@ define([
                                 }
                             });
                         }  else if (!SKApp.simulation.isDebug()) {
-                            window_el.find('.phone-reply-h').removeClass('hidden');
+                            el.find('.phone-reply-h').removeClass('hidden');
                         }
                     }, duration);
 
                 if (0 === this.$('audio').length) {
-                    window_el.find('.phone-reply-h').removeClass('hidden');
+                    el.find('.phone-reply-h').removeClass('hidden');
                 }
             } catch(exception) {
                 if (window.Raven) {
@@ -156,8 +172,8 @@ define([
         },
 
         /**
-         * @method
-         * @param event
+         * Рендер основного меню телефона
+         * @param OnClickEvent event
          */
         getMenu: function(event) {
             try {
@@ -177,17 +193,22 @@ define([
         },
 
         /**
-         * @method
-         * @param e
+         * Обработка клика по реплике-ответу
+         * Блокирование всех реплик после первого клика
+         *
+         * @param OnClickEvent e
          */
         doSelectReplica:function (e) {
             try {
                 var me = this;
                 e.preventDefault();
                 if("true" !== $(e.currentTarget).attr('data-disabled')) {
+
+                    //Блокирование всех реплик после первого клика
                     $('#phoneAnswers li').each(function(index, element) {
                         $(element).find('a').attr('data-disabled', 'true');
                     });
+
                     var event = this.options.model_instance.get('sim_event');
                     var dialog_id = $(e.currentTarget).attr('data-id');
                     var is_final = $(e.currentTarget).attr('data-is-final');

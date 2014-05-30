@@ -30,7 +30,7 @@ define([
         },
 
         /**
-         * @method
+         * Стандартный родительский метод
          */
         'render': function () {
             var code = _.template(settings_template, {});

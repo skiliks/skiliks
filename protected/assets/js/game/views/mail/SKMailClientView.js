@@ -458,7 +458,7 @@ define([
             },
 
             /**
-             * @method
+             * Стандартный родительский метод
              */
             remove: function () {
                 try {
@@ -473,10 +473,8 @@ define([
             },
 
             /**
-             * shows title block
-             *
-             * @method
-             * @param el
+             * Стандартный родительский метод
+             * @param {jQuery} el
              */
             renderTitle: function (el) {
                 try {
@@ -492,9 +490,8 @@ define([
             },
 
             /**
-             * Display (create if not exist) MailClient screen base
-             *
-             * @method
+             * Стандартный родительский метод
+             * @param {jQuery} el
              */
             renderContent: function (el) {
                 try {
@@ -3607,6 +3604,9 @@ define([
                 }
             },
 
+            /**
+             * Стандартный родительский метод
+             */
             onResize: function() {
                 try {
                     window.SKWindowView.prototype.onResize.apply(this);
@@ -3643,6 +3643,9 @@ define([
                 }
             },
 
+            /**
+             * Стандартный родительский метод
+             */
             onWindowClose: function() {
                 try {
                     this.mailClient.activeEmail = undefined;

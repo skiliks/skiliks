@@ -14,7 +14,6 @@ define([
     "game/views/SKWindowView"
 ], function (
         SKPhoneThemeCollection,
-
         phone_contacts,
         phone_history,
         phone_menu,
@@ -28,11 +27,29 @@ define([
      */
     SKPhoneView = SKWindowView.extend({
 
+        /**
+         * Стандартное родительское свойство
+         */
         isDisplaySettingsButton:true,
 
+        /**
+         * Стандартное родительское свойство
+         */
         title: "Телефон",
+
+        /**
+         * Стандартное родительское свойство
+         */
         windowName:'phone',
+
+        /**
+         * Стандартное родительское свойство
+         */
         addClass: 'phone-window',
+
+        /**
+         * Стандартное родительское свойство
+         */
         addId: 'phone-window',
 
         /**
@@ -49,18 +66,21 @@ define([
             'click .themes_close':       'closeThemes'
         }, SKWindowView.prototype.events),
 
+        /**
+         * Стандартный родительский метод
+         */
         dimensions: {
             width: 371,
             height: 560
         },
 
         /**
-         * @method
-         * @param window_el
+         * Стандартный родительский метод
+         * @param {jQuery} el
          */
-        renderContent: function (window_el) {
+        renderContent: function (el) {
             try {
-                window_el.html(_.template(main_template, SKApp.attributes, {
+                el.html(_.template(main_template, SKApp.attributes, {
                     isDisplaySettingsButton:this.isDisplaySettingsButton,
                     windowName:this.windowName
                 }));
@@ -72,9 +92,11 @@ define([
         },
 
         /**
-         * @method
+         * Рендерит список контактов
+         *
+         * @param OnClickEvent e
          */
-        getContacts: function () {
+        getContacts: function (e) {
             //$('#'+id+' .phone-screen')
             try {
                 this.renderTPL('.phone-screen', phone_contacts, {
@@ -92,9 +114,11 @@ define([
         },
 
         /**
-         * @method
+         * Рендерит историю звонков
+         *
+         * @param OnClickEvent e
          */
-        getHistory: function () {
+        getHistory: function (e) {
             try {
                 var me = this,
                     history = SKApp.simulation.phone_history;
@@ -116,9 +140,11 @@ define([
         },
 
         /**
-         * @method
+         * Рендер основного меню телефона
+         *
+         * @param OnClickEvent e
          */
-        getMenu: function(){
+        getMenu: function(e){
             try {
                 this.renderTPL('.phone-screen', phone_menu);
             } catch(exception) {
@@ -129,22 +155,9 @@ define([
         },
 
         /**
-         * @method
-         * @returns {Number|jQuery}
-         */
-        getCountViews : function() {
-            try {
-                return $('.'+this.windowClass).length;
-            } catch(exception) {
-                if (window.Raven) {
-                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
-                }
-            }
-        },
-
-        /**
-         * @method
-         * @param event
+         * Отрисовавыает список тем для исходящих звонков
+         *
+         * @param OnClickEvent event
          */
         getThemes: function(event) {
             try {
@@ -172,8 +185,9 @@ define([
         },
 
         /**
-         * @method
-         * @param event
+         * Осуществляет звонок
+         *
+         * @param OnClickEvent event
          */
         callToContact:function(event) {
             try {
@@ -209,8 +223,9 @@ define([
         },
 
         /**
-         * @method
-         * @param e
+         * Осуществляет перезвон
+         *
+         * @param OnClickEvent e
          */
         callbackContact:function(e) {
             try {
@@ -241,7 +256,11 @@ define([
             }
         },
 
-        closeThemes: function() {
+        /**
+         * Закрывает список тем
+         * @param OnClickEvent e
+         */
+        closeThemes: function(e) {
             this.$el.find('#phoneCallThemesDiv').remove();
         }
     });

@@ -37,7 +37,7 @@ define(["text!game/jst/simulation/debug.jst"], function (debug_template) {
         },
 
         /**
-         * @method
+         * Стандартный родительский метод
          */
         'render': function () {
             try {

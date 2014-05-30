@@ -125,7 +125,8 @@ define(["game/views/SKWindowView", "game/models/window/SKDocumentsWindow"], func
             },
 
             /**
-             * @param jQuery el
+             * Стандартный родительский метод
+             * @param {jQuery} el
              */
             renderContent: function (el) {
                 try {
@@ -152,13 +153,7 @@ define(["game/views/SKWindowView", "game/models/window/SKDocumentsWindow"], func
                         },
                         ui: ['places', 'path', 'stat'],
                         uiOptions: {
-                            // toolbar configuration
                             toolbar: [
-                                //['back', 'forward'],
-                                // ['reload'],
-                                // ['home', 'up'],
-                                //['info'],
-                                //['quicklook'],
                                 ['view']
                             ],
 

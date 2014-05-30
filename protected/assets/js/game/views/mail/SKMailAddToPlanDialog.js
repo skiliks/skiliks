@@ -19,14 +19,20 @@ define([
      */
     SKMailAddToPlanDialog = SKDialogView.extend({
         /**
-         * Used to add reverce link from view to it`s model
+         * Used to add reverse link from view to it`s model
          * @param mailClient SKMailClient
          */
-        mailClient:undefined,
+        mailClient: undefined,
 
-        selectedMailTask:undefined,
+        /**
+         * @param SKMailTask selectedMailTask
+         */
+        selectedMailTask: undefined,
 
-        isCloseWhenClickNotOnDialog:true,
+        /**
+         * @param Boolean isCloseWhenClickNotOnDialog
+         */
+        isCloseWhenClickNotOnDialog: true,
 
         /**
          * События DOM на которые должна реагировать данная view
@@ -39,7 +45,6 @@ define([
 
         /**
          * Constructor
-         * @method initialize
          */
         initialize:function () {
             try {
@@ -59,7 +64,6 @@ define([
         },
 
         /**
-         * @method
          * @returns {$.xhr}
          */
         getTasksToBePlanned:function () {
@@ -99,7 +103,9 @@ define([
         },
 
         /**
-         * @method
+         * Стандартный родительский метод
+         *
+         * Но данный медод только собирает необходимые для рендера данные
          */
         render:function () {
             try {
@@ -115,7 +121,7 @@ define([
         },
 
         /**
-         * @method
+         * Непосредственно отрисовка вьюхи
          */
         continueRender: function() {
             try {
@@ -199,14 +205,14 @@ define([
         },
 
         /**
-         * override default behavoiur
-         * @method
+         * Override default behaviour
          */
         handleClick:function () {},
 
         /**
-         * @method
-         * @param id
+         * Реакция системы на выбор задачи для планирования
+         *
+         * @param String id
          */
         selectItem:function (id) {
             try {
@@ -222,8 +228,7 @@ define([
         },
 
         /**
-         * @method
-         * @param id
+         * @param String id
          */
         setSelectedMailTaskByMySqlId:function (id) {
             try {
@@ -236,7 +241,7 @@ define([
         },
 
         /**
-         * @method
+         * Добавляет задачу в планировщик и открывает его
          */
         doAddToPlan:function () {
             try {
@@ -301,8 +306,9 @@ define([
         },
 
         /**
-         * @method
-         * @param events
+         * Обёртка вызова selectItem()
+         *
+         * @param OnClickEvent events
          */
         doSelectItem: function (events) {
             try {
@@ -315,7 +321,7 @@ define([
         },
 
         /**
-         * @method
+         * Логирование в JS-log закрытия "окна" планирования письма
          */
         doLogClose: function() {
             try {
@@ -331,7 +337,7 @@ define([
         },
 
         /**
-         * @method
+         * Стандартный родительский метод
          */
         close: function () {
             try {
