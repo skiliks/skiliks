@@ -108,6 +108,10 @@
                 'url'   => ['admin_area/AdminPages/NotCorporateEmails'],
                 'visible' => true,
             ], [
+                'label' => 'Настройки проекта',
+                'url'   => ['admin_area/AdminProjectConfig/ProjectConfigsList'],
+                'visible' => true,
+            ], [
                 'label' => '--------------------------',
                 'url'   => ['#'],
                 'visible' => true,

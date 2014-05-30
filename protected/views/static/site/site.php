@@ -16,38 +16,11 @@
 // ### CSS files:
 
 // они уже в авто-подгрузке: CreateListOfPreloadedFilesCommand
-
-// $cs->registerCssFile($assetsUrl . '/js/jquery/jquery-ui.css');
-// $cs->registerCssFile($assetsUrl . '/js/bootstrap/css/bootstrap.css');
-// $cs->registerCssFile($assetsUrl . '/js/jquery/jquery-ui-1.8.23.slider.css');
-// $cs->registerCssFile($assetsUrl . '/js/jquery/jquery.mCustomScrollbar.css');
-// $cs->registerCssFile($assetsUrl . '/js/elfinder-2.0-rc1/css/elfinder.min.css');
-// $cs->registerCssFile($assetsUrl . '/js/elfinder-2.0-rc1/css/theme.css');
-// $cs->registerCssFile($assetsUrl . '/css/tag-handler.css');
-// $cs->registerCssFile($assetsUrl . '/css/ddSlick.css');
-// $cs->registerCssFile($assetsUrl . '/css/main.css');
-//
-
 $cs->compileLess($assetsUrl . '/less/simulation.less', $assetsUrl . '/compiled_css/simulation.css');
 $cs->compileLess($assetsUrl . '/less/manual.less',     $assetsUrl . '/compiled_css/manual.css');
 $cs->compileLess($assetsUrl . '/less/plan.less',       $assetsUrl . '/compiled_css/plan.css');
 $cs->compileLess($assetsUrl . '/less/mail.less',       $assetsUrl . '/compiled_css/mail.css');
 $cs->compileLess($assetsUrl . '/less/documents.less',  $assetsUrl . '/compiled_css/documents.css');
-
-//$cs->registerLessFile($assetsUrl . '/less/simulation.less', $assetsUrl . '/compiled_css/simulation.css');
-// $cs->registerLessFile($assetsUrl . '/less/manual.less',     $assetsUrl . '/compiled_css/manual.css');
-// $cs->registerLessFile($assetsUrl . '/less/plan.less',       $assetsUrl . '/compiled_css/plan.css');
-// $cs->registerLessFile($assetsUrl . '/less/mail.less',       $assetsUrl . '/compiled_css/mail.css');
-// $cs->registerLessFile($assetsUrl . '/less/documents.less',  $assetsUrl . '/compiled_css/documents.css');
-/**
- * Подключаем ie10.css для специфичной IE10 вёрстки.
- * Все прочие (общие) CSS должны быть подключены ниже.
- * @link:http://stackoverflow.com/questions/16474948/detect-ie10-ie10-and-other-browsers-in-php
- */
-//if(preg_match('/(?i)msie [10]/',$_SERVER['HTTP_USER_AGENT']))
-//{
-//     $cs->registerCssFile($assetsUrl . '/css/ie10.css');
-//}
 ?>
 
 

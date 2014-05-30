@@ -727,6 +727,11 @@ class UserService {
             ]
         );
 
+        $config = array_merge(
+            $config,
+            ProjectConfigPull::getInstance()->getAllSimConfigs()
+        );
+
         $config['storageURL'] = $config['storageURL'].$scenario->slug;
 
         if (!empty($tutorial)) {

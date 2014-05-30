@@ -204,6 +204,10 @@ return [
                 'admin_area/admins-list'              => 'admin_area/AdminPages/AdminsList',
                 'admin_area/excluded_from_mailing'    => 'admin_area/AdminPages/ExcludedFromMailing',
                 'admin_area/downloadFullAnalyticFile' => 'admin_area/AdminPages/DownloadFullAnalyticFile',
+                'admin_area/project_configs/list'     => 'admin_area/AdminProjectConfig/ProjectConfigsList',
+                'admin_area/project_configs/add'      => 'admin_area/AdminProjectConfig/AddConfig',
+
+                'admin_area/project_configs/log/<id:\w+>' => 'admin_area/AdminProjectConfig/ConfigLogsList',
 
                 'admin_area/service/check-assessment-results-list'        => 'admin_area/AdminServicePages/CheckAssessmentResults',
 
