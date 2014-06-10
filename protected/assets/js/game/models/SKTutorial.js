@@ -20,7 +20,7 @@ define([
          *
          * @param function callback
          */
-        getNewEvents: function (callbackb) {
+        getNewEvents: function (callback) {
             try {
                 this.windowLog.getAndClear();
                 var me = this;

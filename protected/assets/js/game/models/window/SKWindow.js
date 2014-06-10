@@ -197,7 +197,13 @@ define([], function () {
                     delete me.prevent_close;
 
                     if (window.Raven) {
-                        window.Raven.captureMessage('L. prevent_close ' + SKApp.simulation.is);
+                        window.Raven.captureMessage(
+                            'L. prevent_close ' + SKApp.simulation.is
+                            + '. ' + this.get('name')
+                            + " subname: " + this.get('subname')
+                            + " id: " + this.get('id')
+                            + ". game time: " + SKApp.simulation.getGameTime()
+                        );
                     }
 
                     return;

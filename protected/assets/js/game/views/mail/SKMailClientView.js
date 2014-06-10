@@ -113,6 +113,11 @@ define([
              */
             initialize: function () {
                 try {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(
+                            'Log. Open mail client window. ' + SKApp.simulation.getGameTime({with_seconds: true})
+                        );
+                    }
                     var me = this;
 
                     this.isFantasticSend = false; // indicate is email send in fantastic way
@@ -2061,6 +2066,8 @@ define([
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
                     }
+
+                    return undefined;
                 }
             },
 
@@ -3649,6 +3656,12 @@ define([
             onWindowClose: function() {
                 try {
                     this.mailClient.activeEmail = undefined;
+
+                    if (window.Raven) {
+                        window.Raven.captureMessage(
+                            'Log. Close mail client window.' + SKApp.simulation.getGameTime({with_seconds: true})
+                        );
+                    }
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);

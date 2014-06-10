@@ -1384,8 +1384,6 @@ class SimulationService
             ucfirst(StringTools::CyToEn($simulation->user->profile->lastname))
         ));
 
-        return;
-
         // ---------------------------------------
 
 //        $pdf = new AssessmentPDF();
