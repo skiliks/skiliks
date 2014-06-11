@@ -15,23 +15,216 @@ try {
 
                 var minSupport = {
                     mozilla: 18,
-                    chrome: 27,
+                    chrome: 7, //27
                     msie: 10,
                     safari: 6
                 };
 
                 var maxSupport = {
                     mozilla: 30,
-                    chrome: 35,
+                    chrome: 30,// 35
                     msie: 11,
                     safari: 7
                 };
 
+                var BrowserFullNames = {
+                    mozilla: 'Mozilla Firefox',
+                    chrome: 'Google Chrome',
+                    msie: 'Internet Explorer',
+                    safari: 'Safari'
+                };
+
+                // формируем строки с перечнем поддерживаемых версий браузеров
+                var chrome_versions_to_block = window.gameConfig.chrome_version_to_block.split(",");
+                var internet_explorer_versions_to_block = window.gameConfig.internet_explorer_version_to_block.split(",");
+                var firefox_versions_to_block = window.gameConfig.firefox_version_to_block.split(",");
+                var safari_versions_to_block = window.gameConfig.safari_version_to_block.split(",");
+
+                // CHROME {
+                var chromeVersionsSupport = [];
+                for(var i = minSupport.chrome; i <= maxSupport.chrome; i++) {
+                    chromeVersionsSupport[i] = true;
+                }
+                for(var index in chrome_versions_to_block) {
+                    chromeVersionsSupport[chrome_versions_to_block[index]] = false;
+                }
+
+                // формируем текст
+                var chromeMiddleText = '';
+                var before = null;
+                for(var version in chromeVersionsSupport) {
+                    if ('' == chromeMiddleText && true == chromeVersionsSupport[version]) {
+                        // формирую первую цифру
+                        chromeMiddleText += '' + version + '-';
+                    } else if (true == before && false == chromeVersionsSupport[version]
+                        && '-' == chromeMiddleText.substr(chromeMiddleText.length -1, 1)) {
+                        // замыкаем последнюю цифру в группе
+                        chromeMiddleText += '' + (version - 1);
+                        if (version != maxSupport.chrome) {
+                            chromeMiddleText += ',';
+                        }
+                    } else if (false == before && true == chromeVersionsSupport[version]) {
+                        // начало группы в середине массима
+                        chromeMiddleText += '' + version + '-';
+                    } else if (version == maxSupport.chrome
+                        && true == chromeVersionsSupport[version]
+                        && '-' == chromeMiddleText.substr(chromeMiddleText.length -1, 1)) {
+                        // завершаем
+                        chromeMiddleText += '' + version;
+                    }
+
+                    // убираем диаппазоны из одной цифры: "23-23" => "23"
+                    chromeMiddleText = chromeMiddleText.replace((version-1) + '-' + (version-1), (version-1));
+
+                    // запоминаем предыдущее состояние
+                    before = chromeVersionsSupport[version];
+                }
+
+                if (',' != chromeMiddleText.substr(chromeMiddleText.length -1, 1)) {
+                    chromeMiddleText += ',';
+                }
+                // CHROME }
+
+                // FIREFOX {
+                var firefoxVersionsSupport = [];
+                for(var i = minSupport.mozilla; i <= maxSupport.mozilla; i++) {
+                    firefoxVersionsSupport[i] = true;
+                }
+                for(var index in chrome_versions_to_block) {
+                    firefoxVersionsSupport[chrome_versions_to_block[index]] = false;
+                }
+
+                // формируем текст
+                var firefoxMiddleText = '';
+                var before = null;
+                for(var version in firefoxVersionsSupport) {
+                    if ('' == firefoxMiddleText && true == firefoxVersionsSupport[version]) {
+                        // формирую первую цифру
+                        firefoxMiddleText += '' + version + '-';
+                    } else if (true == before && false == firefoxVersionsSupport[version]
+                        && '-' == firefoxMiddleText.substr(firefoxMiddleText.length -1, 1)) {
+                        // замыкаем последнюю цифру в группе
+                        firefoxMiddleText += '' + (version - 1);
+                        if (version != maxSupport.mozilla) {
+                            firefoxMiddleText += ',';
+                        }
+                    } else if (false == before && true == firefoxVersionsSupport[version]) {
+                        // начало группы в середине массима
+                        firefoxMiddleText += '' + version + '-';
+                    } else if (version == maxSupport.mozilla
+                        && true == firefoxVersionsSupport[version]
+                        && '-' == firefoxMiddleText.substr(firefoxMiddleText.length -1, 1)) {
+                        // завершаем
+                        firefoxMiddleText += '' + version;
+                    }
+
+                    // убираем диаппазоны из одной цифры: "23-23" => "23"
+                    firefoxMiddleText = firefoxMiddleText.replace((version-1) + '-' + (version-1), (version-1));
+
+                    // запоминаем предыдущее состояние
+                    before = firefoxVersionsSupport[version];
+                }
+
+                if (',' != firefoxMiddleText.substr(firefoxMiddleText.length -1, 1)) {
+                    firefoxMiddleText += ',';
+                }
+                // FIREFOX }
+
+                // IE {
+                var ieVersionsSupport = [];
+                for(var i = minSupport.msie; i <= maxSupport.msie; i++) {
+                    ieVersionsSupport[i] = true;
+                }
+                for(var index in chrome_versions_to_block) {
+                    ieVersionsSupport[chrome_versions_to_block[index]] = false;
+                }
+
+                // формируем текст
+                var ieMiddleText = '';
+                var before = null;
+                for(var version in ieVersionsSupport) {
+                    if ('' == ieMiddleText && true == ieVersionsSupport[version]) {
+                        // формирую первую цифру
+                        ieMiddleText += '' + version + '-';
+                    } else if (true == before && false == ieVersionsSupport[version]
+                        && '-' == ieMiddleText.substr(ieMiddleText.length -1, 1)) {
+                        // замыкаем последнюю цифру в группе
+                        ieMiddleText += '' + (version - 1);
+                        if (version != maxSupport.msie) {
+                            ieMiddleText += ',';
+                        }
+                    } else if (false == before && true == ieVersionsSupport[version]) {
+                        // начало группы в середине массима
+                        ieMiddleText += '' + version + '-';
+                    } else if (version == maxSupport.msie
+                        && true == ieVersionsSupport[version]
+                        && '-' == ieMiddleText.substr(ieMiddleText.length -1, 1)) {
+                        // завершаем
+                        ieMiddleText += '' + version;
+                    }
+
+                    // убираем диаппазоны из одной цифры: "23-23" => "23"
+                    ieMiddleText = ieMiddleText.replace((version-1) + '-' + (version-1), (version-1));
+
+                    // запоминаем предыдущее состояние
+                    before = ieVersionsSupport[version];
+                }
+
+                if (',' != ieMiddleText.substr(ieMiddleText.length -1, 1)) {
+                    ieMiddleText += ',';
+                }
+                // IE }
+
+                // SAFARI {
+                var safariVersionsSupport = [];
+                for(var i = minSupport.safari; i <= maxSupport.safari; i++) {
+                    safariVersionsSupport[i] = true;
+                }
+                for(var index in chrome_versions_to_block) {
+                    safariVersionsSupport[chrome_versions_to_block[index]] = false;
+                }
+
+                // формируем текст
+                var safariMiddleText = '';
+                var before = null;
+                for(var version in safariVersionsSupport) {
+                    if ('' == safariMiddleText && true == safariVersionsSupport[version]) {
+                        // формирую первую цифру
+                        safariMiddleText += '' + version + '-';
+                    } else if (true == before && false == safariVersionsSupport[version]
+                        && '-' == safariMiddleText.substr(safariMiddleText.length -1, 1)) {
+                        // замыкаем последнюю цифру в группе
+                        safariMiddleText += '' + (version - 1);
+                        if (version != maxSupport.safari) {
+                            safariMiddleText += ',';
+                        }
+                    } else if (false == before && true == safariVersionsSupport[version]) {
+                        // начало группы в середине массима
+                        safariMiddleText += '' + version + '-';
+                    } else if (version == maxSupport.safari
+                        && true == safariVersionsSupport[version]
+                        && '-' == safariMiddleText.substr(safariMiddleText.length -1, 1)) {
+                        // завершаем
+                        safariMiddleText += '' + version;
+                    }
+
+                    // убираем диаппазоны из одной цифры: "23-23" => "23"
+                    safariMiddleText = safariMiddleText.replace((version-1) + '-' + (version-1), (version-1));
+
+                    // запоминаем предыдущее состояние
+                    before = safariVersionsSupport[version];
+                }
+
+                // 'safari' последний, после него запятая не нужна
+                // SAFARI }
+
+
+
                 var supportText = {
-                    mozilla: "Mozilla Firefox " + minSupport['mozilla'] + '-' + maxSupport['mozilla'],
-                    chrome:  "Google Chrome " + minSupport['chrome'] + '-' + maxSupport['chrome'],
-                    msie:    "Internet Explorer " + minSupport['msie'] + '-' + maxSupport['msie'],
-                    safari:  "Safari " + minSupport['safari'] + '-' + maxSupport['safari']
+                    mozilla: BrowserFullNames.mozilla + " " + firefoxMiddleText + " ",
+                    chrome:  BrowserFullNames.chrome + " " + chromeMiddleText + " ",
+                    msie:    BrowserFullNames.msie + " " + ieMiddleText + " ",
+                    safari:  BrowserFullNames.safari + " " + safariMiddleText
                 };
 
                 /**
@@ -61,25 +254,17 @@ try {
                             if (parseFloat($.browser.version) >= minSupport[name] && this.isAllowOS(cfg.isSkipOsCheck, ['Windows', 'MacOS'])) {
                                 if(parseFloat($.browser.version) > maxSupport[name]) {
 
-                                    var oldBrowserText = "Похоже вы используете бета-версию браузера. "
-                                        + "Стабильность работы не гарантируется. "
+                                    var oldBrowserText = "К сожалению мы не гарантируем стабильную работу в вашей версии браузера "
+                                        + "(" + BrowserFullNames[name] + " " + $.browser.version + "). "
                                         + "Рекомендуем использовать следующие версии браузеров (";
 
                                     for(var index in supportText) {
                                         oldBrowserText += supportText[index];
-
-                                        // 'safari' последний, после него запятая не нужна
-                                        if ('safari' != index) {
-                                            oldBrowserText += ', ';
-                                        }
                                     }
 
                                     oldBrowserText += ').';
 
-                                    if (alert(oldBrowserText)) {
-                                        location.href = '/dashboard';
-                                        return false;
-                                    } else {
+                                    if (false == confirm(oldBrowserText)) {
                                         location.href = '/dashboard';
                                         return false;
                                     }
