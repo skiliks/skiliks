@@ -1,5 +1,6 @@
 <?php
 if ($_GET['anctmd'] !== 'tvns-iolj-scyu-isvkih-5vf7qwc') {
+    echo 'Fail!';
     die();
 }
 
@@ -9,3 +10,5 @@ if ($_GET['anctmd'] !== 'tvns-iolj-scyu-isvkih-5vf7qwc') {
 `phing -Dstage=test`;
 `./yiic createlistofpreloadedfiles`;
 `./yiic migrate`;
+
+echo 'Done!';
