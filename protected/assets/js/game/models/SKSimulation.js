@@ -1033,7 +1033,7 @@ define([
                                     'onclick': function () {
                                         try {
                                             $(window).off('beforeunload');
-                                            location.assign('/dashboard');
+                                            location.reload();
                                         } catch(exception) {
                                             if (window.Raven) {
                                                 window.Raven.captureMessage(exception.message + ',' + exception.stack);
