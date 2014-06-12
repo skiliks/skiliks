@@ -5,8 +5,9 @@
     <thead>
         <tr>
             <th>Псевдоним</th>
-            <th>Тип</th>
             <th>Значение</th>
+            <th>Тип</th>
+            <th>Используется ли в симуляции?</th>
             <th>Комментарий</th>
             <th></th>
             <th></th>
@@ -17,8 +18,9 @@
         <?php foreach ($configs as $config): ?>
             <tr>
                 <td><?= $config->alias ?></td>
-                <td><?= $config->type ?></td>
                 <td><?= $config->value ?></td>
+                <td><?= $config->type ?></td>
+                <td><?= ProjectConfig::$is_use_in_sim[$config->is_use_in_simulation] ?></td>
                 <td><?= $config->description ?></td>
                 <td>
                     <a class="btn btn-success" style="white-space:nowrap;"

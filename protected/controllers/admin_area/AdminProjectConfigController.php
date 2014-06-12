@@ -22,11 +22,19 @@ class AdminProjectConfigController extends BaseAdminController {
         if (null == $id || null == $config) {
             $config = new ProjectConfig();
             $config->attributes = Yii::app()->request->getParam('ProjectConfig');
+
+            // по странной причини is_use_in_simulation всегда равен "1"
+            // приходится задвать "в ручную"
+            $config->is_use_in_simulation = $config->attributes['is_use_in_simulation'];
         }
 
         // Пользователь нажал <button> "Сохранить"
         if (null != $action) {
             $config->attributes = Yii::app()->request->getParam('ProjectConfig');
+
+            // по странной причини is_use_in_simulation всегда равен "1"
+            // приходится задвать "в ручную"
+            $config->is_use_in_simulation = $config->attributes['is_use_in_simulation'];
 
             if ($config->validate()) {
 
