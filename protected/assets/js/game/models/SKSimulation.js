@@ -1016,7 +1016,7 @@ define([
                 try {
                     var me = this;
 
-                    if (0 == (0 + parseInt(me.todo_tasks.length) + parseInt(me.dayplan_tasks.length)
+                    if (0 == (0 + parseInt(me.todo_tasks.length) + parseInt(me.dayplan_tasks.length))
                         || 0 == 0 + parseInt(me.documents.length)
                         || 0 == 0 + parseInt(me.characters.length)) {
                             me.startPause();
