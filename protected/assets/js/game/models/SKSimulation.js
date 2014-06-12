@@ -1013,9 +1013,10 @@ define([
              * Если это не так - аварийно прерываетигру
              */
             checkSimStart: function() {
-                alert('x');
                 try {
                     var me = this;
+
+                    alert(me.todo_tasks.length, me.dayplan_tasks.length, me.documents.length, me.characters.length);
 
                     if (0 == (me.todo_tasks.length + me.dayplan_tasks.length)
                         || 0 == me.documents.length
