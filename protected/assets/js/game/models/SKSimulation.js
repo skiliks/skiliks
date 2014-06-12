@@ -1019,10 +1019,10 @@ define([
                     if (0 == (me.todo_tasks.length + me.dayplan_tasks.length)
                         || 0 == me.documents.length
                         || 0 == me.characters.length
-                        || undefined == typeof me.todo_tasks.length
-                        || undefined == typeof me.dayplan_tasks.length
-                        || undefined == typeof me.documents.length
-                        || undefined == typeof me.characters.length
+                        || undefined == me.todo_tasks.length
+                        || undefined == me.dayplan_tasks.length
+                        || undefined == me.documents.length
+                        || undefined == me.characters.length
                         ) {
                             me.startPause();
 
