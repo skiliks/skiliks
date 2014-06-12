@@ -21,10 +21,10 @@ try {
                 };
 
                 var maxSupport = {
-                    mozilla: 30,
-                    chrome: 35,
-                    msie: 11,
-                    safari: 7
+                    mozilla: window.gameConfig.mozilla_max_support,
+                    chrome:  window.gameConfig.chrome_max_support,
+                    msie:    window.gameConfig.msie_max_support,
+                    safari:  window.gameConfig.safari_max_support
                 };
 
                 var BrowserFullNames = {
