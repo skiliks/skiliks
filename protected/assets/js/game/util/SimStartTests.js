@@ -15,14 +15,14 @@ try {
 
                 var minSupport = {
                     mozilla: 18,
-                    chrome: 7, //27
+                    chrome: 27,
                     msie: 10,
                     safari: 6
                 };
 
                 var maxSupport = {
                     mozilla: 30,
-                    chrome: 30,// 35
+                    chrome: 35,
                     msie: 11,
                     safari: 7
                 };
