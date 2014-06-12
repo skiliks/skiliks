@@ -1013,6 +1013,7 @@ define([
              * Если это не так - аварийно прерываетигру
              */
             checkSimStart: function() {
+                alert('x');
                 try {
                     var me = this;
 
