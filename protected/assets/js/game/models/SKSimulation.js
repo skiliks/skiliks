@@ -135,7 +135,11 @@ define([
                         me.trigger('time:' + hours + '-' + (minutes < 10 ? '0' : '') + minutes);
                         if(me.getGameMinutes() >= 11*60) {
                             me.trigger('time:11-00');
+                        }
 
+                        // default window.gameConfig.time_to_check_sim_start = 595, "09:55"
+                        if(me.getGameMinutes() >= window.gameConfig.time_to_check_sim_start) {
+                            me.trigger('time:check-sim-start');
                         }
 
                         minutes += 5;
@@ -173,6 +177,10 @@ define([
                         }, function () {
 
                         });
+                    });
+
+                    this.once('time:check-sim-start', function () {
+                        me.checkSimStart();
                     });
 
                     this.bindEmergencyHotkey();
@@ -998,6 +1006,48 @@ define([
              */
             isActiveMeetingPresent: function() {
                 return $('.meeting-gone-content').length == 1;
+            },
+
+            /**
+             * Проверяет что основные массивы огровых обьектов заполнены.
+             * Если это не так - аварийно прерываетигру
+             */
+            checkSimStart: function() {
+                try {
+                    var me = this;
+
+                    if (0 == (me.todo_tasks.length + me.dayplan_tasks.length)
+                        || 0 == me.documents.length
+                        || 0 == me.characters.length) {
+                            me.startPause();
+
+                        var message = new SKDialogView({
+                            'message': 'Приносим извинения,<br/>'
+                                + 'из-за разрыва интернет соединения данные для игры НЕ были полностью загружены.<br/>'
+                                + 'Пожалуйста, начните игру заново.',
+                            'buttons': [
+                                {
+                                    'value': 'Начать заново',
+                                    'onclick': function () {
+                                        try {
+                                            $(window).off('beforeunload');
+                                            location.assign('/dashboard');
+                                        } catch(exception) {
+                                            if (window.Raven) {
+                                                window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        });
+                    }
+
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             }
         });
     return SKSimulation;
