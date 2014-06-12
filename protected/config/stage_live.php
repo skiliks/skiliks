@@ -56,6 +56,7 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
             'storageURL'           => 'http://storage.dev.skiliks.com/',
             'useSentryForJsLog'    => true,
             'isDisplaySupportChat' => true,
+            'isSkipOsCheck'        => true,
         ]
     )
 ));
