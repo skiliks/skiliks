@@ -183,7 +183,11 @@ define([
              */
             onPhoneEvent: function (event) {
                 try {
-                    var phones = SKApp.simulation.window_set.where({subname: "phoneMain"});
+                    var phones = SKApp.simulation.window_set.where({subname: "phoneMain"}),
+                        data = event.get('data'),
+                        me = this,
+                        callbackFunction;
+
                     if(phones.length !== 0){
                         _.first(phones).setOnTop();
                         _.first(phones).close();
@@ -191,13 +195,18 @@ define([
                         return;
                     }
 
-                    var me = this;
                     this.$('.phone').attr('data-event-id', event.cid);
 
-                    var data = event.get('data');
-                    var callbackFunction;
                     if (undefined === data[2]) {
                         // user can`t ignore call
+
+                        // SKILIKS-6064
+                        // если это "Звонок который нельзя не принять",
+                        // то надо быстро закрывать открытую дверь, пока игрок не ушел на встречу
+                        if (0 != $('#choose-meeting-box').length) {
+                            $('#choose-meeting-box .win-close').click();
+                        }
+
                         callbackFunction = function () {
                             if (event.getStatus() !== 'in progress' && event.getStatus() !== 'completed') {
                                 event.setStatus('in progress');
@@ -217,6 +226,7 @@ define([
                     }
 
                     $('.door').addClass('icon-button-disabled');
+
                     this.startAnimation('.' + event.getTypeSlug(), callbackFunction, me.isShortDuration(data));
 
                     if(SKApp.simulation.isPlayIncomingCallSound){
