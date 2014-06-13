@@ -37,7 +37,7 @@ define([
          */
         'events':_.defaults(
             {
-                'click .day-plan-todo-task':                                         'onActivateTodo',
+                'click .day-plan-todo-task':                                         'doActivateTodo',
                 'dblclick .plan-todo .day-plan-todo-task':                           'doSetTask',
                 'dblclick .planner-book-timetable-table .day-plan-todo-task.regular':'doUnSetTask',
                 'click .todo-min':                                                   'doMinimizeTodo',
