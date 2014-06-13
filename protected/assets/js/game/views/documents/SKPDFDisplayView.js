@@ -42,10 +42,7 @@ define([
              * Переопределение поведения SKWindowView
              * @var Array.<Number>
              */
-            dimensions: {
-                width: 851,
-                height: 648
-            },
+            dimensions: {},
 
             /**
              * Constructor
@@ -110,20 +107,49 @@ define([
             },
 
             /**
+             * Содержимое окна Word и PowerPoint выше чем надо - оно 100%.
+             * Приходится его вписать в область допустимую для окна внутри игры.
+             */
+            fitHeight: function() {
+                this.$el.find('.pdf-container').css(
+                    'height',
+                    ($('#canvas').height() - 105) + 'px'
+                );
+            },
+
+            /**
              * Стандартный родительский метод
              * @param {jQuery} el
              */
             renderContent:function (el) {
                 try {
+                    var me = this;
                     el.html(
                         _.template(
                             document_pdf_template,
-                            { pages: this.options.model_instance.get('document').get('pages'),
-                              isDisplaySettingsButton:this.isDisplaySettingsButton,
-                              documents_path: 'http://' + window.location.hostname + window.assetsUrl + '/img/documents/templates/'
+                            { pages:                   this.options.model_instance.get('document').get('pages'),
+                              isDisplaySettingsButton: this.isDisplaySettingsButton,
+                              documents_path:          'http://' + window.location.hostname + window.assetsUrl + '/img/documents/templates/'
                             }
                         )
                     );
+                    me.fitHeight();
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
+            },
+
+            /**
+             * Изменение размеров окна екселя в игре, при изменении размеров окна браузера
+             */
+            onResize: function() {
+                try {
+                    var me = this;
+
+                    window.SKWindowView.prototype.onResize.call(me);
+                    me.fitHeight();
                 } catch(exception) {
                     if (window.Raven) {
                         window.Raven.captureMessage(exception.message + ',' + exception.stack);
