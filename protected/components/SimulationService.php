@@ -964,7 +964,20 @@ class SimulationService
         AssessmentOverall::model()->deleteAllByAttributes(['sim_id' => $simId]);
         LogAssessment214g::model()->deleteAllByAttributes(['sim_id' => $simId]);
 
+        $oldStatus = $simulation->status;
         $simulation->status = Simulation::STATUS_COMPLETE;
+        if (null !== $simulation->invite) {
+            InviteService::logAboutInviteStatus(
+                $simulation->invite,
+                sprintf(
+                    'Админ %s сменил статус симуляции с "%s" на "%s" при пеерсчёте результатов симуляции.',
+                    Yii::app()->user->data()->profile->email,
+                    $oldStatus,
+                    Simulation::STATUS_COMPLETE
+                )
+            );
+        }
+
         $simulation->results_popup_cache = null;
         $simulation->behaviours_cache = null;
         $simulation->popup_tests_cache = null;

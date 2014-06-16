@@ -169,12 +169,12 @@ return [
                 'logService/addInviteLog' => 'static/statistic/addInviteLog',
 
                 'admin_area'                   => 'admin_area/AdminPages/Dashboard',
-                'admin_area/invites'           => 'admin_area/AdminPages/Invites',
+                'admin_area/invites'           => 'admin_area/AdminInvites/Invites',
                 'admin_area/dashboard'         => 'admin_area/AdminPages/Dashboard',
                 'admin_area/login'             => 'admin_area/AdminPages/Login',
                 'admin_area/logout'            => 'admin_area/AdminPages/Logout',
                 'admin_area/simulation_detail' => 'admin_area/AdminPages/SimulationDetail',
-                'admin_area/invites/save'      => 'admin_area/AdminPages/InvitesSave',
+                'admin_area/invites/save'      => 'admin_area/AdminInvites/InvitesSave',
                 'admin_area/budget'            => 'admin_area/AdminPages/GetBudget',
                 'admin_area/invite/reset'      => 'admin_area/AdminPages/ResetInvite',
                 'admin_area/orders'            => 'admin_area/AdminInvoices/Orders',
@@ -185,7 +185,7 @@ return [
                 'admin_area/statistics'        => 'admin_area/AdminPages/Statistics',
                 'admin_area/import/'           => 'admin_area/AdminPages/ImportsList',
                 'admin_area/send-notice/'      => 'admin_area/AdminPages/SendNotice',
-                'invite/add-10'                => 'admin_area/AdminPages/IncreaseInvites',
+                'invite/add-10'                => 'admin_area/AdminInvites/IncreaseInvites',
                 'admin_area/live_simulations'  => 'admin_area/AdminPages/LiveSimulations',
                 'admin_area/email_queue'       => 'admin_area/AdminPages/EmailQueue',
                 'admin_area/completeInvoice'   => 'admin_area/AdminInvoices/CompleteInvoice',
@@ -206,6 +206,9 @@ return [
                 'admin_area/downloadFullAnalyticFile' => 'admin_area/AdminPages/DownloadFullAnalyticFile',
                 'admin_area/project_configs/list'     => 'admin_area/AdminProjectConfig/ProjectConfigsList',
                 'admin_area/project_configs/add'      => 'admin_area/AdminProjectConfig/AddConfig',
+
+                'admin_area/invite/<inviteId:\w+>/change-sim-id'
+                    => 'admin_area/AdminInvites/ChangeSimId',
 
                 'admin_area/project_configs/log/<id:\w+>' => 'admin_area/AdminProjectConfig/ConfigLogsList',
 
@@ -228,9 +231,10 @@ return [
 
                 'admin_area/statistics/statistic-mail'                    => 'admin_area/AdminPages/StatisticMail',
                 'admin_area/statistics/free-disk-space'                   => 'admin_area/AdminPages/StatisticFreeDiskSpace',
-                'admin_area/invite/<inviteId:\w+>/switch-can-be-reloaded' => 'admin_area/AdminPages/InviteSwitchCanBeReloaded',
-                'admin_area/ban_user/<userId:\d+>/<action:\w+>'           => 'admin_area/AdminPages/BanUser',
-                'admin_area/user/<userId:\d+>/send-invites'               => 'admin_area/AdminPages/SendInvites',
+                'admin_area/invite/<inviteId:\w+>/switch-can-be-reloaded'
+                    => 'admin_area/AdminPages/InviteSwitchCanBeReloaded',
+                'admin_area/ban_user/<userId:\d+>/<action:\w+>'           => 'admin_area/AdminAccounts/BanUser',
+                'admin_area/user/<userId:\d+>/send-invites'               => 'admin_area/AdminAccounts/SendInvites',
                 'admin_area/order/<invoiceId:\d+>/toggle-is-test'         => 'admin_area/AdminInvoices/OrderToggleIsTest',
                 'admin_area/user/<userId:\d+>/vacancies-list'             => 'admin_area/AdminAccounts/AccountVacanciesList',
                 'admin_area/user/<userId:\d+>/vacancy/add'                => 'admin_area/AdminAccounts/addVacancy',
@@ -241,7 +245,7 @@ return [
                 'admin_area/order/action/status'                  => 'admin_area/AdminInvoices/OrderActionStatus',
                 'admin_area/invite/action/status'                 => 'admin_area/AdminPages/InviteActionStatus',
                 'admin_area/invite/calculate/estimate'            => 'admin_area/AdminPages/InviteCalculateTheEstimate',
-                'admin_area/invite/<invite_id:\w+>/site-logs'     => 'admin_area/AdminPages/SiteLogs',
+                'admin_area/invite/<invite_id:\w+>/site-logs'     => 'admin_area/AdminInvites/SiteLogs',
                 'admin_area/simulation/set-emergency/<simId:\d+>' => 'admin_area/AdminPages/SimulationSetEmergency',
                 'admin_area/simulation/<sim_id:\w+>/site-logs'    => 'admin_area/AdminPages/SimSiteLogs',
                 'admin_area/simulations'                          => 'admin_area/AdminPages/Simulations',
@@ -253,7 +257,8 @@ return [
                 'admin_area/user/by-email'                        => 'admin_area/AdminPages/UserDetailsByEmail',
                 'admin_area/login/ghost/<userId:\d+>'             => 'admin_area/AdminPages/GhostLogin',
 
-                'admin_area/user/<userId:\w+>/set-invites-limit/<value:[\w\-]+>' => 'admin_area/AdminPages/UserAddRemoveInvitations',
+                'admin_area/user/<userId:\w+>/set-invites-limit/<value:[\w\-]+>' =>
+                    'admin_area/AdminAccounts/UserAddRemoveInvitations',
 
 
                 'admin_area/corporate-account/<id:\w+>/invite-limit-logs' => 'admin_area/AdminPages/CorporateAccountInviteLimitLogs',

@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: slavka
- * Date: 5/28/14
- * Time: 1:50 PM
- */
 
 class AdminInvoicesController extends BaseAdminController {
 
