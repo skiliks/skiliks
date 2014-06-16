@@ -13,7 +13,7 @@
 
             ], [
                 'label' => 'Приглашения',
-                'url'   => ['admin_area/AdminPages/Invites'],
+                'url'   => ['admin_area/AdminInvites/Invites'],
                 'visible' => true,
 
             ], [
