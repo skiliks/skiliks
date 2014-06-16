@@ -133,7 +133,6 @@ class AssessmentPDF {
     }
 
     public function saveOnDisk($name, $convert_to_jpg=true) {
-        $name = str_replace(' ', '', $name);
         $this->pdf->Output($name.'.pdf', 'F');
         if ($convert_to_jpg) {
             exec("convert -quality 100 -density 600 ".$name.".pdf ".$name.".jpg");

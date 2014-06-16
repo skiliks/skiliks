@@ -115,6 +115,10 @@
                 'label' => '--------------------------',
                 'url'   => ['#'],
                 'visible' => true,
+            ], [
+                'label' => 'Картинки для ПРББ',
+                'url'   => ['admin_area/AdminPrbb/ImageArchivesList'],
+                'visible' => true,
             ],
         ],
     )) ?>

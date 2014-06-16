@@ -1289,6 +1289,9 @@ class SimulationService
         }
         $path.= '/';
 
+        // метод должен вернуть пути ко всем сгенерированным файлам
+        $pathToFile = [];
+
         // ------------------------------------------
 
         $pdf = new AssessmentPDF();
@@ -1300,12 +1303,17 @@ class SimulationService
         $pdf->addSpeedometer(78.4, 58.5, $data['performance']['total']);
         $pdf->addSpeedometer(147.3, 58.5, $data['management']['total']);
 
-        $pdf->saveOnDisk(sprintf(
+        $name = str_replace(' ', '', sprintf(
             '%sp1_%s_%s_overall',
             $path,
             $simulation->id,
             ucfirst(StringTools::CyToEn($simulation->user->profile->lastname))
         ));
+        $pathToFile[] = [
+            'jpg'  => $name.'.jpg',
+            'name' => str_replace($path, '', $name).'.jpg',
+        ];
+        $pdf->saveOnDisk($name);
 
         // ---------------------------------------
 
@@ -1323,12 +1331,17 @@ class SimulationService
         );
         $pdf->addOvertime(145.2, 63.8, $data['time']['workday_overhead_duration']);
 
-        $pdf->saveOnDisk(sprintf(
+        $name = str_replace(' ', '', sprintf(
             '%sp2_%s_%s_time',
             $path,
             $simulation->id,
             ucfirst(StringTools::CyToEn($simulation->user->profile->lastname))
         ));
+        $pathToFile[] = [
+            'jpg' => $name.'.jpg',
+            'name' => str_replace($path, '', $name).'.jpg',
+        ];
+        $pdf->saveOnDisk($name);
 
         // ---------------------------------------
 
@@ -1390,12 +1403,17 @@ class SimulationService
         //План
         $pdf->addTimeBarUnproductive($y_positive, 87, $data['time'][TimeManagementAggregated::SLUG_NON_PRIORITY_PLANING], $max_negative);
 
-        $pdf->saveOnDisk(sprintf(
+        $name = str_replace(' ', '', sprintf(
             '%sp3_%s_%s_time_detail',
             $path,
             $simulation->id,
             ucfirst(StringTools::CyToEn($simulation->user->profile->lastname))
         ));
+        $pathToFile[] = [
+            'jpg' => $name.'.jpg',
+            'name' => str_replace($path, '', $name).'.jpg',
+        ];
+        $pdf->saveOnDisk($name);
 
         // ---------------------------------------
 
@@ -1417,12 +1435,17 @@ class SimulationService
 //        //Двухминутные задачи
 //        $pdf->addUniversalBar(45.5, 62.5, $pdf->getPerformanceCategory($data['performance'], '2_min'), 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);
 //
-//        $pdf->saveOnDisk(sprintf(
+//        $name = str_replace(' ', '', sprintf(
 //            '%sp4_1_%s_%s_productivity',
 //            $path,
 //            $simulation->id,
 //            ucfirst(StringTools::CyToEn($simulation->user->profile->lastname))
 //        ));
+//        $pathToFile[] = [
+//            'jpg' => $name.'.jpg',
+//        'name' => str_replace($path, '', $name).'.jpg',
+//        ];
+//        $pdf->saveOnDisk($name);
 
         // ---------------------------------------
 
@@ -1437,13 +1460,17 @@ class SimulationService
         $pdf->addUniversalBar(61, 32.7, $data['management'][2]['total'], 128.7, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);//2
         $pdf->addUniversalBar(61, 43.3, $data['management'][3]['total'], 128.7, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);//3
 
-
-        $pdf->saveOnDisk(sprintf(
+        $name = str_replace(' ', '', sprintf(
             '%sp5_%s_%s_skills_overall',
             $path,
             $simulation->id,
             ucfirst(StringTools::CyToEn($simulation->user->profile->lastname))
         ));
+        $pathToFile[] = [
+            'jpg' => $name.'.jpg',
+            'name' => str_replace($path, '', $name).'.jpg',
+        ];
+        $pdf->saveOnDisk($name);
 
         // ---------------------------------------
 
@@ -1463,12 +1490,17 @@ class SimulationService
         $pdf->addUniversalBar(150, 47.5, $data['management'][1]['1_3']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//1.3 negative
         $pdf->addUniversalBar(150, 57.5, $data['management'][1]['1_4']['-'], 54.14, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_NEGATIVE);//1.4 negative
 
-        $pdf->saveOnDisk(sprintf(
+        $name = str_replace(' ', '', sprintf(
             '%sp6_%s_%s_skills_planing',
             $path,
             $simulation->id,
             ucfirst(StringTools::CyToEn($simulation->user->profile->lastname))
         ));
+        $pathToFile[] = [
+            'jpg' => $name.'.jpg',
+            'name' => str_replace($path, '', $name).'.jpg',
+        ];
+        $pdf->saveOnDisk($name);
 
         // ---------------------------------------
 
@@ -1487,12 +1519,17 @@ class SimulationService
         $pdf->addUniversalBar(150, 38, $data['management'][2]['2_2']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//2.2 negative
         $pdf->addUniversalBar(150, 48, $data['management'][2]['2_3']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//2.3 negative
 
-        $pdf->saveOnDisk(sprintf(
+        $name = str_replace(' ', '', sprintf(
             '%sp7_%s_%s_skills_delegation',
             $path,
             $simulation->id,
             ucfirst(StringTools::CyToEn($simulation->user->profile->lastname))
         ));
+        $pathToFile[] = [
+            'jpg' => $name.'.jpg',
+            'name' => str_replace($path, '', $name).'.jpg',
+        ];
+        $pdf->saveOnDisk($name);
 
         // ---------------------------------------
 
@@ -1513,12 +1550,17 @@ class SimulationService
         $pdf->addUniversalBar(150, 48, $data['management'][3]['3_3']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//3.3 negative
         $pdf->addUniversalBar(150, 58, $data['management'][3]['3_4']['-'], 54.14, AssessmentPDF::ROUNDED_RIGHT, AssessmentPDF::BAR_NEGATIVE);//3.4 negative
 
-        $pdf->saveOnDisk(sprintf(
+        $name = str_replace(' ', '', sprintf(
             '%sp8_%s_%s_skills_communication',
             $path,
             $simulation->id,
             ucfirst(StringTools::CyToEn($simulation->user->profile->lastname))
         ));
+        $pathToFile[] = [
+            'jpg' => $name.'.jpg',
+            'name' => str_replace($path, '', $name).'.jpg',
+        ];
+        $pdf->saveOnDisk($name);
 
         // ---------------------------------------
 
@@ -1540,12 +1582,24 @@ class SimulationService
         //Двухминутные задачи
         $pdf->addUniversalBar(47, 63.9, $pdf->getPerformanceCategory($data['performance'], '2_min'), 129, AssessmentPDF::ROUNDED_BOTH, AssessmentPDF::BAR_POSITIVE);
 
-        $pdf->saveOnDisk(sprintf(
+        $name = str_replace(' ', '', sprintf(
             '%sp4_%s_%s_productivity',
             $path,
             $simulation->id,
             ucfirst(StringTools::CyToEn($simulation->user->profile->lastname))
         ));
+        $pathToFile[] = [
+            'jpg' => $name.'.jpg',
+            'name' => str_replace($path, '', $name).'.jpg',
+        ];
+        $pdf->saveOnDisk($name);
+
+        // -------------------------------------------------------------------------------
+
+        return [
+            'pathToFolder' => $path,
+            'pathToFiles'   => $pathToFile,
+        ];
     }
 
     public static function getFileNameForAnalyticalFile(YumUser $user){

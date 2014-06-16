@@ -241,6 +241,9 @@ return [
 
                 'admin_area/user/<userId:\d+>/vacancy/<vacancyId:\d+>/remove' => 'admin_area/AdminAccounts/RemoveVacancy',
 
+                'admin_area/prbb/images-list' => 'admin_area/AdminPrbb/ImageArchivesList',
+                'admin_area/prbb/images-zip/<logId:\d+>/download' => 'admin_area/AdminPrbb/DownloadImagesArchive',
+
                 'admin_area/corporate-accounts'                   => 'admin_area/AdminPages/CorporateAccountList',
                 'admin_area/order/action/status'                  => 'admin_area/AdminInvoices/OrderActionStatus',
                 'admin_area/invite/action/status'                 => 'admin_area/AdminPages/InviteActionStatus',
