@@ -68,6 +68,6 @@
             );
         }
 
-        $('.managerial-skills').html(Math.round(AR.performance.total || 0) + '%');
+        $('.managerial-skills').html(Math.round(AR.management.total || 0) + '%');
     });
 </script>
