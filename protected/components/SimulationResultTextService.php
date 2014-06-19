@@ -1,7 +1,9 @@
 <?php
 
 /**
- * Класс генерации Гороскопа
+ * Класс генерации:
+ * 'recommendation' - Индивидуального плана развития менеджера
+ * 'popup' - pdf-инфографики
  */
 class SimulationResultTextService {
 
@@ -21,7 +23,7 @@ class SimulationResultTextService {
     /**
      * Метод генерирует Гороскоп
      * @param Simulation $simulation
-     * @param string $type Тип popup или pdf
+     * @param string $type Тип 'popup' или 'recommendation'
      * @return array
      * @throws Exception
      */

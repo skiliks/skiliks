@@ -272,7 +272,7 @@ class TimeManagementAnalyzer
         if (0 == $this->durationsGrouped['1st_priority']['total']) {
             $assessment_1st->value = 0;
         } else {
-            $assessment_1st->value = round($this->durationsGrouped['1st_priority']['total']*100 / $totalTime);
+            $assessment_1st->value = round($this->durationsGrouped['1st_priority']['total']*100 / $totalTime, 2);
         }
         $assessment_1st->unit_label = TimeManagementAggregated::getUnitLabel(TimeManagementAggregated::SLUG_GLOBAL_TIME_SPEND_FOR_1ST_PRIORITY_ACTIVITIES);
         $assessment_1st->save();
@@ -288,7 +288,7 @@ class TimeManagementAnalyzer
         if (0 == $this->durationsGrouped['non_priority']['total']) {
             $assessment_non->value = 0;
         } else {
-            $assessment_non->value = round($this->durationsGrouped['non_priority']['total']*100 / $totalTime);
+            $assessment_non->value = round($this->durationsGrouped['non_priority']['total']*100 / $totalTime, 2);
         }
         $assessment_non->unit_label = TimeManagementAggregated::getUnitLabel(TimeManagementAggregated::SLUG_GLOBAL_TIME_SPEND_FOR_NON_PRIORITY_ACTIVITIES);
         $assessment_non->save();
