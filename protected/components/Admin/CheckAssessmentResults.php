@@ -17,10 +17,12 @@ class CheckAssessmentResults {
      * @param bool $isFix
      */
     public function checkAndFix($simulations, $isFix = false) {
-        $this->log = new SiteLogCheckResults();
-        $this->log->started_by_id = Yii::app()->user->data()->id;
-        $this->log->started_at = date('Y-m-d H:i:s');
-        $this->log->save();
+        if (self::MODE_DB == $this->mode) {
+            $this->log = new SiteLogCheckResults();
+            $this->log->started_by_id = Yii::app()->user->data()->id;
+            $this->log->started_at = date('Y-m-d H:i:s');
+            $this->log->save();
+        }
 
         $this->checkManagement_1_x($simulations, $isFix);
         $this->checkManagement_2_x($simulations, $isFix);
@@ -30,8 +32,10 @@ class CheckAssessmentResults {
         $this->checkProductivity($simulations, $isFix);
         $this->checkOverall($simulations, $isFix);
 
-        $this->log->finished_at = date('Y-m-d H:i:s');
-        $this->log->save();
+        if (self::MODE_DB == $this->mode) {
+            $this->log->finished_at = date('Y-m-d H:i:s');
+            $this->log->save();
+        }
     }
 
     /**

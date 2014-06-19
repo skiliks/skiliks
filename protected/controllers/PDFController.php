@@ -132,8 +132,8 @@ class PDFController extends SiteBaseController {
                         <td style="width: 5.5%;"></td>
                         <td  style="width: 42%; padding: 0px;"
                             ><font face="dejavusans" style="font-weight: bold;font-size: 13pt;">Время ожидания и бездействия</font><br
-                            ><font face="dejavusans" style="font-weight: bold;font-size: 11pt; ">'.$popup_tests_cache['time.over_time']['short_text'].'</font><br
-                            ><font style="font-size: 13pt;"></font><font face="dejavusans" style="font-size: 11pt;">'.$popup_tests_cache['time.over_time']['text'].'</font><br>
+                            ><font face="dejavusans" style="font-weight: bold;font-size: 11pt; ">'.$popup_tests_cache['time.waiting_time']['short_text'].'</font><br
+                            ><font style="font-size: 13pt;"></font><font face="dejavusans" style="font-size: 11pt;">'.$popup_tests_cache['time.waiting_time']['text'].'</font><br>
                         </td>
                         <td style="width: 6%;"></td>
                         <td style="width: 42%;"></td>
