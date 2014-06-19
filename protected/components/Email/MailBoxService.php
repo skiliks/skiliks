@@ -925,7 +925,9 @@ class MailBoxService
      */
     public static function sendDraft($simulation, $email)
     {
-        assert($email);
+        if (null == $email) {
+            return SimulationBaseController::STATUS_ERROR;
+        }
 
         // update email folder {
         $email->group_id = MailBox::FOLDER_OUTBOX_ID;

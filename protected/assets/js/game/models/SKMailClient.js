@@ -1572,7 +1572,14 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                             try {
                                 var windows = SKApp.simulation.window_set.where({name: 'mailEmulator'});
                                 windows[0].setOnTop();
-                                if (1 === response.result) {
+                                if (null == response) {
+                                    // https://skiliks.atlassian.net/browse/SKILIKS-6065 {
+                                    // открыть папку входящие
+                                    me.trigger('mail:sent');
+                                    me.trigger('process:finish');
+                                    me.getSendedFolderEmails();
+                                    // https://skiliks.atlassian.net/browse/SKILIKS-6065 }
+                                } else if (1 === response.result) {
                                     var window = me.getSimulationMailClientWindow();
                                     window.set('params', {'mailId': response.messageId});
                                     me.trigger('mail:sent');

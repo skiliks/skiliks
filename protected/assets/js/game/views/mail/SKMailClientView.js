@@ -3397,7 +3397,14 @@ define([
                         },
                         function (response) {
                             try {
-                                if (1 !== response.result) {
+                                if (null == response) {
+                                    me.mailClient.trigger('mail:sent');
+                                    me.mailClient.trigger('process:finish');
+                                    me.mailClient.setWindowsLog(
+                                        'mailMain',
+                                        me.mailClient.getActiveEmailId()
+                                    );
+                                } else if (1 !== response.result) {
                                     me.mailClient.trigger('process:finish');
                                     // display message for user
                                     SKApp.simulation.mailClient.message_window =

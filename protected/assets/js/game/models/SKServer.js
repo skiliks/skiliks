@@ -112,8 +112,32 @@ define([
                         },
                         timeout: parseInt(me.requests_timeout),
                         success:  function (data, textStatus, jqXHR) {
+                            // https://skiliks.atlassian.net/browse/SKILIKS-6065 {
+                            // в задаче всё описано - истонную причину установить не удалось
+                            // но мы хотябы обрабатываем пустой ответ от сервера, не будет зависания мейл клиента
+                            // и логируем факт, пустого ответа от сервера
+                            if (null == data) {
+                                if (window.Raven) {
+                                    window.Raven.captureMessage(
+                                        'Response "data" is null for "' + url
+                                        + '". Request '
+                                        + params.uniqueId + '. '
+                                        + 'GameTime: ' + SKApp.simulation.getGameTime({with_seconds: true})
+                                    );
+                                }
 
-                            if(typeof data.redirect === 'string') {
+                                // по крайней мере для mail/sendDraft вызов callback() обязателен
+                                if(
+                                    me.isRunCallBack(params.uniqueId)
+                                    &&(
+                                        '/index.php/mail/sendDraft' == url
+                                            || '/index.php/mail/sendMessage' == url
+                                        )) {
+
+                                    callback(data, textStatus, jqXHR);
+                                }
+                            // https://skiliks.atlassian.net/browse/SKILIKS-6065 }
+                            } else if(typeof data.redirect === 'string') {
                                 $(window).off('beforeunload');
                                 location.assign('/dashboard');
                             } else {

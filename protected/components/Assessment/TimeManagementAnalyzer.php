@@ -71,7 +71,7 @@ class TimeManagementAnalyzer
     }
 
     /**
-     * Расчет времени которые человек пересидел на работе
+     * Расчет времени которое человек пересидел на работе
      */
     public function calculateGameOverhead()
     {
@@ -399,5 +399,4 @@ class TimeManagementAnalyzer
 
         /* non } */
     }
-
 }
