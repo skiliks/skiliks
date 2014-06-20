@@ -34,17 +34,6 @@ class InitBaseUsersCommand
             $actionSrartDevMode->save();
         }
 
-        $actionFullSim = YumAction::model()->findByAttributes([
-            'title' => 'run_full_simulation'
-        ]);
-
-        if (null === $actionFullSim) {
-            $actionFullSim = new YumAction();
-            $actionFullSim->title   = 'run_full_simulation';
-            $actionFullSim->comment = 'Is user can start full simulation.';
-            $actionFullSim->save();
-        }
-
         $users = Yii::app()->params['initial_data']['users'];
         foreach ($users as $user) {
             echo "\n user {$user['username']}:";
