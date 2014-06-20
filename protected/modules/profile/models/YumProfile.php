@@ -222,15 +222,15 @@ class YumProfile extends YumActiveRecord
 				array(implode(',',$safe), 'safe'));
 
         $rules[] = array('email', 'isAccountBanned');
-        $rules[] = array('email', 'emailIsNotActiveValidation', 'on' => array('insert', 'registration', 'registration_corporate'));
-        $rules[] = array('email', 'emailIsUsedForCorporateAccount', 'on' => array('insert', 'registration', 'registration_corporate'));
+        $rules[] = array('email', 'emailIsNotActiveValidation', 'on' => array('insert', 'registration', 'registration_corporate', 'update', 'update_corporate'));
+        $rules[] = array('email', 'emailIsUsedForCorporateAccount', 'on' => array('insert', 'registration', 'registration_corporate', 'update'));
         $rules[] = array('allow_comments, show_friends', 'numerical');
         $rules[] = array('email', 'unique', 'on' => array('insert', 'registration', 'registration_corporate'), 'message' => Yii::t('site', 'Данный email занят'));
 		$rules[] = array('email', 'CEmailValidator', 'message' => Yii::t('site', 'Wrong email'));
         $rules[] = array('privacy', 'safe');
 
-        $rules[] = array('email', 'required', 'on' => array('insert', 'registration', 'registration_corporate'), 'message' => Yii::t('site', 'Email is required'));
-        $rules[] = array('email' , 'isCorporateEmail', 'on' => array('insert', 'registration_corporate'));
+        $rules[] = array('email', 'required', 'on' => array('insert', 'registration', 'registration_corporate', 'update', 'update_corporate'), 'message' => Yii::t('site', 'Email is required'));
+        $rules[] = array('email' , 'isCorporateEmail', 'on' => array('insert', 'registration_corporate', 'update_corporate'));
         $rules[] = array('firstname', 'required', 'message' => Yii::t('site', 'First name is required'));
         $rules[] = array('lastname', 'required', 'message' => Yii::t('site', 'Last name is required'));
 

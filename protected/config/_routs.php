@@ -210,6 +210,9 @@ return [
                 'admin_area/invite/<inviteId:\w+>/change-sim-id'
                     => 'admin_area/AdminInvites/ChangeSimId',
 
+                'admin_area/user/<userId:\w+>/change-email'=> 'admin_area/AdminAccounts/ChangeEmail',
+                'admin_area/user/<userId:\w+>/change-white-list'=> 'admin_area/AdminAccounts/ChangeWhiteList',
+
                 'admin_area/project_configs/log/<id:\w+>' => 'admin_area/AdminProjectConfig/ConfigLogsList',
 
                 'admin_area/service/check-assessment-results-list'        => 'admin_area/AdminServicePages/CheckAssessmentResults',

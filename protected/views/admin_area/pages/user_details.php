@@ -132,10 +132,38 @@ $assetsUrl = $this->getAssetsUrl();
     <tr>
         <td style="width: 25%">Имя и Фамилия</td>
         <td style="width: 25%"><span style='text-label-200px'><?= $user->profile->firstname ?></span> <span style='text-label-200px'><?= $user->profile->lastname ?></span></td>
-        <td style="width: 25%">Личный email</td>
         <td style="width: 25%">
-            <i class="icon icon-user"></i>
-            <span style='text-label-200px'><?= $user->profile->email ?></span>
+            Личный email
+            <br/>
+            <small style="color: #888;">Для корпоративных аккаунтов, личный и корпоративный емейл - это одно и тоже.</small>
+        </td>
+        <td style="width: 25%">
+            <i class="icon icon-user" style="margin: -2px 4px 0 0;"></i>
+
+            <?php $loginWidget = $this->beginWidget('CActiveForm', [
+                'action'      => Yii::app()->request->hostInfo.'/admin_area/user/'.$user->id.'/change-email',
+                'enableAjaxValidation' => true,
+                'clientOptions'        => array(
+                    'validateOnSubmit' => true,
+                    'validateOnChange' => false,
+                    'afterValidate'    => 'js:changeEmailValidation',
+                ),
+                'htmlOptions' => [
+                    'style' => 'display: inline;',
+                ]
+            ]); ?>
+
+            <?php echo $loginWidget->error($user->profile, 'email'); ?>
+            <?php echo $loginWidget->textField($user->profile, "email", [
+                'style' => 'display: inline-block;',
+            ]) ?>
+
+            <?php echo CHtml::submitButton( 'Изменить', [
+                'class' => 'btn btn-success',
+                'style' => 'display: inline-block;',
+            ]); ?>
+
+            <?php $this->endWidget(); ?>
         </td>
     </tr>
 
@@ -206,7 +234,7 @@ $assetsUrl = $this->getAssetsUrl();
             <td>
                 Добавить симуляции в аккаунт
                 <br/>
-                <small style="color: #888;">Чтоб забрать симуляции введите отрицательное значение</small>
+                <small style="color: #888;">Чтоб забрать симуляции введите отрицательное значение.</small>
             </td>
 
             <td>
@@ -317,3 +345,34 @@ $assetsUrl = $this->getAssetsUrl();
     </table>
     </form>
 <?php endif ?>
+
+<h3>Белый список:</h3>
+
+<small style="color: #888;">Если он не пуст - то пользователь админки будет видеть и сможет редактировать только аккаунты из списка, приглашения, симуляции этих аккаунтов.</small>
+
+<br/>
+<br/>
+
+<?php $loginWidget = $this->beginWidget('CActiveForm', [
+    'action'      => Yii::app()->request->hostInfo.'/admin_area/user/'.$user->id.'/change-white-list',
+    'enableAjaxValidation' => true,
+    'clientOptions'        => [
+        'validateOnSubmit' => true,
+        'validateOnChange' => false,
+        'afterValidate'    => 'js:changeWhiteListValidation',
+    ],
+]); ?>
+
+<?php echo $loginWidget->error($user, 'emails_white_list'); ?>
+<?php echo $loginWidget->textArea($user, "emails_white_list", [
+    'rows' => 5,
+    'cols' => 60,
+    'style' => 'width: 600px;',
+]) ?>
+
+<?php echo CHtml::submitButton( 'Изменить', [
+    'class' => 'btn btn-success',
+    'style' => 'display: inline-block; vertical-align: top; margin-left: 10px;',
+]); ?>
+
+<?php $this->endWidget(); ?>

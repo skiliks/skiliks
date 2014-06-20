@@ -18,6 +18,7 @@
  * @property string $ip_address
  * @property string $is_password_bruteforce_detected
  * @property string $authorization_after_bruteforce_key
+ * @property string $emails_white_list, список емейлов, симуляции от которых может видеть пользователь в админке
  *
  * Relations
  * @property YumProfile $profile

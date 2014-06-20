@@ -291,4 +291,33 @@ $(document).ready(function(){
             window.location.assign('/admin_area/feedbacks');
         });
     });
+
+    // ----
+
+    window.changeEmailValidation = function addVacancyValidation(form, data, hasError) {
+
+        if (true == data.isValid) {
+            alert('Емейл сохранён.');
+            window.location.reload();
+        } else {
+            error = JSON.parse(data.errors);
+            alert(error['emails']);
+        }
+
+        return false;
+    };
+
+    // ----
+
+    window.changeWhiteListValidation = function addVacancyValidation(form, data, hasError) {
+
+        if (true == data.isValid) {
+            alert('Белый список обновлён.');
+        } else {
+            error = JSON.parse(data.errors);
+            alert(error['emails_white_list']);
+        }
+
+        return false;
+    };
 });

@@ -304,4 +304,105 @@ class AdminAccountsController extends BaseAdminController {
 
         $this->redirect('/admin_area/user/'.$userId.'/details');
     }
+
+    /**
+     * Метод смены емейла по AJAX
+     *
+     * @param integer $userId
+     */
+    public function actionChangeEmail($userId) {
+        // на что меняем
+        $newEmail = Yii::app()->request->getParam('YumProfile')['email'];
+
+        // готовим прочие данные дял проверок
+        $updatedUser = YumUser::model()->findByPk($userId);
+        $equalProfile = YumProfile::model()->findByAttributes(['email' => $newEmail]);
+        $oldEmail = $updatedUser->profile->email;
+
+        // валидация профиля {
+        $updatedUser->profile->email = $newEmail;
+        $updatedUser->profile->scenario =
+            ($updatedUser->getAccount() instanceof UserAccountCorporate)
+                ? 'update_corporate'
+                : 'update';
+
+        $isValid = $updatedUser->profile->validate(['email']);
+        // валидация профиля }
+
+        // Проверку на уникальность не пройдёт ни один емейл - они уже есть в БД.
+        // Так что приходися проверять в ручную.
+        if (null != $equalProfile
+            && $updatedUser->profile->email == $newEmail
+            && $updatedUser->profile->id != $equalProfile->id) {
+
+            $isValid = false;
+            $updatedUser->profile->addError('email', 'Этот email уже используется для аккаунта #' . $equalProfile->user->id . '.');
+        } else {
+
+        }
+
+        if (true == $isValid) {
+            // если пользователь сменил емейл - надо его сменить и в белом списке
+            $updatedUser->emails_white_list = str_replace($oldEmail, $newEmail, $updatedUser->emails_white_list);
+            $updatedUser->profile->save(false);
+            $updatedUser->save(false, ['emails_white_list']);
+
+            UserService::logAccountAction(
+                $this->user,
+                $_SERVER['REMOTE_ADDR'],
+                sprintf(
+                    'Админ %s сменил емейл пользователю #%s с %s на %s.',
+                    $this->user->profile->email,
+                    $updatedUser->id,
+                    $oldEmail,
+                    $newEmail
+                )
+            );
+        }
+
+        $this->sendJSON([
+            'isValid' => $isValid,
+            'errors'  => json_encode($updatedUser->profile->getErrors()),
+        ]);
+    }
+
+    /**
+     * Метод обновления белого списка для пользователя по AJAX
+     *
+     * @param integer $userId
+     */
+    public function actionChangeWhiteList($userId) {
+        $updatedUser = YumUser::model()->findByPk($userId);
+
+        if (null == $updatedUser) {
+            $this->sendJSON([
+                'isValid' => false,
+                'errors'  => json_encode([
+                    'emails_white_list' => sprintf('Пользователя #%s не существует.', $userId)
+                ]),
+            ]);
+            Yii::app()->end();
+        }
+
+        $oldEmails = $updatedUser->emails_white_list;
+        $updatedUser->emails_white_list = Yii::app()->request->getParam('YumUser')['emails_white_list'];
+        $updatedUser->save(false);
+
+        UserService::logAccountAction(
+            $this->user,
+            $_SERVER['REMOTE_ADDR'],
+            sprintf(
+                'Админ %s сменил емейлы в белом списке пользователю #%s с "%s" на "%s".',
+                $this->user->profile->email,
+                $updatedUser->id,
+                $oldEmails,
+                $updatedUser->emails_white_list
+            )
+        );
+
+        $this->sendJSON([
+            'isValid' => true,
+            'errors'  => json_encode([]),
+        ]);
+    }
 } 
