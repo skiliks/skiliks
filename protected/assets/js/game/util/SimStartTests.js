@@ -274,12 +274,6 @@ try {
                     return false;
                 }
 
-                $.browser['chrome'] = false;
-                $.browser['msie'] = true;
-                $.browser.name = 'msie';
-                $.browser.version = '10';
-                $.browser.versionNumber = '10';
-
                 for (var name in minSupport) {
                     if (minSupport.hasOwnProperty(name)) {
                         if ($.browser[name]) {
