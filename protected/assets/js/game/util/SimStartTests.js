@@ -21,7 +21,7 @@ try {
                 };
 
                 var maxSupport = {
-                    mozilla: window.gameConfig.mozilla_max_support,
+                    mozilla: window.gameConfig.firefox_max_support,
                     chrome:  window.gameConfig.chrome_max_support,
                     msie:    window.gameConfig.msie_max_support,
                     safari:  window.gameConfig.safari_max_support
@@ -35,10 +35,10 @@ try {
                 };
 
                 // формируем строки с перечнем поддерживаемых версий браузеров
-                var chrome_versions_to_block = window.gameConfig.chrome_version_to_block.split(",");
-                var internet_explorer_versions_to_block = window.gameConfig.internet_explorer_version_to_block.split(",");
-                var firefox_versions_to_block = window.gameConfig.firefox_version_to_block.split(",");
-                var safari_versions_to_block = window.gameConfig.safari_version_to_block.split(",");
+                var chrome_versions_to_block = window.gameConfig.chrome_version_to_block.replace(' ','').split(",");
+                var internet_explorer_versions_to_block = window.gameConfig.internet_explorer_version_to_block.replace(' ','').split(",");
+                var firefox_versions_to_block = window.gameConfig.firefox_version_to_block.replace(' ','').split(",");
+                var safari_versions_to_block = window.gameConfig.safari_version_to_block.replace(' ','').split(",");
 
                 // CHROME {
                 var chromeVersionsSupport = [];
@@ -46,7 +46,10 @@ try {
                     chromeVersionsSupport[i] = true;
                 }
                 for(var index in chrome_versions_to_block) {
-                    chromeVersionsSupport[chrome_versions_to_block[index]] = false;
+                    if (parseInt(chrome_versions_to_block[index]) <= parseInt(maxSupport.chrome)
+                        && '' != chrome_versions_to_block[index]) {
+                        chromeVersionsSupport[chrome_versions_to_block[index].replace(' ','')] = false;
+                    }
                 }
 
                 // формируем текст
@@ -80,6 +83,10 @@ try {
                     before = chromeVersionsSupport[version];
                 }
 
+                if ('-' == chromeMiddleText.substr(chromeMiddleText.length -1, 1)) {
+                    chromeMiddleText = chromeMiddleText.substr(0, chromeMiddleText.length -1);
+                }
+
                 if (',' != chromeMiddleText.substr(chromeMiddleText.length -1, 1)) {
                     chromeMiddleText += ',';
                 }
@@ -90,8 +97,11 @@ try {
                 for(var i = minSupport.mozilla; i <= maxSupport.mozilla; i++) {
                     firefoxVersionsSupport[i] = true;
                 }
-                for(var index in chrome_versions_to_block) {
-                    firefoxVersionsSupport[chrome_versions_to_block[index]] = false;
+                for(var index in firefox_versions_to_block) {
+                    if (parseInt(firefox_versions_to_block[index]) <= parseInt(maxSupport.mozilla)
+                        && '' != firefox_versions_to_block[index]) {
+                        firefoxVersionsSupport[firefox_versions_to_block[index].replace(' ','')] = false;
+                    }
                 }
 
                 // формируем текст
@@ -125,6 +135,10 @@ try {
                     before = firefoxVersionsSupport[version];
                 }
 
+                if ('-' == firefoxMiddleText.substr(firefoxMiddleText.length -1, 1)) {
+                    firefoxMiddleText = firefoxMiddleText.substr(0, firefoxMiddleText.length -1);
+                }
+
                 if (',' != firefoxMiddleText.substr(firefoxMiddleText.length -1, 1)) {
                     firefoxMiddleText += ',';
                 }
@@ -135,8 +149,11 @@ try {
                 for(var i = minSupport.msie; i <= maxSupport.msie; i++) {
                     ieVersionsSupport[i] = true;
                 }
-                for(var index in chrome_versions_to_block) {
-                    ieVersionsSupport[chrome_versions_to_block[index]] = false;
+                for(var index in internet_explorer_versions_to_block) {
+                    if (parseInt(internet_explorer_versions_to_block[index]) <= parseInt(maxSupport.msie)
+                        && '' != internet_explorer_versions_to_block[index]) {
+                        ieVersionsSupport[internet_explorer_versions_to_block[index].replace(' ','')] = false;
+                    }
                 }
 
                 // формируем текст
@@ -170,6 +187,10 @@ try {
                     before = ieVersionsSupport[version];
                 }
 
+                if ('-' == ieMiddleText.substr(ieMiddleText.length -1, 1)) {
+                    ieMiddleText = ieMiddleText.substr(0, ieMiddleText.length -1);
+                }
+
                 if (',' != ieMiddleText.substr(ieMiddleText.length -1, 1)) {
                     ieMiddleText += ',';
                 }
@@ -180,8 +201,11 @@ try {
                 for(var i = minSupport.safari; i <= maxSupport.safari; i++) {
                     safariVersionsSupport[i] = true;
                 }
-                for(var index in chrome_versions_to_block) {
-                    safariVersionsSupport[chrome_versions_to_block[index]] = false;
+                for(var index in safari_versions_to_block) {
+                    if (parseInt(safari_versions_to_block[index]) <= parseInt(maxSupport.msie)
+                        && '' != safari_versions_to_block[index]) {
+                        safariVersionsSupport[safari_versions_to_block[index].replace(' ','')] = false;
+                    }
                 }
 
                 // формируем текст
@@ -215,10 +239,12 @@ try {
                     before = safariVersionsSupport[version];
                 }
 
+                if ('-' == safariMiddleText.substr(safariMiddleText.length -1, 1)) {
+                    safariMiddleText = safariMiddleText.substr(0, safariMiddleText.length -1);
+                }
+
                 // 'safari' последний, после него запятая не нужна
                 // SAFARI }
-
-
 
                 var supportText = {
                     mozilla: BrowserFullNames.mozilla + " " + firefoxMiddleText + " ",
@@ -248,9 +274,48 @@ try {
                     return false;
                 }
 
+                $.browser['chrome'] = false;
+                $.browser['msie'] = true;
+                $.browser.name = 'msie';
+                $.browser.version = '10';
+                $.browser.versionNumber = '10';
+
                 for (var name in minSupport) {
                     if (minSupport.hasOwnProperty(name)) {
                         if ($.browser[name]) {
+
+                            // блокируемые версии браузеров {
+                            var isBlockedChromeVersion = ('chrome' == name
+                                && chrome_versions_to_block.indexOf($.browser.version.substring(0, 2)) > -1);
+
+                            var isBlockedFirefoxVersion = ('mozilla' == name
+                                && firefox_versions_to_block.indexOf($.browser.version.substring(0, 2)) > -1);
+
+                            var isBlockedInternetExplorerVersion = ('msie' == name
+                                && internet_explorer_versions_to_block.indexOf($.browser.version.substring(0, 2)) > -1);
+
+                            var isBlockedSafariVersion = ('safari' == name
+                                && safari_versions_to_block.indexOf($.browser.version.substring(0, 1)) > -1);
+
+                            if (isBlockedChromeVersion || isBlockedFirefoxVersion
+                                || isBlockedInternetExplorerVersion || isBlockedSafariVersion) {
+                                var oldBrowserText = "К сожалению мы не гарантируем стабильную работу в вашей версии браузера "
+                                    + "(" + BrowserFullNames[name] + " " + $.browser.version + "). "
+                                    + "Рекомендуем использовать следующие версии браузеров (";
+
+                                for(var index in supportText) {
+                                    oldBrowserText += supportText[index];
+                                }
+
+                                oldBrowserText += ').';
+
+                                alert(oldBrowserText);
+                                location.href = '/dashboard';
+                                return false;
+                            }
+                            // блокируемые версии браузеров }
+
+                            // не поддерживаемые версии браузеров {
                             if (parseFloat($.browser.version) >= minSupport[name] && this.isAllowOS(cfg.isSkipOsCheck, ['Windows', 'MacOS'])) {
                                 if(parseFloat($.browser.version) > maxSupport[name]) {
 
@@ -275,12 +340,12 @@ try {
                                 location.href = cfg.oldBrowserUrl;
                                 return false;
                             }
+                            // не поддерживаемые версии браузеров }
                         }
                     }
                 }
-
-                location.href = cfg.oldBrowserUrl;
-                return false;
+//                location.href = cfg.oldBrowserUrl;
+//                return false;
             },
 
             processorSpeed: function(cfg) {
