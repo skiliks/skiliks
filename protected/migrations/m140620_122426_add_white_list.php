@@ -4,7 +4,7 @@ class m140620_122426_add_white_list extends CDbMigration
 {
 	public function up()
 	{
-        // $this->addColumn('user', 'emails_white_list', 'TEXT');
+        $this->addColumn('user', 'emails_white_list', 'TEXT');
 
         $users = YumUser::model()->findAll();
 

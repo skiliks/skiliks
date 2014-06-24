@@ -3,18 +3,16 @@
 class m140620_155446_add_permissions extends CDbMigration
 {
 	public function up()
-	{
-//        $this->addColumn('action', 'group', 'VARCHAR(60)');
-//        $this->addColumn('action', 'order_no', 'VARCHAR(5)');
+    {
+        $this->truncateTable('action');
 
-        $this->delete('action', ' title = "run_full_simulation" ');
-
-        $this->update('action', [
+        $this->insert('action', [
             'comment'  => 'Из админки можно запустить игру в специальном интерфейсе, который упрощает тестирование.',
             'subject'  => 'Право запуска DEV симуляции',
-            'group'    => 'Общее',
+            'title'    => 'start_dev_mode',
+            'group'    => 'бщее',
             'order_no' => '1.1',
-        ], ' title = "start_dev_mode" ');
+        ]);
 
         $this->insert('action', [
             'subject'  => 'Право генерировать и скачивать сводный аналитический файл по всем аккаунтам',
@@ -99,7 +97,7 @@ class m140620_155446_add_permissions extends CDbMigration
         $this->insert('action', [
             'subject'  => 'Право просмотра всего списка симуляций',
             'comment'  => '',
-            'title'    => '',
+            'title'    => 'invite_list_view',
             'group'    => 'Симуляции',
             'order_no' => '6.1',
         ]);
@@ -107,7 +105,7 @@ class m140620_155446_add_permissions extends CDbMigration
         $this->insert('action', [
             'subject'  => 'Право смотреть подробную информацию по любой симуляции',
             'comment'  => '',
-            'title'    => '',
+            'title'    => 'invite_details_view',
             'group'    => 'Симуляции',
             'order_no' => '6.2',
         ]);
@@ -115,7 +113,7 @@ class m140620_155446_add_permissions extends CDbMigration
         $this->insert('action', [
             'subject'  => 'Право просмотра лога запросов к серверу по любой симуляции',
             'comment'  => '',
-            'title'    => '',
+            'title'    => 'sim_server_requests_list_view',
             'group'    => 'Симуляции',
             'order_no' => '6.3',
         ]);
@@ -123,7 +121,7 @@ class m140620_155446_add_permissions extends CDbMigration
         $this->insert('action', [
             'subject'  => 'Право включать / выключать аварийную панель',
             'comment'  => '',
-            'title'    => '',
+            'title'    => 'sim_on_off_emergency_panel',
             'group'    => 'Симуляции',
             'order_no' => '6.4',
         ]);
@@ -131,7 +129,7 @@ class m140620_155446_add_permissions extends CDbMigration
         $this->insert('action', [
             'subject'  => 'Право просмотра рейтинга симуляций',
             'comment'  => '',
-            'title'    => '',
+            'title'    => 'sim_rating_view',
             'group'    => 'Статистика',
             'order_no' => '7.1',
         ]);
@@ -139,7 +137,7 @@ class m140620_155446_add_permissions extends CDbMigration
         $this->insert('action', [
             'subject'  => 'Право просматривать список подписавшихся на рассылку',
             'comment'  => '',
-            'title'    => '',
+            'title'    => 'subscribers_list_view',
             'group'    => 'Поддержка',
             'order_no' => '3.1',
         ]);
@@ -147,7 +145,7 @@ class m140620_155446_add_permissions extends CDbMigration
         $this->insert('action', [
             'subject'  => 'Право просматривать и редактировать отзывы',
             'comment'  => '',
-            'title'    => '',
+            'title'    => 'feedback_view_edit',
             'group'    => 'Поддержка',
             'order_no' => '3.2',
         ]);
@@ -155,7 +153,7 @@ class m140620_155446_add_permissions extends CDbMigration
         $this->insert('action', [
             'subject'  => 'Право просматривать логи авторизации',
             'comment'  => '',
-            'title'    => '',
+            'title'    => 'auth_logs_view',
             'group'    => 'Поддержка',
             'order_no' => '3.3',
         ]);
@@ -163,7 +161,7 @@ class m140620_155446_add_permissions extends CDbMigration
         $this->insert('action', [
             'subject'  => 'Право просматривать список супер-админов',
             'comment'  => '',
-            'title'    => '',
+            'title'    => 'admins_list_view',
             'group'    => 'Управление',
             'order_no' => '8.2',
         ]);
@@ -171,7 +169,7 @@ class m140620_155446_add_permissions extends CDbMigration
         $this->insert('action', [
             'subject'  => 'Право просмотривать список забаненных пользователей',
             'comment'  => '',
-            'title'    => '',
+            'title'    => 'banned_users_list_view',
             'group'    => 'Поддержка',
             'order_no' => '3.4',
         ]);
@@ -179,7 +177,7 @@ class m140620_155446_add_permissions extends CDbMigration
         $this->insert('action', [
             'subject'  => 'Право просматривать список текущих симуляций',
             'comment'  => '',
-            'title'    => '',
+            'title'    => 'online_sim_list_view',
             'group'    => 'Поддержка',
             'order_no' => '3.5',
         ]);
@@ -187,7 +185,7 @@ class m140620_155446_add_permissions extends CDbMigration
         $this->insert('action', [
             'subject'  => 'Право просмотра списка корпоративных пользователей',
             'comment'  => '',
-            'title'    => '',
+            'title'    => 'corp_users_list_view',
             'group'    => 'Пользователи',
             'order_no' => '4.1',
         ]);
@@ -195,7 +193,7 @@ class m140620_155446_add_permissions extends CDbMigration
         $this->insert('action', [
             'subject'  => 'Право импорта списка корпоративных пользователей',
             'comment'  => '',
-            'title'    => '',
+            'title'    => 'corp_users_list_import',
             'group'    => 'Пользователи',
             'order_no' => '4.2',
         ]);
@@ -203,7 +201,7 @@ class m140620_155446_add_permissions extends CDbMigration
         $this->insert('action', [
             'subject'  => 'Право просмотра списка всех пользователей*',
             'comment'  => '',
-            'title'    => '',
+            'title'    => 'all_users_list_view',
             'group'    => 'Пользователи',
             'order_no' => '4.3',
         ]);
@@ -211,7 +209,7 @@ class m140620_155446_add_permissions extends CDbMigration
         $this->insert('action', [
             'subject'  => 'Право посмотра детальной информации о любом пользователе*',
             'comment'  => '',
-            'title'    => '',
+            'title'    => 'user_details_view',
             'group'    => 'Пользователи',
             'order_no' => '4.4',
         ]);
@@ -219,7 +217,7 @@ class m140620_155446_add_permissions extends CDbMigration
         $this->insert('action', [
             'subject'  => 'Право сменить пароль любому пользователю',
             'comment'  => '',
-            'title'    => '',
+            'title'    => 'user_change_password',
             'group'    => 'Пользователи',
             'order_no' => '4.5',
         ]);
@@ -227,7 +225,7 @@ class m140620_155446_add_permissions extends CDbMigration
         $this->insert('action', [
             'subject'  => 'Право войти в аккаунт любого пользователя',
             'comment'  => '',
-            'title'    => '',
+            'title'    => 'user_login_ghost',
             'group'    => 'Пользователи',
             'order_no' => '4.6',
         ]);
@@ -235,7 +233,7 @@ class m140620_155446_add_permissions extends CDbMigration
         $this->insert('action', [
             'subject'  => 'Право просматривать логи любого аккаунта',
             'comment'  => '',
-            'title'    => '',
+            'title'    => 'user_logs_view',
             'group'    => 'Пользователи',
             'order_no' => '4.7',
         ]);
@@ -243,7 +241,7 @@ class m140620_155446_add_permissions extends CDbMigration
         $this->insert('action', [
             'subject'  => 'Право заблокировать/разблокировать авторизацию любого аккаунта',
             'comment'  => '',
-            'title'    => '',
+            'title'    => 'user_auth_block_unblock',
             'group'    => 'Пользователи',
             'order_no' => '4.8',
         ]);
@@ -251,7 +249,7 @@ class m140620_155446_add_permissions extends CDbMigration
         $this->insert('action', [
             'subject'  => 'Право забанить/разбанить любой корп. аккаунт',
             'comment'  => '',
-            'title'    => '',
+            'title'    => 'corp_user_ban_unban',
             'group'    => 'Пользователи',
             'order_no' => '4.9',
         ]);
@@ -259,7 +257,7 @@ class m140620_155446_add_permissions extends CDbMigration
         $this->insert('action', [
             'subject'  => 'Право просмотра логов движения приглашений любого аккаунта. И текущего количества симуляции в этом аккаунте*',
             'comment'  => '',
-            'title'    => '',
+            'title'    => 'user_invite_movement_logs_view',
             'group'    => 'Пользователи',
             'order_no' => '4.10',
         ]);
@@ -267,7 +265,7 @@ class m140620_155446_add_permissions extends CDbMigration
         $this->insert('action', [
             'subject'  => 'Право групповой отправки приглашений от имени любого пользователя',
             'comment'  => '',
-            'title'    => '',
+            'title'    => 'user_balk_send_invites',
             'group'    => 'Пользователи',
             'order_no' => '4.11',
         ]);
@@ -275,7 +273,7 @@ class m140620_155446_add_permissions extends CDbMigration
         $this->insert('action', [
             'subject'  => 'Право исключать/добавлять любой аккаунт в нашу рассылку',
             'comment'  => '',
-            'title'    => '',
+            'title'    => 'user_add_remove_from_news_mail_list',
             'group'    => 'Пользователи',
             'order_no' => '4.12',
         ]);
@@ -283,7 +281,7 @@ class m140620_155446_add_permissions extends CDbMigration
         $this->insert('action', [
             'subject'  => 'Право управления скидкой любого аккаунта',
             'comment'  => '',
-            'title'    => '',
+            'title'    => 'user_discount_edit',
             'group'    => 'Пользователи',
             'order_no' => '4.13',
         ]);
@@ -291,7 +289,7 @@ class m140620_155446_add_permissions extends CDbMigration
         $this->insert('action', [
             'subject'  => 'Право менять данные “для менеджеров по продажам” у любого аккайнта',
             'comment'  => '',
-            'title'    => '',
+            'title'    => 'user_sales_manager_data_edit',
             'group'    => 'Пользователи',
             'order_no' => '4.14',
         ]);
@@ -299,7 +297,7 @@ class m140620_155446_add_permissions extends CDbMigration
         $this->insert('action', [
             'subject'  => 'Право добавлять/отнимать симуляции у аккаунта',
             'comment'  => '',
-            'title'    => '',
+            'title'    => 'user_add_remove_simulations',
             'group'    => 'Пользователи',
             'order_no' => '4.15',
         ]);
@@ -307,7 +305,7 @@ class m140620_155446_add_permissions extends CDbMigration
         $this->insert('action', [
             'subject'  => 'Право изменить email для аккаунта',
             'comment'  => '',
-            'title'    => '',
+            'title'    => 'user_change_email',
             'group'    => 'Пользователи',
             'order_no' => '4.16',
         ]);
@@ -315,7 +313,7 @@ class m140620_155446_add_permissions extends CDbMigration
         $this->insert('action', [
             'subject'  => 'Право просматривать заказы',
             'comment'  => '',
-            'title'    => '',
+            'title'    => 'orders_view',
             'group'    => 'Заказы',
             'order_no' => '2.1',
         ]);
@@ -323,7 +321,7 @@ class m140620_155446_add_permissions extends CDbMigration
         $this->insert('action', [
             'subject'  => 'Право редактировать заказы',
             'comment'  => '',
-            'title'    => '',
+            'title'    => 'orders_edit',
             'group'    => 'Заказы',
             'order_no' => '2.2',
         ]);
@@ -331,7 +329,7 @@ class m140620_155446_add_permissions extends CDbMigration
         $this->insert('action', [
             'subject'  => 'Право смотреть список импотров и делать реимпорт',
             'comment'  => '',
-            'title'    => '',
+            'title'    => 'system_ake_re_import',
             'group'    => 'Управление',
             'order_no' => '8.3',
         ]);
@@ -339,7 +337,7 @@ class m140620_155446_add_permissions extends CDbMigration
         $this->insert('action', [
             'subject'  => 'Право проверки консистенстности оценок и просмотра статистики таких проверок',
             'comment'  => '',
-            'title'    => '',
+            'title'    => 'system_validate_sim_results_cache',
             'group'    => 'Управление',
             'order_no' => '8.4',
         ]);
@@ -347,7 +345,7 @@ class m140620_155446_add_permissions extends CDbMigration
         $this->insert('action', [
             'subject'  => 'Право генерации и скачивания картинок для ПРББ',
             'comment'  => '',
-            'title'    => '',
+            'title'    => 'support_prbb_generete_download',
             'group'    => 'Поддержка',
             'order_no' => '3.6',
         ]);
@@ -355,7 +353,7 @@ class m140620_155446_add_permissions extends CDbMigration
         $this->insert('action', [
             'subject'  => 'Право просматривать статистику по серверам',
             'comment'  => '',
-            'title'    => '',
+            'title'    => 'statistic_view',
             'group'    => 'Статистика',
             'order_no' => '7.2',
         ]);
@@ -363,7 +361,7 @@ class m140620_155446_add_permissions extends CDbMigration
         $this->insert('action', [
             'subject'  => 'Право просматривать очередь писем',
             'comment'  => '',
-            'title'    => '',
+            'title'    => 'support_mail_queue_view',
             'group'    => 'Поддержка',
             'order_no' => '3.7',
         ]);
@@ -371,7 +369,7 @@ class m140620_155446_add_permissions extends CDbMigration
         $this->insert('action', [
             'subject'  => 'Право просматривать текст писем',
             'comment'  => '',
-            'title'    => '',
+            'title'    => 'support_mail_details_view',
             'group'    => 'Поддержка',
             'order_no' => '3.8',
         ]);
@@ -379,7 +377,7 @@ class m140620_155446_add_permissions extends CDbMigration
         $this->insert('action', [
             'subject'  => 'Право просмотра статискики регистрации ',
             'comment'  => '',
-            'title'    => '',
+            'title'    => 'statistic_registration_view',
             'group'    => 'Статистика',
             'order_no' => '7.3',
         ]);
@@ -387,7 +385,7 @@ class m140620_155446_add_permissions extends CDbMigration
         $this->insert('action', [
             'subject'  => 'Право просматривать и редактировать список безплатных доменов',
             'comment'  => '',
-            'title'    => '',
+            'title'    => 'support_free_mail_services_list_view_edit',
             'group'    => 'Поддержка',
             'order_no' => '3.9',
         ]);
@@ -395,7 +393,7 @@ class m140620_155446_add_permissions extends CDbMigration
         $this->insert('action', [
             'subject'  => 'Право просмотра и редактрования настроект проекта',
             'comment'  => '',
-            'title'    => '',
+            'title'    => 'system_setting_view_edit',
             'group'    => 'Управление',
             'order_no' => '8.5',
         ]);
@@ -403,7 +401,7 @@ class m140620_155446_add_permissions extends CDbMigration
         $this->insert('action', [
             'subject'  => 'Позволять заходить в админку',
             'comment'  => '',
-            'title'    => '',
+            'title'    => 'common_use_admin_area',
             'group'    => 'Общее',
             'order_no' => '1.2',
         ]);
@@ -411,7 +409,7 @@ class m140620_155446_add_permissions extends CDbMigration
         $this->insert('action', [
             'subject'  => 'Право редактировать белый список (корпоративных аккаунтов)',
             'comment'  => '',
-            'title'    => '',
+            'title'    => 'user_white_list_edit',
             'group'    => 'Управление',
             'order_no' => '8.6',
         ]);
@@ -419,7 +417,7 @@ class m140620_155446_add_permissions extends CDbMigration
         $this->insert('action', [
             'subject'  => 'Право создать новую роль',
             'comment'  => '',
-            'title'    => '',
+            'title'    => 'system_role_add',
             'group'    => 'Управление',
             'order_no' => '8.7',
         ]);
@@ -427,10 +425,37 @@ class m140620_155446_add_permissions extends CDbMigration
         $this->insert('action', [
             'subject'  => 'Право редактировать набор прав внутри роли',
             'comment'  => '',
-            'title'    => '',
+            'title'    => 'system_role_edit',
             'group'    => 'Управление',
             'order_no' => '8.8',
         ]);
+
+        $startDevMode = YumAction::model()->findByAttributes([
+            'title'    => 'start_dev_mode'
+        ]);
+
+        $profiles = YumProfile::model()->findAllByAttributes([
+            'email' => [
+                'slavka@skiliks.com',
+                'asd@skiliks.com',
+                'ivan@skiliks.com',
+                'tony@skiliks.com',
+                'tatiana@skiliks.com',
+                'nina@skiliks.com',
+            ]
+        ]);
+
+        $this->delete('permission', " type = 'user' ");
+
+        foreach ($profiles as $profile) {
+            $rolePermission = new YumPermission();
+            $rolePermission->type = YumPermission::TYPE_USER;
+            $rolePermission->principal_id = $profile->user->id;
+            $rolePermission->subordinate_id = $profile->user->id;
+            $rolePermission->action =  $startDevMode->id;
+            $rolePermission->template = 1;
+            $rolePermission->save(false);
+        }
 	}
 
 	public function down() { }

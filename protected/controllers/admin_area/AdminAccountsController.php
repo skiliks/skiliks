@@ -405,4 +405,69 @@ class AdminAccountsController extends BaseAdminController {
             'errors'  => json_encode([]),
         ]);
     }
+
+    /**
+     * Отобрадает таблицу "Права х Роли"
+     */
+    public function actionRolePermissionsList() {
+        $roles = [];
+        $rolePermissions = [];
+        $actions = [];
+
+        /** @var YumRole $role */
+        foreach (YumRole::model()->findAll() as $role) {
+            $roles[$role->title] = $role;
+        }
+
+        /** @var YumRole $role */
+        foreach (YumAction::model()->findAll(['order' => 'order_no ASC']) as $action) {
+            $actions[$action->title] = $action;
+        }
+
+        /** @var YumPermission $permission */
+        foreach (YumPermission::model()->findAllByAttributes(['type' => 'role']) as $permission) {
+            $rolePermissions[$permission->principal_role->title][$permission->Action->order_no] = $permission;
+        }
+
+       $this->layout = '/admin_area/layouts/admin_main';
+
+        $this->render('//admin_area/pages/user_accounts/role_permissions_list', [
+            'roles'          => $roles,
+            'rolePermission' => $rolePermissions,
+            'actions'        => $actions,
+        ]);
+    }
+
+    /**
+     * Добавляет роль или обновляет параметры прав у уже существующей
+     */
+    public function actionUpdateRoles() {
+        $isSave = (bool)Yii::app()->request->getParam('save', false);
+        $isUpdate = (bool)Yii::app()->request->getParam('addRole', false);
+
+        $userSuccessMessage = null;
+        $userErrorMessage = null;
+
+        if (true == $isSave) {
+            // обновление прав всех существующих ролей
+        } elseif (true == $isUpdate) {
+            // добавление новой роли
+        }
+
+        if (null !== $userSuccessMessage) {
+            Yii::app()->user->setFlash(
+                'success',
+                $userSuccessMessage
+            );
+        }
+
+        if (null !== $userErrorMessage) {
+            Yii::app()->user->setFlash(
+                'success',
+                $userErrorMessage
+            );
+        }
+
+        $this->redirect('/admin_area/admins-list');
+    }
 } 

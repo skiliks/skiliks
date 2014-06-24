@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Class YumAction
+ *
+ * @property string $title
+ * @property string $subject
+ * @property string $comment
+ */
 class YumAction extends YumActiveRecord{
 	public static function model($className=__CLASS__) {
 		return parent::model($className);

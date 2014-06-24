@@ -4,11 +4,15 @@
  *
  * @param int $principal_id
  * @param int $subordinate_id
- * @param string $action
  * @param string $type
  * @param string $template
+ *
+ * @param YumAction $Action
  */
 class YumPermission extends YumActiveRecord {
+    const TYPE_ROLE = 'role';
+    const TYPE_USER = 'user';
+
 	public static function model($className=__CLASS__) {
 		return parent::model($className);
 	}
@@ -49,9 +53,8 @@ class YumPermission extends YumActiveRecord {
 		);
 	}
 
-	public function __toString() {
+	public function _toString() {
 		return $this->comment;
-
 	}
 
 	public function search() {

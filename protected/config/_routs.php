@@ -262,6 +262,8 @@ return [
                 'admin_area/user/<userId:\w+>/details'            => 'admin_area/AdminPages/UserDetails',
                 'admin_area/user/by-email'                        => 'admin_area/AdminPages/UserDetailsByEmail',
                 'admin_area/login/ghost/<userId:\d+>'             => 'admin_area/AdminPages/GhostLogin',
+                'admin_area/role-permissions'                     => 'admin_area/AdminAccounts/RolePermissionsList',
+                '/admin_area/update-roles'                        => 'admin_area/AdminAccounts/UpdateRoles',
 
                 'admin_area/user/<userId:\w+>/set-invites-limit/<value:[\w\-]+>' =>
                     'admin_area/AdminAccounts/UserAddRemoveInvitations',

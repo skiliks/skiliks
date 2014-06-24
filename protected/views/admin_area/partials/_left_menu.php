@@ -119,6 +119,10 @@
                 'label' => 'Картинки для ПРББ',
                 'url'   => ['admin_area/AdminPrbb/ImageArchivesList'],
                 'visible' => true,
+            ], [
+                'label' => 'Права для ролей',
+                'url'   => ['admin_area/AdminAccounts/RolePermissionsList'],
+                'visible' => true,
             ],
         ],
     )) ?>
