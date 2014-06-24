@@ -134,7 +134,7 @@ $titles = [
                 <td>
                     <?= Invite::$statusText[Invite::STATUS_DELETED] ?>
                     <input type="checkbox"
-                        name="invite_status[]" alue="accepted"
+                        name="invite_status[<?= Invite::STATUS_DELETED ?>]" alue="accepted"
                         <?= ($formFilters['invite_statuses'][Invite::STATUS_DELETED]) ? 'checked="checked"' : ''; ?>
                         />
                 </td>
