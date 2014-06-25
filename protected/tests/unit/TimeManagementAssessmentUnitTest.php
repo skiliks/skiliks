@@ -688,7 +688,7 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
         $a = '';
         foreach ($assessments as $assessment) {
             $values[$assessment->slug] = $assessment->value;
-            $a .= ' '.$assessment->slug;
+            $a .= '` `'.$assessment->slug;
         }
 
         $this->assertTrue(false, $a);
