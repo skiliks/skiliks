@@ -410,19 +410,19 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
         }
 
         $this->assertEquals(
-            56.00, // %
+            56.41, // %
             $values['time_spend_for_1st_priority_activities'],
             'time_spend_for_1st_priority_activities'
         );
 
         $this->assertEquals(
-            26.00, // %
+            25.64, // %
             $values['time_spend_for_non_priority_activities'],
             'time_spend_for_non_priority_activities'
         );
 
         $this->assertEquals(
-            18.00, // %
+            17.95, // %
             $values['time_spend_for_inactivity'],
             'time_spend_for_inactivity'
         );
@@ -501,7 +501,7 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
         );
 
         $this->assertEquals(
-            59.56, // percentage
+            59.83, // percentage
             $values['efficiency'],
             'efficiency'
         );
@@ -689,13 +689,13 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
         }
 
         $this->assertEquals(
-            64.00, // percentage
+            63.64, // percentage
             $values['time_spend_for_1st_priority_activities'],
             'time_spend_for_1st_priority_activities'
         );
 
         $this->assertEquals(
-            76.00, // 40.00 * 0.6
+            75.76, // 40.00 * 0.6
             $values['efficiency'],
             'efficiency'
         );
@@ -729,8 +729,6 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
         $log->duration = '04:00:00';
         $log->save();
         // log13, A_wait }
-
-
 
         // log1, 1st priority doc {
         $doc_d2 = $simulation->game_type->getDocumentTemplate(['code' => 'D2']);
@@ -767,13 +765,13 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
         }
 
         $this->assertEquals(
-            57.00, // percentage
+            56.76, // percentage
             $values['time_spend_for_1st_priority_activities'],
             'time_spend_for_1st_priority_activities'
         );
 
         $this->assertEquals(
-            54.67, // 40.00 * 0.6
+            54.51, // 40.00 * 0.6
             $values['efficiency'],
             'efficiency'
         );
@@ -807,8 +805,6 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
         $log->duration = '05:00:00';
         $log->save();
         // log13, A_wait }
-
-
 
         // log1, 1st priority doc {
         $doc_d2 = $simulation->game_type->getDocumentTemplate(['code' => 'D2']);
@@ -845,25 +841,15 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
         }
 
         $this->assertEquals(
-            51.00, // percentage
+            51.22, // percentage
             $values['time_spend_for_1st_priority_activities'],
             'time_spend_for_1st_priority_activities'
         );
 
         $this->assertEquals(
-            34.00, // 40.00 * 0.6
+            34.15, // 40.00 * 0.6
             $values['efficiency'],
             'efficiency'
         );
     }
-
-
-    /**
-     * For debug
-     */
-
-//    public function testDebug()
-//    {
-//        SimulationService::CalculateTheEstimate('5230', 'mstrojkina-eksmo@mail.ru');
-//    }
 }
