@@ -652,8 +652,6 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
         $log->save();
         // log13, A_wait }
 
-
-
         // log1, 1st priority doc {
         $doc_d2 = $simulation->game_type->getDocumentTemplate(['code' => 'D2']);
 
@@ -683,7 +681,9 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
             'sim_id' => $simulation->id
         ]);
 
-        $values = [];
+        $values = [
+            'efficiency' => null
+        ];
         foreach ($assessments as $assessment) {
             $values[$assessment->slug] = $assessment->value;
         }
