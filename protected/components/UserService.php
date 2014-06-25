@@ -1242,8 +1242,8 @@ class UserService {
      */
     public static function addNewRoleWithPermissions($roleTitle, $permissions) {
 
-        // сборщик ошибок
-        $errors = [];
+        $errors = []; // сборщик ошибок
+        $log = []; // сборщик логов
 
         // роль без прав или с частичными правами нам не нужна - используем транзакцию
         $transaction = Yii::app()->db->beginTransaction();
@@ -1254,10 +1254,17 @@ class UserService {
             $newRole->title = $roleTitle;
             $newRole->save();
 
-            if (false == $newRole->isValid()) {
-                $errors = $newRole->getErrors();
+            if (false == $newRole->validate()) {
+                foreach ($newRole->getErrors() as $error) {
+                    $errors[] = $error[0];
+                }
                 throw new Exception(''); // сообщение не важно - главное обеспечить прерывание
             }
+
+            $log[] = sprintf(
+                'Создана новая роль: "%s".',
+                $newRole->title
+            );
 
             // Права роли:
             $systemActions = YumAction::model()->findAll();
@@ -1268,14 +1275,34 @@ class UserService {
                     $permission->principal_id = $newRole->id;
                     $permission->subordinate_id = $newRole->id;
                     $permission->type = YumPermission::TYPE_ROLE;
-                    $permission->Action = $action->id;
+                    $permission->action = $action->id;
+                    $permission->template = 1; // Yii magic!
                     $permission->save();
 
-                    if (false == $permission->isValid()) {
-                        $errors = array_merge($errors, $permission->getErrors());
+                    if (false == $permission->validate()) {
+                        foreach ($permission->getErrors() as $error) {
+                            $errors[] = $error[0];
+                        }
                         throw new Exception('');
                     }
+
+                    $log[] = sprintf(
+                        'Добавлено "%s" для роли "%s".',
+                        $action->subject,
+                        $newRole->title
+                    );
                 }
+            }
+
+            $logPermissionChanges = new SiteLogPermissionChanges();
+            $logPermissionChanges->initiator_id = Yii::app()->user->id;
+            $logPermissionChanges->created_at = date('Y-m-d H:i:s');
+            $logPermissionChanges->result = implode('<br/>', $log);
+            $logPermissionChanges->save();
+
+            if (false == $logPermissionChanges->validate()) {
+                $errors[] = 'Не удалось записать лог.';
+                throw new Exception('');
             }
 
             $transaction->commit();
@@ -1290,6 +1317,115 @@ class UserService {
 
         return [
             'status' => true,
+        ];
+    }
+
+    /**
+     * @param Array(String)$rolesPermissionsData
+     */
+    public static function updateRolesPermissions($rolesPermissionsData) {
+        $roles = YumRole::model()->findAll();
+        $actions = YumAction::model()->findAll();
+        $errors = [];
+        $log = [];
+
+        // кеш "прав"
+        $actualRolePermissions = [];
+        foreach(YumPermission::model()->findAll() as $permission) {
+            $actualRolePermissions[$permission->principal_id][$permission->Action->order_no] = $permission;
+        }
+
+        // Лирика (мотивация DELETE в цикле):
+        // 1. Удалять по одному не ефективно, но зато можно подробно залоготовать что удалено
+        // и показать потом пользователю - это повышает безопасность всей системы.
+        // Так как в 50 правах можно и зупутаться - а лог типа "Право Х удалено у ХХ."
+        // прост для контроля, что сделано именно то что задумано.
+        // кроме того страница не сгенерирует больше 2000 запросов, даже с учётом роста (200 прав и 10 ролей),
+        // и то - если поменять все галочки на противоположные.
+        // 2. Роли как раз будут редактироваться по несколько прав - сколько правок, чтолько и запросов.
+        // Зато имеем подробный лог :)
+        // 3. Код выполняется в адмике - админ готов подождать и 3, и 5 мин - это не пользователь сайта.
+        // Да и права фиксить надо раз в мес в лучшем случае.
+        // 4. Думаю большинство прав всё равно будет инициироваться миграциями.
+
+        // пошла транзакция:
+        $transaction = Yii::app()->db->beginTransaction();
+        try {
+            foreach ($roles as $role) {
+                foreach ($actions as $action) {
+                    // пользователь делегирует право для роли
+                    if ('Пользователь сайта' == $role->title) {
+                        $error[] = 'Вы не можете делегировать права для "Пользователь сайта" - это системная роль, которая не должна иметь никаких прав.';
+                    } elseif (isset($rolesPermissionsData[$role->id][$action->order_no])
+                        && false == isset($actualRolePermissions[$role->id][$action->order_no])) {
+
+                        $permission = new YumPermission();
+                        $permission->principal_id = $role->id;
+                        $permission->subordinate_id = $role->id;
+                        $permission->type = YumPermission::TYPE_ROLE;
+                        $permission->action = $action->id;
+                        $permission->template = 1; // Yii magic!
+                        $permission->save();
+
+                        if ($permission->validate()) {
+                            $log[] = sprintf(
+                                'Добавлено "%s" для роли "%s".',
+                                $action->subject,
+                                $role->title
+                            );
+                        } else {
+                            foreach ($permission->getErrors() as $error) {
+                                $errors[] = $error;
+                            }
+                            throw new Exception('');
+                        }
+                    } elseif (false == isset($rolesPermissionsData[$role->id][$action->order_no])
+                        && true == isset($actualRolePermissions[$role->id][$action->order_no])) {
+                        // пользователь забирает право у роли
+                        if ('СуперАдмин' == $role->title) {
+                            $error[] = 'Вы не можете забирать права у СуперАдмина - это системная роль.';
+                        } elseif (isset($actualRolePermissions[$role->id][$action->order_no])) {
+
+                            $actualRolePermissions[$role->id][$action->order_no]->delete();
+
+                            $log[] = sprintf(
+                                'Удалено "%s" для роли "%s".',
+                                $action->subject,
+                                $role->title
+                            );
+                        }
+                    }
+                }
+            }
+
+            if (empty($log)) {
+                $log[] = 'Никаких изменений не было произведено.';
+            }
+
+            $logPermissionChanges = new SiteLogPermissionChanges();
+            $logPermissionChanges->initiator_id = Yii::app()->user->id;
+            $logPermissionChanges->created_at = date('Y-m-d H:i:s');
+            $logPermissionChanges->result = implode('<br/>', $log);
+            $logPermissionChanges->save();
+
+            if (false == $logPermissionChanges->validate()) {
+                $errors[] = 'Не удалось записать лог.';
+                throw new Exception('');
+            }
+
+            $transaction->commit();
+        } catch (Exception $e) {
+            $transaction->rollback();
+            return [
+                'status' => false,
+                'errors' => $errors,
+                'log'    => $log,
+            ];
+        }
+
+        return [
+            'status' => true,
+            'log'    => $log,
         ];
     }
 }

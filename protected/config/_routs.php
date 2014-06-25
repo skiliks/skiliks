@@ -264,6 +264,7 @@ return [
                 'admin_area/login/ghost/<userId:\d+>'             => 'admin_area/AdminPages/GhostLogin',
                 'admin_area/role-permissions'                     => 'admin_area/AdminAccounts/RolePermissionsList',
                 '/admin_area/update-roles'                        => 'admin_area/AdminAccounts/UpdateRoles',
+                '/admin_area/site-log-permission-changes'         => 'admin_area/AdminAccounts/SiteLogPermissionChanges',
 
                 'admin_area/user/<userId:\w+>/set-invites-limit/<value:[\w\-]+>' =>
                     'admin_area/AdminAccounts/UserAddRemoveInvitations',

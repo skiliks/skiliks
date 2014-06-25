@@ -123,6 +123,10 @@
                 'label' => 'Права для ролей',
                 'url'   => ['admin_area/AdminAccounts/RolePermissionsList'],
                 'visible' => true,
+            ], [
+                'label' => 'Лог правок в правах ролей',
+                'url'   => ['admin_area/AdminAccounts/SiteLogPermissionChanges'],
+                'visible' => true,
             ],
         ],
     )) ?>

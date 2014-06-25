@@ -431,7 +431,7 @@ class AdminAccountsController extends BaseAdminController {
 
         $this->layout = '/admin_area/layouts/admin_main';
 
-        $actualRolesPermissionsData = Yii::app()->user->getState('actualRolesPermissionsData');
+        $updateRolesPermissionsData = Yii::app()->user->getState('updateRolesPermissionsData');
         $newRoleTitle               = Yii::app()->user->getState('newRoleTitle');
         $newRolePermissionsData     = Yii::app()->user->getState('newRolePermissionsData', []);
 
@@ -439,12 +439,12 @@ class AdminAccountsController extends BaseAdminController {
         Yii::app()->user->setState('newRoleTitle', null);
         Yii::app()->user->setState('newRolePermissionsData', null);
 
-        $this->render('//admin_area/pages/user_accounts/role_permissions_list', [
+        $this->render('//admin_area/pages/users_management/role_permissions_list', [
             'roles'          => $roles,
             'rolePermission' => $rolePermissions,
             'actions'        => $actions,
 
-            'actualRolesPermissionsData' => $actualRolesPermissionsData,
+            'updateRolesPermissionsData' => $updateRolesPermissionsData,
             'newRoleTitle'               => $newRoleTitle,
             'newRolePermissionsData'     => $newRolePermissionsData,
         ]);
@@ -454,18 +454,36 @@ class AdminAccountsController extends BaseAdminController {
      * Добавляет роль или обновляет параметры прав у уже существующей
      */
     public function actionUpdateRoles() {
-        $isSave = (bool)Yii::app()->request->getParam('updateActualRoles', false);
-        $isUpdate = (bool)Yii::app()->request->getParam('addRole', false);
+        $isUpdate = (bool)Yii::app()->request->getParam('updateActualRoles', false);
+        $isAdd = (bool)Yii::app()->request->getParam('addRole', false);
 
         $userSuccessMessages = [];
         $userErrorMessages = [];
 
-        if (true == $isSave) {
+        if (true == $isUpdate) {
             // обновление прав всех существующих ролей
-            $actualRolesPermissionsData = Yii::app()->request->getParam('rolePermission', null);
+            $updateRolesPermissionsData = Yii::app()->request->getParam('rolePermission', null);
 
-            Yii::app()->user->setState('actualRolesPermissionsData', $actualRolesPermissionsData);
-        } elseif (true == $isUpdate) {
+            if (null == $updateRolesPermissionsData) {
+                $userErrorMessages[] = 'Не были отправлены данные об обновлённых правах пользователей или вы сняли все галочки с прав. Роль без прав в системе одна и это "Пользователь сайта".';
+            } else {
+                $result = UserService::updateRolesPermissions($updateRolesPermissionsData);
+
+                if (false == $result['status']) {
+                    foreach ($result['errors'] as $error) {
+                        $userErrorMessages[] = $error;
+                    }
+                }
+
+                $userSuccessMessages[] = 'Сделанные вами настройки пременены к текущим ролям.';
+
+                if (false == empty($result['log'])) {
+                    $userSuccessMessages[] = implode('<br/>', $result['log']);
+                }
+            }
+
+            Yii::app()->user->setState('updateRolesPermissionsData', $updateRolesPermissionsData);
+        } elseif (true == $isAdd) {
             // добавление новой роли
             $newRoleTitle = Yii::app()->request->getParam('newRoleTitle', null);
             $newRolePermissionsData = Yii::app()->request->getParam('newRolePermissions', null);
@@ -476,8 +494,7 @@ class AdminAccountsController extends BaseAdminController {
             if (null == $newRolePermissionsData) {
                 // базовая ручная валидация списка прав делегируемых новой роли
                 $userErrorMessages[] = 'Вы не наделили новую роль ни одним правом, с таким набором прав существует системная роль - "Пользователь сайта".';
-            }
-        else if (null == $newRoleTitle) {
+            } else if (null == $newRoleTitle) {
                 // базовая ручная валидация названия роли
                 $userErrorMessages[] = 'Вы не указали название для новой роли.';
             } else {
@@ -494,25 +511,30 @@ class AdminAccountsController extends BaseAdminController {
         }
 
         // Формируем флеш сообщения
-        if (null !== $userSuccessMessages) {
-            foreach ($userSuccessMessages as $message) {
-                Yii::app()->user->setFlash(
-                    'success',
-                    $message
-                );
-            }
+        if (false == empty($userSuccessMessages)) {
+            Yii::app()->user->setFlash(
+                'success',
+                implode('<br/>', $userSuccessMessages)
+            );
         }
 
         if (false == empty($userErrorMessages)) {
-            foreach ($userErrorMessages as $key => $error) {
-                var_dump($key, $error);
-                Yii::app()->user->setFlash(
-                    'error',
-                    $error
-                );
-            };
+            Yii::app()->user->setFlash(
+                'error',
+                implode('<br/>', $userErrorMessages)
+            );
         }
 
         $this->redirect('/admin_area/role-permissions');
+    }
+
+    /**
+     * Страница с логами действий админов над ролями и их правами
+     */
+    public function actionSiteLogPermissionChanges() {
+        $this->layout = '/admin_area/layouts/admin_main';
+        $this->render('/admin_area/pages/users_management/site_log_permission_changes', [
+            'dataProvider' => SiteLogPermissionChanges::model()->search(' t.created_at DESC ')
+        ]);
     }
 } 

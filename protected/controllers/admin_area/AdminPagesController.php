@@ -1393,7 +1393,7 @@ class AdminPagesController extends BaseAdminController {
     public function actionAdminsList()
     {
         $this->layout = '/admin_area/layouts/admin_main';
-        $this->render('//admin_area/pages/users_managament/admins_list', [
+        $this->render('//admin_area/pages/users_management/admins_list', [
             'admins'
                 => YumUser::model()->findAllByAttributes(['is_admin' => 1]),
 
@@ -1409,7 +1409,7 @@ class AdminPagesController extends BaseAdminController {
         $users = YumUser::model()->findAllByAttributes(['is_password_bruteforce_detected'=>YumUser::IS_PASSWORD_BRUTEFORCE_DETECTED]);
         $this->layout = '/admin_area/layouts/admin_main';
 
-        $this->render('//admin_area/pages/users_managament/blocked-authorization-list', ['users'=>$users]);
+        $this->render('//admin_area/pages/users_management/blocked-authorization-list', ['users'=>$users]);
     }
 
     public function actionExportAllCorporateUserXLSX() {
