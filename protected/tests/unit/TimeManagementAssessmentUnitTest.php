@@ -688,6 +688,8 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
             $values[$assessment->slug] = $assessment->value;
         }
 
+        $this->assertTrue(false, implode(', ', array_keys($assessments)));
+
         $this->assertEquals(
             63.64, // percentage
             $values['time_spend_for_1st_priority_activities'],
