@@ -685,12 +685,9 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
             'efficiency' => null
         ];
 
-        $a = '';
         foreach ($assessments as $assessment) {
             $values[$assessment->slug] = $assessment->value;
         }
-
-        $this->assertTrue(false, $values['efficiency']);
 
         $this->assertEquals(
             63.64, // percentage
