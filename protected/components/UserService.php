@@ -1230,6 +1230,68 @@ class UserService {
         }
         return true;
     }
+
+    /**
+     * Создаёт новую роль и задаёт её права
+     *
+     * @param string $roleTitle
+     * @param Array(String) $permissions, в массиве присутствуют все делегируемые права,
+     *        те что отсутствуют не будут делегированы
+     *
+     * @return boolean
+     */
+    public static function addNewRoleWithPermissions($roleTitle, $permissions) {
+
+        // сборщик ошибок
+        $errors = [];
+
+        // роль без прав или с частичными правами нам не нужна - используем транзакцию
+        $transaction = Yii::app()->db->beginTransaction();
+
+        try {
+            // Роль:
+            $newRole = new YumRole();
+            $newRole->title = $roleTitle;
+            $newRole->save();
+
+            if (false == $newRole->isValid()) {
+                $errors = $newRole->getErrors();
+                throw new Exception(''); // сообщение не важно - главное обеспечить прерывание
+            }
+
+            // Права роли:
+            $systemActions = YumAction::model()->findAll();
+            foreach ($systemActions as $action) {
+                if (isset($permissions[$action->order_no])) {
+                    /** @var YumPermission $permission */
+                    $permission = new YumPermission();
+                    $permission->principal_id = $newRole->id;
+                    $permission->subordinate_id = $newRole->id;
+                    $permission->type = YumPermission::TYPE_ROLE;
+                    $permission->Action = $action->id;
+                    $permission->save();
+
+                    if (false == $permission->isValid()) {
+                        $errors = array_merge($errors, $permission->getErrors());
+                        throw new Exception('');
+                    }
+                }
+            }
+
+            $transaction->commit();
+
+        } catch (Exception $e) {
+            $transaction->rollback();
+            return [
+                'status' => false,
+                'errors' => $errors
+            ];
+        }
+
+        return [
+            'status' => true,
+        ];
+    }
 }
 
 

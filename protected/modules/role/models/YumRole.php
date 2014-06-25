@@ -2,9 +2,11 @@
 
 /** @property string $title
   * @property string $membership_priority
- * @property string $price
- * @property string $duration
- * @property Array(YumUser) $users */
+  * @property string $price
+  * @property string $duration
+ *
+  * @property Array(YumUser) $users
+ */
 
 class YumRole extends YumActiveRecord {
 

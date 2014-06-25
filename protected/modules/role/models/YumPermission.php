@@ -2,12 +2,12 @@
 /**
  * Class YumPermission
  *
- * @param int $principal_id
- * @param int $subordinate_id
- * @param string $type
- * @param string $template
+ * @property integer $principal_id
+ * @property integer $subordinate_id
+ * @property string $type
+ * @property string $template
  *
- * @param YumAction $Action
+ * @property YumAction $Action
  */
 class YumPermission extends YumActiveRecord {
     const TYPE_ROLE = 'role';

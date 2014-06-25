@@ -429,12 +429,24 @@ class AdminAccountsController extends BaseAdminController {
             $rolePermissions[$permission->principal_role->title][$permission->Action->order_no] = $permission;
         }
 
-       $this->layout = '/admin_area/layouts/admin_main';
+        $this->layout = '/admin_area/layouts/admin_main';
+
+        $actualRolesPermissionsData = Yii::app()->user->getState('actualRolesPermissionsData');
+        $newRoleTitle               = Yii::app()->user->getState('newRoleTitle');
+        $newRolePermissionsData     = Yii::app()->user->getState('newRolePermissionsData', []);
+
+        Yii::app()->user->setState('actualRolesPermissionsData', null);
+        Yii::app()->user->setState('newRoleTitle', null);
+        Yii::app()->user->setState('newRolePermissionsData', null);
 
         $this->render('//admin_area/pages/user_accounts/role_permissions_list', [
             'roles'          => $roles,
             'rolePermission' => $rolePermissions,
             'actions'        => $actions,
+
+            'actualRolesPermissionsData' => $actualRolesPermissionsData,
+            'newRoleTitle'               => $newRoleTitle,
+            'newRolePermissionsData'     => $newRolePermissionsData,
         ]);
     }
 
@@ -442,32 +454,65 @@ class AdminAccountsController extends BaseAdminController {
      * Добавляет роль или обновляет параметры прав у уже существующей
      */
     public function actionUpdateRoles() {
-        $isSave = (bool)Yii::app()->request->getParam('save', false);
+        $isSave = (bool)Yii::app()->request->getParam('updateActualRoles', false);
         $isUpdate = (bool)Yii::app()->request->getParam('addRole', false);
 
-        $userSuccessMessage = null;
-        $userErrorMessage = null;
+        $userSuccessMessages = [];
+        $userErrorMessages = [];
 
         if (true == $isSave) {
             // обновление прав всех существующих ролей
+            $actualRolesPermissionsData = Yii::app()->request->getParam('rolePermission', null);
+
+            Yii::app()->user->setState('actualRolesPermissionsData', $actualRolesPermissionsData);
         } elseif (true == $isUpdate) {
             // добавление новой роли
+            $newRoleTitle = Yii::app()->request->getParam('newRoleTitle', null);
+            $newRolePermissionsData = Yii::app()->request->getParam('newRolePermissions', null);
+
+            Yii::app()->user->setState('newRoleTitle', $newRoleTitle);
+            Yii::app()->user->setState('newRolePermissionsData', $newRolePermissionsData);
+
+            if (null == $newRolePermissionsData) {
+                // базовая ручная валидация списка прав делегируемых новой роли
+                $userErrorMessages[] = 'Вы не наделили новую роль ни одним правом, с таким набором прав существует системная роль - "Пользователь сайта".';
+            }
+        else if (null == $newRoleTitle) {
+                // базовая ручная валидация названия роли
+                $userErrorMessages[] = 'Вы не указали название для новой роли.';
+            } else {
+                // собственно создание роли
+                $result = UserService::addNewRoleWithPermissions($newRoleTitle, $newRolePermissionsData);
+                if (true == $result['status']) {
+                    $userSuccessMessages[] = sprintf('Новая роль, "%s", успешно добавлена.', $newRoleTitle);
+                } else {
+                    foreach ($result['errors'] as $error) {
+                        $userErrorMessages[] = $error;
+                    }
+                }
+            }
         }
 
-        if (null !== $userSuccessMessage) {
-            Yii::app()->user->setFlash(
-                'success',
-                $userSuccessMessage
-            );
+        // Формируем флеш сообщения
+        if (null !== $userSuccessMessages) {
+            foreach ($userSuccessMessages as $message) {
+                Yii::app()->user->setFlash(
+                    'success',
+                    $message
+                );
+            }
         }
 
-        if (null !== $userErrorMessage) {
-            Yii::app()->user->setFlash(
-                'success',
-                $userErrorMessage
-            );
+        if (false == empty($userErrorMessages)) {
+            foreach ($userErrorMessages as $key => $error) {
+                var_dump($key, $error);
+                Yii::app()->user->setFlash(
+                    'error',
+                    $error
+                );
+            };
         }
 
-        $this->redirect('/admin_area/admins-list');
+        $this->redirect('/admin_area/role-permissions');
     }
 } 
