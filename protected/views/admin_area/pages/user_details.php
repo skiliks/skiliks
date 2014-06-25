@@ -262,6 +262,16 @@ $assetsUrl = $this->getAssetsUrl();
 
     <!-- key } -->
 
+    <!-- Права -->
+    <tr>
+        <td>Назначенная в системе прав роль</td>
+        <td>
+            <?= $user->getRoles() ?>
+        </td>
+        <td></td>
+        <td></td>
+    </tr>
+
 </table>
 
 <?php if ($user->isCorporate()) : ?>
