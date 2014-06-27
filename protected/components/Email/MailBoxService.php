@@ -583,7 +583,7 @@ class MailBoxService
         $mail = MailBox::model()->findByPk($mailId);
         $mail->code = $result['result_code'];
         $mail->template_id = $result['result_template_id'];
-        if(empty($mail->message)){
+        if(null !== $mail->template && empty($mail->message)){
             $mail->message = $mail->template->message;
         }
         $mail->save(false);
