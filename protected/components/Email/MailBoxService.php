@@ -720,10 +720,11 @@ class MailBoxService
         $sendEmail->readed = 0;
 
         if ($letterType != 'new') {
-            if (null != $sendEmail->message_id && null == $sendMailOptions->message_id) {
+            if (null != $sendEmail->message_id
+                && (null == $sendMailOptions->messageId || 'null' == $sendMailOptions->messageId)) {
                 // сохраняем существующий message_id
             } else {
-                $sendEmail->mail_prefix = $sendMailOptions->mailPrefix;
+                $sendEmail->message_id = $sendMailOptions->messageId;
             }
         }
 
