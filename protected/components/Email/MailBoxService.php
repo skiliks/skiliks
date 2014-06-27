@@ -583,7 +583,9 @@ class MailBoxService
         $mail = MailBox::model()->findByPk($mailId);
         $mail->code = $result['result_code'];
         $mail->template_id = $result['result_template_id'];
-        if(null !== $mail->template && empty($mail->message)){
+        if( null !== $mail->template
+            && $mail->constructor_code === 'null'
+            && empty($mail->message)){
             $mail->message = $mail->template->message;
         }
         $mail->save(false);
@@ -707,14 +709,22 @@ class MailBoxService
         $sendEmail->sender_id   = $sendMailOptions->senderId;
         $sendEmail->theme_id    = $sendMailOptions->themeId;
         $sendEmail->theme       = Theme::model()->findByPk($sendMailOptions->themeId);
-        $sendEmail->mail_prefix = $sendMailOptions->mailPrefix;
+        if (null != $sendEmail->mail_prefix && null == $sendMailOptions->mailPrefix) {
+            // сохраняем существующий mail_prefix
+        } else {
+            $sendEmail->mail_prefix = $sendMailOptions->mailPrefix;
+        }
         $sendEmail->constructor_code = $sendMailOptions->constructorCode;
         $sendEmail->receiver_id = $receiverId;
         $sendEmail->sent_at = GameTime::setTimeToday($sendMailOptions->simulation, $sendMailOptions->time); //TODO: Время, проверить
         $sendEmail->readed = 0;
 
         if ($letterType != 'new') {
-            $sendEmail->message_id = $sendMailOptions->messageId;
+            if (null != $sendEmail->message_id && null == $sendMailOptions->message_id) {
+                // сохраняем существующий message_id
+            } else {
+                $sendEmail->mail_prefix = $sendMailOptions->mailPrefix;
+            }
         }
 
         $sendEmail->sim_id = $sendMailOptions->simulation->id;

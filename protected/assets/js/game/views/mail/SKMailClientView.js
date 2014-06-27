@@ -3501,6 +3501,7 @@ define([
                     me.isFantasticSend = true;
                         me.renderWriteCustomNewEmailScreen(undefined, undefined, undefined, function() {
                             me.mailClient.activeMailPrefix = email.mailPrefix;
+                            me.mailClient.activeConstructorCode = null;
                             me.fillMessageWindow(email);
                             var cursor = me.make('div', {'class': 'cursor'});
                             me.$el.append(cursor);
