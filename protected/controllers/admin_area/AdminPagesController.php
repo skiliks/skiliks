@@ -329,6 +329,10 @@ class AdminPagesController extends BaseAdminController {
      * @throws LogicException
      */
     public function actionResetInvite() {
+        if (false == Yii::app()->user->data()->can('invite_roll_back')) {
+            Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
+            $this->redirect('/admin_area/dashboard');
+        }
 
         $invite_id = Yii::app()->request->getParam('invite_id', null);
         $invite = Invite::model()->findByPk($invite_id);
@@ -351,6 +355,10 @@ class AdminPagesController extends BaseAdminController {
      * @throws Exception
      */
     public function actionInviteActionStatus() {
+        if (false == Yii::app()->user->data()->can('invite_status_change')) {
+            Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
+            $this->redirect('/admin_area/dashboard');
+        }
 
         $invite_id = Yii::app()->request->getParam('invite_id', null);
         $status = Yii::app()->request->getParam('status', null);
@@ -380,6 +388,10 @@ class AdminPagesController extends BaseAdminController {
      *
      */
     public function actionInviteCalculateTheEstimate() {
+        if (false == Yii::app()->user->data()->can('invite_recalculate')) {
+            Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
+            $this->redirect('/admin_area/dashboard');
+        }
 
         $simId = Yii::app()->request->getParam('sim_id', null);
         $email = strtolower(str_replace(' ', '+', Yii::app()->request->getParam('email', null)));
@@ -413,6 +425,11 @@ class AdminPagesController extends BaseAdminController {
      */
     public function actionSimulationSetEmergency($simId)
     {
+        if (false == Yii::app()->user->data()->can('sim_on_off_emergency_panel')) {
+            Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
+            $this->redirect('/admin_area/dashboard');
+        }
+
         /** @var Simulation $simulation */
         $simulation = Simulation::model()->findByPk($simId);
         $simulation->is_emergency_panel_allowed = !$simulation->is_emergency_panel_allowed;
@@ -427,6 +444,11 @@ class AdminPagesController extends BaseAdminController {
      */
     public function actionSimulations()
     {
+        if (false == Yii::app()->user->data()->can('invite_list_view')) {
+            Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
+            $this->redirect('/admin_area/dashboard');
+        }
+
         $invitesRawArray = Invite::model()->findAll();
         $invites = [];
         foreach ($invitesRawArray as $element) {
@@ -713,6 +735,10 @@ class AdminPagesController extends BaseAdminController {
      * @param $inviteId
      */
     public function actionInviteSwitchCanBeReloaded($inviteId) {
+        if (false == Yii::app()->user->data()->can('invites_allow_restart_finished_simulation ')) {
+            Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
+            $this->redirect('/admin_area/dashboard');
+        }
         $invite = Invite::model()->findByPk($inviteId);
 
         if (null === $invite) {
@@ -749,8 +775,18 @@ class AdminPagesController extends BaseAdminController {
         $this->redirect('/admin_area/simulations');
     }
 
+    /**
+     * Список отзывов, а также обработка фор редактирования комментириев к отзывам
+     * и отмечания отзыва прочитанным
+     */
     public function actionFeedBacksList()
     {
+        if (false == Yii::app()->user->data()->can('feedback_view_edit')) {
+            Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
+            $this->redirect('/admin_area/dashboard');
+        }
+
+        // редактирование комментария к отзыву
         if($this->getParam('is_ajax') === 'yes'){
             $feedback = Feedback::model()->findByPk($this->getParam('id'));
             $feedback->comment = $this->getParam('message');
@@ -758,6 +794,8 @@ class AdminPagesController extends BaseAdminController {
             Yii::app()->user->setFlash('success', "Успешно");
             return;
         }
+
+        // ставим пометку что отзыв обработан
         if($this->getParam('is_action') === 'yes'){
             $feedback = Feedback::model()->findByPk($this->getParam('id'));
             $feedback->is_processed = $this->getParam('is_processed');
@@ -765,6 +803,7 @@ class AdminPagesController extends BaseAdminController {
             Yii::app()->user->setFlash('success', "Успешно");
             $this->redirect('/admin_area/feedbacks');
         }
+
         $this->pageTitle = 'Админка: Список отзывов';
         $this->layout = '//admin_area/layouts/admin_main';
 
@@ -775,8 +814,16 @@ class AdminPagesController extends BaseAdminController {
         ]);
     }
 
+    /**
+     * Список подписавшихся на рассылку
+     */
     public function actionSubscribersList()
     {
+        if (false == Yii::app()->user->data()->can('subscribers_list_view ')) {
+            Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
+            $this->redirect('/admin_area/dashboard');
+        }
+
         $emails = Yii::app()->db->createCommand()
             ->select( 'id, email' )
             ->from( 'emails_sub' )
@@ -1202,6 +1249,11 @@ class AdminPagesController extends BaseAdminController {
 
     public function actionSimulationsRating()
     {
+        if (false == Yii::app()->user->data()->can('sim_rating_view')) {
+            Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
+            $this->redirect('/admin_area/dashboard');
+        }
+
         $condition = Simulation::model()->getSimulationRealUsersCondition(
             '',
             AssessmentCategory::PERCENTILE
@@ -1227,6 +1279,11 @@ class AdminPagesController extends BaseAdminController {
 
     public function actionSimulationsRatingCsv()
     {
+        if (false == Yii::app()->user->data()->can('sim_rating_view')) {
+            Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
+            $this->redirect('/admin_area/dashboard');
+        }
+
         $condition = Simulation::model()->getSimulationRealUsersCondition(
             '',
             AssessmentCategory::PERCENTILE
@@ -1358,9 +1415,14 @@ class AdminPagesController extends BaseAdminController {
         $this->redirect($this->request->urlReferrer);
     }
 
+    /**
+     * Отображение лога авторизяции пользователей
+     */
     public function actionSiteLogAuthorization() {
-
-        //$dataProvider = FreeEmailProvider::model()->searchEmails();
+        if (false == Yii::app()->user->data()->can('auth_logs_view')) {
+            Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
+            $this->redirect('/admin_area/dashboard');
+        }
 
         $dataProvider = SiteLogAuthorization::model()->searchSiteLogs();
 
@@ -1394,8 +1456,16 @@ class AdminPagesController extends BaseAdminController {
         $this->redirect(Yii::app()->request->urlReferrer);
     }
 
+    /**
+     * Страница со списком админов и суперАдминов
+     */
     public function actionAdminsList()
     {
+        if (false == Yii::app()->user->data()->can('admins_list_view')) {
+            Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
+            $this->redirect('/admin_area/dashboard');
+        }
+
         // роли
         $roleAdmin = YumRole::model()->findByAttributes(['title' => 'Админ']);
         $roleSuperAdmin = YumRole::model()->findByAttributes(['title' => 'СуперАдмин']);
@@ -1414,6 +1484,7 @@ class AdminPagesController extends BaseAdminController {
         ));
         $admins = $command->queryAll();
 
+        // комбинируем
         // комбинируем
         $adminIds = [];
         foreach ($admins as $admin) {

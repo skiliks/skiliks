@@ -40,28 +40,37 @@
         <span class="caret"></span>
     </a>
     <ul class="dropdown-menu pull-right">
-        <li>
-            <a class="reset-invite" href="/admin_area/invite/reset?invite_id=<?=$invite->id?>">
-                <i class="icon-fast-backward"></i> Откатить инвайт
-            </a>
-        </li>
-        <?php if(!empty($invite->receiverUser->profile) && null != $invite->simulation ) : ?>
+        <?php if (Yii::app()->user->data()->can('invite_roll_back')) : ?>
+            <li>
+                <a class="reset-invite" href="/admin_area/invite/reset?invite_id=<?=$invite->id?>">
+                    <i class="icon-fast-backward"></i> Откатить инвайт
+                </a>
+            </li>
+        <?php endif ?>
+
+        <?php if(!empty($invite->receiverUser->profile)
+            && null != $invite->simulation
+            && Yii::app()->user->data()->can('invite_recalculate')) : ?>
             <li>
                 <a href="/admin_area/invite/calculate/estimate?sim_id=<?= $invite->simulation->id ?>&email=<?= $invite->receiverUser->profile->email ?>">
                     <i class="icon-refresh"></i>Пересчитать оценки
                 </a>
             </li>
         <?php endif ?>
-        <li style="padding-right: 15px;">
-            <a href="#"><i class="icon-tag"></i> Сменить статус на</a>
-            <?php foreach(Invite::$statusText as $id => $text) : ?>
-                <?php if((string)$id !== $invite->status) : ?>
-                    <a class="action-invite-status" style="padding-left: 50px;"
-                       href="/admin_area/invite/action/status?invite_id=<?=$invite->id?>&status=<?=$id?>">
-                        - <?=$text?>
-                    </a>
-                <?php endif ?>
-            <?php endforeach ?>
-        </li>
+
+        <!-- Сменить статус: -->
+        <?php if (Yii::app()->user->data()->can('invite_status_change')): ?>
+            <li style="padding-right: 15px;">
+                <a href="#"><i class="icon-tag"></i> Сменить статус на</a>
+                <?php foreach(Invite::$statusText as $id => $text) : ?>
+                    <?php if((string)$id !== $invite->status) : ?>
+                        <a class="action-invite-status" style="padding-left: 50px;"
+                           href="/admin_area/invite/action/status?invite_id=<?=$invite->id?>&status=<?=$id?>">
+                            - <?=$text?>
+                        </a>
+                    <?php endif ?>
+                <?php endforeach ?>
+            </li>
+        <?php endif ?>
     </ul>
 </div>

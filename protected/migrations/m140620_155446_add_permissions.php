@@ -399,7 +399,7 @@ class m140620_155446_add_permissions extends CDbMigration
         ]);
 
         $this->insert('action', [
-            'subject'  => 'Позволять заходить в админку',
+            'subject'  => 'Право заходить в админку',
             'comment'  => '',
             'title'    => 'common_use_admin_area',
             'group'    => 'Общее',

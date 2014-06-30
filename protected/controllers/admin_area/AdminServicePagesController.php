@@ -64,6 +64,11 @@ class AdminServicePagesController extends BaseAdminController {
      */
     public function actionGenerateConsolidatedAnalyticFileResults() {
 
+        if (false == Yii::app()->user->data()->can('consolidated_analytic_file_generate_download')) {
+            Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
+            $this->redirect('/admin_area/dashboard');
+        }
+
         $generatedFile = SiteLogGenerateConsolidatedAnalyticFile::model()->findByAttributes(['finished_at' => null]);
         $allFiles      = SiteLogGenerateConsolidatedAnalyticFile::model()->findAll(['order' => 'id DESC']);
 

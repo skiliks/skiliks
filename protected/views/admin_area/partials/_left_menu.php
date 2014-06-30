@@ -19,12 +19,12 @@
             ], [
                 'label' => 'Симуляции',
                 'url'   => ['admin_area/AdminPages/Simulations'],
-                'visible' => true,
+                'visible' => Yii::app()->user->data()->can('invite_list_view'),
 
             ], [
                 'label' => 'Рейтинг симуляций',
                 'url'   => ['admin_area/AdminPages/SimulationsRating'],
-                'visible' => true,
+                'visible' => Yii::app()->user->data()->can('sim_rating_view'),
 
             ], [
                 'label' => '--------------------------',
@@ -49,22 +49,22 @@
             ], [
                 'label' => 'Отзывы',
                 'url'   => ['admin_area/AdminPages/FeedBacksList'],
-                'visible' => true,
+                'visible' => Yii::app()->user->data()->can('feedback_view_edit'),
 
             ], [
                 'label' => 'Список подписавшихся на рассылку',
                 'url'   => ['admin_area/AdminPages/SubscribersList'],
-                'visible' => true,
+                'visible' => Yii::app()->user->data()->can('subscribers_list_view'),
 
             ], [
                 'label' => 'Лог авторизации',
                 'url'   => ['admin_area/AdminPages/SiteLogAuthorization'],
-                'visible' => true,
+                'visible' => Yii::app()->user->data()->can('auth_logs_view'),
 
             ], [
                 'label' => 'Список админов',
                 'url'   => ['admin_area/AdminPages/AdminsList'],
-                'visible' => true,
+                'visible' => Yii::app()->user->data()->can('admins_list_view'),
 
             ], [
                 'label' => 'Заблокированые пользователи',
@@ -90,7 +90,7 @@
             ],  [
                 'label' => 'Генерация сводного аналитического файла',
                 'url'   => ['admin_area/AdminServicePages/GenerateConsolidatedAnalyticFileResults'],
-                'visible' => true,
+                'visible' => Yii::app()->user->data()->can('consolidated_analytic_file_generate_download'),
             ], [
                 'label' => 'Статистика',
                 'url'   => ['admin_area/AdminPages/Statistics'],

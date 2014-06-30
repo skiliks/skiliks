@@ -9,7 +9,15 @@
 <?php else: ?>
     В данный момент уже идёт проверка
 <?php endif; ?>
+&nbsp;
+&nbsp;
 (ориентировочная длительность 30 мин)
+&nbsp;
+&nbsp;
+<a class="btn btn-success" href="/admin_area/downloadFullAnalyticFile">
+    <i class="icon icon-download icon-white"></i>
+    Скачать последний сгенерированный файл
+</a>
 
 <br/>
 <br/>

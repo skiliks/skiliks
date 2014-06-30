@@ -33,11 +33,6 @@
         <input name="email" /> <input class="btn" type='submit' value="Найти!">
     </form>
 
-    <br/><br/>
-    <h4>Сводный аналитический файл по всем симуляциям(с поведениями):</h4>
-        <a href="/admin_area/downloadFullAnalyticFile">Скачать</a>
-    <br/><br/>
-
     <form method="post" action="/debug/send">
         <h4>Отправить набор стандартных писем по адресу:</h4>
         Email: <input type="text" name="email" />
