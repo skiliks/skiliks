@@ -136,7 +136,10 @@ class MailController extends SimulationBaseController
 
         $email = MailBoxService::saveDraft($sendMailOptions);
 
-        $result = ['result' => (NULL === $email) ? self::STATUS_ERROR : self::STATUS_SUCCESS,'messageId' => $email->id];
+        $result = [
+            'result'    => (NULL === $email) ? self::STATUS_ERROR : self::STATUS_SUCCESS,
+            'messageId' => $email->id
+        ];
         $this->sendJSON($result);
     }
 

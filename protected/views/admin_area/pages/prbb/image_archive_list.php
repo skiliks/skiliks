@@ -39,7 +39,7 @@
     <tbody>
     <?php $i = 0; ?>
     <?php foreach ($allTasks as $task) : ?>
-        <?php /** @var SiteLogCheckResults $checkLog */ ?>
+        <?php /** @var SiteLogGeneratePrbbFiles $task */ ?>
         <tr>
             <td>
                 <?= $task->id ?>
@@ -54,11 +54,7 @@
                 <?php if (null == $task->finished_at) : ?>
                     <span class="label">В прогрессе</span>
                 <?php else: ?>
-                    <?php if (strlen($task->result) < 1041) : ?>
-                        <span class="label label-success"> <i class="icon icon-ok icon-white"></i> OK</span>
-                    <?php else: ?>
-                        <span class="label label-important"> <i class="icon icon-warning-sign icon-white"></i> Есть ошибки</span>
-                    <?php endif; ?>
+                    <span class="label label-success"> <i class="icon icon-ok icon-white"></i> Завершена</span>
                 <?php endif; ?>
             </td>
             <td>

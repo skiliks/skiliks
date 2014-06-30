@@ -1036,7 +1036,7 @@ define([
                                     'onclick': function () {
                                         try {
                                             $(window).off('beforeunload');
-                                            location.reload();
+                                            location.href = location.href;
                                         } catch(exception) {
                                             if (window.Raven) {
                                                 window.Raven.captureMessage(exception.message + ',' + exception.stack);

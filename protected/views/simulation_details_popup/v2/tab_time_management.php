@@ -29,9 +29,9 @@ $(function() {
 
     new charts.Pie('.time-distribution',
         [
-            AR.time['<?= TimeManagementAggregated::SLUG_GLOBAL_TIME_SPEND_FOR_1ST_PRIORITY_ACTIVITIES ?>'],
-            AR.time['<?= TimeManagementAggregated::SLUG_GLOBAL_TIME_SPEND_FOR_NON_PRIORITY_ACTIVITIES ?>'],
-            AR.time['<?= TimeManagementAggregated::SLUG_GLOBAL_TIME_SPEND_FOR_INACTIVITY ?>']
+            Math.round(AR.time['<?= TimeManagementAggregated::SLUG_GLOBAL_TIME_SPEND_FOR_1ST_PRIORITY_ACTIVITIES ?>']),
+            Math.round(AR.time['<?= TimeManagementAggregated::SLUG_GLOBAL_TIME_SPEND_FOR_NON_PRIORITY_ACTIVITIES ?>']),
+            Math.round(AR.time['<?= TimeManagementAggregated::SLUG_GLOBAL_TIME_SPEND_FOR_INACTIVITY ?>'])
         ],
         {
             colors: ['#146672', '#e11a1a', '#66a3ab']
