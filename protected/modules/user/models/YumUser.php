@@ -250,7 +250,8 @@ class YumUser extends YumActiveRecord
      * @return bool
      */
     public function isAdmin() {
-        return $this->is_admin === self::IS_ADMIN?true:false;
+        //return $this->is_admin === self::IS_ADMIN?true:false;
+        return $this->can('common_use_admin_area');
     }
 
     /**

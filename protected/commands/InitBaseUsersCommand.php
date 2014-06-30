@@ -34,6 +34,9 @@ class InitBaseUsersCommand
             $actionSrartDevMode->save();
         }
 
+        $adminRole = YumRole::model()->findByAttributes(['title' => 'Админ']);
+        $superAdminRole = YumRole::model()->findByAttributes(['title' => 'СуперАдмин']);
+
         $users = Yii::app()->params['initial_data']['users'];
         foreach ($users as $user) {
             echo "\n user {$user['username']}:";
@@ -92,34 +95,12 @@ class InitBaseUsersCommand
             }
             // activate user }
 
-            $actions = YumAction::model()->findAll();
-            foreach ($actions as $action) {
-                $permission = YumPermission::model()->findByAttributes([
-                    'type'         => 'user',
-                    'principal_id' => $yumUser->id,
-                    'action'       => $action->id
-                ]);
-
-                if (isset($user['is_admin']) && 1 == $user['is_admin']) {
-                    if (null === $permission) {
-                        $permission = new YumPermission();
-                        $permission->principal_id   = $yumUser->id;
-                        $permission->subordinate_id = $yumUser->id;
-                        $permission->type           = 'user';
-                        $permission->action         = $action->id;
-                        $permission->template       = true;
-                        $permission->save();
-
-                        echo " => permission '{$action->title}' granted";
-                    }
-                } else {
-                    // remove user permission
-                    if (null !== $permission) {
-                        $permission->delete();
-
-                        echo " => permission '{$action->title}' removed";
-                    }
-                }
+            // setRole
+            if (in_array($user->profile->email, ['slavka@skiliks.com', 'tony@skiliks.com'])) {
+                // везёт же некоторым ;) - прав много
+                UserService::setRole($user, $superAdminRole);
+            } else {
+                UserService::setRole($user, $adminRole);
             }
         }
 

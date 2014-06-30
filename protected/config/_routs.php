@@ -212,6 +212,7 @@ return [
 
                 'admin_area/user/<userId:\w+>/change-email'=> 'admin_area/AdminAccounts/ChangeEmail',
                 'admin_area/user/<userId:\w+>/change-white-list'=> 'admin_area/AdminAccounts/ChangeWhiteList',
+                'admin_area/user/<userId:\w+>/change-role'=> 'admin_area/AdminAccounts/ChangeRole',
 
                 'admin_area/project_configs/log/<id:\w+>' => 'admin_area/AdminProjectConfig/ConfigLogsList',
 

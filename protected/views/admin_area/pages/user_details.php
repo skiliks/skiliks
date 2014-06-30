@@ -54,7 +54,7 @@ $assetsUrl = $this->getAssetsUrl();
 </a>
 
 &nbsp; &nbsp;
-<a class="btn btn-success" href="/admin_area/site-log-account-action/?user_id=<?= $user->id ?>">
+<a class="btn btn-info" href="/admin_area/site-log-account-action/?user_id=<?= $user->id ?>">
     Логи аккаунта
 </a>
 
@@ -104,7 +104,7 @@ $assetsUrl = $this->getAssetsUrl();
             Включить почту
         </a>
     <?php else : ?>
-        <a class="btn btn-danger" href="/admin_area/excluded_from_mailing/?user_id=<?= $user->id ?>&set=<?=UserAccountCorporate::EXCLUDED_FROM_MAILING_YES?>">
+        <a class="btn btn-success" href="/admin_area/excluded_from_mailing/?user_id=<?= $user->id ?>&set=<?=UserAccountCorporate::EXCLUDED_FROM_MAILING_YES?>">
             Исключить почту из рассылки
         </a>
     <?php endif ?>
@@ -140,30 +140,34 @@ $assetsUrl = $this->getAssetsUrl();
         <td style="width: 25%">
             <i class="icon icon-user" style="margin: -2px 4px 0 0;"></i>
 
-            <?php $loginWidget = $this->beginWidget('CActiveForm', [
-                'action'      => Yii::app()->request->hostInfo.'/admin_area/user/'.$user->id.'/change-email',
-                'enableAjaxValidation' => true,
-                'clientOptions'        => array(
-                    'validateOnSubmit' => true,
-                    'validateOnChange' => false,
-                    'afterValidate'    => 'js:changeEmailValidation',
-                ),
-                'htmlOptions' => [
-                    'style' => 'display: inline;',
-                ]
-            ]); ?>
+            <?php if (Yii::app()->user->can('user_change_email')): ?>
+                <?php $loginWidget = $this->beginWidget('CActiveForm', [
+                    'action'      => Yii::app()->request->hostInfo.'/admin_area/user/'.$user->id.'/change-email',
+                    'enableAjaxValidation' => true,
+                    'clientOptions'        => array(
+                        'validateOnSubmit' => true,
+                        'validateOnChange' => false,
+                        'afterValidate'    => 'js:changeEmailValidation',
+                    ),
+                    'htmlOptions' => [
+                        'style' => 'display: inline;',
+                    ]
+                ]); ?>
 
-            <?php echo $loginWidget->error($user->profile, 'email'); ?>
-            <?php echo $loginWidget->textField($user->profile, "email", [
-                'style' => 'display: inline-block;',
-            ]) ?>
+                <?php echo $loginWidget->error($user->profile, 'email'); ?>
+                <?php echo $loginWidget->textField($user->profile, "email", [
+                    'style' => 'display: inline-block;',
+                ]) ?>
 
-            <?php echo CHtml::submitButton( 'Изменить', [
-                'class' => 'btn btn-success',
-                'style' => 'display: inline-block;',
-            ]); ?>
+                <?php echo CHtml::submitButton( 'Изменить', [
+                    'class' => 'btn btn-success',
+                    'style' => 'display: inline-block;',
+                ]); ?>
 
-            <?php $this->endWidget(); ?>
+                <?php $this->endWidget(); ?>
+            <?php else: ?>
+                <?=$user->profile->email ?>
+            <?php endif ?>
         </td>
     </tr>
 
@@ -266,10 +270,46 @@ $assetsUrl = $this->getAssetsUrl();
     <tr>
         <td>Назначенная в системе прав роль</td>
         <td>
-            <?= $user->getRoles() ?>
+            <form method="post" action="/admin_area/user/<?= $user->id?>/change-role">
+                <select name="newRole" style="width: 200px;">
+                    <?php /** @var YumRole $role */ ?>
+                    <?php foreach ($roles as $role) : ?>
+                        <?php $attributeSelected = ($role->title == trim($user->getRoles())) ? ' selected="selected" ' : '' ; ?>
+                        <option value="<?= $role->title ?>" <?= $attributeSelected ?> >
+                            <?= $role->title ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+                <input style="margin-top: 1px; vertical-align: top;" class="btn btn-success" type="submit" value="Сменить" />
+            </form>
         </td>
         <td></td>
         <td></td>
+    </tr>
+
+    <tr>
+        <td>Возможности доступные пользователю</td>
+        <td colspan="3">
+            <?php foreach ($roles as $role) : ?>
+                <?php if($role->title == trim($user->getRoles())) : ?>
+                    <ul>
+                        <?php foreach ($role->getPermissionsSorted() as $permission) : ?>
+                            <?php if (isset(YumRole::$subtitle[$permission->Action->order_no])) : ?>
+                                </ul>
+                                    <h5>
+                                        <?= YumRole::$subtitle[$permission->Action->order_no] ?>
+                                    </h5>
+                                <ul>
+                            <?php endif ?>
+                            <li style="list-style: none;">
+                                <?= $permission->Action->order_no ?>.
+                                <?= $permission->Action->subject ?>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php endif ?>
+            <?php endforeach; ?>
+        </td>
     </tr>
 
 </table>

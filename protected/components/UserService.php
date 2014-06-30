@@ -1428,6 +1428,48 @@ class UserService {
             'log'    => $log,
         ];
     }
+
+    /**
+     * @param YumUser $userToEdit
+     * @param YumRole $newRole
+     */
+    public static function setRole($userToEdit, $newRole) {
+        // удаление старых связей пользователь-роль
+        $connection = Yii::app()->db;
+        $command = $connection->createCommand(sprintf(
+            ' DELETE FROM `user_role` WHERE user_id = %s; ',
+            $userToEdit->id
+        ));
+        $command->execute();
+
+        // добавление новой роли
+        $command = $connection->createCommand(sprintf(
+            ' INSERT INTO `user_role` () VALUE (%s, %s); ',
+            $userToEdit->id,
+            $newRole->id
+        ));
+        $command->execute();
+
+        $logMessage = sprintf(
+            'Роль "%s" назначена для аккаунта %s администратором %s.',
+            $newRole->title,
+            $userToEdit->profile->email,
+            Yii::app()->user->data()->profile->email
+        );
+
+        // логирование
+        $logPermissionChanges = new SiteLogPermissionChanges();
+        $logPermissionChanges->initiator_id = Yii::app()->user->id;
+        $logPermissionChanges->created_at = date('Y-m-d H:i:s');
+        $logPermissionChanges->result =   $logMessage;
+        $logPermissionChanges->save();
+
+        UserService::logAccountAction(
+            $userToEdit,
+            Yii::app()->request->getUserHostAddress(),
+            $logMessage
+        );
+    }
 }
 
 

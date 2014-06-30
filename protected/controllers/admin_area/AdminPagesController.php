@@ -801,6 +801,9 @@ class AdminPagesController extends BaseAdminController {
         $this->redirect(sprintf('/admin_area/user/%s/details/', $profile->user_id));
     }
 
+    /**
+     * @param integer $userId
+     */
     public function actionUserDetails($userId)
     {
         /* @var $user YumUser */
@@ -864,7 +867,8 @@ class AdminPagesController extends BaseAdminController {
 
         $this->layout = '//admin_area/layouts/admin_main';
         $this->render('/admin_area/pages/user_details', [
-            'user' => $user,
+            'user'  => $user,
+            'roles' => YumRole::model()->findAll(),
         ]);
     }
 
@@ -1392,14 +1396,40 @@ class AdminPagesController extends BaseAdminController {
 
     public function actionAdminsList()
     {
+        // роли
+        $roleAdmin = YumRole::model()->findByAttributes(['title' => 'Админ']);
+        $roleSuperAdmin = YumRole::model()->findByAttributes(['title' => 'СуперАдмин']);
+
+        // связи
+        $connection = Yii::app()->db;
+        $command = $connection->createCommand(sprintf(
+            'SELECT user_id FROM `user_role` WHERE role_id = %s; ',
+            $roleSuperAdmin->id
+        ));
+        $superAdmins = $command->queryAll();
+
+        $command = $connection->createCommand(sprintf(
+            ' SELECT user_id FROM `user_role` WHERE role_id = %s; ',
+            $roleAdmin->id
+        ));
+        $admins = $command->queryAll();
+
+        // комбинируем
+        $adminIds = [];
+        foreach ($admins as $admin) {
+            $adminIds[] = $admin['user_id'];
+        }
+        unset($admin);
+        $superAdminIds = [];
+        foreach ($superAdmins as $superAdmin) {
+            $superAdminIds[] = $superAdmin['user_id'];
+        }
+        unset($superAdmin);
+
         $this->layout = '/admin_area/layouts/admin_main';
         $this->render('//admin_area/pages/users_management/admins_list', [
-            'admins'
-                => YumUser::model()->findAllByAttributes(['is_admin' => 1]),
-
-            // 1 - action "start_dev_mode"
-            'devPermissions'
-                => YumPermission::model()->findAllByAttributes(['action' => 1]),
+            'admins'      => YumUser::model()->findAllByAttributes(['id' => $adminIds]),
+            'superAdmins' => YumUser::model()->findAllByAttributes(['id' => $superAdminIds]),
         ]);
     }
 

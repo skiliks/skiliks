@@ -6,10 +6,21 @@
   * @property string $duration
  *
   * @property Array(YumUser) $users
+  * @property Array(YumPermission) $permissions
  */
 
 class YumRole extends YumActiveRecord {
 
+    public static $subtitle = [
+        '1.1' => 'Общее',
+        '2.1' => 'Заказы',
+        '3.1' => 'Поддержка',
+        '4.1' => 'Пользователи',
+        '5.1' => 'Приглашения',
+        '6.1' => 'Симуляции',
+        '7.1' => 'Статистика',
+        '8.1' => 'Управление',
+    ];
 
 	private $_userRoleTable;
 	private $_roleRoleTable;
@@ -24,6 +35,21 @@ class YumRole extends YumActiveRecord {
 		$this->_tableName = Yum::module('role')->roleTable;
 		return $this->_tableName;
 	}
+
+    /**
+     * @return array|YumPermission
+     */
+    public function getPermissionsSorted(){
+        return YumPermission::model()
+            ->with('Action')
+            ->findAll([
+                'condition'    => " t.type='role' AND principal_id = :principal_id ",
+                'order'        => 'Action.order_no ASC',
+                'params'       => [
+                    'principal_id' => $this->id,
+                ]
+            ]);
+    }
 
 	public function rules()
 	{

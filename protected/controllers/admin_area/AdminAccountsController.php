@@ -537,4 +537,43 @@ class AdminAccountsController extends BaseAdminController {
             'dataProvider' => SiteLogPermissionChanges::model()->search(' t.created_at DESC ')
         ]);
     }
+
+    /**
+     * Заменяет  текущую роль (роли) пользователя $userId на роль 'newRole'.
+     *
+     * @param integer $userId
+     */
+    public function actionChangeRole($userId) {
+        /** @var YumUser $userToEdit */
+        $userToEdit = YumUser::model()->findByPk($userId);
+
+        // проверка пользователя
+        if (null == $userToEdit) {
+            Yii::app()->user->setFlash(
+                'error',
+                sprintf('Пользователь #%s не найден.', $userId)
+            );
+            $this->redirect('/admin_area/dashboard');
+        }
+
+        // проверка роли
+        $roleName = Yii::app()->request->getParam('newRole');
+        $newRole = YumRole::model()->findByAttributes(['title' => $roleName]);
+        if (null == $newRole) {
+            Yii::app()->user->setFlash(
+                'error',
+                sprintf('Роль "%s" не найдена.', $roleName)
+            );
+            $this->redirect('/admin_area/dashboard');
+        }
+
+        UserService::setRole($userToEdit, $newRole);
+
+        // рапортуем об успехе
+        Yii::app()->user->setFlash(
+            'success',
+            sprintf('Роль "%s" назначена для аккаунта %s.', $roleName, $userToEdit->profile->email)
+        );
+        $this->redirect('/admin_area/user/' . $userToEdit->id.'/details');
+    }
 } 
