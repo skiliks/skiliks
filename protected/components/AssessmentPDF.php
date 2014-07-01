@@ -284,8 +284,8 @@ class AssessmentPDF {
      */
     public function addTimeDistribution($x, $y, $productive_time_percent, $unproductive_time_percent, $communications_management__percent) {
 
-        $productive_time_percent = round($productive_time_percent);
-        $unproductive_time_percent = round($unproductive_time_percent);
+        $productive_time_percent = round(str_replace(',', '.', $productive_time_percent));
+        $unproductive_time_percent = round(str_replace(',', '.', $productive_time_percent));
         $productive_time = 360*$productive_time_percent/100; // в градусах
         $unproductive_time = 360*$unproductive_time_percent/100; // в градусах
 
