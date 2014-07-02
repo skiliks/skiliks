@@ -29,8 +29,8 @@ define([
              * @var Array events
              */
             'events':_.defaults({
-                    "click .visitor-allow":'allow',
-                    "click .visitor-deny":'deny'
+                    "click .visitor-deny":  'deny',
+                    "click .visitor-allow": 'allow'
             },SKWindowView.prototype.events),
 
             /**
@@ -109,8 +109,8 @@ define([
              *
              * @param Event event, OnClickEvent
              */
-            deny:function (e) {
-                try {
+            deny:function (event) {
+               try {
                     var me = this;
                     var dialogId = $(event.currentTarget).attr('data-dialog-id');
                     SKApp.simulation.trigger('audio-door-knock-stop');
