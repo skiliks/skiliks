@@ -343,6 +343,12 @@ class AssessmentPDF {
     {
         // определяем квадрант
         // $alpha - угол, который всегда ближе к Y оси координат
+        if ($alphaOriginal < 0) {
+            $alphaOriginal = 0;
+        } elseif (360 < $alphaOriginal ) {
+            $alphaOriginal = 360;
+        }
+
         if (0 <= $alphaOriginal && $alphaOriginal < 90) {
             $k = 1;
             $alpha = $alphaOriginal;
