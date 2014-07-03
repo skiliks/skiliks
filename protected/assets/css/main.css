@@ -96,12 +96,18 @@ a {
     -moz-background-size: cover !important;
     -o-background-size: cover !important;
     background-size: cover !important;
+    -webkit-touch-callout: none;
     -moz-user-select: none;
     -webkit-user-select: none;
     -ms-user-select:none;
     user-select:none;
 /*cursor: crosshair;*/
 }
+
+
+::selection { background: transparent;color:inherit; }
+::-moz-selection { background: transparent;color:inherit; }
+
 .message {
     display: none;
     margin: auto; position: absolute; top: 150px; bottom: 0px; left: 400px; right: 400px;
