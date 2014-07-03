@@ -285,7 +285,7 @@ class AssessmentPDF {
     public function addTimeDistribution($x, $y, $productive_time_percent, $unproductive_time_percent, $communications_management__percent) {
 
         $productive_time_percent = round(str_replace(',', '.', $productive_time_percent));
-        $unproductive_time_percent = round(str_replace(',', '.', $productive_time_percent));
+        $unproductive_time_percent = round(str_replace(',', '.', $unproductive_time_percent));
         $productive_time = 360*$productive_time_percent/100; // в градусах
         $unproductive_time = 360*$unproductive_time_percent/100; // в градусах
 
@@ -343,12 +343,6 @@ class AssessmentPDF {
     {
         // определяем квадрант
         // $alpha - угол, который всегда ближе к Y оси координат
-        if ($alphaOriginal < 0) {
-            $alphaOriginal = 0;
-        } elseif (360 < $alphaOriginal ) {
-            $alphaOriginal = 360;
-        }
-
         if (0 <= $alphaOriginal && $alphaOriginal < 90) {
             $k = 1;
             $alpha = $alphaOriginal;
