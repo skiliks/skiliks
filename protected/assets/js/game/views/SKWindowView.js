@@ -42,7 +42,6 @@ define(["text!game/jst/window.jst"],
 
         dimensions: {},
 
-
         /**
          * Constructor
          * @method initialize
@@ -50,7 +49,7 @@ define(["text!game/jst/window.jst"],
         initialize: function () {
             try {
                 if (this.options.model_instance === undefined) {
-                    throw new Error ('You need to pass model_instance');
+                    window.Raven.captureMessage('You need to pass model_instance');
                 }
                 var sim_window = this.make('div', {"class": 'sim-window' + (this.addClass ? ' ' + this.addClass : ''), "id":(this.addId ? this.addId : '')});
                 this.$container = $(this.container);

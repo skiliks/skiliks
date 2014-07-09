@@ -4,10 +4,11 @@ var SKPhoneDialogView;
 
 define([
     "text!game/jst/phone/dialog_template.jst",
-
+    "game/models/SKDialogHistory",
     "game/views/SKWindowView"
 ], function (
-    dialog_template
+    dialog_template,
+    SKDialogHistory
 ) {
 
     "use strict";
@@ -124,6 +125,13 @@ define([
                 }
 
                 var sound = event.getAudioSrc();
+
+                for (var i in my_replicas) {
+                    var dialogHistory = new SKDialogHistory();
+                    dialogHistory.set('replica_id', my_replicas[i]['id']);
+                    dialogHistory.set('is_sent', false);
+                    SKApp.simulation.dialogsHistory.add(dialogHistory);
+                }
 
                 var callInHtml = _.template(dialog_template, {
                     'remote_replica':            remote_replica,
