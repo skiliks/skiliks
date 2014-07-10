@@ -229,11 +229,39 @@ define([
                             me.options.model_instance.close();
                         }
                     });
+
+                    var ids = new Array();
+                    $('.replica-select').each(function(i){
+                        ids[i] = $(this).attr('data-id');
+                    });
+
+                    setTimeout(_.bind(me.restoreReplicasAccessibility, me), 60*1000, ids); // 1 min
                 }
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);
                 }
+            }
+        },
+
+        restoreReplicasAccessibility: function(ids)
+        {
+            console.log('restoreReplicasAccessibility', ids);
+            var me = this;
+
+            var isNoOneReplicaSent = true;
+            for (var i in ids) {
+                var id = ids[i];
+                var dialogHistory = SKApp.simulation.dialogsHistory.where({'replica_id': id, 'is_sent': true});
+                if (0 < dialogHistory.length) {
+                    isNoOneReplicaSent = false;
+                }
+            }
+
+            console.log('isNoOneReplicaSent ', isNoOneReplicaSent);
+            if (isNoOneReplicaSent) {
+                $('.replica-select').removeAttr('data-disabled');
+                me.options.model_instance.setOnTop();
             }
         }
     });
