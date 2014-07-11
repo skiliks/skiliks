@@ -231,7 +231,6 @@ define([
              * @param OnClockEvent e
              */
             'doSelectReplica':function (e) {
-                console.log('+');
                 try {
                     var me = this;
                     e.preventDefault();
@@ -269,24 +268,31 @@ define([
                 }
             },
 
-            restoreReplicasAccessibility: function(ids)
-            {
-                console.log('restoreReplicasAccessibility', ids);
-                var me = this;
-
-                var isNoOneReplicaSent = true;
-                for (var i in ids) {
-                    var id = ids[i];
-                    var dialogHistory = SKApp.simulation.dialogsHistory.where({'replica_id': id, 'is_sent': true});
-                    if (0 < dialogHistory.length) {
-                        isNoOneReplicaSent = false;
+            restoreReplicasAccessibility: function(ids) {
+                try {
+                    if (window.Raven) {
+                        window.Raven.captureMessage('restoreReplicasAccessibility,' + SKApp.simulation.getGameTime(true));
                     }
-                }
 
-                console.log('isNoOneReplicaSent ', isNoOneReplicaSent);
-                if (isNoOneReplicaSent) {
-                    $('.replica-select').removeAttr('data-disabled');
-                    me.options.model_instance.setOnTop();
+                    var me = this;
+
+                    var isNoOneReplicaSent = true;
+                    for (var i in ids) {
+                        var id = ids[i];
+                        var dialogHistory = SKApp.simulation.dialogsHistory.where({'replica_id': id, 'is_sent': true});
+                        if (0 < dialogHistory.length) {
+                            isNoOneReplicaSent = false;
+                        }
+                    }
+
+                    if (isNoOneReplicaSent) {
+                        $('.replica-select').removeAttr('data-disabled');
+                        me.options.model_instance.setOnTop();
+                    }
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
                 }
             },
 
