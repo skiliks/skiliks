@@ -152,7 +152,58 @@ define(
              * Стандартный родительский метод
              */
             onWindowClose: function() {
-                SKApp.simulation.manual_is_first_closed = true;
+                try {
+                    var me = this;
+
+                    SKApp.simulation.manual_is_first_closed = true;
+                    setTimeout(me.checkTutorialCrashBag, 3000);
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
+            },
+
+            checkTutorialCrashBag: function() {
+                try {
+                    var isTutorialWindowPresent = (0 < $('.manual-window').length);
+                    var isMeetingWindowPresent = (0 < $('#choose-meeting-box').length);
+                    var isOverlayVisible = (false == $('.paused-screen').hasClass('hidden'));
+
+                    if ( true == isOverlayVisible
+                        && (false == isTutorialWindowPresent && false == isMeetingWindowPresent)) {
+
+                        // для екстренной ситуации - экстренные методы
+                        $('.sim-window').remove();
+
+                        var message = new SKDialogView({
+                            'message': 'Приносим извинения,<br/>'
+                                + 'из-за разрыва интернет соединения данные для игры НЕ были полностью загружены.<br/>'
+                                + 'Пожалуйста, начните игру заново.',
+                            'buttons': [
+                                {
+                                    'value': 'Начать заново',
+                                    'onclick': function () {
+                                        try {
+                                            $(window).off('beforeunload');
+                                            location.href = location.href;
+                                        } catch(exception) {
+                                            if (window.Raven) {
+                                                window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        });
+                    } else {
+                        console.log('all right!');
+                    }
+                } catch(exception) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                    }
+                }
             }
         });
 
