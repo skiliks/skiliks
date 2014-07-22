@@ -282,10 +282,10 @@ class AssessmentPDF {
      *
      * @return void
      */
-    public function addTimeDistribution($x, $y, $productive_time_percent, $unproductive_time_percent, $communications_management__percent) {
+    public function addTimeDistribution($x, $y, $productive_time_percent, $unproductive_time_percent, $other_time_percent) {
 
-        $productive_time_percent = round(str_replace(',', '.', $productive_time_percent));
-        $unproductive_time_percent = round(str_replace(',', '.', $unproductive_time_percent));
+        $productive_time_percent = round($productive_time_percent);
+        $unproductive_time_percent = round($unproductive_time_percent);
         $productive_time = 360*$productive_time_percent/100; // в градусах
         $unproductive_time = 360*$unproductive_time_percent/100; // в градусах
 
@@ -323,7 +323,7 @@ class AssessmentPDF {
             $productive_time + $unproductive_time + (360 - $productive_time - $unproductive_time)/2,
             $radius
         );
-        $other_time = 100 - $productive_time_percent - $unproductive_time_percent;
+        $other_time = round( $other_time_percent);
         $text = (9 < $other_time) ? $other_time . '%' : '';
         $this->writeTextBold($text, $x + $shifts['x'], $y + $shifts['y'], 11.87);
 
