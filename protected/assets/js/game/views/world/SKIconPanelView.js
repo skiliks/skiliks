@@ -835,8 +835,8 @@ define([
                         setTimeout(function(){
                             if (0 == $('#mail-window').length) {
                                 if (window.Raven) {
+                                    window.Raven.captureMessage('ERROR! #1 Mail windows didn`t open at ' + SKApp.simulation.getGameTime(true));
                                     console.log('Mail windows didn`t open at ' + SKApp.simulation.getGameTime(true));
-                                    window.Raven.captureMessage('Mail windows didn`t open at ' + SKApp.simulation.getGameTime(true));
                                 }
                             }
                         }, 1*1000);
@@ -851,8 +851,8 @@ define([
                     } else {
                         if (0 == $('#mail-window').length) {
                             if (window.Raven) {
+                                window.Raven.captureMessage('ERROR! #2 Active mail window, but no window in DOM. At ' + SKApp.simulation.getGameTime(true));
                                 console.log('Active mail window, but no window in DOM. At ' + SKApp.simulation.getGameTime(true));
-                                window.Raven.captureMessage('Mail windows didn`t open at ' + SKApp.simulation.getGameTime(true));
                             }
                         }
                     }
