@@ -270,8 +270,9 @@ define([
 
             restoreReplicasAccessibility: function(ids) {
                 try {
+                    console.log('restoreReplicasAccessibility, visit,' + SKApp.simulation.getGameTime(true));
                     if (window.Raven) {
-                        window.Raven.captureMessage('restoreReplicasAccessibility,' + SKApp.simulation.getGameTime(true));
+                        window.Raven.captureMessage('restoreReplicasAccessibility, visit,' + SKApp.simulation.getGameTime(true));
                     }
 
                     var me = this;
@@ -285,9 +286,13 @@ define([
                         }
                     }
 
+                    console.log('isNoOneReplicaSent:', isNoOneReplicaSent);
+
                     if (isNoOneReplicaSent) {
                         $('.replica-select').removeAttr('data-disabled');
-                        me.options.model_instance.setOnTop();
+                        if (0 < $('.visitor-window').length()) {
+                            me.options.model_instance.setOnTop();
+                        }
                     }
                 } catch(exception) {
                     if (window.Raven) {

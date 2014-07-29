@@ -247,7 +247,7 @@ define([
         restoreReplicasAccessibility: function(ids) {
             try {
                 if (window.Raven) {
-                    window.Raven.captureMessage('restoreReplicasAccessibility,' + SKApp.simulation.getGameTime(true));
+                    window.Raven.captureMessage('restoreReplicasAccessibility, phone,' + SKApp.simulation.getGameTime(true));
                 }
                 var me = this;
 
@@ -262,7 +262,9 @@ define([
 
                 if (isNoOneReplicaSent) {
                     $('.replica-select').removeAttr('data-disabled');
-                    me.options.model_instance.setOnTop();
+                    if (0 < $('.phone-content')) {
+                        me.options.model_instance.setOnTop();
+                    }
                 }
             } catch(exception) {
                 if (window.Raven) {
