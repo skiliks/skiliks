@@ -47,11 +47,35 @@
                     'visible' => $isGuest || false === $isDisplayAccountLinks,
                 ],
 
+                // About us без подменю - для англоязычных страниц
                 [
                     'label'   => Yii::t('site','About Us'),
                     'url'     => ['/static/pages/team'],
-                    'visible' => $isGuest || false === $isDisplayAccountLinks
+                    'visible' => ($isGuest || false === $isDisplayAccountLinks) && 'en' == Yii::app()->getLanguage(),
                 ],
+
+                // About us с подменю - для русскоязычных страниц
+                [
+                    'label'   => Yii::t('site','About Us'),
+                    'linkOptions'      => ['class' => 'label icon-sub-menu icon-sub-menu-about-us locator-submenu-switcher-about-us
+                        action-show-about-us-submenu background-dark-blue-transparent-40-hovered'],
+                    'visible' => ($isGuest || false === $isDisplayAccountLinks)  && 'ru' == Yii::app()->getLanguage(),
+                    'submenuOptions' => ['class' => 'sub-menu-1 sub-menu-about-us locator-about-us-submenu'],
+                    'items'=> [
+                            [
+                                'label' => Yii::t('site','About Us'),
+                                'url'   => ['/static/pages/team'],
+                            ],
+                            [
+                                'label' => Yii::t('site', 'Articles'),
+                                'url'   => ['/static/articles'],
+                            ],
+                            [
+                                'label' => Yii::t('site',  'Partners'),
+                                'url'   => ['/static/partners'],
+                            ],
+                        ]
+                 ],
 
                 // Продукты без подменю - для англоязычных страниц
                 [
@@ -63,7 +87,8 @@
                 // Продукты с подменю - для русскоязычных страниц
                 [
                     'label'   => Yii::t('site', 'Product'),
-                    'linkOptions'      => ['class' => 'label icon-sub-menu locator-submenu-switcher action-show-product-submenu background-dark-blue-transparent-40-hovered'],
+                    'linkOptions'      => ['class' => 'label icon-sub-menu locator-submenu-switcher
+                        action-show-product-submenu background-dark-blue-transparent-40-hovered'],
                     'visible' => ($isGuest || false === $isDisplayAccountLinks) && 'ru' == Yii::app()->getLanguage(),
                     'submenuOptions' => ['class' => 'sub-menu-1 locator-product-submenu'],
                     'items'=> [
@@ -76,7 +101,6 @@
                             'url'   => ['/static/product-diagnostic'],
                         ],
                     ]
-
                 ],
 
                 [

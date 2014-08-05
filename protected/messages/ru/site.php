@@ -435,4 +435,6 @@ return array(
     'Your account has been locked' => 'Ваш аккаунт заблокирован',
 
     'Register now' => 'Зарегистрироваться сейчас',
+    'Articles' => 'Статьи',
+    'Partners' => 'Партнёры',
 );

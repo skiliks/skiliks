@@ -59,6 +59,48 @@ class PagesController extends SiteBaseController
     /**
      *
      */
+    public function actionArticles()
+    {
+        $this->layout = '//layouts/site_standard_2';
+
+        $this->addSiteJs('_start_demo.js');
+        $this->addSiteCss('pages/articles-1280.css');
+        $this->addSiteCss('pages/articles-1024.css');
+
+        $this->render('articles');
+    }
+
+    /**
+     *
+     */
+    public function actionSingleArticle($source)
+    {
+        $this->layout = '//layouts/site_standard_2';
+
+        $this->addSiteJs('_start_demo.js');
+        $this->addSiteCss('pages/single-article-1280.css');
+        $this->addSiteCss('pages/single-article-1024.css');
+
+        $this->render('//static/pages/articles/' . $source);
+    }
+
+    /**
+     *
+     */
+    public function actionPartners()
+    {
+        $this->layout = '//layouts/site_standard_2';
+
+        $this->addSiteJs('_start_demo.js');
+        $this->addSiteCss('pages/partners-1280.css');
+        $this->addSiteCss('pages/partners-1024.css');
+
+        $this->render('partners');
+    }
+
+    /**
+     *
+     */
     public function actionProduct()
     {
         $this->layout = 'site_standard_2';
