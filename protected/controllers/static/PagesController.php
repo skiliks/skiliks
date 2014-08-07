@@ -90,16 +90,16 @@ class PagesController extends SiteBaseController
             'isLast' => false,
         ];
         $data[] = [
-            'img-src' => $this->assetsUrl . '/img/site/1280/articles/silicon.png',
+            'img-src' => $this->assetsUrl . '/img/site/1280/articles/the-village.png',
             'date' => 'октябрь 2013',
             'title' => 'Skiliks: Как заставить менеджеров играть в серьёзные игры',
             'description' => 'Сооснователь компании Skiliks Мария Горина ушла с позиции топ-менеджера крупного издательского дома, чтобы создать игру, обучающую руководителей работать эффективнее',
-            'label' => 'siliconrus.com',
+            'label' => 'the-village.ru',
             'link' => '',
             'isLast' => false,
         ];
         $data[] = [
-            'img-src' => $this->assetsUrl . '/img/site/1280/articles/silicon-2.png',
+            'img-src' => $this->assetsUrl . '/img/site/1280/articles/silicon.png',
             'date' => 'октябрь 2013',
             'title' => 'Стартап Skiliks поможет проверить вашего менеджера на профпригодность',
             'description' => 'Кофаундер стартапа для оценки менеджеров skiliks Лея Левин рассказала нам о том, как можно проверить сотрудника при приеме на работу, что такое "serious games" и о том, что без корпоративного почтового клиента не может работать ни одна компания',
