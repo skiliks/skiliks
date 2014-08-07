@@ -106,21 +106,20 @@ if (
         <meta property="og:image" content="http://<?=$_SERVER['HTTP_HOST']; ?><?php echo $assetsUrl?>/img/site/social-networks/skiliks-fb.png"/>
     <?php endif ?>
 
-
     <meta property="og:image" content="http://<?=$_SERVER['HTTP_HOST']; ?><?php echo $assetsUrl?>/img/site/social-networks/skiliks-fb.png"/>
-    <meta property="og:title" content="Skiliks – game the skills"/>
     <meta property="og:url" content="http://<?=$_SERVER['HTTP_HOST']; ?>"/>
 
+    <meta property="og:title" content="<?= CHtml::encode($this->pageTitle); ?>"/>
+    <title><?= CHtml::encode($this->pageTitle); ?></title>
+
     <meta charset="utf-8" />
-    <meta name="description" content="Простой и надежный способ проверить навыки менеджеров:
-        деловая онлайн симуляция, имитирующая реальный рабочий день с типичными управленческими задачами
-        и ситуациями принятия решений">
-    <meta property="og:description" content="Простой и надежный способ проверить навыки менеджеров:
-        деловая онлайн симуляция, имитирующая реальный рабочий день с типичными управленческими задачами
-        и ситуациями принятия решений">
+
+    <meta name="description" content="<?= CHtml::encode($this->pageDescription); ?>">
+    <meta property="og:description" content="<?= CHtml::encode($this->pageDescription); ?>">
+
+    <meta name="keywords" content="<?= CHtml::encode($this->pageKeywords); ?>">
 
     <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-    <title>Skiliks - game the skills</title>
 
     <!--[if IE]>
     <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
