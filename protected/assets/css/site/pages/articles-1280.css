@@ -1,0 +1,51 @@
+.column-full.column-articles {
+    min-width: 1046px;
+    width: 1046px;
+}
+
+.article-data {
+    padding: 0px 100px 3px 30px;
+    margin-top: -2px;
+    min-height: 183px;
+    vertical-align: top;
+    width: 719px;
+}
+
+.skiliks article {
+    display: inline-block;
+}
+
+.publication-separator {
+    background-image: url("../../../img/site/1280/articles/separator.png");
+    display: inline-block;
+    height: 1px;
+    margin: 15px 0 25px 0;
+    width: 1046px;
+}
+
+.skiliks h2 {
+    margin-bottom: 5px;
+}
+
+h2 a {
+    font-size: 0.7em;
+    text-decoration: underline;
+}
+
+h2 a:hover {
+    text-decoration: none;
+}
+
+.publication-description {
+    color: #ffffff;
+}
+
+.source-link {
+    margin-top: 30px;
+}
+
+.source-link:hover {
+    color: #146672;
+}
+
+/* ---- */
