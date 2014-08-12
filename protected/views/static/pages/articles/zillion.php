@@ -188,7 +188,7 @@ $this->pageTitle = 'Skiliks - При приеме на работу менедж
 
         <br/>
         <br/>
-        <img class="illustration-small" src="<?= $this->assetsUrl ?>/img/site/1280/articles/photos/zillion-1-10.png">
+        <img class="illustration-small-half" src="<?= $this->assetsUrl ?>/img/site/1280/articles/photos/zillion-1-10.png">
         <br/>
         <br/>
 
