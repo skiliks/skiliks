@@ -61,6 +61,10 @@ h2 a:hover {
     width: 650px;
 }
 
+.action-controller-singleArticle-static-pages img.illustration-small {
+    max-width: 650px;
+}
+
 .skiliks p {
     color: #ffffff;
     display: block;

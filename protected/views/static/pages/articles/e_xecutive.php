@@ -45,7 +45,7 @@
 
         <img class="illustration" src="<?= $this->assetsUrl ?>/img/site/1280/articles/photos/e-xecutive-1-2.jpg">
 
-                <br/>
+        <br/>
         <br/>
 
         <h2>
