@@ -38,6 +38,7 @@ h2 a:hover {
 
 .publication-description {
     color: #ffffff;
+    font-size: 1.13em;
 }
 
 .source-link {
@@ -58,11 +59,11 @@ h2 a:hover {
 }
 
 .action-controller-singleArticle-static-pages img.illustration {
-    width: 650px;
+    width: 920px;
 }
 
 .action-controller-singleArticle-static-pages img.illustration-small {
-    max-width: 650px;
+    max-width: 920px;
 }
 
 .action-controller-singleArticle-static-pages img.illustration-small-half {
@@ -72,9 +73,14 @@ h2 a:hover {
 .skiliks p {
     color: #ffffff;
     display: block;
-    margin: 17px 0 50px 0;
+    font-size: 1.13em;
+    margin: 17px 0 45px 135px;
     text-align: left;
     width: 650px;
+}
+
+.action-singleArticle h2 {
+    margin-left: 135px;
 }
 
 .source {

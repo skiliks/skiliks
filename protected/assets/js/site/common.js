@@ -673,7 +673,7 @@ function fixAboutUsDropDown() {
     }
 
     // не много магических чисел:
-    var offsetLeft = 67;
+    var offsetLeft = 127;
     var offsetTop = 91;
     if ($('body').hasClass('width-1024')) {
         offsetLeft = 76;

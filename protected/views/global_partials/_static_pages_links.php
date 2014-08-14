@@ -63,16 +63,16 @@
                     'submenuOptions' => ['class' => 'sub-menu-1 sub-menu-about-us locator-about-us-submenu'],
                     'items'=> [
                             [
-                                'label' => Yii::t('site','About Us'),
+                                'label' => 'Наша команда',
                                 'url'   => ['/static/pages/team'],
                             ],
                             [
-                                'label' => Yii::t('site', 'Articles'),
-                                'url'   => ['/static/articles'],
+                                'label' => 'Партнеры',
+                                'url'   => ['/static/partners'],
                             ],
                             [
-                                'label' => Yii::t('site',  'Partners'),
-                                'url'   => ['/static/partners'],
+                                'label' => 'Пресс-центр',
+                                'url'   => ['/static/articles'],
                             ],
                         ]
                  ],
