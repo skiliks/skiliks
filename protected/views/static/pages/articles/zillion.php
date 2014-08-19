@@ -281,7 +281,7 @@ $this->pageTitle = 'Skiliks - При приеме на работу менедж
         </p>
 
         <p>
-            <strong>Анастасия Подберезкина</strong>, Шеф-редактор <a class="source" href="http://zillion.net/ru/blog/470/skiliks-otsienka-riezul-tativnosti-i-bazovykh-navykov-mieniedzhiera">zillion.net</a>
+            <strong>Анастасия Подберезкина</strong>, Шеф-редактор <a target="_blank" class="source" href="http://zillion.net/ru/blog/470/skiliks-otsienka-riezul-tativnosti-i-bazovykh-navykov-mieniedzhiera">zillion.net</a>
             <br/>
             Иллюстрация обложки: <strong>Vadim Sherbakov</strong>
             <br/>

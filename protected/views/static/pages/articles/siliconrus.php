@@ -148,7 +148,7 @@ $this->pageTitle = 'Skiliks - При приеме на работу менедж
         </p>
 
         <p>
-            <strong>Саша Пеганов</strong>, специально для <a class="source" href="http://siliconrus.com/2013/10/skiliks/">siliconrus.com</a>
+            <strong>Саша Пеганов</strong>, специально для <a target="_blank" class="source" href="http://siliconrus.com/2013/10/skiliks/">siliconrus.com</a>
             <br/>
             <br/>
             <a class="source" href="/static/articles">Все статьи</a>

@@ -80,7 +80,7 @@ $this->pageTitle = 'Skiliks - При приеме на работу менедж
             Фотограф: <strong>Мария Минкова</strong>
             <br/>
             <span class="pull-right">
-                Читайте лалее на <a class="source" href="http://www.the-village.ru/village/hopesandfears/hopes-experience/152807-skiliks">the-village.ru</a>
+                Читайте далее на <a target="_blank" class="source" href="http://www.the-village.ru/village/hopesandfears/hopes-experience/152807-skiliks">the-village.ru</a>
             </span>
             <br/>
             <br/>
