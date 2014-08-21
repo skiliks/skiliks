@@ -141,10 +141,37 @@ class PagesController extends SiteBaseController
         $this->layout = '//layouts/site_standard_2';
 
         $this->addSiteJs('_start_demo.js');
-        $this->addSiteCss('pages/partners-1280.css');
-        $this->addSiteCss('pages/partners-1024.css');
+        $this->addSiteCss('pages/articles-1280.css');
+        $this->addSiteCss('pages/articles-1024.css');
 
-        $this->render('partners');
+        $data[] = [
+            'img-src' => $this->assetsUrl . '/img/site/1280/partners/exiclub.png',
+            'title' => 'Exiclub',
+            'description' => 'Управленческий консалтинг и тренинги. Разработка тренинговых программ, «настроенных» под конкретные нужды и цели. Индивидуальный подход «Экзиклуба» позволяет работать на результат, а также легко масштабировать обучение с индивидуального до общекорпоративного.',
+            'isLast' => false,
+        ];
+        $data[] = [
+            'img-src' => $this->assetsUrl . '/img/site/1280/partners/sale-school.png',
+            'title' => 'Школа Продаш!',
+            'description' => 'Школа Продашь! - это вызов всему, что мешает достичь успеха в том, чтобы продавать больше и лучше, чтобы грамотно управлять продажами. Cпециализируется на коммерческом консалтинге и обучении в сфере управления продажами. Проводят классные тренинги по продажам, достигают поставленных результатов, используя только новые технологии.',
+            'isLast' => false,
+        ];
+        $data[] = [
+            'img-src' => $this->assetsUrl . '/img/site/1280/partners/coloris.png',
+            'title' => 'Колорис',
+            'description' => 'Программные продукты для бизнеса. Экскюзивный партнер на территории Украины. Компания специализируется на внедрении систем дистанционного обучения и оценки персонала, а также разрабатывает контент для их наполнения: курсы, тесты, опросы, оценочные процедуры,тренинги.',
+            'isLast' => false,
+        ];
+        $data[] = [
+            'img-src' => $this->assetsUrl . '/img/site/1280/partners/smart-reading.png',
+            'title' => 'Smartreading',
+            'description' => 'Уникальный проект на рынке бизнес-литературы. Лучшие бизнес-книги по всем ключевым темам — от переговоров до стратегии в формате саммари: тексты, в которых в сжатой форме рассказывается о ключевых идеях каждой книги. Библиотека ежемесячно пополняется.',
+            'isLast' => true,
+        ];
+
+        $this->render('partners', [
+            'data' => $data
+        ]);
     }
 
     /**

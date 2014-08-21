@@ -27,8 +27,11 @@
     margin-bottom: 5px;
 }
 
+h2.partners {
+    font-size: 1.6em;
+}
+
 h2 a {
-    font-size: 0.7em;
     text-decoration: underline;
 }
 
