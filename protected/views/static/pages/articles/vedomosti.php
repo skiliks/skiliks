@@ -11,11 +11,12 @@ $this->pageTitle = 'Skiliks - При приеме на работу менедж
         При приеме на работу менеджеров заставляют играть в игры
     </h1>
 
-    <span class="pull-content-center">
+    <span class="pull-content-center" style="min-width: 920px;">
 
         <br/>
         <br/>
-        <img class="illustration-small" src="<?= $this->assetsUrl ?>/img/site/1280/articles/photos/vedomosti-1-1.jpg">
+        <img class="illustration-small" style="width: 650px;"
+             src="<?= $this->assetsUrl ?>/img/site/1280/articles/photos/vedomosti-1-1.jpg">
         <br/>
         <br/>
 
