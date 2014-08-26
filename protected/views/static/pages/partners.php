@@ -14,7 +14,7 @@
                     <br/>
                     <h2 class="partners"><?= $partner['title'] ?></h2>
                     <div class="publication-description"><?= $partner['description'] ?></div>
-                    <a class="source-link" href="<?= $partner['link'] ?>"><?= $partner['label'] ?></a>
+                    <a targer="_blank" class="source-link" href="<?= $partner['link'] ?>"><?= $partner['label'] ?></a>
                 </div>
             </article>
 
