@@ -11,6 +11,9 @@ return [
 
             'rules' => [
                 '/'               => 'static/pages/index',
+
+                // ..static {
+
                 'static/'         => 'static/pages/index',
 
                 'static/team/<_lang:\w+>'    => 'static/pages/team',
@@ -22,6 +25,8 @@ return [
                 'static/feedback'            => 'static/pages/feedback',
 
                 'static/drag-and-drop'       => 'static/pages/dragAndDropPrototype',
+                'static/articles'       => 'static/pages/articles',
+                'static/partners'       => 'static/pages/partners',
 
                 'static/team/'    => 'static/pages/team',
                 'team/'           => 'static/pages/team', // sentry показывает что есть запросы к такому URL
@@ -35,18 +40,20 @@ return [
                 'static/pages/addUserSubscription' => 'static/pages/addUserSubscription', // strange, but works in this way only
 
                 'static/comingSoonSuccess' => 'static/pages/comingSoonSuccess',
-                'static/comingSoonSuccess/<_lang:\w+>' => 'static/pages/comingSoonSuccess',
-
-                'static/<_lang:\w+>'         => 'static/pages/index',
-
-                // SimStop and show logs
-                'admin/displayLog/<simulation:\w+>' => 'static/simStopAndShowLogs/displayLog',
 
                 // Save logs to excel on page "SimStop and show logs"
                 'static/admin/saveLog/<simulation:\w+>' => 'static/simStopAndShowLogs/saveLog',
 
-//                'admin/'                  => 'static/admin/',
-//                'Admin/Log'              => 'static/Admin/Log',
+                'static/comingSoonSuccess/<_lang:\w+>' => 'static/pages/comingSoonSuccess',
+
+                'static/<_lang:\w+>'          => 'static/pages/index',
+                'static/article/<source:\w+>' => 'static/pages/singleArticle',
+
+                // ..static }
+                // --------------------------------------------------------------------------------
+
+                // SimStop and show logs
+                'admin/displayLog/<simulation:\w+>' => 'static/simStopAndShowLogs/displayLog',
 
                 'cheat/quick-start/full'                => 'static/cheats/startSimulationForFastSeleniumTest',
                 'cheat/clean-events-queue/<simId:\w+>'  => 'static/cheats/cleanEventsQueue',
@@ -74,7 +81,6 @@ return [
                 'registration'                                   => 'static/userAuth/registrationSingleAccount',
                 'registration/by-link/<code:\w+>'                => 'static/userAuth/registerByLink',
                 'registration/single-account'                    => 'static/userAuth/registrationSingleAccount',
-//                'registration/account-type/added'                => 'static/userAuth/accountTypeSavesSuccessfully',
                 'simulationIsStarted'                            => 'static/site/IsStarted',
                 'watchVideo'                                     => 'static/site/watchVideo',
                 'watchVideo/<_lang:\w+>'                         => 'static/site/watchVideo',

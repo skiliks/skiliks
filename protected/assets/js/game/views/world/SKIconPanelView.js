@@ -831,12 +831,30 @@ define([
 
                     this.stopAnimation('.mail');
 
+                    if (0 == $('#mail-window').length) {
+                        setTimeout(function(){
+                            if (0 == $('#mail-window').length) {
+                                if (window.Raven) {
+                                    window.Raven.captureMessage('ERROR! #1 Mail windows didn`t open at ' + SKApp.simulation.getGameTime(true));
+                                    console.log('Mail windows didn`t open at ' + SKApp.simulation.getGameTime(true));
+                                }
+                            }
+                        }, 1*1000);
+                    }
+
                     // we need getActiveSubscreenName() because mailClient window subname changed dinamically
                     if(false == SKApp.simulation.window_set.isActive('mailEmulator', SKApp.simulation.mailClient.getActiveSubscreenName())){
                         SKApp.simulation.window_set.toggle(
                             'mailEmulator',
                             SKApp.simulation.mailClient.getActiveSubscreenName()
                         );
+                    } else {
+                        if (0 == $('#mail-window').length) {
+                            if (window.Raven) {
+                                window.Raven.captureMessage('ERROR! #2 Active mail window, but no window in DOM. At ' + SKApp.simulation.getGameTime(true));
+                                console.log('Active mail window, but no window in DOM. At ' + SKApp.simulation.getGameTime(true));
+                            }
+                        }
                     }
                 } catch(exception) {
                     if (window.Raven) {

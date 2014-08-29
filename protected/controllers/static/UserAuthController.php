@@ -111,6 +111,14 @@ class UserAuthController extends YumController
 
                     UserService::assignAllNotAssignedUserInvites($this->user);
 
+                    UserService::addAuthorizationLog(
+                        $this->user->username,
+                        $YumUser['password'],
+                        SiteLogAuthorization::SUCCESS_AUTH,
+                        $this->user->id,
+                        SiteLogAuthorization::USER_AREA
+                    );
+
                     sleep(0.5);
 
                     $this->redirect('/dashboard');

@@ -83,17 +83,34 @@
     padding-right: 25px;
 }
 
+.width-1024 header nav ul li.menu-item span.icon-sub-menu.icon-sub-menu-about-us {
+    background-position: 55px 11px;
+    padding-right: 25px;
+}
+
 .width-1024 header nav ul li.menu-item .icon-sub-menu.open {
     background-position: 96px 13px;
+}
+
+.width-1024 header nav ul li.menu-item .icon-sub-menu.icon-sub-menu-about-us.open {
+    background-position: 52px 13px;
 }
 
 .width-1024 header nav ul.sub-menu-1 li.menu-item a {
     width: 304px;
 }
 
+.width-1024 header nav ul.sub-menu-1.sub-menu-about-us li.menu-item a {
+    width: 109px;
+}
+
 .width-1024 header .sub-menu-1 {
     top: 77px;
     width: 337px;
+}
+
+.width-1024 header .sub-menu-1.sub-menu-about-us {
+    width: 140px;
 }
 
 .width-1024 footer nav ul li.menu-item .icon-sub-menu {
@@ -108,11 +125,28 @@
     padding-right: 25px;
 }
 
+.width-1024 footer nav ul li.menu-item .icon-sub-menu.icon-sub-menu-about-us {
+    background-position: 48px 9px;
+}
+
+.width-1024 footer nav ul li.menu-item .icon-sub-menu.icon-sub-menu-about-us.open {
+    background-position: 46px 12px;
+}
+
 .width-1024 footer nav ul li.menu-item .sub-menu-1 {
     top: 199px;
     width: 290px;
 }
 
+.width-1024 footer nav ul li.menu-item .sub-menu-1.sub-menu-about-us {
+    width: 140px;
+}
+
 .width-1024 footer nav ul.sub-menu-1 li.menu-item a {
     width: 260px;
 }
+
+.width-1024 footer nav ul.sub-menu-1.sub-menu-about-us li.menu-item a {
+    width: 109px;
+}
+

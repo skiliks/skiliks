@@ -22,7 +22,6 @@ define([
     "use strict";
 
     SKMeetingView = SKWindowView.extend({
-
         /**
          * События DOM на которые должна реагировать данная view
          * @var Array events

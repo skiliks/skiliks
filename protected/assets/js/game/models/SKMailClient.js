@@ -1178,6 +1178,8 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                                         try {
                                             delete mailClient.message_window;
 
+                                            mailClient.activeEmail.phrases = [];
+
                                             if(false == isFwdEmail) {
                                                 if(recipientIds.length !== 0){
                                                     mailClient.reloadSubjects(recipientIds, parent_subject);

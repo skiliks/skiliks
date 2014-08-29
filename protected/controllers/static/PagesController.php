@@ -59,6 +59,132 @@ class PagesController extends SiteBaseController
     /**
      *
      */
+    public function actionArticles()
+    {
+        $data = [];
+        $data[] = [
+            'img-src' => $this->assetsUrl . '/img/site/1280/articles/e-exclusive.png',
+            'date' => 'июнь 2014',
+            'title' => 'Игры с соискателем: как успешно пройти собеседование',
+            'description' => 'Вполне возможно, что ваш новый потенциальный работодатель вместо собеседования предложит для начала пройти уровни в онлайн-игре. О том, зачем это нужно компаниям и станут ли игры стандартным элементом отбора в будущем, комментирует для E-xecutive.ru сооснователь компании Skiliks Антон Пряничников',
+            'label' => 'e-xecutive.ru',
+            'link' => '/static/article/e_xecutive',
+            'isLast' => false,
+        ];
+        $data[] = [
+            'img-src' => $this->assetsUrl . '/img/site/1280/articles/vedomosti.png',
+            'date' => 'апрель 2014',
+            'title' => 'При приеме на работу менеджеров заставляют играть в игры',
+            'description' => 'Проверить склонность соискателей и сотрудников к выполнению управленческой работы крупным российским работодателям помогут игровые компьютерные симуляции, утверждают их разработчики – рассказывает Антон Пряничников, сооснователь компании Skiliks',
+            'label' => 'Ведомости',
+            'link' => '/static/article/vedomosti',
+            'isLast' => false,
+        ];
+        $data[] = [
+            'img-src' => $this->assetsUrl . '/img/site/1280/articles/zillion.png',
+            'date' => 'декабрь 2013',
+            'title' => 'Бизнес и практика. Лея Левин: «Skiliks можно использовать для оценки потребности в обучении и для оценки эффективности тренингов, проводя замеры до и после»',
+            'description' => 'Когда вы берете на работу менеджера, чего именно ожидаете от него? Когда вы приходите в компанию на позицию менеджера, как планируете строить свою работу? Команда Skiliks разработала онлайн симуляцию, позволяющую проверить базовые навыки менеджера. Zillion посмотрел, как это устроено, а сооснователь Лея Левин рассказала, как происходит автоматизированная оценка управленческих навыков в формате Serious Game',
+            'label' => 'zillion.net',
+            'link' => '/static/article/zillion',
+            'isLast' => false,
+        ];
+        $data[] = [
+            'img-src' => $this->assetsUrl . '/img/site/1280/articles/the-village.png',
+            'date' => 'октябрь 2013',
+            'title' => 'Skiliks: Как заставить менеджеров играть в серьёзные игры',
+            'description' => 'Сооснователь компании Skiliks Мария Горина ушла с позиции топ-менеджера крупного издательского дома, чтобы создать игру, обучающую руководителей работать эффективнее',
+            'label' => 'the-village.ru',
+            'link' => '/static/article/the_village',
+            'isLast' => false,
+        ];
+        $data[] = [
+            'img-src' => $this->assetsUrl . '/img/site/1280/articles/silicon.png',
+            'date' => 'октябрь 2013',
+            'title' => 'Стартап Skiliks поможет проверить вашего менеджера на профпригодность',
+            'description' => 'Кофаундер стартапа для оценки менеджеров skiliks Лея Левин рассказала нам о том, как можно проверить сотрудника при приеме на работу, что такое "serious games" и о том, что без корпоративного почтового клиента не может работать ни одна компания',
+            'label' => 'siliconrus.com',
+            'link' => '/static/article/siliconrus',
+            'isLast' => true,
+        ];
+
+        $this->layout = '//layouts/site_standard_2';
+
+        $this->addSiteJs('_start_demo.js');
+        $this->addSiteCss('pages/articles-1280.css');
+        $this->addSiteCss('pages/articles-1024.css');
+
+        $this->render('articles', [
+            'data' => $data
+        ]);
+    }
+
+    /**
+     *
+     */
+    public function actionSingleArticle($source)
+    {
+        $this->layout = '//layouts/site_standard_2';
+
+        $this->addSiteJs('_start_demo.js');
+        $this->addSiteCss('pages/articles-1280.css');
+        $this->addSiteCss('pages/articles-1024.css');
+
+        $this->render('//static/pages/articles/' . $source);
+    }
+
+    /**
+     *
+     */
+    public function actionPartners()
+    {
+        $this->layout = '//layouts/site_standard_2';
+
+        $this->addSiteJs('_start_demo.js');
+        $this->addSiteCss('pages/articles-1280.css');
+        $this->addSiteCss('pages/articles-1024.css');
+
+        $data[] = [
+            'img-src' => $this->assetsUrl . '/img/site/1280/partners/exiclub.png',
+            'title' => 'Exiclub',
+            'description' => 'Управленческий консалтинг и тренинги. Разработка тренинговых программ, «настроенных» под конкретные нужды и цели. Индивидуальный подход «Экзиклуба» позволяет работать на результат, а также легко масштабировать обучение с индивидуального до общекорпоративного.',
+            'isLast' => false,
+            'label' => 'exiclub.ru',
+            'link' => 'http://exiclub.ru/about/',
+        ];
+        $data[] = [
+            'img-src' => $this->assetsUrl . '/img/site/1280/partners/sale-school.png',
+            'title' => 'Школа Продашь!',
+            'description' => 'Школа Продашь! - это вызов всему, что мешает достичь успеха в том, чтобы продавать больше и лучше, чтобы грамотно управлять продажами. Cпециализируется на коммерческом консалтинге и обучении в сфере управления продажами. Проводят классные тренинги по продажам, достигают поставленных результатов, используя только новые технологии.',
+            'isLast' => false,
+            'label' => 'prodasch.ru',
+            'link' => 'http://prodasch.ru/',
+        ];
+        $data[] = [
+            'img-src' => $this->assetsUrl . '/img/site/1280/partners/coloris.png',
+            'title' => 'Колорис',
+            'description' => 'Программные продукты для бизнеса. Экскюзивный партнер на территории Украины. Компания специализируется на внедрении систем дистанционного обучения и оценки персонала, а также разрабатывает контент для их наполнения: курсы, тесты, опросы, оценочные процедуры,тренинги.',
+            'isLast' => false,
+            'label' => 'www.coloris.com.ua',
+            'link' => 'http://www.coloris.com.ua/',
+        ];
+        $data[] = [
+            'img-src' => $this->assetsUrl . '/img/site/1280/partners/smart-reading.png',
+            'title' => 'Smartreading',
+            'description' => 'Уникальный проект на рынке бизнес-литературы. Лучшие бизнес-книги по всем ключевым темам — от переговоров до стратегии в формате саммари: тексты, в которых в сжатой форме рассказывается о ключевых идеях каждой книги. Библиотека ежемесячно пополняется.',
+            'isLast' => true,
+            'label' => 'www.smartreading.ru',
+            'link' => 'http://www.smartreading.ru/',
+        ];
+
+        $this->render('partners', [
+            'data' => $data
+        ]);
+    }
+
+    /**
+     *
+     */
     public function actionProduct()
     {
         $this->layout = 'site_standard_2';

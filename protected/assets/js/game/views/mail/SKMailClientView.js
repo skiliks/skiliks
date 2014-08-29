@@ -1015,6 +1015,7 @@ define([
                                     }
 
                                     if (email.isForward()) {
+                                        mailClientView.mailClient.activeMailPrefix = response.mailPrefix; // SKILIKS-6077
                                         mailClientView.doUpdateScreenFromForwardEmailData(response, email);
                                         mailClientView.fillMessageWindow(response, mailClientView.mailClient.iconsForEditDraftDraftScreenArray, true);
 
@@ -1028,6 +1029,7 @@ define([
                                     }
 
                                     if (email.isReply()) {
+                                        mailClientView.mailClient.activeMailPrefix = response.mailPrefix; // SKILIKS-6077
                                         mailClientView.fillMessageWindow(response, mailClientView.mailClient.iconsForEditDraftDraftScreenArray);
 
                                         // обновляем список фраз
@@ -1040,6 +1042,7 @@ define([
                                     }
 
                                     if (email.isReplyAll()) {
+                                        mailClientView.mailClient.activeMailPrefix = response.mailPrefix; // SKILIKS-6077
                                         mailClientView.fillMessageWindow(response, mailClientView.mailClient.iconsForEditDraftDraftScreenArray);
 
                                         // обновляем список фраз

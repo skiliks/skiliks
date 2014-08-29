@@ -195,30 +195,38 @@ define([], function () {
          * @param replica_id
          * @param cb
          */
-        select: function (replica_id, cb) {
-            try {
-                SKApp.server.api('dialog/get', {
-                    'dialogId': replica_id
-                }, function (data) {
-                    try {
-                        if (data.result === 1) {
-                            if (cb) {
-                                cb(data);
-                            }
-                            SKApp.simulation.parseNewEvents(data.events, 'dialog/get');
-                        }
-                    } catch(exception) {
-                        if (window.Raven) {
-                            window.Raven.captureMessage(exception.message + ',' + exception.stack);
-                        }
-                    }
-                });
-            } catch(exception) {
-                if (window.Raven) {
-                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
-                }
-            }
-        },
+//        select: function (replica_id, cb) {
+//            try {
+//
+//                //console.log(replica_id);
+//                var dialogHistory = SKApp.simulation.dialogsHistory.where({'replica_id': replica_id});
+//                console.log(dialogHistory);
+//                if (1 == dialogHistory.length) {
+//                    dialogHistory[0].set('is_sent', true);
+//                }
+//
+//                SKApp.server.api('dialog/get', {
+//                    'dialogId': replica_id
+//                }, function (data) {
+//                    try {
+//                        if (data.result === 1) {
+//                            if (cb) {
+//                                cb(data);
+//                            }
+//                            SKApp.simulation.parseNewEvents(data.events, 'dialog/get');
+//                        }
+//                    } catch(exception) {
+//                        if (window.Raven) {
+//                            window.Raven.captureMessage(exception.message + ',' + exception.stack);
+//                        }
+//                    }
+//                });
+//            } catch(exception) {
+//                if (window.Raven) {
+//                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+//                }
+//            }
+//        },
 
         /**
          * @method
@@ -273,6 +281,14 @@ define([], function () {
                 var dialogId = this.get('data')[2].id;
                 // @todo: здесь сложно накручено но надо развязать
                 // и перенести игнорирование во вьюху SKPhoneCallView
+
+                console.log(replica_id);
+                var dialogHistory = SKApp.simulation.dialogsHistory.where({'replica_id': replica_id});
+                console.log(dialogHistory);
+                if (1 == dialogHistory.length) {
+                    dialogHistory[0].set('is_sent', true);
+                }
+
                 SKApp.server.api('dialog/get', {
                     'dialogId': dialogId
                 }, function (data) {
@@ -304,6 +320,12 @@ define([], function () {
         selectReplica: function (replica_id, cb) {
             try {
                 var me = this;
+
+                var dialogHistory = SKApp.simulation.dialogsHistory.where({'replica_id': replica_id});
+                if (1 == dialogHistory.length) {
+                    dialogHistory[0].set('is_sent', true);
+                }
+
                 SKApp.server.api('dialog/get', {
                     'dialogId': replica_id
                 }, function (data) {

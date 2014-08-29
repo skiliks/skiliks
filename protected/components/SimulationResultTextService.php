@@ -27,7 +27,11 @@ class SimulationResultTextService {
      * @return array
      * @throws Exception
      */
-    public static function generate(Simulation $simulation, $type, $part_assessment = false) {
+    public static function generate(Simulation $simulation, $type, $part_assessment = false)
+    {
+        if ($simulation->game_type->slug != Scenario::TYPE_FULL) {
+            return [];
+        }
 
         self::$sim_id = $simulation->id;
 

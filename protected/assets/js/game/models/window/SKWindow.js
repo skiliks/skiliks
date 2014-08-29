@@ -12,8 +12,7 @@ define([], function () {
         'mailEmulator':10,
         'phone':20,
         'visitor':30,
-        'documents':40,
-        'browser': 50
+        'documents':40
     };
 
     /** @var Array */
@@ -34,6 +33,25 @@ define([], function () {
         'meetingGone':34,
         'documents':41,
         'documentsFiles':42
+    };
+
+    var screensSubToScreen = {
+        'mainScreen':'mainScreen',
+        'manual':'mainScreen',
+        'plan':'plan',
+        'mailMain':'mailEmulator',
+        'mailPreview':'mailEmulator',
+        'mailNew':'mailEmulator',
+        'mailPlan':'mailEmulator',
+        'phoneMain':'phone',
+        'phoneTalk':'phone',
+        'phoneCall':'phone',
+        'visitorEntrance':'visitor',
+        'visitorTalk':'visitor',
+        'meetingChoice':'visitor',
+        'meetingGone':'visitor',
+        'documents':'documents',
+        'documentsFiles':'documents'
     };
 
     /**
@@ -65,8 +83,9 @@ define([], function () {
          */
         initialize: function () {
             try {
-                var message = "SKWindow.initialize " + this.get('subname')
-                    + " cid: " + this.cid
+                var me = this;
+                var message = "SKWindow.initialize " + me.get('subname')
+                    + " cid: " + me.cid
                     + ". game time: " + SKApp.simulation.getGameTime();
                 // иногда обьект SKWindow приходит с id - что удивительно {
                 // и mainScreen и subname == undefined
@@ -74,38 +93,50 @@ define([], function () {
                 // но если такое случается, то игра становится заблокированной, что недопустимо
                 //
                 // - поэтому лечим последствия
-                if ('undefined' == typeof this.get('name') && 'undefined' == typeof this.get('subname')) {
-                    if ('mainScreen' == this.get('id')) {
-                        this.set('name', 'mainScreen');
-                        this.set('subname', 'mainScreen');
+                if ('undefined' == typeof me.get('name') && 'undefined' == typeof me.get('subname')) {
+                    if ('mainScreen' == me.get('id')) {
+                        me.set('name', 'mainScreen');
+                        me.set('subname', 'mainScreen');
                               }
-                    if ('manual' == this.get('id')) {
-                        this.set('name', 'mainScreen');
-                        this.set('subname', 'manual');
+                    if ('manual' == me.get('id')) {
+                        me.set('name', 'mainScreen');
+                        me.set('subname', 'manual');
                     }
                 }
                 // иногда обьект SKWindow приходит с id - что удивительно }
 
-                var window_id = this.get('name') + "/" + this.get('subname');
+                var window_id = me.get('name') + "/" + me.get('subname');
                 if (window_id in SKApp.simulation.window_set) {
-                    throw new Error ("Window " + window_id + " already exists");
-                }
-                if (! (this.get('name') in screens)) {
-                    throw new Error ('Unknown screen ' + this.get('name') + ', window: ' + window_id
-                        + ', subname: ' + this.get('subname')+ ', id: ' + this.get('id'));
-                }
-                if (! (this.get('subname') in screensSub)) {
-                    throw new Error ('Unknown subscreen ' + this.get('subname') + ', window: ' + window_id + ', screen: ' +  + this.get('name'));
-                }
-                if (!this.has('id')) {
-                    this.set('id', this.get('subname'));
+                    if (window.Raven) {
+                        window.Raven.captureMessage("Window " + window_id + " already exists");
+                    }
                 }
 
-                this.updateUid();
+                if (!(me.get('name') in screens)) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage('Unknown screen ' + me.get('name') + ', window: ' + window_id
+                            + ', subname: ' + me.get('subname')+ ', id: ' + me.get('id'));
+                    }
+                    this.set('name', screensSubToScreen[me.get('id')]);
+                }
 
-                this.is_opened = false;
+                if (!(me.get('subname') in screensSub)) {
+                    if (window.Raven) {
+                        window.Raven.captureMessage('Unknown subscreen ' + me.get('subname')
+                            + ', window: ' + window_id + ', screen: ' +  + me.get('name'));
+                    }
+                    me.set('subname', me.get('id'));
+                }
 
-                this.simulation = SKApp.simulation;
+                if (!me.has('id')) {
+                    me.set('id', me.get('subname'));
+                }
+
+                me.updateUid();
+
+                me.is_opened = false;
+
+                me.simulation = SKApp.simulation;
             } catch(exception) {
                 if (window.Raven) {
                     window.Raven.captureMessage(exception.message + ',' + exception.stack);

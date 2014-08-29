@@ -6,9 +6,10 @@ var SKSimulation;
 define([
     "game/models/SKMailClient",
     "game/views/develop_mode/SKFlagStateView",
-
     "game/collections/SKCharacterCollection",
     "game/views/SKCrashOptionsPanelView",
+    "game/collections/SKDialogHistoryCollection",
+
     "game/collections/SKEventCollection",
     "game/models/SKEvent",
     "game/collections/SKTodoCollection",
@@ -20,12 +21,12 @@ define([
     "game/views/SKDialogPlanNotificationView",
     "jquery/jquery.hotkeys",
     "game/models/SKDocumentsManager"
-
 ],function (
     SKMailClient,
     SKFlagStateView,
     SKCharacterCollection,
-    SKCrashOptionsPanelView
+    SKCrashOptionsPanelView,
+    SKDialogHistoryCollection
 ) {
     "use strict";
 
@@ -163,6 +164,7 @@ define([
                     this.mailClient = new SKMailClient();
                     this.window_set = new SKWindowSet([], {events:this.events});
                     this.characters = new SKCharacterCollection();
+                    this.dialogsHistory = new SKDialogHistoryCollection();
 
                     this.config = [];
                     this.config.isMuteVideo = false;

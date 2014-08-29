@@ -4,10 +4,11 @@ var SKPhoneDialogView;
 
 define([
     "text!game/jst/phone/dialog_template.jst",
-
+    "game/models/SKDialogHistory",
     "game/views/SKWindowView"
 ], function (
-    dialog_template
+    dialog_template,
+    SKDialogHistory
 ) {
 
     "use strict";
@@ -125,6 +126,13 @@ define([
 
                 var sound = event.getAudioSrc();
 
+                for (var i in my_replicas) {
+                    var dialogHistory = new SKDialogHistory();
+                    dialogHistory.set('replica_id', my_replicas[i]['id']);
+                    dialogHistory.set('is_sent', false);
+                    SKApp.simulation.dialogsHistory.add(dialogHistory);
+                }
+
                 var callInHtml = _.template(dialog_template, {
                     'remote_replica':            remote_replica,
                     'my_replicas':               my_replicas,
@@ -221,6 +229,42 @@ define([
                             me.options.model_instance.close();
                         }
                     });
+
+                    var ids = new Array();
+                    $('.replica-select').each(function(i){
+                        ids[i] = $(this).attr('data-id');
+                    });
+
+                    setTimeout(_.bind(me.restoreReplicasAccessibility, me), 60*1000, ids); // 1 min
+                }
+            } catch(exception) {
+                if (window.Raven) {
+                    window.Raven.captureMessage(exception.message + ',' + exception.stack);
+                }
+            }
+        },
+
+        restoreReplicasAccessibility: function(ids) {
+            try {
+                if (window.Raven) {
+                    window.Raven.captureMessage('restoreReplicasAccessibility, phone,' + SKApp.simulation.getGameTime(true));
+                }
+                var me = this;
+
+                var isNoOneReplicaSent = true;
+                for (var i in ids) {
+                    var id = ids[i];
+                    var dialogHistory = SKApp.simulation.dialogsHistory.where({'replica_id': id, 'is_sent': true});
+                    if (0 < dialogHistory.length) {
+                        isNoOneReplicaSent = false;
+                    }
+                }
+
+                if (isNoOneReplicaSent) {
+                    $('.replica-select').removeAttr('data-disabled');
+                    if (0 < $('.phone-content')) {
+                        me.options.model_instance.setOnTop();
+                    }
                 }
             } catch(exception) {
                 if (window.Raven) {

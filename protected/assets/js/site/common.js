@@ -57,6 +57,11 @@ $(document).ready(function () {
             $('.locator-product-submenu').hide();
             $('.locator-submenu-switcher').removeClass('open');
         }
+
+        if(!$(e.target).is('.action-show-about-us-submenu')) {
+            $('.locator-about-us-submenu').hide();
+            $('.locator-submenu-switcher-about-us').removeClass('open');
+        }
     });
     // action-display-popover }
 
@@ -310,6 +315,35 @@ $(document).ready(function () {
         $('footer .locator-product-submenu').toggle();
 
         var switcher = $('footer .locator-submenu-switcher');
+
+        if (switcher.hasClass('open')) {
+            switcher.removeClass('open');
+        } else {
+            switcher.addClass('open');
+        }
+    });
+
+    // 12.1) Выпадающее меню About us
+    $('header .action-show-about-us-submenu').click(function() {
+        fixAboutUsDropDown();
+
+        $('header .locator-about-us-submenu').toggle();
+
+        var switcher = $('header .locator-submenu-switcher-about-us');
+
+        if (switcher.hasClass('open')) {
+            switcher.removeClass('open');
+        } else {
+            switcher.addClass('open');
+        }
+    });
+
+    $('footer .action-show-about-us-submenu').click(function() {
+        fixAboutUsDropDown();
+
+        $('footer .locator-about-us-submenu').toggle();
+
+        var switcher = $('footer .locator-submenu-switcher-about-us');
 
         if (switcher.hasClass('open')) {
             switcher.removeClass('open');
@@ -618,11 +652,35 @@ function fixProductDropDown() {
     }
 
     // не много магических чисел:
-    var offset = 220;
+    var offsetLeft = 220;
+    var offsetTop = 126;
     if ($('body').hasClass('width-1024')) {
-        offset = 195;
+        offsetLeft = 193;
+        offsetTop = 97;
     }
-    $('footer .locator-product-submenu').css('left', $('footer .locator-submenu-switcher').offset().left - offset);
+    $('footer .locator-product-submenu').css('left', $('footer .locator-submenu-switcher').offset().left - offsetLeft);
+    $('footer .locator-product-submenu').css('top', offsetTop);
+}
+
+// 8)
+// Исправляет смещение меню "About us"
+function fixAboutUsDropDown() {
+    if (0 < $('header .static-page-links .locator-submenu-switcher-about-us').length) {
+        $('header .static-page-links .locator-about-us-submenu').css(
+            'left',
+            $('header .static-page-links .locator-submenu-switcher-about-us').offset().left
+        );
+    }
+
+    // не много магических чисел:
+    var offsetLeft = 127;
+    var offsetTop = 91;
+    if ($('body').hasClass('width-1024')) {
+        offsetLeft = 76;
+        offsetTop = 65;
+    }
+    $('footer .locator-about-us-submenu').css('left', $('footer .locator-submenu-switcher-about-us').offset().left - offsetLeft);
+    $('footer .locator-about-us-submenu').css('top', offsetTop);
 }
 
 /**

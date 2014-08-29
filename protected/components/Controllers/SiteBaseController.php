@@ -36,6 +36,23 @@ class SiteBaseController extends CController {
     public $clientScripts;
 
     /**
+     * @var string
+     */
+    public $pageTitle = 'Skiliks - game the skills';
+
+    /**
+     * @var string
+     */
+    public $pageKeywords = 'Навыки менеджеров, деловая симуляция';
+
+    /**
+     * @var string
+     */
+    public $pageDescription = 'Простой и надежный способ проверить навыки менеджеров:
+        деловая онлайн симуляция, имитирующая реальный рабочий день с типичными управленческими задачами
+        и ситуациями принятия решений';
+
+    /**
      * Определение языка, задание некоторых параметров сайта
      * @param CAction $action
      * @return bool

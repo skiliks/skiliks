@@ -573,7 +573,7 @@ class ProfileController extends SiteBaseController implements AccountPageControl
                 if (file_exists($pathToZip)) {
                     $zipFile = file_get_contents($pathToZip);
                 } else {
-                    Yii::app()->user->setFlash('error', 'Файл не найден');
+                    Yii::app()->user->setFlash('error', 'Файл не найден. #err1.');
                     $this->redirect('/dashboard');
                 }
 
@@ -695,7 +695,7 @@ class ProfileController extends SiteBaseController implements AccountPageControl
                 $File = file_get_contents($path);
                 echo $File;
             }else{
-                Yii::app()->user->setFlash('error', 'Файл не найден');
+                Yii::app()->user->setFlash('error', 'Файл не найден. #err2.');
                 $this->redirect('/dashboard');
             }
 

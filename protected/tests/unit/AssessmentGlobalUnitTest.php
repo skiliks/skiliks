@@ -663,19 +663,24 @@ class AssessmentGlobalUnitTest extends CDbTestCase
         }
     }
 
-    /**
-     * Просто для перещёта старых (заниженныйх симуляций) симуляций
-     */
-    public function testAssessment_Goals_Areas_Overals_Recalculation()
-    {
-//        $learningGoalAnalyzer = new LearningGoalAnalyzer($simulation);
-//        $learningGoalAnalyzer->run();
-//
-//        $learning_area = new LearningAreaAnalyzer($simulation);
-//        $learning_area->run();
-//
-//        $evaluation = new Evaluation($simulation);
-//        $evaluation->run();
+    public function testAsseessmentPdfGeneration() {
+        $user = $this->initTestUserAsd();
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
+        $simulation->status = Simulation::STATUS_COMPLETE;
+        $invite->status = Invite::STATUS_COMPLETED;
+
+
+        $simulation->results_popup_partials_path = '//simulation_details_popup/v2';
+        $simulation->results_popup_cache = 'a:7:{s:10:"management";a:4:{i:1;a:5:{s:5:"total";s:9:"27.673653";s:3:"1_1";a:2:{s:1:"+";s:5:"54.54";s:1:"-";s:4:"0.00";}s:3:"1_2";a:2:{s:1:"+";s:5:"34.20";s:1:"-";s:5:"35.00";}s:3:"1_3";a:2:{s:1:"+";s:5:"78.85";s:1:"-";s:5:"23.33";}s:3:"1_4";a:2:{s:1:"+";s:4:"0.00";s:1:"-";s:6:"100.00";}}i:2;a:4:{s:5:"total";s:9:"51.673752";s:3:"2_1";a:2:{s:1:"+";s:5:"56.94";s:1:"-";s:4:"7.14";}s:3:"2_2";a:2:{s:1:"+";s:5:"50.00";s:1:"-";s:5:"15.78";}s:3:"2_3";a:2:{s:1:"+";s:5:"85.71";s:1:"-";s:5:"14.28";}}i:3;a:5:{s:5:"total";s:9:"45.971428";s:3:"3_1";a:2:{s:1:"+";s:6:"100.00";s:1:"-";s:4:"0.00";}s:3:"3_2";a:2:{s:1:"+";s:5:"27.64";s:1:"-";s:4:"0.00";}s:3:"3_3";a:2:{s:1:"+";s:5:"59.83";s:1:"-";s:4:"0.00";}s:3:"3_4";a:2:{s:1:"+";s:5:"42.85";s:1:"-";s:5:"20.00";}}s:5:"total";s:5:"38.87";}s:11:"performance";a:5:{i:0;s:9:"48.750000";i:1;d:31.428571428571427;i:2;d:52.631578947368418;s:5:"total";s:5:"44.26";s:5:"2_min";d:42.857142857142854;}s:4:"time";a:16:{s:5:"total";s:5:"79.33";s:25:"workday_overhead_duration";s:4:"0.00";s:38:"time_spend_for_1st_priority_activities";s:5:"69.00";s:38:"time_spend_for_non_priority_activities";s:5:"13.00";s:25:"time_spend_for_inactivity";s:5:"18.00";s:22:"1st_priority_documents";s:5:"69.00";s:21:"1st_priority_meetings";s:5:"81.00";s:24:"1st_priority_phone_calls";s:5:"71.00";s:17:"1st_priority_mail";s:5:"79.00";s:21:"1st_priority_planning";s:5:"40.00";s:22:"non_priority_documents";s:4:"1.00";s:21:"non_priority_meetings";s:5:"34.00";s:24:"non_priority_phone_calls";s:5:"13.00";s:17:"non_priority_mail";s:5:"16.00";s:21:"non_priority_planning";s:4:"0.00";s:10:"efficiency";s:5:"79.33";}s:7:"overall";s:5:"46.83";s:10:"percentile";a:1:{s:5:"total";s:5:"94.01";}s:8:"personal";a:8:{i:9;s:9:"26.168224";i:10;s:9:"16.666668";i:11;s:9:"12.500000";i:12;s:9:"22.727274";i:13;s:9:"26.724138";i:14;s:9:"45.000000";i:15;s:9:"54.166668";i:16;s:9:"30.000000";}s:15:"additional_data";a:3:{s:10:"management";s:12:"0.5000000000";s:11:"performance";s:12:"0.3500000000";s:4:"time";s:12:"0.1500000000";}}';
+
+        SimulationService::saveAssessmentPDFFilesOnDisk($simulation);
+
+        $this->assertTrue(true);
+        //exec("rm ");
     }
 
     // -----------------------------------------------------
