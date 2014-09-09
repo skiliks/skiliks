@@ -28,7 +28,12 @@ class AdminAccountsController extends BaseAdminController {
      *
      * @param integer $userId, YumUser.id
      */
-    public function actionAddVacancy($userId) {
+    public function actionAddVacancy($userId)
+    {
+        if (false == Yii::app()->user->data()->can('user_edit_vacations')) {
+            Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
+            $this->redirect('/admin_area/dashboard');
+        }
 
         /** @var YumUser $user */
         $user = YumUser::model()->findByPk($userId);
@@ -92,7 +97,12 @@ class AdminAccountsController extends BaseAdminController {
      * @param integer $userId, YumUser.id
      * @param integer $vacancyId, Vacancy.id
      */
-    public function actionRemoveVacancy($userId, $vacancyId) {
+    public function actionRemoveVacancy($userId, $vacancyId)
+    {
+        if (false == Yii::app()->user->data()->can('user_edit_vacations')) {
+            Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
+            $this->redirect('/admin_area/dashboard');
+        }
 
         /** @var YumUser $user */
         $user = YumUser::model()->findByPk($userId);
@@ -123,7 +133,12 @@ class AdminAccountsController extends BaseAdminController {
         $this->redirect('/admin_area/user/' . $user->id . '/vacancies-list');
     }
 
-    public function actionSendInvites($userId) {
+    public function actionSendInvites($userId)
+    {
+        if (false == Yii::app()->user->data()->can('user_balk_send_invites')) {
+            Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
+            $this->redirect('/admin_area/dashboard');
+        }
 
         /* @var YumUser $user */
         $user = YumUser::model()->findByPk($userId);
@@ -262,7 +277,13 @@ class AdminAccountsController extends BaseAdminController {
         $this->render('//admin_area/pages/user_send_invites', $render);
     }
 
-    public function actionBanUser($userId, $action) {
+    public function actionBanUser($userId, $action)
+    {
+        if (false == Yii::app()->user->data()->can('user_auth_block_unblock')) {
+            Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
+            $this->redirect('/admin_area/dashboard');
+        }
+
         /* @var YumUser $banUser */
         $banUser = YumUser::model()->findByPk($userId);
 
@@ -285,6 +306,11 @@ class AdminAccountsController extends BaseAdminController {
 
     public function actionUserAddRemoveInvitations($userId, $value)
     {
+        if (false == Yii::app()->user->data()->can('user_add_remove_simulations')) {
+            Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
+            $this->redirect('/admin_area/dashboard');
+        }
+
         $admin = Yii::app()->user->data();
         $user = YumUser::model()->findByPk($userId);
         if (null === $user ) {
@@ -310,7 +336,13 @@ class AdminAccountsController extends BaseAdminController {
      *
      * @param integer $userId
      */
-    public function actionChangeEmail($userId) {
+    public function actionChangeEmail($userId)
+    {
+        if (false == Yii::app()->user->data()->can('user_change_email')) {
+            Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
+            $this->redirect('/admin_area/dashboard');
+        }
+
         // на что меняем
         $newEmail = Yii::app()->request->getParam('YumProfile')['email'];
 
@@ -543,7 +575,13 @@ class AdminAccountsController extends BaseAdminController {
      *
      * @param integer $userId
      */
-    public function actionChangeRole($userId) {
+    public function actionChangeRole($userId)
+    {
+        if (false == Yii::app()->user->data()->can('user_change_role')) {
+            Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
+            $this->redirect('/admin_area/dashboard');
+        }
+
         /** @var YumUser $userToEdit */
         $userToEdit = YumUser::model()->findByPk($userId);
 

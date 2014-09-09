@@ -30,7 +30,13 @@ class AdminPagesController extends BaseAdminController {
 
     }
 
-    public function actionLiveSimulations() {
+    public function actionLiveSimulations()
+    {
+        if (false == Yii::app()->user->data()->can('online_sim_list_view')) {
+            Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
+            $this->redirect('/admin_area/dashboard');
+        }
+
         $full_simulations = Simulation::model()->findAll([
             'condition' => " `game_type`.`slug` = 'full' AND `t`.`start` > (NOW() - interval 3 HOUR) ",
             'with'=>array(
@@ -328,7 +334,8 @@ class AdminPagesController extends BaseAdminController {
     /**
      * @throws LogicException
      */
-    public function actionResetInvite() {
+    public function actionResetInvite()
+    {
         if (false == Yii::app()->user->data()->can('invite_roll_back')) {
             Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
             $this->redirect('/admin_area/dashboard');
@@ -506,6 +513,11 @@ class AdminPagesController extends BaseAdminController {
      */
     public function actionUsersList()
     {
+        if (false == Yii::app()->user->data()->can('all_users_list_view')) {
+            Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
+            $this->redirect('/admin_area/dashboard');
+        }
+
         $this->pageTitle = 'Админка: Список пользователей';
         $this->layout = '//admin_area/layouts/admin_main';
 
@@ -517,6 +529,25 @@ class AdminPagesController extends BaseAdminController {
         }
 
         $criteria = new CDbCriteria;
+
+        // white list {
+        $emails = [];
+        if (null != Yii::app()->user->data()->emails_white_list) {
+            $emails = explode(
+                ',',
+                str_replace(' ', '', Yii::app()->user->data()->emails_white_list)
+            );
+        }
+
+        $condition = ' user.id > 0 ';
+        if (0 < count($emails)) {
+            $criteria->join = ' LEFT JOIN user u ON t.user_id = u.id ';
+            $criteria->addInCondition('u.emails_white_list', $emails);
+
+            $condition = sprintf(" t.email IN ('%s') ", implode("','", $emails));
+        }
+        // white list }
+
         $totalItems = YumProfile::model()->count($criteria);
         $pager = new CustomPagination($totalItems);
         $pager->pageSize = $this->itemsOnPage;
@@ -526,6 +557,7 @@ class AdminPagesController extends BaseAdminController {
 
         $this->render('/admin_area/pages/users_table', [
             'profiles' => YumProfile::model()->findAll([
+                'condition' => $condition, // white list
                 "limit"  => $this->itemsOnPage,
                 "offset" => ($page-1)*$this->itemsOnPage,
                 "order" => 'id DESC',
@@ -542,6 +574,11 @@ class AdminPagesController extends BaseAdminController {
      */
     public function actionCorporateAccountList()
     {
+        if (false == Yii::app()->user->data()->can('corp_users_list_view')) {
+            Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
+            $this->redirect('/admin_area/dashboard');
+        }
+
         // pager {
         $page = Yii::app()->request->getParam('page');
 
@@ -550,6 +587,25 @@ class AdminPagesController extends BaseAdminController {
         }
 
         $criteria = new CDbCriteria;
+
+        // white list {
+        $emails = [];
+        if (null != Yii::app()->user->data()->emails_white_list) {
+            $emails = explode(
+                ',',
+                str_replace(' ', '', Yii::app()->user->data()->emails_white_list)
+            );
+        }
+
+        $condition = ' user.id > 0 ';
+        if (0 < count($emails)) {
+            $criteria->join = ' LEFT JOIN user u ON t.user_id = u.id ';
+            $criteria->addInCondition('u.emails_white_list', $emails);
+
+            $condition = sprintf(" profile.email IN ('%s') ", implode("','", $emails));
+        }
+        // white list }
+
         $totalItems = UserAccountCorporate::model()->count($criteria);
         $pager = new CustomPagination($totalItems);
         $pager->pageSize = $this->itemsOnPage;
@@ -560,10 +616,13 @@ class AdminPagesController extends BaseAdminController {
         $this->pageTitle = 'Админка: Список корпоративных аккаунтов';
         $this->layout = '//admin_area/layouts/admin_main';
         $this->render('/admin_area/pages/corporate_accounts_table', [
-            'accounts' => UserAccountCorporate::model()->findAll([
-                "limit"  => $this->itemsOnPage,
-                "offset" => ($page-1)*$this->itemsOnPage,
-                "order"  => ' user_id DESC ',
+            'accounts' => UserAccountCorporate::model()
+                ->with('user', 'user.profile')
+                ->findAll([
+                'condition' => $condition, // white list
+                "limit"     => $this->itemsOnPage,
+                "offset"    => ($page-1)*$this->itemsOnPage,
+                "order"     => ' t.user_id DESC ',
             ]),
             'page'        => $page,
             'pager'       => $pager,
@@ -577,6 +636,11 @@ class AdminPagesController extends BaseAdminController {
      */
     public function actionCorporateAccountInviteLimitLogs()
     {
+        if (false == Yii::app()->user->data()->can('user_invite_movement_logs_view')) {
+            Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
+            $this->redirect('/admin_area/dashboard');
+        }
+
         $id = Yii::app()->request->getParam('id', null);
 
         $account = UserAccountCorporate::model()->findByAttributes(['user_id' => $id]);
@@ -601,6 +665,11 @@ class AdminPagesController extends BaseAdminController {
      */
     public function actionUpdatePassword($userId)
     {
+        if (false == Yii::app()->user->data()->can('user_change_password')) {
+            Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
+            $this->redirect('/admin_area/dashboard');
+        }
+
         $siteUser = YumUser::model()->findByPk($userId);
 
         if (null === $siteUser) {
@@ -652,6 +721,11 @@ class AdminPagesController extends BaseAdminController {
 
     public function actionStatistics()
     {
+        if (false == Yii::app()->user->data()->can('statistic_view')) {
+            Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
+            $this->redirect('/admin_area/dashboard');
+        }
+
         $this->pageTitle = 'Админка: Движение проглашений в корпоративном аккаунте # ';
         $this->layout = '//admin_area/layouts/admin_main';
         $this->render('/admin_area/pages/statistics', []);
@@ -735,7 +809,7 @@ class AdminPagesController extends BaseAdminController {
      * @param $inviteId
      */
     public function actionInviteSwitchCanBeReloaded($inviteId) {
-        if (false == Yii::app()->user->data()->can('invites_allow_restart_finished_simulation ')) {
+        if (false == Yii::app()->user->data()->can('invites_allow_restart_finished_simulation')) {
             Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
             $this->redirect('/admin_area/dashboard');
         }
@@ -819,7 +893,7 @@ class AdminPagesController extends BaseAdminController {
      */
     public function actionSubscribersList()
     {
-        if (false == Yii::app()->user->data()->can('subscribers_list_view ')) {
+        if (false == Yii::app()->user->data()->can('subscribers_list_view')) {
             Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
             $this->redirect('/admin_area/dashboard');
         }
@@ -835,7 +909,8 @@ class AdminPagesController extends BaseAdminController {
         ]);
     }
 
-    public function actionUserDetailsByEmail() {
+    public function actionUserDetailsByEmail()
+    {
         $email = Yii::app()->request->getParam('email');
         $email = trim($email);
         $profile = YumProfile::model()->findByAttributes(['email' => $email]);
@@ -853,6 +928,11 @@ class AdminPagesController extends BaseAdminController {
      */
     public function actionUserDetails($userId)
     {
+        if (false == Yii::app()->user->data()->can('user_details_view')) {
+            Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
+            $this->redirect('/admin_area/dashboard');
+        }
+
         /* @var $user YumUser */
         $user = YumUser::model()->findByPk($userId);
 
@@ -861,9 +941,20 @@ class AdminPagesController extends BaseAdminController {
             $this->redirect('/admin_area/users');
         }
 
+        if (null != Yii::app()->user->data()->emails_white_list
+            && false == strpos(Yii::app()->user->data()->emails_white_list, $user->profile->email)) {
+            Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
+            $this->redirect('/admin_area/users');
+        }
+
         if($user->isCorporate()) {
 
-            if($this->getParam('save_form') === 'true'){
+            if($this->getParam('save_form') === 'true') {
+
+                if (false == Yii::app()->user->data()->can('user_sales_manager_data_edit')) {
+                    Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
+                    $this->redirect('/admin_area/dashboard');
+                }
 
                 if($user->account_corporate->industry_for_sales !== $this->getParam('industry_for_sales')){
                     $user->account_corporate->industry_for_sales = $this->getParam('industry_for_sales');
@@ -894,6 +985,10 @@ class AdminPagesController extends BaseAdminController {
             }
 
             if($this->getParam('discount_form') === 'true') {
+                if (false == Yii::app()->user->data()->can('user_discount_edit')) {
+                    Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
+                    $this->redirect('/admin_area/dashboard');
+                }
                 $user->account_corporate->discount = $this->getParam('discount');
                 $user->account_corporate->start_discount = $this->getParam('start_discount');
                 $user->account_corporate->end_discount = $this->getParam('end_discount');
@@ -992,8 +1087,13 @@ class AdminPagesController extends BaseAdminController {
         Yii::app()->end();
     }
 
+    public function actionRegistrationList()
+    {
+        if (false == Yii::app()->user->data()->can('statistic_registration_view')) {
+            Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
+            $this->redirect('/admin_area/dashboard');
+        }
 
-    public function actionRegistrationList() {
         // getting registration by day
         $userCounter = new СountRegisteredUsers();
         $userCounter->getAllUserForDays();
@@ -1108,6 +1208,11 @@ class AdminPagesController extends BaseAdminController {
 
     public function actionEmailQueue()
     {
+        if (false == Yii::app()->user->data()->can('support_mail_queue_view')) {
+            Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
+            $this->redirect('/admin_area/dashboard');
+        }
+
         $formFilters = Yii::app()->session['admin_email_queue_filter_form'];
 
         // pager {
@@ -1187,7 +1292,7 @@ class AdminPagesController extends BaseAdminController {
         }
 
         // counting objects to make the pagination
-        $totalItems = count(EmailQueue::model()->findAll($criteria));
+        $totalItems = EmailQueue::model()->count($criteria);
 
         $pager = new CustomPagination($totalItems);
         $pager->pageSize = $this->itemsOnPage;
@@ -1348,6 +1453,11 @@ class AdminPagesController extends BaseAdminController {
      */
     public function actionGhostLogin($userId)
     {
+        if (false == Yii::app()->user->data()->can('user_login_ghost')) {
+            Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
+            $this->redirect('/admin_area/dashboard');
+        }
+
         // функционал заблокирован совсем?
         if (Yii::app()->params['isBlockGhostLogin']) {
             $this->redirect('/admin_area/users');
@@ -1389,7 +1499,13 @@ class AdminPagesController extends BaseAdminController {
         $this->redirect('/dashboard');
     }
 
-    public function actionNotCorporateEmails(){
+    public function actionNotCorporateEmails()
+    {
+        if (false == Yii::app()->user->data()->can('support_free_mail_services_list_view_edit')) {
+            Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
+            $this->redirect('/admin_area/dashboard');
+        }
+
         $email = new FreeEmailProvider();
         if (Yii::app()->request->isPostRequest) {
             $email->attributes = Yii::app()->request->getParam('FreeEmailProvider');
@@ -1430,7 +1546,12 @@ class AdminPagesController extends BaseAdminController {
         $this->render('/admin_area/pages/site_log_authorization', ['dataProvider' => $dataProvider]);
     }
 
-    public function actionSiteLogAccountAction() {
+    public function actionSiteLogAccountAction()
+    {
+        if (false == Yii::app()->user->data()->can('user_logs_view')) {
+            Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
+            $this->redirect('/admin_area/dashboard');
+        }
 
         //$dataProvider = SiteLogAuthorization::model()->searchSiteLogs();
         $user_id = Yii::app()->request->getParam('user_id');
@@ -1440,7 +1561,12 @@ class AdminPagesController extends BaseAdminController {
         $this->render('/admin_area/pages/site_log_account_action', ['dataProvider' => $dataProvider]);
     }
 
-    public function actionUserBruteForce() {
+    public function actionUserBruteForce()
+    {
+        if (false == Yii::app()->user->data()->can('corp_user_ban_unban')) {
+            Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
+            $this->redirect('/admin_area/dashboard');
+        }
 
         //$dataProvider = SiteLogAuthorization::model()->searchSiteLogs();
         $user_id = Yii::app()->request->getParam('user_id');
@@ -1504,7 +1630,12 @@ class AdminPagesController extends BaseAdminController {
         ]);
     }
 
-    public function actionUserBlockedAuthorizationList() {
+    public function actionUserBlockedAuthorizationList()
+    {
+        if (false == Yii::app()->user->data()->can('banned_users_list_view')) {
+            Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
+            $this->redirect('/admin_area/dashboard');
+        }
 
         /* @var YumUser[] $users */
         $users = YumUser::model()->findAllByAttributes(['is_password_bruteforce_detected'=>YumUser::IS_PASSWORD_BRUTEFORCE_DETECTED]);
@@ -1513,9 +1644,15 @@ class AdminPagesController extends BaseAdminController {
         $this->render('//admin_area/pages/users_management/blocked-authorization-list', ['users'=>$users]);
     }
 
-    public function actionExportAllCorporateUserXLSX() {
+    public function actionExportAllCorporateUserXLSX()
+    {
+        if (false == Yii::app()->user->data()->can('corp_users_list_export')) {
+            Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
+            $this->redirect('/admin_area/dashboard');
+        }
+
         $export = new CorporateAccountExport();
-        $export->export();
+        $export->export(Yii::app()->user->data());
     }
 
     /**
@@ -1538,7 +1675,13 @@ class AdminPagesController extends BaseAdminController {
         Yii::app()->end();
     }
 
-    public function actionExcludedFromMailing(){
+    public function actionExcludedFromMailing()
+    {
+        if (false == Yii::app()->user->data()->can('user_add_remove_from_news_mail_list')) {
+            Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
+            $this->redirect('/admin_area/dashboard');
+        }
+
         if(null !== $this->getParam('set') && null !== $this->getParam('user_id')) {
 
             $account = UserAccountCorporate::model()->findByAttributes(['user_id'=>$this->getParam('user_id')]);

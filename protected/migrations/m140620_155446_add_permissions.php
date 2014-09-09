@@ -6,11 +6,14 @@ class m140620_155446_add_permissions extends CDbMigration
     {
         $this->truncateTable('action');
 
+        $this->addColumn('action', 'group', 'varchar(60)');
+        $this->addColumn('action', 'order_no', 'varchar(5)');
+
         $this->insert('action', [
             'comment'  => 'Из админки можно запустить игру в специальном интерфейсе, который упрощает тестирование.',
             'subject'  => 'Право запуска DEV симуляции',
             'title'    => 'start_dev_mode',
-            'group'    => 'бщее',
+            'group'    => 'общее',
             'order_no' => '1.1',
         ]);
 

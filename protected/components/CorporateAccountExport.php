@@ -108,9 +108,26 @@ class CorporateAccountExport {
 
     }
 
-    public function export() {
+    /**
+     * @param YumUser $user
+     */
+    public function export($user) {
         /* @var $accounts UserAccountCorporate[] */
-        $accounts = UserAccountCorporate::model()->findAll();
+        if (null == $user->emails_white_list) {
+            $accounts = UserAccountCorporate::model()->findAll();
+        } else {
+            $emails = explode(
+                ',',
+                str_replace(' ', '', $user->emails_white_list)
+            );
+
+            $accounts =UserAccountCorporate::model()
+                ->with('user', 'user.profile')
+                ->findAll([
+                    'condition' => sprintf(" profile.email IN ('%s') ", implode("','", $emails)),
+                    "order"     => ' t.user_id DESC ',
+                ]);
+        }
 
         $this->createDocument();
         $this->addSheet("Все");

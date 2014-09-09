@@ -7,6 +7,11 @@ class AdminInvoicesController extends BaseAdminController {
      */
     public function actionOrders()
     {
+        if (false == Yii::app()->user->data()->can('orders_view')) {
+            Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
+            $this->redirect('/admin_area/dashboard');
+        }
+
         $isEmptyFilters =
             false === Yii::app()->request->getParam('email', false)
             && false === Yii::app()->request->getParam('cash', false)

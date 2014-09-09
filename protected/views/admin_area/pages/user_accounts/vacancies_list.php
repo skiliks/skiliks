@@ -13,7 +13,9 @@
         <tr>
             <th>Название</th>
             <th>Ссылка</th>
-            <th colspan="2"></th>
+            <?php if (Yii::app()->user->data()->can('user_edit_vacations')) : ?>
+                <th colspan="2"></th>
+            <?php endif ?>
         </tr>
     </thead>
     <tbody>
@@ -37,21 +39,26 @@
                         <?= (null == $vacancy->link) ? '--' : $vacancy->link ?>
                     </span>
                 </td>
-                <td>
-                    <a href="/admin_area/user/<?= $user->id ?>/vacancy/<?= $vacancy->id ?>/remove" class="btn btn-danger">
-                        <i class="icon icon-remove icon-white"></i> Удалить
-                    </a>
-                </td>
-                <td>
-                    <a href="/admin_area/user/<?= $user->id ?>/vacancy/add?id=<?= $vacancy->id ?>" class="btn btn-success">
-                        <i class="icon icon-pencil icon-white"></i> Редактировать
-                    </a>
-                </td>
+
+                <?php if (Yii::app()->user->data()->can('user_edit_vacations')) : ?>
+                    <td>
+                        <a href="/admin_area/user/<?= $user->id ?>/vacancy/<?= $vacancy->id ?>/remove" class="btn btn-danger">
+                            <i class="icon icon-remove icon-white"></i> Удалить
+                        </a>
+                    </td>
+                    <td>
+                        <a href="/admin_area/user/<?= $user->id ?>/vacancy/add?id=<?= $vacancy->id ?>" class="btn btn-success">
+                            <i class="icon icon-pencil icon-white"></i> Редактировать
+                        </a>
+                    </td>
+                <?php endif ?>
             </tr>
         <?php endforeach ?>
     </tbody>
 </table>
 
-<a href="/admin_area/user/<?= $user->id ?>/vacancy/add" class="btn btn-success">
-    <i class="icon icon-plus icon-white"></i> Добавить
-</a>
+<?php if (Yii::app()->user->data()->can('user_edit_vacations')) : ?>
+    <a href="/admin_area/user/<?= $user->id ?>/vacancy/add" class="btn btn-success">
+        <i class="icon icon-plus icon-white"></i> Добавить
+    </a>
+<?php endif ?>

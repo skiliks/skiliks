@@ -147,10 +147,12 @@
 
             <!-- toggle is_test_payment value -->
             <td>
-                <a class="btn action-toggle-is-test btn-success"
-                   data-invoice-id="<?= $model->id?>">
-                       сделать <?= (1 == $model->is_test_payment) ? 'Реальным' : 'Тестовым' ?>
-                   </a>
+                <?php if (Yii::app()->user->data()->can('orders_edit')) : ?>
+                    <a class="btn action-toggle-is-test btn-success"
+                       data-invoice-id="<?= $model->id?>">
+                           сделать <?= (1 == $model->is_test_payment) ? 'Реальным' : 'Тестовым' ?>
+                       </a>
+                <?php endif ?>
             </td>
 
             <!-- Created at -->
@@ -169,29 +171,34 @@
 
             <!-- Подтвердить/Откатить заказ -->
             <td>
-                <a class="btn btn-success complete-invoice"
-                   style="<?= (null == $model->paid_at) ? '' : 'display : none;'; ?>"
-                   data-invoice-id="<?= $model->id ?>" data-simulations="<?= $model->simulation_selected ?>"
-                   data-user-email="<?= $model->user->profile->email ?>" data-amount="<?= $model->amount ?>"
-                    >Подтвердить</a>
+                <?php if (Yii::app()->user->data()->can('orders_edit')) : ?>
+                    <a class="btn btn-success complete-invoice"
+                       style="<?= (null == $model->paid_at) ? '' : 'display : none;'; ?>"
+                       data-invoice-id="<?= $model->id ?>" data-simulations="<?= $model->simulation_selected ?>"
+                       data-user-email="<?= $model->user->profile->email ?>" data-amount="<?= $model->amount ?>"
+                        >Подтвердить</a>
 
-                <a class="btn btn-warning disable-invoice"
-                   style="<?= (null == $model->paid_at) ? 'display : none;' : ''; ?>"
-                   data-invoice-id="<?= $model->id ?>" data-simulations="<?= $model->simulation_selected ?>"
-                   data-user-email="<?= $model->user->profile->email ?>" data-amount="<?= $model->amount ?>"
-                    >Откатить</a>
+                    <a class="btn btn-warning disable-invoice"
+                       style="<?= (null == $model->paid_at) ? 'display : none;' : ''; ?>"
+                       data-invoice-id="<?= $model->id ?>" data-simulations="<?= $model->simulation_selected ?>"
+                       data-user-email="<?= $model->user->profile->email ?>" data-amount="<?= $model->amount ?>"
+                        >Откатить</a>
+                <?php endif ?>
             </td>
 
             <!-- Price -->
             <td>
-                <textarea class="invoice-price" rows="1" style="height: 18px; width: 80px;"><?php
-                    echo $model->amount
-                ?></textarea>&nbsp;руб.
-                <br/>
-                <span class="btn change-invoice-price-action" data-invoice-id="<?= $model->id?>" style="width: 120px">
-                    Изменить
-                </span>
-
+                <?php if (Yii::app()->user->data()->can('orders_edit')) : ?>
+                    <textarea class="invoice-price" rows="1" style="height: 18px; width: 80px;"><?php
+                        echo $model->amount
+                    ?></textarea>&nbsp;руб.
+                    <br/>
+                    <span class="btn change-invoice-price-action" data-invoice-id="<?= $model->id?>" style="width: 120px">
+                        Изменить
+                    </span>
+                <?php else : ?>
+                    <?= $model->amount ?> &nbsp;руб.
+                <?php endif ?>
             </td>
 
             <td><?= $model->payment_system?></td>
@@ -209,11 +216,15 @@
 
             <!-- Комментарий -->
             <td>
-                <textarea class="invoice-comment""><?= $model->comment ?></textarea>
-                <br/>
-                <span class="btn change-invoice-comment-action" data-invoice-id="<?= $model->id?>">
-                    Сохранить
-                </span>
+                <?php if (Yii::app()->user->data()->can('orders_edit')) : ?>
+                    <textarea class="invoice-comment""><?= $model->comment ?></textarea>
+                    <br/>
+                    <span class="btn change-invoice-comment-action" data-invoice-id="<?= $model->id?>">
+                        Сохранить
+                    </span>
+                <?php else: ?>
+                    <?= $model->comment ?>
+                <?php endif; ?>
             </td>
 
             <!-- Скачать лог -->
@@ -238,7 +249,6 @@
         <p>One fine body…</p>
     </div>
     <div class="modal-footer">
-        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-        <button class="btn btn-primary">Save changes</button>
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Закрыть</button>
     </div>
 </div>

@@ -5,7 +5,12 @@ class AdminPrbbController extends BaseAdminController {
     /**
      *
      */
-    public function actionImageArchivesList() {
+    public function actionImageArchivesList()
+    {
+        if (false == Yii::app()->user->data()->can('support_prbb_generete_download')) {
+            Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
+            $this->redirect('/admin_area/dashboard');
+        }
 
         $currentTask = SiteLogGeneratePrbbFiles::model()->findByAttributes(['finished_at' => null]);
         $allTasks = SiteLogGeneratePrbbFiles::model()->findAll(['order' => 'id DESC']);
@@ -102,7 +107,13 @@ class AdminPrbbController extends BaseAdminController {
     /**
      * @param integer $logId
      */
-    public function actionDownloadImagesArchive($logId) {
+    public function actionDownloadImagesArchive($logId)
+    {
+        if (false == Yii::app()->user->data()->can('support_prbb_generete_download')) {
+            Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
+            $this->redirect('/admin_area/dashboard');
+        }
+
         $log = SiteLogGeneratePrbbFiles::model()->findByPk($logId);
 
         if (null !== $log && file_exists($log->path)) {

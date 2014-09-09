@@ -108,7 +108,9 @@
                 <?= $email->subject ?>
             </td>
             <td>
-                <a href="/admin_area/email/<?= $email->id ?>/text" target="_blank">Письмо</a>
+                <?php if (Yii::app()->user->data()->can('support_mail_details_view')) : ?>
+                    <a href="/admin_area/email/<?= $email->id ?>/text" target="_blank">Письмо</a>
+                <?php endif; ?>
             </td>
         </tr>
         <?php endforeach ?>

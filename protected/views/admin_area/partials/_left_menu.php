@@ -34,17 +34,17 @@
             ], [
                 'label' => 'Пользователи',
                 'url'   => ['admin_area/AdminPages/UsersList'],
-                'visible' => true,
+                'visible' => Yii::app()->user->data()->can('all_users_list_view'),
 
             ], [
                 'label' => '<i class="icon-briefcase"></i>Корпоративные аккаунты',
                 'url'   => ['admin_area/AdminPages/CorporateAccountList'],
-                'visible' => true,
+                'visible' => Yii::app()->user->data()->can('corp_users_list_view'),
 
             ], [
                 'label' => 'Заказы',
                 'url'   => ['admin_area/AdminInvoices/Orders'],
-                'visible' => true,
+                'visible' => Yii::app()->user->data()->can('orders_view'),
 
             ], [
                 'label' => 'Отзывы',
@@ -69,7 +69,7 @@
             ], [
                 'label' => 'Заблокированые пользователи',
                 'url'   => ['admin_area/AdminPages/UserBlockedAuthorizationList'],
-                'visible' => true,
+                'visible' => Yii::app()->user->data()->can('banned_users_list_view'),
 
             ], [
                 'label' => '--------------------------',
@@ -78,7 +78,7 @@
             ], [
                 'label' => 'Текущие симуляции',
                 'url'   => ['admin_area/AdminPages/LiveSimulations'],
-                'visible' => true,
+                'visible' => Yii::app()->user->data()->can('online_sim_list_view'),
             ], [
                 'label' => 'Импорты',
                 'url'   => ['admin_area/AdminPages/ImportsList'],
@@ -94,19 +94,19 @@
             ], [
                 'label' => 'Статистика',
                 'url'   => ['admin_area/AdminPages/Statistics'],
-                'visible' => true,
+                'visible' => Yii::app()->user->data()->can('statistic_view'),
             ], [
                 'label' => '<i class="icon-envelope"></i>Очередь писем',
                 'url'   => ['admin_area/AdminPages/EmailQueue'],
-                'visible' => true,
+                'visible' => Yii::app()->user->data()->can('support_mail_queue_view'),
             ], [
                 'label' => 'Регистрации',
                 'url'   => ['admin_area/AdminPages/RegistrationList'],
-                'visible' => true,
+                'visible' => Yii::app()->user->data()->can('statistic_registration_view'),
             ], [
                 'label' => 'Список бесплатных почтовиков',
                 'url'   => ['admin_area/AdminPages/NotCorporateEmails'],
-                'visible' => true,
+                'visible' => Yii::app()->user->data()->can('support_free_mail_services_list_view_edit'),
             ], [
                 'label' => 'Настройки проекта',
                 'url'   => ['admin_area/AdminProjectConfig/ProjectConfigsList'],
@@ -118,7 +118,7 @@
             ], [
                 'label' => 'Картинки для ПРББ',
                 'url'   => ['admin_area/AdminPrbb/ImageArchivesList'],
-                'visible' => true,
+                'visible' => Yii::app()->user->data()->can('support_prbb_generete_download'),
             ], [
                 'label' => 'Права для ролей',
                 'url'   => ['admin_area/AdminAccounts/RolePermissionsList'],
