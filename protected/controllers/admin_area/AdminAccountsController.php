@@ -403,7 +403,13 @@ class AdminAccountsController extends BaseAdminController {
      *
      * @param integer $userId
      */
-    public function actionChangeWhiteList($userId) {
+    public function actionChangeWhiteList($userId)
+    {
+        if (false == Yii::app()->user->data()->can('user_white_list_edit')) {
+            Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
+            $this->redirect('/admin_area/dashboard');
+        }
+
         $updatedUser = YumUser::model()->findByPk($userId);
 
         if (null == $updatedUser) {
@@ -441,7 +447,13 @@ class AdminAccountsController extends BaseAdminController {
     /**
      * Отобрадает таблицу "Права х Роли"
      */
-    public function actionRolePermissionsList() {
+    public function actionRolePermissionsList()
+    {
+        if (false == Yii::app()->user->data()->can('system_role_edit')) {
+            Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
+            $this->redirect('/admin_area/dashboard');
+        }
+
         $roles = [];
         $rolePermissions = [];
         $actions = [];
@@ -485,7 +497,13 @@ class AdminAccountsController extends BaseAdminController {
     /**
      * Добавляет роль или обновляет параметры прав у уже существующей
      */
-    public function actionUpdateRoles() {
+    public function actionUpdateRoles()
+    {
+        if (false == Yii::app()->user->data()->can('system_role_add')) {
+            Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
+            $this->redirect('/admin_area/dashboard');
+        }
+
         $isUpdate = (bool)Yii::app()->request->getParam('updateActualRoles', false);
         $isAdd = (bool)Yii::app()->request->getParam('addRole', false);
 

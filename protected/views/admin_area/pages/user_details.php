@@ -500,16 +500,21 @@ $assetsUrl = $this->getAssetsUrl();
     ],
 ]); ?>
 
-<?php echo $loginWidget->error($user, 'emails_white_list'); ?>
-<?php echo $loginWidget->textArea($user, "emails_white_list", [
-    'rows' => 5,
-    'cols' => 60,
-    'style' => 'width: 600px;',
-]) ?>
+<?php if (Yii::app()->user->data()->can('user_white_list_edit')) : ?>
+    <?php echo $loginWidget->error($user, 'emails_white_list'); ?>
+    <?php echo $loginWidget->textArea($user, "emails_white_list", [
+        'rows' => 5,
+        'cols' => 60,
+        'style' => 'width: 600px;',
+    ]) ?>
 
-<?php echo CHtml::submitButton( 'Изменить', [
-    'class' => 'btn btn-success',
-    'style' => 'display: inline-block; vertical-align: top; margin-left: 10px;',
-]); ?>
+
+    <?php echo CHtml::submitButton( 'Изменить', [
+        'class' => 'btn btn-success',
+        'style' => 'display: inline-block; vertical-align: top; margin-left: 10px;',
+    ]); ?>
+<?php else: ?>
+    <?= Yii::app()->user->data()->emails_white_list ?>
+<?php endif ?>
 
 <?php $this->endWidget(); ?>

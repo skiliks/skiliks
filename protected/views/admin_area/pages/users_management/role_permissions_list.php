@@ -10,7 +10,10 @@ $subtitles = YumRole::$subtitle;
 <form method="post" action="/admin_area/update-roles">
 
     <input class="btn btn-success" type="submit" name="updateActualRoles" value="Сохранить" style="margin-right: 50px;" />
-    <input class="btn btn-success" type="submit" name="addRole" value="Добавить роль" />
+
+    <?php if (Yii::app()->user->data()->can('system_role_add')) : ?>
+        <input class="btn btn-success" type="submit" name="addRole" value="Добавить роль" />
+    <?php endif ?>
 
     <br/>
     <br/>

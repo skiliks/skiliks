@@ -3,13 +3,18 @@
 </h1>
 
 <br/>
+
 <?php if (null !== $simulation->invite): ?>
     <a class="btn btn-info" href="/admin_area/invite/<?= $simulation->invite->id?>/site-logs">Перейти к Приглашению => </a>
     &nbsp;
     &nbsp;
     &nbsp;
 <?php endif ?>
-<a class="btn btn-info" href="/admin_area/simulation/<?= $simulation->id?>/site-logs">Перейти к Симуляции => </a>
+
+<?php if (Yii::app()->user->data()->can('sim_site_logs_view')) : ?>
+    <a class="btn btn-info" href="/admin_area/simulation/<?= $simulation->id?>/site-logs">Перейти к Симуляции => </a>
+<?php endif ?>
+
 <br/>
 <br/>
 <table class="table table-hover table-bordered">

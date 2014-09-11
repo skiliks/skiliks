@@ -9,7 +9,7 @@
     'Дата последнего посещения',
     'Аккаунт',
     'activation key',
-    'Действия',
+//    'Действия',
 ] ?>
 <div class="row fix-top">
     <h2>Пользователи</h2>
@@ -124,12 +124,14 @@
                         <?= ($isRegistered) ? 'Аккаунт активирован' : $profile->user->activationKey ?>
                     </div>
                 </td>
-                <td>
-                    <a class="btn btn-success"
-                        href="<?= $this->createAbsoluteUrl('admin_area/AdminPages/UpdatePassword', ['userId' => $profile->user->id]) ?>">
-                        <i class="icon icon-pencil icon-white"></i>&nbsp;
-                        Изменить пароль</a>
-                </td>
+                <?php /*
+                    <td>
+                        <a class="btn btn-success"
+                            href="<?= $this->createAbsoluteUrl('admin_area/AdminPages/UpdatePassword', ['userId' => $profile->user->id]) ?>">
+                            <i class="icon icon-pencil icon-white"></i>&nbsp;
+                            Изменить пароль</a>
+                    </td>
+                */ ?>
             </tr>
         <?php endforeach ?>
         </tbody>

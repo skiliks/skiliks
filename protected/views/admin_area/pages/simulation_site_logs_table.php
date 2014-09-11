@@ -21,10 +21,12 @@
     <?php $this->renderPartial('//admin_area/partials/_simulation_log_buttons', [
         'simulation' => $simulation,
     ]) ?>
-    &nbsp;&nbsp;
+
+<?php /*
     <a class="btn btn-info" target="_blank" href="/admin/displayLog/<?= $simulation->id?>">
         Смотреть логи в виде таблиц на сайте
     </a>
+ */ ?>
      <br/>
      <br/>
 

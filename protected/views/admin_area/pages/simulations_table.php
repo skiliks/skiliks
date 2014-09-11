@@ -192,6 +192,7 @@
                 </td>
                 <td>
                     <?= $simulation->is_emergency_panel_allowed ? 'Разрешена' : 'Запрешена' ?>
+
                     <?php if (Yii::app()->user->data()->can('sim_on_off_emergency_panel')) : ?>
                         <a class="btn btn-success" href="/admin_area/simulation/set-emergency/<?= $simulation->id ?>">
                             <?= $simulation->is_emergency_panel_allowed ? 'Запретить' : 'Разрешить' ?>

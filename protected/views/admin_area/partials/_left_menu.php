@@ -82,7 +82,7 @@
             ], [
                 'label' => 'Импорты',
                 'url'   => ['admin_area/AdminPages/ImportsList'],
-                'visible' => true,
+                'visible' => Yii::app()->user->data()->can('system_make_re_import'),
             ], [
                 'label' => 'Проверка итоговых оценок',
                 'url'   => ['admin_area/AdminServicePages/CheckAssessmentResults'],
@@ -122,7 +122,7 @@
             ], [
                 'label' => 'Права для ролей',
                 'url'   => ['admin_area/AdminAccounts/RolePermissionsList'],
-                'visible' => true,
+                'visible' => Yii::app()->user->data()->can('system_role_edit') ,
             ], [
                 'label' => 'Лог правок в правах ролей',
                 'url'   => ['admin_area/AdminAccounts/SiteLogPermissionChanges'],

@@ -281,7 +281,8 @@ class AdminPagesController extends BaseAdminController {
 
 
 
-    public function actionSimulationDetail() {
+    public function actionSimulationDetail()
+    {
         $sim_id = Yii::app()->request->getParam('sim_id', null);
         @ Yii::app()->request->cookies['display_result_for_simulation_id'] =
             new CHttpCookie('display_result_for_simulation_id', $sim_id);
@@ -415,7 +416,13 @@ class AdminPagesController extends BaseAdminController {
     /**
      *
      */
-    public function actionSimSiteLogs() {
+    public function actionSimSiteLogs()
+    {
+        if (false == Yii::app()->user->data()->can('sim_site_logs_view')) {
+            Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
+            $this->redirect('/admin_area/dashboard');
+        }
+
         $simId = Yii::app()->request->getParam('sim_id', null);
         $logSimulation = LogSimulation::model()->findAllByAttributes(['sim_id' => $simId]);
         $simulation = Simulation::model()->findByPk($simId);
@@ -702,6 +709,11 @@ class AdminPagesController extends BaseAdminController {
      */
     public function actionSimulationRequests($simId)
     {
+        if (false == Yii::app()->user->data()->can('sim_server_requests_list_view')) {
+            Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
+            $this->redirect('/admin_area/dashboard');
+        }
+
         $simulation = Simulation::model()->findByPk($simId);
 
         if (null === $simulation) {
@@ -942,7 +954,7 @@ class AdminPagesController extends BaseAdminController {
         }
 
         if (null != Yii::app()->user->data()->emails_white_list
-            && false == strpos(Yii::app()->user->data()->emails_white_list, $user->profile->email)) {
+            && 0 == strpos(Yii::app()->user->data()->emails_white_list, $user->profile->email)) {
             Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
             $this->redirect('/admin_area/users');
         }
@@ -1016,6 +1028,11 @@ class AdminPagesController extends BaseAdminController {
 
     public function actionImportsList()
     {
+        if (false == Yii::app()->user->data()->can('system_make_re_import')) {
+            Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
+            $this->redirect('/admin_area/dashboard');
+        }
+
         $scenarios = Scenario::model()->findAll();
 
         $logs = LogImport::model()->findAll(['order' => 'started_at DESC', 'limit' => 10]);
@@ -1183,6 +1200,11 @@ class AdminPagesController extends BaseAdminController {
 
     public function actionMakeReport($ids = false)
     {
+        if (false == Yii::app()->user->data()->can('system_make_re_import')) {
+            Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
+            $this->redirect('/admin_area/dashboard');
+        }
+        
         if($ids) {
             $saves = 0;
             $overwrite = true;
