@@ -32,6 +32,11 @@ class SimStopAndShowLogsController extends SiteBaseController
      */
     public function actionSaveLog()
     {
+        if (false == Yii::app()->user->data()->can('sim_logs_and_d1_view')) {
+            Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
+            $this->redirect('/admin_area/dashboard');
+        }
+
         $simId = Yii::app()->request->getParam('simulation');
         /** @var $simulation Simulation */
         $simulation = Simulation::model()->findByPk($simId);

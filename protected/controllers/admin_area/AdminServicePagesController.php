@@ -12,7 +12,12 @@ class AdminServicePagesController extends BaseAdminController {
     /**
      * Проверка оценок по всем симуляция на внутреннюю консистентность
      */
-    public function actionCheckAssessmentResults() {
+    public function actionCheckAssessmentResults()
+    {
+        if (false == Yii::app()->user->data()->can('system_validate_sim_results_cache')) {
+            Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
+            $this->redirect('/admin_area/dashboard');
+        }
 
         $currentCheck = SiteLogCheckResults::model()->findByAttributes(['finished_at' => null]);
         $allCheckLogs = SiteLogCheckResults::model()->findAll(['order' => 'id DESC']);

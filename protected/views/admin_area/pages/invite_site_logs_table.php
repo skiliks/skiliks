@@ -45,31 +45,36 @@
                     <?php if (Yii::app()->user->data()->can('invite_sim_change')) : ?>
                         <?= $invite->simulation_id ?>
                         (<?= $invite->simulation->game_type->slug ?>)
-                        &nbsp;
-                        <form action="/admin_area/invite/<?= $invite->id ?>/change-sim-id" method="post" style="display: inline-block">
-                            <input type="hidden" name="inviteId" value="<?= $invite->id ?>" />
-                            <select name="simId">
-                                <option value=""></option>
+                        <?php  ?>
 
-                                <?php foreach ($simulations as $simulation) : ?>
-                                    <?php if (
-                                        (null == $simulation->invite)
-                                        || (null != $simulation->invite && $invite->id != $simulation->invite->id)
-                                    ): ?>
-                                        <?php /** @var Simulation $simulation */ ?>
-                                        <option value="<?= $simulation->id ?>">
-                                            simId: <?= $simulation->id ?> (<?= $simulation->game_type->slug ?>)
-                                            <?php if (null !== $simulation->invite) : ?>
-                                                ,&nbsp;&nbsp;&nbsp;
-                                                current invite: <?= (null !== $simulation->invite) ? $simulation->invite->id : '-' ?>
-                                            <?php endif; ?>
-                                        </option>
-                                    <?php endif ?>
-                                <?php endforeach; ?>
-                            </select>
+                        <?php if (Yii::app()->user->data()->can('invite_sim_change')) : ?>
                             &nbsp;
-                            <input type="submit" value="Сменить" class="btn btn-success" style="margin-top: -11px;"/>
-                        </form>
+                            <form action="/admin_area/invite/<?= $invite->id ?>/change-sim-id" method="post" style="display: inline-block">
+                                <input type="hidden" name="inviteId" value="<?= $invite->id ?>" />
+                                <select name="simId">
+                                    <option value=""></option>
+
+                                    <?php foreach ($simulations as $simulation) : ?>
+                                        <?php if (
+                                            (null == $simulation->invite)
+                                            || (null != $simulation->invite && $invite->id != $simulation->invite->id)
+                                        ): ?>
+                                            <?php /** @var Simulation $simulation */ ?>
+                                            <option value="<?= $simulation->id ?>">
+                                                simId: <?= $simulation->id ?> (<?= $simulation->game_type->slug ?>)
+                                                <?php if (null !== $simulation->invite) : ?>
+                                                    ,&nbsp;&nbsp;&nbsp;
+                                                    current invite: <?= (null !== $simulation->invite) ? $simulation->invite->id : '-' ?>
+                                                <?php endif; ?>
+                                            </option>
+                                        <?php endif ?>
+                                    <?php endforeach; ?>
+                                </select>
+                                &nbsp;
+                                <input type="submit" value="Сменить" class="btn btn-success" style="margin-top: -11px;"/>
+                            </form>
+                        <?php endif; ?>
+
                         <br/>
                         <span class="help-inline">
                             (В списке отображаются все симуляции от данного корпоративного аккаунта к персональному,

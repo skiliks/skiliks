@@ -2,7 +2,13 @@
 
 class AdminProjectConfigController extends BaseAdminController {
 
-    public function actionProjectConfigsList() {
+    public function actionProjectConfigsList()
+    {
+        if (false == Yii::app()->user->data()->can('system_setting_view_edit')) {
+            Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
+            $this->redirect('/admin_area/dashboard');
+        }
+
         $this->layout = '/admin_area/layouts/admin_main';
         $this->render('/admin_area/pages/project_config/configs_list', [
             'user'    => $this->user,
@@ -10,7 +16,13 @@ class AdminProjectConfigController extends BaseAdminController {
         ]);
     }
 
-    public function actionAddConfig() {
+    public function actionAddConfig()
+    {
+        if (false == Yii::app()->user->data()->can('system_setting_view_edit')) {
+            Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
+            $this->redirect('/admin_area/dashboard');
+        }
+
         $id = Yii::app()->request->getParam('id');
         $action = Yii::app()->request->getParam('action');
 
@@ -63,7 +75,13 @@ class AdminProjectConfigController extends BaseAdminController {
     /**
      * @param integer $id, ProjectConfig.id
      */
-    public function actionConfigLogsList($id) {
+    public function actionConfigLogsList($id)
+    {
+        if (false == Yii::app()->user->data()->can('system_setting_view_edit')) {
+            Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
+            $this->redirect('/admin_area/dashboard');
+        }
+
         $log = SiteLogProjectConfig::model()->findAll([
             'order' => 'created_at DESC',
             'condition' => 'project_config_id = :project_config_id',

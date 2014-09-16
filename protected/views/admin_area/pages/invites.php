@@ -261,7 +261,7 @@ $titles = [
                 <span style="width: 20px; margin-right: 10px; display: inline-block;">
                     <?= (true == $invite->can_be_reloaded) ? 'yes' : ' no' ?>
                 </span>
-                <?php if (Yii::app()->user->data()->can('invites_allow_restart_finished_simulation ')) : ?>
+                <?php if (Yii::app()->user->data()->can('invites_allow_restart_finished_simulation')) : ?>
                     <a class="btn btn-success" href="/admin_area/invite/<?= $invite->id ?>/switch-can-be-reloaded">
                         <strong style="color: <?= (true == $invite->can_be_reloaded) ? '#fff' : '#0f0' ?>;">
                             set <?= (true == $invite->can_be_reloaded) ? 'no' : 'yes' ?>

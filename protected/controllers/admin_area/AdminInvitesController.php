@@ -5,7 +5,8 @@ class AdminInvitesController extends BaseAdminController {
     /**
      * @param integer $inviteId
      */
-    public function actionChangeSimId($inviteId) {
+    public function actionChangeSimId($inviteId)
+    {
         if (false == Yii::app()->user->data()->can('invite_sim_change')) {
             Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
             $this->redirect('/admin_area/dashboard');

@@ -283,6 +283,11 @@ class AdminPagesController extends BaseAdminController {
 
     public function actionSimulationDetail()
     {
+        if (false == Yii::app()->user->data()->can('sim_results_popup_view')) {
+            Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
+            $this->redirect('/admin_area/dashboard');
+        }
+
         $sim_id = Yii::app()->request->getParam('sim_id', null);
         @ Yii::app()->request->cookies['display_result_for_simulation_id'] =
             new CHttpCookie('display_result_for_simulation_id', $sim_id);
@@ -290,7 +295,13 @@ class AdminPagesController extends BaseAdminController {
         $this->redirect('/dashboard');
     }
 
-    public function actionGetBudget() {
+    public function actionGetBudget()
+    {
+        if (false == Yii::app()->user->data()->can('sim_logs_and_d1_view')) {
+            Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
+            $this->redirect('/admin_area/dashboard');
+        }
+
         $this->layout = false;
         $sim_id = Yii::app()->request->getParam('sim_id', null);
         $simulation = Simulation::model()->findByPk($sim_id);
@@ -395,7 +406,8 @@ class AdminPagesController extends BaseAdminController {
     /**
      *
      */
-    public function actionInviteCalculateTheEstimate() {
+    public function actionInviteCalculateTheEstimate()
+    {
         if (false == Yii::app()->user->data()->can('invite_recalculate')) {
             Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
             $this->redirect('/admin_area/dashboard');
@@ -1192,10 +1204,6 @@ class AdminPagesController extends BaseAdminController {
         );
     }
 
-
-
-
-
     // формирование отчетов
 
     public function actionMakeReport($ids = false)
@@ -1204,7 +1212,7 @@ class AdminPagesController extends BaseAdminController {
             Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
             $this->redirect('/admin_area/dashboard');
         }
-        
+
         if($ids) {
             $saves = 0;
             $overwrite = true;
@@ -1681,7 +1689,13 @@ class AdminPagesController extends BaseAdminController {
      * Позволяет пользователю скачать
      * protected/system_data/analytic_files_2/full_report_.xlsx
      */
-    public function actionDownloadFullAnalyticFile() {
+    public function actionDownloadFullAnalyticFile()
+    {
+        if (false == Yii::app()->user->data()->can('consolidated_analytic_file_generate_download')) {
+            Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
+            $this->redirect('/admin_area/dashboard');
+        }
+
         /**
          * @link: http://filext.com/faq/office_mime_types.php
          */

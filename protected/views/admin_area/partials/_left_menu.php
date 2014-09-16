@@ -86,7 +86,7 @@
             ], [
                 'label' => 'Проверка итоговых оценок',
                 'url'   => ['admin_area/AdminServicePages/CheckAssessmentResults'],
-                'visible' => true,
+                'visible' => Yii::app()->user->data()->can('system_validate_sim_results_cache'),
             ],  [
                 'label' => 'Генерация сводного аналитического файла',
                 'url'   => ['admin_area/AdminServicePages/GenerateConsolidatedAnalyticFileResults'],
@@ -110,7 +110,7 @@
             ], [
                 'label' => 'Настройки проекта',
                 'url'   => ['admin_area/AdminProjectConfig/ProjectConfigsList'],
-                'visible' => true,
+                'visible' => Yii::app()->user->data()->can('system_setting_view_edit'),
             ], [
                 'label' => '--------------------------',
                 'url'   => ['#'],
@@ -126,7 +126,7 @@
             ], [
                 'label' => 'Лог правок в правах ролей',
                 'url'   => ['admin_area/AdminAccounts/SiteLogPermissionChanges'],
-                'visible' => true,
+                'visible' => Yii::app()->user->data()->can('system_role_edit'),
             ],
         ],
     )) ?>

@@ -51,13 +51,45 @@ class m140904_191214_fix_action_4_2 extends CDbMigration
 //            " order_no = '6.2' "
 //        );
 
-        $this->delete('action', " order_no = '6.2' ");
+//        $this->delete('action', " order_no = '6.2' ");
+//
+//        $this->update(
+//            'action',
+//            ['order_no' => '6.2' ],
+//            " order_no = '6.5' "
+//        );
 
-        $this->update(
-            'action',
-            ['order_no' => '6.2' ],
-            " order_no = '6.5' "
-        );
+        $superAdmin = YumRole::model()->findByAttributes(['title' => 'СуперАдмин']);
+
+        $action_4_17 = YumAction::model()->findByAttributes(['order_no' => '4.17']);
+
+        $permission = new YumPermission();
+        $permission->action = $action_4_17->id;
+        $permission->principal_id = $superAdmin->id;
+        $permission->subordinate_id = $superAdmin->id;
+        $permission->type = YumPermission::TYPE_ROLE;
+        $permission->template = 1;
+        $permission->save(false);
+
+        $action_4_18 = YumAction::model()->findByAttributes(['order_no' => '4.18']);
+
+        $permission = new YumPermission();
+        $permission->action = $action_4_18->id;
+        $permission->principal_id = $superAdmin->id;
+        $permission->subordinate_id = $superAdmin->id;
+        $permission->type = YumPermission::TYPE_ROLE;
+        $permission->template = 1;
+        $permission->save(false);
+
+        $action_6_2 = YumAction::model()->findByAttributes(['order_no' => '6.2']);
+
+        $permission = new YumPermission();
+        $permission->action = $action_6_2->id;
+        $permission->principal_id = $superAdmin->id;
+        $permission->subordinate_id = $superAdmin->id;
+        $permission->type = YumPermission::TYPE_ROLE;
+        $permission->template = 1;
+        $permission->save(false);
 	}
 
 	public function down()
