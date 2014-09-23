@@ -67,6 +67,11 @@ class AdminInvitesController extends BaseAdminController {
 
     public function actionInvites()
     {
+        if (false == Yii::app()->user->data()->can('invites_list_view')) {
+            Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
+            $this->redirect('/admin_area/dashboard');
+        }
+
         // pager {
         $page = Yii::app()->request->getParam('invites-filter-page');
 
@@ -82,6 +87,22 @@ class AdminInvitesController extends BaseAdminController {
         $criteria = $allFilters['criteria'];
         $criteria->condition = $allFilters['condition'];
         $criteria->order     = "updated_at desc";
+
+        // white list {
+        $emails = [];
+        if (null != Yii::app()->user->data()->emails_white_list) {
+            $emails = explode(
+                ',',
+                str_replace(' ', '', Yii::app()->user->data()->emails_white_list)
+            );
+        }
+
+        if (0 < count($emails)) {
+            $criteria->join = ' LEFT JOIN profile AS owner ON owner.user_id = t.owner_id '
+                .' LEFT JOIN profile AS receiver ON receiver.user_id = t.receiver_id ';
+            $criteria->condition .= sprintf(" AND (owner.email IN ('%s') OR receiver.email IN ('%s')) ", implode("','", $emails), implode("','", $emails));
+        }
+        // white list }
 
         $totalItems = Invite::model()->count($criteria);
 
@@ -300,7 +321,7 @@ class AdminInvitesController extends BaseAdminController {
                 $condition .= " t.email NOT LIKE '%gty1991%' ".
                     " AND t.email NOT LIKE '%@skiliks.com' ".
                     " AND t.email NOT LIKE '%@rmqkr.net' ".
-                    " AND sent_time > '2013-06-01 00:00:00' ".
+                    " AND t.sent_time > '2013-06-01 00:00:00' ".
                     " AND t.email NOT IN (".implode(',', UserService::$developersEmails).") ";
             }
             // exclude developersEmails }
@@ -349,9 +370,9 @@ class AdminInvitesController extends BaseAdminController {
             }
 
             if ('' == $statusesInCriteria) {
-                $condition .= ' status IS NULL '; // ничего не выбрано из статусов приглашения
+                $condition .= ' t.status IS NULL '; // ничего не выбрано из статусов приглашения
             } else {
-                $condition .= ' status IN ('.$statusesInCriteria.') ';
+                $condition .= ' t.status IN ('.$statusesInCriteria.') ';
             }
             // filter for statuses }
 
@@ -428,10 +449,32 @@ class AdminInvitesController extends BaseAdminController {
     /**
      *
      */
-    public function actionSiteLogs() {
+    public function actionSiteLogs()
+    {
+        if (false == Yii::app()->user->data()->can('invites_details_view')) {
+            Yii::app()->user->setFlash('error', 'У вас не достаточно прав .');
+            $this->redirect('/admin_area/dashboard');
+        }
+
         $invite_id = Yii::app()->request->getParam('invite_id', null);
         /** @var Invite $invite */
         $invite = Invite::model()->findByPk($invite_id);
+
+        $emails = [];
+        if (null != Yii::app()->user->data()->emails_white_list) {
+            $emails = explode(
+                ',',
+                str_replace(' ', '', Yii::app()->user->data()->emails_white_list)
+            );
+
+            $isUserCanSeeOwnerInvites = in_array($invite->ownerUser->profile->email, $emails);
+            $isUserCanSeeReceiverInvites = in_array($invite->receiverUser->profile->email, $emails);
+
+            if (false == $isUserCanSeeOwnerInvites && false == $isUserCanSeeReceiverInvites) {
+                Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
+                $this->redirect('/admin_area/dashboard');
+            }
+        }
 
         $logInvite     = LogInvite::model()->findAllByAttributes(['invite_id' => $invite_id]);
         $logSimulation = LogSimulation::model()->findAllByAttributes(['invite_id' => $invite_id]);

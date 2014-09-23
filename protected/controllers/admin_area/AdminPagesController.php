@@ -470,7 +470,7 @@ class AdminPagesController extends BaseAdminController {
      */
     public function actionSimulations()
     {
-        if (false == Yii::app()->user->data()->can('invite_list_view')) {
+        if (false == Yii::app()->user->data()->can('simulations_list_view')) {
             Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
             $this->redirect('/admin_area/dashboard');
         }
@@ -496,6 +496,23 @@ class AdminPagesController extends BaseAdminController {
         $allFilters = $this->getCriteriaSimulation();
 
         $criteria = $allFilters['criteria'];
+
+        // white list {
+        $emails = [];
+        if (null != Yii::app()->user->data()->emails_white_list) {
+            $emails = explode(
+                ',',
+                str_replace(' ', '', Yii::app()->user->data()->emails_white_list)
+            );
+        }
+
+         if (0 < count($emails)) {
+            $criteria->join = ' LEFT JOIN user AS user ON t.user_id = user.id LEFT JOIN profile AS profile ON profile.user_id = user.id ';
+            $criteria->addInCondition('profile.email', $emails);
+
+            $allFilters['condition'] .= sprintf(" AND profile.email IN ('%s') ", implode("','", $emails));
+        }
+        // white list }
 
         $totalItems = Simulation::model()->count($criteria);
         $pager = new CustomPagination($totalItems);
@@ -560,8 +577,7 @@ class AdminPagesController extends BaseAdminController {
 
         $condition = ' user.id > 0 ';
         if (0 < count($emails)) {
-            $criteria->join = ' LEFT JOIN user u ON t.user_id = u.id ';
-            $criteria->addInCondition('u.emails_white_list', $emails);
+            $criteria->addInCondition('t.email', $emails);
 
             $condition = sprintf(" t.email IN ('%s') ", implode("','", $emails));
         }
@@ -952,11 +968,6 @@ class AdminPagesController extends BaseAdminController {
      */
     public function actionUserDetails($userId)
     {
-        if (false == Yii::app()->user->data()->can('user_details_view')) {
-            Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
-            $this->redirect('/admin_area/dashboard');
-        }
-
         /* @var $user YumUser */
         $user = YumUser::model()->findByPk($userId);
 
@@ -965,8 +976,13 @@ class AdminPagesController extends BaseAdminController {
             $this->redirect('/admin_area/users');
         }
 
+        if (false == Yii::app()->user->data()->can('user_details_view')) {
+            Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
+            $this->redirect('/admin_area/dashboard');
+        }
+
         if (null != Yii::app()->user->data()->emails_white_list
-            && 0 == strpos(Yii::app()->user->data()->emails_white_list, $user->profile->email)) {
+            && -1 == strpos(Yii::app()->user->data()->emails_white_list, $user->profile->email)) {
             Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
             $this->redirect('/admin_area/users');
         }
@@ -1484,7 +1500,7 @@ class AdminPagesController extends BaseAdminController {
     public function actionGhostLogin($userId)
     {
         if (false == Yii::app()->user->data()->can('user_login_ghost')) {
-            Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
+            Yii::app()->user->setFlash('error', 'У вас не достаточно прав 1.');
             $this->redirect('/admin_area/dashboard');
         }
 

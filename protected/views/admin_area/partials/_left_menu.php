@@ -14,12 +14,12 @@
             ], [
                 'label' => 'Приглашения',
                 'url'   => ['admin_area/AdminInvites/Invites'],
-                'visible' => true,
+                'visible' => Yii::app()->user->data()->can('invites_list_view'),
 
             ], [
                 'label' => 'Симуляции',
                 'url'   => ['admin_area/AdminPages/Simulations'],
-                'visible' => Yii::app()->user->data()->can('invite_list_view'),
+                'visible' => Yii::app()->user->data()->can('simulations_list_view'),
 
             ], [
                 'label' => 'Рейтинг симуляций',

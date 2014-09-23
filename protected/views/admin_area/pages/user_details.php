@@ -83,10 +83,13 @@ $assetsUrl = $this->getAssetsUrl();
 <!-- разделитель кнопок 1 -->
 <p>&nbsp; &nbsp;</p>
 
-<a class="btn btn-info" href="/admin_area/invites?page=1&receiver-email-for-filtration=<?= urlencode($user->profile->email) ?>&invite_statuses[0]=on&invite_statuses[1]=on&invite_statuses[5]=on&invite_statuses[2]=on&invite_statuses[4]=on&invite_statuses[3]=on&invite_status[]=on&filter_scenario_id=&is_invite_crashed=">
+
+<?php if (Yii::app()->user->data()->can('invites_list_view')) : ?>
+    <a class="btn btn-info" href="/admin_area/invites?page=1&receiver-email-for-filtration=<?= urlencode($user->profile->email) ?>&invite_statuses[0]=on&invite_statuses[1]=on&invite_statuses[5]=on&invite_statuses[2]=on&invite_statuses[4]=on&invite_statuses[3]=on&invite_status[]=on&filter_scenario_id=&is_invite_crashed=">
         <i class="icon icon-arrow-down icon-white"></i>
         Приглашения для меня
-</a>
+    </a>
+<?php endif ?>
 
 <?php if($user->isCorporate()) : ?>
     <?php if (Yii::app()->user->data()->can('user_invite_movement_logs_view')) : ?>
@@ -96,11 +99,16 @@ $assetsUrl = $this->getAssetsUrl();
             Логи списания/зачисления симуляций
         </a>
     <?php endif ?>
+
+
+    <?php if (Yii::app()->user->data()->can('invites_list_view')) : ?>
     &nbsp; &nbsp;
-    <a class="btn btn-info" href="/admin_area/invites?page=1&owner_email_for_filtration=<?= urlencode($user->profile->email) ?>&invite_statuses[0]=on&invite_statuses[1]=on&invite_statuses[5]=on&invite_statuses[2]=on&invite_statuses[4]=on&invite_statuses[3]=on&invite_status[]=on&filter_scenario_id=&is_invite_crashed=">
+        <a class="btn btn-info" href="/admin_area/invites?page=1&owner_email_for_filtration=<?= urlencode($user->profile->email) ?>&invite_statuses[0]=on&invite_statuses[1]=on&invite_statuses[5]=on&invite_statuses[2]=on&invite_statuses[4]=on&invite_statuses[3]=on&invite_status[]=on&filter_scenario_id=&is_invite_crashed=">
             <i class="icon icon-arrow-up icon-white"></i>
             Приглашения от меня
-    </a>
+        </a>
+    <?php endif ?>
+
     <?php if (Yii::app()->user->data()->can('user_balk_send_invites')) : ?>
         &nbsp; &nbsp;
         <a class="btn btn-success" href="/admin_area/user/<?= $user->id ?>/send-invites">

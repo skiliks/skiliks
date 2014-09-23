@@ -3,18 +3,19 @@
 
     <br/>
 
+    <?php if (false == Yii::app()->user->data()->can('start_dev_mode')) : ?>
+        <h4>Запуск симуляций в DEV режиме:</h4>
 
-    <h4>Запуск симуляций в DEV режиме:</h4>
+        <a class="btn" style="margin-right: 50px;"
+            href="/simulation/<?php echo Simulation::MODE_DEVELOPER_LABEL ?>/<?php echo Scenario::TYPE_LITE ?>">
+            </i>Developer (lite)</a>
 
-    <a class="btn" style="margin-right: 50px;"
-        href="/simulation/<?php echo Simulation::MODE_DEVELOPER_LABEL ?>/<?php echo Scenario::TYPE_LITE ?>">
-        </i>Developer (lite)</a>
+        <a class="btn btn-success"
+           href="/simulation/<?php echo Simulation::MODE_DEVELOPER_LABEL ?>/<?php echo Scenario::TYPE_FULL ?>">
+            Developer (full)</a>
 
-    <a class="btn btn-success"
-       href="/simulation/<?php echo Simulation::MODE_DEVELOPER_LABEL ?>/<?php echo Scenario::TYPE_FULL ?>">
-        Developer (full)</a>
-
-    <br/><br/>
+        <br/><br/>
+    <?php endif ?>
 
     <!-- Cheats: -->
 
@@ -33,10 +34,11 @@
         <input name="email" /> <input class="btn" type='submit' value="Найти!">
     </form>
 
+    <?php /*
     <form method="post" action="/debug/send">
         <h4>Отправить набор стандартных писем по адресу:</h4>
         Email: <input type="text" name="email" />
         <input class="btn" type="submit" value="Send!">
     </form>
-    <br/><br/>
+    <br/><br/> */ ?>
 </div>

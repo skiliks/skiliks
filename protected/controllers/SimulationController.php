@@ -5,6 +5,8 @@ class SimulationController extends SimulationBaseController
     /**
      * Старт симуляции
      *
+     * @throws
+     *
      * @return string
      */
     public function actionStart()

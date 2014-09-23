@@ -16,6 +16,12 @@ class SiteController extends SiteBaseController
      */
     public function actionSimulation($mode, $type = Scenario::TYPE_LITE, $invite_id = null)
     {
+        if (false == Yii::app()->user->data()->can('start_dev_mode')
+            && 'developer' == $mode) {
+            Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
+            $this->redirect('/admin_area/dashboard');
+        }
+
         /**
          * IE8 валится, выполняя, JS-проверку браузера -- и перенаправления на /old-browser не происходит
          * Поэтому, добавлена эта проверка на уровне PHP

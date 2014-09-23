@@ -180,18 +180,27 @@ $titles = [
             <!-- IDs { -->
             <td style="width: 80px;">
                     <i class="icon icon-tag" style="opacity: 0.1" title="Invite ID"></i>
-                    <a href="/admin_area/invite/<?= $invite->id?>/site-logs">
+                    <?php if (Yii::app()->user->data()->can('invites_details_view')) : ?>
+                        <a href="/admin_area/invite/<?= $invite->id?>/site-logs">
+                            <?= $invite->id?>
+                        </a>
+                    <?php else: ?>
                         <?= $invite->id?>
-                    </a>
+                    <?php endif; ?>
             </td>
             <td>
                 <i class="icon icon-check" style="opacity: 0.1" title="Simulation ID"></i>
                 <?php if (null === $invite->simulation): ?>
                     --
                 <?php else: ?>
-                    <a href="/admin_area/simulation/<?= $invite->simulation->id?>/site-logs">
+                    <?php if (Yii::app()->user->data()->can('sim_site_logs_view')) : ?>
+                        <a href="/admin_area/simulation/<?= $invite->simulation->id?>/site-logs">
+                            <?= $invite->simulation->id ?>
+                        </a>
+                    <?php else: ?>
                         <?= $invite->simulation->id ?>
-                    </a>
+                    <?php endif; ?>
+
                 <?php endif; ?>
             </td>
             <!-- IDs } -->

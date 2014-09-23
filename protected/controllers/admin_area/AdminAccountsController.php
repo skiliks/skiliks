@@ -587,7 +587,7 @@ class AdminAccountsController extends BaseAdminController {
             Yii::app()->user->setFlash('error', 'У вас не достаточно прав.');
             $this->redirect('/admin_area/dashboard');
         }
-        
+
         $this->layout = '/admin_area/layouts/admin_main';
         $this->render('/admin_area/pages/users_management/site_log_permission_changes', [
             'dataProvider' => SiteLogPermissionChanges::model()->search(' t.created_at DESC ')
