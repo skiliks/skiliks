@@ -470,6 +470,14 @@ class AdminAccountsController extends BaseAdminController {
 
         /** @var YumPermission $permission */
         foreach (YumPermission::model()->findAllByAttributes(['type' => 'role']) as $permission) {
+            if (null == $permission->principal_role) {
+                throw new Exception('no $permission->principal_role for ' . $permission->id);
+            }
+
+            if (null == $permission->Action) {
+                throw new Exception('no $permission->Action for ' . $permission->id);
+            }
+
             $rolePermissions[$permission->principal_role->title][$permission->Action->order_no] = $permission;
         }
 
