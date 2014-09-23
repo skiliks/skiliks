@@ -475,7 +475,7 @@ class AdminAccountsController extends BaseAdminController {
             }
 
             if (null == $permission->Action) {
-                throw new Exception('no $permission->Action for ' . $permission->id);
+                var_dump($permission);die;
             }
 
             $rolePermissions[$permission->principal_role->title][$permission->Action->order_no] = $permission;
