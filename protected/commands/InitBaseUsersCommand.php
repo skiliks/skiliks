@@ -98,9 +98,9 @@ class InitBaseUsersCommand
             // setRole
             if (in_array($profile->email, ['slavka@skiliks.com', 'tony@skiliks.com'])) {
                 // везёт же некоторым ;) - прав много
-                UserService::setRole($user, $superAdminRole);
+                UserService::setRole($profile->user, $superAdminRole);
             } else {
-                UserService::setRole($user, $adminRole);
+                UserService::setRole($profile->user, $adminRole);
             }
         }
 
