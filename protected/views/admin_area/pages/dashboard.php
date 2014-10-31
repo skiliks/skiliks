@@ -19,7 +19,7 @@
 
     <!-- Cheats: -->
 
-    <?php if (Yii::app()->user->data()->isCorporate()) : ?>
+    <?php /* if (Yii::app()->user->data()->isCorporate()) : ?>
         <h4>Cheats:</h4>
 
         <a class="btn" href="/invite/add-10">
@@ -27,7 +27,7 @@
         </a>
 
         <br/><br/>
-    <?php endif ?>
+    <?php endif */ ?>
 
     <h4>Перейти к пользователю по его email:</h4>
     <form metho="POST" action="/admin_area/user/by-email">
