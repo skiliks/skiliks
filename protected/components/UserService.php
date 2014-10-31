@@ -1450,25 +1450,27 @@ class UserService {
         ));
         $command->execute();
 
-        $logMessage = sprintf(
-            'Роль "%s" назначена для аккаунта %s администратором %s.',
-            $newRole->title,
-            $userToEdit->profile->email,
-            Yii::app()->user->data()->profile->email
-        );
+        if (false == Yii::app() instanceof CConsoleApplication) {
+            $logMessage = sprintf(
+                'Роль "%s" назначена для аккаунта %s администратором %s.',
+                $newRole->title,
+                $userToEdit->profile->email,
+                Yii::app()->user->data()->profile->email
+            );
 
-        // логирование
-        $logPermissionChanges = new SiteLogPermissionChanges();
-        $logPermissionChanges->initiator_id = Yii::app()->user->id;
-        $logPermissionChanges->created_at = date('Y-m-d H:i:s');
-        $logPermissionChanges->result =   $logMessage;
-        $logPermissionChanges->save();
+            // логирование
+            $logPermissionChanges = new SiteLogPermissionChanges();
+            $logPermissionChanges->initiator_id = Yii::app()->user->id;
+            $logPermissionChanges->created_at = date('Y-m-d H:i:s');
+            $logPermissionChanges->result =   $logMessage;
+            $logPermissionChanges->save();
 
-        UserService::logAccountAction(
-            $userToEdit,
-            Yii::app()->request->getUserHostAddress(),
-            $logMessage
-        );
+            UserService::logAccountAction(
+                $userToEdit,
+                Yii::app()->request->getUserHostAddress(),
+                $logMessage
+            );
+        }
     }
 }
 
