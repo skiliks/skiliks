@@ -96,7 +96,7 @@ class InitBaseUsersCommand
             // activate user }
 
             // setRole
-            if (in_array($user->profile->email, ['slavka@skiliks.com', 'tony@skiliks.com'])) {
+            if (in_array($profile->email, ['slavka@skiliks.com', 'tony@skiliks.com'])) {
                 // везёт же некоторым ;) - прав много
                 UserService::setRole($user, $superAdminRole);
             } else {
