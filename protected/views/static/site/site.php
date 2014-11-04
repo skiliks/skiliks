@@ -94,6 +94,7 @@ $cs->compileLess($assetsUrl . '/less/documents.less',  $assetsUrl . '/compiled_c
 
 <?php // track JS in sentry { ?>
 <?php if (Yii::app()->params['public']['useSentryForJsLog']) :  ?>
+    <script type="text/javascript" src="<?= $assetsUrl . '/js/sentry/tracekit.js' ?>"></script>
     <script type="text/javascript" src="<?= $assetsUrl . '/js/sentry/raven.js' ?>"></script>
     <script type="text/javascript">
         $(document).ready(function(){

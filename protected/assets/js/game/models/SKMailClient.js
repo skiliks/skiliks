@@ -1178,7 +1178,9 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                                         try {
                                             delete mailClient.message_window;
 
-                                            mailClient.activeEmail.phrases = [];
+                                            if ('undefined' != typeof mailClient.activeEmail) {
+                                                mailClient.activeEmail.phrases = [];
+                                            }
 
                                             if(false == isFwdEmail) {
                                                 if(recipientIds.length !== 0){
@@ -1204,6 +1206,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                                             $("#mailEmulatorNewLetterText").html('');
 
                                             if ('add' === action) {
+                                                console.los('add');
                                                 callback();
                                             } else {
                                                 $("#MailClient_RecipientsList")[0].removeTag(el_tag);
@@ -1213,6 +1216,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                                                 }
                                             }
                                         } catch(exception) {
+                                            console.log(exception.message + ',' + exception.stack);
                                             if (window.Raven) {
                                                 window.Raven.captureMessage(exception.message + ',' + exception.stack);
                                             }
