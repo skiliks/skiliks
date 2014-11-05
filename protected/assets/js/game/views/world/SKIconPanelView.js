@@ -274,6 +274,7 @@ define([
                             // user can ignore visit
                             if (event.getStatus() === 'waiting') {
                                 event.setStatus('completed');
+                                event.ignore(function () {});
                             }
                         }
                     };
