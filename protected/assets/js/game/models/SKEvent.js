@@ -273,7 +273,6 @@ define([], function () {
          * @param cb
          */
         ignore: function (cb) {
-            console.log('ignore', this.getTypeSlug());
             try {
                 if (this.getTypeSlug() !== 'phone' && this.getTypeSlug() !== 'visit') {
                     throw new Error ('You can ignore only phone calls');

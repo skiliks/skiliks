@@ -34,6 +34,8 @@ class Corporate_Dashboard_SK3366_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['corporate']['addVacancy']);
         $this->waitForVisible("css=.send-vacancy");
 
+        $this->pause(5*1000);
+
         $vacancyName ="vacancyName";
         $vacancyName .=  (string)rand(100, 300)+(string)rand(20,50)-(string)rand(10,30);
 
