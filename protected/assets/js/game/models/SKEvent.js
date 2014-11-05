@@ -282,9 +282,7 @@ define([], function () {
                 // @todo: здесь сложно накручено но надо развязать
                 // и перенести игнорирование во вьюху SKPhoneCallView
 
-                console.log(replica_id);
-                var dialogHistory = SKApp.simulation.dialogsHistory.where({'replica_id': replica_id});
-                console.log(dialogHistory);
+                var dialogHistory = SKApp.simulation.dialogsHistory.where();
                 if (1 == dialogHistory.length) {
                     dialogHistory[0].set('is_sent', true);
                 }

@@ -235,6 +235,7 @@ parseUri.options = {
          * @return {Raven}
          */
         captureMessage: function(msg, options) {
+            console.log(msg, options);
             // Fire away!
             send(
                 arrayMerge({

@@ -3,6 +3,8 @@
 
 var SKSimulation;
 
+//if (!window.console) {window.console = {log: function() {}}};
+
 define([
     "game/models/SKMailClient",
     "game/views/develop_mode/SKFlagStateView",
