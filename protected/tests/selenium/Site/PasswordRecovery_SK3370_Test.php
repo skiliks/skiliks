@@ -97,6 +97,7 @@ class PasswordRecovery_SK3370_Test extends SeleniumTestHelper
     {
         $this->type(Yii::app()->params['test_mappings']['site']['recovery_email'], $email);
         $this->optimal_click(Yii::app()->params['test_mappings']['site']['recovery_button']);
+        sleep(1);
         $this->waitForVisible($element);
     }
 
