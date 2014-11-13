@@ -290,7 +290,7 @@ define([
 
                     if (isNoOneReplicaSent) {
                         $('.replica-select').removeAttr('data-disabled');
-                        if (0 < $('.visitor-window').length()) {
+                        if (0 < $('.visitor-window').length) {
                             me.options.model_instance.setOnTop();
                         }
                     }

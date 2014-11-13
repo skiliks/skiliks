@@ -98,16 +98,20 @@ if (
 <!DOCTYPE html>
 <html lang="<?php echo Yii::t('site', 'en') ?>">
 <head>
+    <?php $host = 'http://skiliks.com'; ?>
+    <?php if (isset($_SERVER['HTTP_HOST'])): ?>
+        <?php $host = $_SERVER['HTTP_HOST']; ?>
+    <?php endif ?>
 
     <?php if(Yii::app()->controller->action->id == "watchVideo") : ?>
         <?php // facebook image for share video link ?>
-        <meta property="og:image" content="http://<?=$_SERVER['HTTP_HOST']; ?><?php echo $assetsUrl?>/img/site/social-networks/videoscreen.jpg"/>
+        <meta property="og:image" content="http://<?= $host; ?><?php echo $assetsUrl?>/img/site/social-networks/videoscreen.jpg"/>
     <?php else : ?>
-        <meta property="og:image" content="http://<?=$_SERVER['HTTP_HOST']; ?><?php echo $assetsUrl?>/img/site/social-networks/skiliks-fb.png"/>
+        <meta property="og:image" content="http://<?= $host; ?><?php echo $assetsUrl?>/img/site/social-networks/skiliks-fb.png"/>
     <?php endif ?>
 
-    <meta property="og:image" content="http://<?=$_SERVER['HTTP_HOST']; ?><?php echo $assetsUrl?>/img/site/social-networks/skiliks-fb.png"/>
-    <meta property="og:url" content="http://<?=$_SERVER['HTTP_HOST']; ?>"/>
+    <meta property="og:image" content="http://<?= $host; ?><?php echo $assetsUrl?>/img/site/social-networks/skiliks-fb.png"/>
+    <meta property="og:url" content="http://<?= $host; ?>"/>
 
     <meta property="og:title" content="<?= CHtml::encode($this->pageTitle); ?>"/>
     <title><?= CHtml::encode($this->pageTitle); ?></title>
