@@ -10,9 +10,9 @@ class URL_forNoRegisteredUser_Test extends SeleniumTestHelper
 {
     public function test_for_no_registered_user()
     {
-        $buttons_text = array('Главная','О нас','Главная', 'О нас', 'Вход');
-        $text_inside= array('Простой','Познакомьтесь', 'Простой','Познакомьтесь','Запомнить меня');
-        $buttons_xpath = array ("xpath=//*[@id='yw1']/li[1]/a", "xpath=//*[@id='yw1']/li[2]/a", "xpath=//*[@id='yw2']/li[1]/a", "xpath=//*[@id='yw2']/li[2]/a",  "xpath=//*[@id='yw0']/li[4]/a");
+        $buttons_text = array('Главная','Цены и тарифы','Главная', 'Цены и тарифы', 'Вход');
+        $text_inside= array('Простой','Тарифные', 'Простой','Тарифные','Запомнить меня');
+        $buttons_xpath = array ("xpath=//*[@id='yw1']/li[1]/a", "xpath=//*[@id='yw1']/li[4]/a", "xpath=//*[@id='yw2']/li[1]/a", "xpath=//*[@id='yw2']/li[4]/a",  "xpath=//*[@id='yw0']/li[4]/a");
         $all_buttons = array($buttons_xpath, $buttons_text, $text_inside);
 
         $buttons_text_en = array('Home','About Us','Product','Home', 'About Us', 'Product');
@@ -20,14 +20,24 @@ class URL_forNoRegisteredUser_Test extends SeleniumTestHelper
         $buttons_xpath_en = array ("xpath=//*[@id='yw1']/li[1]/a", "xpath=//*[@id='yw1']/li[2]/a", "xpath=//*[@id='yw1']/li[3]/a", "xpath=//*[@id='yw2']/li[1]/a", "xpath=//*[@id='yw2']/li[2]/a", "xpath=//*[@id='yw2']/li[3]/a", "xpath=//*[@id='yw1']/li[3]/a");
         $all_buttons_en = array($buttons_xpath_en, $buttons_text_en, $text_inside_en);
 
+        $this->open('http://skiliks:skiliks1444@test.skiliks.com');
+
         $this->deleteAllVisibleCookies();
+
         $this->windowMaximize();
 
         $this->clear_blocked_auth_users();
 
-        $this->open('/ru');
+        $this->open('http://skiliks:skiliks1444@test.skiliks.com/ru');
 
         $this->check_all_urls($all_buttons, "English");
+        
+        $this->open('http://skiliks:skiliks1444@test.skiliks.com/en');
+        sleep(5);
+
+        $this->check_all_urls($all_buttons_en, "Русский");
+        $this->open('http://skiliks:skiliks1444@test.skiliks.com/ru');
+        sleep(5);
 
         // проверка наличия попапа Входа
         $this->optimal_click($all_buttons[0][sizeof($all_buttons[0])-1]); // кликаем на кнопку по xpath
@@ -41,7 +51,7 @@ class URL_forNoRegisteredUser_Test extends SeleniumTestHelper
         sleep(5);
 
         $this->optimal_click("//*[@id='action-subscribe-form']/div/input[2]");
-        sleep(1);
+        sleep(2);
         $this->assertTextPresent("Enter your email address");
 
         $new_email = "test-email+";
