@@ -31,7 +31,7 @@ class URL_forNoRegisteredUser_Test extends SeleniumTestHelper
         $this->open('http://skiliks:skiliks1444@test.skiliks.com/ru');
 
         $this->check_all_urls($all_buttons, "English");
-        
+
         $this->open('http://skiliks:skiliks1444@test.skiliks.com/en');
         sleep(5);
 

@@ -18,7 +18,7 @@ class Corporate_Dashboard_SK3366_Test extends SeleniumTestHelper
 
         $this->clear_blocked_auth_users();
 
-        $this->open('/ru');
+        $this->open('http://skiliks:skiliks1444@test.skiliks.com/ru');
 
         $this->optimal_click(Yii::app()->params['test_mappings']['site']['logIn']);
         $this->waitForVisible(Yii::app()->params['test_mappings']['site']['username']);
@@ -40,40 +40,59 @@ class Corporate_Dashboard_SK3366_Test extends SeleniumTestHelper
         $vacancyName .=  (string)rand(100, 300)+(string)rand(20,50)-(string)rand(10,30);
 
         //пустые
-        $this->addVacancy("xpath=//*[@id='Vacancy_professional_occupation_id']/option[1]","xpath=//*[@id='Vacancy_position_level_slug']/option[1]","xpath=//*[@id='Vacancy_position_level_slug']/option[1]","","",array("Выберите профессиональную область", "Выберите уровень позиции", "Выберите специализацию", "Введите название позиции"));
+        echo ' - 1';
+        $this->pause(5*1000);
+        $this->addVacancy(null,null,null,"","",array("Выберите профессиональную область", "Выберите уровень позиции", "Выберите специализацию", "Введите название позиции"));
 
+        echo ' - 2';
         // выбрано все, но название не введено
-        $this->addVacancy("xpath=//*[@id='Vacancy_professional_occupation_id']/option[2]","xpath=//*[@id='Vacancy_position_level_slug']/option[2]","xpath=//*[@id='Vacancy_position_level_slug']/option[2]",$vacancyName,"jdufd",array("Не является правильным URL"));
+        $this->addVacancy("css=.option-2:eq(1)","css=.option-2:eq(2)","css=.option-2:eq(3)",$vacancyName,"jdufd",array("Не является правильным URL"));
 
+        echo ' - 3';
         // все правильно и добавлено
-        $this->addVacancy("xpath=//*[@id='Vacancy_professional_occupation_id']/option[2]","xpath=//*[@id='Vacancy_position_level_slug']/option[2]","xpath=//*[@id='Vacancy_position_level_slug']/option[2]",$vacancyName,"www.skiliks.com",array($vacancyName));
+        $this->addVacancy("css=.option-2:eq(1)","css=.option-2:eq(2)","css=.option-2:eq(3)",$vacancyName,"www.skiliks.com",[]); // array($vacancyName)
 
+        $this->optimal_click(Yii::app()->params['test_mappings']['corporate']['addVacancy']);
+        $this->waitForVisible("css=.send-vacancy");
+
+        $this->pause(5*1000);
+
+        echo ' - 4';
         // все тоже, ошибка что нельзя одинаковую вакансию добавить
-        $this->addVacancy("xpath=//*[@id='Vacancy_professional_occupation_id']/option[2]","xpath=//*[@id='Vacancy_position_level_slug']/option[2]","xpath=//*[@id='Vacancy_position_level_slug']/option[2]",$vacancyName,"www.skiliks.com",array("Такое название уже используется"));
+        $this->addVacancy("css=.option-2:eq(1)","css=.option-2:eq(2)","css=.option-2:eq(3)",$vacancyName,"www.skiliks.com",array("Такое название уже используется"));
 
+        echo ' - 5';
         // меняем имя и убираем ссылку
-        $this->addVacancy("xpath=//*[@id='Vacancy_professional_occupation_id']/option[2]","xpath=//*[@id='Vacancy_position_level_slug']/option[2]","xpath=//*[@id='Vacancy_position_level_slug']/option[2]",$vacancyName."sd","www.skiliks.com",array($vacancyName."sd"));
+        $this->addVacancy("css=.option-2:eq(1)","css=.option-2:eq(2)","css=.option-2:eq(3)",$vacancyName."sd","www.skiliks.com",[]); // array($vacancyName."sd")
     }
 
     public function addVacancy($field, $positionLevel, $specialization, $position, $url, $errors)
     {
-        $this->optimal_click("xpath=//*[@id='Vacancy_professional_occupation_id']/option[1]");
-        $this->mouseOver($field);
-        $this->optimal_click($field);
+        if (null != $field) {
+            $this->optimal_click("css=.sbToggle:eq(2)");
+            $this->mouseOver($field);
+            $this->optimal_click($field);
+        }
 
-        $this->optimal_click("xpath=//*[@id='Vacancy_position_level_slug']/option[1]");
-        $this->mouseOver($positionLevel);
-        $this->optimal_click($positionLevel);
+        if (null != $field) {
+            $this->optimal_click("css=.sbToggle:eq(3)");
+            $this->mouseOver($positionLevel);
+            $this->optimal_click($positionLevel);
+        }
 
-        $this->optimal_click("xpath=//*[@id='Vacancy_professional_specialization_id']/option[1]");
-        $this->mouseOver($specialization);
-        $this->optimal_click($specialization);
+        if (null != $field) {
+            $this->optimal_click("css=.sbToggle:eq(4)");
+            $this->mouseOver($specialization);
+            $this->optimal_click($specialization);
+        }
 
-        $this->type("сss=#Vacancy_label",$position);
+        $this->type("id=Vacancy_label",$position);
 
-        $this->type("сss=#Vacancy_link",$url);
+        $this->type("id=Vacancy_link",$url);
 
         $this->optimal_click("css=.send-vacancy");
+
+        $this->pause(5*1000);
 
         for ($i=0; $i<count($errors); $i++ )
         {
