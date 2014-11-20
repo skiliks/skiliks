@@ -46,11 +46,11 @@ class Corporate_Dashboard_SK3366_Test extends SeleniumTestHelper
 
         echo ' - 2';
         // выбрано все, но название не введено
-        $this->addVacancy("css=.option-2:eq(1)","css=.option-2:eq(2)","css=.option-2:eq(3)",$vacancyName,"jdufd",array("Не является правильным URL"));
+        $this->addVacancy("css=.option-2:eq(2)","css=.option-2:eq(3)","css=.option-2:eq(4)",$vacancyName,"jdufd",array("Не является правильным URL"));
 
         echo ' - 3';
         // все правильно и добавлено
-        $this->addVacancy("css=.option-2:eq(1)","css=.option-2:eq(2)","css=.option-2:eq(3)",$vacancyName,"www.skiliks.com",[]); // array($vacancyName)
+        $this->addVacancy(null,null,null,$vacancyName,"www.skiliks.com",[]); // array($vacancyName)
 
         $this->optimal_click(Yii::app()->params['test_mappings']['corporate']['addVacancy']);
         $this->waitForVisible("css=.send-vacancy");
@@ -59,30 +59,30 @@ class Corporate_Dashboard_SK3366_Test extends SeleniumTestHelper
 
         echo ' - 4';
         // все тоже, ошибка что нельзя одинаковую вакансию добавить
-        $this->addVacancy("css=.option-2:eq(1)","css=.option-2:eq(2)","css=.option-2:eq(3)",$vacancyName,"www.skiliks.com",array("Такое название уже используется"));
+        $this->addVacancy("css=.option-2:eq(2)","css=.option-2:eq(3)","css=.option-2:eq(4)", '333',"www.skiliks.com",array("Такое название уже используется"));
 
         echo ' - 5';
         // меняем имя и убираем ссылку
-        $this->addVacancy("css=.option-2:eq(1)","css=.option-2:eq(2)","css=.option-2:eq(3)",$vacancyName."sd","www.skiliks.com",[]); // array($vacancyName."sd")
+        $this->addVacancy(null,null,null,$vacancyName."sd","www.skiliks.com",[]); // array($vacancyName."sd")
     }
 
     public function addVacancy($field, $positionLevel, $specialization, $position, $url, $errors)
     {
         if (null != $field) {
             $this->optimal_click("css=.sbToggle:eq(2)");
-            $this->mouseOver($field);
+            //$this->mouseOver($field);
             $this->optimal_click($field);
         }
 
         if (null != $field) {
             $this->optimal_click("css=.sbToggle:eq(3)");
-            $this->mouseOver($positionLevel);
+            //$this->mouseOver($positionLevel);
             $this->optimal_click($positionLevel);
         }
 
         if (null != $field) {
             $this->optimal_click("css=.sbToggle:eq(4)");
-            $this->mouseOver($specialization);
+            //$this->mouseOver($specialization);
             $this->optimal_click($specialization);
         }
 
@@ -90,7 +90,9 @@ class Corporate_Dashboard_SK3366_Test extends SeleniumTestHelper
 
         $this->type("id=Vacancy_link",$url);
 
-        $this->optimal_click("css=.send-vacancy");
+        $this->pause(5*1000);
+
+        $this->optimal_click("css=#add-vacancy-form .send-vacancy");
 
         $this->pause(5*1000);
 
