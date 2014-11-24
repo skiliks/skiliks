@@ -75,8 +75,11 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
 
         // MS69
         $this->write_mail_unidentified();
-        $this->optimal_click("css=.NEW_EMAIL");
-        $this->addRecipient(Yii::app()->params['test_mappings']['mail_contacts']['trudyakin']);
+        //$this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']); // extra
+        if ($this->isElementPresent("css=.NEW_EMAIL")) {
+            $this->optimal_click("css=.NEW_EMAIL");
+        }
+        $this->addRecipient("//ul[contains(@class,'ui-autocomplete')]/li[21]/a");
         $this->addTheme("xpath=(//*[contains(text(), 'Квартальный план')])");
         $this->addAttach("Квартальный план_4 кв_2013");
         $this->optimal_click("css=.SEND_EMAIL");
@@ -172,12 +175,16 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
         $this->run_event('M66');
         sleep(3);
 
-        $this->write_mail_unidentified();
-        $this->addTaskToPlan("предложения","23");
-        $this->addTaskToPlan("график отпусков срочно!","26");
-        $this->addTaskToPlan("твои аналитики","19");
-        $this->addTaskToPlan("по вашей заявке","113");
-        $this->optimal_click("xpath=(//*[contains(text(),'выгрузка для логистов')])");
+        $this->optimal_click(Yii::app()->params['test_mappings']['icons_active']['mail']);
+        sleep(14);
+
+//        $this->write_mail_unidentified();
+//        sleep(3);
+//        $this->addTaskToPlan("предложения","23");
+//        $this->addTaskToPlan("график отпусков срочно!","26");
+//        $this->addTaskToPlan("твои аналитики","19");
+//        $this->addTaskToPlan("по вашей заявке","113");
+//        $this->optimal_click("xpath=(//*[contains(text(),'выгрузка для логистов')])");
 
         $this->write_reply_email("привет");
         $this->write_reply_email("короткая просьба");
@@ -212,15 +219,30 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'А ты можешь рассказать подробнее, какие задачи для тебя интересны')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Что же ты раньше об этом не говорила')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Давай так договоримся')])");
-        sleep(5);
+        sleep(1);
 
         $this->clearEventQueueBeforeEleven('RST9');
+
+        $this->optimal_click("xpath=(//*[contains(text(),'Ясно, Раиса Романовна')])");
+
+        $this->optimal_click("xpath=(//*[contains(text(),'Сделал')])");
+        $this->optimal_click("xpath=(//*[contains(text(),'Давай')])");
+        $this->optimal_click("xpath=(//*[contains(text(),'Это только на первый взгляд')])");
+        $this->optimal_click("xpath=(//*[contains(text(),'Да я тоже об этом думал')])");
+        $this->optimal_click("xpath=(//*[contains(text(),'Чего тут считать')])");
+        $this->optimal_click("xpath=(//*[contains(text(),'Наверное')])");
+        $this->optimal_click("xpath=(//*[contains(text(),'А мысли о том')])");
+        $this->optimal_click("xpath=(//*[contains(text(),'Иван, сейчас я не могу тебе ответить')])");
+        $this->optimal_click("xpath=(//*[contains(text(),'Хорошо')])");
+        sleep(1);
+
         $this->clearEventQueueBeforeEleven('RST10');
+        sleep(1);
 
         $this->run_event('ET15',Yii::app()->params['test_mappings']['icons_active']['door'],'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['visit']['allow']);
-        $this->optimal_click("xpath=(//*[contains(text(),'Раиса Романовна, прошу прощения')])");
-        sleep(15);
+        $this->optimal_click("xpath=(//*[contains(text(),'Раиса Романовна, прошу')])");
+        sleep(10);
 
         $this->run_event('M1');
         sleep(3);
@@ -258,7 +280,9 @@ class EmailEffectiveWork_SK2557_Test extends SeleniumTestHelper
         sleep(5);
 
         $this->write_mail_unidentified();
-        $this->optimal_click("css=.NEW_EMAIL");
+        if ($this->isElementPresent("css=.NEW_EMAIL")) {
+            $this->optimal_click("css=.NEW_EMAIL");
+        }
         $this->addRecipient(Yii::app()->params['test_mappings']['mail_contacts']['denejnaya']);
         $this->addTheme("xpath=(//*[contains(text(), 'Сводный бюджет: итоговые корректировки')])");
         $this->addAttach("Сводный бюджет_2014_план");

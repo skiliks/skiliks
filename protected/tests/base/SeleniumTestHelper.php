@@ -4,8 +4,8 @@
  * @{
  */
 /**
-* Framework for Selenium-test for site and simulation needs
-*/
+ * Framework for Selenium-test for site and simulation needs
+ */
 class SeleniumTestHelper extends CWebTestCase
 {
     protected $captureScreenshotOnFailure = TRUE;
@@ -51,11 +51,11 @@ class SeleniumTestHelper extends CWebTestCase
             if ($second >= 900) {
                 $this->assertTrue(false, $message);
             } try {
-                if ($this->isVisible($locator))
-                {
-                    break;
-                }
-            } catch (Exception $e) { }
+            if ($this->isVisible($locator))
+            {
+                break;
+            }
+        } catch (Exception $e) { }
             usleep(100000);
         }
     }
@@ -65,7 +65,7 @@ class SeleniumTestHelper extends CWebTestCase
         $this->setUp();
         $this->deleteAllVisibleCookies();
         $this->windowMaximize();
-        $this->open('/ru');
+        $this->open('http://skiliks:skiliks1444@test.skiliks.com/ru');
 
         if ($user==0)
         {
@@ -77,7 +77,7 @@ class SeleniumTestHelper extends CWebTestCase
         }
 
         // short url for start dev mode simulation
-        $this->open('/cheat/quick-start/full');
+        $this->open('http://test.skiliks.com/cheat/quick-start/full');
 
         //waiting for loading all images, css and js and waiting for dev panel is visible below the simulation desktop
         $this->waitingLongMethod(
@@ -265,7 +265,8 @@ class SeleniumTestHelper extends CWebTestCase
         {
             $this->optimal_click(Yii::app()->params['test_mappings']['icons_active']['mail']);
             sleep(5);
-            if ($this->isVisible(Yii::app()->params['test_mappings']['mail']['to_whom'])==true)
+            if ($this->isElementPresent(Yii::app()->params['test_mappings']['mail']['to_whom'])==true
+                && $this->isVisible(Yii::app()->params['test_mappings']['mail']['to_whom'])==true)
             {
                 $this->optimal_click(Yii::app()->params['test_mappings']['icons']['close']);
                 $this->optimal_click(Yii::app()->params['test_mappings']['mail']['popup_unsave']);
@@ -280,7 +281,8 @@ class SeleniumTestHelper extends CWebTestCase
         {
             $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
             sleep(5);
-            if ($this->isVisible(Yii::app()->params['test_mappings']['mail']['to_whom'])==true)
+            if ($this->isElementPresent(Yii::app()->params['test_mappings']['mail']['to_whom'])==true
+                && $this->isVisible(Yii::app()->params['test_mappings']['mail']['to_whom'])==true)
             {
                 $this->optimal_click(Yii::app()->params['test_mappings']['icons']['close']);
                 $this->optimal_click(Yii::app()->params['test_mappings']['mail']['popup_unsave']);
