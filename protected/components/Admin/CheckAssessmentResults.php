@@ -7,6 +7,8 @@ class CheckAssessmentResults {
 
     public $mode = self::MODE_DB;
 
+    public $simulationsToIgnore = [15521];
+
     /**
      * @var SiteLogCheckResults $log
      */
@@ -66,6 +68,11 @@ class CheckAssessmentResults {
         $managerial_1_N = 0;
 
         foreach ($simulations as $simulation) {
+
+            if (in_array($simulation->id, $this->simulationsToIgnore)) {
+                continue;
+            }
+
             $data = unserialize($simulation->results_popup_cache);
 
             if ($data instanceof stdClass) {
@@ -246,6 +253,15 @@ class CheckAssessmentResults {
         $managerial_2_N = 0;
 
         foreach ($simulations as $simulation) {
+
+            if (in_array($simulation->id, $this->simulationsToIgnore)) {
+                continue;
+            }
+
+            if (in_array($simulation->id, $this->simulationsToIgnore)) {
+                continue;
+            }
+
             $data = unserialize($simulation->results_popup_cache);
 
             if ($data instanceof stdClass) {
@@ -309,6 +325,11 @@ class CheckAssessmentResults {
         $managerial_3_N = 0;
 
         foreach ($simulations as $simulation) {
+
+            if (in_array($simulation->id, $this->simulationsToIgnore)) {
+                continue;
+            }
+
             $data = unserialize($simulation->results_popup_cache);
 
             if ($data instanceof stdClass) {
@@ -434,6 +455,11 @@ class CheckAssessmentResults {
         $managerial_1_N = 0;
 
         foreach ($simulations as $simulation) {
+
+            if (in_array($simulation->id, $this->simulationsToIgnore)) {
+                continue;
+            }
+
             $data = unserialize($simulation->results_popup_cache);
 
             if ($data instanceof stdClass) {
@@ -523,6 +549,11 @@ class CheckAssessmentResults {
         $otherPriorityN = 0;
 
         foreach ($simulations as $simulation) {
+
+            if (in_array($simulation->id, $this->simulationsToIgnore)) {
+                continue;
+            }
+
              $data = unserialize($simulation->results_popup_cache);
 
             if ($data instanceof stdClass) {
@@ -737,6 +768,11 @@ class CheckAssessmentResults {
         $max_2_min = 49;
 
         foreach ($simulations as $simulation) {
+
+            if (in_array($simulation->id, $this->simulationsToIgnore)) {
+                continue;
+            }
+
             $data = unserialize($simulation->results_popup_cache);
 
             if ($data instanceof stdClass) {
@@ -842,6 +878,11 @@ class CheckAssessmentResults {
         $overallN = 0;
 
         foreach ($simulations as $simulation) {
+
+            if (in_array($simulation->id, $this->simulationsToIgnore)) {
+                continue;
+            }
+
             $data = unserialize($simulation->results_popup_cache);
 
             if ($data instanceof stdClass) {
@@ -878,7 +919,7 @@ class CheckAssessmentResults {
      * @param bool $isFix
      */
     public function save($simulation, $data, $isFix = false) {
-        if (true == $isFix) {
+        if (true == $isFix && false == in_array($simulation->id, $this->simulationsToIgnore)) {
             $simulation->results_popup_cache = serialize($data);
             $simulation->save(false);
         }
