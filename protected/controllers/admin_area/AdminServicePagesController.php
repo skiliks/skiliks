@@ -19,6 +19,7 @@ class AdminServicePagesController extends BaseAdminController {
             $this->redirect('/admin_area/dashboard');
         }
 
+        Yii::app()->cache->flush();
         $currentCheck = SiteLogCheckResults::model()->findByAttributes(['finished_at' => null]);
         $allCheckLogs = SiteLogCheckResults::model()->findAll(['order' => 'id DESC']);
 
@@ -29,7 +30,7 @@ class AdminServicePagesController extends BaseAdminController {
                 " results_popup_cache is not null
                 and scenario_id = 2
                 and start > '2013-08-01 00:00:00'
-                and status = 'complete' "
+                and status = 'complete'"
             );
 
             // симуляций меньше 1000, можно и циклом пройтись

@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Class FixAssessmentCommand
+ *
+ * ./yiic fixassessment --isFix=true
+ */
 class FixAssessmentCommand extends CConsoleCommand {
     public function actionIndex($isFix = false)
     {
@@ -10,7 +15,7 @@ class FixAssessmentCommand extends CConsoleCommand {
             " results_popup_cache is not null
             and scenario_id = 2
             and start > '2013-08-01 00:00:00'
-            and status = 'complete' "
+            and status = 'complete'"
         );
 
         // симуляций меньше 1000, можно и циклом пройтись

@@ -65,8 +65,10 @@ class TimeManagementAnalyzer
         $this->calculateGameOverhead();
 
         $this->prepareDurationsForCalculation();
-        $this->calculateGlobalTimeSpend();
+
         $this->calculateDetailedTimeSpend();
+        $this->calculateGlobalTimeSpend();
+
         $this->calculateEfficiency();
     }
 
@@ -147,7 +149,7 @@ class TimeManagementAnalyzer
             $itemActivityCode = $logItem->activityAction->activity->code;
 
             if (in_array($itemActivityCode, $timeSpendActivityCodes)) {
-                $this->durationsGrouped['inactivity']['total'] += TimeTools::timeToSeconds($logItem->duration);
+                //$this->durationsGrouped['inactivity']['total'] += TimeTools::timeToSeconds($logItem->duration);
                 continue;
             }
 
@@ -158,8 +160,8 @@ class TimeManagementAnalyzer
                 if (ActivityAction::LEG_TYPE_DOCUMENTS == $itemLegType) {
                     $this->durationsGrouped['1st_priority'][TimeManagementAggregated::SLUG_1ST_PRIORITY_DOCUMENTS]
                         += TimeTools::timeToSeconds($logItem->duration);
-                    $this->durationsGrouped['1st_priority']['total']
-                        += TimeTools::timeToSeconds($logItem->duration);
+//                    $this->durationsGrouped['1st_priority']['total']
+//                        += TimeTools::timeToSeconds($logItem->duration);
                     continue;
                 }
 
@@ -168,8 +170,8 @@ class TimeManagementAnalyzer
                     && (null === $logItem->activityAction->dialog || $logItem->activityAction->dialog->dialogSubtype->isMeeting())) {
                     $this->durationsGrouped['1st_priority'][TimeManagementAggregated::SLUG_1ST_PRIORITY_MEETINGS]
                         += TimeTools::timeToSeconds($logItem->duration);
-                    $this->durationsGrouped['1st_priority']['total']
-                        += TimeTools::timeToSeconds($logItem->duration);
+//                    $this->durationsGrouped['1st_priority']['total']
+//                        += TimeTools::timeToSeconds($logItem->duration);
                     continue;
                 }
 
@@ -178,8 +180,8 @@ class TimeManagementAnalyzer
                     && $logItem->activityAction->dialog->dialogSubtype->isPhoneCall()) {
                     $this->durationsGrouped['1st_priority'][TimeManagementAggregated::SLUG_1ST_PRIORITY_PHONE_CALLS]
                         += TimeTools::timeToSeconds($logItem->duration);
-                    $this->durationsGrouped['1st_priority']['total']
-                        += TimeTools::timeToSeconds($logItem->duration);
+//                    $this->durationsGrouped['1st_priority']['total']
+//                        += TimeTools::timeToSeconds($logItem->duration);
                     continue;
                 }
 
@@ -188,8 +190,8 @@ class TimeManagementAnalyzer
                     ActivityAction::LEG_TYPE_OUTBOX == $itemLegType) {
                     $this->durationsGrouped['1st_priority'][TimeManagementAggregated::SLUG_1ST_PRIORITY_MAIL]
                         += TimeTools::timeToSeconds($logItem->duration);
-                    $this->durationsGrouped['1st_priority']['total']
-                        += TimeTools::timeToSeconds($logItem->duration);
+//                    $this->durationsGrouped['1st_priority']['total']
+//                        += TimeTools::timeToSeconds($logItem->duration);
                     continue;
                 }
 
@@ -198,8 +200,8 @@ class TimeManagementAnalyzer
                     $logItem->activityAction->isPlan()) {
                     $this->durationsGrouped['1st_priority'][TimeManagementAggregated::SLUG_1ST_PRIORITY_PLANING]
                         += TimeTools::timeToSeconds($logItem->duration);
-                    $this->durationsGrouped['1st_priority']['total']
-                        += TimeTools::timeToSeconds($logItem->duration);
+//                    $this->durationsGrouped['1st_priority']['total']
+//                        += TimeTools::timeToSeconds($logItem->duration);
                     continue;
                 }
             } else {
@@ -208,8 +210,8 @@ class TimeManagementAnalyzer
                 if (ActivityAction::LEG_TYPE_DOCUMENTS == $itemLegType) {
                     $this->durationsGrouped['non_priority'][TimeManagementAggregated::SLUG_NON_PRIORITY_DOCUMENTS]
                         += TimeTools::timeToSeconds($logItem->duration);
-                    $this->durationsGrouped['non_priority']['total']
-                        += TimeTools::timeToSeconds($logItem->duration);
+//                    $this->durationsGrouped['non_priority']['total']
+//                        += TimeTools::timeToSeconds($logItem->duration);
                     continue;
                 }
 
@@ -218,8 +220,8 @@ class TimeManagementAnalyzer
                     && (null === $logItem->activityAction->dialog || $logItem->activityAction->dialog->dialogSubtype->isMeeting())) {;
                     $this->durationsGrouped['non_priority'][TimeManagementAggregated::SLUG_NON_PRIORITY_MEETINGS]
                         += TimeTools::timeToSeconds($logItem->duration);
-                    $this->durationsGrouped['non_priority']['total']
-                        += TimeTools::timeToSeconds($logItem->duration);
+//                    $this->durationsGrouped['non_priority']['total']
+//                        += TimeTools::timeToSeconds($logItem->duration);
                     continue;
                 }
 
@@ -228,8 +230,8 @@ class TimeManagementAnalyzer
                     && $logItem->activityAction->dialog->dialogSubtype->isPhoneCall()) {
                     $this->durationsGrouped['non_priority'][TimeManagementAggregated::SLUG_NON_PRIORITY_PHONE_CALLS]
                         += TimeTools::timeToSeconds($logItem->duration);
-                    $this->durationsGrouped['non_priority']['total']
-                        += TimeTools::timeToSeconds($logItem->duration);
+//                    $this->durationsGrouped['non_priority']['total']
+//                        += TimeTools::timeToSeconds($logItem->duration);
                     continue;
                 }
 
@@ -238,8 +240,8 @@ class TimeManagementAnalyzer
                     ActivityAction::LEG_TYPE_OUTBOX == $itemLegType) {
                     $this->durationsGrouped['non_priority'][TimeManagementAggregated::SLUG_NON_PRIORITY_MAIL]
                         += TimeTools::timeToSeconds($logItem->duration);
-                    $this->durationsGrouped['non_priority']['total']
-                        += TimeTools::timeToSeconds($logItem->duration);
+//                    $this->durationsGrouped['non_priority']['total']
+//                        += TimeTools::timeToSeconds($logItem->duration);
                     continue;
                 }
 
@@ -248,8 +250,8 @@ class TimeManagementAnalyzer
                     $logItem->activityAction->isPlan()) {
                     $this->durationsGrouped['non_priority'][TimeManagementAggregated::SLUG_NON_PRIORITY_PLANING]
                         += TimeTools::timeToSeconds($logItem->duration);
-                    $this->durationsGrouped['non_priority']['total']
-                        += TimeTools::timeToSeconds($logItem->duration);
+//                    $this->durationsGrouped['non_priority']['total']
+//                        += TimeTools::timeToSeconds($logItem->duration);
                     continue;
                 }
             }
@@ -309,6 +311,9 @@ class TimeManagementAnalyzer
         $first = $this->durationsGrouped['1st_priority'];
         $non = $this->durationsGrouped['non_priority'];
 
+        $this->durationsGrouped['1st_priority']['total'] = 0;
+        $this->durationsGrouped['non_priority']['total'] = 0;
+
         /* 1st { */
 
         $slug = TimeManagementAggregated::SLUG_1ST_PRIORITY_DOCUMENTS;
@@ -318,6 +323,8 @@ class TimeManagementAnalyzer
         $assessment_doc->value = round($first[$slug]/ 60);
         $assessment_doc->unit_label = TimeManagementAggregated::getUnitLabel($slug);
         $assessment_doc->save();
+        $this->durationsGrouped['1st_priority'][$slug] = $assessment_doc->value * 60;
+        $this->durationsGrouped['1st_priority']['total'] += $assessment_doc->value * 60;
 
         $slug = TimeManagementAggregated::SLUG_1ST_PRIORITY_MEETINGS;
         $assessment_meet = new TimeManagementAggregated();
@@ -326,6 +333,8 @@ class TimeManagementAnalyzer
         $assessment_meet->value = round($first[$slug]/ 60);
         $assessment_meet->unit_label = TimeManagementAggregated::getUnitLabel($slug);
         $assessment_meet->save();
+        $this->durationsGrouped['1st_priority'][$slug] = $assessment_meet->value * 60;
+        $this->durationsGrouped['1st_priority']['total'] += $assessment_meet->value * 60;
 
         $slug = TimeManagementAggregated::SLUG_1ST_PRIORITY_PHONE_CALLS;
         $assessment_call = new TimeManagementAggregated();
@@ -334,6 +343,8 @@ class TimeManagementAnalyzer
         $assessment_call->value = round($first[$slug]/ 60);
         $assessment_call->unit_label = TimeManagementAggregated::getUnitLabel($slug);
         $assessment_call->save();
+        $this->durationsGrouped['1st_priority'][$slug] = $assessment_call->value * 60;
+        $this->durationsGrouped['1st_priority']['total'] += $assessment_call->value * 60;
 
         $slug = TimeManagementAggregated::SLUG_1ST_PRIORITY_MAIL;
         $assessment_mail = new TimeManagementAggregated();
@@ -342,6 +353,8 @@ class TimeManagementAnalyzer
         $assessment_mail->value = round($first[$slug]/ 60);
         $assessment_mail->unit_label = TimeManagementAggregated::getUnitLabel($slug);
         $assessment_mail->save();
+        $this->durationsGrouped['1st_priority'][$slug] = $assessment_mail->value * 60;
+        $this->durationsGrouped['1st_priority']['total'] += $assessment_mail->value * 60;
 
         $slug = TimeManagementAggregated::SLUG_1ST_PRIORITY_PLANING;
         $assessment_plan = new TimeManagementAggregated();
@@ -350,6 +363,8 @@ class TimeManagementAnalyzer
         $assessment_plan->value = round($first[$slug]/ 60);
         $assessment_plan->unit_label = TimeManagementAggregated::getUnitLabel($slug);
         $assessment_plan->save();
+        $this->durationsGrouped['1st_priority'][$slug] = $assessment_plan->value * 60;
+        $this->durationsGrouped['1st_priority']['total'] += $assessment_plan->value * 60;
 
         /* 1st } */
 
@@ -364,6 +379,8 @@ class TimeManagementAnalyzer
         $assessment_doc->value = round($non[$slug]/ 60);
         $assessment_doc->unit_label = TimeManagementAggregated::getUnitLabel($slug);
         $assessment_doc->save();
+        $this->durationsGrouped['non_priority'][$slug] = $assessment_doc->value * 60;
+        $this->durationsGrouped['non_priority']['total'] += $assessment_doc->value * 60;
 
         $slug = TimeManagementAggregated::SLUG_NON_PRIORITY_MEETINGS;
         $assessment_meet = new TimeManagementAggregated();
@@ -372,6 +389,8 @@ class TimeManagementAnalyzer
         $assessment_meet->value = round($non[$slug]/ 60);
         $assessment_meet->unit_label = TimeManagementAggregated::getUnitLabel($slug);
         $assessment_meet->save();
+        $this->durationsGrouped['non_priority'][$slug] = $assessment_meet->value * 60;
+        $this->durationsGrouped['non_priority']['total'] += $assessment_meet->value * 60;
 
         $slug = TimeManagementAggregated::SLUG_NON_PRIORITY_PHONE_CALLS;
         $assessment_call = new TimeManagementAggregated();
@@ -380,6 +399,8 @@ class TimeManagementAnalyzer
         $assessment_call->value = round($non[$slug]/ 60);
         $assessment_call->unit_label = TimeManagementAggregated::getUnitLabel($slug);
         $assessment_call->save();
+        $this->durationsGrouped['non_priority'][$slug] = $assessment_call->value * 60;
+        $this->durationsGrouped['non_priority']['total'] += $assessment_call->value * 60;
 
         $slug = TimeManagementAggregated::SLUG_NON_PRIORITY_MAIL;
         $assessment_mail = new TimeManagementAggregated();
@@ -388,6 +409,8 @@ class TimeManagementAnalyzer
         $assessment_mail->value = round($non[$slug]/ 60);
         $assessment_mail->unit_label = TimeManagementAggregated::getUnitLabel($slug);
         $assessment_mail->save();
+        $this->durationsGrouped['non_priority'][$slug] = $assessment_mail->value * 60;
+        $this->durationsGrouped['non_priority']['total'] += $assessment_mail->value * 60;
 
         $slug = TimeManagementAggregated::SLUG_NON_PRIORITY_PLANING;
         $assessment_plan = new TimeManagementAggregated();
@@ -396,7 +419,14 @@ class TimeManagementAnalyzer
         $assessment_plan->value = round($non[$slug]/ 60);
         $assessment_plan->unit_label = TimeManagementAggregated::getUnitLabel($slug);
         $assessment_plan->save();
+        $this->durationsGrouped['non_priority'][$slug] = $assessment_plan->value * 60;
+        $this->durationsGrouped['non_priority']['total'] += $assessment_plan->value * 60;
 
         /* non } */
+
+        $this->durationsGrouped['inactivity']['total'] =
+            8*60*60 + 15*60 + $this->GameOverhead*60
+            - $this->durationsGrouped['1st_priority']['total']
+            - $this->durationsGrouped['non_priority']['total'];
     }
 }
