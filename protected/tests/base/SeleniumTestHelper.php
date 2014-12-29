@@ -310,7 +310,7 @@ class SeleniumTestHelper extends CWebTestCase
         }
         catch (Exception $e)
         {
-            $this->fail("!!! FAIL: not found ". $loc);
+            $this->fail("!!! FAIL: not found ". $loc. ' ' . $e->getMessage());
         }
     }
 
