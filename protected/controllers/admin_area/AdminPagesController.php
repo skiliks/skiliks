@@ -921,10 +921,16 @@ class AdminPagesController extends BaseAdminController {
         $this->pageTitle = 'Админка: Список отзывов';
         $this->layout = '//admin_area/layouts/admin_main';
 
+        $feedbacks = Feedback::model()->findAll([
+            "order" => 'id DESC',
+        ]);
+
+        foreach ($feedbacks as $feedback) {
+            $feedback->refresh();
+        }
+
         $this->render('/admin_area/pages/feedbacks_table', [
-            'feedbacks' => Feedback::model()->findAll([
-                "order" => 'id DESC',
-            ]),
+            'feedbacks' => $feedbacks,
         ]);
     }
 
