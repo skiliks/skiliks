@@ -575,7 +575,7 @@ class AdminPagesController extends BaseAdminController {
             );
         }
 
-        $condition = ' user.id > 0 ';
+        $condition = ' user_id > 0 ';
         if (0 < count($emails)) {
             $criteria->addInCondition('t.email', $emails);
 
