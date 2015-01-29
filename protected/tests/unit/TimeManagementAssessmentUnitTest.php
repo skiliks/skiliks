@@ -410,19 +410,19 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
         }
 
         $this->assertEquals(
-            56.41, // %
+            20.56, // %
             $values['time_spend_for_1st_priority_activities'],
             'time_spend_for_1st_priority_activities'
         );
 
         $this->assertEquals(
-            25.64, // %
+            9.35, // %
             $values['time_spend_for_non_priority_activities'],
             'time_spend_for_non_priority_activities'
         );
 
         $this->assertEquals(
-            17.95, // %
+            70.09, // %
             $values['time_spend_for_inactivity'],
             'time_spend_for_inactivity'
         );
@@ -458,13 +458,6 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
         );
 
         $this->assertEquals(
-            45, // min
-            $values['1st_priority_documents'],
-            '1st_priority_documents'
-        );
-
-
-        $this->assertEquals(
             10, // min
             $values['non_priority_documents'],
             'non_priority_documents'
@@ -495,13 +488,13 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
         );
 
         $this->assertEquals(
-            40.00, // minutes
+            40.00, // min
             $values['workday_overhead_duration'],
             'workday_overhead_duration'
         );
 
         $this->assertEquals(
-            59.83, // percentage
+            35.93, // %
             $values['efficiency'],
             'efficiency'
         );
@@ -696,8 +689,7 @@ class TimeManagementAssessmentUnitTest extends CDbTestCase
         if (isset($values['efficiency'])) {
             $this->assertEquals(
                 75.76, // 40.00 * 0.6
-                $values['efficiency'],
-                $values['efficiency'],
+                (float)$values['efficiency'],
                 'efficiency'
             );
         }
