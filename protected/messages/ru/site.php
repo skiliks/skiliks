@@ -374,7 +374,7 @@ return array(
 
     'Pricing & Plans Monthly Rates' => 'Тарифные планы: цена подписки в месяц',
     '50% discount for all tariffs till March 31' => 'Скидка 50% на весь 2014 год при оплате до 31 марта',
-    'Tariff plans 2014' => 'Тарифные планы 2014',
+    'Tariff plans 2015' => 'Тарифные планы 2015',
     '1 Month free' => 'Месяц бесплатно',
     'Save ' => 'Экономия ',
     'Free' => 'Бесплатно',
