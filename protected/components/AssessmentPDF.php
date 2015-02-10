@@ -252,7 +252,7 @@ class AssessmentPDF {
         //var_dump($angle);
         //exit;
         $this->pdf->Rotate($angle, $x+3, $y+19.1);
-        $this->pdf->Image($this->images_dir.'arrow.png', $x, $y, 5.16, 40);
+        $this->pdf->Image($this->images_dir.'arrow.gif', $x, $y, 5.16, 40);
         $this->pdf->StopTransform();
         //var_dump($y0 - 118);
         //exit;
