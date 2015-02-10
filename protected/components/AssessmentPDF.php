@@ -206,7 +206,7 @@ class AssessmentPDF {
 
         // ораневая полоса прогресса
         $this->pdf->Rect($x+1.19, $y+1.5, $width, 4.1, 'F', '', array(240, 87, 41));
-        $this->pdf->Image($this->images_dir.'percentile.png', $x, $y, 23.96, 7.03);
+        $this->pdf->Image($this->images_dir.'percentile.gif', $x, $y, 23.96, 7.03);
 
         $this->writeTextBold('P'.$value, $x+14.9, $y+2.16, 8.13);
     }
@@ -224,7 +224,7 @@ class AssessmentPDF {
         $width = $max_width*$value/100;
         $this->pdf->Rect($x+0.9, $y+1, $width, 4.5, 'F', '', array(245, 144, 29));
 
-        $this->pdf->Image($this->images_dir.'stars.png', $x, $y, 23.96, 7.03);
+        $this->pdf->Image($this->images_dir.'stars.gif', $x, $y, 23.96, 7.03);
 
         //$this->writeTextBold($value.'%', $x+28, $y+1.5, 10, [255,255,255]);
         $this->addPercentSmallInfo($value, $x+28, $y+1.5, [255,255,255]);
@@ -241,7 +241,7 @@ class AssessmentPDF {
         $value = round($value);
         $x0 = $x;
         $y0 = $y;
-        $this->pdf->Image($this->images_dir.'rainbow.png', $x, $y, 29.55, 13.72);
+        $this->pdf->Image($this->images_dir.'rainbow.gif', $x, $y, 29.55, 13.72);
 
         $this->pdf->StartTransform();
         // Rotate 20 degrees counter-clockwise centered by (70,110) which is the lower left corner of the rectangle
