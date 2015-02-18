@@ -22,7 +22,7 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
             ),
         ),
         'db' => array(
-            'connectionString' => 'mysql:host=db.skiliks.com;dbname=skiliks',
+            'connectionString' => 'mysql:host=127.0.0.1;dbname=skiliks',
             'emulatePrepare' => true,
             'username' => 'skiliks',
             'password' => 'scr-2sc-c5sncjs-asdmc',
