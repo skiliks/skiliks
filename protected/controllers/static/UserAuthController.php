@@ -119,6 +119,15 @@ class UserAuthController extends YumController
                         SiteLogAuthorization::USER_AREA
                     );
 
+                    $roleSiteUser = YumRole::model()->findByAttributes(['title' => 'Пользователь сайта']);
+                    $connection = Yii::app()->db;
+                    $command = $connection->createCommand(sprintf(
+                        ' INSERT INTO `user_role` () VALUE (%s, %s); ',
+                        $this->user->id,
+                        $roleSiteUser->id
+                    ));
+                    $command->execute();
+
                     sleep(0.5);
 
                     $this->redirect('/dashboard');

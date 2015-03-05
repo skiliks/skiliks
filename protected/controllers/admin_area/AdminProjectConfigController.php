@@ -9,10 +9,16 @@ class AdminProjectConfigController extends BaseAdminController {
             $this->redirect('/admin_area/dashboard');
         }
 
+        $configs = ProjectConfig::model()->findAll();
+
+        foreach ($configs as $config) {
+            $config->refresh();
+        }
+
         $this->layout = '/admin_area/layouts/admin_main';
         $this->render('/admin_area/pages/project_config/configs_list', [
             'user'    => $this->user,
-            'configs' =>  ProjectConfig::model()->findAll(),
+            'configs' => $configs,
         ]);
     }
 
@@ -29,6 +35,7 @@ class AdminProjectConfigController extends BaseAdminController {
         /** @var ProjectConfig $config */
         if (null !== $id) {
             $config = ProjectConfig::model()->findByPk($id);
+            $config->refresh();
         }
 
         if (null == $id || null == $config) {

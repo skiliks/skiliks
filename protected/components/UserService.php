@@ -252,6 +252,17 @@ class UserService {
                 $account_corporate,
                 $account_corporate->getTotalAvailableInvitesLimit()
             );
+
+            $roleSiteUser = YumRole::model()->findByAttributes(['title' => 'Пользователь сайта']);
+            $connection = Yii::app()->db;
+            $command = $connection->createCommand(sprintf(
+                ' INSERT INTO `user_role` () VALUE (%s, %s); ',
+                $user->id,
+                $roleSiteUser->id
+            ));
+            $command->execute();
+
+
             return true;
         }
         return false;
@@ -279,6 +290,15 @@ class UserService {
             $account_personal->user_id = $user->id;
 
             $account_personal->save(false);
+
+            $roleSiteUser = YumRole::model()->findByAttributes(['title' => 'Пользователь сайта']);
+            $connection = Yii::app()->db;
+            $command = $connection->createCommand(sprintf(
+                ' INSERT INTO `user_role` () VALUE (%s, %s); ',
+                $user->id,
+                $roleSiteUser->id
+            ));
+            $command->execute();
 
             return true;
         }
