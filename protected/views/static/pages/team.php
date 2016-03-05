@@ -10,12 +10,16 @@
             <h2><?= Yii::t('site', 'Maria Gorina') ?></h2>
             <p class="text-for-article-small"><?= Yii::t('site', 'Effectiveness champion<br />Mentor to everyone<br />Structure wizard<br /><span class=dots>simply The Boss &amp; Visionary</span>') ?></p>
         </span>
+        <span class="page-team-tab tab-leah">
+            <h2><?= Yii::t('site', 'Leah Levin') ?></h2>
+            <p class="text-for-article-small"><?= Yii::t('site', 'Never gives up in front of any mission<br />Master of social contacts<br />Creativity and visuals pioneer<br />Black belt in continuous improvement') ?></p>
+        </span>
+    </div>
+    <div class="column-full pull-content-center">
         <span class="page-team-tab tab-tony">
             <h2><?= Yii::t('site', 'Tony Pryanichnikov') ?></h2>
             <p class="text-for-article-small"><?= Yii::t('site', 'Analytical engine,<br />Master of details and algorithms,<br />So lazy that nothing escapes of<br />being optimised and automated<br />Exceptional in producing managerial kicks') ?></p>
         </span>
-    </div>
-    <div class="column-full pull-content-center">
         <span class="page-team-tab tab-others">
             <h2><?= Yii::t('site', 'Others') ?></h2>
             <p class="text-for-article-small"><?= Yii::t('site', 'Management, psychology,<br />teaching, assessment experts') ?></p>

@@ -9,7 +9,7 @@
 
 <section>
     <h1 class="pull-content-center">
-        <?= Yii::t('site', 'Tariff plans 2015') ?>
+        <?= Yii::t('site', 'Tariff plans') ?>
     </h1>
 
     <br/>
